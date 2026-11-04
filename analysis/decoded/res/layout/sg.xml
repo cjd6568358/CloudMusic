@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:tag="layout/chat_item_chat_message_right_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/avatarLayout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="6.0dip" app:a60="@id/bubbleLayout" app:a63="parent" app:a69="parent" />
+    <LinearLayout android:orientation="vertical" android:id="@id/bubbleLayout" android:background="@drawable/dgf" android:clipChildren="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="70.0dip" android:layout_marginTop="10.0dip" app:a5_="true" app:a5g="@id/briefLayout" app:a5v="1.0" app:a5w="packed" app:a5z="parent" app:a62="@id/avatarLayout" app:a69="parent" />
+    <FrameLayout android:id="@id/briefLayout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="70.0dip" android:layout_marginTop="6.0dip" app:a5_="true" app:a5v="1.0" app:a5w="packed" app:a5z="parent" app:a62="@id/avatarLayout" app:a68="@id/bubbleLayout" app:a6t="0.0dip" />
+    <FrameLayout android:id="@id/statusLayout" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5_="true" app:a5f="@id/bubbleLayout" app:a62="@id/bubbleLayout" app:a69="@id/bubbleLayout" />
+    <FrameLayout android:id="@id/extraLayout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" app:a5_="true" app:a5z="parent" app:a63="parent" app:a68="@id/briefLayout" />
+</com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>

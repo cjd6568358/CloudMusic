@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/container" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.bottom.StableSlidingLayout android:layout_gravity="bottom|center|right" android:id="@id/slidingContainer" android:layout_width="fill_parent" android:layout_height="300.0dip">
+        <com.netease.play.ui.TopFitSystemWindowFrameLayout android:id="@id/realContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.netease.cloudmusic.bottom.StableSlidingLayout>
+    <ImageView android:layout_gravity="bottom|center" android:id="@id/closeBtn" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="30.0dip" android:src="@drawable/dd9" />
+</FrameLayout>

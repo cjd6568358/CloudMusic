@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent" app:py="colorBackgroundAndroid"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/tabLayoutBgView" android:layout_width="fill_parent" android:layout_height="@dimen/art" app:a69="parent" />
+    <FrameLayout android:id="@id/mixContainerBannerHost" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/headerBg" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="centerCrop" />
+    <LinearLayout android:orientation="vertical" android:id="@id/discoveryLayout" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <include android:id="@id/discoveryHeader" layout="@layout/a9y" />
+        <androidx.fragment.app.FragmentContainerView android:name="com.netease.cloudmusic.discovery.view.newframework.MixSearchFragment" android:id="@id/fragment_container" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </LinearLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout>

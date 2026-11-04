@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:paddingBottom="8.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/b1q" android:id="@id/notifyTvContent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:text="下一个视频将在 5 秒后播放" app:a5g="@id/notifyItemInfo" app:a5z="parent" app:a69="parent" app:a6a="packed" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/notifyClose" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginRight="20.0dip" android:src="@drawable/cwx" app:a5f="@id/notifyTvContent" app:a63="parent" app:a69="@id/notifyTvContent" />
+    <include android:id="@id/notifyItemInfo" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" app:a5g="@id/funContainer" app:a5z="parent" app:a63="parent" app:a68="@id/notifyTvContent" layout="@layout/b_g" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/funContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="20.0dip" android:layout_marginRight="16.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a68="@id/notifyItemInfo">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/notifyCancel" android:background="@drawable/bam" android:layout_width="0.0dip" android:layout_height="36.0dip" android:text="重播" android:layout_weight="1.0" />
+        <View android:layout_width="16.0dip" android:layout_height="0.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/notifyConfirm" android:background="@drawable/bal" android:layout_width="0.0dip" android:layout_height="36.0dip" android:maxWidth="200.0dip" android:text="播放下一个" android:layout_weight="1.0" app:a60="@id/notifyCancel" app:a63="parent" app:a69="@id/notifyCancel" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

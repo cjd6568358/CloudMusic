@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.roundview.RoundLinearLayout android:id="@id/rootRoundWrap" android:tag="layout/dialog_dlna_device_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <View android:id="@id/handleView" android:layout_width="34.0dip" android:layout_height="4.0dip" android:layout_marginTop="8.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0sp" android:textStyle="bold" android:id="@id/cttv_title" android:paddingLeft="16.0dip" android:paddingTop="9.0dip" android:paddingBottom="9.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="23.0dip" android:text="@string/hvl" app:qe="colorText1" app:a5z="parent" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:gravity="center" android:id="@id/cttv_search_dlna" android:paddingLeft="10.0dip" android:paddingTop="5.0dip" android:paddingRight="10.0dip" android:paddingBottom="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15.0dip" android:text="@string/hrq" android:drawablePadding="3.0dip" app:a5f="@id/cttv_title" app:a63="parent" app:a69="@id/cttv_title" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiz" android:id="@id/cttv_tips" android:padding="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/e2w" app:a5g="@id/cttv_cancel_container" app:a5z="parent" app:a63="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout android:id="@id/ctfl_content" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5g="@id/cttv_cancel_container" app:a68="@id/cttv_title">
+            <androidx.recyclerview.widget.RecyclerView android:id="@id/rv_dlna_devices" android:paddingTop="4.0dip" android:paddingBottom="35.0dip" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="330.0dip" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeProgressBar android:layout_gravity="center" android:id="@id/ctpb" android:layout_width="24.0dip" android:layout_height="24.0dip" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout android:id="@id/cttv_cancel_container" android:layout_width="fill_parent" android:layout_height="wrap_content" app:y4="true" app:a5f="parent" app:a5z="parent" app:a63="parent">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textColor="@color/aiv" android:gravity="center" android:id="@id/cttv_cancel" android:layout_width="fill_parent" android:layout_height="62.0dip" android:text="@string/abp" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout>
+        <View android:id="@id/view_divider_bottom" android:layout_width="0.0dip" android:layout_height="1.0dip" app:a5z="parent" app:a63="parent" app:a69="@id/cttv_cancel_container" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>
+</com.netease.cloudmusic.ui.roundview.RoundLinearLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_feeling_live_story_panel_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.Guideline android:orientation="vertical" android:id="@id/guideLeft" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5n="59.0dip" />
+    <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/guideTop" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5n="17.0dip" />
+    <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/guideBottom" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5o="28.0dip" />
+    <TextView android:textSize="9.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/txtLeftTag" android:background="@drawable/byo" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="15.0dip" android:paddingStart="3.0dip" android:paddingEnd="3.0dip" app:a5f="@id/guideTop" app:a5l="@id/avatarStory" app:a65="@id/avatarStory" app:a69="@id/guideTop" />
+    <TextView android:textSize="10.0sp" android:textColor="@color/b1n" android:id="@id/txtHugCount" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="@id/guideTop" app:a64="@id/guideLeft" app:a69="@id/guideTop" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1z" android:ellipsize="end" android:id="@id/txtStoryContent" android:layout_width="0.0dip" android:layout_height="wrap_content" android:maxLines="2" android:translationY="-2.0dip" android:layout_marginEnd="16.0dip" app:a5f="@id/guideBottom" app:a5l="parent" app:a64="@id/guideLeft" app:a69="@id/guideBottom" />
+    <com.netease.play.ui.avatar2.AvatarImage2 android:id="@id/avatarStory" android:layout_width="30.0dip" android:layout_height="30.0dip" android:scaleType="centerCrop" android:layout_marginStart="17.0dip" app:a5f="@id/guideBottom" app:a65="parent" app:a69="@id/guideBottom" />
+</androidx.constraintlayout.widget.ConstraintLayout>

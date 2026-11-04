@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <include android:id="@id/loading_view" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" layout="@layout/cff" />
+        <FrameLayout android:id="@id/profile_info_detail_view" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        <View android:id="@id/minPlayBarHolderView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/a5q" android:layout_below="@id/profile_info_detail_view" />
+    </RelativeLayout>
+</ScrollView>

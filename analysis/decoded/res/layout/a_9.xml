@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent" app:py="colorBackgroundAndroid"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.hint.view.PopLayerHintContainer android:id="@id/musicFlowPopLayerHintContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" app:z2="false" app:aim="global_popup" app:an1="music_flow" />
+    <LinearLayout android:orientation="vertical" android:id="@id/tabRoot" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <RelativeLayout android:id="@id/musicTopTabLayout" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="@dimen/t6">
+            <com.netease.cloudmusic.theme.ui.tab.CustomThemeDoubleIconTabLayout android:id="@id/musicTabLayout" android:layout_width="fill_parent" android:layout_height="fill_parent" app:j8="0.7" app:yn="0.9" app:alj="@drawable/aax" app:avq="true" />
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/arkRightEditEntranceRedDot" android:visibility="gone" android:layout_width="6.0dip" android:layout_height="6.0dip" android:layout_marginTop="10.0dip" android:layout_marginRight="12.0dip" android:src="@drawable/aau" android:layout_alignParentRight="true" />
+        </RelativeLayout>
+        <com.netease.cloudmusic.discovery.view.widget.ViewPager2Container android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <androidx.viewpager2.widget.ViewPager2 android:id="@id/musicViewPager" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </com.netease.cloudmusic.discovery.view.widget.ViewPager2Container>
+    </LinearLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:background="@android:color/transparent" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.DialogRoundedLinearLayout android:orientation="vertical" android:id="@id/videoRcmdContainer" android:background="@drawable/bul" android:paddingLeft="24.0dip" android:paddingTop="24.0dip" android:paddingRight="24.0dip" android:paddingBottom="24.0dip" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="15.0sp" android:textColor="#ff666666" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/f6j" android:lineSpacingExtra="2.0dip" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:layout_marginBottom="16.0dip">
+            <View android:background="@color/lineColor" android:layout_width="wrap_content" android:layout_height="1.0px" android:layout_weight="1.0" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:id="@id/offshelvesRcmdTitle" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/hcc" />
+            <View android:background="@color/lineColor" android:layout_width="wrap_content" android:layout_height="1.0px" android:layout_weight="1.0" />
+        </LinearLayout>
+        <FrameLayout android:id="@id/rcmdVideoResContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center_horizontal" android:id="@id/rcmdVideoCover" android:layout_width="fill_parent" android:layout_height="150.0dip" android:scaleType="centerCrop" app:ae="centerCrop" app:aj2="@color/awz" app:am0="8.0dip" />
+            <View android:layout_gravity="bottom" android:id="@id/rcmdVideoBottomMask" android:layout_width="fill_parent" android:layout_height="32.0dip" android:alpha="0.4" />
+            <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center" android:layout_width="40.0dip" android:layout_height="40.0dip" android:src="@drawable/bc3" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="10.0sp" android:layout_gravity="bottom" android:id="@id/rcmdVideoPlayCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_marginBottom="8.0dip" android:drawablePadding="2.0dip" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="10.0sp" android:layout_gravity="bottom|center|right" android:id="@id/rcmdVideoPlayTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="8.0dip" android:layout_marginBottom="8.0dip" />
+        </FrameLayout>
+        <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip">
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:textColor="#ff333333" android:ellipsize="end" android:id="@id/rcmdVideoTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="2" />
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/rcmdVideoTag" android:layout_width="wrap_content" android:layout_height="20.0dip" />
+        </FrameLayout>
+    </com.netease.cloudmusic.ui.DialogRoundedLinearLayout>
+</ScrollView>

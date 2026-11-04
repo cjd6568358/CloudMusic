@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-selector
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false" android:state_checked="true">
+        <bitmap android:src="@drawable/cuz" android:alpha="?android:disabledAlpha" />
+    </item>
+    <item android:state_enabled="false">
+        <bitmap android:src="@drawable/cuk" android:alpha="?android:disabledAlpha" />
+    </item>
+    <item android:state_checked="true" android:id="@id/on">
+        <bitmap android:src="@drawable/cuz" />
+    </item>
+    <item android:id="@id/off">
+        <bitmap android:src="@drawable/cuk" />
+    </item>
+    <transition android:toId="@id/on" android:fromId="@id/off">
+        <animation-list>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cuk" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cul" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cum" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cun" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cuo" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cup" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cuq" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cur" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cus" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cut" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cuu" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cuv" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cuw" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cux" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cuy" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cuz" />
+            </item>
+        </animation-list>
+    </transition>
+    <transition android:toId="@id/off" android:fromId="@id/on">
+        <animation-list>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cuz" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cu6" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cu7" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cu8" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cu9" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cu_" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cua" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cub" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cuc" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cud" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cue" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cuf" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cug" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cuh" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cui" />
+            </item>
+            <item android:duration="15">
+                <bitmap android:src="@drawable/cuk" />
+            </item>
+        </animation-list>
+    </transition>
+</animated-selector>

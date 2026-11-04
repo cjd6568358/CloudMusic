@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_gravity="center" android:id="@android:id/background" android:background="@mipmap/u" android:layout_width="fill_parent" android:layout_height="fill_parent" android:minWidth="@dimen/cl" android:minHeight="@dimen/cl"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:layout_gravity="center" android:id="@id/widget_background" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitXY" />
+    <ImageView android:layout_gravity="end|center|top" android:id="@id/logo_img" android:layout_width="@dimen/dk" android:layout_height="@dimen/dk" android:layout_marginTop="20.0dip" android:layout_marginEnd="20.0dip" style="@style/ah" />
+    <LinearLayout android:orientation="vertical" android:id="@id/ll_comment_area" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <TextView android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="14.0" />
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="44.0" android:layout_marginStart="31.0dip" android:layout_marginEnd="31.0dip">
+            <TextView android:textSize="@dimen/db" android:id="@id/tv_content" android:text="“与你一起，发现心动乐评”" android:maxLines="4" android:layout_centerVertical="true" style="@style/a7" />
+        </RelativeLayout>
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="20.0">
+            <TextView android:textSize="@dimen/d_" android:gravity="end" android:id="@id/tv_author" android:layout_width="wrap_content" android:layout_marginTop="16.0dip" android:text="—— 来自 温圆圆呀 的评论" android:maxLines="1" android:layout_marginEnd="31.0dip" android:layout_alignParentEnd="true" style="@style/at" />
+        </RelativeLayout>
+        <TextView android:id="@id/v_split" android:background="@color/aq" android:layout_width="fill_parent" android:layout_height="1.0dip" android:alpha="0.1" />
+        <RelativeLayout android:id="@id/rl_play_area" android:background="@drawable/f3" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="22.0" android:paddingStart="22.0dip" android:paddingEnd="12.0dip">
+            <ImageView android:id="@id/iv_cover" android:layout_width="56.0dip" android:layout_height="56.0dip" android:src="@mipmap/al" android:scaleType="fitXY" android:layout_centerVertical="true" />
+            <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_marginStart="14.0dip" android:layout_marginEnd="14.0dip" android:layout_toStartOf="@id/iv_play_btn" android:layout_toEndOf="@id/iv_cover">
+                <TextView android:textSize="15.0sp" android:id="@id/tv_song_name" android:text="你曾是少年" style="@style/as" />
+                <TextView android:textSize="13.0sp" android:id="@id/tv_singer" android:layout_marginTop="2.0dip" android:text="焦迈奇" style="@style/at" />
+            </LinearLayout>
+            <ImageView android:id="@id/iv_play_btn" android:layout_width="64.0dip" android:layout_height="72.0dip" android:src="@drawable/fp" android:scaleType="fitXY" android:layout_centerVertical="true" android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/realItemArea" android:paddingLeft="13.0dip" android:paddingTop="2.0dip" android:paddingBottom="2.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="60.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.AvatarImage android:id="@id/peopleImage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" app:cv="style4" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="@dimen/w2" android:textColor="@color/aiv" android:ellipsize="end" android:gravity="left" android:id="@id/peopleName" android:layout_width="0.0dip" android:layout_height="wrap_content" android:maxLines="2" android:includeFontPadding="false" android:drawablePadding="4.0dip" android:layout_weight="1.0" android:lineSpacingExtra="5.0dip" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/ivLiveStatus" android:layout_width="45.0dip" android:layout_height="15.0dip" android:layout_marginRight="@dimen/s2" />
+</LinearLayout>

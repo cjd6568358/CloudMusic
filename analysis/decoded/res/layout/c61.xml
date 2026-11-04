@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="103.0dip" android:layout_height="wrap_content" android:elevation="3.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.RoundedLinearLayout android:orientation="vertical" android:id="@id/container" android:layout_width="wrap_content" android:layout_height="wrap_content" app:jw="10.0dip">
+        <com.netease.cloudmusic.ui.button.CustomButton android:textSize="15.0sp" android:textColor="@color/b1z" android:gravity="center" android:id="@id/copySongName" android:layout_width="fill_parent" android:layout_height="48.0dip" android:text="@string/g_m" />
+        <View android:background="@color/b1d" android:layout_width="fill_parent" android:layout_height="0.5dip" />
+        <com.netease.cloudmusic.ui.button.CustomButton android:textSize="15.0sp" android:textColor="@color/b1z" android:gravity="center" android:id="@id/copyArtistName" android:layout_width="fill_parent" android:layout_height="48.0dip" android:text="@string/g_k" />
+        <View android:id="@id/dividerAlbum" android:background="@color/b1d" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="0.5dip" />
+        <com.netease.cloudmusic.ui.button.CustomButton android:textSize="15.0sp" android:textColor="@color/b1z" android:gravity="center" android:id="@id/copyAlbumName" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="48.0dip" android:text="@string/g_i" />
+    </com.netease.cloudmusic.ui.RoundedLinearLayout>
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/ivArrow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:src="@drawable/e_k" android:elevation="2.0dip" />
+</LinearLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:tag="layout/layout_xiayi_head_card_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/container" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_above="@id/programNameContainer" android:layout_alignParentTop="true" android:paddingVertical="4.0dip">
+        <androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:id="@id/descModeInfoContainer" android:clipChildren="false" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="84.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent">
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="17.0sp" android:textColor="@color/b1e" android:ellipsize="end" android:id="@id/title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="4.0dip" android:maxLines="2" app:a5g="@id/subtitle" app:a5l="parent" app:a65="parent" app:a69="parent" app:a6a="packed" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/b1t" android:ellipsize="end" android:id="@id/subtitle" android:layout_width="0.0dip" android:layout_height="wrap_content" android:maxLines="1" android:layout_weight="1.0" android:layout_marginEnd="8.0dip" app:a5f="@id/btnCollect" app:a5m="@id/btnCollect" app:a5v="0.0" app:a65="parent" app:a69="@id/btnCollect" app:a6d="wrap" />
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/btnCollect" android:layout_width="70.0dip" android:layout_height="24.0dip" android:scaleType="centerInside" app:a5f="parent" app:a5l="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.facebook.drawee.view.SimpleDraweeView android:id="@id/cover" android:layout_width="72.0dip" android:layout_height="72.0dip" app:ae="centerCrop" app:a5l="parent" app:a5v="0.0" app:a65="parent" app:a69="parent" app:am0="8.0dip" />
+        <com.netease.cloudmusic.ui.RoundedFrameLayout android:id="@id/icnCollapseCoverHint" android:background="@color/e6" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginRight="16.0dip" android:layout_marginBottom="16.0dip" app:jw="20.0dip" app:a5f="@id/cover" app:a5l="@id/cover">
+            <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center" android:layout_width="26.0dip" android:layout_height="26.0dip" android:src="@drawable/dvl" />
+        </com.netease.cloudmusic.ui.RoundedFrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout android:orientation="vertical" android:id="@id/programNameContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/relationSongIcon" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="20.0dip" android:layout_marginBottom="8.0dip" app:ae="centerCrop" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="17.0sp" android:textColor="@color/b1w" android:ellipsize="end" android:gravity="start|bottom|center" android:id="@id/programName" android:layout_width="fill_parent" android:layout_height="50.0dip" android:maxLines="2" android:lineSpacingExtra="2.0dip" android:textAlignment="textStart" />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.music.biz.voice.widget.LyricLineSwitcher android:id="@id/lls" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/ll_drag" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="20.0dip" android:paddingEnd="20.0dip">
+        <androidx.appcompat.widget.AppCompatTextView android:textColor="@android:color/white" android:ellipsize="end" android:id="@id/tv1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:lines="1" />
+        <androidx.appcompat.widget.AppCompatTextView android:textColor="@android:color/white" android:ellipsize="end" android:id="@id/tv2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:lines="1" />
+        <androidx.appcompat.widget.AppCompatTextView android:textColor="@android:color/white" android:ellipsize="end" android:id="@id/tv3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:lines="1" />
+    </LinearLayout>
+</merge>

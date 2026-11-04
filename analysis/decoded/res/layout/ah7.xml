@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:background="@drawable/a82" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="@dimen/p2"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:layout_gravity="left" android:id="@id/iv_frag_close_c" android:paddingLeft="15.0dip" android:paddingTop="15.0dip" android:paddingRight="15.0dip" android:paddingBottom="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/d0h" />
+    <TextView android:textSize="14.0dip" android:textColor="@color/vm" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-20.0dip" android:text="支付失败" android:drawableTop="@drawable/d10" android:drawablePadding="5.0dip" />
+    <TextView android:textSize="25.0dip" android:textColor="@color/vm" android:id="@id/tv_pay_discount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" />
+    <TextView android:textSize="13.0dip" android:textColor="@color/vq" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="扣款金额将原路退回至支付银行卡" />
+    <View android:layout_marginTop="15.0dip" android:layout_marginRight="15.0dip" style="@style/a57" />
+    <LinearLayout android:orientation="horizontal" android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="6.0dip">
+        <TextView android:textSize="14.0dip" android:textColor="@color/vq" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="退款银行" />
+        <TextView android:textSize="14.0dip" android:textColor="@color/vm" android:gravity="right" android:id="@id/tv_bank" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="招商银行 尾号3333" android:layout_weight="1.0" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="6.0dip">
+        <TextView android:textSize="14.0dip" android:textColor="@color/vq" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="到账时间" />
+        <TextView android:textSize="14.0dip" android:textColor="@color/vm" android:gravity="right" android:id="@id/tv_time" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="预计三个工作日内" android:layout_weight="1.0" />
+    </LinearLayout>
+    <View android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_marginLeft="15.0dip" android:layout_marginTop="6.0dip" android:layout_marginRight="15.0dip" style="@style/a4t" />
+    <com.netease.epay.sdk.base.view.StrokeColorButton android:textSize="16.0dip" android:textColor="#ffffffff" android:gravity="center" android:id="@id/tv_finish" android:background="@drawable/a8e" android:layout_width="fill_parent" android:layout_height="@dimen/of" android:layout_marginLeft="15.0dip" android:layout_marginTop="10.0dip" android:layout_marginRight="15.0dip" android:layout_marginBottom="10.0dip" android:text="确定" />
+</LinearLayout>

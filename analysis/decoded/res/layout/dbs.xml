@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/ll_background_round" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="3.0dip" android:layout_marginRight="3.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout android:id="@id/headerSourceContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:layout_marginBottom="6.0dip" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/playerListTitleContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="18.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:ellipsize="end" android:orientation="vertical" android:id="@id/playerListTitle" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="5.0dip" android:singleLine="true" android:layout_weight="1.0" />
+    </LinearLayout>
+    <include layout="@layout/dbt" />
+    <include android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/d9e" />
+    <com.netease.cloudmusic.ui.NeteaseSwipeToRefresh android:id="@id/refreshLayout" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/bottomSheetListview" android:paddingTop="12.0dip" android:descendantFocusability="blocksDescendants" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.netease.cloudmusic.ui.NeteaseSwipeToRefresh>
+</LinearLayout>

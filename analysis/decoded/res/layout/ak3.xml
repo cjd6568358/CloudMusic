@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/fake_playlist_item" android:paddingRight="6.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="@dimen/gb" android:paddingStart="@dimen/amm" app:e4="10.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginRight="5.0dip" android:layout_weight="1.0">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:layout_gravity="center_vertical" android:id="@id/fake_playlist_songname" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ia2" style="@style/a3y" />
+    </FrameLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithAllBackground android:textSize="11.0sp" android:gravity="center_vertical" android:id="@id/fake_playling_music_source" android:paddingLeft="10.0dip" android:paddingTop="3.0dip" android:paddingRight="10.0dip" android:paddingBottom="3.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:text="@string/g5_" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/fake_playerlist_music_delete" android:paddingLeft="5.0dip" android:paddingTop="10.0dip" android:paddingRight="5.0dip" android:paddingBottom="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/gek" android:scaleType="center" app:aea="@color/afz" app:aeb="@color/afz" app:aev="@color/a2h" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

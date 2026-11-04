@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:gravity="center" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.ad.motivation.commonui.AdCheckBox android:id="@id/enableCheckBox" android:tag="layout/ad_motivation_auto_enable_free_listening_music_0" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="#80283248" android:tag="layout/ad_motivation_auto_enable_free_listening_music_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:layout_marginRight="4.0dip" android:text="@string/iw" android:layout_marginHorizontal="4.0dip" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textStyle="bold" android:textColor="#ff5975b2" android:id="@id/freeModeTV" android:tag="layout/ad_motivation_auto_enable_free_listening_music_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:layout_marginRight="4.0dip" android:text="@string/iv" android:layout_marginHorizontal="4.0dip" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/arrowRightIV" android:tag="layout/ad_motivation_auto_enable_free_listening_music_3" android:layout_width="12.0dip" android:layout_height="12.0dip" android:src="@drawable/dolphin_outline_more" />
+</merge>

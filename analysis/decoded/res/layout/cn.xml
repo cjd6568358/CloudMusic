@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.VipHintTextView android:id="@id/vipHintContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" app:ays="download" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:paddingLeft="@dimen/aof" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:layout_marginBottom="6.0dip" android:text="@string/a26" app:qe="colorText4_1" app:a65="parent" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/download_dolby_container" android:background="@drawable/day" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" app:py="colorSkinElement2">
+            <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:layout_marginRight="@dimen/f5" android:layout_marginBottom="12.0dip" android:layout_centerVertical="true">
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <ImageView android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginRight="8.0dip" android:src="@drawable/du9" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0dip" android:textColor="@color/atr" android:ellipsize="end" android:id="@id/onlineDolbyDesc" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="@string/bjr" android:maxLines="1" android:layout_weight="1.0" />
+                    <FrameLayout android:id="@id/downloadDolbyTagContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0dip" android:textColor="@color/atq" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="40.0dip" android:layout_marginTop="4.0dip" android:text="@string/h_8" />
+            </LinearLayout>
+            <ImageView android:layout_gravity="center_vertical" android:id="@id/downloadDolby" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/h2p" android:layout_alignParentRight="true" android:layout_centerVertical="true" style="@style/a7j" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/download_vivid_container" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" app:py="colorSkinElement2" app:y4="true">
+            <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:layout_marginRight="@dimen/f5" android:layout_marginBottom="12.0dip" android:layout_centerVertical="true">
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <ImageView android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginRight="8.0dip" android:src="@drawable/dug" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0dip" android:textColor="@color/atr" android:ellipsize="end" android:id="@id/onlineVividDesc" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="@string/j99" android:maxLines="1" android:layout_weight="1.0" />
+                    <FrameLayout android:id="@id/downloadVividTagContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0dip" android:textColor="@color/atq" android:id="@id/downloadVividSubtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="40.0dip" android:layout_marginTop="4.0dip" android:text="@string/h_o" />
+            </LinearLayout>
+            <ImageView android:layout_gravity="center_vertical" android:id="@id/downloadVivid" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/h2p" android:layout_alignParentRight="true" android:layout_centerVertical="true" style="@style/a7j" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/download_sky_container" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" app:py="colorSkinElement2" app:y4="true">
+            <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:layout_marginRight="@dimen/f5" android:layout_marginBottom="12.0dip" android:layout_centerVertical="true">
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <ImageView android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginRight="8.0dip" android:src="@drawable/due" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0dip" android:textColor="@color/atr" android:ellipsize="end" android:id="@id/onlineskyDesc" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="@string/i6i" android:maxLines="1" android:layout_weight="1.0" />
+                    <FrameLayout android:id="@id/downloadSkyTagContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0dip" android:textColor="@color/atq" android:id="@id/downloadSkySubtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="40.0dip" android:layout_marginTop="4.0dip" android:text="@string/h_k" />
+            </LinearLayout>
+            <ImageView android:layout_gravity="center_vertical" android:id="@id/downloadSky" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/h2p" android:layout_alignParentRight="true" android:layout_centerVertical="true" style="@style/a7j" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:paddingLeft="@dimen/aof" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:layout_marginBottom="6.0dip" android:text="@string/a27" app:qe="colorText4_1" app:a65="parent" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/download_jymaster_container" android:background="@drawable/day" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip">
+            <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:layout_marginRight="@dimen/f5" android:layout_marginBottom="12.0dip" android:layout_centerVertical="true">
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <ImageView android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginRight="8.0dip" android:src="@drawable/duc" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0dip" android:textColor="@color/atr" android:ellipsize="end" android:id="@id/onlinejymasterDesc" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="@string/d2t" android:maxLines="1" android:layout_weight="1.0" />
+                    <FrameLayout android:id="@id/downloadJymasterTagContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0dip" android:textColor="@color/atq" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="40.0dip" android:layout_marginTop="4.0dip" android:text="@string/h_g" />
+            </LinearLayout>
+            <ImageView android:layout_gravity="center_vertical" android:id="@id/downloadJymaster" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/h2p" android:layout_alignParentRight="true" android:layout_centerVertical="true" style="@style/a7j" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/download_jyeffect_container" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" app:py="colorSkinElement2" app:y4="true">
+            <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:layout_marginRight="@dimen/f5" android:layout_marginBottom="12.0dip" android:layout_centerVertical="true">
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <ImageView android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginRight="8.0dip" android:src="@drawable/dub" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0dip" android:textColor="@color/atr" android:ellipsize="end" android:id="@id/onlinejyeffectDesc" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="@string/d2r" android:maxLines="1" android:layout_weight="1.0" />
+                    <FrameLayout android:id="@id/downloadJyeffectTagContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0dip" android:textColor="@color/atq" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="40.0dip" android:layout_marginTop="4.0dip" android:text="@string/h_f" />
+            </LinearLayout>
+            <ImageView android:layout_gravity="center_vertical" android:id="@id/downloadJyeffect" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/h2p" android:layout_alignParentRight="true" android:layout_centerVertical="true" style="@style/a7j" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" app:py="colorSkinElement2" app:y4="true">
+            <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:layout_marginRight="@dimen/f5" android:layout_marginBottom="12.0dip" android:layout_centerVertical="true">
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <ImageView android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginRight="8.0dip" android:src="@drawable/du_" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0dip" android:textColor="@color/atr" android:ellipsize="end" android:id="@id/downloadHiresDesc" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="@string/eqv" android:maxLines="1" android:layout_weight="1.0" />
+                    <FrameLayout android:id="@id/downloadHiresTagContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0dip" android:textColor="@color/atq" android:id="@id/hiresSubtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="40.0dip" android:layout_marginTop="4.0dip" android:text="@string/h_a" />
+            </LinearLayout>
+            <ImageView android:layout_gravity="center_vertical" android:id="@id/downloadHires" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/h2p" android:layout_alignParentRight="true" android:layout_centerVertical="true" style="@style/a7j" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" app:py="colorSkinElement2" app:y4="true">
+            <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:layout_marginBottom="12.0dip" android:layout_centerVertical="true">
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <ImageView android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginRight="8.0dip" android:src="@drawable/duf" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0dip" android:textColor="@color/atr" android:ellipsize="end" android:id="@id/downloadLosslessDesc" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="@string/eqw" android:maxLines="1" android:layout_weight="1.0" />
+                    <FrameLayout android:id="@id/downloadLosslessTagContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0dip" android:textColor="@color/atq" android:id="@id/lossLessSubtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="40.0dip" android:layout_marginTop="4.0dip" android:text="@string/h_h" />
+            </LinearLayout>
+            <ImageView android:layout_gravity="center_vertical" android:id="@id/downloadLossless" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/h2p" android:layout_alignParentRight="true" android:layout_centerVertical="true" style="@style/a7j" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" app:py="colorSkinElement2" app:y4="true">
+            <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:layout_marginRight="@dimen/f5" android:layout_marginBottom="12.0dip" android:layout_centerVertical="true">
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <ImageView android:layout_gravity="center" android:id="@id/downloadHigherIv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginRight="8.0dip" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0dip" android:textColor="@color/atr" android:ellipsize="end" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="@string/eqt" android:maxLines="1" android:layout_weight="1.0" />
+                    <FrameLayout android:id="@id/downloadHigherTagContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0dip" android:textColor="@color/atq" android:id="@id/higherSubtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="40.0dip" android:layout_marginTop="4.0dip" android:text="@string/h_9" />
+            </LinearLayout>
+            <ImageView android:layout_gravity="center_vertical" android:id="@id/downloadHigher" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/h2p" android:layout_alignParentRight="true" android:layout_centerVertical="true" style="@style/a7j" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/download_normal_container" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" android:layout_marginBottom="12.0dip" app:py="colorSkinElement2" app:y4="true">
+            <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:layout_marginRight="@dimen/f5" android:layout_marginBottom="12.0dip" android:layout_centerVertical="true">
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <ImageView android:layout_gravity="center" android:id="@id/downloadNormalIv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginRight="8.0dip" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0dip" android:textColor="@color/atr" android:ellipsize="end" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/eqz" android:maxLines="1" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0dip" android:textColor="@color/atq" android:id="@id/normalSubtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="40.0dip" android:layout_marginTop="4.0dip" android:text="@string/h_i" />
+            </LinearLayout>
+            <ImageView android:layout_gravity="center_vertical" android:id="@id/downloadNormal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/h2p" android:layout_alignParentRight="true" android:layout_centerVertical="true" style="@style/a7j" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:textColor="@color/t_link" android:id="@id/learnAudioQualityTv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" android:layout_marginBottom="12.0dip" android:text="@string/d5e" />
+    </LinearLayout>
+</ScrollView>

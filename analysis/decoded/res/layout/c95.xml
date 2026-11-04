@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.livepage.gift.ui.RecentGiftView android:id="@id/recentGiftView" android:tag="layout/layout_recent_gift_new_0" android:clipChildren="false" android:layout_width="72.0dip" android:layout_height="@dimen/ams"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/giftImage" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginTop="10.0dip" android:layout_marginBottom="3.0dip" android:layout_centerHorizontal="true" app:ahy="@drawable/emd" />
+    <com.netease.play.ui.CustomButton android:textSize="10.0sp" android:textColor="@color/aj6" android:gravity="center" android:id="@id/goldInfo" android:paddingLeft="6.0dip" android:paddingRight="6.0dip" android:layout_width="wrap_content" android:layout_height="16.0dip" android:minWidth="50.0dip" android:drawableLeft="@drawable/emr" android:drawablePadding="4.0dip" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" />
+    <com.netease.play.livepage.gift.wheel.GiftAnimationView android:id="@id/giftAnimationView" android:layout_width="fill_parent" android:layout_height="@dimen/ri" android:layout_marginTop="@dimen/rj" />
+</com.netease.play.livepage.gift.ui.RecentGiftView>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.biz.watch.component.titlelayout.TitleBarLayout android:id="@id/title_layout" app:os="" style="@style/w7" />
+        <com.netease.cloudmusic.biz.watch.component.mediumboldtextview.MediumBoldTextView android:textSize="26.0sp" android:textColor="@color/ho" android:gravity="center" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="52.0pt" android:text="@string/jbv" android:includeFontPadding="false" android:alpha="0.8" app:amg="0.95" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/jw" android:gravity="center_horizontal" android:id="@id/tv_support_device" android:layout_width="fill_parent" android:layout_height="36.0dip" android:layout_marginTop="12.0pt" android:text="@string/jbu" android:maxLines="2" android:includeFontPadding="false" android:layout_marginStart="40.0dip" android:layout_marginEnd="40.0dip" />
+        <com.facebook.drawee.view.SimpleDraweeView android:layout_gravity="center" android:id="@id/iv_watch_img" android:layout_width="294.0pt" android:layout_height="294.0pt" android:layout_marginTop="24.0pt" android:src="@drawable/h4i" app:ae="fitCenter" app:ahy="@drawable/h4i" />
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="45.0dip" android:layout_alignParentBottom="true">
+        <androidx.appcompat.widget.AppCompatButton android:id="@id/btn_add_my_watch" android:text="@string/jbj" android:layout_marginStart="40.0dip" android:layout_marginEnd="40.0dip" style="@style/w4" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/jw" android:gravity="center" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:text="@string/jbp" android:includeFontPadding="false" />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="@dimen/als"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/liveBg" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_margin="10.0dip" app:jw="13.0dip">
+        <include android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" layout="@layout/az2" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aqe" android:id="@id/liveTitle" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:text="@string/g70" android:layout_weight="1.0" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aqe" android:id="@id/toLiveRoom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/ag_" android:drawableRight="@drawable/fz7" android:drawablePadding="6.0dip" android:alpha="0.6" app:adf="true" app:aeu="@color/aqe" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+</FrameLayout>

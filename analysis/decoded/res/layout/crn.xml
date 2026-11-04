@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/container" android:layout_width="fill_parent" android:layout_height="60.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="12.0sp" android:textColor="#99ffffff" android:id="@id/tagAddView" android:paddingLeft="@dimen/s1" android:paddingRight="@dimen/s2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/tagContainer" android:paddingLeft="@dimen/s1" android:paddingRight="@dimen/s2" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/tagImg" android:layout_width="15.0dip" android:layout_height="15.0dip" android:layout_marginRight="7.0dip" android:tint="@color/b1k" app:aqh="@drawable/ceo" />
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+            <com.netease.cloudmusic.ui.HighlightTextView android:textSize="15.0sp" android:textColor="@color/abb" android:ellipsize="marquee" android:id="@id/tagText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" app:ze="#ff507daf" />
+            <TextView android:textSize="13.0sp" android:textColor="@color/aav" android:id="@id/tagFollower" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:singleLine="true" />
+        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/tagRecommend" android:visibility="invisible" android:layout_width="18.0dip" android:layout_height="18.0dip" android:layout_marginLeft="16.0dip" android:tint="@color/b1h" app:aqh="@drawable/adj" />
+    </LinearLayout>
+</RelativeLayout>

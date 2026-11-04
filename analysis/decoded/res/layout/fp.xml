@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:background="#ffffffff" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <RelativeLayout android:id="@id/webViewProxy" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip">
+            <TextView android:paddingLeft="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="网关实验室 - 接口Mock" android:layout_centerVertical="true" />
+            <Switch android:id="@id/mockSwitcher" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+        </RelativeLayout>
+        <TextView android:textSize="15.0dip" android:gravity="center_vertical" android:id="@id/corpTv" android:paddingLeft="10.0dip" android:layout_width="fill_parent" android:layout_height="30.0dip" />
+        <TextView android:textSize="18.0dip" android:textColor="#ff000000" android:gravity="center_vertical" android:paddingLeft="10.0dip" android:layout_width="fill_parent" android:layout_height="30.0dip" android:layout_marginTop="20.0dip" android:text="已mock的接口：" />
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/apiListRv" android:paddingLeft="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    </LinearLayout>
+</ScrollView>

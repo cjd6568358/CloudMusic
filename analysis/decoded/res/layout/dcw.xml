@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/normalGroundContainer" android:tag="layout/preview_party_normal_playground_0" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginStart="12.0dip" android:layout_marginEnd="12.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include android:id="@id/playgroundItem0" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5l="parent" app:a65="parent" app:a69="parent" layout="@layout/dcx" />
+    <Space android:id="@id/bottomSpace0" android:layout_width="0.0dip" android:layout_height="7.0dip" app:a5l="@id/playgroundItem0" app:a65="@id/playgroundItem0" app:a68="@id/playgroundItem0" />
+    <include android:id="@id/playgroundItem1" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5m="@id/playgroundItem2" app:a65="parent" app:a68="@id/bottomSpace0" layout="@layout/dcx" />
+    <include android:id="@id/playgroundItem2" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5m="@id/playgroundItem3" app:a64="@id/playgroundItem1" app:a69="@id/playgroundItem1" layout="@layout/dcx" />
+    <include android:id="@id/playgroundItem3" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5m="@id/playgroundItem4" app:a64="@id/playgroundItem2" app:a69="@id/playgroundItem1" layout="@layout/dcx" />
+    <include android:id="@id/playgroundItem4" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5l="parent" app:a64="@id/playgroundItem3" app:a69="@id/playgroundItem1" layout="@layout/dcx" />
+    <include android:id="@id/playgroundItem5" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5m="@id/playgroundItem6" app:a65="parent" app:a68="@id/playgroundItem1" layout="@layout/dcx" />
+    <include android:id="@id/playgroundItem6" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5m="@id/playgroundItem7" app:a64="@id/playgroundItem5" app:a69="@id/playgroundItem5" layout="@layout/dcx" />
+    <include android:id="@id/playgroundItem7" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5m="@id/playgroundItem8" app:a64="@id/playgroundItem6" app:a69="@id/playgroundItem5" layout="@layout/dcx" />
+    <include android:id="@id/playgroundItem8" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5l="parent" app:a64="@id/playgroundItem7" app:a69="@id/playgroundItem5" layout="@layout/dcx" />
+</androidx.constraintlayout.widget.ConstraintLayout>

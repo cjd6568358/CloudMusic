@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="center" android:id="@id/rootContainer" android:tag="layout/layout_lucky_money_vip_list_0" android:layout_width="fill_parent" android:layout_height="fill_parent" layout_height="\@{status.land?@dimen/luckyMonetVipInfoListHeightLand:@dimen/luckyMonetVipInfoListHeight"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/background" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/c05" android:scaleType="centerCrop" app:a5z="parent" app:a69="parent" />
+    <FrameLayout android:id="@id/titleContainer" android:background="@drawable/c06" android:layout_width="fill_parent" android:layout_height="46.0dip" app:a5z="parent" app:a63="parent" app:a69="parent">
+        <ImageView android:layout_gravity="center|left" android:id="@id/backButton" android:layout_width="20.0dip" android:layout_height="20.0dip" android:layout_marginLeft="10.0dip" android:src="@drawable/ak8" />
+        <TextView android:textSize="15.0sp" android:textColor="@color/a9f" android:layout_gravity="center" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/dyf" />
+    </FrameLayout>
+    <com.netease.play.ui.LiveRecyclerView android:id="@id/luckyMoneyRecyclerView" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/titleContainer" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.ShapeableFrameLayout android:layout_gravity="bottom" android:id="@id/daily_content_video_container" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="fill_parent" app:w4="false" app:w5="bottom" app:w6="@drawable/g0n"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/daily_real_video_container" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <LinearLayout android:gravity="center|right" android:layout_gravity="top" android:orientation="horizontal" android:id="@id/daily_view_adTag_container" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginRight="10.0dip">
+        <TextView android:textSize="10.0sp" android:textColor="#e6ffffff" android:gravity="center" android:id="@id/daily_video_videoWifiTag" android:background="@drawable/bhw" android:visibility="gone" android:layout_width="58.0dip" android:layout_height="14.0dip" android:text="@string/h12" />
+        <com.netease.cloudmusic.ui.CustomThemeAdTagView android:layout_gravity="bottom|center|right" android:id="@id/daily_video_adTag" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" app:adf="true" app:ap2="style_daily" />
+    </LinearLayout>
+    <TextView android:textSize="12.0sp" android:textColor="@color/b12" android:gravity="center" android:layout_gravity="bottom|center" android:id="@id/daily_tv_more_detail" android:background="@drawable/bhv" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="27.0dip" android:layout_marginBottom="20.0dip" android:text="了解详情" android:drawableLeft="@drawable/g0p" android:drawablePadding="0.0dip" />
+</com.netease.cloudmusic.ui.ShapeableFrameLayout>

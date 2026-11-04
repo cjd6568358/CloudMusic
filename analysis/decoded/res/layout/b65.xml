@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:layout_width="fill_parent" android:layout_height="50.0dip" app:e4="@dimen/pl"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ToggleButton android:id="@id/selectedIcon" android:visibility="visible" android:clickable="false" android:layout_width="15.0dip" android:layout_height="15.0dip" android:layout_marginLeft="15.0dip" android:layout_marginRight="14.0dip" android:checked="true" android:textOn="" android:textOff="" android:layout_centerVertical="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="#ff333333" android:id="@id/equalizerName" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="75.0dip" android:text="" android:layout_toRightOf="@id/selectedIcon" android:layout_centerVertical="true" />
+    <com.netease.cloudmusic.music.biz.member.audioeffect.player.EqualizerCurveView android:id="@id/curveView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginRight="15.0dip" android:layout_toRightOf="@id/equalizerName" />
+</com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>

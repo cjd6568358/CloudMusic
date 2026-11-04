@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_gravity="center" android:orientation="horizontal" android:id="@id/playEndButtonContainer" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/rePlayArea" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:gravity="center_vertical" android:id="@id/rePlayBtn" android:layout_width="64.0dip" android:layout_height="64.0dip" android:scaleType="centerCrop" app:adi="false" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aj6" android:id="@id/rePlayText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/adm" android:text="@string/hjf" android:layout_centerHorizontal="true" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/nextPlayArea" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/adl">
+        <com.netease.cloudmusic.ui.CirclePlayProgressBar android:gravity="center_vertical" android:id="@id/nextPlayIcon" android:layout_width="64.0dip" android:layout_height="64.0dip" android:scaleType="centerCrop" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aj5" android:gravity="center" android:id="@id/nextPlayText" android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:layout_width="wrap_content" android:layout_height="20.0dip" android:layout_marginTop="@dimen/adj" android:text="@string/abp" android:layout_centerHorizontal="true" />
+    </LinearLayout>
+</LinearLayout>

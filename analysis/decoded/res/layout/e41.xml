@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:paddingTop="30.0dip" android:paddingBottom="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="16.0dip" android:paddingEnd="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/ll_add" android:layout_width="60.0dip" android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_collect" android:layout_width="50.0dip" android:layout_height="50.0dip" android:src="@drawable/h4_" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="#ff333333" android:ellipsize="end" android:gravity="center" android:id="@id/tv_collect" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="@string/jc8" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/ll_cancel_bind" android:layout_width="60.0dip" android:layout_height="wrap_content" android:layout_marginStart="12.0dip">
+        <androidx.appcompat.widget.AppCompatImageView android:layout_width="50.0dip" android:layout_height="50.0dip" android:src="@drawable/h4b" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="#ff333333" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="取消绑定" android:includeFontPadding="false" />
+    </LinearLayout>
+</LinearLayout>

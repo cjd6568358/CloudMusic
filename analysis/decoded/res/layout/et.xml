@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ViewStub android:id="@id/view_stub_real_main_content" android:layout="@layout/bzt" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <RelativeLayout android:id="@id/mainContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <FrameLayout android:id="@id/H5Container" android:background="@color/b12" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <FrameLayout android:id="@id/homeEasterEggContainer" android:background="@color/b12" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <RelativeLayout android:id="@id/loadingContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <FrameLayout android:id="@id/mainlauncherContainer" android:layout_width="0.0dip" android:layout_height="0.0dip" />
+    <FrameLayout android:id="@id/playerUIModeContainer" android:layout_width="fill_parent" android:layout_height="0.0dip" />
+</FrameLayout>

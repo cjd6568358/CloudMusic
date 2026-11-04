@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_horizontal" android:layout_gravity="center_horizontal" android:orientation="vertical" android:id="@id/contentContainer" android:background="@drawable/a46" android:paddingLeft="24.0dip" android:paddingRight="24.0dip" android:paddingBottom="20.0dip" android:layout_width="288.0dip" android:layout_height="wrap_content">
+        <ImageView android:layout_gravity="center_horizontal" android:layout_width="288.0dip" android:layout_height="136.0dip" android:src="@drawable/h5p" android:scaleType="centerCrop" />
+        <TextView android:textSize="16.0sp" android:textColor="#ff333333" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" android:text="@string/jhu" />
+        <TextView android:textSize="14.0sp" android:textColor="#99000000" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" android:text="@string/jhv" android:lineSpacingMultiplier="1.4" android:textAlignment="center" />
+        <com.netease.play.ui.CustomButton android:textSize="16.0dip" android:textColor="#ffffffff" android:gravity="center" android:id="@id/youthModeBtn" android:layout_width="240.0dip" android:layout_height="40.0dip" android:layout_marginTop="19.0dip" android:text="@string/cr_" app:gg="0x00020304" />
+        <TextView android:textSize="12.0sp" android:textColor="#ff507daf" android:id="@id/setYouthTv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:text="@string/hxz" />
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/flReallDialog" android:background="#33000000" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.module.dailyrecomm.view.CustomTagBgThemeLinearLayout android:orientation="vertical" android:id="@id/llTagsRoot" android:paddingTop="4.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout android:id="@id/styleTabLayout" android:layout_width="wrap_content" android:layout_height="@dimen/aio" android:layout_marginLeft="2.0dip" android:layout_marginRight="2.0dip" />
+            <com.netease.cloudmusic.ui.NeteaseMusicViewPager android:id="@id/styleViewPager" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/ais" />
+            <LinearLayout android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="@dimen/aig" android:layout_marginTop="@dimen/aih">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0dip" android:gravity="center" android:id="@id/tvTagCancel" android:layout_width="122.0dip" android:layout_height="40.0dip" android:layout_marginRight="8.0dip" android:text="@string/gf3" app:qe="colorText2_1" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0dip" android:gravity="center" android:id="@id/tvTagConfirm" android:layout_width="122.0dip" android:layout_height="40.0dip" android:layout_marginLeft="8.0dip" android:text="@string/gf4" app:qe="colorTextOnimage1" />
+            </LinearLayout>
+        </com.netease.cloudmusic.module.dailyrecomm.view.CustomTagBgThemeLinearLayout>
+    </FrameLayout>
+</FrameLayout>

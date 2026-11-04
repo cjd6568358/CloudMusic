@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="vertical" android:id="@id/musicListItemContainer" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <LinearLayout android:gravity="top" android:orientation="horizontal" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:paddingStart="16.0dip">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/musicImage" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginTop="10.0dip" android:layout_marginEnd="@dimen/ag_" />
+            <RelativeLayout android:id="@id/songNameAndInfoArea" android:paddingTop="9.0dip" android:paddingBottom="9.0dip" android:layout_height="wrap_content" style="@style/a70">
+                <include layout="@layout/dna" />
+                <include android:gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:layout_below="@id/songName" layout="@layout/dn5" />
+                <include android:id="@id/musicAliasAndLrcContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/songInfoContainer" layout="@layout/dk4" />
+            </RelativeLayout>
+        </LinearLayout>
+        <com.netease.cloudmusic.music.biz.search.widget.SearchHotCardPlayIcon android:id="@id/hotspotPlayIcon" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginTop="18.0dip" android:src="@drawable/bvo" android:layout_marginStart="3.0dip" android:layout_marginEnd="18.0dip" app:ae="centerCrop" />
+    </LinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeLine android:id="@id/divider" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_alignParentBottom="true" android:layout_marginStart="@dimen/iw" android:layout_marginEnd="@dimen/iw" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/momentRootContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/momentRootBgView" android:background="@color/dj" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.music.biz.moment.view.MomentInfiniteViewPager2 android:orientation="vertical" android:id="@id/infiniteViewPager" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.music.biz.moment.view.MomentPublishProgressView android:id="@id/publishProgressView" android:background="@color/dw" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/s1" android:layout_marginTop="98.0dip" android:elevation="10.0dip" app:a65="parent" app:a69="parent" />
+    <include android:id="@id/feedEmptyView" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a5r="wrap" app:a5v="0.5" app:a65="parent" app:a69="parent" app:a6_="0.5" app:a6d="wrap" layout="@layout/c0u" />
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/moment_feed_has_more_layout" android:background="@color/dj" android:paddingBottom="6.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="56.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent">
+        <androidx.appcompat.widget.AppCompatImageView android:layout_width="20.0dip" android:layout_height="20.0dip" android:src="@drawable/fuv" />
+        <androidx.appcompat.widget.AppCompatTextView android:textColor="#ffffffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:text="@string/ejk" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

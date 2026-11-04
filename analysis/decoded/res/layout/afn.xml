@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:scrollbars="none" android:layout_width="fill_parent" android:layout_height="fill_parent" android:fillViewport="true"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:background="@color/wt" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:background="@color/w5" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tr="false" app:ty="false" />
+        <LinearLayout android:orientation="vertical" android:background="@drawable/a7p" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <include layout="@layout/agx" />
+            <LinearLayout android:orientation="vertical" android:background="@drawable/a7z" android:paddingBottom="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip">
+                <com.netease.epay.sdk.base.view.bankinput.InputLayout android:id="@id/inputLayout" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginRight="16.0dip" />
+                <com.netease.epay.sdk.base.view.bankinput.InputItemLayout android:id="@id/input_phone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginRight="16.0dip" app:to="phone" />
+                <View android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" style="@style/a4t" />
+                <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <include layout="@layout/aj3" />
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+            <View android:id="@id/view_filling" android:layout_width="wrap_content" android:layout_height="0.0dip" android:layout_weight="1.0" />
+            <ImageView android:layout_gravity="bottom|center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="60.0dip" android:src="@drawable/a7q" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

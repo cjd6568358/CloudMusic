@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.RatioLinearLayout android:gravity="center" android:orientation="vertical" android:background="@null" android:layout_width="fill_parent" android:layout_height="wrap_content" app:akk="w,234:216"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.DragonBallView android:layout_gravity="center_horizontal" android:id="@id/imageDragonBall" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginTop="8.0dip" android:scaleType="centerInside" />
+        <com.netease.cloudmusic.ui.DragonBallLottieAnimView android:layout_gravity="center_horizontal" android:id="@id/dragonBallLottie" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginTop="8.0dip" />
+        <ImageView android:id="@id/extIcon" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="40.0dip" android:src="@drawable/fz8" />
+    </FrameLayout>
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiv" android:id="@id/nameDragonBall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" android:layout_centerInParent="true" />
+        <com.netease.cloudmusic.module.mymusic.view.RedDotView android:id="@id/redDot" android:visibility="gone" android:layout_width="5.0dip" android:layout_height="5.0dip" android:layout_alignTop="@id/nameDragonBall" android:layout_centerVertical="true" android:layout_marginEnd="3.0dip" android:layout_toStartOf="@id/nameDragonBall" app:akw="2.5dip" />
+    </RelativeLayout>
+</com.netease.cloudmusic.ui.RatioLinearLayout>

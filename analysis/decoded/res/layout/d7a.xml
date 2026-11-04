@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:background="#ff000000" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.facebook.drawee.view.SimpleDraweeView android:id="@id/firstFrameView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" />
+    </FrameLayout>
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/lastFrame" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+    </FrameLayout>
+    <FrameLayout android:id="@id/video_view_container" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a5z="parent" app:a69="parent" />
+    <com.netease.cloudmusic.module.commoncover.PlayerVideoMask android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.module.lyric.videolyric.VideoLyricView android:textSize="17.0sp" android:textColor="#ccffffff" android:ellipsize="end" android:gravity="center" android:id="@id/videoLyricView" android:paddingTop="8.0dip" android:paddingBottom="8.0dip" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="wrap_content" android:maxLines="1" android:shadowColor="#40000000" android:shadowDx="0.0" android:shadowDy="1.0" android:shadowRadius="6.0" android:textFontWeight="600" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a6g="0.9" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:id="@id/preferenceRoot" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfStatusLyric" android:layout_marginTop="12.0dip" style="@style/a9d">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/ifa" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/statusLyricCb" style="@style/a9o" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfStatusBarLyric" android:visibility="gone" style="@style/a9d">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfStatusBarLyricText" android:text="@string/c9j" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfStatusBarLyricCb" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfFloatLyric" style="@style/a9d">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfFloatLyricText" android:text="@string/c7x" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfFloatLyricCb" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfFloatLyricUnlock" style="@style/a9d">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/c7y" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfFloatLyricUnlockCb" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfRemoteControlContainer" style="@style/a9d">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfLockLyric" android:text="@string/dm6" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfRemoteControlSwitch" android:text="@string/ar7" style="@style/a9o" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+    </LinearLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

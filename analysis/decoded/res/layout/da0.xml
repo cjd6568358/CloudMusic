@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.listen.v2.holder.chatbottom.followguide.CanScrollFrameLayout android:id="@id/container" android:tag="layout/playlive_layout_peach_task_card_0" android:layout_width="250.0dip" android:layout_height="70.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/bg" android:layout_width="250.0dip" android:layout_height="70.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginStart="10.0dip" app:a5f="parent" app:a65="parent" app:a69="parent" />
+        <TextView android:textSize="12.0sp" android:textColor="@color/ap8" android:gravity="center" android:id="@id/experience" android:tag="binding_1" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginBottom="5.0dip" android:includeFontPadding="false" android:layout_marginStart="2.0dip" android:layout_marginEnd="2.0dip" app:a5f="parent" app:a5l="@id/icon" app:a65="@id/icon" />
+        <TextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="@color/b12" android:ellipsize="end" android:id="@id/desc" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="10.0dip" android:layout_marginEnd="20.0dip" app:a5f="@id/icon" app:a5l="parent" app:a64="@id/icon" app:a69="@id/icon" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.netease.play.listen.v2.holder.chatbottom.followguide.CanScrollFrameLayout>

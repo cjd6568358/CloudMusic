@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:id="@id/minibarContentBg" android:clipChildren="false" android:clipToPadding="false"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/minibarContentContainerNew" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <ImageView android:id="@id/v4ShadowView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitXY" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/v4ShadowViewMask" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitXY" />
+        <View android:id="@id/shadowView" android:background="@drawable/a6n" android:layout_width="fill_parent" android:layout_height="72.0dip" android:layout_marginLeft="2.0dip" android:layout_marginTop="-14.0dip" android:layout_marginRight="2.0dip" android:layout_marginBottom="-14.0dip" android:layout_marginHorizontal="2.0dip" />
+        <com.netease.cloudmusic.ui.MiniNewStyleRootView android:gravity="center_vertical" android:layout_gravity="bottom" android:orientation="horizontal" android:id="@id/miniPlayBarReallyRoot" android:layout_width="fill_parent" android:layout_height="@dimen/a5u" android:layout_marginLeft="@dimen/a5v" android:layout_marginRight="@dimen/a5v" android:layout_marginBottom="@dimen/a5s" android:layout_marginHorizontal="@dimen/a5v">
+            <FrameLayout android:id="@id/miniDiskContainer" android:layout_width="wrap_content" android:layout_height="@dimen/a5u" />
+            <include layout="@layout/cnd" />
+            <com.netease.cloudmusic.ui.MiniBarNewStyleLikeButton android:id="@id/minLikeBtn" android:layout_width="44.0dip" android:layout_height="@dimen/a5u" android:scaleType="centerInside" android:contentDescription="@string/a0" />
+            <com.netease.cloudmusic.ui.MiniPlayPauseButton android:id="@id/minPlayBtn" android:layout_width="36.0dip" android:layout_height="@dimen/a5u" android:scaleType="centerInside" android:contentDescription="@string/s" />
+            <FrameLayout android:id="@id/minPlayListBtnContainer" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <com.netease.cloudmusic.ui.MiniBaPlayListButton android:id="@id/minPlaylistBtn" android:visibility="gone" android:layout_width="@dimen/a5u" android:layout_height="@dimen/a5u" android:layout_marginRight="12.0dip" android:src="@drawable/cg4" android:scaleType="centerInside" android:contentDescription="@string/r" />
+                <FrameLayout android:id="@id/minAIDJPlayListBtnContainer" android:padding="10.0dip" android:visibility="gone" android:layout_width="@dimen/a5u" android:layout_height="@dimen/a5u" android:layout_marginRight="12.0dip">
+                    <com.netease.cloudmusic.ui.AIDJBreathView android:id="@id/minAIDJPlayListBtn" android:layout_width="24.0dip" android:layout_height="24.0dip" />
+                </FrameLayout>
+            </FrameLayout>
+        </com.netease.cloudmusic.ui.MiniNewStyleRootView>
+    </FrameLayout>
+</merge>

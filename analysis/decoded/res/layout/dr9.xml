@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/track_detail_pk_view_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.music.biz.usertrack.view.TrackDetailPkBackgroundView android:id="@id/background" android:layout_width="fill_parent" android:layout_height="64.0dip" app:a5f="parent" app:a68="@id/topicContainer" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/topicContainer" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5g="@id/dividerImage" app:a5l="parent" app:a65="parent" app:a69="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/affirmTopicContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="16.0dip" app:a5_="true" app:a5f="parent" app:a5m="@id/oppositeTopic" app:a5v="0.0" app:a65="parent" app:a69="parent" app:a6e="wrap" app:a6g="0.5">
+            <View android:background="@drawable/gqg" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginStart="5.0dip" android:layout_marginEnd="5.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:textColor="#ffff746f" android:gravity="center" android:id="@id/affirmTopic" android:background="@color/b13" android:paddingLeft="10.0dip" android:paddingTop="6.0dip" android:paddingRight="10.0dip" android:paddingBottom="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:minEms="4" android:paddingHorizontal="10.0dip" android:paddingVertical="6.0dip" app:cm="1.0sp" app:cn="uniform" />
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/b14" android:rotation="180.0" android:layout_marginStart="16.0dip" app:a65="parent" app:a68="@id/affirmTopic" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/oppositeTopicContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5_="true" app:a5f="parent" app:a5l="parent" app:a5v="1.0" app:a5x="1.0" app:a64="@id/affirmTopicContainer" app:a69="parent" app:a6e="wrap" app:a6g="0.5">
+            <View android:background="@drawable/gqg" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginStart="5.0dip" android:layout_marginEnd="5.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:textColor="#ff4c95de" android:ellipsize="end" android:gravity="center" android:id="@id/oppositeTopic" android:background="@color/b13" android:paddingLeft="10.0dip" android:paddingTop="6.0dip" android:paddingRight="10.0dip" android:paddingBottom="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:minEms="4" android:autoSizeMinTextSize="12.0sp" android:paddingHorizontal="10.0dip" android:paddingVertical="6.0dip" app:ck="12.0sp" app:cm="1.0sp" app:cn="uniform" />
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/b14" android:rotation="180.0" android:layout_marginEnd="16.0dip" app:a5l="@id/oppositeTopic" app:a68="@id/oppositeTopic" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/dividerImage" android:layout_width="wrap_content" android:layout_height="88.0dip" android:adjustViewBounds="true" app:a5f="@id/background" app:a65="parent" app:a69="@id/background" app:ahy="@drawable/c7k" />
+    <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16.0dip" app:a5f="@id/background" app:a65="parent" app:a69="@id/background">
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <TextView android:textSize="21.0sp" android:textColor="@color/b13" android:ellipsize="end" android:gravity="bottom" android:id="@id/affirmCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:maxLines="1" android:includeFontPadding="false" />
+            <ImageView android:layout_gravity="bottom" android:id="@id/affirmIcnLike" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="4.0dip" android:layout_marginStart="4.0dip" />
+        </LinearLayout>
+        <TextView android:textSize="12.0sp" android:textColor="@color/b13" android:id="@id/affirmSubtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" />
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="16.0dip" app:a5f="@id/background" app:a5l="parent" app:a69="@id/background">
+        <LinearLayout android:layout_gravity="end" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <TextView android:textSize="21.0sp" android:textColor="@color/b13" android:ellipsize="end" android:gravity="bottom" android:id="@id/oppositeCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:maxLines="1" android:includeFontPadding="false" />
+            <ImageView android:layout_gravity="bottom" android:id="@id/oppositeIcnLike" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="4.0dip" android:layout_marginStart="4.0dip" />
+        </LinearLayout>
+        <TextView android:textSize="12.0sp" android:textColor="@color/b13" android:id="@id/oppositeSubtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

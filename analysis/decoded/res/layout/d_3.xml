@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/bannerRoot" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.play.ui.BannerImageView android:id="@id/bannerImage" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="fitXY" app:ahy="@drawable/bxd" app:am0="@dimen/ait" />
+    </FrameLayout>
+</FrameLayout>

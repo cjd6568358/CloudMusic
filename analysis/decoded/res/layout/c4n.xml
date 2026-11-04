@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.livepage.rtc.ui.FloatingFrameLayout android:id="@id/floating" android:tag="layout/layout_party_stage_tv_other_0" android:layout_width="fill_parent" android:layout_height="fill_parent" app:cw="false"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.RoundedCornerConstraintView android:layout_width="fill_parent" android:layout_height="fill_parent" app:jw="8.0dip">
+        <View android:id="@id/align_stage_target_space" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        <FrameLayout android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/align_stage_target_space" app:a5l="@id/align_stage_target_space" app:a65="@id/align_stage_target_space" app:a69="@id/align_stage_target_space">
+            <FrameLayout android:id="@id/remove_view_container" android:tag="binding_1" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:tag="binding_2" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            <View android:tag="binding_3" android:background="@color/e6" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            <LinearLayout android:gravity="bottom|center" android:layout_gravity="center" android:tag="binding_4" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <TextView android:textSize="13.0dip" android:textColor="@color/b1q" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="画面加载中" />
+                <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:layout_gravity="center_vertical" android:tag="binding_5" android:layout_width="13.0dip" android:layout_height="13.0dip" />
+            </LinearLayout>
+        </FrameLayout>
+        <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:textSize="12.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/btn_up_video" android:tag="binding_6" android:layout_width="84.0dip" android:layout_height="42.0dip" android:layout_marginBottom="2.0dip" android:layout_marginEnd="8.0dip" app:a5f="@id/align_stage_target_space" app:a5l="@id/align_stage_target_space" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:tag="binding_7" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingStart="5.0dip" android:paddingEnd="5.0dip" android:layout_marginStart="8.0dip" app:a5f="@id/btn_up_video" app:a65="@id/align_stage_target_space" app:a69="@id/btn_up_video">
+            <TextView android:textSize="10.0sp" android:textColor="@color/b12" android:ellipsize="end" android:gravity="center" android:id="@id/tv_stage_viewer_seat_info" android:padding="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="250.0dip" android:maxLines="1" />
+            <com.netease.play.livepage.LiveRoomFollowButton android:id="@id/seatFollowBtn" android:visibility="gone" android:layout_width="30.0dip" android:layout_height="16.0dip" app:xq="10.0sp" app:a5f="@id/avatar" app:a5l="parent" app:a69="@id/avatar" app:ayu="16.0dip" app:az0="30.0dip" />
+        </LinearLayout>
+        <com.facebook.drawee.view.SimpleDraweeView android:id="@id/view_empty_video_stage_rect" android:tag="binding_8" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/align_stage_target_space" app:a5l="@id/align_stage_target_space" app:a65="@id/align_stage_target_space" app:a69="@id/align_stage_target_space" app:a6a="packed" />
+        <TextView android:textSize="10.0sp" android:textColor="@color/b1t" android:ellipsize="end" android:gravity="center" android:id="@id/tv_nobody_in_stage" android:tag="binding_9" android:padding="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="250.0dip" android:maxLines="1" android:layout_marginStart="8.0dip" app:a5f="@id/btn_up_video_nobody" app:a65="@id/align_stage_target_space" app:a69="@id/btn_up_video_nobody" />
+        <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:textSize="12.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/btn_up_video_nobody" android:tag="binding_10" android:layout_width="84.0dip" android:layout_height="42.0dip" android:layout_marginBottom="2.0dip" android:includeFontPadding="false" android:layout_marginEnd="8.0dip" app:a5f="@id/align_stage_target_space" app:a5l="@id/align_stage_target_space" />
+        <androidx.constraintlayout.widget.Group android:id="@id/group_anchor_model_in_none_tv" android:tag="binding_11" android:layout_width="wrap_content" android:layout_height="wrap_content" app:l1="tv_nobody_in_stage,view_empty_video_stage_rect" />
+        <ImageView android:id="@id/floatingBtn" android:tag="binding_12" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5l="parent" app:a69="parent" />
+    </com.netease.play.ui.RoundedCornerConstraintView>
+</com.netease.play.livepage.rtc.ui.FloatingFrameLayout>

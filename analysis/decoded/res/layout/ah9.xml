@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:background="@color/w5" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ImageView android:layout_gravity="left" android:id="@id/iv_frag_close_c" android:paddingLeft="15.0dip" android:paddingTop="15.0dip" android:paddingRight="20.0dip" android:paddingBottom="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/d02" />
+        <ScrollView android:id="@id/scrollView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:fillViewport="true">
+            <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <ImageView android:layout_width="54.0dip" android:layout_height="54.0dip" android:layout_marginTop="30.0dip" android:src="@drawable/d11" />
+                <TextView android:textSize="16.0dip" android:textStyle="bold" android:textColor="#ff09bb07" android:id="@id/tvPayResultTip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:text="支付成功" />
+                <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:baselineAligned="true">
+                    <TextView android:textSize="22.0dip" android:textColor="@color/wk" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="¥" />
+                    <TextView android:textSize="40.0dip" android:textColor="@color/wk" android:id="@id/tv_pay_discount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" />
+                </LinearLayout>
+                <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:id="@id/tv_amount_old" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-3.0dip" />
+                <View android:layout_width="wrap_content" android:layout_height="15.0dip" />
+                <LinearLayout android:orientation="vertical" android:id="@id/llDiscount" android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:paddingBottom="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <include layout="@layout/aj9" />
+                    <RelativeLayout android:id="@id/rl_zhifu_youhui" android:paddingTop="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <TextView android:textSize="15.0dip" android:textColor="@color/wk" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/bw8" />
+                        <TextView android:textSize="15.0dip" android:textColor="#ffff6000" android:id="@id/tv_pay_youhui" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" />
+                    </RelativeLayout>
+                    <RelativeLayout android:id="@id/rl_prepay" android:paddingTop="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <TextView android:textSize="15.0dip" android:textColor="@color/wk" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/bxf" />
+                        <TextView android:textSize="15.0dip" android:textColor="#ffff6000" android:id="@id/tv_prepay_discount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" />
+                    </RelativeLayout>
+                    <RelativeLayout android:id="@id/rl_union_discount" android:paddingTop="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <TextView android:textSize="15.0dip" android:textColor="@color/wk" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/c0k" />
+                        <TextView android:textSize="15.0dip" android:textColor="#ffff6000" android:id="@id/tv_union_discount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <RelativeLayout android:id="@id/rl_pay_method" android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:layout_width="fill_parent" android:layout_height="45.0dip">
+                    <include android:layout_width="fill_parent" android:layout_height="1.0px" layout="@layout/aj9" />
+                    <TextView android:textSize="15.0dip" android:textColor="@color/wk" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/byp" android:layout_centerVertical="true" />
+                    <TextView android:textSize="15.0dip" android:textColor="@color/wk" android:id="@id/tv_pay_method" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+                </RelativeLayout>
+                <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <RelativeLayout android:id="@id/rl_pfp_status" android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:layout_width="fill_parent" android:layout_height="45.0dip">
+                        <include android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_alignParentTop="true" layout="@layout/aj9" />
+                        <TextView android:textSize="14.0dip" android:textColor="@color/wk" android:id="@id/tv_pfp_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" />
+                        <LinearLayout android:gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_centerVertical="true" android:layout_alignParentEnd="true">
+                            <TextView android:textSize="14.0dip" android:textColor="#ff09bb07" android:id="@id/tv_pfp_status" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="开通成功" />
+                            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/ll_auto_renewal_operator" android:paddingLeft="10.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="28.0dip">
+                                <TextView android:textSize="13.0dip" android:textColor="#ff1167dc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="详情" />
+                                <ImageView android:id="@id/iv_auto_renewal_indicator" android:layout_width="9.0dip" android:layout_height="9.0dip" android:layout_marginLeft="3.0dip" android:src="@drawable/d18" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </RelativeLayout>
+                    <LinearLayout android:orientation="vertical" android:id="@id/ll_auto_renewal_info" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+                </LinearLayout>
+                <include android:id="@id/divider_bottom" android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_marginLeft="15.0dip" android:layout_marginRight="15.0dip" layout="@layout/aj9" />
+                <include android:id="@id/finger" layout="@layout/aj_" />
+                <com.netease.epay.sdk.base.view.StrokeColorButton android:textSize="20.0dip" android:textColor="#ffffffff" android:gravity="center" android:id="@id/tv_finish" android:background="@drawable/a8e" android:layout_width="fill_parent" android:layout_height="45.0dip" android:layout_marginLeft="15.0dip" android:layout_marginTop="55.0dip" android:layout_marginRight="15.0dip" android:layout_marginBottom="10.0dip" android:text="完 成" />
+                <ViewStub android:id="@id/stub_webview" android:layout="@layout/ajl" android:layout_width="fill_parent" android:layout_height="120.0dip" android:layout_marginLeft="15.0dip" android:layout_marginTop="46.0dip" android:layout_marginRight="15.0dip" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</FrameLayout>

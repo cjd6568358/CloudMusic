@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="20.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:gravity="center" android:id="@id/rankIndex" android:layout_width="@dimen/apw" android:layout_height="@dimen/apw" android:layout_marginLeft="3.0dip" android:layout_centerVertical="true" />
+    <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="51.0dip" android:layout_marginRight="50.0dip" android:layout_centerVertical="true">
+        <TextView android:textSize="13.0dip" android:textColor="#e6ffffff" android:ellipsize="end" android:id="@id/musicName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:drawableLeft="@drawable/dp0" android:drawablePadding="4.0dip" />
+        <TextView android:textSize="11.0dip" android:textColor="#80ffffff" android:ellipsize="end" android:id="@id/artistName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" />
+    </LinearLayout>
+    <TextView android:textSize="12.0dip" android:textColor="#99f25f4c" android:gravity="center_vertical" android:id="@id/stepRate" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginRight="10.0dip" android:drawableLeft="@drawable/doy" android:drawablePadding="3.0dip" android:layout_alignParentRight="true" />
+</merge>

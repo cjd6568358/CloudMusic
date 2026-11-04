@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@color/av0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ScrollView android:scrollbars="none" android:fadingEdgeLength="0.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginBottom="90.0dip">
+        <RelativeLayout android:id="@id/shareContentContainer" android:background="@color/av0" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/shareContentHeader" android:paddingLeft="11.0dip" android:paddingRight="13.0dip" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="@dimen/apz" android:layout_marginTop="43.0dip">
+                <com.netease.cloudmusic.ui.AvatarImage android:id="@id/profileAvatar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="4.0dip" app:cv="style6" />
+                <TextView android:id="@id/shareContentHeaderText" android:background="@drawable/dow" android:paddingLeft="13.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            </LinearLayout>
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/stepRateImage" android:layout_width="@dimen/aq3" android:layout_height="@dimen/aq0" android:layout_marginTop="@dimen/aq2" android:layout_marginBottom="@dimen/aq1" android:layout_below="@id/shareContentHeader" android:layout_centerHorizontal="true" app:ae="centerCrop" app:ahy="@drawable/dp7" app:ahz="centerCrop" />
+            <TextView android:textSize="16.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@id/hotMusicsTitle" android:layout_width="wrap_content" android:layout_height="23.0dip" android:layout_marginLeft="13.0dip" android:layout_below="@id/stepRateImage" android:layout_alignParentLeft="true" />
+            <TextView android:textSize="12.0dip" android:textColor="#cdffffff" android:gravity="center" android:id="@id/addToPlayListBtn" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:layout_width="wrap_content" android:layout_height="23.0dip" android:layout_marginRight="13.0dip" android:text="@string/ld" android:layout_below="@id/stepRateImage" android:layout_alignParentRight="true" />
+            <LinearLayout android:orientation="vertical" android:id="@id/rankMusicsContainer" android:paddingLeft="13.0dip" android:paddingRight="13.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="17.0dip" android:layout_below="@id/hotMusicsTitle" />
+            <LinearLayout android:id="@id/sportRelatedInfo" android:paddingLeft="@dimen/ag_" android:paddingRight="@dimen/ag_" android:layout_width="fill_parent" android:layout_height="63.0dip" android:layout_marginTop="@dimen/aq5" android:layout_marginBottom="3.0dip" android:layout_below="@id/rankMusicsContainer">
+                <TextView android:gravity="center_horizontal" android:layout_gravity="center_vertical" android:id="@id/duration" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" />
+                <View android:layout_gravity="center_vertical" android:background="#33ffffff" android:layout_width="0.6700001dip" android:layout_height="23.0dip" />
+                <TextView android:gravity="center_horizontal" android:layout_gravity="center_vertical" android:id="@id/stepNum" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" />
+                <View android:layout_gravity="center_vertical" android:background="#33ffffff" android:layout_width="0.6700001dip" android:layout_height="23.0dip" />
+                <TextView android:gravity="center_horizontal" android:layout_gravity="center_vertical" android:id="@id/calories" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" />
+            </LinearLayout>
+            <ViewStub android:id="@id/sportFmShareFooter" android:layout="@layout/dnq" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/sportRelatedInfo" />
+        </RelativeLayout>
+    </ScrollView>
+    <View android:background="@color/yi" android:layout_width="fill_parent" android:layout_height="93.0dip" />
+    <include android:layout_width="fill_parent" android:layout_height="?i" layout="@layout/dq9" />
+    <TextView android:gravity="center_vertical" android:id="@id/titleView" android:paddingBottom="4.0dip" android:layout_width="fill_parent" android:layout_height="?i" android:layout_marginLeft="56.0dip" android:layout_alignBottom="@id/toolbar" />
+    <View android:background="@drawable/dou" android:layout_width="fill_parent" android:layout_height="140.0dip" android:layout_alignParentBottom="true" />
+    <com.netease.cloudmusic.ui.DrawableCenterTextView android:textSize="17.0sp" android:gravity="center_vertical" android:id="@id/sportFMShareButton" android:layout_width="fill_parent" android:layout_height="@dimen/apt" android:layout_marginLeft="13.0dip" android:layout_marginRight="13.0dip" android:layout_marginBottom="20.0dip" android:text="@string/idd" android:drawablePadding="10.0dip" android:layout_alignParentBottom="true" />
+    <ViewStub android:id="@id/sportFmFinishAd" android:layout="@layout/dnm" android:layout_width="@dimen/apv" android:layout_height="@dimen/apv" android:layout_marginTop="80.0dip" android:layout_marginRight="13.0dip" android:layout_alignParentRight="true" />
+</RelativeLayout>

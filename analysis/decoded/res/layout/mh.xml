@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.ad.AdImpressConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.RoundedFrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent" app:jw="16.0dip">
+        <com.netease.cloudmusic.module.ad.AdVideoView android:id="@id/adVideoView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/videoAdCover" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.netease.cloudmusic.ui.RoundedFrameLayout>
+    <com.netease.cloudmusic.AdCountDownView android:id="@id/adCountdown" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginBottom="12.0dip" app:a5f="parent" app:a5z="parent" />
+    <com.netease.cloudmusic.ui.RoundedFrameLayout android:gravity="center" android:id="@id/adActionViewContainer" android:background="@color/b12" android:layout_width="wrap_content" android:layout_height="24.0dip" android:layout_marginRight="8.0dip" android:layout_marginBottom="8.0dip" android:minWidth="60.0dip" app:jw="12.0dip" app:a5f="parent" app:a63="parent">
+        <com.netease.cloudmusic.ui.ad.dslview.AdVideoActionView android:layout_gravity="center" android:id="@id/adActionView" android:paddingLeft="12.0dip" android:paddingRight="12.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent" android:paddingHorizontal="12.0dip" />
+    </com.netease.cloudmusic.ui.RoundedFrameLayout>
+    <FrameLayout android:id="@id/adReasonLabelContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_marginTop="8.0dip" app:a5z="parent" app:a69="parent" />
+</com.netease.cloudmusic.ui.ad.AdImpressConstraintLayout>

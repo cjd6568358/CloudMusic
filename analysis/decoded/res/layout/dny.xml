@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/statusLyricContainer" android:layout_width="wrap_content" android:layout_height="21.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:id="@id/statusLyricTextWrap" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <View android:id="@id/statusLyricBg" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <TextView android:textSize="14.0dip" android:textStyle="bold" android:textColor="@color/as2" android:ellipsize="marquee" android:id="@id/statusLyricText" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:scrollHorizontally="true" android:singleLine="true" android:layout_centerInParent="true" android:marqueeRepeatLimit="2">
+            <requestFocus />
+        </TextView>
+    </RelativeLayout>
+</RelativeLayout>

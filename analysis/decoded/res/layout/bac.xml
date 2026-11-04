@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <FrameLayout android:layout_width="170.0dip" android:layout_height="120.0dip">
+            <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/loadFailImage" android:layout_width="170.0dip" android:layout_height="120.0dip" android:src="@drawable/faa" />
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/loadFailNetImage" android:visibility="gone" android:layout_width="170.0dip" android:layout_height="120.0dip" />
+        </FrameLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aiv" android:gravity="center" android:id="@id/loadFailMainMsg" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:text="@string/di8" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiz" android:gravity="center" android:id="@id/loadFailHintTip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:text="@string/ja" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:gravity="center" android:id="@id/reloadBtn" android:layout_width="120.0dip" android:layout_height="40.0dip" android:layout_marginTop="21.0dip" android:text="重新加载" app:gl="background8" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/loadFailBack" android:padding="8.0dip" android:layout_width="32.0dip" android:layout_height="32.0dip" android:layout_marginLeft="8.0dip" android:layout_marginTop="60.0dip" android:src="@drawable/du" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" app:aev="@color/a2d" />
+</com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>

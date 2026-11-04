@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:layout_width="fill_parent" android:layout_height="60.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/iv_play" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginStart="16.0dip" app:a5f="parent" app:a65="parent" app:a69="parent" app:aev="@color/a2h" app:aqh="@drawable/ay0" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/iv_add" android:layout_width="20.0dip" android:layout_height="20.0dip" android:layout_marginEnd="16.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" app:aev="@color/a2h" app:aqh="@drawable/axz" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/tv_name" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:maxLines="1" android:includeFontPadding="false" android:layout_marginStart="10.0dip" app:a5g="@id/tv_date_info" app:a5m="@id/iv_add" app:a64="@id/iv_play" app:a69="parent" app:a6a="packed" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiy" android:ellipsize="end" android:id="@id/tv_date_info" android:layout_width="0.0dip" android:layout_height="wrap_content" android:maxLines="1" android:includeFontPadding="false" app:a5f="parent" app:a5l="@id/tv_name" app:a65="@id/tv_name" app:a68="@id/tv_name" />
+</com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>

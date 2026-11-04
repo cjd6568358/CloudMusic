@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/detailContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <include layout="@layout/d5d" />
+    <androidx.core.widget.NestedScrollView android:id="@id/plalScrollView" style="@style/a7w">
+        <LinearLayout android:orientation="vertical" android:id="@id/scroolInnerInfoArea" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.ui.PlaylistDraweeView android:layout_gravity="center_horizontal" android:id="@id/plALBigCover" android:layout_width="@dimen/aho" android:layout_height="@dimen/ahn" android:layout_marginTop="96.0dip" fresco:ae="centerCrop" fresco:jw="16.0dip" fresco:ahy="@drawable/g9c" fresco:ahz="centerCrop" fresco:am0="16.0dip" />
+            <include layout="@layout/c5p" />
+            <include layout="@layout/btm" />
+            <LinearLayout android:gravity="center_vertical" android:id="@id/plTagsArea" android:paddingLeft="@dimen/agy" android:paddingTop="12.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="#ffffffff" android:gravity="center_vertical" android:layout_gravity="center|left" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/g3x" fresco:aeb="@color/afu" />
+                <com.netease.cloudmusic.ui.FlowLayout android:id="@id/playListTagsContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" fresco:zz="7.0dip" fresco:ayr="7.0dip" />
+            </LinearLayout>
+            <include layout="@layout/c5o" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    <include layout="@layout/b0g" />
+    <include layout="@layout/u3" />
+    <include layout="@layout/c5n" />
+</RelativeLayout>

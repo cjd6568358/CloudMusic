@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <include android:id="@id/rcmd_subitem_1" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/dok" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeDivider android:id="@id/subitem_line_1" android:layout_width="fill_parent" android:layout_height="0.70000005dip" android:layout_marginStart="60.0dip" />
+    <include android:id="@id/rcmd_subitem_2" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/dok" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeDivider android:id="@id/subitem_line_2" android:layout_width="fill_parent" android:layout_height="0.70000005dip" android:layout_marginStart="60.0dip" />
+    <include android:id="@id/rcmd_subitem_3" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/dok" />
+</LinearLayout>

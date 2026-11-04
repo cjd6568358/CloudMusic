@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="bottom|center" android:id="@id/dialog_container" android:layout_width="fill_parent" android:layout_height="wrap_content"
+      xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/icClose" android:padding="6.0dip" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_marginTop="16.0dip" android:layout_marginRight="16.0dip" android:src="@drawable/e4r" app:a5l="parent" app:a69="parent" />
+        <TextView android:textSize="18.0sp" android:textColor="#e6283248" android:gravity="center_horizontal" android:id="@id/tvTitle" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="35.0dip" android:layout_marginTop="30.0dip" android:layout_marginRight="35.0dip" android:text="您已更换网易云音乐图标" android:includeFontPadding="true" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        <TextView android:textSize="13.0sp" android:textColor="#80283248" android:gravity="center_horizontal" android:id="@id/tvContent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="由于系统设置，更换图标将关闭网易云音乐客户端" android:includeFontPadding="true" app:a5l="parent" app:a65="parent" app:a68="@id/tvTitle" />
+        <com.netease.cloudmusic.core.dolphin.component.button.DolphinButton android:id="@id/buttonKonwn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:layout_marginBottom="40.0dip" android:text="知道了" app:q0="primary" app:q1="light" app:q2="xxl" app:q3="normal" app:q4="surface" app:qf="true" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a68="@id/tvContent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

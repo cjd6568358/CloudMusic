@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_live_pre_loading_0" android:background="@color/eh" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/centerLine" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5p="0.5" />
+    <com.netease.play.ui.NeteaseMusicSimpleDraweeView android:tag="binding_1" android:layout_width="0.0dip" android:layout_height="250.0dip" app:ae="centerCrop" app:a5g="@id/centerLine" app:a5l="parent" app:a65="parent" />
+    <ViewAnimator android:id="@id/avatar_vflipper" android:layout_width="180.0dip" android:layout_height="wrap_content" android:layout_marginBottom="20.0dip" app:a5g="@id/centerLine" app:a5l="parent" app:a65="parent">
+        <com.netease.play.livepage.preloading.ui.NeverGoneAvatar android:layout_gravity="center_horizontal" android:layout_width="90.0dip" android:layout_height="90.0dip" app:ahy="@drawable/ebx" app:ai4="style15" app:arl="@color/b12" app:arm="3.0dip" />
+        <com.netease.play.livepage.preloading.ui.NeverGoneAvatar android:layout_gravity="center_horizontal" android:visibility="gone" android:layout_width="90.0dip" android:layout_height="90.0dip" app:ahy="@drawable/ebx" app:ai4="style15" app:arl="@color/b12" app:arm="3.0dip" />
+    </ViewAnimator>
+    <TextView android:textSize="14.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/tv_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/centerLine" />
+    <ImageView android:id="@id/iv_close" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="60.0dip" android:src="@drawable/eby" app:a5f="parent" app:a5l="parent" app:a65="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

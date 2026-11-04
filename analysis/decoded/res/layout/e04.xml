@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="24.0dip" android:paddingStart="8.0dip" android:paddingEnd="8.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center_vertical" android:id="@id/lotteryPrefixImg" android:layout_width="16.0dip" android:layout_height="16.0dip" android:scaleType="center" android:layout_marginEnd="4.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textStyle="bold" android:layout_gravity="center_vertical" android:id="@id/lotteryText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:layout_marginEnd="2.0dip" />
+    <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center_vertical" android:id="@id/lotterySuffixImg" android:layout_width="12.0dip" android:layout_height="12.0dip" android:scaleType="center" />
+</LinearLayout>

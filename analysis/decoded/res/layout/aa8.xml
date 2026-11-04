@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:gravity="center_vertical" android:id="@id/ll_title" android:layout_width="fill_parent" android:layout_height="46.0dip" android:paddingStart="16.0dip" android:paddingEnd="16.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/iv_sync" android:layout_width="20.0dip" android:layout_height="20.0dip" android:layout_centerVertical="true" android:layout_marginEnd="4.0dip" app:aev="@color/aiv" app:aqh="@drawable/ag2" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" android:layout_centerVertical="true" android:layout_marginEnd="2.0dip" android:layout_toEndOf="@id/iv_sync" />
+        <com.netease.cloudmusic.discovery.view.module.podcast.view.SlideButtonSwitcher android:id="@id/sw" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_marginStart="10.0dip" android:layout_toEndOf="@id/tv" android:layout_alignParentEnd="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithAllBackground android:textSize="13.0sp" android:id="@id/tv_more" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ek8" android:drawablePadding="3.0dip" android:layout_centerVertical="true" android:paddingStart="10.0dip" android:paddingEnd="10.0dip" android:layout_alignParentEnd="true" app:gl="background8" />
+    </RelativeLayout>
+    <com.netease.cloudmusic.ui.CanScrollHorizonRecyclerView android:id="@id/rv" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+</LinearLayout>

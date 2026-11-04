@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="vertical" android:paddingLeft="@dimen/s1" android:paddingRight="@dimen/s2" android:layout_width="fill_parent" android:layout_height="wrap_content" app:e6="noline" app:y4="true"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/campusUserContainer" android:layout_width="fill_parent" android:layout_height="56.0dip">
+        <com.netease.cloudmusic.ui.AvatarImage android:id="@id/avator" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:layout_centerVertical="true" app:cv="style6" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTrackFollowButton android:id="@id/followBtn" android:layout_width="@dimen/ash" android:layout_height="@dimen/asg" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+        <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="9.0dip" android:layout_toLeftOf="@id/followBtn" android:layout_toRightOf="@id/avator" android:layout_centerVertical="true">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="#ff333333" android:id="@id/name" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="#ff999999" android:id="@id/description" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" />
+        </LinearLayout>
+    </RelativeLayout>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/resContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.ResTypeDraweeView android:layout_gravity="center_vertical" android:id="@id/resImg" android:layout_width="90.0dip" android:layout_height="90.0dip" android:layout_marginLeft="8.0dip" android:layout_marginTop="8.0dip" android:layout_marginBottom="8.0dip" app:ae="centerCrop" app:w3="300" app:ahy="@drawable/cx6" app:ahz="fitXY" app:aj2="@color/awz" />
+        <RelativeLayout android:gravity="center_vertical" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textStyle="bold" android:id="@id/itemResTitleTv" style="@style/a6p" />
+            <include android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" android:layout_below="@id/itemResTitleTv" layout="@layout/cl8" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="#ff888888" android:ellipsize="end" android:id="@id/itemResSubTitleTv" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:maxLines="1" android:layout_below="@id/itemResTitleTv" />
+        </RelativeLayout>
+    </LinearLayout>
+    <RelativeLayout android:id="@id/planContainer" android:clickable="true" android:layout_width="fill_parent" android:layout_height="40.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiz" android:id="@id/nearbyCampusPosition" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:singleLine="true" android:drawableLeft="@drawable/d33" android:drawablePadding="6.669983dip" android:layout_alignParentLeft="true" android:layout_centerVertical="true" app:adf="true" app:adi="true" app:aea="@color/afv" app:aeb="@color/afv" app:aeu="@color/aiz" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="#ff507daf" android:id="@id/campusPlan" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/abe" android:drawablePadding="6.0dip" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+    </RelativeLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

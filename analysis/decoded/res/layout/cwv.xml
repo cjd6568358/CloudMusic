@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/musicNoteContainer" android:tag="layout/musical_note_bezier_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.livepage.music2.bubble.MusicalNoteBezierView android:id="@id/bezierView" android:layout_width="56.0dip" android:layout_height="115.0dip" app:a5g="@id/anchor" app:a5z="@id/anchor" app:a63="@id/anchor" />
+    <Space android:id="@id/anchor" android:layout_width="36.0dip" android:layout_height="36.0dip" app:a5z="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

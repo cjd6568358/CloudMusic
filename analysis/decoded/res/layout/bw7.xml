@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_listen_viewer_header_empty_lone_0" android:layout_width="fill_parent" android:layout_height="52.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/bgView" android:tag="binding_1" android:layout_width="0.0dip" android:layout_height="0.0dip" android:minWidth="148.0dip" app:a5f="@id/avatar" app:a5l="@id/endSpace" app:a65="@id/avatar" app:a69="@id/avatar" />
+    <LinearLayout android:orientation="vertical" android:id="@id/nameContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:minWidth="48.0dip" android:layout_marginStart="5.0dip" app:a5f="@id/avatar" app:a64="@id/avatar" app:a69="@id/avatar">
+        <TextView android:textColor="@color/aj6" android:ellipsize="end" android:id="@id/userName" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" app:a64="@id/avatar" app:a69="@id/avatar" />
+        <TextView android:textSize="10.0sp" android:textColor="#fff0c35c" android:id="@id/popularity" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:singleLine="true" android:drawableLeft="@drawable/gjw" android:drawablePadding="2.0dip" />
+    </LinearLayout>
+    <com.netease.play.ui.SimpleRoundImageView android:id="@id/avatar" android:layout_width="@dimen/ato" android:layout_height="@dimen/ato" android:layout_marginTop="10.0dip" android:src="@drawable/fpe" android:layout_marginStart="10.0dip" app:a65="parent" app:a69="parent" />
+    <Space android:id="@id/endSpace" android:layout_width="6.0dip" android:layout_height="0.0dip" app:a64="@id/nameContainer" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

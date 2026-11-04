@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/bs_playlist_list_item" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="@dimen/gb" app:e4="10.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:ellipsize="end" android:layout_gravity="center_vertical" android:id="@id/playerListSongName" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="@string/ia2" android:layout_weight="1.0" style="@style/a3y" />
+    <LinearLayout android:gravity="center_vertical" android:id="@id/thirdPartyContainer" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/playListMusicThirdPartyIcon" android:layout_width="12.0dip" android:layout_height="12.0dip" android:layout_marginRight="2.0dip" app:ae="centerCrop" app:ahy="@drawable/cx4" app:ahz="centerCrop" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:id="@id/playListMusicThirdPartyName" android:layout_width="wrap_content" android:layout_height="wrap_content" app:qe="colorText3_1" />
+    </LinearLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

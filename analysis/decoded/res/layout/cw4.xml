@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.customui.OnlyVerticalSwipeRefreshLayout android:id="@id/newPartySwipe" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/newPartyContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@id/newPartySubContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <com.google.android.material.appbar.AppBarLayout android:id="@id/newPartyTopContainer" android:background="@android:color/transparent" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip">
+                <androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="48.0dip" app:a76="scroll">
+                    <FrameLayout android:id="@id/newPartyFastEntryContainer" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+                    <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout android:id="@id/newPartyTab" android:layout_width="0.0dip" android:layout_height="48.0dip" android:layout_marginTop="11.0dip" android:layout_marginStart="9.0dip" app:nr="click" app:a5l="parent" app:a65="parent" app:a68="@id/newPartyFastEntryContainer" app:at5="100.0dip" app:at7="scrollable" app:atn="true" app:avq="false" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+            <com.netease.play.ui.NeteaseMusicViewPager android:id="@id/newPartyVp" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="@string/uo" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <include android:id="@id/noNetwork" android:visibility="gone" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" layout="@layout/cg0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.netease.play.customui.OnlyVerticalSwipeRefreshLayout>

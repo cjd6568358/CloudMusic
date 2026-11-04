@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.SingleLineFlowLayout android:layout_gravity="center" android:id="@id/tagContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:minHeight="22.0dip" android:layout_marginStart="20.0dip" android:layout_marginEnd="20.0dip" app:zz="6.0dip" app:ayr="6.0dip" />
+    <com.netease.cloudmusic.module.person.view.FollowHeaderContainerLayout android:layout_gravity="center_horizontal" android:id="@id/headerButtonContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:minHeight="@dimen/sh" />
+    <com.netease.cloudmusic.person.profile.ProfileRcmdUsersContainer android:id="@id/followUsersContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/alt" android:layout_marginTop="15.0dip" android:layout_marginBottom="15.0dip" android:translationY="@dimen/amp" android:layout_marginStart="15.0dip" android:layout_marginEnd="15.0dip" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="@dimen/z6" android:layout_marginRight="@dimen/z6"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/luckyMoneyUpContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <include android:id="@id/founderInfo" layout="@layout/bze" />
+        <FrameLayout android:id="@id/senderImageContainer" android:layout_width="fill_parent" android:layout_height="70.0dip" android:layout_marginTop="@dimen/z_" android:layout_marginBottom="@dimen/z9">
+            <com.netease.play.ui.avatar.AvatarImage android:layout_gravity="center" android:id="@id/senderImage" android:layout_width="50.0dip" android:layout_height="50.0dip" app:ai4="style18" />
+        </FrameLayout>
+        <TextView android:textSize="19.0sp" android:textStyle="bold" android:textColor="@color/a9f" android:ellipsize="middle" android:gravity="center" android:id="@id/senderInfo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginRight="20.0dip" android:layout_marginBottom="@dimen/zd" android:singleLine="true" />
+    </LinearLayout>
+    <FrameLayout android:id="@id/openButtonContainer" android:background="@drawable/d_t" android:layout_width="fill_parent" android:layout_height="82.0dip" android:layout_marginTop="-1.0dip" android:layout_marginBottom="-1.0dip">
+        <TextView android:textSize="@dimen/zb" android:textStyle="bold" android:textColor="@color/eh" android:gravity="center" android:layout_gravity="center" android:id="@id/openButton" android:layout_width="@dimen/za" android:layout_height="@dimen/za" android:text="@string/cj6" />
+    </FrameLayout>
+    <LinearLayout android:gravity="bottom|center" android:orientation="vertical" android:id="@id/luckyMoneyDownContainer" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0">
+        <include android:id="@id/seeRecord" layout="@layout/bzf" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/founderContainer" android:background="@color/e8" android:layout_width="fill_parent" android:layout_height="@dimen/zc" android:layout_marginTop="17.0dip">
+            <TextView android:textSize="14.0sp" android:textColor="@color/a9f" android:ellipsize="end" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip" android:text="@string/iq2" android:singleLine="true" android:layout_weight="1.0" />
+            <com.netease.play.ui.avatar.AvatarImage android:id="@id/founderAvatar1" android:layout_width="30.0dip" android:layout_height="30.0dip" app:adr="false" app:ahy="@drawable/g9n" app:ai4="style7" />
+            <com.netease.play.ui.avatar.AvatarImage android:id="@id/founderAvatar2" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginLeft="6.0dip" android:layout_marginRight="6.0dip" app:adr="false" app:ahy="@drawable/g9n" app:ai4="style7" />
+            <com.netease.play.ui.avatar.AvatarImage android:id="@id/founderAvatar3" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginRight="10.0dip" app:adr="false" app:ahy="@drawable/g9n" app:ai4="style7" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:paddingTop="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="16.0dip" android:paddingEnd="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="18.0sp" android:textColor="@color/ho" android:id="@id/tv_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="14.0dip" android:text="@string/jc2" android:includeFontPadding="false" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center" android:id="@id/iv_empty" android:layout_width="170.0dip" android:layout_height="120.0dip" android:layout_marginTop="24.0dip" android:src="@drawable/h4d" app:a5z="parent" app:a63="parent" app:a68="@id/tv_title" />
+    <androidx.appcompat.widget.AppCompatButton android:id="@id/btn_go_setting" android:layout_marginTop="30.0dip" android:layout_marginRight="24.0dip" android:layout_marginBottom="8.0dip" android:text="@string/jca" android:layout_marginStart="24.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a68="@id/iv_empty" style="@style/w4" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_close" android:layout_width="28.0dip" android:layout_height="28.0dip" android:src="@drawable/h47" app:a63="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

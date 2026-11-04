@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="58.0dip" android:layout_height="74.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.RotationRelativeLayout android:id="@id/rotation_layout" android:layout_width="58.0dip" android:layout_height="58.0dip">
+        <View android:id="@id/select_circle" android:background="@drawable/bqr" android:layout_width="58.0dip" android:layout_height="58.0dip" />
+        <FrameLayout android:id="@id/icon_layout" android:layout_width="58.0dip" android:layout_height="58.0dip">
+            <ImageView android:id="@id/icon_loading" android:visibility="gone" android:layout_width="58.0dip" android:layout_height="58.0dip" android:scaleType="fitXY" />
+            <ImageView android:id="@id/icon_downloading" android:visibility="gone" android:layout_width="58.0dip" android:layout_height="58.0dip" android:scaleType="fitXY" />
+        </FrameLayout>
+        <com.facebook.drawee.view.SimpleDraweeView android:id="@id/cover" android:layout_width="54.0dip" android:layout_height="54.0dip" android:layout_centerInParent="true" app:ae="centerCrop" app:w3="300" app:ahy="@color/b1d" app:ahz="fitXY" app:aj2="@color/awz" app:aln="true" />
+        <TextView android:textSize="10.0sp" android:textColor="#ffffffff" android:ellipsize="end" android:id="@id/error_txt" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/e1s" android:maxLines="2" android:layout_centerInParent="true" />
+    </com.netease.cloudmusic.ui.RotationRelativeLayout>
+    <TextView android:textSize="10.0sp" android:textColor="#80ffffff" android:ellipsize="end" android:gravity="bottom|center" android:id="@id/name" android:layout_width="fill_parent" android:layout_height="fill_parent" android:singleLine="true" />
+</LinearLayout>

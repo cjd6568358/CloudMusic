@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/fakeBg" android:background="#ff262626" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ImageView android:id="@id/fakeImageBg" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+        <View android:background="@drawable/csp" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </FrameLayout>
+    <RelativeLayout android:id="@id/fakeRoot" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ImageView android:id="@id/fakeDiskBg" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ga6" android:layout_centerHorizontal="true" />
+        <com.google.android.material.circularreveal.CircularRevealFrameLayout android:id="@id/circularRevealFrameLayout" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/fakeVideoCover" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" />
+            <ImageView android:id="@id/fakeRecordMask" android:background="@color/ee" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </com.google.android.material.circularreveal.CircularRevealFrameLayout>
+        <RelativeLayout android:id="@id/fakeRotationView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true">
+            <com.netease.cloudmusic.ui.AnimableDrawerImageView android:id="@id/fakeMusicRecordCover" android:layout_width="@dimen/avy" android:layout_height="@dimen/avy" android:layout_centerInParent="true" />
+            <ImageView android:id="@id/fakeRecordCover" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ga0" android:layout_centerInParent="true" />
+        </RelativeLayout>
+        <ImageView android:id="@id/fakeDiscHead" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/aj7" android:layout_marginRight="58.0dip" android:src="@drawable/geh" android:layout_alignRight="@id/fakeDiskBg" />
+        <RelativeLayout android:id="@id/fakeToolbar" android:layout_width="fill_parent" android:layout_height="@dimen/art">
+            <ImageView android:id="@id/backIcon" android:paddingTop="10.0dip" android:paddingBottom="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/cwa" android:layout_centerVertical="true" style="@style/y6" />
+            <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/titleContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true">
+                <androidx.appcompat.widget.AppCompatTextView android:textSize="17.0sp" android:textColor="#ffffffff" android:ellipsize="marquee" android:gravity="center" android:id="@id/musicName" android:layout_width="161.0dip" android:layout_height="wrap_content" android:singleLine="true" android:paddingStart="5.0dip" android:paddingEnd="5.0dip" />
+                <androidx.appcompat.widget.AppCompatTextView android:textColor="#ffffffff" android:ellipsize="end" android:gravity="center" android:id="@id/artistName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:paddingStart="5.0dip" android:paddingEnd="5.0dip" />
+            </LinearLayout>
+            <ImageView android:id="@id/shareMusic" android:padding="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/d4a" android:layout_centerVertical="true" android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="bottom" android:id="@id/jarOptionContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <ImageView android:id="@id/shareMusicGift" android:layout_width="40.0dip" android:layout_height="40.0dip" android:src="@drawable/f3f" android:layout_marginEnd="24.0dip" app:a5g="@id/navigationSpace" app:a5m="@id/replyContainer" app:a5w="packed" app:a65="parent" app:a6p="4.0dip" />
+        <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/replyContainer" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:clickable="true" android:layout_width="wrap_content" android:layout_height="40.0dip" app:a5g="@id/navigationSpace" app:a5m="@id/collectMusicGift" app:a64="@id/shareMusicGift">
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="15.0sp" android:textColor="@color/b12" android:id="@id/reply" android:layout_width="wrap_content" android:layout_height="wrap_content" android:drawablePadding="3.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+            <com.airbnb.lottie.LottieAnimationView android:id="@id/emojiReply" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="40.0dip" app:a5f="parent" app:a5l="@id/space" app:a69="parent" />
+            <com.netease.cloudmusic.ui.AvatarStackView android:id="@id/avatarReply" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="4.0dip" app:a5f="parent" app:a5m="@id/reply" app:a69="parent" app:aqi="@color/aj5" app:aqk="3" app:aql="true" app:aqm="5.0dip" app:aqn="24.0dip" app:aqo="leftOnTop" />
+            <Space android:id="@id/space" android:layout_width="4.0dip" android:layout_height="0.0dip" app:a65="@id/reply" app:a69="@id/reply" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView android:id="@id/collectMusicGift" android:layout_width="40.0dip" android:layout_height="40.0dip" android:src="@drawable/f3e" android:layout_marginStart="24.0dip" android:layout_toEndOf="@id/replyContainer" app:a5g="@id/navigationSpace" app:a5l="parent" app:a64="@id/replyContainer" />
+        <Space android:id="@id/navigationSpace" android:layout_width="0.0dip" android:layout_height="@dimen/aw4" app:a5f="parent" />
+        <TextView android:textSize="13.0sp" android:textColor="@color/b1n" android:id="@id/videoUserInfo" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="21.0dip" android:shadowColor="#33000000" android:shadowDx="0.0" android:shadowDy="1.0" android:shadowRadius="8.0" app:a5g="@id/shareMusicGift" app:a5l="parent" app:a65="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

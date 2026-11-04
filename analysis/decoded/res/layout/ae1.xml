@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@null" android:layout_width="fill_parent" android:layout_height="40.0dip" android:paddingStart="@dimen/iw"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="@color/b12" android:id="@id/title" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="最近使用" android:singleLine="true" android:layout_weight="1.0" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="15.0sp" android:textColor="@color/b17" android:gravity="center" android:id="@id/moreTextView" android:paddingLeft="@dimen/iw" android:paddingRight="@dimen/iw" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="更多" android:singleLine="true" android:drawableEnd="@drawable/eij" android:drawableTint="@color/b17" android:paddingHorizontal="@dimen/iw" />
+</LinearLayout>

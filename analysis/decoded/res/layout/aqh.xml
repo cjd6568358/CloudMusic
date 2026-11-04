@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:paddingLeft="@dimen/z6" android:paddingRight="@dimen/z6" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout android:id="@id/titleContainer" android:layout_width="fill_parent" android:layout_height="46.0dip">
+        <ImageView android:layout_gravity="center|left" android:id="@id/backButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" />
+        <TextView android:textSize="15.0sp" android:textColor="@color/mo" android:layout_gravity="center" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/dyj" />
+    </FrameLayout>
+    <com.netease.play.ui.LiveRecyclerView android:id="@id/luckyMoneyRecyclerView" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0" />
+</LinearLayout>

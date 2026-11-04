@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@id/profile_container" android:tag="layout/layout_new_profile_fragment_0" android:background="@color/ay_" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:layout_gravity="top" android:id="@id/noble_stroke" android:tag="binding_1" android:layout_width="fill_parent" android:layout_height="0.0dip" app:ae="fitXY" />
+    <com.facebook.drawee.view.SimpleDraweeView android:layout_gravity="top" android:id="@id/noble_webp_stroke" android:tag="binding_2" android:layout_width="fill_parent" android:layout_height="0.0dip" app:ae="centerCrop" />
+    <View android:layout_gravity="bottom" android:id="@id/background" android:tag="binding_3" android:layout_width="fill_parent" android:layout_height="0.0dip" />
+    <FrameLayout android:id="@id/layout_video" android:layout_width="fill_parent" android:layout_height="300.0dip" />
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:layout_gravity="center|top" android:id="@id/intimacy_decor_overlay" android:visibility="gone" android:layout_width="209.0dip" android:layout_height="141.0dip" app:ae="fitCenter" />
+    <View android:layout_gravity="bottom" android:id="@id/intimacy_decor_background" android:tag="binding_4" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="0.0dip" />
+    <com.facebook.drawee.view.SimpleDraweeView android:layout_gravity="bottom" android:id="@id/noble_shadow" android:tag="binding_5" android:layout_width="fill_parent" android:layout_height="0.0dip" app:ae="fitXY" />
+    <com.netease.play.ui.sroll.MaxHeightNestedScrollView android:id="@id/scroll_container" android:layout_width="fill_parent" android:layout_height="wrap_content" app:ag="371.0dip">
+        <LinearLayout android:orientation="vertical" android:id="@id/content_container" android:paddingBottom="75.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    </com.netease.play.ui.sroll.MaxHeightNestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:orientation="vertical" android:id="@id/pagerSlidingTabStripBaseActivityContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.playerlisthistory.PlayerListVipHintBarView android:layout_gravity="bottom|center" android:id="@id/playerListVipHintBar" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="66.0dip" />
+    <com.netease.cloudmusic.ui.roundview.RoundLinearLayout android:layout_gravity="bottom|center" android:orientation="vertical" android:id="@id/dialog_container" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <View android:layout_gravity="center_horizontal" android:id="@id/handleView" android:layout_width="34.0dip" android:layout_height="4.0dip" android:layout_marginTop="8.0dip" android:layout_marginBottom="8.0dip" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/tabLayoutContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout2 android:id="@id/tabLayout" android:layout_width="0.0dip" android:layout_height="44.0dip" android:layout_weight="1.0" app:nr="moveBig" app:at7="scrollable" app:atn="false" app:avq="false" />
+        </LinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeDividerLine android:id="@id/divider_tab_line" android:layout_width="fill_parent" android:layout_height="0.5dip" />
+        <com.netease.cloudmusic.ui.NeteaseMusicViewPager android:id="@id/commonViewPager" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.netease.cloudmusic.ui.roundview.RoundLinearLayout>
+</FrameLayout>

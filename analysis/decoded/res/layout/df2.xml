@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/push_album_pendant_in_city_live_layout_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/background" android:tag="binding_1" android:layout_width="72.0dip" android:layout_height="72.0dip" />
+    <ImageView android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.play.ui.RotateFrameLayout android:id="@id/playDisc" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent">
+        <com.facebook.drawee.view.SimpleDraweeView android:layout_gravity="center" android:id="@id/promotionImage" android:tag="binding_2" android:layout_width="28.0dip" android:layout_height="28.0dip" app:ae="centerCrop" app:ahy="@drawable/g8w" app:ahz="fitXY" app:aln="true" />
+    </com.netease.play.ui.RotateFrameLayout>
+    <ImageView android:id="@id/playStick" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" android:src="@drawable/gi6" android:transformPivotX="4.0dip" android:transformPivotY="3.0dip" android:layout_marginStart="4.0dip" app:a65="parent" app:a69="parent" />
+    <TextView android:textSize="8.0sp" android:textStyle="bold" android:textColor="@color/b1e" android:ellipsize="marquee" android:gravity="center_horizontal" android:layout_gravity="bottom" android:id="@id/name" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginBottom="5.0dip" android:singleLine="true" android:includeFontPadding="false" android:marqueeRepeatLimit="marquee_forever" android:layout_marginStart="5.0dip" android:layout_marginEnd="5.0dip" app:a5_="true" app:a5f="parent" app:a5l="parent" app:a65="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/container" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <include android:layout_width="fill_parent" android:layout_height="@dimen/art" android:layout_marginTop="@dimen/aq9" app:a69="parent" layout="@layout/dq9" />
+    <TextView android:textSize="18.0sp" android:textStyle="bold" android:textColor="@color/b12" android:gravity="center" android:id="@id/momentTitle" android:layout_width="fill_parent" android:layout_height="@dimen/art" android:layout_marginTop="@dimen/aq9" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

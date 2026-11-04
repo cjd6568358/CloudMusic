@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:tag="layout/activity_music_podcast_detail_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.NeteaseThemeDraweeView android:id="@id/imageBg" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitXY" />
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@id/pageContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.google.android.material.appbar.AppBarLayout android:id="@id/layoutAppbar" android:background="@null" android:paddingTop="?i" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip">
+            <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/v_header" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a76="scroll|enterAlways">
+                <com.netease.cloudmusic.ui.novavp2.NovaViewPager2 android:id="@id/vp2" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="38.0dip" />
+                <androidx.appcompat.widget.AppCompatTextView android:textSize="13.0sp" android:textColor="@color/b1w" android:ellipsize="end" android:id="@id/voiceDesc" android:layout_width="wrap_content" android:layout_height="40.0dip" android:layout_marginTop="16.0dip" android:lines="2" android:includeFontPadding="false" android:fontFamily="sans-serif-medium" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip" />
+            </LinearLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+        <RelativeLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+            <View android:orientation="horizontal" android:id="@id/ll_top_padding" android:layout_width="fill_parent" android:layout_height="44.0dip" />
+            <LinearLayout android:orientation="vertical" android:id="@id/ll" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/ll_top_padding">
+                <LinearLayout android:gravity="bottom" android:orientation="horizontal" android:id="@id/ll_section" android:paddingBottom="5.0dip" android:layout_width="fill_parent" android:layout_height="80.0dip" android:paddingStart="16.0dip" android:paddingEnd="16.0dip">
+                    <TextView android:textSize="18.0sp" android:textStyle="bold" android:id="@id/related_songs_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/gw4" />
+                    <TextView android:textSize="12.0sp" android:id="@id/tv_songs" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4.0dip" />
+                    <Space android:layout_width="0.0dip" android:layout_height="1.0dip" android:layout_weight="1.0" />
+                    <TextView android:textColor="@color/aiv" android:id="@id/tv_like_all" android:paddingTop="6.0dip" android:paddingBottom="6.0dip" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/gw5" android:paddingStart="12.0dip" android:paddingEnd="12.0dip" app:gl="background8" />
+                </LinearLayout>
+                <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/rv" android:layout_width="fill_parent" android:layout_height="fill_parent" android:overScrollMode="never" />
+            </LinearLayout>
+            <com.netease.cloudmusic.utils.toast.ToastBackgroundLayout android:gravity="center" android:id="@id/tbl" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" app:ao9="#ffffffff" app:ao_="16.0dip" app:aoa="@color/axs" app:aoc="2.0dip" app:aod="30.0dip">
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/ll_control" android:paddingTop="10.0dip" android:paddingBottom="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="16.0dip" android:paddingEnd="16.0dip">
+                    <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_play" android:padding="2.0dip" android:layout_width="28.0dip" android:layout_height="28.0dip" android:src="@drawable/apy" />
+                    <com.netease.cloudmusic.music.biz.voice.widget.PodcastMusicSeekBar android:id="@id/playSeekBar" android:paddingLeft="10.0dip" android:paddingTop="11.0dip" android:paddingRight="10.0dip" android:paddingBottom="11.0dip" android:layout_width="0.0dip" android:layout_height="27.0dip" android:maxHeight="20.0dip" android:progressDrawable="@drawable/apz" android:minHeight="20.0dip" android:layout_weight="1.0" android:layout_marginEnd="7.0dip" />
+                    <FrameLayout android:id="@id/fl_comment" android:layout_width="wrap_content" android:layout_height="24.0dip">
+                        <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_comment" android:layout_width="24.0dip" android:layout_height="24.0dip" android:src="@drawable/apq" android:scaleType="center" android:importantForAccessibility="noHideDescendants" />
+                        <androidx.appcompat.widget.AppCompatTextView android:textSize="9.0sp" android:textColor="@color/aix" android:layout_gravity="end|center|top" android:id="@id/tv_comment" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-3.0dip" android:importantForAccessibility="noHideDescendants" android:layout_marginStart="14.0dip" />
+                    </FrameLayout>
+                    <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_like" android:layout_width="24.0dip" android:layout_height="24.0dip" android:src="@drawable/aps" android:scaleType="center" android:importantForAccessibility="noHideDescendants" android:layout_marginStart="15.0dip" />
+                </LinearLayout>
+            </com.netease.cloudmusic.utils.toast.ToastBackgroundLayout>
+        </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/ll_toolbar" android:layout_width="fill_parent" android:layout_height="?i">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_back" android:padding="8.0dip" android:layout_width="40.0dip" android:layout_height="40.0dip" android:src="@drawable/ej7" android:tint="@android:color/white" android:layout_marginStart="8.0dip" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="18.0sp" android:textStyle="bold" android:textColor="@android:color/white" android:gravity="center" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="@string/gw6" android:layout_weight="1.0" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_share" android:padding="2.0dip" android:layout_width="28.0dip" android:layout_height="28.0dip" android:src="@drawable/ara" android:tint="@android:color/white" android:layout_marginEnd="16.0dip" />
+    </LinearLayout>
+</RelativeLayout>

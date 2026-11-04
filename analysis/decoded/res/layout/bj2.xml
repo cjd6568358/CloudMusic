@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:orientation="vertical" android:id="@id/recentViewContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@id/coordinator" android:background="@color/ay9" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                <com.google.android.material.appbar.AppBarLayout android:id="@id/appbarLayout" android:background="@color/ay9" android:fadingEdge="none" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip">
+                    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/searchContainer" android:layout_width="fill_parent" android:layout_height="36.0dip" android:layout_marginTop="5.0dip" android:layout_marginBottom="5.0dip" android:layout_marginStart="@dimen/iw" android:layout_marginEnd="@dimen/iw" app:a76="scroll|enterAlways|snap">
+                        <ImageView android:id="@id/searchIcon" android:layout_width="20.0dip" android:layout_height="20.0dip" android:layout_marginEnd="3.0dip" />
+                        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:id="@id/searchHintText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/j4x" android:drawablePadding="6.0dip" />
+                    </LinearLayout>
+                    <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout android:id="@id/tabLayoutVideo" android:layout_width="fill_parent" android:layout_height="40.0dip" />
+                </com.google.android.material.appbar.AppBarLayout>
+                <com.netease.cloudmusic.ui.NeteaseMusicViewPager android:id="@id/viewPagerVideo" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="@string/uo" />
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </LinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/videoSearchContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/recyclerview" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a5f="parent" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    </FrameLayout>
+</RelativeLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:tag="layout/podcast_detail_voice_rec_rcmd_simliar_item_v2_0" android:clipChildren="false" android:clipToPadding="false" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginEnd="10.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/cover" android:layout_width="fill_parent" android:layout_height="0.0dip" app:ae="centerCrop" app:a5k="1:1" app:a5l="parent" app:a65="parent" app:a69="parent" app:am0="3.0dip" />
+    <com.netease.cloudmusic.ui.NoFontPaddingTextView android:textSize="13.0sp" android:textColor="@color/b1z" android:ellipsize="end" android:id="@id/radioName" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:maxLines="2" app:a5l="parent" app:a5v="0.0" app:a65="parent" app:a68="@id/cover" />
+    <com.netease.cloudmusic.ui.NoFontPaddingTextView android:textSize="12.0sp" android:textColor="@color/b1n" android:ellipsize="end" android:id="@id/category" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="1.0dip" android:maxLines="1" app:a5l="parent" app:a5v="0.0" app:a65="parent" app:a68="@id/radioName" />
+    <com.netease.cloudmusic.ui.RoundedLinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/btnCollect" android:background="@color/b1d" android:layout_width="fill_parent" android:layout_height="26.0dip" app:jw="13.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a68="@id/category" app:a6_="1.0">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/ivCollect" android:layout_width="14.0dip" android:layout_height="14.0dip" android:scaleType="centerCrop" />
+        <com.netease.cloudmusic.ui.NoFontPaddingTextView android:textSize="11.0dip" android:id="@id/tvCollect" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="2.0dip" />
+    </com.netease.cloudmusic.ui.RoundedLinearLayout>
+    <View android:id="@id/v_shader" android:layout_width="fill_parent" android:layout_height="50.0dip" android:alpha="0.2" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/ll_play_num" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:layout_marginStart="6.0dip" app:a65="@id/cover" app:a69="@id/cover">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/playIconView" android:layout_width="12.0dip" android:layout_height="12.0dip" android:layout_marginTop="0.5dip" android:src="@drawable/aq9" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="@android:color/white" android:id="@id/tv_play_num" android:layout_width="wrap_content" android:layout_height="wrap_content" android:shadowColor="#80000000" android:shadowRadius="1.0" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

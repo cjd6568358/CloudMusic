@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/userAvatarContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a5v="0.0" app:a5w="packed" app:a5z="parent" app:a69="parent">
+        <com.netease.cloudmusic.ui.DecoratedAvatarImage android:id="@id/userAvatar" android:layout_width="48.0dip" android:layout_height="48.0dip" app:cv="style7" app:y5="true" />
+    </FrameLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/userName" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:maxLines="1" android:drawablePadding="4.0dip" app:a5f="parent" app:a5m="@id/discussFollowBtn" app:a64="@id/userAvatarContainer" app:a69="parent" app:a6d="wrap" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeToolbarFollowButton android:id="@id/discussFollowBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_marginRight="8.0dip" app:a5f="parent" app:a5l="parent" app:a64="@id/userName" app:a69="parent" app:ayk="true" />
+</merge>

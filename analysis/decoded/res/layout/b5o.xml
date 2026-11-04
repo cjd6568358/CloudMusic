@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:gravity="center_vertical" android:id="@id/discContainer" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/playDiscBg" android:layout_width="242.0dip" android:layout_height="242.0dip" android:src="@drawable/ga6" android:scaleType="centerCrop" android:layout_centerInParent="true" />
+    <com.netease.cloudmusic.ui.RotationRelativeLayout android:layout_gravity="center_horizontal" android:id="@id/disc" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.ui.AnimableDrawerImageView android:id="@id/smallCover" android:layout_width="@dimen/avy" android:layout_height="@dimen/avy" android:layout_centerInParent="true" fresco:ae="centerCrop" fresco:w3="0" fresco:ahy="@drawable/g9f" fresco:ahz="centerCrop" fresco:aln="true" />
+        <ImageView android:id="@id/smallDisc" android:layout_width="230.0dip" android:layout_height="230.0dip" android:src="@drawable/ga0" android:scaleType="centerCrop" android:layout_centerInParent="true" />
+    </com.netease.cloudmusic.ui.RotationRelativeLayout>
+</RelativeLayout>

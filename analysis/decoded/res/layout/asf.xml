@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/fragment_music_live_tab_home_page_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout android:id="@id/tabLayout" android:tag="binding_1" android:layout_width="fill_parent" android:layout_height="44.0dip" app:j8="0.7" app:nr="click" app:a5z="parent" app:a63="parent" app:a69="parent" app:atn="true" app:avq="false" />
+    <com.netease.live.homepage.lookselect.ui.LiveAudioViewPager android:id="@id/viewPager" android:tag="binding_2" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a68="@id/tabLayout" />
+    <include android:id="@id/noNetwork" layout="@layout/cg0" />
+</androidx.constraintlayout.widget.ConstraintLayout>

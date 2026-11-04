@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.PlayerContainerRelativeLayout android:id="@id/playerAlbumCover" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.GestureImageSwitcher android:id="@id/bigAlbumCover" android:background="#ff262626" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <View android:id="@id/playerMask" android:background="@drawable/csp" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <FrameLayout android:id="@id/playerLowLayerContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.module.playerstyle.PlayerCustomBackgroundView android:id="@id/playerCustomBgView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.module.diy.PlayerBlurBgView android:id="@id/playerBlurBgView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <RelativeLayout android:id="@id/player_container_vinyl" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <include layout="@layout/d7c" />
+    </RelativeLayout>
+    <com.netease.cloudmusic.ui.CircularRevealFrameLayout android:id="@id/playerUIModeContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.module.newplayeruimode.view.PlayerUiModeSurfaceView android:id="@id/newPlayerUIModeContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <View android:id="@id/playerUiModeMaskView" android:background="#0d000000" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/playerUiModeScreenshotView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.ui.CircularRevealFrameLayout android:id="@id/playerUIModeAnimView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <ViewStub android:id="@id/dynamicCoverViewStub" android:layout="@layout/bqg" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <RelativeLayout android:id="@id/player_container0" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.ui.CircularRevealFrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <com.netease.cloudmusic.module.commoncover.CommonCoverViewContainer android:id="@id/commonCoverView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            <FrameLayout android:id="@id/commonCoverViewLyricContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_above="@id/playerControlContainer">
+                <com.netease.cloudmusic.module.lyric.onelinelyric.CommonCoverLyricView android:id="@id/CommonCoverMiniLyric" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="70.0dip" />
+            </FrameLayout>
+        </com.netease.cloudmusic.ui.CircularRevealFrameLayout>
+        <com.netease.cloudmusic.module.lyric.onelinelyric.OneLineLyricView android:id="@id/oneLineLyricDefault" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" />
+        <ViewStub android:id="@id/ugc_video_view_stub" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <com.netease.cloudmusic.ui.hint.aidj.PlayerAIDJSwitchHintContainer android:id="@id/playerAIDJSwitchHintContainer" android:layout_width="48.0dip" android:layout_height="48.0dip" android:layout_marginLeft="0.0dip" android:layout_marginRight="20.0dip" android:layout_marginBottom="34.0dip" android:layout_alignRight="@id/artistImageContainer" android:layout_alignBottom="@id/artistImageContainer" app:aim="btn_userfm_songplay_aidj" app:an1="player" />
+        <com.netease.cloudmusic.ui.hint.aidj.PlayerAIDJSwitchGuideHintContainer android:id="@id/playerAIDJSwitchGuideHintContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_toLeftOf="@id/playerAIDJSwitchHintContainer" android:layout_alignTop="@id/playerAIDJSwitchHintContainer" android:layout_alignBottom="@id/playerAIDJSwitchHintContainer" android:layout_alignParentLeft="true" android:layout_marginEnd="4.0dip" app:aim="btn_userfm_songplay_aidj_guide" app:an1="player" />
+        <com.netease.cloudmusic.ui.PlayerStarAnimImageView android:id="@id/likedImage" android:visibility="gone" android:layout_width="108.0dip" android:layout_height="100.0dip" android:layout_centerHorizontal="true" />
+        <ViewStub android:id="@id/doubleTapGuideView" android:layout="@layout/bqa" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </RelativeLayout>
+    <RelativeLayout android:id="@id/lrc_container" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/lrcViewPicBg" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <View android:id="@id/lrcViewPagerMask" android:background="@color/ao3" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <FrameLayout android:id="@id/lyricAndBeatContainer" android:paddingBottom="@dimen/ajh" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <com.netease.cloudmusic.module.lyric.view.PlayerLyricViewContainer android:id="@id/lrcViewContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            <FrameLayout android:id="@id/beatInfoContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="10.0dip" />
+        </FrameLayout>
+        <LinearLayout android:gravity="center_vertical" android:id="@id/volumeSeekBarContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="48.0dip">
+            <View android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" />
+            <com.netease.cloudmusic.ui.PlayerPageImageView android:id="@id/dlna" android:paddingLeft="15.0dip" android:paddingTop="10.0dip" android:paddingRight="25.0dip" android:paddingBottom="10.0dip" android:visibility="gone" android:layout_width="68.0dip" android:layout_height="48.0dip" android:scaleType="fitXY" />
+        </LinearLayout>
+    </RelativeLayout>
+    <FrameLayout android:id="@id/musFmContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <FrameLayout android:id="@id/musFmModeBackgroundContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </FrameLayout>
+    <RelativeLayout android:id="@id/player_container" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.module.video2.player.NewTextureVideoView android:id="@id/ltArtistChatSkinBg" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <RelativeLayout android:id="@id/ltPlayerUIModeContainer" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        <FrameLayout android:id="@id/playerMiniLyricContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_above="@id/playerControlContainer">
+            <com.netease.cloudmusic.module.lyric.onelinelyric.PlayerMiniLyricView android:id="@id/playerMiniLyric" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="70.0dip" />
+        </FrameLayout>
+        <com.netease.cloudmusic.module.hint.view.CustomHintContainer android:id="@id/playerDSLWithDefaultBackgroundContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <com.netease.cloudmusic.module.hint.view.CustomHintContainer android:id="@id/playerMotivateAdContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/playerControlContainer" android:clickable="true" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_centerInParent="true">
+            <TextView android:textSize="12.0sp" android:textColor="#bfffffff" android:gravity="center" android:id="@id/musicMatchBtn" android:paddingLeft="24.0dip" android:paddingRight="24.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="43.0dip" android:layout_marginBottom="10.0dip" android:text="@string/cei" />
+            <include android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/aw7" layout="@layout/yv" />
+            <include layout="@layout/yu" />
+            <include layout="@layout/d5s" />
+            <include layout="@layout/d5q" />
+            <include layout="@layout/d5o" />
+        </LinearLayout>
+        <FrameLayout android:id="@id/qualityContainer" android:paddingTop="5.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_centerInParent="true">
+            <com.netease.cloudmusic.ui.PlayerPageTextView android:textSize="10.0dip" android:textColor="#ffd9d9d9" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/qualityBtn" android:paddingLeft="20.0dip" android:paddingRight="20.0dip" android:paddingBottom="10.0dip" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:contentDescription="@string/eqk" android:alpha="0.5" android:paddingHorizontal="20.0dip" />
+        </FrameLayout>
+        <com.netease.cloudmusic.ui.hint.aidj.playlist.PlayerPlaylistAIDJSwitchGuideHintContainer android:id="@id/playerPlaylistAIDJSwitchGuideHintContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_alignParentRight="true" android:layout_alignParentBottom="true" android:layout_alignParentEnd="true" app:aim="btn_userfm_songplay_aidj_guide_controlBar" app:an1="player" />
+        <include layout="@layout/dl_" />
+        <ViewStub android:layout_gravity="center_vertical" android:id="@id/playerAmazingEffect" android:layout="@layout/d5y" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <FrameLayout android:id="@id/schoolEggContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <View android:id="@id/mask" android:background="@color/do" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            <com.netease.cloudmusic.alphavideo.AlphaVideoTextureView android:id="@id/schoolEgg" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </FrameLayout>
+        <com.netease.cloudmusic.module.player.vinylfakelayer.FakeLayerContainer android:id="@id/vsPlayerFakeLayer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <ViewStub android:id="@id/playerMusicStoryViewStub" android:layout="@layout/c6k" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </com.netease.cloudmusic.module.player.vinylfakelayer.FakeLayerContainer>
+        <RelativeLayout android:id="@id/ltMultiControlContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" />
+        <RelativeLayout android:id="@id/ltMultiChatContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/z0" android:layout_alignParentBottom="true" />
+        <RelativeLayout android:id="@id/fltContainer" android:visibility="gone" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" />
+        <RelativeLayout android:id="@id/send_wave_container" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <com.netease.cloudmusic.module.listentogether.mic.MicSourceWaveView android:id="@id/mic_source_wave" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/awe" android:layout_alignParentBottom="true" />
+        <com.netease.cloudmusic.ui.PlayerPageSimpleDraweeView android:id="@id/voiceNote" android:visibility="gone" android:layout_width="54.0dip" android:layout_height="32.0dip" android:layout_marginBottom="@dimen/awd" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" app:a40="true" />
+        <RelativeLayout android:id="@id/emojiRainContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <com.netease.cloudmusic.ui.TouchConsumerRelativeLayout android:id="@id/emoji_rain_bg" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            <com.netease.cloudmusic.alphavideo.AlphaVideoTextureView android:id="@id/emojiRain" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </RelativeLayout>
+        <RelativeLayout android:id="@id/ltArtistEggContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <com.netease.cloudmusic.alphavideo.AlphaVideoTextureView android:id="@id/ltArtistEggVideo" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            <androidx.appcompat.widget.AppCompatTextView android:id="@id/ltArtistEggUpper" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" android:translationY="90.0dip" />
+        </RelativeLayout>
+        <RelativeLayout android:id="@id/playerBottomShareBubbleContainer" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_above="@id/playerControlContainer" />
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.module.hint.view.containers.FrameLayoutHintContainer android:id="@id/bottomHintContainer" android:visibility="visible" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="60.0dip" android:layout_alignParentBottom="true" app:aim="player_buttom_song_about_popup" app:an1="player" />
+    </RelativeLayout>
+    <ViewStub android:id="@id/songShareHintLayout" android:layout="@layout/d79" android:layout_width="wrap_content" android:layout_height="34.0dip" android:layout_marginLeft="4.0dip" android:layout_marginTop="-34.0dip" android:layout_alignParentTop="true" android:layout_centerHorizontal="true" />
+    <com.netease.cloudmusic.ui.FocusRelativeLayout android:id="@id/sceneModeContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/aidjModeContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.module.hint.view.PopLayerHintContainer android:id="@id/playerHighLayerContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" app:aim="global_popup" app:an1="player" />
+    <FrameLayout android:id="@id/podcastSceneContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <include android:layout_width="fill_parent" android:layout_height="?i" layout="@layout/cc1" />
+    <ViewStub android:id="@id/aidjCloseBtn" android:layout="@layout/bj9" android:layout_width="@dimen/art" android:layout_height="@dimen/art" android:layout_marginRight="2.0dip" android:layout_alignParentTop="true" android:layout_alignParentRight="true" />
+    <RelativeLayout android:id="@id/playerRightTopBubbleContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/toolbar" />
+    <com.netease.cloudmusic.module.hint.view.containers.DSLDialogHintContainer android:id="@id/dslDialogHintContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" app:aim="player_bottom_layer_bridging" app:an1="player" />
+    <com.netease.cloudmusic.module.hint.view.containers.DSLDialogHintContainer android:id="@id/dslDialogHintContainer1" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" app:aim="SVIP_SONGQUALITY_GUIDE_LAYER" app:an1="player" />
+    <com.netease.cloudmusic.module.hint.view.containers.DSLDialogHintContainer android:id="@id/dslDialogHintContainer2" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" app:aim="SVIP_SONGQUALITY_FREEUSETIMEOUT" app:an1="player" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0dip" android:textColor="@color/do" android:gravity="center" android:id="@id/playerUIModeToast" android:paddingLeft="20.0dip" android:paddingRight="20.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="44.0dip" android:layout_marginTop="44.0dip" android:maxLines="1" android:layout_centerHorizontal="true" />
+</com.netease.cloudmusic.ui.PlayerContainerRelativeLayout>

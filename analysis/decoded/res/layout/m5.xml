@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/ad_multi_image_horizontal_scroll_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.viewpager2.widget.ViewPager2 android:orientation="horizontal" android:id="@id/viewPager" android:layout_width="fill_parent" android:layout_height="fill_parent" android:overScrollMode="never" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/scrollMaskIV" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a5u="0.462" app:a5z="parent" app:a63="parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/scrollTipIV" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:src="@drawable/ds" app:a5g="@id/scrollTipTV" app:a5z="parent" app:a63="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/g3" android:gravity="center" android:layout_gravity="center" android:id="@id/scrollTipTV" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="16.0dip" android:text="@string/jr" android:shadowColor="#b2000000" android:shadowDx="0.0" android:shadowDy="1.0" android:shadowRadius="3.0" app:a5g="@id/vpIndicatorContainer" app:a5z="parent" app:a63="parent" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/vpIndicatorContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="12.0dip" app:a5g="@id/bottomPlaceHolderView" app:a5z="parent" app:a63="parent" />
+    <View android:id="@id/bottomPlaceHolderView" android:layout_width="fill_parent" android:layout_height="1.0dip" app:a5f="parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/adDecayedImageView" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip" android:scaleType="centerCrop" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

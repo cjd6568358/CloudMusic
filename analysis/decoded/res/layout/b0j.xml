@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/content_bg" android:background="@drawable/cmw" android:layout_width="fill_parent" android:layout_height="53.0dip" android:layout_marginLeft="35.0dip" android:layout_marginRight="12.0dip" app:a5f="@id/avatar" app:a69="@id/avatar" />
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar" android:layout_width="70.0dip" android:layout_height="70.0dip" android:layout_marginTop="16.0dip" app:a5z="parent" app:a69="parent" app:ai4="style14" />
+    <ImageView android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginTop="2.0dip" android:src="@drawable/h4x" app:a5z="parent" app:a69="parent" />
+    <TextView android:textSize="16.0sp" android:textColor="@color/b12" android:ellipsize="end" android:id="@id/week_star_king_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:maxLines="1" android:maxEms="8" app:a5g="@id/week_star_king_value" app:a60="@id/avatar" app:a69="@id/content_bg" />
+    <TextView android:textSize="16.0sp" android:textColor="@color/b12" android:ellipsize="end" android:id="@id/week_star_king_empty" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="虚位以待" android:maxLines="1" app:a5f="@id/content_bg" app:a60="@id/avatar" app:a69="@id/content_bg" />
+    <TextView android:textSize="11.0sp" android:textColor="@color/b12" android:id="@id/week_star_king_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" app:a5f="@id/content_bg" app:a60="@id/avatar" app:a68="@id/week_star_king_name" />
+    <ImageView android:id="@id/week_star_king_flag" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/h4z" app:a5f="@id/content_bg" app:a63="@id/content_bg" app:a69="@id/content_bg" />
+</androidx.constraintlayout.widget.ConstraintLayout>

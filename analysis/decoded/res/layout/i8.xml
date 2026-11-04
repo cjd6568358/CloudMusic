@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@color/asg" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_horizontal" android:id="@id/ringtone_hot_container" android:background="@color/asg" android:layout_width="fill_parent" android:layout_height="76.0dip" android:layout_alignParentBottom="true">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/b12" android:id="@id/tv_ringtone_more_hot" android:paddingTop="14.0dip" android:paddingBottom="14.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="9.0dip" android:text="@string/das" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:id="@id/ringtone_btn_container" android:background="@color/ash" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_above="@id/ringtone_hot_container">
+        <com.netease.cloudmusic.theme.ui.CustomBackgroundTextView android:textSize="13.0sp" android:textColor="@color/b12" android:gravity="center_horizontal" android:id="@id/ringtone_listen" android:paddingTop="14.0dip" android:paddingBottom="14.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/dar" android:layout_weight="1.0" app:adm="false" />
+        <com.netease.cloudmusic.theme.ui.CustomBackgroundTextView android:textSize="13.0sp" android:textColor="@color/b12" android:gravity="center_horizontal" android:id="@id/ringtone_setting" android:paddingTop="14.0dip" android:paddingBottom="14.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/hy3" android:layout_weight="1.0" app:adm="false" />
+    </LinearLayout>
+    <FrameLayout android:id="@id/ringtone_fragment_container" android:background="@color/asg" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_above="@id/ringtone_btn_container" />
+</RelativeLayout>

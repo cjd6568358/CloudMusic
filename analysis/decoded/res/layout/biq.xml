@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.music.biz.sidebar.ad.SidebarAdCardBgView android:id="@id/adBgView" android:layout_width="fill_parent" android:layout_height="60.0dip" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="44.0dip" android:layout_marginTop="16.0dip">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/freeImageView" android:layout_width="20.0dip" android:layout_height="20.0dip" android:layout_marginLeft="14.0dip" app:a5f="parent" app:a5w="packed" app:a5z="parent" app:a60="@id/titleTextView" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:id="@id/titleTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" app:qe="colorText2" app:a5f="parent" app:a60="@id/freeImageView" app:a69="parent" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="13.0sp" android:id="@id/countDownTextView" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:drawablePadding="2.0dip" app:qe="colorText2" app:a5f="parent" app:a60="@id/titleTextView" app:a69="parent" />
+        <com.netease.cloudmusic.core.dolphin.component.button.DolphinButton android:ellipsize="end" android:gravity="center" android:id="@id/rightButton" android:visibility="gone" android:layout_width="64.0dip" android:layout_height="wrap_content" android:layout_marginRight="16.0dip" android:singleLine="true" app:py="colorTextOnimage1" app:q0="primary" app:q1="light" app:q2="s" app:q4="surface" app:qe="colorPrimary1" app:qf="true" app:a5f="parent" app:a63="parent" app:a69="parent" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:id="@id/rightTextView" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="12.0dip" android:drawablePadding="2.0dip" app:a5f="parent" app:a63="parent" app:a69="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

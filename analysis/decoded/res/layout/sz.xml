@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:tag="layout/circle_events_item_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:paddingTop="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <ImageView android:id="@id/circleEventIcon" android:layout_width="36.0dip" android:layout_height="36.0dip" android:layout_marginLeft="16.0dip" android:src="@drawable/dgc" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textColor="@color/aiv" android:layout_gravity="center_vertical" android:tag="binding_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="62.0dip" android:layout_marginRight="16.0dip" android:singleLine="true" android:includeFontPadding="false" />
+    </FrameLayout>
+    <HorizontalScrollView android:scrollbars="none" android:layout_width="fill_parent" android:layout_height="69.0dip" android:layout_marginTop="13.0dip" android:layout_marginBottom="20.0dip" android:overScrollMode="never">
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <Space android:layout_width="62.0dip" android:layout_height="69.0dip" />
+            <FrameLayout android:id="@id/firstEventContainer" android:layout_width="138.0dip" android:layout_height="69.0dip">
+                <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/image0" android:tag="binding_2" android:layout_width="fill_parent" android:layout_height="69.0dip" app:ae="centerCrop" app:ag3="@color/dz" app:ahy="@drawable/cx6" app:ahz="fitXY" app:am0="@dimen/u5" />
+                <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:id="@id/firstCardContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="40.0dip">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0dip" android:textColor="@color/aj6" android:ellipsize="end" android:tag="binding_3" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="2" android:includeFontPadding="false" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0dip" android:textColor="@color/aj_" android:ellipsize="end" android:tag="binding_4" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:singleLine="true" android:includeFontPadding="false" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:layout_gravity="center|right" android:tag="binding_5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="17.0dip" app:adi="false" app:aev="@color/a2n" app:aqh="@drawable/cbt" />
+            </FrameLayout>
+            <FrameLayout android:id="@id/secondEventContainer" android:tag="binding_6" android:layout_width="138.0dip" android:layout_height="69.0dip" android:layout_marginLeft="4.0dip">
+                <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/image1" android:tag="binding_7" android:layout_width="fill_parent" android:layout_height="69.0dip" app:ae="centerCrop" app:ag3="@color/dz" app:ahy="@drawable/cx6" app:ahz="fitXY" app:am0="@dimen/u5" />
+                <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0dip" android:textColor="@color/aj6" android:ellipsize="end" android:tag="binding_8" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="2" android:includeFontPadding="false" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0dip" android:textColor="@color/aj_" android:ellipsize="end" android:tag="binding_9" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:singleLine="true" android:includeFontPadding="false" />
+                </LinearLayout>
+            </FrameLayout>
+            <FrameLayout android:id="@id/thirdEventContainer" android:tag="binding_10" android:layout_width="138.0dip" android:layout_height="69.0dip" android:layout_marginLeft="4.0dip">
+                <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/image2" android:tag="binding_11" android:layout_width="fill_parent" android:layout_height="69.0dip" app:ae="centerCrop" app:ag3="@color/dz" app:ahy="@drawable/cx6" app:ahz="fitXY" app:am0="@dimen/u5" />
+                <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0dip" android:textColor="@color/aj6" android:ellipsize="end" android:tag="binding_12" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="2" android:includeFontPadding="false" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0dip" android:textColor="@color/aj_" android:ellipsize="end" android:tag="binding_13" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:singleLine="true" android:includeFontPadding="false" />
+                </LinearLayout>
+            </FrameLayout>
+            <Space android:layout_width="16.0dip" android:layout_height="69.0dip" />
+        </LinearLayout>
+    </HorizontalScrollView>
+</LinearLayout>

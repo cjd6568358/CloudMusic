@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/ll_empty" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.appcompat.widget.AppCompatImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="90.0dip" android:src="@drawable/h49" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:textColor="@color/ho" android:id="@id/text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="当前手表暂无音频" />
+    <androidx.appcompat.widget.AppCompatButton android:textSize="16.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@id/btn_add_video" android:background="@drawable/cm0" android:layout_width="124.0dip" android:layout_height="40.0dip" android:layout_marginTop="20.0dip" android:text="添加音频" android:stateListAnimator="@null" />
+</LinearLayout>

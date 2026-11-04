@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/rootView" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.discovery.view.module.secondfloor.view.SecondFloorDragListView android:id="@id/secondFloorDragListView" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/loadingView" android:background="@drawable/a4p" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.ui.ListLoadingProgressBar android:id="@id/loading_view_pb" android:layout_width="18.0dip" android:layout_height="18.0dip" android:layout_marginBottom="12.0dip" />
+        <androidx.appcompat.widget.AppCompatTextView android:textColor="#ff999999" android:id="@id/loading_view_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/dih" />
+    </LinearLayout>
+</FrameLayout>

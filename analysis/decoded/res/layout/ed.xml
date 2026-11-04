@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/mainContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/blurBackground" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" app:ag3="@color/a6j" app:ahy="@drawable/cwr" app:ahz="centerCrop" />
+    <FrameLayout android:id="@id/finishPageContainer" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ImageView android:layout_gravity="end|center|top" android:id="@id/closeButton" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginTop="6.0dip" android:layout_marginRight="3.0dip" android:scaleType="center" />
+    </FrameLayout>
+</FrameLayout>

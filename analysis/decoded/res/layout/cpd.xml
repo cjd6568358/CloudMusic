@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/rootContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseSwipeRefreshLayout android:id="@id/swipeToRefresh" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a5z="parent" app:a69="parent">
+        <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/rvMv" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a5z="parent" app:a69="parent" />
+    </com.netease.cloudmusic.ui.NeteaseSwipeRefreshLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

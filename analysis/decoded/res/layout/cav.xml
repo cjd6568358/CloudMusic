@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_left_wheatear" android:layout_width="14.0dip" android:layout_height="28.0dip" />
+    <com.netease.cloudmusic.ui.GradientTextView android:textSize="32.0sp" android:id="@id/tv_score" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="2.0dip" android:layout_marginTop="1.0dip" app:xs="@font/a" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_song_dont_score" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="2.0dip" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_right_wheatear" android:layout_width="14.0dip" android:layout_height="28.0dip" android:layout_marginLeft="2.0dip" />
+</LinearLayout>

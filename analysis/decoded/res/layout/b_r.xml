@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:playlist="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/albumImage" android:layout_width="@dimen/a6x" android:layout_height="@dimen/a6x" playlist:ae="centerCrop" playlist:ahy="@drawable/cx5" playlist:ahz="fitXY" playlist:am0="8.0dip" playlist:am1="@color/dv" />
+    <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="right" android:id="@id/removeBtn" android:layout_width="24.0dip" android:layout_height="24.0dip" android:src="@drawable/br2" />
+</FrameLayout>

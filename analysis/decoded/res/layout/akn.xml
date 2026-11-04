@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/bannerShadowContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:layout_gravity="center" android:orientation="vertical" android:id="@id/bannerItemContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" app:e6="noline" app:jw="18.0dip">
+            <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <com.netease.cloudmusic.ui.PlaylistCategoryDraweeView android:id="@id/playListBannerItemCover" android:layout_width="fill_parent" android:layout_height="wrap_content" app:ae="centerCrop" app:jw="-1.0dip" app:ahy="@drawable/g9c" app:ahz="centerCrop" app:aj2="@color/awz" />
+                <com.netease.cloudmusic.ui.PlaylistPlayIcon android:layout_gravity="bottom|center|right" android:id="@id/playListBannerItemPlayIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a1l="style4" />
+            </FrameLayout>
+            <com.netease.cloudmusic.ui.PlaylistBannerTextView android:textColor="@color/aok" android:ellipsize="end" android:gravity="center_vertical" android:layout_gravity="bottom|center" android:id="@id/playListBannerItemTitle" android:background="@color/ait" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="2" android:lines="2" android:lineSpacingMultiplier="1.1" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    </FrameLayout>
+</FrameLayout>

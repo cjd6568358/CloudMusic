@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:layout_gravity="center" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="207.0dip" android:layout_marginTop="16.0dip" app:jw="@dimen/ae2" app:y4="true"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="40.0dip" android:layout_marginLeft="12.0dip" android:layout_marginTop="4.0dip" android:text="@string/gdz" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiz" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:text="@string/gdy" android:alpha="0.6" />
+    <com.netease.cloudmusic.ui.FadingEdgeLinear android:gravity="center" android:orientation="horizontal" android:id="@id/guideFirstContainer" android:paddingLeft="@dimen/s1" android:paddingRight="@dimen/s1" android:layout_width="fill_parent" android:layout_height="@dimen/ady" android:layout_marginTop="22.0dip" android:requiresFadingEdge="vertical">
+        <include android:id="@id/tabFirst" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="6.0dip" layout="@layout/cyw" />
+        <include android:id="@id/tabSecond" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="6.0dip" layout="@layout/cyw" />
+        <include android:id="@id/tabThird" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="6.0dip" layout="@layout/cyw" />
+        <include android:id="@id/tabFourth" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="6.0dip" layout="@layout/cyw" />
+        <include android:id="@id/tabFifth" layout="@layout/cyw" />
+    </com.netease.cloudmusic.ui.FadingEdgeLinear>
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/guideSecondContainer" android:paddingLeft="@dimen/s1" android:paddingRight="@dimen/s1" android:layout_width="fill_parent" android:layout_height="@dimen/ady" android:layout_marginTop="@dimen/adz">
+        <include android:id="@id/secondTabFirst" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="6.0dip" android:alpha="0.5" layout="@layout/cyw" />
+        <include android:id="@id/secondTabSecond" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="6.0dip" android:alpha="0.5" layout="@layout/cyw" />
+        <include android:id="@id/secondTabThird" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="6.0dip" android:alpha="0.5" layout="@layout/cyw" />
+        <include android:id="@id/secondTabFourth" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="6.0dip" android:alpha="0.5" layout="@layout/cyw" />
+        <include android:id="@id/secondTabFifth" layout="@layout/cyw" />
+    </LinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="14.0sp" android:gravity="center" android:layout_gravity="bottom|center" android:id="@id/playlistTry" android:layout_width="100.0dip" android:layout_height="30.0dip" android:layout_marginTop="12.0dip" android:text="@string/ge0" app:gl="useTheme" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

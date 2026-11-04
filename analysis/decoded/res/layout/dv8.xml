@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/vc_operation_note_template_fragment_0" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="@dimen/afe" android:layout_marginTop="20.0dip" android:layout_marginBottom="20.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:id="@id/material_header" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a69="parent" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/group_recycler_view" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a63="parent" app:a65="parent" app:a68="@id/material_header" />
+    <View android:id="@id/material_split" android:background="@color/b1p" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="0.5dip" app:a68="@id/material_header" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/material_recycler_view" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a68="@id/material_split" />
+    <ViewStub android:id="@id/empty_stub" android:layout="@layout/d15" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent" app:a69="parent" />
+    <ViewStub android:id="@id/failure_stub" android:layout="@layout/d22" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <ViewStub android:id="@id/loading_stub" android:layout="@layout/d22" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/videoContainer" android:layout_width="wrap_content" android:layout_height="150.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/videoImage" android:layout_width="wrap_content" android:layout_height="wrap_content" fresco:ae="centerCrop" fresco:ahy="@drawable/cx7" fresco:ahz="fitXY" fresco:aj2="@color/an4" />
+    <ImageView android:background="@drawable/d2x" android:layout_width="fill_parent" android:layout_height="27.0dip" android:layout_alignParentBottom="true" />
+    <ImageView android:id="@id/playImage" android:layout_width="12.0dip" android:layout_height="10.0dip" android:layout_marginLeft="6.0dip" android:layout_marginBottom="6.0dip" android:layout_alignParentLeft="true" android:layout_alignParentBottom="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aj6" android:gravity="center" android:id="@id/videoTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="6.0dip" android:layout_marginBottom="3.0dip" android:layout_alignParentRight="true" android:layout_alignParentBottom="true" />
+    <View android:id="@id/mask" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <include layout="@layout/cow" />
+</RelativeLayout>

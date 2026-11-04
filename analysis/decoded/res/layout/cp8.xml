@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/mlog_comp_legacy_0" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconWithBackgroundImageView android:id="@id/mvPraiseBtn" android:visibility="gone" app:a5f="parent" app:a65="parent" app:a69="parent" app:ads="true" app:aev="@color/aj5" style="@style/a78" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconWithBackgroundImageView android:id="@id/mvSubscribeBtn" android:visibility="gone" app:a5f="parent" app:a64="@id/mvPraiseBtn" app:a69="parent" app:ads="true" app:aev="@color/aj5" style="@style/a78" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconWithBackgroundImageView android:id="@id/mvShareBtn" android:visibility="gone" app:a5f="parent" app:a64="@id/mvSubscribeBtn" app:a69="parent" app:ads="true" app:aev="@color/aj5" app:aqh="@drawable/cf2" style="@style/a78" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconWithBackgroundImageView android:id="@id/overflowMenuBtn" android:visibility="gone" android:src="@drawable/cn" app:a5f="parent" app:a64="@id/mvShareBtn" app:a69="parent" app:ads="true" app:aev="@color/aj5" style="@style/a78" />
+</androidx.constraintlayout.widget.ConstraintLayout>

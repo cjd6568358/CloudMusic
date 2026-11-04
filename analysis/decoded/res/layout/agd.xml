@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tr="false" app:ty="false" app:uf="" />
+    <TextView android:textSize="16.0dip" android:textColor="@color/wk" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/tv_service_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="45.0dip" android:layout_marginTop="30.0dip" android:layout_marginRight="45.0dip" android:layout_marginBottom="-10.0dip" android:textAlignment="center" />
+    <include layout="@layout/aiz" />
+    <View android:layout_marginLeft="15.0dip" android:layout_marginTop="10.0dip" android:layout_marginRight="15.0dip" style="@style/a57" />
+    <com.netease.epay.sdk.base.view.CommonItemLayout android:id="@id/item_platform_account" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tz="开通账号" />
+    <View android:layout_marginLeft="15.0dip" android:layout_marginRight="15.0dip" style="@style/a57" />
+    <com.netease.epay.sdk.base.view.CommonItemLayout android:id="@id/item_service_desc" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tz="服务内容" app:u0="true" app:u5="true" />
+    <View android:layout_marginLeft="15.0dip" android:layout_marginRight="15.0dip" style="@style/a57" />
+    <com.netease.epay.sdk.base.view.CommonItemLayout android:id="@id/item_account" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tz="网易支付账号" />
+    <View android:layout_marginLeft="15.0dip" android:layout_marginRight="15.0dip" style="@style/a57" />
+    <com.netease.epay.sdk.base.view.CommonItemLayout android:id="@id/item_pay_sequence" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tz="扣款方式" app:u3="true" app:u4="按设置的扣款顺序支付" />
+    <View android:layout_marginLeft="15.0dip" android:layout_marginRight="15.0dip" style="@style/a57" />
+    <TextView android:textSize="12.0dip" android:textColor="@color/wk" android:layout_gravity="center_horizontal" android:id="@id/tv_protocol" android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" />
+    <com.netease.epay.sdk.base.view.LongCommonButton android:id="@id/btn_open" android:layout_height="45.0dip" android:layout_marginTop="30.0dip" android:text="@string/bv5" style="@style/a4y" />
+</LinearLayout>

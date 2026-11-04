@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.MLogThemeFrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseSwipeToRefresh android:id="@id/refreshLayout" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.module.social.square.view.SquareMlogRecyclerView android:id="@id/recyclerViewForMLog" android:layout_width="fill_parent" android:layout_height="fill_parent" android:overScrollMode="never" app:a52="CustomLayoutManager" />
+    </com.netease.cloudmusic.ui.NeteaseSwipeToRefresh>
+    <com.netease.cloudmusic.theme.ui.CustomTimelineToastTextView android:textSize="13.0sp" android:textColor="@color/aj6" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/timelineToast" android:paddingLeft="18.0dip" android:paddingRight="18.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="@dimen/r8" android:layout_marginTop="@dimen/r9" android:layout_below="@id/tabLayout" />
+    <LinearLayout android:gravity="center_vertical" android:layout_gravity="center_horizontal" android:id="@id/mlog_empty" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiz" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="50.0dip" android:text="@string/ebg" />
+    </LinearLayout>
+</com.netease.cloudmusic.theme.ui.MLogThemeFrameLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_party_pk_result_0" android:layout_width="290.0dip" android:layout_height="83.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/background" android:tag="binding_1" android:layout_width="283.0dip" android:layout_height="73.0dip" android:layout_marginStart="3.5dip" app:ae="fitCenter" app:a5f="parent" app:a65="parent" app:a69="parent" />
+    <ImageView android:id="@id/crown" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/f_d" android:layout_marginStart="3.0dip" app:a65="parent" app:a69="parent" />
+    <com.netease.play.ui.avatar2.AvatarImage2 android:id="@id/avatar" android:tag="binding_3" android:layout_width="52.0dip" android:layout_height="52.0dip" android:layout_marginStart="23.0dip" app:a5f="parent" app:a65="parent" app:a69="parent" />
+    <TextView android:textSize="18.0sp" android:textColor="@color/b1e" android:id="@id/nickname" android:tag="binding_4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="120.0dip" android:singleLine="true" android:includeFontPadding="false" android:layout_marginStart="10.0dip" app:a5g="@id/info" app:a64="@id/avatar" app:a69="parent" app:a6a="packed" />
+    <ImageView android:id="@id/info" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" app:a5f="parent" app:a65="@id/nickname" app:a68="@id/nickname" />
+</androidx.constraintlayout.widget.ConstraintLayout>

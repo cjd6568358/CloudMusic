@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/liveCover" android:layout_width="wrap_content" android:layout_height="wrap_content" fresco:ae="centerCrop" fresco:ag3="@drawable/dj9" fresco:ahy="@drawable/placeholder_disk_180" fresco:ahz="centerCrop" fresco:aj2="@color/awz" fresco:am0="@dimen/u5" />
+        <TextView android:textSize="9.0sp" android:textColor="@color/ax0" android:ellipsize="end" android:gravity="center" android:id="@id/tag" android:background="@drawable/b3h" android:paddingLeft="3.0dip" android:paddingTop="1.0dip" android:paddingRight="3.0dip" android:paddingBottom="1.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/di0" android:maxLines="1" android:maxLength="16" android:drawablePadding="1.0dip" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="top" android:id="@id/liveTag" android:visibility="gone" android:layout_width="60.0dip" android:layout_height="20.0dip" />
+    </FrameLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:layout_marginRight="6.0dip" android:maxLines="2" android:lineSpacingExtra="3.0sp" />
+</LinearLayout>

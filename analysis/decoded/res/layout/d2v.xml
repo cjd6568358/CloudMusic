@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:background="@android:color/transparent" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.DialogRoundedLinearLayout android:orientation="vertical" android:id="@id/offshelvesDialogContainer" android:background="@drawable/bul" android:paddingBottom="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" fresco:jw="@dimen/s4">
+        <ImageView android:id="@id/offshelvesDialogBanner" android:layout_width="fill_parent" android:layout_height="wrap_content" android:src="@drawable/g2n" android:scaleType="centerCrop" android:adjustViewBounds="true" />
+        <TextView android:textSize="15.0sp" android:textColor="@color/aix" android:ellipsize="end" android:id="@id/offshelvesTitle" android:paddingLeft="20.0dip" android:paddingRight="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="27.0dip" android:layout_marginBottom="23.0dip" android:text="@string/hlh" android:maxLines="2" android:lineSpacingExtra="2.0dip" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/offshelvesRcmdTitleContainer" android:paddingLeft="20.0dip" android:paddingRight="20.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <View android:background="@color/lineColor" android:layout_width="wrap_content" android:layout_height="1.0px" android:layout_weight="1.0" />
+            <TextView android:textSize="12.0sp" android:textColor="@color/aiz" android:id="@id/offshelvesRcmdTitle" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/hcc" />
+            <View android:background="@color/lineColor" android:layout_width="wrap_content" android:layout_height="1.0px" android:layout_weight="1.0" />
+        </LinearLayout>
+        <FrameLayout android:id="@id/rcmdContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="9.0dip" android:layout_marginRight="20.0dip">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="18.0sp" android:gravity="center" android:layout_gravity="center" android:id="@id/resIknow" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="39.0dip" android:text="@string/cra" fresco:gl="useTheme" />
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/resContainer" android:padding="6.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <com.netease.cloudmusic.ui.TrackResImageView android:id="@id/resImg" android:layout_width="@dimen/at1" android:layout_height="@dimen/at0" android:layout_centerVertical="true" fresco:ae="centerCrop" fresco:ahy="@drawable/g97" fresco:ahz="fitXY" fresco:am0="@dimen/u2" />
+                <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" android:layout_centerVertical="true">
+                    <TextView android:textSize="14.0sp" android:textColor="@color/aiv" android:id="@id/resName" android:layout_marginBottom="1.0dip" android:layout_centerVertical="true" style="@style/a_y" />
+                    <TextView android:textSize="11.0sp" android:textColor="@color/aiy" android:id="@id/resCreator" android:layout_centerVertical="true" android:lineSpacingExtra="2.0dip" style="@style/a_y" />
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </com.netease.cloudmusic.ui.DialogRoundedLinearLayout>
+</ScrollView>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/friend_avatar_detail" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" app:w3="1" app:ahz="centerCrop" app:aln="true" />
+    <ImageView android:id="@id/friend_avatar_mask" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/e31" android:scaleType="fitXY" />
+</FrameLayout>

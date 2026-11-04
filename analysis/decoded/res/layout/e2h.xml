@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/container" android:tag="layout/voice_rec_podcast_fm_item_0" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:layout_marginBottom="14.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="33.0dip" app:a69="parent">
+        <com.netease.cloudmusic.music.biz.voice.home.recommend.viewholder.fm.PodCastFMPointArrayView android:id="@id/leftPoints" android:layout_width="fill_parent" android:layout_height="15.0dip" android:layout_toLeftOf="@id/tvFMTitle" android:layout_centerVertical="true" android:layout_marginStart="21.0dip" android:layout_marginEnd="8.0dip" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0dip" android:textColor="#00ffffff" android:id="@id/tvFMTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/gux" android:layout_centerInParent="true" />
+        <com.netease.cloudmusic.music.biz.voice.home.recommend.viewholder.fm.PodCastFMPointArrayView android:id="@id/rightPoints" android:layout_width="fill_parent" android:layout_height="15.0dip" android:layout_toRightOf="@id/tvFMTitle" android:layout_centerVertical="true" android:layout_marginStart="8.0dip" android:layout_marginEnd="21.0dip" />
+    </RelativeLayout>
+    <com.netease.cloudmusic.ui.novavp2.NovaViewPager2 android:id="@id/voiceViewPager" android:layout_width="fill_parent" android:layout_height="92.0dip" android:layout_marginTop="33.0dip" app:a69="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/fmContainer" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="72.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/voiceViewPager">
+        <com.netease.cloudmusic.ui.novavp2.NovaViewPager2 android:id="@id/sceneViewPager" android:layout_width="fill_parent" android:layout_height="72.0dip" app:a69="parent" />
+        <ImageView android:id="@id/tickPointer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/cpn" android:scaleType="center" app:a5f="parent" app:a5l="parent" app:a65="parent" />
+        <com.netease.cloudmusic.core.dolphin.component.bubble.DolphinBubble android:id="@id/bubble" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="30.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

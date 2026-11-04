@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/dialog_official_micro_manager_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:background="@drawable/b_g" android:layout_width="47.0dip" android:layout_height="5.0dip" android:layout_marginTop="13.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <TextView android:textSize="18.0sp" android:textColor="@color/b12" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="27.0dip" android:text="当前麦位" android:layout_marginStart="16.0dip" app:a65="parent" app:a69="parent" />
+    <TextView android:textSize="18.0sp" android:textColor="@color/b1q" android:id="@id/number" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="@id/title" app:a64="@id/title" app:a69="@id/title" />
+    <TextView android:textSize="13.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/invite" android:tag="binding_1" android:background="@drawable/b1h" android:layout_width="86.0dip" android:layout_height="30.0dip" android:layout_marginTop="25.0dip" android:text="邀请上麦" android:layout_marginEnd="16.0dip" app:a5l="parent" app:a69="parent" />
+    <com.netease.cloudmusic.common.nova.widget.NovaRecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="67.0dip" app:a51="androidx.recyclerview.widget.LinearLayoutManager" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

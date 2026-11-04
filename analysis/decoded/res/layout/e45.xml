@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="#ffeeeeee" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.biz.watch.component.statelayout.StateLayout android:id="@id/state_layout" android:background="@drawable/cm3" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="12.0dip" android:layout_marginBottom="16.0dip" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip">
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <include layout="@layout/e4f" />
+            <androidx.recyclerview.widget.RecyclerView android:scrollbarStyle="outsideOverlay" android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:overScrollMode="never" app:a51="androidx.recyclerview.widget.LinearLayoutManager" />
+        </LinearLayout>
+    </com.netease.cloudmusic.biz.watch.component.statelayout.StateLayout>
+</LinearLayout>

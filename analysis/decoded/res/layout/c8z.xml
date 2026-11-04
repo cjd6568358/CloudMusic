@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/container" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.play.ui.NeteaseMusicSimpleDraweeView android:id="@id/cover" android:layout_width="101.66998dip" android:layout_height="101.66998dip" android:layout_marginLeft="20.0dip" android:layout_marginTop="75.0dip" app:am0="8.0dip" />
+        <TextView android:textSize="16.0sp" android:textStyle="bold" android:textColor="#ff333333" android:ellipsize="end" android:id="@id/mainTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:maxWidth="157.32999dip" android:maxLines="2" android:layout_toRightOf="@id/cover" android:layout_alignTop="@id/cover" />
+        <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="11.0dip" android:layout_above="@id/playtimes" android:layout_alignLeft="@id/mainTitle" app:ai4="style22" />
+        <TextView android:textSize="12.0sp" android:textColor="#ff333333" android:id="@id/nickName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" android:layout_marginTop="2.0dip" android:maxWidth="131.32999dip" android:layout_toRightOf="@id/avatar" android:layout_alignTop="@id/avatar" />
+        <TextView android:textSize="12.0sp" android:textColor="#ff333333" android:id="@id/playtimes" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="2.0dip" android:drawableLeft="@drawable/f6w" android:drawablePadding="4.669983dip" android:layout_alignLeft="@id/mainTitle" android:layout_alignBottom="@id/cover" />
+        <LinearLayout android:orientation="horizontal" android:id="@id/floatLayout" android:background="@drawable/c7d" android:clickable="true" android:layout_width="fill_parent" android:layout_height="72.0dip" android:layout_marginTop="29.329987dip" android:layout_below="@id/cover">
+            <TextView android:textSize="16.0sp" android:textColor="#ff333333" android:layout_gravity="center_vertical" android:id="@id/flowleft" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_weight="1.0" />
+            <com.netease.play.ui.CustomButton android:gravity="center" android:layout_gravity="center_vertical" android:id="@id/flowright" android:paddingLeft="26.0dip" android:paddingTop="9.0dip" android:paddingRight="26.0dip" android:paddingBottom="9.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginRight="20.0dip" android:drawablePadding="5.0dip" app:gg="0x00020304" />
+        </LinearLayout>
+    </RelativeLayout>
+</merge>

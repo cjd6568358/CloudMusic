@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="vertical" android:paddingTop="10.0dip" android:paddingBottom="8.0dip" android:layout_width="99.32999dip" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/head_img" android:layout_width="99.32999dip" android:layout_height="99.32999dip" app:ae="centerCrop" app:ahy="@drawable/g98" app:ahz="fitXY" app:am0="@dimen/s4" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/head_img_tag" android:layout_width="40.0dip" android:layout_height="16.0dip" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="9.0sp" android:textStyle="bold" android:textColor="@android:color/white" android:gravity="center_vertical" android:id="@id/head_tag" android:background="@drawable/pb" android:paddingTop="3.0dip" android:paddingBottom="3.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/dat" android:includeFontPadding="false" android:drawablePadding="3.0dip" android:paddingStart="5.0dip" android:paddingEnd="5.0dip" app:auc="true" />
+    </FrameLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/title_tv" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiz" android:ellipsize="end" android:id="@id/name_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" android:drawablePadding="3.0dip" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

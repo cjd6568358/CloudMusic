@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:id="@id/trackHeaderLinearContainer" android:tag="layout/track_header_component_0" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/trackCreatorAvatarContainer" android:tag="binding_1" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.DecoratedAvatarImage android:layout_gravity="center_vertical" android:id="@id/trackCreatorAvatar" android:tag="binding_2" android:layout_width="48.0dip" android:layout_height="48.0dip" android:layout_marginLeft="8.0dip" android:layout_marginRight="3.0dip" app:cv="style6" app:y5="true" />
+    </FrameLayout>
+    <View android:id="@id/spaceForLiveBury" android:layout_width="1.0dip" android:layout_height="1.0dip" />
+    <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:id="@id/trackHeaderContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1.0">
+        <androidx.constraintlayout.widget.ConstraintLayout android:gravity="center_vertical" android:id="@id/trackActionContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.ui.NickNameWithVipAndOtherTags android:id="@id/trackUserName" android:tag="binding_3" android:drawablePadding="4.0dip" app:a5_="true" app:a5f="parent" app:a5m="@id/fanClubTagView" app:a5v="0.0" app:a5w="packed" app:a65="parent" app:a69="parent" style="@style/a_y" />
+            <ViewStub android:layout_gravity="center_vertical" android:id="@id/fanClubTagView" android:layout="@layout/e01" android:inflatedId="@id/fanClubTagView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" app:a5f="parent" app:a5m="@id/medalTagView" app:a64="@id/trackUserName" app:a69="parent" />
+            <com.netease.cloudmusic.ui.medal.MedalTagView android:layout_gravity="center_vertical" android:id="@id/medalTagView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" app:a5f="parent" app:a5m="@id/trackUserAction" app:a64="@id/fanClubTagView" app:a69="parent" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:id="@id/trackUserAction" android:tag="binding_4" android:layout_marginLeft="3.0dip" android:layout_marginRight="3.0dip" app:qe="colorText3_1" app:a5f="parent" app:a5m="@id/privacySetting" app:a64="@id/medalTagView" app:a69="parent" style="@style/a_y" />
+            <ViewStub android:id="@id/privacySetting" android:layout="@layout/e08" android:inflatedId="@id/privacySetting" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/asm" android:layout_weight="1.0">
+            <ViewStub android:layout_gravity="center_vertical" android:id="@id/adTrackLabelStub" android:layout="@layout/dzz" android:inflatedId="@id/adTrackLabelView" android:layout_width="wrap_content" android:layout_height="14.0dip" android:layout_marginEnd="4.0dip" />
+            <ViewStub android:layout_gravity="center_vertical" android:id="@id/trackTimeInfoStub" android:layout="@layout/e0a" android:inflatedId="@id/trackTimeInfo" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <ViewStub android:id="@id/fansGroupPkEntranceStub" android:layout="@layout/dyk" android:inflatedId="@id/fansGroupPkEntrance" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+    <ViewStub android:layout_gravity="end|center" android:id="@id/trackTopViewStub" android:layout="@layout/dtg" android:inflatedId="@id/trackTopView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-9.5dip" />
+    <ViewStub android:id="@id/readCountStub" android:layout="@layout/e09" android:inflatedId="@id/readCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="10.0dip" />
+    <ViewStub android:id="@id/trackEssenceTagStub" android:layout="@layout/drf" android:inflatedId="@id/trackEssenceTag" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="10.0dip" />
+    <ViewStub android:layout_gravity="center_vertical" android:id="@id/trackFollowBtnStub" android:layout="@layout/e02" android:layout_width="@dimen/ash" android:layout_height="@dimen/asg" />
+    <ViewStub android:layout_gravity="center_vertical" android:id="@id/forceInsertedContentViewStub" android:layout="@layout/dyp" android:layout_width="96.0dip" android:layout_height="34.0dip" android:layout_marginRight="-16.0dip" android:layout_marginStart="8.0dip" />
+</LinearLayout>

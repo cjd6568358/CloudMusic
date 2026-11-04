@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:tag="layout/layout_fragment_container_with_title_0" android:fitsSystemWindows="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/cl_header_container" android:layout_width="fill_parent" android:layout_height="@dimen/art">
+        <ImageView android:id="@id/back" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:src="@drawable/e94" android:scaleType="centerInside" app:a5f="parent" app:a5k="w, 1:1" app:a5z="parent" app:a69="parent" />
+        <TextView android:textSize="16.0sp" android:textColor="@color/b12" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5_="true" app:a5f="parent" app:a5w="packed" app:a5z="parent" app:a62="@id/tag_icon" app:a69="parent" />
+        <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/tag_icon" android:layout_width="14.0dip" android:layout_height="14.0dip" android:layout_marginStart="4.0dip" app:ae="fitXY" app:a5f="parent" app:a60="@id/title" app:a62="@id/live_fire_view" app:a69="parent" />
+        <com.netease.play.fire.LiveFireView android:id="@id/live_fire_view" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a60="@id/tag_icon" app:a62="@id/fl_follow" app:a69="parent" />
+        <FrameLayout android:id="@id/fl_follow" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a60="@id/live_fire_view" app:a63="parent" app:a69="parent">
+            <FrameLayout android:id="@id/partyFollowWrap" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <ImageView android:id="@id/button" android:layout_width="39.0dip" android:layout_height="16.0dip" android:src="@drawable/g4_" android:layout_marginStart="8.0dip" />
+            </FrameLayout>
+            <FrameLayout android:id="@id/liveFollowWrap" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <com.netease.play.livepage.LiveRoomFollowButton android:id="@id/followBtn" android:visibility="gone" android:layout_width="36.0dip" android:layout_height="18.0dip" android:layout_marginLeft="10.0dip" app:xq="10.0sp" app:a5f="parent" app:a64="@id/title" app:a69="parent" app:ayu="18.0dip" app:az0="36.0dip" />
+            </FrameLayout>
+        </FrameLayout>
+        <ImageView android:id="@id/close" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="20.0dip" android:src="@drawable/d_b" android:scaleType="centerInside" app:a5f="parent" app:a5k="w, 1:1" app:a63="parent" app:a69="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <View android:background="@color/b1p" android:layout_width="fill_parent" android:layout_height="1.0px" />
+    <RelativeLayout android:id="@id/followTips" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="40.0dip">
+        <TextView android:textSize="12.0sp" android:textColor="#ffff2c55" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="@string/fmi" android:layout_centerVertical="true" />
+        <TextView android:textColor="#ffff2c55" android:gravity="center" android:id="@id/follow" android:background="@drawable/bkp" android:layout_width="64.0dip" android:layout_height="26.0dip" android:layout_marginRight="10.0dip" android:text="@string/cak" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+    </RelativeLayout>
+    <View android:background="@color/b1p" android:layout_width="fill_parent" android:layout_height="1.0px" />
+    <LinearLayout android:orientation="vertical" android:id="@id/tipsContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <View android:id="@id/fence" android:layout_width="fill_parent" android:layout_height="0.100000024dip" />
+    <FrameLayout android:id="@id/containerId" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</LinearLayout>

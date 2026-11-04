@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="80.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="15.0sp" android:textColor="#ffff2c55" android:ellipsize="end" android:gravity="center" android:id="@id/order" android:layout_width="wrap_content" android:layout_height="wrap_content" android:lines="1" android:includeFontPadding="false" app:a5f="@id/image" app:a5z="parent" app:a62="@id/image" app:a69="@id/image" />
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/image" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_marginLeft="40.0dip" app:y5="true" app:a5f="parent" app:a5z="parent" app:a69="parent" app:ai4="style18" />
+    <RelativeLayout android:gravity="center_vertical" android:id="@id/content" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginLeft="6.0dip" app:a5f="@id/image" app:a60="@id/image" app:a62="@id/gift" app:a63="parent" app:a69="@id/image">
+        <ImageView android:ellipsize="end" android:id="@id/level" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:includeFontPadding="false" />
+        <LinearLayout android:gravity="center_vertical" android:id="@id/live_status" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginRight="15.0dip" android:layout_toRightOf="@id/level" android:layout_alignWithParentIfMissing="true">
+            <ImageView android:id="@id/iv_living_status" android:layout_width="40.0dip" android:layout_height="14.0dip" android:layout_marginRight="4.0dip" />
+            <TextView android:textSize="14.0sp" android:textColor="@android:color/black" android:ellipsize="end" android:id="@id/name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:lines="1" android:singleLine="true" android:includeFontPadding="false" android:drawablePadding="3.0dip" />
+        </LinearLayout>
+        <TextView android:textSize="12.0sp" android:textColor="#ffff2c55" android:ellipsize="end" android:gravity="center|left" android:id="@id/cost" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:minWidth="55.0dip" android:text="0" android:lines="1" android:includeFontPadding="false" android:drawablePadding="3.0dip" android:layout_below="@id/live_status" android:layout_alignLeft="@id/level" />
+    </RelativeLayout>
+    <ImageView android:id="@id/gift" android:background="@drawable/ju" android:padding="3.0dip" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginRight="12.0dip" android:src="@drawable/dry" app:a5f="parent" app:a63="parent" app:a69="parent" />
+    <View android:id="@id/diverTop" android:background="@color/dv" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="1.0px" app:a5z="parent" app:a63="parent" />
+    <View android:id="@id/diverBottom" android:background="@color/dv" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="1.0px" app:a5f="parent" app:a5z="parent" app:a63="parent" />
+    <View android:id="@id/diver" android:background="@color/dv" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="1.0px" android:layout_marginLeft="10.0dip" app:a5f="parent" app:a60="@id/image" app:a63="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

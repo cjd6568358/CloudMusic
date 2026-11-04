@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/rank_bg" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="fitCenter" android:adjustViewBounds="true" android:maxHeight="400.0dip" />
+    <ImageView android:layout_gravity="bottom|center|left" android:id="@id/rank_bottom_bg" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="38.0dip" android:scaleType="fitCenter" android:adjustViewBounds="true" android:maxHeight="70.0dip" />
+    <include layout="@layout/a_l" />
+</FrameLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:tag="layout/layout_anchor_hot_topic_0" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="32.0dip" android:layout_marginTop="10.0dip" android:layout_below="@id/taskAllTv" android:paddingStart="9.0dip" android:paddingEnd="9.0dip" android:layout_marginStart="10.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="horizontal" android:id="@id/topicContainer" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent">
+        <ImageView android:layout_gravity="center_vertical" android:id="@id/hotDiscuss" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/cpb" />
+        <com.netease.play.ui.MarqueeText android:gravity="center" android:id="@id/topicName" android:layout_width="wrap_content" android:layout_height="17.0dip" android:layout_marginTop="6.0dip" android:layout_marginStart="6.0dip" />
+        <TextView android:textSize="12.0sp" android:textStyle="bold" android:textColor="@color/b12" android:layout_gravity="center_vertical" android:id="@id/discussTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" />
+        <ImageView android:layout_gravity="center_vertical" android:layout_width="10.0dip" android:layout_height="10.0dip" android:src="@drawable/etb" android:layout_marginStart="6.0dip" />
+    </LinearLayout>
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/noTopic" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/m0" android:drawablePadding="4.0dip" android:drawableStart="@drawable/avx" android:drawableEnd="@drawable/bu9" />
+</FrameLayout>

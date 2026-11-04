@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/fragment_dlna_0" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/titleContainer" android:paddingLeft="20.0dip" android:paddingRight="20.0dip" android:layout_width="fill_parent" android:layout_height="44.0dip" android:layout_marginTop="24.0dip" app:a5z="parent" app:a63="parent" app:a69="parent">
+        <ImageView android:id="@id/imgBack" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/eks" app:a5f="parent" app:a5w="spread_inside" app:a5z="parent" app:a62="@id/txtTitle" app:a69="parent" />
+        <TextView android:textSize="18.0sp" android:textColor="@color/b1e" android:id="@id/txtTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/bjb" app:a5f="parent" app:a60="@id/imgBack" app:a62="@id/imgRefresh" app:a69="parent" />
+        <ImageView android:id="@id/imgRefresh" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/eku" app:a5f="parent" app:a60="@id/txtTitle" app:a63="parent" app:a69="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.core.widget.NestedScrollView android:scrollbars="none" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="68.0dip" app:a5z="parent" app:a63="parent" app:a69="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout android:tag="binding_1" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/deviceContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5z="parent" app:a63="parent" app:a68="@id/titleContainer">
+                <TextView android:textSize="13.0sp" android:textColor="@color/b1q" android:id="@id/txtSearch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="24.0dip" android:text="@string/bja" app:a5z="parent" app:a69="parent" />
+                <ProgressBar android:id="@id/pbSearch" android:layout_width="16.0dip" android:layout_height="16.0dip" android:layout_marginStart="3.0dip" android:indeterminateTint="@color/b1q" app:a5f="@id/txtSearch" app:a60="@id/txtSearch" app:a69="@id/txtSearch" />
+                <com.netease.play.ui.LiveRecyclerView android:id="@id/recyclerDevice" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/txtSearch" />
+                <androidx.constraintlayout.widget.Group android:id="@id/groupDevice" android:layout_width="wrap_content" android:layout_height="wrap_content" app:l1="txtSearch,pbSearch" />
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/emptyContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5z="parent" app:a63="parent" app:a68="@id/txtSearch">
+                    <TextView android:textSize="15.0sp" android:textColor="@color/b1e" android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="25.0dip" android:text="@string/bj8" />
+                    <TextView android:textSize="12.0sp" android:textColor="@color/b1q" android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:layout_marginBottom="50.0dip" android:text="@string/bjc" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <View android:id="@id/line" android:background="@color/dv" android:layout_width="fill_parent" android:layout_height="8.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/deviceContainer" />
+            <include android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5z="parent" app:a63="parent" app:a68="@id/line" layout="@layout/bpv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

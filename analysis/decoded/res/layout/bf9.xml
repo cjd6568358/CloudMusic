@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:padding="5.0dip" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="@dimen/amw"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@id/container" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <TextView android:textSize="15.0sp" android:textColor="@color/aj6" android:gravity="center" android:id="@id/gold" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        <TextView android:textSize="13.0sp" android:textColor="@color/ani" android:gravity="center" android:id="@id/money" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" />
+    </LinearLayout>
+    <ImageView android:layout_gravity="center|right|top" android:id="@id/tag" android:layout_width="49.0dip" android:layout_height="49.0dip" android:layout_marginTop="-2.0dip" android:layout_marginRight="-2.0dip" android:scaleType="fitXY" />
+</FrameLayout>

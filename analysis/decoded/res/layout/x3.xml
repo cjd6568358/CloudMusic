@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/user_container" android:tag="layout/comment_user_component_0" android:layout_width="fill_parent" android:layout_height="56.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.VipDecoratedAvatarView android:id="@id/userAvatar" android:tag="binding_1" android:layout_width="wrap_content" android:layout_height="wrap_content" app:cv="style6" app:y5="true" app:a5f="parent" app:a65="parent" app:a69="parent" />
+    <androidx.constraintlayout.widget.Guideline android:orientation="vertical" android:id="@id/guideline" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5n="54.0dip" />
+    <com.netease.cloudmusic.ui.NickNameWithVipAndOtherTags android:textSize="13.0sp" android:ellipsize="end" android:id="@id/userName" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" android:drawablePadding="3.0dip" app:a5_="true" app:a5g="@id/sub_title" app:a5m="@id/like_hot_container" app:a5v="0.0" app:a64="@id/guideline" app:a69="parent" app:a6a="packed" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="9.0sp" android:textColor="@color/aiz" android:id="@id/sub_title" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:includeFontPadding="false" app:a5f="parent" app:a64="@id/guideline" app:a68="@id/userName" app:aeq="#4dffffff" />
+    <ViewStub android:id="@id/authDescViewStub" android:layout="@layout/uw" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" app:a5f="@id/sub_title" app:a5l="parent" app:a5v="0.0" app:a64="@id/sub_title" app:a69="@id/sub_title" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/like_hot_container" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5l="parent" app:a69="parent">
+        <com.netease.cloudmusic.ui.CommentLikeButton android:id="@id/trackLikeBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="17.0dip" app:a5l="parent" app:a69="parent" app:aeq="#4dffffff" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

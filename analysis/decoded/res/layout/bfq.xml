@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.ui.LookThemeLinearLayout android:layout_width="fill_parent" android:layout_height="80.0dip" app:e4="114.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="12.0sp" android:textColor="@color/a6g" android:gravity="center" android:layout_gravity="center_vertical" android:id="@id/rank" android:layout_width="wrap_content" android:layout_height="30.0dip" android:layout_marginLeft="9.0dip" android:minWidth="30.0dip" />
+    <com.netease.play.ui.avatar.AvatarImage android:layout_gravity="center_vertical" android:id="@id/image" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="9.0dip" app:ai4="style4" />
+    <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_weight="1.0">
+        <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <TextView android:textSize="15.0sp" android:textColor="@color/a6g" android:ellipsize="end" android:id="@id/name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:drawablePadding="3.0dip" android:layout_toLeftOf="@id/liveStatus" />
+            <ImageView android:layout_gravity="center|right" android:id="@id/liveStatus" android:layout_width="wrap_content" android:layout_height="wrap_content" android:scaleType="center" />
+        </FrameLayout>
+        <TextView android:textSize="11.0sp" android:textColor="@color/a6l" android:id="@id/reward" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:layout_marginBottom="3.0dip" android:drawablePadding="3.0dip" />
+        <com.netease.play.ui.ReverseLinearLayout android:id="@id/protectContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <TextView android:textSize="11.0sp" android:textColor="@color/a6j" android:layout_gravity="center_vertical" android:id="@id/protectNum" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" />
+        </com.netease.play.ui.ReverseLinearLayout>
+    </LinearLayout>
+    <com.netease.play.ui.CustomLoadingButton android:textSize="11.0sp" android:gravity="center" android:layout_gravity="center_vertical" android:id="@id/followBtn" android:layout_width="wrap_content" android:layout_height="24.0dip" android:layout_marginLeft="13.5dip" android:layout_marginRight="10.0dip" android:minWidth="61.0dip" android:drawablePadding="3.0dip" app:gg="0x00060304" />
+</com.netease.play.ui.LookThemeLinearLayout>

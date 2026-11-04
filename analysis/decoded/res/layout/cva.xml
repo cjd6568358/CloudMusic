@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/music_library_fragment_home_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@id/swipe_refresh_layout" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.common.nova.widget.NovaRecyclerView android:id="@id/recycler_view" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <FrameLayout android:id="@id/content" android:background="#ff222222" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent" />
+    <include android:id="@id/error_view" android:visibility="gone" layout="@layout/d1e" />
+</androidx.constraintlayout.widget.ConstraintLayout>

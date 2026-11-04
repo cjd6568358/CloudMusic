@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@color/w5" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tr="false" app:ty="false" />
+    <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:id="@id/tv_forgetpwdhome_top_guide_x" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="15.0dip" android:layout_marginBottom="10.0dip" android:text="验证银行卡信息以找回密码" />
+    <com.netease.epay.sdk.base.view.MaxHeightRelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" app:ug="306.0dip">
+        <ListView android:id="@id/lv_forgetpwdhome_card_list" android:scrollbars="none" android:fadingEdge="none" android:layout_width="fill_parent" android:layout_height="wrap_content" android:listSelector="@android:color/transparent" android:cacheColorHint="@android:color/transparent" android:divider="@null" />
+    </com.netease.epay.sdk.base.view.MaxHeightRelativeLayout>
+    <View android:id="@id/middle_divider" style="@style/a4t" />
+    <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:id="@id/tv_addcard_tips" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="20.0dip" android:layout_marginBottom="10.0dip" android:text="@string/bvg" />
+    <RelativeLayout android:id="@id/rl_addnew_card" android:background="@drawable/a8w" android:layout_width="fill_parent" android:layout_height="51.0dip" android:contentDescription="epaysdk_cell_bg|StateListDrawable">
+        <ImageView android:id="@id/iv_addcard_checked" android:layout_width="21.0dip" android:layout_height="21.0dip" android:layout_marginRight="15.0dip" android:src="@drawable/d0v" android:scaleType="fitXY" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+        <TextView android:textSize="16.0dip" android:textColor="@color/wk" android:gravity="center_vertical" android:layout_width="fill_parent" android:layout_height="@dimen/oh" android:layout_marginLeft="15.0dip" android:layout_marginRight="40.0dip" android:text="@string/buo" android:singleLine="true" android:layout_centerVertical="true" />
+    </RelativeLayout>
+    <View android:layout_marginLeft="15.0dip" style="@style/a4t" />
+    <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="12.0dip" android:text="@string/bvj" android:drawableLeft="@drawable/d15" android:drawablePadding="5.0dip" />
+    <com.netease.epay.sdk.base.view.LongCommonButton android:id="@id/btn_forgetpwdhome_next_c" android:layout_marginTop="30.0dip" android:text="下一步" style="@style/a4y" />
+</LinearLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/background" android:padding="2.0dip" android:layout_width="wrap_content" android:layout_height="36.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/view_select" android:background="@drawable/pj" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/tv_identify" app:a5l="@id/tv_identify" app:a65="@id/tv_identify" app:a69="@id/tv_identify" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0dip" android:id="@id/tv_identify" android:paddingTop="7.0dip" android:paddingBottom="7.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cvi" android:paddingStart="18.0dip" android:paddingEnd="18.0dip" app:a5f="parent" app:a5m="@id/tv_humming" app:a65="parent" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0dip" android:id="@id/tv_humming" android:paddingTop="7.0dip" android:paddingBottom="7.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cvh" android:paddingStart="18.0dip" android:paddingEnd="18.0dip" app:a5f="parent" app:a5l="parent" app:a64="@id/tv_identify" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_gravity="center_vertical" android:tag="layout/beauty_select_item_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/img" android:layout_width="60.0dip" android:layout_height="60.0dip" android:scaleType="center" app:aln="true" />
+    <TextView android:textSize="10.0sp" android:textColor="@color/b1n" android:gravity="center" android:layout_gravity="center" android:id="@id/name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:layout_below="@id/img" android:layout_centerHorizontal="true" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="7.0sp" android:textColor="@color/b12" android:id="@id/cornerMask" android:paddingLeft="3.0dip" android:paddingRight="3.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentRight="true" />
+</RelativeLayout>

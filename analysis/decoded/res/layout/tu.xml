@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.music.biz.usertrack.view.BannerCardView android:id="@id/container" android:layout_width="fill_parent" android:layout_height="fill_parent" app:jw="12.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0sp" android:textColor="@color/aj6" android:ellipsize="end" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginRight="16.0dip" android:maxLines="1" app:a5_="true" app:a5g="@id/subContainer" app:a5v="0.0" app:a5z="parent" app:a63="parent" app:a69="parent" app:a6a="packed" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/subContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="5.0dip" android:layout_marginRight="16.0dip" android:translationX="-4.0dip" app:a5_="true" app:a5f="parent" app:a5v="0.0" app:a5z="parent" app:a63="parent" app:a68="@id/title" app:a6t="0.0dip">
+        <com.netease.cloudmusic.ui.AvatarImage android:id="@id/avatarImage1" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" app:cv="style11" />
+        <com.netease.cloudmusic.ui.AvatarImage android:id="@id/avatarImage2" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.5" android:translationX="-26.0dip" app:cv="style11" />
+        <com.netease.cloudmusic.ui.AvatarImage android:id="@id/avatarImage3" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.2" android:translationX="-52.0dip" app:cv="style11" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/b1t" android:ellipsize="end" android:id="@id/subTitle" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="1.0dip" android:maxLines="1" android:includeFontPadding="false" android:layout_weight="1.0" />
+    </LinearLayout>
+</com.netease.cloudmusic.music.biz.usertrack.view.BannerCardView>

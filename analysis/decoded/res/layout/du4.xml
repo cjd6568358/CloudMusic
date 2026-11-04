@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@id/pageContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/fragmentContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="com.netease.cloudmusic.module.adjustableheader.profile.ProfileAlignHeaderTopBehavior">
+        <FrameLayout android:id="@id/rnContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <ImageView android:id="@id/bgSnapShot" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitStart" />
+    </FrameLayout>
+    <View android:id="@id/newStyleAllMaskArea" android:background="#ff888c96" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/newStyleMaskArea" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="com.netease.cloudmusic.person.behaviors.ArtistHeadAndMaskAreaTopBehavior">
+        <FrameLayout android:id="@id/mask_area" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5g="@id/mask_first" app:a5l="parent" app:a65="parent">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/head_img" android:layout_width="0.0dip" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+            <View android:layout_gravity="bottom" android:id="@id/mask_pic_bottom" android:layout_width="fill_parent" android:layout_height="0.0dip" />
+        </FrameLayout>
+        <View android:id="@id/mask_first" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" />
+        <View android:id="@id/mask_top" android:layout_width="fill_parent" android:layout_height="115.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout android:id="@id/headerBgImageContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a56="com.netease.cloudmusic.module.adjustableheader.HeaderBackgroundBehavior" />
+    <com.netease.cloudmusic.module.videoplaylist.view.TopArcLayout android:id="@id/contentBgView" android:layout_width="fill_parent" android:layout_height="fill_parent" app:as="true" app:p_="16.0dip" app:aa5="32.0dip" />
+    <View android:id="@id/clickMaskView" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="com.netease.cloudmusic.module.adjustableheader.profile.ProfileContentBgBehavior" />
+    <View android:id="@id/viewPagerMaskArea" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a56="com.netease.cloudmusic.person.behaviors.ArtistViewPagerMaskAreaBehavior" />
+    <com.netease.cloudmusic.ui.NeteaseMusicViewPager android:id="@id/commonViewPager" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="com.netease.cloudmusic.module.adjustableheader.profile.ProfileBelowHeaderViewPagerBehavior" />
+    <FrameLayout android:id="@id/allBgView" android:background="@color/e5" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a56="com.netease.cloudmusic.module.adjustableheader.HeaderBackgroundBehavior" />
+    <FrameLayout android:id="@id/bottomBgView" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a56="com.netease.cloudmusic.module.adjustableheader.HeaderBackgroundBehavior" />
+    <FrameLayout android:id="@id/headerContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a56="com.netease.cloudmusic.module.adjustableheader.profile.ProfileHeaderBehavior">
+        <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout2 android:layout_gravity="bottom|center" android:id="@id/tabLayout" android:layout_width="fill_parent" android:layout_height="40.0dip" />
+        <View android:layout_gravity="bottom" android:id="@id/popupWindowAnchor" android:layout_width="fill_parent" android:layout_height="1.0dip" />
+    </FrameLayout>
+    <include layout="@layout/dq9" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

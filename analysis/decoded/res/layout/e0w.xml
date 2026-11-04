@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/playListCoverContainer" android:layout_width="@dimen/ai4" android:layout_height="@dimen/ai5" android:transitionName="@string/gfh"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.playlist.widget.PlaylistCoverHeaderView android:id="@id/videoPlaylistCoverHeader" android:layout_width="104.0dip" android:layout_height="6.0dip" android:layout_centerHorizontal="true" />
+    <com.netease.cloudmusic.ui.PlaylistDraweeView android:id="@id/musicCover" android:layout_width="@dimen/ai2" android:layout_height="@dimen/ai2" android:layout_below="@id/videoPlaylistCoverHeader" fresco:ae="centerCrop" fresco:jw="10.0dip" fresco:w3="618" fresco:ahy="@drawable/g9_" fresco:ahz="centerCrop" fresco:aj2="@color/awz" />
+    <include layout="@layout/c5m" />
+</RelativeLayout>

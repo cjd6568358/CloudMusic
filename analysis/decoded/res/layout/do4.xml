@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:id="@id/action_interest_wrapper" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithAllBackground android:textSize="11.0sp" android:id="@id/action_pin" android:paddingTop="6.0dip" android:paddingBottom="6.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="添加" android:maxLines="1" android:maxLength="4" android:drawableLeft="@drawable/c51" android:drawablePadding="3.0dip" android:paddingStart="10.0dip" android:paddingEnd="10.0dip" app:gl="useTheme" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithAllBackground android:textSize="11.0sp" android:id="@id/action_dislike" android:paddingTop="6.0dip" android:paddingBottom="6.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="不感兴趣" android:maxLines="1" android:maxLength="4" android:drawablePadding="3.0dip" android:paddingStart="10.0dip" android:paddingEnd="10.0dip" android:layout_marginStart="6.0dip" app:gl="background8" />
+</LinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.epay.sdk.base.view.MaxHeightRelativeLayout android:paddingBottom="5.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" app:ug="360.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.FragmentTitleBar android:id="@id/ftb" android:layout_width="@dimen/p2" android:layout_height="@dimen/oi" app:tu="false" app:tv="false" app:v2="@string/bzj" />
+    <LinearLayout android:id="@id/ll_prepay_choose" android:padding="11.0dip" android:layout_width="@dimen/p2" android:layout_height="wrap_content" android:layout_below="@id/ftb">
+        <TextView android:textSize="16.0dip" android:textColor="@color/vm" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" android:text="@string/c0m" />
+        <TextView android:textSize="16.0dip" android:textColor="@android:color/holo_red_light" android:id="@id/tv_prepay_discount" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="2.0dip" android:layout_weight="1.0" />
+        <View android:id="@id/v_prepay_flag" android:layout_width="25.0dip" android:layout_height="25.0dip" />
+    </LinearLayout>
+    <ListView android:id="@id/lv_prepay" android:layout_width="@dimen/p2" android:layout_below="@id/ll_prepay_choose" style="@style/a5e" />
+    <View android:id="@id/v_divier" android:background="@drawable/czo" android:visibility="gone" android:layout_width="@dimen/p2" android:layout_height="5.0dip" android:layout_below="@id/ll_prepay_choose" />
+</com.netease.epay.sdk.base.view.MaxHeightRelativeLayout>

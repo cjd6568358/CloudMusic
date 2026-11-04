@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditText android:id="@id/et_old_router" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <Button android:id="@id/bt_old_router" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="启动老路由" />
+    <EditText android:id="@id/et_new_router" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <Switch android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="是否启用循环引用" />
+    <Button android:id="@id/bt_new_router" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="启动新路由" />
+    <Button android:id="@id/bt_audition" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="启动刷新试听" />
+    <Button android:id="@id/bt_freeflow_active" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="启动免流激活弹窗" />
+</LinearLayout>

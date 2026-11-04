@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.TrackDetailRelativeLayout android:id="@id/activityContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.TrackDetailContainerView android:id="@id/track_detail_container" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.ui.TrackListContainerView android:id="@id/commonViewPager" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <com.netease.cloudmusic.ui.TrackHeaderContainerView android:orientation="vertical" android:id="@id/headerContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.ui.TrackColorTabLayout android:layout_gravity="bottom" android:id="@id/tabLayout" android:layout_width="fill_parent" android:layout_height="@dimen/lc" />
+        </com.netease.cloudmusic.ui.TrackHeaderContainerView>
+    </com.netease.cloudmusic.ui.TrackDetailContainerView>
+    <LinearLayout android:id="@id/input" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</com.netease.cloudmusic.ui.TrackDetailRelativeLayout>

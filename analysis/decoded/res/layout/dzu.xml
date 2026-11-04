@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.core.dolphin.component.bubble.BubbleShadowLayout android:orientation="horizontal" android:id="@id/guideContainer" android:tag="layout/layout_dolphin_bubble_0" android:layout_width="fill_parent" android:layout_height="wrap_content" app:bw="6.0dip" app:c0="10.0dip" app:amd="13.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/guideIconView" android:layout_width="40.0dip" android:layout_height="40.0dip" app:ae="centerCrop" app:ahy="@drawable/cx6" app:ahz="fitXY" app:am0="3.0dip" />
+    <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/guideTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="202.0dip" android:singleLine="true" android:includeFontPadding="false" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiy" android:ellipsize="end" android:id="@id/guideSubTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" android:maxWidth="202.0dip" android:singleLine="true" android:includeFontPadding="false" />
+    </LinearLayout>
+</com.netease.cloudmusic.core.dolphin.component.bubble.BubbleShadowLayout>

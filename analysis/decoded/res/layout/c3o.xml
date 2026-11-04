@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:layout_gravity="center_horizontal" android:id="@id/image" android:layout_width="100.0dip" android:layout_height="100.0dip" android:layout_marginTop="95.0dip" android:src="@drawable/dma" android:scaleType="fitXY" />
+    <TextView android:textSize="15.0sp" android:textColor="@color/b1e" android:layout_gravity="center_horizontal" android:id="@id/emptyText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/fjw" />
+    <com.netease.play.ui.CustomButton android:textSize="16.0sp" android:gravity="center" android:id="@id/emptyButton" android:layout_width="fill_parent" android:layout_height="40.0dip" android:layout_marginLeft="60.0dip" android:layout_marginTop="20.0dip" android:layout_marginRight="60.0dip" android:text="@string/fjy" app:gg="0x00020304" />
+</LinearLayout>

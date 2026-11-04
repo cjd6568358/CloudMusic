@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:id="@id/chatRoomInnerContainer" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.LiveRecyclerView android:id="@id/chatRecyclerView" android:layout_width="@dimen/hq" android:layout_height="@dimen/hr" android:layout_marginBottom="@dimen/hp" android:layout_below="@id/honorEnterContainer" android:overScrollMode="never" android:requiresFadingEdge="vertical" />
+    <RelativeLayout android:id="@id/try_see_notice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@id/chatRecyclerView" android:layout_marginStart="10.0dip" />
+    <TextView android:textSize="10.0sp" android:textColor="@color/anz" android:gravity="center" android:id="@id/newMessageHint" android:background="@drawable/xb" android:visibility="gone" android:layout_width="80.0dip" android:layout_height="18.0dip" android:layout_marginLeft="10.0dip" android:text="@string/clm" android:layout_alignLeft="@id/chatRecyclerView" android:layout_alignBottom="@id/chatRecyclerView" android:alpha="0.0" />
+    <View android:id="@id/slotMask" android:background="@drawable/a_y" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="150.0dip" android:layout_alignTop="@id/giftSlotsContainer" />
+    <com.netease.play.livepage.gift.ui.DuckLinearLayout android:gravity="bottom" android:orientation="vertical" android:id="@id/giftSlotsContainer" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="@dimen/rk" />
+    <FrameLayout android:id="@id/honorEnterContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/giftSlotsContainer">
+        <FrameLayout android:id="@id/honorContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        <FrameLayout android:id="@id/danmakuContainer" android:layout_width="fill_parent" android:layout_height="@dimen/o7" />
+    </FrameLayout>
+</RelativeLayout>

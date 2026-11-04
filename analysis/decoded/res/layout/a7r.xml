@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiz" android:id="@id/title" android:paddingTop="16.0dip" android:paddingBottom="16.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/arx" android:paddingStart="16.0dip" android:paddingEnd="16.0dip" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeDividerLine android:id="@id/line" android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/title" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/sort_items" android:layout_width="fill_parent" android:layout_height="wrap_content" android:overScrollMode="never" app:a51="androidx.recyclerview.widget.LinearLayoutManager" app:a68="@id/line" />
+</androidx.constraintlayout.widget.ConstraintLayout>

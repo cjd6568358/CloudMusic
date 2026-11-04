@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/item_quick_reply_container" android:tag="layout/layout_social_input_quick_reply_item_0" android:paddingLeft="8.0dip" android:paddingRight="8.0dip" android:layout_width="wrap_content" android:layout_height="26.0dip" android:paddingHorizontal="8.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/item_quick_reply_icon" android:visibility="gone" android:layout_width="20.0dip" android:layout_height="18.0dip" android:paddingEnd="2.0dip" app:a5f="parent" app:a5z="parent" app:a69="parent" />
+    <TextView android:textSize="13.0sp" android:gravity="center" android:id="@id/item_quick_reply_text" android:layout_width="wrap_content" android:layout_height="fill_parent" android:includeFontPadding="false" app:a5f="parent" app:a60="@id/item_quick_reply_icon" app:a63="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

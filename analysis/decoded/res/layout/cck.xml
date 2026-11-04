@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/userExciteContainer" android:tag="layout/layout_user_excite_plugin_0" android:clipChildren="false" android:layout_width="36.0dip" android:layout_height="36.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/user_excite_inner_container" android:tag="binding_1" android:layout_width="36.0dip" android:layout_height="36.0dip">
+        <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:layout_gravity="center" android:id="@id/drawee_icon" android:tag="binding_2" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="5.0dip" android:layout_marginTop="5.0dip" android:layout_marginRight="5.0dip" android:layout_marginBottom="5.0dip" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="7.0dip" android:textStyle="bold" android:textColor="@color/b1e" android:gravity="center" android:layout_gravity="bottom" android:tag="binding_3" android:layout_width="fill_parent" android:layout_height="13.0dip" android:lines="1" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="7.0dip" android:textColor="@color/b1e" android:gravity="center" android:layout_gravity="center|right|top" android:tag="binding_4" android:layout_width="12.0dip" android:layout_height="12.0dip" android:layout_marginTop="-2.0dip" android:layout_marginRight="-2.0dip" />
+        <FrameLayout android:tag="binding_5" android:layout_width="31.0dip" android:layout_height="26.0dip" android:layout_marginLeft="36.0dip" android:layout_marginTop="5.0dip">
+            <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/sign_tip" android:tag="binding_6" android:layout_width="31.0dip" android:layout_height="26.0dip" />
+        </FrameLayout>
+    </FrameLayout>
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/drawee_anim" android:visibility="gone" android:layout_width="71.0dip" android:layout_height="36.0dip" />
+</FrameLayout>

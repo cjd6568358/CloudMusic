@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:gravity="center_vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_gravity="center_vertical" android:layout_width="@dimen/a61" android:layout_height="46.0dip" android:layout_marginLeft="16.0dip">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/cover" android:background="@drawable/b_u" android:layout_width="@dimen/a61" android:layout_height="@dimen/a61" fresco:ae="centerCrop" fresco:jw="6.0dip" fresco:w3="0" fresco:ahz="centerCrop" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/cover_tag" android:layout_width="30.0dip" android:layout_height="30.0dip" fresco:ae="centerCrop" fresco:w3="0" fresco:ahz="centerCrop" />
+    </FrameLayout>
+    <com.netease.cloudmusic.module.minibar.widget.MiniBarTextView android:textSize="12.0sp" android:textColor="@color/aiv" android:ellipsize="marquee" android:gravity="center_vertical" android:layout_gravity="bottom" android:id="@id/tv_music" android:focusable="false" android:focusableInTouchMode="false" android:layout_width="fill_parent" android:layout_height="@dimen/a5p" android:layout_marginLeft="60.0dip" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" android:marqueeRepeatLimit="marquee_forever" />
+</merge>

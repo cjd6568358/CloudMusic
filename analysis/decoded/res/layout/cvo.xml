@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/container" android:tag="layout/music_library_recommend_music_info_layout_0" android:layout_width="fill_parent" android:layout_height="68.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/cover" android:layout_width="48.0dip" android:layout_height="48.0dip" android:layout_marginStart="16.0dip" app:a5f="parent" app:a65="parent" app:a69="parent" app:aln="true" />
+    <View android:id="@id/cover_mask" android:background="@drawable/ben" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/cover" app:a5l="@id/cover" app:a65="@id/cover" app:a69="@id/cover" />
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/play_state" android:layout_width="16.0dip" android:layout_height="16.0dip" app:a5f="@id/cover" app:a5l="@id/cover" app:a65="@id/cover" app:a69="@id/cover" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_marginLeft="10.0dip" app:a5m="@id/use_layout" app:a64="@id/cover">
+        <TextView android:textSize="16.0sp" android:textColor="@color/b12" android:ellipsize="end" android:id="@id/song_name" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:maxLines="1" android:includeFontPadding="false" app:a65="parent" app:a69="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout android:orientation="horizontal" android:id="@id/extra_info_layout" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/song_name">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/tag_layout" android:paddingRight="4.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a65="parent" app:a69="parent" />
+            <TextView android:textSize="12.0sp" android:textColor="@color/b17" android:ellipsize="end" android:id="@id/singer_name" android:layout_width="0.0dip" android:layout_height="wrap_content" android:maxLines="1" android:includeFontPadding="false" app:a5f="parent" app:a64="@id/tag_layout" app:a69="parent" app:a6d="wrap" />
+            <TextView android:textSize="12.0sp" android:textColor="@color/b17" android:id="@id/dot_split" android:paddingLeft="5.0dip" android:paddingRight="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="·" android:includeFontPadding="false" android:paddingHorizontal="5.0dip" app:a5f="parent" app:a64="@id/singer_name" app:a69="parent" />
+            <TextView android:textSize="12.0sp" android:textColor="@color/b17" android:id="@id/duration" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" app:a5f="parent" app:a64="@id/dot_split" app:a69="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout android:id="@id/use_layout" android:layout_width="88.0dip" android:layout_height="fill_parent" app:a5l="parent">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/use" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" android:layout_centerVertical="true">
+            <ImageView android:id="@id/music_library_lyrics" android:visibility="gone" android:layout_width="44.0dip" android:layout_height="wrap_content" android:src="@drawable/bf4" />
+            <ImageView android:id="@id/music_library_cut" android:layout_width="44.0dip" android:layout_height="wrap_content" android:src="@drawable/beo" />
+        </LinearLayout>
+        <ProgressBar android:id="@id/progress_bar" android:visibility="visible" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:layout_marginEnd="16.0dip" />
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

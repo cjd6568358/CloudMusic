@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="bottom|center|right" android:orientation="vertical" android:id="@id/liveRoomGuideContainer" android:tag="layout/layout_live_room_guide_0" android:background="@drawable/b3i" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="100.0dip" android:layout_marginRight="10.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:background="@drawable/dbs" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5z="parent" app:a69="parent" />
+    <TextView android:textSize="40.0sp" android:textStyle="bold" android:textColor="@color/b1e" android:id="@id/tv_countdown" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="9" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <TextView android:textSize="10.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip" android:text="@string/d77" app:a5z="parent" app:a63="parent" app:a68="@id/tv_countdown" />
+</androidx.constraintlayout.widget.ConstraintLayout>

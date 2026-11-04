@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@id/swipeRefresh" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ImageView android:id="@id/barBgImage" android:layout_width="fill_parent" android:layout_height="117.0dip" android:scaleType="fitXY" app:a5z="parent" app:a63="parent" app:a69="parent" />
+        <com.netease.play.ui.ColorTabLayout android:textSize="14.0sp" android:id="@id/tabLayout" android:background="@drawable/bu6" android:layout_width="fill_parent" android:layout_height="33.0dip" android:layout_marginLeft="15.0dip" android:layout_marginRight="15.0dip" android:layout_marginBottom="10.0dip" app:a5f="@id/barBgImage" app:a5z="parent" app:a63="parent" app:asd="@drawable/bu7" app:asm="fill" app:ast="@android:color/transparent" app:asw="0.0dip" app:at7="fixed" app:ath="#ffff2c55" app:atl="@android:color/white" />
+        <com.netease.play.livepage.rank.richstar.RankRichStarBodyViewGroup android:id="@id/bodyContainerLayout" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a68="@id/barBgImage">
+            <com.netease.play.ui.NeteaseMusicViewPager android:id="@id/viewpager" android:background="@android:color/transparent" android:paddingTop="@dimen/al7" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            <include layout="@layout/dgg" />
+        </com.netease.play.livepage.rank.richstar.RankRichStarBodyViewGroup>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

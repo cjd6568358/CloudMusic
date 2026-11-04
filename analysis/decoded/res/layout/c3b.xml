@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge layout_height="38.0dip" layout_width="90.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.helper.widget.Layer android:tag="layout/layout_official_stage_time_0" android:background="@drawable/bja" android:paddingTop="7.0dip" android:paddingBottom="7.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingStart="15.0dip" android:paddingEnd="15.0dip" app:l1="stageTime,timeTitle" />
+    <TextView android:textSize="10.0sp" android:textColor="@color/b1q" android:id="@id/timeTitle" android:tag="layout/layout_official_stage_time_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="13.0dip" android:text="@string/fd7" android:includeFontPadding="false" android:layout_marginEnd="15.0dip" app:a5g="@id/stageTime" app:a63="parent" app:a69="parent" app:a6a="packed" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1e" android:id="@id/stageTime" android:tag="layout/layout_official_stage_time_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:includeFontPadding="false" app:a63="@id/timeTitle" app:a68="@id/timeTitle" />
+</merge>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/root_view" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_cover" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitXY" />
+    <com.netease.cloudmusic.music.biz.recognition.ui.widget.IdentifyToolBar android:id="@id/tool_bar" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a69="parent" />
+    <androidx.core.widget.NestedScrollView android:layout_width="fill_parent" android:layout_height="0.0dip" android:fillViewport="true" app:a5f="parent" app:a68="@id/tool_bar">
+        <LinearLayout android:orientation="vertical" android:id="@id/scroll_content" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <fragment android:name="com.netease.cloudmusic.music.biz.recognition.ui.fragment.IdentifyResultFragmentV2" android:id="@id/identifyResultFragmentV2" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    <LinearLayout android:id="@id/group_feedback" android:background="@drawable/rv" android:paddingTop="6.0dip" android:paddingBottom="6.0dip" android:focusable="true" android:clickable="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="25.0dip" android:paddingStart="12.0dip" android:paddingEnd="12.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent">
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:id="@id/feedback_hint" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cuy" android:alpha="0.5" />
+        <com.netease.cloudmusic.ui.RoundTextView android:textSize="12.0dip" android:gravity="center" android:id="@id/feedback_text_accurate" android:background="#14ffffff" android:layout_width="50.0dip" android:layout_height="24.0dip" android:text="@string/cuw" android:layout_marginStart="28.0dip" app:jw="20.0dip" />
+        <com.netease.cloudmusic.ui.RoundTextView android:textSize="12.0dip" android:gravity="center" android:id="@id/feedback_text_not_accurate" android:background="#14ffffff" android:layout_width="50.0dip" android:layout_height="24.0dip" android:text="@string/cuz" android:layout_marginStart="12.0dip" app:jw="20.0dip" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center_vertical" android:id="@id/group_publish_note" android:background="@drawable/rv" android:paddingTop="6.0dip" android:paddingBottom="6.0dip" android:focusable="true" android:visibility="gone" android:clickable="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="25.0dip" android:paddingStart="12.0dip" android:paddingEnd="12.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent">
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:id="@id/publish_note_hint" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cui" android:alpha="0.5" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0dip" android:textColor="@color/b12" android:gravity="center" android:id="@id/go_to_publish" android:layout_width="wrap_content" android:layout_height="24.0dip" android:text="@string/ctg" android:alpha="0.9" android:layout_marginStart="14.0dip" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_arrow" android:layout_width="14.0dip" android:layout_height="14.0dip" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/group_recommend_guide" android:background="@drawable/rv" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="36.0dip" android:layout_marginBottom="25.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/recommend_guide_group" android:layout_width="293.0dip" android:layout_height="36.0dip">
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:id="@id/recommend_guide_hint" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="@string/cup" android:singleLine="true" android:layout_weight="1.0" android:alpha="0.5" android:layout_marginStart="16.0dip" />
+            <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/recommend_guide_action" android:background="@drawable/pc" android:layout_width="61.0dip" android:layout_height="23.0dip" android:layout_marginEnd="8.0dip">
+                <androidx.appcompat.widget.AppCompatImageView android:id="@id/recommend_guide_praise" android:layout_width="16.0dip" android:layout_height="16.0dip" android:src="@drawable/e1o" android:tint="@color/b12" />
+                <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0dip" android:textColor="@color/b12" android:id="@id/recommend_guide_action_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cuo" android:includeFontPadding="false" android:layout_marginStart="3.0dip" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/recommend_recommended_group" android:visibility="gone" android:layout_width="236.0dip" android:layout_height="36.0dip">
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/recommend_praised_icon" android:layout_width="16.0dip" android:layout_height="16.0dip" android:src="@drawable/e1p" android:layout_marginStart="12.0dip" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:id="@id/recommend_success_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cut" android:singleLine="true" android:alpha="0.5" android:layout_marginStart="4.0dip" />
+            <Space android:layout_width="0.0dip" android:layout_height="1.0dip" android:layout_weight="1.0" />
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/recommend_records_action" android:layout_width="wrap_content" android:layout_height="fill_parent">
+                <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0dip" android:id="@id/recommend_records_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cus" android:includeFontPadding="false" android:alpha="0.9" />
+                <androidx.appcompat.widget.AppCompatImageView android:id="@id/recommend_records_arrow" android:layout_width="14.0dip" android:layout_height="14.0dip" android:layout_marginStart="2.0dip" android:layout_marginEnd="12.0dip" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

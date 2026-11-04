@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:tag="layout/podcast_voice_hint_view_0" android:layout_width="fill_parent" android:layout_height="34.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:gravity="center_vertical" android:layout_gravity="center" android:orientation="horizontal" android:id="@id/v_hint_bg" android:background="@drawable/t9" android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="32.0dip">
+        <LinearLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:orientation="horizontal" android:id="@id/ll_hint" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.music.biz.voice.widget.FadingEdgeLayout android:gravity="center" android:id="@id/fading_edge_layout" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aj6" android:ellipsize="end" android:id="@id/tv_title" android:paddingTop="1.0dip" android:paddingBottom="1.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:includeFontPadding="false" android:drawablePadding="5.0dip" />
+            </com.netease.cloudmusic.music.biz.voice.widget.FadingEdgeLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aj6" android:ellipsize="end" android:gravity="center" android:id="@id/tv_action" android:tag="binding_1" android:paddingTop="1.0dip" android:paddingBottom="1.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:maxLines="1" android:includeFontPadding="false" android:drawablePadding="5.0dip" android:paddingStart="10.0dip" android:layout_marginStart="10.0dip" />
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/minibar_hover" android:paddingLeft="6.0dip" android:paddingRight="10.0dip" android:layout_width="fill_parent" android:layout_height="@dimen/a5p" android:layout_marginRight="8.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.minibar.widget.wrapper.music.ThemeResetTextView android:textSize="11.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/vipText" android:layout_width="wrap_content" android:layout_height="@dimen/a5p" android:maxLines="1" android:singleLine="true" app:a5f="parent" app:a5m="@id/arrow" app:a5w="packed" app:a65="parent" app:a69="parent" />
+    <ImageView android:id="@id/arrow" android:layout_width="10.0dip" android:layout_height="10.0dip" android:src="@drawable/gfo" app:a5f="@id/vipText" app:a5l="parent" app:a5v="0.5" app:a64="@id/vipText" app:a69="@id/vipText" />
+</androidx.constraintlayout.widget.ConstraintLayout>

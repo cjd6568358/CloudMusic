@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/switchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="分轨开关：" android:layout_centerVertical="true" style="@style/a9i" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/sepTrackSwitch" style="@style/a9c" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/volumeContainer" android:layout_marginTop="@dimen/ao6" android:layout_below="@id/switchContainer" style="@style/a9h">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/volumeText" android:text="人声音量：" android:layout_centerVertical="true" style="@style/a9i" />
+        <androidx.appcompat.widget.AppCompatSeekBar android:id="@id/voumeSeekbar" android:layout_width="200.0dip" android:layout_height="wrap_content" android:layout_marginRight="@dimen/s2" android:max="100" android:progress="100" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+</RelativeLayout>

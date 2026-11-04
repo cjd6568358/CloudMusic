@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/container" android:background="@color/b22" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <ImageView android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="74.0dip" android:src="@drawable/d55" />
+    <com.netease.play.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center_horizontal" android:id="@id/cover" android:layout_width="102.0dip" android:layout_height="102.0dip" android:scaleType="centerCrop" fresco:am0="8.0dip" />
+    <TextView android:textSize="16.0sp" android:textStyle="bold" android:textColor="#ff333333" android:layout_gravity="center_horizontal" android:id="@id/name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.699982dip" android:maxWidth="140.0dip" android:maxLines="2" />
+    <View android:background="@color/dv" android:layout_width="fill_parent" android:layout_height="0.30000007dip" android:layout_marginLeft="20.0dip" android:layout_marginTop="30.0dip" android:layout_marginRight="20.0dip" />
+    <TextView android:textSize="13.0sp" android:textColor="#ff333333" android:id="@id/subType" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="30.0dip" />
+    <TextView android:textSize="13.0sp" android:textColor="#ff333333" android:id="@id/publishTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="15.0dip" />
+    <TextView android:textSize="13.0sp" android:textColor="#ff333333" android:id="@id/description" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="15.0dip" android:layout_marginRight="20.0dip" android:layout_marginBottom="20.0dip" />
+</LinearLayout>

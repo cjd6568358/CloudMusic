@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" app:jw="8.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView android:id="@id/soundEffectCard" android:layout_width="fill_parent" android:layout_height="fill_parent" app:gp="8.0dip">
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <FrameLayout android:id="@id/soundEffectCardBg" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/soundEffectCardBgDraw" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/soundEffectCardPattern" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/soundEffectCardFontImg" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            <ImageView android:id="@id/soundEffectCardSelected" android:visibility="gone" android:layout_width="20.0dip" android:layout_height="20.0dip" android:layout_marginRight="6.0dip" android:layout_marginBottom="6.0dip" android:src="@drawable/h2p" android:layout_alignParentRight="true" android:layout_alignParentBottom="true" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0dip" android:textColor="#4068490e" android:id="@id/vipSoundSize" android:clickable="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:layout_marginBottom="3.0dip" android:text="100M" android:includeFontPadding="false" android:layout_alignParentBottom="true" android:lineSpacingMultiplier="1.0" />
+            <FrameLayout android:id="@id/vipTag" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" android:layout_marginTop="6.0dip" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

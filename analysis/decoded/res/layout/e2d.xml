@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/voice_dragon_ball_container" android:clipChildren="false" android:clipToPadding="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.RoundedRelativeLayout android:id="@id/voice_dragon_ball_bg" android:layout_width="wrap_content" android:layout_height="wrap_content" app:jw="6.0dip" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/cover" android:visibility="gone" android:layout_width="36.0dip" android:layout_height="36.0dip" android:layout_alignParentLeft="true" app:ae="centerCrop" app:w3="0" app:ahy="@drawable/cx6" app:ahz="fitXY" app:aj2="@color/awz" app:avr="true" />
+    <com.netease.cloudmusic.music.biz.voice.widget.CustomThemeTextViewWithBizType android:textSize="14.0sp" android:ellipsize="end" android:gravity="center" android:id="@id/title" android:layout_width="fill_parent" android:layout_height="fill_parent" android:maxLines="1" android:includeFontPadding="false" android:layout_toRightOf="@id/cover" app:qe="colorText2" />
+    <com.netease.cloudmusic.theme.ui.MessageBubbleView android:id="@id/bubbleTv" android:layout_width="wrap_content" android:layout_height="17.0dip" android:layout_marginTop="-5.0dip" android:layout_marginRight="-5.0dip" android:minWidth="17.0dip" android:layout_alignTop="@id/cover" android:layout_alignRight="@id/cover" />
+</RelativeLayout>

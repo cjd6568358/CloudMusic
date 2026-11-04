@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="14.0sp" android:textColor="@color/b12" android:layout_gravity="center_horizontal" android:id="@id/tvTips" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/operation" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_marginTop="8.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/tvTips" />
+    <androidx.constraintlayout.widget.Group android:id="@id/anchorLivingTips" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" app:l1="tvTips,operation" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/anchorCloseLiving" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" app:a5z="parent" app:a63="parent" app:a69="parent">
+        <TextView android:textSize="16.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/tvCloseTips" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/c3z" app:a5z="parent" app:a63="parent" app:a69="parent" />
+        <View android:background="@color/b1h" android:layout_width="0.0dip" android:layout_height="1.0px" android:layout_marginRight="7.0dip" app:a5f="@id/tvCloseTips" app:a5z="parent" app:a62="@id/tvCloseTips" app:a69="@id/tvCloseTips" />
+        <View android:background="@color/b1h" android:layout_width="0.0dip" android:layout_height="1.0px" android:layout_marginLeft="7.0dip" app:a5f="@id/tvCloseTips" app:a60="@id/tvCloseTips" app:a63="parent" app:a69="@id/tvCloseTips" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

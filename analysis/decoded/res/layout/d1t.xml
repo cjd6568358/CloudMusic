@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/videoContainer" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/videoImage" android:layout_width="wrap_content" android:layout_height="wrap_content" fresco:ae="centerCrop" fresco:ahy="@drawable/cx7" fresco:ahz="fitXY" fresco:aj2="@color/an4" />
+    <com.netease.appcommon.image.ICreatorRemoteImageView android:id="@id/livePhotoIcon" android:visibility="gone" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginLeft="3.0dip" android:layout_marginTop="3.0dip" android:src="@drawable/bjf" fresco:aee="480" fresco:aef="@string/fgx" />
+    <ImageView android:id="@id/livePhotoSelectIcon" android:visibility="gone" android:layout_width="52.0dip" android:layout_height="24.0dip" android:layout_marginLeft="6.0dip" android:layout_marginTop="9.0dip" android:src="@drawable/fl3" />
+    <View android:id="@id/shadow" android:background="@drawable/d2x" android:layout_width="fill_parent" android:layout_height="27.0dip" android:layout_alignParentBottom="true" />
+    <View android:id="@id/mask" android:background="@color/aiz" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/aj6" android:gravity="center" android:id="@id/videoTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="3.0dip" android:layout_alignParentBottom="true" android:layout_marginEnd="6.0dip" android:layout_alignParentEnd="true" />
+    <FrameLayout android:id="@id/check" android:paddingBottom="10.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingStart="10.0dip" android:layout_alignParentEnd="true">
+        <TextView android:textSize="12.0sp" android:textStyle="bold" android:textColor="@color/b12" android:gravity="center" android:id="@id/count" android:background="@drawable/b90" android:layout_width="wrap_content" android:layout_height="20.0dip" android:layout_margin="9.0dip" android:minWidth="20.0dip" android:paddingStart="6.0dip" android:paddingEnd="6.0dip" />
+    </FrameLayout>
+    <View android:id="@id/foreground" android:background="@color/eb" android:focusable="true" android:visibility="gone" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <TextView android:textSize="10.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/export" android:background="@drawable/b8i" android:visibility="gone" android:layout_width="36.0dip" android:layout_height="16.0dip" android:layout_marginTop="5.0dip" android:layout_marginRight="5.0dip" android:text="已导入" android:layout_alignParentRight="true" />
+    <RelativeLayout android:id="@id/media_detail" android:padding="8.0dip" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_alignParentBottom="true">
+        <ImageView android:background="@drawable/b8h" android:padding="7.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/b8g" />
+    </RelativeLayout>
+</RelativeLayout>

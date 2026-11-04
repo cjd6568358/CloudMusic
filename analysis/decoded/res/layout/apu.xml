@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/ad_container" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <View android:id="@id/ad_top_mask" android:background="@drawable/e4" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="140.0dip" android:layout_alignWithParentIfMissing="true" />
+    <View android:id="@id/ad_slide_up_mask" android:background="@drawable/dx" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="340.0dip" android:layout_above="@id/copyWriteAndLogo" android:layout_alignWithParentIfMissing="true" />
+    <View android:id="@id/ad_four_in_one_mask" android:background="@drawable/dx" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="340.0dip" android:layout_above="@id/copyWriteAndLogo" android:layout_alignWithParentIfMissing="true" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/ad_slide_up_style_1_icon" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="8.0dip" android:layout_centerHorizontal="true" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/ad_four_in_one_icon" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="8.0dip" android:layout_centerHorizontal="true" />
+    <ViewStub android:id="@id/loading_ad_3_in_1_invocation_style_stub_1" android:layout="@layout/cgp" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_above="@id/copyWriteAndLogo" android:layout_alignWithParentIfMissing="true" />
+    <ViewStub android:id="@id/loading_ad_3_in_1_invocation_style_stub_2" android:layout="@layout/cgq" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_above="@id/copyWriteAndLogo" android:layout_alignWithParentIfMissing="true" />
+    <ViewStub android:id="@id/loading_ad_two_in_one_invocation_view" android:layout="@layout/ch5" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_above="@id/copyWriteAndLogo" android:layout_alignWithParentIfMissing="true" />
+    <ViewStub android:id="@id/loading_ad_slide_up_style_2" android:layout="@layout/ch2" android:layout_width="fill_parent" android:layout_height="340.0dip" android:layout_above="@id/copyWriteAndLogo" android:layout_alignWithParentIfMissing="true" />
+    <com.netease.cloudmusic.ui.AdSlideUpView android:id="@id/adSlideUpView" android:visibility="gone" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_above="@id/copyWriteAndLogo" android:layout_alignWithParentIfMissing="true" />
+    <ViewStub android:id="@id/ad_loading_dsp_stub" android:layout="@layout/lw" android:layout_width="16.0dip" android:layout_height="14.0dip" android:layout_marginLeft="16.0dip" android:layout_marginTop="20.0dip" />
+    <include layout="@layout/kz" />
+    <ViewStub android:id="@id/controlContainerDefault" android:padding="16.0dip" android:layout="@layout/lu" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="30.0dip" android:layout_above="@id/copyWriteAndLogo" android:layout_centerHorizontal="true" android:layout_marginStart="30.0dip" android:layout_marginEnd="30.0dip" />
+    <include android:id="@id/adShakeLl" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_above="@id/copyWriteAndLogo" layout="@layout/bix" />
+    <ViewStub android:id="@id/adTwoInOneView" android:layout="@layout/bir" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_above="@id/copyWriteAndLogo" android:layout_alignWithParentIfMissing="true" />
+    <ViewStub android:id="@id/adRedEnvelopeView" android:layout="@layout/biw" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_above="@id/copyWriteAndLogo" android:layout_alignWithParentIfMissing="true" />
+    <RelativeLayout android:id="@id/copyWriteAndLogo" android:background="#ffffffff" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="80.0dip" android:layout_alignParentBottom="true">
+        <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true">
+            <ImageView android:id="@id/logo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/flr" />
+            <LinearLayout android:orientation="horizontal" android:id="@id/copyWriteContainer" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <ImageView android:layout_gravity="center_vertical" android:background="#33000000" android:layout_width="19.0dip" android:layout_height="1.0px" />
+                <TextView android:textSize="9.0dip" android:textColor="#ffb2b2b2" android:id="@id/copyWrite" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:layout_marginRight="5.0dip" />
+                <ImageView android:layout_gravity="center_vertical" android:background="#33000000" android:layout_width="19.0dip" android:layout_height="1.0px" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+    <ViewStub android:id="@id/controlContainerDynamic" android:layout="@layout/lv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="50.0dip" android:layout_above="@id/baseBottomView" android:layout_centerHorizontal="true" />
+    <View android:id="@id/baseBottomView" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_alignParentBottom="true" />
+    <FrameLayout android:id="@id/skipBtnDownContainer" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="16.0dip" android:layout_marginBottom="60.0dip" android:layout_alignParentRight="true" android:layout_alignParentBottom="true">
+        <TextView android:textSize="14.0sp" android:textColor="#ffffffff" android:gravity="center" android:layout_gravity="center" android:id="@id/skipBtnDown" android:background="@drawable/b5g" android:visibility="gone" android:layout_width="72.0dip" android:layout_height="32.0dip" android:maxLines="1" />
+    </FrameLayout>
+</RelativeLayout>

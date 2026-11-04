@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/fragment_eartexture_test_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextureView android:id="@id/camera_view" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.music.biz.member.audioeffect.personal.eartexture.CircleHoleMaskView android:id="@id/circle_mask" android:layout_width="fill_parent" android:layout_height="fill_parent" app:d_="#ff1b1b24" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/imageStatus" android:layout_width="fill_parent" android:layout_height="0.0dip" app:ad="@drawable/dlp" app:a5f="parent" app:a5k="1:1" app:a69="parent" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/imageGuide" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a5k="1:1" app:a69="parent" />
+    <Space android:id="@id/sp" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5k="100:87" app:a69="@id/imageStatus" />
+    <ImageView android:id="@id/ear1" android:visibility="invisible" android:layout_width="54.0dip" android:layout_height="54.0dip" android:layout_marginTop="15.0dip" android:src="@drawable/dxh" app:a5m="@id/ear2" app:a5w="packed" app:a65="parent" app:a68="@id/sp" />
+    <ImageView android:id="@id/ear2" android:visibility="invisible" android:layout_width="54.0dip" android:layout_height="54.0dip" android:layout_marginTop="15.0dip" android:src="@drawable/dxh" android:layout_marginStart="20.0dip" app:a5l="parent" app:a64="@id/ear1" app:a68="@id/sp" />
+    <TextView android:textSize="20.0sp" android:gravity="center" android:id="@id/topTips" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5g="@id/imageStatus" />
+    <TextView android:textSize="20.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/bottomTips1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:text="@string/br9" android:includeFontPadding="false" app:a68="@id/ear1" />
+    <TextView android:textSize="16.0sp" android:textColor="@color/b1t" android:gravity="center" android:id="@id/bottomTips2" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:text="@string/br_" android:includeFontPadding="false" app:a68="@id/bottomTips1" />
+</androidx.constraintlayout.widget.ConstraintLayout>

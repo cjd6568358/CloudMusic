@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:tag="layout/dialog_player_danmaku_bubble_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:paddingTop="6.0dip" android:clipChildren="false" android:layout_width="wrap_content" android:layout_height="44.0dip" android:layout_marginLeft="12.0dip" android:layout_marginRight="12.0dip" android:layout_marginHorizontal="12.0dip">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/likeButton" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/icLike" android:layout_width="14.0dip" android:layout_height="14.0dip" android:layout_margin="2.0dip" android:src="@drawable/eai" android:scaleType="centerCrop" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:textColor="@color/b1z" android:gravity="center_vertical" android:id="@id/likeCount" android:layout_width="wrap_content" android:layout_height="20.0dip" />
+        </LinearLayout>
+        <View android:background="@color/b1i" android:layout_width="1.0dip" android:layout_height="18.0dip" android:layout_marginStart="8.0dip" android:layout_marginEnd="8.0dip" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/sendCloneBtn" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatImageView android:layout_width="18.0dip" android:layout_height="18.0dip" android:src="@drawable/eag" android:scaleType="centerCrop" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:textColor="@color/b1z" android:id="@id/textView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:fontFamily="@font/a" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

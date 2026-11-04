@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:id="@id/preferenceRoot" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfVideoDecodeTypeArea" android:layout_marginTop="12.0dip" style="@style/a9d">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfVideoDecodeType" android:text="@string/fyz" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfVideoDecodeTypeContent" android:layout_marginLeft="5.0dip" style="@style/a9o" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfSetMusicDownloadDirectoryArea" style="@style/a9d">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfSetMusicDownloadDirectory" android:text="@string/fyu" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfSetMusicDownloadContent" style="@style/a9o" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfUSBExclusiveContainer" style="@style/a9d">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/tvUSBExclusiveTitle" android:text="@string/izf" style="@style/a9i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/tvUSBExclusiveContent" android:text="@string/izg" style="@style/a9k" />
+            </LinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/switchUSBExclusive" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+    </LinearLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

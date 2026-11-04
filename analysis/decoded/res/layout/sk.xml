@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.core.dolphin.component.toast.DolphinToastBackgroundLayout android:id="@id/container" android:tag="layout/chat_layout_message_detail_top_hint_view_0" android:layout_width="wrap_content" android:layout_height="wrap_content" app:ao9="@color/b1e" app:ao_="20.0dip" app:aoa="@color/ea" app:aod="8.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:id="@id/hintTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:layout_marginStart="14.0dip" app:qe="colorText1" app:a65="parent" app:a68="@id/hintText" app:a69="parent" />
+        <com.netease.cloudmusic.ui.round.RoundedFrameLayout android:id="@id/close_bg" android:layout_width="16.0dip" android:layout_height="16.0dip" android:layout_marginTop="10.0dip" android:layout_marginEnd="10.0dip" app:jw="8.0dip" app:a5l="parent" app:a69="parent">
+            <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center" android:id="@id/close" android:layout_width="wrap_content" android:layout_height="wrap_content" app:aqh="@drawable/x7" />
+        </com.netease.cloudmusic.ui.round.RoundedFrameLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:id="@id/hintText" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:layout_marginBottom="16.0dip" android:text="如果不想收到陌生人私信" android:layout_marginStart="14.0dip" android:layout_marginEnd="14.0dip" app:qe="colorText2_1" app:a5_="true" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a68="@id/hintTitle" app:a6t="16.0dip" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.netease.cloudmusic.core.dolphin.component.toast.DolphinToastBackgroundLayout>

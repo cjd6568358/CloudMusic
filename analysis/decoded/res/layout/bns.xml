@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <View android:id="@id/commonTopGradientView" android:layout_width="fill_parent" android:layout_height="130.0dip" />
+    <View android:id="@id/commonBottomGradientView" android:layout_width="fill_parent" android:layout_height="206.0dip" android:layout_above="@id/commonBottomMaskView" />
+    <View android:id="@id/commonBottomMaskView" android:background="@color/e6" android:layout_width="fill_parent" android:layout_height="104.0dip" android:layout_alignParentBottom="true" />
+</merge>

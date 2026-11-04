@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.AutoScrollViewSwitcher android:id="@id/cardSwitcher" android:layout_width="fill_parent" android:layout_height="0.0dip" android:measureAllChildren="true" android:inAnimation="@anim/aw0" android:outAnimation="@anim/aw1" android:animateFirstView="false" app:cs="3000" app:a59="true" app:a5g="@id/textSwitcher" app:a5k="w,1:1" app:a69="parent" />
+    <com.netease.cloudmusic.ui.AutoScrollViewSwitcher android:id="@id/textSwitcher" android:layout_width="fill_parent" android:layout_height="0.0dip" android:measureAllChildren="true" android:inAnimation="@anim/avy" android:outAnimation="@anim/avz" android:animateFirstView="false" app:cs="3000" app:a59="true" app:a5f="parent" app:a68="@id/cardSwitcher" app:a6_="0.0" />
+</androidx.constraintlayout.widget.ConstraintLayout>

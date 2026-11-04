@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:padding="4.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/checkIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a65="parent" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/checkedIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="@id/checkIcon" app:a5l="@id/checkIcon" app:a65="@id/checkIcon" app:a69="@id/checkIcon" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:id="@id/checkHint" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ts" android:layout_marginStart="6.0dip" app:a5f="@id/checkIcon" app:a64="@id/checkIcon" app:a69="@id/checkIcon" />
+</androidx.constraintlayout.widget.ConstraintLayout>

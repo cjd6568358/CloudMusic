@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.ui.PagerListView android:id="@id/deviceBrandList" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.ui.IndexBar android:id="@id/sideBar" android:layout_width="@dimen/aoz" android:layout_height="fill_parent" android:layout_marginTop="40.0dip" android:layout_marginBottom="40.0dip" android:layout_alignParentRight="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="50.0sp" android:textColor="@android:color/white" android:gravity="center" android:id="@id/indexText" android:background="@drawable/cwe" android:padding="10.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="70.0dip" android:minWidth="70.0dip" android:layout_centerInParent="true" />
+</com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>

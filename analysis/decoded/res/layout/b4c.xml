@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/child_header_container" android:layout_width="fill_parent" android:layout_height="38.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.AvatarImage android:id="@id/child_header_child_avatar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_centerVertical="true" app:cv="style7" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithAllBackground android:textSize="11.0sp" android:gravity="center_vertical" android:id="@id/child_header_set_destop_shortcut" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:layout_width="wrap_content" android:layout_height="23.0dip" android:layout_marginRight="10.0dip" android:text="@string/ls" android:layout_alignParentRight="true" android:layout_centerVertical="true" app:gl="fillBackground" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aj5" android:ellipsize="end" android:id="@id/child_header_child_name" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:text="@string/f2q" android:lines="1" android:layout_toLeftOf="@id/child_header_set_destop_shortcut" android:layout_toRightOf="@id/child_header_child_avatar" android:layout_centerVertical="true" />
+</RelativeLayout>

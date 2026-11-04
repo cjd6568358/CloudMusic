@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/layout_logo_layout_1" android:paddingRight="30.0dip" android:layout_width="fill_parent" android:layout_height="60.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/view_item_song_logo" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_marginLeft="30.0dip" app:ae="centerCrop" app:am0="8.0dip" app:am1="#0f000000" app:am3="1.0px" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0dip" android:textColor="#ff333333" android:ellipsize="end" android:id="@id/view_item_song_main_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="14.0dip" android:layout_marginTop="8.0dip" android:maxLines="1" android:includeFontPadding="false" android:layout_toRightOf="@id/view_item_song_logo" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0dip" android:textColor="#ff666666" android:ellipsize="end" android:id="@id/view_item_song_sub_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="14.0dip" android:layout_marginTop="5.0dip" android:maxLines="1" android:includeFontPadding="false" android:layout_toRightOf="@id/view_item_song_logo" android:layout_below="@id/view_item_song_main_text" />
+</RelativeLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:layout_width="fill_parent" android:layout_height="60.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/type" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/s1" android:layout_centerVertical="true" app:adi="false" app:aev="@color/a2h" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconWithBackgroundImageView android:id="@id/cancel" android:paddingLeft="@dimen/s1" android:paddingRight="@dimen/s2" android:layout_width="wrap_content" android:layout_height="fill_parent" android:src="@drawable/gwq" android:scaleType="centerInside" android:layout_alignParentRight="true" app:adi="false" app:aev="@color/a2i" />
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_toLeftOf="@id/cancel" android:layout_toRightOf="@id/type" android:layout_centerVertical="true">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aiv" android:id="@id/name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:layout_weight="1.0" />
+            <ImageView android:id="@id/label" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" />
+        </LinearLayout>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="4.0dip">
+            <ImageView android:id="@id/status" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="4.0dip" />
+            <ImageView android:id="@id/tag" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="4.0dip" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiz" android:id="@id/info" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="4.0dip" android:singleLine="true" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeProgressBar android:id="@id/progress" android:layout_width="0.0dip" android:layout_height="4.0dip" android:layout_weight="2.0" style="@style/jv" />
+        </LinearLayout>
+    </LinearLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>

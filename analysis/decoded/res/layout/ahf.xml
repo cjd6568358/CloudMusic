@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:orientation="vertical" android:paddingTop="16.0dip" android:paddingBottom="5.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:layout_gravity="right" android:id="@id/iv_frag_close_c" android:paddingLeft="12.0dip" android:paddingRight="12.0dip" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-4.0dip" android:src="@drawable/d0h" />
+    <TextView android:textSize="16.0dip" android:textColor="@color/wk" android:gravity="center_horizontal" android:id="@id/tv_title" android:paddingLeft="20.0dip" android:paddingRight="20.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="15.0dip" />
+    <TextView android:textSize="16.0dip" android:textColor="@color/wk" android:id="@id/tv_msg" android:paddingLeft="20.0dip" android:paddingRight="20.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:lineSpacingExtra="2.0dip" />
+    <LinearLayout android:orientation="vertical" android:paddingLeft="20.0dip" android:paddingRight="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="16.0dip">
+        <com.netease.epay.sdk.base.view.LongCommonButton android:textSize="16.0dip" android:id="@id/btn_left" android:paddingTop="1.0dip" android:paddingBottom="1.0dip" android:layout_width="fill_parent" android:layout_height="40.0dip" android:layout_marginBottom="10.0dip" android:text="人脸验证" />
+        <Button android:textSize="14.0dip" android:textColor="@color/ws" android:gravity="center" android:id="@id/btn_right" android:background="@null" android:layout_width="fill_parent" android:layout_height="40.0dip" android:layout_marginTop="-10.0dip" android:text="重新输入" />
+    </LinearLayout>
+</LinearLayout>

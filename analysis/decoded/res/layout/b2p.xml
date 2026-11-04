@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.RateAudioAnimationView android:id="@id/cover" android:layout_width="wrap_content" android:layout_height="wrap_content" app:jw="4.0dip" app:ag3="@drawable/dj_" app:aj2="@color/awz" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:layout_gravity="bottom|center|right" android:id="@id/animation_select_iv" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="6.0dip" android:layout_marginBottom="6.0dip" android:scaleType="center" />
+    </FrameLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="#ff333333" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" />
+</LinearLayout>

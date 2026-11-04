@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.tabs.TabLayout android:textSize="14.0sp" android:id="@id/tabLayout" android:layout_width="fill_parent" android:layout_height="27.0dip" android:layout_marginLeft="25.0dip" android:layout_marginTop="6.5dip" android:layout_marginRight="25.0dip" app:ast="@android:color/transparent" app:asw="0.0dip" app:at5="80.0dip" app:at6="80.0dip" app:atc="@color/ay_" app:ath="@color/dd" app:atl="@color/b12" />
+    <View android:background="@color/a6u" android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_marginTop="10.0dip" />
+    <com.netease.play.ui.NeteaseMusicViewPager android:id="@id/viewpager" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="6.5dip" />
+</LinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.RoundedConstraintlayout android:tag="layout/dialog_hot_line_consult_anchor_profile_0" android:layout_width="fill_parent" android:layout_height="580.0dip" app:jw="15.0dip" app:so="false" app:sp="false" app:ss="true" app:st="true"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:tag="binding_1" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@id/coordinator" android:background="@color/ay_" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent">
+        <View android:tag="binding_2" android:layout_width="fill_parent" android:layout_height="280.0dip" app:a56="com.netease.play.listen.v2.hotline.dialog.behavior.HotLineConsultAnchorProfileTopBgBehavior" />
+        <com.google.android.material.appbar.AppBarLayout android:tag="binding_3" android:background="@color/ay_" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip">
+            <include android:id="@id/layout_header" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a76="scroll" layout="@layout/boc" />
+        </com.google.android.material.appbar.AppBarLayout>
+        <com.netease.play.listen.v2.hotline.ui.BottomFadingEdgeCommonRecyclerView android:orientation="vertical" android:id="@id/recyclerView" android:tag="binding_4" android:paddingBottom="5.0dip" android:fadingEdge="vertical" android:fadingEdgeLength="112.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginBottom="20.0dip" android:requiresFadingEdge="vertical" android:layout_marginStart="15.0dip" android:layout_marginEnd="15.0dip" app:a56="@string/uo" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</com.netease.cloudmusic.ui.RoundedConstraintlayout>

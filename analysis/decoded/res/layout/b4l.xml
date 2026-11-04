@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CommentVipRcmdRoundedRelativeLayout android:paddingRight="10.0dip" android:layout_width="216.0dip" android:layout_height="60.0dip" app:jw="4.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/vip_rcmd_pic" android:layout_width="60.0dip" android:layout_height="60.0dip" android:layout_marginRight="10.0dip" app:ae="centerCrop" app:w3="300" app:ahy="@drawable/cx6" app:ahz="fitXY" app:aj2="@color/awz" />
+    <FrameLayout android:id="@id/vip_rcmd_playicon" android:layout_width="60.0dip" android:layout_height="60.0dip">
+        <com.netease.cloudmusic.theme.ui.ImagePlayIcon android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a1l="style2" />
+    </FrameLayout>
+    <TextView android:textSize="8.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@id/vip_rcmd_tag" android:background="@drawable/a0u" android:layout_width="23.699982dip" android:layout_height="12.0dip" android:maxLines="1" />
+    <LinearLayout android:orientation="vertical" android:id="@id/vip_rcmd_song_layout" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_toRightOf="@id/vip_rcmd_pic" android:layout_centerVertical="true">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="@dimen/qq" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/vip_rcmd_songname" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="@dimen/qu" android:textColor="@color/aiy" android:ellipsize="end" android:id="@id/vip_rcmd_songinfo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" android:maxLines="1" />
+    </LinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/vip_rcmd_text" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="2" android:layout_toRightOf="@id/vip_rcmd_pic" android:layout_centerVertical="true" />
+</com.netease.cloudmusic.theme.ui.CommentVipRcmdRoundedRelativeLayout>

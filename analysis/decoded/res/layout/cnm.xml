@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:gravity="center_vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:layout_gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16.0dip" android:layout_width="fill_parent" android:layout_height="@dimen/a5p">
+        <FrameLayout android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginRight="10.0dip">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center_vertical" android:id="@id/maskCover2" android:visibility="gone" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_marginStart="20.0dip" fresco:ahy="@drawable/d_l" fresco:ahz="centerCrop" fresco:aln="true" />
+            <com.netease.cloudmusic.module.minibar.widget.wrapper.music.MinibarAvatarFrameLayout android:layout_gravity="center_vertical" android:id="@id/avatar_container1" android:visibility="gone" android:layout_width="28.0dip" android:layout_height="28.0dip">
+                <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/maskCover1" android:layout_width="26.0dip" android:layout_height="26.0dip" fresco:ae="centerCrop" fresco:w3="0" fresco:ahy="@drawable/d_l" fresco:ahz="centerCrop" fresco:aln="true" />
+            </com.netease.cloudmusic.module.minibar.widget.wrapper.music.MinibarAvatarFrameLayout>
+        </FrameLayout>
+        <com.netease.cloudmusic.module.minibar.widget.MiniBarTextView android:textSize="12.0sp" android:textColor="@color/aiv" android:ellipsize="marquee" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@id/title" android:focusable="false" android:focusableInTouchMode="false" android:layout_width="fill_parent" android:layout_height="fill_parent" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" android:marqueeRepeatLimit="marquee_forever" />
+    </LinearLayout>
+</merge>

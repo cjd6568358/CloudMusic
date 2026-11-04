@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/pagerSlidingTabStripBaseActivityContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout2 android:id="@id/tabLayout" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="@dimen/u7" app:nr="moveBig" app:avq="true" />
+        <include android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="@dimen/u7" android:layout_below="@id/tabLayout" layout="@layout/y6" />
+    </FrameLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="#ff999999" android:gravity="center" android:id="@id/profileListenRankLimit" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="@string/h4n" />
+</RelativeLayout>

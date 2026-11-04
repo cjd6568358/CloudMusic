@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.module.minibar.widget.wrapper.music.ItemViewFM android:gravity="center_vertical" android:id="@id/minibar_fm_container" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_gravity="center_vertical" android:id="@id/fl_cover" android:layout_width="@dimen/a61" android:layout_height="fill_parent" android:layout_marginLeft="16.0dip">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/music_cover" android:background="@drawable/b_u" android:layout_width="@dimen/a61" android:layout_height="@dimen/a61" fresco:ae="centerCrop" fresco:jw="6.0dip" fresco:w3="0" fresco:ahy="@drawable/g9o" fresco:ahz="centerCrop" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/cover_tag" android:background="@drawable/b_u" android:layout_width="30.0dip" android:layout_height="30.0dip" fresco:ae="centerCrop" fresco:w3="0" fresco:ahz="centerCrop" />
+    </FrameLayout>
+    <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center_vertical" android:id="@id/iv_aidj_cover" android:visibility="gone" android:layout_width="42.0dip" android:layout_height="42.0dip" android:layout_marginLeft="17.0dip" android:src="@drawable/ftx" />
+    <com.netease.cloudmusic.module.minibar.widget.MiniBarTextView android:textSize="12.0sp" android:textColor="@color/aiv" android:ellipsize="marquee" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@id/music_txt" android:focusable="false" android:focusableInTouchMode="false" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="60.0dip" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" android:marqueeRepeatLimit="marquee_forever" />
+</com.netease.cloudmusic.module.minibar.widget.wrapper.music.ItemViewFM>

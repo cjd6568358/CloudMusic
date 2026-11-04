@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/select_root" android:background="@drawable/c9b" android:layout_width="wrap_content" android:layout_height="48.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/cover_layout" android:layout_width="48.0dip" android:layout_height="fill_parent">
+        <ImageView android:id="@id/function_music_bg" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/c9r" android:layout_centerVertical="true" />
+        <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/csd_song_cover" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_centerInParent="true" app:aln="true" />
+        <ProgressBar android:id="@id/progress_bar" android:visibility="gone" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_centerInParent="true" />
+    </RelativeLayout>
+    <TextView android:textSize="13.0sp" android:textColor="@color/b12" android:ellipsize="marquee" android:id="@id/tv_song" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="2.0dip" android:maxWidth="76.0dip" android:text="@string/j1s" android:singleLine="true" android:includeFontPadding="false" android:marqueeRepeatLimit="marquee_forever" />
+    <View android:id="@id/empty_place_holder" android:visibility="gone" android:layout_width="16.0dip" android:layout_height="1.0dip" />
+    <ImageView android:id="@id/iv_delete_song" android:padding="10.0dip" android:layout_width="36.0dip" android:layout_height="36.0dip" android:layout_marginRight="2.0dip" android:src="@drawable/c9n" />
+</LinearLayout>

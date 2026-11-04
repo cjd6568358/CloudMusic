@@ -1,0 +1,299 @@
+[
+  {
+    "key": "externalConfig",
+    "config": {
+      "Url": [
+        {
+          "name": "UnifyAFPUrl",
+          "api": "/api/music/audio/unifymatch"
+        },
+        {
+          "name": "UnifyHFPUrl",
+          "api": "/api/music/hum/fingerprint/unifymatch"
+        },
+        {
+          "name": "UnifyLyricUrl",
+          "api": "/api/music/hum/audio/unifymatch"
+        }
+      ],
+      "recorderMethod": 2,
+      "sampleRate": 16000,
+      "connectTimeout": 5,
+      "useASC": 1,
+      "ASCOpts": {
+        "seg_min_length": 0,
+        "seg_gap_length": 0,
+        "seg_restrict": 0.5,
+        "AFP": {
+          "music_range": "",
+          "sing_range": "|0.6",
+          "speak_range": "",
+          "voice_range": ""
+        },
+        "QBH": {
+          "music_range": "|0.3",
+          "sing_range": "0.2|",
+          "speak_range": "",
+          "voice_range": ""
+        },
+        "COVER": {
+          "music_range": "",
+          "sing_range": "",
+          "speak_range": "",
+          "voice_range": ""
+        },
+        "ASR": {
+          "music_range": "",
+          "sing_range": "",
+          "speak_range": "",
+          "voice_range": ""
+        }
+      },
+      "PeakExtractorOpts_Query": {
+        "fpVer": "rtgmax_test",
+        "hotTimes": "2|3|6|9|12|15",
+        "sRate": 8000,
+        "fftLen": 2048,
+        "frmLen": 2048,
+        "frmShift": 160,
+        "center": true,
+        "padMode": "constant",
+        "fftBins": false,
+        "winType": "hamming",
+        "pkCoreType": "RtgMax",
+        "pkCoreParams": {
+          "freqResolution": "3.90625",
+          "freqLB": "100",
+          "freqUB": "4000",
+          "energyThresh": "2.0",
+          "signFactor": "1.0",
+          "removeSil": "1",
+          "meanWinF": "10",
+          "meanWinT": "5",
+          "intervalF": "30",
+          "intervalT": "8"
+        },
+        "pkDenseParams": {
+          "freqResolution": "3.90625",
+          "freqLB": "100",
+          "freqUB": "4000",
+          "energyThresh": "2.0",
+          "signFactor": "1.0",
+          "removeSil": "1",
+          "meanWinF": "10",
+          "meanWinT": "5",
+          "intervalF": "20",
+          "intervalT": "4"
+        },
+        "srate": 8000
+      },
+      "QbhExtractorOpts": {
+        "hotTimes": "14"
+      },
+      "CoverOpts": {
+        "hotTimes": ""
+      },
+      "ASROpts": {
+        "hotTimes": "10"
+      }
+    }
+  },
+  {
+    "key": "internalConfig",
+    "config": {
+      "Url": [
+        {
+          "name": "UnifyAFPUrl",
+          "api": "/api/music/audio/unifymatch"
+        },
+        {
+          "name": "UnifyHFPUrl",
+          "api": "/api/music/hum/fingerprint/unifymatch"
+        },
+        {
+          "name": "UnifyLyricUrl",
+          "api": "/api/music/hum/audio/unifymatch"
+        }
+      ],
+      "recorderMethod": 2,
+      "sampleRate": 16000,
+      "connectTimeout": 5,
+      "useASC": 1,
+      "ASCOpts": {
+        "seg_min_length": 0,
+        "seg_gap_length": 0,
+        "seg_restrict": 0.5,
+        "AFP": {
+          "music_range": "",
+          "sing_range": "|0.6",
+          "speak_range": "",
+          "voice_range": ""
+        },
+        "QBH": {
+          "music_range": "|0.3",
+          "sing_range": "0.2|",
+          "speak_range": "",
+          "voice_range": ""
+        },
+        "COVER": {
+          "music_range": "",
+          "sing_range": "",
+          "speak_range": "",
+          "voice_range": ""
+        },
+        "ASR": {
+          "music_range": "",
+          "sing_range": "",
+          "speak_range": "",
+          "voice_range": ""
+        }
+      },
+      "PeakExtractorOpts_Query": {
+        "fpVer": "rtgmax_test",
+        "hotTimes": "2|3|6|9|12|15",
+        "sRate": 8000,
+        "fftLen": 2048,
+        "frmLen": 2048,
+        "frmShift": 160,
+        "center": true,
+        "padMode": "constant",
+        "fftBins": false,
+        "winType": "hamming",
+        "pkCoreType": "RtgMax",
+        "pkCoreParams": {
+          "freqResolution": "3.90625",
+          "freqLB": "100",
+          "freqUB": "4000",
+          "energyThresh": "2.0",
+          "signFactor": "1.0",
+          "removeSil": "1",
+          "meanWinF": "10",
+          "meanWinT": "5",
+          "intervalF": "30",
+          "intervalT": "8"
+        },
+        "pkDenseParams": {
+          "freqResolution": "3.90625",
+          "freqLB": "100",
+          "freqUB": "4000",
+          "energyThresh": "2.0",
+          "signFactor": "1.0",
+          "removeSil": "1",
+          "meanWinF": "10",
+          "meanWinT": "5",
+          "intervalF": "20",
+          "intervalT": "4"
+        },
+        "srate": 8000
+      },
+      "QbhExtractorOpts": {
+        "hotTimes": "14"
+      },
+      "CoverOpts": {
+        "hotTimes": ""
+      },
+      "ASROpts": {
+        "hotTimes": "10"
+      }
+    }
+  },
+  {
+    "key": "commonConfig",
+    "config": {
+      "Url": [
+        {
+          "name": "UnifyAFPUrl",
+          "api": "/api/music/audio/unifymatch"
+        },
+        {
+          "name": "UnifyHFPUrl",
+          "api": "/api/music/hum/fingerprint/unifymatch"
+        },
+        {
+          "name": "UnifyLyricUrl",
+          "api": "/api/music/hum/audio/unifymatch"
+        }
+      ],
+      "recorderMethod": 2,
+      "sampleRate": 16000,
+      "connectTimeout": 5,
+      "useASC": 1,
+      "ASCOpts": {
+        "seg_min_length": 0,
+        "seg_gap_length": 0,
+        "seg_restrict": 0.5,
+        "AFP": {
+          "music_range": "",
+          "sing_range": "|0.6",
+          "speak_range": "",
+          "voice_range": ""
+        },
+        "QBH": {
+          "music_range": "|0.3",
+          "sing_range": "0.2|",
+          "speak_range": "",
+          "voice_range": ""
+        },
+        "COVER": {
+          "music_range": "",
+          "sing_range": "",
+          "speak_range": "",
+          "voice_range": ""
+        },
+        "ASR": {
+          "music_range": "",
+          "sing_range": "",
+          "speak_range": "",
+          "voice_range": ""
+        }
+      },
+      "PeakExtractorOpts_Query": {
+        "fpVer": "rtgmax_test",
+        "hotTimes": "2|3|6|9|12|15",
+        "sRate": 8000,
+        "fftLen": 2048,
+        "frmLen": 2048,
+        "frmShift": 160,
+        "center": true,
+        "padMode": "constant",
+        "fftBins": false,
+        "winType": "hamming",
+        "pkCoreType": "RtgMax",
+        "pkCoreParams": {
+          "freqResolution": "3.90625",
+          "freqLB": "100",
+          "freqUB": "4000",
+          "energyThresh": "2.0",
+          "signFactor": "1.0",
+          "removeSil": "1",
+          "meanWinF": "10",
+          "meanWinT": "5",
+          "intervalF": "30",
+          "intervalT": "8"
+        },
+        "pkDenseParams": {
+          "freqResolution": "3.90625",
+          "freqLB": "100",
+          "freqUB": "4000",
+          "energyThresh": "2.0",
+          "signFactor": "1.0",
+          "removeSil": "1",
+          "meanWinF": "10",
+          "meanWinT": "5",
+          "intervalF": "20",
+          "intervalT": "4"
+        },
+        "srate": 8000
+      },
+      "QbhExtractorOpts": {
+        "hotTimes": "14"
+      },
+      "CoverOpts": {
+        "hotTimes": ""
+      },
+      "ASROpts": {
+        "hotTimes": "10"
+      }
+    }
+  }
+]

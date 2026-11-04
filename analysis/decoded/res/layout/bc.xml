@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/emptyIv" android:layout_width="100.0dip" android:layout_height="100.0dip" android:layout_marginTop="60.0dip" android:src="@drawable/dev" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <TextView android:textSize="15.0sp" android:textColor="@color/a0n" android:id="@id/emptyTv" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="40.0dip" android:layout_marginTop="30.0dip" android:layout_marginRight="40.0dip" android:text="根据相关法律法规，直播需要实名认证，实名认证不会索取资金信息，云音乐会对您的信息严格保密。" app:a5z="parent" app:a63="parent" app:a68="@id/emptyIv" />
+    <com.netease.play.ui.CustomButton android:textSize="17.0sp" android:gravity="center" android:id="@id/certificationBtn" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_marginLeft="30.0dip" android:layout_marginTop="30.0dip" android:layout_marginRight="30.0dip" android:layout_marginBottom="10.0dip" android:text="开始实名认证" android:drawablePadding="8.0dip" app:gg="0x00020304" app:a5z="parent" app:a63="parent" app:a68="@id/emptyTv" />
+</androidx.constraintlayout.widget.ConstraintLayout>

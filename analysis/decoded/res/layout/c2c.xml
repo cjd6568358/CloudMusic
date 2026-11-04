@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/containerStage" android:tag="layout/layout_new_official_stage_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.motion.widget.MotionLayout android:id="@id/motion" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a4y="@xml/ae">
+        <Space android:id="@id/lineTop" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="128.0dip" app:a69="parent" />
+        <Space android:id="@id/viewBounds" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/aei" app:a65="parent" app:a68="@id/lineTop" />
+        <LinearLayout android:orientation="horizontal" android:id="@id/containerGuests" android:tag="binding_1" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="71.0dip" android:layout_marginTop="5.0dip" android:layout_marginStart="10.0dip" android:layout_marginEnd="10.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/viewBounds">
+            <ImageView android:layout_gravity="center_vertical" android:id="@id/txtGuests" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="18.0dip" android:src="@drawable/gxh" />
+            <androidx.recyclerview.widget.RecyclerView android:id="@id/recyclerView" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_marginLeft="8.0dip" android:layout_marginTop="5.5dip" android:layout_marginBottom="5.5dip" android:layout_weight="1.0" />
+        </LinearLayout>
+        <Button android:id="@id/btnAdd" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="10.0dip" android:text="添加" android:layout_marginEnd="10.0dip" app:a5f="parent" app:a5l="parent" />
+        <Button android:id="@id/btnRemove" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="10.0dip" android:text="移除" android:layout_marginEnd="10.0dip" app:a5g="@id/btnAdd" app:a5l="parent" />
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+</FrameLayout>

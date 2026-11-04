@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="82.0dip" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/topicMoreRoot" android:layout_width="82.0dip" android:layout_height="26.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:id="@id/topicMore" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="更多话题" app:qe="colorText2_1" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/topicItemRightIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

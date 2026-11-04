@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:paddingStart="12.0dip" app:jw="20.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/iconSearch" android:layout_width="18.0dip" android:layout_height="18.0dip" android:src="@drawable/co" android:contentDescription="@string/uj" android:layout_marginEnd="3.0dip" app:a5f="parent" app:a5m="@id/searchHintText" app:a5w="packed" app:a65="parent" app:a69="parent" app:aev="@color/a2h" />
+    <TextView android:textSize="15.0dip" android:ellipsize="end" android:id="@id/searchHintText" android:layout_width="0.0dip" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" app:a5f="parent" app:a5m="@id/hintIcon" app:a64="@id/iconSearch" app:a69="parent" app:a6d="wrap" />
+    <ImageView android:id="@id/hintIcon" android:visibility="gone" android:layout_width="15.0dip" android:layout_height="15.0dip" android:alpha="0.4" android:layout_marginStart="4.0dip" app:a5f="parent" app:a5m="@id/barrier" app:a64="@id/searchHintText" app:a69="parent" />
+    <FrameLayout android:id="@id/spotLayout" android:layout_width="wrap_content" android:layout_height="fill_parent" android:minWidth="12.0dip" app:a5f="parent" app:a5l="parent" app:a64="@id/barrier" app:a69="parent">
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:layout_gravity="center_vertical" android:id="@id/spotSite" android:visibility="gone" android:layout_width="18.0dip" android:layout_height="18.0dip" android:scaleType="centerCrop" android:layout_marginStart="16.0dip" android:layout_marginEnd="12.0dip" />
+    </FrameLayout>
+    <androidx.constraintlayout.widget.Barrier android:id="@id/barrier" android:layout_width="0.0dip" android:layout_height="wrap_content" app:dn="start" app:l1="spotLayout" />
+    <androidx.constraintlayout.widget.Barrier android:id="@id/barrierHint" android:layout_width="0.0dip" android:layout_height="wrap_content" app:dn="end" app:l1="searchHintText, hintIcon" app:a5m="@id/barrier" />
+</androidx.constraintlayout.widget.ConstraintLayout>

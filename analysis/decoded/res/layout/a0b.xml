@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_vertical" android:id="@id/item_container" android:paddingLeft="@dimen/aj5" android:paddingTop="@dimen/aj6" android:paddingRight="@dimen/aj5" android:paddingBottom="@dimen/aj6" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="@dimen/ai1" android:paddingHorizontal="@dimen/aj5" android:paddingVertical="@dimen/aj6" fresco:e6="noline">
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/playListCoverHeart" android:visibility="gone" android:layout_width="@dimen/ahm" android:layout_height="@dimen/ahm" android:layout_marginRight="@dimen/rx" android:scaleType="centerInside" fresco:aqh="@drawable/caj" />
+        <com.netease.cloudmusic.ui.PlaylistDraweeView android:id="@id/playListCover" android:layout_width="@dimen/ahm" android:layout_height="@dimen/ahm" android:layout_marginRight="@dimen/rx" fresco:ae="fitXY" fresco:jw="8.0dip" fresco:ag3="@drawable/dj4" fresco:ahy="@drawable/placeholder_disk_180" fresco:ahz="centerCrop" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:ellipsize="end" android:id="@id/playListName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" fresco:qe="colorText2" />
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="3.0dip">
+                <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/downloadIcon" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="8.0dip" android:src="@drawable/fgd" fresco:aev="@color/a1z" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:id="@id/playListMusicCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" fresco:qe="colorText3_1" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/themeColor" android:id="@id/playListLTCreator" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:singleLine="true" />
+            </LinearLayout>
+        </LinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0dip" android:gravity="center" android:id="@id/playListOverMaxCount" android:paddingLeft="8.0dip" android:paddingRight="8.0dip" android:layout_width="wrap_content" android:layout_height="20.0dip" android:layout_marginLeft="2.0dip" android:text="@string/g67" android:includeFontPadding="false" android:paddingHorizontal="8.0dip" fresco:qe="colorText2" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeCheckBox android:id="@id/playListCheckBox" android:focusable="false" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+</FrameLayout>

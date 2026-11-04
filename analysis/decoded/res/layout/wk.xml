@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/line" android:background="@color/lineColor" android:layout_width="2.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5w="packed" app:a5z="parent" app:a69="parent" />
+    <com.netease.cloudmusic.ui.TextViewFixTouchConsume android:textSize="15.0sp" android:textColor="@color/aix" android:id="@id/commentOriginContent" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:includeFontPadding="false" android:lineSpacingExtra="4.0dip" app:a5_="true" app:a60="@id/line" app:a63="parent" app:a69="parent" app:a6q="0.0dip" />
+    <ViewStub android:id="@id/commentVoiceOriginStub" android:layout="@layout/bfr" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginTop="7.0dip" android:layout_marginBottom="2.0dip" app:a5f="parent" app:a60="@id/line" app:a68="@id/commentOriginContent" app:a6q="0.0dip" app:a6t="0.0dip" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/commentImageOrigin" android:visibility="gone" android:layout_width="76.0dip" android:layout_height="76.0dip" android:layout_marginLeft="10.0dip" android:layout_marginTop="7.0dip" android:layout_marginBottom="2.0dip" app:jw="6.0dip" app:a5f="parent" app:a60="@id/line" app:a68="@id/commentOriginContent" app:a6q="0.0dip" app:a6t="0.0dip" />
+</merge>

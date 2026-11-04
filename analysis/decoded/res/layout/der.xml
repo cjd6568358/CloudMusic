@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/publish_image_fragment_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/create_album_pic" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <View android:background="@color/do" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <View android:id="@id/view_temp" android:layout_width="fill_parent" android:layout_height="44.0dip" app:a69="parent" />
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/indicator" android:layout_width="0.0dip" android:layout_height="30.0dip" android:layout_marginLeft="110.0dip" android:layout_marginRight="102.0dip" app:a5f="@id/view_temp" app:a5l="parent" app:a65="parent" app:a69="@id/view_temp">
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/bqs" />
+        <com.netease.nmvideocreator.publish.fragment.publish.view.MarqueeTextView android:textSize="14.0sp" android:textColor="@color/b1e" android:ellipsize="marquee" android:id="@id/music_name" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:singleLine="true" android:marqueeRepeatLimit="marquee_forever" />
+    </LinearLayout>
+    <com.netease.nmvideocreator.publish.view.LockableViewPager android:id="@id/view_pager" android:paddingTop="4.0dip" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5g="@id/video_publish_bottom_layout" app:a68="@id/view_temp" />
+    <LinearLayout android:gravity="bottom" android:orientation="horizontal" android:id="@id/image_indicator" android:background="@drawable/b0x" android:paddingBottom="16.0dip" android:layout_width="fill_parent" android:layout_height="60.0dip" app:a5f="@id/view_pager" app:a5z="parent" app:a63="parent">
+        <com.netease.nmvideocreator.publish.fragment.publish.view.ImageIndicatorView android:id="@id/indicator_view" android:layout_width="fill_parent" android:layout_height="2.0dip" android:layout_marginStart="32.0dip" android:layout_marginEnd="32.0dip" />
+    </LinearLayout>
+    <TextView android:textSize="14.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/video_publish_next" android:background="@drawable/cka" android:layout_width="@dimen/auz" android:layout_height="30.0dip" android:layout_marginLeft="@dimen/auy" android:layout_marginRight="@dimen/auy" android:text="下一步" android:includeFontPadding="false" android:layout_marginEnd="16.0dip" android:layout_marginHorizontal="@dimen/auy" app:a5f="@id/view_temp" app:a5l="parent" app:a69="@id/view_temp" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/video_publish_bottom_layout" android:layout_width="fill_parent" android:layout_height="60.0dip" android:layout_marginTop="10.0dip" android:layout_marginBottom="20.0dip" app:a5f="parent">
+        <LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+            <TextView android:textSize="13.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/publish_music_template" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="音乐模板" android:drawableLeft="@drawable/br6" android:alpha="0.8" />
+        </LinearLayout>
+        <View android:layout_gravity="center_vertical" android:background="@color/b1e" android:layout_width="0.6600001dip" android:layout_height="16.0dip" android:alpha="0.15" />
+        <LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+            <TextView android:textSize="13.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/publish_image_crop" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="裁剪" android:drawableLeft="@drawable/br5" android:alpha="0.8" />
+        </LinearLayout>
+    </LinearLayout>
+    <androidx.fragment.app.FragmentContainerView android:id="@id/fragment_container" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent" />
+    <FrameLayout android:id="@id/video_publish_tab_container" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a69="parent" />
+    <FrameLayout android:id="@id/progress_layout" android:focusable="true" android:visibility="gone" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ProgressBar android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </FrameLayout>
+    <com.netease.nmvideocreator.publish.fragment.publish.view.BubbleRootView android:id="@id/publish_image_bubble_layout" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.core.dolphin.component.bubble.DolphinBubble android:layout_gravity="center" android:id="@id/publish_image_bubble" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="100.0dip" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" />
+    </com.netease.nmvideocreator.publish.fragment.publish.view.BubbleRootView>
+</androidx.constraintlayout.widget.ConstraintLayout>

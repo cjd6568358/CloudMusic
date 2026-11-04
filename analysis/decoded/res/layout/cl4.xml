@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:clipChildren="false" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:textColor="@color/aiz" android:id="@id/desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="17.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" />
+    <com.netease.cloudmusic.theme.ui.MessageBubbleView android:id="@id/redDot" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="2.0dip" android:layout_marginTop="3.0dip" app:qx="@dimen/a1z" app:a60="@id/desc" app:a69="@id/desc" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/custom_tab_area" android:visibility="gone" android:clipChildren="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="16.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent">
+        <com.netease.cloudmusic.ui.SimpleRoundDraweeView android:id="@id/special_icon" android:layout_width="23.0dip" android:layout_height="23.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        <View android:id="@id/special_red_dot" android:layout_width="6.0dip" android:layout_height="6.0dip" android:layout_marginEnd="-5.0dip" app:a5l="parent" app:a69="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

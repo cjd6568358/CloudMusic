@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_gravity="center" android:id="@android:id/background" android:background="@mipmap/z" android:layout_width="fill_parent" android:layout_height="fill_parent" android:minWidth="@dimen/cf" android:minHeight="@dimen/cf"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:layout_gravity="center" android:id="@id/widget_background" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitXY" />
+    <ImageView android:layout_gravity="start|center|top" android:id="@id/logo_img" android:layout_width="@dimen/di" android:layout_height="@dimen/di" android:layout_marginLeft="10.0dip" android:layout_marginTop="10.0dip" style="@style/ag" />
+    <LinearLayout android:gravity="center_vertical" android:layout_gravity="bottom" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="14.0dip" android:layout_marginBottom="35.0dip">
+        <ImageView android:id="@id/icon_img" android:background="@null" android:layout_width="@dimen/cp" android:layout_height="@dimen/cp" android:src="@drawable/fs" style="@style/ab" />
+        <TextView android:gravity="start" android:id="@id/title_tv" android:background="@null" android:layout_marginLeft="3.0dip" android:text="@string/vj" style="@style/au" />
+    </LinearLayout>
+    <TextView android:gravity="start" android:layout_gravity="bottom" android:id="@id/desc_tv" android:background="@null" android:layout_marginLeft="14.0dip" android:layout_marginBottom="16.0dip" android:text="@string/v1" style="@style/a8" />
+</FrameLayout>

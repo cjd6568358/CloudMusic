@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:paddingLeft="16.0dip" android:paddingTop="10.0dip" android:paddingRight="16.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.social.demo.DemoView android:id="@id/demoPlayer" android:layout_width="fill_parent" android:layout_height="56.0dip" />
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="51.0dip" android:layout_marginTop="56.0dip">
+        <com.netease.cloudmusic.theme.ui.TrackInteractiveTextView android:gravity="center_vertical" android:layout_gravity="center|left" android:id="@id/likeBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" app:adf="true" app:aeu="@color/a2g" style="@style/a_f" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithAllBackground android:textSize="11.0sp" android:textColor="@color/aiv" android:gravity="center_vertical" android:layout_gravity="center|right" android:id="@id/doButton" android:paddingLeft="10.0dip" android:paddingTop="6.0dip" android:paddingRight="10.0dip" android:paddingBottom="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/am1" android:includeFontPadding="false" app:gl="background8" />
+    </FrameLayout>
+</FrameLayout>

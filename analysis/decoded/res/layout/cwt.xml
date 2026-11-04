@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.customui.OnlyVerticalSwipeRefreshLayout android:id="@id/subPartySwipe" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/subPartyContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <com.google.android.material.appbar.AppBarLayout android:id="@id/subPartyTopContainer" android:background="@android:color/transparent" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip">
+                <androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="44.0dip" app:a76="scroll">
+                    <com.netease.live.homepage.newparty.v4.PartyThemeFrameLayout android:id="@id/subRoomEntry" android:background="#0dff3a3a" android:layout_width="0.0dip" android:layout_height="42.0dip" android:layout_marginTop="10.0dip" android:layout_marginStart="16.0dip" app:jw="8.0dip" app:a5m="@id/subMineEntry" app:a65="parent" app:a69="parent">
+                        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textColor="@color/aiv" android:gravity="center" android:layout_gravity="center" android:paddingTop="12.0dip" android:paddingBottom="12.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/dpo" android:includeFontPadding="false" android:drawableLeft="@drawable/fpm" android:drawablePadding="4.0dip" />
+                    </com.netease.live.homepage.newparty.v4.PartyThemeFrameLayout>
+                    <com.netease.live.homepage.newparty.v4.PartyThemeFrameLayout android:id="@id/subMineEntry" android:background="#0dff3a3a" android:layout_width="0.0dip" android:layout_height="42.0dip" android:layout_marginLeft="8.0dip" android:layout_marginRight="16.0dip" app:jw="8.0dip" app:a5f="@id/subRoomEntry" app:a5l="parent" app:a64="@id/subRoomEntry" app:a69="@id/subRoomEntry">
+                        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textColor="@color/aiv" android:gravity="center" android:layout_gravity="center" android:paddingTop="12.0dip" android:paddingBottom="12.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/dpm" android:includeFontPadding="false" android:drawableLeft="@drawable/fpl" android:drawablePadding="4.0dip" />
+                    </com.netease.live.homepage.newparty.v4.PartyThemeFrameLayout>
+                    <FrameLayout android:id="@id/subPartyFastEntryContainer" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="13.0dip" android:layout_marginBottom="12.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a68="@id/subRoomEntry" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+            <com.netease.play.ui.NeteaseMusicViewPager android:id="@id/subPartyVp" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="@string/uo" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.netease.play.customui.OnlyVerticalSwipeRefreshLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="start|center" android:orientation="horizontal" android:paddingLeft="@dimen/a4_" android:paddingTop="@dimen/a4l" android:paddingRight="@dimen/a4_" android:paddingBottom="@dimen/a4l" android:layout_width="fill_parent" android:layout_height="fill_parent" android:minHeight="@dimen/a4e" android:paddingStart="@dimen/a4_" android:paddingEnd="@dimen/a4_"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/menuIcon" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:scaleType="fitXY" android:layout_marginEnd="10.0dip" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/menuCover" android:visibility="gone" android:layout_width="@dimen/a4j" android:layout_height="@dimen/a4j" android:layout_marginRight="@dimen/a4k" android:layout_marginEnd="@dimen/a4k" fresco:ae="centerCrop" fresco:ahy="@drawable/cx1" fresco:ahz="centerCrop" fresco:am0="@dimen/u2" />
+    </FrameLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="@dimen/a4g" android:textColor="#ff333333" android:ellipsize="end" android:id="@id/menuTitle" android:layout_width="0.0dip" android:layout_height="wrap_content" android:maxLines="2" android:layout_weight="1.0" android:lineSpacingMultiplier="1.2" fresco:aeb="@color/afu" />
+    <ToggleButton android:id="@id/menuSelectedIcon" android:focusable="false" android:visibility="gone" android:clickable="false" android:layout_width="18.0dip" android:layout_height="18.0dip" android:textOn="" android:textOff="" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiy" android:id="@id/menuHintRight" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" fresco:aeb="@color/afu" />
+</LinearLayout>

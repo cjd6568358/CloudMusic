@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.module.cloudpointnotification.DragFrameLayout android:fitsSystemWindows="true" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView android:id="@id/card_view" android:layout_width="fill_parent" android:layout_height="wrap_content" app:go="@color/b29" app:gp="20.0dip" app:gq="10.0dip" app:gs="8.0dip" app:gu="false">
+        <androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:gravity="center_vertical" android:id="@id/icon_img" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginLeft="12.0dip" android:layout_marginTop="13.0dip" android:layout_marginBottom="13.0dip" app:a5f="parent" app:a5z="parent" app:a69="parent" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:textStyle="bold" android:gravity="center_vertical" android:id="@id/title_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" android:layout_marginStart="8.0dip" app:a60="@id/icon_img" app:a69="@id/icon_img" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="13.0sp" android:ellipsize="end" android:gravity="left" android:id="@id/content_tv" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginRight="12.0dip" android:maxLines="1" android:includeFontPadding="false" android:lineSpacingExtra="3.0dip" app:a5_="true" app:a5z="@id/title_tv" app:a63="parent" app:a68="@id/title_tv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</com.netease.cloudmusic.module.cloudpointnotification.DragFrameLayout>

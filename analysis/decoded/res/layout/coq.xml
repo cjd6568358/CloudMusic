@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/mlog_base_cooperate_permission_dialog_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:textStyle="bold" android:textColor="@color/b21" android:gravity="center_vertical" android:id="@id/title" android:paddingLeft="16.0dip" android:paddingRight="14.0dip" android:layout_width="fill_parent" android:layout_height="52.0dip" android:text="@string/ece" />
+    <View android:id="@id/divider" android:background="#0dffffff" android:layout_width="fill_parent" android:layout_height="0.33000004dip" app:a5l="parent" app:a65="parent" app:a68="@id/title" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/permissionAnyoneContainer" android:background="?ang" android:layout_width="fill_parent" android:layout_height="52.0dip" app:a68="@id/divider">
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:textColor="@color/b20" android:id="@id/permissionAnyoneTv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ecb" android:layout_marginStart="16.0dip" app:a5f="parent" app:a65="parent" app:a69="parent" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/permissionAnyoneCheckIcon" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginEnd="16.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" app:aqh="@drawable/bac" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/permissionFolloweeContainer" android:background="?ang" android:layout_width="fill_parent" android:layout_height="52.0dip" app:a68="@id/permissionAnyoneContainer">
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:textColor="@color/b20" android:id="@id/permissionFolloweeTv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ecc" android:layout_marginStart="16.0dip" app:a5f="parent" app:a65="parent" app:a69="parent" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/permissionFolloweeCheckIcon" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginEnd="16.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" app:aqh="@drawable/bac" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/permissionMyselfContainer" android:background="?ang" android:layout_width="fill_parent" android:layout_height="52.0dip" app:a5f="parent" app:a68="@id/permissionFolloweeContainer">
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:textColor="@color/b20" android:id="@id/permissionMyselfTv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ecd" android:layout_marginStart="16.0dip" app:a5f="parent" app:a65="parent" app:a69="parent" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/permissionMyselfCheckIcon" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginEnd="16.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" app:aqh="@drawable/bac" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

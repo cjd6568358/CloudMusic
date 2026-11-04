@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:id="@id/musicListItemContainerInner" android:paddingLeft="@dimen/s1" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <ViewStub android:id="@id/musicListen" android:layout="@layout/cvv" android:layout_width="wrap_content" android:layout_height="fill_parent" />
+        <RelativeLayout android:id="@id/songNameAndInfoArea" android:paddingTop="9.0dip" android:paddingBottom="9.0dip" android:layout_height="wrap_content" style="@style/a70">
+            <include layout="@layout/dna" />
+            <include layout="@layout/dn5" />
+            <include android:id="@id/musicAliasAndLrcContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/songInfoContainer" layout="@layout/dk4" />
+        </RelativeLayout>
+        <include layout="@layout/dni" />
+        <ViewStub android:layout_gravity="center_vertical" android:id="@id/musicKaraoke" android:layout="@layout/cv0" android:layout_width="48.0dip" android:layout_height="20.0dip" android:layout_marginLeft="15.0dip" android:layout_marginRight="5.0dip" />
+        <ViewStub android:id="@id/music_next_play_btn" android:layout="@layout/dnb" android:layout_width="wrap_content" android:layout_height="fill_parent" />
+        <include layout="@layout/dn7" />
+    </LinearLayout>
+    <ViewStub android:id="@id/searchMore" android:layout="@layout/djz" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="-8.0dip" />
+    <ViewStub android:id="@id/searchRelated" android:layout="@layout/djy" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+</merge>

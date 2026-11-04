@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="82.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.component.MainPageImageTextCard android:id="@id/likeCover" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_marginLeft="16.0dip" android:layout_centerVertical="true" app:ae="centerCrop" app:ahy="@drawable/cx5" app:ahz="fitXY" app:am0="8.0dip" app:avv="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiv" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="我赞过的声音" android:layout_toRightOf="@id/likeCover" android:layout_centerVertical="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/icon_arrow" android:layout_width="16.0dip" android:layout_height="16.0dip" android:layout_marginRight="11.299988dip" android:src="@drawable/yn" android:layout_centerVertical="true" android:layout_alignParentEnd="true" app:aev="@color/a2i" />
+</com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>

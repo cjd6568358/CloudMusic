@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/adAudioClipCountdown" android:tag="layout/ad_audio_clip_countdown_0" android:layout_width="fill_parent" android:layout_height="36.0dip" android:paddingStart="9.0dip" android:paddingEnd="0.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aj6" android:gravity="start|center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/hf" android:includeFontPadding="false" />
+    <View android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aj6" android:gravity="center" android:id="@id/adAudioClipCountdownSeconds" android:tag="binding_1" android:layout_width="wrap_content" android:layout_height="fill_parent" android:includeFontPadding="false" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aj6" android:gravity="center" android:id="@id/adAudioClipSkip" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/hm" android:includeFontPadding="false" android:paddingStart="5.0dip" android:paddingEnd="9.0dip" />
+</androidx.appcompat.widget.LinearLayoutCompat>

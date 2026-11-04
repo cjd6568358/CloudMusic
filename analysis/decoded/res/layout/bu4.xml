@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_hot_line_consult_price_0" android:paddingBottom="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.LookThemeCheckBox android:id="@id/check" android:tag="binding_1" android:layout_width="13.0dip" android:layout_height="13.0dip" android:layout_marginEnd="16.0dip" app:a65="parent" app:a69="parent" />
+    <TextView android:textSize="16.0sp" android:textColor="@color/b12" android:ellipsize="end" android:id="@id/title" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:includeFontPadding="false" android:layout_marginStart="5.0dip" app:a5f="@id/check" app:a64="@id/check" app:a69="@id/check" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1k" android:ellipsize="end" android:id="@id/desc" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:maxLines="1" android:includeFontPadding="false" app:a65="@id/check" app:a68="@id/title" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/price" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_marginTop="23.0dip" app:a65="@id/title" app:a68="@id/desc" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/vc_operation_fragment_style_font_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.appcommon.ui.view.NestedScrollableHost android:id="@id/nsh_font" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a5z="parent" app:a63="parent">
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/rv_font" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginStart="8.0dip" android:layout_marginEnd="8.0dip" />
+    </com.netease.appcommon.ui.view.NestedScrollableHost>
+    <ViewStub android:id="@id/empty_stub" android:layout="@layout/d15" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <ViewStub android:id="@id/failure_stub" android:layout="@layout/d1r" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

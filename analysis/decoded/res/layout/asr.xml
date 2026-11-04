@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.PagerListView android:id="@id/musicList" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_above="@id/managePlaylistBtnContainer" app:a5g="@id/uploadToPrivateCloudTextBtn" app:a69="parent" />
+    <View android:background="@color/dv" android:layout_width="fill_parent" android:layout_height="0.5dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:textSize="15.0sp" android:textColor="@color/aiv" android:gravity="center" android:id="@id/uploadToPrivateCloudTextBtn" android:layout_width="fill_parent" android:layout_height="@dimen/a2f" android:text="@string/iz0" app:a5f="parent" app:a68="@id/musicList" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/emptyicon" android:layout_width="170.0dip" android:layout_height="120.0dip" android:layout_marginTop="128.0dip" android:src="@drawable/dme" app:a5l="parent" app:a65="parent" app:a69="parent" app:aev="@color/a2d" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:id="@id/emptext1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="暂无可选文件" app:qe="colorIconDual1" app:a5l="parent" app:a65="parent" app:a68="@id/emptyicon" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:gravity="center" android:id="@id/text2" android:layout_width="234.0dip" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="当前展示的是本地已有歌曲，\n若有新增文件，请试试一键扫描本地文件吧~" app:qe="colorIconDual2" app:a5l="parent" app:a65="parent" app:a68="@id/emptext1" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/jump" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:src="@drawable/gpw" app:a5l="parent" app:a65="parent" app:a68="@id/text2" />
+    <androidx.constraintlayout.widget.Group android:id="@id/myGroup" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" app:l1="emptyicon,jump,text2,emptext1" />
+</com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>

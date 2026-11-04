@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/startLiveTag" android:tag="layout/layout_start_live_entry_tag_0" android:background="@drawable/c73" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxHeight="440.0dip" android:minHeight="340.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/viewPager" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5g="@id/bottomContainer" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <View android:id="@id/bottomShadow" android:background="@drawable/cjm" android:layout_width="0.0dip" android:layout_height="20.0dip" app:a5g="@id/bottomContainer" />
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/bottomContainer" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5f="parent" app:a5z="parent" app:a63="parent">
+        <TextView android:textSize="12.0sp" android:textColor="@color/a0n" android:id="@id/tagTips" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="请根据本场直播内容选择标签，否则标签可能会被替换" app:a5z="parent" app:a63="parent" app:a68="@id/tabLayout" />
+        <com.netease.play.ui.CustomButton android:textSize="15.0sp" android:textColor="#ffffffff" android:gravity="center_horizontal" android:layout_gravity="center_horizontal" android:id="@id/confirm" android:paddingTop="11.0dip" android:paddingBottom="11.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="30.0dip" android:layout_marginTop="15.0dip" android:layout_marginRight="30.0dip" android:layout_marginBottom="36.0dip" android:text="@string/dn9" app:gg="0x00020304" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

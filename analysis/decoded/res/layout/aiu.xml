@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/a8c" android:paddingBottom="@dimen/oz" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.FragmentTitleBar android:id="@id/ftb" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="45.0dip" app:tt="false" app:tw="false" app:tx="false" app:v2="设置免密支付扣款顺序" app:v3="18.0dip" />
+    <RelativeLayout android:gravity="center_vertical" android:paddingLeft="@dimen/p0" android:paddingRight="@dimen/p0" android:layout_width="fill_parent" android:layout_height="40.0dip">
+        <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="按以下顺序扣款" android:layout_alignParentStart="true" />
+        <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="长按拖动排序" android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+    <com.netease.epay.recyclerview.widget.RecyclerView android:id="@id/recvPaySequence" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+</LinearLayout>

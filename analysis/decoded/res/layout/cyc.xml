@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/flHeaderImage" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/fragmentContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <FrameLayout android:id="@id/headerBgContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/headerSinglePicBgImage" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" app:ae="centerCrop" app:ahz="centerCrop" />
+            <FrameLayout android:id="@id/headerBgMask" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </FrameLayout>
+        <com.netease.cloudmusic.ui.MyMusicTopArcLayout android:id="@id/contentBgView" android:layout_width="fill_parent" android:layout_height="fill_parent" app:as="true" app:p_="12.0dip" app:aa5="24.0dip">
+            <FrameLayout android:id="@id/bottomAreaMask" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </com.netease.cloudmusic.ui.MyMusicTopArcLayout>
+    </FrameLayout>
+</FrameLayout>

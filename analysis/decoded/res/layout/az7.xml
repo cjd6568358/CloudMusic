@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.ui.TextViewFixTouchConsume android:textStyle="bold" android:textColor="@color/b21" android:ellipsize="end" android:id="@id/halfCommentContent" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:maxLines="3" android:lineSpacingMultiplier="1.3" />
+    <TextView android:textSize="14.0dip" android:textColor="@color/b1k" android:layout_gravity="end" android:id="@id/halfCommentAuthor" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" />
+</LinearLayout>

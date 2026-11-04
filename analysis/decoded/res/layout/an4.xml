@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:id="@id/child_profile_modify_container" android:fadingEdgeLength="0.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="10.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/child_avatar_container" app:e4="14.0dip" style="@style/a3f">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:layout_width="0.0dip" android:text="@string/h4f" android:layout_weight="1.0" style="@style/a3d" />
+            <com.netease.cloudmusic.ui.AvatarImage android:id="@id/child_avatar" android:layout_width="wrap_content" android:layout_height="wrap_content" app:cv="style5" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/child_nickname_container" app:e4="14.0dip" style="@style/a3g">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/f2q" style="@style/a3d" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/child_nickname" style="@style/a3e" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/child_birthday_container" app:e4="14.0dip" style="@style/a3g">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/a8r" style="@style/a3d" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/child_birthday" android:hint="@string/f_9" style="@style/a3e" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/child_gender_container" app:e4="14.0dip" style="@style/a3g">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/ce9" style="@style/a3d" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/child_gender" style="@style/a3e" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    </LinearLayout>
+</ScrollView>

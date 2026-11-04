@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:layout_gravity="bottom|center" android:orientation="vertical" android:id="@id/dialog_container" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <View android:layout_gravity="center_horizontal" android:id="@id/handle" android:layout_width="34.0dip" android:layout_height="4.0dip" android:layout_marginTop="8.0dip" />
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/aj5" android:layout_marginTop="12.0dip" android:layout_marginRight="@dimen/aj5" android:minHeight="21.0dip" android:layout_marginHorizontal="@dimen/aj5">
+            <LinearLayout android:layout_gravity="center_vertical" android:orientation="horizontal" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0dip" android:layout_gravity="center_vertical" android:id="@id/add2VoicelistHeader" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cmw" android:lineSpacingMultiplier="1.25" android:layout_marginEnd="37.0dip" app:qe="colorText2" />
+                <LinearLayout android:layout_gravity="center_vertical" android:clipChildren="false" android:clipToPadding="false" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0dip" android:layout_gravity="center_vertical" android:id="@id/add2PlaylistHeader" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cmu" android:lineSpacingMultiplier="1.25" app:qe="colorText2" />
+                    <com.netease.cloudmusic.ui.RoundImageView android:id="@id/add2PlaylistNewBadge" android:visibility="gone" android:layout_width="4.0dip" android:layout_height="4.0dip" android:layout_marginTop="3.0dip" android:layout_marginStart="1.0dip" app:jw="2.0dip" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:layout_gravity="center_vertical" android:orientation="horizontal" android:id="@id/headerActionArea" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0dip" android:gravity="center" android:layout_gravity="center_vertical" android:id="@id/sortBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:drawablePadding="4.0dip" app:qe="colorText2" />
+                <View android:layout_gravity="center_vertical" android:id="@id/line" android:layout_width="1.0dip" android:layout_height="12.0dip" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip" android:layout_marginHorizontal="10.0dip" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0dip" android:gravity="center" android:layout_gravity="center_vertical" android:id="@id/multiCheckBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" app:qe="colorText2" app:adf="true" app:aeu="@color/a2d" />
+            </LinearLayout>
+        </LinearLayout>
+        <View android:id="@id/tabIndicator" android:layout_width="0.0dip" android:layout_height="1.0dip" android:layout_marginTop="15.0dip" />
+        <View android:id="@id/divider" android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_marginLeft="@dimen/aj5" android:layout_marginTop="16.0dip" android:layout_marginRight="@dimen/aj5" android:layout_marginHorizontal="@dimen/aj5" />
+        <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/myCreatePlayList" android:fadingEdge="none" android:layout_width="fill_parent" android:layout_height="wrap_content" android:overScrollMode="never" />
+    </LinearLayout>
+</FrameLayout>

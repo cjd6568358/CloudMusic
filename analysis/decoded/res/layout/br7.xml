@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/container_join_fans" android:tag="layout/layout_fans_join_toast_0" android:background="@drawable/bz9" android:layout_width="162.0dip" android:layout_height="36.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar_join_fans" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginLeft="1.0dip" app:a5f="parent" app:a5z="parent" app:a69="parent" app:ai4="style7" />
+    <TextView android:textSize="10.0sp" android:textStyle="bold" android:textColor="#ffff2c55" android:ellipsize="end" android:id="@id/nickname_join_fans" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:layout_marginRight="18.0dip" android:maxLines="1" app:a5g="@id/des_join_fans" app:a60="@id/avatar_join_fans" app:a63="parent" app:a69="parent" app:a6a="packed" />
+    <TextView android:textSize="10.0sp" android:textColor="#ffff2c55" android:ellipsize="end" android:id="@id/des_join_fans" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:layout_marginRight="18.0dip" android:maxLines="1" app:a5f="parent" app:a60="@id/avatar_join_fans" app:a63="parent" app:a68="@id/nickname_join_fans" app:a6a="packed" />
+</androidx.constraintlayout.widget.ConstraintLayout>

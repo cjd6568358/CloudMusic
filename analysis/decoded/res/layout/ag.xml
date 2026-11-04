@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/alarmClockMusicContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" fresco:ae_="@color/a5d" fresco:aer="@color/ait"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/alarmClockAdBanner" android:layout_width="fill_parent" android:layout_height="wrap_content" fresco:ae="centerCrop" fresco:w3="300" fresco:ag3="@drawable/dh1" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_horizontal" android:orientation="horizontal" android:id="@id/alarmClockTimeContainer" android:paddingLeft="@dimen/s1" android:layout_width="fill_parent" android:layout_height="66.66998dip" android:layout_below="@id/alarmClockAdBanner" fresco:y4="true" fresco:ae4="16.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="38.0sp" android:textColor="@color/aiv" android:layout_gravity="center" android:id="@id/alarmClockTime" android:layout_weight="1.0" style="@style/a93" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:layout_gravity="center_vertical" android:id="@id/alarmClockTimeSettingSwitch" style="@style/a9c" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="horizontal" android:id="@id/alarmClockSetBellContainer" android:paddingLeft="@dimen/s1" android:paddingRight="@dimen/s2" android:clickable="true" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_below="@id/alarmClockTimeContainer" fresco:y4="true" fresco:ae4="16.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="@dimen/ar0" android:textColor="@color/aiv" android:gravity="center|left" android:layout_gravity="center|left" android:id="@id/alarmClockBell" android:text="@string/nz" fresco:adm="false" style="@style/a93" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiy" android:gravity="center|right" android:id="@id/alarmClockSongName" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginLeft="30.0dip" android:text="@string/o1" android:singleLine="true" android:layout_weight="1.0" fresco:adm="false" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_horizontal" android:orientation="horizontal" android:id="@id/alarmClockSetRepeatContainer" android:paddingLeft="@dimen/s1" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_below="@id/alarmClockSetBellContainer" fresco:y4="true" fresco:ae4="16.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="@dimen/ar0" android:textColor="@color/aiv" android:layout_gravity="center" android:id="@id/alarmClockRepeat" android:text="@string/a6" android:layout_weight="1.0" fresco:adm="false" style="@style/a93" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:gravity="center|right" android:layout_gravity="center" android:id="@id/alarmClockSetRepeatSwitch" style="@style/a9c" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeLine android:layout_gravity="center" android:id="@id/repeatLineUp" android:background="@color/a5c" android:layout_width="fill_parent" android:layout_height="0.33000004dip" android:layout_marginLeft="10.0dip" android:layout_below="@id/alarmClockSetRepeatContainer" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/alarmClockChooseDaysForRepeatContainer" android:layout_width="fill_parent" android:layout_height="55.0dip" android:layout_below="@id/alarmClockSetRepeatContainer">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/alarmClockSetRepeatInMonday" android:text="@string/nf" style="@style/a3m" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/alarmClockSetRepeatInTuesday" android:text="@string/nu" style="@style/a3m" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/alarmClockSetRepeatInWednesday" android:text="@string/nx" style="@style/a3m" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/alarmClockSetRepeatInThursday" android:text="@string/nm" style="@style/a3m" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/alarmClockSetRepeatInFriday" android:text="@string/na" style="@style/a3m" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/alarmClockSetRepeatInSaturday" android:text="@string/nk" style="@style/a3m" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/alarmClockSetRepeatInSunday" android:text="@string/nl" style="@style/a3m" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aj0" android:gravity="left" android:paddingLeft="@dimen/s1" android:paddingTop="@dimen/ag_" android:clickable="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/nh" android:layout_below="@id/alarmClockChooseDaysForRepeatContainer" />
+    <include layout="@layout/dq9" />
+</com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>

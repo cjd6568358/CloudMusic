@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/transition_container" android:tag="layout/playlive_video_party_transition_anim_layout_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/vipTransitionIn" android:layout_width="180.0dip" android:layout_height="180.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/pkTransitionIn" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="fitCenter" />
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/campBlue" android:layout_width="wrap_content" android:layout_height="fill_parent" app:a5l="parent" app:a69="parent" />
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/campRed" android:layout_width="wrap_content" android:layout_height="fill_parent" app:a65="parent" app:a69="parent" />
+    <androidx.constraintlayout.widget.Group android:id="@id/pkTransitionOut" android:layout_width="wrap_content" android:layout_height="wrap_content" app:l1="campBlue,campRed" />
+</androidx.constraintlayout.widget.ConstraintLayout>

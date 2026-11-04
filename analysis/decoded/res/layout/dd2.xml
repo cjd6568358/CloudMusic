@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/main" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:layout_gravity="center_horizontal" android:orientation="vertical" android:id="@id/retry" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent">
+        <ImageView android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="120.0dip" android:src="@drawable/dam" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="#ff333333" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:text="@string/f60" />
+    </LinearLayout>
+    <WebView android:id="@id/content" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

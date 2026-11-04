@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:background="@drawable/b9n" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.AvatarImage android:id="@id/artistAvatar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="40.0dip" android:layout_centerHorizontal="true" app:cv="style1" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/albumCover" android:background="@drawable/d5_" android:paddingRight="35.0dip" android:visibility="gone" android:layout_width="115.0dip" android:layout_height="80.0dip" android:layout_marginTop="40.0dip" android:layout_centerHorizontal="true" app:ae="centerCrop" />
+    <TextView android:textSize="17.0sp" android:textColor="@color/aiv" android:gravity="center_horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:text="@string/ime" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/aiv" android:id="@id/vipValidateHint" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="14.0dip" android:text="@string/j8l" android:includeFontPadding="false" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:gravity="center" android:id="@id/viewAlbumButton" android:layout_width="fill_parent" android:layout_height="43.0dip" android:layout_marginLeft="20.0dip" android:layout_marginTop="36.0dip" android:layout_marginRight="20.0dip" android:text="@string/j76" app:gl="useTheme" />
+    <TextView android:textSize="13.0sp" android:textColor="@color/aw2" android:gravity="center" android:id="@id/enterVipZone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="13.0dip" android:layout_marginBottom="13.0dip" android:text="@string/e2p" />
+</LinearLayout>

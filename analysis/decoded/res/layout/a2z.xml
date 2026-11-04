@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/dialog_audiochat_renew_layout_0" android:layout_width="fill_parent" android:layout_height="342.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:background="@drawable/c2a" android:layout_width="fill_parent" android:layout_height="326.0dip" android:backgroundTint="#ff1d1921" app:a5f="parent" />
+    <androidx.legacy.widget.Space android:id="@id/sp_placehoder_1" android:layout_width="16.0dip" android:layout_height="50.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar_left" android:layout_width="50.0dip" android:layout_height="50.0dip" app:a63="@id/sp_placehoder_1" app:a69="parent" app:ai4="style18" app:arl="@color/b12" app:arm="2.0dip" />
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar_right" android:layout_width="50.0dip" android:layout_height="50.0dip" app:a5z="@id/sp_placehoder_1" app:a69="parent" app:ai4="style18" app:arl="@color/b12" app:arm="2.0dip" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/text_des" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginTop="16.0dip" android:layout_marginRight="12.0dip" android:maxLines="1" app:a68="@id/avatar_left" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/recyclerview_renew" android:layout_width="fill_parent" android:layout_height="120.0dip" android:layout_marginLeft="7.0dip" android:layout_marginTop="17.0dip" android:layout_marginRight="7.0dip" app:a68="@id/text_des" />
+    <Button android:textSize="18.0sp" android:textColor="@color/b12" android:id="@id/button_renew" android:background="@drawable/r6" android:layout_width="fill_parent" android:layout_height="48.0dip" android:layout_marginLeft="48.0dip" android:layout_marginTop="10.0dip" android:layout_marginRight="48.0dip" android:insetTop="0.0dip" android:insetBottom="0.0dip" app:a68="@id/recyclerview_renew" />
+</androidx.constraintlayout.widget.ConstraintLayout>

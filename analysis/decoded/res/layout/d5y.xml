@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_gravity="center" android:id="@id/PlayerAmazingEffectContainer" android:visibility="visible" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/backgroundMask" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <ImageView android:id="@id/diskCoverCopy" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <com.netease.cloudmusic.ui.RotateDraweeView android:layout_gravity="center" android:id="@id/video_cover_blur" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/gsg" android:scaleType="centerCrop" android:layout_centerInParent="true" />
+    <com.netease.cloudmusic.ui.RotateDraweeView android:layout_gravity="center" android:id="@id/videoCover" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/gsg" android:scaleType="centerCrop" android:layout_centerInParent="true" />
+    <include android:visibility="gone" android:layout_width="24.0dip" android:layout_height="14.0dip" android:layout_marginTop="20.0dip" android:layout_marginRight="16.0dip" android:layout_alignParentRight="true" layout="@layout/bj0" />
+</RelativeLayout>

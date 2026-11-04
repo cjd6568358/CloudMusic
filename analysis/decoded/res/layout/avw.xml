@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:id="@id/clContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicViewPager android:id="@id/searchFragmentViewPager" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/tabLayoutBg" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="@id/tabLayout" app:a69="parent" />
+    <com.netease.cloudmusic.music.biz.search.ui.SearchTableLayout android:id="@id/tabLayout" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="fill_parent" android:layout_height="40.0dip" app:a69="parent" app:avq="false" />
+    <FrameLayout android:id="@id/fragmentContainerInner" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a69="@id/tabLayout" />
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/smartSearchEntrance" android:visibility="visible" android:layout_width="72.0dip" android:layout_height="72.0dip" app:a5f="parent" app:a5l="parent" />
+</com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.RoundedRelativeLayout android:id="@id/layout_ad_old_style" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="wrap_content" app:jw="6.0dip">
+        <com.netease.cloudmusic.ui.round.RoundedFrameLayout android:id="@id/adSearchContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" app:jw="6.0dip">
+            <com.netease.cloudmusic.ui.AdBannerView android:id="@id/adBannerView" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" />
+        </com.netease.cloudmusic.ui.round.RoundedFrameLayout>
+        <com.netease.cloudmusic.ui.AdTagView android:id="@id/adTagView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:layout_marginRight="4.0dip" android:layout_alignParentTop="true" android:layout_alignParentRight="true" app:jj="10.0dip" app:zd="true" app:atr="colorTextOnimage1" app:aty="0.0dip" app:au2="16.0dip" app:au5="10.0sp" />
+        <FrameLayout android:id="@id/bottomTagView" android:paddingBottom="4.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="4.0dip" android:layout_alignParentRight="true" android:layout_alignParentBottom="true">
+            <com.netease.cloudmusic.ui.RoundedFrameLayout android:background="@color/g3" android:paddingLeft="3.0dip" android:paddingRight="3.0dip" android:layout_width="wrap_content" android:layout_height="14.0dip" android:paddingHorizontal="3.0dip" app:jw="2.0dip">
+                <androidx.appcompat.widget.AppCompatTextView android:textSize="9.0sp" android:textColor="#ff283248" android:layout_gravity="center" android:id="@id/bottomTagTV" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            </com.netease.cloudmusic.ui.RoundedFrameLayout>
+        </FrameLayout>
+    </com.netease.cloudmusic.ui.RoundedRelativeLayout>
+    <com.netease.cloudmusic.ui.RoundedConstraintlayout android:id="@id/layout_ad_new_style" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" app:jw="6.0dip">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/iv_ad_blur_bg" android:layout_width="0.0dip" android:layout_height="0.0dip" android:scaleType="centerCrop" app:ae="centerCrop" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        <View android:background="#33000000" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        <FrameLayout android:id="@id/layout_ad_container" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5k="16:9" app:a65="parent" app:a69="parent">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/iv_ad_cover" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" app:ae="centerCrop" />
+        </FrameLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:ellipsize="end" android:id="@id/tv_ad_title" android:layout_width="0.0dip" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" android:layout_marginStart="12.0dip" android:layout_marginEnd="8.0dip" app:qe="colorTextOnimage1" app:a5g="@id/tv_ad_subtitle" app:a5m="@id/adTagViewNew" app:a64="@id/layout_ad_container" app:a69="parent" app:a6a="packed" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:ellipsize="end" android:id="@id/tv_ad_subtitle" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:singleLine="true" android:includeFontPadding="false" android:layout_marginStart="12.0dip" android:layout_marginEnd="12.0dip" app:qe="colorTextOnimage3_1" app:a5f="parent" app:a5l="parent" app:a64="@id/layout_ad_container" app:a68="@id/tv_ad_title" />
+        <com.netease.cloudmusic.ui.AdTagView android:id="@id/adTagViewNew" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:layout_marginRight="4.0dip" app:jj="10.0dip" app:a5l="parent" app:a69="parent" app:atr="colorTextOnimage1" app:aty="0.0dip" app:au0="colorTextOnimage1_1" app:au1="colorText1" app:au2="16.0dip" app:au5="10.0sp" />
+    </com.netease.cloudmusic.ui.RoundedConstraintlayout>
+    <com.netease.cloudmusic.music.biz.search.complex.viewholder.ad.SearchAdItemClickStayView android:id="@id/searchAdClickStayView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <com.netease.cloudmusic.music.biz.search.complex.viewholder.ad.SearchAdItemClickStayMediumView android:id="@id/searchAdClickStayMediumView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <com.netease.cloudmusic.music.biz.search.complex.viewholder.ad.SearchAdItemLargeView android:id="@id/searchAdLargeView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <com.netease.cloudmusic.music.biz.search.complex.viewholder.ad.SearchAdItemMediumView android:id="@id/searchAdMediumView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <com.netease.cloudmusic.music.biz.search.complex.viewholder.ad.SearchAdItemLpRtViewV1 android:id="@id/searchLpRtView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+</merge>

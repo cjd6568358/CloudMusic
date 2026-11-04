@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.impress.OlderImpressCustomThemeLinearLayout fresco:ae4="60.0dip" style="@style/a71"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CoverStatusDraweeView android:id="@id/newMusicImg" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_marginRight="10.0dip" fresco:ae="centerCrop" fresco:w3="300" fresco:ahy="@drawable/cx5" fresco:ahz="fitXY" fresco:am0="8.0dip" fresco:avr="true" />
+    <LinearLayout android:id="@id/songNameAndInfoArea" android:layout_width="wrap_content" android:minHeight="50.0dip" android:layout_weight="0.0" style="@style/a70">
+        <include layout="@layout/dn8" />
+        <include layout="@layout/dn5" />
+    </LinearLayout>
+    <Space android:id="@id/space" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="1.0px" android:layout_weight="1.0" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconWithBackgroundImageView android:id="@id/video_img" android:background="@drawable/list_selector" android:padding="10.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" app:aev="@color/a2h" app:aqh="@drawable/c4u" xmlns:app="http://schemas.android.com/apk/res-auto" />
+</com.netease.cloudmusic.ui.impress.OlderImpressCustomThemeLinearLayout>

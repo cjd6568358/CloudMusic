@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <include layout="@layout/ajk" />
+        <com.netease.epay.sdk.base.view.gridpwd.GridPasswordView android:id="@id/et_payshorty_pwd" android:layout_width="fill_parent" android:layout_height="@dimen/p5" android:layout_marginLeft="@dimen/ol" android:layout_marginTop="@dimen/om" android:layout_marginRight="@dimen/ol" app:ta="true" app:tl="@color/wx" app:uz="12.0dip" />
+        <LinearLayout android:orientation="vertical" android:id="@id/ll_passwd_free_pay_agreement" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/ol" android:layout_marginTop="20.0dip" android:layout_marginRight="@dimen/ol" android:layout_below="@id/flyt_sms_input">
+            <TextView android:textSize="12.0dip" android:textColor="@color/ws" android:id="@id/tv_protocol" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+            <com.netease.epay.sdk.base.view.LongCommonButton android:id="@id/btn_done" android:layout_marginLeft="0.0dip" android:layout_marginTop="12.0dip" android:layout_marginRight="0.0dip" android:text="确认支付" android:layout_below="@id/ll_passwd_free_pay_agreement" style="@style/a4y" />
+        </LinearLayout>
+        <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/oj" android:layout_marginRight="@dimen/oj">
+            <TextView android:textSize="12.0dip" android:textColor="@color/wz" android:layout_gravity="right" android:id="@id/tvForgetPwd" android:padding="9.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="忘记密码?" />
+        </FrameLayout>
+    </LinearLayout>
+</ScrollView>

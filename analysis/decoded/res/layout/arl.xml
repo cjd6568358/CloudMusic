@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicToolbar android:id="@id/toolbar" android:background="?kl" android:layout_width="fill_parent" android:layout_height="@dimen/art">
+        <TextView android:textSize="15.0sp" android:gravity="center" android:layout_gravity="right" android:id="@id/nextStep" android:background="?anh" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="16.0dip" android:minWidth="45.0dip" android:text="@string/f2l" />
+    </com.netease.cloudmusic.ui.NeteaseMusicToolbar>
+    <RelativeLayout android:id="@id/videoContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/toolbar" />
+    <FrameLayout android:id="@id/frameContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/videoContainer">
+        <view android:id="@id/frame" android:scrollbars="none" android:layout_width="fill_parent" android:layout_height="fill_parent" android:overScrollMode="never" class="com.netease.cloudmusic.music.biz.mlogproduct.cover.MLogCoverCaptureFragment$FrameView" />
+        <View android:id="@id/mask" android:background="#80000000" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <com.facebook.drawee.view.SimpleDraweeView android:id="@id/select" android:layout_width="wrap_content" android:layout_height="fill_parent" fresco:ae="centerCrop" fresco:w3="0" />
+    </FrameLayout>
+    <TextView android:id="@id/desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/hre" android:layout_below="@id/frameContainer" android:layout_centerHorizontal="true" />
+</RelativeLayout>

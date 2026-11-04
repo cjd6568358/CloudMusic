@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/fl_background_round" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="3.0dip" android:layout_marginRight="3.0dip">
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginBottom="24.0dip">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0sp" android:textColor="@color/aiv" android:gravity="center" android:id="@id/plBottomSheetSingleviewHeaderTitle" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" app:adf="true" app:aeu="@color/aiv" />
+            <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/playingContainer" android:layout_width="fill_parent" android:layout_height="34.0dip">
+                <ImageView android:id="@id/iv_playing_ic" android:layout_width="17.0dip" android:layout_height="17.0dip" android:layout_marginTop="1.0dip" android:src="@drawable/bnb" android:scaleType="center" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="@dimen/ar0" android:textColor="#ffff3a3a" android:ellipsize="marquee" android:gravity="center" android:id="@id/plBottomSheetSingleviewContent" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginLeft="4.0dip" android:maxLines="1" android:singleLine="true" android:marqueeRepeatLimit="marquee_forever" app:adf="true" app:aeu="@color/a2g" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>

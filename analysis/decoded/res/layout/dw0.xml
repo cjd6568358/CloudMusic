@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/video_comment_container_root" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="horizontal" android:id="@id/musicIconViewContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="48.0dip" android:paddingStart="9.0dip" android:paddingEnd="16.0dip" app:py="colorNeutral5" app:a5l="parent" app:a65="parent" app:a69="parent">
+        <com.netease.cloudmusic.music.biz.mlog.consume.detail.music.biz.mlogdetail.MLogDetailMusicIconView android:layout_gravity="center_vertical" android:id="@id/musicIconView" android:layout_width="48.0dip" android:layout_height="48.0dip" />
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="center_vertical" android:id="@id/songInfoContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1.0">
+            <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="14.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/songName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ia2" android:maxLines="1" app:a5_="true" app:a5v="0.0" app:a5w="packed" app:a5z="parent" app:a62="@id/artistName" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:ellipsize="end" android:id="@id/artistName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:singleLine="true" android:layout_marginStart="4.0dip" app:a5_="true" app:a5b="@id/songName" app:a60="@id/songName" app:a63="parent" app:a6f="50.0dip" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center_vertical" android:id="@id/songLove" android:layout_width="22.0dip" android:layout_height="22.0dip" android:scaleType="fitXY" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    <FrameLayout android:id="@id/danmakuEditContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout android:id="@id/tabLayout" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="44.0dip" app:a65="parent" app:a68="@id/musicIconViewContainer" />
+    <com.netease.cloudmusic.ui.NeteaseMusicViewPager android:id="@id/viewPager" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a68="@id/tabLayout" />
+    <FrameLayout android:id="@id/infoContainer" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a68="@id/tabLayout" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_new_official_viewer_enter_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/sdvTitle" android:layout_width="200.0dip" android:layout_height="50.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/container" android:background="@drawable/c0j" android:layout_width="285.0dip" android:layout_height="255.0dip" android:layout_marginTop="25.0dip" app:a5l="parent" app:a65="parent" app:a69="parent">
+        <com.netease.play.ui.avatar2.AvatarImage2 android:id="@id/avatar" android:layout_width="80.0dip" android:layout_height="80.0dip" android:layout_marginTop="55.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        <TextView android:textSize="18.0sp" android:textColor="@color/b1e" android:ellipsize="end" android:id="@id/txtName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="7.0dip" android:maxLines="1" app:a5l="parent" app:a65="parent" app:a68="@id/avatar" />
+        <TextView android:textSize="14.0sp" android:textColor="#ffff2c55" android:id="@id/txtInvite" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1.0dip" android:text="@string/f17" app:a5l="parent" app:a65="parent" app:a68="@id/txtName" />
+        <TextView android:textSize="14.0sp" android:textColor="@color/b1q" android:id="@id/txtCountDown" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="13.0dip" android:text="@string/f18" app:a5f="parent" app:a5l="parent" app:a65="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

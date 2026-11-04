@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.music.base.ui.rnwrapper.RNWrapperView android:id="@id/rnView" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a65="parent" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/rnPlaceHolder" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a65="@id/rnView" app:a69="@id/rnView" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="46.0dip" android:layout_marginLeft="16.0dip" android:layout_marginTop="10.0dip" android:layout_marginRight="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:id="@id/inviteFriendTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:text="@string/dtc" app:a5f="parent" app:a5z="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/searchIcon" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginRight="17.0dip" android:src="@drawable/aik" android:scaleType="fitXY" app:a5f="parent" app:a63="parent" app:a69="parent" app:aev="@color/a2d" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:layout_gravity="center_vertical" android:id="@id/search_back" android:paddingLeft="14.0dip" android:paddingRight="14.0dip" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/csw" app:a5f="parent" app:a69="parent" app:aev="@color/a2d" />
+    <androidx.appcompat.widget.SearchView android:gravity="center_vertical" android:id="@id/search_view" android:visibility="invisible" android:layout_width="0.0dip" android:layout_height="fill_parent" app:a60="@id/search_back" app:a63="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

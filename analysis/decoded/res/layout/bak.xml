@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/cl_root" android:tag="layout/item_music_party_guess_quick_0" android:layout_width="fill_parent" android:layout_height="90.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.Guideline android:orientation="vertical" android:id="@id/guideLine" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5p="0.5" />
+    <FrameLayout android:id="@id/fl_song" android:tag="binding_1" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" android:layout_marginRight="5.0dip" android:elevation="5.0dip" app:a5f="parent" app:a5z="parent" app:a63="@id/guideLine" app:a69="parent">
+        <com.netease.live.homepage.newparty.MusicGameQuickLayout android:layout_gravity="center" android:id="@id/gl_guess" android:layout_width="fill_parent" android:layout_height="80.0dip" />
+    </FrameLayout>
+    <FrameLayout android:id="@id/fl_draw" android:tag="binding_2" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:layout_marginRight="6.0dip" android:elevation="5.0dip" app:a5f="parent" app:a5z="@id/guideLine" app:a63="parent" app:a69="parent">
+        <com.netease.live.homepage.newparty.MusicGameQuickLayout android:layout_gravity="center" android:id="@id/gl_draw" android:layout_width="fill_parent" android:layout_height="80.0dip" />
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

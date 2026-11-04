@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="16.0sp" android:textStyle="bold" android:textColor="@color/b1e" android:ellipsize="end" android:gravity="left" android:id="@id/songName" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:maxLines="1" android:includeFontPadding="false" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1w" android:id="@id/songScoreTips" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="4.0dip" android:text="@string/hgo" android:includeFontPadding="false" app:a5z="parent" app:a68="@id/songName" />
+    <TextView android:textSize="12.0sp" android:textStyle="bold" android:textColor="@color/b1w" android:gravity="left" android:id="@id/score" android:layout_width="0.0dip" android:layout_height="wrap_content" android:includeFontPadding="false" app:a60="@id/songScoreTips" app:a69="@id/songScoreTips" />
+</androidx.constraintlayout.widget.ConstraintLayout>

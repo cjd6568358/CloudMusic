@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="bottom" android:background="@drawable/oh" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <FrameLayout android:id="@id/fl_container" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="30.0dip" android:layout_marginBottom="30.0dip" app:a5g="@id/tv_cancel" app:a5z="parent" app:a63="parent" app:a69="parent" />
+        <TextView android:textSize="17.0sp" android:textColor="@color/a0l" android:gravity="center" android:id="@id/tv_cancel" android:background="@drawable/byc" android:layout_width="143.0dip" android:layout_height="47.0dip" android:layout_marginLeft="40.0dip" android:layout_marginBottom="30.0dip" android:text="@string/bk2" app:a5f="parent" app:a5z="parent" />
+        <TextView android:textSize="17.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/tv_accept" android:background="@drawable/bya" android:layout_width="143.0dip" android:layout_height="47.0dip" android:layout_marginRight="40.0dip" android:text="@string/bk0" app:a5f="@id/tv_cancel" app:a63="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

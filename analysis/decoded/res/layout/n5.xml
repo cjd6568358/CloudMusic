@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:gravity="center" android:layout_gravity="center" android:id="@android:id/background" android:background="@mipmap/a3" android:layout_width="fill_parent" android:layout_height="fill_parent" android:minWidth="@dimen/cf" android:minHeight="@dimen/cf"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/widget_background" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@mipmap/a3" android:scaleType="fitXY" />
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <TextView android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="8.0" />
+        <LinearLayout android:layout_gravity="center" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="57.0">
+            <TextView android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="16.5" />
+            <FrameLayout android:layout_gravity="center" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="66.0">
+                <ImageView android:layout_gravity="center" android:id="@id/music_layout" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@mipmap/y" android:adjustViewBounds="true" />
+                <ImageView android:id="@id/music_disk_dynamic_mask" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/music_cover_img_for_placeholder" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                    <TextView android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="20.0" />
+                    <ImageView android:layout_gravity="center" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="0.0dip" android:src="@mipmap/a_" android:adjustViewBounds="true" android:layout_weight="60.0" />
+                    <TextView android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="20.0" />
+                </LinearLayout>
+                <ImageView android:id="@id/music_disk_pointer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            </FrameLayout>
+            <TextView android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="16.5" />
+        </LinearLayout>
+        <TextView android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="5.0" />
+        <TextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="@color/bh" android:id="@id/song_name_tv" android:text="@string/vd" android:layout_marginStart="18.0dip" android:layout_marginEnd="18.0dip" style="@style/an" />
+        <TextView android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="12.0" />
+        <LinearLayout android:gravity="center" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginStart="18.0dip" android:layout_marginEnd="18.0dip">
+            <FrameLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+                <ImageView android:layout_gravity="center" android:id="@id/star_btn" android:layout_width="22.0dip" android:layout_height="22.0dip" android:src="@drawable/ac5" android:contentDescription="@string/a0" />
+            </FrameLayout>
+            <FrameLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+                <ImageView android:layout_gravity="center" android:id="@id/play_pause_btn" android:layout_width="26.0dip" android:layout_height="26.0dip" android:src="@drawable/abz" android:contentDescription="@string/s" />
+            </FrameLayout>
+            <FrameLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+                <ImageView android:layout_gravity="center" android:id="@id/next_btn" android:layout_width="22.0dip" android:layout_height="22.0dip" android:src="@drawable/abn" android:contentDescription="@string/q" />
+            </FrameLayout>
+        </LinearLayout>
+        <TextView android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="8.0" />
+    </LinearLayout>
+    <include layout="@layout/o3" />
+    <include layout="@layout/o7" />
+</FrameLayout>

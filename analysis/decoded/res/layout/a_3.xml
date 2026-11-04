@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent" app:py="colorBackgroundAndroid"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/headerBg" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="centerCrop" />
+    <FrameLayout android:orientation="vertical" android:id="@id/tabRoot" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.discovery.view.widget.ViewPager2Container android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <androidx.viewpager2.widget.ViewPager2 android:id="@id/arkViewPager" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </com.netease.cloudmusic.discovery.view.widget.ViewPager2Container>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/title_layout" android:layout_width="fill_parent" android:layout_height="@dimen/art">
+            <include android:id="@id/menu_icon_container" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16.0dip" layout="@layout/ad7" />
+            <com.netease.cloudmusic.discovery.view.widget.DiscoveryCustomThemeRightIconTabLayout android:id="@id/tabLayout" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0" android:layout_marginStart="@dimen/j6" app:j8="0.7" app:nr="move" app:yn="0.9" app:alj="@drawable/ayk" app:avq="true" />
+        </LinearLayout>
+    </FrameLayout>
+    <include layout="@layout/a9x" />
+</com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout>

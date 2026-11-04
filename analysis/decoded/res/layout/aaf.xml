@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.impress.ImpressCustomThemeLinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CoverStatusDraweeView android:id="@id/podCoverImage" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_marginTop="5.0dip" android:layout_marginBottom="5.0dip" fresco:ae="centerCrop" fresco:w3="300" fresco:a0w="end|bottom|center" fresco:a12="6.0dip" fresco:a13="6.0dip" fresco:ahy="@drawable/cx5" fresco:ahz="fitXY" fresco:am0="8.0dip" fresco:avr="true" xmlns:fresco="http://schemas.android.com/apk/res-auto" />
+    <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginStart="10.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:gravity="start" android:id="@id/podTitle" android:layout_width="fill_parent" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" />
+        <com.netease.cloudmusic.discovery.view.module.podcast.view.SmallCoverVoiceTextView android:id="@id/podAuthor" android:layout_width="fill_parent" android:layout_height="15.0dip" android:layout_marginTop="6.0dip" />
+    </LinearLayout>
+</com.netease.cloudmusic.ui.impress.ImpressCustomThemeLinearLayout>

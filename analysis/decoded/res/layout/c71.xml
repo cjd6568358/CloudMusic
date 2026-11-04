@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/consortEmptyImage" android:layout_width="170.0dip" android:layout_height="120.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="开通黑胶VIP\n才能切换合拍好友哦" app:qe="colorText4" />
+    <com.netease.cloudmusic.core.dolphin.component.button.DolphinButton android:id="@id/consortEmptyButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:text="立即开通" app:q0="primary" app:q1="light" app:q2="xl" app:q4="surface" />
+</LinearLayout>

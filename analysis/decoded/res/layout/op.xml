@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.RoundedConstraintlayout android:orientation="vertical" android:id="@id/itemBg" android:tag="layout/artist_layric_item_detail_0" android:layout_width="@dimen/a1d" android:layout_height="wrap_content" app:jw="@dimen/a1b"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="@dimen/a1c" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/uiDes" android:padding="@dimen/s2" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="4" android:lineSpacingMultiplier="1.2" app:a69="parent" />
+    <com.netease.cloudmusic.module.musicshare.customshare.RoundedLinearWithoutTheme android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/musicResourceItem" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:layout_width="fill_parent" android:layout_height="40.0dip" app:a5f="parent" app:a68="@id/uiDes">
+        <com.netease.cloudmusic.ui.CoverStatusDraweeView android:id="@id/coveBg" android:layout_width="24.0dip" android:layout_height="24.0dip" app:ae="centerCrop" app:a10="10.0dip" app:a1c="10.0dip" app:ahy="@drawable/cx4" app:ahz="centerCrop" app:am0="3.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:ellipsize="end" android:id="@id/uiMainSubTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="7.0dip" android:maxLines="1" />
+    </com.netease.cloudmusic.module.musicshare.customshare.RoundedLinearWithoutTheme>
+</com.netease.cloudmusic.ui.RoundedConstraintlayout>

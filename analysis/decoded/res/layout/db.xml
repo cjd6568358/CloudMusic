@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <EditText android:id="@id/flashLightTime" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="1000" />
+    <Button android:id="@id/btnFlashLight" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="打开闪光灯" />
+    <Button android:id="@id/btnFlashLightOff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="关闭闪光灯" />
+    <EditText android:id="@id/vibrateTime" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="1000" />
+    <Button android:id="@id/btnVibrate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="打开震动" />
+    <EditText android:id="@id/edit_time" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="0.06" android:hint="时长系数： 0.01 - 0.1" />
+    <Button android:id="@id/btnTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="设置系数" />
+    <Button android:id="@id/btnOpenFlashSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="打开闪光开关" />
+    <Button android:id="@id/btnOpenSharkSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="打开震动开关" />
+    <Button android:id="@id/btnCloseFlashSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="关闭闪光开关" />
+    <Button android:id="@id/btnCloseSharkSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="关闭震动开关" />
+</LinearLayout>

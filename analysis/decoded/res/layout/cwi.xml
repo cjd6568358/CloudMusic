@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.music.biz.share.musicshare.card.MusicShareCardItemContainer android:id="@id/container" android:layout_width="fill_parent" android:layout_height="fill_parent" app:jw="@dimen/ac0">
+        <ImageView android:id="@id/bg" android:background="#25ededed" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+        <FrameLayout android:clipChildren="false" android:clipToPadding="false" android:layout_width="82.0dip" android:layout_height="70.0dip" android:layout_centerInParent="true">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center_vertical" android:id="@id/me" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginLeft="3.0dip" android:translationX="18.0dip" app:ae="centerCrop" app:w3="0" app:ahy="@drawable/bhf" app:ahz="centerCrop" app:aln="true" />
+            <com.netease.cloudmusic.module.listentogether.playpage.LTFriendAvatarView android:layout_gravity="center|right" android:id="@id/friend" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginRight="3.0dip" android:alpha="0.0" />
+        </FrameLayout>
+        <FrameLayout android:id="@id/discContainer" android:layout_width="89.0dip" android:layout_height="89.0dip" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" android:alpha="0.0" android:translationY="45.0dip">
+            <ImageView android:id="@id/playDiscBg" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/ga6" />
+            <com.netease.cloudmusic.ui.RotationRelativeLayout android:layout_gravity="center" android:id="@id/disc" android:layout_width="85.0dip" android:layout_height="85.0dip">
+                <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/cover" android:layout_width="60.0dip" android:layout_height="60.0dip" android:layout_centerInParent="true" app:ae="centerCrop" app:w3="0" app:ahy="@drawable/g9f" app:ahz="centerCrop" app:aln="true" />
+                <ImageView android:id="@id/smallAlbumDisc0" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/ga0" android:layout_alignParentTop="true" android:layout_centerHorizontal="true" />
+            </com.netease.cloudmusic.ui.RotationRelativeLayout>
+        </FrameLayout>
+    </com.netease.cloudmusic.music.biz.share.musicshare.card.MusicShareCardItemContainer>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:layout_gravity="center_horizontal" android:id="@id/cardName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:maxLines="2" android:includeFontPadding="false" />
+</LinearLayout>

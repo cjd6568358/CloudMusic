@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CustomBgThemeGoneImageSwitcher android:id="@id/playlistBlurBg" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <include layout="@layout/dq9" />
+    <FrameLayout android:id="@id/playlistSquareContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/toolbar">
+        <com.netease.cloudmusic.ui.PlaylistSquareTabLayout android:id="@id/tabLayout" android:fadingEdge="horizontal" android:fadingEdgeLength="15.0dip" android:layout_width="fill_parent" android:layout_height="@dimen/u7" android:layout_marginRight="40.0dip" android:layout_weight="1.0" android:requiresFadingEdge="horizontal" app:asl="16.0dip" app:atg="0.0dip" app:avq="false" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:layout_gravity="right" android:id="@id/tabSettings" android:paddingLeft="10.0dip" android:paddingTop="9.0dip" android:paddingRight="10.0dip" android:paddingBottom="9.0dip" android:layout_width="40.0dip" android:layout_height="38.0dip" app:aeb="#72ffffff" app:aev="@color/aix" />
+    </FrameLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeLine android:id="@id/divider" android:background="@color/lineColor" android:layout_width="fill_parent" android:layout_height="@dimen/vp" android:layout_below="@id/playlistSquareContainer" />
+    <include android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/divider" layout="@layout/y6" />
+    <include android:id="@id/loadingView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="94.0dip" android:layout_below="@id/toolbar" layout="@layout/cff" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textColor="@color/aiz" android:gravity="center" android:id="@id/retryView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="@string/dih" android:layout_below="@id/toolbar" android:layout_centerInParent="true" />
+</RelativeLayout>

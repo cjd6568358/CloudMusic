@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:ellipsize="end" android:id="@id/titleTV" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="24.0dip" android:maxLines="2" android:lineSpacingExtra="7.0dip" app:qe="colorText1" app:a5_="true" app:a5g="@id/actionTV" app:a5v="0.0" app:a5z="parent" app:a62="@id/rightIV" app:a69="parent" app:a6a="packed" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:ellipsize="end" android:id="@id/actionTV" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="7.0dip" android:maxLines="1" android:lineSpacingExtra="7.0dip" app:qe="colorSecondary3" app:a5f="parent" app:a5z="parent" app:a68="@id/titleTV" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/rightIV" android:layout_width="64.0dip" android:layout_height="64.0dip" app:ae="centerCrop" app:a5f="parent" app:a63="parent" app:a69="parent" app:ahy="@drawable/cx6" app:ahz="fitXY" app:am0="4.0dip" />
+</androidx.constraintlayout.widget.ConstraintLayout>

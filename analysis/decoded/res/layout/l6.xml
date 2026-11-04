@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/bgContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="30.0dip">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/freeIV" android:layout_width="20.0dip" android:layout_height="20.0dip" android:src="@drawable/d4f" app:a5f="parent" app:a5z="parent" app:a69="parent" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/do" android:ellipsize="end" android:id="@id/titleTV" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:maxLines="1" app:a5_="true" app:a5f="parent" app:a5v="0.0" app:a5w="packed" app:a60="@id/freeIV" app:a62="@id/countdownView" app:a69="parent" />
+        <com.netease.cloudmusic.ui.ad.dslview.common.AdCountdownView android:id="@id/countdownView" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:layout_marginRight="5.0dip" app:a5f="@id/freeIV" app:a60="@id/titleTV" app:a62="@id/actionTV" app:a69="@id/freeIV" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/do" android:id="@id/actionTV" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="8.0dip" app:a5f="parent" app:a60="@id/countdownView" app:a62="@id/closeIV" app:a69="parent" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/closeIV" android:layout_width="12.0dip" android:layout_height="12.0dip" android:layout_marginRight="8.0dip" android:src="@drawable/do" app:a5f="parent" app:a63="parent" app:a69="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

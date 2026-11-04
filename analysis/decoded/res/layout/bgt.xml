@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/soundContainer" android:tag="layout/item_sound_effect_0" android:layout_width="70.0dip" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/soundImg" android:tag="binding_1" android:layout_width="50.0dip" android:layout_height="50.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" app:aln="true" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/selectCircle" android:tag="binding_2" android:layout_width="51.0dip" android:layout_height="51.0dip" android:src="@drawable/bto" app:a5f="@id/soundImg" app:a5l="@id/soundImg" app:a65="@id/soundImg" app:a69="@id/soundImg" />
+    <ImageView android:id="@id/selectStatic" android:tag="binding_3" android:background="@drawable/auq" android:layout_width="26.0dip" android:layout_height="12.0dip" android:layout_marginBottom="-6.0dip" app:a5f="@id/soundImg" app:a5l="@id/soundImg" app:a65="@id/soundImg" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/selectAnim" android:tag="binding_4" android:layout_width="26.0dip" android:layout_height="12.0dip" android:layout_marginBottom="-6.0dip" app:a5f="@id/soundImg" app:a5l="@id/soundImg" app:a65="@id/soundImg" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/b1q" android:gravity="center" android:id="@id/name" android:tag="binding_5" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:includeFontPadding="false" app:a5l="parent" app:a65="parent" app:a68="@id/soundImg" />
+</androidx.constraintlayout.widget.ConstraintLayout>

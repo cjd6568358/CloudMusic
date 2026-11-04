@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="50.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:textColor="@color/b1z" android:gravity="center_vertical" android:id="@id/momentShareBtn" android:layout_width="wrap_content" android:layout_height="fill_parent" android:drawablePadding="2.0dip" android:paddingStart="5.0dip" android:paddingEnd="8.0dip" android:layout_marginEnd="8.0dip" app:a5l="parent" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/commentContainer" android:layout_width="wrap_content" android:layout_height="fill_parent" android:includeFontPadding="false" app:a5m="@id/momentShareBtn">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/commentIcon" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginStart="5.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/b1z" android:id="@id/commentText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:layout_marginStart="2.0dip" android:layout_marginEnd="5.0dip" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/likeContainer" android:layout_width="wrap_content" android:layout_height="fill_parent" app:a5m="@id/commentContainer">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/likeIcon" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginStart="5.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/b1z" android:id="@id/likeText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:layout_marginStart="2.0dip" android:layout_marginEnd="7.0dip" />
+    </LinearLayout>
+    <FrameLayout android:id="@id/userAvatarContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="9.0dip" app:a5f="parent" app:a65="parent" app:a69="parent">
+        <com.netease.cloudmusic.ui.DecoratedAvatarImage android:id="@id/userAvatar" android:layout_width="wrap_content" android:layout_height="wrap_content" app:cv="style6" app:w_="@color/b1d" app:y5="true" app:ahy="@color/b1d" />
+    </FrameLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0dip" android:textColor="@color/b1e" android:ellipsize="end" android:gravity="center" android:id="@id/userName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" app:a5_="true" app:a5f="parent" app:a5m="@id/userFollow" app:a5v="0.0" app:a5w="packed" app:a64="@id/userAvatarContainer" app:a69="parent" app:a6a="packed" app:a6p="8.0dip" />
+    <com.netease.cloudmusic.music.biz.moment.view.MomentFollowView android:id="@id/userFollow" android:visibility="gone" android:layout_width="30.0dip" android:layout_height="16.0dip" android:layout_marginStart="6.0dip" android:layout_marginEnd="6.0dip" app:a5f="@id/userName" app:a5m="@id/likeContainer" app:a64="@id/userName" app:a69="@id/userName" />
+</merge>

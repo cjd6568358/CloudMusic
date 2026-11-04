@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_gravity="bottom" android:id="@id/footerBarRoot" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:paddingBottom="@dimen/akl" android:layout_width="fill_parent" android:layout_height="88.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:layout_gravity="bottom" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="@dimen/akk">
+        <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/footerLoopBtn" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+            <ImageView android:id="@id/footerLoopIcon" android:layout_width="22.0dip" android:layout_height="22.0dip" android:src="@drawable/ajd" />
+            <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/footerLoopTextContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:id="@id/footerLoopText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="循环播放" app:qe="colorText2" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0dip" android:id="@id/footerLoopSubText" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.0" app:qe="colorText4_1" />
+            </LinearLayout>
+        </LinearLayout>
+        <android.widget.Space android:layout_width="10.0dip" android:layout_height="fill_parent" />
+        <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/footerTransitionBtn" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+            <FrameLayout android:layout_width="24.0dip" android:layout_height="24.0dip">
+                <ImageView android:layout_gravity="center" android:id="@id/footerTransitionIcon" android:layout_width="22.0dip" android:layout_height="22.0dip" android:src="@drawable/gg1" />
+                <ImageView android:id="@id/footerTransitionActiveDot" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/dys" />
+            </FrameLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:id="@id/footerTransitionText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="2.0dip" android:text="智能过渡" app:qe="colorText2" />
+        </LinearLayout>
+        <android.widget.Space android:layout_width="10.0dip" android:layout_height="fill_parent" />
+        <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/footerAutoPlayBtn" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+            <FrameLayout android:layout_width="24.0dip" android:layout_height="24.0dip">
+                <ImageView android:layout_gravity="center" android:id="@id/footerAutoPlayIcon" android:layout_width="22.0dip" android:layout_height="22.0dip" android:src="@drawable/e24" />
+                <ImageView android:id="@id/footerAutoPlayActiveDot" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/dys" />
+            </FrameLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:id="@id/footerAutoPlayText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="2.0dip" android:text="自动续播" app:qe="colorText2" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

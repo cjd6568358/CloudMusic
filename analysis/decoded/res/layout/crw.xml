@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="37.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/musicLayout1" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/musicCheckBoxContainer" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:layout_width="wrap_content" android:layout_height="fill_parent">
+            <com.netease.cloudmusic.theme.ui.MLogRcmCheckBox android:layout_gravity="center_vertical" android:id="@id/musicCheckBox" android:focusable="true" android:layout_width="15.0dip" android:layout_height="15.0dip" />
+            <TextView android:textSize="12.0sp" android:textColor="#ffffffff" android:id="@id/musicText1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:layout_marginRight="10.0dip" android:text="@string/jz" />
+        </LinearLayout>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/musicEditContainer" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+            <TextView android:textSize="12.0sp" android:textColor="#ffffffff" android:ellipsize="marquee" android:id="@id/musicNameAndArtist" android:focusable="true" android:focusableInTouchMode="true" android:fadingEdge="horizontal" android:fadingEdgeLength="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:singleLine="true" android:layout_weight="1.0" android:marqueeRepeatLimit="marquee_forever" />
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/musicImage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="16.0dip" app:aqh="@drawable/al5" />
+        </LinearLayout>
+        <View android:background="#1affffff" android:layout_width="0.70000005dip" android:layout_height="12.0dip" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/voiceCheckBoxContainer" android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:layout_width="wrap_content" android:layout_height="fill_parent">
+            <com.netease.cloudmusic.theme.ui.MLogRcmCheckBox android:layout_gravity="center_vertical" android:id="@id/voiceCheckBox" android:focusable="true" android:layout_width="15.0dip" android:layout_height="15.0dip" />
+            <TextView android:textSize="12.0sp" android:textColor="#ffffffff" android:id="@id/voiceText1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:text="@string/k1" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@id/musicLayout2" android:visibility="gone" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:clipChildren="false" android:clipToPadding="false" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+            <TextView android:textSize="12.0sp" android:textColor="#ffffffff" android:id="@id/musicText2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/jz" />
+            <FrameLayout android:id="@id/musicSeekBarContainer" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                <com.netease.cloudmusic.music.biz.mlogproduct.edit.music.TextHintSeekBar android:layout_gravity="center_vertical" android:id="@id/musicSeekBar" android:paddingLeft="0.0dip" android:paddingRight="0.0dip" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxHeight="2.0dip" android:max="100" android:progress="100" android:progressDrawable="@drawable/bcm" android:minHeight="2.0dip" />
+            </FrameLayout>
+        </LinearLayout>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:clipChildren="false" android:clipToPadding="false" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+            <TextView android:textSize="12.0sp" android:textColor="#ffffffff" android:id="@id/voiceText2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:text="@string/k1" />
+            <FrameLayout android:id="@id/voiceSeekBarContainer" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                <com.netease.cloudmusic.music.biz.mlogproduct.edit.music.TextHintSeekBar android:layout_gravity="center_vertical" android:id="@id/voiceSeekBar" android:paddingLeft="0.0dip" android:paddingRight="0.0dip" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxHeight="2.0dip" android:max="100" android:progress="100" android:progressDrawable="@drawable/bcm" android:minHeight="2.0dip" />
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

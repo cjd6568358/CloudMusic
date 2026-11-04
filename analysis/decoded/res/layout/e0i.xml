@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.ShadowFrameLayout android:id="@id/voiceGuideButton" android:focusable="true" android:visibility="gone" android:clickable="true" android:layout_width="wrap_content" android:layout_height="wrap_content" app:ao9="#ffffffff" app:ao_="6.0dip" app:aoa="#0f0f240f" app:aod="12.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/v8" android:layout_width="wrap_content" android:layout_height="24.0dip" android:paddingStart="6.0dip" android:paddingEnd="9.0dip">
+        <ImageView android:id="@id/voiceGuideMic" android:layout_width="14.0dip" android:layout_height="14.0dip" android:src="@drawable/axx" android:contentDescription="@null" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:id="@id/voiceGuideText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="0.5dip" android:text="我也录一段" android:includeFontPadding="false" app:qe="colorText2_1" />
+    </LinearLayout>
+</com.netease.cloudmusic.ui.ShadowFrameLayout>

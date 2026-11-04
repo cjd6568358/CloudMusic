@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:tag="layout/layout_common_live_cover_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/ivShadow" android:layout_width="60.0dip" android:layout_height="12.0dip" android:layout_marginTop="-8.0dip" android:layout_below="@id/ivCover" android:layout_centerHorizontal="true" android:alpha="0.1" app:ae="fitCenter" app:am0="6.0dip" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/ivMask" android:layout_width="78.0dip" android:layout_height="34.0dip" android:layout_marginTop="-22.0dip" android:layout_below="@id/ivCover" app:aqh="@drawable/eyh" />
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/ivCover" android:layout_width="60.0dip" android:layout_height="60.0dip" android:layout_centerHorizontal="true" app:ae="fitCenter" app:ahy="@color/aja" app:am0="6.0dip" />
+</RelativeLayout>

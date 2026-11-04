@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.module.generalresource.view.AutoBgNormalLinearLayout android:orientation="vertical" android:id="@id/listHeader" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.ScrollCustomThemeTabLayout android:id="@id/tabType" android:layout_width="fill_parent" android:layout_height="24.0dip" android:layout_marginTop="10.0dip" android:layout_marginBottom="10.0dip" android:layout_marginStart="12.0dip" app:nr="click" app:at6="44.0dip" app:at7="scrollable" app:at_="13.0dip" app:ata="13.0dip" app:avq="false" />
+    <include layout="@layout/p0" />
+    <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/artistSongList" android:scrollbars="none" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</com.netease.cloudmusic.module.generalresource.view.AutoBgNormalLinearLayout>

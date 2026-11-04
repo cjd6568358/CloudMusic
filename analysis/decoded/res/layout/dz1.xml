@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="wrap_content" android:layout_height="@dimen/a7_"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <android.widget.LinearLayout android:gravity="center_vertical" android:layout_gravity="bottom" android:id="@id/mp_hint_container" android:background="@drawable/fvb" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:layout_width="wrap_content" android:layout_height="46.0dip">
+        <TextView android:textSize="14.0sp" android:textColor="#ff333333" android:gravity="center_vertical" android:id="@id/mp_hint_tv_title" android:layout_width="wrap_content" android:layout_height="fill_parent" android:lines="1" android:layout_weight="1.0" />
+        <TextView android:textSize="12.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/mp_hint_tv_action" android:background="@drawable/bdh" android:paddingLeft="8.0dip" android:paddingRight="8.0dip" android:layout_width="wrap_content" android:layout_height="20.0dip" android:layout_marginLeft="6.0dip" />
+    </android.widget.LinearLayout>
+    <ImageView android:layout_gravity="center|right|top" android:id="@id/mp_hint_iv_arrow" android:background="@drawable/fva" android:layout_width="14.0dip" android:layout_height="8.0dip" android:layout_marginEnd="50.0dip" />
+</FrameLayout>

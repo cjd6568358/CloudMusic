@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.impress.ImpressCustomThemeLinearLayout app:jw="@dimen/u5" style="@style/a71"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CoverStatusDraweeView android:id="@id/video_drawee" android:layout_width="75.0dip" android:layout_height="50.0dip" app:ae="centerCrop" app:jw="8.0dip" app:w3="300" app:ahy="@drawable/cx5" app:ahz="fitXY" app:am0="8.0dip" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/info_layout" android:layout_marginRight="5.0dip" style="@style/a91">
+        <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:id="@id/rank_num_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:text="1" android:singleLine="true" android:layout_alignParentLeft="true" android:layout_centerHorizontal="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="15.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/name_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:maxLines="2" android:lineSpacingMultiplier="1.2" />
+    </LinearLayout>
+    <com.netease.cloudmusic.ui.component.CommonThemeIconView android:id="@id/ranking_mark_icon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:scaleType="center" android:layout_alignParentRight="true" android:layout_centerVertical="true" app:ayc="true" app:aye="true" />
+</com.netease.cloudmusic.ui.impress.ImpressCustomThemeLinearLayout>

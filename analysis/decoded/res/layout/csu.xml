@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/momentTrackContainer" android:layout_width="201.0dip" android:layout_height="268.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/video_cover" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <View android:id="@id/momentMask" android:layout_width="fill_parent" android:layout_height="61.0dip" app:gp="8.0dip" app:a5f="parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/momentSongIcon" android:layout_width="14.0dip" android:layout_height="14.0dip" android:layout_marginLeft="10.0dip" android:layout_marginBottom="12.0dip" android:src="@drawable/als" app:a5f="parent" app:a5z="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="#e6ffffff" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/momentSongName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="2.0dip" android:layout_marginTop="1.0dip" android:layout_marginRight="10.0dip" android:layout_marginBottom="2.0dip" android:maxLines="1" app:a5_="true" app:a5f="@id/momentSongIcon" app:a5m="@id/icon_moment_video_play" app:a5v="0.0" app:a64="@id/momentSongIcon" app:a69="@id/momentSongIcon" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/icon_moment_video_play" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginRight="6.0dip" android:src="@drawable/eh3" app:a5f="@id/momentSongIcon" app:a5l="parent" app:a69="@id/momentSongIcon" />
+    <com.netease.cloudmusic.ui.RemoteResourceImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:layout_marginTop="4.0dip" android:src="@drawable/aw8" app:a5z="parent" app:a69="parent" app:al5="480" app:al6="@string/crf" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="45.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/closeButton" android:layout_width="40.0dip" android:layout_height="40.0dip" android:src="@drawable/ek1" android:scaleType="center" android:layout_marginStart="15.0dip" android:layout_marginEnd="15.0dip" app:a63="parent" app:a69="parent" />
+    <com.netease.play.ui.MarqueTextView android:textSize="18.0sp" android:typeface="monospace" android:textColor="@color/b12" android:ellipsize="marquee" android:gravity="center" android:id="@id/songName" android:layout_width="0.0dip" android:layout_height="wrap_content" android:singleLine="true" android:layout_marginStart="55.0dip" app:a5f="@id/closeButton" app:a5z="parent" app:a62="@id/closeButton" app:a69="@id/closeButton" />
+</androidx.constraintlayout.widget.ConstraintLayout>

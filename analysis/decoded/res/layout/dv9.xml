@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="44.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="13.0sp" android:textColor="@color/b1q" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@id/name" android:layout_width="40.0dip" android:layout_height="20.0dip" android:layout_marginStart="20.0dip" />
+    <com.netease.appcommon.ui.ProgressView android:layout_gravity="bottom|center" android:id="@id/progress_view" android:layout_width="0.0dip" android:layout_height="44.0dip" android:layout_marginBottom="12.0dip" android:layout_weight="1.0" app:ajl="10.0dip" app:ajm="\#19ffffff" app:ajo="1.0" app:ajq="1.0" app:ajr="true" app:ajw="15.0sp" />
+    <TextView android:textSize="13.0sp" android:textColor="@color/b1q" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@id/value" android:layout_width="40.0dip" android:layout_height="20.0dip" />
+</LinearLayout>

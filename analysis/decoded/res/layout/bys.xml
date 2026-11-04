@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.live.homepage.ui.RedManShadowLinearLayout android:tag="layout/layout_look_village_red_man_0" android:layout_width="fill_parent" android:layout_height="wrap_content" app:ao_="5.0dip" app:aod="15.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:tag="binding_1" android:paddingBottom="24.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <View android:id="@id/topDecorate" android:tag="binding_2" android:layout_width="fill_parent" android:layout_height="40.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" />
+        <TextView android:textSize="16.0sp" android:textColor="@color/a6y" android:id="@id/title" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:drawableRight="@drawable/azy" android:drawablePadding="4.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" />
+        <include android:id="@id/anchor1" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" app:a5z="parent" app:a62="@id/space1" app:a68="@id/title" layout="@layout/byt" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeLine android:id="@id/space1" android:background="@color/dv" android:layout_width="1.0px" android:layout_height="85.0dip" app:a5f="@id/anchor1" app:a60="@id/anchor1" app:a62="@id/anchor2" app:a69="@id/anchor1" />
+        <include android:id="@id/anchor2" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" app:a60="@id/space1" app:a62="@id/space2" app:a68="@id/title" layout="@layout/byt" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeLine android:id="@id/space2" android:background="@color/dv" android:layout_width="1.0px" android:layout_height="85.0dip" app:a5f="@id/anchor2" app:a60="@id/anchor2" app:a62="@id/anchor3" app:a69="@id/anchor2" />
+        <include android:id="@id/anchor3" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" app:a60="@id/space2" app:a63="parent" app:a68="@id/title" layout="@layout/byt" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.netease.live.homepage.ui.RedManShadowLinearLayout>

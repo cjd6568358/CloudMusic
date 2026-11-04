@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.customui.OnlyVerticalSwipeRefreshLayout android:id="@id/refreshLayout" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <androidx.recyclerview.widget.RecyclerView android:id="@id/recyclerViewSubLabel" android:paddingLeft="16.0dip" android:paddingTop="10.0dip" android:paddingRight="16.0dip" android:paddingBottom="16.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="54.0dip" app:a5z="parent" app:a69="parent" />
+            <com.netease.cloudmusic.common.nova.widget.NovaRecyclerView android:id="@id/recyclerViewForMainPageLive" android:paddingBottom="8.0dip" android:clipToPadding="false" android:descendantFocusability="blocksDescendants" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a68="@id/recyclerViewSubLabel" app:a6t="16.0dip" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.netease.play.customui.OnlyVerticalSwipeRefreshLayout>
+    <com.netease.cloudmusic.theme.ui.CustomTimelineToastTextView android:textSize="13.0sp" android:textColor="@color/aj6" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/topToast" android:paddingLeft="18.0dip" android:paddingRight="18.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="@dimen/r8" android:layout_marginTop="12.0dip" />
+</FrameLayout>

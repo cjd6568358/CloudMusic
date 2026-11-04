@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="146.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout android:id="@id/lyricVideoImageBtnContainer" android:layout_width="0.0dip" android:layout_height="146.0dip" android:layout_weight="1.0">
+        <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center_horizontal" android:id="@id/btnSelectImage" android:duplicateParentState="true" android:layout_width="64.0dip" android:layout_height="64.0dip" android:layout_marginTop="30.0dip" android:scaleType="center" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textColor="@color/ajb" android:layout_gravity="center_horizontal" android:id="@id/leftText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="104.0dip" android:text="@string/e0z" />
+    </FrameLayout>
+    <FrameLayout android:id="@id/lyricVideoVideoBtnContainer" android:layout_width="0.0dip" android:layout_height="146.0dip" android:layout_weight="1.0">
+        <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center_horizontal" android:id="@id/btnSelectVideo" android:duplicateParentState="true" android:layout_width="64.0dip" android:layout_height="64.0dip" android:layout_marginTop="30.0dip" android:scaleType="center" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textColor="@color/ajb" android:layout_gravity="center_horizontal" android:id="@id/rightText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="104.0dip" android:text="@string/e10" />
+    </FrameLayout>
+</LinearLayout>

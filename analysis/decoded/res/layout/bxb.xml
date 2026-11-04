@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.livepage.ui.LivePagerSwipeLayout android:id="@id/liveFragment" android:tag="layout/layout_live_recon_info_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/liveBg" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="fitXY" />
+    <View android:id="@id/liveBgMask" android:background="@color/e7" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <FrameLayout android:id="@id/beforeLiveContainerAfterBg" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <TextureView android:id="@id/playVideoView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <FrameLayout android:id="@id/multipk" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <include android:id="@id/layoutDlna" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/bpu" />
+    <com.netease.play.livepage.ui.LivePagerConstraintLayout android:id="@id/liveContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" android:keepScreenOn="true">
+        <Space android:id="@id/mirrorVideoView" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a65="parent" app:a69="parent" />
+        <ImageView android:id="@id/fullScreen" android:visibility="gone" android:layout_width="36.0dip" android:layout_height="36.0dip" android:layout_marginRight="16.0dip" android:layout_marginBottom="13.0dip" android:src="@drawable/fk_" app:a5f="@id/mirrorVideoView" app:a5l="@id/mirrorVideoView" />
+        <ImageView android:id="@id/screenShotButton" android:visibility="gone" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginBottom="10.0dip" android:scaleType="centerCrop" android:layout_marginEnd="10.0dip" app:a5f="@id/playVideoView" app:a5l="@id/playVideoView" />
+        <androidx.constraintlayout.widget.Group android:id="@id/gp_btns" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" app:l1="fullScreen" />
+        <View android:id="@id/bottomMask" android:background="@drawable/wa" android:layout_width="fill_parent" android:layout_height="140.0dip" app:a5f="parent" app:a65="parent" />
+        <FrameLayout android:id="@id/videoPartyParlorSeatContainer" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        <com.netease.play.listen.dynamic.base.AutoWrapContentRNConstrainLayout android:id="@id/root_between_layout" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5l="parent" app:a65="parent" app:a68="@id/headerUiContainer">
+            <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/between_inner_layout1" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5l="parent" app:a65="parent" app:a69="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/between_inner_layout2" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        </com.netease.play.listen.dynamic.base.AutoWrapContentRNConstrainLayout>
+        <androidx.constraintlayout.widget.Barrier android:id="@id/videoPartyMiddleBottomBarrier" android:layout_width="wrap_content" android:layout_height="wrap_content" app:dn="bottom" app:l1="root_between_layout,videoPartyParlorSeatContainer" />
+        <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/statusBarGuideline" android:tag="binding_1" android:layout_width="0.0dip" android:layout_height="0.0dip" />
+        <FrameLayout android:id="@id/honorEnterContainer" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5l="parent" app:a65="parent" app:a69="@id/chatVp" />
+        <Space android:id="@id/bottomGuide0" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" />
+        <Space android:id="@id/bottomGuide1" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5g="@id/bottomGuideKeyboard" app:a5z="parent" app:a63="parent" />
+        <Space android:id="@id/bottomGuideKeyboard" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5g="@id/bottomGuide1_assist" app:a5z="parent" app:a63="parent" />
+        <Space android:id="@id/bottomGuide1_assist" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginBottom="56.0dip" app:a5g="@id/bottomGuide0" app:a5z="parent" app:a63="parent" />
+        <Space android:id="@id/bottomGuide2" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginBottom="10.0dip" app:a5g="@id/bottomGuide1" app:a5z="parent" app:a63="parent" />
+        <Space android:id="@id/bottomGuide3" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5g="@id/bottomGuide1" app:a5z="parent" app:a63="parent" />
+        <Space android:id="@id/bottomGuideZoom" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginBottom="160.0dip" app:a5g="@id/bottomGuide1_assist" app:a5z="parent" app:a63="parent" />
+        <Space android:id="@id/bottomGuideInsert1" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5g="@id/bottomGuideInsert2" app:a5l="parent" app:a65="parent" />
+        <Space android:id="@id/bottomGuideInsert2" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginBottom="8.0dip" app:a5g="@id/bottomGuide3" app:a5l="parent" app:a65="parent" />
+        <FrameLayout android:id="@id/floatContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <FrameLayout android:id="@id/animationContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <com.netease.play.livepage.gift.structure.AnimCanvasView android:id="@id/animationCanvas" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </FrameLayout>
+        <com.netease.play.listen.v2.header.ui.HeaderContainerLayout android:id="@id/headerUiContainer" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5l="parent" app:a65="parent" app:a68="@id/statusBarGuideline" />
+        <Space android:id="@id/headerGuideView" android:layout_width="0.0dip" android:layout_height="20.0dip" android:layout_marginTop="52.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/statusBarGuideline" />
+        <Space android:id="@id/cloudGuideView" android:layout_width="0.0dip" android:layout_height="20.0dip" android:layout_marginTop="52.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/statusBarGuideline" />
+    </com.netease.play.livepage.ui.LivePagerConstraintLayout>
+</com.netease.play.livepage.ui.LivePagerSwipeLayout>

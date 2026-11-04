@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:id="@id/ybContainer" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiv" android:gravity="start|center" android:id="@id/ybTitle" android:paddingBottom="12.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="推荐以下新歌 赚双倍云贝" android:paddingStart="16.0dip" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/ybIcon" android:background="@drawable/cop" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="1.0dip" app:a64="@id/ybTitle" app:a69="@id/ybTitle" app:adf="true" app:adk="true" />
+    <com.netease.cloudmusic.ui.CanScrollHorizonRecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a68="@id/ybTitle" />
+</androidx.constraintlayout.widget.ConstraintLayout>

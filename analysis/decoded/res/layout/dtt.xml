@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="60.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconWithBackgroundImageView android:id="@id/play" android:layout_width="40.0dip" android:layout_height="fill_parent" android:scaleType="centerInside" app:adi="false" app:aeb="@color/a2e" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconWithBackgroundImageView android:id="@id/action" android:layout_width="48.0dip" android:layout_height="fill_parent" android:src="@drawable/fgo" android:scaleType="center" android:layout_alignParentRight="true" app:aev="@color/a2g" />
+    <ProgressBar android:id="@id/playProgress" android:layout_width="fill_parent" android:layout_height="fill_parent" android:progressDrawable="@drawable/bqk" android:layout_toLeftOf="@id/action" android:layout_toRightOf="@id/play" style="?android:progressBarStyleHorizontal" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aiv" android:id="@id/name" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:singleLine="true" android:layout_toLeftOf="@id/action" android:layout_toRightOf="@id/play" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="8.0dip" android:layout_toLeftOf="@id/action" android:layout_toRightOf="@id/play" android:layout_alignParentBottom="true">
+        <com.netease.cloudmusic.theme.ui.CustomThemeProgressBar android:id="@id/uploadProgress" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="3.0dip" android:layout_marginRight="10.0dip" android:layout_weight="1.0" style="@style/jv" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiy" android:id="@id/info" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:drawablePadding="4.0dip" />
+    </LinearLayout>
+</RelativeLayout>

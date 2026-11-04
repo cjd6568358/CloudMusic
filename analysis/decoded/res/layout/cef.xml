@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/voteScreenShot" android:background="@color/a6c" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.facebook.drawee.view.SimpleDraweeView android:id="@id/voteBg" android:layout_width="fill_parent" android:layout_height="wrap_content" app:ae="centerCrop" app:ayt="1.44" />
+        <RelativeLayout android:paddingTop="36.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_centerInParent="true">
+            <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/voteBody" android:background="@drawable/clt" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="60.0dip" android:layout_marginRight="20.0dip">
+                <TextView android:id="@id/voteCountTv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="75.0dip" android:text="已有100000票" android:includeFontPadding="false" app:a5z="parent" app:a63="parent" app:a69="parent" />
+                <TextView android:textSize="15.0sp" android:textColor="@color/dw" android:gravity="center" android:id="@id/voteDescTv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="13.0dip" android:layout_marginRight="20.0dip" android:maxLines="3" android:lineSpacingMultiplier="1.3" app:a5z="parent" app:a63="parent" app:a68="@id/voteCountTv" />
+                <TextView android:textSize="10.0sp" android:id="@id/voteFrom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="27.0dip" android:layout_marginRight="20.0dip" android:text="From" app:a5z="parent" app:a68="@id/voteDescTv" />
+                <View android:background="#ffd8d8d8" android:layout_width="0.0dip" android:layout_height="1.0px" android:layout_marginLeft="6.0dip" android:layout_marginRight="15.0dip" app:a5f="@id/voteFrom" app:a60="@id/voteFrom" app:a63="parent" app:a69="@id/voteFrom" />
+                <com.netease.play.ui.avatar.AvatarImage android:id="@id/voteAvatar" android:layout_width="53.0dip" android:layout_height="53.0dip" android:layout_margin="15.0dip" app:a5f="parent" app:a5z="parent" app:a68="@id/voteFrom" app:ai4="style20" />
+                <TextView android:textSize="14.0sp" android:textColor="@color/dw" android:ellipsize="end" android:gravity="left" android:id="@id/voteName" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginRight="25.0dip" android:lines="1" android:includeFontPadding="false" app:a5v="0.0" app:a60="@id/voteAvatar" app:a62="@id/voteQrCode" app:a69="@id/voteAvatar" />
+                <TextView android:textSize="10.0sp" android:id="@id/voteID" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:includeFontPadding="false" app:a5z="@id/voteName" app:a68="@id/voteName" />
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/voteMusicialLayout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" app:a5z="@id/voteName" app:a68="@id/voteID">
+                    <TextView android:textSize="10.0sp" android:textColor="@color/e6" android:id="@id/voteAuthInfo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="5.0dip" android:text="网易音乐人" android:includeFontPadding="false" />
+                    <TextView android:id="@id/voteMusicialLyricist" android:text="作词" style="@style/aad" />
+                    <TextView android:id="@id/voteMusicialComposer" android:text="作曲" style="@style/aad" />
+                    <TextView android:id="@id/voteMusicialOrigin" android:text="原创" style="@style/aad" />
+                </LinearLayout>
+                <ImageView android:id="@id/voteQrCode" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_margin="15.0dip" app:a5f="parent" app:a63="parent" app:a68="@id/voteFrom" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.facebook.drawee.view.SimpleDraweeView android:id="@id/voteAlbum" android:layout_width="120.0dip" android:layout_height="120.0dip" android:layout_centerHorizontal="true" app:ahy="@drawable/g9r" app:am0="3.0dip" />
+            <ImageView android:layout_width="20.0dip" android:layout_height="120.0dip" android:src="@drawable/h3x" android:layout_toRightOf="@id/voteAlbum" android:layout_alignTop="@id/voteAlbum" android:layout_alignBottom="@id/voteAlbum" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/voteShareContainer" android:background="@drawable/c6z" android:layout_width="fill_parent" android:layout_height="100.0dip" android:layout_alignParentBottom="true">
+        <TextView android:id="@id/shareWechatMoments" android:text="@string/jd9" android:drawableTop="@drawable/e3l" app:a5f="parent" app:a5z="parent" app:a62="@id/shareWechat" app:a69="parent" style="@style/aae" />
+        <TextView android:id="@id/shareWechat" android:text="@string/jd8" android:drawableTop="@drawable/e3j" app:a5f="parent" app:a60="@id/shareWechatMoments" app:a62="@id/shareQZone" app:a69="parent" style="@style/aae" />
+        <TextView android:id="@id/shareQZone" android:text="@string/ha0" android:drawableTop="@drawable/e3e" app:a5f="parent" app:a60="@id/shareWechat" app:a62="@id/shareQQ" app:a69="parent" style="@style/aae" />
+        <TextView android:id="@id/shareQQ" android:text="@string/h9z" android:drawableTop="@drawable/e3c" app:a5f="parent" app:a60="@id/shareQZone" app:a62="@id/shareWb" app:a69="parent" style="@style/aae" />
+        <TextView android:id="@id/shareWb" android:text="@string/jdv" android:drawableTop="@drawable/e3h" app:a5f="parent" app:a60="@id/shareQQ" app:a63="parent" app:a69="parent" style="@style/aae" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView android:id="@id/voteClose" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" android:layout_marginRight="15.0dip" android:src="@drawable/h3s" android:layout_alignParentRight="true" />
+</RelativeLayout>

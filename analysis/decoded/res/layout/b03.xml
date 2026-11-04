@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/hot_topic_list_dialog_layout_0" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textColor="#fff5c974" android:id="@id/customThemeTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18.0dip" android:text="@string/cqf" android:drawablePadding="4.0dip" android:drawableStart="@drawable/cq9" android:layout_marginStart="16.0dip" app:a65="parent" app:a69="parent" />
+    <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/topicListRecycler" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/customThemeTextView" />
+</androidx.constraintlayout.widget.ConstraintLayout>

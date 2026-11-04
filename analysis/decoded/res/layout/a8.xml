@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfIgnoreAdRcmdFocusContainer" android:visibility="visible" style="@style/a9d">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/fxl" android:layout_centerVertical="true" style="@style/a9i" />
+        <com.netease.cloudmusic.music.biz.setting.view.AdSwitch android:id="@id/pfAdRcmdFocus" style="@style/a9c" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/reduceAdRcmdFocusContainer" android:visibility="gone" style="@style/a9d">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/reduceAdRcmdFocusTitle" android:text="@string/hhi" android:layout_centerVertical="true" style="@style/a9i" />
+        <com.netease.cloudmusic.music.biz.setting.view.AdSwitch android:id="@id/reduceAdRcmdFocus" style="@style/a9c" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+</LinearLayout>

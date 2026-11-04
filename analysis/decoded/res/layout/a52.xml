@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:tag="layout/dialog_invite_fans_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="@color/b1e" android:gravity="center_horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="28.0dip" android:text="@string/fm5" android:singleLine="true" android:includeFontPadding="false" />
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.play.ui.LookThemeProgressBar android:layout_gravity="center" android:id="@id/progressBar" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <TextView android:textSize="13.0sp" android:textColor="@color/b1w" android:layout_gravity="center" android:id="@id/retry" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginTop="8.0dip" android:layout_marginRight="10.0dip" android:text="@string/di4" android:includeFontPadding="false" />
+        <LinearLayout android:orientation="vertical" android:id="@id/contentContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <TextView android:textSize="13.0sp" android:textColor="@color/b1w" android:gravity="center" android:id="@id/title" android:tag="binding_1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginTop="8.0dip" android:layout_marginRight="10.0dip" android:includeFontPadding="false" />
+            <com.netease.play.ui.CustomLoadingButton android:textSize="17.0sp" android:textStyle="bold" android:gravity="center" android:id="@id/button" android:tag="binding_2" android:layout_width="fill_parent" android:layout_height="45.0dip" android:layout_marginLeft="33.0dip" android:layout_marginTop="20.0dip" android:layout_marginRight="33.0dip" android:text="@string/fp5" android:drawablePadding="10.0dip" app:gg="0x00FF0304" app:pl="@color/b1d" app:pp="@color/b1e" />
+            <TextView android:textSize="13.0sp" android:textColor="@color/anm" android:gravity="center" android:id="@id/leftCount" android:tag="binding_3" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:includeFontPadding="false" />
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

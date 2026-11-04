@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/rootView" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/virtual_drawee_for_bitmap_load" android:layout_width="0.0dip" android:layout_height="0.0dip" android:alpha="0.0" app:a5z="parent" app:a69="parent" />
+    <FrameLayout android:id="@id/resource_choose_container" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5g="@id/resource_choose_tab_layout" app:a69="parent" app:a6a="packed" />
+    <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout android:id="@id/resource_choose_tab_layout" android:visibility="gone" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="44.0dip" android:layout_marginBottom="16.0dip" android:layout_marginStart="40.0dip" android:layout_marginEnd="40.0dip" app:a5f="parent" app:a68="@id/resource_choose_container" app:ash="@style/yg" app:asm="center" />
+    <com.netease.cloudmusic.ui.LinearToolbar android:layout_width="fill_parent" android:layout_height="44.0dip" app:a69="parent">
+        <androidx.appcompat.widget.AppCompatImageButton android:layout_gravity="center_vertical" android:id="@id/resource_choose_close_btn" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginLeft="16.0dip" android:src="@drawable/csx" style="@android:style/Widget.Toolbar.Button.Navigation" />
+    </com.netease.cloudmusic.ui.LinearToolbar>
+</androidx.constraintlayout.widget.ConstraintLayout>

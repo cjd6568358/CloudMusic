@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:tag="layout/audio_record_size_control_layout_0" android:layout_width="fill_parent" android:layout_height="@dimen/fk"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/size_control_bg" android:background="@color/dz" android:layout_width="fill_parent" android:layout_height="1.0dip" android:layout_marginLeft="22.0dip" android:layout_marginRight="22.0dip" android:layout_centerVertical="true" android:layout_marginHorizontal="22.0dip" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/audio_record_size_control_Layout" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="21.0dip" android:layout_marginRight="21.0dip" android:layout_centerVertical="true" android:layout_marginHorizontal="21.0dip">
+        <View android:id="@id/point1" android:background="@drawable/ib" android:layout_width="5.0dip" android:layout_height="5.0dip" app:a5f="parent" app:a5w="spread_inside" app:a5z="parent" app:a62="@id/point2" app:a69="parent" />
+        <View android:id="@id/point2" android:background="@drawable/ib" android:layout_width="5.0dip" android:layout_height="5.0dip" app:a5f="parent" app:a60="@id/point1" app:a62="@id/point3" app:a69="parent" />
+        <View android:id="@id/point3" android:background="@drawable/ib" android:layout_width="5.0dip" android:layout_height="5.0dip" app:a5f="parent" app:a60="@id/point2" app:a62="@id/point4" app:a69="parent" />
+        <View android:id="@id/point4" android:background="@drawable/ib" android:layout_width="5.0dip" android:layout_height="5.0dip" app:a5f="parent" app:a60="@id/point3" app:a62="@id/point5" app:a69="parent" />
+        <View android:id="@id/point5" android:background="@drawable/ib" android:layout_width="5.0dip" android:layout_height="5.0dip" app:a5f="parent" app:a60="@id/point4" app:a63="parent" app:a69="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView android:id="@id/audio_record_size_control_thumb" android:layout_width="@dimen/fk" android:layout_height="@dimen/fk" android:src="@drawable/ic" />
+</RelativeLayout>

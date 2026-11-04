@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:tag="layout/layout_statistic_panel_0" android:background="@color/ej" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="30.0dip" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip">
+        <ImageView android:layout_gravity="center_vertical" android:layout_width="12.0dip" android:layout_height="12.0dip" android:layout_marginRight="5.0dip" android:src="@drawable/stat_notify_music" android:scaleType="fitXY" />
+        <EditText android:textSize="13.0sp" android:textColor="@color/b1e" android:textColorHint="@color/b1q" android:ellipsize="end" android:layout_gravity="center_vertical" android:id="@id/edit" android:background="@null" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="0.0dip" android:layout_height="wrap_content" android:hint="搜索" android:singleLine="true" android:layout_weight="1.0" android:textCursorDrawable="@null" />
+        <ImageView android:layout_gravity="center_vertical" android:id="@id/clear" android:background="@android:color/holo_green_light" android:layout_width="12.0dip" android:layout_height="12.0dip" android:layout_marginLeft="5.0dip" android:scaleType="fitXY" />
+        <ImageView android:layout_gravity="center_vertical" android:id="@id/close" android:background="@android:color/holo_red_dark" android:layout_width="12.0dip" android:layout_height="12.0dip" android:layout_marginLeft="10.0dip" android:scaleType="fitXY" />
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView android:orientation="vertical" android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="30.0dip" android:layout_marginBottom="10.0dip" app:a51="androidx.recyclerview.widget.LinearLayoutManager" />
+    <ImageView android:layout_gravity="bottom|center|right" android:id="@id/resize" android:background="@android:color/holo_red_light" android:layout_width="12.0dip" android:layout_height="12.0dip" android:layout_marginRight="5.0dip" android:layout_marginBottom="5.0dip" />
+</FrameLayout>

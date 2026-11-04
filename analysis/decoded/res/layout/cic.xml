@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/contaier" android:tag="layout/look_fragment_music_tab_empty_0" android:background="@color/a77" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/topLine" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5p="0.25" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/empty" android:tag="binding_1" android:layout_width="170.0dip" android:layout_height="120.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/topLine" />
+    <TextView android:textSize="15.0sp" android:textColor="@color/b12" android:id="@id/noLiveTips" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:text="@string/gno" android:includeFontPadding="false" app:a5l="parent" app:a65="parent" app:a68="@id/empty" />
+    <TextView android:textSize="13.0sp" android:textColor="@color/b1k" android:id="@id/noLiveReason" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:text="@string/gnp" android:includeFontPadding="false" app:a5l="parent" app:a65="parent" app:a68="@id/noLiveTips" />
+</androidx.constraintlayout.widget.ConstraintLayout>

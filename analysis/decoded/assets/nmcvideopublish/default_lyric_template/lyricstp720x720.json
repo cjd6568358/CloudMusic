@@ -1,0 +1,129 @@
+{
+	"v":	"5.2.1",
+	"fr":	25,
+	"fadein":    12,
+    "fadeout":    12,
+	"singleword":	0,
+	"repeat_start":	0,
+	"lyrics_oneline": 0,
+	"repeat_duration":	0,
+	"repeat_offset":	0,
+	"lyrics_head": "",
+	"lyrics_tail": "",
+	"sf":	0,
+	"ef":	100,
+	"w":	720,
+	"h":	720,
+	"color":	[0, 0, 0, 0],
+	"assets":	[{
+			"id":	"tex_01",
+			"w":	590,
+			"h":	300,
+			"p":	"images/tex_01.txt",
+			"s":	0,
+			"sm":	0,
+			"ext":	"",
+			"prefix":	"",
+			"absolute":	0,
+			"allseq":	0,
+			"rndpic":	0,
+			"timescale":	1,
+			"fixsize":	1,
+			"micdb":	0,
+			"fft":	0,
+			"fontsize":	34,
+			"fontname":	"PingFangSC-Bold",
+			"fontpath":	"",
+			"fontnameex":	"",
+			"fontpathex":	"",
+			"fontcolor":	"ffffffff",
+			"letterspace": 1.6,
+            "linespace" : 1.054,
+			"align":	0,
+			"valign":	0,
+			"vertical":	0,
+			"bold":	1,
+			"underline":	0
+		}],
+	"effects":	[],
+	"layers":	[{
+		"id":	1,
+		"ty":	2,
+		"sf":	0,
+		"ef":	100,
+		"offset":	0,
+		"aid":	"tex_01",
+		"mt":	0,
+		"vl":	0,
+		"bm":	0,
+		"repeat":	0,
+		"effects":	[{
+				"id":	"125459F4-CC21-428E-80A3-6D8193F2408D",
+				"nm":	"TRANSFORM",
+				"sf":	-1,
+				"ef":	-1,
+				"export":	0,
+				"props":	[{
+                        "ty":    8,
+                        "v":    [-0.4, 0.4]
+                    }, {
+                        "ty":    8,
+                        "v":    [1, -1]
+                    }, {
+						"ty":	8,
+						"v":	[100, 100]
+					}, {
+						"ty":	3,
+						"v":	0
+					}, {
+						"ty":	2,
+						"v":	 [{
+                               "ft":    0,
+                               "v":    0,
+                               "bz":    0
+                           }, {
+                               "ft":    12,
+                               "v":    100,
+                               "bz":    0
+                           }, {
+                               "ft":    88,
+                               "v":    100,
+                               "bz":    0
+                           }, {
+                               "ft":    100,
+                               "v":    0,
+                               "bz":    0
+                           }]
+					}]
+			},{
+                "id":    "3D29BB22-A277-45CC-A0DE-EFD7578AC9B2",
+                "nm":    "GAUSSIANBLURFAST",
+                "sf":    -1,
+                "ef":    -1,
+                "export":    0,
+                "props":    [{
+                        "ty":    3,
+                        "v":    [{
+                                "ft":    0,
+                                "v":    20,
+                                "bz":    0
+                            }, {
+                                "ft":    12,
+                                "v":    0,
+                                "bz":    0
+                            }, {
+                                "ft":    88,
+                                "v":    0,
+                                "bz":    0
+                            }, {
+                                "ft":    100,
+                                "v":    20,
+                                "bz":    0
+                            }]
+                    }, {
+                        "ty":    2,
+                        "v":    1
+                    }]
+            }]
+	}]
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/rootView" android:background="@color/do" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.video.VideoPlayVideoView android:id="@id/videoView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_centerInParent="true" />
+    <RelativeLayout android:id="@id/portraitViews" android:background="@drawable/cjy" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="150.0dip" android:layout_alignParentBottom="true">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/ll" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="36.0dip">
+            <ImageView android:id="@id/playIconIv" android:padding="4.0dip" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginLeft="16.0dip" android:src="@drawable/e62" />
+            <TextView android:textSize="12.0dip" android:textColor="@color/b12" android:id="@id/startTimeTv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="10.0dip" android:text="00:00" />
+            <SeekBar android:layout_gravity="center_vertical" android:id="@id/seekBar" android:paddingLeft="0.0dip" android:paddingTop="8.0dip" android:paddingRight="0.0dip" android:paddingBottom="8.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxHeight="2.0dip" android:progressDrawable="@drawable/cl1" android:minHeight="2.0dip" android:thumb="@drawable/cl2" android:thumbOffset="0.0dip" android:layout_weight="1.0" />
+            <TextView android:textSize="12.0dip" android:textColor="@color/b12" android:id="@id/endTimetv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginRight="16.0dip" android:text="00:00" />
+        </LinearLayout>
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:layout_below="@id/ll">
+            <ImageView android:id="@id/closeIv" android:padding="6.0dip" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginLeft="16.0dip" android:src="@drawable/csx" android:scaleType="fitXY" />
+            <TextView android:textSize="13.0dip" android:textColor="@color/b12" android:gravity="center" android:id="@id/saveTv" android:background="@drawable/ckv" android:layout_width="50.0dip" android:layout_height="28.0dip" android:layout_marginRight="16.0dip" android:text="保存" android:layout_alignParentRight="true" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/landscapeViews" android:background="@drawable/cjy" android:paddingBottom="30.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="105.0dip" android:layout_alignParentBottom="true">
+        <ImageView android:id="@id/closeIv1" android:padding="6.0dip" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginLeft="40.0dip" android:src="@drawable/csx" android:scaleType="fitXY" />
+        <ImageView android:id="@id/playIconIv1" android:padding="4.0dip" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginLeft="40.0dip" android:src="@drawable/e62" />
+        <TextView android:textSize="12.0dip" android:textColor="@color/b12" android:id="@id/startTimeTv1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="30.0dip" android:layout_marginRight="10.0dip" android:text="00:00" />
+        <SeekBar android:layout_gravity="center_vertical" android:id="@id/seekBar1" android:paddingLeft="0.0dip" android:paddingTop="8.0dip" android:paddingRight="0.0dip" android:paddingBottom="8.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxHeight="2.0dip" android:progressDrawable="@drawable/cl1" android:minHeight="2.0dip" android:thumb="@drawable/cl2" android:thumbOffset="0.0dip" android:layout_weight="1.0" />
+        <TextView android:textSize="12.0dip" android:textColor="@color/b12" android:id="@id/endTimetv1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginRight="30.0dip" android:text="00:00" />
+        <TextView android:textSize="13.0dip" android:textColor="@color/b12" android:gravity="center" android:id="@id/saveTv1" android:background="@drawable/ckv" android:layout_width="50.0dip" android:layout_height="28.0dip" android:layout_marginRight="40.0dip" android:text="保存" android:layout_alignParentRight="true" />
+    </LinearLayout>
+    <ImageView android:id="@id/playIv" android:visibility="gone" android:layout_width="35.0dip" android:layout_height="35.0dip" android:src="@drawable/cwb" android:layout_centerInParent="true" />
+    <ProgressBar android:id="@id/progressBar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" />
+    <TextView android:textSize="20.0dip" android:textColor="@color/b12" android:gravity="center" android:id="@id/errorTv" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="播放失败" android:layout_centerInParent="true" />
+</RelativeLayout>

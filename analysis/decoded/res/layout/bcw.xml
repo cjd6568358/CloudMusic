@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="vertical" android:paddingLeft="@dimen/s1" android:paddingRight="@dimen/s2" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18.0dip" android:layout_marginBottom="2.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aiv" android:id="@id/trackTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <View android:layout_width="0.0dip" android:layout_height="1.0dip" android:layout_weight="1.0" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiv" android:id="@id/trackSort" android:layout_width="wrap_content" android:layout_height="wrap_content" android:drawableLeft="@drawable/cge" android:drawablePadding="3.0dip" app:adf="true" app:aeu="@color/a2d" />
+    </LinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiz" android:id="@id/trackCreate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:drawableRight="@drawable/eit" android:drawablePadding="2.0dip" app:adf="true" app:aeu="@color/a2g" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

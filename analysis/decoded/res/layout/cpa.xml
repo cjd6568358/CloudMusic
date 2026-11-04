@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/compUser" android:tag="layout/mlog_comp_user_0" android:layout_width="wrap_content" android:layout_height="44.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.music.biz.mlog.consume.social.homepage.rcmdTab.ui.widget.MLogAvatarGroup android:id="@id/avatars" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="@color/aj6" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/username" android:tag="binding_1" android:layout_width="0.0dip" android:layout_height="wrap_content" android:maxWidth="100.0dip" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" android:layout_marginStart="5.0dip" app:a5f="parent" app:a64="@id/avatars" app:a69="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/followContainer" android:layout_width="67.0dip" android:layout_height="wrap_content" app:a5f="parent" app:a5l="parent" app:a64="@id/username" app:a69="parent">
+        <com.netease.cloudmusic.module.social.FollowAnimateView android:id="@id/followMe" android:layout_width="25.0dip" android:layout_height="20.0dip" android:layout_marginStart="5.0dip" app:cy="@color/themeColor" app:e5="10.0dip" app:xo="@string/ca0" app:xq="11.0sp" app:a11="7.5dip" app:a1_="1.0dip" app:a5f="parent" app:a65="parent" app:a69="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:layout_marginTop="@dimen/ao6" android:text="黑胶播放模式" style="@style/a9g" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/newPlayerUIModeStyleSwitchContainer" android:paddingLeft="20.0dip" android:layout_height="40.0dip" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="黑胶播放器模式引擎开关" android:layout_centerVertical="true" style="@style/a9i" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/newPlayerUIModeStyleSwitch" style="@style/a9c" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/dynamicCoverStyleSwitchContainer" android:paddingLeft="20.0dip" android:layout_height="40.0dip" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="动态封面debug开关" android:layout_centerVertical="true" style="@style/a9i" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/dynamicCoverSwitch" style="@style/a9c" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:id="@id/deleteRes" android:padding="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="10.0dip" android:text="删除离线包" app:gl="useTheme" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="11.0sp" android:id="@id/revoke" android:padding="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="10.0dip" android:text="orpheus://nm/playView/revokeUIMode（还原为原始黑胶页）" app:gl="useTheme" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="11.0sp" android:id="@id/apply" android:padding="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="10.0dip" android:text="orpheus://nm/playView/applyUIMode?UIModeID=74004&amp;darkUIModeID=74005" app:gl="useTheme" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="11.0sp" android:id="@id/apply1" android:padding="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="10.0dip" android:text="orpheus://nm/playView/applyUIMode?UIModeID=74005&amp;darkUIModeID=74004" app:gl="useTheme" />
+</LinearLayout>

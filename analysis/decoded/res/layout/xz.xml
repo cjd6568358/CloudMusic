@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeTrackResLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/trackResContainer" android:tag="layout/common_res_component_0" android:layout_width="fill_parent" android:layout_height="wrap_content" fresco:jw="@dimen/u3"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.TrackResImageView android:id="@id/trackResImg" android:tag="binding_1" android:layout_width="@dimen/as9" android:layout_height="@dimen/as9" android:layout_centerVertical="true" fresco:ae="centerCrop" fresco:ahy="@drawable/g97" fresco:ahz="fitXY" fresco:alp="true" fresco:alq="false" fresco:alv="true" fresco:alw="false" fresco:am0="@dimen/u3" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:paddingRight="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_toRightOf="@id/trackResImg" android:layout_centerVertical="true">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiv" android:id="@id/trackResName" android:tag="binding_2" android:layout_marginBottom="1.0dip" android:layout_centerVertical="true" style="@style/a_y" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiy" android:id="@id/trackResCreator" android:tag="binding_3" android:drawablePadding="3.0dip" android:layout_below="@id/trackResName" android:layout_centerVertical="true" android:lineSpacingExtra="2.0dip" style="@style/a_y" />
+    </LinearLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeTrackResLinearLayout>

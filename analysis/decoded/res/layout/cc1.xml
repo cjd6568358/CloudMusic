@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.NeteaseMusicToolbar android:id="@id/toolbar" android:background="?kl" android:layout_width="fill_parent" android:layout_height="@dimen/art" app:a76="scroll|enterAlways" app:aii="@style/b6"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="horizontal" android:id="@id/custom_title_area" android:visibility="gone" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="@dimen/art">
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/custom_title_container" android:visibility="gone" android:clipChildren="false" android:layout_width="wrap_content" android:layout_height="@dimen/art">
+            <FrameLayout android:gravity="center" android:id="@id/toolbar_title_slot" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <com.netease.cloudmusic.ui.PlayerToolbarTitleSlotLayout android:gravity="center" android:orientation="vertical" android:id="@id/custom_title_slot" android:clipChildren="false" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <com.netease.cloudmusic.ui.PlayerPageTextView android:gravity="center" android:id="@id/custom_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingStart="5.0dip" android:paddingEnd="5.0dip" />
+                <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/sub_title_container" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip">
+                    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/custom_subtitle_icon" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                    <com.netease.cloudmusic.ui.PlayerPageTextView android:ellipsize="end" android:gravity="center" android:id="@id/custom_subTitle" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="wrap_content" android:maxLines="1" android:layout_weight="1.0" android:paddingStart="5.0dip" android:paddingEnd="5.0dip" />
+                    <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="bottom" android:id="@id/custom_subTitle_right_icon" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="0.0" />
+                </LinearLayout>
+            </com.netease.cloudmusic.ui.PlayerToolbarTitleSlotLayout>
+        </LinearLayout>
+    </LinearLayout>
+</com.netease.cloudmusic.ui.NeteaseMusicToolbar>

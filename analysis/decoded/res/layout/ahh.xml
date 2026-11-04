@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:paddingBottom="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minWidth="@dimen/p2"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.FragmentTitleBar android:id="@id/ftb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tt="false" app:v2="请输入将军令" />
+    <ImageView android:layout_gravity="center_horizontal" android:id="@id/ivGeneral_logo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="24.0dip" android:src="@drawable/d0o" />
+    <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:layout_gravity="center_horizontal" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="为保障您的资金安全，请验证将军令" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/ll_check_general_key" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/pi" android:layout_marginTop="5.0dip">
+        <TextView android:textSize="14.0dip" android:textColor="@color/wk" android:id="@id/tv_auto_tips" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/c0_" />
+        <TextView android:textSize="14.0dip" android:textColor="@color/wz" android:layout_gravity="center_vertical" android:id="@id/tv_check_general_key" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:text="立即校验" />
+    </LinearLayout>
+    <com.netease.epay.sdk.base.view.gridpwd.GridPasswordView android:id="@id/et_general_pwd" android:layout_width="fill_parent" android:layout_height="@dimen/p5" android:layout_marginLeft="@dimen/pi" android:layout_marginTop="10.0dip" android:layout_marginRight="@dimen/pi" app:ta="true" app:tl="@color/wx" app:uz="12.0sp" />
+    <CheckBox android:textSize="12.0dip" android:textColor="@color/wo" android:id="@id/cb_set_general" android:paddingLeft="5.0dip" android:focusable="true" android:clickable="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/pi" android:layout_marginTop="10.0dip" android:checked="true" android:button="@drawable/a8d" android:text=" 开启本设备上免输将军令" />
+</LinearLayout>

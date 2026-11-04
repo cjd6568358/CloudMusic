@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include android:layout_gravity="center|top" android:id="@id/statusClose" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="98.0dip" layout="@layout/d8y" />
+    <com.google.android.material.appbar.SecondAppBarLayout android:id="@id/secondAppbar" android:background="@null" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip" app:a56="com.google.android.material.appbar.SecondAppBarLayout$SecondBehavior" app:an_="true" app:ane="79.99999%">
+        <com.google.android.material.appbar.SecondCollapsingToolbarLayout android:id="@id/collapsing_toolbar_layout" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="fill_parent" app:lj="@null" app:a76="scroll|exitUntilCollapsed|snap" app:arg="@android:color/transparent" app:awj="false">
+            <com.netease.cloudmusic.ui.ShapeableFrameLayout android:id="@id/bannerContainer" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="fill_parent" app:w5="bottom" app:w6="@drawable/g0n" app:a57="pin">
+                <com.netease.cloudmusic.module.consortrecomm.ui.widget.ConsortGradientView android:layout_width="fill_parent" android:layout_height="300.0dip" />
+                <include android:layout_gravity="bottom" android:id="@id/banner" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/d8y" />
+                <com.netease.cloudmusic.module.consortrecomm.ui.widget.ConsortCardSwitchLayout android:id="@id/switchLayout" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            </com.netease.cloudmusic.ui.ShapeableFrameLayout>
+            <com.netease.cloudmusic.ui.PlAlPlayAllButton android:layout_gravity="bottom" android:id="@id/playAllArea" android:layout_width="fill_parent" android:layout_height="@dimen/ah_" app:ayf="stick" />
+        </com.google.android.material.appbar.SecondCollapsingToolbarLayout>
+    </com.google.android.material.appbar.SecondAppBarLayout>
+    <androidx.core.widget.NestedScrollView android:id="@id/nestedScroll" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="com.google.android.material.appbar.SecondAppBarLayout$SecondScrollingViewBehavior">
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <com.netease.cloudmusic.ui.NoPlaceholderRecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:overScrollMode="never" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0dip" android:textColor="@color/aiz" android:ellipsize="end" android:gravity="center_horizontal" android:layout_gravity="center_horizontal" android:id="@id/bottomText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="40.0dip" android:layout_marginTop="30.0dip" android:layout_marginRight="40.0dip" android:layout_marginBottom="30.0dip" android:maxLines="2" />
+            <com.netease.cloudmusic.module.consortrecomm.ui.widget.ConsortEmptyView android:id="@id/consortEmptyLayout" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="25.0dip" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

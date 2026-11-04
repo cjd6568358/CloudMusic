@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/a7q" android:layout_width="fill_parent" android:layout_height="fill_parent" android:contentDescription="epaysdk_bg|GradientDrawable"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:ty="false" app:uf="网易支付" />
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@id/swiperefreshLayout" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent" android:fillViewport="true">
+            <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <RelativeLayout android:background="@color/vg" android:layout_width="fill_parent" android:layout_height="100.0dip" android:contentDescription="epaysdk_cell_bg">
+                    <ImageView android:id="@id/ivIcon" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginLeft="20.0dip" android:layout_marginTop="15.0dip" android:src="@drawable/d03" />
+                    <TextView android:textSize="14.0dip" android:textColor="@color/vu" android:gravity="center_vertical" android:id="@id/tvBalance" android:layout_width="wrap_content" android:layout_height="24.0dip" android:layout_marginLeft="5.0dip" android:text="余额" android:layout_toRightOf="@id/ivIcon" android:layout_alignTop="@id/ivIcon" />
+                    <TextView android:textSize="35.0dip" android:textColor="@color/vu" android:id="@id/tvBalanceAmount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:layout_below="@id/tvBalance" android:layout_alignLeft="@id/ivIcon" />
+                    <ImageView android:id="@id/ivBalanceHint" android:visibility="gone" android:layout_width="18.0dip" android:layout_height="18.0dip" android:layout_marginLeft="10.0dip" android:layout_marginTop="12.0dip" android:src="@drawable/czu" android:layout_toRightOf="@id/tvBalanceAmount" android:layout_alignTop="@id/tvBalanceAmount" />
+                </RelativeLayout>
+                <include layout="@layout/aj9" />
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="50.0dip">
+                    <Button android:textColor="@color/vm" android:gravity="center" android:id="@id/btn_deposit" android:background="@color/vg" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="充值" android:layout_weight="1.0" android:contentDescription="epaysdk_cell_bg" />
+                    <include android:layout_width="1.0px" android:layout_height="fill_parent" layout="@layout/aj9" />
+                    <Button android:textColor="@color/vm" android:gravity="center" android:id="@id/btn_withdraw" android:background="@color/vg" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="提现" android:layout_weight="1.0" android:contentDescription="epaysdk_cell_bg" />
+                </LinearLayout>
+                <include layout="@layout/aj9" />
+                <RelativeLayout android:id="@id/rl_item_bankcard" android:background="@color/vg" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_marginTop="15.0dip" android:contentDescription="epaysdk_cell_bg">
+                    <include layout="@layout/aj9" />
+                    <TextView android:textSize="14.0dip" android:textColor="@color/vu" android:gravity="center" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginLeft="15.0dip" android:text="银行卡" android:drawableLeft="@drawable/d07" android:drawablePadding="10.0dip" />
+                    <TextView android:textSize="14.0dip" android:textColor="@color/vq" android:gravity="center" android:id="@id/tvCardsCount" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginRight="15.0dip" android:drawableRight="@drawable/d0t" android:drawablePadding="10.0dip" android:layout_alignParentRight="true" />
+                </RelativeLayout>
+                <RelativeLayout android:id="@id/rl_redpaper" android:background="@color/vg" android:layout_width="fill_parent" android:layout_height="50.0dip" android:contentDescription="epaysdk_cell_bg">
+                    <include android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_marginLeft="50.0dip" layout="@layout/aj9" />
+                    <TextView android:textSize="14.0dip" android:textColor="@color/vu" android:gravity="center" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginLeft="15.0dip" android:text="@string/c01" android:drawableLeft="@drawable/d13" android:drawablePadding="10.0dip" />
+                    <TextView android:textSize="14.0dip" android:textColor="@color/vq" android:gravity="center" android:id="@id/tvRedPapersCount" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginRight="15.0dip" android:drawableRight="@drawable/d0t" android:drawablePadding="10.0dip" android:layout_alignParentRight="true" />
+                </RelativeLayout>
+                <include layout="@layout/aj9" />
+                <RelativeLayout android:id="@id/rl_paymanage" android:background="@color/vg" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_marginTop="15.0dip" android:contentDescription="epaysdk_cell_bg">
+                    <include layout="@layout/aj9" />
+                    <TextView android:textSize="14.0dip" android:textColor="@color/vu" android:gravity="center_vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="15.0dip" android:layout_marginRight="15.0dip" android:text="支付管理" android:drawableLeft="@drawable/czw" android:drawableRight="@drawable/d0t" android:drawablePadding="10.0dip" />
+                </RelativeLayout>
+                <include layout="@layout/aj9" />
+            </LinearLayout>
+        </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</LinearLayout>

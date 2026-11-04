@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/banner" android:layout_width="fill_parent" android:layout_height="0.0dip" app:ae="centerCrop" app:jw="3.0dip" app:a5k="7:4" app:a65="parent" app:a69="parent" app:ahy="@drawable/cx5" app:ahz="fitXY" app:aj2="@color/awz" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:maxLines="2" android:includeFontPadding="false" android:lineSpacingExtra="3.0dip" app:a5_="true" app:a5l="@id/banner" app:a65="@id/banner" app:a68="@id/banner" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aj5" android:id="@id/count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1.0dip" android:includeFontPadding="false" android:layout_marginEnd="3.0dip" app:a5l="@id/banner" app:a69="@id/banner" />
+    <ImageView android:id="@id/icon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="2.0dip" app:a5f="@id/count" app:a5m="@id/count" app:a69="@id/count" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/story_introduce_root" android:tag="layout/audio_record_ai_introduce_0" android:background="@drawable/gy" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="18.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:gravity="center_horizontal" android:id="@id/story_introduce_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="40.0dip" android:text="故事投稿介绍" android:includeFontPadding="false" app:a69="parent" />
+    <ScrollView android:id="@id/story_introduce_scroll" android:paddingBottom="14.0dip" android:layout_width="fill_parent" android:layout_height="254.0dip" android:layout_marginTop="18.0dip" app:a68="@id/story_introduce_title">
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <TextView android:textSize="13.0sp" android:textColor="#ff666666" android:id="@id/story_introduce_content" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="" android:includeFontPadding="false" android:lineSpacingExtra="3.0dip" android:paddingHorizontal="16.0dip" />
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

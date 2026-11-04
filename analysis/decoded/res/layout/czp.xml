@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/nearbyTrackActivityContainer" android:paddingLeft="@dimen/s1" android:paddingTop="10.0dip" android:paddingRight="@dimen/s2" android:layout_width="fill_parent" android:layout_height="wrap_content" fresco:e6="noline" fresco:y4="true">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/nearbyTrackActivityBg" android:layout_width="fill_parent" android:layout_height="fill_parent" fresco:ae="centerCrop" fresco:jw="@dimen/u3" fresco:w3="300" fresco:ag3="@drawable/dj4" fresco:aj2="@color/awz" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:paddingTop="10.0dip" android:paddingBottom="9.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/nearbyTrackActivityBg">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="#ff333333" android:ellipsize="end" android:id="@id/nearbyTrackActivityName" android:paddingRight="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" fresco:aeb="@color/afu" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiz" android:id="@id/nearbyTrackNameActivityPosition" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:singleLine="true" android:drawableLeft="@drawable/d33" android:drawablePadding="6.669983dip" fresco:adf="true" fresco:adi="true" fresco:aea="@color/afv" fresco:aeb="@color/afv" fresco:aeu="@color/aiz" />
+        </LinearLayout>
+    </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+</FrameLayout>

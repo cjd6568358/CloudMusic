@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.childmode.ui.RatioSimpleDraweeView android:id="@id/item_video_cover" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" app:ae="fitXY" app:jw="3.0dip" app:ahy="@drawable/cx6" app:ahz="fitXY" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textStyle="bold" android:textColor="@color/aj6" android:ellipsize="end" android:id="@id/item_video_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="80.0dip" android:layout_marginBottom="10.0dip" android:maxLines="2" android:layout_alignBottom="@id/item_video_cover" />
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="2.0dip" android:layout_marginTop="8.0dip" android:layout_below="@id/item_video_cover">
+        <com.netease.cloudmusic.ui.AvatarImage android:id="@id/item_video_creator_avatar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" app:cv="style9" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiv" android:id="@id/item_video_creator_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="2.0dip" android:layout_toRightOf="@id/item_video_creator_avatar" android:layout_centerVertical="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:id="@id/item_video_comment_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" android:layout_centerVertical="true" app:adf="true" app:aeu="@color/a2g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:id="@id/item_video_play_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15.0dip" android:layout_toLeftOf="@id/item_video_comment_count" android:layout_centerVertical="true" app:adf="true" app:aeu="@color/a2g" />
+    </RelativeLayout>
+</RelativeLayout>

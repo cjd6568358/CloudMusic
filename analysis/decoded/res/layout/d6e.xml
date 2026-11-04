@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/fakeBg" android:background="#ff262626" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ImageView android:id="@id/fakeImageBg" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+        <View android:background="@drawable/csp" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </FrameLayout>
+    <RelativeLayout android:id="@id/fakeRoot" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ImageView android:id="@id/fakeDiskBg" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ga6" android:layout_centerHorizontal="true" />
+        <com.google.android.material.circularreveal.CircularRevealFrameLayout android:id="@id/circularRevealFrameLayout" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/fakeVideoCover" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" />
+        </com.google.android.material.circularreveal.CircularRevealFrameLayout>
+        <ImageView android:id="@id/fakeRecordMask" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/gee" android:layout_centerHorizontal="true" />
+        <RelativeLayout android:id="@id/fakeRotationView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true">
+            <com.netease.cloudmusic.ui.AnimableDrawerImageView android:id="@id/fakeMusicRecordCover" android:layout_width="@dimen/avy" android:layout_height="@dimen/avy" android:layout_centerInParent="true" />
+            <ImageView android:id="@id/fakeRecordCover" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ga0" android:layout_centerInParent="true" />
+        </RelativeLayout>
+        <ImageView android:id="@id/fakeDiscHead" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/aj7" android:layout_marginRight="58.0dip" android:src="@drawable/geh" android:layout_alignRight="@id/fakeDiskBg" />
+    </RelativeLayout>
+</merge>

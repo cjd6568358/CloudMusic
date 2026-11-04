@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.ad.AdImpressConstraintLayout android:id="@id/adImpressConstraintLayout" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/leftIV" android:layout_width="36.0dip" android:layout_height="36.0dip" android:layout_marginLeft="16.0dip" android:layout_marginTop="8.0dip" android:layout_marginBottom="8.0dip" app:ae="centerCrop" app:a5f="parent" app:a5z="parent" app:a69="parent" app:am0="4.0dip" />
+        <com.netease.cloudmusic.ui.round.RoundedFrameLayout android:id="@id/adTagBgFragmeLayout" android:background="#66283248" android:layout_width="16.0dip" android:layout_height="9.0dip" android:layout_marginTop="2.0dip" android:layout_marginRight="2.0dip" app:jw="2.0dip" app:a63="@id/leftIV" app:a69="@id/leftIV">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="6.0sp" android:layout_gravity="center" android:id="@id/adTagTV" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" app:qe="colorTextOnimage1" />
+        </com.netease.cloudmusic.ui.round.RoundedFrameLayout>
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/adCloseIV" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:layout_marginRight="8.0dip" android:src="@drawable/dw" app:a63="parent" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textStyle="bold" android:ellipsize="end" android:id="@id/titleTV" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:maxLines="1" android:singleLine="true" app:qe="colorText2" app:a5_="true" app:a5v="0.0" app:a60="@id/leftIV" app:a62="@id/adTagView" app:a69="@id/leftIV" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:ellipsize="end" android:id="@id/subTitleTV" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:maxLines="1" android:singleLine="true" app:qe="colorText4" app:a5_="true" app:a5f="@id/leftIV" app:a5v="0.0" app:a60="@id/leftIV" app:a62="@id/adTagView" />
+    </com.netease.cloudmusic.ui.ad.AdImpressConstraintLayout>
+</merge>

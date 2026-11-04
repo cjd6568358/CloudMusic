@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.floating.FloatingFrameLayout android:id="@id/apiPreloadContainer" android:tag="layout/web_api_preload_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/apiPreload" android:tag="binding_1" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/eho" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="接口预加载" />
+    </LinearLayout>
+    <ImageView android:layout_gravity="end|center|top" android:id="@id/apiPreloadClose" android:tag="binding_2" android:layout_width="15.0dip" android:layout_height="15.0dip" android:src="@drawable/h4l" />
+</com.netease.cloudmusic.ui.floating.FloatingFrameLayout>

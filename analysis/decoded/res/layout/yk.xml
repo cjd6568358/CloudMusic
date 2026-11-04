@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/lyricLikeContainer" android:clipChildren="false" android:clipToPadding="false" android:layout_width="@dimen/yz" android:layout_height="@dimen/yz" android:layout_marginStart="24.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.PlayerPageImageView android:id="@id/lyricLikeBtn" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/g_6" android:scaleType="centerInside" android:contentDescription="@string/a0" android:alpha="0.4" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.ui.PlayerPageTextView android:textSize="8.399994dip" android:textColor="@android:color/white" android:gravity="center" android:id="@id/lyricLikeCount" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="12.0dip" android:layout_marginTop="2.0dip" android:maxLines="1" android:includeFontPadding="false" android:contentDescription="@null" android:alpha="0.4" android:layout_marginStart="19.0dip" app:xs="@font/b" app:a65="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

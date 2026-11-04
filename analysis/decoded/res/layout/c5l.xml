@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_gravity="center_horizontal" android:id="@id/actionContainerParent" android:layout_width="fill_parent" android:layout_height="@dimen/ah3" android:transitionName="@string/gf2">
+        <LinearLayout android:orientation="horizontal" android:id="@id/actionContainer" android:duplicateParentState="false" android:layout_width="fill_parent" android:layout_height="@dimen/ahp">
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/privatePlayListBlock" android:visibility="gone" android:layout_marginLeft="16.0dip" android:layout_marginRight="12.0dip" app:gu="true" style="@style/a7r">
+                <ImageView android:id="@id/privatePlaylistBtn" style="@style/a7v" />
+                <TextView android:id="@id/privatePlaylistNum" android:text="@string/h3d" style="@style/a7t" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/shareBlock" android:background="@drawable/bx1" android:layout_marginLeft="16.0dip" android:layout_marginRight="12.0dip" app:gu="true" style="@style/a7r">
+                <ImageView android:id="@id/shareBtn" style="@style/a7v" />
+                <TextView android:id="@id/shareNum" android:text="@string/e9h" style="@style/a7t" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/commentBlock" android:background="#33ffffff" style="@style/a7r">
+                <ImageView android:id="@id/commentBtn" style="@style/a7v" />
+                <TextView android:id="@id/commentNum" android:text="@string/e8e" style="@style/a7t" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/subscribeBlock" android:background="@drawable/boe" android:layout_marginLeft="12.0dip" android:layout_marginRight="16.0dip" style="@style/a7r">
+                <ImageView android:id="@id/subscribeBtn" style="@style/a7v" />
+                <TextView android:id="@id/subscribeNum" android:text="@string/ata" style="@style/a7t" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/subscribeBlockFake" android:visibility="gone" android:layout_marginLeft="12.0dip" android:layout_marginRight="16.0dip" style="@style/a7r">
+                <ImageView android:id="@id/subscribeBtnFake" style="@style/a7v" />
+                <TextView android:id="@id/subscribeNumFake" android:text="@string/ata" style="@style/a7t" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+</merge>

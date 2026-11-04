@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Transition android:id="@id/transitionFullscreen" app:kz="@id/fullscreenClose" app:l0="@id/fullscreenOpen" app:sc="200" app:acj="easeInOut">
+        <KeyFrameSet />
+    </Transition>
+    <Transition android:id="@id/transitionEmbeded" app:kz="@id/embededClose" app:l0="@id/embededOpen" app:sc="200" app:acj="easeInOut">
+        <KeyFrameSet />
+    </Transition>
+    <Transition android:id="@id/transitionEmbededForMLogDetail" app:kz="@id/embededCloseForMLogDetail" app:l0="@id/embededOpenForMLogDetail" app:sc="200" app:acj="easeInOut">
+        <KeyFrameSet>
+            <KeyPosition app:y8="1" app:a42="pathRelative" app:aco="@id/danmakuOpenHint" app:ah8="1.0" />
+        </KeyFrameSet>
+    </Transition>
+    <Transition android:id="@id/transitionFullscreenForMLogDetail" app:kz="@id/fullscreenCloseForMLogDetail" app:l0="@id/fullscreenOpenForMLogDetail" app:sc="200" app:acj="easeInOut">
+        <KeyFrameSet>
+            <KeyPosition app:y8="1" app:a42="pathRelative" app:aco="@id/danmakuOpenHint" app:ah8="1.0" />
+        </KeyFrameSet>
+    </Transition>
+    <ConstraintSet android:id="@id/fullscreenOpen">
+        <Constraint android:id="@id/scalableBg" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <Constraint android:id="@id/danmakuOpenHint" android:visibility="gone" />
+        <Constraint android:id="@id/editHint" android:visibility="visible" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginStart="12.0dip" android:layout_marginEnd="12.0dip" app:a5f="parent" app:a5m="@id/danmakuSettingIcon" app:a65="parent" app:a69="parent" />
+        <Constraint android:id="@id/danmakuSettingIcon" android:visibility="visible" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginEnd="8.0dip" app:a5f="parent" app:a5m="@id/danmakuSwitchIcon" app:a69="parent" />
+        <Constraint android:id="@id/danmakuSwitchIcon" android:visibility="visible" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginEnd="3.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+    </ConstraintSet>
+    <ConstraintSet android:id="@id/fullscreenClose">
+        <Constraint android:id="@id/scalableBg" android:layout_width="36.0dip" android:layout_height="fill_parent" app:a5l="parent" />
+        <Constraint android:id="@id/danmakuOpenHint" android:visibility="gone" />
+        <Constraint android:id="@id/editHint" android:visibility="invisible" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginStart="12.0dip" android:layout_marginEnd="12.0dip" app:a5f="parent" app:a5m="@id/danmakuSettingIcon" app:a65="parent" app:a69="parent" />
+        <Constraint android:id="@id/danmakuSettingIcon" android:visibility="invisible" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginEnd="8.0dip" app:a5f="parent" app:a5m="@id/danmakuSwitchIcon" app:a69="parent" />
+        <Constraint android:id="@id/danmakuSwitchIcon" android:visibility="visible" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginEnd="3.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+    </ConstraintSet>
+    <ConstraintSet android:id="@id/embededOpen">
+        <Constraint android:id="@id/scalableBg" android:layout_width="fill_parent" android:layout_height="fill_parent" android:alpha="1.0" />
+        <Constraint android:id="@id/danmakuOpenHint" android:visibility="invisible" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginEnd="12.0dip" app:a5f="parent" app:a5m="@id/danmakuSwitchIcon" app:a65="parent" app:a69="parent" />
+        <Constraint android:id="@id/editHint" android:visibility="visible" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginStart="12.0dip" android:layout_marginEnd="12.0dip" app:a5f="parent" app:a5m="@id/danmakuSettingIcon" app:a65="parent" app:a69="parent" app:a6p="10.0dip" />
+        <Constraint android:id="@id/danmakuSettingIcon" android:visibility="gone" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginEnd="8.0dip" app:a5f="parent" app:a5m="@id/danmakuSwitchIcon" app:a69="parent" />
+        <Constraint android:id="@id/danmakuSwitchIcon" android:visibility="visible" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginEnd="3.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+    </ConstraintSet>
+    <ConstraintSet android:id="@id/embededClose">
+        <Constraint android:id="@id/scalableBg" android:layout_width="36.0dip" android:layout_height="fill_parent" app:a5l="parent" />
+        <Constraint android:id="@id/danmakuOpenHint" android:visibility="visible" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginEnd="12.0dip" app:a5f="parent" app:a5m="@id/danmakuSwitchIcon" app:a65="parent" app:a69="parent" />
+        <Constraint android:id="@id/editHint" android:visibility="invisible" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginStart="12.0dip" android:layout_marginEnd="12.0dip" app:a5f="parent" app:a5m="@id/danmakuSettingIcon" app:a65="parent" app:a69="parent" app:a6p="10.0dip" />
+        <Constraint android:id="@id/danmakuSettingIcon" android:visibility="gone" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginEnd="8.0dip" app:a5f="parent" app:a5m="@id/danmakuSwitchIcon" app:a69="parent" />
+        <Constraint android:id="@id/danmakuSwitchIcon" android:visibility="visible" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginEnd="3.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+    </ConstraintSet>
+    <ConstraintSet android:id="@id/embededOpenForMLogDetail">
+        <Constraint android:id="@id/scalableBg" android:layout_width="fill_parent" android:layout_height="fill_parent" android:alpha="1.0" />
+        <Constraint android:id="@id/danmakuOpenHint" android:visibility="invisible" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginStart="12.0dip" android:layout_marginEnd="12.0dip" app:a5f="parent" app:a5m="@id/danmakuSwitchIcon" app:a65="parent" app:a69="parent" />
+        <Constraint android:id="@id/editHint" android:visibility="visible" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginStart="12.0dip" android:layout_marginEnd="12.0dip" app:a5f="parent" app:a5m="@id/danmakuSettingIcon" app:a65="parent" app:a69="parent" app:a6p="10.0dip" />
+        <Constraint android:id="@id/danmakuSettingIcon" android:visibility="gone" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginEnd="8.0dip" app:a5f="parent" app:a5m="@id/danmakuSwitchIcon" app:a69="parent" />
+        <Constraint android:id="@id/danmakuSwitchIcon" android:visibility="visible" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginEnd="3.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+    </ConstraintSet>
+    <ConstraintSet android:id="@id/embededCloseForMLogDetail">
+        <Constraint android:id="@id/scalableBg" android:layout_width="fill_parent" android:layout_height="fill_parent" android:alpha="0.6" />
+        <Constraint android:id="@id/danmakuOpenHint" android:visibility="visible" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginStart="12.0dip" android:layout_marginEnd="12.0dip" app:a5f="parent" app:a5m="@id/danmakuSwitchIcon" app:a65="parent" app:a69="parent" />
+        <Constraint android:id="@id/editHint" android:visibility="invisible" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginStart="12.0dip" android:layout_marginEnd="12.0dip" app:a5f="parent" app:a5m="@id/danmakuSettingIcon" app:a65="parent" app:a69="parent" app:a6p="10.0dip" />
+        <Constraint android:id="@id/danmakuSettingIcon" android:visibility="gone" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginEnd="8.0dip" app:a5f="parent" app:a5m="@id/danmakuSwitchIcon" app:a69="parent" />
+        <Constraint android:id="@id/danmakuSwitchIcon" android:visibility="visible" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginEnd="3.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+    </ConstraintSet>
+    <ConstraintSet android:id="@id/fullscreenOpenForMLogDetail">
+        <Constraint android:id="@id/scalableBg" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <Constraint android:id="@id/danmakuOpenHint" android:visibility="invisible" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginStart="12.0dip" android:layout_marginEnd="12.0dip" app:a5f="parent" app:a5m="@id/danmakuSwitchIcon" app:a65="parent" app:a69="parent" />
+        <Constraint android:id="@id/editHint" android:visibility="visible" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginStart="12.0dip" android:layout_marginEnd="12.0dip" app:a5f="parent" app:a5m="@id/danmakuSettingIcon" app:a65="parent" app:a69="parent" />
+        <Constraint android:id="@id/danmakuSettingIcon" android:visibility="visible" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginEnd="8.0dip" app:a5f="parent" app:a5m="@id/danmakuSwitchIcon" app:a69="parent" />
+        <Constraint android:id="@id/danmakuSwitchIcon" android:visibility="visible" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginEnd="3.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+    </ConstraintSet>
+    <ConstraintSet android:id="@id/fullscreenCloseForMLogDetail">
+        <Constraint android:id="@id/scalableBg" android:layout_width="fill_parent" android:layout_height="fill_parent" android:alpha="0.6" />
+        <Constraint android:id="@id/danmakuOpenHint" android:visibility="visible" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginStart="12.0dip" android:layout_marginEnd="12.0dip" app:a5f="parent" app:a5m="@id/danmakuSwitchIcon" app:a65="parent" app:a69="parent" />
+        <Constraint android:id="@id/editHint" android:visibility="invisible" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginStart="12.0dip" android:layout_marginEnd="12.0dip" app:a5f="parent" app:a5m="@id/danmakuSettingIcon" app:a65="parent" app:a69="parent" app:a6p="10.0dip" />
+        <Constraint android:id="@id/danmakuSettingIcon" android:visibility="invisible" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginEnd="8.0dip" app:a5f="parent" app:a5m="@id/danmakuSwitchIcon" app:a69="parent" />
+        <Constraint android:id="@id/danmakuSwitchIcon" android:visibility="visible" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginEnd="3.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+    </ConstraintSet>
+</MotionScene>

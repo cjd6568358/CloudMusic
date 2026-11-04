@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/flHeaderImage" android:layout_width="fill_parent" android:layout_height="fill_parent" android:alpha="0.0"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ViewStub android:id="@id/minePageBackground" android:layout="@layout/cyf" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <ViewStub android:id="@id/mineFullBackground" android:layout="@layout/cye" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/userHeaderMask" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</FrameLayout>

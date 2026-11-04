@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/commonLyricBg" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+    <View android:background="@color/fz" android:layout_width="fill_parent" android:layout_height="fill_parent" android:alpha="0.2" />
+    <View android:id="@id/commonTopGradientView" android:layout_width="fill_parent" android:layout_height="20.0dip" />
+    <View android:id="@id/commonBottomGradientView" android:layout_width="fill_parent" android:layout_height="20.0dip" android:layout_alignParentBottom="true" />
+</merge>

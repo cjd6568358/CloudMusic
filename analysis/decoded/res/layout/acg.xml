@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/sd_cover" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" app:ae="centerCrop" app:ahy="@drawable/g9l" app:ahz="fitXY" app:am0="@dimen/s4" />
+    <include android:id="@id/pkContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/acj" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/livingTag" android:background="@drawable/a4j" android:paddingLeft="6.0dip" android:paddingTop="1.0dip" android:paddingRight="6.0dip" android:paddingBottom="1.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:layout_alignParentRight="true" android:layout_marginEnd="4.0dip">
+        <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/livingIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="2.0dip" app:a5f="parent" app:a5m="@id/popularitytag" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0sp" android:textColor="@color/aj6" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/popularitytag" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/tv_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:maxLines="2" android:includeFontPadding="false" android:layout_below="@id/sd_cover" />
+</com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>

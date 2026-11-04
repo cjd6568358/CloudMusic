@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/chat_root" android:tag="layout/audio_record_chat_layout_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/chat_record_state_layout" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="51.0dip" app:a5g="@id/chat_record_layout" app:a5l="parent" app:a65="parent">
+        <com.netease.nmvideocreator.audio.visualizer.ui.visualize.record.AudioRecordVisualizeView android:id="@id/chat_visualize_view" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="44.0dip" android:layout_marginTop="12.0dip" app:az2="@color/c6" app:az3="@integer/h" app:az4="4.0dip" app:az5="2.0dip" app:az6="30.0dip" app:az7="2.0dip" app:az8="horizontal_line_center" />
+        <TextView android:textSize="16.0dip" android:textColor="@color/c3" android:id="@id/chat_record_state_text" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="18.0dip" android:layout_marginTop="10.0dip" android:layout_marginBottom="20.0dip" android:text="@string/a38" android:includeFontPadding="false" />
+    </LinearLayout>
+    <View android:id="@id/chat_record_press_shadow_view" android:tag="binding_1" android:background="@drawable/he" android:layout_width="142.0dip" android:layout_height="96.0dip" app:a5f="@id/chat_record_layout" app:a5l="parent" app:a65="parent" app:a69="@id/chat_record_layout" />
+    <RelativeLayout android:id="@id/chat_record_layout" android:layout_width="@dimen/fa" android:layout_height="@dimen/f_" android:layout_marginBottom="55.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent">
+        <View android:id="@id/chat_record_press_bottom" android:background="@drawable/hb" android:layout_width="@dimen/fb" android:layout_height="@dimen/f9" android:layout_centerInParent="true" />
+        <TextView android:textSize="16.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/chat_record_press_view" android:background="@drawable/ha" android:layout_width="@dimen/fb" android:layout_height="@dimen/f9" android:text="按住说话" android:layout_centerInParent="true" />
+    </RelativeLayout>
+    <RelativeLayout android:id="@id/chat_cancel_record_layout" android:visibility="gone" android:layout_width="60.0dip" android:layout_height="60.0dip" android:layout_marginEnd="41.0dip" app:a5f="@id/chat_record_layout" app:a5l="parent" app:a69="@id/chat_record_layout">
+        <ImageView android:id="@id/chat_cancel_record" android:background="@drawable/h7" android:layout_width="50.0dip" android:layout_height="50.0dip" android:src="@drawable/h9" android:layout_centerInParent="true" />
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

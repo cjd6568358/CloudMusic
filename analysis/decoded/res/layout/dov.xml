@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:gravity="center_horizontal" android:id="@id/userFaceImageContainer" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/userFaceImageStroke" android:visibility="visible" android:layout_width="81.29999dip" android:layout_height="81.29999dip" android:layout_centerInParent="true" />
+    <com.netease.cloudmusic.ui.DecoratedAvatarImage android:id="@id/userFaceImage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:shadowColor="#3e000000" android:shadowDy="1.0" android:shadowRadius="6.0" android:layout_centerInParent="true" android:layout_centerHorizontal="true" app:cv="style2" app:y5="true" />
+    <com.netease.cloudmusic.ui.pendant.PendantEventCover android:id="@id/pendantEventCover" android:visibility="gone" android:layout_width="153.0dip" android:layout_height="wrap_content" android:layout_alignTop="@id/userFaceImage" android:layout_alignBottom="@id/userFaceImage" android:layout_centerInParent="true" />
+</merge>

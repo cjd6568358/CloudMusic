@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/blacktop" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/d55" android:scaleType="fitCenter" android:layout_alignLeft="@id/cover" android:layout_alignRight="@id/cover" />
+    <com.netease.play.ui.NeteaseMusicSimpleDraweeView android:id="@id/cover" android:layout_width="wrap_content" android:layout_height="wrap_content" android:scaleType="centerCrop" android:layout_below="@id/blacktop" fresco:ahy="@drawable/g8u" fresco:ahz="centerCrop" fresco:am0="8.0dip" />
+    <View android:id="@id/selected" android:background="@drawable/bw_" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_alignLeft="@id/cover" android:layout_alignTop="@id/cover" android:layout_alignRight="@id/cover" android:layout_alignBottom="@id/cover" />
+    <TextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="@color/a0k" android:ellipsize="end" android:gravity="center_horizontal" android:id="@id/name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" android:maxLines="2" android:layout_below="@id/cover" android:layout_centerHorizontal="true" />
+    <TextView android:textSize="12.0sp" android:textColor="#ffa6a6a6" android:id="@id/date" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:maxLines="1" android:layout_below="@id/name" android:layout_centerHorizontal="true" />
+    <ImageView android:id="@id/recommended" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/d5a" android:layout_alignTop="@id/cover" android:layout_alignRight="@id/cover" />
+</RelativeLayout>

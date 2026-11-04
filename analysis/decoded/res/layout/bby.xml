@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="10.0sp" android:textColor="#ffffffff" android:id="@id/time" android:paddingLeft="6.0dip" android:paddingTop="2.0dip" android:paddingRight="6.0dip" android:paddingBottom="2.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1n" android:id="@id/warnTxt" android:background="@drawable/tc" android:paddingLeft="10.0dip" android:paddingTop="12.0dip" android:paddingRight="10.0dip" android:paddingBottom="12.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="50.0dip" android:layout_marginTop="15.0dip" android:layout_marginRight="50.0dip" android:text="@string/h3s" android:lineSpacingExtra="2.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/time" />
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginLeft="10.0dip" app:a5z="parent" app:a69="parent" app:ai4="style7" />
+    <FrameLayout android:id="@id/contentContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" app:a5z="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

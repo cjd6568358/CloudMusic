@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:tag="layout/media_cropper_fragment_crop_video_0" android:background="@color/do" android:focusable="true" android:clickable="true" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.nmvideocreator.mediacropper.cropvideo.view.ScaleTextureView android:id="@id/tv_video" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_above="@id/fl_console" android:layout_centerHorizontal="true" />
+    <com.netease.nmvideocreator.mediacropper.cropvideo.view.CropOperateView android:id="@id/cov" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_above="@id/fl_console" imagecrop:afm="#ffffffff" imagecrop:afn="0.0dip" imagecrop:afo="#66ffffff" imagecrop:afp="1.0dip" imagecrop:afq="30.0dip" imagecrop:afr="#ffffffff" imagecrop:afs="1.0dip" imagecrop:aft="16.0dip" imagecrop:afu="#7f000000" xmlns:imagecrop="http://schemas.android.com/apk/res-auto" />
+    <View android:background="@color/do" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignTop="@id/fl_console" android:layout_alignBottom="@id/fl_console" />
+    <View android:id="@id/space" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_above="@id/fl_console" />
+    <FrameLayout android:id="@id/fl_console" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" />
+</RelativeLayout>

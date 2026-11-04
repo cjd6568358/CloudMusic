@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/msg_game_card_container" android:tag="layout/item_party_chat_neongame_card_0" android:background="@drawable/vn" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="15.0dip">
+        <com.netease.play.ui.BubbleImage android:id="@id/msg_game_card_icon" android:layout_width="20.0dip" android:layout_height="20.0dip" app:am0="10.0dip" />
+        <TextView android:textSize="12.0sp" android:textColor="@color/ee" android:gravity="center_vertical" android:id="@id/msg_game_card_title" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginLeft="5.0dip" />
+    </LinearLayout>
+    <TextView android:textSize="15.0sp" android:textColor="@color/a6c" android:id="@id/msg_game_card_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="13.0dip" android:layout_marginRight="15.0dip" android:maxWidth="166.0dip" />
+    <com.netease.play.ui.BubbleImage android:id="@id/msg_game_card_pic" android:layout_width="166.0dip" android:layout_height="117.0dip" android:layout_marginLeft="15.0dip" android:layout_marginTop="11.0dip" android:layout_marginRight="15.0dip" android:layout_marginBottom="14.0dip" app:ahy="@drawable/dbp" app:am0="8.0dip" />
+</LinearLayout>

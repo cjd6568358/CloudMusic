@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.music.biz.search.single.har.HARHorizontalScrollView android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:fillViewport="true"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:descendantFocusability="blocksDescendants" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:paddingTop="12.0dip" android:paddingBottom="12.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingStart="12.0dip" android:paddingEnd="0.0dip">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@id/tvHARTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/hty" android:includeFontPadding="false" android:lineSpacingExtra="-5.0sp" android:layout_marginStart="4.0dip" android:layout_marginEnd="6.0dip" app:qe="colorText4" app:a5f="@id/rvHARRow1" app:a5m="@id/rvHARRow1" app:a5v="0.0" app:a5w="packed" app:a65="parent" app:a69="@id/rvHARRow1" app:adf="true" app:adi="false" app:adm="false" app:aeu="@color/a2d" />
+            <androidx.recyclerview.widget.RecyclerView android:orientation="horizontal" android:id="@id/rvHARRow1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" app:a51="androidx.recyclerview.widget.LinearLayoutManager" app:a64="@id/tvHARTitle" app:a69="parent" app:a6_="0.0" />
+            <androidx.recyclerview.widget.RecyclerView android:orientation="horizontal" android:id="@id/rvHARRow2" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" app:a51="androidx.recyclerview.widget.LinearLayoutManager" app:a5f="parent" app:a5v="0.0" app:a65="parent" app:a68="@id/rvHARRow1" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+</com.netease.cloudmusic.music.biz.search.single.har.HARHorizontalScrollView>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_pop_cosult_tip_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:tag="binding_1" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginBottom="6.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <View android:id="@id/v_l_bg" android:tag="binding_2" android:layout_width="52.0dip" android:layout_height="54.0dip" android:layout_marginTop="4.0dip" android:layout_marginBottom="10.0dip" android:layout_marginStart="4.0dip" app:a5f="parent" app:a5m="@id/v_r_bg" app:a65="parent" app:a69="parent" />
+    <ImageView android:id="@id/iv_l_star" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_marginTop="7.0dip" android:src="@drawable/dw1" app:a5l="@id/v_l_bg" app:a65="@id/v_l_bg" app:a69="@id/v_l_bg" />
+    <ImageView android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/dw2" app:a5l="@id/v_l_bg" app:a69="@id/v_l_bg" />
+    <TextView android:textSize="10.0dip" android:tag="binding_4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" app:a5l="@id/iv_l_star" app:a65="@id/iv_l_star" app:a68="@id/iv_l_star" />
+    <View android:id="@id/v_r_bg" android:tag="binding_5" android:layout_width="52.0dip" android:layout_height="54.0dip" android:layout_marginTop="4.0dip" android:layout_marginBottom="10.0dip" android:layout_marginStart="4.0dip" android:layout_marginEnd="4.0dip" app:a5f="parent" app:a5l="parent" app:a64="@id/v_l_bg" app:a69="parent" />
+    <ImageView android:id="@id/iv_r_star" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_marginTop="7.0dip" android:src="@drawable/dw0" app:a5l="@id/v_r_bg" app:a65="@id/v_r_bg" app:a69="@id/v_r_bg" />
+    <ImageView android:tag="binding_6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/dw2" app:a5l="@id/v_r_bg" app:a69="@id/v_r_bg" />
+    <TextView android:textSize="10.0dip" android:tag="binding_7" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" app:a5l="@id/iv_r_star" app:a65="@id/iv_r_star" app:a68="@id/iv_r_star" />
+    <ImageView android:layout_width="wrap_content" android:layout_height="6.0dip" android:layout_marginTop="4.0dip" android:src="@drawable/dw3" android:adjustViewBounds="true" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a68="@id/v_l_bg" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/feedContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <include android:layout_gravity="center" android:id="@id/loadingView" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" layout="@layout/cpj" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="13.0sp" android:gravity="center" android:id="@id/noNetworkRetryToast" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</FrameLayout>

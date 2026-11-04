@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/content_view" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/luna_play_icon_container" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <com.netease.cloudmusic.ui.NoFontPaddingTextView android:id="@id/continue_play_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:lines="1" android:singleLine="true" android:includeFontPadding="false" app:qc="13.0dip" />
+</LinearLayout>

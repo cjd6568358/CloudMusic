@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@color/do" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.SimpleVideoView android:id="@id/videoView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <ImageView android:id="@id/playIv" android:visibility="visible" android:layout_width="35.0dip" android:layout_height="35.0dip" android:src="@drawable/cwb" android:layout_centerInParent="true" />
+    <ProgressBar android:id="@id/progressBar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" />
+    <com.netease.cloudmusic.ui.StatusBarHolderView android:id="@id/statusBarView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <include android:layout_width="fill_parent" android:layout_height="@dimen/art" android:layout_below="@id/statusBarView" layout="@layout/dq9" />
+</RelativeLayout>

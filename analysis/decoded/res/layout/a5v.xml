@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/inviteDialogContainerV2" android:layout_width="fill_parent" android:layout_height="wrap_content" xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/header_C" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <View android:id="@id/handleView" android:layout_width="50.0dip" android:layout_height="5.0dip" android:layout_marginTop="15.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" />
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" app:a5z="@id/handleView" app:a63="@id/handleView" app:a69="@id/handleView">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0dip" android:id="@id/inviteDialogTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="18.0dip" android:text="一起听" app:qe="colorText2" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0dip" android:id="@id/recordEntrance" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="8.0dip" android:text="查看记录" android:layout_toLeftOf="@id/divider" android:layout_centerVertical="true" app:qe="colorText3" />
+            <View android:id="@id/divider" android:layout_width="1.0dip" android:layout_height="11.0dip" android:layout_marginRight="8.0dip" android:layout_toLeftOf="@id/settingEntranceBox" android:layout_centerVertical="true" app:qe="colorText2" />
+            <LinearLayout android:gravity="top" android:orientation="horizontal" android:id="@id/settingEntranceBox" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="18.0dip" android:layout_alignParentRight="true" android:layout_centerVertical="true">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0dip" android:id="@id/settingEntrance" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="匹配设置" app:qe="colorText3" />
+                <com.netease.cloudmusic.module.mymusic.view.RedDotView android:id="@id/settingEntranceDot" android:visibility="gone" android:layout_width="6.0dip" android:layout_height="6.0dip" android:layout_marginStart="2.0dip" app:akw="3.0dip" />
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout android:orientation="vertical" android:id="@id/header_T" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="23.0dip">
+            <View android:id="@id/handleViewT" android:layout_width="34.0dip" android:layout_height="4.0dip" />
+        </LinearLayout>
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0dip" android:id="@id/inviteDialogTitleT" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="18.0dip" android:text="一起听" app:qe="colorText2" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0dip" android:id="@id/inviteDialogRecord" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="8.0dip" android:text="查看记录" android:layout_toLeftOf="@id/inviteDialogLine" android:layout_centerVertical="true" app:qe="colorText3" />
+            <View android:id="@id/inviteDialogLine" android:layout_width="1.0dip" android:layout_height="11.0dip" android:layout_marginRight="8.0dip" android:layout_toLeftOf="@id/inviteDialogSettingBox" android:layout_centerVertical="true" app:qe="colorText2" />
+            <LinearLayout android:gravity="top" android:orientation="horizontal" android:id="@id/inviteDialogSettingBox" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="18.0dip" android:layout_alignParentRight="true" android:layout_centerVertical="true">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0dip" android:id="@id/inviteDialogSetting" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="匹配设置" app:qe="colorText3" />
+                <com.netease.cloudmusic.module.mymusic.view.RedDotView android:id="@id/inviteDialogSettingDot" android:visibility="gone" android:layout_width="6.0dip" android:layout_height="6.0dip" android:layout_marginStart="2.0dip" app:akw="3.0dip" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+    <com.netease.cloudmusic.module.listentogether.invite.ui.InviteRecyclerView android:id="@id/inviteTabContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" />
+</LinearLayout>

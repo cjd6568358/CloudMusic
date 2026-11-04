@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minWidth="@dimen/p2"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.FragmentTitleBar android:id="@id/ftb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tt="false" app:v2="网易支付" />
+    <TextView android:textSize="16.0dip" android:textStyle="bold" android:textColor="@color/wk" android:id="@id/tvFinger" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="50.0dip" android:text="网易支付的Fingerprint" />
+    <TextView android:textSize="14.0dip" android:textColor="@color/ws" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:layout_marginBottom="185.0dip" android:text="请验证已有的指纹" />
+</LinearLayout>

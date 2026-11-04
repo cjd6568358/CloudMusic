@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:gravity="center_vertical" android:id="@id/item" android:layout_width="fill_parent" android:layout_height="90.0dip" android:layout_marginRight="@dimen/s2">
+        <com.netease.cloudmusic.ui.PlaylistDraweeView android:id="@id/cover" android:layout_width="80.0dip" android:layout_height="80.0dip" android:layout_marginLeft="@dimen/s1" android:layout_centerVertical="true" app:ae="centerCrop" app:ahy="@drawable/cx5" app:ahz="fitXY" />
+        <ImageView android:id="@id/update" android:visibility="gone" android:layout_width="23.0dip" android:layout_height="23.0dip" android:layout_marginLeft="-1.0dip" android:layout_marginTop="-1.0dip" android:src="@drawable/ek6" android:layout_alignLeft="@id/cover" android:layout_alignTop="@id/cover" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="@dimen/vy" android:layout_toRightOf="@id/cover">
+            <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="@dimen/w7" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/name" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="2" android:lineSpacingMultiplier="1.2" />
+            <LinearLayout android:gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:layout_alignLeft="@id/name">
+                <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/download" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/vr" app:aev="@color/a1z" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="@dimen/w5" android:textColor="@color/aiy" android:ellipsize="end" android:id="@id/info" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" />
+            </LinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="12.0sp" android:textColor="@color/aiy" android:ellipsize="end" android:id="@id/tip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="7.0dip" android:lines="1" android:singleLine="true" android:layout_alignLeft="@id/name" />
+        </LinearLayout>
+    </RelativeLayout>
+</merge>

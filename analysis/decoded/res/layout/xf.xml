@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:paddingLeft="7.0dip" android:paddingRight="3.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/line" android:background="#19000000" android:layout_width="fill_parent" android:layout_height="0.33000004dip" android:layout_marginLeft="47.0dip" />
+    <com.netease.cloudmusic.ui.AvatarImage android:id="@id/commentAvatar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:layout_marginTop="4.0dip" app:cv="style7" />
+    <RelativeLayout android:id="@id/commentInfoBlock" android:paddingTop="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="7.0dip" android:layout_marginRight="65.0dip" android:layout_toRightOf="@id/commentAvatar">
+        <TextView android:textSize="12.0sp" android:textColor="@color/aix" android:id="@id/commentNickname" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="1.0dip" android:singleLine="true" android:drawablePadding="4.0dip" android:lineSpacingExtra="2.0dip" />
+        <TextView android:textSize="9.0sp" android:textColor="@color/aiz" android:gravity="center_vertical" android:id="@id/commentTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@id/commentNickname" />
+    </RelativeLayout>
+    <com.netease.cloudmusic.ui.CommentLikeButton android:id="@id/commentLikedContainer" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginTop="7.0dip" android:layout_marginBottom="13.0dip" android:layout_alignParentRight="true" app:adl="false" />
+    <include android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" android:layout_marginTop="8.0dip" android:layout_marginRight="10.0dip" android:layout_toRightOf="@id/commentAvatar" android:layout_below="@id/commentInfoBlock" layout="@layout/v8" />
+</RelativeLayout>

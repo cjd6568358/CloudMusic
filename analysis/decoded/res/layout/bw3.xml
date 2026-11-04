@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.livepage.view.DebugConstraintLayout android:id="@id/liveContainer" android:tag="layout/layout_listen_recon_info_dynamic_0" android:layout_width="fill_parent" android:layout_height="fill_parent" android:keepScreenOn="true" app:ahy="@color/a5q"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/rnContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/statusBarGuideline" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5n="25.0dip" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/headerUiContainer" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5l="parent" app:a65="parent" app:a68="@id/statusBarGuideline" />
+    <FrameLayout android:id="@id/middlePanelContainer" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_marginTop="10.0dip" app:a5f="parent" app:a68="@id/headerUiContainer" />
+    <Space android:id="@id/bottomGuide0" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" />
+    <Space android:id="@id/bottomGuide1" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5g="@id/bottomGuide1_assist" app:a5z="parent" app:a63="parent" />
+    <Space android:id="@id/bottomGuide1_assist" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginBottom="56.0dip" app:a5g="@id/bottomGuide0" app:a5z="parent" app:a63="parent" />
+    <Space android:id="@id/bottomGuide2" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginBottom="10.0dip" app:a5g="@id/bottomGuide1" app:a5z="parent" app:a63="parent" />
+    <Space android:id="@id/bottomGuide3" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginBottom="10.0dip" app:a5g="@id/bottomGuide1" app:a5z="parent" app:a63="@id/chatRecyclerView" />
+    <androidx.constraintlayout.widget.Group android:id="@id/contentGroup" android:layout_width="wrap_content" android:layout_height="wrap_content" app:l1="chatRecyclerView" />
+    <FrameLayout android:id="@id/abovedynamic" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</com.netease.play.livepage.view.DebugConstraintLayout>

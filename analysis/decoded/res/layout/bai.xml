@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:id="@id/rootCard" android:tag="layout/item_music_audio_liveroom_0" android:paddingLeft="@dimen/wp" android:paddingRight="@dimen/wp" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.NeteaseMusicViewPager android:id="@id/cover" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a5z="parent" app:a69="parent" />
+    <com.netease.cloudmusic.ui.FocusTextView android:textSize="13.0sp" android:textColor="@color/a0k" android:ellipsize="marquee" android:id="@id/title" android:tag="binding_1" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="9.0dip" android:singleLine="true" android:marqueeRepeatLimit="marquee_forever" app:a5z="@id/cover" app:a68="@id/cover" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/a0l" android:ellipsize="end" android:gravity="center" android:id="@id/nickName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:drawablePadding="4.0dip" app:a5z="@id/cover" app:a68="@id/title" />
+</androidx.constraintlayout.widget.ConstraintLayout>

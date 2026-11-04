@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:background="@null" android:layout_width="wrap_content" android:layout_height="24.0dip" app:jw="12.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/topicShareIcon" android:layout_width="16.0dip" android:layout_height="16.0dip" android:layout_marginLeft="8.0dip" app:a5f="parent" app:a5z="parent" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0dip" android:id="@id/topicHint" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="1.0dip" android:singleLine="true" android:layout_marginEnd="6.0dip" app:a5_="true" app:a5f="parent" app:a5m="@id/guideLineView" app:a5v="0.0" app:a5w="packed" app:a64="@id/topicShareIcon" app:a69="parent" app:a6e="144.0dip" />
+    <View android:id="@id/guideLineView" android:layout_width="1.0dip" android:layout_height="fill_parent" android:layout_marginTop="7.0dip" android:layout_marginBottom="7.0dip" app:a5f="parent" app:a5m="@id/topicShareButton" app:a64="@id/topicHint" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="11.0dip" android:id="@id/topicShareButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_marginEnd="8.0dip" app:a5f="parent" app:a5l="parent" app:a64="@id/guideLineView" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

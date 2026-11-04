@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:tag="layout/live_biz_tab_fragment_v4_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/container" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout2 android:id="@id/tabLayout" android:layout_width="0.0dip" android:layout_height="44.0dip" app:a5m="@id/profileCenter" app:a65="parent" app:a69="parent" app:atn="false" />
+    <ImageView android:id="@id/profileCenter" android:tag="binding_1" android:layout_width="28.0dip" android:layout_height="28.0dip" android:src="@drawable/gi9" android:layout_marginEnd="16.0dip" app:a5f="@id/tabLayout" app:a5l="parent" app:a69="@id/tabLayout" />
+    <androidx.constraintlayout.widget.Group android:id="@id/contentGroup" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" app:l1="tabLayout,container,profileCenter" />
+    <FrameLayout android:id="@id/interceptView" android:tag="binding_3" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+</com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>

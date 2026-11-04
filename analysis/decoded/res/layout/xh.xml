@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="vertical" android:id="@id/commentBannerContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" app:e6="noline"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.component.SectionContainer android:id="@id/sectionContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" app:adv="false" app:awr="small" app:ax3="-5.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aw2" android:layout_gravity="right" android:id="@id/moreView" android:paddingLeft="20.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginRight="@dimen/s2" android:text="@string/ekp" android:drawableRight="@drawable/gn7" android:drawablePadding="2.0dip" app:adf="true" app:adi="true" app:aeu="@color/a2h" />
+        <com.netease.cloudmusic.ui.CommentLikeButton android:layout_gravity="right" android:id="@id/commentLikedContainer" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginRight="5.0dip" />
+    </com.netease.cloudmusic.ui.component.SectionContainer>
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/comment_banner_recy" android:paddingLeft="6.0dip" android:scrollbars="none" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginBottom="15.0dip" android:overScrollMode="never" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

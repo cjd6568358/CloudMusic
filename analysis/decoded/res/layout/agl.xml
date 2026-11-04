@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/a7q" android:layout_width="fill_parent" android:layout_height="fill_parent" android:contentDescription="epaysdk_bg|GradientDrawable"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tr="false" app:ty="false" app:uf="@string/bwr" />
+    <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:paddingLeft="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" android:layout_marginRight="15.0dip" android:layout_marginBottom="10.0dip" android:text="@string/bzr" />
+    <RelativeLayout android:id="@id/rlFirst" android:background="@color/wg" android:layout_width="fill_parent" android:layout_height="51.0dip" android:contentDescription="epaysdk_cell_bg">
+        <TextView android:textSize="16.0dip" android:textColor="@color/wk" android:gravity="center" android:id="@id/tvFirstTitle" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginLeft="15.0dip" />
+        <TextView android:textSize="15.0dip" android:textColor="@color/wo" android:gravity="center" android:id="@id/tvCardsCount" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginRight="15.0dip" android:drawableRight="@drawable/d0t" android:drawablePadding="10.0dip" android:layout_alignParentRight="true" />
+    </RelativeLayout>
+    <RelativeLayout android:id="@id/rlSecond" android:background="@color/wg" android:layout_width="fill_parent" android:layout_height="51.0dip" android:contentDescription="epaysdk_cell_bg">
+        <View android:layout_marginLeft="15.0dip" style="@style/a4t" />
+        <TextView android:textSize="16.0dip" android:textColor="@color/wk" android:gravity="center" android:id="@id/tvSecondTitle" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginLeft="15.0dip" />
+        <TextView android:textSize="15.0dip" android:textColor="@color/wo" android:gravity="center" android:id="@id/tvRedPapersCount" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginRight="15.0dip" android:drawableRight="@drawable/d0t" android:drawablePadding="10.0dip" android:layout_alignParentRight="true" />
+    </RelativeLayout>
+    <View style="@style/a4t" />
+</LinearLayout>

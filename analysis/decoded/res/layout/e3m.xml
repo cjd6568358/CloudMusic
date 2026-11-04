@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:id="@id/volumeSeekBarContainer" android:paddingLeft="23.0dip" android:paddingRight="23.0dip" android:visibility="gone" android:clickable="true" android:layout_width="fill_parent" android:layout_height="@dimen/avc"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/playIconSpeaker" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="7.0dip" android:src="@drawable/gdt" />
+    <SeekBar android:id="@id/volumeSeekBar" android:paddingLeft="10.0dip" android:paddingTop="@dimen/ajb" android:paddingRight="10.0dip" android:paddingBottom="@dimen/ajb" android:layout_width="0.0dip" android:layout_height="wrap_content" android:maxHeight="2.0dip" android:progress="30" android:progressDrawable="@drawable/clr" android:minHeight="2.0dip" android:thumb="@drawable/gf5" android:thumbOffset="3.0dip" android:layout_weight="1.0" />
+    <ImageView android:id="@id/dlna" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" />
+</LinearLayout>

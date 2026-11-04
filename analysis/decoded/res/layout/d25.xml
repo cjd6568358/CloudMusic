@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/group_name" android:tag="layout/note_operation_template_material_item2_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/cover" android:layout_width="70.0dip" android:layout_height="94.0dip" fresco:a5l="parent" fresco:a65="parent" fresco:a69="parent" fresco:ahy="@color/r8" fresco:am0="4.0dip" />
+    <View android:id="@id/cover_fore" android:background="@drawable/c9y" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="94.0dip" fresco:a5f="@id/cover" fresco:a5l="@id/cover" fresco:a65="@id/cover" fresco:a69="@id/cover" />
+    <TextView android:textSize="10.0sp" android:textColor="@color/b1n" android:ellipsize="end" android:gravity="center" android:id="@id/name" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:maxLines="1" android:includeFontPadding="false" fresco:a5l="@id/cover" fresco:a65="@id/cover" fresco:a68="@id/cover" />
+    <ImageView android:id="@id/live_tag" android:visibility="gone" android:layout_width="37.0dip" android:layout_height="13.0dip" android:layout_marginTop="4.0dip" android:src="@drawable/gyx" android:layout_marginStart="4.0dip" fresco:a65="@id/cover" fresco:a69="@id/cover" />
+    <ProgressBar android:id="@id/progress_bar" android:visibility="gone" android:layout_width="12.0dip" android:layout_height="12.0dip" android:layout_marginBottom="4.0dip" android:layout_marginEnd="4.0dip" android:indeterminateTint="@color/b12" fresco:a5f="@id/cover" fresco:a5l="@id/cover" />
+</androidx.constraintlayout.widget.ConstraintLayout>

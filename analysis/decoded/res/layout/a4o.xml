@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/dialog_hot_line_consult_mode_0" android:background="@drawable/fl7" android:layout_width="210.0dip" android:layout_height="46.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/bottomLine" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginBottom="10.0dip" />
+    <com.netease.play.ui.LookThemeCheckBox android:layout_gravity="end|center" android:id="@id/astrolabeCheckBox" android:tag="binding_1" android:layout_width="13.0dip" android:layout_height="13.0dip" android:layout_marginStart="20.0dip" android:layout_marginEnd="16.0dip" app:a5f="@id/bottomLine" app:a65="parent" app:a69="parent" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1z" android:id="@id/astrolabe" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/dg8" android:layout_marginStart="4.0dip" app:a5f="@id/bottomLine" app:a64="@id/astrolabeCheckBox" app:a69="parent" />
+    <View android:id="@id/divider" android:background="@color/b1d" android:layout_width="1.0dip" android:layout_height="12.0dip" app:a5f="@id/bottomLine" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.play.ui.LookThemeCheckBox android:layout_gravity="end|center" android:id="@id/tarotCheckBox" android:tag="binding_3" android:layout_width="13.0dip" android:layout_height="13.0dip" android:layout_marginStart="20.0dip" android:layout_marginEnd="16.0dip" app:a5f="@id/bottomLine" app:a64="@id/divider" app:a69="parent" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1z" android:id="@id/tarot" android:tag="binding_4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/dg_" android:layout_marginStart="4.0dip" app:a5f="@id/bottomLine" app:a64="@id/tarotCheckBox" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

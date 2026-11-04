@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/loginContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.module.login.v3.PhoneNumEditView android:id="@id/phoneNumberEdit" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="20.0dip" />
+        <com.netease.cloudmusic.module.login.v3.NewLoginBtn android:textSize="16.0dip" android:gravity="center" android:id="@id/newLoginBtn" android:layout_width="fill_parent" android:layout_height="46.0dip" android:text="登录" />
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:id="@id/quickLoginContainer" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.module.login.quicklogin.QuickLoginItem android:id="@id/quickLoginItem1" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <com.netease.cloudmusic.module.login.quicklogin.QuickLoginItem android:id="@id/quickLoginItem2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" />
+        <com.netease.cloudmusic.module.login.quicklogin.QuickLoginItem android:id="@id/quickLoginItem3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" />
+    </LinearLayout>
+</FrameLayout>

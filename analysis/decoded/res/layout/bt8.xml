@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_gift_nolive_header_0" android:background="@drawable/bxq" android:paddingLeft="15.0dip" android:paddingRight="66.0dip" android:layout_width="fill_parent" android:layout_height="46.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="13.0sp" android:textColor="@color/b12" android:gravity="center_vertical" android:id="@id/tip" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/cfs" app:a5z="parent" />
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar" android:layout_width="30.0dip" android:layout_height="30.0dip" app:a5f="parent" app:a60="@id/tip" app:a69="parent" app:ai4="style7" />
+    <TextView android:textSize="13.0sp" android:textColor="@color/b12" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/name" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_marginLeft="8.0dip" android:singleLine="true" app:a60="@id/avatar" app:a63="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@id/swipeRefresh" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.play.ui.LiveRecyclerView android:id="@id/recyclerView" android:layout_width="0.0dip" android:layout_height="0.0dip" android:overScrollMode="never" app:a5g="@id/myRankInfoLayout" app:a5z="parent" app:a63="parent" app:a69="parent" />
+        <include android:id="@id/myRankInfoLayout" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="60.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a68="@id/recyclerView" layout="@layout/bf4" />
+        <View android:id="@id/myRankInfoLayoutDiver" android:background="@color/a6u" android:visibility="gone" android:layout_width="3.0dip" android:layout_height="0.0dip" app:a5f="@id/myRankInfoLayout" app:a5z="parent" app:a69="@id/myRankInfoLayout" />
+        <View android:background="#1affffff" android:layout_width="0.0dip" android:layout_height="1.0px" app:a5z="parent" app:a63="parent" app:a69="@id/myRankInfoLayout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

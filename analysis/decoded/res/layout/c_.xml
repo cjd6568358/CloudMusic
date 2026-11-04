@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:id="@id/preferenceScrollView" android:scrollbars="none" android:fadingEdgeLength="0.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="16.0sp" android:textColor="@android:color/white" android:gravity="center" android:id="@id/openNewDeveloperActivity" android:background="#ff4caf50" android:layout_width="fill_parent" android:layout_height="48.0dip" android:text="打开新版开发者选项" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/startupManagerVersion" android:layout_marginTop="@dimen/ao6" android:text="启动框架：当前 V1，下次启动 V1" style="@style/a9g" />
+        <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/themeContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeEditText android:textSize="16.0sp" android:id="@id/ipNumber" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="30.0dip" android:layout_marginRight="16.0dip" android:text="106.2.32.14" android:hint="预发环境：111.124.201.54" android:maxLength="20" android:drawableLeft="@drawable/dkb" android:drawablePadding="42.0dip" android:inputType="text" android:imeOptions="flagNavigateNext" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="16.0sp" android:gravity="center" android:id="@id/ipSave" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="42.0dip" android:layout_marginLeft="16.0dip" android:layout_marginTop="30.0dip" android:layout_marginRight="16.0dip" android:text="保存" android:layout_below="@id/password" app:gl="useTheme" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/rnLocalDebug" android:layout_marginTop="@dimen/ao6" android:text="一键RN本地调试" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/fridaDebugContainer" android:visibility="gone" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="AI Frida 调试App（切换后立即重启）" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/fridaDebugSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/playerUIModeContainer" android:layout_marginTop="@dimen/ao6" android:text="黑胶播放样式" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/deviceInfoTestContainer" android:layout_marginTop="@dimen/ao6" android:text="@string/b_y" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/mockXmlRequest" android:layout_marginTop="@dimen/ao6" android:text="模拟ContentType:Application/xml请求" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/encryptDebugContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="开启xeapi随机失败(1/3概率)" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/encryptDebugSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/orpheusTestContainer" android:layout_marginTop="@dimen/ao6" android:text="orpheusTest测试集成框架" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/ltMusicContainer" android:layout_marginTop="@dimen/ao6" android:text="一起听歌曲测试" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/ltAlbumContainer" android:layout_marginTop="@dimen/ao6" android:text="一起听专辑测试" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/dataReportSwitchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="埋点可视化工具" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/dataReportSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/forceAccountUseJskSwitchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="强制账号走JSK" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/forceAccountUseJskSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/forceAccountNoJskSwitchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="强制账号不走JSK" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/forceAccountNoJskSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/expandUserCodesInterceptorSwitchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="扩大用户域code拦截范围" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/expandUserCodesInterceptorSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/loginForceRNSwitchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="登录页强制走RN" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/loginForceRNSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/cookieStoreOptLockContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="cookie store锁优化" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/cookieStoreOptLockSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/publishUseRNSwitchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="图文发布器RN化开关" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/publishUseRNSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/profilePageFullyRNRedirectContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="个人主页完全RN化重定向" android:layout_centerVertical="true" style="@style/a9i" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/topicDetailFullyRNRedirectContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="话题详情页完全RN化重定向" android:layout_centerVertical="true" style="@style/a9i" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/topicDetailEventRNRedirectContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="话题详情页动态RN重定向" android:layout_centerVertical="true" style="@style/a9i" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/eventDetailEventRNRedirectContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="动态详情页动态RN重定向" android:layout_centerVertical="true" style="@style/a9i" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/commentTrackRNRedirectContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="乐评广场RN重定向" android:layout_centerVertical="true" style="@style/a9i" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/friendTrackRNRedirectContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="关注动态流RN重定向" android:layout_centerVertical="true" style="@style/a9i" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/httpdnsContains" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/fys" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/httpDnsSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/bundleUpdateContains" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/fyt" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/bundleUpdateSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/interfaceContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/fxn" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/interfaceSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/encryptContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/fy8" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/encryptSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/leakCanaryContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/fy9" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/leakCanarySwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pnpTrackerContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/bm" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pnpTrackerSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/statisticPanelContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/bt3" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/statisticPanelSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/cronetContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/b3x" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/cronetSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/cronetLogContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/b3w" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/cronetLogSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/thunderTokenId" android:layout_marginTop="@dimen/ao6" android:text="@string/in7" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/thunderLogContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/in6" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/thunderLogSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/bannerAutoPlayContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/bt2" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/bannerAutoPlaySwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/mockPlatform" android:layout_marginTop="@dimen/ao6" android:text="网络Mock工作台" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/viewEventUi" android:layout_marginTop="@dimen/ao6" android:text="动态UI总览" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/changeCookieAppVersion" android:layout_marginTop="@dimen/ao6" android:text="@string/agz" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/mockCookieException" android:layout_marginTop="@dimen/ao6" android:text="模拟 Cookie 异常" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/pfCookieConfig" android:layout_marginTop="@dimen/ao6" android:text="@string/fy0" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/localSearchInfo" android:layout_marginTop="@dimen/ao6" android:text="@string/dl1" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/audioPlayer" android:layout_marginTop="@dimen/ao6" android:text="@string/a24" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/discovery_ab_tv" android:layout_marginTop="@dimen/ao6" android:text="@string/bg7" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/pfAbTestInfo" android:layout_marginTop="@dimen/ao6" android:text="@string/fxh" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/checkAbTestInfo" android:layout_marginTop="@dimen/ao6" android:text="@string/aix" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/checkCustomConfigInfo" android:layout_marginTop="@dimen/ao6" android:text="@string/aiz" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/clearCustomConfigInfo" android:layout_marginTop="@dimen/ao6" android:text="清除配置" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/dolphin" android:layout_marginTop="@dimen/ao6" android:text="Dolphin工具箱" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/dai" android:layout_marginTop="@dimen/ao6" android:text="端智能工具箱" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/clearSPConfigInfo" android:layout_marginTop="@dimen/ao6" android:text="@string/apn" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/clearPlayerVinylSPConfigInfo" android:layout_marginTop="@dimen/ao6" android:text="清除黑胶页相关sp" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/clearProfileSPConfigInfo" android:layout_marginTop="@dimen/ao6" android:text="我的页/个人页相关sp" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/clearDateSp" android:layout_marginTop="@dimen/ao6" android:text="清除频控相关sp" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/pfNetworkDiagnose" android:layout_marginTop="@dimen/ao6" android:text="@string/fyi" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/pfDomainChange" android:visibility="gone" android:layout_marginTop="@dimen/ao6" android:text="@string/fy3" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/liveDomainChange" android:layout_marginTop="@dimen/ao6" android:text="@string/dbv" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/sunbirdLiveDomainChange" android:layout_marginTop="@dimen/ao6" android:text="@string/iib" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/clientLogContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="ClientLog日志域名跟随" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/clientLogSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/lookEncryptSwitchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="look直播开启请求加密" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/lookEncryptSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/enterLiveRoom" android:layout_marginTop="@dimen/ao6" android:text="@string/ikk" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/enterMus" android:layout_marginTop="@dimen/ao6" android:text="@string/ikl" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/enterSunbirdLiveRoom" android:layout_marginTop="@dimen/ao6" android:text="@string/ikm" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/testCrash" android:layout_marginTop="@dimen/ao6" android:text="@string/iki" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/dataPackage" android:layout_marginTop="@dimen/ao6" android:text="@string/ikj" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/codeCoverage" android:layout_marginTop="10.0dip" android:text="@string/at5" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/webViewProxy" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/ar0" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/webViewProxySwitcher" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/showMusicData" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="开启歌曲SP数据显示" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/showMusicDataSwitcher" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/statisticUpload" android:layout_marginTop="10.0dip" android:text="@string/if7" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/statisticViewer" android:layout_marginTop="10.0dip" android:text="@string/if8" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/secondFloorGuideInterval" android:layout_marginTop="10.0dip" android:text="@string/huv" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/playSourceInfoContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="歌曲来源信息检测" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/playSourceInfoShow" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/trafficThreshold" android:layout_marginTop="10.0dip" android:text="@string/b7m" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/trafficOver" android:layout_marginTop="10.0dip" android:text="@string/b7l" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/trafficOverInfo" android:layout_marginTop="10.0dip" android:text="@string/b7k" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/showExtractColorResultContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="黑胶页展示封面取色结果" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/showExtractColorResult" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="20.0dip" android:layout_marginTop="20.0dip" android:layout_marginBottom="12.0dip" android:text="https开关" android:layout_centerVertical="true" style="@style/a9i" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/apiHttpsSwitchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="api https开关" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/apiHttpsSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/cdnHttpsSwitchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="cdn https开关" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/cdnHttpsSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="20.0dip" android:layout_marginTop="20.0dip" android:layout_marginBottom="12.0dip" android:text="活动预热缓存" android:layout_centerVertical="true" style="@style/a9i" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/activityCacheWriteSwitchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="预热缓存写开关(内存态)" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/activityCacheWriteSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/activityCacheReadSwitchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="预热缓存读开关(内存态)" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/activityCacheReadSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/frameworkTest" android:layout_marginTop="10.0dip" android:text="@string/cc5" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:layout_marginTop="@dimen/ao6" android:text="视频播放器使用demo" android:onClick="goVideoPlayerDemo" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/frameworkTest2" android:layout_marginTop="10.0dip" android:text="协程MVVM测试页面" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/myMusicStyle" android:layout_marginTop="@dimen/ao6" android:text="我的音乐页面样式" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/loginStyle" android:layout_marginTop="@dimen/ao6" android:text="登录页样式" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/onePassSDK" android:layout_marginTop="@dimen/ao6" android:text="一键登录SDK选择" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/playListStyle" android:layout_marginTop="@dimen/ao6" android:text="歌单头部样式" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/removeNickNameAbTest" android:layout_marginTop="@dimen/ao6" android:text="是否去除昵称设置页ab" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/changeDeviceId" android:layout_marginTop="@dimen/ao6" android:text="切换deviceID" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/currentDeviceId" android:layout_height="wrap_content" android:layout_marginTop="@dimen/ao6" android:text="当前deviceID: " style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/rn_protocol" android:layout_marginTop="@dimen/ao6" android:text="RN接口测试" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/rn_fragment" android:layout_marginTop="@dimen/ao6" android:text="RN Fragment容器Demo" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/rnRemoveBundle" android:layout_marginTop="@dimen/ao6" android:text="清空本地bundle包缓存" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/cloud_random_param_setting" android:layout_marginTop="@dimen/ao6" android:text="云随机参数调节" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/dslDebugContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="DSL本地性能检测开关" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/dslDebugSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/rnDebugContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="RN本地Debug" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/rnDebugSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/rnSynchysisSwitchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <androidx.appcompat.widget.LinearLayoutCompat android:gravity="center" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="RN混排开关" android:layout_centerVertical="true" style="@style/a9i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/rnSynchysisSwitch1" style="@style/a9c" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat android:gravity="center" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="首页RN混排开关" android:layout_centerVertical="true" style="@style/a9i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/rnSynchysisSwitch2" style="@style/a9c" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/resetPlayerSongShareHint" android:layout_marginTop="@dimen/ao6" android:text="重置播放页分享引导" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/resetPlayerKaraokeHint" android:layout_marginTop="@dimen/ao6" android:text="重置K歌黑胶页引导次数" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/resetPlayerVipHint" android:layout_marginTop="@dimen/ao6" android:text="重置播放页VIP引导" android:drawableEnd="@drawable/aj_" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/resetSmartPlayHint" android:layout_marginTop="@dimen/ao6" android:text="重置播放列表全局心动模式引导" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/resetCoplHint" android:layout_marginTop="@dimen/ao6" android:text="重置共享歌单引导" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/clearPlayListDetailSPConfigInfo" android:layout_marginTop="@dimen/ao6" android:text="重置歌单详情页引导" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/router" android:layout_marginTop="@dimen/ao6" android:text="router测试" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/listenTogetherTest" android:layout_marginTop="@dimen/ao6" android:text="一起听歌测试页面" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/singroomTest" android:layout_marginTop="@dimen/ao6" android:text="唱聊测试页面" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/rpcTest" android:layout_marginTop="@dimen/ao6" android:text="rpc测试" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/networkThrottleTimeSetting" android:layout_marginTop="@dimen/ao6" android:text="截流设置" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/thread_trace_switch_container" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="线程Trace开关" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/thread_trace_switch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/thread_trace_entry" android:layout_marginTop="@dimen/ao6" android:text="线程Trace查看" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/rpcPlayTest" android:layout_marginTop="@dimen/ao6" android:text="RPC本地播放能力测试" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/playApiDebug" android:layout_marginTop="@dimen/ao6" android:text="播放调试（接口/IPlayState/日志开关）" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/popLayerSwitchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="popLayer 调试模式" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/popLayerSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/popLayerSwitchDisplayContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/poplayerFakeUrl" android:text="popLayer调试链接" android:layout_centerVertical="true" style="@style/a9i" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/flashLightTest" android:layout_marginTop="@dimen/ao6" android:text="闪光灯音效测试" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/routerTest" android:layout_marginTop="@dimen/ao6" android:text="路由测试" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/gameOauthTest" android:layout_marginTop="@dimen/ao6" android:text="云游戏一键登录测试" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/podCastPageTest" android:layout_marginTop="@dimen/ao6" android:text="播客独立页面测试" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/safemodeText" android:layout_marginTop="@dimen/ao6" android:text="安全模式测试" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/strictSafemodeText" android:layout_marginTop="@dimen/ao6" android:text="严苛安全模式测试" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/earlyNotMainProcCrashText" android:layout_marginTop="@dimen/ao6" android:text="非主进程早期Crash测试" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/recordVoice" android:layout_marginTop="@dimen/ao6" android:text="声音录制" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/ruleFilter" android:layout_marginTop="@dimen/ao6" android:text="ruleFilter" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/shakeContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="摇一摇打开开发者选项页面" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/shakeSwitch" android:checked="true" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/lookWebForceOnlineSwitchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="关闭look webview 离线包" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/lookWebForceOnlineSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/uetoolSwitchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="UETool" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/uetoolSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/orcatoolSwitchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="OrcaTool" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/orcatoolSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/liveFollowActivityReportTime" android:layout_marginTop="@dimen/ao6" android:text="直播关注有礼接口上报时间" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/updateFeatureAppWidget" android:layout_marginTop="@dimen/ao6" android:text="更新功能小组件" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/harmonyCardLogout" android:visibility="gone" android:layout_marginTop="@dimen/ao6" android:text="鸿蒙服务卡片退出登录" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/dialog_tester" android:layout_marginTop="@dimen/ao6" android:text="弹框测试" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/music_detector_algorithm" android:layout_marginTop="@dimen/ao6" android:text="听歌识曲算法设置" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/music_detector_hum" android:layout_marginTop="@dimen/ao6" android:text="哼唱识曲算法设置" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/personRnBgModify" android:layout_marginTop="@dimen/ao6" android:text="个人页RN背景链接修改" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/goToScan" android:layout_marginTop="@dimen/ao6" android:text="扫一扫" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/reportLog" android:layout_marginTop="@dimen/ao6" android:text="上报日志" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/aeTools" android:layout_marginTop="@dimen/ao6" android:text="音效工具箱" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/changeIcon" android:layout_marginTop="@dimen/ao6" android:text="更换应用图标" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/simpleAR" android:layout_marginTop="@dimen/ao6" android:text="打开AR活动页" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/debugYD" android:layout_marginTop="@dimen/ao6" android:text="调试易盾人脸验证Sdk" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/openLcpGroup" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="Lcp圈定元素开关" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/openLcp" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/carFlowTest" android:layout_marginTop="@dimen/ao6" android:text="问界流转测试" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/abTestCallMonitor" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="AB调用频次检测, DevCallABCheckMonitor 过滤日志，再关闭开关看报告" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/abTestCallMonitorSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/playlistSwitchNative" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="强制切到Native歌单" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/playlistSwitchNativeSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/newSongSwitchToRN" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="强制切到RN新歌新碟" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/newSongSwitchToRNSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/hintContainerOverride" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="灵渠容器注册覆盖提示" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/hintContainerOverrideSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/rnDebugTool" android:layout_marginTop="@dimen/ao6" android:text="@string/hni" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/searchGuide" android:layout_marginTop="@dimen/ao6" android:text="@string/hrw" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/nativeLocation" android:layout_marginTop="@dimen/ao6" android:text="原生定位" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/amapLocation" android:layout_marginTop="@dimen/ao6" android:text="高德定位" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/widgetsTest" android:layout_marginTop="@dimen/ao6" android:text="小组件测试" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/aidjDebugContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="AIDJ调试工具(需开启悬浮窗权限)" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/aidjDebugSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/fltDebugContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="跟听调试工具(需开启悬浮窗权限)" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/fltDebugSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/vibrateTest" android:layout_marginTop="@dimen/ao6" android:text="震动效果体验" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/listenTogetherFollowCreate" android:layout_marginTop="@dimen/ao6" android:text="创建跟听" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/listenTogetherFollowJoin" android:layout_marginTop="@dimen/ao6" android:text="加入跟听" style="@style/a9g" />
+    </LinearLayout>
+</ScrollView>

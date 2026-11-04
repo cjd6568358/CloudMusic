@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="center_horizontal" android:layout_width="288.0dip" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.RoundedLinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/layout_content_background_corner" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="49.0dip" app:jw="16.0dip" app:a65="parent" app:a69="parent">
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0dip" android:textStyle="bold" android:id="@id/view_title_maintext" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="73.0dip" android:maxLines="1" android:includeFontPadding="false" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0dip" android:ellipsize="end" android:id="@id/view_title_subtext" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="24.0dip" android:layout_marginTop="9.0dip" android:layout_marginRight="24.0dip" android:maxLines="1" android:includeFontPadding="false" />
+        <FrameLayout android:orientation="horizontal" android:id="@id/layout_content_container" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        <com.netease.cloudmusic.ui.RoundTextView android:textColor="#ffffffff" android:ellipsize="end" android:gravity="center" android:layout_gravity="center" android:id="@id/view_button_main" android:layout_width="fill_parent" android:layout_height="40.0dip" android:layout_marginLeft="24.0dip" android:layout_marginRight="24.0dip" android:layout_marginBottom="24.0dip" android:maxLines="1" android:includeFontPadding="true" app:jw="20.0dip" />
+    </com.netease.cloudmusic.ui.RoundedLinearLayout>
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/view_no_ts_album" android:layout_width="98.0dip" android:layout_height="98.0dip" app:ae="centerCrop" app:w_="@drawable/e57" app:wa="centerCrop" app:a5l="parent" app:a65="parent" app:a69="parent" app:am0="8.0dip" />
+</androidx.constraintlayout.widget.ConstraintLayout>

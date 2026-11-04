@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/diagnose_step_item" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="13.0sp" android:textColor="#99283248" android:id="@id/diagnose_step_label" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" />
+    <ProgressBar android:id="@id/diagnose_step_loading" android:layout_width="14.0dip" android:layout_height="14.0dip" android:indeterminate="true" android:indeterminateDrawable="@drawable/bhk" />
+    <ImageView android:id="@id/diagnose_step_done" android:visibility="gone" android:layout_width="14.0dip" android:layout_height="14.0dip" android:src="@drawable/g07" />
+</LinearLayout>

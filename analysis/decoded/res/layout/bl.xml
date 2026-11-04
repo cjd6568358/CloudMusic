@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/headerContainer" android:layout_width="fill_parent" android:layout_height="135.0dip" app:a56="com.netease.cloudmusic.module.adjustableheader.HeaderBehavior">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/eventBg" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <View android:id="@id/mask" android:background="#33000000" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0dip" android:textColor="@color/aj8" android:ellipsize="marquee" android:layout_gravity="center_horizontal" android:id="@id/eventSubtitle" android:paddingLeft="40.0dip" android:paddingRight="40.0dip" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="84.0dip" android:singleLine="true" android:marqueeRepeatLimit="marquee_forever" />
+    </FrameLayout>
+    <FrameLayout android:id="@id/container" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="com.netease.cloudmusic.module.adjustableheader.BelowHeaderViewScrollViewBehavior">
+        <FrameLayout android:id="@id/fragmentContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </FrameLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="17.0dip" android:textColor="@color/aj6" android:ellipsize="marquee" android:gravity="center_vertical" android:layout_gravity="center_horizontal" android:id="@id/eventTitle" android:paddingLeft="60.0dip" android:paddingRight="60.0dip" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="52.0dip" android:singleLine="true" android:includeFontPadding="false" android:marqueeRepeatLimit="marquee_forever" />
+    <com.netease.cloudmusic.ui.NeteaseMusicToolbar android:id="@id/toolbar" android:layout_width="fill_parent" android:layout_height="@dimen/art" />
+    <View android:layout_gravity="bottom|center|right" android:id="@id/shadow" android:background="@drawable/gqf" android:visibility="visible" android:layout_width="55.0dip" android:layout_height="55.0dip" android:layout_marginRight="@dimen/aq7" android:layout_marginBottom="@dimen/aq6" />
+    <com.netease.cloudmusic.module.social.square.view.MLogBottomBtnBlock android:layout_gravity="bottom|center|right" android:id="@id/sendNewTrack" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="45.0dip" android:layout_marginRight="@dimen/a66" android:layout_marginBottom="@dimen/a65" app:jw="22.5dip" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

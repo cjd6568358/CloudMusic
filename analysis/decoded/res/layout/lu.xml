@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/controlContainer" android:padding="16.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginBottom="30.0dip" android:layout_above="@id/copyWriteAndLogo" android:layout_centerHorizontal="true" android:layout_marginStart="20.0dip" android:layout_marginEnd="20.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_gravity="center" android:id="@id/adContentContainer" android:background="@drawable/b5l" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <TextView android:textSize="16.0sp" android:textColor="#ffffffff" android:ellipsize="end" android:gravity="center" android:layout_gravity="center" android:id="@id/adContent" android:paddingLeft="12.0dip" android:paddingTop="15.0dip" android:paddingRight="12.0dip" android:paddingBottom="15.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/aj1" android:maxLines="1" android:singleLine="true" />
+    </FrameLayout>
+    <com.netease.cloudmusic.ui.component.SimpleRoundDrawerImageView android:layout_gravity="center" android:id="@id/adContentBg" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" />
+</FrameLayout>

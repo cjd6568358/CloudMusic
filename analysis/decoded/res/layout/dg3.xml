@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_vertical" android:id="@id/radioProgramItemContainer" android:paddingLeft="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="60.0dip" playlist:e4="50.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:playlist="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeCheckBox android:id="@id/checkBox" android:focusable="false" android:focusableInTouchMode="false" android:layout_width="@dimen/vm" android:layout_height="@dimen/vj" android:layout_marginLeft="@dimen/vk" android:layout_marginRight="@dimen/vl" android:layout_centerVertical="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiz" android:gravity="center|left" android:id="@id/programRank" android:layout_width="wrap_content" android:layout_height="fill_parent" android:minWidth="12.0dip" android:singleLine="true" />
+    <include layout="@layout/dg4" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

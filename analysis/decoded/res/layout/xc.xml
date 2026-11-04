@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout android:tag="layout/comment_video_fragment_material_picker_0" android:background="@color/do" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a4y="@xml/w"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/back" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/csw" android:layout_marginStart="16.0dip" app:a5f="@id/title" app:a65="parent" app:a69="@id/title" />
+    <TextView android:textSize="18.0sp" android:textColor="@color/b12" android:gravity="center_vertical" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="@dimen/art" android:text="@string/axq" android:layout_marginStart="19.0dip" app:a64="@id/back" app:a69="parent" />
+    <ScrollView android:id="@id/comment_content_layout" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a59="true" app:a5s="212.0dip" app:a68="@id/title">
+        <LinearLayout android:orientation="vertical" android:id="@id/comment_layout" android:paddingLeft="24.0dip" android:paddingRight="24.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <ImageView android:background="@drawable/a01" android:layout_width="32.0dip" android:layout_height="32.0dip" android:layout_marginTop="4.0dip" android:alpha="0.15" />
+            <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="28.0dip">
+                <TextView android:textSize="12.0sp" android:textColor="@color/b1k" android:ellipsize="end" android:id="@id/user_comment" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxEms="12" android:singleLine="true" />
+                <TextView android:textSize="12.0sp" android:textColor="@color/b1k" android:id="@id/song_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:layout_weight="1.0" />
+                <TextView android:textSize="12.0sp" android:textColor="@color/b1k" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/axm" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <View android:id="@id/shadow_top_solid" android:background="@color/do" android:layout_width="fill_parent" android:layout_height="8.0dip" app:a69="@id/comment_content_layout" />
+    <View android:id="@id/shadow_top" android:background="@drawable/a0c" android:layout_width="fill_parent" android:layout_height="20.0dip" app:a68="@id/shadow_top_solid" />
+    <View android:id="@id/shadow_bottom" android:background="@drawable/a0a" android:layout_width="fill_parent" android:layout_height="25.0dip" app:a5g="@id/shadow_bottom_solid" />
+    <View android:id="@id/shadow_bottom_solid" android:background="@drawable/a0b" android:layout_width="fill_parent" android:layout_height="11.0dip" app:a5f="@id/comment_content_layout" />
+    <FrameLayout android:id="@id/indicator_layout" android:background="@drawable/a03" android:layout_width="0.0dip" android:layout_height="28.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/comment_content_layout">
+        <View android:layout_gravity="center" android:id="@id/indicator" android:background="@drawable/a0z" android:layout_width="32.0dip" android:layout_height="4.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    </FrameLayout>
+    <Space android:id="@id/indicator_space" android:layout_width="fill_parent" android:layout_height="4.0dip" app:a5f="@id/indicator_layout" app:a69="@id/indicator_layout" />
+    <FrameLayout android:id="@id/container" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a68="@id/indicator_space" />
+    <FrameLayout android:id="@id/extra_content" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</androidx.constraintlayout.motion.widget.MotionLayout>

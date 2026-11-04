@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/blurBackground" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" app:ag3="@color/e3" app:ahz="centerCrop" />
+    <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="80.0dip" android:layout_centerHorizontal="true">
+        <ImageView android:layout_gravity="center" android:id="@id/ivVoiceAnim" android:layout_width="200.0dip" android:layout_height="200.0dip" />
+        <com.netease.play.ui.avatar2.AvatarImage2 android:layout_gravity="center" android:id="@id/avatar" android:layout_width="120.0dip" android:layout_height="120.0dip" />
+    </FrameLayout>
+    <ImageView android:id="@id/closeButton" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginTop="31.0dip" android:layout_marginRight="3.0dip" android:scaleType="center" android:layout_alignParentRight="true" />
+    <include android:layout_width="fill_parent" android:layout_height="200.0dip" android:layout_alignParentBottom="true" layout="@layout/br0" />
+    <include android:id="@id/bottomControl" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_marginBottom="10.0dip" android:layout_alignParentBottom="true" layout="@layout/c5s" />
+    <include android:id="@id/shareBar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15.0dip" android:layout_marginBottom="30.0dip" android:layout_above="@id/bottomControl" android:layout_alignParentRight="true" layout="@layout/c5x" />
+    <include android:id="@id/songInfo" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:layout_toLeftOf="@id/shareBar" android:layout_above="@id/bottomControl" layout="@layout/c9j" />
+</RelativeLayout>

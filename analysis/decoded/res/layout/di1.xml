@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.music.biz.rn.reactpackage.viewmanager.headertabviewpager.TabCoordinatorLayout android:id="@id/pageContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.music.biz.rn.reactpackage.viewmanager.headertabviewpager.ReactNeteaseMusicViewPager android:id="@id/commonViewPager" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="com.netease.cloudmusic.music.biz.rn.reactpackage.viewmanager.headertabviewpager.ReactBelowHeaderViewPagerBehavior" />
+    <com.netease.cloudmusic.music.biz.rn.reactpackage.viewmanager.headertabviewpager.TabLinearLayout android:orientation="vertical" android:id="@id/headerContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a56="com.netease.cloudmusic.music.biz.rn.reactpackage.viewmanager.headertabviewpager.ReactHeaderBehavior">
+        <com.netease.cloudmusic.music.biz.rn.reactpackage.viewmanager.headertabviewpager.ReactHeaderTabViewHeader android:id="@id/headerViewContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        <com.netease.cloudmusic.theme.ui.tab.CustomThemeRightIconTabLayout android:layout_gravity="bottom|center" android:id="@id/tabLayout" android:layout_width="fill_parent" android:layout_height="40.0dip" />
+    </com.netease.cloudmusic.music.biz.rn.reactpackage.viewmanager.headertabviewpager.TabLinearLayout>
+</com.netease.cloudmusic.music.biz.rn.reactpackage.viewmanager.headertabviewpager.TabCoordinatorLayout>

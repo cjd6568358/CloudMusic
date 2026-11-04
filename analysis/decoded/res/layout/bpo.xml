@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.alphavideo.AlphaVideoTextureView android:id="@id/discussGiftVideoView" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.ui.gift.GiftShadowLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:layout_marginBottom="70.0dip" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:ao_="10.0dip" app:aoc="5.0dip" app:aod="20.0dip">
+        <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/discussHintContainer" android:layout_width="wrap_content" android:layout_height="36.0dip" android:paddingStart="10.0dip" android:paddingEnd="12.0dip">
+            <com.netease.cloudmusic.ui.AvatarImage android:id="@id/discussHintAvatar" android:layout_width="16.0dip" android:layout_height="16.0dip" app:cv="style16" app:a5f="parent" app:a65="parent" app:a69="parent" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aix" android:ellipsize="end" android:id="@id/discussHintUsername" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" android:layout_marginStart="4.0dip" app:a5_="true" app:a5f="parent" app:a5m="@id/discussHintText" app:a5v="0.0" app:a5w="packed" app:a64="@id/discussHintAvatar" app:a69="parent" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aix" android:ellipsize="end" android:id="@id/discussHintText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" app:a5f="parent" app:a5l="parent" app:a64="@id/discussHintUsername" app:a69="parent" app:a6s="2.0dip" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.netease.cloudmusic.ui.gift.GiftShadowLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

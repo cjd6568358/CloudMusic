@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:tag="layout/fragment_demo_list_0" android:background="@color/b21" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:text="普通加载" />
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <Button android:gravity="center" android:id="@id/load" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:layout_marginBottom="20.0dip" android:text="load" android:layout_weight="1.0" />
+        <Button android:gravity="center" android:id="@id/refresh" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:layout_marginBottom="20.0dip" android:text="refresh" android:layout_weight="1.0" />
+        <Button android:gravity="center" android:id="@id/insert" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:layout_marginBottom="20.0dip" android:text="insert" android:layout_weight="1.0" />
+        <Button android:gravity="center" android:id="@id/remove" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:layout_marginBottom="20.0dip" android:text="remove" android:layout_weight="1.0" />
+    </LinearLayout>
+    <TextView android:layout_gravity="center_horizontal" android:id="@id/output" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.common.framework2.base.CommonRecyclerView android:id="@id/list1" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0" />
+        <com.netease.cloudmusic.common.framework2.base.CommonRecyclerView android:id="@id/list2" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0" />
+    </LinearLayout>
+</LinearLayout>

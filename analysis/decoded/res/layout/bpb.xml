@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout android:id="@id/danmakuInputPanel" android:tag="layout/layout_danmaku_input_panel_0" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="36.0dip" app:a4y="@xml/a6"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/scalableBg" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiz" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/danmakuOpenHint" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/edp" android:maxLines="1" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiz" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/editHint" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginLeft="12.0dip" android:layout_marginRight="12.0dip" android:maxLines="1" android:layout_marginHorizontal="12.0dip" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/danmakuSettingIcon" android:layout_width="30.0dip" android:layout_height="30.0dip" app:aqh="@drawable/cq8" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/danmakuSwitchIcon" android:layout_width="30.0dip" android:layout_height="30.0dip" />
+</androidx.constraintlayout.motion.widget.MotionLayout>

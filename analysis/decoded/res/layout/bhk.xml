@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:tag="layout/item_user_panel_nromal_content_0" android:layout_width="100.0dip" android:layout_height="45.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:tag="binding_1" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <ImageView android:id="@id/icon" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:scaleType="center" app:a5f="parent" app:a5m="@id/title" app:a5w="packed" app:a65="parent" app:a69="parent" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1z" android:id="@id/title" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:layout_marginStart="5.0dip" app:a5_="true" app:a5g="@id/content" app:a5l="parent" app:a64="@id/icon" app:a69="parent" app:a6a="packed" />
+    <TextView android:textSize="8.0sp" android:textColor="@color/b1n" android:ellipsize="end" android:id="@id/content" android:tag="binding_4" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:singleLine="true" android:includeFontPadding="false" app:a5f="parent" app:a5l="parent" app:a65="@id/title" app:a68="@id/title" />
+</androidx.constraintlayout.widget.ConstraintLayout>

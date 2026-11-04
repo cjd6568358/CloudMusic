@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/cl_main" android:tag="layout/comment_video_fragment_edit_0" android:background="@color/do" android:layout_width="fill_parent" android:layout_height="fill_parent" android:keepScreenOn="true"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/rl_video_container" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5g="@id/bottom_action_layout" app:a69="parent" />
+    <ImageView android:id="@id/back" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/csw" android:layout_marginStart="16.0dip" android:layout_marginEnd="20.0dip" app:a5f="@id/ll_select_song" app:a65="parent" app:a69="@id/ll_select_song" />
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/ll_select_song" android:background="@drawable/a0h" android:paddingRight="10.0dip" android:layout_width="wrap_content" android:layout_height="36.0dip" android:layout_marginTop="21.0dip" app:a5z="parent" app:a63="parent" app:a69="parent">
+        <ImageView android:id="@id/iv_placeholder" android:background="@drawable/a0o" android:layout_width="20.0dip" android:layout_height="20.0dip" android:layout_marginLeft="16.0dip" />
+        <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/csd_song_cover" android:background="@drawable/a0o" android:visibility="gone" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginLeft="4.0dip" app:aln="true" />
+        <TextView android:textSize="14.0sp" android:textColor="@color/b12" android:ellipsize="marquee" android:id="@id/tv_song" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" android:layout_marginRight="4.0dip" android:text="选择音乐" android:maxEms="6" android:singleLine="true" android:includeFontPadding="false" android:marqueeRepeatLimit="marquee_forever" />
+        <View android:id="@id/divider" android:background="@color/b1i" android:visibility="gone" android:layout_width="1.0dip" android:layout_height="10.0dip" android:layout_marginStart="8.0dip" />
+        <ImageView android:id="@id/iv_edit_song" android:visibility="gone" android:layout_width="28.0dip" android:layout_height="20.0dip" android:src="@drawable/a0e" android:paddingStart="8.0dip" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/sound" android:layout_width="56.0dip" android:layout_height="56.0dip" android:layout_marginBottom="12.0dip" app:a5g="@id/dubbing" app:a63="parent" app:a69="parent" app:a6a="packed">
+        <ImageView android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginTop="7.0dip" android:src="@drawable/a0t" />
+        <TextView android:textSize="11.0sp" android:textColor="@color/b12" android:id="@id/sound_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1.0dip" android:text="@string/axy" style="@style/a3t" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/dubbing" android:layout_width="56.0dip" android:layout_height="56.0dip" android:layout_marginBottom="12.0dip" android:alpha="0.0" app:a5f="@id/rl_video_container" app:a63="parent" app:a68="@id/sound" app:a6a="packed">
+        <ImageView android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginTop="7.0dip" android:src="@drawable/a0s" />
+        <TextView android:textSize="11.0sp" android:textColor="@color/b12" android:id="@id/dubbing_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1.0dip" android:text="@string/axc" style="@style/a3t" />
+    </LinearLayout>
+    <com.netease.cloudmusic.shimmer.ShimmerTextView android:textSize="13.0dip" android:textColor="#ff666666" android:gravity="center" android:id="@id/st_record_tip" android:background="@drawable/zs" android:paddingBottom="3.0dip" android:layout_width="162.0dip" android:layout_height="44.0dip" android:layout_marginRight="50.0dip" android:text="添加配音效果更佳哦" android:alpha="0.0" app:a5f="@id/dubbing" app:a63="parent" app:a69="@id/dubbing" />
+    <androidx.constraintlayout.widget.Group android:id="@id/title_group" android:layout_width="wrap_content" android:layout_height="wrap_content" app:l1="back,sound,ll_select_song" />
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/bottom_action_layout" android:paddingTop="20.0dip" android:paddingBottom="24.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent">
+        <TextView android:textSize="16.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/next" android:background="@drawable/a0i" android:paddingTop="12.0dip" android:paddingBottom="12.0dip" android:layout_width="150.0dip" android:layout_height="wrap_content" android:text="@string/axt" />
+    </LinearLayout>
+    <FrameLayout android:id="@id/extra_content" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/ll_export_cover" android:background="#ae000000" android:focusable="true" android:visibility="gone" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <TextView android:textSize="20.0sp" android:textColor="@color/b12" android:id="@id/tv_export_progress" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <TextView android:textSize="14.0sp" android:textColor="@color/b1q" android:id="@id/tv_export_tips" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="请勿锁屏或切换应用" />
+        <com.netease.cloudmusic.ui.button.CustomButton android:textSize="17.0sp" android:gravity="center" android:id="@id/btn_retry_export" android:visibility="gone" android:layout_width="272.0dip" android:layout_height="44.0dip" android:text="导出失败，点击重试" android:drawableLeft="@drawable/a0d" android:drawablePadding="4.0dip" app:gg="0x00FFFFFF" app:pl="@color/fx" app:pp="@color/b18" app:aer="#ffff3a3a" app:aey="@color/b13" app:aiv="@color/fy" app:aiz="0.96" app:aj0="@color/b16" />
+    </LinearLayout>
+    <FrameLayout android:id="@id/loading" android:focusable="true" android:visibility="gone" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ProgressBar android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

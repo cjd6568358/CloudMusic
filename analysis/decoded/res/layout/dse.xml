@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.music.biz.usertrack.view.CustomThemeLinearLayoutWithHorizonChildView android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" app:e6="allLine"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/moreNearByUsersTitleContainer" android:paddingTop="17.5dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0dip" android:textColor="@color/aiv" android:id="@id/moreNearByUsersTitle" android:paddingLeft="@dimen/s1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/f03" android:singleLine="true" android:drawableRight="@drawable/gn7" android:drawablePadding="6.0dip" app:adf="true" app:aeu="@color/a2d" />
+    </FrameLayout>
+    <com.netease.cloudmusic.ui.NovaHorizonRecyclerView android:id="@id/nearByUsersRecyclerView" android:paddingTop="10.0dip" android:paddingBottom="18.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+</com.netease.cloudmusic.music.biz.usertrack.view.CustomThemeLinearLayoutWithHorizonChildView>

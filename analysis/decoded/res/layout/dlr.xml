@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:gravity="center_vertical" android:id="@id/container" android:paddingLeft="4.0dip" android:paddingTop="5.0dip" android:paddingBottom="5.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingEnd="10.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/rank" android:layout_width="30.0dip" android:layout_height="wrap_content" fresco:a5f="parent" fresco:a69="parent">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textStyle="bold" android:id="@id/number" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1" android:singleLine="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/stateIcon" android:background="@drawable/asb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" android:scaleType="center" fresco:adf="true" fresco:adk="true" />
+    </LinearLayout>
+    <FrameLayout android:id="@id/coverContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" fresco:a5f="parent" fresco:a60="@id/rank" fresco:a69="parent">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/coverImage" android:layout_width="52.0dip" android:layout_height="52.0dip" fresco:ae="centerCrop" fresco:jw="@dimen/u5" fresco:w3="300" fresco:ahy="@drawable/cx5" fresco:ahz="fitXY" fresco:am0="@dimen/u5" />
+        <FrameLayout android:id="@id/avatarContainer" android:visibility="gone" android:layout_width="58.0dip" android:layout_height="58.0dip">
+            <com.netease.cloudmusic.ui.AvatarImage android:layout_gravity="center" android:id="@id/avatar" android:visibility="gone" android:layout_width="44.0dip" android:layout_height="44.0dip" fresco:cv="style5" />
+        </FrameLayout>
+    </FrameLayout>
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/coverIcon" android:layout_width="14.0dip" android:layout_height="14.0dip" android:layout_margin="4.0dip" fresco:a5f="@id/coverContainer" fresco:a63="@id/coverContainer" fresco:adf="true" fresco:adk="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:maxLines="2" android:lineSpacingMultiplier="1.2" fresco:a5_="true" fresco:a5f="@id/coverContainer" fresco:a5l="parent" fresco:a5v="0.0" fresco:a64="@id/coverContainer" fresco:a69="@id/coverContainer" />
+</com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>

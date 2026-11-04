@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/rv_topbar" android:background="@color/amx" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.appcompat.widget.AppCompatButton android:textSize="@dimen/ags" android:textColor="@drawable/bws" android:gravity="center|left" android:id="@id/btnCancel" android:background="@android:color/transparent" android:paddingLeft="@dimen/agu" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/g13" android:textAllCaps="false" />
+    <TextView android:textSize="@dimen/agv" android:textColor="@color/an0" android:gravity="center" android:id="@id/tvTitle" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_toLeftOf="@id/btnSubmit" android:layout_toRightOf="@id/btnCancel" android:layout_centerVertical="true" />
+    <androidx.appcompat.widget.AppCompatButton android:textSize="@dimen/ags" android:textColor="@drawable/bws" android:gravity="center|right" android:id="@id/btnSubmit" android:background="@android:color/transparent" android:paddingRight="@dimen/agu" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/g19" android:layout_alignParentRight="true" android:textAllCaps="false" />
+</RelativeLayout>

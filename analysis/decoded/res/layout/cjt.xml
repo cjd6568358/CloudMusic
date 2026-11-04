@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.listentogether.bio.setting.EmojiEditView android:id="@id/emojiEdit" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginLeft="10.0dip" android:layout_marginTop="6.0dip" android:layout_marginRight="6.0dip" android:layout_marginBottom="6.0dip" android:src="@drawable/f1e" android:scaleType="fitXY" android:layout_centerVertical="true" />
+    <EditText android:textSize="15.0sp" android:textColor="#ffffffff" android:textColorHint="#33ffffff" android:id="@id/statusEdit" android:background="@android:color/transparent" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="在忙什么呢？" android:layout_toRightOf="@id/emojiEdit" android:layout_centerVertical="true" />
+    <ImageView android:id="@id/editClose" android:padding="6.0dip" android:visibility="gone" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginRight="12.0dip" android:src="@drawable/csx" android:scaleType="fitXY" android:layout_centerVertical="true" android:layout_alignParentEnd="true" />
+</RelativeLayout>

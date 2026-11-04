@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/artistEntrance" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_marginBottom="12.0dip" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.music.biz.friend.modular.follow.ui.MultiAvatarLayout android:id="@id/avatarList" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_marginStart="16.0dip" android:layout_alignParentStart="true" app:aqj="3.0dip" app:aqk="2" app:aql="true" app:aqm="21.0dip" app:aqn="24.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:ellipsize="end" android:id="@id/content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:layout_centerVertical="true" android:layout_marginStart="8.0dip" android:layout_marginEnd="15.0dip" android:layout_toStartOf="@id/redDot" android:layout_toEndOf="@id/avatarList" app:qe="colorText1" />
+    <com.netease.cloudmusic.theme.ui.MessageBubbleView android:id="@id/redDot" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="4.0dip" android:layout_toLeftOf="@id/arrowRight" android:layout_centerVertical="true" app:qx="16.0dip" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/arrowRight" android:layout_width="20.0dip" android:layout_height="20.0dip" android:layout_centerVertical="true" android:layout_marginEnd="10.0dip" android:layout_alignParentEnd="true" app:aqh="@drawable/a_o" />
+</RelativeLayout>

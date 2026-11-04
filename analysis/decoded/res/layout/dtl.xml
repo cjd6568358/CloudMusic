@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout android:id="@id/trackPlayerContainer" style="@style/a_k"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.TrackVideoCover android:id="@id/trackPlayerCover" android:layout_width="fill_parent" android:layout_height="fill_parent" fresco:ae="centerCrop" fresco:ag3="@drawable/g00" fresco:ahy="@drawable/cx6" fresco:ahz="fitXY" fresco:aj2="@color/awz" />
+    <ViewStub android:layout_gravity="bottom" android:id="@id/trackVideoPlayCountViewStub" android:paddingLeft="6.0dip" android:paddingBottom="5.0dip" android:layout="@layout/dsn" android:inflatedId="@id/trackVideoPlayCount" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <include layout="@layout/dso" />
+    <include layout="@layout/dsp" />
+</com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout>

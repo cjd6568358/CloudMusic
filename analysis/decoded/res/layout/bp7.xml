@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_custom_text_dynamic_gift_adapter_0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingStart="12.0dip" android:paddingEnd="12.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/moduleBg" android:layout_width="127.0dip" android:layout_height="127.0dip" app:a65="parent" app:a69="parent" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/module" android:layout_width="123.0dip" android:layout_height="123.0dip" app:a5f="@id/moduleBg" app:a5l="@id/moduleBg" app:a65="@id/moduleBg" app:a69="@id/moduleBg" app:am0="10.0dip" />
+    <TextView android:textSize="10.0sp" android:id="@id/tip" android:tag="binding_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="10.0dip" android:text="6～20 字符" app:a5f="@id/moduleBg" app:a5l="@id/moduleBg" app:a65="@id/moduleBg" />
+    <TextView android:gravity="center" android:id="@id/money" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:includeFontPadding="false" android:drawablePadding="4.0dip" app:a5l="@id/moduleBg" app:a65="@id/moduleBg" app:a68="@id/moduleBg" />
+</androidx.constraintlayout.widget.ConstraintLayout>

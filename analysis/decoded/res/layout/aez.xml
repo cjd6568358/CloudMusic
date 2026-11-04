@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/toyger_face_eye_loading_page" android:background="#88000000" android:paddingTop="194.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.dtf.face.ui.widget.iOSLoadingView android:layout_gravity="center_horizontal" android:id="@id/loading_view" android:layout_width="30.0dip" android:layout_height="30.0dip" />
+    <ImageView android:layout_gravity="center_horizontal" android:id="@id/iv_custom_icon" android:visibility="gone" android:layout_width="30.0dip" android:layout_height="30.0dip" />
+    <TextView android:textSize="14.0dip" android:textColor="@color/u3" android:gravity="center_horizontal" android:id="@id/process_loading_text" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" android:text="@string/bo6" />
+</LinearLayout>

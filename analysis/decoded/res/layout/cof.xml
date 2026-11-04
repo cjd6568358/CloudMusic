@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:tag="layout/mlog_activity_mlog_draft_list_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicToolbar android:id="@id/toolbar" android:layout_width="fill_parent" android:layout_height="@dimen/art" android:layout_alignParentTop="true" />
+    <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout android:layout_gravity="center_horizontal" android:id="@id/tabLayoutMLogList" android:layout_width="180.0dip" android:layout_height="40.0dip" android:layout_below="@id/toolbar" android:layout_centerHorizontal="true" />
+    <androidx.viewpager2.widget.ViewPager2 android:id="@id/viewPagerMLogList" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/tabLayoutMLogList" />
+</RelativeLayout>

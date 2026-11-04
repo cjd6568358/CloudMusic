@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.discovery.view.module.infinity.view.InterceptTouchEvCustomThemeFrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent" app:py="colorBackgroundAndroid"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:id="@id/containerView" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <RelativeLayout android:id="@id/toolbar_container" android:layout_width="fill_parent" android:layout_height="@dimen/art" android:alpha="0.0">
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/backIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:src="@drawable/ahw" android:layout_centerVertical="true" android:layout_alignParentStart="true" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0sp" android:id="@id/titleContent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="听歌漫游" android:layout_centerInParent="true" app:qe="colorText1" />
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/infoIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="16.0dip" android:src="@drawable/ai0" android:layout_centerVertical="true" android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+        <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/dslRecyclerView" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    </LinearLayout>
+    <com.netease.cloudmusic.discovery.view.module.infinity.popoverView.AutoPlayBubbleView android:layout_gravity="right" android:id="@id/autoPlayBubble" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="70.0dip" />
+</com.netease.cloudmusic.discovery.view.module.infinity.view.InterceptTouchEvCustomThemeFrameLayout>

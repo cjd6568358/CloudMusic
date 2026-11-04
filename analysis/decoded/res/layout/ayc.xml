@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/week_star_root" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content" android:src="@drawable/h4w" android:scaleType="fitXY" />
+    <Space android:id="@id/week_star_rank_placeholder" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="70.0dip" />
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/week_star_rank_placeholder">
+        <com.google.android.material.appbar.AppBarLayout android:background="@color/ay_" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip">
+            <com.google.android.material.appbar.CollapsingToolbarLayout android:id="@id/collapse_layout" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a76="scroll|exitUntilCollapsed">
+                <androidx.constraintlayout.widget.ConstraintLayout android:paddingTop="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a76="scroll">
+                    <TextView android:textSize="20.0sp" android:textColor="@color/b12" android:id="@id/week_star_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:text="礼物周星榜" app:a5z="parent" app:a69="parent" />
+                    <TextView android:textSize="11.0sp" android:textColor="@color/b1t" android:id="@id/week_star_title_des" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="10.0dip" android:text="周星玩法全新改版，全赛道TOP1等你来争夺！" app:a5z="parent" app:a68="@id/week_star_title" />
+                    <ImageView android:id="@id/week_star_rule1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="16.0dip" android:src="@drawable/h54" app:a5f="@id/week_star_title" app:a63="parent" app:a69="@id/week_star_title" />
+                    <RelativeLayout android:id="@id/week_star_king_container_parent" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a68="@id/week_star_title_des">
+                        <ImageView android:id="@id/week_star_rule2" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="16.0dip" android:src="@drawable/h54" android:layout_alignParentRight="true" />
+                        <include android:id="@id/week_star_king_container" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="10.0dip" android:layout_marginRight="16.0dip" android:layout_below="@id/week_star_rule2" layout="@layout/b0j" />
+                        <include android:id="@id/week_star_king_company_container" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="20.0dip" android:layout_marginRight="16.0dip" android:layout_below="@id/week_star_king_container" layout="@layout/b0k" />
+                    </RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+        <LinearLayout android:orientation="vertical" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="20.0dip" app:a56="@string/uo">
+            <include android:id="@id/week_star_history" layout="@layout/b0i" />
+            <com.netease.play.ui.LiveRecyclerView android:layout_gravity="center_horizontal" android:id="@id/weekStarOnlineRecyclerView" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="22.0dip" />
+            <com.netease.play.ui.NeteaseMusicInterceptChildViewPager android:id="@id/fragmentContainer" android:background="@drawable/c2a" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_marginTop="12.0dip" android:layout_weight="1.0" />
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

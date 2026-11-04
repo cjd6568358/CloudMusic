@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/sspeContainer" android:background="@drawable/baj" android:paddingLeft="6.0dip" android:paddingRight="6.0dip" android:layout_width="wrap_content" android:layout_height="28.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/sspeIvIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/h6z" app:a5f="parent" app:a5z="parent" app:a69="parent" />
+    <TextView android:textSize="14.0sp" android:textColor="@color/b1e" android:id="@id/sspeTVTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" app:a5f="parent" app:a60="@id/sspeIvIcon" app:a69="parent" />
+    <View android:id="@id/sspeLine" android:background="@color/b1e" android:layout_width="1.0dip" android:layout_height="10.0dip" android:layout_marginLeft="6.0dip" android:alpha="0.2" app:a5f="parent" app:a60="@id/sspeTVTitle" app:a69="parent" />
+    <TextView android:textSize="14.0sp" android:textColor="@color/b1e" android:id="@id/sspeTvType" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="13.0dip" app:a5f="parent" app:a60="@id/sspeTVTitle" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

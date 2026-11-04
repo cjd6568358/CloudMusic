@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.module.playerlisthistory.SwipeMenuLayout android:id="@id/swipeMenuLayout" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <include layout="@layout/d7k" />
+        <com.netease.cloudmusic.module.playerlisthistory.widget.PlayerListSortHint android:id="@id/player_list_press_hint" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </FrameLayout>
+    <TextView android:textSize="15.0sp" android:textColor="@android:color/white" android:gravity="center" android:id="@id/swipeDeleteBtn" android:background="#ffff3a48" android:layout_width="86.0dip" android:layout_height="fill_parent" android:text="删除" />
+</com.netease.cloudmusic.module.playerlisthistory.SwipeMenuLayout>

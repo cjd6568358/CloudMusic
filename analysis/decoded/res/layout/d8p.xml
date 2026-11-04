@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/plBottomSheetListviewHeader" android:layout_width="fill_parent" android:layout_height="65.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/ivLogo" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginLeft="16.0dip" app:a5f="parent" app:a5z="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/ctvSongsName" android:paddingLeft="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="13.0dip" android:text="@string/jaz" android:maxLines="1" app:a60="@id/ivLogo" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiz" android:ellipsize="end" android:id="@id/ctvSongDesc" android:paddingLeft="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:text="据说TA是云村唱这首歌最好听的主播哦～" android:maxLines="1" app:a5z="@id/ctvSongsName" app:a68="@id/ctvSongsName" />
+    <View android:id="@id/header_divider" android:layout_width="fill_parent" android:layout_height="0.33000004dip" app:a5f="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

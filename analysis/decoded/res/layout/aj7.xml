@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@drawable/czl" android:padding="7.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="13.0dip" android:textColor="#ff333333" android:id="@id/anchor" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="可提现余额：" />
+    <TextView android:textSize="13.0dip" android:textColor="#ff333333" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="考察期余额：" android:layout_below="@id/anchor" />
+    <TextView android:textSize="13.0dip" android:textColor="#ffed5859" android:id="@id/tvWithdrawAmount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toRightOf="@id/anchor" />
+    <TextView android:textSize="13.0dip" android:textColor="#ffed5859" android:id="@id/tvInspectAmount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toRightOf="@id/anchor" android:layout_below="@id/tvWithdrawAmount" />
+    <TextView android:textSize="11.0dip" android:textColor="#ff666666" android:ellipsize="end" android:id="@id/tvExplain" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="20" android:maxEms="15" android:layout_below="@id/tvInspectAmount" />
+</RelativeLayout>

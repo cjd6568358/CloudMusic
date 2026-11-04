@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.RoundedLinearLayout android:orientation="horizontal" android:tag="layout/track_hot_topic_voice_bar_0" android:background="@color/b1k" android:paddingLeft="5.0dip" android:paddingRight="5.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingHorizontal="5.0dip" app:jw="12.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:layout_gravity="center_vertical" android:id="@id/voicePlayIcon" android:layout_width="14.0dip" android:layout_height="14.0dip" />
+    <com.netease.nmvideocreator.audio.visualizer.ui.visualize.player.AudioPlayVisualizeView android:layout_gravity="center_vertical" android:id="@id/audioWave" android:layout_width="0.0dip" android:layout_height="24.0dip" android:layout_marginLeft="2.0dip" android:layout_marginRight="2.0dip" android:layout_weight="1.0" android:layout_marginHorizontal="2.0dip" app:az2="@color/b13" app:az3="20" app:az4="2.0dip" app:az5="2.0dip" app:az6="10.0dip" app:az7="2.0dip" app:az8="horizontal_line_center" />
+    <TextView android:textSize="9.0sp" android:textColor="@color/b13" android:layout_gravity="center_vertical" android:id="@id/time" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+</com.netease.cloudmusic.ui.RoundedLinearLayout>

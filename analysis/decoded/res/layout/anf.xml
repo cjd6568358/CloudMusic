@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/commentFragmentContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.ui.PagerListView android:id="@id/pagerListview" android:layout_width="fill_parent" android:layout_height="fill_parent" android:listSelector="@drawable/b35" android:choiceMode="none" />
+    <ViewStub android:id="@id/userInfoViewStub" android:layout="@layout/du0" android:layout_width="fill_parent" android:layout_height="50.0dip" />
+    <ViewStub android:layout_gravity="bottom|center|right" android:id="@id/babyEntryViewStub" android:layout="@layout/qo" android:layout_width="140.0dip" android:layout_height="51.0dip" android:layout_marginRight="13.0dip" android:layout_marginBottom="61.0dip" />
+    <FrameLayout android:id="@id/editFragmentContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</FrameLayout>

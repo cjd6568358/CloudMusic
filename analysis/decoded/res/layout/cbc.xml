@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_sticker_dialog_0" android:padding="10.0dip" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.viewpager2.widget.ViewPager2 android:orientation="horizontal" android:id="@id/viewPager" android:clipChildren="false" android:clipToPadding="false" android:layout_width="0.0dip" android:layout_height="wrap_content" android:overScrollMode="never" app:a5g="@id/dotParent" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/dotParent" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:layout_marginBottom="10.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a68="@id/viewPager" />
+</androidx.constraintlayout.widget.ConstraintLayout>

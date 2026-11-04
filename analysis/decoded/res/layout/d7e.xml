@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@id/widgetBg" android:background="@drawable/cv8" android:layout_width="fill_parent" android:layout_height="146.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="14.0dip" android:layout_marginRight="13.0dip">
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.5dip" android:src="@drawable/cxy" />
+        <ImageView android:id="@id/widgetChangeSkin" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/cn8" android:layout_alignParentRight="true" />
+        <ImageView android:id="@id/widgetSearch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:src="@drawable/cn6" android:layout_toLeftOf="@id/widgetChangeSkin" android:layout_alignTop="@id/widgetChangeSkin" />
+    </RelativeLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginTop="4.0dip" android:layout_marginRight="12.0dip">
+        <ImageView android:id="@id/widgetCover" android:layout_width="@dimen/avu" android:layout_height="@dimen/avu" android:src="@drawable/cxl" android:scaleType="centerCrop" />
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip">
+            <TextView android:textSize="16.0sp" android:textColor="#ffffffff" android:id="@id/widgetText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/u7" android:singleLine="true" android:drawablePadding="4.0dip" />
+            <LinearLayout android:gravity="center_vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="3.0dip">
+                <TextView android:textSize="10.699982sp" android:textColor="#9affffff" android:id="@id/widgetTextSub" android:layout_width="0.0dip" android:layout_height="wrap_content" android:singleLine="true" android:layout_weight="1.0" />
+                <TextView android:textSize="8.699982sp" android:textColor="#ffffffff" android:id="@id/widgetCurrentTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="00:00/0:00" android:singleLine="true" />
+            </LinearLayout>
+            <ProgressBar android:id="@id/widgetProgress" android:layout_width="fill_parent" android:layout_height="2.0dip" android:layout_marginTop="5.0dip" android:progressDrawable="@drawable/cno" style="?android:progressBarStyleHorizontal" />
+            <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="3.0dip">
+                <ImageView android:id="@id/widgetPlayMode" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/cn4" android:layout_centerVertical="true" />
+                <ImageView android:id="@id/widgetTrash" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/cn9" android:layout_centerVertical="true" />
+                <ImageView android:id="@id/widgetPlay" android:layout_width="42.69998dip" android:layout_height="42.69998dip" android:layout_marginLeft="5.0dip" android:layout_marginRight="5.0dip" android:src="@drawable/cnm" android:scaleType="centerCrop" android:layout_centerInParent="true" />
+                <ImageView android:id="@id/widgetPre" android:layout_width="37.299988dip" android:layout_height="37.299988dip" android:src="@drawable/cnn" android:scaleType="centerCrop" android:layout_toLeftOf="@id/widgetPlay" android:layout_centerVertical="true" />
+                <ImageView android:id="@id/widgetNext" android:layout_width="37.299988dip" android:layout_height="37.299988dip" android:src="@drawable/cnk" android:scaleType="centerCrop" android:layout_toRightOf="@id/widgetPlay" android:layout_centerVertical="true" />
+                <ImageView android:id="@id/widgetStar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/cnp" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+                <ImageView android:id="@id/widgetLike" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/cn2" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

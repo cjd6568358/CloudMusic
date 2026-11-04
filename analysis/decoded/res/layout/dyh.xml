@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.social.demo.DemoView android:id="@id/demoView" android:layout_width="fill_parent" android:layout_height="56.0dip" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="1.0dip" android:layout_marginBottom="14.0dip">
+        <com.netease.cloudmusic.music.biz.circle.ui.TrackInteractiveTextView android:id="@id/likeBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="12.0dip" app:adf="true" app:aeu="@color/a2g" style="@style/a_f" />
+        <com.netease.cloudmusic.music.biz.circle.ui.TrackInteractiveTextView android:id="@id/trackCmtBtn" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginRight="12.0dip" app:adf="true" app:aeu="@color/a2g" style="@style/a_f" />
+        <com.netease.cloudmusic.music.biz.circle.ui.TrackInteractiveTextView android:textSize="12.0sp" android:id="@id/writeCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="21.0dip" app:adf="true" app:aeu="@color/a2g" style="@style/a_f" />
+        <View android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithAllBackground android:textSize="11.0sp" android:textColor="@color/aiv" android:gravity="center" android:id="@id/btnFillWords" android:layout_width="65.0dip" android:layout_height="23.0dip" android:text="@string/am1" app:gl="background8" />
+    </LinearLayout>
+</LinearLayout>

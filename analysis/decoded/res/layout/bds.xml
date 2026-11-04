@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/profileInfoHeaderContainer" android:paddingRight="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="bottom" android:paddingBottom="7.0dip" android:layout_width="fill_parent" android:layout_height="50.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:paddingLeft="@dimen/s1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/xy" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:ellipsize="end" android:id="@id/infoSubTitle" android:visibility="invisible" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:text="@string/h4l" android:maxLines="1" android:layout_weight="1.0" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithAllBackground android:textSize="12.0sp" android:textColor="@color/aiv" android:id="@id/moreInfo" android:paddingLeft="10.0dip" android:paddingTop="4.0dip" android:paddingRight="10.0dip" android:paddingBottom="4.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="3.0dip" app:gl="background8" />
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:id="@id/authInfoContainer" android:paddingLeft="@dimen/s1" android:paddingRight="@dimen/s2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="5.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/village" android:visibility="gone" style="@style/a8j" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/age" android:visibility="gone" style="@style/a8j" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/location" android:visibility="gone" style="@style/a8j" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/school" android:visibility="gone" style="@style/a8j" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/socialInfoContainer" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="7.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiy" android:paddingTop="2.0dip" android:layout_width="wrap_content" android:layout_height="25.0dip" android:layout_marginLeft="@dimen/s1" android:text="@string/i7o" />
+        <ImageView android:id="@id/sinaBtn" android:layout_width="22.0dip" android:layout_height="22.0dip" android:layout_marginRight="7.0dip" android:src="@drawable/fom" />
+    </LinearLayout>
+    <LinearLayout android:id="@id/profileSignContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/h65" style="@style/a8j" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiy" android:ellipsize="end" android:id="@id/sign" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="2" android:lineSpacingExtra="10.0dip" />
+    </LinearLayout>
+</LinearLayout>

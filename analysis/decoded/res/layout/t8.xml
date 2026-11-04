@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.player.voice.VoiceView android:id="@id/voiceView" android:layout_width="fill_parent" android:layout_height="40.0dip" android:layout_marginLeft="6.0dip" app:kr="normal" app:ay1="dynamic" />
+    <View android:id="@id/voiceUnreadDot" android:visibility="visible" android:layout_width="8.0dip" android:layout_height="8.0dip" android:translationX="19.0dip" app:a5f="@id/voiceView" app:a5v="1.0" app:a5z="parent" app:a63="parent" app:a69="@id/voiceView" />
+</androidx.constraintlayout.widget.ConstraintLayout>

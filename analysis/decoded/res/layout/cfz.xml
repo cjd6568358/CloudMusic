@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.playlive.room.widget.PfLivePagerSwipeLayout android:id="@id/liveFragment" android:tag="layout/live_layout_live_info_pfl_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/backgroundImage" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" app:ae="centerCrop" app:ahy="@color/am2" />
+    <TextureView android:id="@id/playVideoView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <include android:id="@id/layoutDlna" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/d52" />
+    <com.netease.cloudmusic.playlive.room.widget.PagedConstraintLayout android:id="@id/liveContainer" android:tag="binding_1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:keepScreenOn="true">
+        <Space android:id="@id/mirrorVideoView" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a65="parent" app:a69="parent" />
+        <View android:id="@id/bottomMask" android:background="@drawable/wb" android:layout_width="fill_parent" android:layout_height="140.0dip" app:a5f="parent" app:a65="parent" />
+        <View android:id="@id/topMask" android:background="@drawable/c75" android:layout_width="fill_parent" android:layout_height="140.0dip" app:a65="parent" app:a69="parent" />
+        <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/statusBarGuideline" android:tag="binding_2" android:layout_width="0.0dip" android:layout_height="0.0dip" />
+        <com.netease.cloudmusic.widget.FadingRecyclerView android:id="@id/chatRecyclerView" android:layout_width="270.0dip" android:layout_height="300.0dip" android:layout_marginTop="10.0dip" android:overScrollMode="never" android:requiresFadingEdge="vertical" android:layout_marginStart="10.0dip" app:a5g="@id/bottomGuideline1" app:a65="parent" app:a68="@id/headerBottomLine" />
+        <TextView android:textSize="10.0sp" android:textColor="@color/amu" android:gravity="center" android:id="@id/newMessageHint" android:background="@drawable/bmb" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="18.0dip" android:text="@string/fzm" android:alpha="0.0" android:layout_marginStart="10.0dip" app:a5f="@id/chatRecyclerView" app:a65="parent" />
+        <Space android:id="@id/bottomGuideline1" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginBottom="56.0dip" app:a5g="@id/bottomGuideline2" app:a5l="parent" app:a65="parent" />
+        <Space android:id="@id/bottomGuideline2" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" />
+        <include android:id="@id/flRetry" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_centerInParent="true" layout="@layout/d54" />
+    </com.netease.cloudmusic.playlive.room.widget.PagedConstraintLayout>
+</com.netease.cloudmusic.playlive.room.widget.PfLivePagerSwipeLayout>

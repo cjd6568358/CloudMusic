@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/container" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <include android:id="@id/tabLayout" layout="@layout/y4" />
+    <include android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/tabLayout" layout="@layout/ci8" />
+</RelativeLayout>

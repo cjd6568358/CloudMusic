@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/fragment_audiochat_layout_0" android:layout_width="fill_parent" android:layout_height="fill_parent" android:keepScreenOn="true"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/rootview" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <View android:id="@id/bottomMask" android:background="@color/a6c" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/topTipsGuideline" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5n="58.0dip" app:a5z="parent" />
+        <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/topAvatarGuideline" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5n="48.0dip" app:a5z="parent" />
+        <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/bottomFunctionGuideline" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5o="54.0dip" app:a5z="parent" />
+        <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/bottomStatusGuideline" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5o="189.0dip" app:a5z="parent" />
+        <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/bottomOrderGuideline" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5o="281.0dip" app:a5z="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView android:id="@id/audiochat_more" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginTop="31.0dip" android:layout_marginRight="8.0dip" android:src="@drawable/d_b" app:a63="parent" app:a69="parent" />
+    <ImageView android:id="@id/audiochat_renew" android:visibility="gone" android:layout_width="48.0dip" android:layout_height="24.0dip" android:layout_marginTop="31.0dip" android:layout_marginRight="8.0dip" android:src="@drawable/io" app:a62="@id/audiochat_more" app:a69="parent" />
+    <ImageView android:id="@id/audiochat_back" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="31.0dip" android:src="@drawable/ex9" android:layout_marginStart="8.0dip" app:a5z="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

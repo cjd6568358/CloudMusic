@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/boh" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/eb" android:id="@id/rcmdPlaylistTitle" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="16.0dip" android:layout_marginRight="16.0dip" android:layout_marginBottom="12.0dip" android:includeFontPadding="false" />
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.NovaHorizonRecyclerView android:id="@id/rcmdPlaylistRecyclerView" android:layout_width="fill_parent" android:layout_height="wrap_content" android:overScrollMode="never" />
+        <com.netease.cloudmusic.theme.ui.MLogRoundedLinearLayout android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@id/lookMoreContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" app:jw="10.0dip">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aj0" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/d5m" android:singleLine="true" android:layout_marginStart="10.0dip" />
+        </com.netease.cloudmusic.theme.ui.MLogRoundedLinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

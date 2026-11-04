@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:tag="layout/item_bestmatch_multi_style_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:id="@id/container" android:layout_width="fill_parent" android:layout_height="116.0dip" android:layout_marginTop="36.0dip">
+        <androidx.constraintlayout.widget.ConstraintLayout android:gravity="center" android:id="@id/textContainer" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_marginTop="45.0dip" android:layout_marginStart="@dimen/it" android:layout_marginEnd="@dimen/it">
+            <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:ellipsize="end" android:gravity="center" android:id="@id/mainTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="2" android:includeFontPadding="false" android:drawablePadding="4.0dip" app:a5g="@id/subTitleMain" app:a5z="parent" app:a63="parent" app:a69="parent" app:a6a="packed" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="11.0sp" android:textColor="@color/aiz" android:ellipsize="end" android:gravity="center" android:id="@id/subTitleMain" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:maxLines="1" android:includeFontPadding="false" android:layout_below="@id/mainTitle" app:a5f="parent" app:a5w="packed" app:a65="parent" app:a68="@id/mainTitle" app:adf="true" app:aea="@color/afv" app:aeu="@color/aiz" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout android:gravity="center" android:id="@id/extraInfo" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </LinearLayout>
+    <RelativeLayout android:id="@id/imageOutContainer" android:layout_width="fill_parent" android:layout_height="54.0dip" android:layout_centerHorizontal="true">
+        <View android:id="@id/topView" android:background="@drawable/any" android:visibility="gone" android:layout_width="42.0dip" android:layout_height="8.0dip" android:layout_centerHorizontal="true" />
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/imageContainer" android:layout_width="wrap_content" android:layout_height="50.0dip" android:layout_alignParentBottom="true" android:layout_centerInParent="true" />
+    </RelativeLayout>
+</RelativeLayout>

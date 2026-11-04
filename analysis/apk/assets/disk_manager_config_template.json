@@ -1,0 +1,147 @@
+{
+  "enable": true,
+  "enable_debug_config": true,
+  "enable_log": true,
+  "scanner": {
+    "enable": true,
+    "disable_when_legacy_on": true,
+    "scan_interval": 28800000,
+    "access_recorder": {
+      "enable": true,
+      "cpp_hook_enable": true,
+      "cpp_hook_blacklist": ["libc.so#open"],
+      "cpp_hook_report_interval": 600000,
+      "cpp_hook_work_interval": 86400000,
+      "file_blacklist": ["file_mock", "dir_mock"]
+    },
+    "extraScanFiles": ["file_mock", "dir_mock"],
+    "integrated_scanner_config": {
+      "mmap_buffer_size": 1048576,
+      "sync_interval_seconds": 10,
+      "sync_event_count": 1000,
+      "mglru_hot_size": 2147483648,
+      "mglru_cold_size": 2147483648,
+      "heat_decay_factor": 3600.0,
+      "scan_config": {
+        "max_depth": -1,
+        "follow_symlinks": false,
+        "include_hidden": false,
+        "calculate_sizes": true,
+        "exclude_directories": ["file_mock", "dir_mock"],
+        "force_unit_items": ["file_mock", "dir_mock"],
+        "force_unit_parent_dirs": ["file_mock", "dir_mock"],
+        "unit_size_threshold": 1048576,
+        "unit_max_depth": -1,
+        "io_usleep": 0
+      }
+    }
+  },
+  "cleaner": {
+    "enable": true,
+    "strategy": "now|later",
+    "fileEntries": [
+      {
+        "tag": {
+          "key": "key_mock",
+          "category": "category_mock",
+          "owner": "owner_mock"
+        },
+        "files": ["file_mock", "dir_mock"],
+        "when": {
+          "type": "periodic|expired|sizeLimit|never"
+        },
+        "do": {
+          "type": "delete|move|nothing",
+          "target": "dir_mock"
+        }
+      }
+    ]
+  },
+  "scheduler": {
+    "enable": true,
+    "interval": 300000,
+    "interval_scale_of_app_back": 4,
+    "interval_max_of_app_back": 3600000,
+    "ready_score_range": {
+      "not_ready": [0, 39],
+      "almost_ready": [40, 59],
+      "ready": [60, 79],
+      "fully_ready": [80, null]
+    },
+    "triggers": {
+      "BACKGROUND": {
+        "priority": 1000,
+        "score_time_range": {
+          "10": [0, 299999],
+          "30": [300000, null]
+        }
+      },
+      "SCREEN_OFF": {
+        "priority": 2000,
+        "score_time_range": {
+          "10": [0, 299999],
+          "30": [300000, null]
+        }
+      },
+      "NETWORK": {
+        "priority": 3000,
+        "score_wifi": 20,
+        "score_mobile": 10,
+        "score_airplane": 30,
+        "score_none": 30
+      },
+      "BATTERY": {
+        "priority": 4000,
+        "score_charging": 10,
+        "score_level_range": {
+          "-10": [null, 40],
+          "20": [40, 70],
+          "30": [70, null]
+        },
+        "score_power_save": -30,
+        "score_temperature_high": -100,
+        "threshold_temperature": 38.0
+      },
+      "NIGHT_TIME": {
+        "priority": 5000,
+        "score": 10,
+        "night_time_range": {
+          "1": [82800000, 86400000],
+          "2": [0, 21600000]
+        }
+      },
+      "DISK_SPACE": {
+        "priority": 6000,
+        "score_rate_range_internal": {
+          "10": [0.0, 0.7],
+          "30": [0.7, 0.9],
+          "100": [0.9, null]
+        },
+        "score_rate_range_external": {
+          "10": [0.0, 0.7],
+          "30": [0.7, 0.9],
+          "100": [0.9, null]
+        }
+      },
+      "RAM_SPACE": {
+        "priority": 7000,
+        "score_low": -100,
+        "score_medium": 20,
+        "score_high": 30
+      },
+      "PLAY_MUSIC": {
+        "priority": 8000,
+        "score_app_background": -200,
+        "score_app_foreground": 0
+      }
+    }
+  },
+  "sample_rate": {
+    "nedisk": 1,
+    "nedisk_file_access_hook_install": 0.1,
+    "nedisk_file_access_hook": 0.1,
+    "nedisk_file_access_hook_enable": 10000,
+    "nedisk_scan_result": 1.0,
+    "nedisk_scheduler_score": 0.1
+  }
+}

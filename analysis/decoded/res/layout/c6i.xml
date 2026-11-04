@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.ListLoadingProgressBar android:id="@id/llpb_music_sheet" android:layout_width="14.0dip" android:layout_height="14.0dip" app:a5g="@id/tv_loading" app:a5l="parent" app:a65="parent" app:a69="parent" app:a6a="packed" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:textColor="@color/b17" android:id="@id/tv_loading" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:text="@string/ewu" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a68="@id/llpb_music_sheet" />
+</androidx.constraintlayout.widget.ConstraintLayout>

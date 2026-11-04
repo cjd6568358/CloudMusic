@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/root" android:layout_width="fill_parent" android:layout_height="193.0dip" xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0sp" android:textStyle="bold" android:textColor="#ff333333" android:ellipsize="end" android:id="@id/liveNoticeTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="30.0dip" android:maxLines="1" android:includeFontPadding="false" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="#ff888888" android:ellipsize="end" android:id="@id/liveNoticeTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="14.0sp" android:maxLines="1" android:includeFontPadding="false" app:a5l="parent" app:a65="parent" app:a68="@id/liveNoticeTime" />
+    <com.netease.cloudmusic.playlive.livenoiitice.LiveNoticeButton android:textSize="17.0sp" android:gravity="center" android:id="@id/subscribe" android:layout_width="170.0dip" android:layout_height="46.0dip" android:layout_marginTop="30.0dip" app:gl="useTheme" app:a5l="parent" app:a65="parent" app:a68="@id/liveNoticeTitle" app:adx="true" app:am0="69.0dip" />
+</androidx.constraintlayout.widget.ConstraintLayout>

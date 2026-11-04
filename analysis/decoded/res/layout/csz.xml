@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/fm_ad_video_view_root" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.RoundedFrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent" app:jw="4.0dip">
+        <com.netease.cloudmusic.module.ad.AdVideoView android:id="@id/adVideoView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.netease.cloudmusic.ui.RoundedFrameLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="9.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/countDownHint" android:background="@drawable/a9u" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="14.0dip" android:layout_marginTop="12.0dip" android:text="29秒后获得免费听歌30分钟权益" android:includeFontPadding="false" app:a5z="parent" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/adClose" android:layout_width="16.0dip" android:layout_height="16.0dip" android:layout_marginRight="5.0dip" android:src="@drawable/dd9" app:a5f="@id/countDownHint" app:a63="parent" app:a69="@id/countDownHint" />
+    <com.netease.cloudmusic.ui.CustomThemeAdTagView android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="@id/adLearnMore" app:a5z="@id/countDownHint" app:a69="@id/adLearnMore" app:ap2="style_related_video" />
+    <com.netease.cloudmusic.ui.RoundTextView android:textSize="12.0sp" android:textColor="#ff333333" android:gravity="center" android:id="@id/adLearnMore" android:background="@color/b12" android:layout_width="71.0dip" android:layout_height="24.0dip" android:layout_marginRight="8.0dip" android:layout_marginBottom="8.0dip" android:text="了解更多" app:jw="12.0dip" app:a5f="parent" app:a63="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

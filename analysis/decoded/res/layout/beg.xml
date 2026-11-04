@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:tag="layout/item_program_song_0" android:layout_width="fill_parent" android:layout_height="@dimen/alv"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/radioCover" android:tag="binding_1" android:layout_width="@dimen/alv" android:layout_height="@dimen/alv" android:layout_marginStart="12.0dip" app:a5_="true" app:a5f="parent" app:a5m="@id/songNameContainer" app:a65="parent" app:a69="parent" app:am0="6.0dip" />
+    <LinearLayout android:orientation="vertical" android:id="@id/songNameContainer" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:layout_marginStart="10.0dip" app:a5_="true" app:a5f="parent" app:a5m="@id/imgPlay" app:a64="@id/radioCover" app:a69="parent">
+        <TextView android:textSize="16.0sp" android:textColor="@color/b1z" android:ellipsize="end" android:id="@id/radioName" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" app:a5_="true" />
+        <TextView android:textSize="13.0sp" android:textColor="@color/b1n" android:ellipsize="end" android:id="@id/radioSubscribeCount" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:singleLine="true" android:includeFontPadding="false" app:a5_="true" />
+    </LinearLayout>
+    <ImageView android:id="@id/imgPlay" android:tag="binding_4" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginEnd="15.0dip" app:a5f="parent" app:a5l="parent" app:a64="@id/songNameContainer" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

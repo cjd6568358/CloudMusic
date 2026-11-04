@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.discovery.view.module.voicelive.ui.VisibleConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent" app:a5k="w,1:1"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/pkImage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" app:aqh="@drawable/f9v" />
+    <Space android:id="@id/divider" android:layout_width="wrap_content" android:layout_height="fill_parent" app:a5l="parent" app:a65="parent" />
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar2" android:layout_width="48.0dip" android:layout_height="48.0dip" android:layout_marginTop="6.0dip" android:layout_marginStart="-10.0dip" app:a65="@id/divider" app:a68="@id/pkImage" app:ai4="style30" />
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar1" android:layout_width="48.0dip" android:layout_height="48.0dip" android:layout_marginEnd="-10.0dip" app:a5f="@id/avatar2" app:a5l="@id/divider" app:a69="@id/avatar2" app:ai4="style30" />
+    <com.netease.play.ui.PkBloodViewLite android:id="@id/bloodView" android:layout_width="fill_parent" android:layout_height="4.0dip" android:layout_marginLeft="8.0dip" android:layout_marginTop="16.0dip" android:layout_marginRight="8.0dip" android:layout_marginHorizontal="8.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/avatar1" />
+</com.netease.cloudmusic.discovery.view.module.voicelive.ui.VisibleConstraintLayout>

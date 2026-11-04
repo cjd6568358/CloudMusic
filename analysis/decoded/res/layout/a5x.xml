@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/lt_unmask_guide_dialog_root" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/lt_unmask_guide_dialog_container" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.facebook.drawee.view.SimpleDraweeView android:id="@id/lt_unmask_guide_bg" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="fitXY" android:contentDescription="@null" android:importantForAccessibility="no" fresco:alp="false" fresco:alq="false" fresco:alv="true" fresco:alw="true" fresco:am0="20.0dip" fresco:ayt="0.99462" />
+        <ImageView android:layout_gravity="end" android:id="@id/lt_unmask_guide_close" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginTop="17.0dip" android:src="@drawable/fry" android:scaleType="fitCenter" android:contentDescription="@string/dxm" android:layout_marginEnd="16.0dip" />
+        <LinearLayout android:layout_gravity="bottom" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="32.0dip" android:layout_marginRight="32.0dip" android:layout_marginBottom="14.0dip">
+            <TextView android:textSize="20.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:gravity="center" android:id="@id/lt_unmask_guide_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/dxq" android:includeFontPadding="false" android:lineSpacingExtra="6.0dip" />
+            <TextView android:textSize="13.0sp" android:textColor="#80ffffff" android:gravity="center" android:id="@id/lt_unmask_guide_subtitle" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="@string/dxp" android:includeFontPadding="false" android:lineSpacingExtra="4.0dip" />
+            <TextView android:textSize="16.0sp" android:textStyle="bold" android:textColor="#ff000000" android:gravity="center" android:id="@id/lt_unmask_guide_confirm" android:background="@drawable/b71" android:layout_width="fill_parent" android:layout_height="46.0dip" android:layout_marginTop="20.0dip" android:layout_marginBottom="12.0dip" android:text="@string/dxn" />
+            <TextView android:textSize="12.0sp" android:textColor="#99ffffff" android:gravity="center" android:id="@id/lt_unmask_guide_privacy" android:paddingTop="6.0dip" android:paddingBottom="6.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="隐私说明" />
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>

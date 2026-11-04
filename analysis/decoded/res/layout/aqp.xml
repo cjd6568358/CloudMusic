@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/container" android:background="#ff141414" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:id="@id/video_cut_time_container" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginTop="@dimen/a19" android:layout_marginRight="10.0dip" android:layout_marginBottom="12.0dip">
+        <TextView android:textSize="14.0sp" android:textColor="#ffffffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/e0p" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aj6" android:id="@id/passedTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toLeftOf="@id/totalTime" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aj8" android:id="@id/totalTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" />
+    </RelativeLayout>
+    <SeekBar android:id="@id/mc_play_progress" android:paddingLeft="0.0dip" android:paddingRight="0.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="-7.0dip" android:maxHeight="2.0dip" android:max="1000" android:progressDrawable="@drawable/cjt" android:minHeight="2.0dip" android:thumb="@drawable/cl2" android:thumbOffset="0.0dip" />
+    <RelativeLayout android:layout_gravity="center_horizontal" android:id="@id/video_cut_progress_container" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_marginTop="12.0dip" android:layout_weight="1.0">
+        <com.netease.cloudmusic.ui.VideoRecyclerView android:id="@id/recyclerview_horizontal" android:scrollbars="none" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginTop="6.0dip" android:layout_marginBottom="10.0dip" />
+        <ImageView android:id="@id/video_cut_mask_left" android:background="@color/azv" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_marginTop="6.0dip" android:layout_marginBottom="10.0dip" android:layout_alignParentLeft="true" />
+        <ImageView android:id="@id/video_cut_mask_right" android:background="@color/azv" android:layout_width="90.0dip" android:layout_height="fill_parent" android:layout_marginTop="6.0dip" android:layout_marginBottom="10.0dip" android:layout_alignParentRight="true" />
+        <ImageView android:id="@id/video_cut_auto_seek_mask" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_marginTop="6.0dip" android:layout_marginBottom="10.0dip" />
+        <RelativeLayout android:id="@id/video_cut_progress" android:layout_width="0.0dip" android:layout_height="fill_parent">
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/video_cut_left_btn" android:paddingLeft="6.0dip" android:paddingRight="6.0dip" android:clickable="true" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_alignParentLeft="true" />
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/video_cut_right_btn" android:paddingLeft="6.0dip" android:paddingRight="6.0dip" android:clickable="true" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_alignParentRight="true" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <TextView android:textSize="12.0sp" android:textColor="#4dffffff" android:layout_gravity="center_horizontal" android:id="@id/video_new_cut_hint_txt" android:paddingTop="6.0dip" android:paddingBottom="8.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+</LinearLayout>

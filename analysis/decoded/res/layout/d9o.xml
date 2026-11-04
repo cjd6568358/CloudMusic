@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout style="@style/a71"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_width="@dimen/aif" android:layout_height="@dimen/aif" android:layout_marginStart="16.0dip" android:layout_marginEnd="8.0dip">
+        <com.netease.cloudmusic.ui.NeteaseMusicRoundedSimpleDraweeView android:id="@id/ivSongCover" android:layout_width="@dimen/aif" android:layout_height="@dimen/aif" app:ae="centerCrop" app:jw="6.0dip" app:ahy="@drawable/cx5" app:ahz="centerCrop" />
+        <com.netease.cloudmusic.module.playlist.component.playlist.PlayMarkLottieAnimationView android:gravity="center" android:layout_gravity="center" android:id="@id/songRankPlay" android:visibility="gone" android:layout_width="20.0dip" android:layout_height="20.0dip" android:scaleType="centerInside" />
+    </FrameLayout>
+    <include layout="@layout/dn9" />
+    <ImageView android:id="@id/ivLikeBtn" android:layout_width="36.0dip" android:layout_height="36.0dip" android:src="@drawable/gcn" android:scaleType="centerInside" android:contentDescription="@string/a0" android:layout_marginEnd="6.0dip" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="54.0dip" android:layout_height="54.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.airbnb.lottie.LottieAnimationView android:layout_gravity="center" android:id="@id/lottieBackground" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="40.0dip" />
+    <com.netease.cloudmusic.ui.AvatarImage android:layout_gravity="center" android:id="@id/circleAvatar" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" fresco:cv="style9" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/squareAvatar" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="24.0dip" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/resourceImage" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="40.0dip" />
+</FrameLayout>

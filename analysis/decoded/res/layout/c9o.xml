@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:tag="layout/layout_ringtone_lrc_plugin_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0">
+        <com.netease.cloudmusic.music.biz.member.ringtones.better.LyricViewWithRangeBar2 android:id="@id/lrc_rangebar" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <TextView android:textSize="16.0sp" android:textColor="#66ffffff" android:gravity="center" android:layout_gravity="center" android:id="@id/noLyric" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="暂无歌词" />
+    </FrameLayout>
+    <TextView android:textSize="11.0sp" android:textColor="@color/b1t" android:gravity="center" android:id="@id/tv_ringtone_clip_time" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" />
+    <com.netease.cloudmusic.music.biz.member.ringtones.better.AudioTrackRangeSeekBar2 android:id="@id/ringtone_range_bar" android:layout_width="fill_parent" android:layout_height="100.0dip" android:layout_marginTop="16.0dip" />
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <FrameLayout android:id="@id/fl_ringtone_climax" android:tag="binding_1" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+            <TextView android:textSize="14.0sp" android:textColor="@color/b1z" android:gravity="center" android:layout_gravity="center" android:id="@id/tv_ringtone_climax" android:paddingTop="10.0dip" android:paddingBottom="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="选择高光片段" android:drawablePadding="4.0dip" android:drawableStart="@drawable/ecp" />
+        </FrameLayout>
+        <ImageView android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ecx" />
+        <FrameLayout android:id="@id/fl_ringtone_trylistener" android:tag="binding_2" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+            <TextView android:textSize="14.0sp" android:textColor="@color/b1z" android:gravity="center" android:layout_gravity="center" android:id="@id/tv_ringtone_trylistener" android:paddingTop="10.0dip" android:paddingBottom="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="试听铃声" android:drawablePadding="4.0dip" android:drawableStart="@drawable/ecy" />
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

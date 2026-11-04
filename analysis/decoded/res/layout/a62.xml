@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="@dimen/a5g"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="15.0sp" android:textColor="@color/aj6" android:gravity="center" android:layout_gravity="center" android:id="@id/microphonevolume" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" android:text="@string/eaw" android:layout_centerHorizontal="true" />
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="26.0dip" android:layout_below="@id/microphonevolume">
+        <ImageView android:layout_gravity="center_vertical" android:id="@id/volumeIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="24.0dip" android:src="@drawable/ftp" android:layout_toLeftOf="@id/volumeProgress" />
+        <SeekBar android:layout_gravity="center_vertical" android:id="@id/volumeProgress" android:layout_width="283.0dip" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:maxHeight="3.0dip" android:max="1000" android:progressDrawable="@drawable/b3z" android:minHeight="3.0dip" android:thumb="@drawable/b40" />
+    </LinearLayout>
+</RelativeLayout>

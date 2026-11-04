@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.RotationRelativeLayout android:id="@id/view_albumCover_wrapper" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/iv_smallAlbumCover" android:layout_width="37.0dip" android:layout_height="37.0dip" android:layout_centerInParent="true" app:ae="centerCrop" app:w3="0" app:ahy="@drawable/g9p" app:ahz="centerCrop" app:aln="true" />
+    </com.netease.cloudmusic.ui.RotationRelativeLayout>
+    <com.netease.cloudmusic.ui.RemoteResourceImageView android:id="@id/smallAlbumDisc0" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/bmr" android:scaleType="fitXY" app:a5f="@id/view_albumCover_wrapper" app:a5z="@id/view_albumCover_wrapper" app:a63="@id/view_albumCover_wrapper" app:a69="@id/view_albumCover_wrapper" app:al5="480" app:al6="@string/g_r" />
+</merge>

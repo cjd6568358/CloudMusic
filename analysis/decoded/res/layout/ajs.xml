@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/a81" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="450.0dip" android:contentDescription="epaysdk_alert_bg"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tr="false" app:ty="false" app:uf="协议列表" />
+    <ListView android:id="@id/lv_banks_service" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="10.0dip" android:layout_marginRight="16.0dip" android:divider="@color/vr" android:dividerHeight="1.0px" />
+    <View android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" style="@style/a4t" />
+</LinearLayout>

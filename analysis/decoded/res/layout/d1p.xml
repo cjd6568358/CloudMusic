@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/nmc_moment_guide_item_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/nmc_moment_guide_item_img" android:layout_width="154.0dip" android:layout_height="154.0dip" android:scaleType="centerCrop" app:a5f="parent" app:a65="parent" app:a69="parent" />
+    <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.5dip" app:a5f="parent" app:a64="@id/nmc_moment_guide_item_img" app:a69="parent">
+        <TextView android:textSize="18.0sp" android:textStyle="bold" android:textColor="#ff283248" android:id="@id/nmc_moment_guide_item_title" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <TextView android:textSize="14.0sp" android:textColor="#ff283248" android:id="@id/nmc_moment_guide_item_sub_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

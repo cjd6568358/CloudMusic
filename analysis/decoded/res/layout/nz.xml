@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_gravity="center" android:id="@android:id/background" android:background="@mipmap/v" android:layout_width="fill_parent" android:layout_height="fill_parent" android:minWidth="@dimen/cn" android:minHeight="@dimen/cl"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:layout_gravity="center" android:id="@id/widget_background" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitXY" />
+    <ImageView android:layout_gravity="end|center|top" android:id="@id/logo_img" android:layout_width="@dimen/dm" android:layout_height="@dimen/dm" android:layout_marginTop="20.0dip" android:layout_marginEnd="20.0dip" style="@style/ah" />
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginStart="36.0dip" android:layout_marginEnd="36.0dip">
+        <TextView android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="23.0" />
+        <LinearLayout android:gravity="bottom" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="50.0">
+            <TextView android:textSize="@dimen/dd" android:id="@id/tv_content" android:text="“让这几句歌词带你回去那个心动瞬间”" android:maxLines="4" android:lineSpacingMultiplier="1.15" style="@style/a7" />
+        </LinearLayout>
+        <TextView android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="5.0" />
+        <TextView android:id="@id/v_split" android:background="@color/aq" android:layout_width="fill_parent" android:layout_height="1.0dip" android:alpha="0.1" />
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="18.0">
+            <ImageView android:id="@id/iv_cover" android:layout_width="56.0dip" android:layout_height="56.0dip" android:src="@mipmap/am" android:scaleType="fitXY" android:layout_alignParentBottom="true" />
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignTop="@id/iv_cover" android:layout_alignBottom="@id/iv_cover" android:layout_marginStart="12.0dip" android:layout_toEndOf="@id/iv_cover">
+                <TextView android:textSize="15.0sp" android:id="@id/tv_song_name" android:minWidth="146.0dip" android:text="亲密爱人" style="@style/as" />
+                <TextView android:textSize="13.0sp" android:id="@id/tv_singer" android:layout_marginTop="2.0dip" android:minWidth="78.0dip" android:text="王若琳" style="@style/at" />
+            </LinearLayout>
+        </RelativeLayout>
+        <TextView android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="5.0" />
+    </LinearLayout>
+</FrameLayout>

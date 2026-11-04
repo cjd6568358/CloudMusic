@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/musicListContainer" android:tag="layout/activity_my_privatecloud_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout2 android:id="@id/tablayout" android:layout_width="fill_parent" android:layout_height="44.0dip" app:a69="parent" app:avq="true" />
+    <View android:background="#0f0f0f24" android:layout_width="fill_parent" android:layout_height="0.5dip" app:a68="@id/tablayout" />
+    <androidx.viewpager.widget.ViewPager android:id="@id/viewpager" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="44.0dip" />
+    <ImageView android:id="@id/uploadBtn" android:visibility="gone" android:layout_width="@dimen/ao2" android:layout_height="@dimen/ao2" android:layout_marginLeft="@dimen/at3" android:layout_marginRight="@dimen/at3" android:layout_marginBottom="@dimen/at3" android:src="@drawable/d39" android:scaleType="center" android:layout_alignParentBottom="true" app:a5f="parent" app:a65="parent" />
+    <RelativeLayout android:id="@id/searchFragmentContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <ImageView android:id="@id/updatePic" android:visibility="gone" android:layout_width="89.0dip" android:layout_height="30.0dip" android:src="@drawable/gxs" app:a5l="parent" app:a65="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_tf_share_bottom_0" android:background="@drawable/c1w" android:paddingTop="15.0dip" android:paddingBottom="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="@dimen/ar8" app:a5f="parent" app:a5z="parent" app:a63="parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1e" android:id="@id/txtMoment" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="10.0dip" android:text="@string/i2x" app:a5z="parent" app:a69="parent" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/recyclerScreen" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/txtMoment" />
+    <View android:id="@id/line" android:background="@color/b1h" android:layout_width="fill_parent" android:layout_height="0.33000004dip" android:layout_marginTop="20.0dip" android:layout_marginEnd="15.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/recyclerScreen" />
+    <androidx.constraintlayout.widget.Group android:id="@id/groupScreentShot" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" app:l1="line,recyclerScreen,txtMoment" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/recyclerPlat" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/line" />
+</androidx.constraintlayout.widget.ConstraintLayout>

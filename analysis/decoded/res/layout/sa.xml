@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/msgGRRootLayout" android:longClickable="false" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/file_status" android:paddingTop="2.0dip" android:paddingBottom="2.0dip" android:layout_width="40.0dip" android:layout_height="50.0dip" android:layout_marginRight="3.0dip" app:a63="parent" app:a69="parent">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/file_bg_img" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/dff" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/file_bg_img_top" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/dfg" />
+        <RelativeLayout android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_marginBottom="10.0dip" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true">
+            <com.netease.cloudmusic.music.biz.chat.ui.UploadCircleProgressView android:id="@id/progressView" android:visibility="gone" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_centerInParent="true" />
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/file_upload_status" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_centerInParent="true" />
+        </RelativeLayout>
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/file_upload_success" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/df6" android:layout_centerInParent="true" />
+    </RelativeLayout>
+    <LinearLayout android:orientation="vertical" android:id="@id/file_content" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_marginRight="12.0dip" app:a5_="true" app:a5f="parent" app:a5m="@id/file_status" app:a65="parent" app:a69="parent">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:ellipsize="end" android:id="@id/file_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="2" app:qe="colorText1" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:id="@id/file_size" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" android:text="56.09MB/发送中" app:qe="colorText4_1" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:ellipsize="end" android:id="@id/songName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ia2" android:maxLines="1" android:singleLine="true" style="@style/jp" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:ellipsize="end" android:id="@id/artistName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:maxLines="1" android:singleLine="true" android:layout_below="@id/songName" style="@style/jq" />
+</RelativeLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="22.0dip" android:textColor="@color/vm" android:layout_gravity="center_horizontal" android:id="@id/tvTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="10.0dip" android:text="@string/bzh" />
+    <com.netease.epay.sdk.base.view.YearDatePicker android:id="@id/year_date_picker" android:layout_width="268.0dip" android:layout_height="wrap_content" />
+    <View android:background="@color/vr" android:layout_width="fill_parent" android:layout_height="1.0px" />
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="50.0dip">
+        <Button android:textSize="16.0dip" android:textColor="@color/w1" android:gravity="center" android:id="@id/btn_twobtnmsg_dialog_left" android:background="@null" android:layout_width="0.0dip" android:layout_height="fill_parent" android:text="@string/bvm" android:layout_weight="1.0" />
+        <View android:background="@color/vr" android:layout_width="1.0px" android:layout_height="fill_parent" />
+        <Button android:textSize="17.0dip" android:textColor="@color/w1" android:gravity="center" android:id="@id/btn_twobtnmsg_dialog_right" android:background="@null" android:layout_width="0.0dip" android:layout_height="fill_parent" android:text="@string/bxm" android:layout_weight="1.0" />
+    </LinearLayout>
+</LinearLayout>

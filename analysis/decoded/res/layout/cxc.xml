@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:gravity="bottom" android:layout_width="fill_parent" android:layout_height="79.32999dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:layout_width="fill_parent" android:layout_height="79.32999dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeLine android:layout_width="fill_parent" android:layout_height="0.33000004dip" android:layout_alignParentTop="true" />
+        <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/aun" android:layout_alignParentLeft="true" android:layout_centerVertical="true">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:id="@id/billboard" android:layout_width="wrap_content" android:layout_height="wrap_content" android:drawablePadding="7.0dip" app:adf="true" app:aeu="@color/a2g" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:id="@id/updateTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1.0dip" />
+        </LinearLayout>
+        <RelativeLayout android:gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginRight="@dimen/aun" android:layout_alignParentRight="true">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/mvCoverSmall" android:layout_width="71.0dip" android:layout_height="40.0dip" android:layout_alignBottom="@id/mvCoverBig" app:jw="3.0dip" />
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/mvCoverBig" android:layout_width="89.0dip" android:layout_height="50.0dip" android:layout_marginLeft="14.0dip" android:layout_alignLeft="@id/mvCoverSmall" android:layout_centerVertical="true" app:jw="3.0dip" />
+            <com.netease.cloudmusic.theme.ui.ImagePlayIcon android:id="@id/playIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="33.0dip" android:layout_marginTop="13.669983dip" android:layout_alignLeft="@id/mvCoverBig" android:layout_alignTop="@id/mvCoverBig" app:a1l="style5" />
+        </RelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeLine android:layout_width="fill_parent" android:layout_height="0.33000004dip" android:layout_alignParentBottom="true" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+</RelativeLayout>

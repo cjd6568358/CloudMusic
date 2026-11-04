@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/funClubSubItemContainer" android:padding="5.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/contentContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/topImage" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_above="@id/infoContainer" android:layout_alignParentTop="true" app:ae="centerCrop" app:ahy="@drawable/cx5" app:ahz="fitXY" app:aj2="@color/awz" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aj6" android:gravity="center" android:id="@id/heatTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:layout_marginRight="8.0dip" android:shadowColor="@color/e3" android:shadowDy="3.0" android:shadowRadius="1.0" android:drawableLeft="@drawable/ced" android:drawablePadding="3.0dip" android:layout_alignParentTop="true" android:layout_alignParentRight="true" app:adf="true" app:adi="false" app:aea="@color/b1r" app:aeu="@color/aj6" />
+        <LinearLayout android:orientation="vertical" android:id="@id/infoContainer" android:layout_width="fill_parent" android:layout_height="62.0dip" android:layout_alignParentBottom="true">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/titleTextView" android:paddingLeft="10.0dip" android:paddingTop="12.0dip" android:paddingRight="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="11.0sp" android:textColor="@color/aiz" android:ellipsize="end" android:id="@id/descTextView" android:paddingLeft="10.0dip" android:paddingTop="6.0dip" android:paddingRight="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" />
+        </LinearLayout>
+    </RelativeLayout>
+    <View android:visibility="gone" android:layout_width="1.0dip" android:layout_height="1.0dip" />
+</FrameLayout>

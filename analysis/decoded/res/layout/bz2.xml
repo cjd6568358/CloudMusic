@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/ltMaskRevealConfirmRoot" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/ltMaskRevealContainer" android:background="@drawable/qw" android:paddingTop="4.0dip" android:paddingBottom="42.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="27.0dip" android:paddingEnd="27.0dip">
+        <FrameLayout android:id="@id/ltMaskRevealStickerContainer" android:layout_width="254.0dip" android:layout_height="141.0dip" android:contentDescription="@null">
+            <FrameLayout android:layout_gravity="start|center|top" android:layout_width="141.0dip" android:layout_height="141.0dip" android:layout_marginStart="113.0dip">
+                <com.netease.cloudmusic.ui.SimpleRoundDraweeView android:layout_gravity="start|center|top" android:id="@id/ltMaskRevealGradBg" android:layout_width="83.0dip" android:layout_height="83.0dip" android:layout_marginTop="51.0dip" android:contentDescription="@null" android:layout_marginStart="31.0dip" app:aln="true" />
+                <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="start|center|top" android:id="@id/ltMaskRevealPeerSticker" android:visibility="gone" android:layout_width="85.0dip" android:layout_height="85.0dip" android:layout_marginTop="50.0dip" android:contentDescription="@null" android:layout_marginStart="30.0dip" />
+            </FrameLayout>
+            <FrameLayout android:layout_gravity="start|center|top" android:layout_width="141.0dip" android:layout_height="141.0dip">
+                <com.netease.cloudmusic.ui.SimpleRoundDraweeView android:layout_gravity="start|center|top" android:id="@id/ltMaskRevealSelfAvatar" android:layout_width="83.0dip" android:layout_height="83.0dip" android:layout_marginTop="51.0dip" android:contentDescription="@null" android:layout_marginStart="31.0dip" app:aln="true" />
+                <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="start|center|top" android:id="@id/ltMaskRevealSelfSticker" android:visibility="gone" android:layout_width="85.0dip" android:layout_height="85.0dip" android:layout_marginTop="50.0dip" android:contentDescription="@null" android:layout_marginStart="30.0dip" />
+            </FrameLayout>
+        </FrameLayout>
+        <TextView android:textSize="20.0sp" android:textColor="@color/a8k" android:gravity="center" android:id="@id/ltMaskRevealTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="11.0dip" android:fontFamily="sans-serif-medium" />
+        <TextView android:textSize="14.0sp" android:textColor="@color/a8l" android:gravity="center" android:id="@id/ltMaskRevealSubtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:lineSpacingExtra="3.0dip" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="24.0dip" android:layout_marginStart="13.0dip" android:layout_marginEnd="13.0dip">
+            <TextView android:textSize="18.0sp" android:textColor="@color/a8m" android:gravity="center" android:id="@id/ltMaskRevealCancel" android:background="@drawable/qu" android:layout_width="0.0dip" android:layout_height="46.0dip" android:layout_weight="1.0" android:fontFamily="sans-serif-medium" />
+            <TextView android:textSize="18.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/ltMaskRevealConfirm" android:background="@drawable/qv" android:layout_width="0.0dip" android:layout_height="46.0dip" android:layout_weight="1.0" android:fontFamily="sans-serif-medium" android:layout_marginStart="12.0dip" />
+        </LinearLayout>
+    </LinearLayout>
+    <ImageView android:layout_gravity="end|center|top" android:id="@id/ltMaskRevealClose" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginTop="16.0dip" android:src="@drawable/frf" android:scaleType="fitCenter" android:contentDescription="@null" android:layout_marginEnd="16.0dip" />
+</FrameLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:orientation="horizontal" android:id="@id/impress_view" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CoverStatusDraweeView android:id="@id/newMusicImg" android:layout_width="@dimen/lw" android:layout_height="@dimen/lv" fresco:ae="centerCrop" fresco:w3="300" fresco:a0w="end|bottom|center" fresco:a10="24.0dip" fresco:a12="2.0dip" fresco:a13="2.0dip" fresco:a1c="24.0dip" fresco:ahy="@drawable/cx5" fresco:ahz="fitXY" fresco:am0="6.0dip" fresco:avr="true" fresco:avs="@color/dv" />
+    <LinearLayout android:id="@id/songNameAndInfoArea" android:layout_width="0.0dip" android:minHeight="@dimen/lv" android:layout_weight="0.0" android:layout_marginStart="10.0dip" fresco:a5f="parent" fresco:a5m="@id/video_icon" fresco:a64="@id/newMusicImg" fresco:a69="parent" style="@style/a70">
+        <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="@dimen/qq" android:id="@id/songName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" style="@style/jp" />
+        <include layout="@layout/adu" />
+    </LinearLayout>
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="8.0sp" android:textColor="@color/avp" android:id="@id/tv_listened" android:background="@drawable/a5u" android:padding="2.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="4.0dip" android:text="@string/igl" fresco:a5z="parent" fresco:a69="parent" />
+    <Space android:id="@id/video_space" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_weight="1.0" fresco:a5f="@id/video_icon" fresco:a5l="@id/video_icon" fresco:a65="@id/video_icon" fresco:a69="@id/video_icon" />
+    <com.netease.cloudmusic.discovery.view.module.music.v3.DiscoveryMvIconImageView android:id="@id/video_icon" android:background="@drawable/list_selector" android:paddingLeft="10.0dip" android:paddingRight="4.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" app:aqh="@drawable/a58" xmlns:app="http://schemas.android.com/apk/res-auto" />
+</com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>

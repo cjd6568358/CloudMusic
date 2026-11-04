@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:orientation="vertical" android:tag="layout/activity_edit_0" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:layout_gravity="bottom" android:background="@drawable/b5y" android:clickable="true" android:layout_width="fill_parent" android:layout_height="46.0dip">
+        <ImageView android:id="@id/music_money_flag" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:src="@drawable/gom" android:layout_centerVertical="true" />
+        <com.netease.play.ui.LookThemeEditText android:textSize="18.0sp" android:gravity="center_vertical" android:id="@id/input" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_marginRight="10.0dip" android:hint="@string/heu" android:singleLine="true" android:layout_toLeftOf="@id/sendButton" android:layout_toRightOf="@id/music_money_flag" android:layout_centerVertical="true" android:inputType="number" android:imeOptions="flagNoExtractUi" />
+        <TextView android:textSize="14.0sp" android:textColor="@color/anm" android:id="@id/music_money" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignRight="@id/input" android:layout_centerVertical="true" />
+        <com.netease.play.ui.CustomButton android:gravity="center" android:id="@id/sendButton" android:paddingLeft="18.0dip" android:paddingRight="18.0dip" android:layout_width="wrap_content" android:layout_height="30.0dip" android:layout_marginRight="10.0dip" android:text="@string/dn9" android:layout_alignParentRight="true" android:layout_centerVertical="true" app:gg="0x000F0304" />
+    </RelativeLayout>
+</FrameLayout>

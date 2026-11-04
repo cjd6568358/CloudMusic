@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.NeteaseCardShadowLayoutWithTheme android:layout_width="fill_parent" android:layout_height="wrap_content" app:ao_="5.0dip" app:aoa="@color/e5" app:aod="6.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.discovery.view.module.hometoptab.view.TabItemView android:textSize="14.0dip" android:ellipsize="end" android:gravity="center" android:id="@id/tv" android:layout_width="fill_parent" android:layout_height="36.0dip" android:maxLines="1" app:qe="colorText2" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/new_logo_image_view" android:visibility="gone" android:layout_width="15.0dip" android:layout_height="5.0dip" android:layout_marginLeft="5.0dip" android:layout_marginTop="5.0dip" android:src="@drawable/aaw" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" />
+    </RelativeLayout>
+</com.netease.cloudmusic.theme.ui.NeteaseCardShadowLayoutWithTheme>

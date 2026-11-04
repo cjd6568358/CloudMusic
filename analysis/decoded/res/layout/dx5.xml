@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/video_publish_fragment_video_content_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/create_album_pic" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <View android:background="@color/dw" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <View android:id="@id/view_temp" android:layout_width="fill_parent" android:layout_height="48.0dip" app:a69="parent" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/video_publish_bottom_layout" android:layout_width="fill_parent" android:layout_height="64.0dip" app:a5f="parent">
+        <com.netease.nmvideoeditor.operation.view.SelectMusicView android:gravity="center_vertical" android:id="@id/select_music_view" android:layout_width="wrap_content" android:layout_height="64.0dip" android:layout_marginLeft="10.0dip" app:a5f="parent" app:a5z="parent" />
+        <com.netease.nmvideocreator.publish.view.BottomTabBarView android:id="@id/video_publish_bottom_view" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="8.0dip" app:a5f="parent" />
+    </LinearLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/content_layout" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5g="@id/video_publish_bottom_layout" app:a68="@id/view_temp">
+        <FrameLayout android:id="@id/preview" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginTop="8.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" />
+        <FrameLayout android:clipChildren="false" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/preview" app:a5z="@id/preview" app:a63="@id/preview" app:a69="@id/preview">
+            <com.netease.nmvideocreator.aveditor.widget.ZoomCoverView android:id="@id/zcv" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </FrameLayout>
+        <com.netease.nmvideocreator.aveditor.widget.VideoGestureLayout android:id="@id/gesture" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/preview" app:a5z="@id/preview" app:a63="@id/preview" app:a69="@id/preview" />
+        <LinearLayout android:orientation="vertical" android:id="@id/ll_filter_info" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16.0dip" app:a5f="parent" app:a5z="parent" app:a69="parent">
+            <TextView android:textSize="20.0sp" android:textStyle="bold" android:textColor="@color/b1n" android:id="@id/tv_filter_group" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/aaa" />
+            <TextView android:textSize="32.0sp" android:textColor="@color/b12" android:id="@id/tv_filter_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-4.0dip" style="@style/aaa" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView android:textSize="14.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/video_publish_next" android:background="@drawable/cka" android:layout_width="@dimen/auz" android:layout_height="32.0dip" android:layout_marginLeft="@dimen/auy" android:layout_marginRight="@dimen/auy" android:text="下一步" android:includeFontPadding="false" android:layout_marginEnd="16.0dip" android:layout_marginHorizontal="@dimen/auy" app:a5f="@id/view_temp" app:a5l="parent" app:a69="@id/view_temp" />
+    <androidx.fragment.app.FragmentContainerView android:id="@id/fragment_container" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent" />
+    <FrameLayout android:id="@id/video_publish_tab_container" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a69="parent" />
+    <FrameLayout android:id="@id/progress_layout" android:focusable="true" android:visibility="gone" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ProgressBar android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

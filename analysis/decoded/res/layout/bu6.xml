@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/astrolabe" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a65="parent" app:a69="parent">
+        <androidx.appcompat.widget.AppCompatImageView android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginStart="15.0dip" app:aqh="@drawable/fim" />
+        <androidx.appcompat.widget.AppCompatImageView android:layout_width="wrap_content" android:layout_height="fill_parent" app:aqh="@drawable/fku" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textStyle="bold" android:textColor="@color/b1e" android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/gkr" android:layout_marginStart="33.0dip" />
+    </FrameLayout>
+    <ViewFlipper android:id="@id/viewFlipper" android:layout_width="wrap_content" android:layout_height="wrap_content" android:inAnimation="@anim/aw8" android:outAnimation="@anim/aw9" android:flipInterval="3500" android:autoStart="true" android:animateFirstView="false" android:layout_marginStart="10.0dip" app:a64="@id/astrolabe" app:a69="parent">
+        <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatImageView android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginStart="15.0dip" app:aqh="@drawable/fin" />
+            <androidx.appcompat.widget.AppCompatImageView android:layout_width="wrap_content" android:layout_height="fill_parent" app:aqh="@drawable/fkw" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textStyle="bold" android:textColor="@color/b1e" android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/gm_" android:layout_marginStart="33.0dip" />
+        </FrameLayout>
+        <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatImageView android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginStart="15.0dip" app:aqh="@drawable/fin" />
+            <androidx.appcompat.widget.AppCompatImageView android:layout_width="wrap_content" android:layout_height="fill_parent" app:aqh="@drawable/fkw" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textStyle="bold" android:textColor="@color/b1e" android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/gm7" android:layout_marginStart="33.0dip" />
+        </FrameLayout>
+    </ViewFlipper>
+</androidx.constraintlayout.widget.ConstraintLayout>

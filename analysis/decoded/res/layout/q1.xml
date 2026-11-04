@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/light_record_root" android:tag="layout/audio_record_light_fragment_0" android:background="@drawable/hn" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/light_record_title_layout" android:layout_width="fill_parent" android:layout_height="@dimen/f8" app:a69="parent">
+        <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/light_record_title_tab_layout" android:layout_width="wrap_content" android:layout_height="fill_parent" app:a5l="parent" app:a65="parent" app:a69="parent">
+            <RelativeLayout android:gravity="center" android:id="@id/light_record_recommend_tab" android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:paddingHorizontal="15.0dip">
+                <View android:id="@id/light_record_recommend_bottom_line" android:background="@drawable/ih" android:visibility="gone" android:layout_width="10.0dip" android:layout_height="6.0dip" android:layout_alignLeft="@id/light_record_recommend" android:layout_alignRight="@id/light_record_recommend" android:layout_alignBottom="@id/light_record_recommend" />
+                <TextView android:textSize="18.0sp" android:textColor="@color/aiv" android:id="@id/light_record_recommend" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/a31" />
+            </RelativeLayout>
+            <RelativeLayout android:gravity="center" android:id="@id/light_record_new_tab" android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:paddingHorizontal="15.0dip">
+                <View android:id="@id/light_record_new_bottom_line" android:background="@drawable/ih" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="6.0dip" android:layout_alignLeft="@id/light_record_new" android:layout_alignRight="@id/light_record_new" android:layout_alignBottom="@id/light_record_new" />
+                <TextView android:textSize="18.0sp" android:textColor="@color/aix" android:id="@id/light_record_new" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/a2z" />
+            </RelativeLayout>
+        </LinearLayout>
+        <ImageView android:id="@id/light_record_back" android:paddingLeft="16.0dip" android:paddingTop="8.0dip" android:paddingRight="16.0dip" android:paddingBottom="8.0dip" android:layout_width="wrap_content" android:layout_height="44.0dip" android:src="@drawable/hm" android:paddingHorizontal="16.0dip" android:paddingVertical="8.0dip" app:a65="parent" app:a69="parent" />
+        <ImageView android:id="@id/light_record_setting_more" android:padding="8.0dip" android:visibility="gone" android:layout_width="44.0dip" android:layout_height="44.0dip" android:layout_marginRight="8.0dip" android:src="@drawable/i_" app:a5l="parent" app:a69="parent" />
+        <TextView android:textSize="16.0sp" android:textColor="@color/aiv" android:id="@id/light_record_input_success" android:padding="8.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="8.0dip" android:src="@drawable/i_" android:text="完成" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/light_record_content" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a68="@id/light_record_title_layout">
+        <com.netease.cloudmusic.common.nova.widget.SwipeDisableViewPager android:id="@id/light_record_tab_view_pager" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5g="@id/light_record_no_audio_tip" app:a69="parent" />
+        <TextView android:textSize="14.0sp" android:textColor="@color/eb" android:id="@id/light_record_no_audio_tip" android:paddingTop="22.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="未检测到你的声音" app:a5g="@id/recordContainer" app:a5l="parent" app:a65="parent" />
+        <FrameLayout android:id="@id/recordContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <include android:id="@id/audio_record_error_layout_include" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a68="@id/light_record_title_layout" layout="@layout/py" />
+</androidx.constraintlayout.widget.ConstraintLayout>

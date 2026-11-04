@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/wishlist_container" android:layout_width="fill_parent" android:layout_height="48.0dip" android:paddingStart="16.0dip" android:paddingEnd="16.0dip" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/wishlist_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:includeFontPadding="false" android:layout_toLeftOf="@id/wishlist_time_tv" android:layout_alignParentLeft="true" android:layout_centerInParent="true" android:lineSpacingMultiplier="1.5" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="#ffcccccc" android:id="@id/wishlist_time_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:layout_alignParentRight="true" android:layout_centerInParent="true" android:lineSpacingMultiplier="1.5" />
+</com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:layout_width="fill_parent" android:layout_height="58.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.state.StateItemConstraintLayout android:id="@id/itemWrap" android:layout_width="158.0dip" android:layout_height="46.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/icon" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginLeft="16.0dip" app:a5f="parent" app:a5z="parent" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0dip" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/stateText" android:layout_width="84.0dip" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:singleLine="true" app:a5f="parent" app:a60="@id/icon" app:a69="parent" />
+    </com.netease.cloudmusic.module.state.StateItemConstraintLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>

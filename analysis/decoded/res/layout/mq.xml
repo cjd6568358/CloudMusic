@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/detailContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <include layout="@layout/d5d" />
+    <ScrollView style="@style/a7w">
+        <LinearLayout android:orientation="vertical" android:id="@id/scroolInnerInfoArea" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <RelativeLayout android:layout_gravity="center_horizontal" android:orientation="vertical" android:layout_width="@dimen/bv" android:layout_height="wrap_content" android:layout_marginTop="66.0dip">
+                <ImageView android:id="@id/plALBigCoverHeader" android:layout_width="@dimen/bv" android:layout_height="wrap_content" android:src="@drawable/dd8" />
+                <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/plALBigCover" android:layout_width="@dimen/bv" android:layout_height="@dimen/bv" android:layout_marginTop="-2.0dip" android:layout_below="@id/plALBigCoverHeader" fresco:ae="centerCrop" fresco:jw="16.0dip" fresco:ahy="@drawable/g9c" fresco:ahz="centerCrop" fresco:am0="16.0dip" />
+            </RelativeLayout>
+            <include layout="@layout/c5p" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="#99ffffff" android:gravity="center_horizontal" android:layout_gravity="center_horizontal" android:id="@id/alTranslateName" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/agy" android:layout_marginTop="8.0dip" android:layout_marginRight="@dimen/agy" android:lineSpacingExtra="1.6699829dip" fresco:aeb="@color/afv" />
+            <include android:layout_width="fill_parent" android:layout_height="1.0dip" android:layout_marginTop="23.0dip" android:layout_marginBottom="20.0dip" layout="@layout/btm" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="#ffffffff" android:id="@id/albumCompanyName" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/agy" android:layout_marginRight="@dimen/agy" android:lineSpacingExtra="1.0dip" fresco:aeb="@color/afu" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="#ffffffff" android:id="@id/albumSubTypeName" android:paddingTop="6.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/agy" android:layout_marginRight="@dimen/agy" android:singleLine="true" fresco:aeb="@color/afu" />
+            <include layout="@layout/c5o" />
+        </LinearLayout>
+    </ScrollView>
+    <include layout="@layout/u3" />
+    <include layout="@layout/c5n" />
+</RelativeLayout>

@@ -1,0 +1,76 @@
+function generateRandom() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+}
+
+var reallyOpen = XMLHttpRequest.prototype.open;
+XMLHttpRequest.prototype.open = function() {
+    var requestID = generateRandom();
+    this['requestID'] = requestID;
+    arguments[1] = arguments[1] + "AJAXINTERCEPT" + requestID
+    if (arguments[2] == false) {
+        this['__async'] = false
+    }
+    reallyOpen.apply(this, arguments)
+};
+
+var reallySend = window.XMLHttpRequest.prototype.send
+window.XMLHttpRequest.prototype.send = function() {
+    console.log("html send " + arguments[0]);
+    window.AjaxIntercept.body(this['requestID'], arguments[0])
+    reallySend.apply(this, arguments)
+
+}
+var oldFetch = window.fetch
+window.fetch = function(input, opts) {
+    var resolve = () => {};
+    var reject = () => {};
+    var promiseObj = new Promise((res, rej) => {
+        resolve = res;
+        reject = rej;
+    });
+
+    function setParam() {
+        var inputResolve = () => {};
+        var inputReject = () => {};
+        var inputPromise = new Promise((res, rej) => {
+            inputResolve = res;
+            inputReject = rej;
+        })
+        if (opts && opts.method) {
+            method = opts.method.toUpperCase();
+            var requestID = generateRandom();
+            console.log("html fetch " + input);
+            input = input + "AJAXINTERCEPT" + requestID
+
+            if (opts.body && (method !== 'GET' && method !== "TRACE")) {
+                window.AjaxIntercept.body(requestID, opts.body)
+                inputResolve();
+            } else {
+                inputResolve();
+            }
+        } else {
+            inputResolve();
+        }
+        return inputPromise;
+    }
+    //timeout
+    var timeout = opts && opts.timeout;
+    if (timeout) {
+        setTimeout(() => {
+            reject(new Error("fetch timeout"))
+        }, timeout)
+    }
+    setParam().then(() => {
+        return oldFetch(input, opts)
+    }).then(
+        (res) => {
+            resolve(res)
+        },
+        (err) => {
+            reject(err)
+        }
+    );
+    return promiseObj;
+}

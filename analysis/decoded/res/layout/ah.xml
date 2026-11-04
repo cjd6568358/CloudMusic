@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:gravity="bottom" android:orientation="vertical" android:id="@id/allWindowLayout" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center_horizontal" android:id="@id/albumImage" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" app:ahy="@drawable/gjh" app:ahz="centerCrop" />
+    <View android:layout_gravity="center_horizontal" android:background="#b3000000" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <RelativeLayout android:layout_gravity="center" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="90.66998dip">
+        <ImageView android:id="@id/waveInner" android:background="@drawable/dgu" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" />
+        <ImageView android:id="@id/waveMiddle" android:background="@drawable/dgs" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" />
+        <ImageView android:id="@id/waveOuter" android:background="@drawable/dgr" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" />
+        <TextView android:textSize="17.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@id/normalCenter" android:clickable="false" android:layout_width="120.0dip" android:layout_height="120.0dip" android:layout_marginBottom="40.0dip" android:text="@string/np" android:layout_centerInParent="true" />
+        <ImageView android:id="@id/normalCenterImageView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" />
+    </RelativeLayout>
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <TextView android:textSize="73.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@id/systemCurrentTime" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="90.0dip" android:text="10:10" />
+        <TextView android:textSize="15.0sp" android:textColor="#ffffffff" android:gravity="center" android:layout_gravity="center" android:id="@id/alarmAdText" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <ImageView android:id="@id/alarmClockLogo" android:layout_width="fill_parent" android:layout_height="wrap_content" android:src="@drawable/dgz" />
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="60.0dip" android:layout_alignParentBottom="true">
+        <ImageView android:layout_gravity="bottom|center" android:id="@id/alarmClockSlider" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="16.0dip" android:src="@drawable/ef" />
+        <TextView android:textSize="15.0sp" android:textColor="#ccffffff" android:gravity="center" android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="23.0dip" android:text="@string/nv" />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <view android:id="@id/image" android:layout_width="wrap_content" android:layout_height="wrap_content" fresco:ae="centerCrop" fresco:ahy="@drawable/placeholder_disk_180" fresco:ahz="fitXY" fresco:am0="4.0dip" class="com.netease.cloudmusic.music.biz.member.digitalalbum.activity.MyDigitalAlbumActivity$MyDigitalAlbumView" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aiv" android:id="@id/name" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:layout_marginRight="12.0dip" android:singleLine="true" android:includeFontPadding="false" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:id="@id/artist" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:layout_marginRight="12.0dip" android:singleLine="true" android:includeFontPadding="false" />
+</LinearLayout>

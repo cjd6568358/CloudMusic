@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:background="@color/v6" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="fill_parent" android:contentDescription="epaysdk_bg"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tq="true" app:up="@drawable/czq" />
+    <View android:background="@color/v6" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/atb" />
+    <TextView android:textSize="12.0dip" android:textColor="@color/vq" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:layout_below="@id/atb" android:layout_centerHorizontal="true" />
+    <com.netease.epay.sdk.base.view.BaseWebView android:id="@id/webView" android:background="@color/v6" android:scrollbars="none" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/atb" android:contentDescription="epaysdk_bg" />
+    <com.netease.epay.sdk.base.view.ErrorView android:id="@id/webErrorView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/atb" />
+    <com.netease.epay.sdk.base.view.SwebProgressBar android:id="@id/progressbar" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="1.0dip" android:max="100" android:layout_below="@id/atb" style="?android:progressBarStyleHorizontal" />
+</RelativeLayout>

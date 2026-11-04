@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/fl_content" android:background="@color/w3" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:layout_gravity="center" android:orientation="vertical" android:background="@drawable/a82" android:layout_width="430.0dip" android:layout_height="wrap_content" android:layout_margin="2.0dip">
+        <ScrollView android:id="@id/scrollView" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tr="false" app:ty="false" />
+                <LinearLayout android:orientation="vertical" android:id="@id/ll_addcard_top_guide" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="30.0dip" android:layout_marginRight="30.0dip">
+                    <TextView android:textSize="24.0dip" android:textStyle="bold" android:textColor="@color/wk" android:layout_gravity="center_horizontal" android:id="@id/tv_addcard_top_guide" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="填写验证码" />
+                    <TextView android:textSize="12.0dip" android:textColor="@color/wo" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:text="@string/bvj" android:drawableLeft="@drawable/d15" android:drawablePadding="5.0dip" />
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/llOrderAmountContainer" android:background="@color/wg" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="30.0dip" android:layout_marginRight="30.0dip" android:contentDescription="epaysdk_cell_bg">
+                    <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:gravity="center_horizontal" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="需付款" />
+                    <LinearLayout android:gravity="center_horizontal" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                        <TextView android:textSize="22.0dip" android:textColor="@color/wk" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="¥" />
+                        <TextView android:textSize="40.0dip" android:textColor="@color/wk" android:id="@id/tvPayOrderAmount" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <RelativeLayout android:gravity="center_vertical" android:id="@id/rl_order_origin" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="6.0dip">
+                        <TextView android:textSize="13.0dip" android:textColor="@color/wk" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/bxx" />
+                        <TextView android:textSize="13.0dip" android:textColor="@color/wk" android:id="@id/tvOrderAmount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="6.0dip" android:layout_alignParentRight="true" />
+                    </RelativeLayout>
+                    <RelativeLayout android:gravity="center_vertical" android:id="@id/rl_pay_discount" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="6.0dip">
+                        <TextView android:textSize="13.0dip" android:textColor="@color/wk" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/bw8" />
+                        <TextView android:textSize="13.0dip" android:textColor="@color/wi" android:id="@id/tv_pay_youhui" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="6.0dip" android:layout_alignParentRight="true" />
+                    </RelativeLayout>
+                    <RelativeLayout android:gravity="center_vertical" android:id="@id/rl_prepay" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="6.0dip">
+                        <TextView android:textSize="13.0dip" android:textColor="@color/wk" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/bxf" />
+                        <TextView android:textSize="13.0dip" android:textColor="@color/wi" android:id="@id/tv_prepay_discount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="6.0dip" android:layout_alignParentRight="true" />
+                    </RelativeLayout>
+                    <View android:id="@id/v_divider" android:visibility="gone" android:layout_marginTop="10.0dip" style="@style/a4t" />
+                </LinearLayout>
+                <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:id="@id/tv_addcardsms_top_info" android:paddingTop="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="30.0dip" android:layout_marginRight="30.0dip" android:text="绑定银行卡需要短信确认" />
+                <FrameLayout android:background="@null" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <include android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="10.0dip" android:layout_marginRight="15.0dip" layout="@layout/ajr" />
+                </FrameLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</FrameLayout>

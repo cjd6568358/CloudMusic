@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:tag="layout/item_look_main_page_big_pic_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.LiveRecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="16.0dip" android:paddingEnd="16.0dip" />
+    <View android:id="@id/viewBot" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" app:a65="parent" app:a68="@id/recyclerView" />
+</LinearLayout>

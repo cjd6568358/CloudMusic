@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.discovery.view.widget.ClubhouseRoundedLayout android:orientation="horizontal" android:id="@id/cbBlock" android:layout_width="fill_parent" android:layout_height="163.0dip" app:ao_="5.0dip" app:aod="8.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="fill_parent" app:jw="8.0dip" app:y4="true">
+        <com.netease.cloudmusic.discovery.view.widget.ReverseLinearLayout android:orientation="vertical" android:id="@id/avatarsLayout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" android:layout_marginStart="15.0dip" app:a65="parent" app:a69="parent" />
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="135.0dip" android:layout_marginTop="12.0dip" android:layout_marginBottom="13.0dip" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:ellipsize="end" android:gravity="start|center" android:id="@id/cbTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:maxHeight="42.0dip" android:maxLines="2" android:includeFontPadding="false" android:lineSpacingExtra="0.0dip" app:a65="parent" app:a69="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:id="@id/otherInfoLayout" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="12.0dip">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/speaker1" android:layout_marginTop="0.0dip" app:a65="parent" app:a69="parent" style="@style/i5" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/speaker2" app:a65="parent" app:a68="@id/speaker1" style="@style/i5" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/speaker3" app:a65="parent" app:a68="@id/speaker2" style="@style/i5" />
+                <LinearLayout android:layout_gravity="center" android:orientation="horizontal" android:id="@id/countLayout" android:paddingTop="0.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="2.0dip" app:a5f="parent" app:a5l="parent">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/onlinePeopleCount" android:layout_marginEnd="16.0dip" style="@style/i4" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/openMicrophonePeopleCount" style="@style/i4" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+</com.netease.cloudmusic.discovery.view.widget.ClubhouseRoundedLayout>

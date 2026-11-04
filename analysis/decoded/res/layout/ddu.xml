@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/bigAvatarRoot" android:background="@color/do" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/ivClose" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="8.0dip" app:aqh="@drawable/dvd" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@id/imageContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="120.0dip" android:layout_alignTop="@id/ivClose">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/bigAvatarImg" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="centerCrop" app:ahy="@drawable/g90" app:ahz="centerCrop" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/b1n" android:layout_gravity="center_horizontal" android:id="@id/changeAvatarHint" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" />
+    </LinearLayout>
+    <ViewStub android:gravity="center_vertical" android:id="@id/decoratedAvatarContainer" android:layout="@layout/c8d" android:layout_width="fill_parent" android:layout_height="66.0dip" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" android:layout_marginBottom="16.0dip" android:layout_alignParentBottom="true" android:layout_marginHorizontal="16.0dip" />
+    <ViewStub android:gravity="center_vertical" android:id="@id/decoratedAvatarContainerMine" android:layout="@layout/c8c" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="16.0dip" android:layout_alignParentBottom="true" />
+</RelativeLayout>

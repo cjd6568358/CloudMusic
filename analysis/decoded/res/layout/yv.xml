@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/musicOpContainer" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="@dimen/aw7"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include android:layout_width="@dimen/aw8" android:layout_height="@dimen/aw8" android:layout_toLeftOf="@id/downLoadContainer" android:layout_centerVertical="true" layout="@layout/yw" />
+    <include android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toLeftOf="@id/interactionContainer" android:layout_centerVertical="true" layout="@layout/yq" />
+    <FrameLayout android:id="@id/interactionContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true">
+        <com.netease.cloudmusic.ui.PlayerPageImageView android:layout_gravity="center" android:id="@id/interactionBtn" android:layout_width="@dimen/aw8" android:layout_height="@dimen/aw7" android:scaleType="centerInside" />
+        <com.netease.cloudmusic.ui.PlayerPageView android:layout_gravity="center" android:id="@id/interactionBg" android:layout_width="48.0dip" android:layout_height="48.0dip" app:a40="true" />
+    </FrameLayout>
+    <include android:layout_width="@dimen/aw8" android:layout_height="@dimen/aw8" android:layout_toRightOf="@id/interactionContainer" android:layout_centerVertical="true" layout="@layout/yn" />
+    <include android:layout_width="@dimen/aw8" android:layout_height="@dimen/aw8" android:layout_toRightOf="@id/commentContainer" android:layout_centerVertical="true" layout="@layout/ys" />
+</RelativeLayout>

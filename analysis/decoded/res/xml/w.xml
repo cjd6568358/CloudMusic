@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Transition app:kz="@id/end" app:l0="@id/start" app:sc="1000">
+        <OnSwipe app:qz="dragUp" app:a_p="80.0" app:ax5="@id/indicator_layout" app:ax6="top" />
+    </Transition>
+    <ConstraintSet android:id="@id/start">
+        <Constraint android:id="@id/indicator_layout" android:background="@drawable/a03" android:layout_width="0.0dip" android:layout_height="28.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/comment_content_layout" />
+    </ConstraintSet>
+    <ConstraintSet android:id="@id/end">
+        <Constraint android:id="@id/indicator_layout" android:background="@drawable/a03" android:layout_width="0.0dip" android:layout_height="28.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    </ConstraintSet>
+</MotionScene>

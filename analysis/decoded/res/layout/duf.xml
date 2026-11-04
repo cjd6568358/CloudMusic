@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/vc_operation_attach_image_page_error_layout_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/attach_image_reload_layout" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent">
+        <TextView android:textSize="15.0sp" android:textColor="@color/b1t" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="贴纸加载失败~" android:includeFontPadding="false" />
+        <TextView android:textSize="14.0dip" android:textColor="@color/b1e" android:gravity="center" android:id="@id/attach_image_reload" android:background="@drawable/c8x" android:layout_width="96.0dip" android:layout_height="30.0dip" android:layout_marginTop="24.0dip" android:text="重新加载" />
+    </LinearLayout>
+    <ProgressBar android:id="@id/progress_bar" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="40.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

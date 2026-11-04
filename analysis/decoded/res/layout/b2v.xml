@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:id="@id/rootCard" android:tag="layout/item_audio_liveroom_0" android:descendantFocusability="beforeDescendants" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.NeteaseMusicViewPager android:id="@id/cover" android:layout_width="148.0dip" android:layout_height="160.0dip" app:a5z="parent" app:a69="parent" />
+    <com.netease.play.ui.MarqueTextView android:textSize="13.0sp" android:textColor="@color/a0k" android:ellipsize="marquee" android:id="@id/title" android:tag="binding_1" android:focusable="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="7.0dip" android:singleLine="true" android:marqueeRepeatLimit="marquee_forever" app:a5z="@id/cover" app:a68="@id/cover" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/a0l" android:ellipsize="end" android:id="@id/nickName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:drawablePadding="4.0dip" app:a5z="@id/cover" app:a68="@id/title" />
+</androidx.constraintlayout.widget.ConstraintLayout>

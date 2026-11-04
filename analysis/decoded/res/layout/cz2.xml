@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/videoArea" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.ProfileHeaderTextureView android:id="@id/profileHeaderVideoView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_alignParentTop="true" android:layout_centerHorizontal="true" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/profileHeaderVideoCover" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" android:layout_centerInParent="true" app:ahy="@drawable/g9y" />
+        <com.netease.cloudmusic.theme.ui.ImagePlayIcon android:id="@id/profileHeaderPlayBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" android:translationY="-10.0dip" app:a1l="style7" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/b12" android:ellipsize="end" android:gravity="center" android:id="@id/replayText" android:background="@drawable/eq" android:paddingLeft="15.0dip" android:paddingTop="6.0dip" android:paddingRight="15.0dip" android:paddingBottom="6.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/hjf" android:maxLines="1" android:layout_centerInParent="true" android:translationY="-10.0dip" />
+        <ImageView android:id="@id/videoSilent" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_marginRight="11.0dip" android:scaleType="centerCrop" android:layout_alignParentTop="true" android:layout_alignParentRight="true" />
+        <ImageView android:id="@id/profileHeaderProgressBar" android:visibility="gone" android:layout_width="33.0dip" android:layout_height="33.0dip" android:layout_centerInParent="true" />
+    </RelativeLayout>
+    <FrameLayout android:id="@id/headerBgMaskInVideoPic" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</RelativeLayout>

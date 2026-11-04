@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="vertical" android:tag="layout/artist_lyric_item_0" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/s1" android:layout_marginRight="@dimen/s2" app:jw="8.0dip" app:py="colorSkinElement3"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/lyricTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/s1" android:layout_marginTop="18.0dip" android:layout_marginRight="@dimen/s2" android:maxLines="1" />
+    <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/lyricRecyclerView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="13.0dip" android:layout_marginBottom="16.0dip" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

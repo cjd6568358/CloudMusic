@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/fl_content" android:background="@color/w3" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ScrollView android:layout_gravity="center" android:id="@id/scrollView" android:background="@drawable/a82" android:layout_width="430.0dip" android:layout_height="wrap_content" android:layout_margin="12.0dip">
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="40.0dip" app:tr="false" app:ty="false" />
+            <TextView android:textSize="24.0dip" android:textStyle="bold" android:textColor="@color/wk" android:layout_gravity="center_horizontal" android:id="@id/tv_setshorty_top_guide" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/bzo" />
+            <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="@string/bzp" />
+            <com.netease.epay.sdk.base.view.gridpwd.GridPasswordView android:id="@id/et_setshorty_pwd" android:layout_width="fill_parent" android:layout_height="@dimen/p5" android:layout_marginLeft="30.0dip" android:layout_marginTop="20.0dip" android:layout_marginRight="30.0dip" app:tl="@color/wx" app:uz="12.0sp" />
+            <TextView android:textSize="12.0dip" android:textColor="@color/wo" android:id="@id/tv_actvresetpwd_top_guide_x" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="30.0dip" android:layout_marginTop="10.0dip" android:layout_marginRight="30.0dip" android:layout_marginBottom="10.0dip" android:text="@string/bzm" />
+            <com.netease.epay.sdk.base.view.LongCommonButton android:id="@id/btn_actvresetpwd_next_c" android:visibility="gone" android:layout_marginLeft="30.0dip" android:layout_marginRight="30.0dip" android:layout_marginBottom="20.0dip" android:text="完成设置" style="@style/a4y" />
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

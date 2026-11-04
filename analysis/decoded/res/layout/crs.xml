@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/userInfoContainer" android:layout_width="fill_parent" android:layout_height="60.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/avatarContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true">
+        <com.netease.cloudmusic.ui.AvatarImage android:layout_gravity="center_vertical" android:id="@id/secondAvatar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="30.0dip" app:cv="style6" />
+        <com.netease.cloudmusic.ui.AvatarImage android:id="@id/firstAvatar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="14.0dip" app:cv="style6" />
+    </FrameLayout>
+    <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_weight="1.0">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/creatorName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="16.0dip" android:singleLine="true" android:drawablePadding="3.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiz" android:ellipsize="end" android:id="@id/creatorInfo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:singleLine="true" android:drawablePadding="3.0dip" />
+    </LinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeToolbarFollowButton android:textSize="13.0sp" android:gravity="center" android:id="@id/subscribeButton" android:visibility="gone" android:layout_width="60.0dip" android:layout_height="26.0dip" android:layout_marginLeft="@dimen/a2g" android:layout_marginRight="16.0dip" android:text="@string/ca0" app:xm="stroke" />
+</LinearLayout>

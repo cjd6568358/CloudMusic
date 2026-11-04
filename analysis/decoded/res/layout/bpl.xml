@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_detail_question_draw_0" android:layout_width="fill_parent" android:layout_height="331.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="22.0sp" android:textStyle="bold" android:textColor="@color/ho" android:id="@id/tv_topic" android:tag="binding_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="36.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="30.0dip" android:layout_marginTop="33.0dip" android:layout_marginRight="30.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/tv_topic" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:gravity="center" android:id="@id/ll_refresh" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="30.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent">
+        <ImageView android:id="@id/iv_load" android:layout_width="10.0dip" android:layout_height="10.0dip" android:layout_marginRight="7.0dip" android:src="@drawable/ez1" app:a5f="parent" app:a62="@id/tv_refresh" app:a69="parent" />
+        <ProgressBar android:id="@id/progress" android:layout_width="10.0dip" android:layout_height="10.0dip" android:layout_marginRight="7.0dip" app:a5f="parent" app:a62="@id/tv_refresh" app:a69="parent" />
+        <TextView android:id="@id/tv_refresh" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/fpa" app:a5f="parent" app:a63="parent" app:a69="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/content" android:tag="layout/nmc_item_recy_error_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/error_icon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/g09" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <TextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="@color/b12" android:id="@id/error_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:text="@string/c1d" app:a5l="parent" app:a65="parent" app:a68="@id/error_icon" />
+    <TextView android:textSize="13.0sp" android:textColor="@color/b1n" android:id="@id/error_subtext" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="@string/c1a" app:a5l="parent" app:a65="parent" app:a68="@id/error_text" />
+    <TextView android:textSize="18.0sp" android:textColor="@color/b1n" android:gravity="center" android:id="@id/retry" android:background="@drawable/a9c" android:layout_width="132.0dip" android:layout_height="45.0dip" android:layout_marginTop="20.0dip" android:text="@string/c1e" app:a5l="parent" app:a65="parent" app:a68="@id/error_subtext" />
+</androidx.constraintlayout.widget.ConstraintLayout>

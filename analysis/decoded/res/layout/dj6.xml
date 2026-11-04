@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/cover" android:layout_width="66.0dip" android:layout_height="66.0dip" app:ae="centerCrop" app:ahy="@drawable/at6" app:ahz="centerCrop" app:aln="true" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/tag" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_marginBottom="4.0dip" app:ae="fitXY" app:a5g="@id/title" app:a5l="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="12.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:gravity="center_horizontal" android:id="@id/title" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:maxLines="2" android:includeFontPadding="false" app:a5l="@id/cover" app:a65="@id/cover" app:a68="@id/cover" />
+</com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>

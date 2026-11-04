@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeTrackResLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/discussResContainer" android:padding="6.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="12.0dip" android:layout_marginRight="16.0dip" android:layout_marginHorizontal="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.TrackResImageView android:id="@id/discussResImg" android:layout_width="@dimen/at1" android:layout_height="@dimen/at0" android:layout_centerVertical="true" fresco:ae="centerCrop" fresco:ahy="@drawable/g97" fresco:ahz="fitXY" fresco:am0="4.0dip" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" android:layout_centerVertical="true">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiv" android:id="@id/discussResName" android:layout_marginBottom="1.0dip" android:maxLines="1" android:singleLine="true" style="@style/a_y" />
+        <com.netease.cloudmusic.ui.score.DiscussScoreView android:id="@id/discussHeaderScoreView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1.0dip" />
+    </LinearLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeTrackResLinearLayout>

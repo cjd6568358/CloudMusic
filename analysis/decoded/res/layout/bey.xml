@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/item_rank_list_last_time_win_0" android:layout_width="fill_parent" android:layout_height="120.0dip" android:layout_marginStart="15.0dip" android:layout_marginEnd="15.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:layout_width="0.0dip" android:layout_height="0.0dip" android:src="@drawable/p_" android:scaleType="fitXY" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <ImageView android:layout_width="108.0dip" android:layout_height="35.0dip" android:src="@drawable/ai5" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <FrameLayout android:id="@id/anchor_head_image_container" android:layout_width="71.0dip" android:layout_height="60.0dip" android:layout_marginTop="8.0dip" android:layout_marginStart="46.0dip" app:a5z="parent" app:a69="parent">
+        <com.netease.play.ui.avatar.AvatarImage android:layout_gravity="center" android:id="@id/anchor_head_image" android:layout_width="46.0dip" android:layout_height="46.0dip" app:ai4="style30" />
+    </FrameLayout>
+    <TextView android:textSize="13.0sp" android:textColor="@color/b1e" android:id="@id/anchor_nick_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1.0dip" app:a5z="@id/anchor_head_image_container" app:a63="@id/anchor_head_image_container" app:a68="@id/anchor_head_image_container" />
+    <ImageView android:background="@drawable/p9" android:layout_width="83.0dip" android:layout_height="15.0dip" android:layout_marginTop="2.0dip" app:a5z="@id/anchor_head_image_container" app:a63="@id/anchor_head_image_container" app:a68="@id/anchor_nick_name" />
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/viewer_head_image" android:layout_width="46.0dip" android:layout_height="46.0dip" android:layout_marginTop="16.0dip" android:layout_centerInParent="true" android:layout_marginEnd="50.0dip" app:a63="parent" app:a69="parent" app:ai4="style28" app:arl="@color/oe" app:arm="1.0dip" />
+    <TextView android:textSize="13.0sp" android:textColor="@color/b1e" android:id="@id/viewer_nick_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" app:a5z="@id/viewer_head_image" app:a63="@id/viewer_head_image" app:a68="@id/viewer_head_image" />
+    <ImageView android:background="@drawable/pa" android:layout_width="54.0dip" android:layout_height="15.0dip" android:layout_marginTop="2.0dip" app:a5z="@id/viewer_head_image" app:a63="@id/viewer_head_image" app:a68="@id/viewer_nick_name" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/dialog_app_icon_receice_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/close" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:src="@drawable/dh6" android:layout_marginEnd="10.0dip" app:a5l="parent" app:a69="parent" />
+    <com.netease.play.ui.MaxHeightScrollView android:scrollbarAlwaysDrawVerticalTrack="true" android:orientation="vertical" android:id="@id/contentContainer" android:scrollbars="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="38.0dip" android:overScrollMode="always" android:layout_marginStart="15.0dip" android:layout_marginEnd="15.0dip" app:cf="256.0dip" app:a5l="parent" app:a65="parent" app:a69="parent">
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.facebook.drawee.view.SimpleDraweeView android:id="@id/appIcon" android:layout_width="60.0dip" android:layout_height="60.0dip" />
+            <FrameLayout android:layout_width="60.0dip" android:layout_height="28.0dip">
+                <com.facebook.drawee.view.SimpleDraweeView android:id="@id/appIconReverse" android:layout_width="60.0dip" android:layout_height="60.0dip" android:layout_marginTop="1.0dip" android:scaleY="-1.0" />
+                <View android:background="@drawable/aye" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleY="-1.0" />
+            </FrameLayout>
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:textStyle="bold" android:textColor="#ff000e1d" android:gravity="center" android:id="@id/title" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="#ff999999" android:id="@id/content" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        </LinearLayout>
+    </com.netease.play.ui.MaxHeightScrollView>
+    <com.netease.cloudmusic.ui.button.CustomButton android:gravity="center" android:id="@id/cancel" android:layout_width="125.0dip" android:layout_height="40.0dip" android:layout_marginTop="20.0dip" android:layout_marginBottom="20.0dip" android:text="@string/cra" android:layout_marginStart="15.0dip" app:gg="0x00FFFFFF" app:a5f="parent" app:a65="parent" app:a68="@id/contentContainer" app:aew="@color/dv" app:aey="#ff666666" app:aiv="@color/b1q" app:aiy="@color/e8" app:aj0="#80666666" />
+    <com.netease.cloudmusic.ui.button.CustomButton android:gravity="center" android:id="@id/confirm" android:layout_width="125.0dip" android:layout_height="40.0dip" android:text="@string/go_" android:layout_marginEnd="15.0dip" app:gg="0x00FFFFFF" app:a5f="@id/cancel" app:a5l="parent" app:a69="@id/cancel" app:aer="@color/ani" app:aey="@color/b12" app:aiv="@color/anv" app:aj0="@color/b1q" />
+</androidx.constraintlayout.widget.ConstraintLayout>

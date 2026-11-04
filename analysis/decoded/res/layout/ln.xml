@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.ad.AdImpressConstraintLayout android:id="@id/csl_ad_large_card_new_home" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="17.0sp" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/tv_ad_banner_title" android:layout_width="0.0dip" android:layout_height="42.0dip" android:singleLine="true" android:includeFontPadding="false" android:layout_marginStart="16.0dip" android:layout_marginEnd="8.0dip" app:qe="colorText1" app:a5m="@id/tag_ad_banner" app:a5v="0.0" app:a65="parent" app:a69="parent" />
+        <com.netease.cloudmusic.ui.AdTagView android:layout_gravity="center|right|top" android:id="@id/tag_ad_banner" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxHeight="42.0dip" android:layout_marginEnd="16.25dip" app:jj="11.5dip" app:a5f="@id/tv_ad_banner_title" app:a5l="parent" app:a69="@id/tv_ad_banner_title" app:atr="colorText4" app:aty="0.0dip" app:au0="colorSecondary2_4" app:au1="colorSecondary2_1" app:au2="12.0dip" app:au5="8.0sp" />
+        <FrameLayout android:id="@id/layout_ad_banner_video_container" android:paddingLeft="@dimen/s1" android:paddingRight="@dimen/s2" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginTop="4.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a68="@id/tv_ad_banner_title">
+            <com.netease.cloudmusic.ui.impress.AdImpressRoundedFrameLayout android:id="@id/bannerContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" app:jw="@dimen/fw">
+                <include android:id="@id/layout_ad_large_card_view" layout="@layout/ls" />
+                <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/layout_ad_large_card_mask" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                    <View android:id="@id/v_ad_large_card_mask" android:background="@color/dz" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+                    <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_ad_large_card_mask_icon" android:layout_width="48.0dip" android:layout_height="48.0dip" android:scaleType="centerCrop" app:ae="centerCrop" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" app:aqh="@drawable/dh" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.netease.cloudmusic.ui.impress.AdImpressRoundedFrameLayout>
+        </FrameLayout>
+    </com.netease.cloudmusic.ui.ad.AdImpressConstraintLayout>
+</FrameLayout>

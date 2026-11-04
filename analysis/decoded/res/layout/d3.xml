@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:paddingTop="15.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="13.0sp" android:id="@id/btnMore" android:paddingLeft="12.0dip" android:paddingTop="5.0dip" android:paddingRight="12.0dip" android:paddingBottom="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="@string/c13" android:drawablePadding="4.0dip" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="13.0sp" android:id="@id/btnSave" android:paddingLeft="12.0dip" android:paddingTop="5.0dip" android:paddingRight="12.0dip" android:paddingBottom="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="@string/c16" android:layout_toRightOf="@id/btnMore" android:layout_alignParentTop="true" app:gl="fillBackground" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="13.0sp" android:id="@id/btnAdvance" android:paddingLeft="12.0dip" android:paddingTop="5.0dip" android:paddingRight="12.0dip" android:paddingBottom="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:text="@string/a0o" android:drawablePadding="4.0dip" android:layout_alignParentTop="true" android:layout_alignParentRight="true" />
+    <FrameLayout android:id="@id/vertAxisContainer" android:paddingLeft="10.0dip" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginTop="@dimen/pn" android:layout_marginBottom="20.0dip" android:layout_above="@id/chartView" android:layout_below="@id/btnMore">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0sp" android:textColor="@color/aiz" android:layout_gravity="top" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/c10" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0sp" android:textColor="@color/aiz" android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/c17" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0sp" android:textColor="@color/aiz" android:layout_gravity="bottom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/c11" />
+    </FrameLayout>
+    <com.netease.cloudmusic.music.biz.member.audioeffect.player.EqualizerHorizontalScrollView android:id="@id/scrollView" android:scrollbars="none" android:fadingEdge="none" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_toRightOf="@id/vertAxisContainer" android:layout_above="@id/chartView" android:layout_below="@id/btnMore" android:overScrollMode="never">
+        <LinearLayout android:orientation="horizontal" android:id="@id/seekBarContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <include android:layout_width="@dimen/pm" android:layout_height="fill_parent" layout="@layout/ajx" />
+            <include android:layout_width="@dimen/pm" android:layout_height="fill_parent" layout="@layout/ajx" />
+            <include android:layout_width="@dimen/pm" android:layout_height="fill_parent" layout="@layout/ajx" />
+            <include android:layout_width="@dimen/pm" android:layout_height="fill_parent" layout="@layout/ajx" />
+            <include android:layout_width="@dimen/pm" android:layout_height="fill_parent" layout="@layout/ajx" />
+            <include android:layout_width="@dimen/pm" android:layout_height="fill_parent" layout="@layout/ajx" />
+            <include android:layout_width="@dimen/pm" android:layout_height="fill_parent" layout="@layout/ajx" />
+            <include android:layout_width="@dimen/pm" android:layout_height="fill_parent" layout="@layout/ajx" />
+            <include android:layout_width="@dimen/pm" android:layout_height="fill_parent" layout="@layout/ajx" />
+            <include android:layout_width="@dimen/pm" android:layout_height="fill_parent" layout="@layout/ajx" />
+        </LinearLayout>
+    </com.netease.cloudmusic.music.biz.member.audioeffect.player.EqualizerHorizontalScrollView>
+    <com.netease.cloudmusic.music.biz.member.audioeffect.player.EqualizerChartView android:id="@id/chartView" android:layout_width="fill_parent" android:layout_height="150.0dip" android:layout_marginTop="31.0dip" android:layout_alignParentBottom="true" />
+</RelativeLayout>

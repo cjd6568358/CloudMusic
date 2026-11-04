@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/normalPendentContainer" android:tag="layout/normal_pendant_layout_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.viewpager2.widget.LoopViewPager android:id="@id/normal_pendant_vp" android:layout_width="100.0dip" android:layout_height="30.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.play.webview.pendant.ui.IndicatorView android:id="@id/normal_pendant_indicator" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="3.0dip" app:a5f="@id/normal_pendant_vp" app:a5l="@id/normal_pendant_vp" app:a65="@id/normal_pendant_vp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

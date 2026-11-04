@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.StatusBarHolderView android:id="@id/statusBarStub" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/rnTopCoverBg" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="centerCrop" app:a68="@id/statusBarStub" />
+    <FrameLayout android:id="@id/rnContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_close" android:padding="12.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/bpp" android:layout_marginStart="12.0dip" app:a65="parent" app:a68="@id/statusBarStub" />
+</androidx.constraintlayout.widget.ConstraintLayout>

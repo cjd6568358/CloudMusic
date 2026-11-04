@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="horizontal" android:id="@id/itemLayout" android:layout_width="fill_parent" android:layout_height="64.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:paddingLeft="16.0dip" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textColor="@color/aiv" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="4.0dip" android:singleLine="true" android:layout_weight="1.0" />
+            <ImageView android:id="@id/isVip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="2.0dip" />
+            <com.netease.cloudmusic.music.biz.member.audioeffect.player.NewImageView android:id="@id/newHint" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="12.0dip" android:layout_marginRight="2.0dip" />
+            <com.netease.cloudmusic.music.biz.member.audioeffect.player.twinkle.TwinkleLimitedTimeView android:textSize="8.0sp" android:textStyle="bold" android:gravity="center_vertical" android:id="@id/limitCountdown" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="12.0dip" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:layout_marginBottom="11.0dip">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:ellipsize="end" android:id="@id/userNum" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeLine android:layout_gravity="center_vertical" android:id="@id/userNumDivider" android:layout_width="2.0px" android:layout_height="10.0dip" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:ellipsize="end" android:id="@id/trackNum" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:drawableRight="@drawable/gn7" android:drawablePadding="4.0dip" app:adf="true" app:aeu="@color/a2i" />
+        </LinearLayout>
+    </LinearLayout>
+    <com.netease.cloudmusic.music.biz.member.audioeffect.player.twinkle.InterceptSwitchButton android:layout_gravity="center_vertical" android:id="@id/switchButton" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:layout_height="fill_parent" android:layout_marginRight="0.0dip" style="@style/a9c" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

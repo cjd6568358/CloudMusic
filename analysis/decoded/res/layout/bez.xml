@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/root" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:layout_width="fill_parent" android:layout_height="30.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="11.0sp" android:textColor="@color/b1t" android:gravity="center" android:id="@id/leftTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="28:45" android:drawableLeft="@drawable/gm3" android:drawablePadding="5.0dip" android:layout_centerVertical="true" />
+    <TextView android:textSize="11.0sp" android:textColor="@color/b1t" android:gravity="center" android:id="@id/switchTv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="上小时榜" android:drawableRight="@drawable/gm2" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+</RelativeLayout>

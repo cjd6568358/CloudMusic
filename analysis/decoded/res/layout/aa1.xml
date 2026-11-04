@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="@dimen/st"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/a5n" android:layout_width="fill_parent" android:layout_height="@dimen/st">
+        <TextView android:textSize="15.0sp" android:textColor="@color/do" android:id="@id/notice_info_tv" android:layout_width="0.0dip" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" android:layout_weight="1.0" android:layout_marginStart="16.0dip" />
+        <TextView android:textSize="12.0sp" android:textColor="@color/b12" android:id="@id/action" android:background="@drawable/a5m" android:paddingTop="7.0dip" android:paddingBottom="7.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingStart="16.0dip" android:paddingEnd="16.0dip" android:layout_marginStart="30.0dip" android:layout_marginEnd="16.0dip" />
+    </LinearLayout>
+    <FrameLayout android:id="@id/shade_layout" android:background="#80000000" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</FrameLayout>

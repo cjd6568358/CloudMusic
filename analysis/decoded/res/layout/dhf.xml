@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="115.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/relatedSongContainer" android:layout_width="fill_parent" android:layout_height="90.0dip" app:e6="noline">
+        <FrameLayout android:layout_width="70.0dip" android:layout_height="70.0dip" android:layout_marginLeft="10.0dip">
+            <com.netease.cloudmusic.ui.NeteaseMusicRoundedSimpleDraweeView android:layout_gravity="center_vertical" android:id="@id/relatedSongCover" android:layout_width="70.0dip" android:layout_height="70.0dip" app:ae="centerCrop" app:ahy="@drawable/cx5" app:ahz="fitXY" />
+            <com.netease.cloudmusic.theme.ui.ImagePlayIcon android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="46.0dip" android:layout_marginRight="46.0dip" app:a1l="style2" />
+        </FrameLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_weight="1.0">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textColor="@color/aiv" android:id="@id/relatedSongTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="2" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aix" android:id="@id/relatedSinger" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" />
+        </LinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:src="@drawable/fzf" app:aev="@color/a2h" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    <LinearLayout android:gravity="center_vertical" android:id="@id/divider_line" android:layout_width="fill_parent" android:layout_height="25.0dip" android:layout_marginTop="90.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aix" android:gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="@string/ia6" />
+    </LinearLayout>
+</FrameLayout>

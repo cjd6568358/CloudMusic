@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <EditText android:id="@id/etForceMultiPeopleRoomId" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="强制进入的多人一起听房间id" android:layout_weight="1.0" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/forceEnterMultiPeopleRoom" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="多人一起听强制进入多人房间" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/forceEnterMultiPeopleRoomSwitcher" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <Button android:id="@id/logSP" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="logcat打印sp内容" />
+        <Button android:id="@id/btnClearSP" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="清空房间状态信息sp" />
+        <Button android:id="@id/btnClearRoomIdSP" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="仅清空房间Id sp" />
+        <Button android:id="@id/btnClearRedDotSP" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="清空互动红点sp" />
+        <Button android:id="@id/btnClearRuleHintSP" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="清空规则提示sp" />
+        <Button android:id="@id/btnClearHintSP" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="清空一起听引导提示sp" />
+        <Button android:id="@id/btnClearMarketEventSP" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="清空一起听运营活动显示sp" />
+        <Button android:id="@id/btnClearPreventSP" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="清空一起听频繁切歌打压sp" />
+        <Button android:id="@id/btnClearPrivacyHintSP" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="清空一起听隐私设置引导提示sp" />
+        <Button android:id="@id/btnExitedStrangerSP" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="清空一起听黑胶页引导相关sp" />
+        <Button android:id="@id/btnClearFollowTipsStrangerSP" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="清空一起听关注提醒相关sp" />
+        <Button android:id="@id/btnSendInsideTip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="发送测试站内通知" />
+        <Button android:id="@id/btnSendSystemNotice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="发送测试系统通知" />
+        <Button android:id="@id/btnSendTextMsg" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="发送测试文本消息" />
+        <Button android:id="@id/btnReportSongStar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="拉取红心状态" />
+        <Button android:id="@id/btnMatchUnLock" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="申请解锁" />
+        <Button android:id="@id/btnStartMatch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="开始陌生人匹配" />
+        <Button android:id="@id/btnFetchEmojis" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="拉取表情配置" />
+        <Button android:id="@id/exitRoom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="退出房间" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/rtcOption" android:layout_marginTop="@dimen/ao6" android:text="点击这里强制选择语音sdk" style="@style/a9g" />
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <EditText android:id="@id/etPlaybackVol" android:layout_width="0.0dip" android:layout_height="wrap_content" android:hint="rtc声音播放增益值0-400" android:layout_weight="1.0" />
+            <Button android:id="@id/btnChangePlaybackVol" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="修改" android:layout_weight="1.0" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <EditText android:id="@id/etRecordVol" android:layout_width="0.0dip" android:layout_height="wrap_content" android:hint="rtc录音采集增益值0-400" android:layout_weight="1.0" />
+            <Button android:id="@id/btnChangeRecordVol" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="修改" android:layout_weight="1.0" />
+        </LinearLayout>
+        <Button android:id="@id/btnOpenRtcAudioDump" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="开启AudioDump" />
+        <EditText android:id="@id/chatRoomId" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="chatRoomId" />
+        <Button android:id="@id/enterChatRoom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="进入云信聊天室" />
+        <Button android:id="@id/exitChatRoom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="退出云信聊天室" />
+        <TextView android:id="@id/tvMsg" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <Button android:id="@id/showEnterRoomFailDialog" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="显示进入云信失败弹框" />
+        <Button android:id="@id/createRoom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="创建一起听歌房间" />
+        <TextView android:id="@id/createRoomText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="16.0dip" android:text="create room: " />
+        <EditText android:id="@id/roomId" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="roomId" />
+        <EditText android:id="@id/inviterId" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="inviterId" />
+        <Button android:id="@id/enterRoom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="加入一起听歌房间" />
+        <EditText android:id="@id/exitRoomId" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="exitRoomId, 不填则从sp取" />
+        <Button android:id="@id/writeSP" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="写sp测试" />
+        <Button android:id="@id/readSP" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="读sp测试" />
+        <Button android:id="@id/uploadPlaylist" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="上传播放列表" />
+        <Button android:id="@id/sendTestImMsg" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="发送测试im消息" />
+        <Button android:id="@id/playTipSound" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:text="播放提示音" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="50.0dip" android:text="会员相关 - 使用前需要先播放一首歌" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:gravity="center|left" android:layout_gravity="center" android:orientation="vertical" android:id="@id/vip_me" android:paddingLeft="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:singleLine="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:gravity="center|left" android:layout_gravity="center" android:orientation="vertical" android:id="@id/vip_another" android:paddingLeft="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:singleLine="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:gravity="center|left" android:layout_gravity="center" android:orientation="vertical" android:id="@id/vip_both" android:paddingLeft="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:singleLine="true" />
+        <Button android:id="@id/ts_seek_another" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="16.0dip" android:text="试听歌曲拖动进度条对方无权限" />
+        <Button android:id="@id/vip_goto_another" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:text="vip点击对方无权限" />
+        <Button android:id="@id/digital_album_goto_me" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:text="数专当前无权限" />
+        <Button android:id="@id/digital_album_goto_another" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:text="数专对方无权限" />
+        <Button android:id="@id/song_goto_me" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:text="单曲购买歌曲点击当前无权限" />
+        <Button android:id="@id/dislike_goto_me" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:text="当前屏蔽" />
+        <Button android:id="@id/dislike_goto_another" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:text="对方屏蔽" />
+        <Button android:id="@id/dislike_all_me" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:text="全部都是屏蔽歌曲 - 当前屏蔽" />
+        <Button android:id="@id/dislike_all_another" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:text="全部都是屏蔽歌曲 - 对方屏蔽" />
+        <Button android:id="@id/received_album" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:text="收到专辑赠送" />
+        <Button android:id="@id/received_vip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:text="收到会员赠送" />
+        <Button android:id="@id/match_success" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:text="匹配成功" />
+    </LinearLayout>
+</ScrollView>

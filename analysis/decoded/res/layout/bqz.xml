@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="40.0dip" android:layout_height="40.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/iv" android:layout_width="40.0dip" android:layout_height="40.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <TextView android:textSize="6.0dip" android:id="@id/name" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5z="parent" app:a69="parent" />
+    <TextView android:textSize="6.0dip" android:id="@id/rgbHex" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5z="parent" app:a68="@id/name" />
+    <TextView android:textSize="6.0dip" android:id="@id/rgb" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5z="parent" app:a68="@id/rgbHex" />
+</merge>

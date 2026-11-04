@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/cl_root" android:tag="layout/item_music_area_cloud_0" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:elevation="10.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:id="@id/container" android:background="@color/ait" android:paddingLeft="6.0dip" android:paddingRight="5.0dip" android:layout_width="fill_parent" android:layout_height="50.0dip"
+      xmlns:android="http://schemas.android.com/apk/res/android">
+        <ImageView android:id="@id/iv_icon" android:layout_width="18.0dip" android:layout_height="18.0dip" android:layout_marginLeft="5.0dip" android:src="@drawable/eye" app:a5f="parent" app:a5z="parent" app:a69="parent" />
+        <TextView android:textSize="14.0sp" android:textColor="@color/ho" android:id="@id/ctv_title" android:tag="binding_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" app:a5f="@id/iv_icon" app:a60="@id/iv_icon" app:a69="@id/iv_icon" />
+        <TextView android:textSize="14.0sp" android:textColor="#fffd7374" android:gravity="right" android:id="@id/tv_go" android:tag="binding_2" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginRight="5.0dip" android:includeFontPadding="false" android:drawableRight="@drawable/e80" android:drawablePadding="4.0dip" app:a5f="parent" app:a60="@id/ctv_title" app:a63="parent" app:a69="parent" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>
+</FrameLayout>

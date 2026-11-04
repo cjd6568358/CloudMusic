@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:id="@id/scrollView" android:scrollbars="none" android:fadingEdgeLength="0.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:id="@id/layout_main_container" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/ao6">
+        <LinearLayout android:orientation="vertical" android:id="@id/ll_for_login" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:text="@string/h3b" style="@style/a3_" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/shareSettingArea" style="@style/a9h">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/jeg" style="@style/a7i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/shareSetting" android:text="所有人" style="@style/a9o" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/messageRejectContainer" android:paddingTop="14.0dip" android:paddingBottom="12.0dip" android:layout_height="wrap_content" style="@style/a9d">
+                <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/hz0" style="@style/a9i" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:paddingRight="@dimen/s2" android:text="@string/hz1" style="@style/a9k" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/allowMessageRejectCheckBox" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:layout_marginTop="@dimen/ao6" android:text="@string/em_" style="@style/a3_" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/receiveNotifyContainer" style="@style/a9d">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/hz3" style="@style/a7i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/receiveNotifyOpen" android:text="系统设置已开启" style="@style/a9o" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/allowSubArea" style="@style/a9d">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/g66" style="@style/a7i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/allowSubscriptionNotify" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/allowVideoSubArea" style="@style/a9d">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/j4r" style="@style/a7i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/allowVideoSubNotify" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/allowListShareArea" android:visibility="gone" style="@style/a9d">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/g69" style="@style/a7i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/allowPlayListSharedNotify" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/allowRadioSub" android:visibility="gone" style="@style/a9d">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/dw" style="@style/a7i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/allowRadioSubNotify" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/allowLikedArea" style="@style/a9d">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/a79" style="@style/a7i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/allowLikedNotify" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/allowNewFollowerArea" style="@style/a9d">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/f12" style="@style/a7i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/allowNewFollowerNotify" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/allowKtvRoomArea" style="@style/a9d">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/ccl" style="@style/a7i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/allowKtvRoomNotify" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/allowVoiceListUpdate" style="@style/a9h">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/hzb" style="@style/a7i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/allowVoiceListUpdateNotify" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/allowMusicJar" android:visibility="gone" style="@style/a9h">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/hz2" style="@style/a7i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/allowMusicJarNotify" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/subscribeAnchorContainer" android:paddingTop="14.0dip" android:layout_height="wrap_content" style="@style/a9d">
+                <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/hz_" style="@style/a9i" />
+                    <androidx.appcompat.widget.LinearLayoutCompat android:gravity="center_vertical" android:id="@id/followAnchorTvContainer" android:paddingBottom="12.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/followAnchorTv" android:text="@string/hza" android:includeFontPadding="false" android:drawablePadding="1.0dip" style="@style/a9k" />
+                        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/arrow" android:layout_width="10.0dip" android:layout_height="10.0dip" android:layout_marginLeft="2.0dip" android:src="@drawable/bu9" app:a5f="parent" app:a5l="parent" app:a69="parent" app:aev="@color/a2i" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/subscribeAnchorCheckBox" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:layout_marginTop="@dimen/ao6" android:text="@string/a5o" style="@style/a3_" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/topLayerNotifyArea" style="@style/a9d">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/topLayerNotify" android:layout_width="0.0dip" android:text="@string/iqf" android:layout_weight="1.0" style="@style/a9i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/topLayerNotifyBtn" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/backgroundNotifyArea" style="@style/a9h">
+                <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/backgroundNotify" android:text="@string/a5l" style="@style/a9i" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:visibility="gone" android:text="@string/a5m" style="@style/a9k" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/backgroundNotifyBtn" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:layout_marginTop="@dimen/ao6" android:text="@string/fyl" style="@style/a3_" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/gotoProfileSetting" android:text="@string/h4w" style="@style/a9f" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/allowFriendSeeMeOnline" android:paddingTop="14.0dip" android:paddingBottom="12.0dip" android:layout_height="wrap_content" style="@style/a9d">
+                <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/hy_" style="@style/a9i" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:paddingRight="@dimen/s2" android:text="@string/ccw" style="@style/a9k" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/allowFriendSeeMeOnlineSwitch" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/allowShowListenCount" android:paddingTop="14.0dip" android:paddingBottom="12.0dip" android:layout_height="wrap_content" style="@style/a9d">
+                <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/hya" style="@style/a9i" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:paddingRight="@dimen/s2" android:text="@string/hyb" style="@style/a9k" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/allowShowListenCountSwitch" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/canbeSeenArea" style="@style/a9d">
+                <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/canBeSeenText" android:text="@string/abn" style="@style/a9i" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:visibility="gone" android:text="@string/abo" style="@style/a9k" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/peopleNearbyCanSeeMe" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/canBeSeenInContact" style="@style/a9d">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/abf" style="@style/a7i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/peopleCanSeeMeInContact" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/trackRcmdArea" style="@style/a9d">
+                <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/trackRcmdText" android:text="@string/hyw" style="@style/a9i" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/irt" style="@style/a9k" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/trackRcmdToggleBtn" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/allowPeopleSeeMeFollowArtist" style="@style/a9d">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/qk" style="@style/a7i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/allowPeopleSeeMeFollowArtistSwitch" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/allowCommentVideo" android:visibility="gone" style="@style/a9d">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/qf" style="@style/a7i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/allowCommentVideoSwitch" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/allowGeFangStatus" style="@style/a9d">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/qi" style="@style/a7i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/allowGeFangStatusSwitch" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/allowAskUpdate" style="@style/a9d">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/zx" style="@style/a7i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/allowAskUpdateSwitch" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/socialPlaylistSettingArea" style="@style/a9h">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/i7p" style="@style/a7i" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/noteMusicPlayDataPrivate" android:visibility="gone" style="@style/a9h">
+                <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/noteMusicPlayDataPrivateText" android:text="@string/hyq" style="@style/a9i" />
+                </LinearLayout>
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginEnd="16.0dip">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:id="@id/noteMusicPrivateValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/f_d" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:layout_width="12.0dip" android:layout_height="12.0dip" android:src="@drawable/gq7" app:aev="@color/a2g" />
+                </LinearLayout>
+            </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+            <ViewStub android:id="@id/stub_login" android:layout="@layout/dzp" android:inflatedId="@id/personal_layout" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/ao6" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:layout_marginTop="@dimen/ao6" android:text="@string/a9s" style="@style/a3_" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/blacklist" android:text="@string/a9p" style="@style/a9f" />
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:id="@id/ll_for_anonymous" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <ViewStub android:id="@id/stub_anonymous" android:layout="@layout/dzp" android:inflatedId="@id/personal_layout" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        </LinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/getuiSwitch" android:layout_marginTop="@dimen/ao6" style="@style/a9d">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/getuiEntrance" android:text="@string/cf9" style="@style/a7i" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    </LinearLayout>
+</ScrollView>

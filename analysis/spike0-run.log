@@ -1,0 +1,142 @@
+加载 20 个 dex ...
+类定义总数: 178120，唯一类名: 178120
+种子类（playerengine / playlist.core / NMCommonCache / NMVirtualFileManager）: 84
+     48  com.netease.cloudmusic.android.sdk.playerengine
+      1  com.netease.cloudmusic.media.NEAudioDevice
+      1  com.netease.cloudmusic.media.NEAudioDevice$NEAudioDeviceOnPlaybackPositionUpdateListener
+      1  com.netease.cloudmusic.playlist.core.LogCallback
+      1  com.netease.cloudmusic.playlist.core.PlaybackPosition
+      1  com.netease.cloudmusic.playlist.core.PlaylistDbAdapterProxy
+      1  com.netease.cloudmusic.playlist.core.PlaylistJniBridge
+      1  com.netease.cloudmusic.playlist.core.RawMusicItem
+      1  com.netease.cloudmusic.playlist.core.RecentPlaylistSummary
+      1  com.netease.cloudmusic.playlist.core.RestoreResult
+      1  com.netease.cloudmusic.playlist.core.SnapshotMeta
+      1  com.netease.cloudmusic.sdk.NMCommonCache.BuildConfig
+      1  com.netease.cloudmusic.sdk.NMCommonCache.INMLogger
+      1  com.netease.cloudmusic.sdk.NMCommonCache.JNIInvalidException
+      1  com.netease.cloudmusic.sdk.NMCommonCache.NMBufferSource
+      1  com.netease.cloudmusic.sdk.NMCommonCache.NMBufferSourceHandler
+      1  com.netease.cloudmusic.sdk.NMCommonCache.NMCacheABTestKeys
+      1  com.netease.cloudmusic.sdk.NMCommonCache.NMCacheBase
+      1  com.netease.cloudmusic.sdk.NMCommonCache.NMVirtualFile
+      1  com.netease.cloudmusic.sdk.NMCommonCache.NMVirtualFileManager
+      1  com.netease.cloudmusic.sdk.NMCommonCache.NMVirtualFileManagerHandler
+      1  com.netease.cloudmusic.sdk.NMCommonCache.R
+      1  com.netease.cloudmusic.sdk.NMCommonCache.R$anim
+      1  com.netease.cloudmusic.sdk.NMCommonCache.R$attr
+      1  com.netease.cloudmusic.sdk.NMCommonCache.R$bool
+      1  com.netease.cloudmusic.sdk.NMCommonCache.R$color
+      1  com.netease.cloudmusic.sdk.NMCommonCache.R$dimen
+      1  com.netease.cloudmusic.sdk.NMCommonCache.R$drawable
+      1  com.netease.cloudmusic.sdk.NMCommonCache.R$id
+      1  com.netease.cloudmusic.sdk.NMCommonCache.R$integer
+
+===== spike #0 实测摘要 =====
+闭包内竞品自有类     : 135954
+其中带 native 方法   : 186
+闭包内无定义的类     : 59（多为生成类 / SDK 桩）
+外部第三方库引用     : 2619 个类
+框架引用次数         : 822319
+在线业务/redux 信号  : 16091 个类
+BFS 最大深度         : 21
+最小舱内闭包         : 84 个类
+其中一层边界需 stub  : 168 个类
+裁剪后核心闭包       : 15906 个类
+需要 stub 的边界类   : 10401 个类
+
+minimal 边界包族（top 12）:
+     27  com.netease.cloudmusic.ui.BottomSheetDialog
+     13  com.netease.cloudmusic.core.patch
+     10  com.netease.cloudmusic.meta
+      9  
+      9  com.netease.cloudmusic.core.pay
+      7  com.netease.cloudmusic.core.logsalvage.upload
+      6  com.netease.cloudmusic.core.startup.model
+      6  e7
+      6  com.netease.cloudmusic.core.lyric.model
+      6  e20
+      6  com.netease.cloudmusic.core.mp
+      5  com.netease.cloudmusic.core.startup
+
+深度直方图（前 8 层）:
+  depth  0:     84 个类
+  depth  1:    168 个类
+  depth  2:   1185 个类
+  depth  3:   4991 个类
+  depth  4:  14688 个类
+  depth  5:  24898 个类
+  depth  6:  28350 个类
+  depth  7:  25523 个类
+
+stub 边界包族（top 12）:
+    817  com.netease.cloudmusic.ui
+    361  com.netease.cloudmusic.meta
+    299  com.netease.nmvideocreator.publish.fragment
+    193  com.netease.cloudmusic.activity
+    125  t74
+    106  com.netease.cloudmusic.ui.BottomSheetDialog
+     94  com.netease.nmvideocreator.app.musiclibrary
+     91  com.netease.cloudmusic.module.player
+     83  com.netease.cloudmusic.process.task
+     78  com.netease.nmvideocreator.audiorecord.fragment
+     73  com.netease.cloudmusic.meta.virtual
+     70  com.netease.nmvideocreator.videocover
+
+业务耦合最短路径示例（种子 → 在线业务）:
+  com.netease.cloudmusic.android.sdk.playerengine.AudioPlayerUnit
+    → com.netease.cloudmusic.core.lyric.model.KaraokeWord
+    → y90.m0
+    → com.netease.cloudmusic.module.player.controller.hintview.FastPlayDynamicColorBubbleHintView
+    → com.netease.cloudmusic.module.player.ExtractColorResult
+
+包族分布（top 25）:
+  12289  com.netease.cloudmusic.music.biz
+   2249  com.netease.cloudmusic.module.listentogether
+   2120  com.netease.cloudmusic.discovery.view
+   1828  com.netease.play.party.livepage
+   1819  com.netease.cloudmusic.utils
+   1739  com.netease.play.listen.v2
+   1660  eb3
+   1655  com.netease.cloudmusic.ui
+   1273  com.netease.cloudmusic.activity
+   1266  com.netease.cloudmusic.fragment
+   1213  com.netease.cloudmusic.module.player
+    919  com.netease.cloudmusic.meta
+    774  com.netease.cloudmusic.module.ad
+    766  com.netease.play.listen.livepage
+    735  com.netease.cloudmusic
+    660  com.netease.play.livepage.chatroom
+    648  com.netease.cloudmusic.module.hint
+    616  com.netease.cloudmusic.ui.component
+    565  com.netease.play.livepage.gift
+    549  com.netease.play.livepage.videoparty
+    547  com.netease.nmvideocreator.publish.fragment
+    488  ca1
+    471  com.netease.epay.sdk.base
+    470  com.netease.cloudmusic.process.task
+    467  com.netease.play.livepage.music2
+
+业务耦合样例（前 20）:
+   com.netease.cloudmusic.activity.AboutActivity
+   com.netease.cloudmusic.activity.AboutActivity$a
+   com.netease.cloudmusic.activity.AboutActivity$a$a
+   com.netease.cloudmusic.activity.AboutActivity$b
+   com.netease.cloudmusic.activity.AboutActivity$c
+   com.netease.cloudmusic.activity.AboutActivity$d
+   com.netease.cloudmusic.activity.AboutActivity$e
+   com.netease.cloudmusic.activity.AddToPlayListActivity
+   com.netease.cloudmusic.activity.AddToPlayListActivity$10
+   com.netease.cloudmusic.activity.AddToPlayListActivity$10$1
+   com.netease.cloudmusic.activity.AddToPlayListActivity$a
+   com.netease.cloudmusic.activity.AddToPlayListActivity$a$a
+   com.netease.cloudmusic.activity.AddToPlayListActivity$b
+   com.netease.cloudmusic.activity.AddToPlayListActivity$c
+   com.netease.cloudmusic.activity.AddToPlayListActivity$c$a
+   com.netease.cloudmusic.activity.AddToPlayListActivity$d
+   com.netease.cloudmusic.activity.AddToPlayListActivity$e
+   com.netease.cloudmusic.activity.AddToPlayListActivity$f
+   com.netease.cloudmusic.activity.AddToPlayListActivity$g
+   com.netease.cloudmusic.activity.AddToPlayListActivity$h
+
+完整清单: D:\workspace\CloudMusic\analysis\spike0-java-closure.json

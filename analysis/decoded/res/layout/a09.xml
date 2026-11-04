@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/fakeBg" android:background="#ff262626" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/fakeImageBg" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+        <View android:background="@drawable/csp" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </FrameLayout>
+    <RelativeLayout android:id="@id/fakeRoot" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/fakeDiskBg" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ga6" android:layout_centerHorizontal="true" />
+        <com.google.android.material.circularreveal.CircularRevealFrameLayout android:id="@id/circularRevealFrameLayout" android:layout_width="fill_parent" android:layout_height="fill_parent" android:alpha="0.0">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/fakeVideoCover" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" />
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/fakeRecordMask" android:background="@color/ee" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </com.google.android.material.circularreveal.CircularRevealFrameLayout>
+        <RelativeLayout android:id="@id/fakeRotationView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/fakeMusicRecordCover" android:layout_width="@dimen/avy" android:layout_height="@dimen/avy" android:layout_centerInParent="true" />
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/fakeRecordCover" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ga0" android:layout_centerInParent="true" />
+        </RelativeLayout>
+        <View android:id="@id/horCenterAssist" android:layout_width="0.5dip" android:layout_height="1.0dip" android:layout_centerHorizontal="true" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/fakeDiscHead" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/gun" android:layout_alignLeft="@id/horCenterAssist" />
+    </RelativeLayout>
+</merge>

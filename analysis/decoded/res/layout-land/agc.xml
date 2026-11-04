@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/fl_content" android:background="@color/w3" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:layout_gravity="center" android:orientation="vertical" android:background="@drawable/a82" android:layout_width="430.0dip" android:layout_height="wrap_content" android:layout_margin="22.0dip">
+        <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tr="false" app:ty="false" app:up="@drawable/czq" />
+        <ScrollView android:id="@id/scrollView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:fillViewport="true">
+            <LinearLayout android:orientation="vertical" android:id="@id/ll_addcard_num_root" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="15.0dip" android:layout_marginRight="15.0dip">
+                <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="12.0dip" android:layout_marginRight="15.0dip">
+                    <TextView android:textSize="14.0dip" android:textColor="@color/ws" android:layout_gravity="center_vertical" android:id="@id/tv_top_tips" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="请选择要添加的卡类型" />
+                </LinearLayout>
+                <com.netease.epay.sdk.base_card.ui.view.BankCardChooseLayout android:id="@id/bankCardChooseLayout" android:paddingLeft="11.0dip" android:paddingTop="8.0dip" android:paddingRight="11.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+                <LinearLayout android:orientation="vertical" android:id="@id/ll_realname" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="18.0dip" android:layout_marginRight="15.0dip" android:layout_marginBottom="7.0dip" android:text="请填写持卡人身份信息" />
+                    <com.netease.epay.sdk.base.view.bankinput.InputItemLayout android:id="@id/input_name" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginRight="15.0dip" app:tm="请输入持卡人姓名" app:to="name" />
+                    <View android:layout_marginLeft="15.0dip" android:layout_marginRight="15.0dip" style="@style/a57" />
+                    <com.netease.epay.sdk.base.view.bankinput.InputItemLayout android:id="@id/input_idcard" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginRight="15.0dip" app:tm="请输入持卡人对应身份证号" app:to="idcard" />
+                    <View android:layout_marginLeft="15.0dip" android:layout_marginRight="15.0dip" style="@style/a57" />
+                </LinearLayout>
+                <com.netease.epay.sdk.base.view.AgreementTextView android:textSize="13.0dip" android:textColor="@color/wo" android:id="@id/tvAgreement" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="9.0dip" android:layout_marginRight="15.0dip" android:text="@string/bup" android:lineSpacingExtra="4.0dip" />
+                <com.netease.epay.sdk.base.view.LongCommonButton android:enabled="false" android:id="@id/btn_next" android:layout_marginTop="30.0dip" android:text="@string/bxn" style="@style/a4y" />
+                <TextView android:textSize="12.0dip" android:textColor="@color/wo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="10.0dip" android:layout_marginBottom="20.0dip" android:text="验证通过后，将跳转银行页面选择您要添加的银行卡" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</FrameLayout>

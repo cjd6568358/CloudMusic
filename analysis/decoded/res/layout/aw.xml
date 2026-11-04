@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:id="@id/preferenceRoot" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/mlogDetailPlayIn4GContainer" android:layout_marginTop="12.0dip" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/mlogDetailPlayIn4GText" android:text="@string/ebm" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/mlogDetailPlayIn4GSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfPlayVideoOnlyInWIFIContainer" style="@style/a9d">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfPlayVideoOnlyInWIFIText" android:text="@string/fyr" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfPlayVideoOnlyInWIFI" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/rlFMAutoPlay" style="@style/a9d">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/j9g" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/swFMAutoPlay" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfFMTabAutoEnterWhileColdLaunchVisible" style="@style/a9d">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfFMTabAutoEnterWhileColdLaunchText" android:text="@string/bn" android:drawablePadding="3.0dip" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfFMTabAutoEnterWhileColdLaunchCb" android:focusable="false" android:clickable="false" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfAutoPlayMusicWhileColdLaunchVisible" style="@style/a9d">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfAutoPlayMusicWhileColdLaunchText" android:text="@string/az" android:drawablePadding="3.0dip" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfAutoPlayMusicWhileColdLaunchCb" android:focusable="false" android:clickable="false" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfTwoFlowAutoPlayMusicWhileColdLaunchVisible" style="@style/a9d">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfTwoFlowAutoPlayMusicWhileColdLaunchText" android:text="@string/dy" android:drawablePadding="3.0dip" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfTwoFlowAutoPlayMusicWhileColdLaunchCb" android:focusable="false" android:clickable="false" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+    </LinearLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

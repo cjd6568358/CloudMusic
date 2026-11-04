@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:id="@id/managePlaylistBtnContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/addToNextPlayTextBtn" android:text="@string/e7z" android:drawableTop="@drawable/wi" style="@style/a74" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/addToPlayListTextBtn" android:text="@string/l8" android:drawableTop="@drawable/we" style="@style/a74" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/upgradeMusicTextBtn" android:visibility="gone" android:text="@string/e9t" android:drawableTop="@drawable/wj" style="@style/a74" />
+    <ViewStub android:id="@id/uploadToPrivateCloudStub" android:layout="@layout/cvt" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0" />
+    <ViewStub android:id="@id/songBuyStub" android:layout="@layout/cvs" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/batchDownloadTextBtn" android:text="@string/a76" android:drawableTop="@drawable/wg" style="@style/a74" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/delPlaylistTextBtn" android:text="@string/b83" android:drawableTop="@drawable/wh" style="@style/a74" />
+</LinearLayout>

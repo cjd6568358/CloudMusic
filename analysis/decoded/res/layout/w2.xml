@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/playerCommentInnerContent" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@id/playerCommentInnerCoordinatorLayout" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.google.android.material.appbar.AppBarLayout android:id="@id/playerCommentInnerAppBarLayout" android:background="@color/ay9" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip">
+            <FrameLayout android:id="@id/dslHeaderViewContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a76="scroll" />
+            <com.netease.cloudmusic.music.biz.comment.disccomment.commentSortContainer.CommentTabLayoutView android:id="@id/commentTabLayoutView" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.appbar.AppBarLayout>
+        <FrameLayout android:id="@id/vhCommentContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="com.google.android.material.appbar.PlayerCommentInnerScrollingViewBehavior" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <ViewStub android:layout_gravity="end|bottom|center" android:id="@id/viewStubSubmitFloatingButton" android:layout="@layout/wz" android:layout_width="@dimen/qb" android:layout_height="@dimen/qb" android:layout_marginBottom="128.0dip" android:layout_marginEnd="16.0dip" />
+    <ViewStub android:layout_gravity="bottom" android:id="@id/viewStubBottomFansSayEntranceContainer" android:layout="@layout/v0" android:layout_width="fill_parent" android:layout_height="@dimen/g1" />
+    <FrameLayout android:id="@id/playerCommentEditFragmentContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</FrameLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_mlog_common_extra_info_view_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/icon_left" android:layout_width="16.0dip" android:layout_height="16.0dip" android:src="@drawable/h6k" android:scaleType="fitXY" app:a5f="parent" app:a5w="packed" app:a5z="parent" app:a62="@id/title" app:a69="parent" />
+    <TextView android:textSize="15.0sp" android:textColor="@color/b1e" android:ellipsize="marquee" android:gravity="center_vertical" android:id="@id/title" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:scrollHorizontally="true" android:singleLine="true" android:shadowColor="@color/dx" android:shadowDy="2.0" android:shadowRadius="2.0" android:marqueeRepeatLimit="marquee_forever" app:a5_="true" app:a5f="parent" app:a60="@id/icon_left" app:a62="@id/icon_right" app:a69="parent" />
+    <ImageView android:id="@id/icon_right" android:layout_width="20.0dip" android:layout_height="20.0dip" android:layout_marginLeft="3.0dip" android:layout_marginRight="98.0dip" android:src="@drawable/h6f" app:a5f="parent" app:a60="@id/title" app:a63="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

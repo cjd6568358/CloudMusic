@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/home_follow_fragment_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.customui.PlaySwipeToRefresh android:id="@id/swipe" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.play.ui.LiveRecyclerView android:id="@id/recyclerView" android:paddingBottom="@dimen/wn" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.netease.play.customui.PlaySwipeToRefresh>
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="24.0sp" android:textStyle="bold" android:textColor="@color/do" android:id="@id/tvFollow" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ca0" android:layout_marginStart="16.0dip" app:a65="parent" app:a69="parent" />
+    <View android:id="@id/icon_search" android:background="@drawable/f3n" android:visibility="gone" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginRight="16.0dip" app:a63="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

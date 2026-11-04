@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/comment_detail_container" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.google.android.material.appbar.AppBarLayout android:id="@id/appBarLayout" android:background="@android:color/transparent" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip" app:a56="com.netease.cloudmusic.music.biz.usertrack.view.FixAppbarLayoutBehavior">
+            <com.netease.cloudmusic.music.biz.comment.commentdetail.CommentDetailHeaderView android:id="@id/commentDetailHeaderView" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a76="scroll" />
+        </com.google.android.material.appbar.AppBarLayout>
+        <FrameLayout android:id="@id/commentListFragmentContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <FrameLayout android:id="@id/editContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</FrameLayout>

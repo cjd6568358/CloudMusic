@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_gravity="center_vertical" android:tag="layout/record_beauty_effect_select_item_0" android:layout_width="68.0dip" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/img" android:background="@drawable/bsp" android:layout_width="46.0dip" android:layout_height="46.0dip" android:scaleType="center" android:layout_centerHorizontal="true" app:aln="true" />
+    <ImageView android:id="@id/img_cover" android:background="@drawable/bsq" android:visibility="gone" android:layout_width="46.0dip" android:layout_height="46.0dip" android:src="@drawable/btd" android:scaleType="center" android:layout_centerHorizontal="true" app:aln="true" />
+    <TextView android:textSize="11.0sp" android:textColor="@color/b12" android:gravity="center" android:layout_gravity="center" android:id="@id/name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:layout_below="@id/img" android:layout_centerHorizontal="true" />
+    <ProgressBar android:id="@id/progress_bar" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginTop="11.0dip" android:layout_centerHorizontal="true" />
+</RelativeLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:tag="layout/fragment_search_podcast_complex_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/container" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout android:id="@id/tabLayout" android:layout_width="fill_parent" android:layout_height="36.0dip" android:paddingEnd="16.0dip" fresco:a76="scroll|enterAlways" fresco:at5="100.0dip" fresco:at6="28.0dip" fresco:at7="scrollable" fresco:at_="12.0dip" fresco:ata="12.0dip" fresco:avq="false" />
+        <androidx.viewpager2.widget.ViewPager2 android:id="@id/podcastSearchViewPager" android:layout_width="fill_parent" android:layout_height="0.0dip" fresco:a5f="parent" fresco:a68="@id/tabLayout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

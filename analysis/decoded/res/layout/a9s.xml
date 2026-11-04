@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicToolbar android:id="@id/toolbar" android:background="?kl" android:layout_width="fill_parent" android:layout_height="?i" app:aii="@style/b6">
+        <com.google.android.material.tabs.TabLayout android:layout_gravity="center" android:id="@id/tabLayout" android:layout_width="wrap_content" android:layout_height="30.0dip" style="@style/a4g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout android:id="@id/layoutActionMode" android:background="@color/as2" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0sp" android:layout_gravity="center|left" android:id="@id/tvHasSelectCount" android:layout_width="wrap_content" android:layout_height="wrap_content" app:qe="colorText2" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0sp" android:gravity="center" android:layout_gravity="center|right" android:id="@id/tvSelectAll" android:layout_width="wrap_content" android:layout_height="fill_parent" app:qe="colorText2" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout>
+    </com.netease.cloudmusic.ui.NeteaseMusicToolbar>
+    <androidx.viewpager.widget.ViewPager android:id="@id/viewPager" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</LinearLayout>

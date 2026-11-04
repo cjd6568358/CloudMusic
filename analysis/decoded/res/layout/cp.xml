@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:scrollbars="none" android:fadingEdgeLength="0.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="@dimen/ao6" android:layout_marginBottom="0.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/freeMusicItem" style="@style/a9d">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/cce" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/freeMusicSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/vipMusicItem" android:layout_below="@id/freeMusicItem" style="@style/a9h">
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/j8n" style="@style/a9i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/j8o" style="@style/a9k" />
+            </LinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/vipMusicSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/onlyLikedMusicItem" android:layout_marginTop="@dimen/ao6" android:layout_below="@id/vipMusicItem" style="@style/a9d">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/onlyLikedMusicText" android:text="@string/ffm" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/onlyLikedMusicSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/atq" android:paddingLeft="@dimen/aof" android:paddingRight="@dimen/aog" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="@string/bmo" android:layout_below="@id/onlyLikedMusicItem" android:lineSpacingExtra="8.0dip" />
+    </RelativeLayout>
+</ScrollView>

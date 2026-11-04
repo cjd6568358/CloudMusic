@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.round.RoundedFrameLayout android:id="@id/layout_content_background_corner" android:background="#ff2d2d2d" android:layout_width="fill_parent" android:layout_height="wrap_content" app:jw="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/image_background" android:layout_width="wrap_content" android:layout_height="wrap_content" android:scaleType="centerCrop" app:ae="centerCrop" />
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:paddingBottom="14.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0dip" android:textStyle="bold" android:textColor="#ffffffff" android:id="@id/view_title_maintext" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="24.0dip" android:maxLines="1" android:includeFontPadding="false" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0dip" android:textColor="#99ffffff" android:ellipsize="end" android:id="@id/view_title_subtext" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="24.0dip" android:layout_marginTop="8.0dip" android:layout_marginRight="24.0dip" android:maxLines="1" android:includeFontPadding="false" />
+        <FrameLayout android:layout_width="225.0dip" android:layout_height="210.0dip" android:layout_marginTop="16.0dip" android:layout_marginBottom="20.0dip">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/image_cover" android:layout_width="153.0dip" android:layout_height="153.0dip" app:ae="centerCrop" app:aln="true" />
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/image_effect" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" />
+        </FrameLayout>
+        <com.netease.cloudmusic.music.biz.member.vip.dialog.ShimmerRoundedTextView android:textColor="#ffffffff" android:ellipsize="end" android:gravity="center" android:layout_gravity="center" android:id="@id/view_button_main" android:layout_width="fill_parent" android:layout_height="40.0dip" android:layout_marginLeft="24.0dip" android:layout_marginRight="24.0dip" android:layout_marginBottom="10.0dip" android:maxLines="1" android:includeFontPadding="true" app:jw="20.0dip" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0dip" android:textColor="#99ffffff" android:id="@id/tv_confuse" android:paddingLeft="30.0dip" android:paddingTop="10.0dip" android:paddingRight="30.0dip" android:paddingBottom="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/gd7" android:includeFontPadding="false" />
+    </LinearLayout>
+</com.netease.cloudmusic.ui.round.RoundedFrameLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.PagerListView android:id="@id/filterMvList" android:clickable="false" android:layout_width="fill_parent" android:layout_height="fill_parent" android:listSelector="#00000000" android:divider="@null" />
+    <com.netease.cloudmusic.ui.component.SectionContainer android:id="@id/curFilterTagsContent" android:layout_width="fill_parent" android:layout_height="wrap_content" app:awr="small">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiv" android:layout_gravity="right" android:id="@id/filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/c6r" android:drawablePadding="3.0dip" />
+    </com.netease.cloudmusic.ui.component.SectionContainer>
+    <LinearLayout android:orientation="vertical" android:id="@id/filterMvTagContainerOuter" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeLine android:layout_width="fill_parent" android:layout_height="0.33000004dip" />
+        <LinearLayout android:orientation="vertical" android:id="@id/filterMvTagContainer" android:background="#f9ffffff" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <View android:id="@id/outBackgrandView" android:background="@color/aa" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </LinearLayout>
+</RelativeLayout>

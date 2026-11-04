@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="50.0dip">
+        <TextView android:id="@id/freqText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="频率" />
+        <androidx.appcompat.widget.AppCompatEditText android:gravity="center" android:id="@id/freqEditText" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_marginRight="10.0dip" android:text="20" android:inputType="number" />
+        <TextView android:id="@id/adjustFactorText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="振幅调节因子dB" android:layout_weight="1.0" />
+        <androidx.appcompat.widget.AppCompatEditText android:gravity="center" android:id="@id/adjustFactorEditText" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_marginRight="10.0dip" android:text="-76.58" android:inputType="number" />
+        <TextView android:id="@id/volumeText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="音量" />
+        <androidx.appcompat.widget.AppCompatEditText android:gravity="center" android:id="@id/volumeEditText" android:layout_width="50.0dip" android:layout_height="50.0dip" android:text="0.001" android:inputType="numberDecimal" />
+    </LinearLayout>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="50.0dip">
+        <TextView android:id="@id/initialAmplitudeText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="初始振幅" />
+        <androidx.appcompat.widget.AppCompatEditText android:gravity="center" android:id="@id/initialAmplitudeEditText" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_marginRight="10.0dip" android:text="-60" android:inputType="number" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <Button android:id="@id/audioTrackPlayBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginRight="20.0dip" android:text="Play" android:layout_weight="1.0" android:layout_marginHorizontal="20.0dip" />
+        <Button android:id="@id/audioTrackPauseBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginRight="20.0dip" android:text="Pause" android:layout_weight="1.0" android:layout_marginHorizontal="20.0dip" />
+        <Button android:id="@id/audioTrackStopBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginRight="20.0dip" android:text="Stop" android:layout_weight="1.0" android:layout_marginHorizontal="20.0dip" />
+    </LinearLayout>
+</LinearLayout>

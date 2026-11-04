@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="80.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/aiCover" android:layout_width="44.0dip" android:layout_height="44.0dip" android:layout_marginLeft="12.0dip" android:layout_centerVertical="true" app:ahy="@drawable/d_l" app:ahz="centerCrop" app:aln="true" />
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_marginRight="12.0dip" android:layout_toLeftOf="@id/tv_action" android:layout_toRightOf="@id/aiCover" android:layout_centerVertical="true">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="智能体：" android:singleLine="true" android:layout_weight="1.0" app:qe="colorText2" />
+            <ImageView android:id="@id/tag" android:layout_width="32.0dip" android:layout_height="12.0dip" android:layout_marginLeft="6.0dip" android:src="@drawable/fa0" />
+        </LinearLayout>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip">
+            <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center_vertical" android:id="@id/iv_status" android:background="@drawable/gd" android:layout_width="8.0dip" android:layout_height="8.0dip" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="2.0dip" android:text="智能体：" android:lines="1" app:qe="colorText4" />
+        </LinearLayout>
+    </LinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithAllBackground android:textSize="14.0sp" android:gravity="center" android:id="@id/tv_action" android:layout_width="66.0dip" android:layout_height="28.0dip" android:layout_marginRight="12.0dip" android:text="一起听" android:layout_alignParentRight="true" android:layout_centerVertical="true" app:gl="useTheme" />
+</RelativeLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:id="@id/fl_background_round" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="3.0dip" android:layout_marginRight="3.0dip">
+        <include layout="@layout/d89" />
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="34.0dip">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="@dimen/qr" android:textColor="@color/aiv" android:gravity="center_vertical" android:id="@id/plBottomSheetListviewHeaderTitle" android:paddingLeft="16.0dip" android:paddingRight="12.0dip" android:layout_width="0.0dip" android:layout_height="34.0dip" android:singleLine="true" android:layout_weight="1.0" app:adf="true" app:aeu="@color/a2g" />
+            <include android:layout_gravity="end|center" android:id="@id/headerIcons" android:layout_width="wrap_content" android:layout_height="wrap_content" layout="@layout/d87" />
+        </LinearLayout>
+        <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <include android:id="@id/loadFailView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/d84" />
+            <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/bottomSheetListview" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

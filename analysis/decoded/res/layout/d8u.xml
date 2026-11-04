@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/layout_vip_banner_container" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_vertical" android:id="@id/layout_vip_banner_background" android:layout_width="fill_parent" android:layout_height="40.0dip">
+        <ImageView android:id="@id/iv_vip_banner_icon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginRight="6.0dip" android:scaleType="fitCenter" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0dip" android:textColor="#ff333333" android:ellipsize="end" android:id="@id/tv_vip_banner_title" android:layout_width="0.0dip" android:layout_height="wrap_content" android:maxLines="1" android:layout_weight="1.0" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="12.0dip" android:textStyle="bold" android:textColor="#ffff3a3a" android:id="@id/tv_vip_banner_button_text" android:paddingLeft="10.0dip" android:paddingTop="4.0dip" android:paddingRight="10.0dip" android:paddingBottom="4.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginRight="19.0dip" android:maxLines="1" android:includeFontPadding="false" app:gl="fillBackground" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    <View android:id="@id/view_vip_banner_shadow_bg" android:layout_width="fill_parent" android:layout_height="4.0dip" />
+</LinearLayout>

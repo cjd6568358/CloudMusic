@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:paddingBottom="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/title" android:paddingLeft="40.0dip" android:paddingRight="40.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="30.0dip" android:text="确定要关闭听歌漫游吗？" android:maxLines="1" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiy" android:id="@id/subTitle" android:paddingLeft="40.0dip" android:paddingRight="40.0dip" android:clickable="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="关闭后可以在设置-工具里再次打开" app:a5z="parent" app:a63="parent" app:a68="@id/title" />
+    <LinearLayout android:gravity="center_horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" app:a68="@id/subTitle">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="17.0sp" android:gravity="center" android:id="@id/negativeBtn" android:paddingLeft="45.0dip" android:paddingRight="45.0dip" android:layout_width="wrap_content" android:layout_height="47.0dip" android:text="再想想" app:gl="fillBackground" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="17.0sp" android:gravity="center" android:id="@id/positiveBtn" android:paddingLeft="30.0dip" android:paddingRight="30.0dip" android:layout_width="wrap_content" android:layout_height="47.0dip" android:layout_marginLeft="9.0dip" android:text="确认关闭" app:gl="useTheme" />
+    </LinearLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>

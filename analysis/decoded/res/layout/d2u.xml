@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <View android:background="#0fffffff" android:layout_width="fill_parent" android:layout_height="0.33000004dip" android:layout_marginLeft="@dimen/ag_" android:layout_marginRight="@dimen/ag_" />
+    <com.netease.cloudmusic.ui.CirclePlayProgressBar android:id="@id/offlineHintImage" android:background="@drawable/got" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_margin="@dimen/ag_" android:scaleType="centerInside" />
+    <TextView android:textSize="13.0sp" android:textColor="#cdffffff" android:id="@id/offlineHintStatus" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="7.0dip" android:layout_toRightOf="@id/offlineHintImage" />
+    <TextView android:textSize="10.0sp" android:textColor="#4dffffff" android:id="@id/offlineHintPercent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1.0dip" android:layout_toRightOf="@id/offlineHintImage" android:layout_below="@id/offlineHintStatus" />
+    <ImageView android:id="@id/offlineHintInfo" android:layout_width="40.0dip" android:layout_height="@dimen/afz" android:src="@drawable/doz" android:scaleType="centerInside" android:layout_alignParentRight="true" />
+</RelativeLayout>

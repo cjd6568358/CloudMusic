@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiz" android:id="@id/hintTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="20.0dip" android:layout_marginRight="20.0dip" android:layout_marginBottom="15.0dip" android:text="@string/akc" />
+    <FrameLayout android:id="@id/rvContainer" android:layout_width="fill_parent" android:layout_height="200.0dip">
+        <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/previewRv" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <com.netease.cloudmusic.ui.EmptyContentToast android:id="@id/loadingStatusView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </FrameLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="16.0sp" android:gravity="center" android:id="@id/addPicButton" android:paddingTop="11.0sp" android:paddingBottom="11.0sp" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="20.0dip" android:text="@string/ku" app:gl="useTheme" />
+</LinearLayout>

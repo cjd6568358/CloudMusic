@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="14.0dip" android:textColor="@color/ws" android:gravity="left" android:id="@id/tvUpgradeTip" android:background="@color/x1" android:paddingLeft="15.0dip" android:paddingTop="10.0dip" android:paddingRight="15.0dip" android:paddingBottom="10.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <include android:id="@id/llAdvertisement" android:visibility="gone" layout="@layout/aj2" />
+    <LinearLayout android:orientation="vertical" android:background="@color/w5" android:paddingBottom="18.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip">
+        <TextView android:textSize="22.0dip" android:textStyle="bold" android:textColor="@color/wk" android:layout_gravity="center_horizontal" android:id="@id/tv_addcard_top_guide" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:layout_marginBottom="5.0dip" android:text="添加银行卡" />
+        <TextView android:textSize="12.0dip" android:textColor="@color/wo" android:layout_gravity="center_horizontal" android:id="@id/tv_addcard_top_guide_tip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="2.0dip" android:text="@string/bvj" android:drawableLeft="@drawable/d15" android:drawablePadding="5.0dip" />
+        <TextView android:textSize="12.0dip" android:textColor="@color/wo" android:layout_gravity="center_horizontal" android:id="@id/tv_paymethod_order_title" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="订单金额" />
+        <TextView android:textSize="26.0dip" android:textColor="@color/wk" android:layout_gravity="center_horizontal" android:id="@id/tv_paymethod_order_amount" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true" />
+        <TextView android:textSize="12.0dip" android:textColor="@color/wi" android:layout_gravity="center_horizontal" android:id="@id/tv_paymethod_order_discount" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

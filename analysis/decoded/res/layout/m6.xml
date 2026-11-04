@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.ad.AdImpressConstraintLayout android:id="@id/container_ad" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingStart="11.0dip" android:paddingEnd="11.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/iv_ad_avatar" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginTop="1.0dip" android:layout_marginBottom="1.0dip" app:a5f="parent" app:a65="parent" app:a69="parent" />
+        <View android:id="@id/ad_split_line" android:background="@drawable/d5" android:layout_width="1.0dip" android:layout_height="10.0dip" android:layout_marginTop="1.0dip" android:layout_marginBottom="1.0dip" android:layout_marginStart="6.0dip" app:a5f="parent" app:a64="@id/iv_ad_avatar" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/b1e" android:ellipsize="end" android:id="@id/tv_ad_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:layout_marginStart="6.0dip" android:layout_marginEnd="8.0dip" app:a5_="true" app:a5f="parent" app:a5m="@id/tv_ad_action_content" app:a64="@id/ad_split_line" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/b1e" android:id="@id/tv_ad_action_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="2.0dip" app:a5f="parent" app:a5m="@id/iv_ad_action_arrow" app:a69="parent" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_ad_action_arrow" android:layout_width="12.0dip" android:layout_height="12.0dip" android:src="@drawable/dth" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+    </com.netease.cloudmusic.ui.ad.AdImpressConstraintLayout>
+</merge>

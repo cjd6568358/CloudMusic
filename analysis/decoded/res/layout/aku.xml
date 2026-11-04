@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="left" android:orientation="horizontal" android:id="@id/newAlbumImgContainer" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="wrap_content" android:layout_height="fill_parent">
+            <com.netease.cloudmusic.ui.NeteaseMusicRoundedSimpleDraweeView android:id="@id/newAlbumCover" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" app:w3="300" app:ag3="@drawable/dj4" app:ahy="@drawable/cx6" app:ahz="fitXY" app:aj2="@drawable/a11" app:alp="true" app:alq="true" app:alv="true" app:alw="true" app:am0="4.0dip" />
+            <com.netease.luna.cm.view.AlbumImageColorTextView android:id="@id/newAlbumTagView" android:paddingLeft="3.0dip" android:paddingTop="2.0dip" android:paddingRight="3.0dip" android:paddingBottom="2.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:layout_marginStart="6.0dip" android:paddingHorizontal="3.0dip" android:paddingVertical="2.0dip" app:a5f="parent" app:a65="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:src="@drawable/g0a" />
+    </LinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/newAlbumName" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:layout_marginRight="5.0dip" android:singleLine="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiy" android:ellipsize="end" android:id="@id/newAlbumArtistName" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" android:layout_marginRight="5.0dip" android:singleLine="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/themeColor" android:ellipsize="end" android:id="@id/newAlbumPrice" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" android:layout_marginRight="5.0dip" android:singleLine="true" />
+</LinearLayout>

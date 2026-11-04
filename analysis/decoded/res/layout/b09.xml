@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.swipelayout.CommonSwipeRefreshLayout android:id="@id/swipe" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.live.hybrid.webview.widget.RoundedFrameLayout android:id="@id/webviewContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <View android:id="@id/background" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <TextView android:textSize="12.0sp" android:textColor="@color/dw" android:gravity="center" android:id="@id/webview" android:background="@color/b1e" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="@string/cr8" />
+        <ProgressBar android:id="@id/progress" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="1.6699829dip" android:max="100" android:indeterminateOnly="false" android:progressDrawable="@drawable/ab_" />
+    </com.netease.cloudmusic.live.hybrid.webview.widget.RoundedFrameLayout>
+</com.netease.cloudmusic.ui.swipelayout.CommonSwipeRefreshLayout>

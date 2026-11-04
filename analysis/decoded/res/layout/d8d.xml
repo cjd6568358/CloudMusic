@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/bs_playlist_list_item" android:layout_width="fill_parent" android:layout_height="48.0dip" android:paddingStart="16.0dip" android:paddingEnd="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+        <com.netease.cloudmusic.module.playerlisthistory.widget.PlaylistThemeBadgeImageView android:id="@id/historyCardSingleLineVipIcon" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="12.0dip" android:src="@drawable/ghe" android:scaleType="fitCenter" android:adjustViewBounds="true" android:layout_marginEnd="3.0dip" />
+        <com.netease.cloudmusic.module.playerlisthistory.widget.PlaylistThemeBadgeImageView android:id="@id/historyCardSingleLineAuditionIcon" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="12.0dip" android:src="@drawable/ghd" android:scaleType="fitCenter" android:adjustViewBounds="true" android:layout_marginEnd="3.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:ellipsize="end" android:id="@id/historyCardSingleLineSongName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="180.0dip" android:singleLine="true" app:qe="colorText1" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:ellipsize="end" android:id="@id/historyCardSingleLineSingerName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" app:qe="colorText5" />
+    </LinearLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

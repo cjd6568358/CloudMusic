@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/flow_card_root" android:tag="layout/layout_flow_card2_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.livepage.flowcard.holder.BlingGradientDrawableView android:id="@id/flow_card_bg" android:tag="binding_1" android:layout_width="fill_parent" android:layout_height="30.0dip" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/flow_card_container" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="8.0dip" android:paddingEnd="10.0dip">
+        <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/cardIcon" android:layout_width="30.0dip" android:layout_height="30.0dip" app:a5f="parent" app:a63="parent" app:a69="parent" />
+        <com.netease.play.ui.MarqueTextView android:textSize="13.0sp" android:textColor="@color/b12" android:ellipsize="marquee" android:gravity="center_vertical" android:id="@id/flow_card_des" android:focusable="true" android:layout_width="0.0dip" android:layout_height="fill_parent" android:text="@string/c8_" android:singleLine="true" android:layout_weight="1.0" android:layout_marginStart="7.0dip" />
+        <LinearLayout android:gravity="end|center" android:orientation="horizontal" android:id="@id/flow_card_number_container" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginStart="5.0dip">
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="@color/b12" android:gravity="center_vertical" android:id="@id/flow_card_enter_des" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="进房人数 " />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:textStyle="bold|italic" android:textColor="@color/b12" android:gravity="center_vertical" android:id="@id/flow_card_enter_number" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="fill_parent" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

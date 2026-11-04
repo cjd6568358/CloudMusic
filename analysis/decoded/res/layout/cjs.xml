@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:paddingLeft="24.0dip" android:paddingTop="178.0dip" android:paddingRight="24.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/settingContainer" android:layout_width="fill_parent" android:layout_height="350.0dip"
+      xmlns:android="http://schemas.android.com/apk/res/android">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="#99ffffff" android:id="@id/bioSettingStatusCancel" android:padding="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" android:layout_marginTop="12.0dip" android:text="@string/abp" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="#ccffffff" android:id="@id/bioSettingStatusTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:text="@string/dr7" android:layout_centerHorizontal="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="#99ffffff" android:id="@id/bioSettingStatusConfirm" android:padding="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:layout_marginRight="6.0dip" android:text="@string/ayr" android:layout_alignParentEnd="true" />
+        <com.netease.cloudmusic.module.listentogether.bio.setting.StatusEditViewContainer android:id="@id/statusEditContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="24.0dip" android:layout_marginTop="25.0dip" android:layout_marginRight="24.0dip" android:layout_below="@id/bioSettingStatusTitle" />
+        <LinearLayout android:orientation="horizontal" android:id="@id/chooseEmojiTitle" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="24.0dip" android:layout_marginTop="21.0dip" android:layout_marginRight="24.0dip" android:layout_below="@id/statusEditContainer">
+            <View android:layout_gravity="center_vertical" android:background="#1affffff" android:layout_width="0.0dip" android:layout_height="1.0px" android:layout_weight="1.0" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="#4dffffff" android:paddingLeft="8.0dip" android:paddingRight="8.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="选择表情" android:layout_centerHorizontal="true" />
+            <View android:layout_gravity="center_vertical" android:background="#1affffff" android:layout_width="0.0dip" android:layout_height="1.0px" android:layout_weight="1.0" />
+        </LinearLayout>
+        <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/statusEmojiList" android:fadingEdge="vertical" android:fadingEdgeLength="30.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="24.0dip" android:layout_marginTop="9.0dip" android:layout_marginRight="24.0dip" android:layout_below="@id/chooseEmojiTitle" android:overScrollMode="never" android:requiresFadingEdge="vertical" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+</FrameLayout>

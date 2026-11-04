@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/inviteAiFriendSectionCard" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:paddingBottom="8.0dip" android:layout_width="fill_parent" android:layout_height="45.0dip" android:paddingHorizontal="16.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0dip" android:textStyle="bold" android:textColor="@color/aiv" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="邀请AI搭子" android:layout_weight="1.0" app:qe="colorText2" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/roleMoreWrap" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0dip" android:textColor="@color/aiv" android:id="@id/roleMore" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="查看全部" android:layout_marginEnd="2.0dip" app:qe="colorText4" />
+            <ImageView android:id="@id/roleMoreIcon" android:layout_width="12.0dip" android:layout_height="12.0dip" android:src="@drawable/f2z" />
+        </LinearLayout>
+    </LinearLayout>
+    <com.netease.cloudmusic.ui.MainBannerContainer android:id="@id/bannerContainerT" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.NeteaseMusicViewPager android:id="@id/new_hit_focus_t" android:layout_width="fill_parent" android:layout_height="66.0dip" />
+    </com.netease.cloudmusic.ui.MainBannerContainer>
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/dotParentT" android:paddingLeft="10.0dip" android:paddingTop="4.0dip" android:paddingRight="10.0dip" android:paddingBottom="6.0dip" android:layout_width="fill_parent" android:layout_height="14.0dip" android:paddingHorizontal="10.0dip" />
+</LinearLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/rootView" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout android:layout_gravity="center" android:id="@id/displayView" android:background="@drawable/b12" android:visibility="visible" android:layout_width="20.0dip" android:layout_height="20.0dip">
+        <com.netease.cloudmusic.ui.PlayerPageImageView android:id="@id/iv_default" android:visibility="visible" android:layout_width="20.0dip" android:layout_height="20.0dip" android:src="@drawable/gfx" />
+        <com.netease.cloudmusic.ui.PlayerPageImageView android:id="@id/iv_gained" android:visibility="gone" android:layout_width="20.0dip" android:layout_height="20.0dip" android:src="@drawable/gfw" />
+    </FrameLayout>
+    <com.netease.cloudmusic.ui.PlayerPageLinearLayout android:layout_gravity="center" android:orientation="horizontal" android:id="@id/countDownView" android:background="@drawable/b11" android:visibility="gone" android:layout_width="60.0dip" android:layout_height="20.0dip">
+        <com.netease.cloudmusic.ui.PlayerPageImageView android:layout_gravity="center" android:id="@id/mianIv" android:layout_width="20.0dip" android:layout_height="20.0dip" android:src="@drawable/ftf" />
+        <com.netease.cloudmusic.ui.PlayerPageTextView android:layout_gravity="center_vertical" android:background="#55ffffff" android:layout_width="0.6dip" android:layout_height="10.0dip" />
+        <com.netease.cloudmusic.ui.PlayerPageTextView android:textSize="10.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@id/countDownTv" android:layout_width="40.0dip" android:layout_height="20.0dip" />
+    </com.netease.cloudmusic.ui.PlayerPageLinearLayout>
+</FrameLayout>

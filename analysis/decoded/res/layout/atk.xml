@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="15.0sp" android:textColor="@color/b1e" android:gravity="center_vertical" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="40.0dip" android:text="@string/fla" />
+        <com.netease.play.ui.CustomButton android:textSize="12.0sp" android:textColor="@color/b1n" android:gravity="center_vertical" android:layout_gravity="center|right" android:id="@id/info" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="30.0dip" android:text="@string/flb" android:drawableLeft="@drawable/emy" android:drawablePadding="4.0dip" app:gg="0x00FFFFFF" app:aix="@color/b1h" app:aj0="@color/b1h" />
+    </FrameLayout>
+    <View android:id="@id/line" android:background="@color/b1d" android:layout_width="fill_parent" android:layout_height="1.0px" />
+    <com.netease.play.ui.LiveRecyclerView android:id="@id/giftHistoryRecyclerView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</LinearLayout>

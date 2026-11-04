@@ -1,0 +1,68 @@
+{
+  "enable": true,
+  "enable_debug_config": true,
+  "enable_log": true,
+  "scanner": {
+    "enable": true,
+    "disable_when_legacy_on": true,
+    "scan_interval": 28800000,
+    "access_recorder": {
+      "enable": true,
+      "cpp_hook_enable": true,
+      "cpp_hook_report_interval": 600000,
+      "cpp_hook_work_interval": 1
+    },
+    "integrated_scanner_config": {
+      "scan_config": {
+        "exclude_directories": [
+          "/private/files/nedisk",
+          "/private/databases",
+          "/private/shared_prefs",
+          "/private/files/mmkv"
+        ],
+        "force_unit_items": [
+          "/private/app_webview",
+          "/private/app_textures",
+          "/private/.agent-logs",
+          "/private/files/encryptStatistic",
+          "/private/files/Statistic",
+          "/private/files/NetworkCache",
+          "/private/cache/Crash Reports",
+          "/external/files/nblog",
+          "/external/files/qCrash",
+          "/external/files/xcrash",
+          "/private/files/FZYaSongS-L-GB.zip_unzipdir",
+          "/private/files/FZZJ-MQSXTJW.zip_unzipdir",
+          "/private/files/HYYaKuHei.zip_unzipdir",
+          "/private/files/MiSans-Bold.zip_unzipdir",
+          "/private/files/MiSans-Demibold.zip_unzipdir",
+          "/private/files/MiSans-Light.zip_unzipdir",
+          "/private/files/MiSans-Semibold.zip_unzipdir",
+          "/private/files/Outfit.zip_unzipdir"
+        ],
+        "force_unit_parent_dirs": [
+          "/private/files/bundle-0.70",
+          "/private/files/bundle",
+          "/private/files/offline"
+        ]
+      }
+    }
+  },
+  "cleaner": {
+    "enable": true
+  },
+  "scheduler": {
+    "enable": true,
+    "interval": 900000,
+    "interval_scale_of_app_back": 4,
+    "interval_max_of_app_back": 3600000
+  },
+  "sample_rate": {
+    "nedisk": 1,
+    "nedisk_file_access_hook_install": 1.0,
+    "nedisk_file_access_hook": 0.1,
+    "nedisk_file_access_hook_enable": 0,
+    "nedisk_scan_result": 1.0,
+    "nedisk_scheduler_score": 0.1
+  }
+}

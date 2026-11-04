@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/arrow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="30.0dip" android:src="@drawable/aes" app:a5z="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiy" android:layout_gravity="center_horizontal" android:id="@id/bubble_tv" android:background="@drawable/nz" android:paddingLeft="@dimen/s1" android:paddingTop="12.0dip" android:paddingRight="36.0dip" android:paddingBottom="12.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/s1" android:layout_marginRight="@dimen/s2" android:layout_marginBottom="10.0dip" android:lineSpacingExtra="5.0sp" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a68="@id/arrow" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/close_iv" android:padding="14.0dip" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginTop="2.0dip" android:src="@drawable/fg4" app:a63="@id/bubble_tv" app:a69="@id/bubble_tv" app:aev="@color/a2f" />
+</androidx.constraintlayout.widget.ConstraintLayout>

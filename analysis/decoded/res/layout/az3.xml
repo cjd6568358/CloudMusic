@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.PlayerLiveExpendBubbleView android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/container" android:clipChildren="false" android:layout_width="wrap_content" android:layout_height="30.0dip" android:layout_alignParentLeft="true" android:layout_centerVertical="true">
+        <View android:id="@id/liveBg" android:background="@drawable/bnq" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:layout_marginRight="4.0dip" />
+        <ImageView android:id="@id/closeAnimator" android:padding="8.0dip" android:visibility="gone" android:clickable="true" android:layout_width="@dimen/aja" android:layout_height="@dimen/aja" android:layout_marginTop="2.0dip" android:layout_marginRight="4.0dip" android:src="@drawable/ged" android:scaleType="centerCrop" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+        <ImageView android:id="@id/glow" android:layout_width="48.0dip" android:layout_height="48.0dip" android:layout_centerInParent="true" />
+        <com.netease.cloudmusic.ui.AvatarImage android:id="@id/avatar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" app:cv="style8" />
+        <com.netease.cloudmusic.ui.round.RoundedFrameLayout android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_centerInParent="true" app:jw="15.0dip">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/dynamicImage" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </com.netease.cloudmusic.ui.round.RoundedFrameLayout>
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/avatarStaticPendant" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignLeft="@id/avatar" android:layout_alignTop="@id/avatar" android:layout_alignRight="@id/avatar" android:layout_alignBottom="@id/avatar" />
+        <TextView android:textSize="12.0sp" android:textColor="#ffffffff" android:ellipsize="marquee" android:gravity="center" android:id="@id/newVisionContent" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="2.0dip" android:layout_marginTop="1.0dip" android:layout_marginRight="2.0dip" android:singleLine="true" android:layout_toLeftOf="@id/closeAnimator" android:layout_toRightOf="@id/avatar" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/liveicon" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="40.0dip" />
+    </RelativeLayout>
+</com.netease.cloudmusic.ui.PlayerLiveExpendBubbleView>

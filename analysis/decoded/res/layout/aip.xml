@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/rl_switch_ac" android:paddingLeft="@dimen/pg" android:paddingRight="@dimen/pg" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginBottom="@dimen/p4"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <include android:id="@id/v_divier_header" layout="@layout/aj9" />
+    <TextView android:textSize="13.0dip" android:textColor="@color/wk" android:id="@id/tv_sa_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/on" android:text="@string/byd" />
+    <TextView android:textSize="13.0dip" android:textColor="@color/wk" android:ellipsize="end" android:gravity="right" android:id="@id/tv_current_account" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/on" android:maxLines="1" android:layout_toRightOf="@id/tv_sa_title" />
+    <TextView android:textSize="12.0dip" android:textColor="@color/wz" android:gravity="center_vertical" android:id="@id/tv_switch_account_arrow" android:paddingLeft="5.0dip" android:paddingTop="5.0dip" android:paddingBottom="5.0dip" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/c0f" android:drawableRight="@drawable/dmk" android:drawablePadding="3.0dip" android:layout_below="@id/tv_sa_title" android:layout_alignParentRight="true" android:drawableTint="@color/wz" />
+    <TextView android:textSize="12.0dip" android:textColor="@color/wo" android:gravity="right" android:id="@id/tv_switch_account_tips" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:layout_marginRight="6.0dip" android:layout_toLeftOf="@id/tv_switch_account_arrow" android:layout_below="@id/tv_sa_title" />
+</RelativeLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:background="@android:color/transparent" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.DialogRoundedLinearLayout android:layout_gravity="center_horizontal" android:orientation="vertical" android:background="@drawable/bul" android:layout_width="288.0dip" android:layout_height="wrap_content" app:jw="16.0dip">
+        <ImageView android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/h5q" android:scaleType="fitXY" />
+        <TextView android:textSize="14.0sp" android:textColor="@color/aix" android:layout_gravity="center_horizontal" android:id="@id/youthModeTip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="15.0dip" android:layout_marginRight="20.0dip" android:text="@string/jhj" android:lineSpacingMultiplier="1.4" app:adz="false" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="16.0sp" android:textColor="@color/g3" android:gravity="center" android:id="@id/iknow" android:layout_width="fill_parent" android:layout_height="39.0dip" android:layout_marginLeft="20.0dip" android:layout_marginTop="20.0dip" android:layout_marginRight="20.0dip" android:layout_marginBottom="20.0dip" android:text="@string/e4k" app:gl="useTheme" />
+        <TextView android:textSize="13.0sp" android:textColor="@color/t_link" android:gravity="center_horizontal" android:layout_gravity="center_horizontal" android:id="@id/closeyouth" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="24.0dip" android:text="@string/jhw" android:drawableRight="@drawable/d2g" android:drawablePadding="2.0dip" />
+    </com.netease.cloudmusic.ui.DialogRoundedLinearLayout>
+</ScrollView>

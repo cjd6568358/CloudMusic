@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="@dimen/ac7" android:layout_height="@dimen/ac6"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.musicgift.widgets.MusicJarLayerView android:id="@id/iv_icon" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5w="packed" app:a5z="parent" app:a62="@id/tv_appear" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/b12" android:id="@id/tv_appear" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/est" android:layout_marginStart="4.0dip" app:a5f="@id/iv_icon" app:a60="@id/iv_icon" app:a63="parent" app:a69="@id/iv_icon" />
+</androidx.constraintlayout.widget.ConstraintLayout>

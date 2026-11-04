@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tool="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/rl_inside_fixed" android:background="@drawable/a7z" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip">
+        <include layout="@layout/aj1" />
+    </RelativeLayout>
+    <TextView android:textSize="12.0dip" android:textColor="@color/wo" android:id="@id/tv_no_bank" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:text="未搜索到银行，请换一个银行或卡号添加" android:layout_below="@id/rl_inside_fixed" android:layout_centerHorizontal="true" />
+    <LinearLayout android:orientation="vertical" android:background="@color/wt" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:paddingBottom="12.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/rl_inside_fixed">
+        <LinearLayout android:orientation="vertical" android:id="@id/rl_cards_recommend" android:background="@drawable/a7y" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="12.0dip">
+            <RelativeLayout android:visibility="visible" android:layout_width="fill_parent" android:layout_height="45.0dip" android:contentDescription="epaysdk_cell_bg|ColorDrawable">
+                <TextView android:textSize="14.0dip" android:textColor="@color/wk" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:text="@string/bvh" android:layout_centerVertical="true" />
+                <ImageView android:id="@id/iv_cards_next" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="16.0dip" android:src="@drawable/d0t" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+                <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:id="@id/tv_cards_num" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toLeftOf="@id/iv_cards_next" android:layout_centerVertical="true" />
+                <RelativeLayout android:id="@id/rl_cards_icons" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="6.0dip" android:layout_toLeftOf="@id/tv_cards_num" android:layout_centerVertical="true">
+                    <com.netease.epay.sdk.base.view.NetLoadImageView android:id="@id/iv_item_cards_icon3" android:background="@drawable/a88" android:visibility="gone" android:layout_width="16.0dip" android:layout_height="16.0dip" android:layout_marginLeft="18.0dip" android:src="@drawable/d04" />
+                    <com.netease.epay.sdk.base.view.NetLoadImageView android:id="@id/iv_item_cards_icon2" android:background="@drawable/a88" android:visibility="gone" android:layout_width="16.0dip" android:layout_height="16.0dip" android:layout_marginLeft="9.0dip" android:src="@drawable/d04" />
+                    <com.netease.epay.sdk.base.view.NetLoadImageView android:id="@id/iv_item_cards_icon1" android:background="@drawable/a88" android:visibility="gone" android:layout_width="16.0dip" android:layout_height="16.0dip" android:src="@drawable/d04" />
+                </RelativeLayout>
+            </RelativeLayout>
+            <View android:id="@id/v_divier_header" android:visibility="gone" style="@style/a57" /> /> <include android:id="@id/ll_cards_item" android:visibility="gone" layout="@layout/aia" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

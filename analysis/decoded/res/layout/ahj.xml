@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.FragmentTitleBar android:id="@id/ftb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tt="false" app:tu="true" app:v2="请输入支付密码" />
+    <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:ellipsize="end" android:id="@id/tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/pi" android:layout_marginTop="14.0dip" android:layout_marginBottom="12.0dip" android:text="为保障您的资金安全，请验证您的支付密码" android:maxLines="1" android:layout_below="@id/ftb" />
+    <include layout="@layout/aiy" />
+    <com.netease.epay.sdk.base.view.gridpwd.GridPasswordView android:id="@id/et_payshorty_pwd" android:layout_width="fill_parent" android:layout_height="@dimen/p5" android:layout_marginLeft="@dimen/pi" android:layout_marginRight="@dimen/pi" app:ta="true" app:tl="@color/wx" app:uz="12.0dip" />
+    <TextView android:textSize="12.0dip" android:textColor="@color/wz" android:layout_gravity="right" android:id="@id/tvForgetPwd" android:paddingLeft="9.0dip" android:paddingTop="9.0dip" android:paddingBottom="9.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/pi" android:text="忘记密码?" />
+</LinearLayout>

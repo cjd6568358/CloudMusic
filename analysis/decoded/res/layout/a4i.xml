@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/dialog_guide_follow_0" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="180.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:background="@drawable/a1g" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginLeft="15.0dip" android:layout_marginRight="15.0dip" android:layout_marginBottom="30.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent">
+        <ImageView android:id="@id/closeBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:layout_marginRight="15.0dip" android:src="@drawable/ey_" android:layout_alignParentRight="true" />
+        <TextView android:textSize="14.0sp" android:textColor="@color/a6g" android:gravity="center" android:id="@id/anchorSign" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="30.0dip" android:layout_marginRight="30.0dip" android:layout_below="@id/closeBtn" android:layout_centerHorizontal="true" />
+        <com.netease.play.livepage.LiveRoomFollowButton android:gravity="center" android:id="@id/followBtn" android:layout_width="330.0dip" android:layout_height="40.0dip" android:layout_marginBottom="28.0dip" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" app:xq="18.0sp" app:ayu="40.0dip" app:az0="330.0dip" />
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

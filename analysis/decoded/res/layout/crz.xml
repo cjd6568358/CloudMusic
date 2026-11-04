@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/video_player_voice_root" android:focusable="false" android:clickable="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/video_player_voice_bg" android:background="@color/abs" android:layout_width="wrap_content" android:layout_height="36.0dip" android:layout_marginTop="20.0dip" app:jw="18.0dip" app:y4="true" app:a5l="parent" app:a65="parent" app:a69="parent">
+        <ImageView android:id="@id/video_player_voice_icon" android:layout_width="@dimen/auw" android:layout_height="@dimen/auv" />
+        <TextView android:textSize="12.0sp" android:textColor="#ffffffff" android:id="@id/video_player_voice_tip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="16.0dip" android:text="@string/eig" />
+        <ProgressBar android:id="@id/video_player_voice_progress" android:layout_width="84.0dip" android:layout_height="3.0dip" android:layout_marginRight="16.0dip" android:progress="30" style="@style/l8" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    <LinearLayout android:orientation="horizontal" android:id="@id/timeContainer" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent">
+        <TextView android:textSize="24.0sp" android:textColor="@color/b12" android:id="@id/currentTime" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <TextView android:textSize="15.0sp" android:textColor="#33ffffff" android:gravity="center" android:layout_width="28.0dip" android:layout_height="fill_parent" android:text="/" />
+        <TextView android:textSize="24.0sp" android:textColor="#33ffffff" android:id="@id/duration" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

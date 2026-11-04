@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="40.0dip" android:layout_height="40.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/promotionImage" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="fitXY" app:ahy="@drawable/g9k" app:ahz="fitXY" />
+    <TextView android:textSize="9.0sp" android:ellipsize="marquee" android:gravity="center" android:layout_gravity="bottom|center" android:id="@id/firstLineText" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="11.0dip" android:singleLine="true" />
+    <TextView android:textSize="9.0sp" android:gravity="center" android:layout_gravity="bottom|center" android:id="@id/secondLineText" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="2.0dip" android:singleLine="true" />
+</FrameLayout>

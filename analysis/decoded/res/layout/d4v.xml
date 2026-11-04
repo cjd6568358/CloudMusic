@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:orientation="vertical" android:paddingLeft="16.0dip" android:paddingTop="6.0dip" android:paddingRight="16.0dip" android:paddingBottom="16.0dip" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView android:layout_gravity="top" android:layout_width="fill_parent" android:layout_height="wrap_content" app:go="#ffffffff" app:gp="16.0dip" app:gq="6.0dip" app:gs="16.0dip" app:gu="false" app:lf="17.0dip" app:lg="17.0dip">
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <TextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="#ff000000" android:id="@id/tvTitle" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="18.0dip" android:layout_marginBottom="8.0dip" android:includeFontPadding="false" />
+            <TextView android:textSize="14.0sp" android:textColor="#ff333333" android:id="@id/tvContent" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="18.0dip" android:lineHeight="21.0sp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

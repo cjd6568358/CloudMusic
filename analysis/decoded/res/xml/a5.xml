@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Transition app:kz="@id/pic_mlog_detail_scene_end" app:l0="@id/pic_mlog_detail_scene_start" app:sc="200" app:acj="easeInOut">
+        <KeyFrameSet>
+            <KeyAttribute android:alpha="1.0" app:y8="25" app:aco="@id/picMlogContentView" />
+            <KeyAttribute android:alpha="0.0" app:y8="25" app:aco="@id/pluginLayer" />
+            <KeyPosition app:y8="99" app:a42="pathRelative" app:aco="@id/pluginLayer" app:ah9="0.0" />
+        </KeyFrameSet>
+    </Transition>
+    <ConstraintSet android:id="@id/pic_mlog_detail_scene_start">
+        <Constraint android:id="@id/recyclerView" android:layout_width="fill_parent" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" app:a6_="0.2" />
+        <Constraint android:id="@id/videoContainer" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/recyclerView" app:a5z="@id/recyclerView" app:a63="@id/recyclerView" app:a69="@id/recyclerView" />
+        <Constraint android:id="@id/pluginLayer" android:visibility="visible" android:layout_width="0.0dip" android:layout_height="0.0dip" android:alpha="1.0" app:a5f="parent" app:a5l="parent" app:a65="parent" />
+        <Constraint android:id="@id/picMlogContentView" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="0.0dip" android:alpha="0.0" app:a5f="parent" app:a68="@id/recyclerView" />
+    </ConstraintSet>
+    <ConstraintSet android:id="@id/pic_mlog_detail_scene_end">
+        <Constraint android:id="@id/recyclerView" android:layout_width="fill_parent" app:a5z="parent" app:a63="parent" app:a69="parent" />
+        <Constraint android:id="@id/videoContainer" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/recyclerView" app:a5z="@id/recyclerView" app:a63="@id/recyclerView" app:a69="@id/recyclerView" />
+        <Constraint android:id="@id/pluginLayer" android:visibility="invisible" android:layout_width="0.0dip" android:layout_height="0.0dip" android:alpha="0.0" app:a5l="parent" app:a65="parent" app:a68="parent" />
+        <Constraint android:id="@id/picMlogContentView" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="wrap_content" android:alpha="1.0" app:a68="@id/recyclerView" />
+    </ConstraintSet>
+</MotionScene>

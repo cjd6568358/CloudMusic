@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/container" android:tag="layout-land/dialog_video_more_op2_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center" android:layout_gravity="bottom" android:orientation="horizontal" android:id="@id/moreContainer" android:background="@drawable/wc" android:layout_width="fill_parent" android:layout_height="130.0dip">
+        <TextView android:textSize="11.0sp" android:textColor="@color/b1t" android:gravity="center" android:id="@id/luckybacButton" android:tag="binding_1" android:layout_width="50.0dip" android:layout_height="70.0dip" android:text="@string/dzc" android:includeFontPadding="false" android:drawablePadding="6.0dip" android:layout_marginEnd="25.0dip" />
+        <TextView android:textSize="11.0sp" android:textColor="@color/b1t" android:gravity="center" android:id="@id/videoRtc" android:tag="binding_2" android:layout_width="50.0dip" android:layout_height="70.0dip" android:text="@string/bud" android:includeFontPadding="false" android:drawablePadding="6.0dip" android:layout_marginEnd="25.0dip" />
+        <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/lotteryContainer" android:visibility="gone" android:layout_width="50.0dip" android:layout_height="fill_parent" android:layout_marginEnd="25.0dip">
+            <TextView android:textSize="11.0sp" android:textColor="@color/b1t" android:gravity="center" android:layout_gravity="center" android:id="@id/lottery" android:tag="binding_3" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/dpy" android:includeFontPadding="false" android:drawablePadding="6.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" />
+            <ImageView android:id="@id/lotteryHint" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:src="@drawable/epb" app:a5z="parent" app:a63="parent" app:a69="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/playMusicContainer" android:layout_width="50.0dip" android:layout_height="70.0dip" android:layout_marginEnd="25.0dip">
+            <com.netease.play.ui.RotateFrameLayout android:id="@id/playDisc" android:background="@drawable/gfb" android:layout_width="50.0dip" android:layout_height="50.0dip">
+                <com.facebook.drawee.view.SimpleDraweeView android:layout_gravity="center" android:id="@id/playDiscImage" android:layout_width="30.0dip" android:layout_height="30.0dip" app:aln="true" />
+            </com.netease.play.ui.RotateFrameLayout>
+            <TextView android:textSize="11.0sp" android:textColor="@color/b1t" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:text="@string/fhf" android:includeFontPadding="false" />
+        </LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/msgEntryContainer" android:layout_width="50.0dip" android:layout_height="70.0dip" android:layout_marginEnd="25.0dip">
+            <TextView android:textSize="11.0sp" android:textColor="@color/b1t" android:gravity="center" android:layout_gravity="center" android:id="@id/msgEntry" android:tag="binding_4" android:layout_width="wrap_content" android:layout_height="70.0dip" android:text="@string/bub" android:includeFontPadding="false" android:drawablePadding="6.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" />
+            <Space android:id="@id/placeholder" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:layout_marginEnd="2.0dip" app:a63="@id/msgEntry" app:a69="@id/msgEntry" />
+            <View android:id="@id/msg_entry_reddot" android:background="@drawable/c0h" android:visibility="gone" android:layout_width="9.0dip" android:layout_height="9.0dip" app:a62="@id/placeholder" app:a68="@id/placeholder" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView android:textSize="11.0sp" android:textColor="@color/b1t" android:gravity="center" android:id="@id/cdnButton" android:tag="binding_5" android:layout_width="50.0dip" android:layout_height="70.0dip" android:text="@string/afa" android:includeFontPadding="false" android:drawablePadding="6.0dip" android:layout_marginEnd="25.0dip" />
+        <TextView android:textSize="11.0sp" android:textColor="@color/b1t" android:gravity="center" android:id="@id/shareButton" android:tag="binding_6" android:visibility="gone" android:layout_width="50.0dip" android:layout_height="70.0dip" android:text="@string/buc" android:includeFontPadding="false" android:drawablePadding="6.0dip" android:layout_marginEnd="25.0dip" />
+        <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/flGamePromote" android:visibility="gone" android:layout_width="50.0dip" android:layout_height="70.0dip" android:layout_marginEnd="25.0dip">
+            <FrameLayout android:background="@drawable/rd" android:layout_width="50.0dip" android:layout_height="50.0dip">
+                <com.netease.play.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/dvGameLogo" android:layout_width="22.0dip" android:layout_height="22.0dip" app:am0="6.0dip" />
+            </FrameLayout>
+            <com.netease.play.ui.MarqueTextView android:textSize="11.0sp" android:textColor="@color/b1t" android:ellipsize="marquee" android:id="@id/tvGameName" android:focusable="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:singleLine="true" android:marqueeRepeatLimit="marquee_forever" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

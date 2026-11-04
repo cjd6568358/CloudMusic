@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/rootViewBg" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <view android:id="@id/wave" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" class="com.netease.cloudmusic.ui.WaveView" />
+    <View android:id="@id/topGradientBackground" android:background="@drawable/b5u" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/image" android:visibility="gone" android:layout_width="360.0dip" android:layout_height="360.0dip" android:layout_marginTop="@dimen/i4" android:layout_centerHorizontal="true" app:ahy="@drawable/gsj" />
+    <ImageView android:id="@id/logo" android:visibility="gone" android:layout_width="72.0dip" android:layout_height="72.0dip" android:layout_marginTop="@dimen/i4" android:src="@drawable/fnt" android:scaleType="centerInside" android:layout_centerHorizontal="true" />
+    <ImageView android:id="@id/imageVip" android:visibility="gone" android:layout_width="277.0dip" android:layout_height="138.5dip" android:layout_centerHorizontal="true" />
+    <FrameLayout android:id="@id/hotspot" android:background="@color/ay_" android:layout_width="30.0dip" android:layout_height="25.0dip" />
+    <View android:id="@id/mask" android:background="#4d000000" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <RelativeLayout android:id="@id/loginContentContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/loginMarketing" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" android:layout_above="@id/splitBaseLine" />
+        <View android:id="@id/splitBaseLine" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_centerHorizontal="true" android:layout_centerVertical="true" />
+        <com.netease.cloudmusic.ui.SeparatorSupportFlowLayout android:id="@id/agreementContainer" android:paddingTop="20.0dip" android:paddingBottom="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="-21.0dip" android:layout_marginRight="20.0dip" android:layout_marginBottom="39.0dip" android:layout_above="@id/externalLogin" android:paddingVertical="20.0dip" app:ayr="2.0dip">
+            <RelativeLayout android:id="@id/checkBoxContainer" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatCheckBox android:id="@id/agreeCheckbox" android:layout_width="13.0dip" android:layout_height="13.0dip" android:layout_marginTop="2.3299866dip" android:checked="false" android:layout_marginEnd="1.0dip" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="#66ffffff" android:gravity="center_horizontal" android:id="@id/agreement" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toRightOf="@id/agreeCheckbox" />
+            </RelativeLayout>
+        </com.netease.cloudmusic.ui.SeparatorSupportFlowLayout>
+        <LinearLayout android:id="@id/externalLogin" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="24.0dip" android:layout_above="@id/loginProblemTextView" android:layout_centerHorizontal="true">
+            <FrameLayout android:id="@id/wxContainer" android:visibility="gone" android:layout_width="56.0dip" android:layout_height="64.0dip">
+                <ImageView android:layout_gravity="bottom|center" android:id="@id/wx" android:background="@drawable/ajz" android:layout_width="wrap_content" android:layout_height="wrap_content" android:contentDescription="wx" />
+            </FrameLayout>
+            <FrameLayout android:layout_width="56.0dip" android:layout_height="64.0dip">
+                <ImageView android:layout_gravity="bottom|center" android:id="@id/qq" android:background="@drawable/ajz" android:layout_width="wrap_content" android:layout_height="wrap_content" android:contentDescription="qq" />
+            </FrameLayout>
+            <FrameLayout android:layout_width="56.0dip" android:layout_height="64.0dip">
+                <ImageView android:layout_gravity="bottom|center" android:id="@id/wb" android:background="@drawable/ajz" android:layout_width="wrap_content" android:layout_height="wrap_content" android:contentDescription="wb" />
+            </FrameLayout>
+            <FrameLayout android:layout_width="56.0dip" android:layout_height="64.0dip">
+                <ImageView android:layout_gravity="bottom|center" android:id="@id/mail" android:background="@drawable/ajz" android:layout_width="wrap_content" android:layout_height="wrap_content" android:contentDescription="mail" />
+            </FrameLayout>
+        </LinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="#99ffffff" android:id="@id/loginProblemTextView" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="36.0dip" android:text="@string/dmn" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeLine android:id="@id/login_line" android:visibility="gone" android:layout_width="1.0dip" android:layout_height="10.0dip" android:layout_marginBottom="39.0dip" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="#99ffffff" android:id="@id/thirdLoginTextView" android:paddingTop="20.0dip" android:paddingBottom="20.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="16.0dip" android:text="@string/dmv" android:includeFontPadding="true" android:layout_alignParentBottom="true" android:paddingStart="8.0dip" android:paddingEnd="8.0dip" android:layout_toEndOf="@id/login_line" />
+        <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/newLoginContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="48.0dip" android:layout_marginRight="48.0dip" android:layout_marginBottom="21.0dip" android:layout_above="@id/agreementContainer">
+            <com.netease.cloudmusic.module.login.v3.PhoneNumEditView android:id="@id/phoneNumberEdit" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="20.0dip" />
+            <com.netease.cloudmusic.module.login.v3.NewLoginBtn android:textSize="@dimen/qo" android:gravity="center" android:id="@id/newLoginBtn" android:layout_width="fill_parent" android:layout_height="46.0dip" android:text="登录" />
+        </LinearLayout>
+        <com.netease.cloudmusic.module.login.v3.NewOnePassTipView android:id="@id/onePassTip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="8.0dip" android:layout_above="@id/newLoginContainer" android:layout_centerHorizontal="true" android:elevation="10.0dip" />
+    </RelativeLayout>
+    <RelativeLayout android:id="@id/loginToolbar" android:layout_width="fill_parent" android:layout_height="44.0dip" android:layout_marginTop="44.0dip" android:layout_alignParentTop="true" android:layout_alignParentRight="true">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textColor="#b2000000" android:id="@id/trialT" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="18.0dip" android:text="@string/iu9" android:layout_centerVertical="true" android:layout_alignParentEnd="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="#cc283248" android:id="@id/passwordLogin" android:background="@drawable/ajx" android:paddingLeft="12.0dip" android:paddingTop="6.5dip" android:paddingRight="12.0dip" android:paddingBottom="6.5dip" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="18.0dip" android:text="密码登录" android:layout_centerVertical="true" android:layout_alignParentEnd="true" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/newLoginLogo" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/e46" android:layout_centerInParent="true" />
+    </RelativeLayout>
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="#40283248" android:id="@id/captchaTip" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="20.0dip" android:text="未注册手机号登录后将自动创建账号" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" />
+</RelativeLayout>

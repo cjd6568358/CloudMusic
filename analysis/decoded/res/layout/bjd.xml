@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge layout_height="match_parent" layout_width="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/anchorProgress" android:tag="layout/layout_anchor_avatar_0" android:layout_width="38.0dip" android:layout_height="38.0dip" android:layout_marginTop="10.0dip" android:scaleType="fitXY" android:layout_marginStart="10.0dip" app:a5z="parent" app:a69="parent" />
+    <TextView android:textSize="13.0sp" android:textColor="@color/b12" android:gravity="end|center" android:id="@id/anonymousMode" android:tag="layout/layout_anchor_avatar_1" android:layout_width="108.0dip" android:layout_height="30.0dip" android:text="@string/tu" android:paddingEnd="6.0dip" app:a5f="@id/anchorAvatar" app:a5z="@id/anchorAvatar" app:a69="@id/anchorAvatar" />
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/anchorAvatar" android:tag="layout/layout_anchor_avatar_2" android:layout_width="30.0dip" android:layout_height="30.0dip" app:a5f="@id/anchorProgress" app:a5z="@id/anchorProgress" app:a63="@id/anchorProgress" app:a69="@id/anchorProgress" app:adr="false" app:ahy="@drawable/fpe" app:ai4="style7" />
+</merge>

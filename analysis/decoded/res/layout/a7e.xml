@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:tag="layout/dialog_permission_rationale_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content" android:src="@drawable/fpn" android:scaleType="centerCrop" />
+    <TextView android:textSize="16.0sp" android:textColor="#ff333333" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:text="@string/cp" app:adz="false" />
+    <TextView android:textSize="14.0sp" android:textColor="#ff999999" android:layout_gravity="center_horizontal" android:id="@id/content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="20.0dip" android:layout_marginRight="20.0dip" android:text="@string/ca" app:adz="false" />
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="30.0dip" android:layout_marginRight="20.0dip" android:layout_marginBottom="15.0dip">
+        <com.netease.play.ui.CustomButton android:textSize="16.0sp" android:textColor="@color/anm" android:gravity="center" android:id="@id/rejectAndExit" android:paddingTop="11.669983dip" android:paddingBottom="11.329987dip" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="@string/hc4" android:layout_weight="1.0" app:gg="0x00010103" />
+        <com.netease.play.ui.CustomButton android:textSize="16.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@id/grant" android:paddingTop="11.669983dip" android:paddingBottom="11.329987dip" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="10.5dip" android:text="@string/ch" android:layout_weight="1.0" app:gg="0x00020304" />
+    </LinearLayout>
+</LinearLayout>

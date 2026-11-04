@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/cesContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/cesDanmakuContainer" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5f="parent" app:a5z="parent" app:a62="@id/cesIvFullScreen" app:a69="parent" />
+    <TextView android:textSize="15.0sp" android:textColor="@color/b1h" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/cesTvEntrance" android:layout_width="0.0dip" android:layout_height="0.0dip" android:text="@string/ed7" android:singleLine="true" app:a5f="parent" app:a5z="parent" app:a62="@id/cesIvFullScreen" app:a69="parent" />
+    <com.airbnb.lottie.LottieAnimationView android:id="@id/cesIvFullScreen" android:layout_width="28.0dip" android:layout_height="28.0dip" app:a5f="parent" app:a63="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

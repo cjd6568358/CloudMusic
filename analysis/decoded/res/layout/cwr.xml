@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:tag="layout/music_song_party_fragment_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.appbar.AppBarLayout android:id="@id/songPartyTopContainer" android:background="@android:color/transparent" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip">
+        <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout android:textSize="14.0sp" android:id="@id/songPartyTab" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="44.0dip" android:layout_marginStart="16.0dip" app:nr="click" app:asp="@drawable/lw" app:ast="@color/nl" app:asu="true" app:asv="stretch" app:asw="28.0dip" app:at6="76.0dip" app:at7="fixed" app:atc="@color/b1c" app:ath="@color/b12" app:atj="true" app:atl="@color/ho" app:avq="false" />
+            <com.netease.cloudmusic.ui.NeteaseMusicToolbar android:id="@id/toolbar" android:tag="binding_1" android:background="?kl" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/art" app:a76="scroll|enterAlways" app:aii="@style/b6">
+                <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout2 android:layout_gravity="center" android:id="@id/songPartyTabInToolbar" android:layout_width="wrap_content" android:layout_height="@dimen/art" app:nr="moveBig" app:at6="62.0dip" app:at7="scrollable" app:atk="@style/lv" app:atp="false" app:avq="false" />
+            </com.netease.cloudmusic.ui.NeteaseMusicToolbar>
+        </FrameLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+    <com.netease.play.ui.NeteaseMusicViewPager android:id="@id/songPartyVp" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="@string/uo" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/invocation_bg_iv" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="48.0dip" android:layout_marginRight="48.0dip" android:layout_marginHorizontal="48.0dip" app:ae="fitCenter" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="20.0sp" android:textStyle="bold" android:textColor="@color/g3" android:ellipsize="end" android:id="@id/invocation_tv_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" app:a5f="@id/invocation_bg_iv" app:a5z="@id/invocation_bg_iv" app:a63="@id/invocation_bg_iv" app:a69="@id/invocation_bg_iv" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="10.0sp" android:textColor="@color/g3" android:ellipsize="end" android:gravity="center" android:layout_gravity="center" android:id="@id/invocation_tv_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:maxLines="1" app:a5z="@id/invocation_bg_iv" app:a63="@id/invocation_bg_iv" app:a68="@id/invocation_tv_1" />
+</androidx.constraintlayout.widget.ConstraintLayout>

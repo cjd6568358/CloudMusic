@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:scrollbars="none" android:fadingEdgeLength="0.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="@dimen/ao6" android:layout_marginBottom="0.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/lockCtrlItem" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/dm6" android:layout_centerVertical="true" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/linectrlSwitch" style="@style/a9c" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="#ff888888" android:id="@id/lockScreenText" android:paddingLeft="@dimen/aof" android:paddingRight="@dimen/aog" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="13.0dip" android:text="@string/dm7" />
+        <LinearLayout android:orientation="horizontal" android:id="@id/LockSwitch" android:paddingLeft="@dimen/ao7" android:paddingRight="@dimen/ao8" android:layout_width="fill_parent" android:layout_height="@dimen/xd" android:layout_marginTop="20.0dip">
+            <LinearLayout android:gravity="center_horizontal" android:id="@id/lockScreenCloud" android:background="@drawable/gq_" android:paddingTop="10.0dip" android:clickable="true" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+                <TextView android:textSize="12.0sp" android:gravity="bottom|center" android:id="@id/cloudText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="5.0dip" android:text="@string/ar7" android:drawableTop="@drawable/gqa" />
+            </LinearLayout>
+            <View android:layout_width="20.0dip" android:layout_height="fill_parent" />
+            <LinearLayout android:gravity="center_horizontal" android:id="@id/lockScreenSystem" android:background="@drawable/gq_" android:paddingTop="10.0dip" android:clickable="true" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+                <TextView android:textSize="12.0sp" android:gravity="bottom|center" android:id="@id/systemText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="5.0dip" android:text="@string/iir" android:drawableTop="@drawable/gqb" />
+            </LinearLayout>
+        </LinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiz" android:id="@id/specialHint" android:paddingLeft="@dimen/aof" android:paddingRight="@dimen/aog" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:text="@string/e4w" />
+    </LinearLayout>
+</ScrollView>

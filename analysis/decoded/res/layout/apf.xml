@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.livepage.ui.LivePagerSwipeLayout android:id="@id/root" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <View android:id="@id/mask" android:background="@color/e6" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <View android:layout_gravity="bottom" android:id="@id/bottomMask" android:background="@drawable/wa" android:layout_width="fill_parent" android:layout_height="140.0dip" android:layout_alignParentBottom="true" />
+    <View android:id="@id/topMask" android:background="@drawable/c74" android:layout_width="fill_parent" android:layout_height="140.0dip" android:layout_alignParentTop="true" />
+    <FrameLayout android:id="@id/liveRoomRoot" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <FrameLayout android:id="@id/liveRoomRootForeground" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</com.netease.play.livepage.ui.LivePagerSwipeLayout>

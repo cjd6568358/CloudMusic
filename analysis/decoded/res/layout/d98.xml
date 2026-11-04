@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:orientation="vertical" android:id="@id/headerContainer" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout style="@style/a2z">
+        <ViewStub android:id="@id/billboardCoverContainerViewStub" android:layout="@layout/e0u" android:layout_width="fill_parent" android:layout_height="@dimen/aia" />
+        <ViewStub android:id="@id/officialPlHeaderContentViewStub" android:layout="@layout/e0v" android:layout_width="fill_parent" android:layout_height="@dimen/aib" />
+        <ViewStub android:id="@id/playlistCoverContainerViewStub" android:layout="@layout/e0x" android:layout_width="@dimen/ai3" android:layout_height="@dimen/ai6" />
+        <ViewStub android:id="@id/playlistCreatorContainerViewStub" android:layout="@layout/e0z" android:layout_width="0.0dip" android:layout_height="@dimen/ako" android:layout_weight="1.0" android:layout_marginStart="8.0dip" />
+    </LinearLayout>
+    <ViewStub android:id="@id/playlistDescriptionContainer" android:layout="@layout/d9d" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginStart="@dimen/aic" android:layout_marginEnd="@dimen/aid" />
+    <include android:layout_width="wrap_content" android:layout_height="@dimen/ahp" android:layout_marginTop="18.0dip" layout="@layout/c5l" />
+    <com.netease.cloudmusic.ui.RoundedLinearLayout android:orientation="vertical" android:id="@id/playCtrlAreaContainer" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="wrap_content" app:jw="@dimen/ahs" app:so="false" app:sp="false">
+        <LinearLayout android:orientation="vertical" android:id="@id/playAllAreaContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.ui.playlist.view.PlaylistTopBarView android:id="@id/playlistTopDSLBarContainer" android:layout_width="fill_parent" android:layout_height="46.0dip" app:aim="playlist_detail_top_banner" app:an1="playlist" />
+            <ViewStub android:id="@id/playlistAdAreaStub" android:layout="@layout/d9u" android:layout_width="fill_parent" android:layout_height="46.0dip" />
+            <ViewStub android:id="@id/playlistLiveSingSongAreaStub" android:layout="@layout/d9x" android:layout_width="fill_parent" android:layout_height="46.0dip" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeDividerLine android:id="@id/divideLine" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="1.0px" />
+            <com.netease.cloudmusic.ui.PlAlPlayAllButton android:id="@id/playAllArea" android:layout_width="fill_parent" android:layout_height="@dimen/ah_" android:layout_marginTop="4.0dip" app:ayf="stick" />
+        </LinearLayout>
+        <com.netease.cloudmusic.ui.PlAlPlayContinueContainer android:id="@id/playContinueAreaContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/ahe" app:ayf="normal">
+            <com.netease.cloudmusic.ui.PlayContinueBar android:id="@id/playContinueBar" android:layout_width="fill_parent" android:layout_height="@dimen/ahd" android:layout_centerInParent="true" />
+        </com.netease.cloudmusic.ui.PlAlPlayContinueContainer>
+    </com.netease.cloudmusic.ui.RoundedLinearLayout>
+</FrameLayout>

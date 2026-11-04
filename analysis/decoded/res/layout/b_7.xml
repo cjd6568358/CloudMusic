@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.ui.LookThemeLinearLayout android:gravity="center_vertical" android:tag="layout/item_lucky_money_vip_list_0" android:layout_width="fill_parent" android:layout_height="60.0dip" app:e4="60.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/image" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginLeft="15.0dip" android:layout_marginRight="10.0dip" app:ai4="style5" />
+    <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+        <TextView android:textSize="14.0sp" android:textColor="@color/a6c" android:ellipsize="end" android:id="@id/nickname" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" />
+        <TextView android:textSize="11.0sp" android:textColor="@color/a6l" android:ellipsize="end" android:id="@id/timeInfo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:singleLine="true" />
+    </LinearLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <TextView android:textSize="12.0sp" android:textColor="@color/gl" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/vipInfo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:singleLine="true" android:drawableLeft="@drawable/cpu" android:drawablePadding="2.0dip" app:a62="@id/moneyInfo" app:a69="@id/moneyInfo" />
+        <TextView android:textSize="12.0sp" android:textColor="@color/a9b" android:ellipsize="end" android:layout_gravity="right" android:id="@id/moneyInfo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginRight="15.0dip" android:singleLine="true" android:drawableLeft="@drawable/cp4" android:drawablePadding="2.0dip" app:a5f="parent" app:a63="parent" app:a69="parent" />
+        <TextView android:textSize="10.0sp" android:textColor="@color/a9b" android:layout_gravity="right" android:id="@id/bestLuck" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="2.0dip" android:layout_marginRight="15.0dip" android:text="@string/a7z" app:a63="parent" app:a68="@id/moneyInfo" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.netease.play.ui.LookThemeLinearLayout>

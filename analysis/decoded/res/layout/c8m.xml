@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="48.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:gravity="center" android:layout_gravity="center" android:id="@id/ad" android:layout_width="wrap_content" android:layout_height="28.0dip" android:layout_marginRight="12.0dip" fresco:ae="centerCrop" />
+    <androidx.appcompat.widget.AppCompatImageView android:gravity="center" android:layout_gravity="center" android:id="@id/shareIcon" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginRight="20.0dip" />
+</LinearLayout>

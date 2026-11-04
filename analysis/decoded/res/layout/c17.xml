@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="140.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/mpAvatarContainer" android:layout_width="fill_parent" android:layout_height="70.0dip" android:layout_centerInParent="true">
+        <View android:id="@id/mpAvatarCenterPoint" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_centerInParent="true" />
+        <com.netease.cloudmusic.module.listentogether.view.LTAvatarContainer android:id="@id/mpSelfAvatar" android:layout_width="60.0dip" android:layout_height="60.0dip" android:layout_centerInParent="true" android:alpha="0.0" android:layout_marginEnd="-10.0dip" android:layout_alignEnd="@id/mpAvatarCenterPoint" />
+        <View android:id="@id/mpAvatarWhiteCircle" android:background="@drawable/pv" android:visibility="gone" android:layout_width="60.0dip" android:layout_height="60.0dip" android:layout_centerInParent="true" android:layout_marginStart="10.0dip" android:layout_alignStart="@id/mpAvatarCenterPoint" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/mpRadarScan" android:layout_width="60.0dip" android:layout_height="60.0dip" android:layout_centerInParent="true" android:layout_marginStart="10.0dip" android:layout_alignStart="@id/mpAvatarCenterPoint" />
+        <FrameLayout android:id="@id/friendContainer" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" android:layout_marginStart="10.0dip" android:layout_alignStart="@id/mpAvatarCenterPoint">
+            <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center_vertical" android:layout_width="52.0dip" android:layout_height="52.0dip" android:layout_marginLeft="34.0dip" android:src="@drawable/fro" />
+            <com.netease.cloudmusic.ui.SimpleRoundDraweeView android:id="@id/friendAvatarView" android:layout_width="60.0dip" android:layout_height="60.0dip" app:ahy="@drawable/d_l" app:ahz="centerCrop" />
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/waitJoinView" android:background="@drawable/ps" android:layout_width="60.0dip" android:layout_height="60.0dip" app:aln="true" />
+        </FrameLayout>
+    </RelativeLayout>
+    <com.netease.cloudmusic.common.nova.widget.NovaRecyclerView android:id="@id/mpAvatarRv" android:layout_width="fill_parent" android:layout_height="60.0dip" android:layout_centerInParent="true" android:alpha="0.0" />
+    <View android:id="@id/mpAvatarRvClickMask" android:background="@android:color/transparent" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignTop="@id/mpAvatarRv" android:layout_alignBottom="@id/mpAvatarRv" android:layout_alignStart="@id/mpAvatarRv" android:layout_alignEnd="@id/mpAvatarRv" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/hintArea" android:layout_width="wrap_content" android:layout_height="30.0dip" android:layout_marginTop="5.0dip" android:layout_below="@id/mpAvatarContainer" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" android:alpha="0.0">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/a8v" android:gravity="center" android:id="@id/hintTextView" android:paddingLeft="5.0dip" android:paddingRight="5.0dip" android:layout_width="wrap_content" android:layout_height="fill_parent" android:maxLines="1" android:includeFontPadding="false" app:adk="false" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/a8v" android:gravity="center" android:id="@id/memberTextView" android:paddingLeft="5.0dip" android:paddingRight="5.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:maxLines="1" android:includeFontPadding="false" app:adk="false" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/a8t" android:gravity="center" android:id="@id/endTextView" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/dsx" android:maxLines="1" android:includeFontPadding="false" app:adk="false" />
+    </LinearLayout>
+</RelativeLayout>

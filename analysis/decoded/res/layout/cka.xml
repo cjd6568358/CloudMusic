@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:id="@id/lrcViewContainerInner" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.shimmer.ShimmerTextView android:textSize="15.329987sp" android:textColor="#ffd70909" android:gravity="center_horizontal" android:id="@id/lrcShareHint" android:paddingTop="@dimen/a1a" android:paddingBottom="@dimen/a1a" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/a1_" android:text="@string/i0z" />
+        <include android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginBottom="28.0dip" android:layout_below="@id/lrcShareHint" layout="@layout/ckw" />
+        <FrameLayout android:id="@id/multiContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/lrc" />
+        <LinearLayout android:orientation="vertical" android:id="@id/lyricAdjustContainer" android:visibility="gone" android:layout_width="43.0dip" android:layout_height="wrap_content" android:layout_alignParentRight="true" android:layout_centerVertical="true">
+            <TextView android:id="@id/lyricAdjustDecreaseBtn" android:background="@drawable/fqr" android:paddingTop="15.0dip" android:text="@string/dzo" android:drawableTop="@drawable/fq8" style="@style/a_v" />
+            <TextView android:id="@id/lyricAdjustRecoveryBtn" android:background="@drawable/fqp" android:paddingTop="11.0dip" android:text="@string/dzq" android:drawableTop="@drawable/fq2" android:drawablePadding="4.0dip" style="@style/a_v" />
+            <TextView android:id="@id/lyricAdjustIncreaseBtn" android:background="@drawable/fqp" android:paddingTop="15.0dip" android:text="@string/dzp" android:drawableTop="@drawable/fq0" style="@style/a_v" />
+            <ImageView android:gravity="center" android:layout_gravity="center" android:id="@id/lyricAdjustSaveBtn" android:background="@drawable/fqn" android:layout_width="fill_parent" android:layout_height="49.0dip" android:src="@drawable/fpy" android:scaleType="centerInside" />
+        </LinearLayout>
+        <include layout="@layout/d6u" />
+    </RelativeLayout>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:layout_alignParentBottom="true">
+        <ImageView android:id="@id/mLogEntrance" android:paddingTop="1.0dip" android:paddingBottom="1.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:src="@drawable/g_4" />
+        <FrameLayout android:id="@id/fanClubContainer" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" />
+    </LinearLayout>
+    <ImageView android:id="@id/mKaraokeAnimView" android:visibility="gone" android:layout_width="36.0dip" android:layout_height="36.0dip" android:layout_marginBottom="4.0dip" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" />
+    <LinearLayout android:layout_gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="58.0dip" android:layout_marginBottom="5.0dip" android:layout_alignParentRight="true" android:layout_alignParentBottom="true">
+        <com.netease.cloudmusic.ui.NoThemeButton android:textSize="12.0sp" android:textColor="#4dffffff" android:gravity="center" android:id="@id/karaokeEntrance" android:paddingLeft="5.0dip" android:paddingTop="3.0dip" android:paddingRight="5.0dip" android:paddingBottom="3.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:letterSpacing="0.2" />
+        <com.netease.cloudmusic.ui.NoThemeButton android:textSize="12.0sp" android:textColor="#4dffffff" android:gravity="center" android:id="@id/lyricMode" android:paddingLeft="5.0dip" android:paddingTop="3.0dip" android:paddingRight="5.0dip" android:paddingBottom="3.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="14.0dip" android:includeFontPadding="false" android:letterSpacing="0.2" />
+    </LinearLayout>
+    <ImageView android:id="@id/musicOptionBtn" android:paddingLeft="18.0dip" android:paddingTop="5.0dip" android:paddingRight="18.0dip" android:paddingBottom="5.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/fqm" android:layout_alignParentRight="true" android:layout_alignParentBottom="true" />
+    <LinearLayout android:orientation="vertical" android:id="@id/musicOptionContainer" android:background="@drawable/fpt" android:visibility="gone" android:layout_width="153.0dip" android:layout_height="wrap_content" android:layout_marginRight="13.0dip" android:layout_marginBottom="33.329987dip" android:layout_alignParentRight="true" android:layout_alignParentBottom="true">
+        <TextView android:id="@id/musicOptionLyricAdjustBtn" android:text="@string/e05" android:drawableLeft="@drawable/fq_" style="@style/a_w" />
+        <View android:id="@id/musicOptionLine1" android:background="@drawable/cwt" android:layout_width="fill_parent" android:layout_height="1.0dip" />
+        <TextView android:id="@id/musicOptionLyricQfyBtn" android:text="@string/e08" android:drawableLeft="@drawable/fqa" style="@style/a_w" />
+        <View android:id="@id/musicOptionLine2" android:background="@drawable/cwt" android:layout_width="fill_parent" android:layout_height="1.0dip" />
+        <TextView android:id="@id/musicOptionLyricBugreportBtn" android:text="@string/e06" android:drawableLeft="@drawable/fqh" style="@style/a_w" />
+        <View android:id="@id/musicOptionLine3" android:background="@drawable/cwt" android:layout_width="fill_parent" android:layout_height="1.0dip" />
+        <TextView android:id="@id/musicOptionSongBugreportBtn" android:text="@string/e0_" android:drawableLeft="@drawable/fqj" style="@style/a_w" />
+        <View android:id="@id/musicOptionLine4" android:background="@drawable/cwt" android:layout_width="fill_parent" android:layout_height="1.0dip" />
+        <TextView android:id="@id/musicOptionLyricFontBtn" android:text="@string/e07" style="@style/a_w" />
+    </LinearLayout>
+</merge>

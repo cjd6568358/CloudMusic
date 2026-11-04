@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:layout_width="fill_parent" android:layout_height="100.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/voice_rec_theater_sub_item_cover" android:layout_width="90.0dip" android:layout_height="90.0dip" android:layout_marginLeft="16.0dip" android:layout_centerVertical="true" app:a5f="parent" app:a5z="parent" app:a69="parent" app:ahy="@drawable/cx5" app:ahz="fitXY" app:am0="10.0dip" />
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginRight="16.0dip" android:layout_toRightOf="@id/voice_rec_theater_sub_item_cover" android:layout_centerVertical="true">
+        <com.netease.cloudmusic.ui.RoundTextView android:textSize="12.0dip" android:textStyle="bold" android:gravity="center" android:id="@id/voice_rec_theater_sub_item_label" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="8.0dip" android:lines="1" app:jw="3.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0dip" android:ellipsize="end" android:id="@id/voice_rec_theater_sub_item_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="2" android:fontFamily="sans-serif-medium" app:qe="colorText1" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:ellipsize="end" android:gravity="left" android:id="@id/voice_rec_theater_sub_item__sub_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:maxLines="2" app:qe="colorText3_1" />
+    </LinearLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>

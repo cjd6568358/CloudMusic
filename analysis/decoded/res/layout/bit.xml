@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.ad.AdImpressFrameLayout android:layout_gravity="bottom|center" android:id="@id/boot_jump_menu_container" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="50.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/boot_jump_menu_bg" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" />
+    <LinearLayout android:gravity="center_vertical" android:layout_gravity="center" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0dip" android:textColor="#ffffffff" android:ellipsize="end" android:gravity="center" android:id="@id/boot_jump_menu_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/boot_jump_menu_arrow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:src="@drawable/aus" android:scaleType="fitCenter" />
+    </LinearLayout>
+</com.netease.cloudmusic.ui.ad.AdImpressFrameLayout>

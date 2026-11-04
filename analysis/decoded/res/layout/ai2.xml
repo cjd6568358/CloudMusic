@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.FragmentTitleBar android:id="@id/ftb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tt="true" app:tu="false" app:tw="false" app:tx="false" />
+    <View android:background="@color/w5" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/ftb" />
+    <TextView android:textSize="12.0dip" android:textColor="@color/wo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:layout_below="@id/ftb" android:layout_centerHorizontal="true" />
+    <com.netease.epay.sdk.base.view.BaseWebView android:id="@id/webView" android:background="@color/w5" android:scrollbars="none" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/ftb" android:contentDescription="epaysdk_bg" />
+    <com.netease.epay.sdk.base.view.ErrorView android:id="@id/webErrorView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/ftb" />
+    <com.netease.epay.sdk.base.view.SwebProgressBar android:id="@id/progressbar" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="1.0dip" android:max="100" android:layout_below="@id/ftb" style="?android:progressBarStyleHorizontal" />
+</RelativeLayout>

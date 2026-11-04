@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="300.0dip" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/karaokeBannerView" android:layout_width="wrap_content" android:layout_height="76.0dip" android:layout_marginTop="24.0dip" android:src="@drawable/d9g" android:scaleType="centerCrop" android:adjustViewBounds="true" />
+    <ImageView android:id="@id/defaultIv" android:layout_width="wrap_content" android:layout_height="108.0dip" android:layout_marginTop="26.0dip" android:scaleType="centerCrop" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:gravity="center_vertical" android:id="@id/confirmButton" android:layout_width="fill_parent" android:layout_height="40.0dip" android:layout_marginTop="30.0dip" android:layout_marginStart="24.0dip" android:layout_marginEnd="24.0dip">
+        <ImageView android:id="@id/confirmIv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/d9a" android:layout_marginEnd="6.0dip" app:a5f="parent" app:a5m="@id/confirmTv" app:a5w="packed" app:a65="parent" app:a69="parent" />
+        <com.netease.cloudmusic.ui.textview.RainbowTextView android:textSize="16.0sp" android:gravity="center" android:id="@id/confirmTv" android:layout_width="wrap_content" android:layout_height="40.0dip" android:text="@string/d33" app:a5f="parent" app:a5l="parent" app:a64="@id/confirmIv" app:a69="parent" app:akd="false" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1e" android:id="@id/closeButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18.0dip" android:layout_marginBottom="15.0dip" android:text="@string/i6f" />
+</LinearLayout>

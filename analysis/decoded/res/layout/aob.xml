@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/fragment_eartexture_text_loading_0" android:background="#ff1b1b24" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="16.0sp" android:textColor="@color/b1t" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="148.0dip" android:text="@string/bre" android:includeFontPadding="false" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <TextView android:textSize="20.0sp" android:textColor="@color/b12" android:id="@id/des" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:text="@string/brd" android:includeFontPadding="false" app:a5l="parent" app:a65="parent" app:a68="@id/title" />
+    <com.netease.cloudmusic.module.video2.player.NewTextureVideoView android:id="@id/loading" android:layout_width="160.0dip" android:layout_height="160.0dip" android:layout_marginTop="134.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/des" />
+    <com.netease.cloudmusic.music.biz.member.audioeffect.personal.eartexture.CircleLoadingProgressView android:id="@id/loadingProgress" android:layout_width="160.0dip" android:layout_height="160.0dip" android:layout_marginTop="134.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/des" />
+</androidx.constraintlayout.widget.ConstraintLayout>

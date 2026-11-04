@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/fake_mv_cover" android:background="#ff000000" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" android:layout_centerInParent="true" />
+    <include layout="@layout/dxh" />
+    <com.netease.cloudmusic.ui.PlayerStarAnimImageView android:layout_gravity="center" android:id="@id/praisedImage" android:layout_width="55.0dip" android:layout_height="55.0dip" />
+    <com.netease.cloudmusic.module.video.VideoRoundFrameLayout android:id="@id/networkDialog" android:background="#cd000000" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <include layout="@layout/dvm" />
+    </com.netease.cloudmusic.module.video.VideoRoundFrameLayout>
+    <LinearLayout android:gravity="center_vertical" android:id="@id/menuBar" android:visibility="gone" android:clickable="true" android:layout_width="fill_parent" android:layout_height="@dimen/adi">
+        <LinearLayout android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+            <LinearLayout android:gravity="center_vertical" android:id="@id/mvTitleContainer" android:paddingRight="10.0dip" android:layout_width="wrap_content" android:layout_height="fill_parent">
+                <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:gravity="center_vertical" android:id="@id/backBtn" android:layout_width="41.0dip" android:layout_height="41.0dip" android:layout_marginLeft="3.0dip" android:layout_marginRight="2.0dip" app:aev="@color/aj5" app:aqh="@drawable/d41" />
+                <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="fill_parent">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textColor="#ffffffff" android:id="@id/mvTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="9.0sp" android:textColor="@color/ajb" android:id="@id/mvSubTitile" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconWithBackgroundImageView android:id="@id/mvPraiseBtn" android:visibility="gone" app:ads="true" app:aev="@color/aj5" style="@style/a78" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconWithBackgroundImageView android:id="@id/mvSubscribeBtn" android:visibility="gone" app:ads="true" app:aev="@color/aj5" style="@style/a78" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconWithBackgroundImageView android:id="@id/mvShareBtn" android:visibility="gone" app:ads="true" app:aev="@color/aj5" app:aqh="@drawable/cf2" style="@style/a78" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconWithBackgroundImageView android:id="@id/overflowMenuBtn" android:visibility="gone" android:src="@drawable/cn" app:ads="true" app:aev="@color/aj5" style="@style/a78" />
+    </LinearLayout>
+    <LinearLayout android:gravity="bottom|center|right" android:id="@id/mvQualityWindowContainer" android:background="@android:color/transparent" android:paddingRight="65.0dip" android:paddingBottom="44.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.ui.MvQualityWindow android:orientation="vertical" android:id="@id/mv_quality_window" android:focusable="true" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+    <SeekBar android:layout_gravity="bottom" android:id="@id/simple_seekbar" android:paddingLeft="0.0dip" android:paddingTop="8.0dip" android:paddingRight="0.0dip" android:paddingBottom="8.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxHeight="2.0dip" android:progressDrawable="@drawable/cl1" android:minHeight="2.0dip" android:thumb="@drawable/cl2" android:thumbOffset="0.0dip" android:layout_alignParentBottom="true" />
+</FrameLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:layout_gravity="center_horizontal" android:id="@id/image" android:layout_width="110.0dip" android:layout_height="110.0dip" android:layout_marginTop="40.0dip" android:scaleType="centerInside" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <TextView android:textSize="15.0sp" android:textColor="#ff333333" android:layout_gravity="center_horizontal" android:id="@id/content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:text="@string/at4" app:a5l="parent" app:a65="parent" app:a68="@id/image" />
+    <com.netease.play.ui.CustomButton android:textSize="15.0sp" android:textColor="@color/aj6" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/button" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="28.0dip" android:layout_marginRight="20.0dip" android:layout_marginBottom="25.0dip" android:minWidth="240.0dip" android:minHeight="32.0dip" app:gg="0x00020304" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a68="@id/content" />
+</androidx.constraintlayout.widget.ConstraintLayout>

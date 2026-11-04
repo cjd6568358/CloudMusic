@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:paddingBottom="5.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minWidth="@dimen/p2"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.FragmentTitleBar android:id="@id/ftb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tt="false" app:v2="@string/bzg" />
+    <TextView android:textSize="13.0dip" android:textColor="@color/vq" android:ellipsize="end" android:id="@id/tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="15.0dip" android:text="@string/bwu" android:maxLines="1" />
+    <include android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/ajq" />
+</LinearLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.discovery.view.widget.titleview.DiscoverySimpleTitleView android:id="@id/simple_title" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <com.netease.cloudmusic.ui.impress.ImpressRatioFrameLayout android:id="@id/impress_view" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="12.0dip" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip" app:jw="10.0dip" app:akk="w,343:422">
+        <FrameLayout android:id="@id/videoContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/videoCover" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" app:ahy="@drawable/g9c" app:ahz="centerCrop" />
+        </FrameLayout>
+        <LinearLayout android:gravity="bottom" android:layout_gravity="bottom" android:orientation="vertical" android:id="@id/info_view" android:paddingTop="22.0dip" android:paddingBottom="14.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="170.0dip" android:paddingStart="16.0dip" android:paddingEnd="24.0dip">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <com.netease.cloudmusic.ui.AvatarStackView android:id="@id/avatars_img" android:layout_width="wrap_content" android:layout_height="wrap_content" app:aqi="@color/aj5" app:aqk="3" app:aql="true" app:aqm="12.0dip" app:aqn="26.0dip" app:aqo="leftOnTop" />
+                <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="@android:color/white" android:ellipsize="end" android:id="@id/name_tv" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" android:layout_marginStart="8.0dip" />
+            </LinearLayout>
+            <androidx.appcompat.widget.AppCompatTextView android:textColor="@android:color/white" android:ellipsize="end" android:id="@id/title_tv" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="11.0dip" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/b26" android:id="@id/count_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="9.0dip" android:includeFontPadding="false" />
+        </LinearLayout>
+    </com.netease.cloudmusic.ui.impress.ImpressRatioFrameLayout>
+</LinearLayout>

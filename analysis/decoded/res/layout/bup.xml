@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.livepage.chatroom.ChatRoomLayout android:layout_gravity="bottom" android:background="@drawable/b5y" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/colorContainer" android:paddingLeft="10.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="36.0dip">
+        <TextView android:textSize="13.0sp" android:textColor="@color/b1w" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/i2r" />
+        <com.netease.play.ui.LiveRecyclerView android:id="@id/recyclerColorDanmaku" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="10.0dip" />
+    </LinearLayout>
+    <com.netease.play.livepage.chatroom.ChatRoomLayout android:id="@id/chatContainer" android:background="@color/a6a" android:layout_width="fill_parent" android:layout_height="46.0dip" android:layout_below="@id/colorContainer">
+        <com.netease.play.ui.DanmakuSwitch android:id="@id/danmakuSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_alignParentLeft="true" android:layout_centerVertical="true" />
+        <com.netease.play.ui.LookThemeEditText android:textSize="14.0sp" android:gravity="center_vertical" android:id="@id/input" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="8.0dip" android:layout_marginRight="15.0dip" android:hint="@string/cyx" android:singleLine="true" android:layout_toLeftOf="@id/tvEmojiImage" android:layout_toRightOf="@id/danmakuSwitch" android:layout_centerVertical="true" android:imeOptions="actionSend|flagNoExtractUi|flagNoFullscreen" />
+        <TextView android:textSize="14.0sp" android:textColor="#4dffffff" android:gravity="center_vertical" android:id="@id/remainNum" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_alignRight="@id/input" android:layout_centerVertical="true" />
+        <com.netease.play.ui.CustomLoadingButton android:gravity="center" android:id="@id/send" android:paddingLeft="16.659973dip" android:paddingRight="16.659973dip" android:layout_width="wrap_content" android:layout_height="30.0dip" android:layout_marginRight="9.669983dip" android:text="@string/g6w" android:layout_alignParentRight="true" android:layout_centerVertical="true" app:gg="0x000F0304" />
+        <TextView android:id="@id/tvSelectImage" android:background="@drawable/f13" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginRight="15.0dip" android:layout_toLeftOf="@id/send" android:layout_centerVertical="true" />
+        <TextView android:id="@id/tvEmojiImage" android:background="@drawable/g73" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginRight="15.0dip" android:layout_toLeftOf="@id/tvSelectImage" android:layout_centerVertical="true" />
+    </com.netease.play.livepage.chatroom.ChatRoomLayout>
+    <FrameLayout android:id="@id/emojiContainer" android:background="@color/a6a" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/chatContainer" />
+</com.netease.play.livepage.chatroom.ChatRoomLayout>

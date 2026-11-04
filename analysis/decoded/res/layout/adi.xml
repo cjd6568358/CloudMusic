@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.discovery.view.module.secondfloor.view.drag.DragItemRecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/iw" android:layout_marginTop="@dimen/is" android:layout_marginRight="@dimen/iw" android:overScrollMode="never" android:layout_marginHorizontal="@dimen/iw" />
+    <FrameLayout android:layout_gravity="bottom" android:id="@id/layoutDeleteArea" android:layout_width="fill_parent" android:layout_height="@dimen/m0" android:translationY="@dimen/m0">
+        <TextView android:textSize="17.0sp" android:textColor="@color/b12" android:layout_gravity="center_horizontal" android:id="@id/tvDeleteArea" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="13.0dip" android:drawablePadding="4.0dip" android:drawableStart="@drawable/a5b" />
+    </FrameLayout>
+</merge>

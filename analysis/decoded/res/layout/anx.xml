@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/panelContainer" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.legacy.widget.Space android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="30.0" />
+    <ImageView android:id="@id/closeButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="30.0dip" />
+    <androidx.legacy.widget.Space android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="67.0" />
+    <com.netease.play.ui.avatar.AvatarImage android:layout_gravity="center_horizontal" android:id="@id/avatarImage" android:layout_width="100.0dip" android:layout_height="100.0dip" app:ai4="style25" />
+    <androidx.legacy.widget.Space android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="10.0" />
+    <TextView android:textSize="24.0sp" android:textColor="@color/b1e" android:ellipsize="end" android:gravity="center" android:id="@id/nickname" android:paddingLeft="20.0dip" android:paddingRight="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" />
+    <androidx.legacy.widget.Space android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="13.0" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/rtcInfo" android:layout_width="fill_parent" android:layout_height="wrap_content" android:includeFontPadding="false" />
+    <androidx.legacy.widget.Space android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="140.0" />
+    <ImageView android:layout_gravity="center_horizontal" android:id="@id/hangButton" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <androidx.legacy.widget.Space android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="8.0" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/rtcAction" android:layout_width="fill_parent" android:layout_height="wrap_content" android:includeFontPadding="false" />
+    <androidx.legacy.widget.Space android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="97.0" />
+    <TextView android:textSize="10.0sp" android:textColor="@color/b1q" android:gravity="center" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/hon" android:includeFontPadding="false" />
+    <androidx.legacy.widget.Space android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="22.0" />
+</LinearLayout>

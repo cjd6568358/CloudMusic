@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:gravity="center" android:id="@id/find_billboard_container" android:paddingBottom="18.0dip" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicRoundedSimpleDraweeView android:id="@id/billboardImg" android:layout_width="wrap_content" android:layout_height="wrap_content" fresco:ag3="@drawable/dj9" fresco:ahy="@drawable/cx5" fresco:ahz="centerCrop" fresco:aj2="@color/awz" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0sp" android:textColor="@color/aj5" android:id="@id/billboardUpdateDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" android:layout_marginBottom="6.0dip" android:text="@string/iwx" android:layout_alignLeft="@id/billboardImg" android:layout_alignBottom="@id/billboardImg" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/billboardName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:text="云音乐排行榜" android:maxLines="2" android:layout_below="@id/billboardImg" android:lineSpacingExtra="3.0sp" />
+</RelativeLayout>

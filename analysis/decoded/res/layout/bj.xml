@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/choosePayContainer" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_vertical" android:paddingLeft="@dimen/ag_" android:paddingRight="15.0dip" android:layout_width="fill_parent" android:layout_height="57.0dip" app:e6="allLine">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="17.0sp" android:textColor="@color/aiv" android:gravity="center_vertical" android:id="@id/priceLabel" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="@string/f08" android:layout_weight="1.0" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="24.0sp" android:textColor="@color/themeColor" android:id="@id/payPrice" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    <ViewStub android:id="@id/vipHintViewStub" android:layout="@layout/e12" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <include layout="@layout/sq" />
+</LinearLayout>

@@ -1,0 +1,13 @@
+{
+    "nm": "Light",
+    "fragment": "precision highp float; varying vec2 vTextureCoord; uniform sampler2D uTexture; uniform sampler2D uTexture2; uniform float uProgress; void main() { if (uProgress < 0.5) { gl_FragColor = mix(texture2D(uTexture, vTextureCoord), vec4(0.0, 0.0, 0.0, 1.0), uProgress*2.0); } else { gl_FragColor = mix(vec4(0.0, 0.0, 0.0, 1.0), texture2D(uTexture2, vTextureCoord), (uProgress-0.5)*2.0); } }",
+	"params":	[{
+        "nm": "uTexture2",
+        "ty":	13,
+        "v":	0
+    },{
+        "nm": "uProgress",
+        "ty":	1,
+        "v":	0
+    }]
+}

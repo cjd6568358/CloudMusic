@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="36.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/headerIcon" android:layout_width="18.0dip" android:layout_height="18.0dip" android:src="@drawable/bgp" android:alpha="0.8" android:layout_marginStart="12.0dip" app:a5f="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="#ccffffff" android:id="@id/downloadTvInfo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:alpha="0.8" android:layout_marginStart="7.0dip" app:a5f="parent" app:a64="@id/headerIcon" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="#ccffffff" android:id="@id/downloadTvState" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:alpha="0.8" android:layout_marginEnd="4.0dip" app:a5f="parent" app:a5m="@id/btArrow" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/btArrow" android:visibility="visible" android:layout_width="12.0dip" android:layout_height="12.0dip" android:src="@drawable/fts" android:scaleType="centerInside" android:alpha="0.8" android:layout_marginEnd="12.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+</merge>

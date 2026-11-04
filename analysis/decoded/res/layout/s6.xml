@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.module.video.VideoUserRecommendLinearLayout android:orientation="vertical" android:layout_width="150.0dip" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include layout="@layout/dt5" />
+    <com.netease.cloudmusic.ui.AvatarImage android:layout_gravity="center_horizontal" android:id="@id/rcmdAvatar" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="-13.0dip" app:cv="style2" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:gravity="center" android:id="@id/rcmdName" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:maxLines="1" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiz" android:gravity="center" android:id="@id/fans" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="1.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0dip" android:textColor="@color/aix" android:ellipsize="end" android:gravity="center" android:id="@id/rcmdReason" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="7.0dip" android:maxLines="1" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="13.0sp" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/trackRcmdFollowBtn" android:layout_width="78.66998dip" android:layout_height="26.0dip" android:layout_marginTop="13.0dip" android:layout_marginBottom="23.0dip" android:text="@string/cak" app:gl="useTheme" app:adx="true" style="@style/a4l" />
+</com.netease.cloudmusic.module.video.VideoUserRecommendLinearLayout>

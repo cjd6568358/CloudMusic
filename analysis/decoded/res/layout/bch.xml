@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/item_party_ugift_0" android:layout_width="62.0dip" android:layout_height="81.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/background" android:tag="binding_1" android:layout_width="58.0dip" android:layout_height="68.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/giftImage" android:tag="binding_2" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginTop="10.0dip" app:a5l="@id/background" app:a65="@id/background" app:a69="@id/background" />
+    <TextView android:textSize="10.0sp" android:textColor="@color/b1z" android:id="@id/giftName" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="3.0dip" android:singleLine="true" android:includeFontPadding="false" android:layout_marginStart="4.0dip" android:layout_marginEnd="4.0dip" app:a5_="true" app:a5f="@id/background" app:a5l="@id/background" app:a65="@id/background" />
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/foregroundAnim" android:tag="binding_4" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/background" app:a5l="@id/background" app:a65="@id/background" app:a69="@id/background" />
+    <View android:id="@id/foreground" android:tag="binding_5" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/background" app:a5l="@id/background" app:a65="@id/background" app:a69="@id/background" />
+    <ImageView android:id="@id/selectedImage" android:tag="binding_6" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginTop="20.0dip" android:src="@drawable/exn" app:a5l="@id/background" app:a65="@id/background" app:a69="@id/background" />
+    <TextView android:textSize="9.0sp" android:textColor="@color/b1e" android:id="@id/number" android:tag="binding_7" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" app:a5_="true" app:a5f="parent" app:a5l="parent" app:a65="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

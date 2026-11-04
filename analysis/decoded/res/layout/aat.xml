@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:tag="layout/discovery_item_flash_station_new_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/bgImageView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitXY" app:ahy="@drawable/cx6" app:ahz="fitXY" app:am0="10.0dip" />
+    <RelativeLayout android:id="@id/contentContainer" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:paddingBottom="11.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/playContainer" android:layout_width="98.0dip" android:layout_height="34.0dip" android:layout_marginTop="18.0dip" android:layout_alignParentTop="true" android:layout_alignParentRight="true">
+            <ImageView android:id="@id/playIconImageView" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:id="@id/playTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/igk" app:qe="colorText1" />
+        </LinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:ellipsize="end" android:id="@id/timeTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="19.0dip" android:maxLines="1" android:includeFontPadding="false" android:layout_toLeftOf="@id/playContainer" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" app:qe="colorText2_1" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:id="@id/listenDesc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:includeFontPadding="false" android:layout_below="@id/timeTextView" android:layout_alignLeft="@id/timeTextView" app:qe="colorText3_1" />
+        <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/voiceRecyclerView" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="13.0dip" android:layout_below="@id/playContainer" />
+    </RelativeLayout>
+</FrameLayout>

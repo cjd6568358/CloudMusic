@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:orientation="vertical" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <include layout="@layout/brp" />
+    <com.netease.cloudmusic.ui.followlisten.FLTMultiPeopleProgressView android:id="@id/fltMpProgressContainer" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <include layout="@layout/al8" />
+    <View android:id="@id/player_mask" android:layout_width="fill_parent" android:layout_height="48.0dip" />
+</merge>

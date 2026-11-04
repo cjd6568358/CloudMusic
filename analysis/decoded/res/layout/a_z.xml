@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/bgImage" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="@dimen/s1" android:layout_marginTop="@dimen/lx" android:layout_marginRight="@dimen/s2" app:ae="fitXY" app:am0="@dimen/fw" />
+    <view android:layout_gravity="right" android:id="@id/closeButton" android:layout_width="20.0dip" android:layout_height="20.0dip" android:layout_marginTop="5.0dip" android:layout_marginRight="10.0dip" android:src="@drawable/ddv" app:adg="true" app:adi="false" class="com.netease.cloudmusic.discovery.view.module.newuser.NewUserViewHolder$CloseButton" />
+</FrameLayout>

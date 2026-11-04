@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.AutoScrollViewSwitcher android:id="@id/auto_scroll_switcher" android:layout_width="fill_parent" android:layout_height="fill_parent" android:measureAllChildren="true" android:inAnimation="@anim/fz" android:outAnimation="@anim/g0" android:animateFirstView="false" android:layout_marginEnd="52.0dip" app:cp="true" app:cq="top|bottom" app:cr="9.0dip" app:cs="3000" />
+    <FrameLayout android:id="@id/live_container" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:measureAllChildren="true" android:inAnimation="@anim/fz" android:outAnimation="@anim/g0" android:animateFirstView="false" android:layout_marginEnd="42.0dip" app:cp="true" app:cq="top|bottom" app:cr="9.0dip" app:cs="3000" />
+    <com.netease.cloudmusic.ui.CustomThemeAdTagView android:gravity="center" android:layout_gravity="end" android:id="@id/adTag" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginRight="30.0dip" android:scaleType="center" app:aev="@color/a2i" app:ap2="style_as_my_music_banner" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:layout_gravity="end" android:id="@id/close_btn" android:background="?anh" android:layout_width="42.0dip" android:layout_height="fill_parent" android:scaleType="center" app:aev="@color/a2i" />
+</merge>

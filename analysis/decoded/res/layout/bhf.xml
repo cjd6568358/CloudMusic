@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/hotTopicContainer" android:tag="layout/item_track_fans_list_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/pkTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="18.0dip" android:layout_marginBottom="12.0dip" android:maxLines="1" android:includeFontPadding="false" />
+    <com.netease.cloudmusic.ui.FansPkCommonView android:layout_gravity="center_horizontal" android:id="@id/fansPkCommonView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="82.0dip" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" android:layout_marginBottom="18.0dip" app:jw="12.0dip" />
+    <com.netease.cloudmusic.ui.CanScrollHorizonRecyclerView android:layout_gravity="center_horizontal" android:id="@id/pkFansRecyclerView" android:layout_width="fill_parent" android:layout_height="82.0dip" android:layout_marginBottom="18.0dip" />
+</LinearLayout>

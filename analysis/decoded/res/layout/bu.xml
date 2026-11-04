@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout android:id="@id/cover_picker_container" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0" />
+    <FrameLayout android:id="@id/tab_container" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/a6c">
+        <com.netease.cloudmusic.theme.ui.tab.MusicTabLayout android:layout_gravity="bottom|center" android:id="@id/cover_tab_layout" android:layout_width="fill_parent" android:layout_height="@dimen/a6b" />
+        <View android:layout_gravity="center" android:background="@color/b1k" android:layout_width="0.5dip" android:layout_height="12.0dip" />
+    </FrameLayout>
+</LinearLayout>

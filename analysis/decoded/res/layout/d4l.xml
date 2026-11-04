@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.common.nova.widget.NovaRecyclerView android:id="@id/rv_play_list" android:paddingTop="6.0dip" android:paddingBottom="50.0dip" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="566.0dip" />
+    <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center_horizontal" android:id="@id/emptyView" android:visibility="invisible" android:layout_width="198.75dip" android:layout_height="140.0dip" android:layout_marginTop="78.0dip" android:scaleType="centerCrop" />
+</FrameLayout>

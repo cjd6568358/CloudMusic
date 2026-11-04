@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:id="@id/bestMatchDescRoot" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:id="@id/tvScoreInline" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:includeFontPadding="false" />
+    <com.netease.cloudmusic.ui.RoundImageView android:id="@id/bestMatchIcon" android:visibility="gone" android:layout_width="52.0dip" android:layout_height="16.0dip" android:layout_marginEnd="4.0dip" app:am0="3.0dip" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/officialTagsContainer" android:clipChildren="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:divider="@null" android:showDividers="end" android:dividerPadding="2.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:ellipsize="end" android:layout_gravity="center_vertical" android:id="@id/bestMatchDesc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" android:layout_marginEnd="4.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:ellipsize="end" android:id="@id/bestMatchTip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" />
+</LinearLayout>

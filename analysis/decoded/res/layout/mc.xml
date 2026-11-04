@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.ad.AdImpressRelativeLayout android:id="@id/adPodcastContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/adCover" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" app:ahy="@drawable/cx5" app:ahz="fitXY" app:am0="16.0dip" />
+    <com.netease.cloudmusic.module.ad.podcast.AdPodcastPlayerPageActionView android:id="@id/adText" android:layout_width="wrap_content" android:layout_height="24.0dip" android:layout_marginBottom="8.0dip" android:layout_alignParentBottom="true" android:layout_marginEnd="8.0dip" android:layout_alignParentEnd="true" />
+    <FrameLayout android:id="@id/adReasonLabelContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_alignTop="@id/adTagView" android:layout_alignBottom="@id/adTagView" />
+    <com.netease.cloudmusic.ui.AdTagView android:id="@id/adTagView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="9.0dip" android:layout_alignParentTop="true" android:layout_marginEnd="9.0dip" android:layout_alignParentEnd="true" app:jj="10.0dip" app:atr="colorTextOnimage1" app:aty="0.0dip" app:au0="colorTextOnimage1_1" app:au1="colorText1" app:au2="16.0dip" app:au5="10.0sp" />
+</com.netease.cloudmusic.ui.ad.AdImpressRelativeLayout>

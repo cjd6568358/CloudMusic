@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:id="@id/preferenceScrollView" android:scrollbars="none" android:fadingEdgeLength="0.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/ao6">
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/autoSettingMusicCache" style="@style/a9e">
+            <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/autoCheckIv" android:layout_marginLeft="10.0dip" style="@style/a9j" />
+            <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_toLeftOf="@id/autoCheckIv" android:layout_centerVertical="true">
+                <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/autoSettingMusicCacheTxt" android:text="@string/a4f" style="@style/a9i" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/autoMusicCacheNum" android:paddingLeft="10.0dip" style="@style/a9o" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/autoSettingMusicCachePrompt" android:text="@string/a4g" style="@style/a9k" />
+            </LinearLayout>
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/cacheUpperLimitChange" style="@style/a9h">
+            <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/manualCheckIv" android:layout_marginLeft="10.0dip" style="@style/a9j" />
+            <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/autoSettingMusicCacheTxt" android:text="@string/e37" style="@style/a9i" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/manualMusicCacheNum" android:paddingLeft="10.0dip" style="@style/a9o" />
+            </LinearLayout>
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+    </LinearLayout>
+</ScrollView>

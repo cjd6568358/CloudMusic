@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/editor_preview_main_0" android:background="@color/do" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/preview" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5g="@id/ll_tip" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/ll_top_operation" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="@id/iv_close_preview" app:a5z="parent" app:a63="parent" app:a69="@id/iv_close_preview" />
+    <LinearLayout android:orientation="vertical" android:id="@id/ll_operation" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5g="@id/ll_tip" app:a63="parent" app:a69="parent" />
+    <ImageView android:id="@id/iv_close_preview" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginLeft="16.0dip" android:layout_marginTop="20.0dip" android:src="@drawable/a77" app:a5z="parent" app:a69="parent" />
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/ll_tip" android:background="@color/do" android:layout_width="fill_parent" android:layout_height="64.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent">
+        <com.netease.cloudmusic.ui.button.CustomButton android:textSize="16.0sp" android:gravity="center" android:id="@id/btn_preview" android:visibility="visible" android:layout_width="88.0dip" android:layout_height="36.0dip" android:text="下一步" app:gg="0x00FFFFFF" app:pl="@color/fx" app:pp="@color/b18" app:aer="#ffff3a3a" app:aey="@color/b13" app:aiv="@color/fy" app:aiz="0.96" app:aj0="@color/b16" />
+    </LinearLayout>
+    <androidx.fragment.app.FragmentContainerView android:id="@id/fragment_container" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a5f="parent" />
+    <androidx.constraintlayout.widget.Group android:id="@id/group_show" android:layout_width="wrap_content" android:layout_height="wrap_content" app:l1="iv_close_preview,ll_top_operation,ll_operation" />
+</androidx.constraintlayout.widget.ConstraintLayout>

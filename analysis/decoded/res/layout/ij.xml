@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:id="@id/localMusicContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicViewPager android:id="@id/localMusicViewPager" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/toolbar" />
+    <com.netease.cloudmusic.ui.NeteaseMusicToolbar android:id="@id/toolbar" android:background="?kl" android:layout_width="fill_parent" android:layout_height="?i" app:a76="scroll|enterAlways" app:aii="@style/b6">
+        <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout android:layout_gravity="center" android:id="@id/localMusicTab" android:layout_width="wrap_content" android:layout_height="fill_parent" app:nr="moveBig" app:at4="toolbar" app:at6="56.0dip" app:atp="true" app:avq="false" />
+    </com.netease.cloudmusic.ui.NeteaseMusicToolbar>
+    <FrameLayout android:id="@id/belowToolbarContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/toolbar" />
+</RelativeLayout>

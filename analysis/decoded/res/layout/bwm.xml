@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_live_event_center_0" android:layout_width="wrap_content" android:layout_height="20.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:paddingLeft="8.0dip" android:paddingRight="7.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent">
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/rv_avatars" android:layout_width="wrap_content" android:layout_height="12.0dip" android:layout_marginRight="4.0dip" />
+        <TextView android:textSize="11.0dip" android:textColor="@color/b1e" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="更多" android:drawableRight="@drawable/bu9" android:drawablePadding="1.0dip" />
+    </LinearLayout>
+    <View android:id="@id/v_click" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

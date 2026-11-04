@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:tag="layout/fragment_my_private_cloud_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/cloud_storage" android:layout_width="fill_parent" android:layout_height="66.0dip" android:layout_marginTop="10.0dip" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip">
+        <LinearLayout android:orientation="horizontal" android:id="@id/container" android:layout_width="fill_parent" android:layout_height="21.0dip" android:layout_marginTop="12.0dip" android:layout_marginStart="8.0dip" android:layout_alignParentEnd="true">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:id="@id/cloud_storage_size" android:layout_width="wrap_content" android:layout_height="wrap_content" app:qe="colorText3_1" />
+            <Space android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" />
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/cloud_storage_guide_container" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="8.0dip">
+                <ImageView android:id="@id/cloud_storage_guide_svip" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:textSize="12.0sp" android:id="@id/cloud_storage_guide" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="2.0dip" />
+                <ImageView android:id="@id/cloud_storage_guide_arrow" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+        <ProgressBar android:id="@id/cloud_storage_progress" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="6.0dip" android:layout_marginTop="7.0dip" android:progressDrawable="@drawable/yb" android:layout_below="@id/container" android:layout_marginStart="8.0dip" android:layout_marginEnd="8.0dip" style="@style/jv" />
+    </RelativeLayout>
+    <RelativeLayout android:id="@id/upload" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/cloud_storage">
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/arrow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:src="@drawable/fg5" android:layout_alignParentRight="true" android:layout_centerVertical="true" app:aev="@color/a2g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiy" android:id="@id/info" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_toLeftOf="@id/arrow" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeProgressBar android:id="@id/progress" android:layout_width="fill_parent" android:layout_height="3.0dip" android:layout_marginBottom="17.0dip" android:layout_toLeftOf="@id/arrow" android:layout_alignParentBottom="true" style="@style/jv" />
+    </RelativeLayout>
+    <com.netease.cloudmusic.music.biz.clouddisk.ui.PrivateCloudPlayAllButton android:id="@id/pab_private_cloud" android:layout_width="fill_parent" android:layout_height="@dimen/ah_" android:layout_below="@id/upload" />
+    <com.netease.cloudmusic.ui.PlAlPlayContinueContainer android:id="@id/playContinueAreaContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/ahe" android:layout_below="@id/pab_private_cloud" app:ayf="normal">
+        <com.netease.cloudmusic.ui.PlayContinueBar android:id="@id/playContinueBar" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.netease.cloudmusic.ui.PlAlPlayContinueContainer>
+    <com.netease.cloudmusic.ui.NeteaseSwipeRefreshLayout android:id="@id/listRefresh" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/playContinueAreaContainer">
+        <com.netease.cloudmusic.ui.PagerListView android:id="@id/classification_tags_list" android:clickable="false" android:layout_width="fill_parent" android:layout_height="fill_parent" android:cacheColorHint="#00000000" android:divider="@null" android:layout_below="@id/playContinueAreaContainer" android:headerDividersEnabled="false" android:footerDividersEnabled="false" />
+    </com.netease.cloudmusic.ui.NeteaseSwipeRefreshLayout>
+    <com.netease.cloudmusic.music.biz.clouddisk.ui.IndexBar android:id="@id/index_bar" android:visibility="gone" android:layout_width="@dimen/aoz" android:layout_height="fill_parent" android:layout_below="@id/cloud_storage" android:layout_alignParentEnd="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="50.0sp" android:textColor="@android:color/white" android:gravity="center" android:layout_gravity="center" android:id="@id/sort_bar_text" android:background="@drawable/cwe" android:padding="10.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="70.0dip" android:minWidth="70.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/classification_tags_empty" android:visibility="gone" android:layout_centerInParent="true" style="@style/a4q" />
+    <ViewStub android:id="@id/privateCloudEmptyView" android:layout="@layout/dd4" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/ni" android:gravity="center" android:id="@id/cloud_storage_full_tip" android:paddingTop="6.0dip" android:paddingBottom="6.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/ary" android:layout_alignParentBottom="true" android:layout_marginStart="@dimen/at3" android:layout_marginEnd="@dimen/at3" />
+</RelativeLayout>

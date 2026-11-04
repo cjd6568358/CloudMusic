@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_buoy_activity_0" android:background="@color/a0n" android:layout_width="70.0dip" android:layout_height="79.0dip" android:minWidth="82.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/logo" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginTop="5.0dip" android:src="@drawable/e49" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <ImageView android:id="@id/iv_look" android:layout_width="wrap_content" android:layout_height="9.829987dip" android:layout_marginTop="4.0dip" android:src="@drawable/e4_" android:adjustViewBounds="true" app:a5l="parent" app:a65="parent" app:a68="@id/logo" />
+    <View android:id="@id/btn_bg" android:tag="binding_1" android:layout_width="54.0dip" android:layout_height="18.0dip" android:layout_marginBottom="6.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" />
+    <TextView android:textSize="10.0sp" android:textColor="@color/b12" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="下载" android:drawableStart="@drawable/e48" app:a5f="@id/btn_bg" app:a5l="@id/btn_bg" app:a65="@id/btn_bg" app:a69="@id/btn_bg" />
+    <TextView android:textSize="10.0sp" android:textColor="@color/b12" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="打开" app:a5f="@id/btn_bg" app:a5l="@id/btn_bg" app:a65="@id/btn_bg" app:a69="@id/btn_bg" />
+</androidx.constraintlayout.widget.ConstraintLayout>

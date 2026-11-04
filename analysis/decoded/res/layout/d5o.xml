@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.flexbox.FlexboxLayout android:id="@id/playBottomContainer" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" app:wt="row" app:a41="space_between"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/bottomFirstContainer" android:layout_width="34.0dip" android:layout_height="34.0dip" />
+    <FrameLayout android:id="@id/bottomSecondContainer" android:layout_width="34.0dip" android:layout_height="34.0dip" />
+    <FrameLayout android:id="@id/bottomThirdContainer" android:layout_width="34.0dip" android:layout_height="34.0dip" />
+    <FrameLayout android:id="@id/bottomFourthContainer" android:layout_width="34.0dip" android:layout_height="34.0dip" />
+    <RelativeLayout android:id="@id/moreButtonContainer1" android:tag="more" android:clipChildren="false" android:clipToPadding="false" android:layout_width="34.0dip" android:layout_height="34.0dip">
+        <com.netease.cloudmusic.ui.PlayerPageImageView android:id="@id/moreBtnNew1" android:padding="7.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/gd0" android:contentDescription="@string/p" android:alpha="0.4" />
+    </RelativeLayout>
+</com.google.android.flexbox.FlexboxLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.DialogRoundedLinearLayout android:orientation="vertical" android:id="@id/down_full_tip_layout" android:background="@drawable/bul" android:layout_width="fill_parent" android:layout_height="wrap_content" app:jw="@dimen/s4">
+        <ImageView android:id="@id/img_full" android:layout_width="fill_parent" android:layout_height="wrap_content" android:src="@drawable/dlb" android:scaleType="centerCrop" android:adjustViewBounds="true" />
+        <TextView android:textSize="14.0sp" android:textColor="@color/aiv" android:id="@id/tv_full_tip" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:text="@string/bk9" android:lineSpacingExtra="2.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="16.0sp" android:gravity="center" android:layout_gravity="center" android:id="@id/btn_redirect" android:layout_width="fill_parent" android:layout_height="40.0dip" android:layout_marginLeft="16.0dip" android:layout_marginTop="20.0dip" android:layout_marginRight="16.0dip" android:text="@string/cra" app:gl="useTheme" />
+        <TextView android:textSize="13.0sp" android:layout_gravity="center" android:id="@id/tv_show_fee_downloaded" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:layout_marginBottom="18.0dip" android:text="@string/i4a" android:includeFontPadding="false" android:drawableRight="@drawable/cbq" android:drawablePadding="4.0dip" />
+    </com.netease.cloudmusic.ui.DialogRoundedLinearLayout>
+</ScrollView>

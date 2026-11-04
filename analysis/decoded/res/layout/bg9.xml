@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:gravity="center_vertical" android:id="@id/realItemArea" android:tag="layout/item_search_result_live_origin_0" android:layout_width="fill_parent" android:layout_height="60.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.AvatarImage android:id="@id/avatar" android:tag="binding_1" android:layout_width="58.0dip" android:layout_height="58.0dip" android:layout_marginStart="15.0dip" app:cv="style4" app:a5f="parent" app:a5z="parent" app:a69="parent" />
+    <include android:id="@id/anchor" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginStart="5.0dip" android:layout_marginEnd="15.0dip" app:a5f="@id/avatar" app:a60="@id/avatar" app:a63="parent" app:a69="@id/avatar" layout="@layout/bg4" />
+</androidx.constraintlayout.widget.ConstraintLayout>

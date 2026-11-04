@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@id/playNotificationText" android:layout_width="fill_parent" android:layout_height="64.0dip" android:layout_marginLeft="10.0dip" android:layout_toLeftOf="@id/playNotificationStop" android:layout_toRightOf="@id/notifyAlbumCover"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textAppearance="@style/NotificationTitle" android:id="@id/notifyTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" />
+    <TextView android:textAppearance="@style/NotificationText" android:id="@id/notifyText" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:singleLine="true" android:drawablePadding="3.0dip" />
+</LinearLayout>

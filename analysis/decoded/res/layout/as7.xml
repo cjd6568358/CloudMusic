@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/music_library_root" android:tag="layout/fragment_music_library_container_0" android:background="@color/aen" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_vertical" android:id="@id/search_layout" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a69="parent">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/music_library_search_layout" android:background="@drawable/bff" android:layout_width="0.0dip" android:layout_height="36.0dip" android:layout_weight="1.0" android:paddingStart="10.0dip" android:paddingEnd="10.0dip" android:layout_marginStart="16.0dip">
+            <ImageView android:id="@id/music_library_search_icon" android:layout_width="16.0dip" android:layout_height="16.0dip" android:src="@drawable/bfe" />
+            <TextView android:textSize="15.0sp" android:textColor="@color/aet" android:id="@id/search_edit_text" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/ew7" android:layout_marginStart="4.0dip" />
+        </LinearLayout>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/filter_layout" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <com.netease.appcommon.ui.ICreatorCommonIcon android:id="@id/music_library_filter" android:layout_width="12.0dip" android:layout_height="12.0dip" android:src="@drawable/bet" android:layout_marginStart="12.0dip" />
+            <com.netease.appcommon.ui.ICreatorCommonTextIcon android:textSize="15.0sp" android:textColor="@color/af1" android:id="@id/music_library_filter_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ew0" android:layout_marginStart="4.0dip" android:layout_marginEnd="16.0dip" />
+        </LinearLayout>
+    </LinearLayout>
+    <androidx.fragment.app.FragmentContainerView android:id="@id/container" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a68="@id/search_layout" />
+    <com.netease.nmvideocreator.app.musiclibrary.ui.NMCSelectMusicMiniBar android:id="@id/mini_select_song" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="68.0dip" app:a5f="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/secondFloorTop" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="fitXY" android:contentDescription="@null" android:alpha="0.0" />
+    <LinearLayout android:gravity="center_vertical" android:layout_gravity="center_horizontal" android:id="@id/secondFloorPullTextLayout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="54.0dip" android:alpha="0.0">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/secondFloorPullTextIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/a5d" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:layout_gravity="center_horizontal" android:id="@id/secondFloorPullTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="下拉进入二楼" android:layout_marginStart="2.0dip" app:qe="colorIconOnimage2" />
+    </LinearLayout>
+</FrameLayout>

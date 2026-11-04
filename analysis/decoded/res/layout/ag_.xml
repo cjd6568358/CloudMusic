@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/a7q" android:layout_width="fill_parent" android:layout_height="fill_parent" android:contentDescription="epaysdk_bg|GradientDrawable"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:uf="银行卡" />
+    <FrameLayout android:id="@id/fl_add_card" android:background="@drawable/a96" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="110.0dip" android:layout_marginLeft="15.0dip" android:layout_marginTop="10.0dip" android:layout_marginRight="15.0dip">
+        <TextView android:textSize="16.0dip" android:textColor="@color/vu" android:gravity="center" android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/buo" android:drawableLeft="@drawable/czx" android:drawablePadding="10.0dip" />
+    </FrameLayout>
+    <ListView android:id="@id/lv_wallet_bank_card_list" android:paddingTop="15.0dip" android:divider="@android:color/transparent" android:dividerHeight="10.0dip" style="@style/a5e" />
+</LinearLayout>

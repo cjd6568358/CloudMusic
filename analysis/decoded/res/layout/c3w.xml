@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/pendantContainer" android:tag="layout/layout_party_dynamic_pendant_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.webview.pendant.ui.ScrollLinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="7.0dip" android:layout_marginStart="7.0dip" android:layout_marginEnd="7.0dip">
+        <androidx.viewpager2.widget.LoopViewPager android:layout_gravity="center_horizontal" android:id="@id/loopVP" android:tag="binding_1" android:layout_width="72.0dip" android:layout_height="144.0dip" />
+        <androidx.viewpager2.widget.IndicatorView android:layout_gravity="center_horizontal" android:id="@id/loopIndicator" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" />
+    </com.netease.play.webview.pendant.ui.ScrollLinearLayout>
+    <ImageView android:layout_gravity="end|center|top" android:id="@id/closeButton" android:tag="binding_2" android:paddingLeft="14.0dip" android:paddingBottom="14.0dip" android:layout_width="28.0dip" android:layout_height="28.0dip" />
+</FrameLayout>

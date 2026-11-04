@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/musicListContainer" android:tag="layout/activity_upload_new_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/button" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:layout_marginStart="16.0dip" app:a65="parent" app:a69="parent" app:avq="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="仅查看云音乐下载" android:layout_marginStart="7.0dip" app:qe="colorText2" app:a64="@id/button" app:a69="@id/button" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:text="歌曲列表来自本地音乐" android:layout_marginStart="7.0dip" android:layout_marginEnd="16.0dip" app:qe="colorText4" app:a5l="parent" app:a69="@id/button" />
+    <View android:background="#0f0f0f24" android:layout_width="fill_parent" android:layout_height="0.5dip" android:layout_marginTop="14.0dip" app:a68="@id/button" />
+    <FrameLayout android:id="@id/fragmentContain" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="44.0dip" />
+</androidx.constraintlayout.widget.ConstraintLayout>

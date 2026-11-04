@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_flt_ui_page_structure_0" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.viewpager2.widget.ViewPager2 android:id="@id/viewPager" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/indicator" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent" app:a5z="parent" app:a63="parent">
+        <com.netease.cloudmusic.module.listentogether.playpage.followlisten.page.FltCirclePlayerPageView android:id="@id/indicator0" android:layout_width="6.0dip" android:layout_height="6.0dip" android:layout_marginEnd="8.0dip" />
+        <com.netease.cloudmusic.module.listentogether.playpage.followlisten.page.FltCirclePlayerPageView android:id="@id/indicator1" android:layout_width="6.0dip" android:layout_height="6.0dip" />
+    </LinearLayout>
+    <com.netease.cloudmusic.module.listentogether.playpage.followlisten.page.FLTV2BottomTabView android:id="@id/v2BottomBar" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent" app:a5z="parent" app:a63="parent">
+        <FrameLayout android:layout_gravity="center" android:id="@id/tabIconContainer" android:paddingTop="11.0dip" android:paddingBottom="11.0dip" android:clipChildren="false" android:clipToPadding="false" android:layout_width="100.0dip" android:layout_height="44.0dip">
+            <FrameLayout android:id="@id/tabBorderContainer" android:background="@drawable/b6x" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                <com.netease.cloudmusic.ui.PlayerPageImageView android:layout_gravity="start|center" android:id="@id/tabSelectedBg" android:background="@drawable/b6y" android:layout_width="48.0dip" android:layout_height="18.0dip" android:layout_marginStart="2.0dip" />
+                <LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="fill_parent" android:paddingStart="2.0dip" android:paddingEnd="2.0dip">
+                    <com.netease.cloudmusic.ui.PlayerPageImageView android:id="@id/tabIconDisc" android:padding="3.0dip" android:layout_width="0.0dip" android:layout_height="fill_parent" android:src="@drawable/frx" android:scaleType="centerInside" android:layout_weight="1.0" />
+                    <com.netease.cloudmusic.ui.PlayerPageImageView android:id="@id/tabIconChat" android:padding="3.0dip" android:layout_width="0.0dip" android:layout_height="fill_parent" android:src="@drawable/frv" android:scaleType="centerInside" android:layout_weight="1.0" />
+                </LinearLayout>
+            </FrameLayout>
+        </FrameLayout>
+        <FrameLayout android:layout_gravity="start|center" android:id="@id/vipGiftHintSlot" android:layout_width="44.0dip" android:layout_height="44.0dip" android:layout_marginStart="18.0dip" />
+        <com.netease.cloudmusic.ui.PlayerPageImageView android:layout_gravity="end|center" android:id="@id/bottomMoreBtn" android:layout_width="24.0dip" android:layout_height="24.0dip" android:src="@drawable/frw" android:scaleType="centerInside" android:layout_marginEnd="25.0dip" />
+    </com.netease.cloudmusic.module.listentogether.playpage.followlisten.page.FLTV2BottomTabView>
+</androidx.constraintlayout.widget.ConstraintLayout>

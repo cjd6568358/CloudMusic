@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.biz.watch.component.titlelayout.TitleBarLayout android:id="@id/title_layout" app:os="添加音频" style="@style/w7" />
+    <com.netease.cloudmusic.biz.watch.component.tablayout.WatchTabLayout android:id="@id/tab_layout" android:layout_width="fill_parent" android:layout_height="40.0dip" android:showDividers="middle" android:dividerPadding="12.0dip" android:layout_marginStart="20.0dip" android:layout_marginEnd="20.0dip" app:nr="move" app:at7="fixed" />
+    <androidx.viewpager.widget.ViewPager android:id="@id/view_pager" android:layout_width="fill_parent" android:layout_height="fill_parent" android:overScrollMode="never" />
+</LinearLayout>

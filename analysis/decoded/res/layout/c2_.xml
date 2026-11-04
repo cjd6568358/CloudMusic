@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_new_official_anchor_info_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/sdvTheme" android:layout_width="180.0dip" android:layout_height="40.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <View android:id="@id/viewAnchorAreaBg" android:layout_width="164.0dip" android:layout_height="40.0dip" app:a65="parent" app:a68="@id/sdvTheme" />
+    <FrameLayout android:id="@id/avatarContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="10.0dip" app:a5f="@id/viewAnchorAreaBg" app:a65="@id/viewAnchorAreaBg" app:a69="@id/viewAnchorAreaBg">
+        <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatarAnchor" android:layout_width="26.0dip" android:layout_height="26.0dip" app:ai4="style8" />
+    </FrameLayout>
+    <TextView android:textSize="13.0sp" android:textColor="@color/b1e" android:ellipsize="end" android:id="@id/txtNickName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="90.0dip" android:maxLines="1" android:includeFontPadding="false" android:layout_marginStart="5.0dip" app:a64="@id/avatarContainer" app:a69="@id/avatarContainer" />
+    <TextView android:textSize="9.0sp" android:textColor="#fff0c35c" android:id="@id/txtHot" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="78.0dip" android:text="-" android:maxLines="1" android:includeFontPadding="false" android:drawablePadding="3.3299866dip" app:rj="@drawable/gjw" app:a5f="@id/avatarContainer" app:a65="@id/txtNickName" />
+    <com.netease.play.officialshow.view.OfficialRoomFollowButton android:id="@id/btnFollow" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="24.0dip" app:a5f="@id/viewAnchorAreaBg" app:a5l="@id/viewAnchorAreaBg" app:a69="@id/viewAnchorAreaBg" />
+</androidx.constraintlayout.widget.ConstraintLayout>

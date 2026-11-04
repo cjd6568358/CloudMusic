@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/gamePromoteContainer" android:tag="layout/layout_game_promote2_0" android:background="@drawable/ow" android:layout_width="250.0dip" android:layout_height="65.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.NeteaseMusicSimpleDraweeView android:id="@id/dvLogo" android:layout_width="53.0dip" android:layout_height="53.0dip" android:layout_marginTop="6.0dip" android:layout_marginBottom="6.0dip" android:layout_marginStart="6.0dip" app:am0="5.0dip" />
+    <ImageView android:id="@id/ivClose" android:layout_width="30.0dip" android:layout_height="fill_parent" android:src="@drawable/ezu" android:scaleType="center" android:layout_centerVertical="true" android:layout_alignParentEnd="true" />
+    <View android:background="@color/b12" android:layout_width="0.5dip" android:layout_height="fill_parent" android:alpha="0.2" android:layout_toStartOf="@id/ivClose" />
+    <TextView android:textSize="13.0sp" android:textColor="@color/b12" android:id="@id/tvName" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_marginTop="6.0dip" android:layout_marginRight="8.0dip" android:maxLines="1" android:layout_toStartOf="@id/ivClose" android:layout_toEndOf="@id/dvLogo" />
+    <TextView android:textSize="11.0sp" android:textColor="@color/b1q" android:ellipsize="end" android:id="@id/tvContent" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_marginTop="6.0dip" android:layout_marginRight="8.0dip" android:maxLines="2" android:includeFontPadding="false" android:layout_below="@id/tvName" android:layout_toStartOf="@id/ivClose" android:layout_toEndOf="@id/dvLogo" />
+</RelativeLayout>

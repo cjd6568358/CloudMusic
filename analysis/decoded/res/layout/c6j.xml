@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="15.0sp" android:textColor="@color/b19" android:id="@id/tv_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="8.0dip" android:text="@string/eww" app:a5g="@id/guide_middle_horizontal" app:a5l="parent" app:a65="parent" />
+    <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/guide_middle_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5p="0.5" />
+    <androidx.constraintlayout.widget.Barrier android:id="@id/barrier_top" android:layout_width="wrap_content" android:layout_height="wrap_content" app:dn="top" app:l1="tv_find, tv_upload" />
+    <androidx.constraintlayout.widget.Barrier android:id="@id/barrier_bottom" android:layout_width="wrap_content" android:layout_height="wrap_content" app:dn="bottom" app:l1="tv_find, tv_upload" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:textColor="@color/ao5" android:id="@id/tv_upload" android:padding="8.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ex3" android:includeFontPadding="false" app:a5m="@id/line_no_data" app:a5w="packed" app:a65="parent" app:a68="@id/guide_middle_horizontal" />
+    <View android:id="@id/line_no_data" android:background="@color/b17" android:layout_width="1.0px" android:layout_height="14.0dip" android:layout_marginStart="12.0dip" android:layout_marginEnd="12.0dip" app:a5f="@id/barrier_bottom" app:a5m="@id/tv_find" app:a64="@id/tv_upload" app:a69="@id/barrier_top" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:textColor="@color/ao5" android:id="@id/tv_find" android:padding="8.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ewo" android:includeFontPadding="false" app:a5l="parent" app:a64="@id/line_no_data" app:a68="@id/guide_middle_horizontal" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.module.musicshare.customshare.RoundedLinearWithoutTheme android:orientation="vertical" android:background="@color/aiw" android:layout_width="fill_parent" android:layout_height="125.0dip" android:layout_marginLeft="@dimen/s1" android:layout_marginRight="@dimen/s2" fresco:jw="8.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <TextView android:id="@id/shareChannelText" style="@style/a4c" />
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/shareUserAvatar" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginLeft="12.0dip" android:layout_marginRight="10.0dip" fresco:ae="centerCrop" fresco:w3="300" fresco:ahy="@drawable/cx5" fresco:ahz="fitXY" fresco:am0="@dimen/u5" />
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <TextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="@color/qs" android:ellipsize="end" android:id="@id/userName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:layout_marginBottom="2.0dip" android:maxLines="1" />
+            <RelativeLayout android:background="@color/f6" android:layout_width="269.0dip" android:layout_height="45.0dip">
+                <FrameLayout android:id="@id/avatarContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:layout_marginRight="5.0dip" android:layout_centerVertical="true">
+                    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/shareMusicAvatar" android:layout_width="36.0dip" android:layout_height="36.0dip" fresco:ae="centerCrop" fresco:w3="300" fresco:ahy="@drawable/cx5" fresco:ahz="fitXY" />
+                </FrameLayout>
+                <TextView android:textSize="12.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/shareTitle" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:layout_marginRight="21.0dip" android:maxLines="2" android:layout_toRightOf="@id/avatarContainer" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</com.netease.cloudmusic.module.musicshare.customshare.RoundedLinearWithoutTheme>

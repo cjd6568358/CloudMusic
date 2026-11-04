@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/container" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <include android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1.0" layout="@layout/ald" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeFollowButton android:gravity="center" android:id="@id/recommendTopicFollowBtn" android:layout_height="23.0dip" android:layout_marginRight="@dimen/s2" android:text="@string/cak" style="@style/a4l" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

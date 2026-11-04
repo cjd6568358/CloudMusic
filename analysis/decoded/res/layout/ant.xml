@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.NeteaseSwipeToRefresh android:id="@id/swipeToRefreshView" android:tag="layout/fragment_demo_aggreggation_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@id/coordinator" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.google.android.material.appbar.AppBarLayout android:id="@id/layoutAppbar" android:background="@color/ay9" android:fadingEdge="vertical" android:fadingEdgeLength="3.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip">
+            <LinearLayout android:orientation="vertical" android:id="@id/demoParentContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a76="scroll|exitUntilCollapsed">
+                <FrameLayout android:id="@id/demoContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:background="#08000000" android:layout_width="fill_parent" android:layout_height="8.0dip" app:a76="scroll|exitUntilCollapsed" />
+            </LinearLayout>
+            <FrameLayout android:id="@id/sort_container" android:paddingLeft="@dimen/s1" android:paddingRight="@dimen/s2" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <LinearLayout android:orientation="horizontal" android:paddingTop="20.0dip" android:paddingBottom="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:layout_gravity="center_vertical" android:id="@id/sort_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/b_9" android:includeFontPadding="false" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:layout_gravity="center_vertical" android:id="@id/sort_number" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" android:includeFontPadding="false" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiv" android:gravity="center_vertical" android:layout_gravity="center|right" android:id="@id/sort_text" android:tag="binding_1" android:paddingTop="20.0dip" android:paddingBottom="20.0dip" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/awv" android:drawablePadding="3.0dip" />
+            </FrameLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+        <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="@string/uo" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</com.netease.cloudmusic.ui.NeteaseSwipeToRefresh>

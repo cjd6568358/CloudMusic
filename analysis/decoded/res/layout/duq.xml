@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:tag="layout/vc_operation_filter_material_item_0" android:layout_width="wrap_content" android:layout_height="wrap_content" fresco:go="@color/ay_" fresco:gp="4.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/group_name" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/cover" android:layout_width="56.0dip" android:layout_height="@dimen/atx" fresco:a5l="parent" fresco:a65="parent" fresco:a69="parent" fresco:ahy="@color/r8" fresco:aly="@color/r8" />
+        <TextView android:textSize="10.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/name" android:layout_width="0.0dip" android:layout_height="18.0dip" fresco:a5f="@id/cover" fresco:a5l="@id/cover" fresco:a65="@id/cover" />
+        <ProgressBar android:id="@id/progress_bar" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="24.0dip" fresco:a5g="@id/name" fresco:a5l="@id/cover" fresco:a65="@id/cover" fresco:a69="@id/cover" />
+        <FrameLayout android:id="@id/mask" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip" fresco:a5g="@id/name" fresco:a5l="@id/cover" fresco:a65="@id/cover" fresco:a69="parent">
+            <ImageView android:layout_gravity="center" android:id="@id/mask_icon" android:background="@drawable/c9p" android:layout_width="20.0dip" android:layout_height="20.0dip" />
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

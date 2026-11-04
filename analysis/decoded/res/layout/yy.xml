@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:gravity="center_vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" playlist:e4="96.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:playlist="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.RadioDraweeView android:id="@id/programImage" android:layout_width="80.0dip" android:layout_height="80.0dip" android:layout_marginLeft="@dimen/s1" android:layout_marginTop="3.0dip" android:layout_marginBottom="3.0dip" playlist:ae="centerCrop" playlist:ahy="@drawable/cx5" playlist:ahz="fitXY" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:paddingLeft="@dimen/ag_" android:paddingRight="@dimen/s2" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="@dimen/w2" android:textColor="@color/aiv" android:id="@id/rcmdText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="@dimen/w5" android:textColor="@color/aiy" android:id="@id/programSerial" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" android:singleLine="true" />
+    </LinearLayout>
+</merge>

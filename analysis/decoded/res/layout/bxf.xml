@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/qipao_group" android:tag="layout/layout_live_sign_qipao_0" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/qipao_bg" android:background="@drawable/c2w" android:layout_width="0.0dip" android:layout_height="0.0dip" android:alpha="0.0" app:a63="parent" app:a69="parent" />
+    <TextView android:textSize="14.0sp" android:textColor="@android:color/white" android:id="@id/qipao_text" android:paddingLeft="16.0dip" android:paddingTop="8.0dip" android:paddingRight="22.0dip" android:paddingBottom="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="125.0dip" android:alpha="0.0" app:a63="parent" app:a69="parent" />
+    <Space android:id="@id/qipao_space" android:layout_width="8.0dip" android:layout_height="8.0dip" app:a62="@id/qipao_text" app:a69="@id/qipao_text" />
+    <ImageView android:id="@id/qipao_icon" android:layout_width="16.0dip" android:layout_height="16.0dip" android:src="@drawable/gs0" android:scaleX="0.0" android:scaleY="0.0" app:a5f="@id/qipao_text" app:a5z="@id/qipao_space" app:a69="@id/qipao_text" />
+</androidx.constraintlayout.widget.ConstraintLayout>

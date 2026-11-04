@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:tag="layout/note_layout_item_choose_pic_0" android:layout_width="67.0dip" android:layout_height="67.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <View android:layout_gravity="center" android:id="@id/borderBg" android:background="@drawable/b8j" android:visibility="gone" android:layout_width="64.0dip" android:layout_height="64.0dip" />
+    <androidx.cardview.widget.CardView android:layout_gravity="center" android:id="@id/container_album_item" android:layout_width="60.0dip" android:layout_height="60.0dip" fresco:go="@color/ay_" fresco:gp="4.0dip" fresco:gq="0.0dip">
+        <RelativeLayout android:id="@id/picContainer" android:clipChildren="false" android:clipToPadding="false" android:layout_width="60.0dip" android:layout_height="60.0dip">
+            <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/image" android:layout_width="60.0dip" android:layout_height="60.0dip" fresco:ae="centerCrop" fresco:ahy="@drawable/cx7" fresco:ahz="fitXY" fresco:aj2="@color/an4" />
+            <ImageView android:background="@drawable/d2x" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_alignBottom="@id/image" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

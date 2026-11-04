@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:id="@id/mViewContainer" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginStart="20.0dip" android:layout_marginEnd="20.0dip" app:a5f="parent" app:a5k="1:1" app:a5l="parent" app:a65="parent" app:a69="parent" app:a6_="0.4">
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="3.0">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/mCoverImage" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" app:ae="centerCrop" app:ag3="@color/e3" app:ahy="@drawable/djs" app:ahz="centerCrop" />
+            <ImageView android:id="@id/waterMark" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="7.0dip" android:src="@drawable/fut" android:scaleType="centerCrop" android:layout_marginEnd="17.0dip" android:layout_alignParentEnd="true" />
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/vg_circle_data_container" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="18.0dip" android:layout_alignParentBottom="true" android:layout_marginStart="20.0dip">
+                <TextView android:textSize="13.0sp" android:textColor="#99ffffff" android:id="@id/mFansNumber" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" />
+                <View android:id="@id/view_circle_line" android:background="#33ffffff" android:layout_width="0.70000005dip" android:layout_height="12.0dip" android:layout_marginStart="10.0dip" />
+                <TextView android:textSize="13.0sp" android:textColor="#99ffffff" android:id="@id/mPostNumber" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:layout_marginStart="10.0dip" />
+            </LinearLayout>
+            <TextView android:textSize="24.0sp" android:textColor="#ffffffff" android:id="@id/mCircleName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:includeFontPadding="false" android:layout_above="@id/vg_circle_data_container" android:layout_marginStart="20.0dip" android:layout_marginEnd="20.0dip" />
+        </RelativeLayout>
+        <RelativeLayout android:background="@color/b1e" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="2.0" android:layout_alignParentBottom="true">
+            <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_marginStart="20.0dip" android:layout_toStartOf="@id/qrImageContainer">
+                <TextView android:textSize="15.0sp" android:textColor="#ff666666" android:gravity="center" android:id="@id/iv_tint_above" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/anc" android:includeFontPadding="false" />
+                <TextView android:textSize="15.0sp" android:textColor="#ff666666" android:ellipsize="end" android:gravity="start" android:id="@id/mTintBelow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" android:singleLine="true" android:includeFontPadding="false" />
+            </LinearLayout>
+            <FrameLayout android:id="@id/qrImageContainer" android:layout_width="90.0dip" android:layout_height="90.0dip" android:layout_centerVertical="true" android:layout_marginEnd="22.0dip" android:layout_alignParentEnd="true">
+                <ImageView android:layout_gravity="center" android:id="@id/mQRImageView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+                <ImageView android:layout_gravity="center" android:id="@id/iv_logo" android:layout_width="30.0dip" android:layout_height="30.0dip" android:src="@drawable/fdp" android:scaleType="centerCrop" />
+            </FrameLayout>
+        </RelativeLayout>
+    </LinearLayout>
+    <include android:layout_width="fill_parent" android:layout_height="?i" layout="@layout/dq9" />
+    <RelativeLayout android:id="@id/mRecyclerviewContainer" android:layout_width="fill_parent" android:layout_height="179.0dip" app:a5f="parent">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="#ff666666" android:id="@id/tv_share_hint" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18.0dip" android:text="@string/anw" android:includeFontPadding="false" android:layout_marginStart="16.0dip" />
+        <com.netease.cloudmusic.ui.NovaHorizonRecyclerView android:id="@id/mRecyclerview" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:layout_below="@id/tv_share_hint" />
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

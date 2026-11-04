@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="38.0dip" android:layout_marginBottom="18.0dip">
+        <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatarImage" android:layout_width="44.0dip" android:layout_height="44.0dip" android:layout_marginLeft="8.0dip" android:layout_marginRight="8.0dip" app:ai4="style5" />
+        <TextView android:textSize="14.0sp" android:textColor="@color/a6g" android:gravity="center_vertical" android:id="@id/anchorText" android:paddingLeft="10.0dip" android:paddingTop="13.0dip" android:paddingRight="10.0dip" android:paddingBottom="13.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:layout_marginRight="65.0dip" android:maxWidth="240.0dip" android:text="@string/ho_" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center_vertical" android:layout_gravity="right" android:orientation="horizontal" android:id="@id/viewerContainer" android:layout_width="wrap_content" android:layout_height="40.0dip" android:layout_marginRight="10.0dip" android:layout_marginBottom="40.0dip">
+        <TextView android:textSize="14.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/viewerText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginRight="6.0dip" android:text="@string/hp1" />
+        <com.netease.play.ui.CustomButton android:textSize="12.0sp" android:id="@id/joinButton" android:paddingLeft="13.0dip" android:paddingTop="6.0dip" android:paddingRight="13.0dip" android:paddingBottom="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15.0dip" android:text="@string/hp0" app:gg="0x0000FFFF" app:aer="@color/b1e" app:aey="@color/ani" app:aiv="@color/b1e" app:aiw="@color/listItemPressedColor" app:aj0="@color/ani" />
+    </LinearLayout>
+</LinearLayout>

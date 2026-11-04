@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/container" android:background="@color/do" android:layout_width="fill_parent" android:layout_height="@dimen/a63"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0.0dip" android:layout_height="fill_parent" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" app:a6g="0.62">
+        <com.facebook.drawee.view.SimpleDraweeView android:id="@id/notifyIcon" android:layout_width="18.0dip" android:layout_height="18.0dip" app:a5f="parent" app:a5w="packed" app:a5z="parent" app:a62="@id/notifyContent" app:a69="parent" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="13.0sp" android:textColor="@color/b1z" android:ellipsize="end" android:id="@id/notifyContent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:text="下一个：我最喜欢的那些创作歌手省略号省略号省略号省略号省略号" android:lines="1" app:a5_="true" app:a5f="parent" app:a60="@id/notifyIcon" app:a63="parent" app:a69="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

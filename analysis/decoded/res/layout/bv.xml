@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ScrollView android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <Button android:id="@id/testNativeCrashInMainThreadButton" android:padding="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="0.0dip" android:text="native crash (in main java thread)" android:onClick="testNativeCrashInMainThread_onClick" android:textAllCaps="false" />
+            <Button android:id="@id/testNativeCrashInAnotherJavaThreadButton" android:padding="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="0.0dip" android:text="native crash (in another java thread)" android:onClick="testNativeCrashInAnotherJavaThread_onClick" android:textAllCaps="false" />
+            <Button android:id="@id/testNativeCrashInAnotherNativeThreadButton" android:padding="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="0.0dip" android:text="native crash (in another native thread)" android:onClick="testNativeCrashInAnotherNativeThread_onClick" android:textAllCaps="false" />
+            <Button android:id="@id/testJavaCrashInMainThreadButton" android:padding="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="0.0dip" android:text="java crash (in main java thread)" android:onClick="testJavaCrashInMainThread_onClick" android:textAllCaps="false" />
+            <Button android:id="@id/testJavaCrashInAnotherThreadButton" android:padding="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="0.0dip" android:text="java crash (in another java thread)" android:onClick="testJavaCrashInAnotherThread_onClick" android:textAllCaps="false" />
+            <Button android:id="@id/testAnrInputButton" android:padding="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="0.0dip" android:text="ANR (input timeout)" android:onClick="testAnrInput_onClick" android:textAllCaps="false" />
+            <Button android:id="@id/testActiveReportButton" android:padding="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="0.0dip" android:text="Error Active Report" android:textAllCaps="false" />
+            <Button android:id="@id/testCrashReportButton" android:padding="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="0.0dip" android:text="Parse And Report Crash" android:textAllCaps="false" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

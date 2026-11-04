@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:tag="layout/audio_edit_fragment_edit_0" android:focusable="true" android:clickable="true" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.google.android.material.tabs.TabLayout android:layout_gravity="center_horizontal" android:id="@id/tab_layout" android:layout_width="wrap_content" android:layout_height="40.0dip" app:asp="@null" app:ast="@color/b12" app:at_="16.0dip" app:ata="16.0dip" app:ath="@color/b12" app:atk="@style/a31" app:atl="@color/b18" />
+    <com.netease.cloudmusic.common.nova.widget.SwipeDisableViewPager android:id="@id/view_pager" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="98.0dip" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:layout_marginBottom="40.0dip" android:paddingStart="16.0dip" android:paddingEnd="20.0dip">
+        <TextView android:textSize="12.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/again" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/a2k" android:drawableTop="@drawable/go" android:drawablePadding="6.0dip" />
+        <TextView android:textSize="16.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/publish" android:background="@drawable/gm" android:layout_width="0.0dip" android:layout_height="46.0dip" android:text="@string/a2l" android:layout_weight="1.0" android:layout_marginStart="16.0dip" />
+    </LinearLayout>
+</LinearLayout>

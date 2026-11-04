@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.loginapi.qrcode.widget.roundimageview.RoundedImageView android:id="@id/backgroundUrl" android:layout_width="fill_parent" android:layout_height="74.0dip" android:scaleType="fitXY" app:m2="4.0dip" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/iconImageUrl" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginTop="8.0dip" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/titleImageUrl" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:layout_toRightOf="@id/iconImageUrl" />
+    <View android:id="@id/splitLine" android:layout_width="fill_parent" android:layout_height="1.0dip" android:layout_marginLeft="12.0dip" android:layout_marginTop="8.0dip" android:layout_marginRight="12.0dip" android:layout_below="@id/iconImageUrl" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/redEnvelopeDesContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginTop="2.0dip" android:layout_marginRight="12.0dip" android:layout_below="@id/splitLine">
+        <TextView android:textSize="10.0sp" android:textColor="#ffffd9b2" android:ellipsize="end" android:id="@id/redEnvelopeAuthor" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" />
+        <TextView android:textSize="10.0sp" android:textColor="#ffffd9b2" android:id="@id/redEnvelopeDescription" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+</RelativeLayout>

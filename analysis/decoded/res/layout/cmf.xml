@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/media_cropper_fragment_crop_0" android:background="@drawable/b95" android:paddingBottom="8.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.nmvideoeditor.operation.view.OperationTitleLayout android:id="@id/title_layout" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a69="parent" />
+    <View android:id="@id/view_divide" android:background="@color/b1a" android:layout_width="fill_parent" android:layout_height="0.5dip" app:a68="@id/title_layout" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/rv_aspect" android:layout_width="fill_parent" android:layout_height="64.0dip" android:layout_marginTop="20.0dip" android:layout_marginBottom="12.0dip" android:overScrollMode="never" android:paddingStart="30.0dip" android:paddingEnd="30.0dip" app:a5f="parent" app:a68="@id/title_layout" />
+    <androidx.constraintlayout.widget.Group android:id="@id/group" android:layout_width="wrap_content" android:layout_height="wrap_content" app:l1="view_divide,rv_aspect" />
+</androidx.constraintlayout.widget.ConstraintLayout>

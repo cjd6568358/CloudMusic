@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.module.video.VideoRoundFrameLayout android:id="@id/loadStatusView" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center" android:id="@id/loadingView" android:background="#99000000" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.theme.ui.CustomThemeProgressBar android:gravity="center" android:id="@id/progress" android:layout_width="33.0dip" android:layout_height="33.0dip" android:indeterminate="true" />
+    </LinearLayout>
+    <RelativeLayout android:id="@id/videoInfo" android:background="#ff000000" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/placeholder_mv_cover" android:layout_width="wrap_content" android:layout_height="wrap_content" android:scaleType="centerCrop" android:layout_centerInParent="true" />
+        <ProgressBar android:id="@id/videoLoadingProgressBar" android:layout_width="33.0dip" android:layout_height="33.0dip" android:indeterminate="true" android:layout_centerInParent="true" android:layout_centerHorizontal="true" />
+        <TextView android:textSize="14.669983sp" android:textColor="#ff8d8d8d" android:gravity="center_vertical" android:id="@id/videoInfoTextView" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" android:text="@string/eya" android:layout_centerInParent="true" />
+    </RelativeLayout>
+    <TextView android:textSize="15.0sp" android:textColor="#7fffffff" android:gravity="center" android:id="@id/loadFailView" android:background="#99000000" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:lineSpacingExtra="13.0dip" />
+</com.netease.cloudmusic.module.video.VideoRoundFrameLayout>

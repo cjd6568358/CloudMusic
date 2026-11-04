@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@drawable/a3q" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/progressContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18.0dip" android:layout_centerHorizontal="true">
+        <com.netease.cloudmusic.dialog.progress.CircleProgressView android:layout_gravity="center" android:id="@id/progressView" android:layout_width="44.0dip" android:layout_height="44.0dip" />
+        <TextView android:textSize="12.0sp" android:textColor="#ffffffff" android:layout_gravity="center" android:id="@id/progressText" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </FrameLayout>
+    <TextView android:textSize="16.0sp" android:textColor="#ffffffff" android:id="@id/textView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="45.0dip" android:layout_marginTop="12.0dip" android:layout_marginRight="45.0dip" android:layout_marginBottom="18.0dip" android:layout_below="@id/progressContainer" android:layout_centerHorizontal="true" />
+</RelativeLayout>

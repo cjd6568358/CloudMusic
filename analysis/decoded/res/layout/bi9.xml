@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.ui.LookThemeLinearLayout android:gravity="center_vertical" android:layout_width="fill_parent" android:layout_height="71.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="15.0sp" android:textColor="@color/e3" android:gravity="center" android:id="@id/rank" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="40.0dip" />
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar" android:layout_width="50.0dip" android:layout_height="50.0dip" app:y5="true" app:ai4="style18" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_marginLeft="10.0dip" android:layout_weight="1.0">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/user_info" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginRight="18.0dip" app:a5g="@id/other_info" app:a5z="parent" app:a62="@id/gift" app:a69="parent" app:a6a="packed">
+            <ProgressBar android:id="@id/liveStatus" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="14.0dip" android:layout_marginRight="5.0dip" />
+            <TextView android:textSize="15.0sp" android:textColor="@color/a6c" android:ellipsize="end" android:layout_gravity="center_vertical" android:id="@id/nickname" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" />
+        </LinearLayout>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/other_info" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:layout_marginRight="18.0dip" app:a5f="parent" app:a5z="@id/user_info" app:a62="@id/gift" app:a68="@id/user_info" app:a6a="packed">
+            <TextView android:textSize="12.0sp" android:textColor="#ffff2c55" android:ellipsize="end" android:id="@id/count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:singleLine="true" />
+            <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar_contribution" android:visibility="gone" android:layout_width="18.0dip" android:layout_height="18.0dip" android:layout_marginLeft="11.0dip" app:ai4="style11" />
+            <TextView android:textSize="12.0sp" android:textColor="@color/e9" android:id="@id/avatar_contribution_des" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:text="最佳贡献" />
+        </LinearLayout>
+        <ImageView android:id="@id/gift" android:background="@drawable/ju" android:padding="3.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="30.0dip" android:layout_marginRight="12.0dip" android:src="@drawable/dry" app:a5f="parent" app:a63="parent" app:a69="parent" />
+        <View android:background="#1a000000" android:layout_width="fill_parent" android:layout_height="1.0px" app:a5f="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.netease.play.ui.LookThemeLinearLayout>

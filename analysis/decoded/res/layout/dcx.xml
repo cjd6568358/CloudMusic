@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:paddingTop="3.0dip" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Space android:id="@id/playgroundAvatarSpace" android:layout_width="50.0dip" android:layout_height="50.0dip" app:a5f="@id/volumeView" app:a5z="@id/volumeView" app:a63="@id/volumeView" app:a69="@id/volumeView" />
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/playgroundAvatar" android:layout_width="64.0dip" android:layout_height="64.0dip" app:a5f="@id/volumeView" app:a5z="@id/volumeView" app:a63="@id/volumeView" app:a69="@id/volumeView" app:ahy="@color/b1h" app:ai4="style31" />
+    <Space android:id="@id/center" android:layout_width="50.0dip" android:layout_height="50.0dip" app:a5f="@id/playgroundAvatar" app:a5z="@id/playgroundAvatar" app:a63="@id/playgroundAvatar" app:a69="@id/playgroundAvatar" />
+    <ImageView android:layout_gravity="bottom|center" android:id="@id/playgroundInfo" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/center" />
+    <TextView android:textSize="11.0sp" android:textColor="@color/b1z" android:ellipsize="end" android:gravity="center" android:id="@id/playgroundNickname" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:singleLine="true" android:includeFontPadding="false" android:drawablePadding="2.0dip" android:layout_marginStart="3.0dip" android:layout_marginEnd="3.0dip" app:a5_="true" app:a5z="parent" app:a63="parent" app:a68="@id/playgroundInfo" />
+    <ImageView android:id="@id/volumeView" android:layout_width="75.0dip" android:layout_height="75.0dip" android:scaleType="fitCenter" app:a5z="parent" app:a63="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

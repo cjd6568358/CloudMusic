@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.ui.LookThemeLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/itemRoot" android:tag="layout/item_anchor_order_music2_0" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="51.0dip" app:e2="dark" app:e4="20.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="10.0dip">
+        <ImageView android:id="@id/image" android:tag="binding_1" android:layout_width="18.0dip" android:layout_height="18.0dip" android:src="@drawable/esf" />
+        <ProgressBar android:id="@id/loading" android:tag="binding_2" android:layout_width="18.0dip" android:layout_height="18.0dip" android:indeterminate="true" />
+    </FrameLayout>
+    <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_centerVertical="true">
+        <TextView android:textSize="15.0sp" android:id="@id/songName" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="3.0dip" android:singleLine="true" />
+        <TextView android:textSize="11.0sp" android:layout_gravity="start" android:id="@id/songInfo" android:tag="binding_4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:drawablePadding="3.0dip" />
+    </LinearLayout>
+    <TextView android:textSize="10.0sp" android:textColor="@color/b1n" android:id="@id/optInfo" android:tag="binding_5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.669983dip" android:layout_marginRight="4.669983dip" android:singleLine="true" />
+    <com.netease.play.ui.ReverseLinearLayout android:layout_gravity="center_vertical" android:orientation="horizontal" android:id="@id/profileContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+</com.netease.play.ui.LookThemeLinearLayout>

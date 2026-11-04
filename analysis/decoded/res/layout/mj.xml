@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/renew_item_container" android:tag="layout/adapter_audiochat_renew_layout_0" android:background="@drawable/bwd" android:layout_width="fill_parent" android:layout_height="47.0dip" android:layout_margin="5.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:textColor="@color/b12" android:ellipsize="end" android:gravity="center" android:id="@id/renew_time" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="1" app:a5g="@id/renew_price" app:a69="parent" app:a6a="packed" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="9.0sp" android:textColor="#99ffd21f" android:ellipsize="end" android:gravity="center" android:id="@id/renew_price" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:drawableLeft="@drawable/elb" android:drawablePadding="2.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a68="@id/renew_time" app:a6a="packed" />
+</androidx.constraintlayout.widget.ConstraintLayout>

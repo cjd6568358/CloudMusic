@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.round.RoundedFrameLayout android:id="@id/bg" android:background="#e61b1b24" android:layout_width="140.0dip" android:layout_height="165.0dip" app:jw="10.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/b1e" android:id="@id/progressText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="42.0dip" app:a5l="parent" app:a65="parent" app:a69="@id/bg" />
+    <com.netease.cloudmusic.dialog.progress.CircleProgressView android:id="@id/progressBar" android:layout_width="60.0dip" android:layout_height="60.0dip" android:layout_marginTop="20.0dip" app:a5l="@id/bg" app:a65="@id/bg" app:a69="@id/bg" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1e" android:id="@id/loadingText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/progressBar" />
+    <com.netease.cloudmusic.ui.RoundTextView android:textSize="12.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/cancelButton" android:background="@color/b1d" android:layout_width="68.0dip" android:layout_height="30.0dip" android:layout_marginTop="10.0dip" android:text="@string/abp" app:jw="15.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/loadingText" />
+</androidx.constraintlayout.widget.ConstraintLayout>

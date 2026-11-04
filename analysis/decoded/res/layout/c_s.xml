@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/c6y" android:paddingLeft="@dimen/aos" android:paddingRight="@dimen/aos" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:id="@id/shareGiftHint" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:id="@id/shareGiftHintTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18.0dip" android:text="@string/i3a" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="13.0sp" android:textColor="#ffffffff" android:id="@id/shareGiftHintContent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="分享直播间可获得礼物奖励" android:alpha="0.7" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatImageView android:layout_width="13.0dip" android:layout_height="13.0dip" android:src="@drawable/gr6" android:scaleType="centerCrop" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="13.0sp" android:textColor="#ffffffff" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@id/shareGiftHintDesc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="2.2999878dip" android:text="@string/i37" android:alpha="0.7" />
+        </LinearLayout>
+        <View android:background="#ffffffff" android:layout_width="fill_parent" android:layout_height="0.39999998dip" android:layout_marginTop="18.0dip" android:alpha="0.15" />
+    </LinearLayout>
+    <include android:layout_width="fill_parent" android:layout_height="94.0dip" layout="@layout/c_u" />
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_alignParentBottom="true"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ViewStub android:id="@id/stub_header_legacy" android:layout="@layout/dg8" android:inflatedId="@id/title_container" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <ViewStub android:id="@id/stub_header_experiment" android:layout="@layout/dg7" android:inflatedId="@id/title_container" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <com.netease.cloudmusic.module.playerlist.ui.UnTouchableRelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/title_container">
+        <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/playerlist_view" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/title_container" />
+    </com.netease.cloudmusic.module.playerlist.ui.UnTouchableRelativeLayout>
+    <com.netease.cloudmusic.module.playerlist.ui.RandomPlayerListDecorationView android:id="@id/mask_container" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <RelativeLayout android:orientation="horizontal" android:id="@id/control_container" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/title_container" android:layout_alignParentBottom="true">
+        <com.netease.cloudmusic.module.playerlist.ui.RandomPlayerListSettingPanel android:id="@id/random_playerlist_setting_panel" android:layout_width="@dimen/amo" android:layout_height="@dimen/amn" android:layout_above="@id/icon_bottom" android:layout_centerHorizontal="true" />
+        <ImageView android:id="@id/icon_top" android:background="@drawable/ag0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_above="@id/random_playerlist_setting_panel" android:layout_centerHorizontal="true" android:alpha="0.8" />
+        <ImageView android:id="@id/icon_bottom" android:background="@drawable/atv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="30.0dip" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" android:alpha="0.8" />
+        <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_toStartOf="@id/random_playerlist_setting_panel">
+            <ImageView android:id="@id/icon_left" android:background="@drawable/asd" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/aml" android:alpha="0.8" />
+        </FrameLayout>
+        <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_toEndOf="@id/random_playerlist_setting_panel">
+            <ImageView android:id="@id/icon_right" android:background="@drawable/ank" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/aml" android:alpha="0.8" />
+        </FrameLayout>
+        <ImageView android:id="@id/lottie_image_view" android:visibility="gone" android:layout_width="@dimen/amo" android:layout_height="@dimen/amn" android:layout_above="@id/icon_bottom" android:layout_centerHorizontal="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="14.0sp" android:gravity="center" android:id="@id/cancel_button" android:layout_width="52.0dip" android:layout_height="30.0dip" android:layout_marginBottom="24.0dip" android:text="@string/hbi" android:layout_alignParentBottom="true" android:layout_marginStart="20.0dip" app:gl="defaultType" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="14.0sp" android:gravity="center" android:id="@id/finish_button" android:layout_width="52.0dip" android:layout_height="30.0dip" android:layout_marginBottom="24.0dip" android:text="@string/hbk" android:layout_alignParentBottom="true" android:layout_marginEnd="20.0dip" android:layout_alignParentEnd="true" app:gl="defaultType" />
+    </RelativeLayout>
+</RelativeLayout>

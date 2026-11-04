@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/note_operation_material_fragment_v2_0" android:paddingBottom="10.0dip" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/group_recycler_view" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/material_recycler_view" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" app:a5l="parent" app:a5z="parent" app:a69="parent" />
+    <ImageView android:id="@id/cancel" android:paddingLeft="16.0dip" android:paddingTop="18.0dip" android:paddingRight="16.0dip" android:paddingBottom="18.0dip" android:layout_width="56.0dip" android:layout_height="60.0dip" android:src="@drawable/gyy" android:paddingVertical="18.0dip" app:a5z="parent" app:a68="@id/material_recycler_view" />
+    <ImageView android:id="@id/choose" android:paddingLeft="16.0dip" android:paddingTop="18.0dip" android:paddingRight="16.0dip" android:paddingBottom="18.0dip" android:layout_width="56.0dip" android:layout_height="60.0dip" android:src="@drawable/gyz" android:paddingVertical="18.0dip" app:a63="parent" app:a68="@id/material_recycler_view" />
+    <ViewStub android:id="@id/empty_stub" android:layout="@layout/d15" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent" app:a69="parent" />
+    <ViewStub android:id="@id/failure_stub" android:layout="@layout/d1j" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <ViewStub android:id="@id/loading_stub" android:layout="@layout/d1l" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

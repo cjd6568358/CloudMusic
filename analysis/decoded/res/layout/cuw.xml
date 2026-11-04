@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:paddingTop="10.0dip" android:paddingBottom="@dimen/ft" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.ui.MainBannerContainer android:id="@id/bannerContainer" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/iw" android:layout_marginRight="@dimen/iw" android:layout_marginHorizontal="@dimen/iw">
+        <com.netease.cloudmusic.ui.speicalviewpage.DiscoveryViewPage android:id="@id/new_hit_focus" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        <LinearLayout android:gravity="center" android:layout_gravity="bottom|center" android:orientation="horizontal" android:id="@id/dotParent" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" />
+        <com.netease.cloudmusic.discovery.view.widget.banner.BannerIndicatorV2 android:layout_gravity="bottom|center|left" android:id="@id/banner_indicator" android:layout_width="88.0dip" android:layout_height="20.0dip" android:layout_marginLeft="6.0dip" />
+    </com.netease.cloudmusic.ui.MainBannerContainer>
+</FrameLayout>

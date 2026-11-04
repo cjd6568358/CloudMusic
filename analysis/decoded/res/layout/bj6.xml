@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:id="@id/aidjAudioBottom" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent">
+        <FrameLayout android:layout_width="fill_parent" android:layout_height="@dimen/amf">
+            <include layout="@layout/d5r" />
+            <View android:layout_gravity="center_vertical" android:id="@id/fakeSeekbar" android:layout_width="fill_parent" android:layout_height="1.0dip" android:layout_marginStart="56.0dip" android:layout_marginEnd="56.0dip" />
+        </FrameLayout>
+        <LinearLayout android:gravity="center" android:layout_gravity="center_horizontal" android:orientation="horizontal" android:id="@id/songPlayOpContainer" android:paddingBottom="@dimen/awb" android:clickable="true" android:layout_width="wrap_content" android:layout_height="@dimen/aw5">
+            <com.netease.cloudmusic.ui.PlayerPageImageView android:id="@id/preBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:contentDescription="@string/w" />
+            <com.netease.cloudmusic.ui.PlayerPageImageView android:id="@id/playBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginRight="12.0dip" android:src="@drawable/g_c" android:contentDescription="@string/s" />
+            <com.netease.cloudmusic.ui.PlayerPageImageView android:id="@id/nextBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:contentDescription="@string/q" />
+        </LinearLayout>
+    </LinearLayout>
+    <View android:id="@id/permissionLeft" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5m="@id/locationContainer" app:a5u="0.1133" app:a65="parent" app:a69="parent" />
+    <View android:id="@id/permissionRight" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a5u="0.1133" app:a64="@id/locationContainer" app:a69="parent" />
+    <com.netease.cloudmusic.ui.RoundedConstraintlayout android:id="@id/locationContainer" android:background="#1affffff" android:padding="16.0dip" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginBottom="30.0dip" app:a5g="@id/aidjAudioBottom" app:a5m="@id/permissionRight" app:a64="@id/permissionLeft" app:a6g="0.7734">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/iconLocation" android:layout_width="16.0dip" android:layout_height="16.0dip" android:src="@drawable/dto" app:a5f="@id/locationTitle" app:a5z="parent" app:a65="parent" app:a69="@id/locationTitle" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0dip" android:textStyle="bold" android:textColor="#ffffffff" android:ellipsize="end" android:id="@id/locationTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/n1" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" android:layout_marginStart="3.0dip" app:a5g="@id/locationSubtitle" app:a60="@id/iconLocation" app:a64="@id/iconLocation" app:a69="parent" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0dip" android:textColor="#ccffffff" android:ellipsize="end" android:id="@id/locationSubtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:text="@string/n2" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" app:a5f="parent" app:a5z="@id/iconLocation" app:a65="@id/iconLocation" app:a68="@id/locationTitle" />
+        <com.netease.cloudmusic.core.dolphin.component.button.DolphinButton android:id="@id/allowLocationPermission" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/mt" app:q0="primary" app:q1="dark" app:q2="m" app:q4="surface" app:a5f="parent" app:a5l="parent" app:a63="parent" app:a69="parent" />
+    </com.netease.cloudmusic.ui.RoundedConstraintlayout>
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/ignorePermission" android:visibility="gone" android:layout_width="20.0dip" android:layout_height="20.0dip" android:layout_marginBottom="6.0dip" android:src="@drawable/dtp" app:a5g="@id/locationContainer" app:a5l="@id/locationContainer" />
+    <FrameLayout android:id="@id/aidjAudioVideoContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a5l="parent" app:a65="parent" app:a69="parent">
+        <com.netease.cloudmusic.alphavideo.AlphaVideoTextureView android:id="@id/aidjAudioVideo" android:layout_width="fill_parent" android:layout_height="wrap_content" android:alpha="0.0" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/aidjAudioStatic" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/dtm" />
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

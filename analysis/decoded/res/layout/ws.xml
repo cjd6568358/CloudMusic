@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:layout_width="fill_parent" android:layout_height="4.0dip" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:background="#08000000" android:layout_width="fill_parent" android:layout_height="36.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:id="@id/normalText" android:paddingLeft="16.0dip" android:paddingRight="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" app:qe="colorText3_1" app:a5f="parent" app:a65="parent" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:ellipsize="end" android:id="@id/clickText" android:paddingRight="1.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" app:qc="16.0sp" app:qe="colorSecondary3" app:a5f="parent" app:a64="@id/normalText" app:a69="parent" />
+        <View android:id="@id/search" android:background="@drawable/at9" android:layout_width="8.0dip" android:layout_height="8.0dip" app:a64="@id/clickText" app:a69="@id/normalText" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <View android:layout_width="fill_parent" android:layout_height="4.0dip" />
+</androidx.appcompat.widget.LinearLayoutCompat>

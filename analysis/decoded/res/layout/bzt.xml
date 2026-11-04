@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.HackyDrawerLayout android:id="@id/mainActivityContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" app:aba="0.16"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/mainActivityVideoContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <RelativeLayout android:orientation="vertical" android:id="@id/mainActivityRealContainer" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <com.netease.cloudmusic.ui.topheader.TopHeaderLayout android:id="@id/top_header" android:paddingBottom="@dimen/a21" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a9t="@android:color/transparent">
+                <androidx.viewpager2.widget.ViewPager2 android:id="@id/mainActivityViewPager" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+                <FrameLayout android:id="@id/header_layout" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a6w="true" />
+            </com.netease.cloudmusic.ui.topheader.TopHeaderLayout>
+            <ImageView android:id="@id/navigationBarBackgroundPadLand" android:visibility="gone" android:layout_width="100.0dip" android:layout_height="fill_parent" android:scaleType="centerCrop" android:layout_alignParentLeft="true" android:alpha="0.5" />
+            <ImageView android:id="@id/navCenterBackground" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/a20" android:scaleType="fitXY" android:layout_alignParentBottom="true" />
+            <ImageView android:id="@id/navigationBarBackground" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" />
+            <com.netease.cloudmusic.ui.DiscoveryThemeDividerLine android:id="@id/bottomNavDividerLine" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_above="@id/bottomNav" />
+            <com.netease.cloudmusic.theme.ui.NavigationTabLayout android:id="@id/bottomNav" android:paddingBottom="2.5dip" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="@dimen/a21" android:layout_alignParentBottom="true" />
+            <LinearLayout android:id="@id/minPlayerBarContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_above="@id/bottomNav">
+                <com.netease.cloudmusic.module.minibar.widget.MiniBarContainer android:id="@id/minPlayerBar" android:layout_width="fill_parent" android:layout_height="@dimen/a5n" />
+            </LinearLayout>
+            <FrameLayout android:id="@id/mainActivityViewPagerContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </RelativeLayout>
+    </FrameLayout>
+    <com.google.android.material.internal.ScrimInsetsFrameLayout android:layout_gravity="start" android:id="@id/mainDrawerContainer" android:fitsSystemWindows="false" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a2s="@null">
+        <FrameLayout android:orientation="vertical" android:id="@id/mainAccountContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.google.android.material.internal.ScrimInsetsFrameLayout>
+</com.netease.cloudmusic.ui.HackyDrawerLayout>

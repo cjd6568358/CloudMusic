@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:paddingLeft="10.0dip" android:paddingTop="11.0dip" android:paddingRight="10.0dip" android:paddingBottom="11.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/quickLoginAvatar" android:layout_width="40.0dip" android:layout_height="40.0dip" android:src="@drawable/f28" android:layout_centerVertical="true" app:ae="centerCrop" app:w_="@drawable/f28" app:wa="centerCrop" app:ahy="@drawable/f28" app:ahz="centerCrop" app:aln="true" app:avr="true" />
+    <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_toRightOf="@id/quickLoginAvatar" android:layout_centerVertical="true">
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:ellipsize="end" android:id="@id/quickLoginUserName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="125.0dip" android:text="张杰" android:maxLines="1" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:id="@id/quickLoginUserMobile" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:text="156****2328" />
+    </LinearLayout>
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="13.0sp" android:id="@id/quickLoginBtn" android:paddingLeft="10.0dip" android:paddingTop="4.0dip" android:paddingRight="10.0dip" android:paddingBottom="4.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="6.0dip" android:text="登录" android:layout_centerVertical="true" android:layout_alignParentEnd="true" />
+</RelativeLayout>

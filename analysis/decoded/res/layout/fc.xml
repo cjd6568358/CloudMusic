@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/container" android:background="#ff000000" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.SimpleTextureView android:id="@id/video_clip_videoview" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_centerInParent="true" />
+    <View android:id="@id/mask2" android:background="@drawable/bcu" android:layout_width="fill_parent" android:layout_height="170.0dip" android:layout_above="@id/playProgressBar" />
+    <View android:id="@id/mask" android:background="#ff000000" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/lrcViewContainer" />
+    <com.netease.cloudmusic.music.biz.mlogproduct.edit.lyric.view.LyricViewContainerForMLog android:id="@id/lrcViewContainer" android:layout_width="fill_parent" android:layout_height="140.0dip" android:layout_above="@id/playProgressBar" app:a9a="true" />
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/playProgressBar" android:paddingLeft="20.0dip" android:paddingRight="20.0dip" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="20.0dip" android:layout_alignParentBottom="true">
+        <TextView android:textSize="9.0sp" android:textColor="#99ffffff" android:id="@id/currentTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="00:00" />
+        <com.netease.cloudmusic.music.biz.mlogproduct.edit.lyric.view.MLogSeekBar android:id="@id/playSeekBar" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" android:layout_marginTop="18.0dip" android:layout_marginRight="3.0dip" android:layout_weight="1.0" />
+        <TextView android:textSize="9.0sp" android:textColor="#99ffffff" android:id="@id/totalTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="00:00" />
+    </LinearLayout>
+    <View android:background="@drawable/bcx" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_alignBottom="@id/toolbar" />
+    <include android:layout_width="fill_parent" android:layout_height="?i" layout="@layout/dq9" />
+</RelativeLayout>

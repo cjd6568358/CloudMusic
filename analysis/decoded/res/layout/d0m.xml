@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/musicListContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.viewpager2.widget.ViewPager2 android:id="@id/view_pager" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <include layout="@layout/dq9" />
+        <FrameLayout android:layout_gravity="bottom" android:id="@id/tab_frame_layout" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="7.0dip">
+            <FrameLayout android:layout_gravity="bottom" android:layout_width="fill_parent" android:layout_height="38.0dip">
+                <View android:layout_gravity="center_horizontal" android:id="@id/tab_layout_background_view" android:background="@drawable/o7" android:layout_width="206.0dip" android:layout_height="38.0dip" />
+                <ImageView android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/tab_style_recommend_bubble" android:layout_width="25.0dip" android:layout_height="12.0dip" android:layout_marginLeft="92.5dip" android:layout_marginTop="3.0dip" android:src="@drawable/afl" />
+            </FrameLayout>
+            <com.netease.cloudmusic.theme.ui.tab.MusicTabLayout android:layout_gravity="center_horizontal" android:id="@id/tab_layout" android:visibility="gone" android:layout_width="200.0dip" android:layout_height="32.0dip" android:layout_marginBottom="3.0dip" app:ast="@android:color/transparent" app:asu="true" app:atk="@style/a4f" app:ato="false" />
+        </FrameLayout>
+    </FrameLayout>
+</FrameLayout>

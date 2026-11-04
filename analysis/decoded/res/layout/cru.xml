@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/mlog_container" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/mLogImageView" android:layout_width="142.0dip" android:layout_height="80.0dip" android:scaleType="centerCrop" app:ae="centerCrop" app:a5f="parent" app:a5z="parent" app:a62="@id/descText" app:a69="parent" app:aj2="@color/awz" app:am0="@dimen/a6j" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:id="@id/videoTime" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="@id/mLogImageView" app:a63="@id/mLogImageView" style="@style/a6w" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:id="@id/descText" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a60="@id/mLogImageView" app:a63="parent" app:a69="@id/mLogImageView" style="@style/a6v" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/descText1" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5_="true" app:a5z="@id/descText" app:a63="@id/descText" app:a68="@id/descText" style="@style/a6u" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/descText2" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5z="@id/descText" app:a63="@id/descText" app:a68="@id/descText1" style="@style/a6t" />
+</androidx.constraintlayout.widget.ConstraintLayout>

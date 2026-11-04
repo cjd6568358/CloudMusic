@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@color/ay_" android:paddingBottom="4.0dip" android:layout_width="237.0dip" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/ltContainer" android:paddingRight="14.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true">
+        <ImageView android:id="@id/earPhone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="22.0dip" android:src="@drawable/dfl" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/me" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_marginTop="13.0dip" android:layout_marginStart="3.0dip" app:ae="centerCrop" app:w3="0" app:ahy="@drawable/bhf" app:ahz="centerCrop" app:aln="true" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/friend" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_marginTop="13.0dip" android:layout_marginStart="26.0dip" app:ae="centerCrop" app:w3="0" app:ahy="@drawable/bhf" app:ahz="centerCrop" app:aln="true" />
+    </FrameLayout>
+    <LinearLayout android:orientation="vertical" android:id="@id/titleContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:layout_marginStart="16.0dip" android:layout_marginEnd="12.0dip" android:layout_toStartOf="@id/ltContainer">
+        <TextView android:textSize="13.0dip" android:textColor="@color/b12" android:ellipsize="end" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:singleLine="true" />
+        <TextView android:textSize="17.0dip" android:textColor="@color/b12" android:ellipsize="end" android:id="@id/subTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:layout_marginBottom="8.0dip" android:singleLine="true" />
+    </LinearLayout>
+    <View android:id="@id/line" android:background="@color/b1h" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="0.33000004dip" android:layout_below="@id/titleContainer" />
+    <TextView android:textSize="13.0dip" android:textColor="@color/b12" android:id="@id/chatRecord" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:layout_marginBottom="6.0dip" android:layout_below="@id/line" android:layout_marginStart="16.0dip" />
+</RelativeLayout>

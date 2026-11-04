@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:id="@id/anchor_live_growth" layout_height="match_parent" layout_width="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/anchorGrowthContainer" android:tag="layout/layout_anchor_live_growth_0" android:layout_width="wrap_content" android:layout_height="20.0dip" app:a65="parent" app:a69="parent">
+        <com.netease.play.ui.NeteaseMusicViewFlipper android:id="@id/flipperGrowth" android:layout_width="wrap_content" android:layout_height="fill_parent" android:inAnimation="@anim/x" android:outAnimation="@anim/y">
+            <TextView android:textSize="11.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/txtGrowth" android:paddingLeft="5.0dip" android:paddingRight="5.0dip" android:layout_width="wrap_content" android:layout_height="fill_parent" android:drawablePadding="5.0dip" />
+            <TextView android:textSize="11.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/txtGrowthNext" android:paddingLeft="5.0dip" android:paddingRight="5.0dip" android:layout_width="wrap_content" android:layout_height="fill_parent" android:drawableRight="@drawable/dt6" android:drawablePadding="5.0dip" />
+        </com.netease.play.ui.NeteaseMusicViewFlipper>
+        <com.netease.play.anchor.level.ui.GradientTextView android:textSize="12.0sp" android:textStyle="italic" android:textColor="@color/b1e" android:gravity="center" android:id="@id/growthTimesTv" android:layout_width="40.0dip" android:layout_height="fill_parent" />
+    </LinearLayout>
+</merge>

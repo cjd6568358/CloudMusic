@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/hotIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="3.0dip" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:layout_gravity="center_vertical" android:id="@id/topicHotNum" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="3810热议" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/splitView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" android:layout_marginRight="6.0dip" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:layout_gravity="center_vertical" android:id="@id/topicTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="\#晚安时光" />
+    </LinearLayout>
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:id="@id/textView2" android:paddingTop="2.0dip" android:paddingBottom="3.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="1.0dip" android:text="云音乐小秘书 分享单曲花会谢" />
+</LinearLayout>

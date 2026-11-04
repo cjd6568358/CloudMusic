@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.legacy.widget.Space android:id="@id/commentEditBlockSpace" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0" />
+    <ViewStub android:layout_gravity="right" android:id="@id/giftGuideBubbleStub" android:visibility="gone" android:layout="@layout/doe" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="-8.0dip" />
+    <com.netease.cloudmusic.music.biz.comment.discuss.DiscussEditBlock android:id="@id/editBlock" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <FrameLayout android:gravity="center" android:id="@id/emotionView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <androidx.legacy.widget.Space android:id="@id/minibarSpace" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/a5p" />
+</LinearLayout>

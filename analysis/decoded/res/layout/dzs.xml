@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/hint_bubble_guide_container" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.RoundTextView android:textSize="10.0dip" android:textColor="#ffffffff" android:gravity="center" android:id="@id/hint_bubble_guide_text" android:background="#ffffffff" android:paddingLeft="17.0dip" android:paddingRight="5.0dip" android:layout_width="wrap_content" android:layout_height="14.0dip" android:layout_marginLeft="3.0dip" android:layout_marginTop="4.0dip" android:includeFontPadding="false" app:jw="9.0dip" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/hint_bubble_guide_icon" android:layout_width="19.0dip" android:layout_height="20.0dip" android:scaleType="fitCenter" />
+    <com.netease.cloudmusic.ui.profileguide.SimpleTriangleView android:layout_gravity="right" android:id="@id/hint_bubble_guide_arrow" android:layout_width="5.0dip" android:layout_height="4.5dip" android:layout_marginLeft="14.0dip" android:layout_toRightOf="@id/hint_bubble_guide_icon" android:layout_below="@id/hint_bubble_guide_text" />
+</RelativeLayout>

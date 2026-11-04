@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent" app:jw="30.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.SearchView android:id="@id/searchViewInner" android:layout_width="0.0dip" android:layout_height="36.0dip" android:layout_weight="1.0" app:a1d="false" app:a5f="parent" app:a5m="@id/barrier" app:a65="parent" app:a69="parent" app:ak0="@null" />
+    <com.netease.cloudmusic.music.biz.search.ui.SearchSpotHintContainer android:id="@id/spotLayout" android:layout_width="wrap_content" android:layout_height="fill_parent" app:a5f="parent" app:a5l="parent" app:a64="@id/barrier" app:a69="parent" app:aim="search_bar_right_item" app:an1="search_home" />
+    <androidx.constraintlayout.widget.Barrier android:id="@id/barrier" android:layout_width="0.0dip" android:layout_height="wrap_content" app:dn="start" app:l1="spotLayout" />
+</androidx.constraintlayout.widget.ConstraintLayout>

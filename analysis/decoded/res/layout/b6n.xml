@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/not_living_root" android:layout_width="fill_parent" android:layout_height="70.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginLeft="15.0dip" app:a5f="parent" app:a5z="parent" app:a69="parent" app:ai4="style5" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@id/root_live_info" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" app:a5f="@id/avatar" app:a5m="@id/rootNotice" app:a64="@id/avatar" app:a69="@id/avatar">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/tv_nickname" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="nick name" android:maxLines="1" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:ellipsize="end" android:gravity="left" android:id="@id/tv_live_notice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="直播预告" android:maxLines="1" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/rootNotice" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="16.0dip" app:a5f="parent" app:a5l="parent" app:a64="@id/root_live_info" app:a69="parent">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/tv_notice_status" android:visibility="gone" android:layout_width="70.0dip" android:layout_height="26.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0sp" android:textColor="#ff666666" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/tv_notice_time" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:includeFontPadding="false" />
+    </LinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeDivider android:background="@color/dv" android:layout_width="wrap_content" android:layout_height="0.33000004dip" android:layout_marginLeft="10.0dip" app:a5f="parent" app:a60="@id/avatar" />
+</androidx.constraintlayout.widget.ConstraintLayout>

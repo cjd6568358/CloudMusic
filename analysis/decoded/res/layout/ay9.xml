@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@id/swipeRefresh" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:orientation="vertical" android:background="#ff222043" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <FrameLayout android:id="@id/weekStarEmpty" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <ImageView android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/dmb" />
+        </FrameLayout>
+        <LinearLayout android:orientation="vertical" android:id="@id/weekStarRankLayout" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <TextView android:textSize="10.0sp" android:textColor="@android:color/white" android:layout_gravity="right" android:id="@id/weekStarHistoryTv" android:background="@drawable/cmv" android:paddingLeft="10.0dip" android:paddingTop="10.0dip" android:paddingRight="10.0dip" android:paddingBottom="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="60.0dip" android:text="@string/jdi" />
+            <androidx.recyclerview.widget.RecyclerView android:layout_gravity="center" android:id="@id/weekStarGiftsRv" android:paddingLeft="5.0dip" android:paddingRight="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:layout_marginBottom="15.0dip" android:overScrollMode="never" />
+            <androidx.viewpager.widget.ViewPager android:id="@id/weekStarRankViewPager" android:background="@color/b1e" android:layout_width="fill_parent" android:layout_height="fill_parent" android:overScrollMode="never" />
+        </LinearLayout>
+    </FrameLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

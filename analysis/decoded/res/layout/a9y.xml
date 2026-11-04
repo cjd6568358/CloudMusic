@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="@dimen/art"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16.0dip" layout="@layout/ad7" />
+    <com.netease.cloudmusic.discovery.view.widget.DiscoverySearchBar android:id="@id/searchBar" android:layout_width="fill_parent" android:layout_height="36.0dip" android:layout_weight="1.0" android:layout_marginStart="8.0dip" android:layout_marginEnd="8.0dip" app:jw="200.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:gravity="center" android:id="@id/tvPadFeedback" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginLeft="28.0dip" android:layout_marginRight="12.0dip" android:drawablePadding="4.0dip" app:qe="colorSecondary2_1" />
+    <View android:id="@id/space" android:layout_width="0.0dip" android:layout_height="0.0dip" />
+</LinearLayout>

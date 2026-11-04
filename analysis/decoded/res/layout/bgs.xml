@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:layout_gravity="center" android:layout_width="fill_parent" android:layout_height="48.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/iv_type_icon" android:layout_width="24.0dip" android:layout_height="24.0dip" app:a5f="parent" app:a5z="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:ellipsize="end" android:id="@id/cttv_name" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:maxLines="1" app:qe="colorText2" app:a5f="parent" app:a60="@id/iv_type_icon" app:a63="@id/iv_sony_choose" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/iv_sony_choose" android:visibility="visible" android:layout_width="20.0dip" android:layout_height="20.0dip" app:a5f="parent" app:a63="parent" app:a69="parent" app:aqh="@drawable/blm" />
+</com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>

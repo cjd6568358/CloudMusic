@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.epay.sdk.base.view.FragmentTitleBar android:id="@id/ftb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tt="false" app:v2="请输入支付密码" />
+        <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/pi" android:layout_marginTop="14.0dip" android:layout_marginBottom="12.0dip" android:text="为了保障账户资金安全，请输入网易支付密码" />
+        <include layout="@layout/aiy" />
+        <com.netease.epay.sdk.base.view.CleanUpEditText android:id="@id/et_token" android:background="@drawable/a86" android:paddingRight="15.0dip" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_marginLeft="@dimen/pi" android:layout_marginRight="@dimen/pi" android:hint="6-20位字母、数字或符号" android:drawableRight="@drawable/d0f" android:inputType="textPassword" style="@style/a58" />
+        <com.netease.epay.sdk.base.view.LongCommonButton android:id="@id/btn_riskverify_token_c" android:layout_marginLeft="@dimen/pi" android:layout_marginTop="20.0dip" android:layout_marginRight="@dimen/pi" android:text="下一步" style="@style/a4y" />
+        <TextView android:textSize="12.0dip" android:textColor="@color/wz" android:layout_gravity="right" android:id="@id/tvForgetPwd" android:paddingLeft="9.0dip" android:paddingTop="9.0dip" android:paddingBottom="12.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/pi" android:text="忘记密码?" android:layout_below="@id/btn_done" />
+    </LinearLayout>
+</ScrollView>

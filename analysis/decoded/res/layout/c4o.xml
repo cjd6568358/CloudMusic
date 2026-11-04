@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.livepage.rtc.ui.FloatingFrameLayout android:id="@id/floating" android:tag="layout/layout_party_stage_tv_self_0" android:layout_width="fill_parent" android:layout_height="fill_parent" app:cw="false"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.RoundedCornerConstraintView android:layout_width="fill_parent" android:layout_height="fill_parent" app:jw="8.0dip">
+        <Space android:id="@id/align_stage_target_space" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        <com.netease.play.livepage.videoparty.view.VideoPartyMediaCameraView android:id="@id/cameraView" android:tag="binding_1" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/align_stage_target_space" app:a5l="@id/align_stage_target_space" app:a65="@id/align_stage_target_space" app:a69="@id/align_stage_target_space" />
+        <View android:background="@drawable/v1" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/cameraView" app:a5l="@id/cameraView" app:a5u="0.3" app:a65="@id/cameraView" />
+        <TextView android:textSize="12.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/tv_down_video" android:tag="binding_2" android:layout_width="56.0dip" android:layout_height="30.0dip" android:layout_marginBottom="8.0dip" android:text="@string/j6c" android:layout_marginEnd="8.0dip" app:a5f="@id/align_stage_target_space" app:a5l="@id/align_stage_target_space" />
+        <ImageView android:id="@id/iv_switch_camera" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/e99" android:layout_marginEnd="16.0dip" app:a5f="@id/tv_down_video" app:a5m="@id/tv_down_video" app:a69="@id/tv_down_video" />
+        <ImageView android:id="@id/iv_video_filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/e9_" android:layout_marginEnd="16.0dip" app:a5f="@id/tv_down_video" app:a5m="@id/iv_switch_camera" app:a69="@id/tv_down_video" />
+        <ImageView android:id="@id/iv_video_beauty" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/e98" android:layout_marginEnd="16.0dip" app:a5f="@id/tv_down_video" app:a5m="@id/iv_video_filter" app:a69="@id/tv_down_video" />
+        <androidx.constraintlayout.widget.Group android:id="@id/maximize" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" app:l1="iv_switch_camera,iv_video_beauty,iv_video_filter,tv_down_video" />
+        <ImageView android:id="@id/floatingBtn" android:tag="binding_4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="8.0dip" app:a5l="parent" app:a69="parent" />
+    </com.netease.play.ui.RoundedCornerConstraintView>
+</com.netease.play.livepage.rtc.ui.FloatingFrameLayout>

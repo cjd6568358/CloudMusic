@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/skipBtnContainer" android:paddingLeft="10.0dip" android:paddingTop="5.0dip" android:paddingRight="5.0dip" android:paddingBottom="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a63="parent" app:a69="parent">
+        <com.netease.cloudmusic.ui.RoundedFrameLayout android:layout_gravity="right" android:background="@color/e6" android:layout_width="wrap_content" android:layout_height="wrap_content" app:jw="12.0dip">
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/b12" android:id="@id/skipBannerAd" android:paddingLeft="8.0dip" android:paddingTop="1.0dip" android:paddingRight="8.0dip" android:paddingBottom="1.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/i6a" android:paddingHorizontal="8.0dip" android:paddingVertical="1.0dip" />
+        </com.netease.cloudmusic.ui.RoundedFrameLayout>
+    </FrameLayout>
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="10.0sp" android:textColor="@color/b12" android:id="@id/adCountDownTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="-5.0dip" android:shadowColor="@color/e1" android:shadowDx="0.0" android:shadowDy="0.0" android:shadowRadius="4.0" app:a5f="@id/skipBtnContainer" app:a62="@id/skipBtnContainer" app:a69="@id/skipBtnContainer" />
+</androidx.constraintlayout.widget.ConstraintLayout>

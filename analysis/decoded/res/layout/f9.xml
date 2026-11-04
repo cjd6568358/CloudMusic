@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.BottomSheetDialog.ClosableSlidingLayout android:id="@id/slidingContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <FrameLayout android:id="@id/fragmentContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/toolbar" />
+        <com.netease.cloudmusic.ui.NeteaseMusicToolbar android:id="@id/toolbar" android:layout_width="fill_parent" android:layout_height="@dimen/art" app:a76="scroll|enterAlways" app:aii="@style/b6" />
+    </RelativeLayout>
+</com.netease.cloudmusic.ui.BottomSheetDialog.ClosableSlidingLayout>

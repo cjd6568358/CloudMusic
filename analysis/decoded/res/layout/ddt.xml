@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/bigAvatarRoot" android:background="#cc000000" android:visibility="gone" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@id/imageContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/bigAvatarImg" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="centerCrop" app:ahy="@drawable/g90" app:ahz="centerCrop" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:layout_gravity="center_horizontal" android:id="@id/changeAvatarBtn" android:layout_height="30.0dip" android:layout_marginTop="30.0dip" android:text="@string/agt" app:gl="useOnDarkImage" style="@style/a8b" />
+    </LinearLayout>
+    <ViewStub android:gravity="center_vertical" android:id="@id/decoratedAvatarContainer" android:layout="@layout/c8b" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" />
+</RelativeLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.customui.OnlyVerticalSwipeRefreshLayout android:id="@id/newGuessSwipe" android:tag="layout/fragment_guess_tab_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.google.android.material.appbar.AppBarLayout android:id="@id/newPartyTopContainer" android:background="@android:color/transparent" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip">
+            <LinearLayout android:orientation="vertical" android:id="@id/newMusicGuessContainer" android:background="@android:color/transparent" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a76="scroll|exitUntilCollapsed" />
+        </com.google.android.material.appbar.AppBarLayout>
+        <com.netease.cloudmusic.common.framework2.base.CommonRecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginTop="10.0dip" android:layout_marginRight="10.0dip" app:a56="@string/uo" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</com.netease.play.customui.OnlyVerticalSwipeRefreshLayout>

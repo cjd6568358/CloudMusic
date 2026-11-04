@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="16.0dip" android:paddingEnd="16.0dip" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_vertical" android:id="@id/lt_panel_incentive" android:layout_width="fill_parent" android:layout_height="36.0dip" android:paddingStart="12.0dip" android:paddingEnd="6.0dip">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/lt_panel_incentive_icon" android:layout_width="16.0dip" android:layout_height="16.0dip" android:layout_marginEnd="6.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="#ff794949" android:ellipsize="end" android:id="@id/lt_panel_incentive_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:maxLines="1" android:layout_weight="1.0" />
+        <ImageView android:id="@id/lt_panel_incentive_arrow" android:layout_width="20.0dip" android:layout_height="20.0dip" android:src="@drawable/fr4" android:layout_marginStart="8.0dip" />
+    </LinearLayout>
+</FrameLayout>

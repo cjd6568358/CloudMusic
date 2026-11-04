@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/fragment_video_rtc_preview_0" android:background="@color/dw" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/guideBottom" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5o="50.0dip" />
+    <ImageView android:id="@id/minimizeIv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="40.0dip" android:src="@drawable/evx" android:layout_marginStart="20.0dip" app:a65="parent" app:a69="parent" />
+    <TextView android:textSize="15.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/turnoverTv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/j4l" android:drawableTop="@drawable/evy" android:drawablePadding="10.0dip" app:a5f="@id/guideBottom" app:a5l="parent" app:a64="@id/hangUpTv" />
+    <TextView android:textSize="15.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/hangUpTv" android:tag="binding_1" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/j4a" android:drawableTop="@drawable/evw" android:drawablePadding="10.0dip" app:a5f="@id/guideBottom" app:a5m="@id/turnoverTv" app:a5w="spread" app:a65="parent" />
+    <TextView android:textSize="15.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/descTv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="20.0dip" app:a5g="@id/hangUpTv" app:a5l="parent" app:a65="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

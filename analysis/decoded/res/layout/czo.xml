@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_centerInParent="true"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/openGpsPromptBackground" android:layout_width="170.0dip" android:layout_height="120.0dip" android:layout_marginTop="200.0dip" android:src="@drawable/gp2" android:layout_centerHorizontal="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0dip" android:gravity="center" android:id="@id/school_location_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="@string/fwh" android:layout_below="@id/openGpsPromptBackground" android:layout_centerHorizontal="true" app:qe="colorText1" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0dip" android:gravity="center" android:id="@id/school_location_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:text="@string/fwj" android:layout_below="@id/school_location_text" android:layout_centerHorizontal="true" app:qe="colorText4_1" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0dip" android:textColor="@color/b12" android:gravity="center" android:id="@id/openGpsButton" android:layout_width="120.0dip" android:layout_height="40.0dip" android:layout_marginTop="20.0dip" android:text="@string/fwi" android:layout_below="@id/school_location_desc" android:layout_centerHorizontal="true" />
+</RelativeLayout>

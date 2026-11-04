@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@drawable/d9l" android:paddingBottom="30.0dip" android:layout_width="360.0dip" android:layout_height="360.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:id="@id/profileContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="80.0dip">
+        <com.netease.cloudmusic.ui.AvatarImage android:id="@id/avatar" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginLeft="23.599976dip" app:cv="style7" />
+        <TextView android:textSize="15.0sp" android:textColor="#ccffffff" android:layout_gravity="center_vertical" android:id="@id/nickname" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" />
+    </LinearLayout>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18.0dip" android:layout_below="@id/profileContainer" android:layout_centerHorizontal="true">
+        <ImageView android:layout_gravity="top" android:background="@drawable/glp" android:layout_width="14.299988dip" android:layout_height="12.0dip" />
+        <TextView android:textSize="17.0sp" android:textColor="#ffffffff" android:layout_gravity="center_vertical" android:id="@id/content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="11.299988dip" android:layout_marginRight="8.299988dip" android:maxWidth="260.0dip" android:lineSpacingMultiplier="1.2" />
+        <ImageView android:layout_gravity="bottom" android:background="@drawable/glq" android:layout_width="14.299988dip" android:layout_height="12.0dip" />
+    </LinearLayout>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true">
+        <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <ImageView android:id="@id/logo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/fa4" android:layout_alignParentTop="true" />
+            <TextView android:textSize="12.0sp" android:textColor="#66ffffff" android:id="@id/scanText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:text="@string/a19" android:layout_alignParentBottom="true" />
+        </LinearLayout>
+        <View android:layout_gravity="center_vertical" android:id="@id/divider" android:background="#26ffffff" android:layout_width="0.6dip" android:layout_height="30.0dip" android:layout_marginStart="15.0dip" android:layout_marginEnd="15.0dip" />
+        <FrameLayout android:layout_width="wrap_content" android:layout_height="fill_parent">
+            <ImageView android:layout_gravity="center" android:id="@id/qrCode" android:layout_width="46.0dip" android:layout_height="46.0dip" />
+            <ImageView android:layout_gravity="center" android:background="@drawable/gl5" android:layout_width="12.0dip" android:layout_height="12.0dip" />
+        </FrameLayout>
+    </LinearLayout>
+</RelativeLayout>

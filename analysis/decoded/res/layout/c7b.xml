@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_plugin_new_profile_fragment_gift_wall_0" android:layout_width="fill_parent" android:layout_height="42.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/giftWallIcon" android:tag="binding_1" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginStart="15.0dip" app:a5f="parent" app:a65="parent" app:a69="parent" />
+    <TextView android:textSize="12.0sp" android:textStyle="bold" android:id="@id/giftWallTv" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" app:a5g="@id/rankIcon" app:a64="@id/giftWallIcon" app:a69="parent" app:a6a="packed" />
+    <TextView android:textSize="10.0sp" android:id="@id/countText" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" app:a5f="@id/giftWallTv" app:a64="@id/giftWallTv" app:a69="@id/giftWallTv" />
+    <ImageView android:id="@id/rankIcon" android:tag="binding_4" android:layout_width="36.0dip" android:layout_height="8.0dip" android:layout_marginTop="3.0dip" app:a5f="parent" app:a65="@id/giftWallTv" app:a68="@id/giftWallTv" />
+    <TextView android:textSize="10.0sp" android:id="@id/giftRank" android:tag="binding_5" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="@id/rankIcon" app:a65="@id/countText" app:a69="@id/rankIcon" />
+    <androidx.constraintlayout.widget.Group android:tag="binding_6" android:layout_width="wrap_content" android:layout_height="wrap_content" app:l1="rankIcon, giftRank" />
+    <com.netease.play.ui.LiveRecyclerView android:id="@id/giftList" android:tag="binding_7" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:layout_marginBottom="4.0dip" android:overScrollMode="never" android:layout_marginEnd="15.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" app:a6p="10.0dip" />
+</androidx.constraintlayout.widget.ConstraintLayout>

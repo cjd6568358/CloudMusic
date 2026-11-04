@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.RatioFrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content" app:jw="8.0dip" app:akk="w,104:131">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/videoCover" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" app:ahy="@drawable/g9b" app:ahz="centerCrop" />
+        <com.google.android.material.imageview.ShapeableImageView android:layout_gravity="end|bottom|center" android:background="@color/b23" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginBottom="8.0dip" android:scaleType="centerInside" android:layout_marginEnd="8.0dip" app:aoh="@style/i2" app:aqh="@drawable/ag7" />
+        <FrameLayout android:id="@id/videoContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTagTextView android:textSize="11.0sp" android:ellipsize="end" android:gravity="center" android:layout_gravity="end" android:id="@id/count_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:minHeight="16.0dip" android:maxLines="1" android:drawablePadding="2.0dip" android:paddingStart="6.0dip" android:paddingEnd="6.0dip" android:layout_marginStart="4.0dip" android:layout_marginEnd="4.0dip" app:rj="@drawable/aup" app:atv="half_height" />
+    </com.netease.cloudmusic.ui.RatioFrameLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:gravity="bottom" android:id="@id/title_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:maxLines="1" android:includeFontPadding="false" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTagTextView android:textSize="9.0sp" android:ellipsize="end" android:id="@id/tag_tv" android:padding="3.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:maxLines="1" android:includeFontPadding="false" app:atv="3.0dip" />
+</LinearLayout>

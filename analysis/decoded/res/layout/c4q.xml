@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/travelCpView" android:layout_width="78.0dip" android:layout_height="56.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/draweeView" android:layout_width="0.0dip" android:layout_height="0.0dip" app:ae="centerInside" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <TextView android:textSize="11.0sp" android:textColor="@color/b1e" android:ellipsize="end" android:gravity="center" android:id="@id/travelScore" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="23.0dip" android:layout_marginRight="23.0dip" android:lines="1" android:includeFontPadding="false" app:a5g="@id/travelScoreLabel" app:a5z="parent" app:a63="parent" app:a69="parent" app:a6a="packed" />
+    <TextView android:textSize="6.0sp" android:textColor="@color/b1e" android:ellipsize="end" android:gravity="center" android:id="@id/travelScoreLabel" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="23.0dip" android:layout_marginRight="23.0dip" android:text="@string/fpd" android:lines="1" android:includeFontPadding="false" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a68="@id/travelScore" />
+</androidx.constraintlayout.widget.ConstraintLayout>

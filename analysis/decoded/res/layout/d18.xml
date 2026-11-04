@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/rootContainer" android:tag="layout/nmc_fragment_media_picker_new_style_pager_0" android:background="@color/do" android:focusable="true" android:clickable="true" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/iv_close" android:paddingLeft="18.0dip" android:paddingTop="7.0dip" android:paddingRight="18.0dip" android:paddingBottom="7.0dip" android:visibility="gone" android:layout_width="60.0dip" android:layout_height="44.0dip" android:src="@drawable/fsi" android:paddingHorizontal="18.0dip" android:paddingVertical="7.0dip" app:a5z="parent" app:a69="parent" />
+    <RelativeLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/title_container" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a69="parent">
+        <TextView android:textSize="16.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="44.0dip" android:singleLine="true" android:layout_centerHorizontal="true" />
+        <ImageView android:id="@id/arrow" android:layout_width="16.0dip" android:layout_height="16.0dip" android:src="@drawable/b86" android:layout_toRightOf="@id/title" android:layout_alignTop="@id/title" android:layout_alignBottom="@id/title" />
+        <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout2 android:id="@id/tab_layout" android:layout_width="fill_parent" android:layout_height="44.0dip" android:layout_below="@id/title" app:asp="@null" app:ast="@color/b12" app:ath="@color/b12" app:atk="@style/lm" app:atl="@color/b1n" />
+        <TextView android:textSize="14.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@id/tab_guide" android:background="#ff1a1a1a" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_below="@id/tab_layout" />
+    </RelativeLayout>
+    <androidx.viewpager2.widget.ViewPager2 android:id="@id/view_pager" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5g="@id/selected_data_layout" app:a68="@id/title_container" app:a6_="0.0" />
+    <View android:id="@id/mask_layout" android:background="@color/do" android:focusable="true" android:visibility="gone" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent" android:alpha="0.7" />
+    <com.netease.nmvideocreator.mediapicker.ui.MediaPickerBottomPanelView android:orientation="vertical" android:id="@id/selected_data_layout" android:visibility="gone" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent" />
+    <FrameLayout android:id="@id/extra_content_1" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <FrameLayout android:id="@id/moment_guide_content" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent" />
+    <View android:id="@id/view_request_permission" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a68="@id/title_container" />
+    <View android:id="@id/pop_up_eara" android:layout_width="10.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a65="parent" app:a69="@id/view_pager" />
+</androidx.constraintlayout.widget.ConstraintLayout>

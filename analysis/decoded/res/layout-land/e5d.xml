@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:gravity="center" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:id="@id/tip_dialog_rl" android:background="@drawable/csv" android:layout_width="130.0dip" android:layout_height="130.0dip">
+        <ImageView android:id="@id/iv_loading" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginTop="30.0dip" android:layout_centerHorizontal="true" android:contentDescription="@string/jge" />
+        <TextView android:textSize="13.0dip" android:gravity="center" android:id="@id/tv_status" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginTop="16.0dip" android:layout_marginRight="12.0dip" android:text="@string/jge" android:layout_below="@id/iv_loading" android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+    <RelativeLayout android:id="@id/rl_close" android:background="@android:color/transparent" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" android:layout_toRightOf="@id/tip_dialog_rl" android:layout_alignTop="@id/tip_dialog_rl">
+        <ImageView android:id="@id/img_btn_close" android:visibility="gone" android:layout_width="30.0dip" android:layout_height="30.0dip" android:src="@drawable/cst" android:scaleType="fitCenter" android:contentDescription="@string/jgb" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_vertical" android:id="@id/radioProgramItemContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="80.0dip" playlist:e4="50.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:playlist="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/rank_container" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:minWidth="25.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textColor="@color/aiz" android:gravity="center" android:id="@id/programRank" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" />
+        <include android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="0.0dip" layout="@layout/d8m" />
+    </LinearLayout>
+    <com.netease.cloudmusic.ui.CoverStatusDraweeView android:id="@id/programCoverImage" android:layout_width="60.0dip" android:layout_height="60.0dip" android:layout_marginStart="16.0dip" fresco:ae="centerCrop" fresco:w3="300" fresco:ahy="@drawable/cx5" fresco:ahz="fitXY" fresco:am0="8.0dip" fresco:avr="true" xmlns:fresco="http://schemas.android.com/apk/res-auto" />
+    <include layout="@layout/czl" />
+    <LinearLayout android:gravity="right" android:orientation="vertical" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:layout_marginBottom="10.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/lastProgramMark" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/fgm" android:minWidth="42.0dip" playlist:aeb="@color/afr" />
+    </LinearLayout>
+    <include layout="@layout/dni" />
+    <include layout="@layout/dn7" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

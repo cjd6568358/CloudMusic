@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:paddingBottom="22.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="17.0dip" android:textStyle="bold" android:textColor="@color/dw" android:id="@id/parlorThemeTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="20.0dip" android:text="选择主题背景" app:a5z="parent" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/parlorThemeClose" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_marginTop="13.0dip" android:layout_marginRight="11.0dip" android:src="@drawable/egf" app:a5f="@id/parlorThemeTitle" app:a63="parent" app:a69="@id/parlorThemeTitle" />
+    <TextView android:textSize="12.0dip" android:textColor="@color/e9" android:id="@id/parlorThemeSubtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="主题同时包含场景背景与8个麦位布局" app:a5z="@id/parlorThemeTitle" app:a68="@id/parlorThemeTitle" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/parlorThemeList" android:paddingLeft="20.0dip" android:paddingRight="20.0dip" android:clipToPadding="false" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="21.0dip" android:overScrollMode="never" app:a5z="parent" app:a63="parent" app:a68="@id/parlorThemeSubtitle" />
+</androidx.constraintlayout.widget.ConstraintLayout>

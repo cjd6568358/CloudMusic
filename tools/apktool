@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# apktool 2.10.0 wrapper - uses bundled framework dir, JDK from PATH
+HERE="$(cd "$(dirname "$0")" && pwd)"
+exec java -Xmx4g -jar "$HERE/apktool-2.10.0.jar" -p "$HERE/framework" "$@"

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="bottom" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.ui.EditBlock android:id="@id/editBlock" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <FrameLayout android:gravity="center" android:id="@id/emotionView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <androidx.legacy.widget.Space android:id="@id/minibarSpace" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/a5p" />
+</LinearLayout>

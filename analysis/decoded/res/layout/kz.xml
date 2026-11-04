@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="44.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/adNeteaseIcon" android:visibility="gone" android:layout_width="84.0dip" android:layout_height="14.0dip" android:layout_marginLeft="16.0dip" android:src="@drawable/dtg" android:scaleType="fitCenter" app:a5f="parent" app:a5z="parent" app:a69="parent" />
+    <TextView android:textSize="10.0sp" android:textColor="#ffffffff" android:gravity="center|right" android:id="@id/adCompatTag" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="12.0dip" android:maxLines="2" android:shadowColor="@color/dz" android:shadowDx="0.0" android:shadowDy="0.0" android:shadowRadius="2.0" app:a5f="parent" app:a62="@id/vipBtn" app:a69="parent" />
+    <com.netease.cloudmusic.ui.AdVipButtonView android:textSize="11.0sp" android:textColor="#ffffffff" android:gravity="center_vertical" android:id="@id/vipBtn" android:paddingLeft="12.0dip" android:paddingRight="6.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="28.0dip" android:layout_marginRight="12.0dip" android:maxLines="1" app:a5f="parent" app:a62="@id/skipBtnContainer" app:a63="parent" app:a69="parent" />
+    <FrameLayout android:id="@id/skipBtnContainer" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a63="parent" app:a69="parent">
+        <TextView android:textSize="11.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@id/skipBtn" android:background="@drawable/b5l" android:visibility="gone" android:layout_width="51.0dip" android:layout_height="28.0dip" android:layout_marginRight="16.0dip" android:maxLines="1" />
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

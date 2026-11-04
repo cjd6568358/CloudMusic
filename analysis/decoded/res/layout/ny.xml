@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_gravity="center" android:id="@android:id/background" android:background="@mipmap/p" android:layout_width="fill_parent" android:layout_height="fill_parent" android:minWidth="@dimen/cj" android:minHeight="@dimen/ci"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:layout_gravity="center" android:id="@id/widget_background" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitXY" />
+    <ImageView android:layout_gravity="end|center|top" android:id="@id/logo_img" android:layout_width="@dimen/dl" android:layout_height="@dimen/dl" android:layout_marginTop="16.0dip" android:layout_marginEnd="16.0dip" style="@style/ah" />
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginStart="26.0dip" android:layout_marginEnd="26.0dip">
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="97.0">
+            <TextView android:textSize="@dimen/dc" android:textStyle="normal" android:id="@id/tv_content" android:layout_marginRight="30.0dip" android:text="“让这几句歌词带你回去那个心动瞬间”" android:layout_centerVertical="true" style="@style/a7" />
+        </RelativeLayout>
+        <TextView android:id="@id/v_split" android:background="@color/aq" android:layout_width="fill_parent" android:layout_height="1.0dip" android:alpha="0.1" />
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="69.0dip">
+            <ImageView android:id="@id/iv_cover" android:layout_width="36.0dip" android:layout_height="36.0dip" android:src="@mipmap/am" android:scaleType="fitXY" android:layout_centerVertical="true" />
+            <TextView android:textSize="13.0sp" android:id="@id/tv_song_name" android:minWidth="0.0dip" android:text="亲密爱人" android:maxEms="8" android:layout_toRightOf="@id/iv_cover" android:layout_centerVertical="true" android:layout_marginStart="9.0dip" style="@style/as" />
+            <TextView android:textSize="13.0sp" android:id="@id/tv_singer" android:text="- 王若琳" android:maxEms="6" android:layout_toRightOf="@id/tv_song_name" android:layout_centerVertical="true" android:layout_marginStart="4.0dip" style="@style/at" />
+        </RelativeLayout>
+    </LinearLayout>
+</FrameLayout>

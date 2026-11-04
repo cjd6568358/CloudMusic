@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.viewpager2.widget.ViewPager2 android:id="@id/commentViewPager2" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <include android:layout_width="fill_parent" android:layout_height="@dimen/art" app:a69="parent" layout="@layout/dq9" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/videoPlayImageView" android:visibility="gone" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginEnd="64.0dip" app:a5f="@id/toolbar" app:a5l="parent" app:a69="@id/toolbar" />
+    <com.netease.cloudmusic.core.dolphin.component.bubble.DolphinBubble android:id="@id/videoPlayHintView" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="-14.0dip" app:fp="TOP" app:fq="92.0dip" app:fv="🔊打开画面原声" app:g4="NORMAL" app:a5l="@id/videoPlayImageView" app:a68="@id/videoPlayImageView" />
+    <ViewStub android:id="@id/playerHighLayerContainer" android:layout="@layout/c6o" android:inflatedId="@id/playerHighLayerContainer" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

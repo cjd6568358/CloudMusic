@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/item_sticker_new_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/stickerIv" android:layout_width="60.0dip" android:layout_height="60.0dip" android:scaleType="centerInside" app:a5g="@id/stickerTv" app:a5z="parent" app:a63="parent" app:a69="parent" app:a6a="packed" />
+    <TextView android:textSize="8.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/typeSticker" android:tag="binding_1" android:background="@drawable/dcn" android:layout_width="24.0dip" android:layout_height="14.0dip" android:minWidth="24.0dip" android:minHeight="14.0dip" android:text="@string/gpy" app:a5l="parent" app:a69="parent" />
+    <TextView android:textSize="11.0sp" android:textColor="@android:color/white" android:ellipsize="marquee" android:id="@id/stickerTv" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:singleLine="true" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a68="@id/stickerIv" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0">
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/sdCardSongList" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </RelativeLayout>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/managePlaylistBtnContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/delPlaylistTextBtn" android:text="@string/b83" android:drawableTop="@drawable/wh" style="@style/a74" />
+    </LinearLayout>
+    <TextView android:id="@id/emptyView" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="没有重复文件" android:layout_centerInParent="true" />
+</LinearLayout>

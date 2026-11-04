@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.social.publish.picker.view.MediaPickDraweeView android:id="@id/picture" android:layout_width="wrap_content" android:layout_height="fill_parent" fresco:ae="centerCrop" fresco:ahy="@drawable/cx7" fresco:ahz="fitXY" fresco:aj2="@color/an4" />
+    <View android:id="@id/mask" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <include layout="@layout/cow" />
+</RelativeLayout>

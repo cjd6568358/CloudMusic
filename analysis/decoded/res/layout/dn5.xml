@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:id="@id/songInfoContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1.0dip" android:layout_below="@id/songName"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/songLove" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="3.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/songStat" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="3.0dip" app:adi="false" app:aev="@color/a2h" />
+    <com.netease.cloudmusic.ui.CompoundDrawablesTextView android:id="@id/songInfo" style="@style/a44" />
+</LinearLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/radioRootView" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.PlayerChildBackgroundView android:id="@id/backgroundView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.ui.PlayerChildAnimateBgView android:id="@id/backgroundAnimateView" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <com.netease.cloudmusic.ui.GestureRelativeLayout android:gravity="center_horizontal" android:id="@id/artistImageContainer" android:paddingBottom="115.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.RotationRelativeLayout android:layout_gravity="center_horizontal" android:id="@id/smallAlbumCover" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.ui.PlayerChildSmallCoverImageView android:id="@id/smallAlbumCover0" android:layout_width="@dimen/awf" android:layout_height="@dimen/awf" android:src="@drawable/g9e" android:scaleType="centerCrop" android:layout_centerInParent="true" />
+        </com.netease.cloudmusic.ui.RotationRelativeLayout>
+        <TextView android:textColor="@color/aiv" android:id="@id/musicName" android:layout_marginTop="39.0dip" style="@style/a89" />
+        <TextView android:textColor="@color/aiy" android:id="@id/artistName" android:visibility="gone" android:layout_marginTop="4.0dip" android:drawableRight="@drawable/gfe" android:drawablePadding="4.0dip" app:adf="true" app:aeu="@color/a2f" style="@style/a8a" />
+    </com.netease.cloudmusic.ui.GestureRelativeLayout>
+    <com.netease.cloudmusic.ui.LyricViewContainer android:id="@id/lrcViewContainer" android:paddingBottom="115.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="75.0dip" />
+    <include layout="@layout/dq9" />
+    <include layout="@layout/e3m" />
+    <RelativeLayout android:id="@id/playerControlContainer" android:clickable="true" android:layout_width="fill_parent" android:layout_height="@dimen/awa" android:layout_marginTop="2.0dip" android:layout_marginBottom="4.0dip" android:layout_alignParentBottom="true">
+        <ImageView android:id="@id/playBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="50.0dip" android:layout_marginRight="50.0dip" android:scaleType="centerInside" android:layout_centerInParent="true" android:contentDescription="@string/s" />
+        <ImageView android:id="@id/likeBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:scaleType="centerInside" android:layout_toLeftOf="@id/playBtn" android:layout_centerVertical="true" android:contentDescription="@string/a0" />
+        <ImageView android:id="@id/subscribeRadioBtn" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:scaleType="centerInside" android:layout_toLeftOf="@id/playBtn" android:layout_centerVertical="true" android:contentDescription="@string/a1" />
+        <ImageView android:id="@id/nextBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:scaleType="centerInside" android:layout_toRightOf="@id/playBtn" android:layout_centerVertical="true" android:contentDescription="@string/q" />
+    </RelativeLayout>
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:paddingLeft="20.0dip" android:paddingRight="20.0dip" android:clickable="true" android:layout_width="fill_parent" android:layout_height="21.669983dip" android:layout_above="@id/playerControlContainer">
+        <TextView android:textSize="9.0sp" android:textColor="#ccd9d9d9" android:id="@id/currentTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="00:00" />
+        <com.netease.cloudmusic.ui.PlayerSeekBarChild android:id="@id/playSeekBar" android:paddingLeft="3.0dip" android:paddingTop="2.0dip" android:paddingRight="3.0dip" android:paddingBottom="2.0dip" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" android:layout_marginRight="3.0dip" android:maxHeight="8.0dip" android:progressDrawable="@drawable/bn4" android:minHeight="8.0dip" android:layout_weight="1.0" android:splitTrack="false" />
+        <TextView android:textSize="9.0sp" android:textColor="#4cd9d9d9" android:id="@id/totalTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="00:00" />
+    </LinearLayout>
+    <include layout="@layout/dl_" />
+    <View android:id="@id/nightMask" android:background="@color/ao1" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</RelativeLayout>

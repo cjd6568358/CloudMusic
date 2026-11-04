@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/mpPlayerControlContainer" android:focusable="true" android:clickable="true" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true">
+        <com.netease.cloudmusic.module.listentogether.playpage.multi.LTMultiPeopleProgressView android:id="@id/mpProgressContainer" android:paddingLeft="20.0dip" android:paddingRight="20.0dip" android:layout_width="fill_parent" android:layout_height="@dimen/amf" android:paddingHorizontal="20.0dip" />
+        <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/mpPlayControlContainer" android:paddingBottom="@dimen/awb" android:layout_width="fill_parent" android:layout_height="@dimen/aw5" android:alpha="0.0" app:a5w="spread">
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/mpLikeBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/gc9" android:contentDescription="@string/a0" app:a5f="parent" app:a5z="parent" app:a62="@id/mpPlayListBtn" app:a69="parent" />
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/mpPlayListBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ajg" android:contentDescription="@string/r" app:a5f="parent" app:a60="@id/mpLikeBtn" app:a62="@id/mpMoreBtn" app:a69="parent" />
+            <com.netease.cloudmusic.module.listentogether.playpage.multi.LTMultiBubbleView android:textSize="10.0sp" android:gravity="center" android:id="@id/mpSongCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="8.0dip" android:layout_marginStart="-19.0dip" app:a5f="@id/mpPlayListBtn" app:a64="@id/mpPlayListBtn" />
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/mpMoreBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/gcw" android:contentDescription="@string/r" app:a5f="parent" app:a60="@id/mpPlayListBtn" app:a63="parent" app:a69="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</RelativeLayout>

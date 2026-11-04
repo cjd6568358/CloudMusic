@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/dialog_tf_share_0" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include android:id="@id/containerTicket" android:visibility="invisible" app:a5z="parent" app:a63="parent" app:a69="parent" layout="@layout/cbr" />
+    <ImageView android:id="@id/imgShow" android:layout_width="@dimen/arf" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/are" android:scaleType="centerCrop" app:a5g="@id/bottomContainer" app:a5z="parent" app:a63="parent" />
+    <include android:id="@id/bottomContainer" layout="@layout/cbq" />
+</androidx.constraintlayout.widget.ConstraintLayout>

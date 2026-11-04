@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.ad.AdImpressRelativeLayout android:id="@id/loading_ad_image" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/bgIV" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+    <androidx.appcompat.widget.AppCompatImageView android:layout_width="fill_parent" android:layout_height="270.0dip" android:src="@drawable/d4d" android:scaleType="fitXY" android:layout_alignParentBottom="true" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:textColor="#ff283248" android:ellipsize="end" android:gravity="center" android:id="@id/subTitleTV" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="190.0dip" android:maxLines="1" android:layout_alignParentBottom="true" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/avatarIV" android:layout_width="66.0dip" android:layout_height="66.0dip" android:layout_marginBottom="10.0dip" android:scaleType="centerCrop" android:layout_above="@id/subTitleTV" android:layout_centerHorizontal="true" app:ae="centerCrop" app:jw="16.0dip" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="28.0sp" android:textColor="#fffdada2" android:ellipsize="end" android:gravity="center" android:id="@id/titleTV" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="24.0dip" android:maxLines="2" android:layout_above="@id/avatarIV" />
+</com.netease.cloudmusic.ui.ad.AdImpressRelativeLayout>

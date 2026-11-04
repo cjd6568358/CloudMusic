@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:tag="layout/fragment_auto_video_replace_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/videoContainer" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_marginTop="44.0dip" android:layout_marginBottom="28.0dip" android:layout_weight="1.0">
+        <com.netease.cloudmusic.module.video.TextureVideoView android:layout_gravity="center" android:id="@id/videoView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <com.netease.cloudmusic.theme.ui.ImagePlayIcon android:layout_gravity="center" android:id="@id/video_clip_play_btn" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a1l="style7" />
+    </FrameLayout>
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.VideoRecyclerView android:layout_gravity="center_vertical" android:id="@id/video_clip_frame_list" android:scrollbars="none" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="50.0dip" />
+        <com.netease.cloudmusic.music.biz.mlogproduct.videotemplate.replacepreviewmaterial.ui.VideoRangeClipContainer android:layout_gravity="center_horizontal" android:id="@id/clip_container" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.music.biz.mlogproduct.videotemplate.replacepreviewmaterial.ui.VideoRangeClipSimpleView android:layout_gravity="center_vertical" android:id="@id/clip_view" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_marginLeft="12.0dip" android:layout_marginRight="12.0dip" />
+            <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center_vertical" android:id="@id/video_clip_seek_btn" android:layout_width="24.0dip" android:layout_height="60.0dip" />
+        </com.netease.cloudmusic.music.biz.mlogproduct.videotemplate.replacepreviewmaterial.ui.VideoRangeClipContainer>
+    </FrameLayout>
+</LinearLayout>

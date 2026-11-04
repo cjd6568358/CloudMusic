@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/radioRootView" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageSwitcher android:id="@id/bigAlbumCover" android:background="#ff262626" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <View android:background="@drawable/csp" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.ui.GestureRelativeLayout android:id="@id/artistImageContainer" android:paddingTop="@dimen/ame" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <RelativeLayout android:id="@id/videoImageContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.module.personalfm.PersonalFmImageSwitcher android:id="@id/smallAlbumCover" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/am7" android:layout_centerHorizontal="true" />
+            <FrameLayout android:id="@id/adContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignTop="@id/smallAlbumCover" android:layout_centerHorizontal="true" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/musicName" style="@style/a89" />
+            <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:layout_below="@id/musicName" android:layout_centerHorizontal="true">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/artistName" android:paddingLeft="3.3299866dip" android:paddingRight="3.3299866dip" android:layout_marginTop="0.0dip" style="@style/a8a" />
+            </LinearLayout>
+        </RelativeLayout>
+    </com.netease.cloudmusic.ui.GestureRelativeLayout>
+    <com.netease.cloudmusic.hint.aidj.FMAIDJSwitchHintContainer android:id="@id/fmAIDJSwitchHintContainer" android:layout_width="48.0dip" android:layout_height="48.0dip" android:layout_marginRight="20.0dip" android:layout_marginBottom="26.0dip" android:layout_above="@id/playSeekbarContainer" android:layout_alignParentRight="true" app:aim="btn_userfm_songplay_aidj" app:an1="fm" />
+    <com.netease.cloudmusic.modular.lyric.PlayerFMLyricViewContainer android:id="@id/lrcViewContainer" android:background="@color/ao3" android:paddingBottom="115.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <include android:layout_width="fill_parent" android:layout_height="?i" layout="@layout/dq9" />
+    <include layout="@layout/e3m" />
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/playerControlContainer" android:paddingLeft="8.0dip" android:paddingRight="8.0dip" android:clickable="true" android:layout_width="fill_parent" android:layout_height="@dimen/awa" android:layout_marginTop="2.0dip" android:layout_marginBottom="4.0dip" android:layout_alignParentBottom="true">
+        <ImageView android:id="@id/trashBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="25.0dip" android:src="@drawable/gad" android:scaleType="centerInside" android:contentDescription="@string/a2" />
+        <ImageView android:id="@id/likeBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/gaf" android:scaleType="centerInside" android:contentDescription="@string/a0" />
+        <ImageView android:id="@id/playBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginRight="12.0dip" android:src="@drawable/g_h" android:scaleType="centerInside" android:contentDescription="@string/s" />
+        <ImageView android:id="@id/nextBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="25.0dip" android:src="@drawable/g_9" android:scaleType="centerInside" android:contentDescription="@string/q" />
+        <RelativeLayout android:layout_width="48.0dip" android:layout_height="40.0dip">
+            <ImageView android:id="@id/commentBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ga_" android:scaleType="center" android:layout_centerVertical="true" android:contentDescription="@string/e" />
+            <TextView android:textSize="9.0sp" android:id="@id/commentCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.5dip" android:layout_marginRight="6.5dip" android:layout_alignParentTop="true" android:layout_alignParentRight="true" />
+        </RelativeLayout>
+    </LinearLayout>
+    <include layout="@layout/d5l" />
+    <include layout="@layout/dl_" />
+</RelativeLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <EditText android:textColor="@color/b1e" android:id="@id/edtIp" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatTextView android:textColor="@color/b1e" android:gravity="start" android:id="@id/txtDispatch" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5g="@id/txtCallback" app:a65="parent" app:a68="@id/edtIp" />
+    <androidx.appcompat.widget.AppCompatTextView android:textColor="@color/b1e" android:gravity="start" android:id="@id/txtCallback" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5g="@id/btnConnect" app:a65="parent" app:a68="@id/txtDispatch" />
+    <Button android:id="@id/btnConnect" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="连接" app:a5m="@id/btnDisconnect" app:a5w="packed" app:a65="parent" app:a68="@id/txtCallback" />
+    <Button android:id="@id/btnDisconnect" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="断开" app:a5l="parent" app:a64="@id/btnConnect" app:a69="@id/btnConnect" />
+    <androidx.appcompat.widget.AppCompatTextView android:textColor="@color/b1e" android:gravity="center" android:id="@id/txtState" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5l="parent" app:a65="parent" app:a68="@id/btnConnect" />
+</androidx.constraintlayout.widget.ConstraintLayout>

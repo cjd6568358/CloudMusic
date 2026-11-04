@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="20.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="14.0sp" android:textColor="#ff999999" android:gravity="left" android:layout_gravity="left" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="@string/ded" android:lines="1" android:drawablePadding="5.0dip" />
+    <com.netease.play.ui.LookThemeEditText android:textSize="15.0sp" android:textColor="#ff000000" android:id="@id/titleContent" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textCursorDrawable="@null" />
+    <TextView android:textSize="12.0sp" android:textColor="#ffff2c55" android:layout_gravity="start" android:id="@id/title_error_notice" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="此标题不符合平台规范，请修改" android:drawableLeft="@drawable/gkb" android:drawablePadding="3.0dip" />
+    <TextView android:textSize="14.0sp" android:textColor="#ff999999" android:layout_gravity="left" android:id="@id/tagTitle" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:text="@string/ijx" android:lines="1" />
+    <TextView android:layout_gravity="left" android:id="@id/tagName" android:paddingLeft="10.0dip" android:paddingTop="7.0dip" android:paddingRight="10.0dip" android:paddingBottom="7.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:drawablePadding="1.0dip" />
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20.0dip">
+        <com.netease.play.ui.CustomButton android:textSize="14.0sp" android:textColor="@color/anm" android:gravity="center" android:id="@id/dialogExit" android:layout_width="108.0dip" android:layout_height="32.0dip" android:text="@string/abp" android:layout_alignParentLeft="true" app:gg="0x00000101" />
+        <com.netease.play.ui.CustomButton android:textSize="14.0sp" android:textColor="@color/aj6" android:gravity="center" android:id="@id/dialogConfirm" android:layout_width="108.0dip" android:layout_height="32.0dip" android:text="@string/dn9" android:layout_alignParentRight="true" app:gg="0x00020304" />
+    </RelativeLayout>
+</LinearLayout>

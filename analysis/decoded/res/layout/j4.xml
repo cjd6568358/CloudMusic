@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/rootView" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseScrollView android:id="@id/shareScrollView" android:scrollbars="none" android:layout_width="fill_parent" android:layout_height="wrap_content" android:fillViewport="true">
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <RelativeLayout android:id="@id/picContainer" android:background="#ffe12b38" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/bgImageView" android:layout_width="fill_parent" android:layout_height="360.0dip" />
+                <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/shareContent" android:background="@color/b12" android:paddingLeft="12.0dip" android:paddingRight="12.0dip" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="20.0dip" android:layout_marginTop="140.0dip" android:layout_marginRight="20.0dip">
+                    <LinearLayout android:gravity="center_vertical" android:layout_gravity="start" android:orientation="horizontal" android:background="@color/b12" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15.0dip">
+                        <com.netease.cloudmusic.ui.AvatarImage android:id="@id/weiboAvatar" android:layout_width="30.0dip" android:layout_height="30.0dip" app:cv="style7" />
+                        <TextView android:textSize="16.0sp" android:textStyle="bold" android:textColor="@color/a0k" android:ellipsize="end" android:id="@id/weiboName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" android:maxWidth="120.0dip" android:maxLines="1" />
+                        <TextView android:textSize="16.0sp" android:textStyle="bold" android:textColor="@color/a0k" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=":" android:maxLines="1" />
+                    </LinearLayout>
+                    <EditText android:textSize="14.0sp" android:textColor="@color/a0k" android:textColorHint="#ffcccccc" android:id="@id/shareEditText" android:background="@color/b12" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:minHeight="30.0dip" android:hint="@string/e1h" android:lineSpacingMultiplier="1.5" />
+                    <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="30.0dip">
+                        <com.facebook.drawee.view.SimpleDraweeView android:id="@id/shareCoverImage" android:background="@drawable/bux" android:padding="1.0px" android:layout_width="150.0dip" android:layout_height="150.0dip" android:layout_centerHorizontal="true" />
+                        <ImageView android:layout_width="20.0dip" android:layout_height="120.0dip" android:src="@drawable/gqo" android:scaleType="fitXY" android:layout_toRightOf="@id/shareCoverImage" android:layout_alignTop="@id/shareCoverImage" android:layout_alignBottom="@id/shareCoverImage" />
+                    </RelativeLayout>
+                    <TextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="@color/eh" android:ellipsize="middle" android:gravity="center" android:id="@id/songName" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="40.0dip" android:layout_marginTop="9.0dip" android:layout_marginRight="40.0dip" android:maxLines="1" />
+                    <TextView android:textSize="13.0sp" android:textColor="@color/eb" android:ellipsize="end" android:gravity="center" android:id="@id/singerName" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="40.0dip" android:layout_marginTop="4.0dip" android:layout_marginRight="40.0dip" android:layout_marginBottom="27.0dip" android:maxLines="1" />
+                </LinearLayout>
+                <com.netease.cloudmusic.ui.AverageTextView android:textSize="9.0sp" android:textColor="@color/do" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="15.0dip" android:layout_marginRight="15.0dip" android:text="【】" android:layout_below="@id/shareContent" />
+                <com.netease.cloudmusic.ui.AverageTextView android:textSize="9.0sp" android:textColor="@color/b12" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="63.0dip" android:layout_marginTop="15.0dip" android:layout_marginRight="63.0dip" android:text="@string/ia9" android:layout_below="@id/shareContent" />
+                <ImageView android:id="@id/songQrCode" android:layout_width="45.0dip" android:layout_height="45.0dip" android:layout_marginTop="54.0dip" android:layout_below="@id/shareContent" android:layout_centerHorizontal="true" />
+                <ImageView android:id="@id/logoImage" android:layout_width="8.0dip" android:layout_height="8.0dip" android:src="@drawable/dih" android:layout_alignTop="@id/songQrCode" android:layout_alignBottom="@id/songQrCode" android:layout_centerHorizontal="true" />
+                <ImageView android:layout_gravity="center_horizontal" android:id="@id/shareLogo" android:layout_width="69.0dip" android:layout_height="12.0dip" android:layout_marginTop="16.0dip" android:layout_marginBottom="25.0dip" android:src="@drawable/dcl" android:layout_below="@id/songQrCode" android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+            <View android:id="@id/bottomSpace" android:background="#ffe12b38" android:layout_width="fill_parent" android:layout_height="147.0dip" android:layout_below="@id/picContainer" />
+        </RelativeLayout>
+    </com.netease.cloudmusic.ui.NeteaseScrollView>
+    <LinearLayout android:id="@id/shareTitle" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_above="@id/shareRecycler">
+        <TextView android:textSize="14.0sp" android:textColor="#ff666666" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="16.0dip" android:text="分享至" />
+    </LinearLayout>
+    <com.netease.cloudmusic.ui.NovaHorizonRecyclerView android:id="@id/shareRecycler" android:layout_width="fill_parent" android:layout_height="116.0dip" android:layout_alignParentBottom="true" />
+    <ImageView android:id="@id/closePageButton" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginTop="20.0dip" android:layout_marginRight="16.0dip" android:src="@drawable/gqx" android:layout_alignParentRight="true" />
+    <ImageView android:id="@id/backArrow" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginTop="20.0dip" android:src="@drawable/csw" android:layout_marginStart="16.0dip" />
+</RelativeLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/root_layout" android:tag="layout/fragment_nmc_music_library_0" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.appcommon.ui.BottomDragLayout android:orientation="vertical" android:id="@id/bdl_music" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a5f="parent">
+        <FrameLayout android:id="@id/indicator_layout" android:background="@drawable/bey" android:layout_width="fill_parent" android:layout_height="28.0dip">
+            <ImageView android:layout_gravity="center" android:id="@id/indicator" android:layout_width="32.0dip" android:layout_height="4.0dip" android:src="@drawable/ber" />
+        </FrameLayout>
+        <FrameLayout android:id="@id/container" android:layout_width="fill_parent" android:layout_height="fill_parent" android:baselineAligned="false" />
+    </com.netease.appcommon.ui.BottomDragLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

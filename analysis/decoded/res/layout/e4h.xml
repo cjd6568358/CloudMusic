@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/sd_rl_title_bar_height" android:background="@color/as2" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/sd_ll_center" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <TextView android:textSize="18.0sp" android:textColor="@color/do" android:ellipsize="end" android:gravity="center" android:id="@id/sd_tv_title" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="0.0dip" android:text="标题" android:maxLines="1" android:layout_weight="3.0" />
+        <TextView android:textSize="12.0sp" android:gravity="center" android:id="@id/sd_tv_sub_title" android:paddingBottom="2.0dip" android:layout_width="fill_parent" android:layout_height="0.0dip" android:text="副标题" android:layout_weight="2.0" />
+    </LinearLayout>
+    <RelativeLayout android:id="@id/sd_rl_left" android:layout_width="wrap_content" android:layout_height="fill_parent">
+        <ImageView android:id="@id/sd_iv_left" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="fill_parent" android:src="@drawable/ex9" android:paddingStart="10.0dip" />
+        <TextView android:gravity="center" android:id="@id/sd_tv_left" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="返回" android:paddingStart="10.0dip" android:layout_toEndOf="@id/sd_iv_left" />
+    </RelativeLayout>
+    <RelativeLayout android:id="@id/sd_rl_right" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_alignParentEnd="true">
+        <ImageView android:id="@id/sd_iv_right" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_centerInParent="true" android:paddingEnd="10.0dip" />
+        <TextView android:gravity="center" android:id="@id/sd_tv_right" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="搜索" android:paddingEnd="10.0dip" />
+    </RelativeLayout>
+    <View android:id="@id/sd_view_line" android:background="@color/do" android:layout_width="fill_parent" android:layout_height="0.5dip" android:layout_alignParentBottom="true" />
+</RelativeLayout>

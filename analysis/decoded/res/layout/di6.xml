@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/bgImage" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" />
+    <ViewStub android:id="@id/stressFreeViewStub" android:layout="@layout/di8" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <ViewStub android:id="@id/sleepViewStub" android:layout="@layout/di7" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="25.0sp" android:textStyle="bold" android:textColor="@color/aj6" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="77.0dip" android:text="@string/i6k" android:layout_centerHorizontal="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aj_" android:id="@id/subTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:text="@string/i6l" android:layout_below="@id/title" android:layout_centerHorizontal="true" />
+    <ViewStub android:id="@id/focusViewStub" android:layout="@layout/di5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" />
+</RelativeLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:orientation="horizontal" android:tag="layout/dialog_video_more_op_0" android:background="@drawable/wc" android:layout_width="fill_parent" android:layout_height="130.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="11.0sp" android:textColor="@color/b1t" android:gravity="center" android:id="@id/luckybacButton" android:tag="binding_1" android:layout_width="0.0dip" android:layout_height="70.0dip" android:text="@string/dzc" android:includeFontPadding="false" android:drawablePadding="6.0dip" android:layout_weight="1.0" />
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="70.0dip" android:layout_weight="1.0">
+        <com.netease.play.ui.RotateFrameLayout android:id="@id/playDisc" android:background="@drawable/gfb" android:layout_width="50.0dip" android:layout_height="50.0dip">
+            <com.facebook.drawee.view.SimpleDraweeView android:layout_gravity="center" android:id="@id/playDiscImage" android:layout_width="30.0dip" android:layout_height="30.0dip" app:aln="true" />
+        </com.netease.play.ui.RotateFrameLayout>
+        <TextView android:textSize="11.0sp" android:textColor="@color/b1t" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:text="@string/fhf" android:includeFontPadding="false" />
+    </LinearLayout>
+    <FrameLayout android:id="@id/msgEntryContainer" android:layout_width="0.0dip" android:layout_height="70.0dip" android:layout_weight="1.0">
+        <TextView android:textSize="11.0sp" android:textColor="@color/b1t" android:gravity="center" android:layout_gravity="center" android:id="@id/msgEntry" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="70.0dip" android:text="@string/bub" android:includeFontPadding="false" android:drawablePadding="6.0dip" />
+        <View android:layout_gravity="end|center|top" android:id="@id/msg_entry_reddot" android:background="@drawable/c0h" android:layout_width="9.0dip" android:layout_height="9.0dip" android:layout_marginTop="9.0dip" android:layout_marginEnd="9.0dip" />
+    </FrameLayout>
+    <TextView android:textSize="11.0sp" android:textColor="@color/b1t" android:gravity="center" android:id="@id/cdnButton" android:tag="binding_3" android:layout_width="0.0dip" android:layout_height="70.0dip" android:text="@string/afa" android:includeFontPadding="false" android:drawablePadding="6.0dip" android:layout_weight="1.0" />
+    <TextView android:textSize="11.0sp" android:textColor="@color/b1t" android:gravity="center" android:id="@id/shareButton" android:tag="binding_4" android:layout_width="0.0dip" android:layout_height="70.0dip" android:text="@string/buc" android:includeFontPadding="false" android:drawablePadding="6.0dip" android:layout_weight="1.0" />
+</LinearLayout>

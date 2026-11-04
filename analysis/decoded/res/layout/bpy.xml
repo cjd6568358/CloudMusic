@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/layout_container" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/emptyImage" android:layout_width="170.0dip" android:layout_height="120.0dip" android:scaleType="fitCenter" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="17.0dip" android:ellipsize="end" android:id="@id/emptyTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:maxLines="1" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0dip" android:ellipsize="end" android:id="@id/emptyContent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:maxLines="2" />
+    <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:divider="@drawable/dolphin_button_divider_line" android:showDividers="middle">
+        <com.netease.cloudmusic.core.dolphin.component.button.DolphinButton android:id="@id/emptyButton" android:layout_width="wrap_content" android:layout_height="wrap_content" app:q2="xl" />
+        <com.netease.cloudmusic.core.dolphin.component.button.DolphinButton android:id="@id/positiveButton" android:layout_width="wrap_content" android:layout_height="wrap_content" app:q2="xl" />
+    </LinearLayout>
+</LinearLayout>

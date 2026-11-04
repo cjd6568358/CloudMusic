@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/container" android:tag="layout/layout_anchor_introduction_0" android:paddingTop="10.0dip" android:layout_width="wrap_content" android:layout_height="52.0dip" android:layout_marginStart="10.0dip" android:layout_marginEnd="8.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout android:id="@id/background" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <ImageView android:id="@id/introduceAnim" android:layout_width="fill_parent" android:layout_height="34.0dip" />
+        <FrameLayout android:id="@id/avatarContainer" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <com.netease.play.ui.avatar.RankAvatarView android:layout_gravity="center" android:id="@id/official_show_anchor_avatar" android:layout_width="34.0dip" android:layout_height="34.0dip" />
+        </FrameLayout>
+    </FrameLayout>
+</FrameLayout>

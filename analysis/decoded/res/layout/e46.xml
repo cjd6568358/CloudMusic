@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="#ffeeeeee" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:orientation="vertical" android:background="@drawable/cm3" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="12.0dip" android:layout_marginBottom="16.0dip" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip">
+        <com.netease.cloudmusic.biz.watch.component.statelayout.StateLayout android:id="@id/state_layout" android:background="@drawable/cm3" android:layout_width="fill_parent" android:layout_height="fill_parent" app:p5="loading" app:sn="@layout/e4i">
+            <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <include android:id="@id/header" layout="@layout/e4e" />
+                <androidx.recyclerview.widget.RecyclerView android:id="@id/recyclerView" android:paddingBottom="45.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent" android:overScrollMode="never" app:a51="androidx.recyclerview.widget.LinearLayoutManager" />
+            </LinearLayout>
+        </com.netease.cloudmusic.biz.watch.component.statelayout.StateLayout>
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="41.0dip" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true">
+            <TextView android:textSize="13.0sp" android:textColor="@color/jw" android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="音频添加失败？" />
+            <TextView android:textSize="13.0sp" android:textColor="#ff2768a5" android:layout_gravity="center_vertical" android:id="@id/tv_help" android:padding="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="查看帮助" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

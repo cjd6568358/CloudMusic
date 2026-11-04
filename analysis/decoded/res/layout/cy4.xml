@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" app:jw="@dimen/ae2" app:y4="true"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:gravity="center_vertical" android:id="@id/empty_container" android:layout_width="fill_parent" android:layout_height="50.0dip">
+        <ImageView android:id="@id/ic_add_more" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_centerVertical="true" android:layout_marginStart="16.0dip" android:layout_marginEnd="8.0dip" android:layout_alignParentStart="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/lk" android:layout_centerVertical="true" android:layout_toEndOf="@id/ic_add_more" app:qe="colorText2" />
+        <ImageView android:id="@id/ic_enter" android:layout_width="12.0dip" android:layout_height="12.0dip" android:src="@drawable/bge" android:layout_centerVertical="true" android:layout_marginEnd="16.0dip" android:layout_alignParentEnd="true" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:id="@id/dragon_ball_container" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/rvDragonBalls" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:layout_marginBottom="8.0dip" android:layout_marginStart="8.0dip" android:layout_marginEnd="8.0dip" />
+        <com.netease.cloudmusic.core.dolphin.component.bubble.DolphinBubble android:id="@id/bubble" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="64.0dip" android:layout_marginEnd="24.0dip" app:fp="BOTTOM" app:fq="123.0dip" app:g4="NORMAL" app:a5l="parent" app:a69="parent" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>
+    <com.netease.cloudmusic.ui.ListenChildVisibilityFrameLayout android:id="@id/dragonBallAreaBottomBar" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.AddMiniAppRelativeLayout android:id="@id/addMiniProgram" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="40.0dip">
+            <com.netease.cloudmusic.ui.AddMiniAppTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:gravity="center_horizontal" android:id="@id/tvAddMiniProgram" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ezu" android:drawablePadding="6.0dip" android:layout_centerInParent="true" app:rc="@drawable/ami" />
+            <com.netease.cloudmusic.module.mymusic.view.RedDotView android:id="@id/addMiniProgramBottomRedDot" android:visibility="gone" android:layout_width="5.0dip" android:layout_height="5.0dip" android:layout_marginBottom="-6.0dip" android:layout_above="@id/tvAddMiniProgram" android:layout_marginStart="1.0dip" android:layout_toEndOf="@id/tvAddMiniProgram" app:akw="2.5dip" />
+        </com.netease.cloudmusic.ui.AddMiniAppRelativeLayout>
+        <com.netease.cloudmusic.ui.MyMusicResourceView android:id="@id/resource_view" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="50.0dip" />
+        <com.netease.cloudmusic.ui.MineDownloadHeaderLayout android:gravity="center_horizontal" android:id="@id/mineDownload" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="40.0dip" />
+    </com.netease.cloudmusic.ui.ListenChildVisibilityFrameLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

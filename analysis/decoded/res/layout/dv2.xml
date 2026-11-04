@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/lyrics_container" android:tag="layout/vc_operation_lyrics_item_0" android:layout_width="@dimen/au1" android:layout_height="@dimen/au1"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textColor="@color/b1e" android:gravity="center" android:id="@id/title" android:background="@drawable/c9v" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="默认" />
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/lyrics_cover" android:layout_width="@dimen/au1" android:layout_height="@dimen/au1" android:src="@drawable/c9x" app:aly="#ff222222" app:am0="8.0dip" />
+    <ProgressBar android:layout_gravity="center" android:id="@id/progress_bar" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="24.0dip" />
+</FrameLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/item_progress_node_layout_0" android:layout_width="wrap_content" android:layout_height="22.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Space android:id="@id/startBgMargin" android:tag="binding_1" android:layout_width="2.0dip" android:layout_height="fill_parent" app:a65="parent" />
+    <View android:id="@id/bg" android:layout_width="0.0dip" android:layout_height="14.0dip" app:a5f="parent" app:a5l="@id/endLimit" app:a64="@id/startBgMargin" app:a69="parent" />
+    <Space android:id="@id/startLimit" android:tag="binding_2" android:layout_width="6.0dip" android:layout_height="fill_parent" app:a65="parent" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/icon" android:layout_width="18.0dip" android:layout_height="18.0dip" app:a5f="parent" app:a5m="@id/des" app:a64="@id/startLimit" app:a69="parent" />
+    <TextView android:textSize="8.0dip" android:textColor="@color/b1z" android:id="@id/des" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/gmf" android:layout_marginStart="2.0dip" app:a5f="parent" app:a64="@id/icon" app:a69="parent" />
+    <Space android:id="@id/endLimit" android:layout_width="6.0dip" android:layout_height="fill_parent" app:a64="@id/des" />
+</androidx.constraintlayout.widget.ConstraintLayout>

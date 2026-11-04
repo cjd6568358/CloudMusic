@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/anchorAvatar" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a5z="parent" app:a69="parent" app:ai4="style5" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" app:a5f="@id/anchorAvatar" app:a60="@id/anchorAvatar" app:a69="@id/anchorAvatar">
+        <TextView android:textSize="16.0sp" android:typeface="sans" android:textColor="@color/b12" android:ellipsize="end" android:id="@id/anchorName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:maxEms="6" app:a5z="parent" app:a69="parent" />
+        <com.facebook.drawee.view.SimpleDraweeView android:id="@id/anchorPendant" android:visibility="gone" android:layout_width="19.0dip" android:layout_height="19.0dip" android:layout_marginLeft="3.0dip" app:a5f="@id/anchorName" app:a60="@id/anchorName" app:a69="@id/anchorName" />
+        <ImageView android:gravity="center" android:id="@id/followIcon" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:src="@drawable/ezn" app:a5f="@id/anchorName" app:a60="@id/anchorPendant" app:a69="@id/anchorName" />
+        <TextView android:textSize="10.0sp" android:textColor="@color/b1w" android:id="@id/followedNum" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5z="parent" app:a68="@id/anchorName" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.netease.play.livepage.LiveRoomFollowButton android:id="@id/followBtn" android:layout_width="60.0dip" android:layout_height="28.0dip" app:xq="14.0sp" app:a5f="@id/anchorAvatar" app:a63="parent" app:a69="@id/anchorAvatar" app:ayu="28.0dip" app:az0="60.0dip" />
+</androidx.constraintlayout.widget.ConstraintLayout>

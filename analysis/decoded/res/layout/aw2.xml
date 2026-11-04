@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:id="@id/shareComment" android:background="#ffffffff" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <FrameLayout android:id="@id/commentContentContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="26.0dip" android:layout_marginRight="20.0dip" android:minHeight="195.0dip">
+            <RelativeLayout android:layout_gravity="center_vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="35.0dip" android:layout_marginRight="21.0dip" android:layout_marginBottom="38.0dip">
+                <com.netease.cloudmusic.ui.AvatarImage android:id="@id/avatarImage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" app:cv="style8" />
+                <TextView android:textSize="14.0sp" android:textColor="@color/aix" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/creatorName" android:layout_width="fill_parent" android:layout_height="26.0dip" android:layout_marginLeft="3.0dip" android:singleLine="true" android:layout_toRightOf="@id/avatarImage" android:translationY="5.0dip" />
+                <com.netease.cloudmusic.ui.CommentContentView android:id="@id/commentContent" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="21.0dip" android:layout_marginTop="13.0dip" android:layout_below="@id/avatarImage" app:ku="18.0sp" app:kv="profileComment" app:adl="false" />
+                <com.netease.cloudmusic.ui.CommentContentView android:id="@id/originCommentContent" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="21.0dip" android:layout_marginTop="12.0dip" android:layout_below="@id/commentContent" app:kv="profileOriginComment" app:a1h="true" app:adl="false" />
+            </RelativeLayout>
+        </FrameLayout>
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="21.0dip" android:layout_marginTop="20.0dip" android:layout_marginRight="21.0dip" android:layout_marginBottom="10.0dip">
+            <ImageView android:id="@id/barcodeImage" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginRight="7.0dip" />
+            <ImageView android:id="@id/logoImage" android:layout_width="10.0dip" android:layout_height="10.0dip" android:layout_marginLeft="15.0dip" android:layout_marginTop="15.0dip" android:src="@drawable/dih" />
+            <TextView android:textSize="11.0sp" android:textColor="@color/aix" android:ellipsize="end" android:id="@id/resourceInfo" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:singleLine="true" android:layout_toRightOf="@id/barcodeImage" />
+            <TextView android:textSize="9.0sp" android:textColor="@color/aiz" android:ellipsize="middle" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:text="@string/dmz" android:singleLine="true" android:layout_toRightOf="@id/barcodeImage" android:layout_below="@id/resourceInfo" android:translationY="-1.0dip" />
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

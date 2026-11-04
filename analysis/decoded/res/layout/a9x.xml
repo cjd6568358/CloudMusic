@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/commonBottomFL" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.hint.view.PopLayerHintContainer android:id="@id/home_background_poplayer" android:layout_width="fill_parent" android:layout_height="fill_parent" app:aim="home_background_poplayer" app:an1="home" />
+    <com.netease.cloudmusic.module.hint.view.PopLayerHintContainer android:id="@id/global_popup" android:layout_width="fill_parent" android:layout_height="fill_parent" app:aim="global_popup" app:an1="home" />
+    <com.netease.cloudmusic.module.hint.view.containers.DSLDialogHintContainer android:id="@id/dslDialogHintContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" app:aim="home_popup" app:an1="home" />
+    <RelativeLayout android:id="@id/discoveryRightTopBubbleContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+</FrameLayout>

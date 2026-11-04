@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/root" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/nobleTitle" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="30.0dip">
+        <TextView android:textSize="11.0sp" android:textColor="@color/b1n" android:layout_gravity="center|left" android:id="@id/nobleLeftTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="@string/f8f" />
+        <TextView android:textSize="11.0sp" android:textColor="@color/b1n" android:layout_gravity="center|right" android:id="@id/nobleTitleNumber" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:text="@string/f84" android:drawableRight="@drawable/eit" android:drawablePadding="0.0dip" />
+    </FrameLayout>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@id/listContainer" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0">
+        <com.google.android.material.appbar.AppBarLayout android:id="@id/nobleHeader" android:background="@null" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip" app:a56="com.netease.play.noble.behavior.OnlineNobleHeaderBehavior">
+            <com.netease.play.ui.LiveRecyclerView android:id="@id/nobleRecyclerList" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a76="scroll" />
+            <TextView android:textSize="11.0sp" android:textColor="@color/b1n" android:gravity="center|left" android:id="@id/floatingTitle" android:layout_width="fill_parent" android:layout_height="21.0dip" android:layout_marginLeft="10.0dip" android:layout_marginBottom="5.0dip" android:text="@string/f83" app:a76="scroll" />
+        </com.google.android.material.appbar.AppBarLayout>
+        <com.netease.play.ui.LiveRecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:overScrollMode="never" app:a56="@string/uo" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <include android:id="@id/myRankInfoLayout" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="60.0dip" layout="@layout/bb5" />
+</LinearLayout>

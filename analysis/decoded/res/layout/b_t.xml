@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/lotteryContainer" android:tag="layout/item_more_anchor_lottery_viewer_0" android:layout_width="50.0dip" android:layout_height="70.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="11.0sp" android:textColor="@color/b1t" android:gravity="center" android:layout_gravity="center" android:id="@id/lottery" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/dpy" android:includeFontPadding="false" android:drawablePadding="6.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/image" android:layout_width="50.0dip" android:layout_height="50.0dip" app:ae="centerInside" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <ImageView android:id="@id/lotteryHint" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="0.0dip" android:src="@drawable/epb" app:a5z="parent" app:a63="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

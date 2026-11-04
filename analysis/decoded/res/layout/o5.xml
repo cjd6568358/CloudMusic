@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/widget_no_network_layout" android:background="@drawable/fr" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_horizontal" android:layout_gravity="center" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <ImageView android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/cp2" />
+        <TextView android:textSize="14.0dip" android:textColor="@color/bj" android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:text="@string/v_" />
+        <TextView android:textSize="12.0dip" android:textColor="@color/ap" android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:text="@string/v0" />
+    </LinearLayout>
+    <ImageView android:layout_gravity="start" android:id="@id/logo_img" android:layout_width="18.0dip" android:layout_height="18.0dip" android:layout_marginTop="10.0dip" android:layout_marginStart="10.0dip" style="@style/af" />
+</FrameLayout>

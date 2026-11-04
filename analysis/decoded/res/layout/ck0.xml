@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_gravity="center" android:orientation="horizontal" android:paddingTop="15.0dip" android:paddingBottom="15.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.SimpleRoundDraweeView android:layout_gravity="center_vertical" android:id="@id/selfAvatar" android:layout_width="24.0dip" android:layout_height="24.0dip" app:ae="centerCrop" app:w3="0" app:ahy="@drawable/bhf" app:ahz="centerCrop" app:aln="true" />
+    <FrameLayout android:layout_gravity="center_vertical" android:id="@id/otherAvatarContainer" android:layout_width="24.0dip" android:layout_height="24.0dip">
+        <com.netease.cloudmusic.ui.SimpleRoundDraweeView android:id="@id/otherAvatar" android:background="@drawable/pt" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" app:w3="0" app:ahz="centerCrop" app:aln="true" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/maskCover" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ahy="@drawable/g7v" app:ahz="centerCrop" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center_vertical" android:id="@id/waitJoinView" android:background="@drawable/pt" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" app:aln="true" />
+        <ImageView android:layout_gravity="center_vertical" android:id="@id/reInviteView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/f1f" />
+    </FrameLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0dip" android:textColor="@color/aj8" android:layout_gravity="center_vertical" android:id="@id/hintText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" android:text="@string/dwg" android:includeFontPadding="false" android:drawablePadding="4.799988dip" />
+</LinearLayout>

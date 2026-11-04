@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="horizontal" android:id="@id/shareContainer" android:paddingTop="20.0dip" android:layout_width="fill_parent" android:layout_height="120.0dip">
+        <com.netease.play.ui.LookThemeTextView android:id="@id/shareImage" android:visibility="gone" android:text="@string/cx2" android:drawableTop="@drawable/e3_" style="@style/a7d" />
+        <com.netease.play.ui.LookThemeTextView android:id="@id/shareImageDownload" android:visibility="gone" android:text="@string/cwu" android:drawableTop="@drawable/e3a" style="@style/a7d" />
+        <com.netease.play.ui.LookThemeTextView android:id="@id/shareMusicTopic" android:visibility="gone" android:text="@string/i2q" android:drawableTop="@drawable/etu" style="@style/a7d" />
+        <com.netease.play.ui.LookThemeTextView android:id="@id/shareWechat" android:text="@string/jd8" android:drawableTop="@drawable/e3j" style="@style/a7d" />
+        <com.netease.play.ui.LookThemeTextView android:id="@id/shareWechatMoments" android:text="@string/jd9" android:drawableTop="@drawable/e3l" style="@style/a7d" />
+        <com.netease.play.ui.LookThemeTextView android:id="@id/shareWb" android:text="@string/jdy" android:drawableTop="@drawable/e3h" style="@style/a7d" />
+        <com.netease.play.ui.LookThemeTextView android:id="@id/shareQQ" android:text="@string/h9z" android:drawableTop="@drawable/e3c" style="@style/a7d" />
+        <com.netease.play.ui.LookThemeTextView android:id="@id/shareQZone" android:text="@string/ha0" android:drawableTop="@drawable/e3e" style="@style/a7d" />
+        <com.netease.play.ui.LookThemeTextView android:id="@id/savePicToLocal" android:visibility="gone" android:text="@string/hpq" android:drawableTop="@drawable/e3g" style="@style/a7d" />
+    </LinearLayout>
+</HorizontalScrollView>

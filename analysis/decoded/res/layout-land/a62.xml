@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <SeekBar android:id="@id/volumeProgress" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxHeight="3.0dip" android:max="1000" android:progressDrawable="@drawable/b3z" android:minHeight="3.0dip" android:thumb="@drawable/b40" android:layout_centerInParent="true" android:layout_marginStart="70.0dip" android:layout_marginEnd="30.0dip" />
+    <ImageView android:id="@id/volumeIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ftp" android:layout_alignTop="@id/volumeProgress" android:layout_alignBottom="@id/volumeProgress" android:layout_marginStart="28.0dip" android:layout_alignParentStart="true" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1u" android:gravity="center" android:layout_gravity="center" android:id="@id/microphonevolume" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-50.0dip" android:text="@string/eaw" android:layout_alignTop="@id/volumeProgress" android:layout_marginStart="18.0dip" android:layout_alignParentStart="true" />
+</RelativeLayout>

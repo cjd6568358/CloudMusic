@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:layout_width="60.0dip" android:layout_height="60.0dip" fresco:go="@color/ay_" fresco:gp="4.0dip" fresco:gq="0.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/videoContainer" android:clipChildren="false" android:clipToPadding="false" android:layout_width="60.0dip" android:layout_height="60.0dip">
+        <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/image" android:layout_width="60.0dip" android:layout_height="60.0dip" fresco:ae="centerCrop" fresco:ahy="@drawable/cx7" fresco:ahz="fitXY" fresco:aj2="@color/an4" />
+        <ImageView android:background="@drawable/d2x" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_alignBottom="@id/image" />
+        <TextView android:textSize="10.0dip" android:textColor="@color/b12" android:gravity="center" android:id="@id/tvSort" android:background="@drawable/fsj" android:layout_width="wrap_content" android:layout_height="14.0dip" android:includeFontPadding="false" android:paddingStart="3.5dip" android:paddingEnd="4.5dip" />
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/g14" android:translationX="4.0dip" android:translationY="-4.0dip" android:layout_alignParentEnd="true" />
+        <TextView android:textSize="12.0sp" android:textColor="@color/aj6" android:gravity="center" android:id="@id/videoTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="3.0dip" android:layout_alignBottom="@id/image" android:layout_centerHorizontal="true" android:layout_marginEnd="6.0dip" />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

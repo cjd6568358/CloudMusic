@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/comment" android:tag="layout-land/game_anchor_bottom_0" android:layout_width="36.0dip" android:layout_height="36.0dip" android:src="@drawable/dfu" android:layout_marginStart="20.0dip" android:layout_marginEnd="10.0dip" app:a5f="parent" app:a62="@id/privacyModeSwitch" app:a69="@id/bottomGuideline" />
+    <com.netease.play.gamelive.livepage.ui.GameStateSwitchView android:id="@id/privacyModeSwitch" android:tag="layout-land/game_anchor_bottom_1" android:layout_width="36.0dip" android:layout_height="36.0dip" android:layout_marginLeft="10.0dip" android:layout_marginEnd="10.0dip" app:a5f="parent" app:a62="@id/micVolume" app:a69="@id/bottomGuideline" />
+    <ImageView android:id="@id/micVolume" android:tag="layout-land/game_anchor_bottom_2" android:layout_width="36.0dip" android:layout_height="36.0dip" android:layout_marginLeft="10.0dip" android:layout_marginEnd="10.0dip" app:a5f="parent" app:a62="@id/giftBtn" app:a69="@id/bottomGuideline" />
+    <ImageView android:id="@id/giftBtn" android:tag="layout-land/game_anchor_bottom_3" android:layout_width="36.0dip" android:layout_height="36.0dip" android:scaleType="fitCenter" android:layout_marginEnd="10.0dip" app:a5f="parent" app:a62="@id/more" app:a69="@id/bottomGuideline" />
+    <ImageView android:id="@id/more" android:tag="layout-land/game_anchor_bottom_4" android:layout_width="36.0dip" android:layout_height="36.0dip" android:scaleType="fitCenter" android:layout_marginEnd="10.0dip" app:a5f="parent" app:a63="parent" app:a69="@id/bottomGuideline" />
+    <ImageView android:id="@id/red_dot" android:tag="layout-land/game_anchor_bottom_5" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a63="@id/more" app:a69="@id/more" />
+</merge>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="80.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.FrameLayoutWithShadow android:paddingLeft="2.0dip" android:paddingTop="2.0dip" android:paddingRight="2.0dip" android:paddingBottom="5.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" app:ln="6.0" app:ao4="5.0">
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:layout_width="fill_parent" android:layout_height="70.0dip" app:jw="6.0dip" app:y4="true">
+            <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/child_mode_fm_play_icon" android:layout_width="20.0dip" android:layout_height="20.0dip" android:layout_marginLeft="16.0dip" android:layout_centerVertical="true" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="20.0sp" android:textColor="@color/aiv" android:id="@id/fm_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="7.0dip" android:layout_toRightOf="@id/child_mode_fm_play_icon" android:layout_centerVertical="true" app:adf="true" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+    </com.netease.cloudmusic.ui.FrameLayoutWithShadow>
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/fm_draweeview" android:layout_width="140.0dip" android:layout_height="76.0dip" android:layout_marginRight="16.0dip" android:layout_marginBottom="5.0dip" android:layout_alignParentRight="true" android:layout_alignParentBottom="true" />
+</RelativeLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/rootViewBg" android:background="#ffffffff" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:background="@drawable/ajw" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="44.0dip" android:layout_marginTop="44.0dip">
+            <ImageView android:layout_gravity="center_vertical" android:id="@id/backBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="24.0dip" android:src="@drawable/aju" />
+        </LinearLayout>
+        <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="48.0dip" android:layout_marginTop="32.0dip">
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="24.0sp" android:textStyle="bold" android:textColor="#99283248" android:id="@id/bindCellphoneTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="绑定手机号\n让你的账号更安全" />
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/bindCellphoneImg" android:layout_width="72.0dip" android:layout_height="72.0dip" android:layout_marginRight="46.0dip" android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+        <RelativeLayout android:id="@id/loginContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="60.0dip">
+            <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/newLoginContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="48.0dip" android:layout_marginRight="48.0dip">
+                <com.netease.cloudmusic.module.login.v3.PhoneNumEditView android:id="@id/phoneNumberEdit" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="20.0dip" />
+                <com.netease.cloudmusic.module.login.v3.NewLoginBtn android:textSize="@dimen/qo" android:gravity="center" android:id="@id/newLoginBtn" android:layout_width="fill_parent" android:layout_height="46.0dip" android:text="下一步" />
+            </LinearLayout>
+            <com.netease.cloudmusic.module.login.v3.NewOnePassTipView android:id="@id/onePassTip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="8.0dip" android:layout_above="@id/newLoginContainer" android:layout_centerHorizontal="true" android:elevation="10.0dip" />
+        </RelativeLayout>
+    </LinearLayout>
+</FrameLayout>

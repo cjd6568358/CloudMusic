@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/adMainContentRoot" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.ui.SensorRotateImageView android:id="@id/adMainMaterialImageView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/adDecayedImageView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+    </FrameLayout>
+    <FrameLayout android:id="@id/adVideoContainer" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/bottomAdSponsorLogo" android:layout_width="fill_parent" android:layout_height="110.0dip" android:scaleType="centerCrop" app:a5f="parent" app:a5z="parent" />
+    <include android:id="@id/rotateGuideRoot" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="340.0dip" android:layout_marginBottom="16.0dip" app:a5g="@id/bottomAdSponsorLogo" app:a5z="parent" layout="@layout/ch2" />
+</androidx.constraintlayout.widget.ConstraintLayout>

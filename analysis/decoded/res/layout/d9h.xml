@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/playListOfflineSongTip" android:background="@drawable/list_selector" android:layout_width="fill_parent" android:layout_height="wrap_content"
+      xmlns:android="http://schemas.android.com/apk/res/android">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiv" android:id="@id/offlineSongTipText" android:paddingTop="13.0dip" android:paddingBottom="13.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:text="@string/fdp" android:drawableRight="@drawable/cg_" android:drawablePadding="2.0dip" android:layout_alignParentLeft="true" android:layout_centerVertical="true" app:adf="true" app:aeu="@color/aiv" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/offlineSongTipClose" android:background="@drawable/list_selector" android:padding="14.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="6.0dip" android:layout_alignParentRight="true" android:layout_centerVertical="true" app:aev="@color/aiz" app:aqh="@drawable/dh2" />
+    </RelativeLayout>
+</LinearLayout>

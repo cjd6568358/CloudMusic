@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.ui.LookThemeLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="10.0dip" android:layout_width="fill_parent" android:layout_height="80.0dip" android:minHeight="80.0dip" app:e4="76.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/peopleImage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" app:ai4="style4" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:paddingRight="8.0dip" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_marginTop="12.0dip" android:layout_marginBottom="12.0dip" android:layout_weight="1.0">
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <ImageView android:layout_gravity="center_vertical" android:id="@id/liveStatus" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="14.0dip" android:layout_marginRight="4.0dip" android:scaleType="center" />
+            <com.netease.play.ui.LookThemeHighlightTextView android:textSize="15.0sp" android:textColor="@color/a6g" android:ellipsize="end" android:gravity="center" android:id="@id/peopleName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" />
+        </LinearLayout>
+        <com.netease.play.ui.LookThemeHighlightTextView android:textSize="11.0sp" android:textColor="@color/a6l" android:ellipsize="end" android:id="@id/peopleOtherInfo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:lines="1" android:singleLine="true" android:drawablePadding="2.0dip" />
+    </LinearLayout>
+    <com.netease.play.ui.CustomLoadingButton android:gravity="center" android:id="@id/customButton" android:layout_height="24.0dip" android:layout_marginRight="10.0dip" android:text="@string/cak" style="@style/a6d" />
+</com.netease.play.ui.LookThemeLinearLayout>

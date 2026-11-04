@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.music.biz.voice.widget.DiscoveryTitleView android:id="@id/title_view" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="3.0dip" android:layout_marginStart="16.0dip" />
+    <com.netease.cloudmusic.ui.CanScrollHorizonRecyclerView android:id="@id/recyclerView" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+</LinearLayout>

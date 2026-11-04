@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="48.0dip" android:layout_height="65.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/progress_cover" android:layout_width="48.0dip" android:layout_height="65.0dip" />
+    <com.netease.cloudmusic.dialog.progress.CircleProgressView android:layout_gravity="center" android:id="@id/progressView" android:layout_width="32.0dip" android:layout_height="32.0dip" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="10.0sp" android:textColor="#ffffffff" android:layout_gravity="center" android:id="@id/progressText" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+</FrameLayout>

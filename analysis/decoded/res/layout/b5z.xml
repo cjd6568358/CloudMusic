@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="36.0dip" android:layout_marginStart="10.0dip" android:layout_marginEnd="10.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/empty_gift_icon" android:layout_width="16.0dip" android:layout_height="16.0dip" app:a5f="parent" app:a5m="@id/empty_gift_text" app:a5w="packed" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:id="@id/empty_gift_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="2.0dip" app:a5f="parent" app:a5l="parent" app:a64="@id/empty_gift_icon" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

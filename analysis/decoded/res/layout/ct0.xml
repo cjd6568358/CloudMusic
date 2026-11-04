@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/web_container" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/load" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="157.0dip">
+        <com.facebook.drawee.view.SimpleDraweeView android:id="@id/logo" android:layout_width="@dimen/a7a" android:layout_height="@dimen/a7a" app:ae="centerCrop" app:aln="true" />
+        <TextView android:textSize="@dimen/a7c" android:textColor="@color/ac5" android:id="@id/name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/a7b" />
+        <com.facebook.drawee.view.SimpleDraweeView android:id="@id/load_icon" android:layout_width="23.329987dip" android:layout_height="23.329987dip" android:layout_marginTop="37.0dip" app:ae="centerCrop" />
+        <TextView android:textSize="12.0sp" android:textColor="#ff888888" android:id="@id/desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="7.0dip" />
+    </LinearLayout>
+    <com.netease.cloudmusic.core.mp.container.MpToolbar android:id="@id/toolbar" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <LinearLayout android:id="@id/menu" android:layout_width="80.0dip" android:layout_height="30.0dip" android:layout_marginRight="10.0dip">
+            <ImageView android:id="@id/more" android:layout_width="40.0dip" android:layout_height="30.0dip" android:scaleType="center" />
+            <ImageView android:id="@id/close" android:layout_width="40.0dip" android:layout_height="30.0dip" android:scaleType="center" />
+        </LinearLayout>
+        <LinearLayout android:id="@id/subscribe_layout" android:visibility="gone" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginRight="10.0dip">
+            <ImageView android:id="@id/subscribe" android:layout_width="30.0dip" android:layout_height="30.0dip" android:scaleType="center" />
+        </LinearLayout>
+    </com.netease.cloudmusic.core.mp.container.MpToolbar>
+</FrameLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.nis.captcha.CaptchaWebView android:id="@id/web_view" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <RelativeLayout android:id="@id/rl_close" android:background="@android:color/transparent" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="6.0dip">
+        <ImageView android:id="@id/img_btn_close" android:layout_width="40.0dip" android:layout_height="40.0dip" android:src="@drawable/cst" android:scaleType="fitCenter" android:layout_centerHorizontal="true" android:contentDescription="@string/jgb" />
+    </RelativeLayout>
+</LinearLayout>

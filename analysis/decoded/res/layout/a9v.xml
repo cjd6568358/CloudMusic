@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/commonTopFL" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.FadeView android:id="@id/head_view" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="180.0dip" />
+    <ImageView android:id="@id/blurBg" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="196.0dip" android:scaleType="fitXY" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/headerBg" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="centerCrop" />
+    <ViewStub android:id="@id/viewStubHeader" android:layout="@layout/a9y" android:inflatedId="@id/discoveryHeader" android:layout_width="fill_parent" android:layout_height="@dimen/art" />
+</FrameLayout>

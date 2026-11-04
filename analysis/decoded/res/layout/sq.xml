@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textColor="@color/aiz" android:gravity="center_vertical" android:id="@id/choosePayMethodHint" android:paddingLeft="@dimen/ag_" android:layout_width="wrap_content" android:layout_height="35.0dip" android:text="@string/akb" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/aliPayItem" app:e6="noline" style="@style/a3h">
+        <ImageView android:layout_gravity="center_vertical" android:id="@id/aliIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/fen" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/fqg" style="@style/a3i" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRadioButton android:layout_gravity="center_vertical" android:id="@id/aliPay" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/weixinPayItem" app:e6="noline" style="@style/a3h">
+        <ImageView android:layout_gravity="center_vertical" android:id="@id/weixinIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/feo" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/fqh" style="@style/a3i" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRadioButton android:layout_gravity="center_vertical" android:id="@id/weixinPay" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    <View android:id="@id/line2" android:layout_width="fill_parent" android:layout_height="0.33000004dip" android:layout_marginTop="9.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/payNowButton" android:layout_width="257.0dip" android:layout_height="40.0dip" android:layout_marginTop="7.0dip" android:layout_marginBottom="7.0dip" android:text="@string/fqi" app:gl="useTheme" />
+</merge>

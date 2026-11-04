@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:background="?ang" android:layout_width="fill_parent" android:layout_height="52.0dip" android:paddingStart="26.0dip" android:paddingEnd="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/rightGroup" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_alignParentEnd="true">
+        <TextView android:textSize="10.0sp" android:textColor="#ffff9800" android:id="@id/buttonTagRestart" android:background="#33ff9800" android:paddingTop="1.0dip" android:paddingBottom="1.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="重启" android:paddingStart="4.0dip" android:paddingEnd="4.0dip" android:layout_marginEnd="4.0dip" />
+        <TextView android:textSize="10.0sp" android:textColor="#ff999999" android:id="@id/buttonTagDev" android:background="#33999999" android:paddingTop="1.0dip" android:paddingBottom="1.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="DEV" android:paddingStart="4.0dip" android:paddingEnd="4.0dip" android:layout_marginEnd="8.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="20.0sp" android:id="@id/buttonArrow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:alpha="0.3" />
+    </LinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:ellipsize="end" android:id="@id/buttonName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:layout_centerVertical="true" android:layout_marginEnd="8.0dip" android:layout_toStartOf="@id/rightGroup" android:layout_alignParentStart="true" />
+</com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.person.profile.ProfileSameHobbiesContainer android:id="@id/profile_same_hobbies_container" android:layout_width="fill_parent" android:layout_height="36.0dip" android:layout_marginLeft="@dimen/s1" android:layout_marginTop="15.0dip" android:layout_marginRight="@dimen/s2"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.AvatarImage android:id="@id/profile_same_hobbies_avatar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" app:cv="style8" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textColor="@color/aix" android:id="@id/item_more" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="11.0dip" android:layout_marginRight="12.0dip" android:layout_alignParentRight="true" android:layout_centerVertical="true" app:adf="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aix" android:ellipsize="end" android:id="@id/profile_hobbies_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" android:maxLines="1" android:layout_toLeftOf="@id/item_more" android:layout_toRightOf="@id/profile_same_hobbies_avatar" android:layout_centerVertical="true" />
+</com.netease.cloudmusic.person.profile.ProfileSameHobbiesContainer>

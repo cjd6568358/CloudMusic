@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:tag="layout/activity_leak_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="13.0sp" android:textColor="@android:color/black" android:layout_gravity="end|center|top" android:id="@id/clearAll" android:tag="binding_1" android:padding="15.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="清空" />
+    <androidx.recyclerview.widget.RecyclerView android:orientation="vertical" android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a51="androidx.recyclerview.widget.LinearLayoutManager" />
+</LinearLayout>

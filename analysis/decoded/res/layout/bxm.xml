@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/userinfoContainer" android:paddingRight="6.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="@dimen/ato" android:layout_marginLeft="10.0dip" android:layout_marginTop="@dimen/atp"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar" android:layout_width="@dimen/ato" android:layout_height="@dimen/ato" app:adr="false" app:ai4="style19" app:aj1="true" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@id/nameContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:layout_marginRight="6.0dip">
+        <TextView android:textSize="13.0sp" android:textColor="@color/aj6" android:ellipsize="end" android:id="@id/userName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="72.0dip" android:singleLine="true" />
+        <TextView android:textSize="10.0sp" android:textColor="#fff0c35c" android:id="@id/popularity" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="72.0dip" android:text="-" android:singleLine="true" android:drawableLeft="@drawable/gjw" android:drawablePadding="2.0dip" />
+    </LinearLayout>
+    <com.netease.play.livepage.LiveRoomFollowButton android:id="@id/followBtn" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="22.0dip" android:layout_toRightOf="@id/nameContainer" android:layout_centerVertical="true" />
+</LinearLayout>

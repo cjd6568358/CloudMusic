@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="10.0sp" android:textColor="@color/b1k" android:layout_gravity="center" android:id="@id/time" android:paddingLeft="6.0dip" android:paddingTop="2.0dip" android:paddingRight="6.0dip" android:paddingBottom="2.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15.0dip">
+        <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginLeft="10.0dip" app:ai4="style7" />
+        <FrameLayout android:id="@id/contentContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" />
+    </LinearLayout>
+    <ViewStub android:id="@id/stub_risk_message_tip" android:layout="@layout/c9q" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:layout_marginStart="20.0dip" android:layout_marginEnd="20.0dip" />
+</LinearLayout>

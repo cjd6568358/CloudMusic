@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/guessPlaygroundContainer" android:tag="layout/party_guess_playing_playground_layout_0" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Space android:id="@id/extraSpace" android:tag="binding_1" android:layout_width="0.0dip" android:layout_height="240.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <include android:id="@id/playgroundItem0" android:clipChildren="false" android:clipToPadding="false" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5l="parent" app:a65="parent" app:a68="@id/extraSpace" layout="@layout/d3z" />
+    <include android:id="@id/playgroundItem1" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5m="@id/playgroundItem2" app:a65="parent" app:a68="@id/playgroundItem0" layout="@layout/d3y" />
+    <include android:id="@id/playgroundItem2" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5m="@id/playgroundItem3" app:a64="@id/playgroundItem1" app:a69="@id/playgroundItem1" layout="@layout/d3y" />
+    <include android:id="@id/playgroundItem3" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5m="@id/playgroundItem4" app:a64="@id/playgroundItem2" app:a69="@id/playgroundItem1" layout="@layout/d3y" />
+    <include android:id="@id/playgroundItem4" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5m="@id/playgroundItem5" app:a64="@id/playgroundItem3" app:a69="@id/playgroundItem1" layout="@layout/d3y" />
+    <include android:id="@id/playgroundItem5" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5m="@id/playgroundItem6" app:a64="@id/playgroundItem4" app:a69="@id/playgroundItem1" layout="@layout/d3y" />
+    <include android:id="@id/playgroundItem6" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5l="parent" app:a64="@id/playgroundItem5" app:a69="@id/playgroundItem1" layout="@layout/d3y" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_sing_song_panel_lyric_0" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:tag="binding_1" android:layout_width="0.0dip" android:layout_height="42.0dip" android:layout_marginTop="20.0dip" app:a5z="parent" app:a63="parent" app:a69="parent">
+        <LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ef6" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0dip" android:textColor="@color/b12" android:id="@id/tv_title" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8.0dip" android:layout_marginEnd="8.0dip" />
+            <androidx.appcompat.widget.AppCompatImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ef6" android:scaleX="-1.0" />
+        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="10.0dip" android:textColor="@color/b12" android:id="@id/tv_time" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:alpha="0.6" />
+    </LinearLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout android:orientation="horizontal" android:id="@id/midi_container" android:tag="binding_4" android:background="@color/dx" android:layout_width="0.0dip" android:layout_height="42.0dip" android:layout_marginTop="20.0dip" app:a5z="parent" app:a63="parent" app:a69="parent">
+        <com.netease.play.livepage.music2.toneline.toneline.MidiShowView android:id="@id/midi" android:layout_width="0.0dip" android:layout_height="fill_parent" app:a5f="parent" app:a5z="parent" app:a62="@id/ll_song_info" app:a69="parent" />
+        <com.netease.play.livepage.music2.toneline.toneline.MidiEffectView android:id="@id/midiEffectView" android:layout_width="98.0dip" android:layout_height="82.0dip" app:a5f="@id/midi" app:a5z="parent" app:a69="@id/midi" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/sentenceGrade" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="88.0dip" app:a5g="@id/midi" app:a5z="@id/midiEffectView" />
+        <com.airbnb.lottie.LottieAnimationView android:id="@id/countDownAnim" android:layout_width="65.0dip" android:layout_height="15.0dip" android:layout_marginLeft="8.0dip" app:a5f="@id/midi" app:a5z="parent" app:a69="@id/midi" />
+        <LinearLayout android:gravity="center|right" android:orientation="vertical" android:id="@id/ll_song_info" android:background="@drawable/ef4" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:layout_width="138.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a63="parent" app:a69="parent">
+            <com.netease.play.ui.MarqueeTextView android:textSize="10.0dip" android:textColor="@color/b12" android:ellipsize="marquee" android:id="@id/tv_song_info" android:tag="binding_5" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:drawableLeft="@drawable/ef_" android:marqueeRepeatLimit="marquee_forever" android:alpha="0.7" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="10.0dip" android:textColor="@color/b12" android:id="@id/tv_chorus" android:tag="binding_6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.7" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.netease.play.livepage.music.lyric.ktv.KtvLyricView android:id="@id/lyric_view" android:layout_width="0.0dip" android:layout_height="61.0dip" android:layout_marginLeft="10.0dip" android:layout_marginTop="62.0dip" android:layout_marginRight="10.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

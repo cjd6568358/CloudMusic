@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/container" android:background="#9a000000" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:layout_gravity="center" android:background="@drawable/btk" android:layout_width="278.0dip" android:layout_height="wrap_content" android:layout_centerInParent="true">
+        <TextView android:textSize="13.0sp" android:textColor="#ff666666" android:id="@id/titleText" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="30.0dip" android:layout_marginRight="20.0dip" android:text="@string/a40" android:layout_centerHorizontal="true" android:lineSpacingMultiplier="1.2" />
+        <com.netease.cloudmusic.ui.NeteaseMusicViewPager android:id="@id/guidePager" android:layout_width="fill_parent" android:layout_height="247.0dip" android:layout_below="@id/titleText" android:layout_centerHorizontal="true" android:overScrollMode="never" />
+        <LinearLayout android:gravity="center_horizontal" android:orientation="horizontal" android:id="@id/dotParent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:layout_marginBottom="20.0dip" android:layout_below="@id/guidePager" android:layout_centerHorizontal="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="17.0sp" android:textColor="#00000000" android:gravity="center" android:id="@id/jumpBtn" android:layout_width="fill_parent" android:layout_height="39.0dip" android:layout_marginLeft="20.0dip" android:layout_marginRight="20.0dip" android:layout_marginBottom="20.0dip" android:text="@string/a3z" android:layout_below="@id/dotParent" app:gl="useTheme" />
+    </RelativeLayout>
+</FrameLayout>

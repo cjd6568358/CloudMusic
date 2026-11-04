@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/music_library_root" android:tag="layout/fragment_music_library_0" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="6.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.tabs.TabLayout android:id="@id/tab_layout" android:layout_width="fill_parent" android:layout_height="45.0dip" app:a69="parent" app:asp="@drawable/bfn" app:ast="@color/b12" app:asw="1.0dip" app:ath="@color/b12" app:atk="@style/ld" app:atl="@color/b18" />
+    <View android:id="@id/divider" android:background="@color/b1p" android:layout_width="fill_parent" android:layout_height="0.5dip" app:a68="@id/tab_layout" />
+    <androidx.viewpager.widget.ViewPager android:id="@id/view_pager" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a68="@id/divider" />
+</androidx.constraintlayout.widget.ConstraintLayout>

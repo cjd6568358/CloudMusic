@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.module.mymusic.ui.PrivilegeImageViewContainer android:id="@id/vipIconContainer" android:layout_width="wrap_content" android:layout_height="17.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tool="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:layout_gravity="center" android:orientation="horizontal" android:id="@id/vipExpiry" android:layout_width="wrap_content" android:layout_height="fill_parent">
+        <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center_vertical" android:id="@id/vipExpiryLogo" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="9.0sp" android:textColor="#ffffe3df" android:gravity="center" android:id="@id/vipExpiryTime" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginLeft="2.0dip" tool:aub="7天过期" />
+    </LinearLayout>
+    <com.netease.cloudmusic.module.mymusic.ui.MyMusicPrivilegeImageView android:id="@id/vipIcon" android:layout_width="wrap_content" android:layout_height="fill_parent" tool:w3="0" />
+</com.netease.cloudmusic.module.mymusic.ui.PrivilegeImageViewContainer>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:id="@id/authDescView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" app:aeq="#4dffffff"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center_vertical" android:id="@id/rewardImg" android:paddingLeft="3.0dip" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_marginBottom="2.0dip" />
+    <com.netease.cloudmusic.music.biz.comment.widget.CommentRewardTextView android:textSize="13.0sp" android:textStyle="bold" android:layout_gravity="center_vertical" android:id="@id/rewardContentText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="1.0dip" android:layout_marginBottom="2.0dip" android:text="灯牌" />
+    <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center_vertical" android:id="@id/rewardContentImg" android:background="@drawable/zi" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="2.0dip" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="13.0sp" android:layout_gravity="center_vertical" android:id="@id/rewardNum" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="2.0dip" android:layout_marginRight="4.0dip" android:text="2" />
+</LinearLayout>

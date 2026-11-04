@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/multi_people_like_button_drawee" android:layout_width="36.0dip" android:layout_height="40.0dip" android:layout_centerVertical="true" android:layout_marginStart="-6.0dip" android:layout_alignStart="@id/multi_people_like_button_container" />
+    <RelativeLayout android:id="@id/multi_people_like_button_container" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/multi_people_like_button_image" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/e2r" android:layout_centerVertical="true" />
+        <androidx.appcompat.widget.AppCompatTextView android:id="@id/multi_people_like_button_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:shadowColor="#4dffa235" android:shadowRadius="4.0" android:layout_toRightOf="@id/multi_people_like_button_image" android:layout_centerVertical="true" />
+    </RelativeLayout>
+</RelativeLayout>

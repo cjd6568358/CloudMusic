@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:tag="layout/audiochat_bottom_function_connected_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+        <ImageView android:id="@id/iv_mute_chat" android:tag="binding_1" android:layout_width="66.0dip" android:layout_height="66.0dip" android:src="@drawable/bwc" />
+        <TextView android:textSize="12.0sp" android:textColor="#4dffffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:text="@string/av" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+        <ImageView android:id="@id/iv_hung_chat" android:tag="binding_2" android:layout_width="66.0dip" android:layout_height="66.0dip" android:src="@drawable/bwb" />
+        <TextView android:textSize="12.0sp" android:textColor="#4dffffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:text="@string/j4h" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+        <ImageView android:id="@id/iv_speaker_chat" android:tag="binding_3" android:layout_width="66.0dip" android:layout_height="66.0dip" android:src="@drawable/bwe" />
+        <TextView android:textSize="12.0sp" android:textColor="#4dffffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:text="@string/ax" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.google.android.material.appbar.AppBarLayout android:theme="@style/u7" android:background="@color/b1e" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.google.android.material.appbar.CollapsingToolbarLayout android:id="@id/header" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a76="scroll|exitUntilCollapsed" />
+        </com.google.android.material.appbar.AppBarLayout>
+        <com.netease.play.ui.LiveRecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="@string/uo" />
+        <View android:layout_width="wrap_content" android:layout_height="wrap_content" app:a56="com.netease.play.anchorrecommend.behavior.RecommendHeaderBehavior" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <FrameLayout android:id="@id/toolbarRoot" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <androidx.appcompat.widget.Toolbar android:id="@id/toolbar_inner" android:layout_width="fill_parent" android:layout_height="40.0dip" />
+    </FrameLayout>
+</FrameLayout>

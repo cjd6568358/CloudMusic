@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="center" android:background="@drawable/og" android:layout_width="295.0dip" android:layout_height="wrap_content" android:layout_marginLeft="40.0dip" android:layout_marginRight="40.0dip">
+        <ImageView android:id="@id/iv_close" android:layout_width="18.0dip" android:layout_height="18.0dip" android:layout_marginTop="10.0dip" android:src="@drawable/agf" android:layout_marginEnd="10.0dip" app:a63="parent" app:a69="parent" />
+        <FrameLayout android:id="@id/fl_container" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="30.0dip" android:layout_marginBottom="15.0dip" app:a5g="@id/tv_cancel" app:a5z="parent" app:a63="parent" app:a69="parent" />
+        <TextView android:textSize="18.0sp" android:textColor="@color/a0l" android:gravity="center" android:id="@id/tv_cancel" android:background="@drawable/byb" android:layout_width="120.0dip" android:layout_height="40.0dip" android:layout_marginLeft="20.0dip" android:layout_marginBottom="30.0dip" android:text="@string/bk2" app:a5f="parent" app:a5z="parent" />
+        <TextView android:textSize="18.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/tv_accept" android:background="@drawable/by_" android:layout_width="120.0dip" android:layout_height="40.0dip" android:layout_marginRight="20.0dip" android:text="@string/bk0" app:a5f="@id/tv_cancel" app:a63="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

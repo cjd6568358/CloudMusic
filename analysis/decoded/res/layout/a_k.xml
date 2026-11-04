@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.NeteaseCardShadowLayoutWithTheme android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/s2" android:layout_marginRight="@dimen/s2" app:ao_="5.0dip" app:aod="8.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="17.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:gravity="center" android:id="@id/boss_card_tv_mainText" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="38.0dip" android:layout_marginTop="20.0dip" android:layout_marginRight="38.0dip" android:maxLines="2" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiz" android:ellipsize="end" android:gravity="center" android:id="@id/boss_card_tv_subText" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="38.0dip" android:layout_marginTop="5.0dip" android:layout_marginRight="38.0dip" android:maxLines="1" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="14.0sp" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/boss_card_tv_action" android:visibility="gone" android:layout_width="210.0dip" android:layout_height="33.0dip" android:layout_marginTop="10.0dip" android:text="开始定制" android:maxLines="1" app:gl="useTheme" />
+    </LinearLayout>
+    <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="right" android:id="@id/boss_card_iv_close" android:paddingTop="10.0dip" android:paddingRight="10.0dip" android:layout_width="26.0dip" android:layout_height="26.0dip" android:src="@drawable/c5k" />
+</com.netease.cloudmusic.theme.ui.NeteaseCardShadowLayoutWithTheme>

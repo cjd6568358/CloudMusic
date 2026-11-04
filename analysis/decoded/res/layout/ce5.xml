@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/dragon_ball_lt_root" android:paddingTop="16.0dip" android:layout_width="@dimen/av7" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_gravity="center" android:id="@id/dragon_ball_lt_avatar_area" android:layout_width="fill_parent" android:layout_height="32.0dip" android:layout_marginTop="6.0dip">
+        <ImageView android:layout_gravity="center" android:id="@id/friendBg" android:background="@drawable/h5n" android:layout_width="51.0dip" android:layout_height="51.0dip" android:layout_marginLeft="16.0dip" android:alpha="0.0" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/friend" android:layout_width="24.0dip" android:layout_height="24.0dip" fresco:ae="centerCrop" fresco:w3="0" fresco:ahz="centerCrop" fresco:aln="true" xmlns:fresco="http://schemas.android.com/apk/res-auto" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/friend_avatar_mask" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="24.0dip" fresco:ae="centerCrop" fresco:w3="0" fresco:ahz="centerCrop" fresco:aln="true" xmlns:fresco="http://schemas.android.com/apk/res-auto" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/me" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginRight="14.0dip" fresco:ae="centerCrop" fresco:w3="0" fresco:ahy="@drawable/bhf" fresco:ahz="centerCrop" fresco:aln="true" xmlns:fresco="http://schemas.android.com/apk/res-auto" />
+    </FrameLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:gravity="center" android:id="@id/dragon_ball_lt_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/av9" android:text="@string/d7f" android:includeFontPadding="false" app:qe="colorText2" />
+</LinearLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.ColorTabLayout android:id="@id/commonTabLayout" android:layout_width="fill_parent" android:layout_height="44.0dip" app:ast="#ffff2c55" app:asw="3.0dip" app:at5="200.0dip" app:at6="20.0dip" />
+    <View android:id="@id/viewSeparator" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="0.30000007dip" />
+    <com.netease.play.ui.NestedScrollableHost android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <androidx.viewpager2.widget.ViewPager2 android:id="@id/commonViewPager" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.netease.play.ui.NestedScrollableHost>
+</LinearLayout>

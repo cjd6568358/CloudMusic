@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/a7q" android:layout_width="fill_parent" android:layout_height="fill_parent" android:contentDescription="epaysdk_bg|GradientDrawable"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tr="false" app:ty="false" app:uf="" />
+    <TextView android:textSize="24.0dip" android:textStyle="bold" android:textColor="@color/wk" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="30.0dip" android:text="@string/bzk" />
+    <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="@string/bzl" />
+    <com.netease.epay.sdk.base.view.gridpwd.GridPasswordView android:id="@id/et_setshorty_pwd" android:layout_width="fill_parent" android:layout_height="@dimen/p5" android:layout_marginLeft="15.0dip" android:layout_marginTop="45.0dip" android:layout_marginRight="15.0dip" app:tl="@color/wx" app:uz="12.0sp" />
+    <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:id="@id/tv_actvresetpwd_top_guide_x" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="15.0dip" android:text="请输入原支付密码，以验证身份" />
+</LinearLayout>

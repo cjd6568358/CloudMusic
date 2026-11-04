@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/handleView" android:layout_width="34.0dip" android:layout_height="@dimen/g5" android:layout_marginTop="8.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0dip" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="24.0dip" android:text="@string/g_s" app:qe="colorText2" app:a5z="parent" app:a69="parent" />
+    <ImageView android:id="@id/line" android:layout_width="fill_parent" android:layout_height="0.33000004dip" android:layout_marginLeft="16.0dip" android:layout_marginTop="56.0dip" android:layout_marginRight="16.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <androidx.core.widget.NestedScrollView android:scrollbars="none" android:fadingEdgeLength="0.0dip" android:layout_width="fill_parent" android:layout_height="400.0dip" android:layout_marginTop="12.0dip" app:a68="@id/line">
+        <LinearLayout android:orientation="vertical" android:id="@id/playSettingList" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfPlayerPageLightContainer" android:visibility="gone" style="@style/a82">
+                <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/gbd" style="@style/a83" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/gbe" style="@style/a84" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfPlayerPageLight" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfPlayPageLyricContainer" android:visibility="gone" style="@style/a82">
+                <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true">
+                    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/gbb" style="@style/a83" />
+                        <ImageView android:id="@id/pfPlayPageLyricNewTag" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="12.0dip" android:layout_marginLeft="6.0dip" android:src="@drawable/e__" android:scaleType="fitCenter" />
+                    </LinearLayout>
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/gbc" style="@style/a84" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfPlayPageLyricSwitch" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfFloatLyric" style="@style/a81">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfFloatLyricText" android:text="@string/c7x" style="@style/a83" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfFloatLyricCb" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfFloatLyricUnlock" style="@style/a81">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/c7y" style="@style/a83" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfFloatLyricUnlockCb" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfShowListenCountContainer" style="@style/a82">
+                <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/fyw" style="@style/a83" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/fyv" style="@style/a84" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfShowListenCountSwitch" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfVideoSwitchBtnContainer" android:visibility="gone" style="@style/a82">
+                <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="视频功能" style="@style/a83" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="开启后可以在播放页查看歌曲相关视频" style="@style/a84" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfVideoSwitchBtnSwitch" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfVideoDefaultPlayContainer" android:visibility="gone" style="@style/a82">
+                <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="默认视频播放" style="@style/a83" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="开启后，播放有视频的歌曲时，会默认优先播放视频" style="@style/a84" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfVideoDefaultPlaySwitch" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/playerLoudnessContainer" style="@style/a82">
+                <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/playerLoudnessTitle" android:text="@string/gcm" style="@style/a83" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/playerLoudnessContent" android:text="@string/gcl" style="@style/a84" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/playerLoudnessSwitch" android:visibility="gone" android:clickable="false" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfIgnoreAudioFocusContainer" style="@style/a82">
+                <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/gaf" style="@style/a83" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/gag" style="@style/a84" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfIgnoreAudioFocus" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfAutoMixContainer" android:paddingTop="14.0dip" android:paddingBottom="14.0dip" android:visibility="gone" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <RelativeLayout android:id="@id/rlAutoMix" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfAutoMixTitle" android:text="@string/fym" android:layout_alignParentTop="true" android:layout_centerVertical="false" style="@style/a83" />
+                    <ImageView android:id="@id/pfAutoMixTitleIcon" android:layout_width="14.0dip" android:layout_height="14.0dip" android:layout_toRightOf="@id/pfAutoMixTitle" android:layout_alignTop="@id/pfAutoMixTitle" android:layout_alignBottom="@id/pfAutoMixTitle" android:layout_marginStart="4.0dip" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfAutoMixDesc" android:layout_width="fill_parent" android:layout_marginRight="10.0dip" android:text="@string/fyn" android:layout_below="@id/pfAutoMixTitle" app:a68="@id/pfAutoMixTitle" style="@style/a84" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfPlayAutoMix" style="@style/a9c" />
+                </RelativeLayout>
+            </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfCrossFadeContainer" android:paddingTop="14.0dip" android:paddingBottom="14.0dip" android:visibility="gone" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <RelativeLayout android:id="@id/rlCrossFade" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfCrossFadeTitle" android:text="@string/fyo" android:layout_alignParentTop="true" android:layout_centerVertical="false" style="@style/a83" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfCrossFadeDesc" android:layout_width="fill_parent" android:layout_marginRight="10.0dip" android:text="@string/fyp" android:layout_toLeftOf="@id/pfCrossFadeDuration" android:layout_below="@id/pfCrossFadeTitle" app:a68="@id/pfCrossFadeTitle" style="@style/a84" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0dip" android:id="@id/pfCrossFadeDuration" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="3.0dip" android:text="6秒" android:layout_toLeftOf="@id/pfPlayCrossFade" android:layout_centerVertical="true" app:qe="colorText2" app:a68="@id/pfCrossFadeTitle" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfPlayCrossFade" style="@style/a9c" />
+                </RelativeLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:id="@id/clCrossFadeConfig" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:layout_below="@id/rlCrossFade" android:paddingStart="18.0dip" android:paddingEnd="16.0dip">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0dip" android:gravity="center" android:id="@id/tvCrossFadeStartDuration" android:paddingRight="9.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" app:qe="colorText4" app:a5f="parent" app:a5z="parent" app:a69="parent" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0dip" android:id="@id/tvCrossFadeEndDuration" android:paddingLeft="9.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" app:qe="colorText4" app:a5f="parent" app:a63="parent" app:a69="parent" />
+                    <com.netease.appcommon.ui.view.NestedScrollableHost android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5f="parent" app:a60="@id/tvCrossFadeStartDuration" app:a62="@id/tvCrossFadeEndDuration" app:a69="parent">
+                        <com.netease.cloudmusic.ui.seekbar.CrossFadeSeekBar android:id="@id/cfDuration" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+                    </com.netease.appcommon.ui.view.NestedScrollableHost>
+                </com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>
+            </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/pfVideoBackgroundContainer" android:visibility="gone" style="@style/a82">
+                <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="播放视频背景" style="@style/a83" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="开启后在播放页自动播放视频背景" style="@style/a84" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfVideoBackgroundSwitch" style="@style/a9c" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/harmonyHopPlayer" android:visibility="gone" style="@style/a81">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/harmonyHopPlayerText" android:text="@string/cle" style="@style/a83" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+            <RelativeLayout android:id="@id/rlHidePlayerPageNavBar" android:visibility="gone" style="@style/a82">
+                <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:paddingRight="72.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfHidePlayerPageNavBarTitle" android:text="@string/iof" style="@style/a83" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/pfHidePlayerPageNavBarDesc" android:text="@string/b__" style="@style/a84" />
+                </LinearLayout>
+                <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/pfHidePlayerPageNavBar" style="@style/a9c" />
+            </RelativeLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:layout_width="fill_parent" android:layout_height="42.0dip" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>

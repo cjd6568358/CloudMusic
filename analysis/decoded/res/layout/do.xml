@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/container" android:background="#9a000000" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:layout_gravity="center" android:id="@id/realArea" android:background="@drawable/b0t" android:paddingBottom="20.0dip" android:layout_width="278.0dip" android:layout_height="wrap_content" android:layout_centerInParent="true">
+        <TextView android:textSize="13.0sp" android:textColor="#ff999999" android:gravity="center" android:id="@id/titleText" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="23.0dip" android:layout_marginRight="20.0dip" android:text="@string/crt" android:layout_centerHorizontal="true" android:lineSpacingMultiplier="1.2" />
+        <com.netease.cloudmusic.ui.NeteaseMusicViewPager android:id="@id/guidePager" android:layout_width="fill_parent" android:layout_height="263.0dip" android:layout_below="@id/titleText" android:layout_centerHorizontal="true" android:overScrollMode="never" />
+        <LinearLayout android:gravity="center_horizontal" android:orientation="horizontal" android:id="@id/dotParent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" android:layout_marginBottom="20.0dip" android:layout_below="@id/guidePager" android:layout_centerHorizontal="true" />
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginRight="20.0dip" android:layout_below="@id/dotParent">
+            <com.netease.cloudmusic.ui.IdentifyGuideButton android:textSize="16.0sp" android:textColor="#ffff3a3a" android:gravity="center" android:id="@id/jumpBtn" android:layout_width="wrap_content" android:layout_height="39.0dip" android:text="@string/cro" android:layout_weight="1.0" />
+            <com.netease.cloudmusic.theme.ui.CustomBackgroundTextView android:textSize="16.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@id/rightBtn" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="39.0dip" android:layout_marginLeft="10.0dip" android:text="@string/crn" android:layout_weight="1.0" app:ae_="@color/themeColor" app:aer="@color/themeColor" />
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:paddingTop="24.0dip" android:paddingBottom="24.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/layout_new_song" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5g="@id/layout_notice" app:a69="parent">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textColor="#ff333333" android:id="@id/tv_new_song_title" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="@string/zg" android:layout_marginEnd="10.0dip" app:a5m="@id/switch_new_song" app:a65="parent" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="#ff999999" android:id="@id/tv_new_song_sub_title" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="@string/zf" app:a5l="@id/tv_new_song_title" app:a65="@id/tv_new_song_title" app:a68="@id/tv_new_song_title" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/switch_new_song" app:a5f="@id/tv_new_song_sub_title" app:a5l="parent" app:a69="@id/tv_new_song_title" style="@style/a9c" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/layout_notice" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" app:a5f="parent" app:a68="@id/layout_new_song" app:a6t="0.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textColor="#ff333333" android:id="@id/tv_song_notice_title" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="@string/zi" android:layout_marginEnd="10.0dip" app:a5m="@id/switch_song_notice" app:a65="parent" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="#ff999999" android:id="@id/tv_song_notice_sub_title" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="@string/zh" app:a5l="@id/tv_song_notice_title" app:a65="@id/tv_song_notice_title" app:a68="@id/tv_song_notice_title" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/switch_song_notice" app:a5f="@id/tv_song_notice_sub_title" app:a5l="parent" app:a69="@id/tv_song_notice_title" style="@style/a9c" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

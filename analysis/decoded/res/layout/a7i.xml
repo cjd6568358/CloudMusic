@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:background="@drawable/a3v" android:layout_width="260.0dip" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="18.0sp" android:textColor="@color/a6c" android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:layout_marginBottom="4.0dip" android:text="@string/g1m" />
+    <com.netease.play.ui.LookThemeCheckBox android:textSize="13.0sp" android:textColor="@color/e3" android:ellipsize="end" android:gravity="center" android:layout_gravity="left" android:id="@id/agreement" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="8.0dip" android:layout_marginBottom="8.0dip" android:text="@string/g1l" android:singleLine="true" android:includeFontPadding="false" />
+    <LinearLayout android:gravity="center_horizontal" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="30.0dip" android:layout_marginRight="30.0dip" android:layout_marginBottom="22.0dip">
+        <com.netease.play.ui.CustomButton android:textSize="17.0sp" android:textColor="@color/anm" android:gravity="center" android:id="@id/cancelButton" android:layout_width="0.0dip" android:layout_height="36.0dip" android:layout_marginRight="10.0dip" android:text="@string/abp" android:layout_weight="1.0" app:gg="0x00020203" />
+        <com.netease.play.ui.CustomButton android:textSize="17.0sp" android:gravity="center" android:id="@id/confirmButton" android:layout_width="0.0dip" android:layout_height="36.0dip" android:text="@string/x1" android:layout_weight="1.0" app:gg="0x00020304" />
+    </LinearLayout>
+</LinearLayout>

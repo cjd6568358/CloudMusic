@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:tag="layout/paste_dialog_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="center" android:id="@id/contain" android:layout_width="288.0dip" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:tag="binding_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="24.0dip" android:text="检测到粘贴板上的内容：" app:qe="colorIconDual1" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:gravity="center" android:id="@id/content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="66.0dip" android:paddingStart="24.0dip" android:paddingEnd="24.0dip" app:qe="colorIconDual2" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:gravity="center" android:id="@id/not" android:layout_width="114.0dip" android:layout_height="40.0dip" android:layout_marginTop="20.0dip" android:layout_marginBottom="24.0dip" android:text="暂不导入" android:layout_marginStart="24.0dip" app:qe="colorText2_1" app:a5f="parent" app:a65="parent" app:a68="@id/content" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/port" android:tag="binding_2" android:layout_width="114.0dip" android:layout_height="40.0dip" android:layout_marginTop="20.0dip" android:layout_marginBottom="24.0dip" android:text="导入歌单" android:layout_marginEnd="24.0dip" app:a5f="parent" app:a5l="parent" app:a68="@id/content" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView android:layout_gravity="center" android:id="@id/close" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="45.0dip" android:src="@drawable/dh7" />
+</LinearLayout>

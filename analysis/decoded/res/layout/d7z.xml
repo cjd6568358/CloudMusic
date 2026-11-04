@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/bs_playlist_list_item" android:paddingLeft="16.0dip" android:paddingRight="6.0dip" android:layout_width="fill_parent" android:layout_height="50.0dip" app:e4="10.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout android:layout_width="54.0dip" android:layout_height="36.0dip">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/iv_smallAlbumCover" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" app:w3="0" app:ahy="@drawable/g9y" app:ahz="centerCrop" app:am0="6.0dip" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout>
+    <FrameLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_marginRight="5.0dip" android:layout_weight="1.0">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:layout_gravity="center_vertical" android:id="@id/playListVideoName" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/a3y" />
+    </FrameLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithAllBackground android:textSize="11.0sp" android:gravity="center_vertical" android:id="@id/playingMusicSource" android:paddingLeft="10.0dip" android:paddingTop="3.0dip" android:paddingRight="10.0dip" android:paddingBottom="3.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:text="@string/g83" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

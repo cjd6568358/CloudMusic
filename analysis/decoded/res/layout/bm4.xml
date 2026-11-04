@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:tag="layout/layout_bottom_play_together_icon_0" android:clipChildren="false" android:layout_width="38.0dip" android:layout_height="38.0dip" android:layout_marginEnd="10.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/image" android:layout_width="38.0dip" android:layout_height="38.0dip" android:src="@drawable/e_a" app:ae="centerCrop" />
+        <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/drawee" android:layout_width="38.0dip" android:layout_height="38.0dip" app:ae="centerCrop" app:aln="true" />
+        <View android:id="@id/v_count_down" android:layout_width="40.0dip" android:layout_height="40.0dip" />
+    </FrameLayout>
+</FrameLayout>

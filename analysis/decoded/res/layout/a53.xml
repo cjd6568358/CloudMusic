@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="vertical" android:id="@id/inviteStrangerContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="18.0dip" android:text="匹配音乐同好" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center_horizontal" android:id="@id/newInviteStrangerPic" android:layout_width="wrap_content" android:layout_height="68.0dip" android:layout_marginTop="19.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="15.0sp" android:textColor="@color/aj6" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/startListenTogetherV2" android:layout_width="153.0dip" android:layout_height="37.0dip" android:text="@string/iek" app:gl="useTheme" />
+    <View android:id="@id/divideLine" android:background="#0d000000" android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_marginTop="19.0dip" />
+    <com.netease.cloudmusic.module.listentogether.invite.dialog.MatchingPreferenceView android:id="@id/matchingPreference" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

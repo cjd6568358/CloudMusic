@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/rootContainer" android:tag="layout/layout_lt_welcome_message_view_0" android:background="@drawable/qx" android:paddingLeft="16.0dip" android:paddingTop="12.0dip" android:paddingRight="16.0dip" android:paddingBottom="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingHorizontal="16.0dip" app:a69="parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="#80dcf0fe" android:ellipsize="end" android:id="@id/tvWelcomeMessage" android:layout_width="0.0dip" android:layout_height="wrap_content" android:maxLines="1" android:includeFontPadding="false" android:layout_marginEnd="8.0dip" app:a5m="@id/ivExpandToggle" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="#80dcf0fe" android:id="@id/tvWelcomeMessageFull" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="wrap_content" android:includeFontPadding="false" android:layout_marginEnd="8.0dip" app:a5m="@id/ivExpandToggle" app:a65="parent" app:a69="parent" />
+    <ImageView android:id="@id/ivExpandToggle" android:layout_width="12.0dip" android:layout_height="12.0dip" android:src="@drawable/e4i" app:a5l="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

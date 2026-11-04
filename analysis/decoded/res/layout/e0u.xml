@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/billboardCoverContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="@dimen/aia"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/musicTitle" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip" />
+    <include android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="13.0dip" android:layout_alignParentRight="true" layout="@layout/biz" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/billboardTitleSponsor" android:layout_width="140.0dip" android:layout_height="16.0dip" android:layout_above="@id/musicCover" android:layout_centerHorizontal="true" app:ae="centerCrop" app:w3="500" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/musicCover" android:layout_width="168.0dip" android:layout_height="60.0dip" android:layout_marginTop="8.0dip" android:layout_above="@id/timeContainer" android:layout_centerHorizontal="true" app:ae="centerCrop" app:w3="500" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/timeContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:layout_marginBottom="16.0dip" android:minHeight="12.0dip" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="#d0ffffff" android:id="@id/musicUpdateTime" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" app:aeb="@color/afu" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/musicDetailIcon" android:visibility="gone" android:layout_width="12.0dip" android:layout_height="12.0dip" android:layout_marginLeft="2.0dip" android:src="@drawable/fg1" android:scaleType="centerInside" app:adg="true" app:adi="false" />
+    </LinearLayout>
+</RelativeLayout>

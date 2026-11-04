@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:background="@android:color/transparent" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.DialogRoundedLinearLayout android:orientation="vertical" android:id="@id/commonIntroducationRel" android:background="@drawable/bul" android:layout_width="fill_parent" android:layout_height="wrap_content" fresco:jw="@dimen/s4">
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/commonIntroducationAlbumCover" android:visibility="gone" android:layout_width="@dimen/ago" android:layout_height="@dimen/ago" android:layout_marginBottom="@dimen/agp" android:layout_alignBottom="@id/commonIntroducationImageView" android:layout_centerHorizontal="true" fresco:ae="centerCrop" fresco:ahy="@drawable/fev" fresco:ahz="centerCrop" />
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/commonIntroducationImageView" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="centerCrop" android:adjustViewBounds="true" fresco:alp="false" fresco:alq="false" fresco:am0="5.0dip" />
+        </RelativeLayout>
+        <LinearLayout android:orientation="vertical" android:id="@id/commonIntroducationInfoRel" android:background="@drawable/buu" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="120.0dip">
+            <TextView android:textSize="15.0sp" android:textColor="@color/aix" android:id="@id/commonIntroducationSubTitle" android:paddingLeft="20.0dip" android:paddingRight="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="27.0dip" android:layout_marginBottom="7.0dip" android:minLines="2" android:lineSpacingExtra="5.0dip" />
+            <LinearLayout android:id="@id/commonIntroducationContainer" android:layout_width="fill_parent" android:layout_height="39.0dip" android:layout_marginLeft="20.0dip" android:layout_marginTop="30.0dip" android:layout_marginRight="20.0dip" android:layout_marginBottom="15.0dip">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="16.0sp" android:gravity="center" android:layout_gravity="center" android:id="@id/commonIntroducationBtnTryFirst" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="fill_parent" android:text="@string/iua" android:layout_weight="1.0" fresco:gl="fillBackground" fresco:gm="true" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="16.0sp" android:gravity="center" android:layout_gravity="center" android:id="@id/commonIntroducationBtnTrySecond" android:layout_width="0.0dip" android:layout_height="fill_parent" android:text="@string/iua" android:layout_weight="1.0" fresco:gl="useTheme" />
+            </LinearLayout>
+            <TextView android:textSize="12.0sp" android:textColor="#ff3470ac" android:gravity="center" android:layout_gravity="center" android:id="@id/commonPaySingleSong" android:paddingLeft="30.0dip" android:paddingRight="30.0dip" android:paddingBottom="20.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/fqr" />
+        </LinearLayout>
+    </com.netease.cloudmusic.ui.DialogRoundedLinearLayout>
+</ScrollView>

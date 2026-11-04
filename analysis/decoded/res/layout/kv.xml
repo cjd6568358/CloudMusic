@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:tag="layout/ad_banner_feedback_bottom_sheet_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.ad.feedback.AdFeedbackCloseButton android:id="@id/closeBtn" android:tag="binding_1" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_marginTop="16.0dip" android:layout_marginRight="16.0dip" android:layout_marginBottom="16.0dip" android:src="@drawable/dc" android:layout_alignParentRight="true" app:py="colorIconDual7_2" app:qe="colorText2" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:gravity="center_vertical" android:id="@id/titleTv" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_toLeftOf="@id/closeBtn" android:layout_alignTop="@id/closeBtn" android:layout_alignBottom="@id/closeBtn" android:layout_alignParentLeft="true" app:qe="colorText4" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout android:id="@id/dividerView" android:layout_width="fill_parent" android:layout_height="0.5dip" android:layout_below="@id/closeBtn" app:py="colorText6" />
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxHeight="300.0dip" android:layout_below="@id/dividerView">
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/contentRecyclerView" android:tag="binding_3" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    </FrameLayout>
+</RelativeLayout>

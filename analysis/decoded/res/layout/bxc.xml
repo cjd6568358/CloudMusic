@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.livepage.ui.LivePagerSwipeLayout android:id="@id/liveFragment" android:tag="layout/layout_live_recon_info_dynamic_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/liveBg" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="fitXY" />
+    <com.netease.play.ui.LiveTextureView android:id="@id/playVideoView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <FrameLayout android:id="@id/multipk" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <include android:id="@id/layoutDlna" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/bpu" />
+    <View android:layout_gravity="bottom" android:id="@id/bottomMask" android:background="@drawable/wa" android:layout_width="fill_parent" android:layout_height="140.0dip" app:a5f="parent" app:a65="parent" />
+    <FrameLayout android:id="@id/rnContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.play.livepage.ui.LivePagerConstraintLayout android:id="@id/liveContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" android:keepScreenOn="true">
+        <Space android:id="@id/mirrorVideoView" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a65="parent" app:a69="parent" />
+        <ImageView android:id="@id/fullScreen" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:layout_marginBottom="10.0dip" android:src="@drawable/fk_" app:a5f="@id/mirrorVideoView" app:a5l="@id/mirrorVideoView" />
+        <ImageView android:id="@id/screenShotButton" android:visibility="gone" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginBottom="10.0dip" android:scaleType="centerCrop" android:layout_marginEnd="10.0dip" app:a5f="@id/playVideoView" app:a5l="@id/playVideoView" />
+        <ImageView android:id="@id/swipeButton" android:visibility="gone" android:layout_width="30.0dip" android:layout_height="30.0dip" android:scaleType="centerInside" android:layout_marginEnd="10.0dip" app:a5f="@id/playVideoView" app:a5l="@id/playVideoView" />
+        <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/statusBarGuideline" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5n="25.0dip" />
+        <Space android:id="@id/bottomGuide0" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" />
+        <Space android:id="@id/bottomGuide1" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5g="@id/bottomGuideKeyboard" app:a5z="parent" app:a63="parent" />
+        <Space android:id="@id/bottomGuideKeyboard" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5g="@id/bottomGuide1_assist" app:a5z="parent" app:a63="parent" />
+        <Space android:id="@id/bottomGuide1_assist" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginBottom="56.0dip" app:a5g="@id/bottomGuide0" app:a5z="parent" app:a63="parent" />
+        <Space android:id="@id/bottomGuide2" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginBottom="10.0dip" app:a5g="@id/bottomGuide1" app:a5z="parent" app:a63="parent" />
+        <Space android:id="@id/bottomGuide3" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginBottom="10.0dip" app:a5g="@id/bottomGuide1" app:a5z="parent" app:a63="@id/chatRecyclerView" />
+        <androidx.constraintlayout.widget.Group android:id="@id/contentGroup" android:layout_width="wrap_content" android:layout_height="wrap_content" app:l1="chatRecyclerView" />
+        <FrameLayout android:id="@id/abovedynamic" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.netease.play.livepage.ui.LivePagerConstraintLayout>
+</com.netease.play.livepage.ui.LivePagerSwipeLayout>

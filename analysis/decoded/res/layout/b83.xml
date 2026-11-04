@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/rlImageContainer" android:background="@drawable/u6" android:layout_width="71.0dip" android:layout_height="71.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.NeteaseMusicSimpleDraweeView android:id="@id/ivImImage" android:layout_width="@dimen/tv" android:layout_height="@dimen/tv" android:scaleType="fitCenter" android:layout_centerInParent="true" app:ae="fitCenter" app:alp="true" app:alq="true" app:alv="true" app:alw="true" app:am0="8.0dip" />
+    <TextView android:textSize="9.0sp" android:textColor="@color/b1e" android:id="@id/tvStatus" android:background="@drawable/um" android:paddingLeft="6.0dip" android:paddingTop="2.0dip" android:paddingRight="6.0dip" android:paddingBottom="2.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="5.0dip" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" />
+</RelativeLayout>

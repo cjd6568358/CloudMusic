@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView android:tag="layout/dialog_viewer_more2_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:paddingBottom="18.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/drawee_top" android:tag="binding_1" android:layout_width="341.0dip" android:layout_height="113.0dip" app:a65="parent" app:a69="parent" />
+            <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/v_plat_together" android:tag="binding_2" android:layout_width="70.0dip" android:layout_height="21.0dip" android:layout_marginTop="25.0dip" android:layout_marginStart="25.0dip" app:a65="parent" app:a69="parent" />
+            <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:tag="binding_3" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginStart="4.0dip" app:a5f="@id/v_plat_together" app:a64="@id/v_plat_together" app:a69="@id/v_plat_together" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <View android:layout_width="fill_parent" android:layout_height="46.0dip" />
+            <LinearLayout android:orientation="vertical" android:id="@id/play_way_container" android:tag="binding_4" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="28.0dip">
+                <include android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="20.0dip" android:layout_marginEnd="20.0dip" layout="@layout/b_w" />
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/drawee_banner" android:tag="binding_5" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginTop="32.0dip" android:layout_marginBottom="10.0dip" android:layout_marginStart="20.0dip" android:layout_marginEnd="20.0dip" app:ae="centerCrop" app:a5k="w,77:326" app:a5l="parent" app:a65="parent" app:a69="parent" app:am0="10.0dip" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <include android:id="@id/layout_play_way" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="14.0dip" layout="@layout/cdy" />
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:tag="binding_6" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="28.0dip">
+                <include android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="20.0dip" android:layout_marginEnd="20.0dip" app:a65="parent" layout="@layout/b_w" />
+                <include android:id="@id/layout_basic_func" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="14.0dip" layout="@layout/cdy" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+</androidx.core.widget.NestedScrollView>

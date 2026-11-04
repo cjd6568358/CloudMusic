@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.epay.sdk.base.view.PayChooserRootLayout android:background="@drawable/a8c" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.FragmentTitleBar android:id="@id/ftb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tu="false" app:tv="true" app:tw="false" app:tx="false" app:v2="切换支付方式" />
+    <ScrollView android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/ftb">
+        <LinearLayout android:orientation="vertical" android:id="@id/ll_payments_content" android:paddingBottom="14.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <ListView android:id="@id/lv_payments_list" android:background="@drawable/a7y" android:layout_width="fill_parent" android:layout_marginLeft="@dimen/op" android:layout_marginRight="@dimen/op" style="@style/a5e" />
+            <ListView android:id="@id/lv_payments_specific_card_list" android:background="@drawable/a7y" android:layout_width="fill_parent" android:layout_marginLeft="@dimen/op" android:layout_marginTop="12.0dip" android:layout_marginRight="@dimen/op" style="@style/a5e" />
+            <ListView android:id="@id/lv_payments_unusable_list" android:background="@drawable/a7y" android:layout_width="fill_parent" android:layout_marginLeft="@dimen/op" android:layout_marginTop="12.0dip" android:layout_marginRight="@dimen/op" style="@style/a5e" />
+        </LinearLayout>
+    </ScrollView>
+</com.netease.epay.sdk.base.view.PayChooserRootLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:gravity="center_vertical" android:id="@id/playAllTextView" android:paddingLeft="13.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/g4r" android:drawablePadding="11.0dip" android:layout_centerVertical="true" app:adf="true" app:adi="false" app:adm="false" app:aeu="@color/a2d" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="@dimen/ah9" android:textColor="@color/aiz" android:id="@id/musicsCount" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:layout_marginBottom="2.0dip" android:layout_toRightOf="@id/playAllTextView" android:layout_alignBottom="@id/playAllTextView" />
+    <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="fill_parent">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/selectContainer" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginRight="8.0dip">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aiv" android:gravity="center_vertical" android:id="@id/selectText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/gzt" android:maxLines="1" />
+            <ImageView android:gravity="center_vertical" android:id="@id/dropArrow" android:layout_width="9.0dip" android:layout_height="9.0dip" android:src="@drawable/ay5" android:scaleType="centerInside" />
+        </LinearLayout>
+        <ImageView android:gravity="center_vertical" android:id="@id/record" android:layout_width="36.0dip" android:layout_height="fill_parent" android:src="@drawable/ay4" android:scaleType="centerInside" android:layout_centerVertical="true" />
+        <ImageView android:gravity="center_vertical" android:id="@id/changeOrder" android:layout_width="36.0dip" android:layout_height="fill_parent" android:src="@drawable/h3o" android:scaleType="centerInside" android:layout_centerVertical="true" />
+        <ImageView android:gravity="center_vertical" android:id="@id/multiCheckBlock" android:layout_width="36.0dip" android:layout_height="fill_parent" android:layout_marginRight="8.0dip" android:src="@drawable/h3n" android:scaleType="centerInside" android:layout_centerVertical="true" />
+    </LinearLayout>
+</merge>

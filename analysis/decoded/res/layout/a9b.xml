@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:gravity="center_horizontal" android:layout_gravity="center" android:background="@drawable/a3v" android:layout_width="280.0dip" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ViewStub android:id="@id/vs_empty" android:layout="@layout/a3x" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/ll_content" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="15.0dip" android:layout_marginRight="15.0dip" android:layout_marginBottom="@dimen/avh">
+        <TextView android:textSize="15.0sp" android:textColor="@color/b0e" android:ellipsize="end" android:id="@id/tv_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" />
+        <TextView android:textSize="14.0sp" android:textColor="@color/b0e" android:ellipsize="end" android:id="@id/tv_trackName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:singleLine="true" android:includeFontPadding="false" />
+        <RelativeLayout android:id="@id/rl_album_content" android:layout_width="fill_parent" android:layout_height="@dimen/avf" android:layout_marginTop="15.0dip">
+            <com.facebook.drawee.view.SimpleDraweeView android:id="@id/iv_album" android:layout_width="@dimen/avf" android:layout_height="@dimen/avf" android:layout_centerHorizontal="true" app:ahy="@drawable/g8u" app:ahz="centerCrop" app:am0="3.0dip" />
+            <ImageView android:layout_width="wrap_content" android:layout_height="@dimen/avf" android:src="@drawable/h3u" android:layout_toRightOf="@id/iv_album" />
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="5.0dip" android:layout_marginBottom="5.0dip" android:src="@drawable/ewk" android:layout_alignRight="@id/iv_album" android:layout_alignBottom="@id/iv_album" />
+        </RelativeLayout>
+        <TextView android:textSize="14.0sp" android:textColor="@color/b0d" android:gravity="center" android:id="@id/tv_no_ticket" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="暂无投票" android:includeFontPadding="false" />
+        <LinearLayout android:gravity="center" android:id="@id/ll_ticke_num" android:layout_width="fill_parent" android:layout_height="20.0dip" android:layout_marginTop="10.0dip">
+            <TextView android:textSize="14.0sp" android:textColor="@color/b0d" android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cl4" android:includeFontPadding="false" />
+            <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/ll_tickes" android:layout_width="wrap_content" android:layout_height="fill_parent" />
+            <TextView android:textSize="14.0sp" android:textColor="@color/b0d" android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ina" android:includeFontPadding="false" />
+        </LinearLayout>
+        <TextView android:textSize="14.0sp" android:textColor="@color/b0d" android:gravity="center" android:id="@id/tv_tickets_gap" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:includeFontPadding="false" />
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <TextView android:textSize="14.0sp" android:textColor="@color/b0d" android:id="@id/tv_ranking" android:padding="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" />
+            <TextView android:textSize="14.0sp" android:textColor="@color/anm" android:id="@id/tv_link" android:padding="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" android:drawableRight="@drawable/ete" />
+        </LinearLayout>
+        <com.netease.play.ui.CustomButton android:textSize="15.0sp" android:gravity="center" android:id="@id/btn_cancassing" android:paddingTop="8.0dip" android:paddingBottom="8.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/avg" android:text="@string/adl" android:includeFontPadding="false" app:gg="0x00020304" />
+    </LinearLayout>
+</FrameLayout>

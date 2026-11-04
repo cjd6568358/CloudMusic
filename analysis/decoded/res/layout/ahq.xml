@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="@dimen/p8"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/iv_frag_back_c" android:paddingLeft="@dimen/p_" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginLeft="@dimen/p9" android:src="@drawable/d02" android:tint="@color/wy" android:layout_alignParentLeft="true" android:layout_centerVertical="true" android:contentDescription="epaysdk_back_button_tint" />
+    <ImageView android:id="@id/iv_frag_close_c" android:paddingLeft="15.0dip" android:layout_width="wrap_content" android:layout_height="fill_parent" android:src="@drawable/d0h" android:tint="@color/wy" android:layout_toRightOf="@id/iv_frag_back_c" android:layout_centerVertical="true" android:contentDescription="epaysdk_back_button_tint" />
+    <RelativeLayout android:id="@id/rlTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true">
+        <ImageView android:id="@id/ivLogo" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginRight="8.0dip" android:src="@drawable/d0q" android:layout_centerVertical="true" />
+        <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toRightOf="@id/ivLogo" android:layout_centerVertical="true">
+            <TextView android:textSize="14.0dip" android:textStyle="bold" android:textColor="@color/wq" android:layout_gravity="left" android:id="@id/tv_frag_title_x" android:layout_width="wrap_content" android:layout_height="wrap_content" android:contentDescription="epaysdk_main_title" />
+            <TextView android:textSize="11.0dip" android:textColor="@color/wy" android:layout_gravity="left" android:id="@id/tv_second_title" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="网易安全支付" android:contentDescription="epaysdk_sub_title" />
+        </LinearLayout>
+    </RelativeLayout>
+    <ImageView android:gravity="center_vertical" android:id="@id/ivHelp" android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:src="@drawable/czq" android:tint="@color/w4" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:contentDescription="epaysdk_back_button_tint" />
+    <TextView android:textSize="14.0dip" android:textColor="@color/wz" android:gravity="center_vertical" android:id="@id/tvRightText" android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+    <TextView android:textSize="14.0dip" android:textColor="@color/vv" android:id="@id/tv_top_tips" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="（测试环境）" android:layout_toRightOf="@id/rlTitle" android:layout_centerVertical="true" />
+</RelativeLayout>

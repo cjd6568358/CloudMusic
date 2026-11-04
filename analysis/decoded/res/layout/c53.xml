@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:padding="1.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="bottom" android:id="@id/animationDraweeView" android:layout_width="fill_parent" android:layout_height="33.0dip" android:layout_marginBottom="10.0dip" app:ae="fitCenter" />
+    <FrameLayout android:layout_gravity="bottom|center" android:id="@id/textContainer" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.pendant.ShadowBackgroundLayout android:layout_gravity="center" android:id="@id/roundLayout" android:layout_width="0.0dip" android:layout_height="wrap_content" app:ao_="3.0dip" app:aoa="@color/dv" app:aod="18.0dip" />
+        <TextView android:textSize="12.0dip" android:textColor="#ff1a1a1a" android:layout_gravity="center" android:id="@id/tvContent" android:paddingLeft="4.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:alpha="0.0" />
+    </FrameLayout>
+</FrameLayout>

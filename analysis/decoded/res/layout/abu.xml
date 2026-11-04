@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:id="@id/song_layout" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <include android:id="@id/new_home_music_item_1" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/act" />
+        <include android:id="@id/new_home_music_item_2" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/act" />
+        <include android:id="@id/new_home_music_item_3" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/act" />
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:id="@id/disc_layout" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <include android:id="@id/new_home_disc_item_1" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/ado" />
+        <include android:id="@id/new_home_disc_item_2" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/ado" />
+        <include android:id="@id/new_home_disc_item_3" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/ado" />
+    </LinearLayout>
+</LinearLayout>

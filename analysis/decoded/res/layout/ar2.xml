@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:dslv="http://schemas.android.com/apk/res-auto">
+    <com.mobeta.android.dslv.DragSortListView android:id="@id/myPlaylistList" android:layout_width="fill_parent" android:layout_height="fill_parent" dslv:k5="2.0dip" dslv:r2="true" dslv:r3="@id/drag_handle" dslv:r4="0.33" dslv:r5="onDown" dslv:x1="0.6" dslv:x2="@android:color/transparent" dslv:aa6="0.5" dslv:apf="0.3" dslv:apl="true" dslv:axn="false" dslv:ayi="true" />
+    <include android:visibility="visible" layout="@layout/aeb" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeLine android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_alignTop="@id/delete" />
+</RelativeLayout>

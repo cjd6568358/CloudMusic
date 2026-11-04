@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/flGamePromote" android:tag="layout/item_more_game_viewer_0" android:visibility="visible" android:layout_width="50.0dip" android:layout_height="70.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.facebook.drawee.view.SimpleDraweeView android:layout_gravity="center" android:id="@id/dvGameLogo" android:layout_width="50.0dip" android:layout_height="50.0dip" />
+    <com.netease.play.ui.MarqueTextView android:textSize="11.0sp" android:textColor="@color/b1t" android:ellipsize="marquee" android:id="@id/tvGameName" android:focusable="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:singleLine="true" android:marqueeRepeatLimit="marquee_forever" />
+</LinearLayout>

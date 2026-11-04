@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/screen_main_frame" android:background="@color/u7" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/toyger_photinus_container" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <FrameLayout android:id="@id/toyger_container" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="10.0dip">
+        <LinearLayout android:orientation="vertical" android:id="@id/toyger_main_page" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="@dimen/avw">
+            <FrameLayout android:layout_gravity="center" android:id="@id/toger_main_scan_frame" android:layout_width="@dimen/nr" android:layout_height="@dimen/nq" android:layout_marginTop="@dimen/nu">
+                <FrameLayout android:id="@id/toyger_camera_container" android:layout_width="1.0dip" android:layout_height="1.0dip" android:alpha="0.0" />
+                <com.dtf.face.ui.widget.NearFarHoleView android:layout_gravity="center_horizontal" android:id="@id/toyger_face_circle_hole_view" android:layout_width="@dimen/nr" android:layout_height="@dimen/nq" android:src="@color/u7" app:sb="true" app:zo="true" app:zp="@dimen/nq" app:zt="@dimen/nr" />
+            </FrameLayout>
+            <ViewStub android:id="@id/stub_notice" android:layout="@layout/dzy" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        </LinearLayout>
+        <TextView android:textSize="20.0dip" android:textStyle="bold" android:textColor="@android:color/black" android:gravity="center" android:id="@id/face_common_tips" android:layout_width="fill_parent" android:layout_height="30.0dip" android:layout_marginTop="@dimen/avx" />
+        <FrameLayout android:layout_gravity="left" android:id="@id/close_toyger_btn" android:layout_width="54.0dip" android:layout_height="54.0dip">
+            <ImageView android:layout_gravity="center" android:id="@id/close_toyger_icon" android:layout_width="20.0dip" android:layout_height="20.0dip" android:src="@mipmap/j" android:scaleType="centerCrop" />
+        </FrameLayout>
+    </FrameLayout>
+    <include android:visibility="gone" layout="@layout/aez" />
+    <com.dtf.face.ui.overlay.CommAlertOverlay android:id="@id/message_box_overlay" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</FrameLayout>

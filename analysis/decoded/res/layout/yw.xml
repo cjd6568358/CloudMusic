@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/likeContainer" android:clipChildren="false" android:clipToPadding="false" android:layout_width="@dimen/aw8" android:layout_height="@dimen/aw8"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.PlayerPageImageView android:layout_gravity="center" android:id="@id/likeBtn" android:layout_width="@dimen/aw8" android:layout_height="@dimen/aw8" android:src="@drawable/gc9" android:scaleType="center" android:contentDescription="@string/a0" />
+    <ImageView android:layout_gravity="center" android:id="@id/likePreAnimatorView" android:layout_width="@dimen/aw8" android:layout_height="@dimen/aw8" android:scaleType="center" />
+    <ImageView android:layout_gravity="center" android:id="@id/likePostAnimatorView" android:layout_width="@dimen/aw8" android:layout_height="@dimen/aw8" android:scaleType="center" />
+    <ImageView android:layout_gravity="center" android:id="@id/likeGuideBtn" android:visibility="gone" android:layout_width="@dimen/aw8" android:layout_height="@dimen/aw8" android:scaleType="center" android:contentDescription="@string/a0" />
+    <ImageView android:layout_gravity="center" android:id="@id/likeCommonBtn" android:visibility="gone" android:layout_width="@dimen/aw8" android:layout_height="@dimen/aw8" android:contentDescription="@string/a0" />
+    <com.netease.cloudmusic.ui.PlayerPageTextView android:textSize="9.0dip" android:textColor="#ffffffff" android:gravity="center" android:id="@id/likeCount" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="12.0dip" android:layout_marginLeft="36.0dip" android:layout_marginTop="15.0dip" android:layout_marginRight="-58.0dip" android:contentDescription="@null" app:xs="@font/a" />
+</FrameLayout>

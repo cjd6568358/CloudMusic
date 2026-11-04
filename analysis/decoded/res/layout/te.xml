@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/circle_item_new_message_message_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/themeColor" android:id="@id/nmmsgContent" android:paddingTop="8.0dip" android:paddingBottom="8.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/al1" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" android:paddingStart="10.0dip" android:paddingEnd="10.0dip" app:a5l="parent" app:a65="parent" />
+    <View android:background="@color/themeColor" android:layout_width="0.0dip" android:layout_height="1.0dip" android:layout_marginStart="16.0dip" android:layout_marginEnd="0.0dip" app:a5f="@id/nmmsgContent" app:a5m="@id/nmmsgContent" app:a65="parent" app:a69="@id/nmmsgContent" />
+    <View android:background="@color/themeColor" android:layout_width="0.0dip" android:layout_height="1.0dip" android:layout_marginStart="0.0dip" android:layout_marginEnd="16.0dip" app:a5f="@id/nmmsgContent" app:a5l="parent" app:a64="@id/nmmsgContent" app:a69="@id/nmmsgContent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

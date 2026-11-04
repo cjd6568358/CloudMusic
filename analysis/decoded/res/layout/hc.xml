@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.music.biz.voice.widget.NewVoiceListCoordinatorLayout android:id="@id/cl" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/v_gradient" android:layout_width="fill_parent" android:layout_height="314.0dip" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/iv_bg_bottom" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/eal" />
+    <FrameLayout android:id="@id/immersiveBgContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="0.0dip">
+        <com.netease.cloudmusic.music.biz.voice.widget.FadingEdgeLayout android:layout_width="fill_parent" android:layout_height="fill_parent" app:wh="bottom" app:wj="120.0dip">
+            <com.facebook.drawee.view.SimpleDraweeView android:id="@id/immersiveBg" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            <View android:id="@id/mask" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            <com.netease.cloudmusic.alphavideo.AlphaVideoTextureView android:id="@id/videoDecorView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </com.netease.cloudmusic.music.biz.voice.widget.FadingEdgeLayout>
+    </FrameLayout>
+    <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/rv" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a51="androidx.recyclerview.widget.LinearLayoutManager" />
+    <include layout="@layout/dq9" />
+    <View android:id="@id/bottomGradientMask" android:background="@null" android:layout_width="fill_parent" android:layout_height="60.0dip" app:a54="@id/fl_bottom" app:a55="top" />
+    <FrameLayout android:id="@id/fl_bottom" android:layout_width="fill_parent" android:layout_height="500.0dip" app:dx="false" app:dz="150.0dip" app:a56="com.google.android.material.bottomsheet.VoiceListBottomSheetBehavior">
+        <View android:layout_gravity="center_horizontal" android:id="@id/v_hover" android:layout_width="35.0dip" android:layout_height="4.0dip" android:layout_marginTop="8.0dip" android:layout_marginBottom="8.0dip" />
+        <androidx.core.widget.NestedScrollView android:id="@id/adWrapperContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="24.0dip" android:layout_marginBottom="6.0dip" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip">
+            <FrameLayout android:id="@id/adContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <com.netease.luna.cm.dslwrapper.DSLWrapperView android:id="@id/dsl" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+                <com.netease.cloudmusic.music.biz.voice.widget.PodCastCommonActivityBar android:id="@id/activityBar" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="46.0dip" />
+            </FrameLayout>
+        </androidx.core.widget.NestedScrollView>
+        <FrameLayout android:orientation="vertical" android:id="@id/vpContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout2 android:id="@id/tabLayout" android:layout_width="0.0dip" android:layout_height="40.0dip" android:layout_weight="1.0" app:nr="move" app:avq="false" />
+                <FrameLayout android:id="@id/actionContainer" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginStart="8.0dip">
+                    <com.netease.cloudmusic.music.biz.voice.voicelist.detail.OpView android:id="@id/op" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="40.0dip" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:layout_gravity="center_vertical" android:id="@id/commentAction" android:visibility="gone" android:layout_width="18.0dip" android:layout_height="18.0dip" android:layout_marginRight="16.0dip" android:scaleType="centerInside" app:aeb="@color/aiv" app:aev="@color/aiv" app:aqh="@drawable/arp" />
+                </FrameLayout>
+            </LinearLayout>
+            <com.netease.cloudmusic.ui.NeteaseMusicViewPager android:id="@id/vp" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="40.0dip" />
+        </FrameLayout>
+    </FrameLayout>
+    <FrameLayout android:id="@id/editLayout" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <FrameLayout android:id="@id/guideCollectContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <FrameLayout android:id="@id/voiceListSearchFragmentContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</com.netease.cloudmusic.music.biz.voice.widget.NewVoiceListCoordinatorLayout>

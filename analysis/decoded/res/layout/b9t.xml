@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingStart="6.0dip" android:paddingEnd="6.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="11.0sp" android:textStyle="bold" android:ellipsize="end" android:gravity="center" android:layout_gravity="center" android:id="@id/text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minHeight="22.0dip" android:lines="1" android:paddingStart="6.0dip" android:paddingEnd="6.0dip" />
+    <View android:layout_gravity="right" android:id="@id/chatRedDot" android:background="@drawable/bp1" android:visibility="gone" android:layout_width="5.0dip" android:layout_height="5.0dip" android:layout_marginTop="2.0dip" android:layout_marginEnd="3.0dip" />
+</FrameLayout>

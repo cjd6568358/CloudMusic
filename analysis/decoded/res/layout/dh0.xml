@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/record_fragment_preview_0" android:background="@color/do" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/ll_tip" android:background="@color/do" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent" app:a5z="parent" app:a63="parent">
+        <com.netease.cloudmusic.ui.button.CustomButton android:textSize="16.0sp" android:gravity="center" android:id="@id/btn_preview" android:layout_width="88.0dip" android:layout_height="36.0dip" android:text="下一步" app:gg="0x00FFFFFF" app:pl="@color/fx" app:pp="@color/b18" app:aer="#ffff3a3a" app:aey="@color/b13" app:aiv="@color/fy" app:aiz="0.96" app:aj0="@color/b16" />
+    </LinearLayout>
+    <TextureView android:id="@id/preview" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5g="@id/ll_tip" app:a69="parent" />
+    <ImageView android:id="@id/iv_close_preview" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginLeft="16.0dip" android:layout_marginTop="20.0dip" android:src="@drawable/btg" app:a5z="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

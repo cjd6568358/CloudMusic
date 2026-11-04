@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.ad.AdImpressFrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.module.ad.AdVideoView android:id="@id/adVideoView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/videoAdCover" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <include layout="@layout/l5" />
+    <include layout="@layout/ly" />
+</com.netease.cloudmusic.ui.ad.AdImpressFrameLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:gravity="center_vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" app:e4="10.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.LookThemeTextView android:textSize="14.0sp" android:textColor="@color/a6g" android:ellipsize="end" android:gravity="start|center" android:id="@id/searchKeywordContent" android:layout_width="wrap_content" android:layout_height="40.0dip" android:singleLine="true" android:layout_marginStart="10.0dip" android:layout_toStartOf="@id/searchKeywordDelete" android:layout_alignParentStart="true" />
+    <ImageView android:id="@id/searchKeywordDelete" android:visibility="gone" android:layout_width="36.0dip" android:layout_height="36.0dip" android:src="@drawable/ekg" android:scaleType="centerInside" android:layout_alignParentEnd="true" />
+    <View android:id="@id/line" android:background="@color/a6u" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="0.33000004dip" android:layout_below="@id/searchKeywordContent" android:layout_marginStart="19.0dip" android:layout_alignStart="@id/searchKeywordContent" />
+</RelativeLayout>

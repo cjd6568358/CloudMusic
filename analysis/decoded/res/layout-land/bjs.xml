@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/createLive" android:background="#ffffffff" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/blurBackground" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" app:ag3="@color/a6j" app:ahy="@drawable/cwr" app:ahz="centerCrop" />
+    <ImageView android:id="@id/close" android:padding="15.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="28.0dip" android:src="@drawable/ekg" android:tint="@color/aj6" android:layout_alignParentTop="true" android:layout_alignParentRight="true" />
+    <TextView android:textSize="20.0dip" android:textColor="#ffffffff" android:gravity="center" android:id="@id/hintText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="110.0dip" android:text="@string/dgy" android:layout_centerHorizontal="true" android:lineSpacingExtra="10.0dip" />
+    <com.netease.play.ui.CustomButton android:textSize="16.0sp" android:textColor="@color/aj6" android:gravity="center" android:id="@id/startLive" android:layout_width="280.0dip" android:layout_height="40.0dip" android:layout_marginLeft="30.0dip" android:layout_marginTop="70.0dip" android:layout_marginRight="30.0dip" android:text="@string/hh2" android:layout_below="@id/hintText" android:layout_centerHorizontal="true" app:gg="0x00020304" />
+</RelativeLayout>

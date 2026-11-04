@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent" app:py="colorBackgroundAndroid"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicViewPager android:id="@id/trackViewPager" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <include android:id="@id/socialYoung" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" layout="@layout/e5f" />
+    <FrameLayout android:id="@id/socialTabLayoutContainer" android:layout_width="fill_parent" android:layout_height="@dimen/art">
+        <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout2 android:layout_gravity="center_vertical" android:id="@id/trackTabLayout" android:layout_width="fill_parent" android:layout_height="@dimen/u7" android:layout_marginStart="97.0dip" android:layout_marginEnd="97.0dip" app:nr="moveBig" app:avq="false" />
+        <include android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" layout="@layout/c0_" />
+        <com.netease.cloudmusic.module.social.square.view.RoundDrawableView android:layout_gravity="center|right" android:id="@id/postBtn" android:padding="4.0dip" android:visibility="gone" android:layout_width="32.0dip" android:layout_height="32.0dip" android:layout_marginRight="14.0dip" app:a0x="@drawable/bq4" app:afc="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithAllBackground android:textSize="13.0dip" android:textStyle="bold" android:layout_gravity="center|right" android:id="@id/postTalkBtn" android:paddingLeft="12.0dip" android:paddingTop="5.0dip" android:paddingRight="12.0dip" android:paddingBottom="5.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="14.0dip" android:text="@string/h0s" app:gl="useTheme" />
+    </FrameLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout>

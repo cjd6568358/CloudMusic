@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/stateBehaviorContainer" android:background="@null" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="@string/a__">
+        <com.netease.cloudmusic.module.state.PopWindowRelativeLayout android:id="@id/stateRealContent" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="200.0dip">
+            <com.netease.cloudmusic.module.state.PopWindowBar android:id="@id/popTopBar" android:layout_width="36.0dip" android:layout_height="4.0dip" android:layout_marginTop="12.0dip" android:layout_centerHorizontal="true" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/textChooseState" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="23.0dip" android:layout_marginTop="22.0dip" android:text="选择状态" android:maxLines="1" android:includeFontPadding="false" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0dip" android:textStyle="bold" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/textComplete" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="22.0dip" android:layout_marginRight="23.0dip" android:text="@string/eja" android:maxLines="1" android:includeFontPadding="false" android:layout_alignParentRight="true" />
+            <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/stateList" android:layout_width="340.0dip" android:layout_height="fill_parent" android:layout_marginTop="6.0dip" android:layout_below="@id/textChooseState" android:layout_centerHorizontal="true" />
+        </com.netease.cloudmusic.module.state.PopWindowRelativeLayout>> </RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

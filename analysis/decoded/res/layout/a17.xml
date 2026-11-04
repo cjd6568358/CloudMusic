@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.Toolbar android:id="@id/toolbar" android:layout_width="fill_parent" android:layout_height="38.0dip" app:a69="parent" style="?awy" />
+    <com.netease.cloudmusic.video.demo.videoplay.DemoVideoTextureView android:id="@id/demoVideoTextureView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a5z="parent" app:a63="parent" app:a68="@id/toolbar" />
+    <androidx.appcompat.widget.AppCompatSeekBar android:id="@id/demoSeekBar" android:layout_width="fill_parent" android:layout_height="8.0dip" android:layout_marginTop="10.0dip" android:layout_marginBottom="10.0dip" app:a68="@id/demoVideoTextureView" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="20.0dip" android:textColor="@color/b1e" android:id="@id/demoPlayBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="开始播放" app:a5z="parent" app:a63="parent" app:a68="@id/demoSeekBar" />
+</androidx.constraintlayout.widget.ConstraintLayout>

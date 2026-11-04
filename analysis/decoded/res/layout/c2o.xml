@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/danmakuView" android:layout_width="fill_parent" android:layout_height="38.0dip" android:minWidth="200.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.avatar.RankAvatarView android:id="@id/avatar" android:layout_width="38.0dip" android:layout_height="38.0dip" app:a5z="parent" app:a69="parent" app:ai4="style6" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1e" android:ellipsize="end" android:id="@id/tv_nickname" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:text="" android:maxLines="1" app:a60="@id/avatar" app:a63="parent" app:a69="parent" />
+    <View android:id="@id/center_line" android:layout_width="wrap_content" android:layout_height="1.0dip" android:layout_marginTop="2.0dip" app:a60="@id/avatar" app:a68="@id/tv_nickname" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1e" android:ellipsize="end" android:id="@id/tv_msg" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" app:a5z="@id/tv_nickname" app:a68="@id/center_line" />
+    <View android:id="@id/top_line" android:layout_width="wrap_content" android:layout_height="1.0dip" android:layout_marginLeft="20.0dip" app:a5z="parent" app:a69="parent" />
+    <View android:id="@id/bottom_line" android:layout_width="wrap_content" android:layout_height="1.0dip" android:layout_marginLeft="20.0dip" app:a5f="parent" app:a5z="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:layout_gravity="center_horizontal" android:orientation="vertical" android:id="@id/trackNearByUserContainer" android:layout_width="67.0dip" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.AvatarImage android:layout_gravity="center_horizontal" android:id="@id/tracNearByUserAvatar" android:layout_width="wrap_content" android:layout_height="wrap_content" app:cv="style5" app:aj1="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0dip" android:textColor="@color/aix" android:gravity="center_horizontal" android:layout_gravity="center_horizontal" android:id="@id/trackNearByUserName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:singleLine="true" android:drawablePadding="2.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0dip" android:textColor="@color/aiz" android:gravity="center_horizontal" android:layout_gravity="center_horizontal" android:id="@id/nearByUserDistance" android:layout_width="55.0dip" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:singleLine="true" />
+</LinearLayout>

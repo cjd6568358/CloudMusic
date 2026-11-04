@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/interactArea" android:paddingLeft="@dimen/aun" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="@dimen/auj"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/userInfoContainer" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+        <FrameLayout android:id="@id/avatarContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true">
+            <com.netease.cloudmusic.module.video.TimelineFollowContainer android:gravity="center_vertical" android:id="@id/followContainer" android:paddingLeft="34.0dip" android:visibility="gone" android:clipChildren="false" android:layout_width="85.0dip" android:layout_height="30.0dip" android:layout_marginLeft="3.0dip" android:layout_marginTop="3.0dip">
+                <com.netease.cloudmusic.module.video.TimelineFollowBtn android:textSize="11.0sp" android:id="@id/followBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:drawablePadding="2.669983dip" />
+            </com.netease.cloudmusic.module.video.TimelineFollowContainer>
+            <com.netease.cloudmusic.ui.AvatarImage android:id="@id/secondAvatar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" app:cv="style7" />
+            <com.netease.cloudmusic.ui.AvatarImage android:id="@id/firstAvatar" android:layout_width="wrap_content" android:layout_height="wrap_content" app:cv="style7" />
+        </FrameLayout>
+        <view android:textSize="14.0dip" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/videoCreatorName" android:paddingLeft="4.0dip" android:paddingRight="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:singleLine="true" android:layout_centerVertical="true" class="com.netease.cloudmusic.adapter.DownloadedProgramAdapter$RangeEllipsisTextView" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="62.0dip" android:layout_height="wrap_content" android:layout_marginRight="8.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:layout_width="wrap_content" android:layout_height="wrap_content" app:aev="@color/a2e" app:aqh="@drawable/c_o" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:id="@id/popularity" android:paddingLeft="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" />
+    </LinearLayout>
+    <com.netease.cloudmusic.theme.ui.VideoInteractiveTextView android:id="@id/shareBtn" android:layout_width="35.0dip" android:layout_marginRight="7.5dip" app:adf="true" app:aeu="@color/a2e" style="@style/a6m" />
+</LinearLayout>

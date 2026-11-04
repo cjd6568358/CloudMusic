@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.music.biz.share.musicshare.card.MusicShareCardItemContainer android:id="@id/container" android:background="@color/b1e" android:layout_width="fill_parent" android:layout_height="wrap_content" app:jw="@dimen/ac0">
+        <com.netease.cloudmusic.music.biz.voice.player.share.podcastposter.PodcastPosterBgView android:id="@id/bg" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="8.0dip" android:layout_marginRight="8.0dip" />
+        <com.netease.cloudmusic.ui.layout.RatioFrameLayout android:id="@id/podcastCoverShadow" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:layout_marginTop="4.0dip" android:layout_marginRight="8.0dip" android:layout_alignLeft="@id/podcastCover" android:layout_alignTop="@id/podcastCover" />
+        <ImageView android:id="@id/podcastShareDecorate" android:layout_width="35.0dip" android:layout_height="35.0dip" android:layout_marginTop="-17.5dip" android:src="@drawable/ebf" android:layout_below="@id/podcastCover" android:layout_alignParentRight="true" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/podcastCover" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_marginTop="8.0dip" android:layout_marginRight="12.0dip" app:ayt="1.0" />
+        <TextView android:textSize="8.0sp" android:textColor="@color/dw" android:ellipsize="end" android:id="@id/podcastName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_marginTop="8.0dip" android:layout_marginRight="16.0dip" android:lines="1" android:layout_below="@id/podcastCover" />
+        <TextView android:textSize="6.0sp" android:textColor="@color/aix" android:id="@id/podcastDesc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_marginRight="16.0dip" android:maxLines="2" android:layout_below="@id/podcastName" />
+    </com.netease.cloudmusic.music.biz.share.musicshare.card.MusicShareCardItemContainer>
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1z" android:layout_gravity="center_horizontal" android:id="@id/cardName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:includeFontPadding="false" />
+</LinearLayout>

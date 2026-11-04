@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/boot_style_container" android:background="#ff222222" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/boot_ad_image" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+    <FrameLayout android:id="@id/boot_ad_video_container" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.module.ad.AdVideoView android:layout_gravity="center" android:id="@id/boot_ad_video" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </FrameLayout>
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="10.0dip" android:textColor="#e6ffffff" android:gravity="center" android:layout_gravity="center|right|top" android:id="@id/boot_ad_tag" android:paddingLeft="3.0dip" android:paddingRight="3.0dip" android:layout_width="wrap_content" android:layout_height="14.0dip" android:layout_marginTop="50.0dip" android:layout_marginRight="54.0dip" />
+    <include layout="@layout/bit" />
+    <View android:id="@id/boot_ad_reward_mask" android:background="#ff000000" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</FrameLayout>

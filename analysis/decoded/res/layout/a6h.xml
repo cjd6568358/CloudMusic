@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:tag="layout/dialog_music_list_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/content" android:background="@drawable/b5y" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="@dimen/abz" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent">
+        <com.netease.play.ui.ColorTabLayout android:id="@id/tabLayout" android:layout_width="fill_parent" android:layout_height="@dimen/aiv" tabIndicatorHeight="2.0dip" />
+        <com.netease.play.ui.NeteaseMusicViewPager android:id="@id/viewPager" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="@dimen/aiv" />
+    </FrameLayout>
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1e" android:id="@id/add_musical" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:drawablePadding="2.0dip" android:drawableStart="@drawable/fx0" android:layout_marginStart="75.0dip" app:a5z="parent" app:a63="parent" app:a69="@id/content" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:id="@id/rootView" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="@dimen/m1">
+        <LinearLayout android:orientation="vertical" android:id="@id/topLayout" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0">
+            <include android:id="@id/titleRecent" android:layout_width="fill_parent" android:layout_height="40.0dip" layout="@layout/ae1" />
+            <com.netease.cloudmusic.discovery.view.module.secondfloor.view.drag.DragItemRecyclerView android:id="@id/recyclerViewRecent" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/iw" android:layout_marginTop="10.0dip" android:layout_marginRight="@dimen/iw" android:layout_marginHorizontal="@dimen/iw" />
+            <include android:id="@id/titleMine" android:layout_width="fill_parent" android:layout_height="40.0dip" android:layout_marginTop="@dimen/j1" layout="@layout/ae1" />
+            <FrameLayout android:id="@id/mineRecyclerViewContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/iw" android:layout_marginTop="10.0dip" android:layout_marginRight="@dimen/iw" android:layout_marginHorizontal="@dimen/iw">
+                <com.netease.cloudmusic.discovery.view.module.secondfloor.view.drag.DragItemRecyclerView android:id="@id/recyclerViewMine" android:layout_width="fill_parent" android:layout_height="fill_parent" android:overScrollMode="never" />
+                <FrameLayout android:id="@id/layoutPlaceHolder" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                    <TextView android:textSize="13.0sp" android:textColor="@color/b1z" android:gravity="center" android:layout_gravity="center" android:id="@id/tvPlaceHolder" android:layout_width="wrap_content" android:layout_height="wrap_content" android:drawablePadding="6.0dip" android:drawableStart="@drawable/a5a" />
+                </FrameLayout>
+            </FrameLayout>
+            <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/emptyContainer" android:focusable="true" android:visibility="gone" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                <androidx.appcompat.widget.AppCompatImageView android:id="@id/emptyImage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/dkq" />
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/iw">
+                    <androidx.appcompat.widget.AppCompatTextView android:textColor="@color/b1t" android:id="@id/tvError" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="暂无应用，你还可以" />
+                    <androidx.appcompat.widget.AppCompatTextView android:textColor="@color/t_link" android:id="@id/tvEmptyAllProgram" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="查看全部应用" android:drawableEnd="@drawable/eij" android:layout_marginStart="1.0dip" android:drawableTint="@color/t_link" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout android:gravity="bottom|center" android:orientation="vertical" android:id="@id/bottomLayout" android:paddingTop="40.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatTextView android:textColor="@color/b1z" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/tvAllProgram" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/iz" android:text="所有音乐应用" android:includeFontPadding="false" android:drawableEnd="@drawable/eij" android:paddingStart="12.0dip" android:paddingEnd="8.0dip" android:drawableTint="@color/b1z" android:paddingVertical="4.0dip" app:a5g="@id/discoverySecondFloorBottom" app:a5l="parent" app:a65="parent" />
+            <com.netease.cloudmusic.module.ad.secondfloor.SecondFloorAdView android:id="@id/secondFloorAdView" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="100.0dip" android:layout_marginLeft="@dimen/iw" android:layout_marginRight="@dimen/iw" android:layout_marginBottom="@dimen/iz" android:layout_marginHorizontal="@dimen/iw" app:a5g="@id/tvAllProgram" />
+            <FrameLayout android:id="@id/discoverySecondFloorBottom" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="@dimen/m0" app:a5f="parent" app:a5l="parent" app:a65="parent">
+                <TextView android:textStyle="bold" android:textColor="@color/b1q" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="14.0dip" android:text="回到首页" />
+            </FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+    <FrameLayout android:layout_gravity="bottom" android:id="@id/layoutDeleteArea" android:layout_width="fill_parent" android:layout_height="@dimen/m0" android:translationY="@dimen/m0">
+        <TextView android:textSize="17.0sp" android:textColor="@color/b12" android:layout_gravity="center_horizontal" android:id="@id/tvDeleteArea" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="13.0dip" android:drawablePadding="4.0dip" android:drawableStart="@drawable/a5b" />
+    </FrameLayout>
+</merge>

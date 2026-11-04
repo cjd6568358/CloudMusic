@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/topicFeedContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/bg_header_new_style" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="250.0dip" app:ae="fitXY" />
+    <FrameLayout android:id="@id/container_atmosphere_header_new_style" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="200.0dip">
+        <ImageView android:id="@id/pic_atmosphere_header_new_style" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitXY" />
+    </FrameLayout>
+    <FrameLayout android:id="@id/container_ad_header_new_style" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="300.0dip">
+        <ImageView android:id="@id/pic_ad_header_new_style" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitXY" />
+        <TextView android:textSize="9.0sp" android:textColor="#ff3a58ab" android:layout_gravity="end|bottom|center" android:id="@id/tag_ad_header_new_style" android:paddingLeft="4.0dip" android:paddingTop="2.5dip" android:paddingRight="4.0dip" android:paddingBottom="2.5dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="14.599976dip" android:text="广告" android:layout_marginEnd="16.0dip" />
+    </FrameLayout>
+    <View android:id="@id/toolbarBg" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <FrameLayout android:id="@id/toolbarLayer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <include layout="@layout/du7" />
+    </FrameLayout>
+    <include layout="@layout/dq9" />
+    <com.netease.cloudmusic.ui.NeteaseSwipeToRefresh android:id="@id/swipeToRefreshView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/toolbar">
+        <FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <include android:id="@id/errorView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="72.0dip" layout="@layout/dth" />
+            <androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@id/trackDetailContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                <com.google.android.material.appbar.AppBarLayout android:id="@id/appBarLayout" android:background="@null" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip" app:a56="com.netease.cloudmusic.music.biz.usertrack.rn.common.ScrollCallbackBehavior">
+                    <FrameLayout android:id="@id/appBarContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a76="scroll">
+                        <com.facebook.drawee.view.SimpleDraweeView android:id="@id/gradientBg" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="180.0dip" />
+                    </FrameLayout>
+                    <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout2 android:id="@id/tabLayout" android:layout_width="fill_parent" android:layout_height="30.0dip" android:layout_marginTop="7.0dip" android:layout_marginBottom="7.0dip" android:layout_toLeftOf="@id/sortTabLayout" android:layout_marginStart="6.0dip" android:layout_marginEnd="10.0dip" app:a76="scroll" app:asd="@null" app:asw="3.0dip" app:at5="200.0dip" app:at6="10.0dip" app:at7="scrollable" app:at_="16.0dip" app:ata="16.0dip" app:atp="false" app:avq="false" />
+                        <com.netease.cloudmusic.music.biz.usertrack.activitydetail.view.SortTabLayout android:id="@id/sortTabLayout" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="25.0dip" android:layout_alignTop="@id/tabLayout" android:layout_alignBottom="@id/tabLayout" android:layout_marginEnd="8.0dip" android:layout_alignParentEnd="true" />
+                    </RelativeLayout>
+                </com.google.android.material.appbar.AppBarLayout>
+                <androidx.viewpager2.widget.ViewPager2 android:id="@id/viewPager" android:layout_width="fill_parent" android:layout_height="fill_parent" android:nestedScrollingEnabled="true" app:a56="@string/uo" />
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </FrameLayout>
+    </com.netease.cloudmusic.ui.NeteaseSwipeToRefresh>
+</RelativeLayout>

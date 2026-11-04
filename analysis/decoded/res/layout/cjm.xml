@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/enter" android:tag="layout/look_party_top_enter_item_only_0" android:layout_width="104.0dip" android:layout_height="109.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" app:go="@color/b1e" app:gp="16.0dip" app:gq="4.5dip">
+        <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/container" android:layout_width="95.0dip" android:layout_height="100.0dip">
+            <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/icon_enter" android:tag="binding_1" android:layout_width="60.0dip" android:layout_height="50.0dip" android:layout_marginTop="5.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="15.0sp" android:textColor="@color/ej" android:id="@id/type" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="0.5dip" android:text="在线点歌" android:includeFontPadding="false" app:a5l="parent" app:a65="parent" app:a68="@id/icon_enter" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="10.0sp" android:textColor="@color/e6" android:id="@id/number" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:text="1555人在听" app:a5l="parent" app:a65="parent" app:a68="@id/type" />
+            <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/container_image" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="9.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent">
+                <com.netease.play.ui.avatar.AvatarImage android:id="@id/image1" android:layout_width="14.0dip" android:layout_height="14.0dip" app:a65="parent" app:a69="parent" app:ai4="style26" />
+                <com.netease.play.ui.avatar.AvatarImage android:id="@id/image2" android:layout_width="14.0dip" android:layout_height="14.0dip" android:layout_marginStart="11.0dip" app:a65="@id/image1" app:a69="parent" app:ai4="style26" />
+                <com.netease.play.ui.avatar.AvatarImage android:id="@id/image3" android:layout_width="14.0dip" android:layout_height="14.0dip" android:layout_marginStart="11.0dip" app:a65="@id/image2" app:a69="parent" app:ai4="style26" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

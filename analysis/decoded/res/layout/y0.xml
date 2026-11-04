@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.TrackCustomThemeResConstraintLayout android:gravity="center_vertical" android:id="@id/trackResContainer" android:tag="layout/common_res_component_old_0" android:layout_width="fill_parent" android:layout_height="wrap_content" fresco:jw="@dimen/u3"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.TrackResImageView android:id="@id/trackResImg" android:tag="binding_1" android:layout_width="@dimen/as9" android:layout_height="@dimen/as9" android:layout_centerVertical="true" fresco:ae="centerCrop" fresco:jw="@dimen/u4" fresco:a5f="parent" fresco:a5z="parent" fresco:a69="parent" fresco:ahy="@drawable/g97" fresco:ahz="fitXY" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:paddingRight="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" android:layout_centerVertical="true" fresco:a5_="true" fresco:a5f="parent" fresco:a5v="0.0" fresco:a60="@id/trackResImg" fresco:a62="@id/trackHeartContainer" fresco:a69="parent">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiv" android:id="@id/trackResName" android:tag="binding_2" android:layout_marginBottom="1.0dip" android:layout_centerVertical="true" style="@style/a_y" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiy" android:id="@id/trackResCreator" android:tag="binding_3" android:drawablePadding="3.0dip" android:layout_below="@id/trackResName" android:layout_centerVertical="true" android:lineSpacingExtra="2.0dip" style="@style/a_y" />
+    </LinearLayout>
+    <com.netease.cloudmusic.ui.TrackRightViewsContainer android:id="@id/trackHeartContainer" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="0.0dip" fresco:a5f="parent" fresco:a63="parent" fresco:a69="parent" />
+</com.netease.cloudmusic.ui.TrackCustomThemeResConstraintLayout>

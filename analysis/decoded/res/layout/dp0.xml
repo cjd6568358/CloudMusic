@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/tab_party_gift_panel_0" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.party.livepage.gift.panel.gift.TabTextView android:textSize="15.0sp" android:id="@id/tabText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <Space android:id="@id/space" android:layout_width="0.0dip" android:layout_height="4.0dip" app:a64="@id/tabText" app:a69="@id/tabText" />
+    <TextView android:textSize="8.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/tag" android:tag="binding_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="25.0dip" android:minHeight="12.0dip" android:paddingStart="3.0dip" android:paddingEnd="3.0dip" app:a5f="@id/space" app:a65="@id/tabText" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/moreTextViewGroup" android:paddingTop="@dimen/is" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.theme.ui.CustomThemeLine android:id="@id/topLine" android:background="@color/dv" android:layout_width="fill_parent" android:layout_height="1.0px" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/moreTextContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:ellipsize="end" android:gravity="center" android:id="@id/moreTextView" android:layout_width="wrap_content" android:layout_height="40.0dip" android:maxLines="1" android:drawablePadding="4.0dip" android:layout_centerInParent="true" android:paddingStart="@dimen/s1" android:paddingEnd="@dimen/s2" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+</LinearLayout>

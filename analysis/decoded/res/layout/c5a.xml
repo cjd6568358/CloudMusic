@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="130.0dip" android:layout_height="136.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="@color/b1e" android:ellipsize="end" android:layout_gravity="center_horizontal" android:id="@id/pkTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:text="@string/g2l" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" />
+    <TextView android:textSize="9.0sp" android:textColor="@color/b1w" android:ellipsize="end" android:layout_gravity="center_horizontal" android:id="@id/pkSubTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" android:text="@string/g3i" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" />
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip">
+        <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="40.0dip" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip">
+            <com.facebook.drawee.view.SimpleDraweeView android:id="@id/pkAvatarImage1" android:layout_width="32.0dip" android:layout_height="32.0dip" app:ahy="@drawable/fpa" app:aln="true" />
+            <TextView android:textSize="10.0sp" android:textColor="@color/b1e" android:gravity="center" android:layout_gravity="bottom" android:id="@id/pkNickname1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:singleLine="true" android:includeFontPadding="false" />
+        </LinearLayout>
+        <FrameLayout android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+            <ImageView android:layout_gravity="center_horizontal" android:id="@id/pkLoading" android:layout_width="22.0dip" android:layout_height="10.0dip" android:layout_marginTop="15.0dip" android:scaleType="fitCenter" />
+        </FrameLayout>
+        <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="40.0dip" android:layout_height="wrap_content" android:layout_marginRight="15.0dip">
+            <com.facebook.drawee.view.SimpleDraweeView android:id="@id/pkAvatarImage2" android:layout_width="32.0dip" android:layout_height="32.0dip" app:ae="fitStart" app:ahy="@drawable/fpa" app:aln="true" />
+            <TextView android:textSize="10.0sp" android:textColor="@color/b1e" android:gravity="center" android:layout_gravity="bottom" android:id="@id/pkNickname2" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:singleLine="true" android:includeFontPadding="false" />
+        </LinearLayout>
+    </LinearLayout>
+    <com.netease.play.ui.CustomLoadingButton android:textSize="12.0sp" android:textColor="@color/b1w" android:gravity="center" android:id="@id/pk_actionButton" android:layout_width="fill_parent" android:layout_height="22.0dip" android:layout_margin="10.0dip" android:text="@string/abp" android:drawablePadding="5.0dip" app:gg="0x00FFFFFF" app:aew="@color/b1k" app:aiv="@color/b1k" app:aiy="@color/b1k" />
+</LinearLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/dialog_container" android:tag="layout/dialog_user_custom_0" android:paddingTop="24.0dip" android:paddingBottom="24.0dip" android:layout_width="288.0dip" android:layout_height="wrap_content" android:paddingStart="24.0dip" android:paddingEnd="24.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="16.0sp" android:textStyle="bold" android:ellipsize="end" android:gravity="center" android:id="@id/tv_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="1" />
+    <TextView android:textSize="14.0sp" android:gravity="start|center" android:id="@id/tv_content" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:includeFontPadding="false" android:lineSpacingExtra="3.5sp" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/ll_buttons" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20.0dip">
+        <TextView android:textSize="15.0sp" android:textStyle="bold" android:gravity="center" android:id="@id/btn_left" android:layout_width="0.0dip" android:layout_height="40.0dip" android:includeFontPadding="false" android:layout_weight="1.0" />
+        <TextView android:textSize="15.0sp" android:textStyle="bold" android:gravity="center" android:id="@id/btn_right" android:layout_width="0.0dip" android:layout_height="40.0dip" android:includeFontPadding="false" android:layout_weight="1.0" android:layout_marginStart="12.0dip" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <Button android:layout_gravity="center" android:id="@id/initBtn" android:layout_width="fill_parent" android:layout_height="80.0dip" android:text="设置视频源" />
+    <Button android:gravity="center" android:id="@id/playBtn" android:layout_width="fill_parent" android:layout_height="80.0dip" android:text="播放/暂停" android:layout_below="@id/initBtn" />
+    <com.netease.cloudmusic.module.reactnative.video.ReactVideoView android:id="@id/reactVideoView" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/playBtn" />
+</RelativeLayout>

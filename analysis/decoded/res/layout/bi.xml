@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/container" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:gravity="center_vertical" android:id="@id/title" android:paddingLeft="@dimen/ang" android:paddingRight="@dimen/ang" android:layout_width="fill_parent" android:layout_height="@dimen/anh" />
+    <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/itemRecyclerView" android:paddingLeft="@dimen/ang" android:paddingRight="@dimen/ang" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+</LinearLayout>

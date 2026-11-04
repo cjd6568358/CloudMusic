@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ViewStub android:id="@id/openGpsPrompt" android:visibility="gone" android:layout="@layout/czo" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <RelativeLayout android:id="@id/rl_school_empty_view" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <ImageView android:id="@id/shcool_empty_image" android:layout_width="170.0dip" android:layout_height="120.0dip" android:layout_marginTop="200.0dip" android:src="@drawable/gp0" android:layout_centerHorizontal="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0dip" android:gravity="center" android:id="@id/school_empty_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="@string/fwf" android:layout_below="@id/shcool_empty_image" android:layout_centerHorizontal="true" app:qe="colorText1" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0dip" android:gravity="center" android:id="@id/school_empty_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:text="@string/fwg" android:layout_below="@id/school_empty_text" android:layout_centerHorizontal="true" app:qe="colorText4_1" />
+    </RelativeLayout>
+    <com.netease.cloudmusic.ui.PagerListView android:id="@id/schoolsListView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <LinearLayout android:orientation="vertical" android:id="@id/mySchoolsListViewContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.ui.PagerListView android:id="@id/mySchoolsListView" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0" />
+        <com.netease.cloudmusic.core.dolphin.component.button.DolphinButton android:textSize="15.0dip" android:gravity="center" android:layout_gravity="bottom" android:id="@id/clearSchoolInfo" android:layout_width="fill_parent" android:layout_height="40.0dip" android:layout_marginLeft="30.0dip" android:layout_marginRight="30.0dip" android:layout_marginBottom="32.0dip" android:text="清空学校记录" android:layout_marginHorizontal="30.0dip" app:py="colorIconDual7_2" app:q0="secondary" app:q1="light" app:q4="outline" app:qe="colorText2" app:a5f="parent" app:a5z="parent" app:a63="parent" />
+    </LinearLayout>
+    <com.netease.cloudmusic.ui.PagerListView android:id="@id/schoolsListViewForSearch" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</RelativeLayout>

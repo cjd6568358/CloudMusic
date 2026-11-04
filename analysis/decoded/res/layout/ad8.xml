@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.RatioFrameLayout android:id="@id/discoveryRatioLayout" android:layout_width="fill_parent" android:layout_height="wrap_content" app:jw="8.0dip">
+        <com.netease.cloudmusic.ui.AutoScrollViewSwitcher android:id="@id/cover_auto_scroll_switcher" android:layout_width="fill_parent" android:layout_height="fill_parent" android:measureAllChildren="true" android:inAnimation="@anim/aw0" android:outAnimation="@anim/aw1" android:animateFirstView="false" app:cs="3000" />
+        <View android:id="@id/topMark" android:background="@drawable/c5l" android:layout_width="fill_parent" android:layout_height="36.0dip" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/mask_guide" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.netease.cloudmusic.ui.RatioFrameLayout>
+    <com.netease.cloudmusic.ui.AutoScrollViewSwitcher android:id="@id/text_auto_scroll_switcher" android:layout_width="fill_parent" android:layout_height="44.0dip" android:measureAllChildren="true" android:inAnimation="@anim/avy" android:outAnimation="@anim/avz" android:animateFirstView="false" app:cs="3000" />
+</merge>

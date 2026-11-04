@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="center_horizontal" android:layout_width="450.0dip" android:layout_height="230.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/useProfileCornerBg" android:background="@drawable/c73" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginTop="33.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/useProfileAvatarIv" android:layout_width="80.0dip" android:layout_height="80.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" app:ai4="style2" app:arl="@android:color/white" app:arm="3.0dip" />
+    <TextView android:textSize="20.0sp" android:textColor="@color/a0k" android:id="@id/tv_nickname" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="22.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/useProfileAvatarIv" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/a0m" android:id="@id/tv_remind" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:text="@string/cat" app:a5z="parent" app:a63="parent" app:a68="@id/tv_nickname" />
+    <com.netease.play.livepage.LiveRoomFollowButton android:gravity="center" android:id="@id/follow" android:layout_width="254.0dip" android:layout_height="40.0dip" android:layout_marginTop="12.0dip" app:xq="18.0sp" app:a5z="parent" app:a63="parent" app:a68="@id/tv_remind" app:ayu="40.0dip" app:az0="254.0dip" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="25.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.RoundedConstraintlayout android:id="@id/layout_ad_greeting" android:layout_width="wrap_content" android:layout_height="25.0dip" android:paddingStart="8.0dip" android:paddingEnd="4.0dip" app:jw="13.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_ad_greeting_arrow" android:layout_width="13.0dip" android:layout_height="13.0dip" android:scaleType="centerCrop" app:ae="centerCrop" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:ellipsize="end" android:gravity="center" android:id="@id/tv_ad_greeting_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:includeFontPadding="false" android:layout_marginEnd="2.0dip" app:qe="colorText3" app:a5f="parent" app:a5m="@id/iv_ad_greeting_arrow" app:a5w="packed" app:a69="parent" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/iv_ad_greeting_icon" android:layout_width="18.0dip" android:layout_height="18.0dip" android:scaleType="centerCrop" android:layout_marginEnd="2.0dip" app:ae="centerCrop" app:a5f="parent" app:a5m="@id/tv_ad_greeting_content" app:a69="parent" />
+    </com.netease.cloudmusic.ui.RoundedConstraintlayout>
+</merge>

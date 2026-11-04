@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:gravity="center_vertical" android:paddingLeft="16.0dip" android:paddingTop="3.0dip" android:paddingRight="16.0dip" android:paddingBottom="3.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/artistImage" android:layout_width="80.0dip" android:layout_height="80.0dip" android:scaleType="centerCrop" app:ahy="@drawable/cx2" app:aln="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="@dimen/w2" android:textColor="@color/aiv" android:id="@id/artistName" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:singleLine="true" android:layout_weight="1.0" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="@dimen/w5" android:textColor="@color/aiz" android:gravity="center" android:id="@id/artistAlreadyIn" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/xq" android:drawableLeft="@drawable/cwj" android:drawablePadding="6.0dip" app:adf="true" />
+</merge>

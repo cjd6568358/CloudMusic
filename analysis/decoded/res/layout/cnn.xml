@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:gravity="center_vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:layout_gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16.0dip" android:layout_width="fill_parent" android:layout_height="@dimen/a5p">
+        <FrameLayout android:layout_gravity="center_vertical" android:id="@id/coverContainer" android:layout_width="44.0dip" android:layout_height="40.0dip">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/cover" android:background="@drawable/b_u" android:layout_width="fill_parent" android:layout_height="fill_parent" fresco:ae="centerCrop" fresco:w3="0" fresco:ahz="centerCrop" fresco:am0="@dimen/a60" />
+            <androidx.appcompat.widget.AppCompatImageView android:layout_width="fill_parent" android:layout_height="12.0dip" android:src="@drawable/cp7" android:layout_marginEnd="8.0dip" />
+        </FrameLayout>
+        <com.netease.cloudmusic.module.minibar.widget.MiniBarTextView android:textSize="12.0sp" android:textColor="@color/aiv" android:ellipsize="marquee" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@id/title" android:focusable="false" android:focusableInTouchMode="false" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="8.0dip" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" android:marqueeRepeatLimit="marquee_forever" />
+    </LinearLayout>
+</merge>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/likeContainerStyle1" android:tag="layout/layout_star_plugin_with_count_0" android:clipChildren="false" android:clipToPadding="false" android:layout_width="34.0dip" android:layout_height="34.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.PlayerPageImageView android:id="@id/likeBtn" android:layout_width="32.0dip" android:layout_height="32.0dip" android:src="@drawable/gc9" android:scaleType="center" android:contentDescription="@string/a0" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.ui.PlayerPageTextView android:textSize="10.0dip" android:textColor="@color/b1z" android:gravity="start|center" android:id="@id/likeCount" android:layout_width="32.0dip" android:layout_height="10.0dip" android:layout_marginTop="3.0dip" android:maxLines="1" android:includeFontPadding="false" android:contentDescription="@null" android:layout_marginStart="22.0dip" app:xs="@font/a" app:a65="parent" app:a69="@id/likeBtn" />
+</androidx.constraintlayout.widget.ConstraintLayout>

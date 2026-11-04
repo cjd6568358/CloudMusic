@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/sportRadioRootView" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageSwitcher android:id="@id/bigAlbumCover" android:background="@drawable/dot" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <View android:background="@drawable/csp" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <include android:layout_width="fill_parent" android:layout_height="?i" layout="@layout/dq9" />
+    <ViewStub android:id="@id/openKeep" android:layout="@layout/dnn" android:layout_width="wrap_content" android:layout_height="@dimen/ag5" android:layout_marginTop="@dimen/ag7" android:layout_below="@id/toolbar" android:layout_centerHorizontal="true" />
+    <RelativeLayout android:id="@id/startStepDetectorButton" android:clickable="false" android:layout_width="fill_parent" android:layout_height="@dimen/awm" android:layout_marginTop="@dimen/aq4" android:layout_centerHorizontal="true">
+        <ImageView android:id="@id/multiGlow" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <TextView android:textSize="19.0sp" android:textColor="#ccffffff" android:gravity="center_horizontal" android:id="@id/startBtnDescription" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ido" android:drawableTop="@drawable/dpa" android:drawablePadding="12.0dip" android:layout_centerInParent="true" />
+    </RelativeLayout>
+    <TextView android:gravity="center_horizontal" android:id="@id/fmSlogan" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-90.0dip" android:text="@string/idn" android:layout_below="@id/startStepDetectorButton" android:layout_centerHorizontal="true" />
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/playerControlContainer" android:paddingLeft="2.0dip" android:paddingRight="2.0dip" android:visibility="gone" android:clickable="true" android:layout_width="fill_parent" android:layout_height="@dimen/awa" android:layout_marginBottom="@dimen/awl" android:layout_alignParentBottom="true">
+        <ImageView android:id="@id/likeBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="33.0dip" android:src="@drawable/dp1" android:scaleType="centerInside" />
+        <ImageView android:id="@id/playBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/g_h" android:scaleType="centerInside" />
+        <ImageView android:id="@id/nextBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="33.0dip" android:src="@drawable/dp5" android:scaleType="centerInside" />
+    </LinearLayout>
+    <TextView android:textSize="18.0sp" android:textColor="#ffffffff" android:ellipsize="marquee" android:id="@id/musicName" android:paddingLeft="@dimen/ame" android:paddingRight="@dimen/ame" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-90.0dip" android:layout_marginBottom="4.0dip" android:singleLine="true" android:layout_below="@id/startStepDetectorButton" android:layout_centerHorizontal="true" android:marqueeRepeatLimit="marquee_forever" />
+    <TextView android:textSize="14.0sp" android:textColor="#80ffffff" android:id="@id/artistName" android:paddingLeft="@dimen/ame" android:paddingRight="@dimen/ame" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:layout_below="@id/musicName" android:layout_centerHorizontal="true" />
+    <ViewStub android:id="@id/adIcon" android:layout="@layout/dnl" android:layout_width="@dimen/aps" android:layout_height="@dimen/aps" android:layout_marginLeft="20.0dip" android:layout_marginBottom="70.0dip" android:layout_alignParentBottom="true" />
+    <ViewStub android:id="@id/openOffline" android:layout="@layout/dno" android:layout_width="@dimen/ag9" android:layout_height="@dimen/ag8" android:layout_marginBottom="36.0dip" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" />
+    <ViewStub android:id="@id/offlineHintContainer" android:layout="@layout/d2u" android:layout_width="fill_parent" android:layout_height="@dimen/afz" android:layout_alignParentBottom="true" />
+</RelativeLayout>

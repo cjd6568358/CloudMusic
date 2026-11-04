@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.epay.sdk.base.view.PayChooserRootLayout android:background="@drawable/a8c" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.FragmentTitleBar android:id="@id/ftb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tt="false" app:tu="true" app:tv="false" app:tw="false" app:tx="false" app:v2="换绑支付账号" />
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/ftb">
+        <ScrollView android:id="@id/sv_account_list" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginBottom="99.0dip">
+            <LinearLayout android:orientation="vertical" android:id="@id/ll_account_list" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        </ScrollView>
+        <LinearLayout android:layout_gravity="bottom" android:orientation="vertical" android:id="@id/llBottom" android:background="@color/w5" android:paddingLeft="@dimen/ol" android:paddingTop="8.0dip" android:paddingRight="@dimen/ol" android:paddingBottom="10.0dip" android:layout_width="fill_parent" android:layout_height="95.0dip">
+            <TextView android:textSize="12.0dip" android:textColor="@color/ws" android:id="@id/tv_protocol" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+            <com.netease.epay.sdk.base.view.LongCommonButton android:id="@id/btn_done" android:layout_marginLeft="0.0dip" android:layout_marginTop="8.0dip" android:layout_marginRight="0.0dip" android:text="同意协议并支付" android:layout_below="@id/tv_protocol" style="@style/a4y" />
+        </LinearLayout>
+    </FrameLayout>
+</com.netease.epay.sdk.base.view.PayChooserRootLayout>

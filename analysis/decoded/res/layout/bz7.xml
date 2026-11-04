@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.SimpleRoundDraweeView android:id="@id/avatarView" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" app:ahy="@drawable/cx4" app:ahz="centerCrop" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/pendantView" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/identityIcon" android:visibility="gone" android:layout_width="@dimen/wb" android:layout_height="@dimen/wb" android:layout_marginRight="2.0dip" android:layout_marginBottom="2.0dip" app:a5f="@id/avatarView" app:a5l="@id/avatarView" />
+    <com.netease.cloudmusic.module.listentogether.bio.LTUserStateOutContainer android:id="@id/outUserStateContainer" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-10.0dip" app:a5l="@id/avatarView" app:a65="@id/avatarView" app:a68="@id/avatarView" />
+</androidx.constraintlayout.widget.ConstraintLayout>

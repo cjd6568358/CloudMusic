@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.commoncover.EffectCoverGlassMaskView android:id="@id/effectCoverGlassMask" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <RelativeLayout android:id="@id/mainContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <FrameLayout android:id="@id/dynamicCoverContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <FrameLayout android:id="@id/videoResContainer" android:background="@color/fz" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/videoCover" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" fresco:ae="centerCrop" fresco:ahz="centerCrop" />
+            </FrameLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/materialMainContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/materialMainPic" android:layout_width="0.0dip" android:layout_height="0.0dip" android:scaleType="centerCrop" fresco:ae="centerCrop" fresco:a5f="parent" fresco:a5l="parent" fresco:a65="parent" fresco:a69="parent" fresco:ahz="centerCrop" />
+                <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/materialHorizontalContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                    <View android:id="@id/materialHorizontalBgFallback" android:background="@drawable/c15" android:layout_width="0.0dip" android:layout_height="0.0dip" fresco:a5f="parent" fresco:a5l="parent" fresco:a65="parent" fresco:a69="parent" />
+                    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/materialHorizontalBg" android:layout_width="0.0dip" android:layout_height="0.0dip" android:scaleType="centerCrop" fresco:ae="centerCrop" fresco:a5f="parent" fresco:a5l="parent" fresco:a65="parent" fresco:a69="parent" fresco:ahz="centerCrop" />
+                    <View android:id="@id/materialHorizontalBgMask" android:background="#99000000" android:layout_width="0.0dip" android:layout_height="0.0dip" fresco:a5f="parent" fresco:a5l="parent" fresco:a65="parent" fresco:a69="parent" />
+                    <FrameLayout android:id="@id/materialHorizontalVideoResContainer" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginTop="98.0dip" fresco:a5f="parent" fresco:a5k="H,16:9" fresco:a5l="parent" fresco:a65="parent" fresco:a69="parent" fresco:a6_="0.184">
+                        <com.facebook.drawee.view.SimpleDraweeView android:id="@id/materialHorizontalVideoCover" android:layout_width="fill_parent" android:layout_height="fill_parent" fresco:ae="centerCrop" />
+                    </FrameLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/videoCoverOut" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" fresco:ae="centerCrop" fresco:ahz="centerCrop" />
+        </FrameLayout>
+        <com.netease.cloudmusic.module.commoncover.DynamicCoverMaskView android:id="@id/dynamicCoverMask" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <com.netease.cloudmusic.module.commoncover.CommonCoverMaskView android:id="@id/commonCoverMask" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <com.netease.cloudmusic.module.commoncover.CommonAdTypeCoverMaskView android:id="@id/commonAdTypeCoverMask" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <com.netease.cloudmusic.module.commoncover.CommonAdBrandPerfCoverMaskView android:id="@id/commonAdBrandPerfCoverMask" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <com.netease.cloudmusic.module.commoncover.PlayerVideoMask android:id="@id/playerVideoMask" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </RelativeLayout>
+    <ImageView android:id="@id/lyRicCover" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+</androidx.constraintlayout.widget.ConstraintLayout>

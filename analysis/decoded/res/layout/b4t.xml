@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/rnContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.dsl.container.view.BottomCorpImageView android:id="@id/rnPlaceHolder" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a65="@id/rnContainer" app:a69="@id/rnContainer" />
+</androidx.constraintlayout.widget.ConstraintLayout>

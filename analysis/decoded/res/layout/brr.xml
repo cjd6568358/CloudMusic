@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/followListenTogetherContainer" android:layout_width="fill_parent" android:layout_height="140.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/mpAvatarRvClickMask" android:background="@android:color/transparent" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_above="@id/hintArea" />
+    <com.netease.cloudmusic.common.nova.widget.NovaRecyclerView android:id="@id/mpAvatarRv" android:layout_width="fill_parent" android:layout_height="64.0dip" android:alpha="0.0" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/hintArea" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:layout_below="@id/mpAvatarRv" android:layout_centerHorizontal="true" android:alpha="0.0">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/a8v" android:gravity="center" android:id="@id/hintTextView" android:paddingLeft="5.0dip" android:paddingRight="5.0dip" android:layout_width="wrap_content" android:layout_height="fill_parent" android:maxLines="1" android:includeFontPadding="false" app:adk="false" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/a8v" android:gravity="center" android:id="@id/memberTextView" android:paddingLeft="5.0dip" android:paddingRight="5.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:maxLines="1" android:includeFontPadding="false" app:adk="false" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/a8t" android:gravity="center" android:id="@id/endTextView" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/dsx" android:maxLines="1" android:includeFontPadding="false" app:adk="false" />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="#ff000000" android:padding="10.0dip" android:layout_width="300.0dip" android:layout_height="wrap_content" android:minWidth="300.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="end" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="10.0dip">
+        <TextView android:textSize="15.0sp" android:textStyle="bold" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="智能过渡信息" android:layout_weight="1.0" />
+        <TextView android:id="@id/tv_close" android:padding="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="本次生命周期不再展示X" />
+    </LinearLayout>
+    <TextView android:textSize="10.0sp" android:textColor="#ffffffff" android:id="@id/tv_full_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="智能过渡已启用，正在分析音乐特征" android:lineSpacingExtra="2.0dip" />
+</LinearLayout>

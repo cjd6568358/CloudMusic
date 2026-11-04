@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="horizontal" android:id="@id/carrierContainer" android:layout_width="fill_parent" android:layout_height="16.0dip" android:layout_marginBottom="16.0dip">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center_vertical" android:id="@id/carrierIcon" android:layout_width="7.0dip" android:layout_height="7.0dip" android:layout_marginRight="3.0dip" app:a5w="spread" app:am0="1.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="7.0sp" android:textColor="@color/aj_" android:id="@id/carrierIntroduction" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:letterSpacing="0.3" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/phoneNumEditContainer" android:background="@drawable/b5s" android:layout_width="fill_parent" android:layout_height="56.0dip">
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="20.0dip" android:textStyle="bold" android:textColor="#99283248" android:id="@id/areaCode" android:background="@drawable/common_selector" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:text="@string/aju" android:drawableRight="@drawable/cax" android:drawablePadding="4.0dip" />
+        <View android:id="@id/splitLine" android:background="#1a283248" android:layout_width="1.0dip" android:layout_height="16.0dip" android:layout_marginLeft="10.0dip" />
+        <RelativeLayout android:gravity="center_vertical" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/phoneNumLoading" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="24.0dip" android:src="@drawable/e3x" android:layout_centerVertical="true" />
+            <androidx.appcompat.widget.AppCompatEditText android:textSize="20.0sp" android:ellipsize="end" android:id="@id/cellphone" android:background="#00000000" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="24.0dip" android:hint="输入手机号" android:maxLines="1" android:maxLength="13" android:digits="\ 0123456789" android:layout_toRightOf="@id/phoneNumLoading" android:layout_centerVertical="true" android:inputType="phone" android:imeOptions="actionDone" android:autofillHints="" app:cj="20.0sp" app:ck="15.0sp" app:cn="uniform" />
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/deleteBtn" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="16.0dip" android:src="@drawable/bmc" android:layout_centerVertical="true" android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

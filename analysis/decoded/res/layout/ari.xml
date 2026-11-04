@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.MLogThemeFrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseSwipeToRefresh android:id="@id/refreshLayout" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.module.social.square.view.MlogRecyclerView android:id="@id/recyclerViewForMLog" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.netease.cloudmusic.ui.NeteaseSwipeToRefresh>
+    <com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout android:id="@id/headerContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <com.netease.cloudmusic.theme.ui.CustomTimelineToastTextView android:textSize="13.0sp" android:textColor="@color/aj6" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/timelineToast" android:paddingLeft="18.0dip" android:paddingRight="18.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="@dimen/r8" android:layout_marginTop="40.0dip" android:layout_below="@id/tabLayout" />
+    <View android:layout_gravity="bottom|center" android:id="@id/shadow" android:background="@drawable/gqe" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="44.0dip" android:layout_marginBottom="11.0dip" />
+    <com.netease.cloudmusic.ui.CircleBottomTextView android:textSize="16.0sp" android:gravity="center" android:layout_gravity="bottom|center" android:id="@id/sendingTrackBtn" android:paddingLeft="28.0dip" android:paddingRight="28.0dip" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="40.0dip" android:layout_marginBottom="30.0dip" android:text="@string/ec9" android:maxLines="1" android:includeFontPadding="false" android:drawablePadding="6.0dip" app:gl="useTheme" />
+    <RelativeLayout android:layout_gravity="bottom|center" android:orientation="vertical" android:id="@id/trackButtonGuide" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="60.0dip">
+        <TextView android:textSize="13.0sp" android:textColor="#ffffffff" android:gravity="center|left" android:id="@id/content" android:background="@drawable/cwm" android:padding="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ec_" android:lineSpacingMultiplier="1.2" />
+        <ImageView android:id="@id/arrow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="18.0dip" android:src="@drawable/cwn" android:layout_below="@id/content" android:layout_centerHorizontal="true" android:rotation="180.0" />
+    </RelativeLayout>
+    <LinearLayout android:gravity="center_vertical" android:layout_gravity="center_horizontal" android:id="@id/mlog_empty" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiz" android:id="@id/firstContent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ebg" />
+    </LinearLayout>
+</com.netease.cloudmusic.theme.ui.MLogThemeFrameLayout>

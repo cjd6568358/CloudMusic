@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/look_party_easy_send_dialog_0" android:background="@drawable/byf" android:layout_width="fill_parent" android:layout_height="257.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/gift" android:layout_width="70.0dip" android:layout_height="70.0dip" android:layout_marginTop="16.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <LinearLayout android:id="@id/contain" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="96.0dip" app:a5l="parent" app:a65="parent" app:a69="parent">
+        <TextView android:textSize="16.0sp" android:textColor="@color/b1z" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="是否支付" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="#ffffd21f" android:layout_gravity="center" android:tag="binding_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:drawablePadding="4.0dip" android:drawableStart="@drawable/dm0" android:layout_marginStart="4.0dip" />
+        <TextView android:textSize="16.0sp" android:textColor="@color/b1z" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4.0dip" />
+    </LinearLayout>
+    <TextView android:textSize="16.0sp" android:textStyle="bold" android:id="@id/send_gift" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="9.0dip" android:maxWidth="314.0dip" android:singleLine="true" android:includeFontPadding="false" app:a5l="parent" app:a65="parent" app:a68="@id/contain" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/gift_send" android:tag="binding_3" android:layout_width="fill_parent" android:layout_height="44.0dip" android:layout_marginTop="168.0dip" android:layout_marginStart="30.0dip" android:layout_marginEnd="30.0dip" app:a69="parent">
+        <TextView android:textSize="16.0sp" android:textStyle="bold" android:textColor="@color/b12" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:text="确认赠送" android:includeFontPadding="false" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        <TextView android:textSize="12.0sp" android:textColor="@color/b1q" android:tag="binding_4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="26.0dip" android:includeFontPadding="false" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.netease.play.ui.LookThemeCheckBox android:textSize="11.0sp" android:textColor="#ff999999" android:layout_gravity="center_horizontal" android:id="@id/agreement" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:layout_marginBottom="10.0dip" android:text="下次直接送出，不再提醒" android:paddingStart="5.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a68="@id/gift_send" />
+</androidx.constraintlayout.widget.ConstraintLayout>

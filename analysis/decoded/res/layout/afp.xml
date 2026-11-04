@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/a7q" android:layout_width="fill_parent" android:layout_height="fill_parent" android:contentDescription="epaysdk_bg|GradientDrawable"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tr="false" app:ty="false" app:uf="绑定新手机号" />
+    <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:gravity="left" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="15.0dip" android:layout_marginBottom="10.0dip" android:text="请输入你要绑定的新手机号" />
+    <LinearLayout android:background="@color/wg" android:paddingLeft="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:contentDescription="epaysdk_cell_bg">
+        <TextView android:textSize="16.0dip" android:textColor="@color/wk" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="手机号" />
+        <com.netease.epay.sdk.base.view.ContentWithSpaceEditText android:textSize="16.0dip" android:textColor="@color/wk" android:textColorHint="@color/wl" android:id="@id/epaysdk_etPhone" android:paddingRight="15.0dip" android:layout_marginLeft="15.0dip" android:hint="请输入新手机号" app:v4="phone" style="@style/a5c" />
+    </LinearLayout>
+    <include android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_marginLeft="15.0dip" layout="@layout/aj9" />
+    <TextView android:textColor="@color/wo" android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:layout_marginBottom="30.0dip" android:text="目前只支持中国大陆手机号；一个手机号最多可以被20个账号绑定" style="@style/a53" />
+    <com.netease.epay.sdk.base.view.LongCommonButton android:id="@id/epaysdk_btnOk" android:layout_marginLeft="15.0dip" android:layout_marginRight="15.0dip" android:text="下一步" style="@style/a4y" />
+</LinearLayout>

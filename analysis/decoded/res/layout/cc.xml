@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/abTestswitchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="强行命中本地搜索功能AB" android:layout_centerVertical="true" style="@style/a9i" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/abTestSwitch" style="@style/a9c" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/forceLocalSwitchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="强行使用本地搜索开关" android:layout_centerVertical="true" style="@style/a9i" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/forceLocalSwitch" style="@style/a9c" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/switchContainer" android:layout_marginTop="@dimen/ao6" style="@style/a9h">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="性能测试(不搜索, 直接拉取db所有数据)" android:layout_centerVertical="true" style="@style/a9i" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/performanceTestSwitch" style="@style/a9c" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/ao6">
+        <EditText android:id="@id/etTimeout" android:layout_width="0.0dip" android:layout_height="wrap_content" android:hint="查询超时设置" android:layout_weight="1.0" />
+        <Button android:id="@id/btnTimeout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="保存" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/ao6">
+        <EditText android:id="@id/etThreshold" android:layout_width="0.0dip" android:layout_height="wrap_content" android:hint="config.threshold" android:maxLength="6" android:numeric="integer" android:layout_weight="1.0" />
+        <EditText android:id="@id/etDeleteCnt" android:layout_width="0.0dip" android:layout_height="wrap_content" android:hint="config.deleteCnt" android:maxLength="6" android:numeric="integer" android:layout_weight="1.0" />
+        <Button android:id="@id/btnThreshold" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="保存" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/ao6">
+        <EditText android:id="@id/etRNSortCount" android:layout_width="0.0dip" android:layout_height="wrap_content" android:hint="RNSortCount" android:layout_weight="1.0" />
+        <Button android:id="@id/btnSaveRNSortCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="保存" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/ao6">
+        <EditText android:id="@id/etMatchMaxCnt" android:layout_width="0.0dip" android:layout_height="wrap_content" android:hint="MatchMaxCnt" android:maxLength="6" android:numeric="integer" android:layout_weight="1.0" />
+        <Button android:id="@id/btnMatchMaxCnt" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="保存" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/ao6">
+        <EditText android:id="@id/et_key_work" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="一个" android:layout_weight="1.0" />
+        <Button android:id="@id/btn_search" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="search" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/ao6">
+        <Button android:id="@id/btn_mock_search" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="mock_search" />
+    </LinearLayout>
+    <ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <androidx.appcompat.widget.AppCompatTextView android:id="@id/search_result" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    </ScrollView>
+</LinearLayout>

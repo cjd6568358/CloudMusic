@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/artistImageContainer" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_above="@id/playerControlContainer" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/disk" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ImageView android:id="@id/playDiscBg" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="-300.0dip" android:src="@drawable/ga7" android:layout_centerHorizontal="true" />
+        <com.netease.cloudmusic.ui.PlayerDiscViewFlipper android:id="@id/discSwitcher" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="-300.0dip">
+            <com.netease.cloudmusic.ui.RotationRelativeLayout android:layout_gravity="center_horizontal" android:id="@id/disc0" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <com.netease.cloudmusic.ui.AnimableDrawerImageView android:id="@id/smallAlbumCover0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" fresco:ae="centerCrop" fresco:w3="100" fresco:ahy="@drawable/g9g" fresco:ahz="centerCrop" fresco:aln="true" />
+                <ImageView android:id="@id/smallAlbumDisc0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ga8" android:layout_alignParentTop="true" android:layout_centerHorizontal="true" />
+            </com.netease.cloudmusic.ui.RotationRelativeLayout>
+            <com.netease.cloudmusic.ui.RotationRelativeLayout android:layout_gravity="center_horizontal" android:id="@id/disc1" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <com.netease.cloudmusic.ui.AnimableDrawerImageView android:id="@id/smallAlbumCover1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" fresco:ae="centerCrop" fresco:w3="100" fresco:ahy="@drawable/g9g" fresco:ahz="centerCrop" fresco:aln="true" />
+                <ImageView android:id="@id/smallAlbumDisc1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ga8" android:layout_centerInParent="true" />
+            </com.netease.cloudmusic.ui.RotationRelativeLayout>
+        </com.netease.cloudmusic.ui.PlayerDiscViewFlipper>
+        <View android:id="@id/anchor_discSwitcher" android:layout_width="fill_parent" android:layout_height="1.0dip" android:layout_alignBottom="@id/discSwitcher" />
+        <ImageView android:id="@id/discHead" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/gei" android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+</RelativeLayout>

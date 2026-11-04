@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/commentArchivesContainer" android:layout_width="wrap_content" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/commentArchivesIcon" android:layout_width="36.0dip" android:layout_height="28.0dip" android:paddingEnd="8.0dip" app:ae="fitCenter" app:w3="0" app:a5f="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.music.biz.comment.widget.MomentPublishView android:id="@id/momentPublishView" android:visibility="gone" android:layout_width="77.0dip" android:layout_height="30.0dip" android:layout_marginEnd="8.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

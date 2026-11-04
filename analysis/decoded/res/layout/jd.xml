@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:id="@id/mRootView" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/loading" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/gv5" android:layout_centerInParent="true" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="13.0sp" android:id="@id/loadingText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="正在登录" android:layout_below="@id/loading" android:layout_centerHorizontal="true" />
+</RelativeLayout>

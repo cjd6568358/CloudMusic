@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/publish_image_content_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/preview" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a5z="parent" app:a63="parent" />
+    <FrameLayout android:clipChildren="false" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/preview" app:a5z="@id/preview" app:a63="@id/preview" app:a69="@id/preview">
+        <com.netease.nmvideocreator.aveditor.widget.ZoomCoverView android:id="@id/zcv" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </FrameLayout>
+    <com.netease.nmvideocreator.aveditor.widget.VideoGestureLayout android:id="@id/gesture" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/preview" app:a5z="@id/preview" app:a63="@id/preview" app:a69="@id/preview" />
+</androidx.constraintlayout.widget.ConstraintLayout>

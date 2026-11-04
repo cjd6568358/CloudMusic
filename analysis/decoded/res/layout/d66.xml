@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="#99000000" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/commentGuideImage" android:layout_width="70.0dip" android:layout_height="150.0dip" android:layout_centerHorizontal="true" />
+    <com.shimmer.ShimmerTextView android:textSize="14.0sp" android:textColor="#ccffffff" android:id="@id/commentGuideText" android:paddingTop="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/i6o" android:singleLine="true" android:layout_below="@id/commentGuideImage" android:layout_centerHorizontal="true" />
+</RelativeLayout>

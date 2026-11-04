@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.ad.AdImpressConstraintLayout android:id="@id/adImpressConstraintLayout" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/coverIV" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" />
+        <FrameLayout android:id="@id/videoFillContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/leftIV" android:layout_width="wrap_content" android:layout_height="fill_parent" app:ae="centerCrop" app:a5f="parent" app:a5z="parent" app:a69="parent" />
+        <FrameLayout android:id="@id/videoLeftContainer" android:layout_width="wrap_content" android:layout_height="fill_parent" app:a5f="parent" app:a5z="parent" app:a69="parent" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="20.0sp" android:textColor="@color/g3" android:ellipsize="end" android:id="@id/titleTV" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:maxLines="1" app:a5_="true" app:a5g="@id/subTitleTV" app:a5v="0.0" app:a60="@id/leftIV" app:a62="@id/adTagView" app:a69="parent" app:a6a="packed" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="#80ffffff" android:ellipsize="end" android:id="@id/subTitleTV" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginTop="4.0dip" android:maxLines="1" app:a5_="true" app:a5f="parent" app:a5v="0.0" app:a60="@id/leftIV" app:a63="parent" app:a68="@id/titleTV" />
+        <com.netease.cloudmusic.ui.AdTagView android:id="@id/adTagView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:layout_marginRight="10.0dip" app:jj="14.0dip" app:a5l="parent" app:a69="parent" app:atr="colorTextOnimage1" app:aty="0.0dip" app:au0="colorTextOnimage1" app:au1="\#283248" app:au2="16.0dip" app:au5="10.0sp" />
+    </com.netease.cloudmusic.ui.ad.AdImpressConstraintLayout>
+</merge>

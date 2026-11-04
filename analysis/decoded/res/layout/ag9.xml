@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/a7q" android:layout_width="fill_parent" android:layout_height="fill_parent" android:contentDescription="epaysdk_bg|GradientDrawable"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:uf="银行卡详情" />
+    <RelativeLayout android:id="@id/rl_item_bankcard" android:paddingLeft="30.0dip" android:paddingTop="15.0dip" android:paddingRight="30.0dip" android:paddingBottom="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <include layout="@layout/air" />
+    </RelativeLayout>
+    <LinearLayout android:orientation="horizontal" android:id="@id/rl_item_bankcard_foot" android:background="@color/vg" android:paddingLeft="30.0dip" android:paddingRight="30.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:contentDescription="epaysdk_cell_bg">
+        <include layout="@layout/ais" />
+    </LinearLayout>
+    <include layout="@layout/aj9" />
+    <RelativeLayout android:id="@id/rl_phone" android:background="@drawable/a90" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" android:contentDescription="epaysdk_cell_bg|ColorDrawable">
+        <include layout="@layout/aj9" />
+        <TextView android:textSize="14.0dip" android:textColor="@color/vm" android:padding="15.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="银行预留手机" />
+        <TextView android:textSize="14.0dip" android:textColor="@color/vq" android:id="@id/tv_phone" android:padding="15.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" />
+        <View android:background="@color/vr" android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_below="@id/tv_phone" />
+    </RelativeLayout>
+    <TextView android:textSize="16.0dip" android:textColor="@color/vm" android:gravity="center" android:id="@id/tv_cancel_card" android:background="@drawable/a8z" android:padding="13.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="15.0dip" android:text="解除绑定" />
+</LinearLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.module.cloudpointnotification.DragFrameLayout android:fitsSystemWindows="true" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView android:id="@id/card_view" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="45.0dip" android:layout_marginRight="45.0dip" app:go="@color/b29" app:gp="20.0dip" app:gq="10.0dip" app:gs="8.0dip" app:gu="false">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:gravity="center_vertical" android:id="@id/icon_img" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_marginLeft="13.0dip" android:layout_marginTop="9.0dip" android:layout_marginRight="6.0dip" android:layout_marginBottom="9.0dip" app:aln="true" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:gravity="center_vertical" android:id="@id/title_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="22.0dip" android:singleLine="true" android:includeFontPadding="false" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</com.netease.cloudmusic.module.cloudpointnotification.DragFrameLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="18.0sp" android:textColor="@color/ho" android:ellipsize="end" android:layout_gravity="center_horizontal" android:id="@id/tv_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:maxLines="1" android:layout_marginStart="80.0dip" android:layout_marginEnd="80.0dip" />
+    <TextView android:textSize="13.0sp" android:textColor="@color/jw" android:layout_gravity="center_horizontal" android:id="@id/tv_subtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" />
+    <View android:background="@color/dv" android:layout_width="fill_parent" android:layout_height="0.5dip" android:layout_marginTop="10.0dip" />
+    <com.netease.cloudmusic.biz.watch.component.statelayout.StateLayout android:id="@id/state_layout" android:layout_width="fill_parent" android:layout_height="fill_parent" app:p5="loading">
+        <androidx.recyclerview.widget.RecyclerView android:scrollbarStyle="outsideOverlay" android:id="@id/recyclerView" android:paddingTop="8.0dip" android:scrollbars="vertical" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.netease.cloudmusic.biz.watch.component.statelayout.StateLayout>
+</LinearLayout>

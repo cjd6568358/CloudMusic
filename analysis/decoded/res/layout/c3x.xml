@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/easyGiftContainer" android:tag="layout/layout_party_easy_send_gift_0" android:layout_width="89.0dip" android:layout_height="78.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.livepage.gift.ui.QuickGiftView2 android:id="@id/quickGiftView" android:background="@drawable/fpk" android:clipChildren="false" android:layout_width="36.0dip" android:layout_height="36.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent">
+        <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/giftImage" android:layout_width="34.0dip" android:layout_height="34.0dip" android:layout_centerInParent="true" />
+    </com.netease.play.livepage.gift.ui.QuickGiftView2>
+    <LinearLayout android:orientation="horizontal" android:id="@id/giftContainer" android:paddingTop="5.0dip" android:paddingBottom="5.0dip" android:visibility="gone" android:clipToPadding="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:paddingEnd="8.0dip" android:layout_marginStart="12.5dip" app:a65="parent" app:a69="parent">
+        <ImageView android:layout_width="8.0dip" android:layout_height="8.0dip" android:layout_marginTop="8.0dip" android:src="@drawable/dm1" />
+        <com.netease.play.livepage.gift.ui.slot.EasySendGiftNumberView android:id="@id/count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:scaleType="fitStart" android:adjustViewBounds="true" app:a65="parent" />
+    </LinearLayout>
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/hint" android:tag="binding_1" android:layout_width="40.0dip" android:layout_height="40.0dip" app:ae="fitCenter" app:a5f="parent" app:a5l="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

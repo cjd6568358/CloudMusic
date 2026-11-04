@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_live_carousel_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/preAvatarContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="14.0dip" app:a5f="parent" app:a5z="parent" app:a69="parent">
+        <com.netease.cloudmusic.ui.LiveCustomBgImageView android:layout_gravity="center" android:id="@id/preAvatarStroke" android:background="@drawable/ni" android:layout_width="34.0dip" android:layout_height="34.0dip" />
+        <com.netease.cloudmusic.ui.AvatarImage android:layout_gravity="center" android:id="@id/preAvatar" android:layout_width="30.0dip" android:layout_height="30.0dip" app:cv="style7" />
+    </FrameLayout>
+    <FrameLayout android:id="@id/curAvatarContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="14.0dip" app:a5f="parent" app:a5z="parent" app:a69="parent">
+        <com.netease.cloudmusic.ui.LiveCustomBgImageView android:layout_gravity="center" android:id="@id/curAvatarStroke" android:background="@drawable/ni" android:layout_width="34.0dip" android:layout_height="34.0dip" />
+        <com.netease.cloudmusic.ui.AvatarImage android:layout_gravity="center" android:id="@id/curAvatar" android:layout_width="30.0dip" android:layout_height="30.0dip" app:cv="style7" />
+    </FrameLayout>
+    <FrameLayout android:id="@id/nextAvatarContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="14.0dip" app:a5f="parent" app:a5z="parent" app:a69="parent">
+        <com.netease.cloudmusic.ui.LiveCustomBgImageView android:layout_gravity="center" android:id="@id/nextAvatarStroke" android:background="@drawable/ni" android:layout_width="34.0dip" android:layout_height="34.0dip" />
+        <com.netease.cloudmusic.ui.AvatarImage android:layout_gravity="center" android:id="@id/nextAvatar" android:layout_width="30.0dip" android:layout_height="30.0dip" app:cv="style7" />
+    </FrameLayout>
+    <androidx.constraintlayout.widget.Guideline android:orientation="vertical" android:id="@id/avatarBarrier" android:layout_width="1.0dip" android:layout_height="fill_parent" app:a5n="58.0dip" app:a5z="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/curTitle" android:layout_width="0.0dip" android:layout_height="wrap_content" android:maxLines="1" android:layout_marginStart="12.0dip" android:layout_marginEnd="12.0dip" app:a5f="parent" app:a60="@id/avatarBarrier" app:a62="@id/tagBarrier" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/nextTitle" android:layout_width="0.0dip" android:layout_height="wrap_content" android:maxLines="1" android:alpha="0.0" android:layout_marginStart="12.0dip" android:layout_marginEnd="12.0dip" app:a5f="parent" app:a60="@id/avatarBarrier" app:a62="@id/tagBarrier" app:a69="parent" />
+    <androidx.constraintlayout.widget.Barrier android:id="@id/tagBarrier" android:layout_width="1.0dip" android:layout_height="fill_parent" app:dn="start" app:l1="liveTag" />
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/liveTag" android:layout_width="36.0dip" android:layout_height="12.0dip" app:a5f="parent" app:a63="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

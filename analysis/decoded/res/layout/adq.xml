@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:id="@id/secondLine" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CompoundDrawablesTextView android:textSize="@dimen/qt" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/tagInfo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" android:drawablePadding="2.0dip" style="@style/jq" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/rcmdText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" android:layout_marginStart="2.0dip" app:a5_="true" app:a5f="parent" app:a5m="@id/artistName" app:a5v="0.0" app:a5w="packed" app:a65="parent" app:a69="parent" app:a6s="0.0dip" style="@style/jq" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/artistName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" app:a5_="true" app:a5b="@id/rcmdText" app:a5l="parent" app:a64="@id/rcmdText" style="@style/jq" />
+        <androidx.legacy.widget.Space android:id="@id/space70" android:layout_width="70.0dip" android:layout_height="0.0dip" app:a65="parent" app:a69="parent" />
+        <androidx.legacy.widget.Space android:id="@id/space701" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a64="@id/space70" app:a69="parent" />
+        <androidx.constraintlayout.widget.Barrier android:id="@id/barrier" android:layout_width="0.0dip" android:layout_height="fill_parent" app:dn="start" app:l1="space701,artistName" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

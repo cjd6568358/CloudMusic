@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/similar_rcmd_button" android:tag="@string/i5i" android:clipChildren="false" android:layout_width="34.0dip" android:layout_height="34.0dip" android:contentDescription="相似推荐" android:alpha="0.4"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.PlayerPageImageView android:layout_gravity="center" android:id="@id/similar_rcmd_img" android:layout_width="@dimen/ap1" android:layout_height="@dimen/ap1" android:src="@drawable/w6" android:scaleType="centerInside" />
+    <com.netease.cloudmusic.ui.PlayerPageLottie android:layout_gravity="center" android:id="@id/similar_rcmd_lottery" android:layout_width="@dimen/ap1" android:layout_height="@dimen/ap1" android:scaleType="centerInside" />
+</FrameLayout>

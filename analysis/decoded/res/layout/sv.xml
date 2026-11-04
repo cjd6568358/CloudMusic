@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.music.biz.circle.ui.CustomizeDispatchView android:id="@id/discussionContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <LinearLayout android:gravity="center" android:id="@id/netContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="36.0dip">
+        <TextView android:textSize="14.0sp" android:textColor="@color/themeColor" android:gravity="center_vertical" android:id="@id/networkTip" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/an7" android:drawablePadding="6.0dip" android:drawableStart="@drawable/dgg" />
+    </LinearLayout>
+</FrameLayout>

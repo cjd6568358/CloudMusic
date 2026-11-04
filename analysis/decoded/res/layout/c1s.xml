@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/micContainer" android:tag="layout/layout_music_video_party_mic_area_0" android:paddingTop="4.0dip" android:paddingRight="10.0dip" android:paddingBottom="5.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="10.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include android:id="@id/position1" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a5m="@id/position2" app:a5w="spread_inside" app:a65="parent" layout="@layout/c1t" />
+    <include android:id="@id/position2" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a5m="@id/positionAnchor" app:a64="@id/position1" layout="@layout/c1t" />
+    <include android:id="@id/positionAnchor" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a5m="@id/position3" app:a64="@id/position2" layout="@layout/c1r" />
+    <include android:id="@id/position3" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a5m="@id/position4" app:a64="@id/positionAnchor" layout="@layout/c1t" />
+    <include android:id="@id/position4" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a5l="parent" app:a64="@id/position3" layout="@layout/c1t" />
+</androidx.constraintlayout.widget.ConstraintLayout>

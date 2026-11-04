@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.AdditionalRelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.video.VideoMaskView android:id="@id/adMask" android:background="@drawable/djb" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.ui.CustomThemeAdTagView android:id="@id/adTag" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginTop="10.0dip" app:adf="true" app:ap2="style_daily" />
+    <com.netease.cloudmusic.theme.ui.AdditionalAdTimerButton android:textSize="11.0sp" android:textColor="@color/aj6" android:gravity="center" android:id="@id/adCountdown" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="20.0dip" android:layout_marginTop="8.0dip" android:layout_marginRight="8.0dip" android:layout_alignParentRight="true" app:gl="useOnDarkImage" />
+    <com.netease.cloudmusic.ui.RecommendAdditionalAdActionView android:id="@id/adMore" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginBottom="13.0dip" android:layout_alignParentBottom="true" app:gl="fillBackground" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/adFullscreen" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:layout_marginBottom="8.0dip" android:layout_alignParentRight="true" android:layout_alignParentBottom="true" app:aev="@color/aj6" />
+</com.netease.cloudmusic.ui.AdditionalRelativeLayout>

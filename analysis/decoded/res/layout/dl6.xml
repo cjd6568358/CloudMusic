@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/songRecommendTagContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="@dimen/ao6"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/setting_song_recommend_tag_city_genre_billboard_container" android:visibility="gone" style="@style/a9d">
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/hz7" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/hz8" style="@style/a9k" />
+        </LinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/setting_song_recommend_tag_city_genre_billboard_switcher" style="@style/a9c" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/setting_song_recommend_tag_local_listening_container" android:visibility="gone" style="@style/a9d">
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/hz9" style="@style/a9i" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:text="@string/hz8" style="@style/a9k" />
+        </LinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/setting_song_recommend_tag_local_listening_switcher" style="@style/a9c" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+</LinearLayout>

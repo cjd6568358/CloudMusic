@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:paddingTop="3.0dip" android:paddingBottom="6.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginRight="@dimen/ag_"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.music.biz.comment.widget.floor.ForbidTouchRecyclerview android:id="@id/floorCommentsContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/floorMoreReplyContainer" android:paddingTop="12.5dip" android:paddingBottom="4.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <View android:layout_gravity="center_vertical" android:id="@id/more_line_view" android:layout_width="25.0dip" android:layout_height="1.0dip" android:layout_marginRight="4.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/t_link" android:layout_gravity="center_vertical" android:id="@id/moreReplyView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:drawablePadding="5.0dip" app:adf="true" app:adi="false" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/topicActivityArea" android:background="@drawable/c7_" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="30.0dip" android:layout_marginLeft="16.0dip" app:jw="6.0dip" xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/topicActivityAreaIcon" android:layout_width="20.0dip" android:layout_height="20.0dip" android:layout_marginStart="5.0dip" app:ad="@drawable/gwy" app:am0="4.0dip" />
+    <TextView android:textSize="13.0sp" android:textColor="#e6283248" android:id="@id/topicActivityAreaText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="54.0dip" android:text="活动" android:lines="1" android:layout_marginStart="5.0dip" />
+    <View android:textSize="13.0sp" android:id="@id/topicActivityAreaTextSplite" android:background="#40283248" android:layout_width="1.0dip" android:layout_height="10.0dip" android:layout_marginLeft="5.0dip" android:layout_marginRight="5.0dip" android:layout_marginHorizontal="5.0dip" />
+    <TextView android:textSize="13.0sp" android:textColor="#e6283248" android:ellipsize="end" android:id="@id/topicActivityAreaText2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="158.0dip" android:text="如果音乐有画面如果音乐有画面" android:lines="1" />
+    <androidx.appcompat.widget.AppCompatImageView android:layout_width="4.0dip" android:layout_height="8.0dip" android:src="@drawable/c7v" android:tint="#e6283248" android:layout_marginStart="4.0dip" android:layout_marginEnd="10.0dip" />
+</LinearLayout>

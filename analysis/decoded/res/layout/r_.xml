@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/similar_rcmd_button" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/icon" android:layout_width="30.0dip" android:layout_height="30.0dip" app:a5f="parent" app:a5v="0.0" app:a5w="packed" app:a5z="parent" app:a62="@id/title" app:a69="parent" />
+    <TextView android:textSize="14.0dip" android:textColor="#ff080515" android:ellipsize="end" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" app:a5_="true" app:a60="@id/icon" app:a63="parent" app:a69="parent" />
+    <TextView android:textSize="12.0dip" android:textColor="#08051580" android:ellipsize="end" android:id="@id/subtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="3" android:includeFontPadding="false" app:a5_="true" app:a60="@id/icon" app:a63="parent" app:a68="@id/title" />
+</androidx.constraintlayout.widget.ConstraintLayout>

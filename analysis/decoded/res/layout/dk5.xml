@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="vertical" android:id="@id/musicListItemContainer" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="top" android:orientation="horizontal" android:id="@id/musicListItemContainerInner2" android:paddingLeft="@dimen/s1" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/musicImage" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_marginTop="4.0dip" android:layout_marginEnd="@dimen/ag_" />
+        <RelativeLayout android:id="@id/songNameAndInfoArea" android:paddingTop="9.0dip" android:paddingBottom="9.0dip" android:layout_height="wrap_content" style="@style/a70">
+            <include layout="@layout/dna" />
+            <include android:gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:layout_below="@id/songName" layout="@layout/dn5" />
+            <include android:id="@id/musicAliasAndLrcContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/songInfoContainer" layout="@layout/dk4" />
+        </RelativeLayout>
+        <ViewStub android:id="@id/searchMore" android:layout="@layout/djz" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="-8.0dip" />
+        <ViewStub android:id="@id/searchRelated" android:layout="@layout/djy" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        <LinearLayout android:id="@id/musicListItemContainerInner" android:layout_width="wrap_content" android:layout_height="58.0dip">
+            <ViewStub android:id="@id/musicListen" android:layout="@layout/cvv" android:layout_width="wrap_content" android:layout_height="fill_parent" />
+            <include layout="@layout/dni" />
+            <ViewStub android:layout_gravity="center_vertical" android:id="@id/musicKaraoke" android:layout="@layout/cv0" android:layout_width="44.0dip" android:layout_height="22.0dip" android:layout_marginLeft="15.0dip" android:layout_marginRight="5.0dip" />
+            <include layout="@layout/dn7" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:gravity="center_vertical" android:id="@id/h5Container" android:paddingLeft="16.0dip" android:paddingRight="10.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="34.0dip" android:layout_marginLeft="70.0dip" android:layout_marginTop="-1.0dip" android:layout_marginRight="16.0dip">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/h5Image" android:layout_width="15.0dip" android:layout_height="15.0dip" app:ae="centerCrop" app:ahy="@drawable/cx7" app:ahz="fitXY" app:aln="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aix" android:ellipsize="end" android:id="@id/h5Desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:singleLine="true" android:includeFontPadding="false" android:drawablePadding="3.0dip" />
+    </LinearLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/mvContainer" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.NeteaseMusicRoundedSimpleDraweeView android:id="@id/mvCover" android:layout_width="wrap_content" android:layout_height="wrap_content" android:scaleType="centerCrop" app:ae="centerCrop" app:ag3="@drawable/dja" app:ahy="@drawable/cx6" app:ahz="fitXY" app:aj2="@color/awz" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:gravity="center" android:id="@id/mvWatchNumber" android:layout_marginTop="5.0dip" android:layout_marginRight="5.0dip" android:layout_alignTop="@id/mvCover" android:layout_alignParentRight="true" app:adf="true" app:aeu="@color/aj6" style="@style/a65" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0sp" android:textColor="@color/aj6" android:ellipsize="end" android:id="@id/mvTimeDuration" android:paddingLeft="5.5999756dip" android:paddingRight="6.0dip" android:paddingBottom="6.669983dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/mvDetailIntroduction" android:paddingTop="5.3299866dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:layout_below="@id/mvContainer" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiy" android:ellipsize="end" android:id="@id/mvArtistName" android:paddingTop="1.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:layout_below="@id/mvDetailIntroduction" />
+</RelativeLayout>

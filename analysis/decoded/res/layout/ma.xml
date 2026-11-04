@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/fakeBg" android:background="#ff262626" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/fakeImageBg" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+        <View android:background="@drawable/csp" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </FrameLayout>
+    <RelativeLayout android:id="@id/fakeRoot" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/fakeDiskBg" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ga6" android:layout_centerHorizontal="true" />
+        <com.google.android.material.circularreveal.CircularRevealFrameLayout android:id="@id/circularRevealFrameLayout" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/fakeVideoCover" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" />
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/fakeRecordMask" android:background="@color/ee" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            <FrameLayout android:id="@id/adVideoContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            <RelativeLayout android:id="@id/fakeToolbar" android:layout_width="fill_parent" android:layout_height="@dimen/art">
+                <androidx.appcompat.widget.AppCompatImageView android:id="@id/backIcon" android:paddingTop="10.0dip" android:paddingBottom="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/cwa" android:layout_centerVertical="true" style="@style/y6" />
+                <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/titleContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true">
+                    <androidx.appcompat.widget.AppCompatTextView android:textSize="17.0sp" android:textColor="#ffffffff" android:ellipsize="marquee" android:gravity="center" android:id="@id/musicName" android:layout_width="161.0dip" android:layout_height="wrap_content" android:singleLine="true" android:paddingStart="5.0dip" android:paddingEnd="5.0dip" />
+                    <androidx.appcompat.widget.AppCompatTextView android:textColor="#ffffffff" android:ellipsize="end" android:gravity="center" android:id="@id/artistName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:paddingStart="5.0dip" android:paddingEnd="5.0dip" />
+                </LinearLayout>
+                <com.netease.cloudmusic.ui.RoundedFrameLayout android:id="@id/skipAd" android:background="#26ffffff" android:paddingLeft="15.0dip" android:paddingTop="6.0dip" android:paddingRight="15.0dip" android:paddingBottom="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="19.0dip" android:layout_centerVertical="true" android:layout_alignParentEnd="true" android:paddingHorizontal="15.0dip" android:paddingVertical="6.0dip" app:jw="18.0dip">
+                    <androidx.appcompat.widget.AppCompatTextView android:textSize="13.0sp" android:textColor="@color/b12" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/i6a" />
+                </com.netease.cloudmusic.ui.RoundedFrameLayout>
+            </RelativeLayout>
+        </com.google.android.material.circularreveal.CircularRevealFrameLayout>
+        <RelativeLayout android:id="@id/fakeRotationView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true">
+            <com.netease.cloudmusic.ui.AnimableDrawerImageView android:id="@id/fakeMusicRecordCover" android:layout_width="@dimen/avy" android:layout_height="@dimen/avy" android:layout_centerInParent="true" />
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/fakeRecordCover" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ga0" android:layout_centerInParent="true" />
+        </RelativeLayout>
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/fakeDiscHead" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/aj7" android:layout_marginRight="58.0dip" android:src="@drawable/geh" android:layout_alignRight="@id/fakeDiskBg" />
+    </RelativeLayout>
+</merge>

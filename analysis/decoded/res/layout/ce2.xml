@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/root" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="18.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/title" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="40.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <com.netease.play.ui.ColorTabLayout android:id="@id/tabLayout" android:layout_width="fill_parent" android:layout_height="40.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/title" app:asm="fill" app:ast="#ffff2c55" app:asw="3.0dip" app:at7="fixed" app:at8="0.0dip" app:ath="#ffff2c55" app:atl="@android:color/white" />
+    <androidx.viewpager.widget.ViewPager android:id="@id/viewpager" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a68="@id/tabLayout" />
+    <View android:id="@id/diver" android:background="#ff323232" android:layout_width="fill_parent" android:layout_height="1.0px" app:a5f="@id/tabLayout" />
+</androidx.constraintlayout.widget.ConstraintLayout>

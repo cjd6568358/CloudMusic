@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.VerticalFrameLayout android:id="@id/webRootView" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ProgressBar android:id="@id/progress" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="1.6699829dip" android:indeterminateOnly="false" android:progressDrawable="@drawable/bqp" />
+    <LinearLayout android:gravity="center_vertical" android:layout_gravity="center_horizontal" android:id="@id/load" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="75.0dip">
+        <com.netease.cloudmusic.theme.ui.ListLoadingProgressBar android:layout_width="20.0dip" android:layout_height="20.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textColor="@color/aiz" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:text="@string/dih" />
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:id="@id/reload" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.music.biz.rn.container.view.RNEmptyView android:layout_gravity="center_horizontal" android:id="@id/failedView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </LinearLayout>
+</com.netease.cloudmusic.ui.VerticalFrameLayout>

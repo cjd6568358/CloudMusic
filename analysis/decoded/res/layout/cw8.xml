@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="center_horizontal" android:id="@id/container" android:tag="layout/music_party_top_enter_item_v3_0" android:layout_width="wrap_content" android:layout_height="121.0dip" app:jw="10.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/icon_enter" android:tag="binding_1" android:layout_width="60.0dip" android:layout_height="50.0dip" android:layout_marginTop="12.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <TextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="#ff6461fd" android:id="@id/type" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:text="在线点歌" android:includeFontPadding="false" android:drawablePadding="4.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/icon_enter" />
+    <TextView android:textSize="11.0sp" android:textColor="#ff6461fd" android:id="@id/number" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:text="1555人在听" android:includeFontPadding="false" app:a5l="parent" app:a65="parent" app:a68="@id/type" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/container_image" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/type">
+        <com.netease.play.ui.avatar.AvatarImage android:id="@id/image1" android:layout_width="14.0dip" android:layout_height="14.0dip" app:a65="parent" app:a69="parent" app:ai4="style26" />
+        <com.netease.play.ui.avatar.AvatarImage android:id="@id/image2" android:layout_width="14.0dip" android:layout_height="14.0dip" android:layout_marginStart="11.0dip" app:a65="@id/image1" app:a69="parent" app:ai4="style26" />
+        <com.netease.play.ui.avatar.AvatarImage android:id="@id/image3" android:layout_width="14.0dip" android:layout_height="14.0dip" android:layout_marginStart="11.0dip" app:a65="@id/image2" app:a69="parent" app:ai4="style26" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

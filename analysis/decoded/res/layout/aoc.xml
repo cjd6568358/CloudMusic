@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/editCommentContentReal" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeEditText android:textSize="17.0sp" android:textColor="#ff333333" android:textColorHint="#ff888888" android:gravity="center|left|top" android:id="@id/editCommentContent" android:background="@null" android:padding="10.0dip" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="fill_parent" android:layout_height="0.0dip" android:minHeight="120.0dip" android:hint="@string/jfb" android:layout_weight="1.0" android:imeOptions="actionSend" android:imeActionLabel="@string/hw1" />
+    <RelativeLayout android:id="@id/editCommentContentBottomBar" android:layout_width="fill_parent" android:layout_height="50.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconWithBackgroundImageView android:id="@id/atBtn" android:src="@drawable/fve" android:scaleType="center" app:adi="false" app:aeb="@color/afy" style="@style/a3r" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/hashTagBtn" android:src="@drawable/fvh" android:layout_toRightOf="@id/atBtn" app:adi="false" app:aeb="@color/afy" style="@style/a3r" />
+        <com.netease.cloudmusic.ui.EmotionButton android:id="@id/emotionBtn" android:src="@drawable/fvf" android:layout_toRightOf="@id/hashTagBtn" style="@style/a3r" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="17.0sp" android:textColor="@color/as4" android:gravity="center" android:id="@id/remainCount" android:layout_width="wrap_content" android:layout_height="50.0dip" android:layout_marginRight="10.0dip" android:text="140" android:layout_alignParentRight="true" />
+    </RelativeLayout>
+    <FrameLayout android:gravity="center" android:id="@id/emotionView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+</LinearLayout>

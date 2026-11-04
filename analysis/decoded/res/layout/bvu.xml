@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.livepage.rtc.ui.FloatingFrameLayout android:id="@id/rtcConnectionContainer" android:tag="layout/layout_listen_conn_connection_0" android:background="@drawable/buy" android:layout_width="72.0dip" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <FrameLayout android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip">
+            <ImageView android:layout_gravity="center" android:id="@id/volumeView" android:layout_width="52.0dip" android:layout_height="52.0dip" android:src="@drawable/dah" android:scaleType="centerInside" android:alpha="0.0" />
+            <com.netease.play.ui.avatar.AvatarImage android:layout_gravity="center" android:id="@id/rtcImage" android:tag="binding_1" android:layout_width="36.0dip" android:layout_height="36.0dip" app:ai4="style6" app:aj1="true" />
+        </FrameLayout>
+        <com.netease.play.ui.MarqueeText android:textSize="10.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/rtcInvitationInfo" android:layout_width="wrap_content" android:layout_height="17.0dip" android:layout_marginLeft="7.0dip" android:layout_marginRight="7.0dip" />
+        <TextView android:textSize="9.0sp" android:textColor="@color/b1t" android:gravity="center" android:id="@id/rtcInfo" android:tag="binding_2" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:layout_marginBottom="10.0dip" />
+        <com.netease.cloudmusic.ui.button.CustomButton android:textSize="11.0sp" android:gravity="center" android:id="@id/hug" android:visibility="gone" android:layout_width="60.0dip" android:layout_height="21.0dip" android:layout_marginBottom="10.0dip" android:text="@string/cr3" android:layout_marginStart="6.0dip" android:layout_marginEnd="6.0dip" app:gg="0x00FFFFFF" app:aew="@color/anu" app:aey="@color/anm" app:aiv="@color/anv" />
+    </LinearLayout>
+</com.netease.play.livepage.rtc.ui.FloatingFrameLayout>

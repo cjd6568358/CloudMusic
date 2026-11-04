@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/liveContainer" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/videoRtcPkContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <FrameLayout android:id="@id/chatroomContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/h_" android:layout_alignParentBottom="true" />
+    <TextView android:textSize="13.0sp" android:textColor="@color/aj6" android:gravity="center" android:id="@id/networkNotStable" android:visibility="gone" android:layout_width="150.0dip" android:layout_height="30.0dip" android:layout_marginTop="@dimen/ae5" android:text="@string/f0p" android:layout_below="@id/onlineUserContainer" android:layout_centerHorizontal="true" />
+    <com.netease.play.livepage.luckymoney.ui.DecoratorLinearLayout android:gravity="bottom|center|right" android:orientation="vertical" android:id="@id/decoratorContainer" android:clipChildren="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:layout_marginBottom="@dimen/aj3" android:layout_below="@id/liveRoomNo" android:layout_alignParentRight="true" android:layout_alignParentBottom="true" />
+    <LinearLayout android:orientation="vertical" android:id="@id/bandRootContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="56.0dip" android:layout_alignParentBottom="true">
+        <include android:id="@id/shoppingContainer" android:visibility="gone" layout="@layout/c_z" />
+        <include android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/c8s" />
+    </LinearLayout>
+    <com.netease.cloudmusic.widget.FitSystemWindowConstraintLayout android:id="@id/inputOuterContainer" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <include android:id="@id/inputContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5g="@id/flowQuickSay" layout="@layout/bup" />
+        <com.netease.play.livepage.chatroom.ui.FlowLayout android:id="@id/flowQuickSay" android:background="#ff222222" android:padding="8.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="272.0dip" app:zz="8.0dip" app:a5f="parent" app:ayr="8.0dip" />
+    </com.netease.cloudmusic.widget.FitSystemWindowConstraintLayout>
+</RelativeLayout>

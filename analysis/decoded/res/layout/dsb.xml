@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/trackMlogContainer" style="@style/a_k"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.MLogTrackCover android:id="@id/mLogCover" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" app:jw="@dimen/u2" app:ahy="@drawable/cx6" app:ahz="fitXY" app:aj2="@color/awz" />
+    <ImageView android:layout_gravity="center|right|top" android:id="@id/mlog_type_icon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="6.0dip" />
+    <include layout="@layout/dso" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/b1e" android:layout_gravity="bottom|center|right" android:id="@id/mlog_picture_sets" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginRight="3.0dip" android:layout_marginBottom="3.0dip" android:drawableLeft="@drawable/h6y" android:drawablePadding="2.0dip" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/b1e" android:layout_gravity="bottom|center|left" android:id="@id/mlog_play_counts" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_marginBottom="8.0dip" android:drawableLeft="@drawable/bga" android:drawablePadding="2.0dip" />
+</FrameLayout>

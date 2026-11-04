@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="center_horizontal" android:layout_width="288.0dip" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/layout_content_background_corner" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_marginTop="35.0dip" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/layout_content_image_card" android:layout_width="273.0dip" android:layout_height="92.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.music.biz.member.vip.dialog.VipRenewIrregularLayout android:gravity="center" android:orientation="vertical" android:id="@id/layout_content_background" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="64.0dip" app:a69="parent">
+        <com.netease.cloudmusic.ui.HighlightTextView android:textSize="18.0dip" android:textStyle="bold" android:id="@id/view_title_maintext" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="37.0dip" android:maxLines="1" android:includeFontPadding="false" app:ze="#ffff3a3a" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0dip" android:ellipsize="end" android:id="@id/view_title_subtext" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="24.0dip" android:layout_marginTop="9.0dip" android:layout_marginRight="24.0dip" android:maxLines="1" android:includeFontPadding="false" />
+        <FrameLayout android:id="@id/layout_content_container" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        <com.netease.cloudmusic.music.biz.member.vip.dialog.ShimmerRoundedTextView android:textColor="#ffffffff" android:gravity="center" android:layout_gravity="center" android:id="@id/view_button_main" android:background="#ffff3a3a" android:layout_width="fill_parent" android:layout_height="40.0dip" android:layout_marginLeft="24.0dip" android:layout_marginRight="24.0dip" android:layout_marginBottom="24.0dip" android:includeFontPadding="true" app:jw="20.0dip" />
+    </com.netease.cloudmusic.music.biz.member.vip.dialog.VipRenewIrregularLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

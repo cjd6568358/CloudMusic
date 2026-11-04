@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/note_publish_fragment_album_content_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/preview" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a5z="parent" app:a63="parent" />
+    <FrameLayout android:clipChildren="false" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/preview" app:a5z="@id/preview" app:a63="@id/preview" app:a69="@id/preview">
+        <com.netease.nmvideocreator.aveditor.widget.ZoomCoverView android:id="@id/zcv" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </FrameLayout>
+    <com.netease.nmvideocreator.aveditor.widget.VideoGestureLayout android:id="@id/gesture" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/preview" app:a5z="@id/preview" app:a63="@id/preview" app:a69="@id/preview" />
+    <FrameLayout android:id="@id/replace_img" android:visibility="gone" android:layout_width="70.0dip" android:layout_height="46.0dip" app:a63="@id/preview" app:a68="@id/guideline_top">
+        <LinearLayout android:gravity="center" android:layout_gravity="center" android:orientation="horizontal" android:background="@drawable/ck7" android:layout_width="62.0dip" android:layout_height="30.0dip">
+            <androidx.appcompat.widget.AppCompatImageView android:layout_width="16.0dip" android:layout_height="16.0dip" android:layout_marginRight="2.0dip" app:aqh="@drawable/cki" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:textColor="@color/b1e" android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/j6y" android:drawablePadding="2.0dip" />
+        </LinearLayout>
+    </FrameLayout>
+    <LinearLayout android:orientation="vertical" android:id="@id/ll_filter_info" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16.0dip" app:a5f="parent" app:a5z="parent" app:a69="parent">
+        <TextView android:textSize="20.0sp" android:textStyle="bold" android:textColor="@color/b1n" android:id="@id/tv_filter_group" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/aaa" />
+        <TextView android:textSize="32.0sp" android:textColor="@color/b12" android:id="@id/tv_filter_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-4.0dip" style="@style/aaa" />
+    </LinearLayout>
+    <View android:id="@id/mask_top" android:background="@color/do" android:layout_width="fill_parent" android:layout_height="0.0dip" android:alpha="0.0" app:a5g="@id/guideline_top" app:a5z="@id/preview" app:a69="@id/preview" />
+    <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/guideline_top" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5n="0.0dip" />
+    <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/guideline_bottom" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5o="0.0dip" />
+    <View android:id="@id/mask_bottom" android:background="@color/do" android:layout_width="fill_parent" android:layout_height="0.0dip" android:alpha="0.0" app:a5f="parent" app:a5z="@id/preview" app:a68="@id/guideline_bottom" />
+    <com.netease.nmvideocreator.publish.view.SelectedBoxView android:id="@id/selectedBoxView" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/preview" app:a5l="@id/preview" app:a65="@id/preview" app:a69="@id/preview" />
+    <ImageView android:id="@id/livePlayIcon" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/fl3" app:a65="parent" app:a69="parent" />
+    <ImageView android:id="@id/liveSoundIcon" android:visibility="gone" android:layout_width="28.0dip" android:layout_height="28.0dip" android:src="@drawable/ajq" app:a5f="parent" app:a5l="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

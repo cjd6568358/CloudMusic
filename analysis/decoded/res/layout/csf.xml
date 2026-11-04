@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/bg_top" android:background="@color/eh" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5g="@id/bg_top" app:a5z="parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/close" android:visibility="gone" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginTop="34.0dip" android:layout_marginRight="20.0dip" android:src="@drawable/cwx" app:a63="parent" app:a69="parent" />
+    <com.netease.cloudmusic.music.biz.mlog.consume.detail.music.biz.widget.MLogAutoPlayNotifyView android:id="@id/mLogAutoPlayNotifyView" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

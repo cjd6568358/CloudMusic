@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.discovery.view.module.hometoptab.view.CustomTabEditPopupWindowBgThemeLinearLayout android:id="@id/top_popup_window_view_bg" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <LinearLayout android:orientation="vertical" android:id="@id/top_popup_window_view" android:paddingTop="30.0dip" android:paddingBottom="40.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <FrameLayout android:layout_width="fill_parent" android:layout_height="44.0dip">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:layout_gravity="center_horizontal" android:id="@id/homepage_top_tab_edit_top_title" android:layout_width="wrap_content" android:layout_height="24.0dip" android:text="@string/cpi" app:qe="colorText1" style="@style/a60" />
+                <FrameLayout android:layout_gravity="left" android:id="@id/close_layout" android:layout_width="60.0dip" android:layout_height="44.0dip">
+                    <ImageView android:layout_gravity="center" android:id="@id/close_icon" android:layout_width="12.0dip" android:layout_height="12.0dip" />
+                </FrameLayout>
+                <FrameLayout android:layout_gravity="right" android:id="@id/reset_layout" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:layout_width="wrap_content" android:layout_height="44.0dip">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:layout_gravity="center" android:id="@id/reset_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cpm" />
+                </FrameLayout>
+            </FrameLayout>
+            <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/homepage_top_tab_edit_manager_recycler" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="10.0dip" />
+        </LinearLayout>
+    </com.netease.cloudmusic.discovery.view.module.hometoptab.view.CustomTabEditPopupWindowBgThemeLinearLayout>
+</FrameLayout>

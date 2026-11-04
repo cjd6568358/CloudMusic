@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="6.0dip" android:layout_height="10.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/iv_body_layer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/bef" />
+    <ImageView android:id="@id/iv_light_shadow_layer" android:layout_width="wrap_content" android:layout_height="fill_parent" android:src="@drawable/fwl" />
+    <ImageView android:layout_gravity="bottom|center" android:id="@id/iv_logo_layer" android:layout_width="4.0dip" android:layout_height="4.0dip" android:layout_marginBottom="2.0dip" android:src="@drawable/beg" />
+</FrameLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include android:layout_width="fill_parent" android:layout_height="?i" layout="@layout/dq9" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <FrameLayout android:id="@id/mViewContainer" android:layout_width="0.0dip" android:layout_height="346.0dip" android:layout_marginBottom="20.0dip" android:layout_marginStart="68.0dip" android:layout_marginEnd="68.0dip" app:a5g="@id/mRecyclerviewContainer" app:a5l="parent" app:a65="parent" app:a69="parent">
+            <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="56.0dip" android:src="@drawable/a9g" />
+            <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/mCoverImage" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_marginTop="24.0dip" android:scaleType="centerCrop" app:ae="centerCrop" app:jw="8.0dip" app:ahy="@drawable/djs" app:ahz="centerCrop" />
+                <TextView android:textSize="16.0sp" android:textColor="#ffffffff" android:id="@id/mFansGroupName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:includeFontPadding="false" />
+                <TextView android:textSize="13.0sp" android:textColor="#ffffffff" android:id="@id/mFansNumber" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:includeFontPadding="false" />
+                <FrameLayout android:id="@id/qrImageContainer" android:layout_width="140.0dip" android:layout_height="140.0dip" android:layout_marginTop="16.0dip">
+                    <ImageView android:layout_gravity="center" android:id="@id/mQRImageView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+                    <ImageView android:layout_gravity="center" android:id="@id/iv_logo" android:layout_width="30.0dip" android:layout_height="30.0dip" android:src="@drawable/dxy" android:scaleType="centerCrop" />
+                </FrameLayout>
+                <TextView android:textSize="12.0sp" android:textColor="#ff666666" android:gravity="center" android:id="@id/mQRCodeHint" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:text="@string/c5f" android:includeFontPadding="false" />
+            </LinearLayout>
+        </FrameLayout>
+        <RelativeLayout android:id="@id/mRecyclerviewContainer" android:layout_width="fill_parent" android:layout_height="179.0dip" app:a5f="parent">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="#ff666666" android:id="@id/tv_share_hint" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18.0dip" android:text="@string/anw" android:includeFontPadding="false" android:layout_marginStart="16.0dip" />
+            <com.netease.cloudmusic.ui.NovaHorizonRecyclerView android:id="@id/mRecyclerview" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:layout_below="@id/tv_share_hint" />
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

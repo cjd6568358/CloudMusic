@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:layout_gravity="center" android:orientation="vertical" android:id="@id/custom_dialog_fl" android:background="@drawable/bjg" android:layout_width="280.0dip" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="17.0dip" android:textColor="#ff161823" android:gravity="center" android:id="@id/content_tv" android:layout_width="fill_parent" android:layout_height="96.0dip" />
+    <FrameLayout android:layout_gravity="center" android:id="@id/content_fl" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <View android:id="@id/horizontal_divide" android:background="#1f161823" android:layout_width="fill_parent" android:layout_height="0.5dip" />
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/click_ll" android:layout_width="fill_parent" android:layout_height="47.5dip">
+        <TextView android:textSize="15.0dip" android:textColor="#bf161823" android:gravity="center" android:id="@id/cancel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/a4y" android:layout_weight="1.0" />
+        <View android:layout_gravity="bottom|center" android:id="@id/vertical_divide" android:background="#1f161823" android:layout_width="0.5dip" android:layout_height="47.5dip" />
+        <TextView android:textSize="15.0dip" android:textStyle="bold" android:textColor="#ff161823" android:gravity="center" android:id="@id/confirm" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/a4z" android:layout_weight="1.0" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="bottom|center" android:orientation="vertical" android:id="@id/pendantContainer" android:tag="layout/interactive_pendant_layout_0" android:layout_width="102.0dip" android:layout_height="fill_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="bottom|center" android:orientation="vertical" android:id="@id/pendantTopContainer" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0" />
+    <FrameLayout android:id="@id/interactiveContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip">
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="center" android:id="@id/innerContainer" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <View android:id="@id/interactive_pendant_shadow" android:tag="binding_1" android:visibility="gone" android:layout_width="56.0dip" android:layout_height="6.0dip" android:layout_marginTop="1.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+            <com.netease.play.livepage.pendant.interactive.InteractiveView android:id="@id/interactive_pendant_container" android:visibility="gone" android:layout_width="86.0dip" android:layout_height="79.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</LinearLayout>

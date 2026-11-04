@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.NeteaseScrollView android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:id="@id/rootContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeEditText android:textSize="14.0sp" android:id="@id/routerUri" android:background="@drawable/b8w" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="orpheus://" android:singleLine="true" android:textCursorDrawable="@null" />
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:gravity="center_horizontal" android:id="@id/register" android:layout_width="0.0dip" android:layout_marginTop="@dimen/ao6" android:text="SDK检测\n scheme://host/path" android:layout_weight="1.0" style="@style/a9g" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/sdkJump" android:layout_width="0.0dip" android:layout_marginTop="@dimen/ao6" android:text="sdk跳转(内部)" android:layout_weight="1.0" style="@style/a9g" />
+        </LinearLayout>
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/oldregister" android:layout_width="0.0dip" android:layout_marginTop="@dimen/ao6" android:text="老检测(外部)" android:layout_weight="1.0" style="@style/a9g" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/oldJump" android:layout_width="0.0dip" android:layout_marginTop="@dimen/ao6" android:text="老跳转(外部)" android:layout_weight="1.0" style="@style/a9g" />
+        </LinearLayout>
+    </LinearLayout>
+</com.netease.cloudmusic.ui.NeteaseScrollView>

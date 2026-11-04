@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="300.0dip" />
+        <com.netease.cloudmusic.module.social.hotwall.PageIndicatorView android:layout_gravity="bottom|center|right" android:id="@id/pageIndicator" android:paddingLeft="8.0dip" android:paddingTop="3.0dip" android:paddingRight="8.0dip" android:paddingBottom="3.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="6.0dip" />
+    </FrameLayout>
+    <LinearLayout android:gravity="center" android:layout_gravity="center" android:id="@id/dotParent" android:layout_width="wrap_content" android:layout_height="26.0dip" />
+</LinearLayout>

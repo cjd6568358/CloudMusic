@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="280.0dip" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <View android:background="@drawable/g1_" android:layout_width="240.0dip" android:layout_height="2.0dip" />
+    <TextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="@color/ah7" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:layout_marginBottom="12.0dip" android:text="@string/g_0" android:singleLine="true" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/image" android:layout_width="210.0dip" android:layout_height="140.0dip" android:scaleType="centerInside" />
+    <TextView android:textSize="14.0sp" android:textColor="@color/ah6" android:id="@id/content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:layout_marginBottom="22.0dip" android:singleLine="true" />
+    <TextView android:textSize="15.0sp" android:textColor="@color/agr" android:gravity="center" android:id="@id/button" android:layout_width="240.0dip" android:layout_height="32.0dip" android:layout_marginBottom="13.0dip" android:text="@string/g9u" android:singleLine="true" />
+    <View android:background="@drawable/g1_" android:layout_width="240.0dip" android:layout_height="2.0dip" />
+</LinearLayout>

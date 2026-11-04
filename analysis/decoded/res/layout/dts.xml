@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout app:e4="45.0dip" style="@style/a72"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/checkContain" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/vk" android:layout_marginRight="@dimen/vl">
+        <com.netease.cloudmusic.theme.ui.CustomThemeCheckBox android:gravity="center" android:id="@id/checkedImage" android:focusable="false" android:focusableInTouchMode="false" android:layout_width="@dimen/vm" android:layout_height="@dimen/vj" app:a65="parent" app:a69="parent" />
+        <ImageView android:gravity="center" android:id="@id/image" android:focusable="false" android:focusableInTouchMode="false" android:visibility="gone" android:layout_width="18.0dip" android:layout_height="18.0dip" android:layout_marginTop="6.0dip" android:layout_marginRight="15.0dip" android:layout_marginStart="6.0dip" app:a65="parent" app:a69="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout android:gravity="center_vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <include android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/dn9" />
+    </RelativeLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

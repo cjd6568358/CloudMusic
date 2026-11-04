@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/userAvatarBiView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:layout_marginStart="10.0dip" app:a65="parent" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0dip" android:ellipsize="end" android:gravity="center|left" android:id="@id/outCommentLineText" android:paddingTop="1.0dip" android:paddingBottom="1.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="2" android:lineSpacingExtra="1.0dip" android:paddingStart="10.0dip" android:paddingEnd="10.0dip" app:a5f="parent" app:a65="parent" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="10.0dip" android:id="@id/outCommentZanText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="4.0dip" android:includeFontPadding="false" android:layout_marginEnd="10.0dip" app:a5f="@id/outCommentLineText" app:a5l="parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/outCommentZanButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:scaleType="center" app:a5f="@id/outCommentZanText" app:a5m="@id/outCommentZanText" app:a69="@id/outCommentZanText" />
+    <View android:id="@id/outZanClickView" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginStart="-20.0dip" app:a5f="parent" app:a5l="parent" app:a65="@id/outCommentZanButton" app:a69="@id/outCommentZanButton" />
+</androidx.constraintlayout.widget.ConstraintLayout>

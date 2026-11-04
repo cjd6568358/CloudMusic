@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="274.0dip" android:layout_above="@id/pk_blood_view"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_gravity="bottom" android:id="@id/leftContainer" android:layout_width="160.0dip" android:layout_height="50.0dip" android:layout_marginBottom="10.0dip">
+        <com.facebook.drawee.view.SimpleDraweeView android:id="@id/leftBackground" android:layout_width="160.0dip" android:layout_height="50.0dip" android:scaleType="fitCenter" app:ae="fitCenter" app:ahy="@color/dz" />
+        <com.netease.play.ui.avatar.AvatarImage android:layout_gravity="center_vertical" android:id="@id/leftAvatarImage" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginLeft="10.0dip" app:ai4="style7" app:arl="@color/b1e" app:arm="2.0dip" />
+        <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="50.0dip" android:layout_marginRight="24.0dip">
+            <TextView android:textSize="10.0sp" android:textColor="@color/b1e" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="3.0dip" android:text="@string/g2p" android:includeFontPadding="false" />
+            <TextView android:textSize="12.0sp" android:textStyle="bold" android:textColor="@color/b1e" android:id="@id/leftNickName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" />
+        </LinearLayout>
+    </FrameLayout>
+    <FrameLayout android:layout_gravity="bottom|center|right" android:id="@id/rightContainer" android:layout_width="160.0dip" android:layout_height="50.0dip" android:layout_marginBottom="10.0dip">
+        <com.facebook.drawee.view.SimpleDraweeView android:id="@id/rightBackground" android:layout_width="160.0dip" android:layout_height="50.0dip" android:scaleType="fitCenter" app:ae="fitCenter" app:ahy="@color/dz" />
+        <com.netease.play.ui.avatar.AvatarImage android:layout_gravity="center|right" android:id="@id/rightAvatarImage" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginRight="10.0dip" app:ai4="style7" app:arl="@color/b1e" app:arm="2.0dip" />
+        <LinearLayout android:gravity="right" android:layout_gravity="center|right" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="24.0dip" android:layout_marginRight="50.0dip">
+            <TextView android:textSize="10.0sp" android:textColor="@color/b1e" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="3.0dip" android:text="@string/g3a" android:includeFontPadding="false" />
+            <TextView android:textSize="12.0sp" android:textStyle="bold" android:textColor="@color/b1e" android:id="@id/rightNickName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="90.0dip" android:singleLine="true" android:includeFontPadding="false" />
+        </LinearLayout>
+    </FrameLayout>
+    <com.facebook.drawee.view.SimpleDraweeView android:layout_gravity="center" android:id="@id/pkAnim" android:layout_width="164.0dip" android:layout_height="164.0dip" android:scaleType="fitCenter" />
+</FrameLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@drawable/a6l" android:layout_width="fill_parent" android:layout_height="34.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_centerInParent="true">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center_horizontal" android:id="@id/imageDragonBall" android:layout_width="16.0dip" android:layout_height="16.0dip" android:layout_centerVertical="true" android:alpha="0.8" app:ae="centerInside" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="#ccffffff" android:id="@id/nameDragonBall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" android:layout_toRightOf="@id/imageDragonBall" android:layout_centerVertical="true" android:alpha="0.8" />
+        <com.netease.cloudmusic.module.mymusic.view.RedDotView android:id="@id/redDot" android:visibility="gone" android:layout_width="6.0dip" android:layout_height="6.0dip" android:layout_marginLeft="-3.0dip" android:layout_marginTop="5.0dip" android:layout_toRightOf="@id/imageDragonBall" android:layout_alignParentTop="true" app:akw="6.0dip" />
+    </RelativeLayout>
+</RelativeLayout>

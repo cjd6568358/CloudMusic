@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/repeatPayContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/repeatPayImg" android:layout_width="34.0dip" android:layout_height="34.0dip" android:layout_margin="4.0dip" app:ae="centerCrop" app:ahy="@drawable/g97" app:ahz="fitXY" app:am0="@dimen/u3" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aj6" android:ellipsize="end" android:id="@id/repeatPayTitle" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:layout_marginRight="10.0dip" android:maxLines="2" android:layout_weight="1.0" />
+    <View android:background="#4dffffff" android:layout_width="0.33000004dip" android:layout_height="15.0dip" android:layout_marginRight="10.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aj6" android:id="@id/payButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" />
+</LinearLayout>

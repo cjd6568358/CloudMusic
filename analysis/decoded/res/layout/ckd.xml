@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:id="@id/lrcViewContainerInner" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_above="@id/lrcOptionContainer">
+        <com.netease.cloudmusic.ui.playerview.PlayerRelatedBtn android:textSize="12.0dip" android:gravity="center_vertical" android:layout_gravity="center" android:id="@id/related_btn" android:paddingLeft="5.0dip" android:paddingRight="9.0dip" android:layout_width="wrap_content" android:layout_height="24.0dip" android:layout_marginTop="18.0dip" android:text="歌曲百科" android:drawablePadding="2.0dip" />
+        <com.shimmer.ShimmerTextView android:textSize="14.0dip" android:textColor="@color/b12" android:gravity="center_horizontal" android:id="@id/lrcShareHint" android:paddingTop="@dimen/a1a" android:paddingBottom="@dimen/a1a" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/a1_" android:layout_marginTop="15.0dip" android:text="@string/i0z" />
+        <com.netease.cloudmusic.module.lyric.view.PlayerLyricView android:textColor="#ffffffff" android:gravity="center" android:id="@id/lrc" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_marginTop="16.0dip" android:layout_marginBottom="20.0dip" android:layout_weight="1.0" />
+        <FrameLayout android:id="@id/multiContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/lyricAdjustContainer" android:visibility="gone" android:layout_width="43.0dip" android:layout_height="wrap_content" android:layout_alignTop="@id/lrcViewContainerInner" android:layout_alignBottom="@id/lrcViewContainerInner" android:layout_alignParentRight="true">
+        <com.netease.cloudmusic.ui.PlayerPageTextView android:id="@id/lyricAdjustDecreaseBtn" android:background="@drawable/fqr" android:paddingTop="15.0dip" android:text="@string/dzo" android:drawableTop="@drawable/fq8" style="@style/a_v" />
+        <com.netease.cloudmusic.ui.PlayerPageTextView android:id="@id/lyricAdjustRecoveryBtn" android:background="@drawable/fqp" android:paddingTop="11.0dip" android:text="@string/dzq" android:drawableTop="@drawable/fq2" android:drawablePadding="4.0dip" style="@style/a_v" />
+        <com.netease.cloudmusic.ui.PlayerPageTextView android:id="@id/lyricAdjustIncreaseBtn" android:background="@drawable/fqp" android:paddingTop="15.0dip" android:text="@string/dzp" android:drawableTop="@drawable/fq0" style="@style/a_v" />
+        <com.netease.cloudmusic.ui.PlayerPageImageView android:gravity="center" android:layout_gravity="center" android:id="@id/lyricAdjustSaveBtn" android:background="@drawable/fqn" android:layout_width="fill_parent" android:layout_height="49.0dip" android:src="@drawable/fpy" android:scaleType="centerInside" />
+    </LinearLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/lrcCurrentContainerWrap" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_above="@id/lrcOptionContainer">
+        <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/guideLine" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5n="300.0dip" />
+        <ViewStub android:id="@id/lrcCurrentContainer" android:layout="@layout/d74" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="@id/guideLine" app:a69="@id/guideLine" />
+        <ViewStub android:id="@id/lrcCurrentContainerNew" android:layout="@layout/d75" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/ahg" android:layout_marginRight="@dimen/ahg" android:layout_marginHorizontal="@dimen/ahg" app:a5f="@id/guideLine" app:a69="@id/guideLine" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout android:id="@id/lrcOptionContainer" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="@dimen/yz" android:layout_alignParentBottom="true">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/ll_left_container" android:clipChildren="false" android:clipToPadding="false" android:layout_width="wrap_content" android:layout_height="@dimen/yz" android:layout_alignParentLeft="true">
+            <com.netease.cloudmusic.ui.PlayerPageNoThemeButton android:textSize="12.0sp" android:textColor="#4dffffff" android:gravity="center" android:id="@id/lyricMode" android:paddingLeft="5.0dip" android:paddingTop="3.0dip" android:paddingRight="5.0dip" android:paddingBottom="3.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="16.0dip" android:includeFontPadding="false" android:letterSpacing="0.2" android:paddingHorizontal="5.0dip" android:paddingVertical="3.0dip" />
+            <FrameLayout android:clipChildren="false" android:clipToPadding="false" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginRight="16.0dip">
+                <com.netease.cloudmusic.ui.PlayerPageImageView android:layout_gravity="start|bottom|center" android:id="@id/musicOptionBtn" android:padding="4.0dip" android:visibility="gone" android:layout_width="@dimen/yz" android:layout_height="@dimen/yz" android:src="@drawable/fqm" />
+            </FrameLayout>
+            <FrameLayout android:id="@id/fanClubContainer" android:visibility="gone" android:layout_width="@dimen/yz" android:layout_height="@dimen/yz" android:layout_marginRight="16.0dip" />
+            <com.netease.cloudmusic.ui.PlayerPageNoThemeButton android:textSize="12.0sp" android:textColor="#4dffffff" android:gravity="center" android:id="@id/karaokeEntrance" android:visibility="gone" android:layout_width="@dimen/yz" android:layout_height="@dimen/yz" android:layout_marginRight="16.0dip" android:includeFontPadding="false" android:letterSpacing="0.2" />
+        </LinearLayout>
+        <com.netease.cloudmusic.ui.PlayerPageImageView android:id="@id/mKaraokeAnimView" android:visibility="gone" android:layout_width="@dimen/yz" android:layout_height="@dimen/yz" android:layout_centerHorizontal="true" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/beatEntrance" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="@dimen/yz" android:src="@drawable/fqc" android:layout_centerHorizontal="true" />
+        <LinearLayout android:gravity="center" android:layout_gravity="center_vertical" android:orientation="horizontal" android:id="@id/ll_right_container" android:clipChildren="false" android:layout_width="wrap_content" android:layout_height="@dimen/yz" android:layout_alignParentRight="true">
+            <FrameLayout android:id="@id/lyricLeftSlotContainer" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <include layout="@layout/yk" />
+            <include layout="@layout/yj" />
+            <FrameLayout android:id="@id/lyricRightSlotContainer" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="24.0dip" />
+        </LinearLayout>
+    </RelativeLayout>
+    <TextView android:textSize="9.0sp" android:textColor="@android:color/white" android:gravity="center" android:id="@id/lyricTemplateEntryGuide" android:background="@drawable/bns" android:paddingLeft="4.0dip" android:paddingRight="4.0dip" android:focusable="true" android:visibility="gone" android:clickable="true" android:layout_width="wrap_content" android:layout_height="14.0dip" android:layout_marginBottom="-4.0dip" android:minWidth="44.0dip" android:text="@string/gd5" android:singleLine="true" android:includeFontPadding="false" android:layout_above="@id/lrcOptionContainer" android:fontFamily="sans-serif-medium" android:layout_marginStart="46.0dip" android:layout_alignParentStart="true" android:paddingHorizontal="4.0dip" />
+    <LinearLayout android:orientation="vertical" android:id="@id/musicOptionContainer" android:background="@drawable/fpt" android:visibility="gone" android:layout_width="153.0dip" android:layout_height="wrap_content" android:layout_marginRight="13.0dip" android:layout_marginBottom="33.329987dip" android:layout_alignParentRight="true" android:layout_alignParentBottom="true">
+        <androidx.appcompat.widget.AppCompatTextView android:id="@id/musicOptionLyricAdjustBtn" android:text="@string/e05" android:drawableLeft="@drawable/fq_" style="@style/a_w" />
+        <View android:id="@id/musicOptionLine1" android:background="@drawable/cwt" android:layout_width="fill_parent" android:layout_height="1.0dip" />
+        <androidx.appcompat.widget.AppCompatTextView android:id="@id/musicOptionLyricQfyBtn" android:text="@string/e08" android:drawableLeft="@drawable/fqa" style="@style/a_w" />
+        <View android:id="@id/musicOptionLine2" android:background="@drawable/cwt" android:layout_width="fill_parent" android:layout_height="1.0dip" />
+        <androidx.appcompat.widget.AppCompatTextView android:id="@id/musicOptionLyricBugreportBtn" android:text="@string/e06" android:drawableLeft="@drawable/fqh" style="@style/a_w" />
+        <View android:id="@id/musicOptionLine3" android:background="@drawable/cwt" android:layout_width="fill_parent" android:layout_height="1.0dip" />
+        <androidx.appcompat.widget.AppCompatTextView android:id="@id/musicOptionSongBugreportBtn" android:text="@string/e0_" android:drawableLeft="@drawable/fqj" style="@style/a_w" />
+        <View android:id="@id/musicOptionLine4" android:background="@drawable/cwt" android:layout_width="fill_parent" android:layout_height="1.0dip" />
+        <androidx.appcompat.widget.AppCompatTextView android:id="@id/musicOptionLyricFontBtn" android:text="@string/e07" style="@style/a_w" />
+    </LinearLayout>
+</merge>

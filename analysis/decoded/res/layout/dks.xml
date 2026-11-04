@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/bannerRootContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/blurVideoCover" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" app:ae="centerCrop" />
+    <FrameLayout android:id="@id/bannerContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.ui.BannerImageView android:id="@id/bannerImageShadow" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+        <com.netease.cloudmusic.ui.BannerImageView android:id="@id/bannerImage" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" app:ae="centerCrop" app:ahy="@drawable/cx6" app:ahz="fitXY" />
+        <FrameLayout android:layout_gravity="center" android:id="@id/adShakeIconContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" app:ae="centerCrop" />
+        <com.netease.cloudmusic.ui.AdTagView android:layout_gravity="center|right|top" android:id="@id/adTagView" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:layout_marginRight="8.0dip" app:jj="16.0dip" app:atr="colorTextOnimage1" app:aty="0.0dip" app:au0="colorTextOnimage1_1" app:au1="colorText1" app:au2="16.0dip" app:au5="10.0sp" />
+    </FrameLayout>
+</FrameLayout>

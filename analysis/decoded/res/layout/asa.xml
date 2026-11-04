@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/music_library_search_result_root" android:tag="layout/fragment_music_library_search_result_0" android:background="@color/aei" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/title_layout" android:layout_width="fill_parent" android:layout_height="36.0dip" app:a69="parent">
+        <com.netease.appcommon.ui.ICreatorCommonIcon android:id="@id/back" android:focusable="true" android:clickable="true" android:layout_width="20.0dip" android:layout_height="20.0dip" android:src="@drawable/bfq" android:layout_marginStart="16.0dip" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/search_layout" android:background="@drawable/bff" android:layout_width="0.0dip" android:layout_height="36.0dip" android:layout_weight="1.0" android:paddingStart="10.0dip" android:paddingEnd="10.0dip" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip">
+            <ImageView android:id="@id/music_library_search_icon" android:layout_width="16.0dip" android:layout_height="16.0dip" android:src="@drawable/bfe" />
+            <TextView android:textSize="15.0sp" android:textColor="@color/b12" android:ellipsize="end" android:id="@id/search_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:singleLine="true" android:layout_weight="1.0" android:layout_marginStart="4.0dip" android:layout_marginEnd="8.0dip" />
+            <com.netease.appcommon.ui.ICreatorCommonIcon android:id="@id/cancel_search" android:layout_width="16.0dip" android:layout_height="16.0dip" android:src="@drawable/bfh" />
+        </LinearLayout>
+    </LinearLayout>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@id/swipe_refresh_layout" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_marginTop="16.0dip" app:a5f="parent" app:a68="@id/title_layout">
+        <com.netease.cloudmusic.common.nova.widget.NovaRecyclerView android:id="@id/recycler_view" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

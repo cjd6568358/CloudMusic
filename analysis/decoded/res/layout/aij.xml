@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:paddingLeft="15.0dip" android:layout_width="fill_parent" android:layout_height="60.0dip" android:minHeight="60.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/iv_paymentitem_checked" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15.0dip" android:src="@drawable/d0t" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+    <com.netease.epay.sdk.base.view.NetLoadImageView android:id="@id/ivIcon" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginRight="10.0dip" android:layout_centerVertical="true" />
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_toLeftOf="@id/iv_paymentitem_checked" android:layout_toRightOf="@id/ivIcon" android:layout_centerVertical="true">
+        <TextView android:textSize="16.0dip" android:textColor="@drawable/a95" android:ellipsize="middle" android:id="@id/tvPayMethodCardTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" />
+        <TextView android:textSize="14.0dip" android:textColor="@color/wl" android:id="@id/tvPayMethodCardMsg" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" />
+    </LinearLayout>
+    <View android:layout_alignParentBottom="true" style="@style/a4t" />
+</RelativeLayout>

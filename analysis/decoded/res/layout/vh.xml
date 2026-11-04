@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.music.biz.comment.input.ui.InputConstraintLayout android:layout_gravity="bottom" android:id="@id/container" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeDividerLine android:layout_width="0.0dip" android:layout_height="1.0px" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        <androidx.appcompat.widget.AppCompatTextView android:id="@id/editBg" android:layout_width="0.0dip" android:layout_height="36.0dip" android:layout_marginTop="8.0dip" android:layout_marginBottom="10.0dip" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="@dimen/qr" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/edit" android:layout_width="0.0dip" android:layout_height="wrap_content" android:hint="@string/jf8" android:maxLines="1" android:paddingStart="16.0dip" android:paddingEnd="16.0dip" app:a5f="@id/editBg" app:a5m="@id/functionContainer" app:a5v="1.0" app:a5w="packed" app:a65="@id/editBg" app:a69="@id/editBg" />
+        <LinearLayout android:id="@id/functionContainer" android:clipChildren="false" android:clipToPadding="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="16.0dip" app:a5f="@id/editBg" app:a5m="@id/sendText" app:a64="@id/edit" app:a69="@id/editBg" app:a6p="32.0dip">
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/btnEmoji" android:layout_width="wrap_content" android:layout_height="wrap_content" app:aqh="@drawable/b03" />
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/btnMusic" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16.0dip" app:aqh="@drawable/b09" />
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/btnPic" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16.0dip" app:aqh="@drawable/b0a" />
+            <FrameLayout android:id="@id/btnVoiceContainer" android:visibility="gone" android:clipChildren="false" android:clipToPadding="false" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginStart="16.0dip">
+                <androidx.appcompat.widget.AppCompatImageView android:id="@id/btnVoice" android:layout_width="24.0dip" android:layout_height="24.0dip" app:aqh="@drawable/b0c" />
+                <View android:layout_gravity="end|center|top" android:id="@id/voiceRedDot" android:background="@drawable/f9x" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="12.0dip" android:layout_marginTop="-3.5dip" android:layout_marginEnd="-12.0dip" />
+            </FrameLayout>
+            <FrameLayout android:id="@id/btnAtContainer" android:visibility="gone" android:clipChildren="false" android:clipToPadding="false" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginStart="16.0dip">
+                <androidx.appcompat.widget.AppCompatImageView android:id="@id/btnAt" android:layout_width="24.0dip" android:layout_height="24.0dip" android:contentDescription="@string/auv" app:aqh="@drawable/z2" />
+                <View android:layout_gravity="end|center|top" android:id="@id/atRedDot" android:background="@drawable/f9x" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="12.0dip" android:layout_marginTop="-3.5dip" android:layout_marginEnd="-12.0dip" />
+            </FrameLayout>
+        </LinearLayout>
+        <View android:id="@id/icon_expression_new_icon" android:background="@drawable/ezc" android:layout_width="25.0dip" android:layout_height="12.0dip" android:layout_marginBottom="16.0dip" android:layout_marginStart="12.0dip" app:a5f="@id/functionContainer" app:a65="@id/functionContainer" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="13.0sp" android:gravity="center" android:id="@id/sendText" android:visibility="gone" android:layout_width="54.0dip" android:layout_height="30.0dip" android:text="@string/hw1" android:includeFontPadding="false" android:layout_marginEnd="19.0dip" app:a5f="@id/editBg" app:a5l="parent" app:a64="@id/functionContainer" app:a69="@id/editBg" />
+    </com.netease.cloudmusic.music.biz.comment.input.ui.InputConstraintLayout>
+</FrameLayout>

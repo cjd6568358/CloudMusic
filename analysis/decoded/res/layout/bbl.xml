@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="60.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="15.0sp" android:textColor="@color/b1n" android:ellipsize="end" android:gravity="center" android:id="@id/order" android:layout_width="30.0dip" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:lines="1" android:includeFontPadding="false" app:a5f="@id/image" app:a5z="parent" app:a69="@id/image" />
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/image" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginLeft="10.0dip" app:a5f="parent" app:a60="@id/order" app:a69="parent" app:a6q="15.0dip" app:ai4="style5" />
+    <RelativeLayout android:id="@id/content" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" app:a5f="@id/image" app:a60="@id/image" app:a62="@id/moreButton" app:a69="@id/image">
+        <ImageView android:ellipsize="end" android:id="@id/level" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:includeFontPadding="false" android:layout_centerVertical="true" />
+        <TextView android:textSize="14.0sp" android:textColor="@android:color/white" android:ellipsize="end" android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:layout_marginRight="15.0dip" android:lines="1" android:singleLine="true" android:includeFontPadding="false" android:drawablePadding="3.0dip" android:layout_toRightOf="@id/level" android:layout_centerVertical="true" android:layout_alignWithParentIfMissing="true" />
+    </RelativeLayout>
+    <ImageView android:id="@id/moreButton" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginRight="10.0dip" android:src="@drawable/g30" android:scaleType="centerInside" app:a5f="@id/image" app:a60="@id/content" app:a63="parent" app:a69="@id/image" />
+    <View android:id="@id/diver" android:background="#ff323232" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="1.0px" android:layout_marginLeft="10.0dip" app:a5f="parent" app:a60="@id/image" app:a63="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

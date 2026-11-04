@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/clip_container" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView android:id="@id/video_clip_frame_list_container" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18.0dip" app:go="@color/ay_" app:gp="2.0dip" app:gq="0.0dip">
+        <com.netease.nmvideocreator.mediapicker.ui.VideoRecyclerView android:id="@id/video_clip_frame_list" android:scrollbars="none" android:layout_width="wrap_content" android:layout_height="56.0dip" />
+    </androidx.cardview.widget.CardView>
+    <ImageView android:id="@id/video_clip_mask_left" android:background="@color/ago" android:layout_width="wrap_content" android:layout_height="56.0dip" android:layout_alignBottom="@id/video_clip_frame_list_container" android:layout_alignParentStart="true" />
+    <ImageView android:id="@id/video_clip_mask_right" android:background="@color/ago" android:layout_width="wrap_content" android:layout_height="56.0dip" android:layout_alignBottom="@id/video_clip_frame_list_container" android:layout_alignParentEnd="true" />
+    <ImageView android:id="@id/video_clip_auto_seek_mask" android:layout_width="0.0dip" android:layout_height="56.0dip" android:layout_alignBottom="@id/video_clip_frame_list_container" />
+    <RelativeLayout android:id="@id/video_clip_progress" android:layout_width="0.0dip" android:layout_height="56.0dip" android:layout_marginTop="18.0dip" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip">
+        <com.netease.appcommon.ui.ICreatorCommonIcon android:id="@id/video_clip_left_btn" android:focusable="true" android:clickable="true" android:layout_width="52.0dip" android:layout_height="fill_parent" android:layout_marginStart="-17.0dip" android:layout_alignParentStart="true" />
+        <com.netease.appcommon.ui.ICreatorCommonIcon android:id="@id/video_clip_right_btn" android:focusable="true" android:clickable="true" android:layout_width="52.0dip" android:layout_height="fill_parent" android:layout_marginEnd="-17.0dip" android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+    <ImageView android:id="@id/video_clip_seek_btn" android:layout_width="24.0dip" android:layout_height="56.0dip" android:src="@drawable/ckw" android:layout_alignBottom="@id/video_clip_frame_list_container" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1z" android:id="@id/clip_hint" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:layout_marginBottom="24.0dip" android:layout_below="@id/video_clip_frame_list_container" android:layout_centerHorizontal="true" />
+</RelativeLayout>

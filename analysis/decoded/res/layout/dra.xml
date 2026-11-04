@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.AvatarImage android:id="@id/avatar" android:visibility="gone" android:layout_width="30.0dip" android:layout_height="30.0dip" android:translationX="-2.0dip" app:cv="style7" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:ellipsize="end" android:id="@id/userNameView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:singleLine="true" app:qe="colorText1" app:a5_="true" app:a5f="parent" app:a5m="@id/vipView" app:a5v="0.0" app:a5w="packed" app:a65="parent" app:a69="parent" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/vipView" android:layout_width="wrap_content" android:layout_height="14.0dip" android:layout_marginLeft="4.0dip" app:a5f="parent" app:a5l="parent" app:a64="@id/userNameView" app:a69="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout android:paddingTop="2.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTrackFollowButton android:id="@id/userFollowBtn" android:layout_width="60.0dip" android:layout_height="26.0dip" android:layout_marginLeft="8.0dip" />
+    </FrameLayout>
+</LinearLayout>

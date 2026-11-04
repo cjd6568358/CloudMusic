@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/dialog_official_invite_search_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="18.0sp" android:textColor="@color/b12" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="13.0dip" android:text="@string/d1c" android:layout_marginStart="16.0dip" app:a65="parent" app:a69="parent" />
+    <androidx.appcompat.widget.SearchView android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@id/searchView" android:layout_width="fill_parent" android:layout_height="35.0dip" android:layout_marginLeft="16.0dip" android:layout_marginTop="62.0dip" android:layout_marginRight="16.0dip" android:imeOptions="actionSearch|flagNoExtractUi|flagNoFullscreen" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.common.nova.widget.NovaRecyclerView android:id="@id/recyclerView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="110.0dip" app:a51="androidx.recyclerview.widget.LinearLayoutManager" app:a69="parent" />
+    <TextView android:textSize="13.0sp" android:textColor="@color/b12" android:id="@id/emptyView" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="167.0dip" android:text="@string/fd5" app:a5l="parent" app:a65="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

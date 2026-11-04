@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/warningMask" android:background="#99000000" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/guideline" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5p="0.2" />
+    <ImageView android:id="@id/imageView2" android:layout_width="60.0dip" android:layout_height="60.0dip" android:src="@drawable/h3y" app:a5l="parent" app:a65="parent" app:a69="@id/guideline" />
+    <androidx.legacy.widget.Space android:id="@id/space" android:layout_width="fill_parent" android:layout_height="13.0dip" android:layout_marginLeft="8.0dip" android:layout_marginRight="8.0dip" android:layout_marginStart="8.0dip" android:layout_marginEnd="8.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/imageView2" />
+    <TextView android:textSize="14.0sp" android:textColor="@color/aj6" android:layout_gravity="center_horizontal" android:id="@id/warnReason" android:visibility="gone" android:layout_width="220.0dip" android:layout_height="wrap_content" android:lineSpacingExtra="2.0dip" app:a5l="parent" app:a5v="0.564" app:a65="parent" app:a68="@id/space" />
+    <TextView android:textSize="14.0sp" android:textColor="@color/aj6" android:layout_gravity="center_horizontal" android:id="@id/warningContent" android:layout_width="220.0dip" android:layout_height="wrap_content" android:text="@string/jb6" android:lineSpacingExtra="2.0dip" app:a5l="parent" app:a5v="0.564" app:a65="parent" app:a68="@id/warnReason" />
+</androidx.constraintlayout.widget.ConstraintLayout>

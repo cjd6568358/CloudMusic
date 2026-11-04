@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_look_musician_brand_new_item_0" android:paddingTop="8.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.NeteaseMusicSimpleDraweeView android:id="@id/iv_avatar" android:layout_width="32.0dip" android:layout_height="32.0dip" app:jw="6.0dip" app:a5k="1:1" app:a65="parent" app:a69="parent" app:ahy="@drawable/e7_" />
+    <TextView android:textSize="11.0dip" android:textColor="@color/b12" android:ellipsize="end" android:gravity="start" android:id="@id/tv_title" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:maxLines="1" android:layout_marginStart="8.0dip" app:a5m="@id/iv_live_status" app:a64="@id/iv_avatar" app:a69="@id/iv_avatar" />
+    <TextView android:textSize="10.0dip" android:textColor="@color/b1n" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/tv_desc" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:maxLines="1" android:drawableLeft="@drawable/e79" android:drawablePadding="6.0dip" app:a65="@id/tv_title" app:a68="@id/tv_title" />
+    <View android:id="@id/iv_live_status" android:layout_width="35.0dip" android:layout_height="11.0dip" app:a5f="@id/iv_avatar" app:a5l="parent" app:a69="@id/iv_avatar" />
+</androidx.constraintlayout.widget.ConstraintLayout>

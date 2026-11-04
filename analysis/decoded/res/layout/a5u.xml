@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/tv_container" android:tag="layout/dialog_lt_pay_other_album_success_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/iv_logo" android:layout_width="170.0dip" android:layout_height="120.0dip" android:layout_marginTop="40.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:ellipsize="end" android:gravity="center" android:id="@id/tv_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginTop="12.0dip" android:layout_marginRight="10.0dip" android:maxLines="1" />
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="40.0dip" android:layout_marginLeft="40.0dip" android:layout_marginTop="30.0dip" android:layout_marginRight="40.0dip" android:layout_marginBottom="42.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="18.0sp" android:textColor="@color/aiy" android:gravity="center" android:id="@id/cancel" android:layout_width="143.0dip" android:layout_height="46.0dip" android:includeFontPadding="false" android:layout_alignParentLeft="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="18.0sp" android:textStyle="bold" android:textColor="@color/b12" android:gravity="center" android:layout_gravity="center" android:id="@id/ok" android:layout_width="143.0dip" android:layout_height="46.0dip" android:layout_marginLeft="10.0dip" android:includeFontPadding="false" android:layout_alignParentRight="true" app:gl="useTheme" />
+    </RelativeLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

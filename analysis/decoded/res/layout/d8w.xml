@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.consortrecomm.ui.widget.ConsortBubble android:id="@id/bubble" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="-3.0dip" app:a5g="@id/avatarAnother" app:a5l="@id/avatarAnother" app:a65="@id/avatarAnother" />
+    <com.netease.cloudmusic.ui.AvatarImage android:layout_gravity="center_vertical" android:id="@id/avatarAnother" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="50.0dip" android:layout_marginStart="-12.0dip" app:cv="style2" app:a64="@id/avatarMe" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0dip" android:textColor="@color/a2j" android:ellipsize="end" android:id="@id/nickName" android:layout_width="60.0dip" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:maxLines="1" app:a5f="@id/avatarAnother" app:a5l="@id/avatarAnother" app:a64="@id/avatarMe" app:a69="@id/avatarAnother" />
+    <com.netease.cloudmusic.ui.AvatarImage android:layout_gravity="center_vertical" android:id="@id/avatarMe" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="50.0dip" android:layout_marginRight="64.0dip" app:cv="style2" app:a5l="parent" app:a65="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

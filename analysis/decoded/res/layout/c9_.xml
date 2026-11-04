@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/bannerContainer" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/titleContainer" android:paddingLeft="16.0dip" android:layout_width="fill_parent" android:layout_height="42.0dip">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/brandImageIV" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_alignParentLeft="true" android:layout_centerVertical="true" app:aln="true" />
+        <FrameLayout android:id="@id/adTagViewContainer" android:layout_width="100.0dip" android:layout_height="fill_parent" android:layout_alignParentRight="true" android:layout_centerVertical="true">
+            <com.netease.cloudmusic.ui.AdTagView android:layout_gravity="center" android:id="@id/adTagView" android:layout_width="wrap_content" android:layout_height="wrap_content" app:jj="0.0dip" app:aow="true" app:atr="colorText3_1" app:atx="colorText6" app:aty="0.5dip" app:au0="colorText6_1" app:au1="colorText3_1" app:au2="24.0dip" app:au3="10.0dip" app:au4="12.0dip" app:au5="14.0sp" />
+        </FrameLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:ellipsize="end" android:id="@id/titleTV" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:maxLines="1" android:layout_toLeftOf="@id/adTagViewContainer" android:layout_toRightOf="@id/brandImageIV" android:layout_centerVertical="true" app:qe="colorText1" />
+    </RelativeLayout>
+    <com.netease.cloudmusic.module.ad.banner.gallery.HorizontalDragView android:id="@id/horizontalDragView" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.module.social.detail.video.ui.NestedRecyclerView android:id="@id/rv" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        <com.netease.cloudmusic.module.ad.banner.gallery.AdGalleryFooterView android:layout_width="wrap_content" android:layout_height="fill_parent" />
+    </com.netease.cloudmusic.module.ad.banner.gallery.HorizontalDragView>
+</LinearLayout>

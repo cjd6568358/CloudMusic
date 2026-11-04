@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="#ffeeeeee" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.biz.watch.component.titlelayout.TitleBarLayout android:id="@id/title_layout" app:om="#ffeeeeee" app:os="我的运动手表" style="@style/w7" />
+    <com.netease.cloudmusic.biz.watch.module.main.WatchInfoView android:id="@id/watchInfoView" android:paddingTop="12.0dip" android:paddingBottom="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="16.0dip" android:paddingEnd="16.0dip" />
+    <com.netease.cloudmusic.biz.watch.component.tablayout.WatchTabLayout android:id="@id/tab_layout" android:layout_width="fill_parent" android:layout_height="36.0dip" android:layout_marginTop="3.0dip" android:showDividers="middle" android:dividerPadding="12.0dip" android:layout_marginStart="60.0dip" android:layout_marginEnd="60.0dip" app:nr="move" app:at7="fixed" />
+    <androidx.viewpager.widget.ViewPager android:id="@id/view_pager" android:layout_width="fill_parent" android:layout_height="fill_parent" android:overScrollMode="never" />
+</LinearLayout>

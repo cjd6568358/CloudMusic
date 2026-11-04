@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_wealth_level_tips_0" android:layout_width="296.0dip" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/iv_icon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/egi" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <ImageView android:id="@id/bg_view" android:background="@drawable/b4s" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginTop="12.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <TextView android:textSize="14.0sp" android:textColor="@color/b1e" android:id="@id/tv_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" android:text="@string/jci" app:a5l="parent" app:a65="parent" app:a69="@id/bg_view" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1w" android:tag="binding_1" android:paddingLeft="11.0dip" android:paddingRight="9.0dip" android:paddingBottom="16.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/tv_title" />
+</androidx.constraintlayout.widget.ConstraintLayout>

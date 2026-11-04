@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/artist_container" android:background="@drawable/a3y" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/b1e" android:layout_gravity="center_horizontal" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:layout_marginBottom="20.0dip" android:text="该Mlog有多个歌手" />
+    <com.netease.cloudmusic.common.nova.widget.NovaRecyclerView android:layout_gravity="center_horizontal" android:id="@id/musicRecylerview" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="30.0dip" />
+</LinearLayout>

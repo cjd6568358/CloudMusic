@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:id="@id/classificationTagsLlContainer" android:paddingTop="@dimen/pu" android:layout_width="fill_parent" android:layout_height="88.0dip" android:baselineAligned="false"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/classificationNameRl" android:clickable="false" android:layout_width="88.0dip" android:layout_height="88.0dip" app:e6="noline" app:y4="true">
+        <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true">
+            <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:gravity="center_horizontal" android:id="@id/classificationNameImg" android:layout_width="26.0dip" android:layout_height="26.0dip" app:adc="true" app:aev="@color/a2f" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiy" android:gravity="center_horizontal" android:id="@id/classificationNameTv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.6999817dip" android:shadowColor="#ffffffff" />
+        </LinearLayout>
+    </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="vertical" android:id="@id/tagsLlContainer" android:layout_width="0.0dip" android:layout_height="88.0dip" android:layout_marginLeft="-0.33000004dip" android:layout_weight="3.0" app:e6="noline" app:y4="true">
+        <LinearLayout android:orientation="horizontal" android:id="@id/firstRowTagsLl" android:layout_width="fill_parent" android:layout_height="44.0dip">
+            <com.netease.cloudmusic.theme.ui.CustomThemeLine android:layout_width="0.33000004dip" android:layout_height="fill_parent" />
+            <include android:id="@id/tag1Item" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0" layout="@layout/akf" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeLine android:layout_width="0.33000004dip" android:layout_height="fill_parent" />
+            <include android:id="@id/tag2Item" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0" layout="@layout/akf" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeLine android:layout_width="0.33000004dip" android:layout_height="fill_parent" />
+            <include android:id="@id/tag3Item" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0" layout="@layout/akf" />
+        </LinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeLine android:layout_width="fill_parent" android:layout_height="0.33000004dip" />
+        <LinearLayout android:orientation="horizontal" android:id="@id/secondRowTagsLl" android:layout_width="fill_parent" android:layout_height="44.0dip" android:layout_marginTop="-1.0dip">
+            <com.netease.cloudmusic.theme.ui.CustomThemeLine android:layout_width="0.33000004dip" android:layout_height="fill_parent" />
+            <include android:id="@id/tag4Item" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0" layout="@layout/akf" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeLine android:layout_width="0.33000004dip" android:layout_height="fill_parent" />
+            <include android:id="@id/tag5Item" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0" layout="@layout/akf" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeLine android:layout_width="0.33000004dip" android:layout_height="fill_parent" />
+            <include android:id="@id/tag6Item" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0" layout="@layout/akf" />
+        </LinearLayout>
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+</LinearLayout>

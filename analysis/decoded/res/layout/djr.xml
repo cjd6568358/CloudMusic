@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:paddingLeft="@dimen/ms" android:paddingBottom="@dimen/mt" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="@dimen/apb" android:textColor="#ff999999" android:id="@id/filterTitleTV" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5z="parent" app:a69="parent" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/contentContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/mq" app:a5z="parent" app:a68="@id/filterTitleTV" />
+</androidx.constraintlayout.widget.ConstraintLayout>

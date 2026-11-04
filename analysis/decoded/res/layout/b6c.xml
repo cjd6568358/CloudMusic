@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.ad.banner.flipping.FlippingBgView android:id="@id/itemContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:layout_centerVertical="true" app:jw="6.0dip">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/coverIV" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" app:ae="centerCrop" />
+        <com.netease.cloudmusic.module.ad.AdVideoView android:id="@id/videoView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <View android:id="@id/clickView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.netease.cloudmusic.module.ad.banner.flipping.FlippingBgView>
+</RelativeLayout>

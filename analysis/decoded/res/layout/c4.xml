@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/currentSetting" android:layout_marginTop="@dimen/ao6" android:text="当前播放设置音质：" style="@style/a9g" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/currentSongBitrate" android:layout_marginTop="@dimen/ao6" android:text="当前歌曲播放音质：" style="@style/a9g" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/clearAESP" android:layout_marginTop="@dimen/ao6" android:text="清空所有音效设置" style="@style/a9g" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/isSupportDolby" android:layout_marginTop="@dimen/ao6" android:text="当前设备是否支持杜比：否" style="@style/a9g" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/isSupportImmersive" android:layout_marginTop="@dimen/ao6" android:text="当前设备是否支持5.1声道：否" style="@style/a9g" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/isImmersiveType" android:layout_marginTop="@dimen/ao6" android:text="当前沉浸环绕声使用编码格式" style="@style/a9g" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/dolbySwitch" android:layout_marginTop="@dimen/ao6" android:text="杜比开关：" style="@style/a9g" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/settingMasterAudio" android:layout_marginTop="@dimen/ao6" android:text="播放设置鲸云母带" style="@style/a9g" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/settingEffectAudio" android:layout_marginTop="@dimen/ao6" android:text="播放设置鲸云臻音" style="@style/a9g" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/settingDolbyAudio" android:layout_marginTop="@dimen/ao6" android:text="播放设置杜比" style="@style/a9g" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/settingNeteaseAudio" android:layout_marginTop="@dimen/ao6" android:text="播放设置沉浸声" style="@style/a9g" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/settingVividAudio" android:layout_marginTop="@dimen/ao6" android:text="播放设置臻音全景声" style="@style/a9g" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/settingDownloadMaster" android:layout_marginTop="@dimen/ao6" android:text="下载设置鲸云母带" style="@style/a9g" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/settingDownloadVivid" android:layout_marginTop="@dimen/ao6" android:text="下载设置臻音全景声" style="@style/a9g" />
+</LinearLayout>

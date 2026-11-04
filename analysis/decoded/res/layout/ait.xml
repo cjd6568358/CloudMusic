@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/a8c" android:paddingBottom="@dimen/oz" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.FragmentTitleBar android:id="@id/ftb" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="45.0dip" app:tt="false" app:tw="false" app:tx="false" app:v2="免密额度" app:v3="18.0dip" />
+    <ListView android:id="@id/lv_pay_limit" android:scrollbars="none" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/ox" android:layout_marginRight="@dimen/oy" android:listSelector="@android:color/transparent" android:divider="@color/wp" android:dividerHeight="1.0px" />
+    <View android:background="@color/wp" android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_marginLeft="@dimen/ox" android:layout_marginRight="@dimen/oy" />
+</LinearLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/container" android:tag="layout/layout_item_top_player_group_0" android:layout_width="35.0dip" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/group_pic" android:layout_width="30.0dip" android:layout_height="30.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" app:ai4="style7" app:aj1="true" />
+    <View android:orientation="horizontal" android:id="@id/guide_bottom" android:layout_width="0.0dip" android:layout_height="0.100000024dip" android:layout_marginTop="2.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/group_pic" />
+    <View android:id="@id/desc_bg" android:tag="binding_1" android:layout_width="28.0dip" android:layout_height="10.0dip" app:a5f="@id/guide_bottom" app:a5z="parent" app:a63="parent" />
+    <View android:id="@id/icon" android:background="@drawable/f9g" android:layout_width="10.0dip" android:layout_height="10.0dip" app:a5f="@id/desc_bg" app:a5z="@id/desc_bg" app:a69="@id/desc_bg" />
+    <TextView android:textSize="7.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/online_count" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="1.0dip" android:layout_marginRight="3.0dip" android:includeFontPadding="false" app:a5f="@id/desc_bg" app:a60="@id/icon" app:a63="@id/desc_bg" app:a69="@id/desc_bg" />
+</androidx.constraintlayout.widget.ConstraintLayout>

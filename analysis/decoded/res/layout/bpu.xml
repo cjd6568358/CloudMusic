@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/dlnaControlContainer" android:tag="layout/layout_dlna_control_plugin_0" android:background="@color/e6" android:layout_width="fill_parent" android:layout_height="fill_parent" android:keepScreenOn="true"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/guideLineBottom" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5o="30.0dip" />
+    <TextView android:textSize="13.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/txtSwitchOrRestart" android:background="@drawable/bxm" android:paddingLeft="24.0dip" android:paddingRight="24.0dip" android:layout_width="wrap_content" android:layout_height="40.0dip" android:text="@string/bik" app:a5f="@id/guideLineBottom" app:a5z="parent" app:a62="@id/txtExit" app:a69="parent" />
+    <TextView android:textSize="13.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/txtExit" android:background="@drawable/bxm" android:paddingLeft="24.0dip" android:paddingRight="24.0dip" android:layout_width="wrap_content" android:layout_height="40.0dip" android:text="@string/bif" app:a5f="@id/guideLineBottom" app:a60="@id/txtSwitchOrRestart" app:a63="parent" app:a69="parent" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/b1q" android:gravity="center" android:id="@id/txtNotice" android:layout_width="267.0dip" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:text="@string/bil" android:textAlignment="center" app:a5z="parent" app:a63="parent" app:a68="@id/txtSwitchOrRestart" />
+    <FrameLayout android:background="@drawable/ekv" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a5z="parent" app:a63="parent">
+        <TextView android:textSize="12.0sp" android:textColor="@color/b1q" android:layout_gravity="center" android:id="@id/txtState" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/bih" android:drawablePadding="4.0dip" />
+    </FrameLayout>
+    <TextView android:textColor="#ffffffff" android:id="@id/downloadSpeed" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a5z="parent" />
+    <TextView android:textColor="#ffffffff" android:id="@id/uploadSpeed" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a63="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

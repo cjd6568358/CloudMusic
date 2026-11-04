@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/realItemArea" android:paddingLeft="@dimen/s1" android:layout_width="fill_parent" android:layout_height="wrap_content" app:e4="@dimen/s1"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ViewStub android:layout_gravity="center_vertical" android:id="@id/localMusicCB" android:layout="@layout/chj" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="0.0dip" android:layout_marginRight="@dimen/vl" />
+    <ViewStub android:layout_gravity="center_vertical" android:id="@id/playingMarkViewStub1" android:layout="@layout/d8m" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/pu" />
+    <ViewStub android:layout_gravity="center_vertical" android:id="@id/image" android:layout="@layout/chk" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <include android:layout_gravity="center_vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" layout="@layout/dn9" />
+    <include android:visibility="gone" android:layout_width="42.0dip" android:layout_height="fill_parent" layout="@layout/dnh" />
+    <FrameLayout android:layout_width="wrap_content" android:layout_height="fill_parent">
+        <include layout="@layout/dn7" />
+        <ViewStub android:layout_gravity="center" android:id="@id/playingMarkViewStub2" android:layout="@layout/d8m" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="0.0dip" />
+    </FrameLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

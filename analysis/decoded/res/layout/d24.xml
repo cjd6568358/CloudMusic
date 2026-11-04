@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/group_name" android:tag="layout/note_operation_template_material_item_0" android:layout_width="@dimen/aff" android:layout_height="@dimen/afe"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/cover" android:layout_width="70.5dip" android:layout_height="94.5dip" fresco:a5f="parent" fresco:a5l="parent" fresco:a65="parent" fresco:a69="parent" fresco:ahy="@color/r8" fresco:am0="4.0dip" />
+    <View android:id="@id/cover_fore" android:background="@drawable/bik" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" fresco:a5f="@id/cover" fresco:a5l="@id/cover" fresco:a65="@id/cover" fresco:a69="@id/cover" />
+    <ProgressBar android:id="@id/progress_bar" android:visibility="gone" android:layout_width="12.0dip" android:layout_height="12.0dip" android:layout_marginBottom="4.0dip" android:layout_marginEnd="4.0dip" android:indeterminateTint="@color/b12" fresco:a5f="@id/cover" fresco:a5l="@id/cover" />
+</androidx.constraintlayout.widget.ConstraintLayout>

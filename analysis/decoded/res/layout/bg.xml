@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:layout_gravity="center" android:id="@id/infoContainer" android:layout_width="280.0dip" android:layout_height="396.0dip">
+        <LinearLayout android:orientation="horizontal" android:id="@id/avatarContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.ui.AvatarImage android:id="@id/avatar" android:layout_width="wrap_content" android:layout_height="wrap_content" app:cv="style4" />
+            <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:id="@id/detail" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_toRightOf="@id/avatar">
+                <TextView android:textSize="@dimen/qm" android:textColor="@color/aiy" android:ellipsize="end" android:id="@id/name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:drawablePadding="7.0dip" />
+                <TextView android:textSize="@dimen/qr" android:textColor="@color/aj0" android:ellipsize="end" android:id="@id/subDescription" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" />
+            </LinearLayout>
+        </LinearLayout>
+        <ImageView android:id="@id/myBarcode" android:layout_width="wrap_content" android:layout_height="wrap_content" android:scaleType="centerCrop" android:layout_below="@id/avatarContainer" android:layout_centerHorizontal="true" />
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/gkv" android:layout_alignTop="@id/myBarcode" android:layout_alignBottom="@id/myBarcode" android:layout_centerHorizontal="true" />
+        <TextView android:textSize="13.0sp" android:textColor="@color/aj0" android:gravity="center_horizontal" android:id="@id/hint" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@id/myBarcode" android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+    <include android:layout_width="fill_parent" android:layout_height="?i" layout="@layout/dq9" />
+</FrameLayout>

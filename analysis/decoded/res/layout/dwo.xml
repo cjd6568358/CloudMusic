@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/partyCard" android:tag="layout/video_party_pre_layout_party_card_0" android:paddingTop="4.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include android:id="@id/position0" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5m="@id/position1" app:a5w="spread_inside" app:a65="parent" app:a69="parent" layout="@layout/cd_" />
+    <include android:id="@id/position1" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5m="@id/position2" app:a64="@id/position0" app:a69="@id/position0" layout="@layout/cd_" />
+    <include android:id="@id/position2" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5m="@id/position3" app:a64="@id/position1" app:a69="@id/position0" layout="@layout/cd_" />
+    <include android:id="@id/position3" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5l="parent" app:a64="@id/position2" app:a69="@id/position0" layout="@layout/cd_" />
+    <include android:id="@id/position4" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a65="@id/position0" app:a68="@id/position0" layout="@layout/cd_" />
+    <include android:id="@id/position5" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a65="@id/position1" app:a69="@id/position4" layout="@layout/cd_" />
+    <include android:id="@id/position6" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a65="@id/position2" app:a69="@id/position4" layout="@layout/cd_" />
+    <include android:id="@id/position7" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a65="@id/position3" app:a69="@id/position4" layout="@layout/cd_" />
+    <FrameLayout android:id="@id/clickMask" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

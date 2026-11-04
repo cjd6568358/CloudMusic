@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/slideHintContainer" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/invocation_icon" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginBottom="38.0dip" app:a5f="parent" app:a5w="packed" app:a5z="parent" app:a62="@id/invocation_text_2" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/arrowImage" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginTop="28.0dip" android:src="@drawable/h63" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/b1z" android:id="@id/invocation_text_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:maxLines="1" app:a5z="parent" app:a63="parent" app:a68="@id/arrowImage" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:textColor="@color/b12" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/invocation_text_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:shadowColor="@color/e6" android:shadowDx="0.0" android:shadowDy="3.0" android:shadowRadius="3.0" app:a5f="@id/invocation_icon" app:a60="@id/invocation_icon" app:a63="parent" app:a69="@id/invocation_icon" />
+</androidx.constraintlayout.widget.ConstraintLayout>

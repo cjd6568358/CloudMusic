@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/milestoneContainer" android:tag="layout/podcast_detail_guide_milestone_0" android:layout_width="fill_parent" android:layout_height="fill_parent" android:baselineAligned="false" android:paddingStart="8.0dip" android:paddingEnd="14.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ViewSwitcher android:id="@id/viewSwitcher" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/icnMilestone" android:layout_width="42.0dip" android:layout_height="42.0dip" android:scaleType="centerCrop" android:layout_marginEnd="6.0dip" />
+            <LinearLayout android:gravity="center_vertical" android:id="@id/saleCountContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                <com.netease.cloudmusic.core.dolphin.component.text.DolphinTextView android:textSize="15.0sp" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/tvSaleCount" android:tag="binding_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:includeFontPadding="false" app:qc="16.0sp" app:xs="@font/b" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/nextLevelContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" android:baselineAligned="false" android:paddingStart="6.0dip" android:paddingEnd="8.0dip">
+            <com.netease.cloudmusic.core.dolphin.component.text.DolphinTextView android:textSize="15.0sp" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/tvNextLevel" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:includeFontPadding="false" app:qc="16.0sp" app:xs="@font/b" />
+        </LinearLayout>
+    </ViewSwitcher>
+    <com.netease.cloudmusic.ui.RoundedRelativeLayout android:id="@id/btnContainer" android:paddingLeft="12.0dip" android:paddingRight="12.0dip" android:layout_width="wrap_content" android:layout_height="26.0dip" android:paddingHorizontal="12.0dip" app:jw="13.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:id="@id/tvBtn" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:layout_centerInParent="true" app:qe="colorText1" />
+    </com.netease.cloudmusic.ui.RoundedRelativeLayout>
+</LinearLayout>

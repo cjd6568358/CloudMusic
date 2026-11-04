@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.module.musicshare.customshare.RoundedLinearWithoutTheme android:orientation="vertical" android:background="@color/aiw" android:paddingBottom="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/s1" android:layout_marginRight="@dimen/s2" app:jw="8.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:id="@id/shareChannelText" style="@style/a4c" />
+    <com.netease.cloudmusic.module.musicshare.customshare.RoundedLinearWithoutTheme android:gravity="center_vertical" android:layout_gravity="center" android:orientation="horizontal" android:id="@id/trackResContainer" android:background="@color/ax0" android:layout_width="304.0dip" android:layout_height="101.0dip" app:jw="3.0dip">
+        <com.netease.cloudmusic.ui.TrackResImageView android:id="@id/trackResImg" android:layout_width="101.0dip" android:layout_height="101.0dip" android:layout_centerVertical="true" app:ae="centerCrop" app:ahy="@drawable/g97" app:ahz="fitXY" app:alp="true" app:alq="false" app:alv="true" app:alw="false" app:am0="3.0dip" />
+        <RelativeLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@id/rightContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="9.0dip" android:layout_centerVertical="true">
+            <TextView android:textSize="14.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/trackResName" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:layout_marginBottom="4.0dip" android:maxLines="1" />
+            <TextView android:textSize="11.0sp" android:textColor="@color/aiy" android:ellipsize="end" android:id="@id/trackResCreator" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:maxLines="1" android:drawablePadding="3.0dip" android:layout_below="@id/trackResName" android:lineSpacingExtra="2.0dip" />
+        </RelativeLayout>
+    </com.netease.cloudmusic.module.musicshare.customshare.RoundedLinearWithoutTheme>
+</com.netease.cloudmusic.module.musicshare.customshare.RoundedLinearWithoutTheme>

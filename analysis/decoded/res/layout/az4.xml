@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@drawable/gi" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/friend" android:layout_width="25.0dip" android:layout_height="25.0dip" android:layout_marginLeft="25.0dip" android:layout_centerVertical="true" app:ae="centerCrop" app:w3="0" app:ahz="centerCrop" app:aln="true" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/me" android:layout_width="25.0dip" android:layout_height="25.0dip" android:layout_marginLeft="3.0dip" android:layout_centerVertical="true" app:ae="centerCrop" app:w3="0" app:ahy="@drawable/bhf" app:ahz="centerCrop" app:aln="true" />
+    <TextView android:textSize="11.0dip" android:textColor="#ffffffff" android:id="@id/hintText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" android:layout_marginRight="10.0dip" android:text="@string/d9a" android:singleLine="true" android:layout_toRightOf="@id/friend" android:layout_centerVertical="true" />
+</RelativeLayout>

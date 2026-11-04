@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="bottom|center" android:id="@id/dialog_container" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0sp" android:textColor="@color/aiv" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="30.0dip" android:text="@string/cma" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aix" android:id="@id/subTitle" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="40.0dip" android:layout_marginTop="9.0dip" android:layout_marginRight="40.0dip" android:text="@string/cm9" app:a5l="parent" app:a65="parent" app:a68="@id/title" />
+        <com.netease.cloudmusic.core.dolphin.component.button.DolphinButton android:id="@id/button" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="40.0dip" android:layout_marginTop="23.0dip" android:layout_marginRight="40.0dip" android:text="@string/cm7" app:q0="primary" app:q1="light" app:q2="xxl" app:q3="normal" app:q4="surface" app:a5l="parent" app:a65="parent" app:a68="@id/subTitle" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aix" android:id="@id/subButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:layout_marginBottom="40.0dip" android:text="@string/cm8" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a68="@id/button" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

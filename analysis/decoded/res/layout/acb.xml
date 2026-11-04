@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.discovery.view.module.voicelive.v3.flow.VoiceListFlowView android:orientation="vertical" android:id="@id/voiceListFlowView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/liveTagContainer" android:background="@drawable/a4m" android:paddingLeft="4.0dip" android:paddingTop="1.0dip" android:paddingRight="4.0dip" android:paddingBottom="1.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:layout_marginStart="6.0dip" android:layout_alignParentStart="true" android:paddingHorizontal="4.0dip" android:paddingVertical="1.0dip">
+        <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/livingIcon" android:layout_width="10.0dip" android:layout_height="10.0dip" android:layout_marginEnd="2.0dip" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="11.0sp" android:textColor="#ff283248" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/popularityTag" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" />
+    </LinearLayout>
+</FrameLayout>

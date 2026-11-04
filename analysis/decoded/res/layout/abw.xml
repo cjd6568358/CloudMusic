@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="155.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/cover" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ahy="@color/ajc" app:am0="8.0dip" />
+    <View android:id="@id/coverMask" android:layout_width="fill_parent" android:layout_height="46.0dip" app:a5f="parent" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/b12" android:ellipsize="end" android:id="@id/tvTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginRight="12.0dip" android:maxLines="1" android:includeFontPadding="false" android:layout_marginHorizontal="12.0dip" app:a5_="true" app:a5g="@id/tvDesc" app:a5l="parent" app:a5v="0.0" app:a65="parent" app:a69="@id/coverMask" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="10.0sp" android:textColor="@color/b1n" android:ellipsize="end" android:id="@id/tvDesc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginRight="12.0dip" android:maxLines="1" android:includeFontPadding="false" android:layout_marginHorizontal="12.0dip" app:a5_="true" app:a5f="parent" app:a5l="parent" app:a5v="0.0" app:a65="parent" app:a68="@id/tvTitle" />
+</androidx.constraintlayout.widget.ConstraintLayout>

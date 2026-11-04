@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/item_feed_video_landscape_0" android:paddingLeft="@dimen/s1" android:paddingTop="@dimen/anr" android:paddingRight="@dimen/s1" android:paddingBottom="@dimen/anm" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/videoCover" android:layout_width="142.0dip" android:layout_height="80.0dip" android:layout_margin="0.33000004dip" app:ae="centerCrop" app:a5z="parent" app:a69="parent" app:ahy="@drawable/cx6" app:ahz="fitXY" app:aj2="@color/awz" app:am0="@dimen/a6j" app:avr="true" app:avs="@color/dv" app:avu="0.33000004dip" />
+    <FrameLayout android:id="@id/videoContainer" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/videoCover" app:a5z="@id/videoCover" app:a63="@id/videoCover" app:a69="@id/videoCover" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:id="@id/tagName" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a63="@id/videoCover" app:a69="@id/videoCover" style="@style/a6x" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:id="@id/videoTime" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="@id/videoCover" app:a63="@id/videoCover" style="@style/a6w" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:id="@id/desc" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a60="@id/videoCover" app:a63="parent" app:a69="@id/videoCover" style="@style/a6v" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:id="@id/createName" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5z="@id/desc" app:a63="parent" app:a68="@id/desc" style="@style/a6u" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/playCount" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5z="@id/desc" app:a63="parent" app:a68="@id/createName" style="@style/a6t" />
+</androidx.constraintlayout.widget.ConstraintLayout>

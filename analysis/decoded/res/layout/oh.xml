@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aj0" android:ellipsize="end" android:gravity="center_vertical" android:layout_gravity="center_horizontal" android:id="@id/profileIdentifyDesc" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/s1" android:layout_marginTop="15.0dip" android:layout_marginRight="@dimen/s2" android:singleLine="true" android:includeFontPadding="false" />
+    <com.netease.cloudmusic.module.person.view.FollowHeaderContainerLayout android:layout_gravity="center_horizontal" android:id="@id/headerButtonContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/s1" android:layout_marginTop="15.0dip" android:layout_marginRight="@dimen/s2" android:minHeight="@dimen/sh" />
+    <com.netease.cloudmusic.person.artistv2.header.ArtistRcmdAnimatorContainerV2 android:orientation="vertical" android:id="@id/followUsersContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/ey" android:layout_marginLeft="@dimen/s1" android:layout_marginRight="@dimen/s2" android:translationY="@dimen/amp">
+        <RelativeLayout android:id="@id/rcmdContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/rcmRv" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" />
+        </RelativeLayout>
+    </com.netease.cloudmusic.person.artistv2.header.ArtistRcmdAnimatorContainerV2>
+    <com.netease.cloudmusic.ui.MainBannerContainer android:id="@id/bannerContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/ej" android:layout_marginTop="@dimen/ek">
+        <com.netease.cloudmusic.ui.NeteaseMusicViewPager android:id="@id/new_hit_focus" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        <LinearLayout android:gravity="center" android:layout_gravity="bottom|center" android:orientation="horizontal" android:id="@id/dotParent" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/s1" android:layout_marginRight="@dimen/s2" android:layout_marginBottom="4.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeDividerLine android:layout_width="fill_parent" android:layout_height="1.0px" />
+    </com.netease.cloudmusic.ui.MainBannerContainer>
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

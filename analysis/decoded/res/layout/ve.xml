@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.google.android.material.appbar.AppBarLayout android:background="@null" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip">
+            <com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout android:id="@id/hintLayout" android:layout_width="fill_parent" android:layout_height="42.0dip" app:y4="true" app:a76="scroll|exitUntilCollapsed">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0dip" android:textColor="@color/aiz" android:layout_gravity="center|left" android:id="@id/hintTextView" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/s1" android:text="@string/av5" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:layout_gravity="center|right" android:layout_width="10.0dip" android:layout_height="10.0dip" android:layout_marginRight="@dimen/s2" app:aev="@color/aiz" app:aqh="@drawable/d8z" />
+            </com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+        <FrameLayout android:id="@id/commentFrameLayout" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <FrameLayout android:id="@id/editLayout" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</FrameLayout>

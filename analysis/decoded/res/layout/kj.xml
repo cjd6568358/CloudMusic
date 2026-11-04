@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView android:tag="layout/activity_web_app_manager_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:background="@color/b12" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="66.0dip">
+            <androidx.appcompat.widget.LinearLayoutCompat android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="18.0dip" app:a5f="parent" app:a65="parent" app:a69="parent">
+                <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:textColor="#ff282828" android:ellipsize="end" android:id="@id/staticCacheNameTv" android:tag="binding_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="200.0dip" android:text="@string/jcz" android:maxLines="2" />
+                <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:textColor="#66000000" android:id="@id/staticCacheDescTv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="#ff030303" android:gravity="center" android:id="@id/staticCacheDelete" android:background="@drawable/be1" android:focusable="true" android:clickable="true" android:layout_width="58.0dip" android:layout_height="30.0dip" android:text="@string/jcy" android:layout_marginEnd="18.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+            <View android:background="#ffd8d8d8" android:layout_width="fill_parent" android:layout_height="0.5dip" app:a5f="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="10.0dip" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

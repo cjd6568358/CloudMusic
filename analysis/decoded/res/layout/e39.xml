@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.music.biz.share.musicshare.card.MusicShareCardItemContainer android:id="@id/container" android:layout_width="fill_parent" android:layout_height="wrap_content" app:jw="@dimen/ac0">
+        <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/textContainer" android:background="#ffffffff" android:paddingLeft="8.0dip" android:paddingTop="36.0dip" android:paddingRight="8.0dip" android:paddingBottom="6.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="8.0dip" android:layout_marginTop="20.0dip" android:layout_marginRight="8.0dip" android:layout_marginBottom="8.0dip" android:layout_marginHorizontal="8.0dip" android:paddingHorizontal="8.0dip">
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="6.0sp" android:textColor="#66000000" android:ellipsize="end" android:id="@id/podcastName" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="3.0dip" android:lines="1" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="9.0sp" android:textStyle="bold" android:textColor="#e6000000" android:ellipsize="end" android:id="@id/programName" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="3" />
+            <View android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0" />
+            <com.netease.cloudmusic.music.biz.voice.player.share.card.ShareCardSplitLineView android:layout_width="fill_parent" android:layout_height="0.5dip" android:layout_marginTop="10.0dip" android:layout_marginBottom="6.0dip" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="6.0sp" android:textColor="#ff999999" android:ellipsize="end" android:id="@id/coverDesc" android:layout_width="fill_parent" android:layout_height="wrap_content" android:lines="1" />
+        </LinearLayout>
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/voiceCover" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginTop="8.0dip" android:scaleType="centerCrop" android:layout_marginStart="16.0dip" app:jw="1.3299866dip" />
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/publishingContainer" android:background="#d9000000" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <androidx.appcompat.widget.AppCompatTextView android:textColor="#99ffffff" android:gravity="center" android:id="@id/tvPublishing" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/gt5" android:textAlignment="center" />
+            <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@id/progressBar" android:layout_width="fill_parent" android:layout_height="2.0dip" android:layout_marginLeft="20.0dip" android:layout_marginTop="10.0dip" android:layout_marginRight="20.0dip" android:layout_marginBottom="10.0dip" android:layout_marginHorizontal="20.0dip" android:layout_marginVertical="10.0dip" app:axc="1.0dip" app:axg="2.0dip" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:textColor="#ffffffff" android:id="@id/tvProgress" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        </LinearLayout>
+    </com.netease.cloudmusic.music.biz.share.musicshare.card.MusicShareCardItemContainer>
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/b1z" android:layout_gravity="center_horizontal" android:id="@id/cardName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:includeFontPadding="false" />
+</LinearLayout>

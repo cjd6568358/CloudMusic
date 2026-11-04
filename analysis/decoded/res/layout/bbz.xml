@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:background="@color/ay_" android:layout_width="fill_parent" android:layout_height="80.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="16.0sp" android:textStyle="bold" android:textColor="#fffe609e" android:id="@id/tv_name" android:tag="layout/item_party_game_quick_0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="13.0dip" app:a5z="parent" app:a69="parent" />
+    <com.netease.play.home.newparty.guess.list.widget.AggregationImageView android:id="@id/avatarLine" android:tag="layout/item_party_game_quick_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="19.0dip" android:layout_marginTop="6.0dip" app:a65="parent" app:a68="@id/tv_name" />
+    <TextView android:textSize="10.0sp" android:textColor="@color/n2" android:tag="layout/item_party_game_quick_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" app:a5z="@id/tv_name" app:a68="@id/avatarLine" />
+    <ImageView android:id="@id/iv_image" android:tag="layout/item_party_game_quick_3" android:layout_width="64.0dip" android:layout_height="80.0dip" android:layout_marginRight="10.0dip" app:a5f="parent" app:a63="parent" app:a69="parent" />
+</merge>

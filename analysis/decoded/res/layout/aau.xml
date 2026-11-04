@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:paddingTop="5.0dip" android:paddingBottom="5.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingVertical="5.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CoverStatusDraweeView android:id="@id/voiceImageView" android:layout_width="44.0dip" android:layout_height="44.0dip" app:ae="centerCrop" app:w3="300" app:a0w="end|bottom|center" app:a10="24.0dip" app:a12="2.0dip" app:a13="2.0dip" app:a1c="24.0dip" app:ahy="@drawable/cx5" app:ahz="fitXY" app:am0="6.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:id="@id/durationTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" android:layout_centerVertical="true" app:qe="colorText4_1" app:xs="@font/a" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:ellipsize="end" android:id="@id/voiceNameTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginRight="12.0dip" android:maxLines="2" android:layout_toLeftOf="@id/durationTextView" android:layout_toRightOf="@id/voiceImageView" android:layout_centerVertical="true" app:qe="colorIcon2" />
+</RelativeLayout>

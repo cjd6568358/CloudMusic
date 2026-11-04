@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textStyle="bold" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:layout_marginBottom="10.0dip" android:text="@string/gh4" android:includeFontPadding="false" android:layout_weight="1.0" android:layout_marginStart="16.0dip" android:layout_marginVertical="10.0dip" app:qe="colorText3_1" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/recommendSongClose" android:background="@drawable/list_selector" android:padding="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16.0dip" android:layout_marginEnd="8.0dip" app:aev="@color/a2h" app:aqh="@drawable/e_b" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+</LinearLayout>

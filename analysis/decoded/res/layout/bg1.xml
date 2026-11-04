@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.ui.LookThemeRelativeLayout android:gravity="center_vertical" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" app:e4="70.0dip" style="@style/a86"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/image" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_marginTop="5.0dip" android:layout_marginRight="10.0dip" android:layout_marginBottom="5.0dip" app:ae="centerCrop" app:ahy="@drawable/g9r" app:ahz="fitXY" app:am0="3.0dip" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_toLeftOf="@id/addBtn" android:layout_toRightOf="@id/image" android:layout_centerVertical="true">
+        <com.netease.play.ui.LookThemeHighlightTextView android:textSize="15.0sp" android:textColor="@color/anj" android:id="@id/songName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="3.0dip" android:singleLine="true" />
+        <com.netease.play.ui.LookThemeHighlightTextView android:textSize="11.0sp" android:textColor="@color/anl" android:layout_gravity="start" android:id="@id/songInfo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" />
+    </LinearLayout>
+    <com.netease.play.ui.CustomLoadingButton android:textSize="12.0sp" android:textColor="@color/anj" android:id="@id/addBtn" android:paddingLeft="16.0dip" android:paddingTop="7.0dip" android:paddingRight="16.0dip" android:paddingBottom="7.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="@string/gb6" android:drawablePadding="5.0dip" android:layout_alignParentRight="true" android:layout_centerVertical="true" app:gg="0x0002020B" />
+</com.netease.play.ui.LookThemeRelativeLayout>

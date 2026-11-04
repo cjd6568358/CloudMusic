@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.VerticalFrameLayout android:id="@id/webRootView" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout android:id="@id/webViewContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" app:jw="16.0dip" app:so="false" app:sp="false">
+        <FrameLayout android:id="@id/rnContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/ivCloseBtn" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginTop="@dimen/iu" android:src="@drawable/cwa" android:tint="#e5283248" android:layout_marginStart="@dimen/iu" />
+        <LinearLayout android:layout_gravity="bottom" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <View android:id="@id/gradientView" android:layout_width="fill_parent" android:layout_height="40.0dip" />
+            <LinearLayout android:gravity="center" android:layout_gravity="bottom" android:orientation="horizontal" android:id="@id/likeContainer" android:background="#ffffffff" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="56.0dip" android:paddingStart="@dimen/iw" android:paddingEnd="@dimen/it">
+                <FrameLayout android:layout_gravity="center_vertical" android:id="@id/thirdPartyAlbumContainer" android:visibility="visible" android:layout_width="38.0dip" android:layout_height="38.0dip">
+                    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/iv_thirdPartyAlbumCover" android:background="@drawable/b_u" android:layout_width="36.0dip" android:layout_height="36.0dip" app:ae="centerCrop" app:jw="6.0dip" app:w3="0" app:ahz="centerCrop" />
+                </FrameLayout>
+                <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:textColor="@color/aiv" android:ellipsize="marquee" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@id/tv_music" android:focusable="false" android:focusableInTouchMode="false" android:layout_width="0.0dip" android:layout_height="@dimen/a5p" android:singleLine="true" android:includeFontPadding="false" android:layout_weight="1.0" android:marqueeRepeatLimit="marquee_forever" android:layout_marginStart="8.0dip" />
+                <androidx.appcompat.widget.AppCompatImageView android:id="@id/ivLikeBtn" android:paddingLeft="5.0dip" android:paddingTop="5.0dip" android:paddingBottom="5.0dip" android:layout_width="41.0dip" android:layout_height="56.0dip" android:src="@drawable/gcn" android:scaleType="centerInside" android:contentDescription="@string/a0" />
+                <androidx.appcompat.widget.AppCompatImageView android:id="@id/ivPlaylist" android:paddingLeft="8.0dip" android:paddingTop="5.0dip" android:paddingBottom="5.0dip" android:layout_width="44.0dip" android:layout_height="56.0dip" android:src="@drawable/cmp" android:scaleType="centerInside" android:contentDescription="@string/r" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout>
+    <ProgressBar android:id="@id/progress" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="1.6699829dip" android:indeterminateOnly="false" android:progressDrawable="@drawable/bqp" />
+    <LinearLayout android:gravity="center_vertical" android:layout_gravity="center_horizontal" android:id="@id/load" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="75.0dip">
+        <com.netease.cloudmusic.theme.ui.ListLoadingProgressBar android:layout_width="20.0dip" android:layout_height="20.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textColor="@color/aiz" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:text="@string/dih" />
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:id="@id/reload" android:background="#ffffffff" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.music.biz.rn.container.view.RNEmptyView android:layout_gravity="center_horizontal" android:id="@id/failedView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </LinearLayout>
+</com.netease.cloudmusic.ui.VerticalFrameLayout>

@@ -1,0 +1,1641 @@
+======================================================================
+MANIFEST
+======================================================================
+package     : com.netease.cloudmusic
+versionCode : None
+versionName : None
+
+-- permissions (84) --
+  android.permission.ACCESS_COARSE_LOCATION
+  android.permission.ACCESS_FINE_LOCATION
+  android.permission.ACCESS_LOCATION_EXTRA_COMMANDS
+  android.permission.ACCESS_NETWORK_STATE
+  android.permission.ACCESS_WIFI_STATE
+  android.permission.ACTIVITY_RECOGNITION
+  android.permission.BLUETOOTH
+  android.permission.BLUETOOTH_ADMIN
+  android.permission.BLUETOOTH_CONNECT
+  android.permission.BLUETOOTH_SCAN
+  android.permission.CAMERA
+  android.permission.CHANGE_NETWORK_STATE
+  android.permission.CHANGE_WIFI_STATE
+  android.permission.FLASHLIGHT
+  android.permission.FOREGROUND_SERVICE
+  android.permission.GET_TASKS
+  android.permission.INTERNET
+  android.permission.MODIFY_AUDIO_SETTINGS
+  android.permission.MOUNT_UNMOUNT_FILESYSTEMS
+  android.permission.POST_NOTIFICATIONS
+  android.permission.READ_APP_BADGE
+  android.permission.READ_CALENDAR
+  android.permission.READ_CONTACTS
+  android.permission.READ_EXTERNAL_STORAGE
+  android.permission.READ_LOGS
+  android.permission.READ_MEDIA_AUDIO
+  android.permission.READ_MEDIA_IMAGES
+  android.permission.READ_MEDIA_VIDEO
+  android.permission.READ_PHONE_STATE
+  android.permission.RECORD_AUDIO
+  android.permission.REORDER_TASKS
+  android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  android.permission.REQUEST_INSTALL_PACKAGES
+  android.permission.SCHEDULE_EXACT_ALARM
+  android.permission.SET_WALLPAPER
+  android.permission.SYSTEM_ALERT_WINDOW
+  android.permission.USE_FINGERPRINT
+  android.permission.VIBRATE
+  android.permission.WAKE_LOCK
+  android.permission.WRITE_CALENDAR
+  android.permission.WRITE_CONTACTS
+  android.permission.WRITE_EXTERNAL_STORAGE
+  android.permission.WRITE_SETTINGS
+  com.anddoes.launcher.permission.UPDATE_COUNT
+  com.android.launcher.permission.INSTALL_SHORTCUT
+  com.asus.msa.SupplementaryDID.ACCESS
+  com.asus.permission.READ_SDID_PROVIDER
+  com.coloros.mcs.permission.RECIEVE_MCS_MESSAGE
+  com.heytap.mcs.permission.RECIEVE_MCS_MESSAGE
+  com.hihonor.brain.permission.KIT_SERVICE_ACCESS
+  com.hihonor.push.permission.READ_PUSH_NOTIFICATION_INFO
+  com.htc.launcher.permission.READ_SETTINGS
+  com.htc.launcher.permission.UPDATE_SHORTCUT
+  com.huawei.android.launcher.permission.CHANGE_BADGE
+  com.huawei.hicar.HICAR_PERMISSION
+  com.huawei.permission.DISTRIBUTED_DATASYNC
+  com.majeur.launcher.permission.UPDATE_BADGE
+  com.miui.miplay.audio.ACCESS_STATE
+  com.miui.personalassistant.permission.WIDGET_READ_SETTINGS
+  com.miui.personalassistant.permission.WIDGET_WRITE_SETTINGS
+  com.nemu.oaid.permission.read
+  com.nemu.oaid.permission.write
+  com.netease.cloudmusic.app.permission.READ_FILE
+  com.netease.cloudmusic.permission.MIPUSH_RECEIVE
+  com.netease.cloudmusic.permission.OPERATOR_FREE
+  com.netease.cloudmusic.permission.PROCESS_PUSH_MSG
+  com.netease.cloudmusic.permission.PUSH_PROVIDER
+  com.netease.permission.REQUEST_OPEN_API
+  com.oppo.launcher.permission.READ_SETTINGS
+  com.oppo.launcher.permission.WRITE_SETTINGS
+  com.sec.android.provider.badge.permission.READ
+  com.sec.android.provider.badge.permission.WRITE
+  com.sonyericsson.home.permission.BROADCAST_BADGE
+  com.sonymobile.home.permission.PROVIDER_INSERT_BADGE
+  com.vivo.identifier.permission.OAID_STATE_DIALOG
+  com.vivo.notification.permission.BADGE_ICON
+  com.xiaomi.dist.permission.ACCESS_APP_HANDOFF
+  com.xiaomi.dist.permission.ACCESS_APP_META
+  freemme.permission.msa
+  freemme.permission.msa.SECURITY_ACCESS
+  getui.permission.GetuiService.com.netease.cloudmusic
+  huawei.permission.DISTRIBUTED_DEVICE_STATE_CHANGE
+  oplus.bracketspace.permission.INSERT_PERMISSION
+  oplus.permission.settings.LAUNCH_FOR_EXPORT
+
+-- uses-feature (3) --
+  android.hardware.camera
+  android.hardware.camera.autofocus
+  android.hardware.usb.host
+
+-- activity (799) --
+   com.netease.cloudmusic.dialogtest.DialogTestActivity
+   com.squareup.leakcanary.internal.DisplayLeakActivity
+   com.netease.cloudmusic.music.biz.search.activity.SearchActivity
+   com.netease.cloudmusic.music.biz.search.activity.SearchForSelectActivity
+   com.netease.cloudmusic.music.biz.search.activity.SearchToRcmdSongActivity
+   com.netease.cloudmusic.music.biz.search.portfolio.activity.SearchPortfolioDetailActivity
+   com.netease.cloudmusic.messagecenter.activity.PrivateMsgDetailActivity
+   com.netease.cloudmusic.messagecenter.activity.MessageCenterCommentActivity
+   com.netease.cloudmusic.messagecenter.activity.MessageCenterAtMeActivity
+   com.netease.cloudmusic.messagecenter.activity.MessageCenterNotificationActivity
+   com.netease.cloudmusic.messagecenter.MessageCenterActivity
+   com.netease.cloudmusic.messagecenter.MessageCenterAggActivity
+   com.netease.cloudmusic.messagecenter.activity.UserFansActivity
+   com.netease.cloudmusic.messagecenter.activity.VideoPlayActivity
+   com.netease.cloudmusic.messagecenter.activity.MessageNoticeActivity
+   com.netease.cloudmusic.messagecenter.activity.MessageCenterShareActivity
+   com.netease.cloudmusic.music.biz.clouddisk.activity.MyPrivateCloudActivity
+   com.netease.cloudmusic.music.biz.clouddisk.activity.MyPrivateCloudUploadActivity
+   com.netease.cloudmusic.music.biz.clouddisk.activity.UploadMusicActivity
+   com.netease.cloudmusic.music.biz.clouddisk.activity.ExternalFileRouterActivity
+   com.netease.cloudmusic.music.biz.clouddisk.activity.UploadSimpleActivity
+   com.netease.cloudmusic.music.biz.voice.player.share.ShareVoiceLyricActivity
+   com.netease.cloudmusic.music.biz.voice.home.MainPageVoiceHostActivity
+   com.netease.cloudmusic.music.biz.voice.homepage.recommend.PodcastIndependentActivity
+   com.netease.cloudmusic.music.biz.voice.home.category.ui.VoiceCatHostActivity
+   com.netease.cloudmusic.music.biz.voice.publish.RecordProgramActivity
+   com.netease.cloudmusic.music.biz.voice.publish.PublishProgramActivity
+   com.netease.cloudmusic.music.biz.voice.voicelist.VoiceListSortActivity
+   com.netease.cloudmusic.music.biz.voice.voicelist.NewVoiceListDetailActivity
+   com.netease.cloudmusic.music.biz.voice.favorite.VoiceListFavorActivity
+   com.netease.cloudmusic.music.biz.voice.purchase.RadioPurchaseActivity
+   com.netease.cloudmusic.music.biz.voice.player.revisionV1.ProgramPlayerActivityV1
+   com.netease.cloudmusic.music.biz.voice.selectlocal.LocalAudioSelectActivity
+   com.netease.cloudmusic.music.biz.voice.publish.read.PodCastTextReadActivity
+   com.netease.cloudmusic.music.biz.voice.publish.UploadProgramActivity
+   com.netease.cloudmusic.music.biz.voice.voicelist.detail.manage.VoiceManageActivity
+   com.netease.cloudmusic.music.biz.voice.player.share.PlayerVoiceShareActivity
+   com.netease.cloudmusic.music.biz.voice.player.share.voiceposter.ShareVoicePosterActivity
+   com.netease.cloudmusic.music.biz.voice.player.share.podcastposter.SharePodcastPosterActivity
+   com.netease.cloudmusic.music.biz.voice.editinfo.PodcastCoverEditActivity
+   com.netease.cloudmusic.music.biz.voice.publish.videoEdit.PodcastVideoEditActivity
+   com.netease.cloudmusic.music.biz.voice.publish.videoEdit.CommonPodcastNoteEditActivity
+   com.netease.cloudmusic.music.biz.sidebar.activity.DrawerManagerActivity
+   com.netease.cloudmusic.music.biz.sidebar.setting.systempermission.SystemPermissionSettingActivity
+   com.netease.cloudmusic.music.biz.sidebar.setting.VolumeBalanceActivity
+   com.netease.cloudmusic.activity.AboutActivity
+   com.netease.cloudmusic.activity.FloatLyricPermissionDialogActivity
+   com.netease.cloudmusic.activity.LockScreenPermissionDialogActivity
+   com.netease.cloudmusic.activity.AlarmClockPermissionActivity
+   com.netease.cloudmusic.music.biz.sidebar.activity.DownloadWhenCacheCompleteActivity
+   com.netease.cloudmusic.activity.AlarmClockMusicActivity
+   com.netease.cloudmusic.activity.AlarmAlertScreenActivity
+   com.netease.cloudmusic.activity.AlarmMusicCategoryActivity
+   com.netease.cloudmusic.music.biz.setting.aidjdebug.AidjDebugLogActivity
+   com.netease.cloudmusic.music.biz.setting.followlt.FltDebugLogActivity
+   com.netease.cloudmusic.music.biz.setting.activity.DeveloperAudioPlayerAct
+   com.netease.cloudmusic.music.biz.setting.activity.GetuiConfigActivity
+   com.netease.cloudmusic.music.biz.setting.activity.ClearCacheActivity
+   com.netease.cloudmusic.music.biz.setting.activity.DeveloperActivity
+   com.netease.cloudmusic.music.biz.setting.activity.DeveloperActivityNew
+   com.netease.cloudmusic.music.biz.setting.activity.DeviceInfoTestActivity
+   com.netease.cloudmusic.music.biz.setting.activity.ThrottleSettingActivity
+   com.netease.cloudmusic.music.biz.setting.activity.DeveloperDiscoveryABActivity
+   com.netease.cloudmusic.music.biz.setting.activity.SocialPlaylistSettingActivity
+   com.netease.cloudmusic.music.biz.setting.activity.NotifySettingActivity
+   com.netease.cloudmusic.music.biz.setting.activity.SettingActivity
+   com.netease.cloudmusic.music.biz.setting.activity.MorePlayDownloadSettingActivity
+   com.netease.cloudmusic.music.biz.setting.activity.AutoPlaySettingActivity
+   com.netease.cloudmusic.music.biz.setting.activity.DeskAndLyricSettingActivity
+   com.netease.cloudmusic.music.biz.setting.activity.WidgetSettingActivity
+   com.netease.cloudmusic.music.biz.setting.activity.DeviceManagementActivity
+   com.netease.cloudmusic.music.biz.setting.demo.ui.DemoEntranceActivity
+   com.netease.cloudmusic.music.biz.setting.activity.RouterDemoActivity
+   com.netease.cloudmusic.music.biz.setting.activity.RuleFilterTestActivity
+   com.netease.cloudmusic.music.biz.setting.activity.DlnaSettingActivity
+   com.netease.cloudmusic.music.biz.setting.diagnose.DiagnotorActivity
+   com.netease.cloudmusic.music.biz.setting.activity.LineCtrlActivity
+   com.netease.cloudmusic.music.biz.setting.activity.LockScreenCtrlActivity
+   com.netease.cloudmusic.music.biz.setting.activity.MusicOnlineQualityActivity
+   com.netease.cloudmusic.music.biz.setting.activity.MusicDownloadQualityActivity
+   com.netease.cloudmusic.music.biz.setting.activity.RouterTestActivity
+   com.netease.cloudmusic.music.biz.setting.activity.BlacklistActivity
+   com.netease.cloudmusic.music.biz.setting.activity.CrashTestActivity
+   com.netease.cloudmusic.music.biz.setting.activity.IPMonitorActivity
+   com.netease.cloudmusic.music.biz.setting.activity.CookieConfigActivity
+   com.netease.cloudmusic.music.biz.setting.activity.MusicWebSocketRpcActivity
+   com.netease.cloudmusic.music.biz.setting.activity.AudioCacheSettingActivity
+   com.netease.cloudmusic.music.biz.setting.activity.DeveloperLocalSearchActivity
+   com.netease.cloudmusic.music.biz.setting.activity.DeveloperMmkvClearActivity
+   com.netease.cloudmusic.module.cache.CacheManagerActivity
+   com.netease.cloudmusic.music.biz.setting.activity.DslPreviewActivity
+   com.netease.cloudmusic.music.biz.setting.activity.ChangeIconDemoActivity
+   com.netease.cloudmusic.music.biz.setting.activity.AeToolsDemoActivity
+   com.netease.cloudmusic.music.biz.setting.activity.SongRecommendTagSettingActivity
+   com.netease.cloudmusic.music.biz.setting.activity.PlayerUIModeSettingActivity
+   com.netease.cloudmusic.music.biz.setting.activity.PlayApiDebugActivity
+   com.netease.cloudmusic.music.biz.setting.activity.PlayDebugActivity
+   com.netease.cloudmusic.music.biz.setting.activity.PlayStateTestActivity
+   com.netease.cloudmusic.module.continueplay.CrossDevicesContinuePlayActivity
+   com.netease.cloudmusic.music.biz.setting.activity.AudioSepTrackSettingDemoActivity
+   com.netease.cloudmusic.music.biz.setting.activity.AdRecommentTagSettingActivity
+   com.netease.cloudmusic.music.biz.setting.activity.RNDebugToolActivity
+   com.netease.cloudmusic.music.biz.setting.ned.NEDDiagnoseActivity
+   com.netease.cloudmusic.music.biz.setting.ned.NEDiagnoseSettingActivity
+   com.netease.cloudmusic.music.biz.setting.activity.AudioKeepAliveTestActivity
+   com.netease.cloudmusic.music.biz.setting.activity.VibrateTestActivity
+   com.netease.cloudmusic.activity.MyCollectionActivity
+   com.netease.cloudmusic.activity.ColumnCollectionActivity
+   com.netease.cloudmusic.music.biz.localmusic.activity.MyDownloadMusicActivity
+   com.netease.cloudmusic.music.biz.localmusic.activity.ScanMusicActivity
+   com.netease.cloudmusic.activity.SDcardAuthorizeActivity
+   com.netease.cloudmusic.activity.MissingFileActivity
+   com.netease.cloudmusic.music.biz.localmusic.activity.EncrptDldPayMusicActivity
+   com.netease.cloudmusic.music.biz.localmusic.activity.DuplicateLocalMusicActivity
+   com.netease.cloudmusic.music.biz.localmusic.autofix.LocalAutoFixActivity
+   com.netease.cloudmusic.music.biz.member.pay.PayStatusActivity
+   com.netease.cloudmusic.music.biz.member.pay.ChoosePayActivity
+   com.netease.cloudmusic.music.biz.member.audioeffect.ui.EqualizerActivity
+   com.netease.cloudmusic.music.biz.member.audioeffect.ui.EqualizerSavePresetActivity
+   com.netease.cloudmusic.music.biz.member.audioeffect.ui.EqualizerPresetActivity
+   com.netease.cloudmusic.music.biz.member.ringtones.RingtoneActivity
+   com.netease.cloudmusic.music.biz.member.audioeffect.ui.AudioEffectActivity
+   com.netease.cloudmusic.music.biz.member.audioeffect.ui.AudioEffectAnimChooseActivity
+   com.netease.cloudmusic.music.biz.member.audioeffect.ui.DeviceAudioEffectActivity
+   com.netease.cloudmusic.music.biz.member.audioeffect.ui.DeviceAudioEffectBrandActivity
+   com.netease.cloudmusic.music.biz.member.audioeffect.ui.DeviceAudioEffectHeadphonesActivity
+   com.netease.cloudmusic.music.biz.member.audioeffect.ui.DeviceAudioEffectEqActivity
+   com.netease.cloudmusic.music.biz.member.audioeffect.ui.AudioEffectDetailActivity
+   com.netease.cloudmusic.music.biz.member.audioeffect.ui.AudioAdvanceSettingsActivity
+   com.netease.cloudmusic.music.biz.member.audioeffect.player.twinkle.TwinkleTestActivity
+   com.netease.cloudmusic.music.biz.member.songorder.ui.SongOrderDetailActivity
+   com.netease.cloudmusic.music.biz.member.lyrictemplate.ui.ShareImageLrcActivity
+   com.netease.cloudmusic.music.biz.member.audioeffect.ui.AudioEffectThemeChooseActivity
+   com.netease.cloudmusic.music.biz.member.vip.privilege.AuditionHintActivity
+   com.netease.cloudmusic.music.biz.member.digitalalbum.activity.MyDigitalAlbumActivity
+   com.netease.cloudmusic.music.biz.member.ringtones.MusicDownloadProgressActivity
+   com.netease.cloudmusic.music.biz.member.freeflow.datapackage.DataPackagePromptActivity
+   com.netease.cloudmusic.music.biz.member.vip.timeclose.MusicTimeCloseSettingActivity
+   com.netease.cloudmusic.music.biz.member.ringtones.better.RingtoneActivity2
+   com.netease.cloudmusic.music.biz.member.pay.NeteasePaySignActivity
+   com.netease.cloudmusic.music.biz.member.pay.NeteasePayActivity
+   com.netease.cloudmusic.music.biz.member.audioeffect.personal.eartexture.EarTextureTestActivity
+   com.netease.cloudmusic.music.biz.member.birthdaycall.BirthdayCallActivity
+   com.netease.cloudmusic.activity.AlbumActivity
+   com.netease.cloudmusic.activity.AddToPlayListActivity
+   com.netease.cloudmusic.module.dailyhistory.DailyHistoryActivity
+   com.netease.cloudmusic.activity.MainPlaylistActivity
+   com.netease.cloudmusic.activity.PlaylistCategoryActivity
+   com.netease.cloudmusic.activity.PlayListActivity
+   com.netease.cloudmusic.module.dailyrecomm.DailyRecommendMusicActivity
+   com.netease.cloudmusic.module.consortrecomm.ui.ConsortActivity
+   com.netease.cloudmusic.activity.EditPlayListActivity
+   com.netease.cloudmusic.activity.PlayListTagManagerActivity
+   com.netease.cloudmusic.activity.RNPlaylistSortActivity
+   com.netease.cloudmusic.module.satimode.ChooseItemActivity
+   com.netease.cloudmusic.module.listentogether.ListenTogetherTestActivity
+   com.netease.cloudmusic.module.listentogether.invite.ListenTogetherInviteActivity
+   com.netease.cloudmusic.module.score.activity.SongScoreDetailActivity
+   com.netease.cloudmusic.module.listentogether.playpage.chat.message.ui.ListenTogetherMessageHistoryActivity
+   com.netease.cloudmusic.module.listentogether.invite.LTInviteActivity
+   com.netease.cloudmusic.module.listentogether.chat.LTChatRecordActivity
+   com.netease.cloudmusic.module.listentogether.screenshot.LTScreenShotShareActivity
+   com.netease.cloudmusic.activity.LockScreenActivity
+   com.netease.cloudmusic.opensdk.auth.AuthActivity
+   com.netease.cloudmusic.opensdk.auth.SignInActivity
+   com.netease.cloudmusic.opensdk.auth.SignInActivityForH5
+   com.netease.cloudmusic.activity.ScanActivity
+   com.netease.cloudmusic.activity.VideoEditActivity
+   com.netease.cloudmusic.activity.VideoEditChooseMusicActivity
+   com.netease.cloudmusic.activity.VideoEditMusicCategoryActivity
+   com.netease.cloudmusic.activity.VideoCoverCaptureActivity
+   com.netease.cloudmusic.activity.VideoPreviewActivity
+   com.netease.cloudmusic.activity.VideoRelatedMusicActivity
+   com.netease.cloudmusic.activity.PictureVideoChooserActivity
+   com.netease.cloudmusic.activity.VinylPictureVideoChooserActivity
+   com.netease.cloudmusic.newsong.activity.FollowNewMusicActivity
+   com.netease.cloudmusic.activity.PrivacySafeBasicMusicActivity
+   com.netease.cloudmusic.activity.LoadingActivity
+   com.netease.cloudmusic.activity.LyricAllVideoChooseActivity
+   com.netease.cloudmusic.activity.ShareLyricVideoActivity
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.player.test.WidgetsTestActivity
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.yoyo.SuggestPermissionActivity
+   com.netease.cloudmusic.music.biz.appwidgets.view.AppwidgetPlayerRedirectActivity
+   com.netease.cloudmusic.music.biz.appwidgets.view.EditTrampolineActivity
+   com.netease.cloudmusic.module.ad.ui.DownloadAppAdExtDesActivity
+   com.netease.cloudmusic.module.ad.motivation.MotivationVideoGuideActivity
+   com.netease.cloudmusic.module.ad.motivation.commonui.AdMotivationVideoActivity
+   com.netease.cloudmusic.module.ad.motivation.commonui.AdTransparentDialogActivity
+   com.netease.cloudmusic.module.ad.motivation.rightagain.AdRightAgainDialogActivity
+   com.netease.cloudmusic.module.ad.banner.download.AdBannerSnifferDialogActivity
+   com.netease.cloudmusic.module.ad.motivation.pcopendialog.AdPcOpenDialogActivity
+   com.netease.cloudmusic.module.ad.motivation.external.AdClickStayFailedDialogActivity
+   com.netease.cloudmusic.module.ad.boot.ui.AdDownloadDialogActivity
+   com.netease.cloudmusic.music.biz.recentplay.ui.activity.MyRecentPlayActivity
+   com.netease.cloudmusic.activity.VboxReactNativeActivity
+   com.netease.cloudmusic.activity.ReactNativeActivity
+   com.netease.cloudmusic.music.biz.recognition.ui.activity.IdentifyHistoryActivity
+   com.netease.cloudmusic.music.biz.recognition.ui.activity.IdentifyResultActivity
+   com.netease.cloudmusic.music.biz.recognition.ui.activity.IdentifyResultActivityV2
+   com.netease.cloudmusic.music.biz.recognition.ui.activity.IdentifyGuideActivity
+   com.netease.cloudmusic.music.biz.recognition.ui.activity.IdentifyActivityV2
+   com.netease.cloudmusic.music.biz.recognition.ui.activity.IdentifyResultFailActivity
+   com.netease.cloudmusic.music.biz.recognition.ui.activity.IdentifyMusicListActivity
+   com.netease.cloudmusic.playlive.page.LiveMPActivity
+   com.netease.cloudmusic.playlive.PlayliveBridgeActivity
+   com.netease.cloudmusic.activity.ListenLiveActivity
+   com.netease.cloudmusic.activity.ListenMoreLiveActivity
+   com.netease.cloudmusic.activity.LookMoreClassifyActivity
+   com.netease.cloudmusic.activity.LiveOperationMoreActivity
+   com.netease.cloudmusic.activity.MainPageCircleLiveActivity
+   com.netease.cloudmusic.activity.MainPageMoreLiveActivity
+   com.netease.live.homepage.newparty.v4.MusicSongPartyActivity
+   com.netease.cloudmusic.module.login.LoginActivity
+   com.netease.cloudmusic.module.login.BindAccountActivity
+   com.netease.cloudmusic.module.login.BindCellphoneActivity
+   com.netease.cloudmusic.module.login.EmailVerifyActivity
+   com.netease.cloudmusic.module.login.security.VerifyActivity
+   com.netease.cloudmusic.module.login.BindSettingActivity
+   com.netease.cloudmusic.module.login.BindSettingForRNActivity
+   com.netease.cloudmusic.module.login.security.GovVerifyForWebActivity
+   com.netease.cloudmusic.module.login.accountsafe.AccountSafeActivity
+   com.netease.cloudmusic.module.login.BindPassActivity
+   com.netease.cloudmusic.module.login.LoginPermissionActivity
+   com.netease.cloudmusic.module.login.quicklogin.SwitchAccountActivity
+   com.netease.cloudmusic.module.login.quicklogin.SwitchAccountLoadingActivity
+   com.netease.cloudmusic.ui.douyin.DouYinAuthRespActivity
+   com.netease.cloudmusic.module.login.route.UserDialogUriHandlerActivity
+   com.netease.cloudmusic.music.biz.friend.modular.home.MyFriendActivity
+   com.netease.cloudmusic.music.biz.friend.modular.follow.ProfileFollowingActivity
+   com.netease.cloudmusic.music.biz.friend.modular.follow.subartist.SubArtistActivity
+   com.netease.cloudmusic.music.biz.friend.modular.fans.FansActivity
+   com.netease.cloudmusic.music.biz.friend.modular.friend.FriendActivity
+   com.netease.cloudmusic.music.biz.friend.modular.follow.both.BothFollowActivity
+   com.netease.cloudmusic.activity.MusicSheetDisplayDemoActivity
+   com.netease.cloudmusic.activity.MusicSheetPreviewActivity
+   com.netease.cloudmusic.activity.beat.BeatRelationSongActivity
+   com.netease.cloudmusic.person.activity.ProfileActivityV4
+   com.netease.cloudmusic.person.activity.artist.ArtistActivity
+   com.netease.cloudmusic.person.activity.artist.ArtistActivityV3
+   com.netease.cloudmusic.person.activity.artist.ArtistListActivity
+   com.netease.cloudmusic.person.activity.GeneralResourceActivity
+   com.netease.cloudmusic.person.activity.artist.ArtistCategoryActivity
+   com.netease.cloudmusic.person.activity.artist.ArtistIntroActivity
+   com.netease.cloudmusic.person.activity.ProfileActivity
+   com.netease.cloudmusic.person.activity.ProfileActivityV3
+   com.netease.cloudmusic.person.activity.ProfileTrackActivity
+   com.netease.cloudmusic.person.activity.ProfileInfoDetailActivity
+   com.netease.cloudmusic.person.activity.ProfileCommentsActivity
+   com.netease.cloudmusic.person.activity.SingerInfoActivity
+   com.netease.cloudmusic.person.activity.ProfileInfoDetailActivityV3
+   com.netease.cloudmusic.person.activity.ProfileModifyActivity
+   com.netease.cloudmusic.person.activity.ProfilePrivacySettingActivity
+   com.netease.cloudmusic.person.activity.artist.ArtistIdentifyWorkActivity
+   com.netease.cloudmusic.person.activity.SchoolChooseActivity
+   com.netease.cloudmusic.person.activity.ConcertInfoListActivity
+   com.netease.cloudmusic.person.activity.TopicActivity
+   com.netease.cloudmusic.hop.HarmonyHopActivity
+   com.netease.cloudmusic.hop.FinishHopHintActivity
+   com.netease.cloudmusic.test.CarFlowTestActivity
+   com.netease.cloudmusic.activity.PlayerChildActivity
+   com.netease.cloudmusic.activity.PlayerActivity
+   com.netease.cloudmusic.activity.PlayerLandscapeActivity
+   com.netease.cloudmusic.activity.PlayListExpertListActivity
+   com.netease.cloudmusic.activity.PlayerVehicleActivity
+   com.netease.cloudmusic.activity.NewPlayerVehicleActivity
+   com.netease.cloudmusic.activity.VinylCropActivity
+   com.netease.cloudmusic.activity.VinylDIYEditActivity
+   com.netease.cloudmusic.activity.VehicleFMConnectStateActivity
+   com.netease.cloudmusic.activity.VehicleFMSetStereoActivity
+   com.netease.cloudmusic.activity.PlayProtectSettingTutorialActivity
+   com.netease.cloudmusic.activity.PlayProtectTutorialDetailActivity
+   com.netease.cloudmusic.halffold.HalfFoldPlayerActivity
+   com.netease.cloudmusic.activity.MiMiniPlayerActivity
+   com.netease.cloudmusic.music.biz.lyric.lyricselect.LyricSelectActivity
+   com.netease.cloudmusic.music.biz.lyric.LyricShareActivity
+   com.netease.cloudmusic.music.biz.share.CircleQRcodeActivity
+   com.netease.cloudmusic.music.biz.share.musicshare.PlayerMusicShareActivity
+   com.netease.cloudmusic.music.biz.share.musicshare.customshare.CustomTextShareActivity
+   com.netease.cloudmusic.music.biz.share.SharePanelPromptActivity
+   com.netease.cloudmusic.music.biz.share.SharePanelActivity
+   com.netease.cloudmusic.music.biz.share.DetailSharePanelActivity
+   com.netease.cloudmusic.music.biz.share.MyBarcodeActivity
+   com.netease.cloudmusic.playlive.room.PlatformLiveActivity
+   com.netease.cloudmusic.playlive.room.PfLiveEndActivity
+   com.netease.cloudmusic.biz.watch.WatchInitActivity
+   com.netease.cloudmusic.biz.watch.module.main.WatchMainActivity
+   com.netease.cloudmusic.biz.watch.module.guide.GuideActivity
+   com.netease.cloudmusic.biz.watch.module.guide.GuidePermissionActivity
+   com.netease.cloudmusic.biz.watch.module.guide.GuideConnectionActivity
+   com.netease.cloudmusic.biz.watch.module.addvideo.AddVideoActivity
+   com.netease.cloudmusic.biz.watch.module.helper.WatchHelpActivity
+   com.netease.cloudmusic.biz.watch.module.addvideo.AddVideoGuideActivity
+   com.netease.cloudmusic.biz.watch.module.addvideo.GuideBackgroundRunActivity
+   com.netease.cloudmusic.biz.watch.module.addvideo.GuideAutoStartActivity
+   com.netease.cloudmusic.music.biz.circle.promotion.PromotionMessageActivity
+   com.netease.cloudmusic.music.biz.circle.activity.CircleMainPageActivity
+   com.netease.cloudmusic.music.biz.circle.activity.CircleChatRoomActivity
+   com.netease.cloudmusic.music.biz.circle.activity.CircleAtActivity
+   com.netease.cloudmusic.music.biz.circle.activity.MainPageTestActivity
+   com.netease.cloudmusic.music.biz.circle.activity.CircleChatRoomQrCodeActivity
+   com.netease.cloudmusic.music.biz.circle.demo.DemoAggregationActivity
+   com.netease.cloudmusic.music.biz.circle.activity.EssenceMixtureActivity
+   com.netease.cloudmusic.music.biz.circle.activity.CircleEventActivity
+   com.netease.cloudmusic.music.biz.circle.activity.FollowedCircleActivity
+   com.netease.cloudmusic.music.biz.circle.activity.CircleDetailActivity
+   com.netease.cloudmusic.social.activity.InviteFriendActivity
+   com.netease.cloudmusic.social.activity.InviteFriendActivityNew
+   com.netease.cloudmusic.social.activity.EditCommentActivity
+   com.netease.cloudmusic.social.activity.FindAndInviteFriendActivity
+   com.netease.cloudmusic.social.activity.EditInviteActivity
+   com.netease.cloudmusic.social.activity.InvitePairsFollowActivity
+   com.netease.cloudmusic.social.activity.InviteFriendCommentActivity
+   com.netease.cloudmusic.social.activity.EditTagActivity
+   com.netease.cloudmusic.social.activity.WxInviteActivity
+   com.netease.cloudmusic.social.activity.MvVideoActivity
+   com.netease.cloudmusic.social.activity.ProgramRelatedVideoActivity
+   com.netease.cloudmusic.social.activity.RelatedVideoActivity
+   com.netease.cloudmusic.social.activity.RewardedPeopleListActivity
+   com.netease.cloudmusic.social.activity.ProgramMusicActivity
+   com.netease.cloudmusic.social.activity.RelativePeopleActivity
+   com.netease.cloudmusic.social.activity.StarUserActivity
+   com.netease.cloudmusic.social.activity.AtSomebodyActivity
+   com.netease.cloudmusic.social.activity.Share2FriendActivity
+   com.netease.cloudmusic.music.biz.usertrack.debug.TrackDebugUIActivity
+   com.netease.cloudmusic.music.biz.usertrack.activity.TrackHistoryActivity
+   com.netease.cloudmusic.music.biz.usertrack.activity.PostFailTrackActivity
+   com.netease.cloudmusic.music.biz.usertrack.activity.PostDraftTrackActivity
+   com.netease.cloudmusic.music.biz.usertrack.trackdetail.new.TrackDetailActivity2
+   com.netease.cloudmusic.music.biz.usertrack.trackdetail.TrackDetailActivity
+   com.netease.cloudmusic.music.biz.usertrack.activity.TrackChallengeActivity
+   com.netease.cloudmusic.music.biz.usertrack.nearby.NearbyActivity
+   com.netease.cloudmusic.music.biz.usertrack.activity.TrackActivitySearchActivity
+   com.netease.cloudmusic.music.biz.usertrack.activitydetail.ActivityTrackActivity
+   com.netease.cloudmusic.music.biz.discuss.DiscussDetailActivity
+   com.netease.cloudmusic.music.biz.usertrack.activitydetail.fansGroup.FansGroupQRcodeActivity
+   com.netease.cloudmusic.music.biz.moment.MomentDetailActivity
+   com.netease.cloudmusic.music.biz.moment.MomentPicPreviewActivity
+   com.netease.cloudmusic.music.biz.comment.activity.ReplyCommentActivity2
+   com.netease.cloudmusic.music.biz.comment.activity.FloatCommentActivity2
+   com.netease.cloudmusic.music.biz.comment.activity.CommentActivity
+   com.netease.cloudmusic.music.biz.comment.activity.DemoDetailActivity
+   com.netease.cloudmusic.music.biz.comment.activity.FloatCommentAllReplyActivity
+   com.netease.cloudmusic.music.biz.oldcomment.activity.MoreHotCommentActivity
+   com.netease.cloudmusic.music.biz.oldcomment.activity.AllMusicianCommentActivity
+   com.netease.cloudmusic.music.biz.oldcomment.activity.CommentAllReplyActivity
+   com.netease.cloudmusic.music.biz.oldcomment.activity.FloatCommentActivity
+   com.netease.cloudmusic.music.biz.oldcomment.activity.ResourceCommentActivity
+   com.netease.cloudmusic.music.biz.comment.discuss.DiscussFloatReplyActivity
+   com.netease.cloudmusic.music.biz.comment.podcast.FloatCommentForPodcastActivity
+   com.netease.cloudmusic.music.biz.comment.player.FloatCommentForPlayerActivity
+   com.netease.cloudmusic.music.biz.comment.podcast.FloatReplyCommentForPodcastActivity
+   com.netease.cloudmusic.music.biz.comment.commentdetail.CommentDetailActivity
+   com.netease.cloudmusic.music.biz.comment.activity.FoldCommentActivity
+   com.netease.cloudmusic.music.biz.comment.activity.AirborneDetailActivity
+   com.netease.cloudmusic.music_biz_mus_yb.YbWebActivity
+   com.netease.cloudmusic.music_biz_mus_yb.YbWeb2Activity
+   com.netease.cloudmusic.music_biz_mus_yb.picker.aigc.CameraActivity
+   com.netease.cloudmusic.music.biz.trackpublish.activity.ShareActivity
+   com.netease.cloudmusic.music.biz.trackpublish.activity.ResourceInputPanelDemoActivity
+   com.netease.cloudmusic.activity.ForwardTrackActivity
+   com.netease.cloudmusic.music.biz.gamehouse.GameHouseActivity
+   com.netease.cloudmusic.ui.gift.GiftTransparentActivity
+   com.netease.cloudmusic.musiccalendar.view.activity.MusicCalendarActivity
+   com.netease.cloudmusic.musiccalendar.view.activity.MusicCalendarSubscriptionDetailActivity
+   com.netease.cloudmusic.sportfm.PlayerSportRadioActivity
+   com.netease.cloudmusic.newmusic.NewMusicAlbumContainerActivity
+   com.netease.cloudmusic.activity.SportRadioFinishActivity
+   com.netease.cloudmusic.discovery.view.module.secondfloor.DiscoverySecondFloorAllActivity
+   com.netease.cloudmusic.discovery.view.newframework.DiscoveryMusicActivity
+   com.netease.cloudmusic.discovery.view.newframework.FeatureActivity
+   com.netease.cloudmusic.activity.PlayerRadioActivity
+   com.netease.cloudmusic.activity.PlayerClassicalFmActivity
+   com.netease.cloudmusic.module.childmode.ChildModeActivity
+   com.netease.cloudmusic.biz.billboard.activity.MainBillboardActivity
+   com.netease.cloudmusic.biz.billboard.activity.ArtistBillboardActivity
+   com.netease.cloudmusic.biz.billboard.activity.RewardSongTopListActivity
+   com.netease.cloudmusic.biz.billboard.activity.UserBillboardActivity
+   com.netease.cloudmusic.biz.billboard.activity.RewardRadioAnchorActivity
+   com.netease.cloudmusic.biz.billboard.activity.MvVideoBillboardActivity
+   com.netease.cloudmusic.music.biz.mlog.consume.person.videos.collectedandliked.MyLikedMLogActivity
+   com.netease.cloudmusic.music.biz.mlog.consume.list.MLogListActivity
+   com.netease.cloudmusic.music.biz.mlog.consume.draft.MLogDraftListActivity
+   com.netease.cloudmusic.music.biz.mlog.consume.feed.MLogFeedActivity
+   com.netease.cloudmusic.music.biz.mlog.consume.vinyl.ui.MlogVinylAggregateActivity
+   com.netease.cloudmusic.music.biz.mlog.consume.detail.music.biz.mlogdetail.MLogVideoActivity
+   com.netease.cloudmusic.music.biz.mlog.consume.detail.music.biz.mlogdetail.MLogPicActivityV2
+   com.netease.cloudmusic.music.biz.mlog.consume.detail.music.biz.mlogdetail.SongEmptyActivity
+   com.netease.cloudmusic.music.biz.mlog.consume.detail.music.biz.videobox.VideoBoxActivity
+   com.netease.cloudmusic.music.biz.mlog.consume.detail.music.biz.mlogdetail.MLogPicActivity
+   com.netease.cloudmusic.music.biz.mlog.consume.detail.module.video.CategoryMvListActivity
+   com.netease.cloudmusic.music.biz.mlog.consume.detail.module.video.CategoryVideoListActivity
+   com.netease.cloudmusic.music.biz.mlog.consume.detail.module.video.MvVideoFilterActivity
+   com.netease.cloudmusic.music.biz.mlog.consume.detail.module.video.MvVideoSelectedActivity
+   com.netease.cloudmusic.music.biz.mlog.consume.detail.module.video.MVSelectedActivity
+   com.netease.cloudmusic.music.biz.mlog.consume.social.homepage.MlogSquareVideoActivity
+   com.netease.cloudmusic.music.biz.mlog.consume.detail.music.biz.videobox.VideoBoxActivityNew
+   com.netease.cloudmusic.music.biz.mlogproduct.launcher.PublishVideoMLogLaunchActivity
+   com.netease.cloudmusic.music.biz.mlogproduct.launcher.PublishVideoMLogLaunchAggActivity
+   com.netease.cloudmusic.music.biz.mlogproduct.videotemplate.choosematerial.MLogVideoTemplateMaterialSelectActivity
+   com.netease.cloudmusic.music.biz.mlogproduct.videotemplate.edittemplatevideo.AutoVideoEditActivity
+   ... truncated 399
+
+-- service (93) --
+   com.netease.cloudmusic.music.biz.voice.tileservice.PopularPodCastService
+   com.netease.cloudmusic.music.biz.voice.tileservice.BroadCastService
+   com.netease.cloudmusic.music.biz.voice.tileservice.SleepAidDecompressionService
+   com.netease.cloudmusic.music.biz.voice.tileservice.ListenBookService
+   com.netease.cloudmusic.music.biz.localmusic.service.LocalMusicMatchService
+   com.netease.cloudmusic.music.biz.localmusic.service.LocalMusicTaskService
+   com.netease.cloudmusic.music.biz.member.pay.PayCheckIntentService
+   com.netease.cloudmusic.music.biz.member.pay.PayVipCheckIntentService
+   com.netease.cloudmusic.titleservice.PrivateFmTitleService
+   com.netease.cloudmusic.titleservice.PrivateRadarTitleService
+   com.netease.cloudmusic.titleservice.PlayFavoriteMusicTitleService
+   com.netease.cloudmusic.titleservice.DailyRecommandTitleService
+   com.netease.cloudmusic.service.RecordUploadService
+   com.netease.cloudmusic.music.biz.appwidgets.view.updatejob.UpdateAppWidgetIntentService
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.footprint.FootPrintWidgetService
+   com.netease.cloudmusic.module.hicar.HiCarMediaOperateMgr
+   com.netease.cloudmusic.module.ucar.UCarService
+   com.netease.cloudmusic.module.hicar.HiCarHonorMediaOperateMgr
+   com.netease.cloudmusic.service.VBoxService
+   com.netease.cloudmusic.music.biz.recognition.service.IdentifyFloatService
+   com.netease.cloudmusic.module.look.minibar.PlayMinibarService
+   com.netease.cloudmusic.hop.ContinuationService
+   com.netease.cloudmusic.CloudMusicFlowService
+   com.xiaomi.dist.handoff.sdk.HandoffClientService
+   com.netease.cloudmusic.service.MainProcessPlayService
+   com.netease.cloudmusic.service.MainProcessVideoService
+   com.netease.cloudmusic.playlive.minibar.PfPlayMinibarService
+   com.netease.cloudmusic.biz.watch.downloader.HuaweiSportService
+   com.netease.cloudmusic.music.biz.gamehouse.service.GameRoomService
+   com.netease.cloudmusic.third.api.CMApiService
+   com.netease.cloudmusic.module.transfer.apk.ApkManagerService
+   com.netease.cloudmusic.module.webview.audio.WebPlayService$WebCommonPlayService
+   com.netease.cloudmusic.module.webview.BrowserPreService
+   com.netease.cloudmusic.module.webview.audio.WebPlayService$MpPlayService1
+   com.netease.cloudmusic.module.webview.audio.WebPlayService$MpPlayService2
+   com.netease.cloudmusic.module.webview.audio.WebPlayService$MpPlayService3
+   com.netease.cloudmusic.module.webview.audio.WebPlayService$MpPlayService4
+   com.netease.cloudmusic.module.webview.audio.WebPlayService$MpPlayService5
+   com.netease.cloudmusic.service.PushService
+   com.amap.api.location.APSService
+   com.netease.cloudmusic.music.biz.rn.util.EncryptUidService
+   com.netease.cloudmusic.jskernel.MusicCrossEngineIPCServiceMain
+   com.netease.cloudmusic.jskernel.MusicCrossEngineIPCServicePlay
+   com.netease.play.party.livepage.preview.service.PreviewPartyService
+   com.netease.cloudmusic.nim.NimService
+   com.netease.cloudmusic.nim.NimService2
+   com.netease.play.preload.LookPreloadService
+   com.netease.play.rnlive.LivingService
+   com.netease.cloudmusic.video.service.VideoPlayService
+   com.netease.cloudmusic.log.panel.statistic.SLogService
+   com.netease.cloudmusic.core.patch.PatchResultService
+   com.netease.cloudmusic.core.mp.dispatch.MpService1
+   com.netease.cloudmusic.core.mp.dispatch.MpService2
+   com.netease.cloudmusic.core.mp.dispatch.MpService3
+   com.netease.cloudmusic.core.mp.dispatch.MpService4
+   com.netease.cloudmusic.core.mp.dispatch.MpService5
+   com.xiaomi.push.service.XMPushService
+   com.xiaomi.push.service.XMJobService
+   com.xiaomi.mipush.sdk.PushMessageHandler
+   com.xiaomi.mipush.sdk.MessageHandleService
+   com.netease.cloudmusic.push.receiver.HuaweiPushService
+   com.vivo.push.sdk.service.CommandClientService
+   com.netease.cloudmusic.push.receiver.oppo.OppoPushReceiverPreQ
+   com.netease.cloudmusic.push.receiver.oppo.OppoPushReceiverQ
+   com.netease.cloudmusic.push.GetuiPushService
+   com.netease.cloudmusic.push.GeTuiIntentService
+   com.netease.cloudmusic.push.RegisterTokenService
+   com.netease.cloudmusic.push.receiver.HonorPushService
+   org.chromium.wow.extension.usage.WowIPCService
+   com.kwai.koom.javaoom.monitor.analysis.HeapAnalysisService
+   com.netease.cloudmusic.core.safemode.SafeModeService
+   com.netease.cloudmusic.diagnose.monitor.NEDTrafficService
+   com.netease.cloudmusic.diagnose.ipc.NEDIPCService
+   com.netease.nimlib.service.NimService
+   com.netease.nimlib.service.NimServiceV2
+   com.netease.nimlib.coexist.service.NimService
+   com.netease.nimlib.coexist.service.ResponseService
+   androidx.room.MultiInstanceInvalidationService
+   com.tencent.tinker.lib.service.TinkerPatchForeService
+   com.tencent.tinker.lib.service.TinkerPatchService
+   com.tencent.tinker.lib.service.TinkerPatchService$InnerService
+   com.tencent.tinker.lib.service.DefaultTinkerResultService
+   com.huawei.hms.support.api.push.service.HmsMsgService
+   com.huawei.agconnect.core.ServiceDiscovery
+   com.dtf.wish.evidence.EvidenceService
+   com.squareup.leakcanary.internal.HeapAnalyzerService
+   com.squareup.leakcanary.DisplayLeakService
+   com.squareup.leakcanary.SaveLeakService
+   com.igexin.sdk.PushService
+   com.igexin.sdk.GTIntentService
+   com.igexin.sdk.GService
+   com.getui.gtc.GtcService
+   com.netease.android.extension.servicekeeper.service.ipc.server.IPCCommunicationAndroidService
+
+-- receiver (38) --
+   com.netease.cloudmusic.music.biz.clouddisk.external.OpenFileChosenReceiver
+   com.netease.cloudmusic.receiver.AlarmAlertBroadcastReceiver
+   com.netease.cloudmusic.module.alarmclock.localpush.LocalPushAlarmAlertBroadcastReceiver
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.fm.provider.PlayFm42AppWidgetProvider
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.miyou.Miyou44AppwidgetProvider
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.miyou.Miyou22AppwidgetProvider
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.heartbeat.provider.HeartBeatLyric42AppWidgetProvider
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.heartbeat.provider.HeartBeatLyric44AppWidgetProvider
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.heartbeat.provider.HeartBeatCalendar42AppWidgetProvider
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.heartbeat.provider.HeartBeatCalendar44AppWidgetProvider
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.footprint.FootPrintCalendar42AppWidgetProvider
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.Feature22AppWidgetProvider
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.honor.Honor22AppWidgetProvider
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.general.Feature22PlayAppWidgetProvider
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.general.Feature42PlayAppWidgetProvider
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.honor.Honor42YoyoAppWidgetProvider
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.Feature42AppWidgetProvider
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.honor.Honor42AppWidgetProvider
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.Feature44AppWidgetProvider
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.uniwidget.UniWidgetProvider22
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.uniwidget.UniWidgetProvider42
+   com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.uniwidget.UniWidgetRecentPlayProvider
+   com.netease.cloudmusic.receiver.MediaButtonEventReceiver
+   com.netease.cloudmusic.module.appwidget.PlayerWidget
+   com.netease.cloudmusic.module.appwidget.PlayerWidgetFourTwo
+   com.netease.cloudmusic.module.appwidget.PlayerWidgetFourFour
+   com.netease.cloudmusic.module.iot.sonyearphone.utils.SonyBluetoothA2DPReceiver
+   com.netease.cloudmusic.module.webview.audio.WebMediaButtonReceiver
+   com.xiaomi.push.service.receivers.PingReceiver
+   com.netease.cloudmusic.push.receiver.MiPushMessageReceiver
+   com.netease.cloudmusic.push.receiver.VivoPushReceiver
+   androidx.profileinstaller.ProfileInstallReceiver
+   org.gux.widget.WidgetBroadcastReceiver
+   org.gux.widget.WidgetAddBroadcastReceiver
+   com.oplus.ocs.relaykit.sdk.broadcastreceiver.RelayReceiver
+   com.netease.nimlib.coexist.service.ResponseReceiver
+   com.huawei.hms.support.api.push.PushMsgReceiver
+   com.huawei.hms.support.api.push.PushReceiver
+
+-- provider (23) --
+   org.gux.widget.provider.view.support.UxFileProvider
+   androidx.core.content.FileProvider
+   com.netease.cloudmusic.module.minibar.tool.provider.MiniBarDataProvider
+   com.tencent.mmkv.MMKVContentProvider
+   com.netease.cloudmusic.core.dynamicso.core.preload.SoDynamicContentProvider
+   com.netease.cloudmusic.assets.preload.AssetsDynamicContentProvider
+   org.xjy.android.treasure.provider.TreasureProvider
+   com.netease.cloudmusic.utils.CommonFileProvider
+   com.netease.cloudmusic.datareport.provider.ProcessProvider
+   com.netease.nimlib.ipc.cp.provider.PreferenceContentProvider
+   com.netease.nimlib.ipc.NIMContentProvider
+   com.netease.nimlib.ipc.NIMContentProviderV2
+   com.netease.epay.sdk.provider.EpayInitProvider
+   com.netease.epay.sdk.base.provider.CameraFileProvider
+   androidx.startup.InitializationProvider
+   com.netease.nimlib.coexist.ipc.NIMContentProvider
+   com.netease.nimlib.coexist.ipc.cp.provider.PreferenceContentProvider
+   com.huawei.hms.support.api.push.PushProvider
+   com.huawei.hms.aaid.InitProvider
+   com.huawei.agconnect.core.provider.AGConnectInitializeProvider
+   com.getui.gtc.base.GtcProvider
+   com.sina.weibo.sdk.content.FileProviderV2
+   com.sina.weibo.sdk.content.WeiboSDKFileProvider
+
+-- activity-alias (182) --
+   com.netease.cloudmusic.loading.activity.IdentifyShortcutActivity
+   com.netease.cloudmusic.loading.activity.RadioShortcutActivity
+   com.netease.cloudmusic.activity.IconChangeAliasId292
+   com.netease.cloudmusic.activity.IconChangeAliasId291
+   com.netease.cloudmusic.activity.IconChangeAliasId290
+   com.netease.cloudmusic.activity.IconChangeAliasId289
+   com.netease.cloudmusic.activity.IconChangeAliasId288
+   com.netease.cloudmusic.activity.IconChangeAliasId287
+   com.netease.cloudmusic.activity.IconChangeAliasId286
+   com.netease.cloudmusic.activity.IconChangeAliasId285
+   com.netease.cloudmusic.activity.IconChangeAliasId284
+   com.netease.cloudmusic.activity.IconChangeAliasId283
+   com.netease.cloudmusic.activity.IconChangeAliasId282
+   com.netease.cloudmusic.activity.IconChangeAliasId281
+   com.netease.cloudmusic.activity.IconChangeAliasId280
+   com.netease.cloudmusic.activity.IconChangeAliasId279
+   com.netease.cloudmusic.activity.IconChangeAliasId278
+   com.netease.cloudmusic.activity.IconChangeAliasId277
+   com.netease.cloudmusic.activity.IconChangeAliasId276
+   com.netease.cloudmusic.activity.IconChangeAliasId275
+   com.netease.cloudmusic.activity.IconChangeAliasId274
+   com.netease.cloudmusic.activity.IconChangeAliasId273
+   com.netease.cloudmusic.activity.IconChangeAliasId272
+   com.netease.cloudmusic.activity.IconChangeAliasId271
+   com.netease.cloudmusic.activity.IconChangeAliasId270
+   com.netease.cloudmusic.activity.IconChangeAliasId269
+   com.netease.cloudmusic.activity.IconChangeAliasId268
+   com.netease.cloudmusic.activity.IconChangeAliasId267
+   com.netease.cloudmusic.activity.IconChangeAliasId266
+   com.netease.cloudmusic.activity.IconChangeAliasId265
+   com.netease.cloudmusic.activity.IconChangeAliasId264
+   com.netease.cloudmusic.activity.IconChangeAliasId263
+   com.netease.cloudmusic.activity.IconChangeAliasId262
+   com.netease.cloudmusic.activity.IconChangeAliasId261
+   com.netease.cloudmusic.activity.IconChangeAliasId260
+   com.netease.cloudmusic.activity.IconChangeAliasId259
+   com.netease.cloudmusic.activity.IconChangeAliasId258
+   com.netease.cloudmusic.activity.IconChangeAliasId257
+   com.netease.cloudmusic.activity.IconChangeAliasId256
+   com.netease.cloudmusic.activity.IconChangeAliasId255
+   com.netease.cloudmusic.activity.IconChangeAliasId254
+   com.netease.cloudmusic.activity.IconChangeAliasId253
+   com.netease.cloudmusic.activity.IconChangeAliasId252
+   com.netease.cloudmusic.activity.IconChangeAliasId251
+   com.netease.cloudmusic.activity.IconChangeAliasId250
+   com.netease.cloudmusic.activity.IconChangeAliasId249
+   com.netease.cloudmusic.activity.IconChangeAliasId248
+   com.netease.cloudmusic.activity.IconChangeAliasId247
+   com.netease.cloudmusic.activity.IconChangeAliasId246
+   com.netease.cloudmusic.activity.IconChangeAliasId245
+   com.netease.cloudmusic.activity.IconChangeAliasId244
+   com.netease.cloudmusic.activity.IconChangeAliasId243
+   com.netease.cloudmusic.activity.IconChangeAliasId242
+   com.netease.cloudmusic.activity.IconChangeAliasId241
+   com.netease.cloudmusic.activity.IconChangeAliasId240
+   com.netease.cloudmusic.activity.IconChangeAliasId239
+   com.netease.cloudmusic.activity.IconChangeAliasId238
+   com.netease.cloudmusic.activity.IconChangeAliasId237
+   com.netease.cloudmusic.activity.IconChangeAliasId236
+   com.netease.cloudmusic.activity.IconChangeAliasId235
+   com.netease.cloudmusic.activity.IconChangeAliasId234
+   com.netease.cloudmusic.activity.IconChangeAliasId233
+   com.netease.cloudmusic.activity.IconChangeAliasId232
+   com.netease.cloudmusic.activity.IconChangeAliasId231
+   com.netease.cloudmusic.activity.IconChangeAliasId230
+   com.netease.cloudmusic.activity.IconChangeAliasId229
+   com.netease.cloudmusic.activity.IconChangeAliasId228
+   com.netease.cloudmusic.activity.IconChangeAliasId227
+   com.netease.cloudmusic.activity.IconChangeAliasId226
+   com.netease.cloudmusic.activity.IconChangeAliasId225
+   com.netease.cloudmusic.activity.IconChangeAliasId224
+   com.netease.cloudmusic.activity.IconChangeAliasId223
+   com.netease.cloudmusic.activity.IconChangeAliasId222
+   com.netease.cloudmusic.activity.IconChangeAliasId221
+   com.netease.cloudmusic.activity.IconChangeAliasId220
+   com.netease.cloudmusic.activity.IconChangeAliasId219
+   com.netease.cloudmusic.activity.IconChangeAliasId218
+   com.netease.cloudmusic.activity.IconChangeAliasId217
+   com.netease.cloudmusic.activity.IconChangeAliasId216
+   com.netease.cloudmusic.activity.IconChangeAliasId215
+   com.netease.cloudmusic.activity.IconChangeAliasId214
+   com.netease.cloudmusic.activity.IconChangeAliasId213
+   com.netease.cloudmusic.activity.IconChangeAliasId212
+   com.netease.cloudmusic.activity.IconChangeAliasId211
+   com.netease.cloudmusic.activity.IconChangeAliasId210
+   com.netease.cloudmusic.activity.IconChangeAliasId209
+   com.netease.cloudmusic.activity.IconChangeAliasId208
+   com.netease.cloudmusic.activity.IconChangeAliasId207
+   com.netease.cloudmusic.activity.IconChangeAliasId206
+   com.netease.cloudmusic.activity.IconChangeAliasId205
+   com.netease.cloudmusic.activity.IconChangeAliasId204
+   com.netease.cloudmusic.activity.IconChangeAliasId203
+   com.netease.cloudmusic.activity.IconChangeAliasId202
+   com.netease.cloudmusic.activity.IconChangeAliasId201
+   com.netease.cloudmusic.activity.IconChangeAliasId200
+   com.netease.cloudmusic.activity.IconChangeAliasId185
+   com.netease.cloudmusic.activity.IconChangeAliasId184
+   com.netease.cloudmusic.activity.IconChangeAliasId183
+   com.netease.cloudmusic.activity.IconChangeAliasId182
+   com.netease.cloudmusic.activity.IconChangeAliasId181
+   com.netease.cloudmusic.activity.IconChangeAliasId180
+   com.netease.cloudmusic.activity.IconChangeAliasId179
+   com.netease.cloudmusic.activity.IconChangeAliasId178
+   com.netease.cloudmusic.activity.IconChangeAliasId177
+   com.netease.cloudmusic.activity.IconChangeAliasId176
+   com.netease.cloudmusic.activity.IconChangeAliasId175
+   com.netease.cloudmusic.activity.IconChangeAliasId174
+   com.netease.cloudmusic.activity.IconChangeAliasId173
+   com.netease.cloudmusic.activity.IconChangeAliasId172
+   com.netease.cloudmusic.activity.IconChangeAliasId171
+   com.netease.cloudmusic.activity.IconChangeAliasId170
+   com.netease.cloudmusic.activity.IconChangeAliasId169
+   com.netease.cloudmusic.activity.IconChangeAliasId168
+   com.netease.cloudmusic.activity.IconChangeAliasId167
+   com.netease.cloudmusic.activity.IconChangeAliasId166
+   com.netease.cloudmusic.activity.IconChangeAliasId165
+   com.netease.cloudmusic.activity.IconChangeAliasId164
+   com.netease.cloudmusic.activity.IconChangeAliasId163
+   com.netease.cloudmusic.activity.IconChangeAliasId162
+   com.netease.cloudmusic.activity.IconChangeAliasId161
+   com.netease.cloudmusic.activity.IconChangeAliasId160
+   com.netease.cloudmusic.activity.IconChangeAliasId159
+   com.netease.cloudmusic.activity.IconChangeAliasId158
+   com.netease.cloudmusic.activity.IconChangeAliasId157
+   com.netease.cloudmusic.activity.IconChangeAliasId156
+   com.netease.cloudmusic.activity.IconChangeAliasId155
+   com.netease.cloudmusic.activity.IconChangeAliasId154
+   com.netease.cloudmusic.activity.IconChangeAliasId153
+   com.netease.cloudmusic.activity.IconChangeAliasId152
+   com.netease.cloudmusic.activity.IconChangeAliasId151
+   com.netease.cloudmusic.activity.IconChangeAliasId150
+   com.netease.cloudmusic.activity.IconChangeAliasId149
+   com.netease.cloudmusic.activity.IconChangeAliasId148
+   com.netease.cloudmusic.activity.IconChangeAliasId147
+   com.netease.cloudmusic.activity.IconChangeAliasId146
+   com.netease.cloudmusic.activity.IconChangeAliasId145
+   com.netease.cloudmusic.activity.IconChangeAliasId144
+   com.netease.cloudmusic.activity.IconChangeAliasId143
+   com.netease.cloudmusic.activity.IconChangeAliasId142
+   com.netease.cloudmusic.activity.IconChangeAliasId141
+   com.netease.cloudmusic.activity.IconChangeAliasId140
+   com.netease.cloudmusic.activity.IconChangeAliasId139
+   com.netease.cloudmusic.activity.IconChangeAliasId138
+   com.netease.cloudmusic.activity.IconChangeAliasId137
+   com.netease.cloudmusic.activity.IconChangeAliasId136
+   com.netease.cloudmusic.activity.IconChangeAliasId135
+   com.netease.cloudmusic.activity.IconChangeAliasId134
+   com.netease.cloudmusic.activity.IconChangeAliasId133
+   com.netease.cloudmusic.activity.IconChangeAliasId132
+   com.netease.cloudmusic.activity.IconChangeAliasId131
+   com.netease.cloudmusic.activity.IconChangeAliasId130
+   com.netease.cloudmusic.activity.IconChangeAliasId129
+   com.netease.cloudmusic.activity.IconChangeAliasId128
+   com.netease.cloudmusic.activity.IconChangeAliasId127
+   com.netease.cloudmusic.activity.IconChangeAliasId126
+   com.netease.cloudmusic.activity.IconChangeAliasId125
+   com.netease.cloudmusic.activity.IconChangeAliasId124
+   com.netease.cloudmusic.activity.IconChangeAliasId123
+   com.netease.cloudmusic.activity.IconChangeAliasId122
+   com.netease.cloudmusic.activity.IconChangeAliasId121
+   com.netease.cloudmusic.activity.IconChangeAliasId120
+   com.netease.cloudmusic.activity.IconChangeAliasId119
+   com.netease.cloudmusic.activity.IconChangeAliasId118
+   com.netease.cloudmusic.activity.IconChangeAliasId117
+   com.netease.cloudmusic.activity.IconChangeAliasId116
+   com.netease.cloudmusic.activity.IconChangeAliasId115
+   com.netease.cloudmusic.activity.IconChangeAliasId114
+   com.netease.cloudmusic.activity.IconChangeAliasId113
+   com.netease.cloudmusic.activity.IconChangeAliasId112
+   com.netease.cloudmusic.activity.IconChangeAliasId111
+   com.netease.cloudmusic.activity.IconChangeAliasId110
+   com.netease.cloudmusic.activity.IconChangeAliasId109
+   com.netease.cloudmusic.activity.IconChangeAliasId108
+   com.netease.cloudmusic.activity.IconChangeAliasId107
+   com.netease.cloudmusic.activity.IconChangeAliasId106
+   com.netease.cloudmusic.activity.IconChangeAliasId105
+   com.netease.cloudmusic.activity.IconChangeAliasId104
+   com.netease.cloudmusic.activity.IconChangeAliasId103
+   com.netease.cloudmusic.activity.IconChangeAliasId102
+   com.netease.cloudmusic.activity.IconChangeAliasId101
+   com.netease.cloudmusic.activity.IconChangeAliasId100
+   com.netease.cloudmusic.activity.IconChangeDefaultAlias
+
+======================================================================
+DEX STRINGS: 2161547 from 20 dex
+======================================================================
+
+-- class descriptors: 243112
+
+-- top package prefixes (depth 2) --
+   105630  com/netease
+     4207  com/facebook
+     3352  org/bouncycastle
+     2887  com/huawei
+     2386  kotlin/reflect
+     2068  androidx/core
+     1663  java/util
+     1608  org/apache
+     1494  java/lang
+     1337  android/view
+     1211  com/alibaba
+     1103  android/graphics
+     1059  com/tencent
+     1042  com/google
+     1014  kotlinx/coroutines
+      817  android/widget
+      805  androidx/appcompat
+      731  android/content
+      719  com/xiaomi
+      713  androidx/recyclerview
+      692  com/squareup
+      677  com/alipay
+      659  android/os
+      658  androidx/lifecycle
+      626  kotlin/jvm
+      615  java/io
+      526  android/text
+      505  com/igexin
+      475  androidx/constraintlayout
+      465  com/sankuai
+      451  androidx/databinding
+      437  androidx/annotation
+      436  android/media
+      429  org/chromium
+      419  a/a
+      417  androidx/room
+      412  com/hihonor
+      398  android/app
+      394  io/agora
+      366  java/security
+      359  com/unionpay
+      356  kotlin/collections
+      340  com/getui
+      332  java/net
+      328  com/loc
+
+-- top package prefixes (depth 3) --
+    69497  com/netease/cloudmusic
+    19407  com/netease/play
+     5244  com/netease/nimlib
+     2724  com/netease/epay
+     2604  com/netease/nmvideocreator
+     2235  kotlin/reflect/jvm
+     1972  com/facebook/react
+     1770  com/huawei/hms
+     1225  com/netease/lava
+     1184  org/bouncycastle/jcajce
+     1165  org/apache/lucene
+      902  com/google/android
+      806  com/alibaba/gaiax
+      760  com/netease/live
+      717  org/bouncycastle/crypto
+      702  androidx/recyclerview/widget
+      690  com/facebook/imagepipeline
+      678  androidx/core/view
+      662  org/bouncycastle/asn1
+      632  java/util/concurrent
+      567  com/netease/avsdk
+      549  com/netease/karaoke
+      537  com/xiaomi/push
+      465  com/sankuai/waimai
+      444  androidx/appcompat/widget
+      418  a/a/a
+      386  androidx/core/app
+      384  io/agora/rtc
+      383  com/facebook/drawee
+      379  com/netease/android
+      378  kotlin/jvm/internal
+      350  com/tencent/tinker
+      340  com/getui/gtc
+      340  com/netease/luna
+      329  org/apache/commons
+      323  com/igexin/push
+      321  com/squareup/moshi
+      319  android/graphics/drawable
+      308  com/alipay/sdk
+      305  com/tencent/mm
+      304  org/xjy/android
+      298  com/bytedance/sdk
+      296  com/unionpay/tsmservice
+      296  com/huawei/wearengine
+      295  org/bouncycastle/pqc
+
+-- keyword hits (unique strings) --
+
+[dlna] 302 hits, sample:
+    DLNA
+    dlna
+    dlnaVM
+    dlna_tv
+    DLNA_TV
+    forDlna
+    dlnaImpl
+    DlnaTask
+
+[upnp] 126 hits, sample:
+    upnpErr
+    UPnPError
+     UPnP/1.0 
+    upnp:class
+    xmlns:upnp
+    upnp:event
+    upnpStatus
+    upnp:album
+
+[cling] 10 hits, sample:
+    mRecyclingAction
+    setupViewRecycling
+    enableViewRecycling
+    mRecyclingRnPlayers
+    mEnableViewRecycling
+    isEnableViewRecycling
+    setEnableViewRecycling
+    Landroidx/lifecycle/Lifecycling;
+
+[dmr] 1 hits, sample:
+    enhancedMRProbablePrimeTest
+
+[dmp] 12 hits, sample:
+    PodMp
+    loadMpRes
+    PodMp(url=
+    buildMpSession
+    loadMpResEndTime
+    loadMpResStartTime
+    findMpfMarkerIndex
+    ENotifyCDMProbeInfo
+
+[dms] 332 hits, sample:
+    endMs
+    endMsg
+    SENDMSG
+    loadMsg
+    sendMsg
+    , endMs=
+    playedMs
+    buildMs=
+
+[mediarouter] 4 hits, sample:
+    mediaRouter2
+    Landroid/media/MediaRouter;
+    Landroid/media/MediaRouter2;
+    Landroid/media/MediaRouter2$RouteCallback;
+
+[cast] 7942 hits, sample:
+    cast
+    CAST6
+    CAST5
+    tryCast
+    Podcast
+    podcast
+    PODCAST
+    raycast
+
+[bluetooth] 634 hits, sample:
+    blueTooth
+    Bluetooth
+    BlueTooth
+    bluetooth
+    BLUETOOTH
+    isBluetooth
+    bluetoothId
+     bluetooth 
+
+[a2dp] 41 hits, sample:
+    A2DP
+    USE_A2DP
+    a2dpProxy
+    hasA2dpDevice
+    BluetoothA2DP
+    bluetoothA2dp
+    BLUETOOTH_A2DP
+    A2DP connected
+
+[avrcp] 2 hits, sample:
+    isAVRCPPlaying
+    , isAVRCPPlaying=
+
+[ble] 20398 hits, sample:
+    BLE
+    able
+    noble
+    table
+    blend
+    NOBLE
+    Noble
+    lable
+
+[ldac] 38 hits, sample:
+    LDAC
+    fieldAccess
+    BuildAccount
+    delayFoldAction
+    oldActivateItem
+    setDelayFoldAction
+    getDelayFoldAction
+    mChildActivatedMeta
+
+[aptx] 2 hits, sample:
+    aptX
+    aptX HD
+
+[hfp] 25 hits, sample:
+    HFP
+    .hfp
+    USE_HFP
+    kHFPUrlKey
+    kHFPOptsKey
+    UnifyHFPUrl
+    BluetoothHFP
+    mRecHfpTimes
+
+[ijkplayer] 1 hits, sample:
+    ijkplayer
+
+[vlc] 10 hits, sample:
+    VLC
+    VLCL
+    VLCC
+    VLCZ
+    VLCI
+    VLCII
+    VLCCII
+    VLCDDLL
+
+[ffmpeg] 14 hits, sample:
+    ffmpeg
+    ijkffmpeg
+    omx.ffmpeg.
+    omx.k3.ffmpeg.
+    _readFFmpegTag
+    _writeFFmpegTag
+    ffmpeg loaded: 
+    OMX.k3.ffmpeg.decoder
+
+[mediacodec] 101 hits, sample:
+    mediaCodec
+    mediacodec
+    mMediaCodec
+    MediaCodecMode
+    EMediaCodecSoft
+    MediaCodecUtils
+    mOpenMediaCodec
+    mediaCodecThread
+
+[audiotrack] 200 hits, sample:
+    audioTrack
+    AudioTrack
+    _audioTrack
+    audioTracks
+    mAudioTrack
+    nmAudioTrack
+    audioTrackPtr
+    hasAudioTrack
+
+[opensl] 32 hits, sample:
+    releaseOpensles
+    che.audio.opensl
+    REC_METHOD_OPENSL
+    openslLowestLevel
+    setOpenSLESEnabled
+    isOpenSLESSupported
+    kAndroidOpenSLAudio
+    getOpenslLowestLevel
+
+[aaudio] 95 hits, sample:
+    aAudio
+    aaudioSupported
+    MediaAudioRecord
+    kAndroidJavaAudio
+    MediaAudioRecoder
+    isAAudioSupported
+    isAaudioSupported
+    MediaAudioEncoder
+
+[sonic] 3 hits, sample:
+    circleLessonIcon
+    isSSoNickNameModify
+    image/x-panasonic-rw2
+
+[webdav] 1 hits, sample:
+    webdav
+
+[jsch] 15 hits, sample:
+    jsCheckScript
+    JSCHeapCapture
+    JSChatWrapperMessage
+    toJSChatWrapperMessage
+    JSChatWrapperMessage(messageId=
+    Lcom/facebook/react/devsupport/JSCHeapCapture;
+    JSChatWrapperMessage::cl…his.constructorRef = it }
+    Lcom/netease/play/rnlive/meta/JSChatWrapperMessage;
+
+[nfs] 5 hits, sample:
+    nfsr
+    NFS_MAGIC
+    levelConfs
+    obtainFSLock
+    getOutputNFSR
+
+[smb] 2 hits, sample:
+    sIsMbrPendingIntentSupported
+    KgQYEwgYSz0cBxEEHksMBAcAJRYdDQkVFhI/Ci8BERc=
+
+[ftp] 361 hits, sample:
+    ftp
+    liftPx
+    ftp://
+    nm.ftp
+    ftpPath
+    leftPad
+    leftPath
+    GiftPanel
+
+[curl] 375 hits, sample:
+    curl 
+    h5cUrl
+    srcUrl
+    picUrl
+    picurl
+    $picUrl
+    curLine
+    curList
+
+[strm] 2 hits, sample:
+    strStrMap = 
+    Lcom/netease/cloudmusic/module/reactnative/rpc/StrMessageConvert;
+
+[m3u] 1 hits, sample:
+    m3u8
+
+[m3u8] 1 hits, sample:
+    m3u8
+
+[pls] 150 hits, sample:
+    ipImpls
+    implSign
+    give_pls
+    implSquare
+    implStorage
+    implSignVar
+    isReplScript
+    DefaultImpls
+
+[flac] 10 hits, sample:
+    flac
+    FLAC
+    /flac
+    flAction
+    libFlacAb:
+    audio/flac
+    necmFlacDec
+    audio/x-flac
+
+[ape] 796 hits, sample:
+    ape
+    TAPE
+    Shape
+    SHAPE
+    shape
+    shapes
+    escape
+    mShape
+
+[dsd] 155 hits, sample:
+    dsd
+    NEDSDK
+    loadSdk
+    adsData
+    xyvodsdk
+    eqBandsDB
+    getAdsData
+    fieldsData
+
+[dff] 58 hits, sample:
+    dff
+    DFF
+    DLDFF
+    #C9DFFF
+    #007DFF
+    #a04dff
+    #34ADFF
+    #349DFF
+
+[dsf] 47 hits, sample:
+    dsf
+    mBoundsF
+    needsFreq
+    needsField
+    mBoundsFrom
+    getIdsForTag
+    readSFixed64
+    readSFixed32
+
+[wav] 312 hits, sample:
+    WAV
+    wav
+    .wav
+    wave1
+    wave2
+    waveTop
+    WAVPACK
+    COS_WAVE
+
+[aiff] 1 hits, sample:
+    aiff
+
+[opus] 482 hits, sample:
+    Opus
+    opus
+    opusId
+    opUser
+    opusid
+    isOpus
+    TopOpus
+    topOpus
+
+[ogg] 795 hits, sample:
+    ogg
+    OGGI
+    FOGGY
+    logged
+    Logger
+    toggle
+    TOGGLE
+    logger
+
+[mp3] 96 hits, sample:
+    MP3
+    mp3
+    .mp3
+    ).mp3
+    /mp3?
+    mP3Url
+    Lmp3/c;
+    Lmp3/f;
+
+[aac] 179 hits, sample:
+    aac
+    AAC
+    aac2
+    .aac
+    isaac
+    ISAAC
+    AAC转换
+    64aac
+
+[m4a] 13 hits, sample:
+    m4a
+    M4A
+    .m4a
+    ] m4a=
+    $m4aPath
+    audio.m4a
+    audio/m4a
+    M4A_SUFFIX
+
+[wma] 1203 hits, sample:
+    wma
+    rawMax
+    viewMask
+    showMask
+    drawMask
+    mViewMask
+    followMap
+    viewMargin
+
+[cue] 10 hits, sample:
+    cueid
+    cueWindowMs
+    CUE_WINDOW_MS
+    , cueWindowMs=
+    B 歌撞 cue window
+    A 歌撞 cue window
+    push#rescue_log_enable
+    EffectiveCueData(aStart=
+
+[tak] 236 hits, sample:
+    takr
+    take
+    TAKEN
+    takeIf
+    dataKey
+    take_ms
+    isTaken
+    takeFail
+
+[wavpack] 1 hits, sample:
+    WAVPACK
+
+[mediasession] 159 hits, sample:
+    mediasession
+    mediaSession
+    MediaSession
+    mMediaSession
+    getMediaSession
+    setMediaSession
+    MediaSessionObj
+    MediaSessionImpl
+
+[notification] 1310 hits, sample:
+    NOTIFICATION
+    Notification
+    notification
+    $notification
+    mNotification
+    notifications
+    notificationId
+    WVNotification
+
+[audioservice] 3 hits, sample:
+    audioService
+    _audioService
+    com.miui.miplay.audio.IMiPlayAudioService
+
+[androidx.car] 1 hits, sample:
+    androidx.cardview.widget.CardView
+
+[carplay] 7 hits, sample:
+    autoCarPlaySp
+    initCarPlayView
+    HiCarPlayController
+    changeUpdateCarPlay
+    access$initCarPlayView
+    carPlayLyricLoadListener
+    initCarPlayView$lambda-18$lambda-17
+
+[room] 7047 hits, sample:
+    room
+    Room
+    ROOM
+    rooms
+    roomUI
+    roomVm
+    ifRoom
+    roomVM
+
+[wcdb] 225 hits, sample:
+    WCDB
+    [WCDB] [
+    WCDB_ONLY
+    WCDB_AND_SP
+    wcdb_pinyin
+    initWCDBData
+    wcdb_verbatim
+    WCDBQueryError
+
+[sqlite] 206 hits, sample:
+    sqlite
+    SQLite
+    sqlite3x
+    SQLiteLog
+    SQLiteJNI
+    SQLiteTime
+    QuickSQLite
+    SQLiteQuery
+
+[mmkv] 177 hits, sample:
+    MMKV
+    mmkv
+    /mmkv
+    toMMKV
+    useMmkv
+    mmkvLog
+    mmkvPref
+    MMKVTask
+
+[okhttp] 1017 hits, sample:
+    okhttp
+    OKHTTP
+    OkHttp
+    OkHttp 
+    okhttp3
+    okhttp2
+    okhttp/3
+    OkHttp [
+
+[retrofit] 226 hits, sample:
+    retrofit
+    mRetrofit
+    musRetrofit
+    , retrofit=
+    getRetrofit
+    retrofit_301
+    Lretrofit2/n<
+    Lretrofit2/p;
+
+[cronet] 261 hits, sample:
+    cronet
+    CRONET
+    cronet.
+    Cronet/
+     Cronet/
+    Cronet [
+    noCronet
+    开启cronet
+
+[glide] 1 hits, sample:
+    page_upglide
+
+[coil] 2 hits, sample:
+    com.teslacoilsw.launcher
+    content://com.teslacoilsw.notifier/unread_count
+
+[fresco] 153 hits, sample:
+    Fresco
+    FrescoModule
+    mFrescoConfig
+    fresco_partial
+    getFrescoConfig
+    statusOfResCode
+    FRESCO_REQUEST_
+    setFrescoConfig
+
+[reactnative] 1005 hits, sample:
+    reactnative
+    ReactNative
+    ReactNativeVip
+    reactnativejni
+    ReactNativeText
+    ReactNativeSing
+    reactnativeblob
+    ReactNativeCore
+
+[hermes] 295 hits, sample:
+    Hermes
+    HERMES
+    hermes
+    isHermes
+    setHermes
+    , hermes='
+    OtherMessage
+    otherMessage
+
+[com.facebook.react] 12 hits, sample:
+    com.facebook.react
+    com.facebook.react.devsupport
+    com.facebook.react.bridge.ICrossEngineIPC
+    com.facebook.react.uimanager.UIManagerHelper
+    com.facebook.react.modules.i18nmanager.I18nUtil
+    com.facebook.react.DebugCorePackage$$ReactModuleInfoProvider
+    com.facebook.react.CoreModulesPackage$$ReactModuleInfoProvider
+    com.facebook.react.shell.MainReactPackage$$ReactModuleInfoProvider
+
+[taglib] 2 hits, sample:
+    _readTaglibTag
+    _writeTaglibTag
+
+[id3] 44 hits, sample:
+    id3
+    Lid3/e;
+    Lid3/d;
+    Lid3/o;
+    Lid3/c;
+    Lid3/h;
+    Lid3/m;
+    Lid3/g;
+
+[lyric] 3439 hits, sample:
+    lyric
+    Lyric
+    LYRIC
+    mLyric
+    klyric
+    lyric2
+    lyric:
+    lyric1
+
+[lrc] 460 hits, sample:
+    lrc
+    LRC
+    lrc1
+    lrc3
+    LRcX
+    lrc2
+    .lrc
+    /lrc/
+
+[karaoke] 903 hits, sample:
+    karaoke
+    Karaoke
+    KARAOKE
+    kKaraoke
+    karaokeVM
+    isKaraoke
+    goKaraoke
+    karaokePK
+
+[equalizer] 47 hits, sample:
+    EQUALIZER
+    abEqualizer
+    equalizerAb
+    abEqualizer()Z
+    equalizer_name
+    EQUALIZER_RENAME
+    setEqualizerOpen
+    EQUALIZER_DELETE
+
+[audiovisualizer] 17 hits, sample:
+    audioVisualizer
+    mAudioVisualizer
+    neaudiovisualizers
+    AudioVisualizerThread
+    audioVisualizerCallback
+    sDefaultAudioVisualizer
+    iAudioVisualizerCallback
+    sDefaultAudioVisualizerSub
+
+[usb] 434 hits, sample:
+    usb
+    cpuSb
+    meizusb
+    radiusB
+    独占USB已开启
+    statusbar
+    USB_CHECK
+    statusBar
+
+[usbaudio] 5 hits, sample:
+    ncmusbaudio
+    usbAudioPlayer
+    onUSBAudioAction
+    handleMessage AMsgUSBAudioStatus
+    com.netease.music.usbaudio.USB_PERMISSION
+
+[hifi] 1 hits, sample:
+    HiFi现场
+
+[hires] 31 hits, sample:
+    hiRes
+    HIRES
+    hires
+    isHires
+    setHires
+    hasHires
+    getHiRes
+    setHiRes
+
+-- URLs (1311) sample --
+    http
+    http code > 400
+    http code 非 200
+    http connection close failed!
+    http doPost > requestUrlToRoute error
+    http error, code: 
+    http error:
+    http get error, e=
+    http get failed, code=
+    http get response is correct, response: 
+    http get response is failed.
+    http get success, url=
+    http get task exception
+    http get task exception, error code=
+    http get url=
+    http input stream close failed!
+    http method is not supported.
+    http operation too frequently.
+    http post error header: 
+    http post error, e=
+    http post error: 
+    http post exception
+    http post exception, e=SSL_PEER_UNVERIFIED_EXCEPTION,
+    http post exception, status code=
+    http post failed, code=
+    http post failed: 
+    http post failed: 0
+    http post response is correct, response: 
+    http post response is failed, status code: 
+    http post result is back, result:
+    http post result success with context: 
+    http post success, offset: 
+    http post success, url=
+    http post task executing finished
+    http post task is executing
+    http post url=
+    http query failed status code: 
+    http query success
+    http request exception, try times = 
+    http request fail, ex = 

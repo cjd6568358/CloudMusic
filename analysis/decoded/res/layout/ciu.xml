@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:tag="layout/look_layout_follow_music_tab_page_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <include android:id="@id/header" layout="@layout/azq" />
+    <com.netease.play.customui.PlaySwipeToRefresh android:id="@id/swipe" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="52.0dip">
+        <com.netease.play.ui.LiveRecyclerView android:id="@id/recyclerView" android:paddingBottom="@dimen/wn" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.netease.play.customui.PlaySwipeToRefresh>
+    <include android:id="@id/noNetwork" android:visibility="gone" layout="@layout/cg0" />
+</FrameLayout>

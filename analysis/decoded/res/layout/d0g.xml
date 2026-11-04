@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:id="@id/newRecommendContainer" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_vertical" android:id="@id/playlist_left_recommend_container" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+        <FrameLayout android:id="@id/playlist_left_checkbox_container" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_marginLeft="-6.0dip">
+            <com.netease.cloudmusic.theme.ui.CustomThemeCheckBox android:gravity="center" android:layout_gravity="center" android:id="@id/playlist_left_recommend_checkbox" android:background="@null" android:layout_width="13.0dip" android:layout_height="13.0dip" android:button="@drawable/amr" />
+        </FrameLayout>
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/playlist_left_recommend_vip_icon" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="6.0dip" />
+        <com.shimmer.ShimmerCustomThemeTextView android:textSize="13.0sp" android:ellipsize="end" android:id="@id/playlist_left_recommend_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/dx4" android:maxLines="1" app:qe="colorText4" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/playlist_left_recommend_info" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" android:maxLines="1" app:qe="colorText4_1" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center|right" android:id="@id/playlist_right_container" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <FrameLayout android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_marginLeft="-6.0dip">
+            <com.netease.cloudmusic.theme.ui.CustomThemeCheckBox android:gravity="center" android:layout_gravity="center" android:id="@id/playlist_right_checkbox" android:background="@null" android:layout_width="13.0dip" android:layout_height="13.0dip" android:button="@drawable/amr" />
+        </FrameLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:ellipsize="end" android:id="@id/playlist_right_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="歌单原始顺序" android:maxLines="1" app:qe="colorText4" />
+    </LinearLayout>
+</LinearLayout>

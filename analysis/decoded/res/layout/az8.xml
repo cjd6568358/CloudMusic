@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/halfLyricContainer" android:paddingLeft="60.0dip" android:paddingTop="20.0dip" android:paddingRight="60.0dip" android:paddingBottom="@dimen/sb" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a69="parent">
+        <com.netease.cloudmusic.ui.LyricView android:id="@id/halfLyric" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </FrameLayout>
+    <TextureView android:id="@id/animLyric" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_marginBottom="40.0dip" app:a5f="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeProgressBar android:id="@id/halfLoading" android:visibility="invisible" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginBottom="40.0dip" android:indeterminate="true" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

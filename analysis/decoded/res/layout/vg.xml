@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiz" android:ellipsize="end" android:id="@id/hint_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="62.0dip" android:layout_marginBottom="14.0dip" android:maxLines="1" android:singleLine="true" app:a5_="true" app:a5f="parent" app:a5z="parent" app:a62="@id/hint_icon" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/hint_icon" android:layout_width="16.0dip" android:layout_height="16.0dip" android:src="@drawable/yx" app:a5f="@id/hint_text" app:a60="@id/hint_text" app:a62="@id/line" app:a69="@id/hint_text" app:aev="@color/a2g" app:aqh="@drawable/yx" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeLine android:id="@id/line" android:layout_width="0.0dip" android:layout_height="0.5dip" android:layout_marginLeft="6.0dip" app:a5f="@id/hint_text" app:a60="@id/hint_icon" app:a63="parent" app:a69="@id/hint_text" />
+</androidx.constraintlayout.widget.ConstraintLayout>

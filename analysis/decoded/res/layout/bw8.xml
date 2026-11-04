@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_listen_viewer_header_lone_0" android:layout_width="fill_parent" android:layout_height="52.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/bgView" android:tag="binding_1" android:layout_width="0.0dip" android:layout_height="0.0dip" android:minWidth="148.0dip" app:a5f="@id/avatarContainer" app:a5l="@id/endSpace" app:a65="@id/avatarContainer" app:a69="@id/avatarContainer" />
+    <LinearLayout android:orientation="vertical" android:id="@id/nameContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:minWidth="48.0dip" android:layout_marginStart="5.0dip" app:a5f="@id/avatarContainer" app:a64="@id/avatarContainer" app:a69="@id/avatarContainer">
+        <TextView android:textColor="@color/aj6" android:ellipsize="end" android:id="@id/userName" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" app:a64="@id/avatar" app:a69="@id/avatar" />
+        <TextView android:textSize="10.0sp" android:textColor="#fff0c35c" android:id="@id/popularity" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:singleLine="true" android:drawableLeft="@drawable/gjw" android:drawablePadding="2.0dip" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:id="@id/uRelationContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_marginStart="6.0dip" app:a5f="@id/avatarContainer" app:a64="@id/nameContainer" app:a69="@id/avatarContainer">
+        <com.netease.play.livepage.LiveRoomFollowButton android:id="@id/followBtn" android:layout_width="40.0dip" android:layout_height="22.0dip" />
+        <com.netease.play.listen.v2.header.ui.RelationFlameButton android:id="@id/relationFlameBtn" android:visibility="gone" android:layout_width="43.0dip" android:layout_height="22.0dip" />
+    </LinearLayout>
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/avatarBgDecoration" android:tag="binding_4" android:layout_width="44.0dip" android:layout_height="44.0dip" app:a5f="@id/avatarContainer" app:a5l="@id/avatarContainer" app:a65="@id/avatarContainer" app:a69="@id/avatarContainer" />
+    <FrameLayout android:id="@id/avatarContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:layout_marginStart="10.0dip" app:a65="parent" app:a69="parent">
+        <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar" android:tag="binding_5" android:layout_width="@dimen/ato" android:layout_height="@dimen/ato" app:adr="false" app:ai4="style19" />
+        <com.netease.play.ui.avatar.AvatarImage android:id="@id/cityLiveAvatar" android:tag="binding_6" android:layout_width="36.0dip" android:layout_height="36.0dip" app:adr="false" app:ai4="style19" app:ai5="6.0dip" />
+    </FrameLayout>
+    <Space android:id="@id/avatarBottomGuide" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginTop="6.0dip" app:a5z="@id/avatarContainer" app:a68="@id/avatarContainer" />
+    <ImageView android:id="@id/anchorProgress" android:tag="binding_7" android:layout_width="42.0dip" android:layout_height="42.0dip" app:a5f="@id/avatarContainer" app:a5l="@id/avatarContainer" app:a65="@id/avatarContainer" app:a69="@id/avatarContainer" />
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/avatarCertLabel" android:tag="binding_8" android:layout_width="wrap_content" android:layout_height="12.0dip" app:a5_="true" app:a5f="@id/avatarBottomGuide" app:a5z="parent" />
+    <Space android:id="@id/endSpace" android:layout_width="6.0dip" android:layout_height="0.0dip" app:a64="@id/uRelationContainer" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

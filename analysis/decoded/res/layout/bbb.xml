@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:orientation="horizontal" android:tag="layout/item_official_admin_manager_0" android:paddingLeft="16.0dip" android:paddingRight="@dimen/qo" android:layout_width="fill_parent" android:layout_height="80.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar" android:layout_width="60.0dip" android:layout_height="60.0dip" app:a5f="parent" app:a65="parent" app:a69="parent" app:ai4="style23" />
+    <ImageView android:id="@id/gender" android:tag="binding_1" android:layout_width="13.0dip" android:layout_height="13.0dip" android:layout_marginLeft="10.0dip" app:a5f="parent" app:a64="@id/avatar" app:a69="parent" />
+    <TextView android:textSize="14.0sp" android:textColor="@color/b12" android:ellipsize="end" android:tag="binding_2" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:layout_marginRight="10.0dip" android:lines="1" app:a5f="parent" app:a5m="@id/remove" app:a64="@id/gender" app:a69="parent" />
+    <TextView android:textSize="13.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/remove" android:tag="binding_3" android:background="@drawable/b1h" android:layout_width="114.0dip" android:layout_height="38.0dip" android:text="解除管理员" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

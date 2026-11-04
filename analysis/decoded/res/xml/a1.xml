@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ConstraintSet android:id="@id/welcomeStart">
+        <Constraint android:id="@id/strangerWelcome" android:layout_width="fill_parent" android:layout_height="@dimen/aqd" app:a5z="parent" app:a63="parent" app:a68="parent" />
+    </ConstraintSet>
+    <ConstraintSet android:id="@id/welcomeEnd">
+        <Constraint android:id="@id/strangerWelcome" android:layout_width="fill_parent" android:layout_height="@dimen/aqd" app:a5f="parent" app:a5z="parent" app:a63="parent" />
+    </ConstraintSet>
+    <ConstraintSet android:id="@id/introduceEnd">
+        <Constraint android:id="@id/strangerWelcome" android:layout_width="fill_parent" android:layout_height="@dimen/aqd" android:layout_marginBottom="10.0dip" app:a5g="parent" app:a5z="parent" app:a63="parent" />
+        <Constraint android:id="@id/strangerIntroduce" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" />
+    </ConstraintSet>
+    <Transition android:id="@id/strangerGuideWelcome" app:kz="@id/welcomeEnd" app:l0="@id/welcomeStart" app:sc="200" app:acj="easeInOut" />
+    <Transition android:id="@id/strangerGuideIntroduce" app:kz="@id/introduceEnd" app:l0="@id/welcomeEnd" app:sc="400" app:acj="easeInOut" />
+</MotionScene>

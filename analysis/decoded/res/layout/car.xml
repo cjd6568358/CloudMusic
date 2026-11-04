@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aj_" android:id="@id/tv_fans" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:includeFontPadding="false" app:a5m="@id/divider" app:a5w="packed" app:a65="parent" />
+    <View android:id="@id/divider" android:background="#33ffffff" android:layout_width="0.6700001dip" android:layout_height="12.0dip" android:layout_marginStart="10.0dip" app:a5f="@id/tv_fans" app:a5l="parent" app:a64="@id/tv_fans" app:a69="@id/tv_fans" />
+</androidx.constraintlayout.widget.ConstraintLayout>

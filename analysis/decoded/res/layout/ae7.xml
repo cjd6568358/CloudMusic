@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/discussImage" android:layout_width="fill_parent" android:layout_height="wrap_content" app:ae="focusCrop" app:jw="6.0dip" app:w3="0" app:am0="6.0dip" app:avr="true" />
+    <com.netease.cloudmusic.image.browser.ui.DonutProgress android:layout_gravity="center" android:id="@id/donutProgress" android:padding="6.0dip" android:layout_width="40.0dip" android:layout_height="40.0dip" app:qh="#00000000" app:qi="#c3ffffff" app:qj="4.0dip" app:qr="" app:qu="#33ffffff" app:qv="4.0dip" />
+    <View android:layout_gravity="bottom" android:id="@id/dicussImageShadow" android:background="@drawable/cjy" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="83.0dip" />
+    <androidx.appcompat.widget.AppCompatTextView android:textColor="#ffffffff" android:layout_gravity="bottom|center" android:id="@id/discussImageBtn" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="16.0dip" android:text="@string/bh6" android:drawableRight="@drawable/ag8" />
+</merge>

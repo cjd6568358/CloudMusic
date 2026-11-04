@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/dialog_party_pk_result_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Space android:id="@id/titleSpace" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginBottom="62.0dip" app:a5g="@id/item0" app:a5l="parent" app:a65="parent" />
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/title" android:tag="binding_1" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="184.0dip" app:ae="fitCenter" app:a5f="@id/titleSpace" app:a5l="parent" app:a65="parent" app:a69="@id/titleSpace" />
+    <include android:id="@id/item0" android:visibility="invisible" android:layout_width="290.0dip" android:layout_height="83.0dip" app:a5g="@id/item1" app:a5l="parent" app:a5v="0.44" app:a65="parent" app:a69="parent" app:a6a="packed" layout="@layout/c47" />
+    <include android:id="@id/item1" android:visibility="invisible" android:layout_width="290.0dip" android:layout_height="83.0dip" android:layout_marginStart="10.0dip" app:a5g="@id/item2" app:a65="@id/item0" app:a68="@id/item0" layout="@layout/c47" />
+    <include android:id="@id/item2" android:visibility="invisible" android:layout_width="290.0dip" android:layout_height="83.0dip" android:layout_marginStart="20.0dip" app:a5g="@id/item3" app:a65="@id/item0" app:a68="@id/item1" layout="@layout/c47" />
+    <include android:id="@id/item3" android:visibility="invisible" android:layout_width="290.0dip" android:layout_height="83.0dip" android:layout_marginStart="30.0dip" app:a5f="parent" app:a65="@id/item0" app:a68="@id/item2" layout="@layout/c47" />
+    <ImageView android:id="@id/closeButton" android:tag="binding_2" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="33.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/item3" />
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/foreground" android:tag="binding_3" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip" app:ae="centerCrop" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

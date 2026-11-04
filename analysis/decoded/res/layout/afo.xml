@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tp="false" app:tq="true" app:tr="false" app:ty="false" app:up="@drawable/czq" />
+    <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:layout_gravity="center_horizontal" android:id="@id/tv_addcardsms_top_info" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:text="绑定银行卡需要短信确认" />
+    <com.netease.epay.sdk.base.view.SmsAuthCodeEditText android:textSize="24.0dip" android:id="@id/et_input_sms" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_marginLeft="16.0dip" android:layout_marginTop="20.0dip" android:layout_marginRight="16.0dip" android:inputType="number" />
+    <com.netease.epay.sdk.base.view.CardSendSmsButton android:textSize="14.0dip" android:textColor="@color/wz" android:layout_gravity="center_horizontal" android:id="@id/btn_send_sms" android:background="@null" android:layout_width="wrap_content" android:layout_height="46.0dip" android:layout_marginBottom="30.0dip" />
+</LinearLayout>

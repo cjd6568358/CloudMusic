@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/albumCoverShadow" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:background="@drawable/x8" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/albumCoverIv" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_margin="6.0dip" app:a5f="parent" app:a5z="parent" app:a62="@id/albumDescTv" app:a69="parent" app:am0="7.0dip" />
+    <TextView android:textSize="13.0sp" android:textColor="@color/b1t" android:gravity="center_vertical" android:id="@id/albumDescTv" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="2.0dip" android:layout_marginRight="14.0dip" app:a5f="@id/albumCoverIv" app:a60="@id/albumCoverIv" app:a63="parent" app:a69="@id/albumCoverIv" app:a6_="0.0" />
+</androidx.constraintlayout.widget.ConstraintLayout>

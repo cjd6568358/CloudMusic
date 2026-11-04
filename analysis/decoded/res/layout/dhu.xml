@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/rl_root_view" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/iv_close" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@mipmap/fx" android:layout_alignParentRight="true" />
+    <ImageView android:id="@id/iv_ad" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:scaleType="centerCrop" android:layout_below="@id/iv_close" />
+    <com.cmic.promopush.GifView android:id="@id/iv_ad_gif" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:scaleType="centerCrop" android:layout_below="@id/iv_close" />
+    <SurfaceView android:id="@id/iv_ad_video" android:visibility="gone" android:layout_width="1.0px" android:layout_height="1.0px" android:layout_marginTop="10.0dip" android:scaleType="centerCrop" android:layout_below="@id/iv_close" />
+    <ImageView android:id="@id/iv_ad_loading" android:visibility="gone" android:layout_width="60.0dip" android:layout_height="60.0dip" android:src="@drawable/a3x" android:scaleType="centerCrop" android:layout_centerHorizontal="true" android:layout_centerVertical="true" />
+</RelativeLayout>

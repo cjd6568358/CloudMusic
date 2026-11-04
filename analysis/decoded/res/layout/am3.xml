@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:tag="layout/fragment_anchor_video_rtclist_0" android:layout_width="fill_parent" android:layout_height="480.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="15.0sp" android:textColor="@color/b1e" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="12.0dip" android:text="@string/dfw" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <ImageView android:id="@id/setting" android:tag="binding_1" android:paddingTop="10.0dip" android:paddingRight="15.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:scaleType="center" app:a63="parent" app:a69="parent" />
+    <View android:id="@id/line" android:background="@color/a6u" android:layout_width="fill_parent" android:layout_height="0.5dip" android:layout_marginTop="12.0dip" app:a68="@id/title" />
+    <com.netease.play.customui.PlaySwipeToRefresh android:id="@id/swipeRefresh" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a68="@id/line">
+        <com.netease.play.ui.LiveRecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.netease.play.customui.PlaySwipeToRefresh>
+    <TextView android:textSize="11.0sp" android:textColor="@color/b1n" android:gravity="center" android:id="@id/applyCount" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="22.0dip" android:layout_marginLeft="15.0dip" android:layout_marginBottom="8.0dip" android:drawableEnd="@drawable/at2" android:paddingStart="8.0dip" android:paddingEnd="8.0dip" app:a5f="parent" app:a5z="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

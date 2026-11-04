@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.snackbar.NMSnackbarContentLayout android:layout_gravity="bottom|center" android:layout_width="wrap_content" android:layout_height="@dimen/af0"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center_vertical" android:id="@id/snackbar_icon" android:visibility="gone" android:layout_width="@dimen/af3" android:layout_height="@dimen/af3" style="?aeh" />
+    <androidx.appcompat.widget.AppCompatTextView android:layout_gravity="start|center" android:id="@id/snackbar_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1.0" style="?ael" />
+    <androidx.appcompat.widget.AppCompatButton android:gravity="start|center" android:layout_gravity="end|center" android:id="@id/snackbar_action" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" style="?aeg" />
+    <com.netease.cloudmusic.core.dolphin.component.button.DolphinButton android:layout_gravity="end|center" android:id="@id/snackbar_positive_action" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" style="?aej" />
+    <com.netease.cloudmusic.core.dolphin.component.button.DolphinButton android:layout_gravity="end|center" android:id="@id/snackbar_negative_action" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" style="?aei" />
+</com.google.android.material.snackbar.NMSnackbarContentLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:id="@id/adTagLayout" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="8.0sp" android:gravity="center" android:id="@id/adTagText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/i_" android:includeFontPadding="false" android:layout_centerInParent="true" />
+    </RelativeLayout>
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/adTagClose" android:layout_width="6.0dip" android:layout_height="6.0dip" android:src="@drawable/e1" android:layout_marginStart="4.0dip" />
+</LinearLayout>

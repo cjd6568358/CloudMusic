@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/fragment_privacy_live_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/imgPrivacy" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="40.0dip" android:src="@drawable/esy" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <TextView android:textSize="20.0sp" android:textColor="#ff333333" android:id="@id/txtPrivacyState" android:tag="binding_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18.0dip" android:text="@string/h2l" app:a5l="parent" app:a65="parent" app:a68="@id/imgPrivacy" />
+    <TextView android:textSize="14.0sp" android:textColor="#ff333333" android:id="@id/txtPrivacyDesc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:text="@string/h1n" app:a5l="parent" app:a65="parent" app:a68="@id/txtPrivacyState" />
+    <com.netease.play.livepage.privacy.PasswordView android:id="@id/passwordView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="30.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/txtPrivacyDesc" />
+    <TextView android:textSize="17.0sp" android:textColor="#ff333333" android:gravity="center" android:id="@id/txtPrivacyButton" android:tag="binding_2" android:layout_width="295.0dip" android:layout_height="45.0dip" android:layout_marginTop="90.0dip" android:text="@string/h1j" app:a5l="parent" app:a65="parent" app:a68="@id/passwordView" />
+</androidx.constraintlayout.widget.ConstraintLayout>

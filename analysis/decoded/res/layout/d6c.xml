@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/background" android:background="@drawable/gi" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aj8" android:ellipsize="end" android:id="@id/hintText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" android:layout_centerVertical="true" android:paddingStart="@dimen/ajv" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0dip" android:textColor="@color/aj6" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/navBtn" android:layout_width="wrap_content" android:layout_height="fill_parent" android:maxLines="1" android:singleLine="true" android:layout_toRightOf="@id/hintText" android:layout_centerVertical="true" android:paddingStart="@dimen/ak0" android:paddingEnd="@dimen/ajw" />
+    <View android:id="@id/line" android:background="@color/b1d" android:layout_width="1.0dip" android:layout_height="10.0dip" android:layout_toRightOf="@id/navBtn" android:layout_centerVertical="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0dip" android:textColor="@color/aj6" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/posBtn" android:layout_width="wrap_content" android:layout_height="fill_parent" android:maxLines="1" android:singleLine="true" android:layout_toRightOf="@id/line" android:layout_centerVertical="true" android:paddingStart="@dimen/ajw" android:paddingEnd="@dimen/ajv" />
+</RelativeLayout>

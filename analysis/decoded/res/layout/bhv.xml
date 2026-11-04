@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.ui.LookThemeLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/bs_playlist_list_item" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="51.0dip" app:e2="dark" app:e4="40.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="16.0sp" android:textColor="@color/b1n" android:gravity="center" android:id="@id/position" android:layout_width="40.0dip" android:layout_height="wrap_content" />
+    <ImageView android:layout_gravity="center_vertical" android:id="@id/playIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/esk" android:scaleType="center" android:layout_marginEnd="7.0dip" android:layout_alignParentEnd="true" />
+    <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginEnd="7.0dip">
+        <TextView android:textSize="15.0sp" android:textColor="@color/aj6" android:ellipsize="end" android:id="@id/songName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:drawablePadding="4.0dip" />
+        <TextView android:textSize="13.0sp" android:textColor="@color/aj9" android:ellipsize="end" android:id="@id/songInfo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" android:maxLines="1" />
+    </LinearLayout>
+    <ImageView android:id="@id/deleteButton" android:paddingLeft="10.0dip" android:paddingTop="10.0dip" android:paddingRight="10.0dip" android:paddingBottom="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:scaleType="center" />
+</com.netease.play.ui.LookThemeLinearLayout>

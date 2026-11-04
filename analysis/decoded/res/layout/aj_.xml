@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:paddingLeft="@dimen/pg" android:paddingRight="@dimen/pg" android:layout_width="fill_parent" android:layout_height="45.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="14.0dip" android:textColor="@color/wk" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="开启网易支付指纹" android:layout_centerVertical="true" />
+    <com.netease.epay.sdk.base.view.StrokeColorButton android:textSize="12.0dip" android:gravity="center" android:id="@id/btnFinger" android:background="@null" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:layout_width="wrap_content" android:layout_height="28.0dip" android:text="点击开启" android:drawableLeft="@drawable/cvd" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+    <include android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_alignParentBottom="true" layout="@layout/aj9" />
+</RelativeLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/fl_content" android:background="@color/w3" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:layout_gravity="center" android:orientation="vertical" android:background="@drawable/a82" android:layout_width="430.0dip" android:layout_height="wrap_content" android:layout_margin="22.0dip">
+        <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tr="false" app:ty="false" />
+        <ScrollView android:id="@id/scrollView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:fillViewport="true">
+            <LinearLayout android:orientation="vertical" android:id="@id/ll_addcard_num_root" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <include android:id="@id/llAdvertisement" android:visibility="gone" layout="@layout/aj2" />
+                <TextView android:textSize="24.0dip" android:textStyle="bold" android:textColor="@color/wk" android:layout_gravity="center_horizontal" android:id="@id/tv_addcard_top_guide" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:textSize="12.0dip" android:textColor="@color/wo" android:layout_gravity="center_horizontal" android:id="@id/tv_addcard_top_guide_tip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:layout_marginBottom="2.0dip" android:text="@string/bvj" android:drawableLeft="@drawable/d15" android:drawablePadding="5.0dip" />
+                <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:layout_gravity="center_horizontal" android:id="@id/tv_paymethod_order_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="订单金额" />
+                <TextView android:textSize="40.0dip" android:textColor="@color/wk" android:layout_gravity="center_horizontal" android:id="@id/tv_paymethod_order_amount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true" />
+                <LinearLayout android:orientation="vertical" android:id="@id/ll_one_click_add_card" android:paddingLeft="30.0dip" android:paddingRight="30.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" />
+                <LinearLayout android:orientation="vertical" android:background="@drawable/a7w" android:paddingLeft="1.0dip" android:paddingRight="1.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="30.0dip" android:layout_marginRight="30.0dip" android:layout_marginBottom="30.0dip">
+                    <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:id="@id/tv_addcardnum_guide" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="20.0dip" android:layout_marginRight="15.0dip" android:layout_marginBottom="10.0dip" android:text="@string/bur" />
+                        <TextView android:textColor="@color/wz" android:id="@id/tv_query_card_num" android:paddingLeft="15.0dip" android:paddingTop="5.0dip" android:paddingRight="15.0dip" android:paddingBottom="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" android:text="@string/bzt" android:layout_alignParentRight="true" />
+                    </RelativeLayout>
+                    <com.netease.epay.sdk.base.view.bankinput.InputItemLayout android:id="@id/input_card" android:layout_width="fill_parent" android:layout_height="@dimen/of" app:to="card" />
+                    <View android:id="@id/divider_input_card_type" android:visibility="gone" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" style="@style/a57" />
+                    <com.netease.epay.sdk.base.view.bankinput.InputItemLayout android:id="@id/input_card_type" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" app:to="cardType" />
+                    <View android:id="@id/divider_input_phone" android:visibility="gone" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" style="@style/a57" />
+                    <com.netease.epay.sdk.base.view.bankinput.InputItemLayout android:id="@id/input_phone" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" app:to="phone" />
+                    <View android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" style="@style/a57" />
+                    <TextView android:textSize="14.0dip" android:textColor="@color/wi" android:id="@id/tv_discount_tip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="12.0dip" android:layout_marginRight="15.0dip" />
+                    <TextView android:textSize="12.0dip" android:textColor="@color/wo" android:id="@id/tv_support_bank_tip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="10.0dip" android:text="推荐绑定以下银行的储蓄卡" android:drawableLeft="@drawable/d0p" android:drawablePadding="5.0dip" />
+                    <TextView android:textSize="12.0dip" android:textColor="@color/wo" android:id="@id/tv_support_bank_infos" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="32.0dip" android:layout_marginTop="10.0dip" android:text="农业银行，中国银行，交通银行，公司银行\n招商银行，华夏银行，建设银行" android:lineSpacingExtra="5.0dip" />
+                    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="20.0dip">
+                        <include layout="@layout/ain" />
+                        <include layout="@layout/aj3" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</FrameLayout>

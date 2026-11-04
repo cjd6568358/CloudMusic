@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/nobleImg" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="fitStart" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <com.google.android.material.tabs.TabLayout android:textSize="14.0sp" android:id="@id/tabLayout" android:background="@drawable/a1j" android:layout_width="wrap_content" android:layout_height="27.0dip" android:layout_marginLeft="20.0dip" android:layout_marginTop="6.5dip" android:layout_marginRight="20.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" app:asd="@drawable/a1b" app:ast="@android:color/transparent" app:asw="0.0dip" app:at5="100.0dip" app:at6="100.0dip" app:ath="@android:color/white" app:atl="@color/b12" />
+    <com.netease.play.ui.NeteaseMusicViewPager android:id="@id/viewpager" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_marginTop="6.5dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a68="@id/tabLayout" />
+</androidx.constraintlayout.widget.ConstraintLayout>

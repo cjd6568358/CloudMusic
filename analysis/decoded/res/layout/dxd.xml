@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/container" android:tag="layout/video_publish_time_picker_container_fragment_0" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:background="@drawable/ck5" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent">
+        <ImageView android:id="@id/attach_cancer" android:padding="12.0dip" android:layout_width="48.0dip" android:layout_height="48.0dip" android:src="@drawable/c96" app:a65="parent" app:a69="parent" />
+        <ImageView android:id="@id/attach_ok" android:padding="12.0dip" android:layout_width="48.0dip" android:layout_height="48.0dip" android:src="@drawable/c9z" app:a5l="parent" app:a69="parent" />
+        <TextView android:textSize="15.0sp" android:textColor="@color/b1e" android:gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="48.0dip" android:text="贴纸时长" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        <View android:id="@id/attach_line" android:background="@color/b1p" android:layout_width="fill_parent" android:layout_height="1.0dip" app:a68="@id/attach_cancer" />
+        <ImageView android:id="@id/attach_play" android:paddingLeft="22.0dip" android:paddingTop="17.0dip" android:paddingRight="20.0dip" android:paddingBottom="17.0dip" android:layout_width="56.0dip" android:layout_height="54.0dip" android:layout_marginBottom="5.0dip" android:src="@drawable/ckm" android:paddingVertical="17.0dip" app:a5f="@id/time_picker" app:a65="parent" />
+        <com.netease.nmvideoeditor.operation.view.TimePickerView android:id="@id/time_picker" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="56.0dip" android:layout_marginTop="17.0dip" android:layout_marginRight="24.0dip" app:a60="parent" app:a63="parent" app:a68="@id/attach_line" />
+        <TextView android:textSize="12.0sp" android:textColor="@color/b1n" android:id="@id/time_picker_text" android:paddingBottom="40.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="23.0dip" android:text="@string/j6n" android:includeFontPadding="false" app:a65="parent" app:a68="@id/time_picker" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

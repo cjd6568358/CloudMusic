@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/musicInfoContainer" android:paddingLeft="@dimen/a2g" android:paddingBottom="@dimen/ag_" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="40.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aj0" android:id="@id/musicNameDescription" android:paddingRight="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/eq5" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="@dimen/qq" android:textColor="@color/aj0" android:ellipsize="end" android:id="@id/musicName" android:layout_width="0.0dip" android:layout_height="wrap_content" android:singleLine="true" android:layout_weight="1.0" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/t_link" android:id="@id/musicInfoEditBtn" android:background="@drawable/b38" android:padding="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/eq0" />
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="@dimen/x6">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aiy" android:id="@id/fileNameDescription" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/c6j" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aj0" android:id="@id/fileName" android:paddingLeft="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/a2g" />
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="@dimen/x6">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aiy" android:id="@id/durationDescription" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/bql" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aj0" android:id="@id/musicDuration" android:paddingLeft="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/a2g" />
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="@dimen/x6">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aiy" android:id="@id/musicSizeDescription" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/erb" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aj0" android:id="@id/musicSize" android:paddingLeft="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/a2g" />
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="@dimen/x6">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aiy" android:id="@id/musicPathDescription" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/eqf" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aj0" android:id="@id/musicPath" android:paddingLeft="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/a2g" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/background" android:background="@drawable/gi" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/image" android:visibility="invisible" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_alignParentLeft="true" android:layout_centerVertical="true" android:layout_marginStart="@dimen/aju" />
+    <View android:id="@id/line" android:background="@color/b1d" android:visibility="invisible" android:layout_width="1.0dip" android:layout_height="10.0dip" android:layout_toRightOf="@id/image" android:layout_centerVertical="true" android:layout_marginStart="@dimen/ajx" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aj8" android:ellipsize="end" android:id="@id/hintText" android:paddingLeft="@dimen/ajz" android:paddingRight="12.0dip" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" android:drawablePadding="2.0dip" android:layout_toRightOf="@id/line" android:layout_centerVertical="true" />
+</RelativeLayout>

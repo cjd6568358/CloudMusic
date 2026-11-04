@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:layout_gravity="bottom" android:orientation="vertical" android:id="@id/ll_content" android:paddingTop="16.0dip" android:paddingBottom="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="16.0dip" android:paddingEnd="16.0dip">
+            <com.facebook.drawee.view.SimpleDraweeView android:id="@id/radioCover" android:layout_width="40.0dip" android:layout_height="40.0dip" app:a5_="true" app:ahy="@drawable/cx5" app:ahz="fitXY" app:am0="6.0dip" />
+            <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="8.0dip">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:ellipsize="end" android:id="@id/tv_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" />
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textStyle="bold" android:ellipsize="end" android:id="@id/tv_sub_title" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:singleLine="true" android:layout_weight="1.0" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textStyle="bold" android:ellipsize="end" android:id="@id/tv_sub_title_prefix" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:text="@string/e7_" android:singleLine="true" android:layout_marginStart="2.0dip" />
+                </LinearLayout>
+            </LinearLayout>
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_close" android:layout_width="28.0dip" android:layout_height="28.0dip" android:src="@drawable/b9l" android:alpha="0.6" android:layout_marginStart="10.0dip" />
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/rv" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" android:overScrollMode="never" android:layout_marginStart="11.0dip" android:layout_marginEnd="11.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:id="@id/tv_hint" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="7.0dip" android:maxLines="2" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="18.0sp" android:gravity="center" android:id="@id/tv_confirm" android:layout_width="fill_parent" android:layout_height="46.0dip" android:layout_marginTop="30.0dip" android:layout_marginBottom="24.0dip" android:singleLine="true" android:layout_marginStart="40.0dip" android:layout_marginEnd="40.0dip" />
+    </LinearLayout>
+</FrameLayout>

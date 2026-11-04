@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/mvContainer" android:paddingLeft="@dimen/aun" android:paddingTop="5.0dip" android:paddingRight="@dimen/aun" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/mvCover" android:layout_width="wrap_content" android:layout_height="wrap_content" android:scaleType="centerCrop" app:ae="centerCrop" app:jw="@dimen/u3" app:ag3="@drawable/dja" app:ahy="@drawable/g9b" app:ahz="fitXY" app:aj2="@color/awz" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/mvWatchNumber" android:layout_marginTop="6.0dip" android:layout_marginRight="8.0dip" android:layout_alignTop="@id/mvCover" android:layout_alignRight="@id/mvCover" app:adf="true" app:aeu="@color/aj6" style="@style/a65" />
+    <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:layout_marginBottom="10.0dip" android:layout_below="@id/mvCover">
+        <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:id="@id/mvRankContainer" android:layout_width="34.0dip" android:layout_height="wrap_content" android:layout_above="@id/mvTimeDuration">
+            <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="22.0sp" android:textStyle="bold" android:textColor="@color/awl" android:id="@id/mvRank" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="8.0sp" android:textColor="@color/aiz" android:layout_gravity="center_horizontal" android:id="@id/mvRankChangeTv" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@id/mvRankContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/mvTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiy" android:ellipsize="end" android:layout_gravity="bottom" android:id="@id/mvSubTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" android:maxLines="1" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

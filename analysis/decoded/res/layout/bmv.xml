@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/packUp" android:layout_width="20.0dip" android:layout_height="20.0dip" android:layout_marginTop="44.0dip" android:src="@drawable/frm" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <com.netease.cloudmusic.module.listentogether.playpage.chat.LTMusicInfoComponent android:id="@id/lTMusicInfoComponent" android:paddingTop="88.0dip" android:layout_width="0.0dip" android:layout_height="120.0dip" android:alpha="0.0" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <com.netease.cloudmusic.ui.TwoLineLyricView android:textColor="#ffffffff" android:gravity="center" android:id="@id/ltLyricContainer" android:layout_width="0.0dip" android:layout_height="99.0dip" android:layout_marginTop="6.0dip" android:alpha="0.0" android:layout_marginStart="20.0dip" android:layout_marginEnd="20.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/lTMusicInfoComponent" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/lTChattingContainer" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a68="@id/ltLyricContainer">
+        <com.netease.cloudmusic.module.listentogether.playpage.chat.LTChattingFreelyMembersComponent android:id="@id/lTChattingFreelyMemberComponent" android:layout_width="0.0dip" android:layout_height="56.0dip" android:alpha="0.0" android:layout_marginStart="18.0dip" android:layout_marginEnd="20.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" app:a6t="23.0dip" />
+        <com.netease.cloudmusic.module.listentogether.playpage.chat.LTChattingFreelyRoomComponent android:id="@id/lTChattingFreelyRoomComponent" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginBottom="8.0dip" android:alpha="0.0" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a68="@id/lTChattingFreelyMemberComponent" app:ay0="0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

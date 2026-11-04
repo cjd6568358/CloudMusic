@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/fl_module_inner_wrapper" android:background="@drawable/v6" android:layout_width="fill_parent" android:layout_height="64.0dip" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" android:layout_marginBottom="20.0dip" android:layout_marginHorizontal="16.0dip">
+        <com.facebook.drawee.view.SimpleDraweeView android:layout_gravity="end" android:id="@id/sdv_vip_hover" android:layout_width="156.0dip" android:layout_height="64.0dip" android:layout_marginEnd="10.0dip" />
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="64.0dip" android:paddingStart="10.0dip" android:paddingEnd="26.0dip">
+            <FrameLayout android:layout_gravity="center_vertical" android:id="@id/fl_avatar_group" android:layout_width="42.0dip" android:layout_height="44.0dip">
+                <com.facebook.drawee.view.SimpleDraweeView android:id="@id/sdv_avatar" android:layout_width="42.0dip" android:layout_height="42.0dip" android:layout_marginBottom="2.0dip" app:aln="true" />
+                <com.facebook.drawee.view.SimpleDraweeView android:layout_gravity="bottom|center" android:id="@id/sdv_vip_icon" android:layout_width="40.0dip" android:layout_height="14.0dip" app:ae="fitXY" />
+            </FrameLayout>
+            <FrameLayout android:layout_gravity="center_vertical" android:id="@id/fl_album_group" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <com.facebook.drawee.view.SimpleDraweeView android:layout_gravity="end|bottom|center" android:id="@id/sdv_album_small" android:visibility="gone" android:layout_width="32.0dip" android:layout_height="32.0dip" android:layout_marginStart="10.0dip" app:am0="2.0dip" />
+                <com.facebook.drawee.view.SimpleDraweeView android:id="@id/sdv_album_big" android:layout_width="40.0dip" android:layout_height="40.0dip" app:am0="3.0dip" />
+            </FrameLayout>
+            <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="8.0dip">
+                <androidx.appcompat.widget.AppCompatTextView android:textSize="15.0dip" android:textColor="#ff0f0f24" android:ellipsize="end" android:id="@id/tv_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="2.0dip" android:maxLines="1" />
+                <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0dip" android:textColor="#7f0f0f24" android:ellipsize="end" android:id="@id/tv_sub_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="1" android:lineHeight="14.0dip" />
+            </LinearLayout>
+            <FrameLayout android:layout_gravity="center_vertical" android:background="@drawable/v7" android:paddingLeft="12.0dip" android:paddingRight="12.0dip" android:layout_width="wrap_content" android:layout_height="26.0dip" android:paddingHorizontal="12.0dip">
+                <androidx.appcompat.widget.AppCompatTextView android:textSize="13.0dip" android:textColor="#ffffffff" android:ellipsize="end" android:layout_gravity="center_vertical" android:id="@id/tv_button" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:includeFontPadding="false" />
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
+    <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="end" android:id="@id/v_close" android:paddingTop="5.0dip" android:layout_width="22.0dip" android:layout_height="21.0dip" android:src="@drawable/ehg" android:paddingEnd="6.0dip" android:layout_marginEnd="16.0dip" />
+</FrameLayout>

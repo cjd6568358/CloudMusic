@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="13.0sp" android:textColor="#ffa6a6a6" android:layout_gravity="center_horizontal" android:id="@id/intro" android:paddingTop="1.5dip" android:paddingBottom="1.5dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="26.0dip" />
+    <com.netease.play.ui.LiveRecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_marginLeft="20.0dip" android:layout_marginTop="26.0dip" android:layout_marginRight="20.0dip" android:layout_weight="1.0" />
+    <com.netease.play.ui.CustomButton android:textSize="15.0sp" android:layout_gravity="center_horizontal" android:id="@id/push" android:paddingLeft="109.0dip" android:paddingTop="14.0dip" android:paddingRight="109.0dip" android:paddingBottom="14.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="21.0dip" android:layout_marginBottom="32.0dip" android:text="@string/hct" app:gg="0x00010304" />
+    <TextView android:textSize="13.0sp" android:textColor="#ffa6a6a6" android:layout_gravity="center_horizontal" android:id="@id/more" android:paddingTop="1.5dip" android:paddingBottom="1.5dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="21.0dip" android:layout_marginBottom="41.0dip" android:text="@string/sw" />
+    <View android:layout_gravity="center_horizontal" android:id="@id/indicator" android:visibility="gone" android:layout_width="135.0dip" android:layout_height="5.0dip" android:layout_marginBottom="8.0dip" />
+</LinearLayout>

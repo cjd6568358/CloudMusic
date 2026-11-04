@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/container" android:tag="layout/music_library_music_info_layout_v2_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/cover" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_marginStart="16.0dip" app:a5f="parent" app:a65="parent" app:a69="parent" app:am0="8.0dip" app:am1="@color/dv" app:am3="0.33000004dip" />
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/play_state" android:layout_width="20.0dip" android:layout_height="20.0dip" app:a5f="@id/cover" app:a5l="@id/cover" app:a65="@id/cover" app:a69="@id/cover" />
+    <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_marginLeft="10.0dip" app:a5f="parent" app:a5m="@id/use_layout" app:a64="@id/cover" app:a69="parent">
+        <TextView android:textSize="16.0sp" android:textColor="@color/b12" android:ellipsize="end" android:id="@id/song_name" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="1" android:includeFontPadding="false" app:a65="parent" app:a69="parent" />
+        <LinearLayout android:orientation="horizontal" android:id="@id/extra_info_layout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" app:a5l="parent" app:a65="parent" app:a68="@id/song_name">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/tag_layout" android:paddingRight="4.0dip" android:layout_width="wrap_content" android:layout_height="fill_parent" app:a5f="parent" app:a65="parent" app:a69="parent" />
+            <TextView android:textSize="12.0sp" android:textColor="@color/b17" android:ellipsize="end" android:id="@id/singer_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" android:layout_weight="1.0" app:a5f="parent" app:a64="@id/tag_layout" app:a69="parent" app:a6d="wrap" />
+            <TextView android:textSize="12.0sp" android:textColor="@color/b17" android:id="@id/dot_split" android:paddingLeft="5.0dip" android:paddingRight="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="·" android:includeFontPadding="false" android:paddingHorizontal="5.0dip" app:a5f="parent" app:a64="@id/singer_name" app:a69="parent" />
+            <TextView android:textSize="12.0sp" android:textColor="@color/b17" android:id="@id/duration" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:includeFontPadding="false" app:a5f="parent" app:a64="@id/dot_split" app:a69="parent" />
+        </LinearLayout>
+    </LinearLayout>
+    <FrameLayout android:id="@id/use_layout" android:layout_width="wrap_content" android:layout_height="fill_parent" app:a5f="parent" app:a5l="parent" app:a69="parent">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/use" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_alignParentRight="true" android:layout_centerVertical="true">
+            <ImageView android:id="@id/music_library_lyrics" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="24.0dip" android:src="@drawable/bf4" />
+            <ImageView android:id="@id/music_library_cut" android:layout_width="40.0dip" android:layout_height="40.0dip" android:src="@drawable/beo" />
+            <TextView android:textSize="14.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/tv_use" android:background="@drawable/bfr" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="28.0dip" android:text="@string/ew8" android:layout_centerVertical="true" android:paddingStart="12.0dip" android:paddingEnd="12.0dip" android:layout_marginStart="8.0dip" android:layout_alignParentEnd="true" />
+        </LinearLayout>
+        <ProgressBar android:layout_gravity="end|center" android:id="@id/progress_bar" android:visibility="visible" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:layout_marginEnd="16.0dip" />
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

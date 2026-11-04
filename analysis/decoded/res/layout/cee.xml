@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/image" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:src="@drawable/fag" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:id="@id/tv_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:text="@string/h6w" android:includeFontPadding="false" app:a5l="parent" app:a65="parent" app:a68="@id/image" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiy" android:id="@id/tv_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="@string/h6x" android:includeFontPadding="false" app:a5l="parent" app:a65="parent" app:a68="@id/tv_title" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="16.0sp" android:textColor="@color/aj6" android:gravity="center" android:id="@id/recordVoice" android:layout_width="120.0dip" android:layout_height="40.0dip" android:layout_marginTop="22.0dip" android:text="@string/hff" app:gl="useTheme" app:a5l="parent" app:a65="parent" app:a68="@id/tv_desc" />
+</com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>

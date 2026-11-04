@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="vertical" android:id="@id/radioCategoryListContainer" android:paddingLeft="@dimen/s1" android:paddingTop="5.0dip" android:paddingRight="@dimen/s2" android:paddingBottom="5.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/radioCategoryListRealContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.ui.RadioDraweeView android:id="@id/radioCategoryListPic" android:background="@drawable/cwi" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_centerVertical="true" app:ahy="@drawable/cx5" app:ahz="fitXY" app:aj2="@color/awz" />
+        <LinearLayout android:orientation="vertical" android:id="@id/programTitleContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_toRightOf="@id/radioCategoryListPic" android:layout_centerVertical="true">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiv" android:gravity="center" android:id="@id/cateTagFlag" android:background="@drawable/fhx" android:paddingLeft="3.0dip" android:paddingTop="1.0dip" android:paddingRight="3.0dip" android:paddingBottom="2.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="4.0dip" app:ade="true" app:ae_="@color/afr" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textColor="@color/aiv" android:id="@id/radioCategoryListTitle" android:drawablePadding="2.0dip" style="@style/a93" />
+            </LinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiy" android:id="@id/radioCategoryListSubTitle" android:layout_marginTop="4.0dip" style="@style/a93" />
+        </LinearLayout>
+    </RelativeLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CoverStatusDraweeView android:id="@id/subRcmdCoverImage" android:background="@drawable/xe" android:padding="0.5dip" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_marginTop="5.0dip" android:layout_marginBottom="5.0dip" fresco:ae="centerCrop" fresco:w3="300" fresco:ahy="@drawable/cx5" fresco:ahz="fitXY" fresco:am0="12.0dip" fresco:avr="true" xmlns:fresco="http://schemas.android.com/apk/res-auto" />
+    <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="10.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:gravity="start" android:id="@id/subRcmdTitle" android:layout_width="fill_parent" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiy" android:ellipsize="end" android:id="@id/subRcmdText" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:singleLine="true" android:drawablePadding="2.0dip" />
+    </LinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout android:layout_gravity="center_vertical" android:id="@id/circleAddButtonContainer" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="13.0sp" android:gravity="center" android:id="@id/circleAddButton" android:visibility="visible" android:layout_width="54.0dip" android:layout_height="26.0dip" android:minWidth="60.0dip" app:gl="fillBackground" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/bottomContainer" android:tag="layout/mlog_bottom_video_list_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <View android:id="@id/interceptEventView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <View android:layout_gravity="bottom" android:id="@id/interceptEventViewMask" android:background="@drawable/bae" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="250.0dip" />
+    <com.netease.cloudmusic.music.biz.mlog.consume.detail.music.biz.mlogdetail.video.ui.HorizonRecyclerview android:layout_gravity="bottom" android:id="@id/videoRecyclerView" android:layout_width="fill_parent" android:layout_height="116.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="@color/aj6" android:layout_gravity="bottom" android:id="@id/bottomTitle" android:paddingBottom="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/s1" android:layout_marginBottom="@dimen/a64" android:text="@string/a_9" />
+    <com.netease.cloudmusic.music.biz.mlog.consume.detail.music.biz.mlogdetail.video.bottomvideolist.ToggleVisibilityBtn android:layout_gravity="bottom|center|right" android:id="@id/toggleVisibilityBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/s1" android:layout_marginBottom="@dimen/a64" />
+</FrameLayout>

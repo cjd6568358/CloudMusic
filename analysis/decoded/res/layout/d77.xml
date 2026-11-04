@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="bottom|center" android:layout_width="71.0dip" android:layout_height="50.0dip" android:src="@drawable/ao7" />
+    <LinearLayout android:gravity="center" android:layout_gravity="bottom|center" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="16.0dip">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_left_wheatear" android:layout_width="10.0dip" android:layout_height="20.0dip" />
+        <com.netease.cloudmusic.ui.GradientTextView android:textSize="25.0sp" android:id="@id/tv_score" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="2.0dip" android:layout_marginBottom="-1.0dip" app:xs="@font/a" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_right_wheatear" android:layout_width="10.0dip" android:layout_height="20.0dip" android:layout_marginLeft="2.0dip" />
+    </LinearLayout>
+</FrameLayout>

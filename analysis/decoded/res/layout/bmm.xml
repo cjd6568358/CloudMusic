@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/icon" android:layout_width="wrap_content" android:layout_height="0.0dip" android:src="@drawable/ad8" android:scaleType="fitStart" android:paddingStart="7.0dip" android:paddingEnd="8.0dip" app:a5f="@id/container" app:a5m="@id/container" app:a65="parent" app:a69="@id/container" />
+    <FrameLayout android:id="@id/container" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5f="parent" app:a5l="parent" app:a64="@id/icon" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

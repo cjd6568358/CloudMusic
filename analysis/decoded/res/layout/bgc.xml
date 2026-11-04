@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:orientation="horizontal" android:paddingTop="1.0dip" android:paddingBottom="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minHeight="48.0dip" android:paddingStart="5.0dip" android:paddingEnd="5.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_vertical" android:id="@id/content" android:clipChildren="false" android:layout_width="wrap_content" android:layout_height="38.0dip" android:paddingStart="14.0dip" android:paddingEnd="14.0dip">
+        <FrameLayout android:id="@id/fl_secondary_tab_icon" android:visibility="gone" android:clipChildren="false" android:layout_width="20.0dip" android:layout_height="20.0dip">
+            <com.facebook.drawee.view.SimpleDraweeView android:id="@id/iv_secondary_tab_icon" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="fitCenter" />
+            <com.facebook.drawee.view.SimpleDraweeView android:id="@id/iv_secondary_tab_icon_overlay" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="fitCenter" />
+        </FrameLayout>
+        <Space android:id="@id/space_secondary_tab_icon" android:visibility="gone" android:layout_width="@dimen/anu" android:layout_height="1.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textStyle="bold" android:ellipsize="end" android:id="@id/tv_secondary_tab_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" app:qe="colorText1" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_emotion_close_ensure_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="15.0sp" android:textColor="@color/b1e" android:id="@id/txtTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="54.0dip" android:text="@string/bsg" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <TextView android:textSize="14.0sp" android:textColor="@color/b1q" android:id="@id/txtDesc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="@string/bsf" app:a5l="parent" app:a65="parent" app:a68="@id/txtTitle" />
+    <TextView android:textSize="17.0sp" android:textColor="@color/b1w" android:gravity="center" android:id="@id/txtCancel" android:tag="binding_1" android:layout_width="140.0dip" android:layout_height="40.0dip" android:layout_marginTop="20.0dip" android:layout_marginBottom="20.0dip" android:text="@string/bsd" app:a5f="parent" app:a5m="@id/txtClose" app:a65="parent" app:a68="@id/txtDesc" />
+    <TextView android:textSize="17.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/txtClose" android:tag="binding_2" android:layout_width="140.0dip" android:layout_height="40.0dip" android:text="@string/bse" app:a5f="@id/txtCancel" app:a5l="parent" app:a64="@id/txtCancel" app:a69="@id/txtCancel" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@id/share_container" android:paddingTop="8.0dip" android:paddingBottom="12.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center" android:layout_gravity="center" android:id="@id/invite_wx" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+        <ImageView android:id="@id/icon_wx" android:layout_width="22.0dip" android:layout_height="22.0dip" android:src="@drawable/frb" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiy" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:text="@string/dy0" app:qe="colorText2" />
+    </LinearLayout>
+    <View android:layout_gravity="center" android:background="#0d000000" android:layout_width="0.5dip" android:layout_height="16.0dip" />
+    <LinearLayout android:gravity="center" android:layout_gravity="center" android:id="@id/invite_moments" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+        <ImageView android:id="@id/icon_moments" android:layout_width="22.0dip" android:layout_height="22.0dip" android:src="@drawable/fr7" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiy" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:text="@string/dy1" app:qe="colorText2" />
+    </LinearLayout>
+    <View android:layout_gravity="center" android:background="#0d000000" android:layout_width="0.5dip" android:layout_height="16.0dip" />
+    <LinearLayout android:gravity="center" android:layout_gravity="center" android:id="@id/invite_qq" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+        <ImageView android:id="@id/icon_qq" android:layout_width="22.0dip" android:layout_height="22.0dip" android:src="@drawable/fr9" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiy" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:text="@string/dx3" app:qe="colorText2" />
+    </LinearLayout>
+    <View android:layout_gravity="center" android:background="#0d000000" android:layout_width="0.5dip" android:layout_height="16.0dip" />
+    <LinearLayout android:gravity="center" android:layout_gravity="center" android:id="@id/invite_link" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+        <ImageView android:id="@id/icon_link" android:layout_width="22.0dip" android:layout_height="22.0dip" android:src="@drawable/fr5" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiy" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:text="@string/dsu" app:qe="colorText2" />
+    </LinearLayout>
+</LinearLayout>

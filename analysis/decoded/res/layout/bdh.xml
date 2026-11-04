@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/profile_album_cover_container" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/albumDisc" android:layout_width="@dimen/ac_" android:layout_height="@dimen/ac9" android:src="@drawable/ga0" />
+    <com.google.android.material.imageview.ShapeableImageView android:id="@id/albumPlaceHolder" android:layout_width="@dimen/ac_" android:layout_height="@dimen/ac9" android:layout_marginTop="4.0dip" android:src="@drawable/cx6" fresco:aoh="@style/a8h" />
+    <com.netease.cloudmusic.ui.AnimableDrawerImageView android:id="@id/albumCover" android:layout_width="@dimen/ac_" android:layout_height="@dimen/ac9" android:layout_marginTop="4.0dip" fresco:am0="4.0dip" />
+</com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>

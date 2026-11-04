@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_width="35.0dip" android:layout_height="wrap_content">
+        <com.netease.play.ui.avatar.AvatarImage android:layout_gravity="center_horizontal" android:id="@id/avatar" android:layout_width="28.0dip" android:layout_height="28.0dip" app:ai4="style9" />
+    </FrameLayout>
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="35.0dip">
+        <com.netease.play.livepage.chatroom.ui.ChatRoomTextView android:textSize="13.0sp" android:textColor="@color/b1q" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="7.0dip" android:maxWidth="231.0dip" android:singleLine="true" android:includeFontPadding="false" android:drawablePadding="3.0dip" />
+        <FrameLayout android:id="@id/albumCoverShadow" android:layout_width="fill_parent" android:layout_height="62.0dip">
+            <LinearLayout android:orientation="horizontal" android:background="@drawable/x8" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <com.facebook.drawee.view.SimpleDraweeView android:id="@id/albumCoverIv" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_margin="6.0dip" app:am0="7.0dip" />
+                <TextView android:textSize="13.0sp" android:textColor="@color/b1t" android:gravity="center_vertical" android:id="@id/albumDescTv" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="2.0dip" android:layout_marginTop="6.0dip" android:layout_marginRight="14.0dip" android:layout_marginBottom="6.0dip" />
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+</FrameLayout>

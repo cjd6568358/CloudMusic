@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:tag="layout/layout_multi_gift_header_0" android:paddingTop="14.0dip" android:layout_width="fill_parent" android:layout_height="58.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/multi_container" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="39.0dip">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/multi_select_users" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginStart="12.0dip">
+            <com.netease.play.livepage.gift.panel.view.GiftMultiSelectRandomView android:layout_gravity="center_vertical" android:id="@id/multi_select_random_view" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginStart="32.0dip" />
+            <TextView android:textSize="11.0dip" android:textColor="@color/b1t" android:id="@id/tv_total_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="共20人" android:layout_marginStart="4.0dip" />
+            <TextView android:textSize="11.0dip" android:textColor="@color/b13" android:id="@id/tv_select_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="中的1人" />
+            <ImageView android:layout_width="10.0dip" android:layout_height="10.0dip" android:src="@drawable/dyw" android:scaleType="fitXY" android:layout_marginEnd="6.0dip" />
+        </LinearLayout>
+        <LinearLayout android:gravity="center_vertical" android:layout_gravity="end|center" android:orientation="horizontal" android:id="@id/random_send" android:tag="binding_1" android:layout_width="wrap_content" android:layout_height="21.0dip" android:paddingStart="8.0dip" android:paddingEnd="8.0dip" android:layout_marginEnd="12.0dip">
+            <ImageView android:id="@id/iv_check" android:layout_width="13.0dip" android:layout_height="13.0dip" android:scaleType="fitXY" />
+            <TextView android:textSize="11.0dip" android:textColor="@color/b1t" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="随机送" android:layout_marginStart="2.0dip" />
+        </LinearLayout>
+        <TextView android:textSize="11.0dip" android:textColor="@color/b1t" android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="送给" android:layout_marginStart="12.0dip" />
+    </FrameLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout android:orientation="horizontal" android:id="@id/single_container" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <TextView android:textSize="11.0dip" android:textColor="@color/b1t" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="送给" android:layout_marginStart="12.0dip" app:a5f="parent" app:a65="parent" app:a69="parent" />
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/rv_users" android:layout_width="wrap_content" android:layout_height="0.0dip" android:text="还是觉得和升级换代手动还是觉得是还是觉得和升级换代手动还是觉得是还是觉得和升级换代手动还是觉得是还是觉得和升级换代手动还是觉得是" android:requiresFadingEdge="horizontal" android:layout_marginStart="48.0dip" android:layout_marginEnd="59.0dip" app:a5_="true" app:a5f="parent" app:a5l="parent" app:a5v="0.0" app:a65="parent" app:a69="parent" />
+        <View android:id="@id/v_more" android:layout_width="33.0dip" android:layout_height="44.0dip" android:layout_marginStart="14.0dip" app:a64="@id/rv_users" app:a69="parent" />
+        <ImageView android:id="@id/iv_more" android:layout_width="33.0dip" android:layout_height="33.0dip" android:src="@drawable/e6v" android:scaleType="fitXY" app:a5l="@id/v_more" app:a65="@id/v_more" app:a69="@id/v_more" />
+        <TextView android:textSize="8.0dip" android:textColor="@color/b1n" android:gravity="center" android:id="@id/tv_more" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="更多" app:a5f="@id/v_more" app:a5l="@id/v_more" app:a65="@id/v_more" />
+        <androidx.constraintlayout.widget.Group android:id="@id/gp_more" android:layout_width="wrap_content" android:layout_height="wrap_content" app:l1="v_more,tv_more,iv_more" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

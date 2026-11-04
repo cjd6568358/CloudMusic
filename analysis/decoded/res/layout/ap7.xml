@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:id="@id/shareImageLrcRealContainer" android:scrollbars="none" android:layout_width="fill_parent" android:layout_height="fill_parent" android:fillViewport="true"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout android:background="#ff141414" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:id="@id/lyricTemplateContainer" android:background="#ffffffff" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <LinearLayout android:orientation="vertical" android:id="@id/contentContainer" android:background="@drawable/fs9" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="30.0dip" android:layout_marginRight="15.0dip">
+                <TextView android:textSize="16.0sp" android:textColor="#ff666666" android:id="@id/shareImageLrcLrc" android:layout_width="fill_parent" android:layout_height="wrap_content" android:lineSpacingExtra="13.0sp" />
+                <androidx.legacy.widget.Space android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0" />
+                <TextView android:textSize="15.0sp" android:textColor="#ff666666" android:gravity="left" android:layout_gravity="right" android:id="@id/shareImageLrcMusicName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="50.0dip" android:layout_marginTop="35.0dip" android:lineSpacingExtra="3.0dip" />
+            </LinearLayout>
+            <include android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_marginRight="7.0dip" layout="@layout/ckg" />
+        </LinearLayout>
+    </FrameLayout>
+</ScrollView>

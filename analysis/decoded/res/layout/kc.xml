@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/rootView" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/player_background" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.core.dolphin.component.button.DolphinButton android:layout_gravity="bottom|center" android:id="@id/changeBgBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="49.0dip" android:text="更换背景" android:drawableLeft="@drawable/ext" android:drawablePadding="2.0dip" app:q0="secondary" app:q1="dark" app:q2="l" app:q3="normal" app:q4="surface" />
+    <FrameLayout android:id="@id/toolbar" android:paddingTop="32.0dip" android:layout_width="fill_parent" android:layout_height="88.0dip">
+        <TextView android:textSize="17.0dip" android:textColor="@color/b12" android:gravity="center_vertical" android:id="@id/cancelBtn" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/ayf" android:paddingStart="16.0dip" />
+        <FrameLayout android:layout_gravity="end" android:id="@id/confirmBtnContainer" android:layout_width="wrap_content" android:layout_height="fill_parent">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="13.0dip" android:textStyle="bold" android:textColor="@color/b12" android:layout_gravity="center_vertical" android:id="@id/confirmBtn" android:paddingLeft="12.0dip" android:paddingTop="6.0dip" android:paddingRight="12.0dip" android:paddingBottom="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="选取" android:layout_marginEnd="16.0dip" android:paddingHorizontal="12.0dip" android:paddingVertical="6.0dip" app:gl="useTheme" />
+        </FrameLayout>
+    </FrameLayout>
+    <androidx.fragment.app.FragmentContainerView android:id="@id/resource_choose_fragment" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</FrameLayout>

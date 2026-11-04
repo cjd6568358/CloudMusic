@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.ui.LookThemeLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/bs_playlist_list_item" android:paddingLeft="10.0dip" android:layout_width="fill_parent" android:layout_height="60.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:layout_gravity="center_vertical" android:id="@id/image" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_marginRight="10.0dip" app:ae="centerCrop" app:ahy="@drawable/g9r" app:ahz="fitXY" app:am0="3.0dip" />
+    <ImageView android:layout_gravity="center_vertical" android:id="@id/playIcon" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="7.0dip" android:src="@drawable/esk" android:scaleType="center" android:layout_alignParentRight="true" />
+    <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+        <TextView android:textSize="15.0sp" android:textColor="@color/aj6" android:ellipsize="end" android:id="@id/playlistName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:drawablePadding="4.0dip" />
+        <TextView android:textSize="13.0sp" android:textColor="@color/aj9" android:ellipsize="end" android:id="@id/playlistCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" android:maxLines="1" android:layout_below="@id/songName" />
+    </LinearLayout>
+</com.netease.play.ui.LookThemeLinearLayout>

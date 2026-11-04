@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/week_star_root" android:background="#ff5d2699" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/week_star_rank_placeholder">
+        <com.google.android.material.appbar.AppBarLayout android:background="@color/ay_" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip">
+            <com.google.android.material.appbar.CollapsingToolbarLayout android:id="@id/collapse_layout" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a76="scroll|exitUntilCollapsed">
+                <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a76="scroll">
+                    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/iv_week_star_placeholder" android:layout_width="fill_parent" android:layout_height="0.0dip" />
+                    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/week_star_king_container_parent" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginRight="12.0dip">
+                        <View android:background="@drawable/h4v" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_marginTop="13.0dip" app:a5f="@id/week_star_king_space" app:a5z="parent" app:a69="@id/week_star_king_container" />
+                        <include android:id="@id/week_star_king_container" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:layout_marginRight="6.0dip" app:a5z="parent" app:a69="parent" layout="@layout/b0j" />
+                        <include android:id="@id/week_star_king_company_container" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="25.0dip" android:layout_marginTop="9.0dip" android:layout_marginRight="25.0dip" android:layout_below="@id/week_star_king_container" app:a68="@id/week_star_king_container" layout="@layout/b0k" />
+                        <Space android:id="@id/week_star_king_space" android:layout_width="wrap_content" android:layout_height="9.0dip" app:a5z="parent" app:a68="@id/week_star_king_company_container" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+        <LinearLayout android:orientation="vertical" android:background="@drawable/a1g" android:paddingTop="16.0dip" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="12.0dip" android:layout_marginTop="10.0dip" android:layout_marginRight="12.0dip" android:backgroundTint="#ff7f44c0" app:a56="@string/uo">
+            <include android:id="@id/week_star_history" app:a76="scroll" layout="@layout/b0i" />
+            <com.netease.play.ui.LiveRecyclerView android:layout_gravity="center_horizontal" android:id="@id/weekStarOnlineRecyclerView" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="25.0dip" app:a76="scroll" />
+            <com.netease.play.ui.NeteaseMusicInterceptChildViewPager android:id="@id/fragmentContainer" android:background="@drawable/c2a" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_marginTop="12.0dip" android:layout_weight="1.0" />
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <ImageView android:layout_gravity="center_vertical" android:id="@id/back" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_marginLeft="10.0dip" android:layout_marginTop="@dimen/aq9" android:src="@drawable/fow" />
+</RelativeLayout>

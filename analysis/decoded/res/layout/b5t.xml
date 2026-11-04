@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="44.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/projectIcon" android:layout_width="20.0dip" android:layout_height="20.0dip" android:src="@drawable/bm1" app:a5f="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:id="@id/projectState" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="10.0dip" app:qe="colorText2" app:a5f="@id/projectIcon" app:a64="@id/projectIcon" app:a69="@id/projectIcon" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/projectButton" android:layout_width="44.0dip" android:layout_height="24.0dip" android:text="投播" app:a5f="@id/projectIcon" app:a5l="parent" app:a69="@id/projectIcon" />
+</androidx.constraintlayout.widget.ConstraintLayout>

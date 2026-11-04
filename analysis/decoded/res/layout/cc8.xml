@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/rootView" android:tag="layout/layout_toolbar_plugin_resource_title_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center" android:id="@id/image_view" android:visibility="gone" android:layout_width="121.0dip" android:layout_height="22.0dip" />
+    <com.netease.cloudmusic.ui.PlayerPageTextView android:textSize="13.0dip" android:textColor="#fff5eff2" android:ellipsize="end" android:gravity="center" android:id="@id/resource_title" android:fadingEdge="horizontal" android:fadingEdgeLength="@dimen/a2p" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" android:marqueeRepeatLimit="marquee_forever" android:alpha="0.6" android:paddingStart="5.0dip" android:paddingEnd="5.0dip" />
+</FrameLayout>

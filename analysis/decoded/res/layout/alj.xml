@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:tag="layout/fragment_activity_essence_mixture_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.music.biz.usertrack.view.NeteaseSwipeToRefreshForInsertHorizonView android:id="@id/trackSwipeToRefresh" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/trackListView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.netease.cloudmusic.music.biz.usertrack.view.NeteaseSwipeToRefreshForInsertHorizonView>
+    <com.netease.cloudmusic.music.biz.usertrack.view.CustomTrackToastTextView android:textSize="13.0sp" android:textColor="@color/aj6" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/trackToast" android:paddingLeft="18.0dip" android:paddingRight="18.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="@dimen/r8" android:layout_marginTop="@dimen/r9" android:layout_below="@id/tabLayout" />
+    <View android:layout_gravity="bottom|center|right" android:id="@id/shadow" android:background="@drawable/gqf" android:layout_width="55.0dip" android:layout_height="55.0dip" android:layout_marginRight="@dimen/aq7" android:layout_marginBottom="@dimen/aq6" />
+    <com.netease.cloudmusic.module.social.square.view.MLogBottomBtnBlock android:layout_gravity="bottom|center|right" android:id="@id/sendNewTrack" android:layout_width="wrap_content" android:layout_height="45.0dip" android:layout_marginRight="@dimen/a66" android:layout_marginBottom="@dimen/a65" app:jw="22.5dip" />
+</FrameLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout android:id="@id/resourceContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <TextView android:textColor="#e6ffffff" android:gravity="center" android:id="@id/skipBtn" android:background="@drawable/b5k" android:layout_width="73.0dip" android:layout_height="32.0dip" android:layout_marginRight="16.0dip" android:layout_marginBottom="18.0dip" android:layout_alignParentRight="true" android:layout_alignParentBottom="true" android:layout_alignWithParentIfMissing="true" />
+    <ImageView android:id="@id/muteBtn" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:layout_marginBottom="18.0dip" android:src="@drawable/fx_" android:layout_toLeftOf="@id/skipBtn" android:layout_alignParentBottom="true" android:layout_alignWithParentIfMissing="true" />
+</RelativeLayout>

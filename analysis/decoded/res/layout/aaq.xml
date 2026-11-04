@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_vertical" android:orientation="vertical" android:paddingBottom="@dimen/iw" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="@dimen/iw"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="48.0dip" android:paddingEnd="@dimen/iw">
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/menuIcon" android:visibility="visible" android:layout_width="28.0dip" android:layout_height="28.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:ellipsize="end" android:id="@id/menuTitle" android:layout_width="0.0dip" android:layout_height="wrap_content" android:maxLines="2" android:layout_weight="1.0" android:lineSpacingMultiplier="1.2" android:layout_marginStart="@dimen/is" fresco:qe="colorText1" />
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/categoryContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginStart="38.0dip" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

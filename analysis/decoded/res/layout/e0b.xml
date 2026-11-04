@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/addLotteryTaskContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/lotteryAddImage" android:layout_width="15.0dip" android:layout_height="15.0dip" android:layout_marginRight="4.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:id="@id/lotteryAddHintText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/isv" />
+    </LinearLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/lotteryModifyContainer" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:id="@id/lotteryTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:layout_marginStart="16.0dip" app:a5g="@id/lotteryTimeText" app:a65="parent" app:a69="parent" app:a6a="packed" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:id="@id/lotteryTimeText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:includeFontPadding="false" app:a5f="parent" app:a65="@id/lotteryTitle" app:a68="@id/lotteryTitle" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:id="@id/lotteryModifyText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/isw" android:layout_marginEnd="16.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

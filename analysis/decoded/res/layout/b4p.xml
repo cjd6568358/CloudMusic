@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:tag="layout/item_commonlive_audio_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.NeteaseMusicSimpleDraweeView android:id="@id/cover" android:tag="binding_1" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" app:ahy="@drawable/dst" app:am0="6.0dip" />
+    <TextView android:textSize="10.0sp" android:textColor="@color/b1e" android:ellipsize="end" android:tag="binding_2" android:background="@drawable/aaq" android:paddingLeft="7.0dip" android:paddingTop="3.0dip" android:paddingRight="7.0dip" android:paddingBottom="3.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginBottom="10.0dip" android:maxLines="1" android:layout_alignBottom="@id/cover" />
+    <TextView android:textSize="13.0sp" android:textColor="@color/b1e" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:layout_marginBottom="10.0dip" android:drawablePadding="4.0dip" android:layout_alignRight="@id/cover" android:layout_alignBottom="@id/cover" />
+    <TextView android:textSize="13.0sp" android:textColor="@color/a6c" android:ellipsize="end" android:id="@id/title" android:tag="binding_4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="9.0dip" android:maxLines="1" android:layout_below="@id/cover" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/a0l" android:ellipsize="end" android:tag="binding_5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:maxLines="1" android:drawablePadding="5.0dip" android:layout_below="@id/title" />
+    <FrameLayout android:id="@id/tagLayout" android:tag="binding_6" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+</RelativeLayout>

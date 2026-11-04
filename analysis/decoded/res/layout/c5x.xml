@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="13.0sp" android:textColor="@color/b1e" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:text="@string/g6n" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/llCloudVillage" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5z="parent" app:a63="parent" app:a69="parent">
+        <ImageView android:layout_width="36.0dip" android:layout_height="36.0dip" android:src="@drawable/eyf" />
+        <TextView android:textSize="13.0sp" android:textColor="@color/b1e" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:text="@string/asn" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/llRadioStation" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/llCloudVillage">
+        <ImageView android:layout_width="36.0dip" android:layout_height="36.0dip" android:src="@drawable/f7b" />
+        <TextView android:textSize="13.0sp" android:textColor="@color/b1e" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:text="@string/hba" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/llVideo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/llRadioStation">
+        <ImageView android:layout_width="36.0dip" android:layout_height="36.0dip" android:src="@drawable/f9l" />
+        <TextView android:textSize="13.0sp" android:textColor="@color/b1e" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:text="@string/g6z" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/llDownload" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/llVideo">
+        <ImageView android:layout_width="36.0dip" android:layout_height="36.0dip" android:src="@drawable/eyv" />
+        <TextView android:textSize="13.0sp" android:textColor="@color/b1e" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:text="@string/g6m" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/llDownloading" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" app:a5f="@id/llDownload" app:a5z="parent" app:a63="parent" app:a69="@id/llDownload">
+        <TextView android:textSize="10.0sp" android:textColor="@color/dw" android:gravity="center" android:id="@id/tvProgress" android:background="@drawable/oi" android:layout_width="30.0dip" android:layout_height="30.0dip" android:text="0%" />
+        <TextView android:textSize="13.0sp" android:textColor="@color/b1e" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:text="@string/g6n" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/llDelete" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/llDownloading">
+        <ImageView android:layout_width="36.0dip" android:layout_height="36.0dip" android:src="@drawable/eyq" />
+        <TextView android:textSize="13.0sp" android:textColor="@color/b1e" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:text="@string/b8_" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

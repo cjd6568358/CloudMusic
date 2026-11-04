@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/discoveryTopPlaceView" android:layout_width="fill_parent" android:layout_height="8.0dip" android:layout_marginLeft="@dimen/is" android:layout_marginRight="@dimen/is" android:layout_marginHorizontal="@dimen/is" />
+    <LinearLayout android:orientation="vertical" android:id="@id/contentContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="4.0dip">
+        <com.netease.cloudmusic.discovery.view.module.sleephelper.SleepHelperViewV3 android:id="@id/playlistView" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0dip" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/discoveryMusicTitle" android:paddingTop="4.0dip" android:layout_width="fill_parent" android:layout_height="34.0dip" android:lines="1" android:lineSpacingMultiplier="1.0" style="@style/jp" />
+    </LinearLayout>
+</merge>

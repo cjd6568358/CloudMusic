@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_video_party_viewer_header_anchor_info_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/bgView" android:layout_width="0.0dip" android:layout_height="36.0dip" android:layout_marginStart="10.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <View android:id="@id/v_volume" android:layout_width="36.0dip" android:layout_height="36.0dip" app:a5f="@id/avatar" app:a5l="@id/avatar" app:a65="@id/avatar" app:a69="@id/avatar" app:adr="false" />
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar" android:layout_width="32.0dip" android:layout_height="32.0dip" android:layout_marginStart="2.0dip" app:a5f="@id/bgView" app:a65="@id/bgView" app:a69="@id/bgView" app:adr="false" app:ai4="style19" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/mute" android:tag="binding_1" android:padding="10.0dip" android:layout_width="0.0dip" android:layout_height="0.0dip" android:src="@drawable/h1i" android:scaleType="fitXY" app:a5f="@id/avatar" app:a5l="@id/avatar" app:a65="@id/avatar" app:a69="@id/avatar" />
+    <LinearLayout android:orientation="vertical" android:id="@id/nameContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="48.0dip" android:layout_marginStart="5.0dip" app:a5f="@id/bgView" app:a5m="@id/followBtn" app:a64="@id/avatar" app:a69="@id/bgView" app:a6p="28.0dip">
+        <androidx.appcompat.widget.AppCompatTextView android:textColor="@color/aj6" android:ellipsize="end" android:id="@id/title" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" app:a64="@id/bgView" app:a69="@id/bgView" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="8.0sp" android:textColor="@color/b1n" android:id="@id/popularity" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:singleLine="true" android:drawableLeft="@drawable/gjw" android:drawablePadding="2.0dip" app:rk="@color/b1n" />
+    </LinearLayout>
+    <com.netease.play.livepage.LiveRoomFollowButton android:id="@id/followBtn" android:layout_width="40.0dip" android:layout_height="22.0dip" android:layout_centerVertical="true" android:layout_marginStart="6.0dip" android:layout_marginEnd="6.0dip" app:a5f="@id/bgView" app:a5l="@id/bgView" app:a64="@id/nameContainer" app:a69="@id/bgView" />
+</androidx.constraintlayout.widget.ConstraintLayout>

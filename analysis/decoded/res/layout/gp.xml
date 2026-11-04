@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView android:id="@id/pageContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:id="@id/container" android:paddingTop="16.0dip" android:paddingBottom="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip" app:a59="true" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a6_="1.0">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiz" android:id="@id/playProtectContent" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="16.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeGoSettingButton android:textSize="15.0sp" android:textColor="@color/b22" android:id="@id/settingGo" android:paddingTop="3.0dip" android:paddingBottom="3.0dip" android:layout_width="56.0dip" android:layout_height="22.0dip" android:layout_marginBottom="16.0dip" android:lineSpacingMultiplier="1.1" />
+        <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/playProtectRootContainer" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <com.netease.cloudmusic.module.player.ui.VideoCoverImageView android:layout_gravity="center" android:id="@id/playProtectCover" android:layout_width="0.0dip" android:layout_height="0.0dip" app:ae="fitCenter" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+            <FrameLayout android:id="@id/videoContainer" android:layout_width="0.0dip" android:layout_height="0.0dip" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

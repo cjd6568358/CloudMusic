@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.module.dailyrecomm.view.CustomDispatchCoordinatorLayout android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.appbar.SecondAppBarLayout android:id="@id/daily_layoutAppbar" android:background="@null" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip" app:a56="com.google.android.material.appbar.SecondAppBarLayout$SecondBehavior" app:an_="true" app:ane="79.99999%">
+        <com.google.android.material.appbar.SecondCollapsingToolbarLayout android:id="@id/daily_collapsing_toolbar_layout" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="fill_parent" app:lj="@null" app:a76="scroll|exitUntilCollapsed|snap" app:arg="@android:color/transparent" app:awj="false">
+            <com.netease.cloudmusic.ui.ShapeableFrameLayout android:id="@id/daily_content_img_container" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="fill_parent" app:w5="bottom" app:w6="@drawable/g0n" app:a57="pin">
+                <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/daily_musicThematicBanner" android:fitsSystemWindows="true" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" app:ae="centerCrop" app:ahz="centerCrop" />
+            </com.netease.cloudmusic.ui.ShapeableFrameLayout>
+            <include layout="@layout/d10" />
+            <include layout="@layout/d0z" />
+            <LinearLayout android:layout_gravity="bottom" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <com.netease.cloudmusic.ui.PlAlPlayAllButton android:id="@id/playAllArea" android:layout_width="fill_parent" android:layout_height="@dimen/ah_" app:ayf="stick" />
+                <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/selectedTagsBar" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:layout_width="fill_parent" android:layout_height="@dimen/air">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="horizontal" android:id="@id/selectedTagsLayout" android:layout_width="wrap_content" android:layout_height="32.0dip" app:a5_="true" app:a5f="parent" app:a5z="parent" app:a69="parent">
+                        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0dip" android:ellipsize="end" android:layout_gravity="center_vertical" android:id="@id/selectedTagsTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:singleLine="true" android:layout_weight="1.0" app:qe="colorText2_1" />
+                        <androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="center" android:id="@id/selectedTagsBarIcon" android:paddingLeft="7.0dip" android:paddingRight="4.0dip" android:layout_width="wrap_content" android:layout_height="24.0dip">
+                            <ImageView android:id="@id/selectedTagsCircleBackgroundShadow" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="24.0dip" android:src="@drawable/uk" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+                            <com.netease.cloudmusic.module.dailyrecomm.view.StyleRecommendArrowIconImageView android:id="@id/selectedTagsCircle" android:layout_width="22.0dip" android:layout_height="22.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+                            <com.netease.cloudmusic.module.dailyrecomm.view.StyleRecommendArrowIconImageView android:id="@id/selectedTagsArrow" android:layout_width="9.0dip" android:layout_height="5.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </com.google.android.material.appbar.SecondCollapsingToolbarLayout>
+    </com.google.android.material.appbar.SecondAppBarLayout>
+    <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/daily_rv" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="com.google.android.material.appbar.SecondAppBarLayout$SecondScrollingViewBehavior" />
+</com.netease.cloudmusic.module.dailyrecomm.view.CustomDispatchCoordinatorLayout>

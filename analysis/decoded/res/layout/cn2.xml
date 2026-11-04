@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:tag="layout/message_center_private_list_item_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/list_selector" android:paddingRight="@dimen/aun" android:layout_width="fill_parent" android:layout_height="70.0dip" android:minHeight="70.0dip">
+        <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6.0dip">
+            <FrameLayout android:layout_gravity="center" android:id="@id/userFaceImageStroke" android:visibility="gone" android:layout_width="50.5dip" android:layout_height="50.5dip" />
+            <com.netease.cloudmusic.ui.AvatarImage android:layout_gravity="center" android:id="@id/avatar_image" android:layout_width="wrap_content" android:layout_height="wrap_content" app:cv="style4" app:y5="true" />
+            <ImageView android:layout_gravity="bottom|center|right" android:id="@id/onlineView" android:visibility="gone" android:layout_width="18.0dip" android:layout_height="18.0dip" android:layout_marginRight="8.0dip" android:layout_marginBottom="8.0dip" />
+        </FrameLayout>
+        <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip">
+            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:ellipsize="end" android:id="@id/user_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:drawablePadding="3.0dip" app:qe="colorText1" app:a5_="true" app:a5v="0.0" app:a5w="packed" app:a5z="parent" app:a62="@id/fanClubTagView" app:a69="parent" />
+                <com.netease.cloudmusic.ui.FanClubTagView android:id="@id/fanClubTagView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" android:layout_marginRight="10.0dip" app:a5f="parent" app:a60="@id/user_name" app:a62="@id/msg_time" app:a69="parent" />
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:gravity="right" android:id="@id/msg_time" android:tag="binding_1" android:layout_weight="1.0" app:qe="colorText4_1" app:a63="parent" app:a69="parent" style="@style/a3x" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip">
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:layout_weight="1.0">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="#ffff3a3a" android:ellipsize="end" android:id="@id/msg_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:ellipsize="end" android:id="@id/msg_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" app:qe="colorText3_1" />
+                </LinearLayout>
+                <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <com.netease.cloudmusic.ui.PrivateDotView android:layout_gravity="center" android:id="@id/newmsg_number" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    <View android:id="@id/messageContainer" android:layout_width="fill_parent" android:layout_height="70.0dip" />
+</FrameLayout>

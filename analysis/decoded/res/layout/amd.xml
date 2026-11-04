@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="vertical" android:tag="layout/fragment_audio_effect_detail_new_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1.0">
+        <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/pagerListview" android:clickable="false" android:layout_width="fill_parent" android:layout_height="fill_parent" android:listSelector="@android:color/transparent" android:cacheColorHint="#00000000" android:divider="@null" android:headerDividersEnabled="false" android:footerDividersEnabled="false" />
+    </FrameLayout>
+    <com.netease.cloudmusic.theme.ui.CustomTopLineLinearLayout android:layout_gravity="bottom" android:orientation="horizontal" android:id="@id/bottomPostTrackContainer" android:layout_width="fill_parent" android:layout_height="@dimen/g0">
+        <com.netease.cloudmusic.ui.DrawableCenterTextView android:textSize="15.0sp" android:textColor="@color/aiv" android:id="@id/bottomAttendCommonTrack" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="@string/h0g" android:drawablePadding="6.0dip" app:adf="true" />
+    </com.netease.cloudmusic.theme.ui.CustomTopLineLinearLayout>
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

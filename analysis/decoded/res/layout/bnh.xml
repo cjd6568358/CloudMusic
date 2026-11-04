@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ViewStub android:id="@id/stampViewStub" android:layout="@layout/vw" android:inflatedId="@id/stampView" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_marginRight="10.0dip" android:layout_marginBottom="12.0dip" android:layout_alignBottom="@id/commentContentsContainer" android:layout_alignParentRight="true" />
+    <View android:id="@id/schoolEggClickArea" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="40.0dip" android:layout_alignBottom="@id/commentContentsContainer" />
+    <LinearLayout android:orientation="vertical" android:id="@id/commentContentsContainer" android:paddingRight="10.0dip" android:paddingBottom="5.0dip" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="54.0dip">
+        <com.netease.cloudmusic.music.biz.comment.widget.CommentContentViewWithBubbleBackground android:id="@id/commentContentTV" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/ag_" android:includeFontPadding="false" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/voiceRowContainer" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="8.0dip">
+            <ViewStub android:id="@id/voiceViewStub" android:layout="@layout/bfs" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <ViewStub android:id="@id/voiceGuideButtonStub" android:layout="@layout/e0i" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4.0dip" />
+        </LinearLayout>
+        <ViewStub android:id="@id/voiceTranscriptViewStub" android:layout="@layout/e0m" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" />
+        <ViewStub android:id="@id/voiceOperationTagViewStub" android:layout="@layout/e0k" android:inflatedId="@id/voiceOperationTagView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/ag_" />
+        <ViewStub android:id="@id/commentImageViewStub" android:layout="@layout/vt" android:inflatedId="@id/commentImage" android:layout_width="120.0dip" android:layout_height="120.0dip" android:layout_marginBottom="@dimen/ag_" />
+        <ViewStub android:gravity="center" android:id="@id/sourceNameViewStub" android:layout="@layout/vv" android:inflatedId="@id/sourceName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-2.0dip" android:layout_marginBottom="@dimen/ag_" />
+        <ViewStub android:textSize="14.0sp" android:id="@id/originCommentViewStub" android:layout="@layout/dmu" android:inflatedId="@id/originCommentView" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="10.0dip" app:vh="true" app:a_y="2" />
+        <ViewStub android:id="@id/topicTagsViewStub" android:layout="@layout/x2" android:inflatedId="@id/comment_topic_tags" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        <ViewStub android:id="@id/bottomTagsViewStub" android:layout="@layout/v2" android:inflatedId="@id/bottom_tags" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <ViewStub android:id="@id/moreReplyViewStub" android:layout="@layout/czx" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-5.0dip" />
+        <ViewStub android:id="@id/floorCommentsViewStubNew" android:layout="@layout/al2" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginRight="-10.0dip" />
+        <ViewStub android:id="@id/replyCommentsListViewStub" android:layout="@layout/dhm" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="-8.0dip" android:layout_marginRight="-10.0dip" />
+        <ImageView android:id="@id/commentPinTop" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-1.0dip" android:layout_marginBottom="11.0dip" />
+    </LinearLayout>
+    <ViewStub android:id="@id/topHugViewStub" android:layout="@layout/vx" android:inflatedId="@id/top_hug" android:layout_width="126.0dip" android:layout_height="67.0dip" android:layout_alignBottom="@id/commentContentsContainer" android:layout_alignParentRight="true" />
+</RelativeLayout>

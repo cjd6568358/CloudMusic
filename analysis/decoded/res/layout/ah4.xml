@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_gravity="center_horizontal" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="37.0dip" android:layout_marginBottom="38.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="18.0dip"
+      xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+        <com.netease.epay.sdk.base.view.NetLoadImageView android:id="@id/iv_display_icon" android:layout_width="18.0dip" android:layout_height="18.0dip" android:src="@drawable/dmp" />
+        <TextView android:textSize="14.0dip" android:textColor="@color/wk" android:id="@id/tv_display_msg" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginLeft="8.0dip" android:layout_marginTop="-2.0dip" />
+    </LinearLayout>
+    <View android:id="@id/v_display_line" android:background="@color/vh" android:layout_width="1.0px" android:layout_height="25.0dip" android:layout_marginLeft="9.0dip" />
+</LinearLayout>

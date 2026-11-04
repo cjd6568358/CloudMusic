@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/dslPageContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/dslLoading" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_centerInParent="true">
+        <com.netease.cloudmusic.ui.CommonLoadingProgressBar android:layout_gravity="center_vertical" android:id="@id/loadingProgress" android:layout_width="17.0dip" android:layout_height="17.0dip" android:layout_marginTop="15.0dip" android:layout_marginBottom="15.0dip" android:indeterminate="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiy" android:gravity="center" android:layout_gravity="center_vertical" android:id="@id/loadingText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:text="@string/dih" android:includeFontPadding="false" />
+    </LinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiy" android:gravity="center" android:id="@id/dslLoadErr" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="@string/di4" android:layout_centerInParent="true" />
+    <com.netease.luna.cm.dslwrapper.DSLWrapperView android:id="@id/dslWrapperView" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.core.dazzling.DazzlingThemeRelativeLayout android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="fill_parent" app:py="colorSkinElement7"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.observablescrollview.ObservablePagerListView android:id="@id/musicInfoList" android:scrollbars="none" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <LinearLayout android:orientation="vertical" android:id="@id/playCtrlStickContainer" android:clipChildren="false" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <FrameLayout android:id="@id/playAllStickContainer" android:background="@color/dw" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <View android:layout_gravity="bottom" android:id="@id/playAllStickBg" android:layout_width="fill_parent" android:layout_height="@dimen/ah_" />
+            <com.netease.cloudmusic.ui.PlAlPlayAllButton android:layout_gravity="bottom" android:id="@id/playAllStick" android:layout_width="fill_parent" android:layout_height="@dimen/ah_" app:ayf="stick" />
+        </FrameLayout>
+        <com.netease.cloudmusic.ui.PlAlPlayContinueContainer android:id="@id/playContinueStickContainer" android:background="@color/dw" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" app:ayf="stick">
+            <com.netease.cloudmusic.ui.PlayContinueBar android:id="@id/playContinueStickBar" android:layout_width="fill_parent" android:layout_height="@dimen/ahd" android:layout_centerInParent="true" />
+        </com.netease.cloudmusic.ui.PlAlPlayContinueContainer>
+    </LinearLayout>
+    <com.netease.cloudmusic.ui.IndexBar android:id="@id/plSortBar" android:visibility="gone" android:layout_width="@dimen/aoz" android:layout_height="fill_parent" android:layout_alignParentRight="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="50.0sp" android:textColor="@android:color/white" android:gravity="center" android:id="@id/plSortBarText" android:background="@drawable/cwe" android:padding="10.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="70.0dip" android:minWidth="70.0dip" android:layout_centerInParent="true" />
+</com.netease.cloudmusic.theme.core.dazzling.DazzlingThemeRelativeLayout>

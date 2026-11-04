@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="@dimen/s1" android:layout_width="fill_parent" android:layout_height="wrap_content" app:e4="40.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/icon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/s2" android:src="@drawable/goy" app:aeb="@color/afz" app:aev="#ff999999" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="56.0dip" android:layout_weight="1.0">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/directoryName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" style="@style/a3y" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/musicCount" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/a40" />
+    </LinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="9.0sp" android:textColor="#ff999999" android:id="@id/alreadFilter" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/s1" android:text="@string/diz" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeCheckBox android:id="@id/checkbox" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="4.0dip" android:button="@drawable/c6r" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/imgBack" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="129.0dip" android:src="@drawable/g6r" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar" android:layout_width="85.0dip" android:layout_height="85.0dip" android:layout_marginTop="35.0dip" app:a5l="parent" app:a65="parent" app:a69="@id/imgBack" app:ai4="style2" />
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="19.0dip" android:layout_marginStart="48.0dip" android:layout_marginEnd="48.0dip" app:a5f="@id/imgBack" app:a5l="parent" app:a65="parent">
+        <TextView android:textSize="15.0sp" android:textColor="@color/b1w" android:gravity="center" android:layout_gravity="center" android:id="@id/tvTitlePrefix" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/b01" android:includeFontPadding="false" />
+        <TextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="@color/b12" android:ellipsize="end" android:gravity="center" android:layout_gravity="center" android:id="@id/tvUsername" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:includeFontPadding="false" android:layout_marginStart="5.0dip" />
+    </LinearLayout>
+    <TextView android:textSize="20.0sp" android:textColor="@color/b12" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:text="@string/fp2" app:a5l="parent" app:a65="parent" app:a68="@id/imgBack" />
+</androidx.constraintlayout.widget.ConstraintLayout>

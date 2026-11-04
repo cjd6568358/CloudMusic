@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.ad.AdImpressRelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/adCover" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" app:ahy="@drawable/cx5" app:ahz="fitXY" app:am0="16.0dip" />
+    <com.netease.cloudmusic.ui.ad.dslview.AdImageActionView android:id="@id/adText" android:layout_width="wrap_content" android:layout_height="24.0dip" android:layout_marginRight="8.0dip" android:layout_marginBottom="8.0dip" android:layout_alignRight="@id/adCover" android:layout_alignBottom="@id/adCover" />
+    <FrameLayout android:id="@id/adReasonLabelContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_marginTop="8.0dip" />
+</com.netease.cloudmusic.ui.ad.AdImpressRelativeLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/fakeBg" android:background="#ff262626" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ImageView android:id="@id/fakeImageBg" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+        <View android:background="@drawable/csp" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </FrameLayout>
+    <RelativeLayout android:id="@id/fakeRoot" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ImageView android:id="@id/fakeDiskBg" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ga6" android:layout_centerHorizontal="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout android:id="@id/fakeBackHistory" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true" app:jw="120.0dip" app:m1="ALL" app:y4="false">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/fakeVideoCover" android:layout_width="fill_parent" android:layout_height="fill_parent" app:ae="centerCrop" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeRelativeLayout>
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/playCompleteVideoBtn" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginBottom="14.0dip" android:layout_alignBottom="@id/fakeBackHistory" android:layout_centerHorizontal="true" />
+        <ImageView android:id="@id/fakeRecordMask" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/gee" android:layout_centerHorizontal="true" />
+        <RelativeLayout android:id="@id/fakeRotationView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true">
+            <com.netease.cloudmusic.ui.AnimableDrawerImageView android:id="@id/fakeMusicRecordCover" android:layout_width="@dimen/avy" android:layout_height="@dimen/avy" android:layout_centerInParent="true" />
+            <ImageView android:id="@id/fakeRecordCover" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ga0" android:layout_centerInParent="true" />
+        </RelativeLayout>
+        <ImageView android:id="@id/fakeDiscHead" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/aj7" android:layout_marginRight="58.0dip" android:src="@drawable/geh" android:layout_alignRight="@id/fakeDiskBg" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aj8" android:ellipsize="end" android:gravity="center" android:id="@id/followArtistBtn" android:background="@drawable/a9f" android:paddingLeft="15.0dip" android:paddingRight="10.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="32.0dip" android:layout_marginTop="27.0dip" android:maxLines="1" android:singleLine="true" android:layout_below="@id/fakeRotationView" android:layout_centerHorizontal="true" android:layout_marginStart="20.0dip" android:layout_marginEnd="20.0dip" />
+    </RelativeLayout>
+</merge>

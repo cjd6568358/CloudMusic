@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/rn_container" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.core.dolphin.component.empty.DolphinEmptyView android:id="@id/haitun_empty" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="9.0sp" android:textColor="#ff283248" android:ellipsize="end" android:gravity="center_horizontal" android:id="@id/support_mesg" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="26.0dip" android:layout_marginTop="12.0dip" android:layout_marginRight="26.0dip" android:maxLines="2" android:alpha="0.2" />
+    </LinearLayout>
+</RelativeLayout>

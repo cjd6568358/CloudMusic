@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/artist_container" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:layout_marginBottom="17.5dip" android:text="@string/avk" android:layout_marginStart="16.0dip" app:qe="colorText4" app:a5g="@id/divider" app:a5z="parent" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/closeBtn" android:layout_width="24.0dip" android:layout_height="24.0dip" android:scaleType="center" android:layout_marginEnd="@dimen/s2" app:a5f="@id/title" app:a63="parent" app:a69="@id/title" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeDivider android:id="@id/divider" android:layout_width="fill_parent" android:layout_height="0.5dip" app:a5f="@id/feedBackRecylerview" app:a5z="parent" app:a68="@id/title" />
+    <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/feedBackRecylerview" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent" app:a5z="parent" app:a68="@id/divider" />
+</androidx.constraintlayout.widget.ConstraintLayout>

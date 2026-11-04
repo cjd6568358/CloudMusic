@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/commentContainer" android:clipChildren="false" android:clipToPadding="false" android:layout_width="@dimen/aw8" android:layout_height="@dimen/aw8"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.PlayerPageImageView android:layout_gravity="center" android:id="@id/commentBtn" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/gaw" android:scaleType="center" android:importantForAccessibility="noHideDescendants" />
+    <ViewStub android:id="@id/hintViewStub" android:layout="@layout/d61" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" />
+    <com.netease.cloudmusic.ui.PlayerPageTextView android:textSize="9.0dip" android:textColor="@color/b1w" android:gravity="center" android:id="@id/commentCount" android:layout_width="wrap_content" android:layout_height="12.0dip" android:layout_marginLeft="33.0dip" android:layout_marginTop="15.0dip" android:layout_marginRight="-58.0dip" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:contentDescription="@null" android:importantForAccessibility="noHideDescendants" app:xs="@font/a" />
+</RelativeLayout>

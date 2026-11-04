@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="40.0dip" android:layout_marginTop="5.0dip" android:layout_marginBottom="10.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0dip" android:id="@id/tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="12.0dip" android:text="@string/cpl" android:layout_centerVertical="true" android:alpha="0.9" app:qe="colorText1" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:id="@id/tips" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" android:text="@string/cpg" android:layout_toRightOf="@id/tv" android:layout_alignBottom="@id/tv" android:layout_centerVertical="true" app:qe="colorText4_1" />
+    <RelativeLayout android:id="@id/popup_edit_my_tab_header_edit_view" android:visibility="gone" android:layout_width="54.0dip" android:layout_height="24.0dip" android:layout_marginRight="12.0dip" android:layout_alignParentRight="true" android:layout_centerVertical="true">
+        <ImageView android:id="@id/popup_edit_my_tab_header_edit_image_view" android:layout_width="13.0dip" android:layout_height="13.0dip" android:layout_marginLeft="7.0dip" android:layout_marginBottom="4.0dip" android:layout_alignParentLeft="true" android:layout_alignParentBottom="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:textStyle="bold" android:id="@id/tv_btn_edit" android:layout_width="wrap_content" android:layout_height="16.0dip" android:layout_marginRight="8.0dip" android:layout_marginBottom="4.0dip" android:text="@string/cph" android:layout_alignParentRight="true" android:layout_alignParentBottom="true" app:qe="colorText2" />
+    </RelativeLayout>
+    <RelativeLayout android:gravity="center" android:id="@id/popup_edit_my_tab_header_save_view" android:layout_width="54.0dip" android:layout_height="24.0dip" android:layout_marginRight="12.0dip" android:layout_alignParentRight="true" android:layout_centerVertical="true">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:textStyle="bold" android:textColor="#ffffffff" android:id="@id/popup_edit_my_tab_header_tv_save" android:layout_width="wrap_content" android:layout_height="16.0dip" android:text="@string/cpn" android:layout_alignParentRight="true" android:layout_centerVertical="true" app:qe="colorTextOnimage1" />
+    </RelativeLayout>
+</RelativeLayout>

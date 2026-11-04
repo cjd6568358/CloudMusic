@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:gravity="center" android:id="@id/start_container" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/start_container_bg" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="15.0sp" android:textColor="@color/aj6" android:gravity="center" android:layout_gravity="bottom|center" android:id="@id/inviteFriendStart" android:visibility="gone" android:layout_width="150.0dip" android:layout_height="40.0dip" android:layout_marginBottom="34.0dip" android:text="开始双人一起听" app:gl="useTheme" />
+    <LinearLayout android:gravity="center" android:layout_gravity="bottom|center" android:orientation="vertical" android:id="@id/inviteMultiStartLayout" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="34.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="15.0sp" android:textColor="@color/aj6" android:gravity="center" android:id="@id/inviteMultiStart" android:layout_width="150.0dip" android:layout_height="40.0dip" android:text="@string/dtf" app:gl="useTheme" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip">
+            <ImageView android:textColor="@color/e6" android:id="@id/inviteFriendCheckBox" android:padding="3.0dip" android:layout_width="19.0dip" android:layout_height="19.0dip" android:src="@drawable/f34" android:contentDescription="select_icon" />
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/e6" android:id="@id/inviteStrangerHint" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/eo8" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

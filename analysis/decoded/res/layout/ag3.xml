@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:background="@drawable/a7q" android:layout_width="fill_parent" android:layout_height="fill_parent" android:contentDescription="epaysdk_bg|GradientDrawable"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:uf="验证新手机号" />
+    <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:id="@id/epaysdk_tvPhoneNumber" android:paddingLeft="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="25.0dip" android:text="@string/by_" />
+    <include android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" layout="@layout/ajq" />
+</LinearLayout>

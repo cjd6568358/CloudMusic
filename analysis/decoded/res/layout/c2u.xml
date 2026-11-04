@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/liveNoticeRootContainer" android:tag="layout/layout_notice_plugin_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:layout_gravity="center" android:id="@id/imageBg" android:layout_width="0.0dip" android:layout_height="0.0dip" />
+    <FrameLayout android:layout_gravity="center" android:id="@id/noticeContent" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <FrameLayout android:layout_gravity="center_vertical" android:id="@id/liveNoticeContainer" android:tag="binding_1" android:layout_width="fill_parent" android:layout_height="22.0dip">
+            <FrameLayout android:id="@id/liveNoticeContainerInner" android:clipChildren="true" android:layout_width="220.0dip" android:layout_height="fill_parent" android:layout_marginLeft="2.0dip" android:layout_marginRight="2.0dip">
+                <com.netease.play.livepage.notice.NoticeView2 android:textSize="11.0sp" android:textColor="@color/b1z" android:id="@id/liveNotice" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="fill_parent" />
+            </FrameLayout>
+        </FrameLayout>
+        <com.facebook.drawee.view.SimpleDraweeView android:layout_gravity="center|right" android:id="@id/liveIcon" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" app:ae="fitXY" />
+        <ImageView android:layout_gravity="center_vertical" android:id="@id/titleDrawable" android:tag="binding_4" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <com.facebook.drawee.view.SimpleDraweeView android:layout_gravity="center_vertical" android:id="@id/titleIcon" android:tag="binding_5" android:layout_width="wrap_content" android:layout_height="wrap_content" app:ae="fitXY" />
+    </FrameLayout>
+</FrameLayout>

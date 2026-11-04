@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/vc_operation_time_picker_layout_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/time_picker_thumb_layout" android:focusable="false" android:clickable="false" android:layout_width="fill_parent" android:layout_height="60.0dip" app:a5f="@id/time_picker_move_layout">
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/time_picker_thumb_view" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_marginLeft="@dimen/au0" android:layout_marginTop="5.0dip" android:layout_marginRight="@dimen/au0" android:layout_marginBottom="5.0dip" android:layout_marginHorizontal="@dimen/au0" android:layout_marginVertical="5.0dip" />
+    </RelativeLayout>
+    <RelativeLayout android:id="@id/time_picker_move_layout" android:paddingBottom="5.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5l="parent" app:a65="parent" app:a69="parent">
+        <TextView android:textSize="11.0sp" android:textColor="@color/b1q" android:id="@id/start_time_view" android:paddingBottom="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1s" android:includeFontPadding="false" android:layout_alignParentLeft="true" />
+        <TextView android:textSize="11.0sp" android:textColor="@color/b1q" android:id="@id/end_time_view" android:paddingBottom="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1s" android:includeFontPadding="false" android:layout_alignParentRight="true" />
+        <RelativeLayout android:id="@id/time_picker_progress" android:background="@drawable/gz2" android:padding="0.0dip" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_below="@id/start_time_view">
+            <ImageView android:id="@id/time_picker_left_btn" android:focusable="true" android:clickable="true" android:layout_width="@dimen/au0" android:layout_height="fill_parent" android:layout_alignParentLeft="true" />
+            <ImageView android:id="@id/time_picker_right_btn" android:focusable="true" android:clickable="true" android:layout_width="@dimen/au0" android:layout_height="fill_parent" android:layout_alignParentRight="true" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="60.0dip" app:a5f="@id/time_picker_thumb_layout" app:a69="@id/time_picker_thumb_layout">
+        <RelativeLayout android:id="@id/process_line" android:paddingLeft="@dimen/au2" android:paddingRight="@dimen/au2" android:layout_width="wrap_content" android:layout_height="fill_parent" android:paddingHorizontal="@dimen/au2">
+            <View android:background="@drawable/c9u" android:paddingLeft="@dimen/au2" android:paddingRight="@dimen/au2" android:layout_width="5.0dip" android:layout_height="fill_parent" android:paddingHorizontal="@dimen/au2" />
+        </RelativeLayout>
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

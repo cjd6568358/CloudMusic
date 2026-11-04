@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.music.biz.usertrack.trackdetail.new.TrackDetailFrameLayout android:id="@id/content_layout" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.google.android.material.appbar.AppBarLayout android:id="@id/trackAppbarLayout" android:background="@android:color/transparent" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip" app:a56="com.netease.cloudmusic.music.biz.usertrack.view.FixAppbarLayoutBehavior">
+            <FrameLayout android:id="@id/trackHeaderContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="10.0dip" android:minHeight="100.0dip" app:a76="scroll" />
+            <com.netease.cloudmusic.music.biz.usertrack.view.TrackDetailRNGestureFrameLayout android:id="@id/trackHeaderRNContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="10.0dip" app:a76="scroll" />
+            <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout android:id="@id/trackTabLayout" android:layout_width="fill_parent" android:layout_height="wrap_content" app:nr="move" app:asm="fill" app:at7="fixed" app:avq="false" />
+        </com.google.android.material.appbar.AppBarLayout>
+        <androidx.viewpager.widget.ViewPager android:id="@id/viewPager" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a56="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <FrameLayout android:id="@id/editContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</com.netease.cloudmusic.music.biz.usertrack.trackdetail.new.TrackDetailFrameLayout>

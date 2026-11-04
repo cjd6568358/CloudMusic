@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/emoticonRecyclerview" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0" />
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/deleteContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="54.0dip">
+        <ImageView android:id="@id/delete_btn" android:layout_width="30.0dip" android:layout_height="30.0dip" android:src="@drawable/aeb" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aiz" android:id="@id/delete_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:text="@string/b8_" />
+    </LinearLayout>
+</LinearLayout>

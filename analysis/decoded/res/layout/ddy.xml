@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:paddingTop="17.0dip" android:paddingRight="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/authInfoTitle" android:visibility="gone" android:layout_marginBottom="13.0dip" android:text="@string/a3k" style="@style/a8k" />
+    <LinearLayout android:orientation="vertical" android:id="@id/authInfoContainer" android:paddingLeft="@dimen/s1" android:paddingRight="@dimen/s2" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/personalInfoTitle" android:visibility="gone" android:text="@string/fwo" style="@style/a8k" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithAllBackground android:textSize="12.0sp" android:textColor="@color/aiv" android:gravity="center" android:id="@id/profileVillagerIDCard" android:paddingLeft="11.0dip" android:paddingRight="11.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="24.0dip" android:layout_marginRight="16.0dip" android:layout_alignParentRight="true" app:gl="background8" />
+    </RelativeLayout>
+    <LinearLayout android:gravity="center_vertical" android:id="@id/villageContainer" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:layout_marginBottom="0.0dip" android:text="@string/j85" style="@style/a8j" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aix" android:gravity="center_vertical" android:id="@id/village" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="1.0dip" />
+    </LinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/age" android:visibility="gone" style="@style/a8j" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/gender" android:visibility="gone" style="@style/a8j" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/location" android:visibility="gone" style="@style/a8j" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/school" android:visibility="gone" style="@style/a8j" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/socialInfoContainer" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiy" android:paddingTop="2.0dip" android:layout_width="wrap_content" android:layout_height="25.0dip" android:layout_marginLeft="@dimen/s1" android:text="@string/i7o" />
+        <ImageView android:id="@id/sinaBtn" android:layout_width="22.0dip" android:layout_height="22.0dip" android:layout_marginRight="7.0dip" android:src="@drawable/fom" />
+    </LinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/profileSignTitle" android:visibility="gone" android:layout_marginTop="26.0dip" android:text="@string/h58" style="@style/a8k" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aix" android:id="@id/sign" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/s1" android:layout_marginRight="@dimen/s2" android:layout_marginBottom="10.0dip" android:lineSpacingExtra="10.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/profileTagsTitle" android:visibility="gone" android:layout_marginTop="26.0dip" android:text="@string/ex4" style="@style/a8k" />
+    <com.netease.cloudmusic.ui.FlowLayout android:gravity="end" android:id="@id/profileTagsContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/s1" android:layout_marginRight="@dimen/s2" android:layout_marginBottom="10.0dip" app:zz="6.0dip" app:ayr="6.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/fansGroupTitle" android:visibility="gone" android:layout_marginTop="26.0dip" android:text="@string/c51" style="@style/a8k" />
+    <com.netease.cloudmusic.ui.SingleLineFlowLayout android:gravity="end" android:id="@id/fansGroupTagContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/s1" android:layout_marginRight="@dimen/s2" android:layout_marginBottom="10.0dip" app:zz="6.0dip" app:ayr="6.0dip" />
+</LinearLayout>

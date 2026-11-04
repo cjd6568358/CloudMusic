@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:id="@id/biz_base_voice_layout" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.player.voice.VoiceViewInner android:id="@id/voice_inner" android:layout_width="wrap_content" android:layout_height="30.0dip" app:jw="15.0dip" app:a5g="@id/voice_text" app:a5z="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:textColor="@color/aiz" android:gravity="center" android:id="@id/btn_convert" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="20.0dip" android:layout_marginLeft="10.0dip" android:text="@string/j9c" app:a5f="@id/voice_inner" app:a60="@id/voice_inner" app:a69="@id/voice_inner" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeLine android:id="@id/voice_line" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.30000007dip" app:a5z="@id/voice_text" app:a63="@id/voice_text" app:a68="@id/voice_inner" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:textColor="@color/aix" android:id="@id/voice_text" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="10.0dip" app:a5_="true" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a68="@id/voice_inner" />
+</merge>

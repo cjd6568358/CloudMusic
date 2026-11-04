@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:id="@id/minibarContentBg"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/v3ShadowView" android:background="@drawable/b_o" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/atu" android:alpha="0.03" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/miniPlayBarReallyRoot" android:layout_width="fill_parent" android:layout_height="92.0dip">
+        <com.netease.cloudmusic.module.minibar.widget.myflipper.MiniPlayerDiscViewFlipper android:id="@id/miniPlayBarLayout" android:paddingRight="2.0dip" android:layout_width="0.0dip" android:layout_height="@dimen/a5o" android:layout_weight="1.0">
+            <FrameLayout android:id="@id/miniItemDisc0" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            <FrameLayout android:id="@id/miniItemDisc1" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </com.netease.cloudmusic.module.minibar.widget.myflipper.MiniPlayerDiscViewFlipper>
+        <com.netease.cloudmusic.ui.MiniBaPlayListButton android:id="@id/minPrevBtn" android:background="@drawable/c6v" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginRight="30.0dip" android:scaleType="fitCenter" android:contentDescription="@string/w" app:aqh="@drawable/b_z" />
+        <com.netease.cloudmusic.ui.MiniPlayPausePadButton android:id="@id/minPlayBtn" android:background="@drawable/c6v" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginRight="30.0dip" android:scaleType="centerInside" android:contentDescription="@string/s" />
+        <com.netease.cloudmusic.ui.MiniBaPlayListButton android:id="@id/minNextBtn" android:background="@drawable/c6v" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginRight="30.0dip" android:scaleType="fitCenter" android:contentDescription="@string/q" app:aqh="@drawable/b_w" />
+        <FrameLayout android:layout_gravity="center_vertical" android:id="@id/minPlayListBtnContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingEnd="32.0dip">
+            <com.netease.cloudmusic.ui.MiniBaPlayListButton android:id="@id/minPlaylistBtn" android:background="@drawable/c6v" android:visibility="gone" android:layout_width="28.0dip" android:layout_height="28.0dip" android:src="@drawable/cg4" android:scaleType="fitCenter" android:contentDescription="@string/r" />
+            <FrameLayout android:id="@id/minAIDJPlayListBtnContainer" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <com.netease.cloudmusic.ui.AIDJBreathView android:id="@id/minAIDJPlayListBtn" android:layout_width="28.0dip" android:layout_height="28.0dip" />
+            </FrameLayout>
+        </FrameLayout>
+    </LinearLayout>
+</merge>

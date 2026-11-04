@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:id="@id/ll_item_content" android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="@dimen/of" android:contentDescription="epaysdk_cell_bg"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="13.0dip" android:textColor="@color/ws" android:gravity="center_vertical" android:id="@id/tvName" android:paddingRight="15.0dip" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0" />
+    <TextView android:textSize="13.0dip" android:textColor="@color/wk" android:gravity="center|right" android:id="@id/tvTips" android:layout_width="212.0dip" android:layout_height="fill_parent" />
+    <ImageView android:layout_gravity="center_vertical" android:id="@id/ivNext" android:layout_width="8.0dip" android:layout_height="8.0dip" android:src="@drawable/d0t" />
+    <ImageView android:layout_gravity="center_vertical" android:id="@id/ivShowTip" android:paddingLeft="4.0dip" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:visibility="gone" android:layout_width="16.0dip" android:layout_height="20.0dip" android:src="@drawable/czq" android:tint="@color/w4" android:contentDescription="epaysdk_back_button_tint" />
+</LinearLayout>

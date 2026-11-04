@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="wrap_content" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="center_vertical" android:id="@id/social_topic_container" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <ImageView android:id="@id/social_title_icon" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/avw" app:a5f="parent" app:a65="parent" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:gravity="center_vertical" android:id="@id/social_topic_title" android:layout_width="wrap_content" android:layout_height="28.0dip" android:includeFontPadding="false" android:layout_marginEnd="4.0dip" app:a5f="parent" app:a60="@id/social_title_icon" app:a62="@id/social_topic_close" app:a69="parent" app:a6p="10.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/social_topic_close" android:layout_width="16.0dip" android:layout_height="16.0dip" android:src="@drawable/ad9" android:scaleType="fitXY" android:layout_marginEnd="8.0dip" app:a5f="parent" app:a5l="parent" app:a64="@id/social_topic_title" app:a69="parent" />
+        <androidx.constraintlayout.widget.Guideline android:orientation="vertical" android:id="@id/social_guide_line" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5n="78.0dip" />
+        <View android:id="@id/social_topic_close_container" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/social_topic_title" app:a5l="parent" app:a64="@id/social_guide_line" app:a69="@id/social_topic_title" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

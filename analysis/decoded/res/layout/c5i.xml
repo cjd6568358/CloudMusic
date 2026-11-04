@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_gravity="center" android:layout_width="432.0dip" android:layout_height="412.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/background" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+    <LinearLayout android:gravity="center_horizontal" android:layout_gravity="center_horizontal" android:orientation="vertical" android:id="@id/animateContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="240.0dip">
+        <FrameLayout android:background="@drawable/g8d" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <com.facebook.drawee.view.SimpleDraweeView android:layout_gravity="center" android:id="@id/avatar" android:layout_width="47.0dip" android:layout_height="47.0dip" app:ae="fitXY" app:ahy="@drawable/fpb" app:ahz="fitXY" app:aln="true" />
+        </FrameLayout>
+        <TextView android:textSize="9.0sp" android:textColor="@color/b1e" android:ellipsize="end" android:id="@id/nickName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" android:maxWidth="60.0dip" android:singleLine="true" android:includeFontPadding="false" />
+        <TextView android:textSize="6.0sp" android:textColor="@color/b1e" android:id="@id/cloudmoney" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:includeFontPadding="false" />
+    </LinearLayout>
+</FrameLayout>

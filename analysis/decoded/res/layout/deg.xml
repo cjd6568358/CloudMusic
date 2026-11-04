@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:id="@id/programContainMusicsContainer" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="10.0dip" android:layout_marginRight="16.0dip"
+      xmlns:android="http://schemas.android.com/apk/res/android">
+        <LinearLayout android:orientation="horizontal" android:id="@id/programContainMusicsTitle" android:layout_width="fill_parent" android:layout_height="46.0dip">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="@color/b1z" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/programContainMusics" android:paddingLeft="12.0dip" android:layout_width="0.0dip" android:layout_height="fill_parent" android:includeFontPadding="false" android:layout_weight="1.0" />
+            <ImageView android:id="@id/expandCollapseBtn" android:paddingLeft="18.0dip" android:paddingRight="18.0dip" android:layout_width="wrap_content" android:layout_height="fill_parent" android:src="@drawable/cx9" android:scaleType="center" />
+        </LinearLayout>
+        <com.netease.cloudmusic.music.biz.voice.player.introduction.MaxHeightRecyclerView android:id="@id/recyclerView" android:scrollbars="none" android:layout_width="fill_parent" android:layout_height="wrap_content" android:overScrollMode="never" />
+    </LinearLayout>
+</LinearLayout>

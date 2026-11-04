@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:paddingLeft="10.0dip" android:layout_width="180.0dip" android:layout_height="@dimen/o7"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/honorBackground" android:layout_width="170.0dip" android:layout_height="@dimen/o7" app:ahy="@drawable/ab0" />
+    <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:id="@id/infoContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="25.0dip" android:layout_marginRight="25.0dip">
+        <TextView android:textSize="12.0sp" android:textColor="@color/b1e" android:ellipsize="end" android:id="@id/nickname" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="1.0dip" android:singleLine="true" android:drawablePadding="5.0dip" />
+        <TextView android:textSize="13.0sp" android:textColor="@color/b1e" android:id="@id/honorInfo" android:layout_width="fill_parent" android:layout_height="wrap_content" android:singleLine="true" />
+    </LinearLayout>
+</FrameLayout>

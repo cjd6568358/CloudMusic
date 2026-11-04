@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:paddingBottom="@dimen/pf" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <include android:id="@id/rlPayTitle" android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/ajk" />
+        <include android:visibility="visible" android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_marginLeft="15.0dip" android:layout_marginRight="15.0dip" android:layout_below="@id/rlPayTitle" layout="@layout/aj9" />
+        <LinearLayout android:orientation="horizontal" android:id="@id/ll_passwd_free_pay_agreement" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="12.0dip" android:layout_marginRight="15.0dip">
+            <TextView android:textSize="12.0dip" android:textColor="@color/ws" android:id="@id/tv_protocol" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        </LinearLayout>
+        <TextView android:textSize="14.0dip" android:textColor="@color/wo" android:gravity="center_horizontal" android:id="@id/tvFinger" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/ph" android:text="请验证已有的指纹，用于支付" android:layout_below="@id/rlPayTitle" />
+        <TextView android:textSize="12.0dip" android:textColor="@color/wz" android:gravity="center_vertical" android:layout_gravity="center_horizontal" android:id="@id/tvUsePwd" android:paddingTop="12.0dip" android:paddingBottom="15.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="使用密码支付" android:layout_below="@id/tvFinger" />
+    </LinearLayout>
+</ScrollView>

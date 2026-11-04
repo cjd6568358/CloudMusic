@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="12.0sp" android:textColor="#99ffffff" android:gravity="center_vertical" android:id="@id/channelHint" android:background="#0dffffff" android:paddingLeft="@dimen/s1" android:paddingRight="@dimen/s2" android:layout_width="fill_parent" android:layout_height="40.0dip" android:text="@string/e1g" />
+    <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/channelList" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a68="@id/channelHint" />
+</androidx.constraintlayout.widget.ConstraintLayout>

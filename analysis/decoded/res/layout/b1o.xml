@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/giftContainer" android:paddingTop="@dimen/aiy" android:paddingBottom="8.0dip" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/giftAlbumContainer" android:padding="2.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <com.facebook.drawee.view.SimpleDraweeView android:id="@id/giftAlbumImage" android:layout_width="54.0dip" android:layout_height="54.0dip" app:am0="4.0dip" />
+        <View android:layout_gravity="bottom" android:id="@id/giftAlbumImageFront" android:layout_width="54.0dip" android:layout_height="21.0dip" />
+        <ImageView android:layout_gravity="bottom|center|left" android:layout_width="10.0dip" android:layout_height="10.0dip" android:src="@drawable/gt_" />
+    </FrameLayout>
+    <com.netease.play.ui.LookThemeTextView android:textSize="10.0sp" android:textColor="@color/b12" android:ellipsize="marquee" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/giftName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginTop="3.0dip" android:layout_marginRight="10.0dip" android:singleLine="true" />
+    <com.netease.play.ui.LookThemeTextView android:textSize="9.0sp" android:textColor="#99ffd21f" android:ellipsize="marquee" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/giftWorth" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginTop="3.0dip" android:layout_marginRight="10.0dip" android:singleLine="true" android:includeFontPadding="false" android:drawablePadding="2.0dip" />
+</LinearLayout>

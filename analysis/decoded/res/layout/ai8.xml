@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:background="@color/wt" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:id="@id/ll_item_bank_container" android:background="@drawable/a81" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip">
+        <RelativeLayout android:id="@id/rl_item_bank_header" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="45.0dip" android:contentDescription="epaysdk_cell_bg|ColorDrawable">
+            <TextView android:textSize="14.0dip" android:textColor="@color/wk" android:id="@id/textView_item_firstletter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_centerVertical="true" />
+            <View android:id="@id/v_divier_footer" android:layout_alignParentBottom="true" style="@style/a57" />
+        </RelativeLayout>
+        <RelativeLayout android:id="@id/rl_item_bank_card" android:layout_width="fill_parent" android:layout_height="60.0dip" android:contentDescription="epaysdk_cell_bg|ColorDrawable">
+            <com.netease.epay.sdk.base.view.NetLoadImageView android:id="@id/iv_item_cards_icon" android:layout_width="18.0dip" android:layout_height="18.0dip" android:layout_marginLeft="16.0dip" android:src="@drawable/d04" android:layout_centerVertical="true" />
+            <ImageView android:id="@id/iv_item_cards_next" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="16.0dip" android:src="@drawable/d0t" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+            <TextView android:textSize="11.0dip" android:textColor="@color/wo" android:id="@id/tv_item_cards_card_tip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15.0dip" android:text="维护中" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+            <TextView android:textSize="16.0dip" android:textColor="@color/wk" android:id="@id/tv_item_cards_card_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip" android:layout_toRightOf="@id/iv_item_cards_icon" android:layout_centerVertical="true" />
+            <TextView android:textSize="11.0dip" android:textColor="@color/wf" android:id="@id/tv_item_cards_card_discount" android:background="@drawable/a84" android:paddingLeft="6.0dip" android:paddingTop="2.0dip" android:paddingRight="6.0dip" android:paddingBottom="2.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:layout_toRightOf="@id/tv_item_cards_card_name" android:layout_centerVertical="true" />
+            <View android:id="@id/v_divier" android:layout_marginRight="16.0dip" android:layout_alignLeft="@id/tv_item_cards_card_name" android:layout_alignParentBottom="true" style="@style/a57" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

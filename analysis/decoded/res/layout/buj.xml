@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/content" android:background="@drawable/pj" android:layout_width="230.0dip" android:layout_height="50.0dip" android:paddingStart="18.0dip" android:paddingEnd="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="15.0dip" android:textColor="@color/a37" android:id="@id/tv_title" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a65="parent" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0dip" android:textColor="@color/a37" android:ellipsize="end" android:id="@id/tv_subtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:alpha="0.4" app:a5f="parent" app:a5m="@id/iv_arrow" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_arrow" android:background="@drawable/e0t" android:layout_width="14.0dip" android:layout_height="14.0dip" android:alpha="0.4" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

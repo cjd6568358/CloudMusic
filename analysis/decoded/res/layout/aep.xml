@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:gravity="center" android:id="@id/dsl_version" android:padding="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="查看DSL版本" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:gravity="center" android:id="@id/dsl_data" android:padding="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="导出模板数据" />
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="20.0dip">
+        <androidx.appcompat.widget.AppCompatEditText android:textSize="16.0sp" android:gravity="center" android:id="@id/dsl_data_template_id" android:padding="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:hint="请输入模板id，默认当前模板" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:gravity="center" android:id="@id/dsl_data_refresh" android:padding="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="加载测试模板" />
+    </LinearLayout>
+</LinearLayout>

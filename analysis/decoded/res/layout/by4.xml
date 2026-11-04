@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/layout_look_musician_0" android:background="@color/a7c" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.customui.OnlyVerticalSwipeRefreshLayout android:id="@id/swipe" android:tag="binding_1" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <include android:clipToPadding="false" layout="@layout/xw" />
+    </com.netease.play.customui.OnlyVerticalSwipeRefreshLayout>
+    <FrameLayout android:id="@id/layoutMusicianLogo" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a69="parent">
+        <View android:id="@id/bgMusicianLogo" android:background="@color/a7b" android:layout_width="fill_parent" android:layout_height="@dimen/xy" android:alpha="0.0" />
+        <ImageView android:layout_gravity="bottom|center" android:tag="binding_2" android:layout_width="160.0dip" android:layout_height="36.0dip" android:src="@drawable/e77" />
+    </FrameLayout>
+    <View android:background="@drawable/qk" android:layout_width="fill_parent" android:layout_height="120.0dip" app:a69="parent" />
+    <View android:id="@id/icon_back" android:tag="binding_3" android:background="@drawable/f38" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginBottom="6.0dip" android:layout_marginStart="20.0dip" app:a5f="@id/layoutMusicianLogo" app:a65="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

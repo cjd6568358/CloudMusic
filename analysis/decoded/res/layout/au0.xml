@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_alignParentBottom="true"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="horizontal" android:id="@id/dotParent" android:clipChildren="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="10.0dip" android:layout_above="@id/playerHistoryPager" android:layout_centerHorizontal="true" />
+    <com.netease.cloudmusic.ui.NeteaseMusicViewPager android:id="@id/playerHistoryPager" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="487.0dip" android:layout_marginLeft="13.0dip" android:layout_marginRight="13.0dip" android:layout_marginBottom="@dimen/akn" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" />
+</RelativeLayout>

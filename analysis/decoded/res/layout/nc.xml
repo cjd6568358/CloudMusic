@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="0.0dip" android:weightSum="2.0" android:layout_weight="1.0">
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/module1_layout" style="@style/al">
+            <ImageView android:id="@id/icon1_img" android:background="@null" android:layout_width="@dimen/cv" android:layout_height="@dimen/cv" android:src="@drawable/fs" style="@style/ad" />
+            <TextView android:id="@id/title1_tv" android:background="@null" android:text="@string/vj" style="@style/aw" />
+        </LinearLayout>
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/module2_layout" android:layout_marginStart="8.0dip" style="@style/al">
+            <ImageView android:id="@id/icon2_img" android:background="@null" android:layout_width="@dimen/cv" android:layout_height="@dimen/cv" android:src="@drawable/fu" style="@style/ad" />
+            <TextView android:id="@id/title2_tv" android:background="@null" android:text="@string/vm" style="@style/aw" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_marginTop="8.0dip" android:weightSum="2.0" android:layout_weight="1.0">
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/module3_layout" style="@style/al">
+            <ImageView android:id="@id/icon3_img" android:background="@null" android:layout_width="@dimen/cv" android:layout_height="@dimen/cv" android:src="@drawable/fw" style="@style/ad" />
+            <TextView android:id="@id/title3_tv" android:background="@null" android:text="@string/vn" style="@style/aw" />
+        </LinearLayout>
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/module4_layout" android:layout_marginStart="8.0dip" style="@style/al">
+            <ImageView android:id="@id/icon4_img" android:background="@null" android:layout_width="@dimen/cv" android:layout_height="@dimen/cv" android:src="@drawable/fy" style="@style/ad" />
+            <TextView android:id="@id/title4_tv" android:background="@null" android:text="@string/vo" style="@style/aw" />
+        </LinearLayout>
+    </LinearLayout>
+</merge>

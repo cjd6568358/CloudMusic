@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="5.0dip" android:layout_marginEnd="5.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.playlist.widget.PlaylistCoverHeaderView android:id="@id/videoPlaylistCoverHeader" android:layout_width="@dimen/ai8" android:layout_height="@dimen/ai7" />
+    <com.netease.cloudmusic.module.officialpl.ui.header.PlaylistNewFrameworkDraweeView android:id="@id/musicCover" android:layout_width="wrap_content" android:layout_height="wrap_content" app:ae="centerCrop" app:jw="8.0dip" app:w3="618" app:ahy="@drawable/g9_" app:ahz="centerCrop" app:aj2="@color/awz" />
+    <TextView android:textSize="13.0dip" android:textColor="@color/aj6" android:id="@id/playlistTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:maxLines="2" />
+</LinearLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="54.0dip" android:layout_marginTop="5.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0dip" android:textColor="@color/aiv" android:id="@id/tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="@string/g6f" android:layout_centerVertical="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:textColor="@color/aiz" android:id="@id/tips" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/g6g" android:layout_toRightOf="@id/tv" android:layout_alignBottom="@id/tv" android:layout_centerVertical="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithBackground android:textSize="12.0dip" android:gravity="center" android:id="@id/tv_btn_edit" android:layout_width="50.0dip" android:layout_height="24.0dip" android:layout_marginRight="8.0dip" android:text="@string/g6e" android:layout_alignParentRight="true" android:layout_centerVertical="true" app:gl="fillBackground" />
+</RelativeLayout>

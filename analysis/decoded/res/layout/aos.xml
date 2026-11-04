@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+        <com.netease.play.ui.ReverseLinearLayout android:layout_gravity="right" android:orientation="horizontal" android:id="@id/tabContainer" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="@dimen/rf">
+            <FrameLayout android:id="@id/tab1" android:background="@drawable/dad" android:layout_width="70.0dip" android:layout_height="fill_parent">
+                <TextView android:textSize="12.0sp" android:textColor="@color/b1e" android:layout_gravity="center" android:id="@id/tabText1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cfp" android:singleLine="true" android:drawableLeft="@drawable/emi" android:drawablePadding="3.0dip" />
+            </FrameLayout>
+            <FrameLayout android:id="@id/tab2" android:background="@drawable/dae" android:layout_width="70.0dip" android:layout_height="fill_parent" android:layout_marginLeft="-10.0dip">
+                <TextView android:textSize="12.0sp" android:textColor="@color/b1e" android:layout_gravity="center" android:id="@id/tabText2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cfq" android:singleLine="true" android:drawableLeft="@drawable/ej_" android:drawablePadding="3.0dip" />
+            </FrameLayout>
+        </com.netease.play.ui.ReverseLinearLayout>
+        <FrameLayout android:orientation="vertical" android:id="@id/newTabContainer" android:background="#f71c1c1c" android:layout_width="fill_parent" android:layout_height="@dimen/hc">
+            <View android:layout_gravity="bottom" android:background="@color/aji" android:layout_width="fill_parent" android:layout_height="0.33000004dip" />
+            <com.netease.play.ui.ColorTabLayout android:id="@id/tabLayout" android:layout_width="wrap_content" android:layout_height="fill_parent" app:ast="#ffff2c55" app:asu="false" app:asw="2.0dip" />
+            <com.facebook.drawee.view.SimpleDraweeView android:layout_gravity="center|right" android:id="@id/draweeViewNobleEntrance" android:visibility="gone" android:layout_width="63.0dip" android:layout_height="23.0dip" android:layout_marginRight="10.0dip" app:ae="centerInside" />
+            <TextView android:textSize="12.0sp" android:textColor="@color/b1t" android:gravity="center" android:layout_gravity="center|right" android:id="@id/txtGiftWall" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="8.0dip" android:text="@string/cg4" android:drawableRight="@drawable/emk" android:drawablePadding="1.0dip" />
+        </FrameLayout>
+        <com.netease.play.ui.NeteaseMusicViewPager android:id="@id/commonViewPager" android:background="@color/a6a" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </LinearLayout>
+</LinearLayout>

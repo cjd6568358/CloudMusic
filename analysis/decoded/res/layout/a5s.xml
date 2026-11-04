@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:background="@drawable/b6w" android:paddingBottom="34.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="24.0dip" android:paddingEnd="24.0dip">
+        <FrameLayout android:background="@drawable/frt" android:layout_width="190.0dip" android:layout_height="90.0dip">
+            <com.netease.cloudmusic.ui.SimpleRoundDraweeView android:layout_gravity="center" android:id="@id/iv_music" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_marginTop="4.0dip" app:ae="centerCrop" app:ahy="@drawable/f28" app:ahz="fitXY" app:am0="25.0dip" app:avr="true" />
+        </FrameLayout>
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:textColor="#ffffffff" android:ellipsize="end" android:gravity="center_horizontal" android:id="@id/tv_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/dw2" android:maxLines="1" android:singleLine="true" />
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip">
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:textColor="#99ffffff" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/tv_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:singleLine="true" app:a5_="true" app:a5f="parent" app:a5w="packed" app:a5z="parent" app:a62="@id/tv_content_right" app:a69="parent" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:textColor="#99ffffff" android:gravity="center_vertical" android:id="@id/tv_content_right" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="》" android:maxLines="1" android:singleLine="true" app:a5f="parent" app:a60="@id/tv_content" app:a62="@id/tv_pick" app:a69="parent" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="#99ffffff" android:gravity="center_vertical" android:id="@id/tv_pick" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/dw1" app:a5f="parent" app:a60="@id/tv_content_right" app:a63="parent" app:a69="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="16.0sp" android:textStyle="bold" android:textColor="@android:color/white" android:gravity="center" android:id="@id/tv_confirm" android:layout_width="wrap_content" android:layout_height="40.0dip" android:layout_marginTop="30.0dip" android:text="@string/dvz" android:drawablePadding="3.0dip" android:paddingStart="45.0dip" android:paddingEnd="38.0dip" />
+    </LinearLayout>
+    <View android:id="@id/iv_close" android:background="@drawable/b6v" android:layout_width="32.0dip" android:layout_height="32.0dip" android:layout_marginTop="48.0dip" />
+</LinearLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:tag="layout/voice_podcast_video_share_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.music.biz.share.musicshare.card.MusicShareCardItemContainer android:id="@id/container" android:background="@color/b1e" android:layout_width="fill_parent" android:layout_height="fill_parent" app:jw="@dimen/ac0">
+        <FrameLayout android:layout_gravity="center" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <LinearLayout android:orientation="vertical" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                <androidx.appcompat.widget.AppCompatTextView android:textSize="6.0sp" android:textColor="@color/b1q" android:ellipsize="end" android:id="@id/subTitle" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginTop="10.0dip" android:layout_marginRight="10.0dip" android:layout_marginBottom="6.0dip" android:maxLines="1" android:layout_marginHorizontal="10.0dip" />
+                <androidx.appcompat.widget.AppCompatTextView android:textColor="@color/b13" android:ellipsize="end" android:id="@id/title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip" android:maxLines="2" android:layout_marginHorizontal="10.0dip" />
+                <FrameLayout android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0">
+                    <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center" android:id="@id/audioWave" android:layout_width="fill_parent" android:layout_height="11.0dip" android:src="@drawable/db0" android:scaleType="centerCrop" />
+                    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="10.0dip" android:layout_marginBottom="10.0dip" android:layout_marginVertical="10.0dip">
+                        <com.facebook.drawee.view.SimpleDraweeView android:id="@id/cover" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5k="1:1" app:a5l="parent" app:a65="parent" app:a69="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </FrameLayout>
+                <androidx.appcompat.widget.AppCompatTextView android:textSize="8.0sp" android:textColor="@color/b1t" android:ellipsize="end" android:id="@id/time" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip" android:layout_marginBottom="28.0dip" android:maxLines="1" android:layout_marginHorizontal="10.0dip" />
+            </LinearLayout>
+        </FrameLayout>
+    </com.netease.cloudmusic.music.biz.share.musicshare.card.MusicShareCardItemContainer>
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/b1z" android:layout_gravity="center_horizontal" android:id="@id/cardName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:includeFontPadding="false" />
+</LinearLayout>

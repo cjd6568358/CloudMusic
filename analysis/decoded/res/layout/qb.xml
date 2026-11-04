@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:gravity="center" android:tag="layout/audiochat_bottom_connected_time_tip_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="12.0sp" android:textColor="#4dffffff" android:id="@id/tv_time_des" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/as" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <TextView android:textSize="24.0sp" android:textStyle="bold" android:textColor="@color/b12" android:id="@id/tv_time_countup" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" app:a5w="packed" app:a5z="parent" app:a62="@id/tv_time_total" app:a68="@id/tv_time_des" />
+    <TextView android:textSize="24.0sp" android:textStyle="bold" android:textColor="#66ffffff" android:id="@id/tv_time_total" android:tag="binding_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" app:a5w="packed" app:a60="@id/tv_time_countup" app:a63="parent" app:a68="@id/tv_time_des" />
+</androidx.constraintlayout.widget.ConstraintLayout>

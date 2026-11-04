@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="145.0dip">
+        <com.netease.play.ui.LookThemeTextView android:textSize="20.0sp" android:textColor="@color/aj6" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/dd7" android:layout_centerHorizontal="true" />
+        <TextView android:textSize="15.0sp" android:textColor="@color/aj_" android:id="@id/forbidReason" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="25.0dip" android:layout_below="@id/title" android:layout_centerHorizontal="true" />
+        <com.netease.play.ui.LookThemeTextView android:textSize="13.0sp" android:textColor="@color/aj6" android:id="@id/subTitle" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:text="@string/dd5" android:layout_below="@id/title" android:layout_centerHorizontal="true" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/achievementTitle" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/wj" android:layout_marginTop="@dimen/arr" android:layout_marginRight="@dimen/wj" android:layout_below="@id/title">
+            <View android:background="@color/ajh" android:layout_width="0.0dip" android:layout_height="1.0px" android:layout_weight="1.0" />
+            <com.netease.play.ui.LookThemeTextView android:textSize="13.0sp" android:textColor="@color/aj6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip" android:text="@string/dcs" />
+            <View android:background="@color/ajh" android:layout_width="0.0dip" android:layout_height="1.0px" android:layout_weight="1.0" />
+        </LinearLayout>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/achievementContainer" android:layout_width="fill_parent" android:layout_height="42.0dip" android:layout_marginLeft="@dimen/wj" android:layout_marginTop="20.0dip" android:layout_marginRight="@dimen/wj" android:baselineAligned="false" android:layout_below="@id/achievementTitle">
+            <com.netease.play.ui.LookThemeFrameLayout android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+                <com.netease.play.ui.LookThemeTextView android:textSize="20.0sp" android:textColor="@color/aj6" android:gravity="center" android:layout_gravity="bottom" android:id="@id/time" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+                <com.netease.play.ui.LookThemeTextView android:textSize="13.0sp" android:textColor="@color/aj8" android:gravity="center" android:layout_gravity="top" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/dec" />
+            </com.netease.play.ui.LookThemeFrameLayout>
+            <com.netease.play.ui.LookThemeFrameLayout android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+                <com.netease.play.ui.LookThemeTextView android:textSize="20.0sp" android:textColor="@color/aj6" android:gravity="center" android:layout_gravity="bottom" android:id="@id/viewer" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+                <com.netease.play.ui.LookThemeTextView android:textSize="13.0sp" android:textColor="@color/aj8" android:gravity="center" android:layout_gravity="top" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/j7d" />
+            </com.netease.play.ui.LookThemeFrameLayout>
+            <com.netease.play.ui.LookThemeFrameLayout android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+                <com.netease.play.ui.LookThemeTextView android:textSize="20.0sp" android:textColor="@color/aj6" android:gravity="center" android:layout_gravity="bottom" android:id="@id/diamond" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+                <com.netease.play.ui.LookThemeTextView android:textSize="13.0sp" android:textColor="@color/aj8" android:gravity="center" android:layout_gravity="top" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/bfg" />
+            </com.netease.play.ui.LookThemeFrameLayout>
+        </LinearLayout>
+    </RelativeLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/popularityAdditionalContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="50.0dip">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/popularityAdditional" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/wj" android:layout_marginRight="@dimen/wj" app:a5z="parent" app:a63="parent" app:a69="parent">
+            <View android:background="@color/ajh" android:layout_width="0.0dip" android:layout_height="1.0px" android:layout_weight="1.0" />
+            <com.netease.play.ui.LookThemeTextView android:textSize="13.0sp" android:textColor="@color/aj6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip" android:text="@string/dd9" />
+            <View android:background="@color/ajh" android:layout_width="0.0dip" android:layout_height="1.0px" android:layout_weight="1.0" />
+        </LinearLayout>
+        <TextView android:textSize="13.0sp" android:textColor="@color/aj8" android:gravity="left" android:layout_gravity="top" android:id="@id/popularityAdditionalDetail" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/wj" android:layout_marginTop="20.0dip" android:text="@string/dd_" app:a5w="spread" app:a5x="2.0" app:a5z="parent" app:a62="@id/popularityAdditionalDetailContent" app:a68="@id/popularityAdditional" />
+        <TextView android:textSize="13.0sp" android:textColor="@color/aj6" android:gravity="center" android:layout_gravity="top" android:id="@id/popularityAdditionalDetailContent" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginRight="30.0dip" app:a5x="1.0" app:a60="@id/popularityAdditionalDetail" app:a63="parent" app:a69="@id/popularityAdditionalDetail" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut android:icon="@drawable/shortcut_identify" android:enabled="true" android:shortcutId="melodyIdentify" android:shortcutShortLabel="@string/e4y" android:shortcutLongLabel="@string/e4y">
+        <intent android:targetPackage="com.netease.cloudmusic" android:action="android.intent.action.VIEW" android:targetClass="com.netease.cloudmusic.activity.ShortcutTrampolineActivity">
+            <extra android:name="shortcutType" android:value="1" />
+        </intent>
+    </shortcut>
+    <shortcut android:icon="@drawable/shortcut_fm" android:enabled="true" android:shortcutId="privateRadio" android:shortcutShortLabel="@string/h3f" android:shortcutLongLabel="@string/h3f">
+        <intent android:targetPackage="com.netease.cloudmusic" android:action="android.intent.action.VIEW" android:targetClass="com.netease.cloudmusic.activity.ShortcutTrampolineActivity">
+            <extra android:name="shortcutType" android:value="2" />
+        </intent>
+    </shortcut>
+    <shortcut android:icon="@drawable/shortcut_search" android:enabled="true" android:shortcutId="search" android:shortcutShortLabel="@string/e9g" android:shortcutLongLabel="@string/e9g">
+        <intent android:targetPackage="com.netease.cloudmusic" android:action="android.intent.action.VIEW" android:targetClass="com.netease.cloudmusic.activity.ShortcutTrampolineActivity">
+            <extra android:name="shortcutType" android:value="3" />
+        </intent>
+    </shortcut>
+    <shortcut android:icon="@drawable/shortcut_local_music" android:enabled="true" android:shortcutId="playLocalMusic" android:shortcutShortLabel="@string/g72" android:shortcutLongLabel="@string/g72">
+        <intent android:targetPackage="com.netease.cloudmusic" android:action="android.intent.action.VIEW" android:targetClass="com.netease.cloudmusic.activity.ShortcutTrampolineActivity">
+            <extra android:name="shortcutType" android:value="4" />
+        </intent>
+    </shortcut>
+</shortcuts>

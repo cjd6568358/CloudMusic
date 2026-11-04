@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@id/rootContainer" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.appbar.AppBarLayout android:id="@id/appbar" android:background="@color/ay9" android:fadingEdge="vertical" android:fadingEdgeLength="3.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" app:sk="0.0dip">
+        <include android:id="@id/mlogLikedEntrance" android:layout_width="fill_parent" android:layout_height="82.0dip" app:a76="scroll" layout="@layout/cpf" />
+        <include android:id="@id/collectedTitle" android:layout_width="fill_parent" android:layout_height="56.0dip" app:a76="scroll" layout="@layout/cpb" />
+        <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout android:layout_gravity="center_vertical" android:id="@id/tabLayoutVideo" android:layout_width="fill_parent" android:layout_height="40.0dip" android:layout_marginLeft="16.0dip" app:nr="click" app:akx="standard" app:asm="start" app:at6="46.0dip" app:at7="scrollable" app:avq="false" />
+    </com.google.android.material.appbar.AppBarLayout>
+    <com.netease.cloudmusic.ui.NeteaseMusicViewPager android:id="@id/viewPagerVideo" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="@string/uo" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

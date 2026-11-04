@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.ad.AdImpressRelativeLayout android:id="@id/loading_ad_video" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/adBlurBg" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitXY" />
+    <com.netease.cloudmusic.ui.FixAnrLocalVideoView android:id="@id/secondAdVideoView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <pl.droidsonroids.gif.GifImageView android:id="@id/video_adImage" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+    <com.netease.cloudmusic.ui.FixAnrLocalVideoView android:id="@id/video_adVideo" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <ImageView android:id="@id/video_adVideoMask" android:background="@drawable/b5m" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <ImageView android:id="@id/linkageImage" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+    <com.netease.cloudmusic.module.ad.view.DrawPathView android:id="@id/slidePathView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</com.netease.cloudmusic.ui.ad.AdImpressRelativeLayout>

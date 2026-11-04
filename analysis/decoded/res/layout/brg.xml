@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/flowCardContainer" android:tag="layout/layout_flow_card_0" android:background="@drawable/oq" android:visibility="invisible" android:layout_width="86.0dip" android:layout_height="36.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/cardIcon" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginEnd="6.0dip" app:a5f="parent" app:a63="parent" app:a69="parent" />
+    <TextView android:textSize="11.0sp" android:textStyle="bold" android:textColor="@color/b12" android:gravity="end" android:id="@id/numberInfo" android:tag="binding_1" android:layout_width="0.0dip" android:layout_height="wrap_content" android:includeFontPadding="false" android:layout_marginEnd="6.0dip" app:a5g="@id/number" app:a5z="parent" app:a62="@id/cardIcon" app:a69="parent" app:a6a="packed" />
+    <TextView android:textSize="10.0sp" android:textColor="@color/b12" android:gravity="end" android:id="@id/number" android:tag="binding_2" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:includeFontPadding="false" app:a5f="parent" app:a5z="parent" app:a63="@id/numberInfo" app:a68="@id/numberInfo" />
+</androidx.constraintlayout.widget.ConstraintLayout>

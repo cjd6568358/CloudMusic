@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge layout_height="30.0dip" layout_width="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Space android:id="@id/targetSpace" android:tag="layout/layout_new_official_right_area_0" android:layout_width="10.0dip" android:layout_height="30.0dip" app:a5l="parent" app:a69="parent" />
+    <ImageView android:id="@id/closeBtn" android:tag="layout/layout_new_official_right_area_1" android:layout_width="30.0dip" android:layout_height="30.0dip" android:src="@drawable/f1l" android:scaleType="centerInside" app:a5f="@id/targetSpace" app:a5m="@id/targetSpace" app:a69="@id/targetSpace" />
+    <ImageView android:layout_gravity="center_vertical" android:id="@id/packUpBtn" android:tag="layout/layout_new_official_right_area_2" android:layout_width="32.0dip" android:layout_height="32.0dip" android:src="@drawable/f4r" android:scaleType="centerInside" android:layout_marginEnd="5.0dip" app:a5f="@id/closeBtn" app:a5m="@id/closeBtn" app:a69="@id/closeBtn" />
+    <ImageView android:id="@id/noticeBtn" android:tag="layout/layout_new_official_right_area_3" android:layout_width="30.0dip" android:layout_height="30.0dip" android:src="@drawable/eq2" android:scaleType="centerInside" android:layout_marginEnd="5.0dip" app:a5f="@id/packUpBtn" app:a5m="@id/packUpBtn" app:a69="@id/packUpBtn" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/onlineUserContainer" android:tag="layout/layout_new_official_right_area_4" android:padding="4.0dip" android:layout_width="wrap_content" android:layout_height="30.0dip" android:layout_marginEnd="5.0dip" app:a5f="@id/noticeBtn" app:a5m="@id/noticeBtn" app:a69="@id/noticeBtn">
+        <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar1" android:visibility="gone" android:layout_width="22.0dip" android:layout_height="22.0dip" app:ai4="style22" />
+        <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar2" android:visibility="gone" android:layout_width="22.0dip" android:layout_height="22.0dip" android:layout_marginStart="-10.0dip" app:ai4="style22" />
+        <TextView android:textSize="12.0sp" android:textColor="@color/b1w" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/f19" />
+    </LinearLayout>
+</merge>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/popViewFullContainer" android:clipChildren="false" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.PlayerPageImageView android:id="@id/closeBtn" android:padding="10.0dip" android:layout_width="48.0dip" android:layout_height="48.0dip" app:a5z="parent" app:a63="parent" app:aqh="@drawable/azb" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/btnGroup" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a68="@id/closeBtn">
+        <com.netease.cloudmusic.ui.PlayerPageImageView android:id="@id/emojiBtn" android:padding="10.0dip" android:layout_width="48.0dip" android:layout_height="48.0dip" android:layout_centerVertical="true" app:aqh="@drawable/ez8" />
+        <com.netease.cloudmusic.ui.PlayerPageImageView android:id="@id/voiceBtn" android:padding="10.0dip" android:layout_width="48.0dip" android:layout_height="48.0dip" android:layout_marginLeft="17.0dip" android:layout_centerVertical="true" app:aqh="@drawable/f9s" />
+        <com.netease.cloudmusic.ui.PlayerPageImageView android:id="@id/ltChat" android:padding="10.0dip" android:layout_width="48.0dip" android:layout_height="48.0dip" android:layout_marginLeft="17.0dip" android:layout_centerVertical="true" app:aqh="@drawable/exw" />
+    </LinearLayout>
+    <com.netease.cloudmusic.module.listentogether.chat.LTPopViewContainer android:id="@id/popViewContainer" android:layout_width="48.0dip" android:layout_height="48.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/closeBtn" />
+</androidx.constraintlayout.widget.ConstraintLayout>

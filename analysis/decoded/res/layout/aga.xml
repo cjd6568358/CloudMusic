@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/a7q" android:layout_width="fill_parent" android:layout_height="fill_parent" android:contentDescription="epaysdk_bg|GradientDrawable"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:uf="支付管理" />
+    <LinearLayout android:orientation="vertical" android:id="@id/flModifySecurePhoneNo" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="12.0dip">
+        <include android:layout_width="fill_parent" android:layout_height="1.0px" layout="@layout/aj9" />
+        <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <TextView android:id="@id/tvModifySecurePhoneNo" android:text="修改安全手机号" android:contentDescription="epaysdk_cell_bg|ColorDrawable" style="@style/a5h" />
+            <TextView android:textSize="14.0dip" android:textColor="@color/vq" android:layout_gravity="center|right" android:id="@id/tvMaskPhoneNo" android:paddingRight="15.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:drawableRight="@drawable/d0t" android:drawablePadding="10.0dip" />
+        </FrameLayout>
+        <include android:layout_width="fill_parent" android:layout_height="1.0px" layout="@layout/aj9" />
+    </LinearLayout>
+    <include android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_marginTop="12.0dip" layout="@layout/aj9" />
+    <TextView android:id="@id/tv_forget_pwd" android:text="忘记手机支付密码" android:drawableRight="@drawable/d0t" android:contentDescription="epaysdk_cell_bg|ColorDrawable" style="@style/a5h" />
+    <View android:id="@id/v_divier1" android:background="@color/vr" android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_marginLeft="15.0dip" />
+    <TextView android:id="@id/tv_modify_pwd" android:text="修改手机支付密码" android:drawableRight="@drawable/d0t" android:contentDescription="epaysdk_cell_bg|ColorDrawable" style="@style/a5h" />
+    <include layout="@layout/aj9" />
+    <TextView android:textSize="12.0dip" android:textColor="@color/vq" android:id="@id/tvModifyPwdHint" android:padding="12.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="电脑端支付密码修改和找回，请电脑访问epay.163.com" />
+    <FrameLayout android:id="@id/fl_close_gen" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <include layout="@layout/aj9" />
+        <TextView android:layout_marginTop="1.0px" android:text="免输将军令/密保卡" android:contentDescription="epaysdk_cell_bg|ColorDrawable" style="@style/a5h" />
+        <CheckBox android:gravity="right" android:layout_gravity="center|right" android:id="@id/cb_gen_status" android:background="@drawable/a8x" android:focusable="false" android:layout_width="51.0dip" android:layout_height="31.0dip" android:layout_marginRight="15.0dip" android:button="@null" />
+        <View android:layout_gravity="center|right" android:id="@id/v_close_gen" android:clickable="true" android:layout_width="fill_parent" android:layout_height="@dimen/of" android:layout_marginRight="10.0dip" />
+        <include android:layout_gravity="bottom" android:layout_width="fill_parent" android:layout_height="1.0px" layout="@layout/aj9" />
+    </FrameLayout>
+    <TextView android:textSize="12.0dip" android:textColor="@color/vq" android:id="@id/tv_close_gen_tips" android:padding="12.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="开启后，本设备可免输将军令/密保卡" />
+    <FrameLayout android:id="@id/fl_open_finger" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <include layout="@layout/aj9" />
+        <TextView android:layout_marginTop="1.0px" android:text="指纹支付" android:contentDescription="epaysdk_cell_bg|ColorDrawable" style="@style/a5h" />
+        <CheckBox android:gravity="right" android:layout_gravity="center|right" android:id="@id/cb_finger_status" android:background="@drawable/a8x" android:focusable="false" android:layout_width="51.0dip" android:layout_height="31.0dip" android:layout_marginRight="15.0dip" android:button="@null" />
+        <View android:layout_gravity="center|right" android:id="@id/v_switch_finger" android:clickable="true" android:layout_width="fill_parent" android:layout_height="@dimen/of" android:layout_marginRight="10.0dip" />
+        <include android:layout_gravity="bottom" android:layout_width="fill_parent" android:layout_height="1.0px" layout="@layout/aj9" />
+    </FrameLayout>
+    <TextView android:textSize="12.0dip" android:textColor="@color/vq" android:id="@id/tv_open_finger_tips" android:padding="12.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="开启后，消费时可使用指纹验证快速完成付款" />
+    <TextView android:textSize="12.0dip" android:textColor="@color/vq" android:padding="12.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="认证数字证书可提升余额支付日限额" />
+    <LinearLayout android:orientation="vertical" android:id="@id/llHelpSelf" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <include android:layout_width="fill_parent" android:layout_height="1.0px" layout="@layout/aj9" />
+        <TextView android:id="@id/tv_help_self" android:text="自助申诉" android:drawableRight="@drawable/d0t" android:contentDescription="epaysdk_cell_bg|ColorDrawable" style="@style/a5h" />
+        <include android:layout_width="fill_parent" android:layout_height="1.0px" layout="@layout/aj9" />
+        <TextView android:textSize="12.0dip" android:textColor="@color/vq" android:padding="12.0dip" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="快速便捷完成注销网易支付账号" />
+    </LinearLayout>
+</LinearLayout>

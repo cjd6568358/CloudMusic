@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/vc_operation_fragment_beauty_filter_0" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/group_recycler_view" android:layout_width="fill_parent" android:layout_height="36.0dip" android:layout_marginTop="6.0dip" app:a69="parent" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/material_recycler_view" android:layout_width="fill_parent" android:layout_height="74.0dip" android:layout_marginTop="20.0dip" app:a68="@id/group_recycler_view" />
+    <View android:id="@id/view_holder" android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_marginTop="18.0dip" app:a68="@id/material_recycler_view" />
+    <com.netease.appcommon.ui.ProgressView android:id="@id/progress_view" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="14.0dip" android:layout_marginStart="30.0dip" android:layout_marginEnd="30.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a6o="14.0dip" app:ajo="1.0" app:ajp="true" app:ajq="1.0" />
+    <ViewStub android:id="@id/empty_stub" android:layout="@layout/d15" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent" app:a69="parent" />
+    <ViewStub android:id="@id/failure_stub" android:layout="@layout/d1j" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

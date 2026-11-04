@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/divider" android:layout_width="fill_parent" android:layout_height="10.0dip" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0sp" android:textColor="#ff333333" android:id="@id/tvRecommendTips" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:text="@string/ddv" android:includeFontPadding="false" android:layout_marginStart="16.0dip" app:a65="parent" app:a68="@id/divider" />
+    <ImageView android:id="@id/imgCloseRecommend" android:layout_width="26.0dip" android:layout_height="26.0dip" android:layout_marginTop="16.0dip" android:src="@drawable/gig" android:layout_marginEnd="16.0dip" app:a5l="parent" app:a69="parent" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/recommendList" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5g="@id/tvMoreLive" app:a68="@id/tvRecommendTips" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="#ff666666" android:gravity="center" android:id="@id/tvMoreLive" android:layout_width="115.0dip" android:layout_height="30.0dip" android:layout_marginTop="20.0dip" android:layout_marginBottom="30.0dip" android:text="@string/gne" android:drawablePadding="3.5999756dip" android:drawableEnd="@drawable/gie" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a68="@id/recommendList" />
+</androidx.constraintlayout.widget.ConstraintLayout>

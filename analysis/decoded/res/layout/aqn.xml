@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.livepage.music2.toneline.toneline.LyricFloatingFrameLayout android:tag="layout/fragment_lyric_display_0" android:layout_width="@dimen/a15" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout android:clickable="false" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <View android:background="@drawable/bui" android:layout_width="0.0dip" android:layout_height="82.0dip" app:a5f="parent" app:a5z="@id/midi" app:a63="@id/midi" app:a69="@id/midi" />
+        <com.netease.play.livepage.music2.toneline.toneline.MidiShowView android:id="@id/midi" android:layout_width="fill_parent" android:layout_height="43.0dip" android:layout_marginTop="28.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" />
+        <FrameLayout android:id="@id/lyricContainer" android:layout_width="0.0dip" android:layout_height="38.0dip" app:a5f="parent" app:a60="@id/midiEffectView" app:a63="parent" app:a68="@id/midi" />
+        <TextView android:textSize="11.0sp" android:textStyle="bold" android:textColor="@color/b1e" android:gravity="center" android:id="@id/currentScore" android:layout_width="wrap_content" android:layout_height="38.0dip" android:drawablePadding="2.0dip" android:layout_marginStart="8.0dip" app:a5f="parent" app:a5z="@id/midi" app:a68="@id/midi" />
+        <com.netease.play.livepage.music2.toneline.toneline.MidiEffectView android:id="@id/midiEffectView" android:layout_width="98.0dip" android:layout_height="88.0dip" app:a5z="parent" app:a69="parent" />
+        <ImageView android:id="@id/sentenceGrade" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="88.0dip" app:a5g="@id/midi" app:a5z="@id/midiEffectView" />
+        <TextView android:textSize="14.0sp" android:textColor="@color/b1e" android:gravity="center" android:id="@id/result" android:layout_width="wrap_content" android:layout_height="38.0dip" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a68="@id/line" />
+        <com.airbnb.lottie.LottieAnimationView android:id="@id/countDownAnim" android:layout_width="65.0dip" android:layout_height="15.0dip" app:a5f="@id/midi" app:a5z="@id/currentScore" app:a69="@id/midi" />
+        <View android:id="@id/line" android:background="@color/b1h" android:layout_width="0.0dip" android:layout_height="0.33000004dip" app:a5z="parent" app:a63="parent" app:a68="@id/midi" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.netease.play.livepage.music2.toneline.toneline.LyricFloatingFrameLayout>

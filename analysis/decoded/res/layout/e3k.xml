@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.RoundedLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/rank_container" android:layout_width="wrap_content" android:layout_height="24.0dip" android:layout_marginEnd="6.0dip" app:jw="4.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/star" android:background="@drawable/ar_" android:layout_width="8.0dip" android:layout_height="8.0dip" android:layout_marginLeft="6.0dip" android:layout_marginRight="2.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:gravity="center_vertical" android:id="@id/score" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginTop="1.0dip" app:xs="@font/b" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0dip" android:gravity="center_vertical" android:id="@id/score_unit" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginTop="1.0dip" android:text="分" app:xs="@font/b" />
+    <ImageView android:background="@color/b1h" android:layout_width="0.5dip" android:layout_height="10.0dip" android:layout_marginLeft="4.0dip" android:layout_marginRight="4.0dip" android:layout_marginHorizontal="4.0dip" />
+    <TextView android:textSize="10.0dip" android:textColor="@color/b1e" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/rank_text" android:layout_width="wrap_content" android:layout_height="fill_parent" android:maxLines="1" android:includeFontPadding="false" android:drawablePadding="2.0dip" app:a5f="@id/voiceDetailCover" app:a64="@id/voiceDetailCover" />
+</com.netease.cloudmusic.ui.RoundedLinearLayout>

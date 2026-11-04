@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:orientation="vertical" android:id="@id/commentBannerContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" app:e6="noline"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.component.SectionContainer android:id="@id/sectionContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" app:adv="false" app:awr="small" app:ax3="-5.0dip" />
+    <com.netease.cloudmusic.ui.NovaHorizonRecyclerView android:id="@id/comment_banner_recy" android:scrollbars="none" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="17.0dip" android:overScrollMode="never" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

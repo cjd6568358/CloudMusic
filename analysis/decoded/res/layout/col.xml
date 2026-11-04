@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textStyle="bold" android:id="@id/totalCount" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:id="@id/hot" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ef5" />
+        <View android:background="#19000000" android:layout_width="0.70000005dip" android:layout_height="10.0dip" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:id="@id/time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ehu" />
+    </LinearLayout>
+</RelativeLayout>

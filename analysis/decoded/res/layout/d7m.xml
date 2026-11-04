@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/fl_background_round" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="3.0dip" android:layout_marginRight="3.0dip">
+        <LinearLayout android:orientation="vertical" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/playerListTitleContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="18.0dip">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:ellipsize="end" android:orientation="vertical" android:id="@id/playerListTitle" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="5.0dip" android:singleLine="true" android:layout_weight="1.0" />
+                <LinearLayout android:orientation="horizontal" android:id="@id/smartPlayArea" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:gravity="center_vertical" android:orientation="vertical" android:id="@id/smartPlayIntroduce" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="2.0dip" android:text="@string/i6z" android:singleLine="true" android:drawableLeft="@drawable/ce1" android:drawablePadding="1.0dip" app:adf="true" app:aeu="@color/a2g" />
+                    <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:textColor="@color/aiv" android:id="@id/smartPlaySwitch" android:paddingRight="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+            <include layout="@layout/d7n" />
+            <include android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" layout="@layout/d9e" />
+            <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/bottomSheetListview" android:paddingTop="12.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </LinearLayout>
+    </FrameLayout>
+    <ViewStub android:layout_gravity="bottom" android:id="@id/vs_vip_banner" android:layout="@layout/d8u" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="24.0dip" />
+</FrameLayout>

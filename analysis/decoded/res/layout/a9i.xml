@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="14.0sp" android:textColor="#ff333333" android:id="@id/content" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="30.0dip" android:layout_marginRight="20.0dip" android:lineSpacingExtra="3.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <View android:id="@id/contentDiver" android:background="@color/a0n" android:layout_width="0.0dip" android:layout_height="1.0px" android:layout_marginTop="30.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/content" />
+    <TextView android:textSize="14.0sp" android:textColor="#ff333333" android:gravity="center" android:id="@id/leftBtn" android:padding="15.0dip" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="取消" android:lineSpacingExtra="3.0dip" app:a5z="parent" app:a62="@id/buttonDiver" app:a68="@id/contentDiver" />
+    <View android:id="@id/buttonDiver" android:background="@color/a0n" android:layout_width="1.0px" android:layout_height="0.0dip" app:a5f="@id/leftBtn" app:a60="@id/leftBtn" app:a62="@id/rightBtn" app:a69="@id/leftBtn" />
+    <TextView android:textSize="14.0sp" android:textColor="#ff333333" android:gravity="center" android:id="@id/rightBtn" android:padding="15.0dip" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="确定" android:lineSpacingExtra="3.0dip" app:a60="@id/buttonDiver" app:a63="parent" app:a68="@id/contentDiver" />
+</androidx.constraintlayout.widget.ConstraintLayout>

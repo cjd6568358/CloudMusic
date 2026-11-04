@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.module.minibar.widget.wrapper.music.ItemViewFM android:gravity="center_vertical" android:id="@id/minibar_fm_container" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_gravity="center_vertical" android:id="@id/fl_cover" android:layout_width="@dimen/aen" android:layout_height="fill_parent" android:layout_marginLeft="10.0dip">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/music_cover" android:background="@drawable/b_u" android:layout_width="@dimen/aen" android:layout_height="@dimen/aen" fresco:ae="centerCrop" fresco:jw="8.0dip" fresco:w3="0" fresco:ahy="@drawable/g9o" fresco:ahz="centerCrop" />
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/cover_tag" android:background="@drawable/b_u" android:layout_width="30.0dip" android:layout_height="30.0dip" fresco:ae="centerCrop" fresco:w3="0" fresco:ahz="centerCrop" />
+    </FrameLayout>
+    <RelativeLayout android:layout_gravity="center_vertical" android:id="@id/rl_aidj_cover" android:visibility="gone" android:layout_width="@dimen/a5u" android:layout_height="@dimen/a5u">
+        <ImageView android:id="@id/smallAlbumDisc0" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/ga2" android:layout_alignParentTop="true" android:layout_centerHorizontal="true" />
+        <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center_vertical" android:id="@id/iv_aidj_cover" android:visibility="gone" android:layout_width="30.0dip" android:layout_height="30.0dip" android:src="@drawable/ftx" android:layout_centerInParent="true" />
+    </RelativeLayout>
+    <com.netease.cloudmusic.module.minibar.widget.MiniBarNewStyleTextView android:textSize="12.0sp" android:textColor="@color/aiv" android:ellipsize="marquee" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@id/music_txt" android:focusable="false" android:focusableInTouchMode="false" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="60.0dip" android:maxLines="1" android:singleLine="true" android:includeFontPadding="false" android:marqueeRepeatLimit="marquee_forever" />
+</com.netease.cloudmusic.module.minibar.widget.wrapper.music.ItemViewFM>

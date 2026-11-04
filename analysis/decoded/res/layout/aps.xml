@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/rl_root" android:background="@drawable/c4y" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="horizontal" android:id="@id/logoContainer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="59.0dip" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true">
+        <ImageView android:id="@id/bdLogo" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <ImageView android:id="@id/logo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/fls" />
+    </LinearLayout>
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="25.0dip" android:layout_marginRight="20.0dip" android:layout_alignParentRight="true">
+        <ImageView android:layout_gravity="right" android:id="@id/vipLogo" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </FrameLayout>
+    <ImageView android:id="@id/vipLogo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="38.5dip" android:src="@drawable/ajr" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" />
+    <RelativeLayout android:id="@id/adContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <FrameLayout android:id="@id/launcherContainer" android:layout_width="0.0dip" android:layout_height="0.0dip" />
+</RelativeLayout>

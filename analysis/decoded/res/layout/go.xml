@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:scrollbars="none" android:fadingEdgeLength="0.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiz" android:id="@id/settingsPreDesc" android:paddingLeft="@dimen/aof" android:paddingRight="@dimen/aog" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="14.0dip" android:layout_marginBottom="14.0dip" />
+        <LinearLayout android:orientation="vertical" android:id="@id/bgPlayProtectSettingsContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/ao6">
+            <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:text="@string/a85" style="@style/a3_" />
+            <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/bgPlayProtectSettingList" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        </LinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiz" android:id="@id/bgPlayProtectSettingsOtherBrandText" android:paddingLeft="@dimen/aof" android:paddingRight="@dimen/aog" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="14.0dip" android:layout_marginBottom="14.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aiz" android:id="@id/bgPlayProtectSettingsPostDesc" android:paddingLeft="@dimen/aof" android:paddingRight="@dimen/aog" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="14.0dip" android:layout_marginBottom="14.0dip" />
+    </LinearLayout>
+</ScrollView>

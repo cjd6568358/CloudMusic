@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/container" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicViewPager android:id="@id/commonViewPager" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:id="@id/titleContainer" android:layout_width="fill_parent" android:layout_height="@dimen/art">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/iv_back" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginStart="20.0dip" app:a5f="parent" app:a65="parent" app:a69="parent" app:aqh="@drawable/ej7" />
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/startlive" android:background="@drawable/esn" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginEnd="20.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+        <com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout android:id="@id/tabLayout" android:clipChildren="false" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip" android:layout_marginHorizontal="10.0dip" app:nr="moveBig" app:a5_="true" app:a5f="parent" app:a5m="@id/startlive" app:a5v="0.5" app:a64="@id/iv_back" app:a69="parent" app:at4="toolbar" app:at5="55.0dip" app:at6="55.0dip" app:avq="false" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@id/titleContainer" android:layout_marginEnd="6.0dip" android:layout_alignParentEnd="true">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/openLiveTipBg" android:background="@drawable/g2r" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5z="@id/openLiveTip" app:a63="parent" />
+        <com.netease.cloudmusic.ui.OpenLiveGuideThemeTextView android:textSize="13.0sp" android:textColor="#ff666666" android:ellipsize="end" android:gravity="center" android:id="@id/openLiveTip" android:paddingLeft="18.0dip" android:paddingRight="18.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" app:a5f="parent" app:a69="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

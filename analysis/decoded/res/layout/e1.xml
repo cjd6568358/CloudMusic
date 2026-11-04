@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.LocalVideoView android:layout_gravity="center" android:id="@id/videoView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <ImageView android:id="@id/videoMask" android:background="@drawable/c4y" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextViewWithAllBackground android:layout_gravity="bottom|center" android:id="@id/skipButton" android:paddingLeft="12.0dip" android:paddingTop="7.0dip" android:paddingRight="12.0dip" android:paddingBottom="7.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="30.0dip" android:text="@string/d0j" app:gl="backgroud100" />
+</FrameLayout>

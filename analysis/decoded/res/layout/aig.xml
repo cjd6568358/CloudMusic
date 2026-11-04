@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@drawable/a8k" android:layout_width="fill_parent" android:layout_height="62.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="19.0dip" android:textColor="@color/vi" android:gravity="center" android:id="@id/tvAmount" android:background="@android:color/transparent" android:layout_width="101.0dip" android:layout_height="62.0dip" android:layout_centerVertical="true" />
+    <com.netease.epay.sdk.base_pay.view.DottedLineView android:id="@id/divider" android:layout_width="1.5dip" android:layout_height="40.0dip" android:layout_marginRight="17.0dip" android:layout_toRightOf="@id/tvAmount" android:layout_centerVertical="true" app:ub="@color/vl" app:uc="1.0dip" />
+    <LinearLayout android:orientation="vertical" android:background="@android:color/transparent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toRightOf="@id/divider" android:layout_centerVertical="true">
+        <TextView android:textSize="14.0dip" android:textColor="@color/vm" android:ellipsize="end" android:layout_gravity="center_vertical" android:id="@id/tvDesc" android:background="@android:color/transparent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" />
+        <TextView android:textSize="12.0dip" android:textColor="@color/vq" android:id="@id/tvDeadline" android:background="@android:color/transparent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" android:maxLines="1" />
+    </LinearLayout>
+    <View android:id="@id/bottomDivider" android:background="@color/vr" android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_marginLeft="14.0dip" android:layout_marginRight="14.0dip" android:layout_alignParentBottom="true" />
+</RelativeLayout>

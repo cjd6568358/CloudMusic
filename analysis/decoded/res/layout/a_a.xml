@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.discovery.view.widget.DiscoverSpinnerSwipeLayout android:id="@id/spinnerSwipeLayout" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <FrameLayout android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <FrameLayout android:id="@id/recommend_mix_container_root" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            <FrameLayout android:id="@id/adStickContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </FrameLayout>
+    </com.netease.cloudmusic.discovery.view.widget.DiscoverSpinnerSwipeLayout>
+    <FrameLayout android:id="@id/custom_fragment_container" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</FrameLayout>

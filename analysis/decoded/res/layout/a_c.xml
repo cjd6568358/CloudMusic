@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent" app:py="colorBackgroundAndroid"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.discovery.view.widget.titleview.DiscoveryNewSecondFloorView android:id="@id/dslSecondFloorView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <com.netease.cloudmusic.discovery.view.widget.titleview.DiscoveryAtmosphereView android:id="@id/dslTopAtmosphereView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/headerBg" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:scaleType="centerCrop" />
+    <LinearLayout android:orientation="vertical" android:id="@id/discoveryLayout" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <include android:id="@id/discoveryHeader" layout="@layout/a9y" />
+        <FrameLayout android:id="@id/fragment_container" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </LinearLayout>
+    <include layout="@layout/a9x" />
+</com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout>

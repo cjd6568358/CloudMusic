@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center|right" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="56.0dip" android:layout_alignParentBottom="true"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include android:layout_width="wrap_content" android:layout_height="36.0dip" android:scaleType="fitCenter" android:layout_marginStart="10.0dip" android:layout_marginEnd="10.0dip" layout="@layout/e0g" />
+    <ImageView android:id="@id/rtcCanvasOperate" android:visibility="gone" android:layout_width="36.0dip" android:layout_height="36.0dip" android:src="@drawable/f80" android:layout_marginEnd="10.0dip" />
+    <ImageView android:id="@id/rtcOrderManagerBtn" android:visibility="gone" android:layout_width="36.0dip" android:layout_height="36.0dip" android:src="@drawable/f7v" android:layout_marginEnd="10.0dip" />
+    <ImageView android:id="@id/recommend" android:layout_width="36.0dip" android:layout_height="36.0dip" android:layout_marginEnd="10.0dip" />
+    <ImageView android:id="@id/comment" android:layout_width="36.0dip" android:layout_height="36.0dip" android:src="@drawable/dfu" android:scaleType="fitXY" android:layout_marginEnd="10.0dip" />
+    <FrameLayout android:id="@id/shopping" android:background="@drawable/eu6" android:visibility="gone" android:layout_width="36.0dip" android:layout_height="36.0dip" android:layout_marginEnd="10.0dip">
+        <TextView android:textSize="13.0dip" android:textColor="@color/b12" android:layout_gravity="center_horizontal" android:id="@id/shoppingNum" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18.0dip" android:includeFontPadding="false" />
+    </FrameLayout>
+    <ImageView android:id="@id/giftBtn" android:layout_width="36.0dip" android:layout_height="36.0dip" android:scaleType="fitXY" android:layout_marginEnd="10.0dip" />
+    <com.netease.play.livepage.wheel.WheelEntryView android:layout_gravity="center_vertical" android:id="@id/wheelBtn" android:visibility="gone" android:layout_width="36.0dip" android:layout_height="36.0dip" android:layout_marginEnd="10.0dip" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="36.0dip" android:layout_height="36.0dip" android:layout_marginEnd="10.0dip">
+        <ImageView android:id="@id/more" android:layout_width="36.0dip" android:layout_height="36.0dip" android:scaleType="fitCenter" app:a5f="parent" app:a5z="parent" app:a63="parent" app:a69="parent" />
+        <ImageView android:id="@id/moreRedDotView" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a63="@id/more" app:a69="@id/more" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

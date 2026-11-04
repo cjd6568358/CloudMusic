@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.ui.LookThemeLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="60.0dip" app:e2="dark" app:e4="70.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatarImage" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginLeft="15.0dip" android:layout_marginRight="15.0dip" app:adr="false" app:ai4="style5" />
+    <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="15.0dip">
+        <TextView android:textSize="15.0sp" android:textColor="@color/b1e" android:id="@id/nickName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" />
+        <TextView android:textSize="11.0sp" android:textColor="@color/b1n" android:id="@id/time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:singleLine="true" android:includeFontPadding="false" />
+    </LinearLayout>
+    <LinearLayout android:gravity="right" android:orientation="vertical" android:id="@id/rightContainer" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginRight="15.0dip" android:layout_weight="1.0">
+        <TextView android:textSize="13.0sp" android:textColor="@color/anm" android:id="@id/giftValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" />
+        <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <TextView android:textSize="11.0sp" android:textColor="@color/b1n" android:id="@id/giftNumValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:singleLine="true" android:includeFontPadding="false" android:layout_alignParentRight="true" />
+            <TextView android:textSize="11.0sp" android:textColor="@color/b1n" android:gravity="right" android:id="@id/giftNum" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:singleLine="true" android:includeFontPadding="false" android:layout_toLeftOf="@id/giftNumValue" />
+        </RelativeLayout>
+    </LinearLayout>
+</com.netease.play.ui.LookThemeLinearLayout>

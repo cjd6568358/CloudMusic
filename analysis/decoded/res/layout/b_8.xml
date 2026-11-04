@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/lyricContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="60.0dip" android:layout_marginRight="60.0dip" android:minHeight="40.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="15.0sp" android:textColor="@color/aj8" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/lyricRaw" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/ajb" android:gravity="center" android:id="@id/lyricTranslate" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="1.0dip" />
+</LinearLayout>

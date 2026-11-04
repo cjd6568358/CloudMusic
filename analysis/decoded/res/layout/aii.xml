@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:id="@id/rlContent" android:background="@drawable/czh" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="32.0dip" android:textColor="@color/vi" android:gravity="center" android:id="@id/tvDiscountAmount" android:background="@android:color/transparent" android:layout_width="101.0dip" android:layout_height="fill_parent" android:layout_alignParentLeft="true" android:layout_centerVertical="true" />
+        <ImageView android:id="@id/ivChoose" android:layout_width="21.0dip" android:layout_height="21.0dip" android:layout_marginTop="8.0dip" android:layout_marginRight="8.0dip" android:layout_alignParentTop="true" android:layout_alignParentRight="true" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@android:color/transparent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="19.0dip" android:layout_marginRight="10.0dip" android:layout_toLeftOf="@id/ivChoose" android:layout_alignLeft="@id/rlDesc">
+            <LinearLayout android:gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <TextView android:textSize="15.0dip" android:textColor="@color/vm" android:ellipsize="end" android:layout_gravity="center_vertical" android:id="@id/tvDiscountName" android:background="@android:color/transparent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:layout_weight="1.0" />
+                <TextView android:textSize="11.0dip" android:textColor="@color/vb" android:gravity="center" android:layout_gravity="center_vertical" android:id="@id/tvTime" android:background="@drawable/a8i" android:paddingBottom="0.5dip" android:visibility="visible" android:layout_width="56.0dip" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" android:text="限时优惠" />
+            </LinearLayout>
+            <View android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0" />
+        </LinearLayout>
+        <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@id/rlDesc" android:background="@android:color/transparent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="118.0dip" android:layout_marginTop="47.0dip">
+            <TextView android:textSize="12.0dip" android:textColor="@color/vq" android:id="@id/tvDesc" android:background="@android:color/transparent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" />
+            <TextView android:textSize="12.0dip" android:textColor="@color/vq" android:id="@id/tvDeadline" android:background="@android:color/transparent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1.5dip" android:maxLines="1" />
+            <TextView android:textSize="12.0dip" android:textColor="@color/w1" android:id="@id/tvExpand" android:background="@android:color/transparent" android:paddingRight="10.0dip" android:paddingBottom="5.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1.5dip" android:text="详情" />
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>

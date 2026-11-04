@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.musiccalendar.view.widget.CalendarRecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="11.0sp" android:textColor="@color/aj0" android:gravity="center_horizontal" android:id="@id/legalTip" android:paddingLeft="16.0dip" android:paddingTop="20.0dip" android:paddingRight="16.0dip" android:paddingBottom="20.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/es0" android:layout_alignParentBottom="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeIconImageView android:id="@id/emptyIcon" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="164.0dip" android:src="@drawable/fys" android:layout_alignParentTop="true" android:layout_centerHorizontal="true" app:adi="true" />
+    <com.netease.cloudmusic.ui.TextViewFixTouchConsume android:textSize="12.0sp" android:textColor="@color/aiz" android:id="@id/emptyText" android:paddingLeft="16.0dip" android:paddingTop="10.0dip" android:paddingRight="16.0dip" android:paddingBottom="10.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:layout_below="@id/emptyIcon" android:layout_centerHorizontal="true" />
+</RelativeLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/fragment_music_library_search_tip_0" android:background="@color/aei" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_vertical" android:id="@id/search_layout" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a69="parent">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/bff" android:layout_width="0.0dip" android:layout_height="36.0dip" android:layout_weight="1.0" android:paddingStart="10.0dip" android:paddingEnd="10.0dip" android:layout_marginStart="16.0dip">
+            <ImageView android:background="@drawable/bfe" android:layout_width="16.0dip" android:layout_height="16.0dip" android:alpha="0.2" />
+            <EditText android:textSize="15.0sp" android:textColor="@color/b12" android:textColorHint="@color/b1h" android:id="@id/search_edit_text" android:background="@null" android:focusable="true" android:layout_width="0.0dip" android:layout_height="wrap_content" android:hint="@string/ew7" android:singleLine="true" android:layout_weight="1.0" android:imeOptions="actionSearch" android:layout_marginStart="4.0dip" android:layout_marginEnd="8.0dip" />
+            <com.netease.appcommon.ui.ICreatorCommonIcon android:id="@id/cancel_search" android:background="@drawable/bfh" android:visibility="gone" android:layout_width="16.0dip" android:layout_height="16.0dip" android:alpha="0.2" />
+        </LinearLayout>
+        <TextView android:textSize="17.0sp" android:textColor="@color/b12" android:id="@id/cancel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/evz" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip" />
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/suggest_recycler_view" android:background="@color/aei" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" app:a68="@id/search_layout" />
+</androidx.constraintlayout.widget.ConstraintLayout>

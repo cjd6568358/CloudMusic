@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/a7q" android:layout_width="fill_parent" android:layout_height="fill_parent" android:contentDescription="epaysdk_bg|GradientDrawable"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:tr="false" app:ty="false" app:uf="忘记支付密码" />
+    <ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <TextView android:textSize="15.0dip" android:textColor="@color/wo" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginTop="20.0dip" android:layout_marginRight="15.0dip" android:layout_marginBottom="12.0dip" android:text="验证本人实名信息" />
+            <LinearLayout android:orientation="horizontal" android:background="@color/wg" android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:layout_width="fill_parent" android:layout_height="@dimen/of" android:contentDescription="epaysdk_cell_bg">
+                <TextView android:textSize="16.0dip" android:textColor="@color/wk" android:layout_gravity="center_vertical" android:layout_width="60.0dip" android:layout_height="wrap_content" android:text="姓名" />
+                <com.netease.epay.sdk.base.view.CleanUpEditText android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@id/etName" android:paddingLeft="1.0dip" android:hint="请输入完整姓名" style="@style/a5a" />
+            </LinearLayout>
+            <View android:layout_marginLeft="15.0dip" style="@style/a57" />
+            <LinearLayout android:orientation="horizontal" android:background="@color/wg" android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:layout_width="fill_parent" android:layout_height="@dimen/of" android:contentDescription="epaysdk_cell_bg">
+                <TextView android:textSize="16.0dip" android:textColor="@color/wk" android:layout_gravity="center_vertical" android:layout_width="60.0dip" android:layout_height="wrap_content" android:text="身份证" />
+                <com.netease.epay.sdk.base.view.ContentWithSpaceEditText android:layout_gravity="center_vertical" android:id="@id/etIdentity" android:paddingLeft="1.0dip" android:hint="请输入身份证号" app:v4="IDCard" style="@style/a5a" />
+            </LinearLayout>
+            <View style="@style/a57" />
+            <com.netease.epay.sdk.base.view.LongCommonButton android:enabled="false" android:id="@id/btnNext" android:layout_marginTop="30.0dip" android:text="下一步" style="@style/a4y" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

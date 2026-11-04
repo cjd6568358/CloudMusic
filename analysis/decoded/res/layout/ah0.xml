@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/a7q" android:layout_width="fill_parent" android:layout_height="fill_parent" android:contentDescription="epaysdk_bg|GradientDrawable"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.epay.sdk.base.view.ActivityTitleBar android:id="@id/atb" android:layout_width="fill_parent" android:layout_height="wrap_content" app:uf="@string/bwr" />
+    <ImageView android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="50.0dip" android:layout_marginBottom="20.0dip" android:src="@drawable/d1f" />
+    <TextView android:textSize="15.0dip" android:textColor="@color/vm" android:gravity="center" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:layout_marginRight="15.0dip" android:layout_marginBottom="25.0dip" android:text="@string/bxk" android:lineSpacingExtra="3.0dip" />
+    <com.netease.epay.sdk.base.view.LongCommonButton android:textSize="17.0dip" android:textColor="#ffffffff" android:id="@id/btnNext" android:text="@string/bwm" style="@style/a4y" />
+    <TextView android:textSize="14.0dip" android:textColor="@color/w1" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/tv_cancel_card" android:padding="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="@string/bvr" android:lineSpacingExtra="3.0dip" />
+</LinearLayout>

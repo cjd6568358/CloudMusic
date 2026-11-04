@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/special_living_left_gap" android:visibility="gone" android:layout_width="6.0dip" android:layout_height="1.0dip" app:a5f="parent" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.ui.SimpleRoundDraweeView android:id="@id/special_icon" android:layout_width="22.0dip" android:layout_height="22.0dip" android:layout_marginBottom="3.0dip" app:a5g="@id/special_text" app:a64="@id/special_living_left_gap" />
+    <View android:id="@id/icon_stroke" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="@id/special_icon" app:a5l="@id/special_icon" app:a65="@id/special_icon" app:a69="@id/special_icon" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="9.0sp" android:textColor="@color/aiz" android:id="@id/special_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:layout_marginBottom="3.0dip" android:maxLines="1" app:a5f="parent" app:a5l="@id/special_icon" app:a65="@id/special_icon" />
+    <View android:id="@id/special_red_dot" android:layout_width="8.0dip" android:layout_height="8.0dip" android:layout_marginStart="15.0dip" app:a65="parent" app:a69="parent" />
+    <View android:id="@id/special_living_bg" android:layout_width="17.0dip" android:layout_height="8.0dip" android:layout_marginStart="17.0dip" app:a65="parent" app:a69="parent" />
+    <View android:id="@id/special_living_text" android:background="@drawable/f21" android:layout_width="12.0dip" android:layout_height="4.0dip" app:a5f="@id/special_living_bg" app:a5l="@id/special_living_bg" app:a65="@id/special_living_bg" app:a69="@id/special_living_bg" />
+</androidx.constraintlayout.widget.ConstraintLayout>

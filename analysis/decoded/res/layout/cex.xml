@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.RoundedConstraintlayout android:background="#26ffdc97" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:layout_width="fill_parent" android:layout_height="73.0dip" android:layout_marginBottom="12.0dip" android:stateListAnimator="@animator/a" android:paddingHorizontal="16.0dip" app:jw="8.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:id="@id/leftContent" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5f="parent" app:a5m="@id/bannerImage" app:a65="parent" app:a69="parent">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/titleImage" android:layout_width="111.0dip" android:layout_height="21.0dip" android:src="@drawable/dvb" android:scaleType="fitCenter" />
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/arrowIcon" android:layout_width="16.0dip" android:layout_height="16.0dip" android:src="@drawable/cwa" android:scaleType="centerCrop" android:tint="#ffffdc97" android:alpha="0.4" android:rotation="-90.0" android:layout_marginStart="4.0dip" />
+        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="#99ffdc97" android:id="@id/descText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:text="@string/gzu" />
+    </LinearLayout>
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/bannerImage" android:layout_width="60.0dip" android:layout_height="40.0dip" android:src="@drawable/ejy" android:scaleType="fitCenter" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+</com.netease.cloudmusic.ui.RoundedConstraintlayout>

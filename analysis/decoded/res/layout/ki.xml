@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/volumeBalanceMusic" style="@style/a9d">
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/songTitle" android:text="@string/jah" style="@style/a9i" />
+        </LinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/musicSwitch" style="@style/a9c" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/volumeBalanceProgram" style="@style/a9d">
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/djTitle" android:text="@string/jai" style="@style/a9i" />
+        </LinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/programSwitch" style="@style/a9c" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:id="@id/volumeBalanceTip" android:paddingLeft="@dimen/aof" android:paddingRight="@dimen/aog" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="14.0dip" android:layout_marginBottom="14.0dip" android:text="@string/jag" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/volumeBalanceLouder" android:visibility="gone" style="@style/a9d">
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/louderTitle" android:text="@string/jae" style="@style/a9i" />
+        </LinearLayout>
+        <com.netease.cloudmusic.theme.ui.CustomThemeSwitch android:id="@id/louderSwitch" style="@style/a9c" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aiz" android:id="@id/volumeBalanceLouderTip" android:paddingLeft="@dimen/aof" android:paddingRight="@dimen/aog" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="14.0dip" android:layout_marginBottom="14.0dip" android:text="@string/jaf" />
+</LinearLayout>

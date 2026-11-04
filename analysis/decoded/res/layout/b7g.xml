@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/itemRoot" android:tag="layout/item_good_at_music_0" android:layout_width="fill_parent" android:layout_height="64.0dip" android:paddingStart="10.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/status" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a5z="parent" app:a69="parent">
+        <ImageView android:id="@id/image" android:tag="binding_1" android:layout_width="18.0dip" android:layout_height="18.0dip" android:src="@drawable/esf" />
+        <ProgressBar android:id="@id/loading" android:tag="binding_2" android:layout_width="18.0dip" android:layout_height="18.0dip" android:indeterminate="true" />
+    </FrameLayout>
+    <TextView android:textSize="16.0sp" android:ellipsize="end" android:id="@id/songName" android:tag="binding_3" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:maxLines="1" android:includeFontPadding="false" android:layout_marginStart="8.0dip" android:layout_marginEnd="10.0dip" app:a5g="@id/songInfo" app:a60="@id/status" app:a62="@id/add" app:a69="parent" app:a6a="packed" />
+    <TextView android:textSize="12.0sp" android:ellipsize="end" android:id="@id/songInfo" android:tag="binding_4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:includeFontPadding="false" android:drawablePadding="3.0dip" android:layout_marginEnd="10.0dip" app:a5_="true" app:a5f="parent" app:a5v="0.0" app:a5z="@id/songName" app:a62="@id/add" app:a68="@id/songName" />
+    <ImageView android:id="@id/add" android:tag="binding_5" android:layout_width="wrap_content" android:layout_height="0.0dip" android:paddingStart="20.0dip" android:paddingEnd="20.0dip" app:a5f="parent" app:a63="parent" app:a69="parent" />
+    <View android:background="@color/a6u" android:layout_width="0.0dip" android:layout_height="0.33000004dip" app:a5f="parent" app:a5z="@id/songInfo" app:a63="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

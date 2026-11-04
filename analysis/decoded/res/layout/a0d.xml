@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:padding="7.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.theme.ui.WheelView android:id="@id/hourWheel" android:layout_width="61.0dip" android:layout_height="wrap_content" />
+    <com.netease.cloudmusic.theme.ui.CustomAutoStopTextView android:textSize="@dimen/avr" android:textColor="@color/aj0" android:paddingLeft="7.0dip" android:paddingTop="@dimen/avq" android:paddingRight="7.0dip" android:paddingBottom="@dimen/avq" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cqn" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textStyle="bold" android:textColor="@color/aj0" android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginRight="20.0dip" android:text=":" />
+    <com.netease.cloudmusic.theme.ui.WheelView android:id="@id/minuteWheel" android:layout_width="61.0dip" android:layout_height="wrap_content" />
+    <com.netease.cloudmusic.theme.ui.CustomAutoStopTextView android:textSize="@dimen/avr" android:textColor="@color/aj0" android:paddingLeft="7.0dip" android:paddingTop="@dimen/avq" android:paddingRight="7.0dip" android:paddingBottom="@dimen/avq" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/eb8" />
+</LinearLayout>

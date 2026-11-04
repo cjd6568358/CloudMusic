@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.StatusBarHolderView android:id="@id/statusBarView" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <FrameLayout android:id="@id/navBar" android:layout_width="fill_parent" android:layout_height="44.0dip">
+        <com.netease.cloudmusic.music.biz.voice.widget.CustomThemeImageViewWithBizType android:layout_gravity="start|center" android:id="@id/backBtn" android:layout_width="28.0dip" android:layout_height="28.0dip" android:src="@drawable/h66" android:scaleType="centerCrop" android:layout_marginStart="16.0dip" app:qe="colorText1" />
+        <com.netease.cloudmusic.music.biz.voice.widget.CustomThemeTextViewWithBizType android:textSize="17.0sp" android:textStyle="bold" android:layout_gravity="center" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/gvk" app:qe="colorText1" />
+        <com.netease.cloudmusic.music.biz.voice.widget.CustomThemeImageViewWithBizType android:layout_gravity="end|center" android:id="@id/searchBtn" android:layout_width="28.0dip" android:layout_height="28.0dip" android:src="@drawable/ew0" android:scaleType="centerCrop" android:layout_marginEnd="16.0dip" app:qe="colorText1" />
+    </FrameLayout>
+    <FrameLayout android:id="@id/fragmentContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</LinearLayout>

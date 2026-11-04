@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:id="@id/trackDemoCreateContainer" style="@style/a_l"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <include layout="@layout/dqt" />
+    <include layout="@layout/dsa" />
+    <include layout="@layout/dr8" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTrackMainContainerLinearLayout android:orientation="vertical" android:id="@id/trackMainContainer" style="@style/a_h">
+        <include layout="@layout/dt8" />
+        <include layout="@layout/dsk" />
+        <com.netease.cloudmusic.module.social.demo.DemoView android:id="@id/demoPlayer" android:layout_width="fill_parent" android:layout_height="56.0dip" android:layout_marginTop="4.0dip" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeTrackMainContainerLinearLayout>
+    <ViewStub android:id="@id/tagCircleInfoViewStub" android:layout="@layout/dqx" android:layout_width="wrap_content" android:layout_height="23.0dip" android:layout_marginLeft="@dimen/asn" android:layout_marginBottom="@dimen/hy" />
+    <ViewStub android:gravity="center_vertical" android:id="@id/trackInteractLayoutViewStub" android:layout="@layout/drn" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/hz" />
+    <ViewStub android:id="@id/trackArtistReplyViewStub" android:layout="@layout/dqr" android:layout_width="fill_parent" android:layout_height="28.0dip" android:layout_marginLeft="@dimen/asn" android:layout_marginTop="@dimen/hx" android:layout_marginBottom="20.0dip" />
+</com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/shareContainer" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="7.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/shareTitle" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" android:maxLines="2" android:layout_marginStart="5.0dip" android:layout_marginEnd="10.0dip" />
+        <FrameLayout android:id="@id/avatarContainer" android:layout_width="31.0dip" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" android:layout_marginBottom="6.0dip" android:layout_below="@id/shareTitle" android:paddingEnd="10.0dip" android:layout_alignParentEnd="true">
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/shareMusicIcon" android:layout_width="21.0dip" android:layout_height="21.0dip" app:jw="1.0dip" />
+        </FrameLayout>
+        <TextView android:textSize="6.0sp" android:textColor="@color/aiy" android:ellipsize="end" android:id="@id/shareDiyDes" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1.0dip" android:text="@string/i31" android:maxLines="2" android:layout_below="@id/shareTitle" android:alpha="0.6" android:paddingEnd="5.0dip" android:layout_marginStart="5.0dip" android:layout_toStartOf="@id/avatarContainer" android:layout_alignParentStart="true" />
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/logoContainer" android:layout_width="fill_parent" android:layout_height="9.0dip" android:layout_alignParentBottom="true">
+            <ImageView android:id="@id/logoIcon" android:layout_width="4.6999817dip" android:layout_height="4.6999817dip" android:layout_marginLeft="4.6999817dip" android:layout_marginRight="2.0dip" android:src="@drawable/d2s" android:scaleType="centerCrop" />
+            <TextView android:textSize="4.6999817sp" android:textColor="@color/aiy" android:gravity="left" android:id="@id/shareLogoText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/u7" />
+        </LinearLayout>
+        <View android:id="@id/divideLine" android:background="@color/e8" android:layout_width="fill_parent" android:layout_height="1.0px" android:layout_marginLeft="4.6999817dip" android:layout_marginRight="4.6999817dip" android:layout_above="@id/logoContainer" />
+    </RelativeLayout>
+</merge>

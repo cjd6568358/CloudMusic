@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.RoundedConstraintlayout android:id="@id/layout_ad_count_down" android:paddingTop="5.0dip" android:paddingBottom="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingStart="27.0dip" android:paddingEnd="27.0dip" app:jw="8.0dip" app:a5l="parent" app:a65="parent" app:a69="parent">
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="32.0sp" android:gravity="center" android:id="@id/tv_ad_count_down_minute" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" app:qe="colorText2" app:xs="@font/b" app:a5f="parent" app:a5m="@id/tv_ad_count_down_colon" app:a5w="packed" app:a65="parent" app:a69="parent" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="32.0sp" android:gravity="center" android:id="@id/tv_ad_count_down_colon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="8.0dip" android:text=":" android:includeFontPadding="false" android:layout_marginStart="8.0dip" android:layout_marginEnd="8.0dip" app:qe="colorText4_1" app:xs="@font/b" app:a5f="parent" app:a5m="@id/tv_ad_count_down_second" app:a64="@id/tv_ad_count_down_minute" app:a69="parent" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="32.0sp" android:gravity="center" android:id="@id/tv_ad_count_down_second" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" app:qe="colorText2" app:xs="@font/b" app:a5f="parent" app:a5l="parent" app:a64="@id/tv_ad_count_down_colon" app:a69="parent" />
+    </com.netease.cloudmusic.ui.RoundedConstraintlayout>
+</merge>

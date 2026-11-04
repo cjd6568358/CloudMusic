@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:clipChildren="false" android:clipToPadding="false" android:layout_width="37.0dip" android:layout_height="121.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="8.0sp" android:textColor="@color/b1n" android:id="@id/tvStartTime" android:visibility="invisible" android:layout_width="27.0dip" android:layout_height="21.0dip" android:maxLines="1" />
+    <com.netease.cloudmusic.music.biz.voice.publish.videoEdit.view.VolumeChartView android:id="@id/volumeChart" android:layout_width="fill_parent" android:layout_height="30.0dip" />
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@id/image" android:layout_width="fill_parent" android:layout_height="50.0dip" />
+</LinearLayout>

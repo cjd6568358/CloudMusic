@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:tag="layout/fragment_message_center_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTipsView android:id="@id/tipsView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="40.0dip" />
+        <com.netease.cloudmusic.ui.NeteaseSwipeToRefresh android:id="@id/swipeRefresh" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <RelativeLayout android:tag="binding_1" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                <com.netease.cloudmusic.ui.ObserveMiniBarRecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="fill_parent" app:py="colorBackgroundAndroid" />
+                <include android:id="@id/open_notification" layout="@layout/c0b" />
+            </RelativeLayout>
+        </com.netease.cloudmusic.ui.NeteaseSwipeToRefresh>
+    </LinearLayout>
+    <LinearLayout android:gravity="center" android:layout_gravity="center" android:orientation="vertical" android:id="@id/errorView" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="70.0dip">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/imageTips" android:layout_width="wrap_content" android:layout_height="wrap_content" app:aqh="@drawable/fsx" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:id="@id/textTips" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="@string/e_y" app:qe="colorText4_1" />
+        <com.netease.cloudmusic.core.dolphin.component.button.DolphinButton android:gravity="center" android:id="@id/retryBtn" android:layout_width="86.0dip" android:layout_height="34.0dip" android:layout_marginTop="18.0dip" android:text="@string/ea4" app:q0="primary" app:q1="light" app:q2="m" app:q3="normal" app:q4="outline" />
+    </LinearLayout>
+</FrameLayout>

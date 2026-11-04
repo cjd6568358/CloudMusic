@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <Space android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_weight="1.0" />
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="9.0">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/ad_invocation_icon" android:layout_width="48.0dip" android:layout_height="48.0dip" />
+        <TextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="@color/b12" android:ellipsize="end" android:gravity="center" android:id="@id/ad_invocation_text" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="93.0dip" android:layout_marginTop="6.0dip" android:layout_marginRight="93.0dip" android:maxLines="1" android:shadowColor="@color/aiz" android:shadowDx="2.0" android:shadowDy="2.0" android:layout_marginHorizontal="93.0dip" />
+    </LinearLayout>
+</LinearLayout>

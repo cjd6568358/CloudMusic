@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/view_zan_custom_0" android:clipChildren="false" android:layout_width="wrap_content" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.PlayerPageImageView android:id="@id/zanIcon" android:focusable="true" android:clickable="true" android:layout_width="@dimen/a76" android:layout_height="@dimen/a76" android:layout_marginBottom="4.0dip" android:src="@drawable/ezl" android:scaleType="fitCenter" android:layout_marginStart="8.0dip" android:layout_marginEnd="8.0dip" app:a5g="@id/zanCount" app:a5l="parent" app:a65="parent" />
+    <ImageView android:id="@id/zanIcon_pic" android:clickable="false" android:layout_width="@dimen/n4" android:layout_height="@dimen/n4" android:src="@drawable/ezm" android:scaleType="fitCenter" app:a5f="@id/zanIcon" app:a5z="@id/zanIcon" app:a63="@id/zanIcon" app:a69="@id/zanIcon" />
+    <com.netease.cloudmusic.ui.PlayerPageTextView android:textSize="11.0sp" android:textColor="@color/b1k" android:id="@id/zanCount" android:layout_width="wrap_content" android:layout_height="13.0dip" android:maxLines="1" android:includeFontPadding="false" app:a5f="parent" app:a5l="parent" app:a65="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

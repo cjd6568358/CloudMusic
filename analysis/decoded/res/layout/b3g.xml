@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="bottom" android:id="@id/layout_ad_bottom_normal" android:background="#e6fcfdff" android:layout_width="fill_parent" android:layout_height="88.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="center" android:id="@id/iv_ad_bottom_normal_avatar" android:layout_width="56.0dip" android:layout_height="56.0dip" android:layout_marginStart="16.0dip" app:ae="centerCrop" app:a5f="@id/container_ad_bottom_normal_content" app:a65="parent" app:a69="@id/container_ad_bottom_normal_content" app:am0="12.0dip" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="8.0dip" android:textColor="#660f0f24" android:id="@id/tv_ad_bottom_normal_ad_tag" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" android:text="广告" app:a5l="@id/iv_ad_bottom_normal_avatar" app:a65="@id/iv_ad_bottom_normal_avatar" app:a68="@id/iv_ad_bottom_normal_avatar" />
+    <androidx.appcompat.widget.LinearLayoutCompat android:gravity="center_vertical" android:layout_gravity="bottom" android:orientation="horizontal" android:id="@id/container_ad_bottom_normal_content" android:layout_width="0.0dip" android:layout_height="88.0dip" app:a5f="parent" app:a5l="parent" app:a64="@id/iv_ad_bottom_normal_avatar" app:a69="parent">
+        <androidx.appcompat.widget.LinearLayoutCompat android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_marginRight="8.0dip" android:maxLines="1" android:layout_weight="1.0" android:layout_marginHorizontal="8.0dip">
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0sp" android:textColor="#e6283248" android:ellipsize="end" android:id="@id/tv_ad_bottom_normal_main_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="#99283248" android:ellipsize="end" android:id="@id/tv_ad_bottom_normal_sub_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <FrameLayout android:id="@id/container_ad_bottom_normal_action" android:layout_width="76.0dip" android:layout_height="fill_parent" android:layout_marginEnd="16.0dip">
+            <com.netease.cloudmusic.module.ad.motivation.commonui.MotivationAdActionView android:layout_gravity="center_vertical" android:id="@id/v_ad_bottom_normal_action" android:background="#ffff3a3a" android:layout_width="76.0dip" android:layout_height="26.0dip" />
+            <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="bottom|center|right" android:id="@id/iv_ad_bottom_normal_click_guide_effect" android:layout_width="62.0dip" android:layout_height="62.0dip" />
+        </FrameLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/a7z" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="50.0dip" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip">
+        <com.netease.epay.sdk.base.view.ContentWithSpaceEditText android:textSize="16.0dip" android:textStyle="bold" android:textColor="@color/wk" android:textColorHint="@color/wl" android:id="@id/input_card" android:background="@drawable/a86" android:paddingLeft="16.0dip" android:paddingRight="14.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_centerVertical="true" app:v4="card" />
+        <TextView android:textSize="14.0dip" android:textColor="@color/wl" android:id="@id/tv_input_card_hint" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:text="@string/bvi" android:drawableLeft="@drawable/d14" android:drawablePadding="4.0dip" android:layout_centerVertical="true" />
+        <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/ll_camera_scan" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="14.0dip" android:layout_alignParentRight="true" android:layout_centerVertical="true">
+            <ImageView android:layout_width="16.0dip" android:layout_height="15.0dip" android:src="@drawable/d05" />
+            <TextView android:textSize="10.0dip" android:textColor="@color/ws" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:text="拍照添卡" android:layout_centerVertical="true" />
+        </LinearLayout>
+    </RelativeLayout>
+    <com.netease.epay.sdk.base.view.bankinput.InputItemLayout android:id="@id/input_card_type" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" app:to="cardType" />
+    <View android:id="@id/divider_input_card_type" android:visibility="gone" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" style="@style/a57" />
+    <com.netease.epay.sdk.base.view.bankinput.InputLayout android:id="@id/inputLayout" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginRight="16.0dip" />
+    <com.netease.epay.sdk.base.view.bankinput.InputItemLayout android:id="@id/input_phone" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginRight="16.0dip" app:to="phone" />
+    <View android:id="@id/divider_input_phone" android:visibility="gone" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" style="@style/a57" />
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="16.0dip">
+        <include layout="@layout/aj3" />
+    </LinearLayout>
+</LinearLayout>

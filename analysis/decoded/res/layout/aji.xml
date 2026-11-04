@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:paddingBottom="@dimen/pe" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="40.0dip" android:textColor="@color/wk" android:layout_gravity="center_horizontal" android:id="@id/tv_paymethod_order_amount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/p3" android:layout_centerHorizontal="true" />
+    <RelativeLayout android:id="@id/rlOrderContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/ot">
+        <TextView android:textSize="13.0dip" android:textColor="@color/wk" android:id="@id/tvOrderAmountLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/pg" android:text="订单金额" />
+        <TextView android:textSize="13.0dip" android:textColor="@color/wk" android:id="@id/tv_original_amount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/pg" android:layout_alignTop="@id/tvOrderAmountLabel" android:layout_alignParentRight="true" />
+    </RelativeLayout>
+    <RelativeLayout android:id="@id/rlDiscountContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip">
+        <TextView android:textSize="13.0dip" android:textColor="@color/wk" android:id="@id/tvDiscountLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/pg" android:text="网易支付优惠" />
+        <TextView android:textSize="13.0dip" android:textColor="@color/wz" android:id="@id/tvDiscountDetail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:text="详情" android:layout_toRightOf="@id/tvDiscountLabel" />
+        <TextView android:textSize="13.0dip" android:textColor="@color/vw" android:id="@id/tvDiscount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/pg" android:text="随机立减" android:layout_alignParentRight="true" />
+    </RelativeLayout>
+    <RelativeLayout android:orientation="horizontal" android:id="@id/rlPrepayContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip">
+        <TextView android:textSize="13.0dip" android:textColor="@color/wk" android:id="@id/tvPrepayLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/pg" android:text="@string/bxf" />
+        <TextView android:textSize="13.0dip" android:textColor="@color/wz" android:id="@id/tvPrepayDetail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:text="详情" android:layout_toRightOf="@id/tvPrepayLabel" />
+        <TextView android:textSize="13.0dip" android:textColor="@color/vw" android:id="@id/tvPrepayAmount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/pg" android:layout_alignParentRight="true" android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+    <RelativeLayout android:id="@id/rlUnionDiscountContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip">
+        <TextView android:textSize="13.0dip" android:textColor="@color/wk" android:id="@id/tvUnionDiscountLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/pg" android:text="优惠" />
+        <TextView android:textSize="13.0dip" android:textColor="@color/wz" android:id="@id/tvUnionDiscountDetail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:text="详情" android:layout_toRightOf="@id/tvUnionDiscountLabel" />
+        <TextView android:textSize="13.0dip" android:textColor="@color/vw" android:id="@id/tvUnionDiscount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/pg" android:text="随机立减" android:layout_alignParentRight="true" />
+    </RelativeLayout>
+</LinearLayout>

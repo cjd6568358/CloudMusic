@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/videoContainer" android:tag="layout/video_info_component_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/trackVideoCover" android:layout_width="fill_parent" android:layout_height="fill_parent" fresco:ae="centerCrop" fresco:ahy="@drawable/cx6" fresco:ahz="fitXY" fresco:aj2="@color/awz" fresco:am0="@dimen/at2" />
+    <ViewStub android:id="@id/trackKaraokeOpusInfoHeaderViewStub" android:layout="@layout/ds1" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <include layout="@layout/dso" />
+    <include android:layout_gravity="bottom|center|right" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="5.0dip" android:layout_marginRight="4.0dip" android:layout_marginBottom="3.0dip" android:shadowColor="@color/aiz" android:shadowDx="1.0" android:shadowDy="0.0" android:shadowRadius="1.0" layout="@layout/dsp" />
+    <com.netease.cloudmusic.music.biz.usertrack.view.CustomThemeTextViewWithTag android:textSize="14.0dip" android:textColor="@color/aj6" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/trackPlayerTitle" android:tag="binding_1" android:paddingLeft="6.0dip" android:paddingTop="4.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:textColor="@color/aj8" android:ellipsize="end" android:gravity="center_vertical" android:id="@id/trackPlayerCreator" android:tag="binding_2" android:paddingLeft="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="25.0dip" android:singleLine="true" android:lineSpacingExtra="4.0dip" />
+    <FrameLayout android:id="@id/videoPlayContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <include android:layout_gravity="bottom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:layout_marginBottom="3.0dip" android:shadowColor="@color/aiz" android:shadowDx="1.0" android:shadowDy="0.0" android:shadowRadius="1.0" layout="@layout/dsn" />
+</FrameLayout>

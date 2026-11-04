@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.livepage.view.DebugRelativeLayout android:id="@id/liveFragment" android:tag="screenshot" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.play.livepage.gift.structure.AdjustableAnimCanvasView android:id="@id/maskSurfaceView" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentTop="true" />
+    <RelativeLayout android:id="@id/anchorInteractRemoteContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <include android:layout_width="fill_parent" android:layout_height="fill_parent" layout="@layout/bwr" />
+    <FrameLayout android:id="@id/floatContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <FrameLayout android:id="@id/animationContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <include android:layout_width="fill_parent" android:layout_height="fill_parent" layout="@layout/bk8" />
+    </FrameLayout>
+    <include android:id="@id/bottomContainer" android:visibility="gone" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="56.0dip" android:layout_alignParentBottom="true" layout="@layout/bwg" />
+</com.netease.play.livepage.view.DebugRelativeLayout>

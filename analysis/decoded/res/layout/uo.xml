@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <View android:id="@id/placeHolder" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <com.netease.cloudmusic.ui.CommentClosableSlidingLayout android:layout_gravity="bottom" android:id="@id/closableSlidingLayout" android:layout_width="fill_parent" android:layout_height="fill_parent" android:translationY="@dimen/anj">
+        <RelativeLayout android:id="@id/slidingLayoutContent" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/closeIV" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/aej" android:layout_alignParentTop="true" android:layout_centerHorizontal="true" />
+            <RelativeLayout android:id="@id/titleContainer" android:paddingBottom="13.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:layout_below="@id/closeIV">
+                <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="18.0sp" android:id="@id/titleTV" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true" />
+                <androidx.appcompat.widget.AppCompatImageView android:id="@id/shareIV" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="21.0dip" android:src="@drawable/d4a" android:layout_alignTop="@id/titleTV" android:layout_alignParentRight="true" />
+            </RelativeLayout>
+            <View android:id="@id/layer" android:background="#66000000" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignBottom="@id/titleContainer" android:layout_alignParentTop="true" />
+            <FrameLayout android:id="@id/container" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/titleContainer" android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+    </com.netease.cloudmusic.ui.CommentClosableSlidingLayout>
+</LinearLayout>

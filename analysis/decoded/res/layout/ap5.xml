@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/root_view" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/iv_gradation" android:background="@drawable/e16" android:layout_width="fill_parent" android:layout_height="0.0dip" app:a5f="parent" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="14.0dip" android:gravity="center_vertical" android:id="@id/tv_float_tips" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="36.0dip" android:text="@string/ctf" android:paddingStart="18.0dip" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.ui.button.SwitchButton android:id="@id/switch_float" android:visibility="gone" android:layout_width="34.0dip" android:layout_height="20.0dip" android:layout_marginEnd="16.0dip" app:a5f="@id/tv_float_tips" app:a5l="@id/tv_float_tips" app:a69="@id/tv_float_tips" />
+    <View android:id="@id/switch_check_click" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="36.0dip" app:a5f="@id/switch_float" app:a5l="@id/switch_float" app:a65="@id/switch_float" app:a69="@id/switch_float" />
+    <com.netease.cloudmusic.music.biz.recognition.ui.widget.IdentifyWaveView android:id="@id/wave_view" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a5l="parent" app:a65="parent" />
+    <View android:id="@id/view_click" android:layout_width="fill_parent" android:layout_height="0.0dip" />
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/group_content" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5l="parent" app:a65="parent">
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="20.0sp" android:id="@id/tv_progress" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.AppCompatTextView android:textSize="13.0sp" android:id="@id/tv_tips" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="3.0dip" android:alpha="0.4" />
+        <com.netease.cloudmusic.music.biz.recognition.ui.widget.IdentifySelectAudioSourceView android:id="@id/audio_internal" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="30.0dip" />
+        <com.netease.cloudmusic.music.biz.recognition.ui.widget.IdentifySelectAudioSourceView android:id="@id/audio_external" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" />
+    </LinearLayout>
+    <com.netease.cloudmusic.music.biz.recognition.ui.widget.IdentifyTipsView android:id="@id/tips_view" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="28.0dip" android:layout_marginEnd="28.0dip" app:a5l="parent" app:a65="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

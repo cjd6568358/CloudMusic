@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:paddingTop="18.0dip" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:gravity="center" android:layout_gravity="center" android:clipChildren="false" android:layout_width="46.0dip" android:layout_height="46.0dip">
+        <com.facebook.drawee.view.SimpleDraweeView android:layout_gravity="center" android:id="@id/portalImage" android:tag="0" android:layout_width="46.0dip" android:layout_height="46.0dip" app:ae="fitCenter" />
+        <com.netease.play.ui.avatar.AvatarImage android:id="@id/livingAvatar" android:visibility="gone" android:layout_width="46.0dip" android:layout_height="46.0dip" app:ai4="style28" />
+    </RelativeLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/aix" android:ellipsize="end" android:layout_gravity="center" android:id="@id/tvClassify" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:maxLines="1" />
+</LinearLayout>

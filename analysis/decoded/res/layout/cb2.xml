@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="center" android:tag="layout/layout_spirit_pet_enter_0" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/v_bg" android:tag="binding_1" android:layout_width="210.0dip" android:layout_height="40.0dip" app:a5f="parent" app:a5z="parent" app:a69="parent" />
+    <com.netease.play.ui.avatar.AvatarImage android:id="@id/avatar" android:tag="binding_2" android:layout_width="36.0dip" android:layout_height="36.0dip" android:layout_marginLeft="2.0dip" app:a5f="parent" app:a5z="parent" app:a69="parent" app:ai4="style6" />
+    <View android:id="@id/v_line" android:tag="binding_3" android:layout_width="114.0dip" android:layout_height="0.5dip" android:layout_marginLeft="10.0dip" app:a5f="parent" app:a60="@id/avatar" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/b12" android:ellipsize="end" android:gravity="left" android:id="@id/tv_name" android:tag="binding_4" android:layout_width="0.0dip" android:layout_height="wrap_content" android:lines="1" app:a5g="@id/v_line" app:a5z="@id/v_line" app:a60="@id/avatar" app:a62="@id/drawee_pet" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="@color/b1z" android:id="@id/tv_enter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="进入了房间" app:a5z="@id/v_line" app:a60="@id/avatar" app:a69="@id/v_line" />
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/drawee_pet" android:tag="binding_5" android:layout_width="70.0dip" android:layout_height="72.0dip" app:a5f="parent" app:a63="@id/v_bg" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

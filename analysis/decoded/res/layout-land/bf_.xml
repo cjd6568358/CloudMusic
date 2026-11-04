@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="64.0dip" android:layout_height="wrap_content" android:layout_marginStart="30.0dip" android:layout_marginEnd="30.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.music.biz.mlog.consume.detail.music.biz.mlogdetail.video.ui.MlogAvatarImage android:id="@id/coverImage" android:layout_width="50.0dip" android:layout_height="50.0dip" app:cv="style4" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aj6" android:ellipsize="end" android:id="@id/musicName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:singleLine="true" android:layout_centerVertical="true" />
+    <com.netease.cloudmusic.music.biz.mlog.consume.detail.music.biz.mlogdetail.video.ui.DetailMlogFollowButton android:textSize="12.0sp" android:gravity="center" android:id="@id/bottomLikeIcon" android:layout_width="62.0dip" android:layout_height="25.0dip" android:layout_marginTop="12.0dip" android:text="@string/cak" style="@style/a4l" />
+</LinearLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/container" android:tag="layout/playlive_special_gift_pool_top_bar_0" android:paddingBottom="5.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="5.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/combinGiftBg" android:tag="binding_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12.0dip" android:layout_marginEnd="12.0dip" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/gifts" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginEnd="5.0dip" app:a5f="@id/combinGiftBg" app:a5m="@id/goDetail" app:a69="@id/combinGiftBg" />
+    <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/goDetail" android:tag="binding_2" android:layout_width="92.0dip" android:layout_height="35.0dip" android:layout_marginBottom="5.0dip" android:layout_marginEnd="5.0dip" app:a5f="@id/combinGiftBg" app:a5l="@id/combinGiftBg" app:a69="@id/combinGiftBg" />
+</androidx.constraintlayout.widget.ConstraintLayout>

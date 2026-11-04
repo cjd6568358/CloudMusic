@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.music.biz.voice.widget.AlphaGradientLayout android:layout_width="fill_parent" android:layout_height="fill_parent" app:yq="top_bottom" app:yr="120.0dip">
+        <com.netease.cloudmusic.music.biz.voice.widget.LyricRecyclerView android:id="@id/rv" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <include android:layout_gravity="center_horizontal" android:id="@id/loadingView" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="50.0dip" layout="@layout/cff" />
+        <androidx.appcompat.widget.AppCompatTextView android:textColor="#99ffffff" android:layout_gravity="center_horizontal" android:id="@id/failedText" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="50.0dip" android:text="@string/di3" />
+        <View android:id="@id/v_line" android:background="#ff979797" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="1.0dip" android:layout_marginTop="137.0dip" android:alpha="0.4" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip" />
+        <LinearLayout android:gravity="center" android:layout_gravity="end" android:orientation="horizontal" android:id="@id/ll_play" android:padding="6.0dip" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="111.0dip" android:layout_marginEnd="10.0dip">
+            <androidx.appcompat.widget.AppCompatImageView android:layout_width="12.0dip" android:layout_height="12.0dip" android:src="@drawable/b0h" android:tint="#ffffffff" android:alpha="0.4" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="12.0sp" android:textColor="#ffffffff" android:id="@id/tv_time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.4" android:layout_marginStart="3.0dip" />
+        </LinearLayout>
+    </com.netease.cloudmusic.music.biz.voice.widget.AlphaGradientLayout>
+    <com.shimmer.ShimmerTextView android:textSize="18.0sp" android:textColor="#ffff3a3a" android:id="@id/podcast_share_ai_text_guide" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="20.0dip" android:text="@string/gxk" app:a65="parent" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatTextView android:textColor="#ffffffff" android:id="@id/tv_back_top" android:paddingTop="10.0dip" android:paddingBottom="10.0dip" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="60.0dip" android:text="@string/gvt" android:alpha="0.6" android:paddingStart="20.0dip" android:paddingEnd="20.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

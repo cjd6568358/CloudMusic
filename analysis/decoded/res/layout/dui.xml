@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:tag="layout/vc_operation_audio_mix_item_0" android:layout_width="50.0dip" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/container" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_centerVertical="true">
+        <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:layout_gravity="center" android:id="@id/cover" android:layout_width="50.0dip" android:layout_height="50.0dip" app:aln="true" />
+        <TextView android:textSize="12.0sp" android:textColor="@color/b12" android:layout_gravity="center" android:id="@id/name" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <ProgressBar android:layout_gravity="center" android:id="@id/progress_bar" android:visibility="gone" android:layout_width="50.0dip" android:layout_height="50.0dip" android:indeterminateDuration="1000" />
+    </FrameLayout>
+</RelativeLayout>

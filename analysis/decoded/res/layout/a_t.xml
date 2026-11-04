@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="horizontal" android:id="@id/hintContainer" android:layout_width="fill_parent" android:layout_height="@dimen/art" xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="center_vertical" android:id="@id/hintIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ahv" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:layout_gravity="center_vertical" android:id="@id/hintText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="4.0dip" android:text="继续上滑，进入听歌漫游" app:qe="colorText3_1" />
+</LinearLayout>

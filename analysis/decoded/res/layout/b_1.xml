@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="88.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/inviteStrangerContainer" android:clipChildren="false" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="-2.0dip" android:layout_weight="1.0">
+            <LinearLayout android:gravity="center" android:orientation="horizontal" android:clipChildren="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="5.0dip">
+                <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/avatarMaskView" android:layout_width="24.0dip" android:layout_height="24.0dip" app:ahy="@drawable/d_l" app:ahz="centerCrop" app:aln="true" />
+                </FrameLayout>
+                <FrameLayout android:id="@id/ltUnmaskAvatarGroupT" android:clipChildren="false" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <ImageView android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginLeft="3.0dip" android:src="@drawable/e4e" />
+                    <ImageView android:layout_gravity="end|center|top" android:id="@id/ltUnmaskNewBadgeView" android:visibility="gone" android:layout_width="24.0dip" android:layout_height="12.0dip" android:layout_marginTop="-4.0dip" android:src="@drawable/frz" android:contentDescription="@string/dxv" android:layout_marginEnd="-14.0dip" />
+                </FrameLayout>
+            </LinearLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:id="@id/startListenTogetherV2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:text="匹配双人听" app:qe="colorText2" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+        <View android:id="@id/divideLine" android:background="#0d000000" android:layout_width="1.0px" android:layout_height="54.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/inviteMultiMatchContainer" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="-2.0dip" android:layout_weight="1.0">
+            <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="5.0dip">
+                <com.netease.cloudmusic.ui.SimpleRoundDraweeView android:layout_gravity="center" android:id="@id/avatarView" android:layout_width="24.0dip" android:layout_height="24.0dip" app:ahy="@drawable/cx4" app:ahz="centerCrop" app:aln="true" />
+                <ImageView android:layout_width="wrap_content" android:layout_height="24.0dip" android:src="@drawable/d4t" />
+            </FrameLayout>
+            <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="@color/aiv" android:layout_gravity="center_horizontal" android:id="@id/inviteStartMatch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:text="匹配多人听" app:qe="colorText2" />
+        </com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout>
+    </LinearLayout>
+    <com.netease.cloudmusic.ui.MainBannerContainer android:id="@id/bannerContainer" android:layout_width="fill_parent" android:layout_height="80.0dip">
+        <com.netease.cloudmusic.ui.NeteaseMusicViewPager android:id="@id/new_hit_focus" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        <LinearLayout android:gravity="center" android:layout_gravity="bottom|center" android:orientation="horizontal" android:id="@id/dotParent" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/s1" android:layout_marginRight="@dimen/s2" android:layout_marginBottom="4.0dip" />
+        <View android:id="@id/aiDivideLine" android:background="#0d000000" android:layout_width="fill_parent" android:layout_height="1.0px" />
+    </com.netease.cloudmusic.ui.MainBannerContainer>
+</LinearLayout>

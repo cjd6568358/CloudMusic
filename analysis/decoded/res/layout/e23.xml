@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:paddingTop="8.0dip" android:paddingBottom="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.music.biz.voice.player.view.PodcastDetailTitleView android:id="@id/title_view" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginStart="14.0dip" />
+    <com.netease.cloudmusic.music.biz.voice.widget.AlphaGradientLayout android:id="@id/agt" android:layout_width="fill_parent" android:layout_height="40.0dip" android:layout_marginStart="14.0dip" android:layout_marginEnd="16.0dip" app:yq="right" app:yr="20.0dip">
+        <com.netease.cloudmusic.ui.CanScrollHorizonRecyclerView android:id="@id/rv_categories" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    </com.netease.cloudmusic.music.biz.voice.widget.AlphaGradientLayout>
+    <com.netease.cloudmusic.ui.CanScrollHorizonRecyclerView android:id="@id/recycler_view" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+</LinearLayout>

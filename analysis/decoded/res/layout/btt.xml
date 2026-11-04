@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="50.0dip" android:paddingStart="8.0dip" android:paddingEnd="8.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.GuideFrameShadowLayout android:gravity="center_vertical" android:layout_gravity="end|center" android:id="@id/guideContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="40.0dip" app:ao_="2.0dip" app:aod="10.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0sp" android:textColor="@color/aix" android:layout_gravity="center_vertical" android:id="@id/guideText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="内容有点长，建议分个段噢~" android:includeFontPadding="false" android:layout_marginStart="32.0dip" />
+        <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="end|center" android:id="@id/rightArrowImage" android:padding="4.0dip" android:layout_width="32.0dip" android:layout_height="32.0dip" android:src="@drawable/f88" />
+    </com.netease.cloudmusic.ui.GuideFrameShadowLayout>
+    <androidx.appcompat.widget.AppCompatImageView android:layout_gravity="end|center" android:id="@id/leftGuideImageView" android:padding="4.0dip" android:visibility="gone" android:layout_width="32.0dip" android:layout_height="32.0dip" android:src="@drawable/f87" />
+</FrameLayout>

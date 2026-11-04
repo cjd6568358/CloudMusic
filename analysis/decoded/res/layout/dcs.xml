@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/previewGuessSongPlayPanelContainer" android:tag="layout/preview_party_guess_song_play_panel_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/previewSongPlayWave" android:layout_width="250.0dip" android:layout_height="250.0dip" fresco:a5f="@id/previewSongPlayCoverContainer" fresco:a5l="@id/previewSongPlayCoverContainer" fresco:a65="@id/previewSongPlayCoverContainer" fresco:a69="@id/previewSongPlayCoverContainer" />
+    <View android:id="@id/previewSongPlayBg" android:tag="binding_1" android:layout_width="142.0dip" android:layout_height="142.0dip" fresco:a5f="@id/previewSongPlayCoverContainer" fresco:a5l="@id/previewSongPlayCoverContainer" fresco:a65="@id/previewSongPlayCoverContainer" fresco:a69="@id/previewSongPlayCoverContainer" />
+    <ImageView android:id="@id/previewSongPlayVinyl" android:layout_width="156.0dip" android:layout_height="156.0dip" android:src="@drawable/e07" fresco:a5f="@id/previewSongPlayCoverContainer" fresco:a5l="@id/previewSongPlayCoverContainer" fresco:a65="@id/previewSongPlayCoverContainer" fresco:a69="@id/previewSongPlayCoverContainer" />
+    <com.netease.play.ui.RotateFrameLayout android:id="@id/previewSongPlayCoverContainer" android:layout_width="97.0dip" android:layout_height="97.0dip" fresco:a5f="parent" fresco:a5l="parent" fresco:a65="parent" fresco:a69="parent">
+        <com.netease.cloudmusic.ui.CommonSimpleDraweeView android:id="@id/previewSongPlayCover" android:layout_width="97.0dip" android:layout_height="97.0dip" fresco:ahy="@color/ay_" fresco:ahz="centerCrop" fresco:am0="97.0dip" />
+    </com.netease.play.ui.RotateFrameLayout>
+    <ImageView android:id="@id/previewSongPlayPointer" android:layout_width="56.0dip" android:layout_height="64.0dip" android:src="@drawable/efo" android:translationX="20.0dip" android:translationY="-35.0dip" fresco:a5l="@id/previewSongPlayCoverContainer" fresco:a69="@id/previewSongPlayCoverContainer" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.module.lyric.xiaomi.MiLyricView android:textColor="#ffffffff" android:gravity="center" android:id="@id/lrc" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/lrcCurrentContainerWrap" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_above="@id/lrcOptionContainer">
+        <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/guideLine" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5n="300.0dip" />
+        <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/playCurLyricContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_marginRight="4.0dip" android:layout_centerVertical="true" app:a5f="@id/guideLine" app:a69="@id/guideLine">
+            <com.netease.cloudmusic.ui.PlayerPageTextView android:gravity="center" android:id="@id/playCurLyricLine" android:background="#14ffffff" android:layout_width="0.0dip" android:layout_height="0.6700001dip" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip" android:includeFontPadding="false" android:layout_marginHorizontal="10.0dip" app:a5f="parent" app:a5m="@id/playCurLyric" app:a65="parent" app:a69="parent" />
+            <com.netease.cloudmusic.ui.PlayerPageImageView android:id="@id/playCurLyric" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="4.0dip" app:a5f="parent" app:a5l="parent" app:a69="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

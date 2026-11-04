@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/ivFilmEditCancel" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginLeft="16.0dip" android:layout_marginTop="12.0dip" android:layout_marginBottom="12.0dip" android:src="@drawable/h72" app:a5g="@id/vBottomLine" app:a5z="parent" app:a69="parent" />
+    <androidx.appcompat.widget.AppCompatTextView android:textSize="15.0sp" android:textColor="@color/b1e" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ecw" app:a5f="@id/ivFilmEditCancel" app:a5z="parent" app:a63="parent" app:a69="@id/ivFilmEditCancel" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/ivFilmEditConfirm" android:layout_width="24.0dip" android:layout_height="24.0dip" android:layout_marginRight="16.0dip" android:src="@drawable/h73" app:a5f="@id/ivFilmEditCancel" app:a63="parent" app:a69="@id/ivFilmEditCancel" />
+    <View android:id="@id/vBottomLine" android:background="@color/b1d" android:layout_width="0.0dip" android:layout_height="0.5dip" android:layout_marginBottom="24.0dip" app:a5f="parent" app:a5z="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

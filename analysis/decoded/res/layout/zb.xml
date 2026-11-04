@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/cover_fragment_color_select_0" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.appcommon.ui.view.NestedScrollableHost android:id="@id/nsh_color" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" app:a69="parent">
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/rv_color" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:layout_marginBottom="2.0dip" android:layout_marginVertical="2.0dip" />
+    </com.netease.appcommon.ui.view.NestedScrollableHost>
+    <com.netease.nmvideocreator.videocover.view.progress.NMCProgressItemLayoutView android:id="@id/progress_layout" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_marginTop="20.0dip" android:layout_marginBottom="20.0dip" app:a5f="parent" app:a68="@id/nsh_color" />
+</androidx.constraintlayout.widget.ConstraintLayout>

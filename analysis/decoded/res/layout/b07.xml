@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.ui.NeteaseScrollView android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/playAudio" android:layout_marginTop="@dimen/ao6" android:text="播放音频" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/pauseAudio" android:layout_marginTop="@dimen/ao6" android:text="暂停音频" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/playQuality" android:layout_marginTop="@dimen/ao6" android:text="获取当前音质" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/download" android:layout_marginTop="@dimen/ao6" android:text="单曲下载" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/currentAudioEffect" android:layout_marginTop="@dimen/ao6" android:text="正在使用的音效" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/currentAnimEffect" android:layout_marginTop="@dimen/ao6" android:text="正在使用的动效" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/isAudioEffectDownload" android:layout_marginTop="@dimen/ao6" android:text="音效是否下载" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/setEffect" android:layout_marginTop="@dimen/ao6" android:text="设置音效动效" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/curSkin" android:layout_marginTop="@dimen/ao6" android:text="正在使用的皮肤" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/curLoading" android:layout_marginTop="@dimen/ao6" android:text="正在使用的启动图" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/share" android:layout_marginTop="@dimen/ao6" android:text="启动歌词分享" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/changeBg" android:layout_marginTop="@dimen/ao6" android:text="启动个人中心并弹出背景设置" style="@style/a9g" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeBackgroundTextView android:id="@id/toDailyHistory" android:layout_marginTop="@dimen/ao6" android:text="跳转到历史日推" style="@style/a9g" />
+        <TextView android:layout_marginTop="@dimen/ao6" android:text="结果: " style="@style/a9g" />
+        <TextView android:id="@id/result" android:layout_marginTop="@dimen/ao6" android:text="..." style="@style/a9g" />
+    </LinearLayout>
+</com.netease.cloudmusic.ui.NeteaseScrollView>

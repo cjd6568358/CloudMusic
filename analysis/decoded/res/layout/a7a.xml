@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/dialog_pay_chat_invalid_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="20.0sp" android:textColor="@color/a6c" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:text="@string/frn" android:includeFontPadding="false" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <TextView android:textSize="14.0sp" android:textColor="@color/a6c" android:id="@id/desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:text="@string/frm" android:includeFontPadding="false" app:a5z="parent" app:a63="parent" app:a68="@id/title" />
+    <TextView android:textSize="18.0sp" android:textColor="@color/b12" android:gravity="center" android:id="@id/takeOrder" android:tag="binding_1" android:background="@drawable/o1" android:layout_width="255.0dip" android:layout_height="48.0dip" android:layout_marginLeft="20.0dip" android:layout_marginTop="25.0dip" android:layout_marginRight="20.0dip" android:text="@string/fro" app:a5z="parent" app:a63="parent" app:a68="@id/desc" />
+    <ImageButton android:layout_gravity="end|center|top" android:id="@id/close" android:tag="binding_2" android:background="@android:color/transparent" android:layout_width="46.0dip" android:layout_height="46.0dip" android:src="@drawable/adw" app:a5l="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

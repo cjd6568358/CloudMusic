@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0sp" android:ellipsize="end" android:id="@id/userNameText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:layout_marginEnd="4.0dip" app:a5_="true" app:a5f="parent" app:a5m="@id/lotteryLayout" app:a5v="0.0" app:a5w="packed" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.music.biz.usertrack.view.TrackLotteryLayout android:id="@id/lotteryLayout" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5f="parent" app:a5l="parent" app:a64="@id/userNameText" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/coverImage" android:layout_width="50.0dip" android:layout_height="50.0dip" android:layout_marginTop="5.0dip" android:scaleType="fitCenter" app:ae="fitCenter" app:a5z="parent" app:a63="parent" app:a69="parent" app:ahy="@drawable/cx4" app:aln="true" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/newEvent" android:background="@drawable/c6i" android:layout_width="56.0dip" android:layout_height="56.0dip" android:layout_marginTop="2.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" app:aln="true" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/dynamicImage" android:layout_width="60.0dip" android:layout_height="60.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" app:aln="true" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/rightBottomImage" android:layout_width="60.0dip" android:layout_height="60.0dip" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <View android:id="@id/newEventDot" android:layout_width="9.0dip" android:layout_height="9.0dip" android:layout_margin="3.0dip" app:a63="@id/coverImage" app:a69="@id/coverImage" />
+    <com.netease.cloudmusic.theme.ui.MessageBubbleView android:id="@id/resonanceCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:translationX="1.0dip" android:translationY="1.0dip" app:a5f="@id/coverImage" app:a63="@id/coverImage" />
+    <com.netease.cloudmusic.music.biz.usertrack.throughtrain.view.UserStateBubbleView android:id="@id/stateView" android:layout_width="20.0dip" android:layout_height="20.0dip" android:translationX="4.0dip" android:translationY="2.0dip" app:a5f="@id/coverImage" app:a63="@id/coverImage" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:textColor="@color/aix" android:ellipsize="end" android:gravity="center" android:id="@id/middleTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:maxWidth="60.0dip" android:maxLines="1" android:drawablePadding="1.0dip" app:a5z="parent" app:a63="parent" app:a68="@id/coverImage" />
+</androidx.constraintlayout.widget.ConstraintLayout>

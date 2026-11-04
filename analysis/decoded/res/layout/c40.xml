@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.play.livepage.view.DebugConstraintLayout android:id="@id/liveContainer" android:tag="layout/layout_party_info_0" android:layout_width="fill_parent" android:layout_height="fill_parent" android:keepScreenOn="true"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/statusBarGuideline" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5n="25.0dip" />
+    <Space android:orientation="horizontal" android:id="@id/playgroundTopGuideline" android:layout_width="fill_parent" android:layout_height="83.0dip" app:a69="@id/statusBarGuideline" />
+    <FrameLayout android:id="@id/interactiveContainer" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5l="parent" app:a65="parent" app:a68="@id/playgroundTopGuideline" />
+    <FrameLayout android:id="@id/playgroundContainer" android:visibility="invisible" android:layout_width="0.0dip" android:layout_height="wrap_content" app:a5l="parent" app:a65="parent" app:a68="@id/playgroundTopGuideline" />
+    <Space android:id="@id/initAnimGuideline" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_marginTop="30.0dip" app:a68="@id/playgroundContainer" />
+    <com.netease.play.listen.livepage.chatroom.FadingRecyclerView android:id="@id/chatRecyclerView" android:layout_width="270.0dip" android:layout_height="0.0dip" android:overScrollMode="never" android:requiresFadingEdge="vertical" android:layout_marginStart="6.0dip" app:a5g="@id/songBottomLine" app:a65="parent" app:a68="@id/giftLuckyContainer" />
+    <Space android:orientation="horizontal" android:id="@id/songBottomLine" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_marginBottom="0.0dip" app:a5g="@id/bottomGuideline" app:a5l="@id/chatRecyclerView" app:a65="parent" />
+    <TextView android:textSize="10.0sp" android:textColor="@color/anz" android:gravity="center" android:id="@id/newMessageHint" android:background="@drawable/xb" android:paddingLeft="10.0dip" android:paddingRight="10.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="18.0dip" android:text="@string/clm" android:alpha="0.0" android:layout_marginStart="10.0dip" app:a5f="@id/chatRecyclerView" app:a65="parent" />
+    <FrameLayout android:id="@id/giftLuckyContainer" android:layout_width="fill_parent" android:layout_height="20.0dip" app:a68="@id/playgroundContainer" />
+    <FrameLayout android:id="@id/honorEnterContainer" android:layout_width="0.0dip" android:layout_height="@dimen/t7" app:a5g="@id/chatRecyclerView" app:a5l="parent" app:a65="parent">
+        <FrameLayout android:id="@id/honorContainer" android:layout_width="fill_parent" android:layout_height="@dimen/t7" />
+        <FrameLayout android:layout_gravity="center_vertical" android:id="@id/danmakuContainer" android:layout_width="fill_parent" android:layout_height="@dimen/o7" />
+    </FrameLayout>
+    <FrameLayout android:id="@id/giftSlotsContainer" android:layout_width="0.0dip" android:layout_height="80.0dip" app:a5l="parent" app:a65="parent" app:a69="@id/chatRecyclerView" />
+    <com.netease.play.livepage.luckymoney.ui.DecoratorLinearLayout android:gravity="bottom|center" android:orientation="vertical" android:id="@id/decoratorContainer" android:layout_width="92.0dip" android:layout_height="0.0dip" android:layout_marginTop="10.0dip" android:layout_marginBottom="10.0dip" app:a5f="@id/bottomGuideline" app:a5l="parent" app:a68="@id/playgroundTopGuideline">
+        <View android:id="@id/decoratorContainerDivider" android:layout_width="fill_parent" android:layout_height="0.0dip" />
+    </com.netease.play.livepage.luckymoney.ui.DecoratorLinearLayout>
+    <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/bottomGuideline" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5o="56.0dip" />
+    <androidx.constraintlayout.widget.Guideline android:orientation="horizontal" android:id="@id/bottomGuideline2" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5o="0.0dip" />
+    <FrameLayout android:id="@id/animationContainer" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.play.livepage.gift.structure.AnimCanvasView android:id="@id/animationCanvas" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </FrameLayout>
+    <androidx.constraintlayout.widget.Group android:id="@id/contentGroup" android:layout_width="wrap_content" android:layout_height="wrap_content" app:l1="playgroundContainer,chatRecyclerView,decoratorContainer" />
+</com.netease.play.livepage.view.DebugConstraintLayout>

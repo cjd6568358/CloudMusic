@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_gravity="center_vertical" android:tag="layout/record_beauty_effect_no_select_item_0" android:layout_width="68.0dip" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/background" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true">
+        <View android:background="@drawable/bsp" android:layout_width="46.0dip" android:layout_height="46.0dip" android:scaleType="center" app:aln="true" />
+        <ImageView android:layout_gravity="center" android:id="@id/img" android:background="@drawable/bsp" android:layout_width="18.0dip" android:layout_height="18.0dip" android:scaleType="center" app:aln="true" />
+    </FrameLayout>
+    <TextView android:textSize="11.0sp" android:textColor="@color/b12" android:gravity="center" android:layout_gravity="center" android:id="@id/name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:layout_below="@id/background" android:layout_centerHorizontal="true" />
+</RelativeLayout>

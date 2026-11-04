@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/container" android:tag="layout/dialog_post_track_pre_delete_0" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="14.0sp" android:textColor="@color/aiv" android:gravity="center_vertical" android:id="@id/postToChoosePrivacy" android:layout_width="fill_parent" android:layout_height="56.0dip" android:layout_marginLeft="@dimen/s1" android:text="删除笔记" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeLine android:layout_width="fill_parent" android:layout_height="0.30000007dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout android:id="@id/privacyTipContainer" android:paddingLeft="@dimen/s1" android:layout_width="fill_parent" android:layout_height="48.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0dip" android:layout_gravity="center_vertical" android:id="@id/privacyTipText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="调整可见范围" android:includeFontPadding="false" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout android:id="@id/deleteContainer" android:paddingLeft="@dimen/s1" android:layout_width="fill_parent" android:layout_height="48.0dip">
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="16.0dip" android:layout_gravity="center_vertical" android:id="@id/deleteTipText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="直接删除" android:includeFontPadding="false" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeFrameLayout>
+</LinearLayout>

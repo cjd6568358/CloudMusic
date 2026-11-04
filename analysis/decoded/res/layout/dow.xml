@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_gravity="center_vertical" android:id="@id/medalContainer" android:background="@drawable/bgy" android:paddingLeft="5.0dip" android:paddingRight="5.0dip" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="16.0dip" android:layout_marginRight="5.0dip">
+        <com.netease.cloudmusic.ui.LunaProfileMedalView android:layout_gravity="center_vertical" android:id="@id/normalMedalView" android:layout_width="wrap_content" android:layout_height="fill_parent" />
+        <com.netease.cloudmusic.ui.LunaProfileMedalView android:layout_gravity="center_vertical" android:id="@id/flashMedalView" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" />
+    </FrameLayout>
+    <com.netease.cloudmusic.ui.SingleLineFlowLayout android:layout_gravity="center_vertical" android:id="@id/tagContainer" android:layout_width="wrap_content" android:layout_height="fill_parent" app:zz="5.0dip" />
+</LinearLayout>

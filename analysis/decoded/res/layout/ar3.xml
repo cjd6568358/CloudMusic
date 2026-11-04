@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/dragSortPlayListContainer" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:dslv="http://schemas.android.com/apk/res-auto">
+    <com.mobeta.android.dslv.DragSortListView android:id="@id/dragSortPlayListList" android:layout_width="fill_parent" android:layout_height="fill_parent" android:listSelector="@android:color/transparent" android:divider="@color/a5c" android:dividerHeight="0.6700001dip" android:footerDividersEnabled="false" dslv:k5="2.0dip" dslv:r2="true" dslv:r3="@id/drag_handle" dslv:r4="0.33" dslv:r5="onDown" dslv:x1="0.6" dslv:x2="@android:color/transparent" dslv:aa6="0.5" dslv:al8="false" dslv:al9="flingRemove" dslv:apf="0.3" dslv:apl="true" dslv:axn="false" dslv:ayi="true" />
+    <include android:layout_width="fill_parent" android:layout_height="@dimen/a2f" android:layout_alignParentBottom="true" layout="@layout/cvu" />
+</RelativeLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/guideContainer" android:tag="layout/party_dialog_song_guide_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:id="@id/background" android:layout_width="0.0dip" android:layout_height="0.0dip" app:a5f="parent" app:a5l="parent" app:a65="parent" app:a69="parent" />
+    <View android:id="@id/target" android:layout_width="78.0dip" android:layout_height="78.0dip" app:a65="parent" app:a69="parent" />
+    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/f8z" app:a5f="@id/target" app:a5l="@id/target" app:a65="@id/target" app:a69="@id/target" />
+    <Space android:id="@id/targetSpace" android:layout_width="25.0dip" android:layout_height="0.0dip" app:a5m="@id/target" app:a69="@id/target" />
+    <ImageView android:id="@id/arrow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:src="@drawable/f5d" app:a5l="@id/target" app:a65="@id/target" app:a68="@id/target" />
+    <TextView android:textSize="12.0sp" android:textColor="@color/eh" android:gravity="center" android:id="@id/content" android:tag="binding_1" android:padding="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="190.0dip" android:minHeight="62.0dip" android:text="@string/ib2" android:lineSpacingExtra="3.0dip" app:a5_="true" app:a5l="parent" app:a5v="0.0" app:a65="@id/targetSpace" app:a68="@id/arrow" />
+    <com.netease.play.ui.CustomButton android:textSize="14.0sp" android:textStyle="bold" android:textColor="@color/dw" android:gravity="center" android:id="@id/obtain" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="36.0dip" android:layout_marginTop="12.0dip" android:minWidth="70.0dip" android:text="@string/fm0" android:paddingStart="10.0dip" android:paddingEnd="10.0dip" app:gg="0x00FFFFFF" app:a5l="@id/content" app:a68="@id/content" app:aer="@color/akx" app:aey="@color/dw" app:aiv="@color/akx" app:aiw="@color/dv" app:aj0="@color/dw" />
+</androidx.constraintlayout.widget.ConstraintLayout>

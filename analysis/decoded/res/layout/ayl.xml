@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/container_followFriend" style="@style/a5t"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/headImage" android:layout_centerHorizontal="true" app:aj2="@color/awz" app:aln="true" style="@style/a5u" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:id="@id/headText" android:text="@string/ca9" android:layout_below="@id/headImage" android:layout_centerHorizontal="true" style="@style/a5v" />
+    <com.netease.cloudmusic.theme.ui.MessageBubbleView android:id="@id/bubbleView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toRightOf="@id/headImage" />
+</RelativeLayout>

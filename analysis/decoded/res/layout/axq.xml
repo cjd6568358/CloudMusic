@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/videoRootView" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.netease.cloudmusic.ui.VideoViewGestureContainer android:id="@id/videoContainer" android:background="#ff000000" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.module.video2.player.NewTextureVideoView android:gravity="center" android:id="@id/videoView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_centerInParent="true" />
+    </com.netease.cloudmusic.ui.VideoViewGestureContainer>
+    <com.netease.cloudmusic.module.video.VideoMaskView android:id="@id/grayMask" android:background="@drawable/djb" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <LinearLayout android:gravity="center" android:layout_gravity="center" android:orientation="vertical" android:id="@id/volumeToast" android:background="@drawable/cls" android:visibility="gone" android:layout_width="@dimen/ado" android:layout_height="@dimen/adn">
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="17.0dip" android:src="@drawable/fyc" />
+        <TextView android:textSize="22.0sp" android:textColor="#ccffffff" android:id="@id/volumePercent" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+    <RelativeLayout android:gravity="center" android:layout_gravity="center" android:id="@id/fastForwardToast" android:background="#4c000000" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ImageView android:id="@id/fastForwardIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/fxf" android:layout_centerInParent="true" android:layout_centerHorizontal="true" />
+        <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15.0dip" android:layout_below="@id/fastForwardIcon" android:layout_centerHorizontal="true">
+            <TextView android:textSize="13.0sp" android:textColor="#ffffffff" android:id="@id/fastForwardCurrentTime" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <TextView android:textSize="13.0sp" android:textColor="#80ffffff" android:id="@id/fastForwardTotalTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toRightOf="@id/fastForwardCurrentTime" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <FrameLayout android:id="@id/danmakuContainer" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <View android:id="@id/mediaControllerMask" android:background="#66000000" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <include android:layout_gravity="bottom" android:id="@id/mediaController" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/adf" layout="@layout/cme" />
+    <LinearLayout android:gravity="center_vertical" android:layout_gravity="center" android:orientation="horizontal" android:id="@id/playControlArea" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+</FrameLayout>

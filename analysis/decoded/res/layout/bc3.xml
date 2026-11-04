@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/item_party_guess_quick_0" android:background="@color/ay_" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.Guideline android:orientation="vertical" android:id="@id/guideLine" android:layout_width="wrap_content" android:layout_height="wrap_content" app:a5p="0.5" />
+    <com.netease.play.home.newparty.guess.list.ui.GameQuickLayout android:id="@id/gl_guess" android:layout_width="0.0dip" android:layout_height="80.0dip" android:layout_marginLeft="16.0dip" android:layout_marginRight="5.0dip" app:a5z="parent" app:a63="@id/guideLine" app:a69="parent" />
+    <com.netease.play.home.newparty.guess.list.ui.GameQuickLayout android:id="@id/gl_draw" android:layout_width="0.0dip" android:layout_height="80.0dip" android:layout_marginLeft="5.0dip" android:layout_marginRight="16.0dip" app:a5z="@id/guideLine" app:a63="parent" app:a69="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

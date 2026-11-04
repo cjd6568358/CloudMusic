@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/cameraFrameLayout" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_centerHorizontal="true">
+        <com.netease.nis.alivedetected.NISCameraPreview android:layout_gravity="center" android:id="@id/surface_view" android:layout_width="360.0dip" android:layout_height="480.0dip" />
+    </FrameLayout>
+    <RelativeLayout android:id="@id/view_tip_background" android:layout_width="fill_parent" android:layout_height="106.0dip" android:layout_marginTop="55.0dip" android:layout_alignParentTop="true" android:alpha="0.75" />
+    <TextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="@android:color/white" android:gravity="center" android:id="@id/tv_error_tip" android:background="@android:color/transparent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="100.0dip" android:layout_centerHorizontal="true" />
+    <ImageView android:id="@id/face_outline" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@mipmap/a" android:scaleType="centerCrop" android:layout_alignParentTop="true" android:contentDescription="@string/uj" android:layout_alignParentStart="true" />
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="50.0dip" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true">
+        <TextView android:textSize="18.0sp" android:textStyle="bold" android:textColor="@android:color/black" android:layout_gravity="center" android:id="@id/tv_tip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="10.0dip" />
+        <ImageView android:layout_gravity="center" android:id="@id/gif_action" android:layout_width="140.0dip" android:layout_height="140.0dip" android:src="@mipmap/d" android:contentDescription="gif_action" />
+        <LinearLayout android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <TextView android:textSize="@dimen/aqa" android:textColor="#ffffffff" android:gravity="center" android:id="@id/tv_step_1" android:background="@drawable/y2" android:layout_width="@dimen/aq_" android:layout_height="@dimen/aq_" android:layout_margin="@dimen/aqb" android:text="@string/jga" />
+            <ViewStub android:id="@id/vs_step_2" android:layout="@layout/ccf" android:inflatedId="@id/tv_step_2" android:layout_width="@dimen/aqc" android:layout_height="@dimen/aqc" android:layout_margin="@dimen/aqb" />
+            <ViewStub android:id="@id/vs_step_3" android:layout="@layout/ccf" android:inflatedId="@id/tv_step_3" android:layout_width="@dimen/aqc" android:layout_height="@dimen/aqc" android:layout_margin="@dimen/aqb" />
+            <ViewStub android:id="@id/vs_step_4" android:layout="@layout/ccf" android:inflatedId="@id/tv_step_4" android:layout_width="@dimen/aqc" android:layout_height="@dimen/aqc" android:layout_margin="@dimen/aqb" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

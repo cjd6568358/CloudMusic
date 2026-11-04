@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.appbar.AppBarLayout android:background="@android:color/transparent" android:layout_width="fill_parent" android:layout_height="wrap_content" android:elevation="0.0dip" app:sk="0.0dip">
+        <com.netease.cloudmusic.music.biz.voice.home.category.ui.tablayout.CatTabLayout android:id="@id/tabLayout" android:layout_width="fill_parent" android:layout_height="36.0dip" android:showDividers="middle" android:dividerPadding="11.5dip" app:nr="move" app:a76="scroll|enterAlways" app:at7="scrollable" app:atg="10.0dip" app:avq="true" />
+    </com.google.android.material.appbar.AppBarLayout>
+    <com.netease.cloudmusic.ui.NeteaseSwipeToRefresh android:id="@id/refreshLayout" android:layout_width="fill_parent" android:layout_height="fill_parent" app:a56="@string/uo">
+        <org.xjy.android.nova.widget.NovaRecyclerView android:id="@id/rvContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </com.netease.cloudmusic.ui.NeteaseSwipeToRefresh>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

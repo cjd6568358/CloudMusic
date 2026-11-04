@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:paddingTop="6.0dip" android:paddingBottom="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingStart="0.0dip" android:paddingEnd="12.0dip" app:e6="noline" app:jw="13.0dip" app:m1="ALL" app:y4="true"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Space android:id="@id/startSpace" android:layout_width="10.0dip" android:layout_height="0.0dip" app:a5l="@id/ivHarResource" app:a5v="0.0" app:a5w="packed" app:a65="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.NeteaseThemeDraweeView android:id="@id/ivHarResource" android:visibility="gone" android:layout_width="12.0dip" android:layout_height="12.0dip" app:a5f="@id/tvHarResource" app:a64="@id/startSpace" app:a69="@id/tvHarResource" />
+    <Space android:id="@id/midSpace" android:layout_width="2.0dip" android:layout_height="0.0dip" app:a5m="@id/tvHarResource" app:a64="@id/ivHarResource" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="12.0dip" android:layout_gravity="center" android:id="@id/tvHarResource" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" app:qe="colorText2" app:a5f="parent" app:a5l="parent" app:a64="@id/midSpace" app:a69="parent" />
+</com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/item_search_result_live_anchor_info_0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="16.0sp" android:textColor="@color/aiv" android:ellipsize="end" android:id="@id/title" android:tag="binding_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" app:a5g="@id/subTitle" app:a5v="0.0" app:a5z="parent" app:a63="parent" app:a69="parent" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeHighlightTextView android:textSize="12.0sp" android:textColor="@color/atf" android:ellipsize="end" android:id="@id/subTitle" android:tag="binding_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:includeFontPadding="false" app:a5g="@id/labels" app:a5v="0.0" app:a5z="@id/title" app:a63="@id/title" app:a68="@id/title" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/labels" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent" app:a5z="@id/title" app:a63="parent" app:a68="@id/subTitle" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/coverForLiveList" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" app:ae="centerCrop" app:ahy="@drawable/g9l" app:ahz="fitXY" app:am0="@dimen/wh" />
+    <View android:background="@drawable/bfs" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <View android:id="@id/viewMask" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <RelativeLayout android:gravity="bottom" android:layout_gravity="bottom" android:id="@id/rlContent" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="50.0dip">
+        <com.netease.play.ui.avatar2.AvatarImage2 android:layout_gravity="bottom" android:id="@id/avatar" android:visibility="visible" android:layout_width="30.0dip" android:layout_height="30.0dip" android:layout_marginLeft="8.0dip" android:layout_marginBottom="10.0dip" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="13.0sp" android:textColor="@color/b1e" android:ellipsize="end" android:id="@id/tvTopic" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" android:layout_marginRight="13.0dip" android:maxLines="1" android:shadowColor="@color/e9" android:shadowDy="3.0" android:shadowRadius="3.0" android:layout_toRightOf="@id/avatar" android:layout_alignBottom="@id/avatar" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="10.0sp" android:textColor="@color/b21" android:ellipsize="end" android:id="@id/tvTopicTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6.0dip" android:maxLines="1" android:includeFontPadding="false" android:shadowColor="@color/e9" android:shadowDy="3.0" android:shadowRadius="3.0" android:layout_toRightOf="@id/avatar" android:layout_alignTop="@id/avatar" />
+    </RelativeLayout>
+</FrameLayout>

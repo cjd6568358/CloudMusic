@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:tag="layout/track_header_at_me_component_0" android:paddingTop="14.0dip" android:paddingBottom="9.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.ui.DecoratedAvatarImage android:layout_gravity="center_vertical" android:id="@id/trackCreatorAvatar" android:tag="binding_1" android:layout_width="48.0dip" android:layout_height="48.0dip" android:layout_marginLeft="10.0dip" android:layout_marginRight="3.0dip" app:cv="style6" app:y5="true" />
+    <com.netease.cloudmusic.ui.NickNameWithVipAndOtherTags android:textColor="@color/t_link" android:layout_gravity="center_vertical" android:id="@id/trackUserName" android:tag="binding_2" android:drawablePadding="4.0dip" style="@style/a_y" />
+    <com.netease.cloudmusic.ui.FanClubTagView android:layout_gravity="center_vertical" android:id="@id/fanClubTagView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3.0dip" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textColor="@color/aix" android:layout_gravity="center_vertical" android:id="@id/trackUserAction" android:tag="binding_3" android:layout_marginLeft="3.0dip" style="@style/a_y" />
+    <Space android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_weight="1.0" />
+    <com.netease.cloudmusic.theme.ui.CustomThemeTextView android:textSize="9.0sp" android:textColor="@color/aiz" android:layout_gravity="center_vertical" android:id="@id/trackTimeInfo" android:tag="binding_4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/s1" />
+</LinearLayout>
