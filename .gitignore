@@ -1,7 +1,36 @@
 # 智能体工具内部状态，非项目产物
 .workbuddy-ai/
+.workbuddy/
 
 # 系统/编辑器杂项
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Gradle / Kotlin / Android / IDE
+.gradle/
+build/
+*/build/
+!gradle/wrapper/gradle-wrapper.jar
+local.properties
+.cxx/
+.externalNativeBuild/
+captures/
+*.iml
+.idea/
+
+# 签名与本地凭据（03-12 §11：release.jks 与口令不进仓库）
+*.jks
+*.keystore
+release.jks
+
+# Python 工具缓存（tools/*.py 为零依赖脚本）
+__pycache__/
+*.py[cod]
+
+# 逆向分析中间产物（体积大、可由 tools/ 复现，不进仓库；2026-11-05 检修补入）
+# 注意：analysis/decoded / strings / apk 已被历史追踪，gitignore 对它们不生效，
+# 此处只防止 smali 反汇编与日志被误提交。
+analysis/smali14/
+analysis/smali-probe*/
+analysis/*.log
