@@ -1,0 +1,28 @@
+# CloudMusic · 本机环境模板（多人协作）
+#
+# 用法：复制为同目录下的 local.properties 后按需填写。
+# local.properties 已被 .gitignore 忽略，**绝对不要提交**（每个人的 SDK 位置不同）。
+#
+# 本文件只是模板，仓库中不含任何真实 SDK 路径。
+
+# ---------------------------------------------------------------------------
+# 方式 A（推荐，零配置）：什么都不填，设置环境变量即可。
+#   Android Gradle 插件按以下优先级定位 SDK：
+#     1. 本文件的 sdk.dir
+#     2. 环境变量 ANDROID_HOME
+#     3. 环境变量 ANDROID_SDK_ROOT（已废弃，仅作兼容）
+#   Windows : setx ANDROID_HOME "<你的 SDK 根目录>"
+#   Git Bash: export ANDROID_HOME="<你的 SDK 根目录>"
+#   macOS   : export ANDROID_HOME="$HOME/Library/Android/sdk"
+#
+# 方式 B：取消下面一行的注释，改成你本机的实际路径。
+#   Windows 路径请用正斜杠或转义反斜杠，例如：
+#     sdk.dir=<盘符>\:/Android/Sdk      （转义冒号）
+#     或
+#     sdk.dir=<盘符>:/Android/Sdk       （正斜杠）
+# ---------------------------------------------------------------------------
+# sdk.dir=<你的 SDK 根目录>
+
+# 可选：指定 Python 解释器（C1~C6 静态检查用）。不填则用 gradle.properties 的
+# cloudmusic.python，默认 "python"。路径同样属于本机信息，不要写进仓库。
+# cloudmusic.python=/path/to/your/python

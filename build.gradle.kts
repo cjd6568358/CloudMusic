@@ -12,13 +12,27 @@ plugins {
 }
 
 // C1~C6 串联入口（docs/03-12 §3）。脚本为零第三方依赖的纯 Python，
-// 本机（无 Gradle/AGP/SDK）也可直接运行：python tools/pre_release_check.py
+// 不依赖 Android SDK，任一成员均可直接运行：python tools/pre_release_check.py
 tasks.register<Exec>("preReleaseCheck") {
     group = "verification"
     description = "串联 C1~C6 静态检查（tools/pre_release_check.py），失败即阻断 release"
     workingDir = rootProject.projectDir
     val python = providers.gradleProperty("cloudmusic.python").orElse("python").get()
     commandLine(python, "tools/pre_release_check.py")
+    // 统一子进程输出编码。Windows 中文终端经 Gradle 转发仍可能显示为乱码，
+    // 直接运行 python tools/pre_release_check.py 输出正常，不影响检查结果与退出码。
+    environment("PYTHONIOENCODING", "utf-8")
+}
+
+// 多人协作：一键自检本机 SDK 解析链，并守护「仓库零硬编码 SDK 路径」。
+// 与 preReleaseCheck 一样不依赖 Android SDK 是否可编译，新成员接入第一步先跑它。
+tasks.register<Exec>("androidEnvCheck") {
+    group = "verification"
+    description = "解析本机 Android SDK 并守护仓库内无个人 SDK 路径（tools/check-android-env.py）"
+    workingDir = rootProject.projectDir
+    val python = providers.gradleProperty("cloudmusic.python").orElse("python").get()
+    commandLine(python, "tools/check-android-env.py")
+    environment("PYTHONIOENCODING", "utf-8")
 }
 
 tasks.register("printVersionCatalog") {

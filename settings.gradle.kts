@@ -24,9 +24,15 @@ rootProject.name = "CloudMusic"
 // + 03-07 的 :core-media 媒体会话门面 / 焦点状态机 / 按键分发
 // + 03-08 的 :output-localproxy 流代理纯 JVM 契约层（Range / token / 启动策略）
 // + 03-09 的 :output-router 输出路由 / 蓝牙断连裁决纯 JVM 契约层
-// （全部纯 JVM，本机可编译可单测；Room / DataStore 适配与 :engine-legacy 舱仍待 Android 侧，见 12 §13 / §10）。
-// 依据 docs/09 §7 / 11 §5 / 12 §10：引擎舱路线 A 已拍板、slot 后期按需实现，
-// 不影响这些模块先行。:datasource-local / :core-di 依赖 Android SDK，见 12 §11.4。
+// + 03-11 的权限清单 / 闸门 / 降级矩阵落在 :core-common，AppSettings 与变更生效规则落在
+//   :core-storage（第九批补齐既有模块缺口，不新建模块，见 12 §18）
+// + 第十批 :app 与第十一批 :core-di 为 Android 模块（见下方 skipAndroid 块，12 §19 / §20），
+//   当前共 14 个模块；前 12 个全部纯 JVM，本机可编译可单测。
+// 任务拆分以 docs/16 §5 的四线任务表为唯一权威（取代 12 §7 滞后行 / 12 §20.5 / 15 §7.5 旧建议）：
+//   T-P 纯 JVM 先行（:engine-bridge / :feature-player / :output-dlna，T-P4 C-05/C-06 已完成）
+//   T-A Android 线（Room 9 张物理表 + DataStore / :datasource-local / JAudioTagger / Service / UI）
+//   T-L 照搬舱线（按 12 §10 后期按需触发）  T-V 验收线（真机 G01~G09 / 发布阻断 12 条）
+// 引擎舱路线 A 已拍板、slot 后期按需实现，不影响上述模块先行（09 §2）。
 // ---------------------------------------------------------------------------
 include(":core-common")
 include(":core-model")
@@ -40,6 +46,24 @@ include(":engine-api")
 include(":core-media")
 include(":output-localproxy")
 include(":output-router")
+
+// ---------------------------------------------------------------------------
+// 多人协作：SDK 位置由 AGP 自行解析（ANDROID_HOME / 本地 local.properties），
+// 本文件与任何版本控制文件都不含个人绝对路径，见 local.properties.example。
+//
+// 默认包含 Android 模块，保证 CI 与 release 一定校验 Manifest（C3）与 Hilt DI 图。
+// 未配置 SDK 的成员可用 ./gradlew test -Pcloudmusic.noAndroid=true 临时跳过
+// Android 模块，只跑 12 个纯 JVM 契约模块；CI / release 禁止使用该开关。
+// ---------------------------------------------------------------------------
+val skipAndroid = providers.gradleProperty("cloudmusic.noAndroid")
+    .map { it.equals("true", ignoreCase = true) }
+    .getOrElse(false)
+if (skipAndroid) {
+    logger.lifecycle("[CloudMusic] -Pcloudmusic.noAndroid=true：本次跳过 Android 模块（仅限纯 JVM 契约开发）")
+} else {
+    include(":app")
+    include(":core-di")   // 第十一批：Hilt 唯一注册点（12 §20）
+}
 
 // ---------------------------------------------------------------------------
 // docs/03-模块开发文档/03-12 构建发布与合规.md §1.1 模块总表

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- docs/03-11 §1 / §1.1：V0.1 最终权限清单，共 11 项（≤12）。
+     C3 (tools/check-permissions.py) 校验数量 / 白名单 / allowBackup=false。
+     多人协作：本文件不含任何本机路径。 -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <!-- neverForLocation：本项目不申请任何位置权限（03-11 §1.1）。 -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"
+        android:usesPermissionFlags="neverForLocation" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- 10 §2 R4 已拍板：DataStore 明文凭据禁止随系统备份上云，不可回退。
+         Hilt 应用入口：启动时一次性注册 DataSourceModule 提供的 Driver factory。 -->
+    <application
+        android:name=".CloudMusicApplication"
+        android:allowBackup="false" />
+
+</manifest>
