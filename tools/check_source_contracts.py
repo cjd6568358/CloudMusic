@@ -12,6 +12,9 @@
 第十一批（:core-di Hilt 唯一注册点 + :app 接入）新增「@InstallIn 只允许出现在 :core-di」守护。
 第十二批（16 §5.3 T-P4）落地 C-05 / C-06：185 测试全绿，新增 EngineSource 可选字段与
 ProxyStartPolicy 触发器 ④ 的签名断言。
+第十三批（16 §5.3 T-P2）落地 :engine-bridge 四态 IDataSource 与 DataSourceAdapter（T01~T05）。
+第十四批（16 §5.3 T-P1）落地 :feature-player 业务队列 / PlayMode / QueueSync / PlayerController（T07、T08、T11）。
+第十五批（16 §5.3 T-P3）落地 :output-dlna 决策表与 SSDP / SOAP / DIDL-Lite（T01~T09、T13、T14），T-P 线收口。
 详见 docs/12-编码阶段第一批交付.md §5.1 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21。
 """
 from __future__ import annotations
@@ -32,6 +35,8 @@ GRADLE_FILES = (
     "build-logic/convention/src/main/kotlin/cloudmusic.android.application.gradle.kts",
     "local.properties.example", "app/build.gradle.kts",
     "app/src/main/AndroidManifest.xml", "core-di/build.gradle.kts",
+    "engine-bridge/build.gradle.kts", "feature-player/build.gradle.kts",
+    "output-dlna/build.gradle.kts",
     "core-common/build.gradle.kts", "core-model/build.gradle.kts",
     "datasource-api/build.gradle.kts",
     "datasource-strm/build.gradle.kts", "datasource-playlist/build.gradle.kts",
@@ -128,6 +133,32 @@ CONTRACT_FILES = (
     "core-di/src/main/kotlin/com/example/cloudmusic/di/DataSourceModule.kt",
     "core-di/src/main/kotlin/com/example/cloudmusic/di/AppBindings.kt",
     "app/src/main/kotlin/com/example/cloudmusic/CloudMusicApplication.kt",
+    # 03-06 §7 / 16 §5.3 T-P2：IDataSource 四态实现（第十三批）
+    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/DataSourcePorts.kt",
+    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/BaseDataSource.kt",
+    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/MemoryDataSource.kt",
+    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/FileDataSource.kt",
+    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/HttpDataSource.kt",
+    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/DriverDataSource.kt",
+    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/DataSourceAdapter.kt",
+    "engine-bridge/src/test/kotlin/com/example/cloudmusic/bridge/DataSourceAdapterTest.kt",
+    # 03-06 §8 / §9 / 16 §5.3 T-P1：播放业务编排层（第十四批）
+    "feature-player/src/main/kotlin/com/example/cloudmusic/player/PlaybackModels.kt",
+    "feature-player/src/main/kotlin/com/example/cloudmusic/player/QueueRepository.kt",
+    "feature-player/src/main/kotlin/com/example/cloudmusic/player/PlayModeOrdering.kt",
+    "feature-player/src/main/kotlin/com/example/cloudmusic/player/QueueSync.kt",
+    "feature-player/src/main/kotlin/com/example/cloudmusic/player/TrackPorts.kt",
+    "feature-player/src/main/kotlin/com/example/cloudmusic/player/PlayerController.kt",
+    "feature-player/src/test/kotlin/com/example/cloudmusic/player/PlayerControllerTest.kt",
+    # 03-08 §3~§6 / 16 §5.3 T-P3：DLNA 投屏协议与决策（第十五批）
+    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DlnaModels.kt",
+    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/CastUriResolver.kt",
+    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DescriptionParser.kt",
+    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DidlLiteBuilder.kt",
+    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/SoapController.kt",
+    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/SsdpDiscovery.kt",
+    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/ManualDmrProbe.kt",
+    "output-dlna/src/test/kotlin/com/example/cloudmusic/output/dlna/DlnaContractTest.kt",
 )
 
 CHECK_SCRIPTS = (
@@ -331,6 +362,80 @@ SIGNATURES = {
         "@HiltAndroidApp",
         "class CloudMusicApplication : Application()",
         "driverRegistrar.registerAll()",
+    ],
+    # 03-06 §7 / §15 T01~T05（T-P2）
+    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/DataSourcePorts.kt": [
+        "fun interface RangeHttpStack {",
+        "interface FdOpener {",
+        "fun interface DriverStreamFactory {",
+        "class JvmFileFdOpener : FdOpener {",
+    ],
+    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/BaseDataSource.kt": [
+        "abstract class BaseDataSource(protected val link: Link) : IDataSource",
+        "final override fun readAt(offset: Long, buf: ByteArray, len: Int): Int",
+        "lastError = e.toCloudMusicError()",
+        "final override fun close()",
+    ],
+    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/DataSourceAdapter.kt": [
+        "object DataSourceAdapter {",
+        "Link.Kind.URL -> HttpDataSource(link, args, http)",
+        "Link.Kind.LOCAL -> FileDataSource(link, fdOpener)",
+        "Link.Kind.PROXIED -> DriverDataSource(link, driverStreams)",
+        "Link.Kind.TEXT -> MemoryDataSource(link)",
+    ],
+    # 03-06 §8 / §9 / §15 T07、T08、T11（T-P1）
+    "feature-player/src/main/kotlin/com/example/cloudmusic/player/QueueRepository.kt": [
+        "interface QueueRepository {",
+        "suspend fun move(from: Int, to: Int)",
+        "suspend fun saveCursor(trackId: String, positionMs: Long)",
+        "class InMemoryQueueRepository(",
+    ],
+    "feature-player/src/main/kotlin/com/example/cloudmusic/player/PlayModeOrdering.kt": [
+        "object ShuffleOrder {",
+        "fun generate(seed: Long, size: Int): List<Int>",
+        "fun nextIndex(",
+    ],
+    "feature-player/src/main/kotlin/com/example/cloudmusic/player/QueueSync.kt": [
+        "interface QueueSync {",
+        "suspend fun push(items: List<QueueItem>, mode: PlayMode, startAt: Int)",
+        "object NativeQueueSandbox {",
+    ],
+    "feature-player/src/main/kotlin/com/example/cloudmusic/player/PlayerController.kt": [
+        "class PlayerController(",
+        "val state: StateFlow<PlayerState>",
+        "suspend fun restore(snapshot: PlaybackSnapshot, items: List<QueueItem>)",
+        "if (autoPlay) engine.play(h) else engine.pause(h)",
+    ],
+    # 03-08 §3.1 / §5 / §6 / §13 T01~T09、T13、T14（T-P3）
+    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/CastUriResolver.kt": [
+        "class CastUriResolver(",
+        "suspend fun resolve(track: Track): CastUri",
+        "if (settings.forceWebdavProxy || driverPreferProxy)",
+        "interface CastProxyPort {",
+    ],
+    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DescriptionParser.kt": [
+        "object DescriptionParser {",
+        "fun resolveUrl(base: String, control: String): String",
+        "DlnaDescParse",
+    ],
+    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DidlLiteBuilder.kt": [
+        "const val CONTENT_FEATURES",
+        "fun escape(value: String): String",
+        "fun formatDuration(durationMs: Long): String",
+    ],
+    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/SoapController.kt": [
+        "fun soapAction(serviceType: String, action: String): String",
+        "fun setAvTransportUri(",
+        "fun errorCode(body: String): Int?",
+    ],
+    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/SsdpDiscovery.kt": [
+        "fun buildMSearch(st: String, mx: Int = 3): String",
+        "fun parseResponses(raw: Iterable<String>): List<SsdpResponse>",
+        "interface MulticastLockPort {",
+    ],
+    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/ManualDmrProbe.kt": [
+        "fun candidateUrls(spec: ManualDmrSpec): List<String>",
+        "suspend fun probe(",
     ],
 }
 
