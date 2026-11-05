@@ -1,0 +1,637 @@
+{
+  "method": "spike #1: dex 指令级加载器调用点 + PlaybackDataSource / 打包集实证",
+  "dex_count": 20,
+  "system_load_library_calls": [
+    {
+      "dex": "classes.dex",
+      "class": "Lcom/netease/nis/wrapper/o;",
+      "method": "a",
+      "kind": "system-loadLibrary",
+      "library": "<unresolved:v5>"
+    },
+    {
+      "dex": "classes.dex",
+      "class": "Lcom/netease/nis/wrapper/plugin/a;",
+      "method": "a",
+      "kind": "system-loadLibrary",
+      "library": "<unresolved:v5>"
+    },
+    {
+      "dex": "classes.dex",
+      "class": "Lcom/netease/nis/wrapper/f;",
+      "method": "a",
+      "kind": "system-loadLibrary",
+      "library": "IAAHAAI="
+    }
+  ],
+  "system_load_library_unique_names": [
+    "<unresolved:v5>",
+    "IAAHAAI="
+  ],
+  "wrapper_load_calls": [
+    {
+      "dex": "classes14.dex",
+      "class": "Lwg/d;",
+      "method": "h",
+      "kind": "wrapper-zv.a.b",
+      "library": "<unresolved:v2>"
+    },
+    {
+      "dex": "classes7.dex",
+      "class": "Lcom/netease/nis/bugrpt/user/ReLinker;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "<unresolved:v2>"
+    },
+    {
+      "dex": "classes13.dex",
+      "class": "Lcom/netease/avsdk/jni/AeNativeMethod;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "AeTimeline"
+    },
+    {
+      "dex": "classes14.dex",
+      "class": "Lcom/netease/cloudmusic/core/mnn/MNNNetNative;",
+      "method": "<clinit>",
+      "kind": "wrapper-zv.a.b",
+      "library": "Core_MNN_JNI"
+    },
+    {
+      "dex": "classes14.dex",
+      "class": "Lcom/netease/cloudmusic/audio/aiinference/NCMAudioAIIFProcess;",
+      "method": "i",
+      "kind": "wrapper-zv.a.b",
+      "library": "MNN"
+    },
+    {
+      "dex": "classes14.dex",
+      "class": "Lcom/netease/cloudmusic/core/mnn/MNNNetNative;",
+      "method": "<clinit>",
+      "kind": "wrapper-zv.a.b",
+      "library": "MNN"
+    },
+    {
+      "dex": "classes14.dex",
+      "class": "Lcom/netease/cloudmusic/audio/aiinference/NCMAudioAIIFProcess;",
+      "method": "i",
+      "kind": "wrapper-zv.a.b",
+      "library": "MNN_Express"
+    },
+    {
+      "dex": "classes14.dex",
+      "class": "Lcom/netease/cloudmusic/core/mnn/MNNNetNative;",
+      "method": "<clinit>",
+      "kind": "wrapper-zv.a.b",
+      "library": "MNN_Express"
+    },
+    {
+      "dex": "classes5.dex",
+      "class": "Lcom/netease/cloudmusic/sdk/NMCommonCache/NMVirtualFileManager;",
+      "method": "loadNative",
+      "kind": "wrapper-zv.a.b",
+      "library": "NMCommonCache"
+    },
+    {
+      "dex": "classes5.dex",
+      "class": "Lcom/netease/nearengine/jni/AREngineNativeMethod;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "NeAREngine"
+    },
+    {
+      "dex": "classes13.dex",
+      "class": "Lcom/netease/avsdk/jni/AVEditorNativeMethod;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "NeAVEditorTimeline"
+    },
+    {
+      "dex": "classes13.dex",
+      "class": "Lcom/netease/avsdk/recognition/NeAVVideoRecognition;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "NeAVEditorTimeline"
+    },
+    {
+      "dex": "classes13.dex",
+      "class": "Lcom/netease/avsdk/jni/AVEditorNativeMethod;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "NeFace"
+    },
+    {
+      "dex": "classes13.dex",
+      "class": "Lcom/netease/avsdk/jni/AeNativeMethod;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "NeFace"
+    },
+    {
+      "dex": "classes13.dex",
+      "class": "Lcom/netease/avsdk/recognition/NeAVVideoRecognition;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "NeImageCrop"
+    },
+    {
+      "dex": "classes13.dex",
+      "class": "Lcom/netease/avsdk/jni/AVEditorNativeMethod;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "YUV"
+    },
+    {
+      "dex": "classes13.dex",
+      "class": "Lcom/netease/avsdk/jni/AeNativeMethod;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "YUV"
+    },
+    {
+      "dex": "classes13.dex",
+      "class": "Lcom/netease/avsdk/recognition/NeAVVideoRecognition;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "YUV"
+    },
+    {
+      "dex": "classes18.dex",
+      "class": "Lcom/netease/cloudmusic/module/player/NeteaseAudioPlayer;",
+      "method": "p",
+      "kind": "wrapper-zv.a.b",
+      "library": "audioplayer"
+    },
+    {
+      "dex": "classes13.dex",
+      "class": "Lcom/netease/avsdk/jni/AVEditorNativeMethod;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "c++_shared"
+    },
+    {
+      "dex": "classes13.dex",
+      "class": "Lcom/netease/avsdk/jni/AeNativeMethod;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "c++_shared"
+    },
+    {
+      "dex": "classes13.dex",
+      "class": "Lcom/netease/avsdk/recognition/NeAVVideoRecognition;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "c++_shared"
+    },
+    {
+      "dex": "classes5.dex",
+      "class": "Lcom/netease/nearengine/jni/AREngineNativeMethod;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "c++_shared"
+    },
+    {
+      "dex": "classes13.dex",
+      "class": "Lcom/netease/avsdk/jni/AVEditorNativeMethod;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "ffmpeg"
+    },
+    {
+      "dex": "classes13.dex",
+      "class": "Lcom/netease/avsdk/jni/AeNativeMethod;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "ffmpeg"
+    },
+    {
+      "dex": "classes13.dex",
+      "class": "Lcom/netease/avsdk/recognition/NeAVVideoRecognition;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "ffmpeg"
+    },
+    {
+      "dex": "classes16.dex",
+      "class": "Lcom/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer;",
+      "method": "loadNative",
+      "kind": "wrapper-zv.a.b",
+      "library": "ffmpeg"
+    },
+    {
+      "dex": "classes16.dex",
+      "class": "Lcom/netease/cloudmusic/media/pcmextract/PCMExtractor;",
+      "method": "loadLib",
+      "kind": "wrapper-zv.a.b",
+      "library": "ffmpeg"
+    },
+    {
+      "dex": "classes6.dex",
+      "class": "Lcom/netease/cloudmusic/utils/AudioTagIO;",
+      "method": "<clinit>",
+      "kind": "wrapper-zv.a.b",
+      "library": "fpGenerate"
+    },
+    {
+      "dex": "classes16.dex",
+      "class": "Lcom/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer;",
+      "method": "loadNative",
+      "kind": "wrapper-zv.a.b",
+      "library": "ncmaudioplayer"
+    },
+    {
+      "dex": "classes5.dex",
+      "class": "Lcom/netease/cloudmusic/process/task/app/create/PlayServiceTask;",
+      "method": "preloadNcmAudioSoAsyncIfNeeded$lambda-1",
+      "kind": "wrapper-zv.a.b",
+      "library": "ncmaudioplayer"
+    },
+    {
+      "dex": "classes16.dex",
+      "class": "Lcom/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer;",
+      "method": "loadNative",
+      "kind": "wrapper-zv.a.b",
+      "library": "ncmusbaudio"
+    },
+    {
+      "dex": "classes14.dex",
+      "class": "Lcom/netease/cloudmusic/audio/aiinference/NCMAudioAIIFProcess;",
+      "method": "i",
+      "kind": "wrapper-zv.a.b",
+      "library": "neaudioaiif"
+    },
+    {
+      "dex": "classes13.dex",
+      "class": "Lcom/netease/avsdk/jni/AVEditorNativeMethod;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "neaveditorutility"
+    },
+    {
+      "dex": "classes13.dex",
+      "class": "Lcom/netease/avsdk/recognition/NeAVVideoRecognition;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "neaveditorutility"
+    },
+    {
+      "dex": "classes16.dex",
+      "class": "Lcom/netease/cloudmusic/media/pcmextract/PCMExtractor;",
+      "method": "loadLib",
+      "kind": "wrapper-zv.a.b",
+      "library": "pcmextract"
+    }
+  ],
+  "wrapper_load_unique_names": [
+    "<unresolved:v2>",
+    "AeTimeline",
+    "Core_MNN_JNI",
+    "MNN",
+    "MNN_Express",
+    "NMCommonCache",
+    "NeAREngine",
+    "NeAVEditorTimeline",
+    "NeFace",
+    "NeImageCrop",
+    "YUV",
+    "audioplayer",
+    "c++_shared",
+    "ffmpeg",
+    "fpGenerate",
+    "ncmaudioplayer",
+    "ncmusbaudio",
+    "neaudioaiif",
+    "neaveditorutility",
+    "pcmextract"
+  ],
+  "unresolved_calls": [
+    {
+      "dex": "classes.dex",
+      "class": "Lcom/netease/nis/wrapper/o;",
+      "method": "a",
+      "kind": "system-loadLibrary",
+      "library": "<unresolved:v5>"
+    },
+    {
+      "dex": "classes.dex",
+      "class": "Lcom/netease/nis/wrapper/plugin/a;",
+      "method": "a",
+      "kind": "system-loadLibrary",
+      "library": "<unresolved:v5>"
+    },
+    {
+      "dex": "classes14.dex",
+      "class": "Lwg/d;",
+      "method": "h",
+      "kind": "wrapper-zv.a.b",
+      "library": "<unresolved:v2>"
+    },
+    {
+      "dex": "classes7.dex",
+      "class": "Lcom/netease/nis/bugrpt/user/ReLinker;",
+      "method": "loadLibrary",
+      "kind": "wrapper-zv.a.b",
+      "library": "<unresolved:v2>"
+    }
+  ],
+  "watched_const_string_hits": {
+    "sqlite3x": [
+      "classes11.dex:Lio/requery/android/database/sqlite/SQLiteDatabase;.<clinit>",
+      "classes15.dex:Lcom/netease/cloudmusic/libload/SoLoadScheduler$b;.<init>",
+      "classes18.dex:Lod0/c;.<init>"
+    ],
+    "c++_shared": [
+      "classes12.dex:Lxnn/XNNWrapper;.train",
+      "classes13.dex:Lcom/netease/avsdk/jni/AVEditorNativeMethod;.loadLibrary",
+      "classes13.dex:Lcom/netease/avsdk/jni/AeNativeMethod;.loadLibrary",
+      "classes13.dex:Lcom/netease/avsdk/recognition/NeAVVideoRecognition;.loadLibrary",
+      "classes15.dex:Lcom/netease/cloudmusic/libload/SoLoadScheduler$b;.<init>",
+      "classes2.dex:Lcom/alipay/zoloz/toyger/algorithm/Astro;.<clinit>",
+      "classes2.dex:Lcom/dtf/toyger/base/algorithm/Toyger;.loadLibrary",
+      "classes2.dex:Lj2/c;.E",
+      "classes5.dex:Lcom/netease/nearengine/jni/AREngineNativeMethod;.loadLibrary",
+      "classes7.dex:Lcom/netease/nis/alivedetected/AliveDetector;.<clinit>"
+    ],
+    "ffmpeg": [
+      "classes13.dex:Lcom/netease/avsdk/jni/AVEditorNativeMethod;.loadLibrary",
+      "classes13.dex:Lcom/netease/avsdk/jni/AeNativeMethod;.loadLibrary",
+      "classes13.dex:Lcom/netease/avsdk/recognition/NeAVVideoRecognition;.loadLibrary",
+      "classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/AudioPlayerUnit;.<clinit>",
+      "classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/Playback;.<clinit>",
+      "classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackEngine;.<clinit>",
+      "classes15.dex:Lcom/netease/cloudmusic/libload/SoLoadScheduler$b;.<init>",
+      "classes16.dex:Lcom/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer;.loadNative",
+      "classes16.dex:Lcom/netease/cloudmusic/media/mediaAudioRecorder/MediaAudioRecLibraries;.<clinit>",
+      "classes16.dex:Lcom/netease/cloudmusic/media/pcmextract/PCMExtractor;.loadLib",
+      "classes17.dex:Lcom/netease/cloudmusic/module/aveditor/AVNativeJni;.loadAVLib",
+      "classes19.dex:Lot0/z;.w",
+      "classes19.dex:Lv41/a;.a",
+      "classes3.dex:Lcom/netease/cloudmusic/music/biz/mlogproduct/videotemplate/edittemplatevideo/util/MaterialEditHelper;.<init>",
+      "classes3.dex:Lli1/a;.<clinit>",
+      "classes6.dex:Lcom/netease/nesrsdk/audiodecoder/AFPAudioDecodeNativeMethod;.<clinit>"
+    ],
+    "NMCommonCache": [
+      "classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/AudioPlayerUnit;.<clinit>",
+      "classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/Playback;.<clinit>",
+      "classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackEngine;.<clinit>",
+      "classes5.dex:Lcom/netease/cloudmusic/sdk/NMCommonCache/NMVirtualFileManager;.loadNative"
+    ],
+    "ncmaudioplayer": [
+      "classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/AudioPlayerUnit;.<clinit>",
+      "classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/Playback;.<clinit>",
+      "classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackEngine;.<clinit>",
+      "classes16.dex:Lcom/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer;.loadNative",
+      "classes5.dex:Lcom/netease/cloudmusic/process/task/app/create/PlayServiceTask;.preloadNcmAudioSoAsyncIfNeeded$lambda-1"
+    ],
+    "neaudioeffects": [
+      "classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/AudioPlayerUnit;.<clinit>",
+      "classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/Playback;.<clinit>",
+      "classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackEngine;.<clinit>",
+      "classes15.dex:Lcom/netease/cloudmusic/effect/bridge/AECoreNativeLibrary;.load",
+      "classes15.dex:Lcom/netease/cloudmusic/libload/SoLoadScheduler$b;.<init>",
+      "classes16.dex:Lcom/netease/cloudmusic/media/mediaAudioRecorder/MediaAudioRecLibraries;.<clinit>",
+      "classes16.dex:Lcom/netease/cloudmusic/media/mediaKEngine/MediaKEngineClient;.<clinit>",
+      "classes18.dex:Lcom/netease/cloudmusic/module/player/aidj/mediaplay/a;.<clinit>",
+      "classes18.dex:Lcom/netease/cloudmusic/module/player/audioeffect/core/a;.<clinit>",
+      "classes7.dex:Lpq2/a;.<clinit>",
+      "classes7.dex:Lzs2/c;.<clinit>"
+    ],
+    "ncmplayerengine": [
+      "classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/AudioPlayerUnit;.<clinit>",
+      "classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/Playback;.<clinit>",
+      "classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackEngine;.<clinit>"
+    ],
+    "ncmusbaudio": [
+      "classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackEngine;.<clinit>",
+      "classes16.dex:Lcom/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer;.loadNative"
+    ],
+    "MNN": [
+      "classes14.dex:Lcom/netease/cloudmusic/audio/aiinference/NCMAudioAIIFProcess;.i",
+      "classes14.dex:Lcom/netease/cloudmusic/core/mnn/MNNNetNative;.<clinit>"
+    ],
+    "MNN_Express": [
+      "classes14.dex:Lcom/netease/cloudmusic/audio/aiinference/NCMAudioAIIFProcess;.i",
+      "classes14.dex:Lcom/netease/cloudmusic/core/mnn/MNNNetNative;.<clinit>"
+    ],
+    "neaudioaiif": [
+      "classes14.dex:Lcom/netease/cloudmusic/audio/aiinference/NCMAudioAIIFProcess;.i"
+    ],
+    "neaudioeffect_core": [
+      "classes15.dex:Lcom/netease/cloudmusic/effect/bridge/AECoreNativeLibrary;.load"
+    ],
+    "necmMP3Dec": [
+      "classes15.dex:Lcom/netease/cloudmusic/gift/MediaGiftClient;.<clinit>",
+      "classes16.dex:Lcom/netease/cloudmusic/media/alphavideoplayer/MediaAlphaVideoClient;.<clinit>",
+      "classes16.dex:Lcom/netease/cloudmusic/media/live/MediaLiveClient;.<clinit>",
+      "classes16.dex:Lcom/netease/cloudmusic/media/mediaKEngine/MediaKEngineClient;.<clinit>",
+      "classes16.dex:Lcom/netease/cloudmusic/media/player/necmMediaPlayer;.<clinit>"
+    ],
+    "necmAACDec": [
+      "classes15.dex:Lcom/netease/cloudmusic/gift/MediaGiftClient;.<clinit>",
+      "classes16.dex:Lcom/netease/cloudmusic/media/alphavideoplayer/MediaAlphaVideoClient;.<clinit>",
+      "classes16.dex:Lcom/netease/cloudmusic/media/edit/LyricsUtil;.getDynamicLibrary",
+      "classes16.dex:Lcom/netease/cloudmusic/media/live/MediaLiveClient;.<clinit>",
+      "classes16.dex:Lcom/netease/cloudmusic/media/mediaAudioRecorder/MediaAudioRecLibraries;.<clinit>",
+      "classes16.dex:Lcom/netease/cloudmusic/media/mediaKEngine/MediaKEngineClient;.<clinit>",
+      "classes16.dex:Lcom/netease/cloudmusic/media/player/necmMediaPlayer;.<clinit>"
+    ],
+    "necmFlacDec": [
+      "classes16.dex:Lcom/netease/cloudmusic/media/player/necmMediaPlayer;.<clinit>"
+    ],
+    "necmMediaCodecJDec": [
+      "classes16.dex:Lcom/netease/cloudmusic/media/player/necmMediaPlayer;.<clinit>"
+    ],
+    "audioplayer": [
+      "classes18.dex:Lcom/netease/cloudmusic/module/player/NeteaseAudioPlayer;.p"
+    ],
+    "nmplaylist": [
+      "classes5.dex:Lcom/netease/cloudmusic/playlist/core/PlaylistJniBridge;.<clinit>"
+    ]
+  },
+  "packed_name_hits": {
+    "sqlite3x": [
+      "classes11.dex",
+      "classes15.dex",
+      "classes18.dex"
+    ],
+    "c++_shared": [
+      "classes12.dex",
+      "classes13.dex",
+      "classes15.dex",
+      "classes2.dex",
+      "classes5.dex",
+      "classes7.dex"
+    ],
+    "ffmpeg": [
+      "classes13.dex",
+      "classes14.dex",
+      "classes15.dex",
+      "classes16.dex",
+      "classes17.dex",
+      "classes19.dex",
+      "classes3.dex",
+      "classes6.dex"
+    ],
+    "MNN": [
+      "classes14.dex"
+    ],
+    "MNN_Express": [
+      "classes14.dex"
+    ],
+    "NMCommonCache": [
+      "classes14.dex",
+      "classes5.dex"
+    ],
+    "ncmaudioplayer": [
+      "classes14.dex",
+      "classes16.dex",
+      "classes5.dex"
+    ],
+    "ncmplayerengine": [
+      "classes14.dex"
+    ],
+    "ncmusbaudio": [
+      "classes14.dex",
+      "classes16.dex"
+    ],
+    "neaudioaiif": [
+      "classes14.dex"
+    ],
+    "neaudioeffects": [
+      "classes14.dex",
+      "classes15.dex",
+      "classes16.dex",
+      "classes18.dex",
+      "classes7.dex"
+    ],
+    "neaudioeffect_core": [
+      "classes15.dex"
+    ],
+    "necmAACDec": [
+      "classes15.dex",
+      "classes16.dex"
+    ],
+    "necmMP3Dec": [
+      "classes15.dex",
+      "classes16.dex"
+    ],
+    "necmFlacDec": [
+      "classes16.dex"
+    ],
+    "necmMediaCodecJDec": [
+      "classes16.dex"
+    ],
+    "audioplayer": [
+      "classes18.dex"
+    ],
+    "nmplaylist": [
+      "classes5.dex"
+    ]
+  },
+  "so_like_strings": [
+    "libAPSE_7.0.1.so",
+    "libAeTimeline.so",
+    "libAegisSDK.so",
+    "libNeAREngine.so",
+    "libalive_detected.so",
+    "libcronet.72.0.3626.122.so",
+    "libfacedevice.so",
+    "libnecmAACEnc.so",
+    "libnecmH264Enc.so",
+    "libnecmMediaEdit.so",
+    "libnecmMediaRecord.so",
+    "libnenn.so",
+    "libnesmarteffects.so",
+    "libxnn.so",
+    "libxyvodsdk.so"
+  ],
+  "playback_data_source": {
+    "dex": "classes14.dex",
+    "class": "Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackDataSource;",
+    "methods": [
+      {
+        "name": "<init>",
+        "return": "V",
+        "params": [
+          "J",
+          "Lcom/netease/cloudmusic/android/sdk/playerengine/MusicInfo;"
+        ],
+        "native": false
+      },
+      {
+        "name": "nativeCancelPreload",
+        "return": "Z",
+        "params": [
+          "J"
+        ],
+        "native": true
+      },
+      {
+        "name": "nativePreload",
+        "return": "Z",
+        "params": [
+          "J",
+          "J"
+        ],
+        "native": true
+      },
+      {
+        "name": "nativeRelease",
+        "return": "V",
+        "params": [
+          "J"
+        ],
+        "native": true
+      },
+      {
+        "name": "nativeReleaseEngineCacheLoadConfigHandle",
+        "return": "V",
+        "params": [
+          "J"
+        ],
+        "native": true
+      },
+      {
+        "name": "nativeRetainEngineCacheLoadConfigHandle",
+        "return": "J",
+        "params": [
+          "J"
+        ],
+        "native": true
+      },
+      {
+        "name": "nativeSetEngineCacheLoadConfig",
+        "return": "Z",
+        "params": [
+          "J",
+          "J",
+          "J",
+          "J",
+          "J",
+          "J"
+        ],
+        "native": true
+      },
+      {
+        "name": "nativeSetPreloadCallback",
+        "return": "Z",
+        "params": [
+          "J",
+          "Z"
+        ],
+        "native": true
+      },
+      {
+        "name": "onNativePreloadResult",
+        "return": "V",
+        "params": [
+          "I",
+          "J",
+          "J",
+          "I"
+        ],
+        "native": false
+      }
+    ]
+  }
+}

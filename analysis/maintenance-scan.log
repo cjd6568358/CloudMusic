@@ -1,0 +1,30 @@
+=== A. 模块配置 ===
+include 数 12 ['core-common', 'core-media', 'core-model', 'core-storage', 'datasource-api', 'datasource-playlist', 'datasource-strm', 'datasource-webdav', 'engine-api', 'output-localproxy', 'output-router', 'scanner']
+有 build 但未 include 的目录 []
+
+=== B. docs 计数与 09 §3 声明 ===
+顶层md 14 子目录md 12 csv 1 NOTICE True 合计 28
+09 声明: ## 3. 文档索引（28 个文件：`docs/` 下 26 份 md + 1 份 csv，加项目根 `NOTICE.md`）
+
+=== C. 关键数字 ===
+XML: 套件=21 用例=159 失败=0 错误=0 跳过=0
+  [残留168] docs\09-文档闭环总览.md:36 | **P3 裁剪清单复核**（2026-11-05） | `11 §9` 新增：用纯 JVM 等价复核 `11 §7 #3` 的照搬舱裁剪清单，84 个 JNI 种子精确吻合 48/8/26/2；发现 spike #0 的 `dotted
+  [残留168] docs\11-spike0-Java闭包实测.md:241 | 一层边界（depth 1） | 168 | 8 个 `B/C/D/F/I/J/V/Z` | **160** | 160 个全部在 dex 中有类定义（ghost 0） |
+  [数字异常] docs\12-编码阶段第一批交付.md: 21 个测试（当前 159）
+  [数字异常] docs\12-编码阶段第一批交付.md: 13 个测试（当前 159）
+  [数字异常] docs\12-编码阶段第一批交付.md: 15 个测试（当前 159）
+  [残留168] docs\12-编码阶段第一批交付.md:210 | P3 裁剪清单复核（2026-11-05） | `11 §1 / §3.1 / §3.3 / §4 / §6 / §7 #3 / **新增 §9**`、`13 §6 #1`、`05 §7 #2`、`09 §1 / §7`、`10 §2 
+  [残留168] docs\13-引擎舱实证复核.md:159 | **P3 复核（2026-11-05）**：`docs/11 §9`（新增）及 §1 / §3.1 / §3.3 / §4 / §6 / §7 #3、`docs/05 §7 #2`、`docs/09 §1 / §7`、`docs/12 
+
+=== D. 文档交叉引用 ===
+疑似失效引用 无
+
+=== E. 空表与规则 ===
+assets-mapping.csv 行数 1 表头 ﻿legacy_name,type,resource_id,semantic_name,used_by,notes,replaced
+proguard 存在 True 行数 81
+
+=== F. 记忆文件 ===
+.workbuddy/memory/MEMORY.md 14160 bytes 60 lines
+.workbuddy/memory/2026-11-05.md 37591 bytes 169 lines
+.workbuddy-ai/memory/2026-11-05.md 11452 bytes 75 lines
+daily logs ['2026-11-05.md']

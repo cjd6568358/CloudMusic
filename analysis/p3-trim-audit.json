@@ -1,0 +1,1437 @@
+{
+  "method": "P3 裁剪清单复核：spike0 BFS 产物 + 20 dex 的 class_def 精确校验",
+  "seed_recheck": {
+    "by_family": {
+      "playerengine": {
+        "exact": 48,
+        "documented": 48,
+        "spike0_seed_hit": 48
+      },
+      "playlist.core": {
+        "exact": 8,
+        "documented": 8,
+        "spike0_seed_hit": 8
+      },
+      "NMCommonCache": {
+        "exact": 26,
+        "documented": 26,
+        "spike0_seed_hit": 26
+      },
+      "NEAudioDevice": {
+        "exact": 2,
+        "documented": 2,
+        "spike0_seed_hit": 2
+      }
+    },
+    "spike0_seed_count": 84,
+    "exact_total": 84
+  },
+  "boundary_recheck": {
+    "spike0_count": 168,
+    "primitive_artifacts": [
+      "B",
+      "C",
+      "D",
+      "F",
+      "I",
+      "J",
+      "V",
+      "Z"
+    ],
+    "artifact_count": 8,
+    "real_class_count": 160,
+    "with_class_def": 160,
+    "ghost_without_def": []
+  },
+  "by_category": {
+    "obfuscated-short": 67,
+    "telemetry-startup": 31,
+    "ui-widget": 26,
+    "mp-framework": 11,
+    "lyric-model": 9,
+    "resource-r-class": 5,
+    "mnn-model": 4,
+    "im-online": 4,
+    "callback-interface": 3
+  },
+  "by_stub_strategy": {
+    "empty-stub": 148,
+    "keep-signature": 12
+  },
+  "boundary_classes": [
+    {
+      "class": "aa2.s$a",
+      "package": "aa2",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.asynctask.GetColorRingExistTask$Result",
+      "package": "com.netease.cloudmusic.asynctask",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.commoninterface.OnDeleteMusicListener",
+      "package": "com.netease.cloudmusic.commoninterface",
+      "category": "callback-interface",
+      "stub_strategy": "keep-signature",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.apm.heat.R$attr",
+      "package": "com.netease.cloudmusic.core.apm.heat",
+      "category": "resource-r-class",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.logsalvage.upload.RecallUploadConfig",
+      "package": "com.netease.cloudmusic.core.logsalvage.upload",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.logsalvage.upload.b",
+      "package": "com.netease.cloudmusic.core.logsalvage.upload",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.logsalvage.upload.c",
+      "package": "com.netease.cloudmusic.core.logsalvage.upload",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.logsalvage.upload.d",
+      "package": "com.netease.cloudmusic.core.logsalvage.upload",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.logsalvage.upload.e",
+      "package": "com.netease.cloudmusic.core.logsalvage.upload",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.logsalvage.upload.e$a",
+      "package": "com.netease.cloudmusic.core.logsalvage.upload",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.logsalvage.upload.f",
+      "package": "com.netease.cloudmusic.core.logsalvage.upload",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.lyric.model.AbsLyric",
+      "package": "com.netease.cloudmusic.core.lyric.model",
+      "category": "lyric-model",
+      "stub_strategy": "keep-signature",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.lyric.model.AbsLyricLine",
+      "package": "com.netease.cloudmusic.core.lyric.model",
+      "category": "lyric-model",
+      "stub_strategy": "keep-signature",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.lyric.model.CommonLyricLine",
+      "package": "com.netease.cloudmusic.core.lyric.model",
+      "category": "lyric-model",
+      "stub_strategy": "keep-signature",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.lyric.model.KaraokeLine",
+      "package": "com.netease.cloudmusic.core.lyric.model",
+      "category": "lyric-model",
+      "stub_strategy": "keep-signature",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.lyric.model.KaraokeWord",
+      "package": "com.netease.cloudmusic.core.lyric.model",
+      "category": "lyric-model",
+      "stub_strategy": "keep-signature",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.lyric.model.SentenceInfo",
+      "package": "com.netease.cloudmusic.core.lyric.model",
+      "category": "lyric-model",
+      "stub_strategy": "keep-signature",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.lyric.ringtones.view.BaseRangeBar",
+      "package": "com.netease.cloudmusic.core.lyric.ringtones.view",
+      "category": "lyric-model",
+      "stub_strategy": "keep-signature",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.lyric.ringtones.view.BaseRangeBar$a",
+      "package": "com.netease.cloudmusic.core.lyric.ringtones.view",
+      "category": "lyric-model",
+      "stub_strategy": "keep-signature",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.lyric.ringtones.view.LyricViewWithRangeBar",
+      "package": "com.netease.cloudmusic.core.lyric.ringtones.view",
+      "category": "lyric-model",
+      "stub_strategy": "keep-signature",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.mnn.MNNModelParams",
+      "package": "com.netease.cloudmusic.core.mnn",
+      "category": "mnn-model",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.mnn.MNNNetNative",
+      "package": "com.netease.cloudmusic.core.mnn",
+      "category": "mnn-model",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.mnn.MNNTensorInfo",
+      "package": "com.netease.cloudmusic.core.mnn",
+      "category": "mnn-model",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.mnn.R$styleable",
+      "package": "com.netease.cloudmusic.core.mnn",
+      "category": "resource-r-class",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.mnn.R$xml",
+      "package": "com.netease.cloudmusic.core.mnn",
+      "category": "resource-r-class",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.mnn.utils.MNNModelUtils",
+      "package": "com.netease.cloudmusic.core.mnn.utils",
+      "category": "mnn-model",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.mp.AppConfig",
+      "package": "com.netease.cloudmusic.core.mp",
+      "category": "mp-framework",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.mp.AppJson",
+      "package": "com.netease.cloudmusic.core.mp",
+      "category": "mp-framework",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.mp.MpInfo",
+      "package": "com.netease.cloudmusic.core.mp",
+      "category": "mp-framework",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.mp.MpInfo$a",
+      "package": "com.netease.cloudmusic.core.mp",
+      "category": "mp-framework",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.mp.Page",
+      "package": "com.netease.cloudmusic.core.mp",
+      "category": "mp-framework",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.mp.ResInfo",
+      "package": "com.netease.cloudmusic.core.mp",
+      "category": "mp-framework",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.mp.container.MpTheme",
+      "package": "com.netease.cloudmusic.core.mp.container",
+      "category": "mp-framework",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.mp.container.MpToolbar",
+      "package": "com.netease.cloudmusic.core.mp.container",
+      "category": "mp-framework",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.mp.dispatch.MpComponent",
+      "package": "com.netease.cloudmusic.core.mp.dispatch",
+      "category": "mp-framework",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.mp.dispatch.MpComponent$a",
+      "package": "com.netease.cloudmusic.core.mp.dispatch",
+      "category": "mp-framework",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.mp.dispatch.MpLaunchActivity",
+      "package": "com.netease.cloudmusic.core.mp.dispatch",
+      "category": "mp-framework",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.nim2.AloneChatRoomAddress",
+      "package": "com.netease.cloudmusic.core.nim2",
+      "category": "im-online",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.nim2.INim2Network",
+      "package": "com.netease.cloudmusic.core.nim2",
+      "category": "im-online",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.nim2.MiddleToken",
+      "package": "com.netease.cloudmusic.core.nim2",
+      "category": "im-online",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.nim2.NimFactoryImpl",
+      "package": "com.netease.cloudmusic.core.nim2",
+      "category": "im-online",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.patch.IPatchProvider",
+      "package": "com.netease.cloudmusic.core.patch",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.patch.PatchFetcher",
+      "package": "com.netease.cloudmusic.core.patch",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.patch.PatchFetcher$c",
+      "package": "com.netease.cloudmusic.core.patch",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.patch.PatchFetcher$c$a",
+      "package": "com.netease.cloudmusic.core.patch",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.patch.PatchFetcher$d",
+      "package": "com.netease.cloudmusic.core.patch",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.patch.PatchFetcher$d$a",
+      "package": "com.netease.cloudmusic.core.patch",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.patch.PatchFetcher$d$b",
+      "package": "com.netease.cloudmusic.core.patch",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.patch.PatchFetcher$e",
+      "package": "com.netease.cloudmusic.core.patch",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.patch.PatchFetcher$f",
+      "package": "com.netease.cloudmusic.core.patch",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.patch.PatchResultService",
+      "package": "com.netease.cloudmusic.core.patch",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.patch.d",
+      "package": "com.netease.cloudmusic.core.patch",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.patch.e",
+      "package": "com.netease.cloudmusic.core.patch",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.patch.f",
+      "package": "com.netease.cloudmusic.core.patch",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.pay.IPostProcessorProvider",
+      "package": "com.netease.cloudmusic.core.pay",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.pay.Pay",
+      "package": "com.netease.cloudmusic.core.pay",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.pay.Pay$a",
+      "package": "com.netease.cloudmusic.core.pay",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.pay.PayActivity",
+      "package": "com.netease.cloudmusic.core.pay",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.pay.a",
+      "package": "com.netease.cloudmusic.core.pay",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.pay.a$c",
+      "package": "com.netease.cloudmusic.core.pay",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.pay.d",
+      "package": "com.netease.cloudmusic.core.pay",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.pay.e",
+      "package": "com.netease.cloudmusic.core.pay",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.pay.p",
+      "package": "com.netease.cloudmusic.core.pay",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.reactnative.RNPerfData",
+      "package": "com.netease.cloudmusic.core.reactnative",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.router.IRouter",
+      "package": "com.netease.cloudmusic.core.router",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.router.RouterImpl",
+      "package": "com.netease.cloudmusic.core.router",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.startup.StartupTask",
+      "package": "com.netease.cloudmusic.core.startup",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.startup.StartupTask$a",
+      "package": "com.netease.cloudmusic.core.startup",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.startup.StartupTask$b",
+      "package": "com.netease.cloudmusic.core.startup",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.startup.StartupTask$c",
+      "package": "com.netease.cloudmusic.core.startup",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.startup.StartupTask$d",
+      "package": "com.netease.cloudmusic.core.startup",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.startup.model.DeferredBucket",
+      "package": "com.netease.cloudmusic.core.startup.model",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.startup.model.DeferredConfiguration",
+      "package": "com.netease.cloudmusic.core.startup.model",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.startup.model.DeferredExecution",
+      "package": "com.netease.cloudmusic.core.startup.model",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.startup.model.DeferredScope",
+      "package": "com.netease.cloudmusic.core.startup.model",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.startup.model.TaskConfiguration",
+      "package": "com.netease.cloudmusic.core.startup.model",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.startup.model.TaskConfigurationParser",
+      "package": "com.netease.cloudmusic.core.startup.model",
+      "category": "telemetry-startup",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.core.upload.k",
+      "package": "com.netease.cloudmusic.core.upload",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.media.audiofx.visualizers.R$layout",
+      "package": "com.netease.cloudmusic.media.audiofx.visualizers",
+      "category": "resource-r-class",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.media.audiofx.visualizers.R$string",
+      "package": "com.netease.cloudmusic.media.audiofx.visualizers",
+      "category": "resource-r-class",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.meta.AdContextMonitor",
+      "package": "com.netease.cloudmusic.meta",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.meta.Artist",
+      "package": "com.netease.cloudmusic.meta",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.meta.CommonLyric",
+      "package": "com.netease.cloudmusic.meta",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.meta.CommonLyricLine",
+      "package": "com.netease.cloudmusic.meta",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.meta.MusicHotSongBillboardInfo",
+      "package": "com.netease.cloudmusic.meta",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.meta.MusicInfo",
+      "package": "com.netease.cloudmusic.meta",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.meta.MusicRewardInfo",
+      "package": "com.netease.cloudmusic.meta",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.meta.PlayList",
+      "package": "com.netease.cloudmusic.meta",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.meta.Profile",
+      "package": "com.netease.cloudmusic.meta",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.meta.Program",
+      "package": "com.netease.cloudmusic.meta",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.meta.virtual.MusicInfoState",
+      "package": "com.netease.cloudmusic.meta.virtual",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.module.lyric.meta.LyricLeftStyleFrameState",
+      "package": "com.netease.cloudmusic.module.lyric.meta",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes18.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.module.playlist.meta.VideoInfo",
+      "package": "com.netease.cloudmusic.module.playlist.meta",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes19.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.theme.ui.MLogRoundedRelativeLayoutWhite",
+      "package": "com.netease.cloudmusic.theme.ui",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.third.api.CMApiService",
+      "package": "com.netease.cloudmusic.third.api",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ActionMenuItem",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ActionMenuItem$OnActionMenuItemClickListener",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "callback-interface",
+      "stub_strategy": "keep-signature",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ActionMenuType",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.MenuActionExtras",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.MenuActionFactory",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.PlayQualityActionMenuItem$OnPlayQualityChangeListener",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "callback-interface",
+      "stub_strategy": "keep-signature",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.PlaylistAndAlbumMusicActionMenuItem",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet$5",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet$6",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet$7",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet$7$1",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet$8",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet$9",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet$Builder",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet$GetAlbumSaleInfoTask",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet$MusicMenuItemActionsAdapter",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet$MusicMenuItemActionsAdapter$ActionView",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet$MusicMenuItemActionsAdapter$ActionView$1",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet$MusicMenuItemActionsAdapter$ActionView$2",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet$MusicMenuItemActionsAdapter$ActionView$3",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet$MusicMenuItemActionsAdapter$ActionView$3$1",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet$MusicMenuItemActionsAdapter$OnlyImportMusicActionView",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet$MusicMenuItemActionsAdapter$RemoveStarView",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet$MusicMenuItemActionsAdapter$TimeCloseView",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.ResourceActionBottomSheet$MusicMenuItemActionsAdapter$TimeCloseView$1",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.netease.cloudmusic.ui.BottomSheetDialog.f3",
+      "package": "com.netease.cloudmusic.ui.BottomSheetDialog",
+      "category": "ui-widget",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "com.sankuai.waimai.router.core.UriRequest",
+      "package": "com.sankuai.waimai.router.core",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes11.dex"
+    },
+    {
+      "class": "d",
+      "package": "",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "dd2.a",
+      "package": "dd2",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "dd2.b",
+      "package": "dd2",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "de2.a",
+      "package": "de2",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "de2.a$a",
+      "package": "de2",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "dh.j",
+      "package": "dh",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "dl1.s",
+      "package": "dl1",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes3.dex"
+    },
+    {
+      "class": "dl1.u",
+      "package": "dl1",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes3.dex"
+    },
+    {
+      "class": "do0.b",
+      "package": "do0",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes18.dex"
+    },
+    {
+      "class": "dp0.i",
+      "package": "dp0",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes19.dex"
+    },
+    {
+      "class": "dp0.j",
+      "package": "dp0",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes19.dex"
+    },
+    {
+      "class": "dp0.k",
+      "package": "dp0",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes19.dex"
+    },
+    {
+      "class": "dp0.p",
+      "package": "dp0",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes19.dex"
+    },
+    {
+      "class": "e20.b1",
+      "package": "e20",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "e20.k0",
+      "package": "e20",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "e20.n0",
+      "package": "e20",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "e20.o0",
+      "package": "e20",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "e20.p",
+      "package": "e20",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "e20.y0",
+      "package": "e20",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes16.dex"
+    },
+    {
+      "class": "e32.d",
+      "package": "e32",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes4.dex"
+    },
+    {
+      "class": "e42.b",
+      "package": "e42",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes4.dex"
+    },
+    {
+      "class": "e44.c",
+      "package": "e44",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes11.dex"
+    },
+    {
+      "class": "e7.a",
+      "package": "e7",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "e7.c",
+      "package": "e7",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "e7.c$a",
+      "package": "e7",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "e7.f",
+      "package": "e7",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "e7.g",
+      "package": "e7",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "e7.g$a",
+      "package": "e7",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "e72.d$a$d",
+      "package": "e72",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "e72.d$a$e",
+      "package": "e72",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "e72.d$a$f",
+      "package": "e72",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes5.dex"
+    },
+    {
+      "class": "fh.a$c$a",
+      "package": "fh",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "n7.c",
+      "package": "n7",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "o2.c",
+      "package": "o2",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes13.dex"
+    },
+    {
+      "class": "ui.b",
+      "package": "ui",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "ui.c",
+      "package": "ui",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes14.dex"
+    },
+    {
+      "class": "zv.a",
+      "package": "zv",
+      "category": "obfuscated-short",
+      "stub_strategy": "empty-stub",
+      "has_class_def": true,
+      "dex": "classes15.dex"
+    }
+  ],
+  "exact_seeds": {
+    "playerengine": [
+      "com.netease.cloudmusic.android.sdk.playerengine.ABTestFlags",
+      "com.netease.cloudmusic.android.sdk.playerengine.AudioEffectReadyCallback",
+      "com.netease.cloudmusic.android.sdk.playerengine.AudioPlayerUnit",
+      "com.netease.cloudmusic.android.sdk.playerengine.AudioPlayerUnit$Companion",
+      "com.netease.cloudmusic.android.sdk.playerengine.AudioQuality",
+      "com.netease.cloudmusic.android.sdk.playerengine.AudioVividInfo",
+      "com.netease.cloudmusic.android.sdk.playerengine.BuildConfig",
+      "com.netease.cloudmusic.android.sdk.playerengine.CacheEntry",
+      "com.netease.cloudmusic.android.sdk.playerengine.DataProvider",
+      "com.netease.cloudmusic.android.sdk.playerengine.DataProvider$DefaultImpls",
+      "com.netease.cloudmusic.android.sdk.playerengine.DataRequestErrorCallback",
+      "com.netease.cloudmusic.android.sdk.playerengine.DataSourcePlatform",
+      "com.netease.cloudmusic.android.sdk.playerengine.EncryptedType",
+      "com.netease.cloudmusic.android.sdk.playerengine.EngineCacheLoadConfig",
+      "com.netease.cloudmusic.android.sdk.playerengine.FadeTimeConfig",
+      "com.netease.cloudmusic.android.sdk.playerengine.MusicInfo",
+      "com.netease.cloudmusic.android.sdk.playerengine.NPUModelInfo",
+      "com.netease.cloudmusic.android.sdk.playerengine.NativeDataRequestErrorCallback",
+      "com.netease.cloudmusic.android.sdk.playerengine.Playback",
+      "com.netease.cloudmusic.android.sdk.playerengine.Playback$Companion",
+      "com.netease.cloudmusic.android.sdk.playerengine.PlaybackCacheParams",
+      "com.netease.cloudmusic.android.sdk.playerengine.PlaybackCacheProgress",
+      "com.netease.cloudmusic.android.sdk.playerengine.PlaybackDataSource",
+      "com.netease.cloudmusic.android.sdk.playerengine.PlaybackEngine",
+      "com.netease.cloudmusic.android.sdk.playerengine.PlaybackEngine$Companion",
+      "com.netease.cloudmusic.android.sdk.playerengine.PlaybackEngineListener",
+      "com.netease.cloudmusic.android.sdk.playerengine.PlaybackErrorCode",
+      "com.netease.cloudmusic.android.sdk.playerengine.PlaybackListener",
+      "com.netease.cloudmusic.android.sdk.playerengine.PlaybackListener$DefaultImpls",
+      "com.netease.cloudmusic.android.sdk.playerengine.PlaybackMessageType",
+      "com.netease.cloudmusic.android.sdk.playerengine.PlaybackPlatform",
+      "com.netease.cloudmusic.android.sdk.playerengine.PlaybackPlatform$DefaultImpls",
+      "com.netease.cloudmusic.android.sdk.playerengine.PlaybackStates",
+      "com.netease.cloudmusic.android.sdk.playerengine.PlaybackTransitionStates",
+      "com.netease.cloudmusic.android.sdk.playerengine.PlayerDataSource",
+      "com.netease.cloudmusic.android.sdk.playerengine.PlayerUnitListener",
+      "com.netease.cloudmusic.android.sdk.playerengine.PreloadCallback",
+      "com.netease.cloudmusic.android.sdk.playerengine.PreloadResult",
+      "com.netease.cloudmusic.android.sdk.playerengine.PreloadStatus",
+      "com.netease.cloudmusic.android.sdk.playerengine.R",
+      "com.netease.cloudmusic.android.sdk.playerengine.ResourceInfo",
+      "com.netease.cloudmusic.android.sdk.playerengine.SourceCallback",
+      "com.netease.cloudmusic.android.sdk.playerengine.SourceConfig",
+      "com.netease.cloudmusic.android.sdk.playerengine.SourceConfig$Type",
+      "com.netease.cloudmusic.android.sdk.playerengine.SourceErrorCode",
+      "com.netease.cloudmusic.android.sdk.playerengine.UnitEventListener",
+      "com.netease.cloudmusic.android.sdk.playerengine.UrlResult",
+      "com.netease.cloudmusic.android.sdk.playerengine.a"
+    ],
+    "playlist.core": [
+      "com.netease.cloudmusic.playlist.core.LogCallback",
+      "com.netease.cloudmusic.playlist.core.PlaybackPosition",
+      "com.netease.cloudmusic.playlist.core.PlaylistDbAdapterProxy",
+      "com.netease.cloudmusic.playlist.core.PlaylistJniBridge",
+      "com.netease.cloudmusic.playlist.core.RawMusicItem",
+      "com.netease.cloudmusic.playlist.core.RecentPlaylistSummary",
+      "com.netease.cloudmusic.playlist.core.RestoreResult",
+      "com.netease.cloudmusic.playlist.core.SnapshotMeta"
+    ],
+    "NMCommonCache": [
+      "com.netease.cloudmusic.sdk.NMCommonCache.BuildConfig",
+      "com.netease.cloudmusic.sdk.NMCommonCache.INMLogger",
+      "com.netease.cloudmusic.sdk.NMCommonCache.JNIInvalidException",
+      "com.netease.cloudmusic.sdk.NMCommonCache.NMBufferSource",
+      "com.netease.cloudmusic.sdk.NMCommonCache.NMBufferSourceHandler",
+      "com.netease.cloudmusic.sdk.NMCommonCache.NMCacheABTestKeys",
+      "com.netease.cloudmusic.sdk.NMCommonCache.NMCacheBase",
+      "com.netease.cloudmusic.sdk.NMCommonCache.NMVirtualFile",
+      "com.netease.cloudmusic.sdk.NMCommonCache.NMVirtualFileManager",
+      "com.netease.cloudmusic.sdk.NMCommonCache.NMVirtualFileManagerHandler",
+      "com.netease.cloudmusic.sdk.NMCommonCache.R",
+      "com.netease.cloudmusic.sdk.NMCommonCache.R$anim",
+      "com.netease.cloudmusic.sdk.NMCommonCache.R$attr",
+      "com.netease.cloudmusic.sdk.NMCommonCache.R$bool",
+      "com.netease.cloudmusic.sdk.NMCommonCache.R$color",
+      "com.netease.cloudmusic.sdk.NMCommonCache.R$dimen",
+      "com.netease.cloudmusic.sdk.NMCommonCache.R$drawable",
+      "com.netease.cloudmusic.sdk.NMCommonCache.R$id",
+      "com.netease.cloudmusic.sdk.NMCommonCache.R$integer",
+      "com.netease.cloudmusic.sdk.NMCommonCache.R$interpolator",
+      "com.netease.cloudmusic.sdk.NMCommonCache.R$layout",
+      "com.netease.cloudmusic.sdk.NMCommonCache.R$string",
+      "com.netease.cloudmusic.sdk.NMCommonCache.R$style",
+      "com.netease.cloudmusic.sdk.NMCommonCache.R$styleable",
+      "com.netease.cloudmusic.sdk.NMCommonCache.SourceDataRequest",
+      "com.netease.cloudmusic.sdk.NMCommonCache.a"
+    ],
+    "NEAudioDevice": [
+      "com.netease.cloudmusic.media.NEAudioDevice",
+      "com.netease.cloudmusic.media.NEAudioDevice$NEAudioDeviceOnPlaybackPositionUpdateListener"
+    ]
+  }
+}

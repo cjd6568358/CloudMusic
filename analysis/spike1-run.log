@@ -1,0 +1,103 @@
+扫描 20 个 dex；System.loadLibrary 3 处 / 统一封装器 zv.a.b 36 处，未解析参数 4 个
+
+=== 封装器按名加载清单（20 个裸库名） ===
+  <unresolved:v2>                  <- classes14.dex:Lwg/d;  (+1 处)
+  AeTimeline                       <- classes13.dex:Lcom/netease/avsdk/jni/AeNativeMethod;
+  Core_MNN_JNI                     <- classes14.dex:Lcom/netease/cloudmusic/core/mnn/MNNNetNative;
+  MNN                              <- classes14.dex:Lcom/netease/cloudmusic/audio/aiinference/NCMAudioAIIFProcess;  (+1 处)
+  MNN_Express                      <- classes14.dex:Lcom/netease/cloudmusic/audio/aiinference/NCMAudioAIIFProcess;  (+1 处)
+  NMCommonCache                    <- classes5.dex:Lcom/netease/cloudmusic/sdk/NMCommonCache/NMVirtualFileManager;
+  NeAREngine                       <- classes5.dex:Lcom/netease/nearengine/jni/AREngineNativeMethod;
+  NeAVEditorTimeline               <- classes13.dex:Lcom/netease/avsdk/jni/AVEditorNativeMethod;  (+1 处)
+  NeFace                           <- classes13.dex:Lcom/netease/avsdk/jni/AVEditorNativeMethod;  (+1 处)
+  NeImageCrop                      <- classes13.dex:Lcom/netease/avsdk/recognition/NeAVVideoRecognition;
+  YUV                              <- classes13.dex:Lcom/netease/avsdk/jni/AVEditorNativeMethod;  (+2 处)
+  audioplayer                      <- classes18.dex:Lcom/netease/cloudmusic/module/player/NeteaseAudioPlayer;
+  c++_shared                       <- classes13.dex:Lcom/netease/avsdk/jni/AVEditorNativeMethod;  (+3 处)
+  ffmpeg                           <- classes13.dex:Lcom/netease/avsdk/jni/AVEditorNativeMethod;  (+4 处)
+  fpGenerate                       <- classes6.dex:Lcom/netease/cloudmusic/utils/AudioTagIO;
+  ncmaudioplayer                   <- classes16.dex:Lcom/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer;  (+1 处)
+  ncmusbaudio                      <- classes16.dex:Lcom/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer;
+  neaudioaiif                      <- classes14.dex:Lcom/netease/cloudmusic/audio/aiinference/NCMAudioAIIFProcess;
+  neaveditorutility                <- classes13.dex:Lcom/netease/avsdk/jni/AVEditorNativeMethod;  (+1 处)
+  pcmextract                       <- classes16.dex:Lcom/netease/cloudmusic/media/pcmextract/PCMExtractor;
+
+=== System.loadLibrary 直接调用（2 个） ===
+  <unresolved:v5>
+  IAAHAAI=
+
+=== 参数未解析（需人工复核） ===
+  system-loadLibrary classes.dex Lcom/netease/nis/wrapper/o;.a -> <unresolved:v5>
+  system-loadLibrary classes.dex Lcom/netease/nis/wrapper/plugin/a;.a -> <unresolved:v5>
+  wrapper-zv.a.b classes14.dex Lwg/d;.h -> <unresolved:v2>
+  wrapper-zv.a.b classes7.dex Lcom/netease/nis/bugrpt/user/ReLinker;.loadLibrary -> <unresolved:v2>
+
+=== 关注库名出现在 const-string 的类 ===
+  MNN                          2 处, 例: classes14.dex:Lcom/netease/cloudmusic/audio/aiinference/NCMAudioAIIFProcess;.i
+  MNN_Express                  2 处, 例: classes14.dex:Lcom/netease/cloudmusic/audio/aiinference/NCMAudioAIIFProcess;.i
+  NMCommonCache                4 处, 例: classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/AudioPlayerUnit;.<clinit>
+  audioplayer                  1 处, 例: classes18.dex:Lcom/netease/cloudmusic/module/player/NeteaseAudioPlayer;.p
+  c++_shared                   10 处, 例: classes12.dex:Lxnn/XNNWrapper;.train
+  ffmpeg                       16 处, 例: classes13.dex:Lcom/netease/avsdk/jni/AVEditorNativeMethod;.loadLibrary
+  ncmaudioplayer               5 处, 例: classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/AudioPlayerUnit;.<clinit>
+  ncmplayerengine              3 处, 例: classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/AudioPlayerUnit;.<clinit>
+  ncmusbaudio                  2 处, 例: classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackEngine;.<clinit>
+  neaudioaiif                  1 处, 例: classes14.dex:Lcom/netease/cloudmusic/audio/aiinference/NCMAudioAIIFProcess;.i
+  neaudioeffect_core           1 处, 例: classes15.dex:Lcom/netease/cloudmusic/effect/bridge/AECoreNativeLibrary;.load
+  neaudioeffects               11 处, 例: classes14.dex:Lcom/netease/cloudmusic/android/sdk/playerengine/AudioPlayerUnit;.<clinit>
+  necmAACDec                   7 处, 例: classes15.dex:Lcom/netease/cloudmusic/gift/MediaGiftClient;.<clinit>
+  necmFlacDec                  1 处, 例: classes16.dex:Lcom/netease/cloudmusic/media/player/necmMediaPlayer;.<clinit>
+  necmMP3Dec                   5 处, 例: classes15.dex:Lcom/netease/cloudmusic/gift/MediaGiftClient;.<clinit>
+  necmMediaCodecJDec           1 处, 例: classes16.dex:Lcom/netease/cloudmusic/media/player/necmMediaPlayer;.<clinit>
+  nmplaylist                   1 处, 例: classes5.dex:Lcom/netease/cloudmusic/playlist/core/PlaylistJniBridge;.<clinit>
+  sqlite3x                     3 处, 例: classes11.dex:Lio/requery/android/database/sqlite/SQLiteDatabase;.<clinit>
+
+=== dex 字符串池中的 *.so 名称（15 个） ===
+  libAPSE_7.0.1.so
+  libAeTimeline.so
+  libAegisSDK.so
+  libNeAREngine.so
+  libalive_detected.so
+  libcronet.72.0.3626.122.so
+  libfacedevice.so
+  libnecmAACEnc.so
+  libnecmH264Enc.so
+  libnecmMediaEdit.so
+  libnecmMediaRecord.so
+  libnenn.so
+  libnesmarteffects.so
+  libxnn.so
+  libxyvodsdk.so
+
+=== 打包集裸名在 string_ids 中的命中 ===
+  ncmplayerengine              1 个 dex: classes14.dex
+  ncmaudioplayer               3 个 dex: classes14.dex, classes16.dex, classes5.dex
+  audioplayer                  1 个 dex: classes18.dex
+  nmplaylist                   1 个 dex: classes5.dex
+  NMCommonCache                2 个 dex: classes14.dex, classes5.dex
+  ffmpeg                       8 个 dex: classes13.dex, classes14.dex, classes15.dex, classes16.dex, classes17.dex, classes19.dex, classes3.dex, classes6.dex
+  neaudioeffects               5 个 dex: classes14.dex, classes15.dex, classes16.dex, classes18.dex, classes7.dex
+  neaudioeffect_core           1 个 dex: classes15.dex
+  neaudioaiif                  1 个 dex: classes14.dex
+  ncmusbaudio                  2 个 dex: classes14.dex, classes16.dex
+  sqlite3x                     3 个 dex: classes11.dex, classes15.dex, classes18.dex
+  MNN                          1 个 dex: classes14.dex
+  MNN_Express                  1 个 dex: classes14.dex
+  necmMP3Dec                   2 个 dex: classes15.dex, classes16.dex
+  necmAACDec                   2 个 dex: classes15.dex, classes16.dex
+  necmFlacDec                  1 个 dex: classes16.dex
+  necmMediaCodecJDec           1 个 dex: classes16.dex
+  c++_shared                   6 个 dex: classes12.dex, classes13.dex, classes15.dex, classes2.dex, classes5.dex, classes7.dex
+
+=== PlaybackDataSource（classes14.dex）方法签名 ===
+  V <init>(J, Lcom/netease/cloudmusic/android/sdk/playerengine/MusicInfo;)
+  Z nativeCancelPreload(J) [native]
+  Z nativePreload(J, J) [native]
+  V nativeRelease(J) [native]
+  V nativeReleaseEngineCacheLoadConfigHandle(J) [native]
+  J nativeRetainEngineCacheLoadConfigHandle(J) [native]
+  Z nativeSetEngineCacheLoadConfig(J, J, J, J, J, J) [native]
+  Z nativeSetPreloadCallback(J, Z) [native]
+  V onNativePreloadResult(I, J, J, I)
+
+JSON -> D:\workspace\CloudMusic\analysis\spike1-engine-audit.json

@@ -1,0 +1,38 @@
+=== 结构 ===
+顶层md 15 子目录md 12 csv 1 NOTICE True 合计 29
+缺尾标 无
+09 声明: ## 3. 文档索引（29 个文件：`docs/` 下 27 份 md + 1 份 csv，加项目根 `NOTICE.md`）
+=== gitignore 生效 ===
+.gitignore:34:analysis/smali14/	analysis/smali14/x.smali
+.gitignore:36:analysis/*.log	analysis/smali14-run.log
+.gitignore:36:analysis/*.log	analysis/maintenance-scan.log
+=== 契约自检 ===
+[INFO] 检查 23 个构建文件 / 72 个契约源码与测试 / 9 个工具脚本
+结果：PASS。结构齐全、契约签名在位、禁止依赖为零；编译与 JVM 单测请用 ./gradlew test（本机已验证通过）
+=== dev ===
+==============================================================
+  C1: PASS
+  C2: PASS
+  C3: PASS
+  C4: PASS
+  C5: PASS
+  C6: PASS
+
+结果：PASS（6/6）；dev 静态自检，见各检查的 WARN 项
+=== release ===
+==============================================================
+  C1: FAIL
+  C2: PASS
+  C3: FAIL
+  C4: PASS
+  C5: PASS
+  C6: FAIL
+
+结果：FAIL（C1, C3, C6），release 已阻断
+=== py_compile ===
+OK
+=== gradle test ===
+> Task :datasource-webdav:test UP-TO-DATE
+
+BUILD SUCCESSFUL in 4s
+55 actionable tasks: 55 up-to-date

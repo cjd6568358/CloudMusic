@@ -1,0 +1,164 @@
+
+=== Lcom/netease/cloudmusic/android/sdk/playerengine/AudioPlayerUnit; [classes14.dex] 33 methods ===
+    V <clinit>()
+    V <init>()
+    V <init>(J)
+    V <init>(J, I, Lkotlin/jvm/internal/DefaultConstructorMarker;)
+  * V nativeApplyAudioEffect(J) [native]
+  * J nativeCreate(J) [native]
+  * V nativeDestroy(J) [native]
+  * J nativeGetDuration(J) [native]
+  * I nativeGetMNNXPUType(J) [native]
+  * J nativeGetPlayingTime(J) [native]
+  * I nativeGetState(J) [native]
+  * F nativeGetVolume(J) [native]
+  * V nativeLoadAIFilter(J, Ljava/lang/String;, I) [native]
+  * I nativeLoadAIModel(J, [B, I, I) [native]
+  * V nativePause(J, Z) [native]
+  * V nativePlay(J, Z) [native]
+  * I nativePrepareAsync(J) [native]
+  * I nativeReset(J) [native]
+  * J nativeSeek(J, J) [native]
+  * V nativeSetAudioEffect(J, J) [native]
+  * V nativeSetAudioEffectCallback(J, Lcom/netease/cloudmusic/android/sdk/playerengine/AudioEffectReadyCallback;) [native]
+  * V nativeSetAudioIFEnable(J, I) [native]
+  * V nativeSetAudioIFProcess(J, J) [native]
+  * V nativeSetAudioIFRatio(J, I) [native]
+  * I nativeSetDataSource(J, Lcom/netease/cloudmusic/android/sdk/playerengine/PlayerDataSource;) [native]
+  * V nativeSetListener(J, Lcom/netease/cloudmusic/android/sdk/playerengine/PlayerUnitListener;) [native]
+  * V nativeSetMNNXPUType(J, I) [native]
+  * V nativeSetVividDecInfo(J, Ljava/lang/String;, Ljava/lang/String;, I) [native]
+  * I nativeSetVolume(J, F) [native]
+  * I nativeStartAIModel(J, I, I) [native]
+  * V nativeStop(J) [native]
+
+=== Lcom/netease/cloudmusic/android/sdk/playerengine/DataProvider; [classes14.dex] 9 methods ===
+    V cancelRequest()
+    V close()
+    V closeLocalFd(I)
+    Ljava/lang/Object; createDataRequestHandler()
+    Ljava/lang/String; getLocalPath()
+    Lcom/netease/cloudmusic/android/sdk/playerengine/UrlResult; getUrl()
+    Lcom/netease/cloudmusic/android/sdk/playerengine/UrlResult; onExpire(Ljava/lang/String;)
+    I openLocalFd(Ljava/lang/String;)
+    V setDataRequestErrorCallback(Lcom/netease/cloudmusic/android/sdk/playerengine/DataRequestErrorCallback;, Z)
+
+=== Lcom/netease/cloudmusic/android/sdk/playerengine/DataRequestErrorCallback; [classes14.dex] 1 methods ===
+
+=== Lcom/netease/cloudmusic/android/sdk/playerengine/EngineCacheLoadConfig; [classes14.dex] 4 methods ===
+    V <init>()
+    V <init>(J, J, J, J, J)
+    V <init>(J, J, J, J, J, I, Lkotlin/jvm/internal/DefaultConstructorMarker;)
+
+=== Lcom/netease/cloudmusic/android/sdk/playerengine/MusicInfo; [classes14.dex] 4 methods ===
+    V <init>(Ljava/lang/String;, I, Ljava/lang/String;, I, I, Ljava/lang/String;, Lcom/netease/cloudmusic/android/sdk/playerengine/EncryptedType;)
+    V <init>(Ljava/lang/String;, Z, Z, I, Z, Z, Z, Z, I, I, I, Ljava/lang/String;, I, I, Ljava/lang/String;, Lcom/netease/cloudmusic/android/sdk/playerengine/EncryptedType;, Ljava/lang/String;, J, Ljava/lang/String;, Z)
+    V <init>(Ljava/lang/String;, Z, Z, I, Z, Z, Z, Z, I, I, I, Ljava/lang/String;, I, I, Ljava/lang/String;, Lcom/netease/cloudmusic/android/sdk/playerengine/EncryptedType;, Ljava/lang/String;, J, Ljava/lang/String;, Z, I, Lkotlin/jvm/internal/DefaultConstructorMarker;)
+
+=== Lcom/netease/cloudmusic/android/sdk/playerengine/Playback; [classes14.dex] 67 methods ===
+    V <clinit>()
+    V <init>(Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackPlatform;, J, Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackListener;)
+    V <init>(Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackPlatform;, J, Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackListener;, I, Lkotlin/jvm/internal/DefaultConstructorMarker;)
+  * V nativeAttachAudioEffect(J, J, Ljava/lang/String;) [native]
+  * V nativeBeginQualityContinuation(J) [native]
+  * V nativeCancelTransition(J) [native]
+  * V nativeChangeQuality(J, I) [native]
+  * V nativeCommitTransitionSwitch(J) [native]
+  * J nativeCreate(Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackPlatform;, J, Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackListener;) [native]
+  * V nativeDiscardUSBDevice(J) [native]
+  * I nativeGetAudioDeviceType(J) [native]
+  * J nativeGetAudioLatency(J) [native]
+  * I nativeGetAudioTrackSessionId(J) [native]
+  * Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackCacheProgress; nativeGetCacheProgress(J) [native]
+  * I nativeGetCurrentBitrate(J) [native]
+  * J nativeGetCurrentPosition(J) [native]
+  * Ljava/lang/String; nativeGetCurrentSongId(J) [native]
+  * J nativeGetDuration(J) [native]
+  * I nativeGetPlaybackState(J) [native]
+  * J nativeGetPlayedTime(J, Ljava/lang/String;) [native]
+  * J nativeGetPlayedTimeWithSpeed(J, Ljava/lang/String;) [native]
+  * J nativeGetRoundPlayedTime(J, Ljava/lang/String;) [native]
+  * J nativeGetRoundPlayedTimeWithSpeed(J, Ljava/lang/String;) [native]
+  * I nativeGetTransitionState(J) [native]
+  * Ljava/lang/String; nativeGetUnitPropertyBySongTag(J, Ljava/lang/String;, Ljava/lang/String;) [native]
+  * F nativeGetVolume(J) [native]
+  * Z nativeIsBuffering(J) [native]
+  * Z nativeIsMuted(J) [native]
+  * Z nativeIsPlaying(J) [native]
+  * Z nativeIsSeeking(J) [native]
+  * Z nativeMarkPlaybackRoundStarted(J) [native]
+  * J nativeMusicInfoToDataSource(J, Lcom/netease/cloudmusic/android/sdk/playerengine/MusicInfo;, Lcom/netease/cloudmusic/android/sdk/playerengine/DataSourcePlatform;) [native]
+  * V nativeNotifyAudioEffectChanged(J) [native]
+  * V nativeNotifyNetworkQualityReduce(J) [native]
+  * V nativePause(J, Z) [native]
+  * V nativePlay(J, Z) [native]
+  * I nativePrepareNext(J, J, Lcom/netease/cloudmusic/android/sdk/playerengine/MusicInfo;, Ljava/lang/String;, Ljava/lang/String;) [native]
+  * V nativeRelease(J) [native]
+  * V nativeResume(J) [native]
+  * V nativeSeekTo(J, J) [native]
+  * V nativeSetAudioDeviceType(J, I) [native]
+  * V nativeSetAudioListener(J, J) [native]
+  * V nativeSetAudioSystemVolume(J, I, I, I) [native]
+  * V nativeSetBackgroundMusicVolume(J, F) [native]
+  * I nativeSetDataSource(J, J, Lcom/netease/cloudmusic/android/sdk/playerengine/MusicInfo;) [native]
+  * V nativeSetHeadSetType(J, I) [native]
+  * V nativeSetListener(J, Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackListener;) [native]
+  * V nativeSetMusicMode(J, I) [native]
+  * V nativeSetMusicVoiceVolume(J, F) [native]
+  * V nativeSetMute(J, Z) [native]
+  * V nativeSetNativeABTestFlags(J, [Ljava/lang/String;, [I) [native]
+  * V nativeSetNextDataSource(J, J, Lcom/netease/cloudmusic/android/sdk/playerengine/MusicInfo;) [native]
+  * V nativeSetPlaybackSpeed(J, F) [native]
+  * V nativeSetSepTrackEnabled(J, I) [native]
+  * V nativeSetSupportDolby(J, Z) [native]
+  * I nativeSetTransitionInfo(J, Ljava/lang/String;, Ljava/lang/String;) [native]
+  * V nativeSetUnitEventListener(J, Lcom/netease/cloudmusic/android/sdk/playerengine/UnitEventListener;) [native]
+  * V nativeSetVolume(J, F) [native]
+  * V nativeStop(J) [native]
+  * V nativeUnattachAudioEffect(J, J) [native]
+  * V nativeUpdateAudioEffectConfigBySongTag(J, Ljava/lang/String;, Ljava/lang/String;) [native]
+  * V nativeUseUSBDevice(J, I) [native]
+  * V nativeWriteCacheMeta(J, Ljava/lang/String;, Ljava/lang/String;) [native]
+
+=== Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackEngine; [classes14.dex] 29 methods ===
+    V <clinit>()
+    V <init>(J)
+  * V nativeEngineAttachAudioEffect(J, J, Ljava/lang/String;) [native]
+  * V nativeEngineCancelTransition(J) [native]
+  * J nativeEngineCreate(J) [native]
+  * J nativeEngineGetCurrentPosition(J) [native]
+  * J nativeEngineGetDuration(J) [native]
+  * F nativeEngineGetVolume(J) [native]
+  * Z nativeEngineIsPlaying(J) [native]
+  * V nativeEngineNotifyAudioEffectChanged(J) [native]
+  * V nativeEnginePause(J, Z) [native]
+  * V nativeEnginePlay(J, Z) [native]
+  * I nativeEnginePrepareAsync(J) [native]
+  * I nativeEnginePrepareNext(J, Lcom/netease/cloudmusic/android/sdk/playerengine/PlayerDataSource;, Ljava/lang/String;, Ljava/lang/String;) [native]
+  * V nativeEngineRelease(J) [native]
+  * I nativeEngineReset(J) [native]
+  * V nativeEngineSeekTo(J, J) [native]
+  * V nativeEngineSetAudioEffectCallback(J, Lcom/netease/cloudmusic/android/sdk/playerengine/AudioEffectReadyCallback;) [native]
+  * V nativeEngineSetAudioListener(J, J) [native]
+  * V nativeEngineSetAudioVividInfo(J, Ljava/lang/String;, Ljava/lang/String;, I) [native]
+  * I nativeEngineSetDataSource(J, Lcom/netease/cloudmusic/android/sdk/playerengine/PlayerDataSource;) [native]
+  * V nativeEngineSetListener(J, Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackEngineListener;) [native]
+  * V nativeEngineSetPlaybackSpeed(J, F) [native]
+  * V nativeEngineSetVolume(J, F) [native]
+  * V nativeEngineStop(J) [native]
+  * V nativeEngineUnattachAudioEffect(J, J) [native]
+
+=== Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackListener; [classes14.dex] 9 methods ===
+
+=== Lcom/netease/cloudmusic/android/sdk/playerengine/PreloadCallback; [classes14.dex] 1 methods ===
+
+=== Lcom/netease/cloudmusic/android/sdk/playerengine/UrlResult; [classes14.dex] 4 methods ===
+    V <init>()
+    V <init>(Ljava/lang/String;, J, Ljava/lang/String;, J, I, Ljava/lang/String;)
+    V <init>(Ljava/lang/String;, J, Ljava/lang/String;, J, I, Ljava/lang/String;, I, Lkotlin/jvm/internal/DefaultConstructorMarker;)
+
+=== Lcom/netease/cloudmusic/media/NEAudioDevice; [classes16.dex] 8 methods ===
+    V <init>(I, I, I, I, I, I, I, J)
+    V <init>(I, I, I, I, I, I, J)
+
+NOT FOUND: []

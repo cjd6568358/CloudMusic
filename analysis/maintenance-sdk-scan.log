@@ -1,0 +1,61 @@
+=== Android SDK 环境盘点（2026-11-05 22:48，只读；对应 docs/15 §7）===
+
+[环境变量]
+JAVA_HOME=C:\tools\zulu-jdk17
+ANDROID_HOME=<未设置>
+ANDROID_SDK_ROOT=<未设置>
+GRADLE_USER_HOME=<未设置>
+local.properties=<不存在>（已在 .gitignore 忽略）
+
+[JDK / 构建]
+java=/c/tools/zulu-jdk17/bin/java  Zulu OpenJDK 17.0.21 (2026-10-20 LTS)
+javac=/c/tools/zulu-jdk17/bin/javac
+gradle=<不在 PATH；项目 wrapper gradle-8.11.1-bin 在隔离缓存>
+sdkmanager=<缺>  adb=<不在 PATH，但 SDK/platform-tools/adb.exe 存在>
+
+[SDK 目录] C:\Users\Administrator\AppData\Local\Android\Sdk
+platform-tools   存在（adb.exe 7.9M / fastboot.exe 2.4M / AdbWinApi.dll 等，共 17M）
+platforms        <缺>
+build-tools      <缺>
+cmdline-tools    <缺>
+licenses         <缺>
+emulator         <缺>
+system-images    <缺>
+ndk              <缺>
+android.jar      全盘未找到
+aapt2            未找到
+
+[Gradle 隔离缓存] 1.2 GiB
+com.android.tools.build:gradle              8.9.2            ✅ 与 libs.versions.toml agp=8.9.2 一致
+org.jetbrains.kotlin:kotlin-gradle-plugin   2.0.20 / 2.1.0   ✅ 与 kotlin=2.1.0 一致
+gradle-8.11.1-bin                           存在              ✅
+com.android.tools.build:aapt2                <无>
+com.google.dagger:hilt-android               <无>
+androidx.room:room-runtime                   <无>
+
+[version catalog] gradle/libs.versions.toml
+gradle=8.11.1 agp=8.9.2 kotlin=2.1.0 ksp=2.1.0-1.0.29 java=17
+compileSdk=35 targetSdk=35 minSdk=26 buildTools=35.0.0 ndk=27.0.12077973
+→ 版本组合与本机 JDK/Gradle/AGP 缓存完全一致；SDK 组件缺失是唯一硬阻塞。
+build-logic/convention 只有 cloudmusic.jvm.library.gradle.kts（缺 Android 约定插件）。
+settings.gradle.kts 当前 12 个 include 全为纯 JVM 模块。
+
+[镜像连通性 HEAD]
+https://dl.google.com/android/repository/repository2-1.xml            200  ✅
+https://mirrors.huaweicloud.com/AndroidSDK/                           200
+https://mirrors.tuna.tsinghua.edu.cn/AndroidSDK/                      404
+https://maven.aliyun.com/repository/google/                           404
+https://mirrors.huaweicloud.com/repository/maven/                     403
+
+[官方仓库 repository2-1.xml 解析（windows/any 归档）] 383,173 bytes
+cmdline-tools;latest   commandlinetools-win-16111833_latest.zip   147.8 MiB
+platforms;android-35   platform-35-ext15_r01.zip                   61.5 MiB
+build-tools;35.0.0     build-tools_r35_windows.zip                 57.1 MiB
+合计 ≈ 266 MiB；platform-tools 无需重装；NDK 对 V0.1 非必需（预编译 so 直接打包）
+
+[结论]
+不是「完全没有 SDK」：已有 adb/fastboot；缺的是编译工具链 3 个核心组件 + 环境变量 + local.properties。
+官方源 200 可直连，无需镜像。补 SDK 后项目侧仍需：Android 约定插件、:core-di/:app 模块、
+Room/DataStore 适配、Hilt 绑定、三个照搬舱与 ENGINE-FINGERPRINT，才能 assembleDebug + 真机 G01~G09。
+
+[边界] 本轮未下载、未安装、未写入 SDK 目录、未改环境变量、未新建 Android 模块。

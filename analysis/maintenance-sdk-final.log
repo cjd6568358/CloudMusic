@@ -1,0 +1,36 @@
+=== 结构 ===
+docs 合计 29 (期望 29) 尾标缺失 0
+09: ## 3. 文档索引（29 个文件：`docs/` 下 27 份 md + 1 份 csv，加项目根 `NOTICE.md`）
+15 §7 存在 True
+analysis/maintenance-sdk-scan.log 3112
+analysis/sdk-repository.xml 383179
+=== 契约自检 ===
+[INFO] 检查 23 个构建文件 / 72 个契约源码与测试 / 9 个工具脚本
+结果：PASS。结构齐全、契约签名在位、禁止依赖为零；编译与 JVM 单测请用 ./gradlew test（本机已验证通过）
+=== dev ===
+==============================================================
+  C1: PASS
+  C2: PASS
+  C3: PASS
+  C4: PASS
+  C5: PASS
+  C6: PASS
+
+结果：PASS（6/6）；dev 静态自检，见各检查的 WARN 项
+=== release ===
+==============================================================
+  C1: FAIL
+  C2: PASS
+  C3: FAIL
+  C4: PASS
+  C5: PASS
+  C6: FAIL
+
+结果：FAIL（C1, C3, C6），release 已阻断
+=== py_compile ===
+OK
+=== gradle test ===
+> Task :scanner:test UP-TO-DATE
+
+BUILD SUCCESSFUL in 3s
+55 actionable tasks: 55 up-to-date
