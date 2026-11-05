@@ -5,8 +5,14 @@
 可在无 Gradle 环境下快速跑；真正的编译与 JVM 单测用 ./gradlew test。
 2026-11-05 本机已用真实 Gradle 8.11.1 验证：第一批 23 个、第二批 66 个、第三批 84 个、
 第四批 104 个、第五批（03-06 :engine-api 门面）116 个、第六批（03-07 :core-media）131 个、
-第七批（03-08 :output-localproxy 流代理）144 个、第八批（03-09 :output-router）159 个测试全绿。
-详见 docs/12-编码阶段第一批交付.md §5.1 / §11 / §12 / §13 / §14 / §15 / §16 / §17。
+第七批（03-08 :output-localproxy 流代理）144 个、第八批（03-09 :output-router）159 个测试全绿、
+第九批（03-11 权限与设置契约，落在 :core-common / :core-storage 两个既有模块）新增 20 个单测。
+第十批（多人协作 Android 构建基座）打通 :app:assembleDebug，清单扩到 28 构建文件 / 10 工具脚本，
+新增「:app Manifest ≡ C3 允许清单」交叉校验；SDK 路径零硬编码由 tools/check-android-env.py --guard 守护。
+第十一批（:core-di Hilt 唯一注册点 + :app 接入）新增「@InstallIn 只允许出现在 :core-di」守护。
+第十二批（16 §5.3 T-P4）落地 C-05 / C-06：185 测试全绿，新增 EngineSource 可选字段与
+ProxyStartPolicy 触发器 ④ 的签名断言。
+详见 docs/12-编码阶段第一批交付.md §5.1 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21。
 """
 from __future__ import annotations
 
@@ -22,6 +28,10 @@ GRADLE_FILES = (
     "gradle/wrapper/gradle-wrapper.jar", "gradlew", "gradlew.bat",
     "build-logic/settings.gradle.kts", "build-logic/convention/build.gradle.kts",
     "build-logic/convention/src/main/kotlin/cloudmusic.jvm.library.gradle.kts",
+    "build-logic/convention/src/main/kotlin/cloudmusic.android.library.gradle.kts",
+    "build-logic/convention/src/main/kotlin/cloudmusic.android.application.gradle.kts",
+    "local.properties.example", "app/build.gradle.kts",
+    "app/src/main/AndroidManifest.xml", "core-di/build.gradle.kts",
     "core-common/build.gradle.kts", "core-model/build.gradle.kts",
     "datasource-api/build.gradle.kts",
     "datasource-strm/build.gradle.kts", "datasource-playlist/build.gradle.kts",
@@ -38,6 +48,9 @@ CONTRACT_FILES = (
     "core-common/src/main/kotlin/com/example/cloudmusic/common/ErrorCatalog.kt",
     "core-common/src/main/kotlin/com/example/cloudmusic/common/HashUtil.kt",
     "core-common/src/main/kotlin/com/example/cloudmusic/common/PathNormalizer.kt",
+    # 03-11 §1 / §2 / §3：权限清单、按动作申请闸门、拒绝降级矩阵
+    "core-common/src/main/kotlin/com/example/cloudmusic/common/PermissionCatalog.kt",
+    "core-common/src/main/kotlin/com/example/cloudmusic/common/PermissionGate.kt",
     "core-model/src/main/kotlin/com/example/cloudmusic/model/ObjectType.kt",
     "core-model/src/main/kotlin/com/example/cloudmusic/model/Obj.kt",
     "core-model/src/main/kotlin/com/example/cloudmusic/model/Link.kt",
@@ -76,6 +89,9 @@ CONTRACT_FILES = (
     "core-storage/src/main/kotlin/com/example/cloudmusic/storage/Repositories.kt",
     "core-storage/src/main/kotlin/com/example/cloudmusic/storage/LibraryQuery.kt",
     "core-storage/src/main/kotlin/com/example/cloudmusic/storage/InMemoryLibrary.kt",
+    # 08 §1~§8 / 03-05 §4 / 03-11 §4~§7：AppSettings 全量设置项与变更生效规则
+    "core-storage/src/main/kotlin/com/example/cloudmusic/storage/AppSettings.kt",
+    "core-storage/src/main/kotlin/com/example/cloudmusic/storage/SettingsChange.kt",
     "core-model/src/test/kotlin/com/example/cloudmusic/model/ContractModelTest.kt",
     "datasource-api/src/test/kotlin/com/example/cloudmusic/datasource/DriverContractTest.kt",
     "datasource-strm/src/test/kotlin/com/example/cloudmusic/strm/StrmParserTest.kt",
@@ -106,12 +122,19 @@ CONTRACT_FILES = (
     "output-router/src/main/kotlin/com/example/cloudmusic/output/router/OutputRouter.kt",
     "output-router/src/main/kotlin/com/example/cloudmusic/output/router/BluetoothOutputPolicy.kt",
     "output-router/src/test/kotlin/com/example/cloudmusic/output/router/OutputRoutingContractTest.kt",
+    "core-common/src/test/kotlin/com/example/cloudmusic/common/PermissionGateTest.kt",
+    "core-storage/src/test/kotlin/com/example/cloudmusic/storage/AppSettingsTest.kt",
+    # 03-01 §4.1 / 15 §7.5 #4：Hilt 唯一注册点（第十一批）
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/DataSourceModule.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/AppBindings.kt",
+    "app/src/main/kotlin/com/example/cloudmusic/CloudMusicApplication.kt",
 )
 
 CHECK_SCRIPTS = (
     "check-engine-abi.py", "check-no-netease-import.py", "check-permissions.py",
     "check-assets.py", "check-credentials.py", "check-fingerprint.py",
     "pre_release_check.py", "elf_probe.py", "check_common.py",
+    "check-android-env.py",
 )
 
 # 03-01 / 03-02 / 03-03 / 03-04 契约中不可漂移的签名片段：{文件: [片段]}
@@ -201,6 +224,16 @@ SIGNATURES = {
         "fun state(): Flow<EngineState>",
         "fun lastError(): CloudMusicError?",
         "class InMemoryMusicEngine : IMusicEngine",
+        # C-05（16 §4）：门面可携带 URL / 本机路径，默认 null、14 方法签名不动
+        "val url: String? = null",
+        "val localPath: String? = null",
+        "url 与 localPath 互斥（16 §3.2 本机取流决策表）",
+    ],
+    # C-06（16 §4 / 03-08 §8.4）：本机播放 proxy 态触发器 ④
+    "output-localproxy/src/main/kotlin/com/example/cloudmusic/output/localproxy/LocalHttpStreamProxy.kt": [
+        "localPlaybackKind: Link.Kind? = null",
+        "localPlaybackKind == Link.Kind.PROXIED || localPlaybackKind == Link.Kind.TEXT",
+        "interface LocalHttpStreamProxy {",
     ],
     # 03-07 §3 媒体会话门面（逐字对齐，不得漂移）
     "core-media/src/main/kotlin/com/example/cloudmusic/media/MediaControlApi.kt": [
@@ -253,6 +286,52 @@ SIGNATURES = {
         "fun notifyPlaybackResumed()",
         "mediaControl.onFocusChange(FocusChange.LOSS)",
     ],
+    # 03-11 §1 / §2 / §3 + 08 §1 / §6 / §7
+    "core-common/src/main/kotlin/com/example/cloudmusic/common/PermissionCatalog.kt": [
+        "object PermissionCatalog {",
+        "val DECLARED: List<DeclaredPermission> = listOf(",
+        "const val MAX_DECLARED_COUNT = 12",
+        "const val ALLOW_BACKUP = false",
+        "fun effectiveAt(sdkInt: Int): List<DeclaredPermission>",
+    ],
+    "core-common/src/main/kotlin/com/example/cloudmusic/common/PermissionGate.kt": [
+        "fun requiredFor(action: UserAction): List<String>",
+        "fun requiredFor(action: UserAction, sdkInt: Int): List<String>",
+        "fun requestsForStartup(): List<String> = emptyList()",
+        "val isCoreCapabilityBlocked: Boolean",
+    ],
+    "core-storage/src/main/kotlin/com/example/cloudmusic/storage/AppSettings.kt": [
+        "data class AppSettings(",
+        "data class NetworkSettings(",
+        "data class ScanSettings(",
+        "object SettingsValidator {",
+    ],
+    "core-storage/src/main/kotlin/com/example/cloudmusic/storage/SettingsChange.kt": [
+        "enum class SettingsChange {",
+        "fun diff(before: AppSettings, after: AppSettings): Set<SettingsChange>",
+        "fun effectsFor(before: AppSettings, after: AppSettings): Set<Effect>",
+        "fun requiresFullRescan(before: AppSettings, after: AppSettings): Boolean",
+    ],
+    # 03-01 §4.1 / 12 §20：Hilt 唯一注册点与 Application 入口
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/DataSourceModule.kt": [
+        "object DataSourceModule {",
+        "@InstallIn(SingletonComponent::class)",
+        "@StringKey(KEY_WEBDAV)",
+        "class DriverRegistrar @Inject constructor(",
+        "fun registerAll(): Set<String>",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/AppBindings.kt": [
+        "object EngineModule {",
+        "object MediaModule {",
+        "object LibraryModule {",
+        "fun provideMusicEngine(): IMusicEngine",
+        "fun provideLibraryStore(): InMemoryLibraryStore",
+    ],
+    "app/src/main/kotlin/com/example/cloudmusic/CloudMusicApplication.kt": [
+        "@HiltAndroidApp",
+        "class CloudMusicApplication : Application()",
+        "driverRegistrar.registerAll()",
+    ],
 }
 
 # :core-model 零 Android 依赖（03-01 §14 #1）
@@ -280,6 +359,54 @@ def main() -> int:
             failures.append("libs.versions.toml 仍含 x 占位版本")
         else:
             print("[PASS] version catalog 已钉死精确版本（无 2.x / 8.x 占位）")
+
+    # 03-11 §1：权限清单在 Kotlin 真相源与 C3 静态检查之间不得漂移。
+    # 两处都逐字写出权限字面量，任一侧增删都会被此比对拦截。
+    perm_re = re.compile(r'"(android\.permission\.[A-Z_]+)"')
+    kt_catalog = (
+        ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example"
+        / "cloudmusic" / "common" / "PermissionCatalog.kt"
+    )
+    py_c3 = ROOT / "tools" / "check-permissions.py"
+    if kt_catalog.is_file() and py_c3.is_file():
+        kt_perms = set(perm_re.findall(kt_catalog.read_text(encoding="utf-8")))
+        py_perms = set(perm_re.findall(py_c3.read_text(encoding="utf-8")))
+        if kt_perms and kt_perms == py_perms:
+            print(f"[PASS] 03-11 §1 权限清单：Kotlin 真相源 ↔ C3 静态检查一致（{len(kt_perms)} 条）")
+        else:
+            failures.append(
+                f"权限清单漂移：仅 Kotlin={sorted(kt_perms - py_perms)}，"
+                f"仅 C3={sorted(py_perms - kt_perms)}"
+            )
+
+    # 03-11 §1.1：:app Manifest 的权限集合必须与 C3 允许清单逐项一致。
+    app_manifest = ROOT / "app" / "src" / "main" / "AndroidManifest.xml"
+    if app_manifest.is_file() and py_c3.is_file():
+        declared = set(re.findall(
+            r'<uses-permission\b[^>]*android:name\s*=\s*"([^"]+)"',
+            app_manifest.read_text(encoding="utf-8"),
+        ))
+        match = re.search(r"^ALLOWED\s*=\s*\{(.*?)^\}", py_c3.read_text(encoding="utf-8"), re.M | re.S)
+        allowed = set(perm_re.findall(match.group(1))) if match else set()
+        if allowed and declared == allowed:
+            print(f"[PASS] 03-11 §1.1 Manifest 权限 ≡ C3 允许清单（{len(declared)} 项）")
+        else:
+            failures.append(
+                f"Manifest 权限漂移：仅 Manifest={sorted(declared - allowed)}，"
+                f"仅 C3={sorted(allowed - declared)}"
+            )
+
+    # 03-01 §4.1：全项目唯一的 Driver 注册点，@InstallIn(SingletonComponent) 只能在 :core-di。
+    install_in = [
+        p.relative_to(ROOT).as_posix()
+        for p in sorted(ROOT.glob("*/src/main/kotlin/**/*.kt"))
+        if "@InstallIn(SingletonComponent::class)" in p.read_text(encoding="utf-8")
+    ]
+    outside = [f for f in install_in if not f.startswith("core-di/")]
+    if outside:
+        failures.append(f"Hilt 注册点外泄（03-01 §4.1 要求唯一，只允许 :core-di）：{outside}")
+    elif install_in:
+        print(f"[PASS] 03-01 §4.1 Hilt 唯一注册点：@InstallIn 全部位于 :core-di（{len(install_in)} 个文件）")
 
     for rel, needles in SIGNATURES.items():
         path = ROOT / rel
@@ -316,6 +443,7 @@ def main() -> int:
     if (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com" / "example" /
             "cloudmusic" / "storage" / "InMemoryLibrary.kt").is_file():
         warnings.append("实现期补充 C-03（Playlist/TrackEntity 就近定义）/ 澄清 C-04（重扫恢复走 ScanReconciler 显式通道），见 12 §13")
+        warnings.append("契约演进 C-05（EngineSource 可选 url/localPath）/ C-06（ProxyStartPolicy 触发器 ④）已落地，见 16 §4 / 12 §21")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
