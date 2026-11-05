@@ -10,7 +10,7 @@
 
 | 项 | 值 |
 |---|---|
-| 文件 | `D:\workspace\CloudMusic\NeteaseCloudMusic.apk` |
+| 文件 | `NeteaseCloudMusic.apk`（仓库根目录） |
 | 体积 | 213 MB（23,084 个 ZIP 条目） |
 | 包名 | `com.netease.cloudmusic` |
 | 版本 | **9.6.20**（versionCode `9006020`） |
@@ -66,6 +66,7 @@
   `Java_com_netease_cloudmusic_android_sdk_playerengine_AudioPlayerUnit_nativePlay/Pause/Seek/SetVolume/...`、
   `Playback_nativeAttachAudioEffect / nativeChangeQuality`、`PlaybackDataSource_native*`。
   内部走 FFmpeg + 自研 MP3/AAC/FLAC 软解 + MediaCodec 硬解 + AudioTrack / OpenSL ES / AAudio 输出。
+  > **spike #1 实证补注（2026-11-05，`13 §3`）**：`PlaybackDataSource` 是预加载 / 引擎缓存配置类、**不是数据源接口**；真正的音源接口是 `DataProvider`（`getUrl()` / `getLocalPath()` / `openLocalFd()`），native 自行拉流、Java 层不喂字节流。本项目据此修正了本机取流链路（`16 §3`）。
 - **播放队列在 Native 层**：`libnmplaylist.so` 暴露 `PlaylistJniBridge` 的 ~30 个 JNI 方法（快照、随机、插入、删除、最近播放、持久化），说明队列状态机是用 C++ 实现的。
 - **UI 混合栈**：原生 + React Native(Hermes) + WebView 音频容器，另有大量 DataBinding 生成类。
 - **资源强混淆**：类名大量为 `a/b/c`、资源名为 `a.webp`、`b21.xml`、`dq4.9.png`，`colors.xml` 里 2,561 个颜色名全是 `a/aa/b21/...`。**无法按文件名语义挑素材**，必须导出后人工预览映射。

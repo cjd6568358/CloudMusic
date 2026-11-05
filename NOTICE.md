@@ -32,7 +32,7 @@
 
 | 项 | 值 |
 |---|---|
-| 文件 | `D:\workspace\CloudMusic\NeteaseCloudMusic.apk` |
+| 文件 | `NeteaseCloudMusic.apk`（仓库根目录） |
 | 版本 | 9.6.20（versionCode 9006020） |
 | 包名 | `com.netease.cloudmusic` |
 | 权利 | **归原权利人所有**；本项目仅作个人学习与自用参考 |
@@ -84,11 +84,11 @@
 
 ## 6. 参考源码只读快照
 
-`reference/openlist/` 内 20 个源码文件 + `LICENSE`，是 `D:\workspace\OpenList-zig`（OpenList，AList 社区分支）的**只读快照**，仅用于开发期对照数据源驱动的接口语义，**不编译进本项目、不参与构建**。
+`reference/openlist/` 内 20 个源码文件 + `LICENSE`，是 **OpenList-zig**（OpenList，AList 社区分支）上游源码的**只读快照**（源码本体在各成员本机，位置因机器而异），仅用于开发期对照数据源驱动的接口语义，**不编译进本项目、不参与构建**。
 
 | 项 | 值 |
 |---|---|
-| 上游 | `D:\workspace\OpenList-zig`（项目本体保持原位，未移动） |
+| 上游 | OpenList-zig 上游源码（各成员本地位置不同；项目本体保持原位，未移动） |
 | 许可证 | **AGPL-3.0**（与本项目一致，完整文本见 `reference/openlist/LICENSE`） |
 | 权利 | 归原作者所有；本项目不声称原创或授权 |
 | 内容 | `internal/driver/*`、`drivers/{local,webdav,strm,sftp,ftp}/*`、`zig-src/src/{driver,model}.zig`、`zig-src/src/drivers/{local,webdav,strm}.zig` |

@@ -1,7 +1,7 @@
 # 05 · Native 库实测分析（ELF / JNI 实证）
 
 **日期**：2026-11-04
-**样本**：`D:\workspace\CloudMusic\NeteaseCloudMusic.apk` 解出的 `analysis/decoded/lib/arm64-v8a/`，共 **167 个 `.so`**
+**样本**：仓库根 `NeteaseCloudMusic.apk` 解出的 `analysis/decoded/lib/arm64-v8a/`，共 **167 个 `.so`**
 **方法**：Python 直接解析 ELF64 Program Header → `PT_DYNAMIC` → `DT_NEEDED` / `DT_STRTAB`，并扫描整个文件提取 `Java_*` JNI 符号字符串；不使用外部反编译器
 **性质**：**实测数据**，用于校准架构与开发文档中的 native 假设
 
