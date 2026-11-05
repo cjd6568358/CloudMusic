@@ -26,8 +26,11 @@ rootProject.name = "CloudMusic"
 // + 03-09 的 :output-router 输出路由 / 蓝牙断连裁决纯 JVM 契约层
 // + 03-11 的权限清单 / 闸门 / 降级矩阵落在 :core-common，AppSettings 与变更生效规则落在
 //   :core-storage（第九批补齐既有模块缺口，不新建模块，见 12 §18）
+// + 第十三批 :engine-bridge（16 §5.3 T-P2，DataSourceAdapter 四态实现，12 §22）
+// + 第十四批 :feature-player（16 §5.3 T-P1，业务队列 / PlayerController，12 §23）
+// + 第十五批 :output-dlna（16 §5.3 T-P3，SSDP / SOAP / DIDL-Lite / CastUriResolver，12 §24）
 // + 第十批 :app 与第十一批 :core-di 为 Android 模块（见下方 skipAndroid 块，12 §19 / §20），
-//   当前共 14 个模块；前 12 个全部纯 JVM，本机可编译可单测。
+//   当前共 17 个模块；前 15 个全部纯 JVM，本机可编译可单测。
 // 任务拆分以 docs/16 §5 的四线任务表为唯一权威（取代 12 §7 滞后行 / 12 §20.5 / 15 §7.5 旧建议）：
 //   T-P 纯 JVM 先行（:engine-bridge / :feature-player / :output-dlna，T-P4 C-05/C-06 已完成）
 //   T-A Android 线（Room 9 张物理表 + DataStore / :datasource-local / JAudioTagger / Service / UI）
@@ -46,6 +49,9 @@ include(":engine-api")
 include(":core-media")
 include(":output-localproxy")
 include(":output-router")
+include(":engine-bridge")   // 第十三批：T-P2 IDataSource 四态实现（12 §22）
+include(":feature-player")  // 第十四批：T-P1 业务编排层（12 §23）
+include(":output-dlna")     // 第十五批：T-P3 投屏协议与决策（12 §24），T-P 线收口
 
 // ---------------------------------------------------------------------------
 // 多人协作：SDK 位置由 AGP 自行解析（ANDROID_HOME / 本地 local.properties），
