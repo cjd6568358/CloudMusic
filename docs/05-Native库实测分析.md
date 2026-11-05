@@ -149,8 +149,8 @@ libm.so  libc++_shared.so  libdl.so  libc.so     ← 系统库
 
 ELF 解析只能看到**二进制侧**。以下内容仍须 jadx 反编译 `classes*.dex` 后确定，属于 03-12 §3 的 R2 范畴：
 
-1. `:media-legacy` 各焦点类的**准确包名**（03-12 §2 的 `module.player.**` / `receiver.mediabutton.**` 是按 `analysis/strings/` 字符串归纳的示意）。
-2. Java SDK 层对每个 JNI 类的**初始化链与依赖闭包**（C++ 侧看不到 Java 引用）。
+1. ~~`:media-legacy` 各焦点类的**准确包名**~~ **部分收口（2026-11-05，`13 §8`）**：按键 / 会话 / 焦点数据类已实证精确类名并写入 `engine-legacy/proguard-rules.pro`；但 `AudioFocusKeeper` / `AudioFocusHolderWrapper` 只是字符串常量、无类定义，**焦点状态机的真实混淆类名仍待 jadx**（`13 §6 #8`）。03-12 §2 的示意包名已收窄为精确条目。
+2. ~~Java SDK 层对每个 JNI 类的**初始化链与依赖闭包**~~ **部分收口（2026-11-05，`11 §9`）**：一层边界已用纯 JVM 等价复核到类级清单（84 个 JNI 种子 + **160 个真实边界类**，148 empty-stub / 12 keep-signature），不必等 jadx；**更深层初始化链与一次性 ABI 验收仍需 jadx / 真机 G01**。
 3. `PlayerActivity` 所在的 dex 与其引用的**资源 ID**（已知 `public.xml` 全量 65,974 条、anim 2,232 条，ID 段 `0x7f010000`~`0x7f0108b7`；反查规程见 `03-10 §3` 与 `06-资源索引与映射.md`）。
 4. 播放页自定义唱片 View 的类名与构造签名（R8 keep 的 `View` 子类规则需据此校准）。
 

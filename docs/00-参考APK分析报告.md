@@ -185,3 +185,5 @@
 | `analysis/apk-filelist.txt` | APK 全文件清单 |
 | `analysis/dex_strings.py` / `analysis/summarize.py` | 可复用的分析脚本（已同步一份到 `tools/dex-strings.py`） |
 | `reference/openlist/` | OpenList-zig 驱动源码只读快照（20 个文件 + `LICENSE`，AGPL-3.0），供本项目开发期对照接口语义，不参与构建 |
+
+> AI生成
