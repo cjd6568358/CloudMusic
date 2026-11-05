@@ -19,7 +19,8 @@ import java.util.concurrent.ConcurrentHashMap
 /**
  * docs/03-02 §4 · V0.1 只读 WebDAV 驱动。
  * 首次请求恒不带 Authorization；401 后按 WWW-Authenticate 协商 BASIC / DIGEST。
- * 本机播放默认返回 PROXIED（带鉴权流，不经 nanohttpd）；投屏由 directUrl() 匿名探测后直推。
+ * 本机播放默认返回 PROXIED（带鉴权流，须经本地代理回环 URL 供引擎自取，`16 §3.2` 触发器 ④）；
+ * 投屏由 directUrl() 匿名探测后直推。
  */
 class WebDavDriver(
     storage: Storage,

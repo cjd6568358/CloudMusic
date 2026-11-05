@@ -203,6 +203,76 @@ class LocalProxyContractTest {
         )
     }
 
+    // ---------------- C-06 / 16 §3.2：本机播放 proxy 态（触发器 ④） ----------------
+
+    @Test
+    @DisplayName("T23 本机播放 PROXIED：④ 必须启动代理（WebDAV 鉴权流主线场景）")
+    fun t23LocalPlaybackProxied() {
+        // 投屏侧全部为「不启动」条件，仅凭本机播放 proxy 态也必须启动
+        assertTrue(
+            ProxyStartPolicy.shouldStart(
+                queueKinds = listOf(Link.Kind.URL), anyViaProxy = false, fallbackNeeded = false,
+                localPlaybackKind = Link.Kind.PROXIED,
+            )
+        )
+        // TEXT 按 PROXIED 处理（16 §3.2 第 4 行）
+        assertTrue(
+            ProxyStartPolicy.shouldStart(
+                queueKinds = emptyList(), anyViaProxy = false, fallbackNeeded = false,
+                localPlaybackKind = Link.Kind.TEXT,
+            )
+        )
+        // ④ 与投屏侧决策独立：即使调试开关关闭、无任何回落，仍然启动
+        assertTrue(
+            ProxyStartPolicy.shouldStart(
+                queueKinds = emptyList(), anyViaProxy = false, fallbackNeeded = false,
+                settings = ProxySettings(preferDirectLink = true, forceWebdavProxy = false),
+                localPlaybackKind = Link.Kind.PROXIED,
+            )
+        )
+    }
+
+    @Test
+    @DisplayName("T24 纯 url 态本机播放：代理不启动，省电目标不变")
+    fun t24LocalPlaybackDirectUrl() {
+        assertFalse(
+            ProxyStartPolicy.shouldStart(
+                queueKinds = listOf(Link.Kind.URL), anyViaProxy = false, fallbackNeeded = false,
+                localPlaybackKind = Link.Kind.URL,
+            )
+        )
+        // 纯直链投屏 + 纯 url 本机播放：全链路不启动代理
+        assertFalse(
+            ProxyStartPolicy.shouldStart(
+                queueKinds = listOf(Link.Kind.URL), anyViaProxy = false, fallbackNeeded = false,
+                settings = ProxySettings(preferDirectLink = true, forceWebdavProxy = false),
+                localPlaybackKind = Link.Kind.URL,
+            )
+        )
+        // LOCAL 本机播放由引擎直读路径，同样不经代理
+        assertFalse(
+            ProxyStartPolicy.shouldStart(
+                queueKinds = emptyList(), anyViaProxy = false, fallbackNeeded = false,
+                localPlaybackKind = Link.Kind.LOCAL,
+            )
+        )
+    }
+
+    @Test
+    @DisplayName("C-06 回归：localPlaybackKind=null 时投屏侧 ①②③⑤ 判定与第十一批完全一致")
+    fun c06CastOnlyRegression() {
+        assertFalse(ProxyStartPolicy.shouldStart(listOf(Link.Kind.URL), false, false))
+        assertTrue(ProxyStartPolicy.shouldStart(listOf(Link.Kind.LOCAL), false, false))
+        assertTrue(ProxyStartPolicy.shouldStart(listOf(Link.Kind.URL), true, false))
+        assertTrue(ProxyStartPolicy.shouldStart(listOf(Link.Kind.URL), false, true))
+        assertTrue(
+            ProxyStartPolicy.shouldStart(
+                listOf(Link.Kind.URL), false, false,
+                settings = ProxySettings(forceWebdavProxy = true),
+            )
+        )
+    }
+
     @Test
     @DisplayName("EA09 Range 起点越界回落整段 200；未知路径 404")
     fun ea09() {

@@ -191,4 +191,52 @@ class EngineApiContractTest {
         assertEquals(EngineState.PREPARING, engine.snapshot().state)
         engine.release(h)
     }
+
+    // ---------------- C-05（16 §4 / 16 §3.2 本机取流决策表） ----------------
+
+    @Test
+    @DisplayName("C-05 新字段默认 null，旧构造与 prepare/snapshot 零回归")
+    fun c05BackwardCompatible() {
+        val legacy = EngineSource(trackId = "t-1", mimeHint = "audio/flac", expectedLength = 240_000L)
+        assertNull(legacy.url)
+        assertNull(legacy.localPath)
+        assertEquals("t-1", legacy.trackId)
+        assertEquals(240_000L, legacy.expectedLength)
+
+        val engine = InMemoryMusicEngine()
+        val h = engine.prepare(source(), EngineConfig())
+        assertNull(engine.snapshot().source?.url)
+        assertNull(engine.snapshot().source?.localPath)
+        engine.release(h)
+    }
+
+    @Test
+    @DisplayName("C-05 URL / LOCAL 态：门面可把直链与本机路径传进舱内")
+    fun c05UrlAndLocalPath() {
+        val direct = EngineSource("t-url", "audio/mpeg", url = "https://example.com/a.mp3")
+        assertEquals("https://example.com/a.mp3", direct.url)
+        assertNull(direct.localPath)
+
+        val local = EngineSource("t-local", "audio/flac", localPath = "/music/a.flac")
+        assertEquals("/music/a.flac", local.localPath)
+        assertNull(local.url)
+
+        val engine = InMemoryMusicEngine()
+        val h = engine.prepare(direct, EngineConfig())
+        assertEquals("https://example.com/a.mp3", engine.snapshot().source?.url)
+        engine.release(h)
+    }
+
+    @Test
+    @DisplayName("C-05 PROXIED 态填回环代理 URL；url 与 localPath 互斥")
+    fun c05ProxiedLoopbackAndMutualExclusion() {
+        val loopback = "http://127.0.0.1:38123/t/ab12"
+        val proxied = EngineSource("t-proxy", "audio/flac", url = loopback)
+        assertEquals(loopback, proxied.url)
+        assertNull(proxied.localPath)
+
+        assertFailsWith<IllegalArgumentException> {
+            EngineSource("bad", "audio/flac", url = loopback, localPath = "/music/a.flac")
+        }
+    }
 }

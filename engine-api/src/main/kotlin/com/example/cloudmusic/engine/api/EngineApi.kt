@@ -24,7 +24,22 @@ data class EngineSource(
     val mimeHint: String,
     /** -1 = 未知（chunked / 直链无 Content-Length）。 */
     val expectedLength: Long = -1L,
-)
+    /**
+     * C-05（`16 §4`）：`URL` 态直链，或 `PROXIED` 态由组合层 `proxy.publish` 拿到的**回环代理 URL**。
+     * 引擎舱 `DataProvider.getUrl()` 从这里取值、native 自行拉流，**不消费 Java 字节流**
+     * （`13 §3` 实证 / `16 §3.2` 权威决策表）。
+     * 默认 null 向后兼容；`IMusicEngine` 的 14 方法签名不变。
+     */
+    val url: String? = null,
+    /** C-05：`LOCAL` 态的本机路径，供 `DataProvider.getLocalPath()` / `openLocalFd()` 直接读取。 */
+    val localPath: String? = null,
+) {
+    init {
+        require(!(url != null && localPath != null)) {
+            "url 与 localPath 互斥（16 §3.2 本机取流决策表）"
+        }
+    }
+}
 
 data class EngineConfig(
     /** 0 = 由内核探测。 */

@@ -17,14 +17,27 @@ interface LocalHttpStreamProxy {
     fun serve(request: ProxyRequest): ProxyResponse
 }
 
-/** §8.4 启动条件：纯直链投屏不启动代理，手机只做遥控器（§13 T15 / T16 的静态部分）。 */
+/**
+ * docs/03-08 §8.4 启动条件（2026-11-06 修正版）：纯直链投屏不启动代理，手机只做遥控器
+ * （§13 T15 / T16 的静态部分）；**④ 本机播放 `proxy` 态必须启动**（C-06 / `16 §3.2`）。
+ *
+ * [localPlaybackKind] 是 C-06 新增的第 ④ 输入维度：本机播放曲目的 [Link.Kind]。
+ * `null` 表示当前没有本机播放（纯投屏场景），此时行为与第十一批完全一致，
+ * 保证投屏侧 ①②③⑤ 的既有判定零回归。
+ */
 object ProxyStartPolicy {
     fun shouldStart(
         queueKinds: List<Link.Kind>,
         anyViaProxy: Boolean,
         fallbackNeeded: Boolean,
         settings: ProxySettings = ProxySettings(),
+        localPlaybackKind: Link.Kind? = null,
     ): Boolean {
+        // ④ 本机播放 PROXIED / TEXT：引擎舱无字节流入口，只能经回环代理 URL 自取（13 §3）。
+        // 与投屏侧决策相互独立，故优先于 ①②③⑤ 判定；TEXT 按 PROXIED 处理（16 §3.2）。
+        if (localPlaybackKind == Link.Kind.PROXIED || localPlaybackKind == Link.Kind.TEXT) return true
+
+        // ⑤ 调试开关 / ②投屏直链失败回落 / ①投屏队列含 LOCAL 或 TEXT
         if (!settings.preferDirectLink || settings.forceWebdavProxy) return true
         if (fallbackNeeded || anyViaProxy) return true
         return queueKinds.any { it == Link.Kind.LOCAL || it == Link.Kind.TEXT }
