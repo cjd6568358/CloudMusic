@@ -15,10 +15,61 @@ ProxyStartPolicy 触发器 ④ 的签名断言。
 第十三批（16 §5.3 T-P2）落地 :engine-bridge 四态 IDataSource 与 DataSourceAdapter（T01~T05）。
 第十四批（16 §5.3 T-P1）落地 :feature-player 业务队列 / PlayMode / QueueSync / PlayerController（T07、T08、T11）。
 第十五批（16 §5.3 T-P3）落地 :output-dlna 决策表与 SSDP / SOAP / DIDL-Lite（T01~T09、T13、T14），T-P 线收口。
-详见 docs/12-编码阶段第一批交付.md §5.1 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21。
+第十六批（12 §25）在 :core-di 落地 T-P2 / T-P3 端口的 OkHttp / ContentResolver / DatagramSocket
+生产实现与唯一 Hilt 接线，并登记 C-07（PROXIED Link 补 proxySourceUrl）/ C-08（匿名直链探测待 T-A5）。
+第十七批（12 §26，16 §5.3 T-A1）在 :core-di/db 落地 Room 的 9 张物理表 + FTS4 + 1→2 Migration，
+把 LibraryModule 的内存 Repository 换绑 Room 实现（D-08），并守护「禁止破坏性迁移」。
+第十八批（12 §27，16 §5.3 T-A2）在 :core-di/settings 落地 DataStore(自定义 Serializer) 的
+AppSettings 持久化、StorageRepository 换绑与运行时投影，并登记 C-09（投屏决策动态取设置）。
+第十九批（12 §28，16 §5.3 T-A3）新建纯 JVM 的 :datasource-local（LocalDriver + 双通道端口），
+在 :core-di/local 落地 SAF / MediaStore 生产适配，并补齐 DataSourceModule 的 local 注册键。
+第二十批（12 §29，16 §5.3 T-A4）落地 JAudioTagger + MediaMetadataRetriever 的 TagReader、
+封面压缩落盘、扫描器生产组合层，并补上 DriverRegistry 实例同步缺口（C-10）。
+第二十一批（12 §30）为 T-A5 开工前契约核对，登记 C-12 / C-13 / C-14（零源码改动）。
+第二十二批（12 §31，T-A5）落地 ByteRange 生产实现（C-12）、nanohttpd 本体与
+PlaybackService / Manifest（C-13）、effects 执行者与定向增量（C-14）、真实直链探测（C-08），
+清单扩到 33 / 138 / 10 并新增五组长效守护。
+第二十三批（12 §32，T-L L1 步骤 1）按 12 §10.2 提取 18 个 arm64 so、生成
+ENGINE-FINGERPRINT、启用第 19 个模块 :engine-legacy，并产出 JNI 真类 / native 方法索引；
+清单扩到 36 / 138 / 11，新增打包集 / 指纹 / 舱模块 / 索引四组守护。
+第二十四批（12 §33，T-A6）在 :app 落地 Compose UI 骨架（MainActivity / 主题 /
+曲库-数据源-设置三页 / 迷你播放条）与 LAUNCHER 声明，不新建模块；
+清单扩到 36 / 141 / 11，新增 Activity / Compose 依赖 / UI 禁止依赖三组守护。
+第二十五批（12 §34，T-L L1 步骤 2 前置）从 Maven Central + Google Maven 组装
+jadx-cli 1.5.1（仓库外），用 --single-class 定向取得 12 个精确 JNI 类的真实 Java 源码，
+新增 tools/engine_jni_verify.py 核对源码↔签名索引；清单扩到 36 / 141 / 12。
+第二十六批（12 §35，T-L L1 步骤 3）把 12 个真类放进 :engine-legacy，
+四轮「编译 → 只补报错缺的类 → 再编译」把 302 个错误收敛到 0（45 行登记簿、
+37 个唯一 slot），并实现 EngineNativeLoader 承接精确加载链；
+清单扩到 36 / 142 / 12，新增舱内编译单元 / 加载链 / 封装器 / 登记簿四组守护。
+第二十七批（12 §36，T-L L1）实现 EngineAdapter 薄门面（IMusicEngine 14 方法 →
+PlaybackEngine 真实 API）、补齐 PlayerDataSource 数据链并把 EngineModule 换绑到舱内实现；
+清单扩到 36 / 143 / 12，新增门面映射 / DI 换绑 / 数据源 getter 三组守护。
+第二十八轮（12 §37，真机不可用）完成静态 ABI 验收 A1/A2：新增
+tools/check_jni_bindings.py 对映 202 个 Java_* 符号与 210 个 native 声明
+（静态绑定 195 / dex-only 15 / so-only 7 / 净差 8 = 13 §7.4 基线），A2 闭包 14 个零越界；
+并接通 EngineAdapter 的 native 事件回调桥（事件码原样透传，不猜常量）。
+清单扩到 36 / 143 / 13，新增 ABI 报告 / 事件桥两组守护。
+第二十九轮（12 §38，T-L L3 前置）用 jadx + smali R 字段解析复核
+`14 §4.1` 挂账：12 处 loadAnimation → 4 个静态字段 → 2 个 scale anim，
+证实唱片旋转不走该链路；新增 tools/resolve_player_anim.py，
+清单扩到 36 / 143 / 14，新增 anim 报告 / C4 空表两组守护。
+第三十轮（12 §39，T-L L3）用 jadx 证实唱片旋转 / 唱针是纯代码属性动画
+（ValueAnimator + setRotation，20s ÷ playSpeed），收口 `14 §4.1` 挂账、
+确认播放页闭包无需 anim 项；新增 tools/resolve_rotation_anim.py，
+清单扩到 36 / 143 / 15，新增旋转报告守护。
+第三十一批（12 §40，T-A6 完善）把 UI 从 3 页扩到 5 页（曲库/歌单/搜索/队列/设置）
++ 数据源入口 + 输出设备弹窗，并补齐 `OutputRouter` 的唯一 DI 绑定；
+新增五页导航 / 蓝牙口径 / DI 绑定三组守护（清单仍 36 / 143 / 15）。
+第三十二批（12 §41，T-A5 遗留）给 PlaybackService 接上音频焦点
+（AudioFocusRequest / OnAudioFocusChangeListener）与 ACTION_AUDIO_BECOMING_NOISY
+动态广播，全用平台 API、零新增权限与依赖；新增焦点接线守护。
+详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§41。
 """
 from __future__ import annotations
 
+import csv
+import json
 import re
 import sys
 from pathlib import Path
@@ -35,12 +86,16 @@ GRADLE_FILES = (
     "build-logic/convention/src/main/kotlin/cloudmusic.android.application.gradle.kts",
     "local.properties.example", "app/build.gradle.kts",
     "app/src/main/AndroidManifest.xml", "core-di/build.gradle.kts",
+    # 12 §32（T-L L1 步骤 1）：照搬舱 1 的舱体文件
+    "engine-legacy/build.gradle.kts", "engine-legacy/src/main/AndroidManifest.xml",
+    "engine-legacy/proguard-rules.pro",
     "engine-bridge/build.gradle.kts", "feature-player/build.gradle.kts",
     "output-dlna/build.gradle.kts",
     "core-common/build.gradle.kts", "core-model/build.gradle.kts",
     "datasource-api/build.gradle.kts",
     "datasource-strm/build.gradle.kts", "datasource-playlist/build.gradle.kts",
-    "datasource-webdav/build.gradle.kts", "scanner/build.gradle.kts",
+    "datasource-webdav/build.gradle.kts", "datasource-local/build.gradle.kts",
+    "scanner/build.gradle.kts",
     "core-storage/build.gradle.kts", "engine-api/build.gradle.kts",
     "core-media/build.gradle.kts", "output-localproxy/build.gradle.kts",
     "output-router/build.gradle.kts",
@@ -159,13 +214,62 @@ CONTRACT_FILES = (
     "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/SsdpDiscovery.kt",
     "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/ManualDmrProbe.kt",
     "output-dlna/src/test/kotlin/com/example/cloudmusic/output/dlna/DlnaContractTest.kt",
+    # 12 §25 第十六批：T-P2 / T-P3 端口的生产实现与 :core-di 唯一 Hilt 接线
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/OkHttpAdapters.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/AndroidSourceAdapters.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/DatagramAdapters.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/CastComposition.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/BridgeModule.kt",
+    "core-di/src/test/kotlin/com/example/cloudmusic/di/adapters/ProductionAdaptersTest.kt",
+    # 12 §26 第十七批：T-A1 Room（9 张物理表 + FTS4 + Migration + 生产 Repository）
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/LibrarySchema.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/RoomEntities.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/RoomDaos.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/RoomMigrations.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/LibraryDatabase.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/RoomRepositories.kt",
+    "core-di/src/test/kotlin/com/example/cloudmusic/di/db/LibraryRoomContractTest.kt",
+    # 12 §27 第十八批：T-A2 DataStore 持久化与运行时投影
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/settings/AppSettingsCodec.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/settings/SettingsAccess.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/settings/SettingsDataStore.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/settings/DataStoreStorageRepository.kt",
+    "core-di/src/test/kotlin/com/example/cloudmusic/di/settings/SettingsContractTest.kt",
+    # 12 §28 第十九批：T-A3 本地音源（纯 JVM 驱动 + Android 生产端口）
+    "datasource-local/src/main/kotlin/com/example/cloudmusic/local/LocalModels.kt",
+    "datasource-local/src/main/kotlin/com/example/cloudmusic/local/LocalDriver.kt",
+    "datasource-local/src/test/kotlin/com/example/cloudmusic/local/LocalDriverTest.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/local/AndroidLocalSources.kt",
+    # 12 §29 第二十批：T-A4 标签 / 封面 / 扫描器生产组合层
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/ScanContracts.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/ProductionTagAndCover.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/ScanComposition.kt",
+    "core-di/src/test/kotlin/com/example/cloudmusic/di/scan/ScanContractsTest.kt",
+    # 12 §31 第二十二批：T-A5（C-12 / C-13 / C-14 / C-08）的生产接线
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/NetworkByteRange.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/SettingsEffects.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/proxy/NanoHttpStreamProxy.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/proxy/AndroidLanAddress.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/playback/PlaybackComposition.kt",
+    "app/src/main/kotlin/com/example/cloudmusic/PlaybackService.kt",
+    "app/src/main/kotlin/com/example/cloudmusic/MediaButtonEventReceiver.kt",
+    "core-di/src/test/kotlin/com/example/cloudmusic/di/ta5/Ta5ContractsTest.kt",
+    # 12 §33 第二十四批：T-A6 Compose UI 骨架（:app，无新建模块）
+    "app/src/main/kotlin/com/example/cloudmusic/MainActivity.kt",
+    "app/src/main/kotlin/com/example/cloudmusic/ui/CloudMusicTheme.kt",
+    "app/src/main/kotlin/com/example/cloudmusic/ui/CloudMusicApp.kt",
+    # 12 §35 第二十六批：T-L L1 步骤 3（舱内真类编译 + 自研加载器）
+    "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineNativeLoader.kt",
+    # 12 §36 第二十七批：EngineAdapter 薄门面 + PlayerDataSource 数据链
+    "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineAdapter.kt",
 )
 
 CHECK_SCRIPTS = (
     "check-engine-abi.py", "check-no-netease-import.py", "check-permissions.py",
     "check-assets.py", "check-credentials.py", "check-fingerprint.py",
     "pre_release_check.py", "elf_probe.py", "check_common.py",
-    "check-android-env.py",
+    "check-android-env.py", "engine_jni_class_index.py", "engine_jni_verify.py",
+    "check_jni_bindings.py", "resolve_player_anim.py", "resolve_rotation_anim.py",
 )
 
 # 03-01 / 03-02 / 03-03 / 03-04 契约中不可漂移的签名片段：{文件: [片段]}
@@ -174,6 +278,8 @@ SIGNATURES = {
         "enum class Kind { URL, LOCAL, PROXIED, TEXT }",
         "val kind: Kind get()",
         "url 与 localPath 互斥",
+        # C-07（12 §25）：PROXIED 专用回源 URL，默认 null、不改 kind 判定
+        "val proxySourceUrl: String? = null",
     ],
     "core-model/src/main/kotlin/com/example/cloudmusic/model/ObjectType.kt": [
         "UNKNOWN(0), FOLDER(1), VIDEO(2), AUDIO(3), TEXT(4), IMAGE(5)",
@@ -211,6 +317,10 @@ SIGNATURES = {
     "datasource-webdav/src/main/kotlin/com/example/cloudmusic/webdav/WebDavDriver.kt": [
         "class WebDavDriver(", "DirectLinkCapability",
         "override suspend fun directUrl(file: Obj): String?",
+        "proxySourceUrl = url",  # C-07：PROXIED 分支必须带回源 URL
+        # C-12（12 §31）：ByteRangeCapability 的真正生产实现
+        "), DirectLinkCapability, ByteRangeCapability {",
+        "override suspend fun readBytes(file: Obj, offset: Long, length: Int): ByteArray?",
     ],
     "scanner/src/main/kotlin/com/example/cloudmusic/scanner/ScanCoordinator.kt": [
         "class ScanCoordinator(", "fun scan(request: ScanRequest): Flow<ScanProgress>",
@@ -222,6 +332,8 @@ SIGNATURES = {
     ],
     "scanner/src/main/kotlin/com/example/cloudmusic/scanner/ScanPorts.kt": [
         "interface TrackSink", "interface ScanSnapshotStore",
+        # C-14（12 §31）：定向增量的不可用条目输入（默认空集，零回归）
+        "suspend fun unavailablePaths(storageId: String): Set<String> = emptySet()",
     ],
     "core-common/src/main/kotlin/com/example/cloudmusic/common/CloudMusicError.kt": [
         "open class CloudMusicError(", "typealias CmResult<T> = Result<T>",
@@ -260,12 +372,8 @@ SIGNATURES = {
         "val localPath: String? = null",
         "url 与 localPath 互斥（16 §3.2 本机取流决策表）",
     ],
-    # C-06（16 §4 / 03-08 §8.4）：本机播放 proxy 态触发器 ④
-    "output-localproxy/src/main/kotlin/com/example/cloudmusic/output/localproxy/LocalHttpStreamProxy.kt": [
-        "localPlaybackKind: Link.Kind? = null",
-        "localPlaybackKind == Link.Kind.PROXIED || localPlaybackKind == Link.Kind.TEXT",
-        "interface LocalHttpStreamProxy {",
-    ],
+    # C-06（16 §4 / 03-08 §8.4）的断言并入下方同名 key：Python dict 重复键会覆盖，
+    # 第十六批检修发现原写法使 C-06 两条断言实际未生效，已合并（12 §25）。
     # 03-07 §3 媒体会话门面（逐字对齐，不得漂移）
     "core-media/src/main/kotlin/com/example/cloudmusic/media/MediaControlApi.kt": [
         "interface IMediaControl",
@@ -276,6 +384,9 @@ SIGNATURES = {
         "fun setPlaybackState(state: EngineState, positionMs: Long, durationMs: Long)",
         "fun setEnabled(enabled: Boolean)",
         "fun release()",
+        # C-15（12 §44）：带默认空实现的状态通知，既有实现零回归
+        "fun onPlaying() {}",
+        "fun onManualPause() {}",
         "interface PlayerControllerHandle",
         "enum class MediaAction { DOWN, UP, LONG_PRESS, DOUBLE_CLICK }",
     ],
@@ -286,6 +397,9 @@ SIGNATURES = {
         "fun serve(request: ProxyRequest): ProxyResponse",
         "object ProxyStartPolicy",
         "class InMemoryLocalHttpStreamProxy(",
+        # C-06：本机播放 proxy 态触发器 ④（合并后真正参与断言）
+        "localPlaybackKind: Link.Kind? = null",
+        "localPlaybackKind == Link.Kind.PROXIED || localPlaybackKind == Link.Kind.TEXT",
     ],
     "output-localproxy/src/main/kotlin/com/example/cloudmusic/output/localproxy/RangeResponder.kt": [
         "object RangeResponder",
@@ -350,13 +464,22 @@ SIGNATURES = {
         "@StringKey(KEY_WEBDAV)",
         "class DriverRegistrar @Inject constructor(",
         "fun registerAll(): Set<String>",
+        # 第十九批（12 §28）：第 4 个 V0.1 驱动键 local
+        "@StringKey(KEY_LOCAL)",
+        "fun provideLocalFactory(@ApplicationContext context: Context): DriverFactory",
     ],
     "core-di/src/main/kotlin/com/example/cloudmusic/di/AppBindings.kt": [
         "object EngineModule {",
         "object MediaModule {",
         "object LibraryModule {",
         "fun provideMusicEngine(): IMusicEngine",
-        "fun provideLibraryStore(): InMemoryLibraryStore",
+        # 第十七批（12 §26）：D-08 换绑 Room，仅改 @Provides 返回值
+        "fun provideLibraryDatabase(@ApplicationContext context: Context): LibraryDatabase",
+        "RoomTrackRepository(db)", "RoomQueueRepository(db)",
+        "RoomScanSnapshotStore(db)",
+        # 第十八批（12 §27）：T-A2 Storage 改绑 DataStore
+        "fun provideSettingsAccess(store: SettingsStore): SettingsAccess",
+        "DataStoreStorageRepository(access, tracks)",
     ],
     "app/src/main/kotlin/com/example/cloudmusic/CloudMusicApplication.kt": [
         "@HiltAndroidApp",
@@ -410,8 +533,15 @@ SIGNATURES = {
     "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/CastUriResolver.kt": [
         "class CastUriResolver(",
         "suspend fun resolve(track: Track): CastUri",
-        "if (settings.forceWebdavProxy || driverPreferProxy)",
+        # C-09（12 §27）：设置动态投影，默认 null 保持第十五批行为
+        "private val settingsSource: (() -> ProxySettings)? = null",
+        "val current = settingsSource?.invoke() ?: settings",
+        "if (current.forceWebdavProxy || driverPreferProxy)",
         "interface CastProxyPort {",
+        # C-08 / C-13（12 §31）：Track 上下文透传 + 封面 URL 端口
+        "suspend fun directUrl(link: Link, track: Track?): String? = directUrl(link)",
+        "val url = directLinks.directUrl(link, track)",
+        "fun coverUrlFor(trackId: String): String? = null",
     ],
     "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DescriptionParser.kt": [
         "object DescriptionParser {",
@@ -436,6 +566,160 @@ SIGNATURES = {
     "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/ManualDmrProbe.kt": [
         "fun candidateUrls(spec: ManualDmrSpec): List<String>",
         "suspend fun probe(",
+    ],
+    # 12 §25 第十六批：生产端口适配 + :core-di 唯一接线
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/OkHttpAdapters.kt": [
+        "class OkHttpRangeHttpStack(", "class OkHttpHeadProbe(",
+        "class OkHttpDescriptionFetcher(", "class OkHttpSoapTransport(",
+        "fun totalLength(",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/AndroidSourceAdapters.kt": [
+        "class ContentResolverFdOpener(", "class WifiMulticastLockPort(",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/DatagramAdapters.kt": [
+        "class DatagramMulticastTransport(",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/CastComposition.kt": [
+        "fun interface DataSourceFactory", "class OkHttpProxiedStreamFactory(",
+        "class RegistryLinkProvider :", "class ConservativeDirectLinkProvider :",
+        "class PrePublishedCastProxy(",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/BridgeModule.kt": [
+        "object BridgeModule {", "@InstallIn(SingletonComponent::class)",
+        "fun provideCastUriResolver(", "fun provideSsdpScanner(",
+        "fun provideProxySettings(store: SettingsStore): ProxySettings",
+        "settingsSource = { SettingsProjection.proxy(store.current()) }",
+    ],
+    # 12 §26 第十七批：03-05 §3 / §6 / §8 / §10 的 Room 契约
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/LibrarySchema.kt": [
+        "object LibrarySchema {",
+        "const val VERSION_V1 = 1",
+        "const val VERSION_V2 = 2",
+        "val PHYSICAL_TABLES = listOf(",
+        "object MigrationSql {",
+        "ALTER TABLE tracks ADD COLUMN sort_title",
+        "fun isNonDestructive(",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/RoomEntities.kt": [
+        "@Entity(", "data class TrackRow(", "@Fts4(contentEntity = TrackRow::class)",
+        "data class TrackFtsRow(", "data class PlaylistRow(", "data class PlaylistTrackRow(",
+        "data class FavoriteRow(", "data class PlayHistoryRow(", "data class FailureLogRow(",
+        "data class ScanSnapshotRow(", "data class QueueItemRow(",
+        "data class PlaybackStateRow(",
+        "fun from(track: Track, existing: TrackRow?, now: Long): TrackRow",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/RoomDaos.kt": [
+        "interface TrackDao {", "interface PlaylistDao {", "interface FavoriteDao {",
+        "interface HistoryDao {", "interface QueueDao {", "interface ScanSnapshotDao {",
+        "interface FailureLogDao {",
+        "fun searchFts(match: String): Flow<List<TrackRow>>",
+        "suspend fun markOrphan(storageId: String, now: Long)",
+        "suspend fun rebuildFts()",
+        "suspend fun prune(cutoff: Long, max: Int)",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/RoomMigrations.kt": [
+        "object LibraryMigrations {", "val MIGRATION_1_2: Migration =",
+        "MigrationSql.apply(", "override fun migrate(db: SupportSQLiteDatabase)",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/LibraryDatabase.kt": [
+        "@Database(", "version = LibrarySchema.VERSION,", "exportSchema = true,",
+        "abstract class LibraryDatabase : RoomDatabase()",
+        ".addMigrations(*LibraryMigrations.ALL)",
+        "VALUES('rebuild')",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/RoomRepositories.kt": [
+        "object UpsertPlanner {", "class RoomTrackRepository(", "class RoomPlaylistRepository(",
+        "class RoomFavoriteRepository(", "class RoomHistoryRepository(",
+        "class RoomQueueRepository(", "class RoomScanSnapshotStore(",
+        "class RoomFailureLog(", "UpsertPlanner.chunks(tracks)",
+        "TrackRow.from(it, existing[it.id.value], now)",
+    ],
+    # 12 §27 第十八批：03-05 §4 / 08 §6 / §7 的 DataStore 契约
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/settings/AppSettingsCodec.kt": [
+        "object AppSettingsCodec {", "fun encode(settings: AppSettings): String",
+        "fun decode(raw: String): AppSettings", "fun decodeOrDefault(raw: String): AppSettings",
+        "put(\"additionRaw\", dto.additionRaw)",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/settings/SettingsAccess.kt": [
+        "interface SettingsAccess {", "data class SettingsUpdate(",
+        "object SettingsProjection {", "fun proxy(settings: AppSettings): ProxySettings",
+        "fun StorageDto.toModel(): Storage", "fun Storage.toDto(): StorageDto",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/settings/SettingsDataStore.kt": [
+        "object AppSettingsSerializer : Serializer<AppSettings>",
+        "class SettingsStore @Inject constructor(",
+        "override suspend fun update(transform: (AppSettings) -> AppSettings): SettingsUpdate",
+        "CorruptionException(", "SettingsValidator.validate(next)",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/settings/DataStoreStorageRepository.kt": [
+        "class DataStoreStorageRepository(", "override suspend fun add(type: String, additionJson: String): Storage",
+        "tracks.markOrphan(id)", "override suspend fun setError(id: String, msg: String)",
+    ],
+    # 12 §28 第十九批：03-02 §3 LocalDriver 双通道契约
+    "datasource-local/src/main/kotlin/com/example/cloudmusic/local/LocalModels.kt": [
+        "enum class LocalChannel { SAF, MEDIA_STORE }",
+        "interface LocalDirectorySource {", "data class LocalAddition(",
+        "object LocalPathMapping {", "object LocalEntryGrouper {",
+        "fun safRelativeFromDocumentId(treeDocId: String, docId: String): String?",
+    ],
+    "datasource-local/src/main/kotlin/com/example/cloudmusic/local/LocalDriver.kt": [
+        "class LocalDriver(", "override val config = DriverConfig(name = \"Local\", localSort = true)",
+        "private fun sandboxAbsolute(path: String): String",
+        "PathRule.sandbox(root.sandboxRoot(), absolute)",
+        "override suspend fun link(file: Obj, args: LinkArgs): Link",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/local/AndroidLocalSources.kt": [
+        "class SafDirectorySource(", "class MediaStoreDirectorySource(",
+        "DocumentsContract.buildChildDocumentsUriUsingTree",
+        "MediaStore.Audio.Media.EXTERNAL_CONTENT_URI",
+        "LocalEntryGrouper.group(absolutePath, queryAll())",
+    ],
+    # 12 §29 第二十批：03-04 §6 / §7 的标签、封面与扫描器生产契约
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/ScanContracts.kt": [
+        "fun interface MediaMetadataPort", "fun interface JAudioTaggerPort",
+        "interface CoverWriterPort {", "interface LinkLocator {",
+        "object TagMerger {", "object CoverPolicy {", "class CoverLookupCache {",
+        "object DriverSyncPlanner {",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/ProductionTagAndCover.kt": [
+        "class AndroidMediaMetadataPort(", "class JAudioTaggerFilePort :",
+        "class AndroidCoverWriter(", "class RegistryLinkLocator :",
+        "class DirectoryCoverLookup(", "class AndroidTagReader(",
+        "class AndroidCoverResolver(", "AudioFileIO.read(file)",
+        "Bitmap.CompressFormat.WEBP",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/ScanComposition.kt": [
+        "class StorageDriverBinder(", "class DataStoreStorageProvider(",
+        "class RoomTrackSink(", "object ScanModule {",
+        "DriverRegistry.put(storage.id, driver)",
+        "reconciler.upsertFromScan(items)",
+        "fun provideScanCoordinator(",
+    ],
+    # 12 §31 第二十二批：T-A5 新落地的契约（C-08 / C-12 / C-13 / C-14）
+    "scanner/src/main/kotlin/com/example/cloudmusic/scanner/ScanModels.kt": [
+        "val onlyUnavailable: Boolean = false",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/NetworkByteRange.kt": [
+        "object ByteRangePolicy {", "fun interface RangeRequester {",
+        "class UrlByteRangeSource(", "class OkHttpRangeRequester(",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/SettingsEffects.kt": [
+        "object EffectsPolicy {", "class SettingsEffectsRunner",
+        "coordinator.run(ScanRequest(refresh = true))",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/proxy/NanoHttpStreamProxy.kt": [
+        "NanoHTTPD(0)", "fun interface LanAddressProvider {",
+        "class NanoHttpStreamProxy(", "image/webp",
+        "fun coverUrlFor(trackId: String): String?", "class RangeInputStream(",
+    ],
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/playback/PlaybackComposition.kt": [
+        "class RoomTrackLookup(", "class SandboxQueueSync :",
+        "class ProductionTrackSourceResolver(", "class PlaybackRuntime",
+        "object PlaybackModule {", "ProxyStartPolicy.shouldStart(",
+    ],
+    "app/src/main/kotlin/com/example/cloudmusic/PlaybackService.kt": [
+        "class PlaybackService : Service()", "@AndroidEntryPoint",
+        "START_STICKY", "MediaSession.Callback", "startForeground(NOTIFICATION_ID",
     ],
 }
 
@@ -513,6 +797,492 @@ def main() -> int:
     elif install_in:
         print(f"[PASS] 03-01 §4.1 Hilt 唯一注册点：@InstallIn 全部位于 :core-di（{len(install_in)} 个文件）")
 
+    # 12 §25 D-39 的教训：SIGNATURES 是 dict，重复键会静默吞掉前一组断言。
+    script_text = (ROOT / "tools" / "check_source_contracts.py").read_text(encoding="utf-8")
+    sig_block = script_text.split("SIGNATURES = {", 1)[1].split("\n}\n", 1)[0]
+    sig_keys = re.findall(r'^\s{4}"([^"]+\.kt)":\s*\[', sig_block, re.M)
+    duplicate_keys = sorted({k for k in sig_keys if sig_keys.count(k) > 1})
+    if duplicate_keys:
+        failures.append(f"SIGNATURES 存在重复键（后者覆盖前者，断言静默失效）：{duplicate_keys}")
+    else:
+        print(f"[PASS] SIGNATURES 无重复键（{len(sig_keys)} 项签名组全部生效）")
+
+    # 03-05 §3 / §10 / §14 #1 / B10：Room 表数、Migration 注册与禁止破坏性重建。
+    db_dir = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" /
+              "example" / "cloudmusic" / "di" / "db")
+    db_text = "\n".join(
+        p.read_text(encoding="utf-8") for p in sorted(db_dir.glob("*.kt"))
+    ) if db_dir.is_dir() else ""
+    entity_count = len(re.findall(r"@Entity\(", db_text))
+    if entity_count != 10:
+        failures.append(f"03-05 §3 Room 实体应为 9 张物理表 + 1 张 FTS4，实测 {entity_count} 个 @Entity")
+    else:
+        print("[PASS] 03-05 §3 Room 实体：9 张物理表 + 1 张 FTS4 虚拟表")
+    if re.search(r"\.fallbackToDestructiveMigration\s*\(", db_text):
+        failures.append("03-05 §14 #1 / B10：Room 禁止 fallbackToDestructiveMigration()")
+    elif ".addMigrations(*LibraryMigrations.ALL)" not in db_text:
+        failures.append("03-05 §10：Room 未注册 Migration(1,2)")
+    else:
+        print("[PASS] 03-05 §10 Room 迁移：注册 1→2、无破坏性重建")
+    if "additionRaw" in db_text:
+        failures.append("03-05 §14 #2 / 08 §5：凭据 additionRaw 不得写入 Room 层（只允许 DataStore）")
+    else:
+        print("[PASS] 03-05 §14 #2 凭据隔离：Room 层零 additionRaw")
+
+    # 03-12 §1.1：:core-storage 必须保持纯 JVM（Room 只在 :core-di/db）。
+    storage_dir = ROOT / "core-storage" / "src" / "main"
+    for path in sorted(storage_dir.rglob("*.kt")):
+        if FORBIDDEN_IMPORTS.search(path.read_text(encoding="utf-8")):
+            failures.append(f":core-storage 出现 Android 依赖（应保持纯 JVM）: {path.name}")
+
+    # 03-02 §3 / 12 §28：:datasource-local 是纯 JVM 驱动，Android 端口只在 :core-di/local。
+    local_src = ROOT / "datasource-local" / "src" / "main"
+    local_android = [
+        p.name for p in sorted(local_src.rglob("*.kt"))
+        if FORBIDDEN_IMPORTS.search(p.read_text(encoding="utf-8"))
+    ]
+    if local_android:
+        failures.append(f":datasource-local 出现 Android 依赖（应保持纯 JVM）: {local_android}")
+    else:
+        print("[PASS] 03-02 §3 本地驱动：:datasource-local 零 Android 依赖")
+    ds_module = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" / \
+        "cloudmusic" / "di" / "DataSourceModule.kt"
+    if ds_module.is_file() and "@StringKey(KEY_LOCAL)" not in ds_module.read_text(encoding="utf-8"):
+        failures.append("03-01 §4.1：DataSourceModule 未注册 local 驱动键")
+
+    # 12 §29 / C-10：`DriverRegistry.get(storageId)` 取实例，只注册 factory 扫描器仍拿不到驱动。
+    scan_dir = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" / \
+        "cloudmusic" / "di" / "scan"
+    scan_text = "\n".join(
+        p.read_text(encoding="utf-8") for p in sorted(scan_dir.glob("*.kt"))
+    ) if scan_dir.is_dir() else ""
+    if "DriverRegistry.put(" not in scan_text:
+        failures.append("C-10：未把 Driver 实例放入 DriverRegistry，ScanCoordinator 无法扫描")
+    elif "reconciler.upsertFromScan" not in scan_text:
+        failures.append("C-04：TrackSink 必须走 ScanReconciler 恢复通道")
+    else:
+        print("[PASS] C-10 / C-04：驱动实例已同步、扫描写入走恢复通道")
+    if re.search(r"^\s*import\s+java\.awt", scan_text, re.M):
+        failures.append("03-04 §6.2：JAudioTagger 通道不得 import java.awt（Android 无此包）")
+    catalog_text = (ROOT / "gradle" / "libs.versions.toml").read_text(encoding="utf-8")
+    if "net.jthink:jaudiotagger" not in catalog_text:
+        failures.append("05 §3 / 03-04 §6.2：JAudioTagger 依赖未登记")
+
+    # ---- 12 §31（第二十二批 / T-A5）长效守护 ---------------------------------
+    # C-12：此前生产实现数为 0，HeadTagReader 的 rangeFor 恒取 null，
+    # 网络音源标签 + 同目录封面两条链路同时失效（12 §30 实测发现）。
+    webdav_src = (
+        ROOT / "datasource-webdav" / "src" / "main" / "kotlin" / "com"
+        / "example" / "cloudmusic" / "webdav" / "WebDavDriver.kt"
+    )
+    webdav_text = webdav_src.read_text(encoding="utf-8") if webdav_src.is_file() else ""
+    if "ByteRangeCapability" not in webdav_text or "override suspend fun readBytes" not in webdav_text:
+        failures.append("C-12：ByteRangeCapability 生产实现缺失，网络音源标签与封面会同时失效")
+    else:
+        print("[PASS] C-12：ByteRangeCapability 生产实现在场（WebDAV）")
+
+    di_build = ROOT / "core-di" / "build.gradle.kts"
+    di_build_text = di_build.read_text(encoding="utf-8") if di_build.is_file() else ""
+    if "libs.nanohttpd" not in di_build_text:
+        failures.append("C-13：nanohttpd 服务本体依赖未声明（03-08 §8）")
+    else:
+        print("[PASS] C-13：nanohttpd 服务本体依赖已声明")
+
+    manifest = ROOT / "app" / "src" / "main" / "AndroidManifest.xml"
+    manifest_text = manifest.read_text(encoding="utf-8") if manifest.is_file() else ""
+    manifest_needles = (
+        'android:name=".PlaybackService"',
+        'android:foregroundServiceType="mediaPlayback"',
+        'android:name=".MediaButtonEventReceiver"',
+        "android.intent.action.MEDIA_BUTTON",
+    )
+    missing_manifest = [n for n in manifest_needles if n not in manifest_text]
+    if missing_manifest:
+        failures.append(f"03-11 §1.1 Manifest 组件声明缺失：{missing_manifest}")
+    else:
+        print("[PASS] 03-11 §1.1 Manifest：Service / Receiver / FGS 类型齐备")
+
+    settings_src = (
+        ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+        / "cloudmusic" / "di" / "settings" / "SettingsDataStore.kt"
+    )
+    settings_text = settings_src.read_text(encoding="utf-8") if settings_src.is_file() else ""
+    if "class SettingsEffectsBus" not in settings_text or "effectsBus.emit(update)" not in settings_text:
+        failures.append("C-14：SettingsUpdate.effects 没有运行时执行入口")
+    else:
+        print("[PASS] C-14：effects 广播总线已接入写入路径")
+
+    scan_models = (
+        ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "example"
+        / "cloudmusic" / "scanner" / "ScanModels.kt"
+    )
+    scan_models_text = scan_models.read_text(encoding="utf-8") if scan_models.is_file() else ""
+    if "onlyUnavailable" not in scan_models_text:
+        failures.append("C-14：ScanRequest 缺定向增量承载（03-04 §4）")
+    else:
+        print("[PASS] C-14：ScanRequest 定向增量参数在位")
+
+    # ---- 12 §32（第二十三批 / T-L L1 步骤 1）长效守护 --------------------------
+    packed_dir = ROOT / "engine-legacy" / "src" / "main" / "jniLibs" / "arm64-v8a"
+    packed_names = {p.name for p in packed_dir.glob("*.so")} if packed_dir.is_dir() else set()
+    if len(packed_names) != 18:
+        failures.append(
+            f"12 §10.2 步骤 1：jniLibs 打包集应为 18 个，实测 {len(packed_names)} 个"
+        )
+    else:
+        print("[PASS] T-L L1：18 个 arm64 so 打包集已按 03-12 §4 落地")
+
+    fp_root = ROOT / "assets" / "ENGINE-FINGERPRINT"
+    fp_app = ROOT / "app" / "src" / "main" / "assets" / "ENGINE-FINGERPRINT"
+    if not (
+        fp_root.is_file() and fp_app.is_file()
+        and fp_root.read_text(encoding="utf-8") == fp_app.read_text(encoding="utf-8")
+    ):
+        failures.append("03-06 §6.3：ENGINE-FINGERPRINT 根目录 / app assets 副本缺失或不一致")
+    else:
+        print("[PASS] T-L L1：ENGINE-FINGERPRINT 双份一致（C6 校验源）")
+
+    settings_text = (ROOT / "settings.gradle.kts").read_text(encoding="utf-8")
+    app_build_text = (ROOT / "app" / "build.gradle.kts").read_text(encoding="utf-8")
+    if 'include(":engine-legacy")' not in settings_text:
+        failures.append("12 §32：:engine-legacy 舱模块未 include")
+    if 'project(":engine-legacy")' not in app_build_text:
+        failures.append("12 §32：:app 未依赖 :engine-legacy，18 个 so 不会进 APK")
+    else:
+        print("[PASS] T-L L1：舱模块已 include 且 :app 已依赖（so 进 APK）")
+
+    jni_index = ROOT / "analysis" / "engine-jni-classes.json"
+    if not jni_index.is_file():
+        failures.append("12 §10.2 步骤 2 前置：JNI 真类索引未生成（跑 engine_jni_class_index.py）")
+    else:
+        print("[PASS] T-L L1：JNI 真类 / native 方法索引在位（步骤 2 前置清单）")
+
+    # ---- 12 §33（第二十四批 / T-A6）长效守护 ----------------------------------
+    app_manifest = (
+        ROOT / "app" / "src" / "main" / "AndroidManifest.xml"
+    ).read_text(encoding="utf-8")
+    activity_needles = (
+        'android:name=".MainActivity"',
+        "android.intent.action.MAIN",
+        "android.intent.category.LAUNCHER",
+    )
+    missing_activity = [n for n in activity_needles if n not in app_manifest]
+    if missing_activity:
+        failures.append(f"03-10 §5：LAUNCHER Activity 声明缺失 {missing_activity}")
+    else:
+        print("[PASS] T-A6：MainActivity / LAUNCHER 声明齐备")
+
+    compose_needles = (
+        "libs.plugins.kotlin.compose",
+        "libs.androidx.compose.bom",
+        "libs.androidx.compose.material3",
+        "libs.androidx.activity.compose",
+    )
+    missing_compose = [n for n in compose_needles if n not in app_build_text]
+    if missing_compose:
+        failures.append(f"03-10 §2：Compose 插件 / 依赖缺失 {missing_compose}")
+    elif "compose = true" not in app_build_text:
+        failures.append("03-10 §2：:app 未启用 buildFeatures.compose")
+    else:
+        print("[PASS] T-A6：Compose 插件 + BOM + Material3 + activity-compose 依赖在位")
+
+    # 03-10 §11 #4：UI 只经 Repository / StateFlow，不直接碰 Driver / Room / OkHttp。
+    ui_dir = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui"
+    ui_text = "\n".join(
+        p.read_text(encoding="utf-8") for p in sorted(ui_dir.glob("*.kt"))
+    ) if ui_dir.is_dir() else ""
+    forbidden_ui = ("import android.database.", "import okhttp3.", "import androidx.room.")
+    hit = next((n for n in forbidden_ui if n in ui_text), None)
+    if hit:
+        failures.append(f"03-10 §11 #4：UI 层出现禁止依赖 {hit}")
+    elif "DriverRegistry" in ui_text:
+        failures.append("03-10 §11 #4：UI 层不得直接调 DriverRegistry")
+    else:
+        print("[PASS] T-A6：UI 层零 Driver / Room / OkHttp 直接依赖")
+
+    # ---- 12 §34（第二十五批 / T-L L1 步骤 2 前置）长效守护 -----------------------
+    jni_src = ROOT / "analysis" / "jadx-jni-classes"
+    jni_java = sorted(jni_src.rglob("*.java")) if jni_src.is_dir() else []
+    if len(jni_java) != 12:
+        failures.append(
+            f"12 §10.2 步骤 2：12 个精确 JNI 类的反编译源码应齐全，实测 {len(jni_java)} 个"
+        )
+    else:
+        print("[PASS] T-L L1：12 个精确 JNI 类真实 Java 源码在位（jadx 1.5.1）")
+    jni_report = ROOT / "analysis" / "jni-verify-report.json"
+    if not jni_report.is_file():
+        failures.append("12 §34：JNI 源码↔索引核对报告未生成（跑 engine_jni_verify.py）")
+    else:
+        try:
+            verified = json.loads(jni_report.read_text(encoding="utf-8"))
+            if verified.get("sourceFilesPresent") != 12:
+                failures.append("12 §34：核对报告里源码在位数不是 12")
+            else:
+                print("[PASS] T-L L1：JNI 源码↔签名索引核对报告在位（12/12）")
+        except (ValueError, OSError) as exc:
+            failures.append(f"12 §34：核对报告不可解析：{exc}")
+
+    # ---- 12 §35（第二十六批 / T-L L1 步骤 3）长效守护 -------------------------
+    cabin = ROOT / "engine-legacy" / "src" / "main" / "java"
+    cabin_java = list(cabin.rglob("*.java")) if cabin.is_dir() else []
+    if len(cabin_java) < 54:
+        failures.append(
+            f"12 §10.2 步骤 3：舱内应有 12 真类 + 42 slot = 54 个 Java 文件，实测 {len(cabin_java)}"
+        )
+    else:
+        print("[PASS] T-L L1：舱内 12 真类 + slot 编译单元在位（54 个 Java）")
+
+    loader = cabin / "com" / "example" / "cloudmusic" / "enginelegacy" / "EngineNativeLoader.kt"
+    if not loader.is_file() or "PLAYBACK_ENGINE_CHAIN" not in loader.read_text(encoding="utf-8"):
+        failures.append("12 §35：EngineNativeLoader 缺精确加载链（12 §34 D-104）")
+    else:
+        print("[PASS] T-L L1：EngineNativeLoader 承载 D-104 按类加载链")
+
+    bridges = (
+        cabin / "o2" / "c.java",
+        cabin / "zv" / "a.java",
+    )
+    if any(not p.is_file() or "EngineNativeLoader.load" not in p.read_text(encoding="utf-8")
+           for p in bridges):
+        failures.append("12 §35：o2.c / zv.a 加载封装器未委托到自研加载器")
+    else:
+        print("[PASS] T-L L1：混淆加载封装器已委托到 EngineNativeLoader（非空壳）")
+
+    ledger = (ROOT / "docs" / "12-编码阶段第一批交付.md").read_text(encoding="utf-8")
+    if "| 51 |" not in ledger:
+        failures.append("12 §10.4：slot 登记簿缺第 51 行（数据源链 slot 未登记）")
+    else:
+        print("[PASS] T-L L1：slot 登记簿 51 行全部由 compile 触发（≤200 上限）")
+
+    # ---- 12 §36（第二十七批 / EngineAdapter + DI 换绑）长效守护 -----------------
+    adapter = cabin / "com" / "example" / "cloudmusic" / "enginelegacy" / "EngineAdapter.kt"
+    adapter_text = adapter.read_text(encoding="utf-8") if adapter.is_file() else ""
+    adapter_needles = (
+        "class EngineAdapter : IMusicEngine",
+        "EngineNativeLoader.loadChain",
+        "PlayerDataSource(provider",
+        "s.provider.close()",
+    )
+    missing_adapter = [n for n in adapter_needles if n not in adapter_text]
+    if missing_adapter:
+        failures.append(f"12 §36：EngineAdapter 缺映射要素 {missing_adapter}")
+    else:
+        print("[PASS] T-L L1：EngineAdapter 门面映射与加载链在位")
+
+    bindings = (
+        ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+        / "cloudmusic" / "di" / "AppBindings.kt"
+    ).read_text(encoding="utf-8")
+    if "= EngineAdapter()" not in bindings:
+        failures.append("12 §36：EngineModule 未换绑 EngineAdapter（IMusicEngine 仍为内存实现）")
+    else:
+        print("[PASS] T-L L1：EngineModule 已换绑 EngineAdapter（D-08 换绑点，门面零改动）")
+
+    pds = cabin / "com" / "netease" / "cloudmusic" / "android" / "sdk" / "playerengine" / "PlayerDataSource.java"
+    if not pds.is_file() or "getDataProvider()" not in pds.read_text(encoding="utf-8"):
+        failures.append("12 §36：PlayerDataSource 缺 13 §7.3 的 5 个 getter")
+    else:
+        print("[PASS] T-L L1：PlayerDataSource 数据源链 getter 在位")
+
+    # ---- 12 §37（第二十八轮 / 静态 ABI 验收 A1/A2）长效守护 -------------------
+    abi_report = ROOT / "analysis" / "jni-binding-report.json"
+    if not abi_report.is_file():
+        failures.append("03-06 §6 A1/A2：静态 ABI 对映报告未生成（跑 check_jni_bindings.py）")
+    else:
+        try:
+            abi = json.loads(abi_report.read_text(encoding="utf-8"))
+            if not abi.get("matchesBaselineDelta8"):
+                failures.append("12 §37：A1 净差不是 8，与 13 §7.4 基线不符")
+            elif not abi.get("a2", {}).get("pass"):
+                failures.append("12 §37：A2 DT_NEEDED 闭包越界")
+            else:
+                print("[PASS] 静态 ABI：A1 净差 8 与 13 §7.4 吻合、A2 闭包零越界（A3 真机待跑）")
+        except (ValueError, OSError) as exc:
+            failures.append(f"12 §37：ABI 报告不可解析：{exc}")
+
+    if "StateListener" not in adapter_text or "nativeEvents()" not in adapter_text:
+        failures.append("12 §37：EngineAdapter 未接通 native 事件回调桥")
+    else:
+        print("[PASS] T-L L1：native 事件回调桥接通（事件码原样透传，待 G01 校准）")
+
+    # ---- 12 §38（第二十九轮 / T-L L3 动画链路实证）长效守护 -------------------
+    anim_report = ROOT / "analysis" / "player-anim-resolution.json"
+    if not anim_report.is_file():
+        failures.append("14 §4.1：播放页 anim 链路解析报告未生成（跑 resolve_player_anim.py）")
+    else:
+        try:
+            anim = json.loads(anim_report.read_text(encoding="utf-8"))
+            if anim.get("resolvedResourceIdCount") != 2 or anim.get("rotateCandidates", {}).get("count") != 40:
+                failures.append("12 §38：anim 收敛数 / rotate 候选数与 14 §4.1 基线不符")
+            elif anim.get("assetMappingChanged"):
+                failures.append("12 §38：解析工具不得改动 docs/assets-mapping.csv（导出由 export_player_assets.py 统一负责）")
+            else:
+                print("[PASS] T-L L3：loadAnimation 链路收敛 2 个 anim，40 rotate 候选复核，映射表未被解析工具改写")
+        except (ValueError, OSError) as exc:
+            failures.append(f"12 §38：anim 报告不可解析：{exc}")
+
+    # ---- 12 §47（用户确认 C4 口径后：映射表允许有行，但字段 / 状态须合规）--------
+    mapping_csv = ROOT / "docs" / "assets-mapping.csv"
+    if not mapping_csv.is_file():
+        failures.append("06 §4：docs/assets-mapping.csv 缺失")
+    else:
+        try:
+            with mapping_csv.open("r", encoding="utf-8-sig", newline="") as fh:
+                mrows = list(csv.DictReader(fh))
+            required = {
+                "legacy_name", "type", "resource_id", "semantic_name",
+                "used_by", "notes", "replaced",
+            }
+            if mrows and not required.issubset(set(mrows[0].keys())):
+                failures.append(f"06 §4：映射表字段不符 {sorted(mrows[0].keys())}")
+            elif mrows:
+                bad = [r for r in mrows
+                       if str(r.get("replaced", "")).strip().lower() not in {"true", "false"}]
+                if bad:
+                    failures.append(f"06 §4：{len(bad)} 行 replaced 值非 true/false")
+                else:
+                    pending = sum(1 for r in mrows
+                                  if r["replaced"].strip().lower() != "true")
+                    print(f"[PASS] C4 新口径：映射表 {len(mrows)} 行、{pending} 项待替换（dev WARN / release FAIL）")
+            else:
+                print("[PASS] C4：映射表为空表（尚无素材导出）")
+        except (OSError, ValueError) as exc:
+            failures.append(f"06 §4：映射表不可解析：{exc}")
+
+    # ---- 12 §39（第三十轮 / 唱片旋转挂账收口）长效守护 -----------------------
+    rot_report = ROOT / "analysis" / "rotation-anim-resolution.json"
+    if not rot_report.is_file():
+        failures.append("14 §4.1：唱片旋转收口报告未生成（跑 resolve_rotation_anim.py）")
+    else:
+        try:
+            rot = json.loads(rot_report.read_text(encoding="utf-8"))
+            if not rot.get("rotationIsPureCode") or rot.get("visualParams", {}).get("baselineDurationMs") != 20000:
+                failures.append("12 §39：唱片旋转实证参数与 20000ms 基准不符")
+            elif rot.get("assetMappingChanged"):
+                failures.append("12 §39：旋转复核不得改动 assets-mapping.csv（C4 空表语义）")
+            else:
+                print("[PASS] T-L L3：唱片旋转为纯代码属性动画（20s/speed），40 rotate 候选无需导出")
+        except (ValueError, OSError) as exc:
+            failures.append(f"12 §39：旋转报告不可解析：{exc}")
+
+    # ---- 12 §40（第三十一批 / T-A6 UI 完善）长效守护 -------------------------
+    ui_app = (
+        ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+        / "cloudmusic" / "ui" / "CloudMusicApp.kt"
+    ).read_text(encoding="utf-8")
+    ui_needles = (
+        "\"曲库\" to \"♫\"", "\"歌单\" to \"☰\"", "\"搜索\" to \"⌕\"",
+        "\"队列\" to \"☷\"", "\"设置\" to \"⚙\"", "OutputDialog(", "蓝牙仅显示连接状态",
+    )
+    missing_ui = [n for n in ui_needles if n not in ui_app]
+    if missing_ui:
+        failures.append(f"03-10 §5：UI 五页 / 输出弹窗 / 蓝牙口径缺失 {missing_ui}")
+    else:
+        print("[PASS] T-A6：五页导航 + 输出弹窗 + 蓝牙不并列口径在位")
+
+    if "provideOutputRouter" not in bindings:
+        failures.append("12 §40：OutputRouter 缺唯一 DI 绑定（03-09 §7）")
+    elif 'project(":output-router")' not in (ROOT / "app" / "build.gradle.kts").read_text(encoding="utf-8"):
+        failures.append("12 §40：:app 未依赖 :output-router")
+    else:
+        print("[PASS] T-A6：OutputRouter DI 绑定与 :app 依赖在位")
+
+    # ---- 12 §41（第三十二批 / 音频焦点与 BECOMING_NOISY）长效守护 -------------
+    service = (
+        ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+        / "cloudmusic" / "PlaybackService.kt"
+    ).read_text(encoding="utf-8")
+    focus_needles = (
+        "AudioFocusRequest.Builder", "ACTION_AUDIO_BECOMING_NOISY",
+        "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK", "RECEIVER_NOT_EXPORTED",
+        "abandonAudioFocusRequest", "AUDIOFOCUS_REQUEST_GRANTED",
+    )
+    missing_focus = [n for n in focus_needles if n not in service]
+    if missing_focus:
+        failures.append(f"03-09 §8：音频焦点 / BECOMING_NOISY 接线缺失 {missing_focus}")
+    else:
+        print("[PASS] T-A5：音频焦点 + BECOMING_NOISY 平台接线在位（零新增权限/依赖）")
+
+    # ---- 12 §43 / §44（T1 解环 + T4 状态回传）长效守护 ------------------------
+    bindings = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                / "cloudmusic" / "di" / "AppBindings.kt").read_text(encoding="utf-8")
+    if "fun provideMediaControl(runtime" in bindings:
+        failures.append("12 §43：provideMediaControl 再次注入 PlaybackRuntime，DI 依赖环回归")
+    elif "fun provideMediaControl(): IMediaControl = InMemoryMediaControl()" not in bindings:
+        failures.append("12 §43：MediaModule 零参数绑定缺失")
+    else:
+        print("[PASS] T1：MediaModule 零参数绑定在位（无 DI 依赖环）")
+
+    facade = (ROOT / "core-media" / "src" / "main" / "kotlin" / "com" / "example"
+              / "cloudmusic" / "media" / "MediaControlApi.kt").read_text(encoding="utf-8")
+    missing_facade = [n for n in ("fun onPlaying() {}", "fun onManualPause() {}")
+                      if n not in facade]
+    if missing_facade:
+        failures.append(f"C-15：IMediaControl 默认状态通知方法缺失 {missing_facade}")
+    else:
+        print("[PASS] C-15：IMediaControl 默认空实现在位（既有实现零回归）")
+
+    session_needles = (
+        "mediaControl.onPlaying()", "mediaControl.onManualPause()",
+        "lateinit var runtime: PlaybackRuntime", "lateinit var mediaControl: IMediaControl",
+    )
+    missing_session = [n for n in session_needles if n not in service]
+    if missing_session:
+        failures.append(f"12 §44：媒体会话状态回传 / 双注入守护缺失 {missing_session}")
+    else:
+        print("[PASS] T4：onPlay/onPause 状态回传在位；双注入保证 PlayerController.init 完成 bind")
+
+    # ---- 12 §45（T3 / GAIN 三变体逐项映射）长效守护 --------------------------
+    gain_needles = (
+        "AudioManager.AUDIOFOCUS_GAIN -> FocusChange.GAIN",
+        "AudioManager.AUDIOFOCUS_GAIN_TRANSIENT -> FocusChange.GAIN_TRANSIENT",
+        "AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> FocusChange.GAIN_TRANSIENT_MAY_DUCK",
+    )
+    missing_gain = [n for n in gain_needles if n not in service]
+    if missing_gain:
+        failures.append(f"12 §45：GAIN 三变体逐项映射缺失 {missing_gain}")
+    else:
+        print("[PASS] T3：AUDIOFOCUS_GAIN* 三变体逐项映射到 FocusChange（未压平）")
+
+    # ---- 12 §46（第三十七批 / 断连裁决链接入生产）长效守护 --------------------
+    disconnect_needles = (
+        "BluetoothOutputPolicy(", "BluetoothEvent.BECOMING_NOISY",
+        "disconnectPolicy.updateSettings", "autoPauseOnDisconnect = playback.autoPauseOnDisconnect",
+        "permissionGranted = false", "notifyPlaybackResumed()",
+        "lateinit var settings: SettingsAccess", "lateinit var outputRouter: OutputRouter",
+    )
+    missing_disconnect = [n for n in disconnect_needles if n not in service]
+    if missing_disconnect:
+        failures.append(f"12 §46：断连裁决链生产接线缺失 {missing_disconnect}")
+    else:
+        print("[PASS] T-L L2：BECOMING_NOISY 经 BluetoothOutputPolicy 裁决（零新增权限）")
+
+    # ---- 12 §48（DLNA 输出切换：联动契约守护，缺口见 §48.2）-----------------
+    # 03-08 §14 #9 / 03-09 §7：切 DLNA 必须同时改 OutputRouter 与 PlayerController
+    # （后者内部再联动 IMediaControl.setEnabled，T09），禁止只切一半状态。
+    # 当前两者生产调用方均为 0 → DLNA 豁免暂未触发；缺口如实挂账，不伪造投屏状态。
+    active_calls = output_changed_calls = 0
+    for root_rel in ("app/src/main", "core-di/src/main"):
+        base = ROOT / root_rel
+        if not base.is_dir():
+            continue
+        for prod in sorted(base.rglob("*.kt")):
+            if "build" in prod.parts:
+                continue
+            body = prod.read_text(encoding="utf-8", errors="replace")
+            active_calls += len(re.findall(r"\.setActive\(", body))
+            output_changed_calls += len(re.findall(r"\.onOutputChanged\(", body))
+    if active_calls != output_changed_calls:
+        failures.append(
+            f"03-08 §14 #9 / 03-09 §7：OutputRouter.setActive({active_calls}) 与 "
+            f"PlayerController.onOutputChanged({output_changed_calls}) 必须成对联动"
+        )
+    else:
+        print(
+            f"[PASS] 03-09 §7：输出切换联动成对（生产调用方 {active_calls} 处）；"
+            "当前无触发点 → DLNA 豁免未激活，缺口见 12 §48"
+        )
+
     for rel, needles in SIGNATURES.items():
         path = ROOT / rel
         if not path.is_file():
@@ -539,6 +1309,30 @@ def main() -> int:
     else:
         print("[PASS] 03-01 §12 的 T01~T20 编号全部有对应测试")
 
+    # 12 §27 D-56 的长效守护：`@Test fun x() = runBlocking { ... assertFailsWith{...} }`
+    # 的返回类型不是 Unit，JUnit Jupiter 会**静默跳过**该用例（第十八 / 十九批两次实测）。
+    silent_tests: list[str] = []
+    for path in sorted(ROOT.glob("*/src/test/kotlin/**/*.kt")):
+        lines = path.read_text(encoding="utf-8").splitlines()
+        for i, line in enumerate(lines):
+            if "fun " not in line or "= runBlocking {" not in line:
+                continue
+            depth = line.count("{") - line.count("}")
+            body = [line]
+            j = i + 1
+            while j < len(lines) and depth > 0:
+                body.append(lines[j])
+                depth += lines[j].count("{") - lines[j].count("}")
+                j += 1
+            if "assertFailsWith" in "\n".join(body):
+                silent_tests.append(f"{path.relative_to(ROOT).as_posix()}:{i + 1}")
+    if silent_tests:
+        failures.append(
+            f"表达式体 runBlocking + assertFailsWith 返回非 Unit，JUnit 会静默跳过（12 §27 D-56）: {silent_tests}"
+        )
+    else:
+        print("[PASS] 12 §27 D-56 守护：无非 Unit 表达式体 runBlocking 测试")
+
     if (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example" /
             "cloudmusic" / "common" / "PathNormalizer.kt").is_file():
         warnings.append("实现期修正 C-01：路径规范化下沉至 :core-common（见 PathNormalizer KDoc）")
@@ -549,6 +1343,21 @@ def main() -> int:
             "cloudmusic" / "storage" / "InMemoryLibrary.kt").is_file():
         warnings.append("实现期补充 C-03（Playlist/TrackEntity 就近定义）/ 澄清 C-04（重扫恢复走 ScanReconciler 显式通道），见 12 §13")
         warnings.append("契约演进 C-05（EngineSource 可选 url/localPath）/ C-06（ProxyStartPolicy 触发器 ④）已落地，见 16 §4 / 12 §21")
+        warnings.append("契约演进 C-07（PROXIED Link 补 proxySourceUrl 回源 URL，驱动 / 代理已落地）/ C-08（匿名直链探测已于 12 §31 随 T-A5 透传 Track 上下文落地），见 12 §25 / §31")
+        warnings.append("契约演进 C-12（ByteRange 生产实现）/ C-13（nanohttpd 本体）/ C-14（effects 执行者与定向增量）已落地，见 12 §31")
+        warnings.append("T-L L1 步骤 1（12 §32）：18 个 so + ENGINE-FINGERPRINT + :engine-legacy 舱体已落地；84 真类 / slot / 真机仍按 12 §10.3 时间盒推进")
+        warnings.append("T-A6（12 §33）：Compose UI 骨架 / LAUNCHER 已落地；照搬播放页（T-L L3）与真实内核（T-L L1）仍待，V0.1 用迷你播放条占位")
+        warnings.append("T-L L1 步骤 2 前置（12 §34）：12 个精确 JNI 类真实源码 + 精确 so 加载链已取得；84 真类全集 / 编译补 slot / 真机仍在时间盒内")
+        warnings.append("T-L L1 步骤 3（12 §35）：舱内 12 真类 + 37 slot 编译通过、45 行登记簿已填；EngineAdapter / 真机 G01~G09 仍未收口（编译通过 ≠ 引擎可用）")
+        warnings.append("T-L L1（12 §36）：EngineAdapter 已实现并换绑 EngineModule，登记簿 51 行；真机 G01/G02 与 JNI 回调校准仍未收口")
+        warnings.append("静态 ABI（12 §37）：A1/A2 PASS，缺符号清单 15 项已列（V0.1 播放主链路符号齐全）；A3 真机 G01~G09 因本机无 adb 未跑")
+        warnings.append("T-L L3 前置（12 §38）：loadAnimation 链路已解析（2 个 scale anim），唱片旋转不走该链路；40 rotate 候选仍需真机，当时 assets-mapping.csv 为空表（12 §47 起已有行）")
+        warnings.append("T-L L3（12 §39）：唱片旋转 / 唱针已证实为纯代码属性动画（20s ÷ playSpeed），14 §4.1 挂账收口、播放页闭包无需 anim 项；⑦ 素材已于 12 §47 导出至 assets 暂存，转 res 属 L3 后续")
+        warnings.append("T-A6 完善（12 §40）：UI 五页 + 输出弹窗 + OutputRouter DI 绑定已落地；⑦ 的 C4 口径已于 12 §47 经用户确认并实施")
+        warnings.append("T-A5 遗留（12 §41）：音频焦点 + BECOMING_NOISY 已接线；T1（12 §43）已解 DI 环并由 PlayerController.init 完成 bind，T4（12 §44）已把 onPlay/onPause 状态回传门面；T-L L2 的蓝牙状态 / OutputRouter 联动与真机用例仍待")
+        warnings.append("契约演进 C-15（12 §44）：IMediaControl 增加带默认空实现的 onPlaying()/onManualPause()，照搬层与测试替身零回归；FocusPolicy.onPlaying() 同时清恢复标记，避免 GAIN 重复 resume")
+        warnings.append("C4 口径（12 §47，D-145 用户确认）：61 项竞品素材导出至 app/src/main/assets/legacy-player/ 并登记 assets-mapping.csv（replaced=false）；check-assets.py 未替换项改 dev WARN / release FAIL，release 新增 C4 阻断")
+        warnings.append("DLNA 输出链路缺口（12 §48）：OutputRouter.setActive / PlayerController.onOutputChanged / refreshBluetoothFrom 全库仅测试调用，activeOutput 恒 LOCAL、remoteOutput 恒 false；§46 的 DLNA 豁免当前空转。真实触发点待 T-V T20/T21 的 DMR 控制链路与 UI 切换决策，不擅自伪造投屏状态")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

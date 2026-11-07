@@ -25,6 +25,16 @@ interface IMediaControl {
     /** 切 DLNA 输出时禁用本机媒体会话（03-07 §12 T09）。 */
     fun setEnabled(enabled: Boolean)
 
+    /**
+     * C-15（`12 §44`）：上层把「用户主动操作」回传给焦点状态机。
+     * **带默认空实现**，照搬层实现与既有测试替身无需改动即可编译（零回归）；
+     * 参考实现覆写后驱动 `FocusPolicy` 的「是否因焦点而暂停」标记（§12 T01~T03）。
+     * `PlaybackService` 的 `MediaSession.Callback` 在 `onPlay` / `onPause` 调用，
+     * 否则手动暂停后收到 `GAIN` 会被误判为「来电恢复」而自动续播。
+     */
+    fun onPlaying() {}
+    fun onManualPause() {}
+
     fun release()
 }
 

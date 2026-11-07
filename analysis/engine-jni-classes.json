@@ -1,0 +1,2216 @@
+{
+  "source": "analysis/engine-api-audit.json + NeteaseCloudMusic.apk (4 个 JNI 入口 so)",
+  "purpose": "12 §10.2 步骤 2 的 84 真类重建清单；不生成类源码，不预生成 slot",
+  "classCount": 19,
+  "preciseJniClassCount": 12,
+  "nativeMethodCount": 162,
+  "jniSymbolCount": 202,
+  "jniSymbolsByLib": {
+    "libncmplayerengine.so": 118,
+    "libaudioplayer.so": 2,
+    "libnmplaylist.so": 24,
+    "libNMCommonCache.so": 58
+  },
+  "deltaKnown": [
+    "Playback.nativeNotifyAudioEffectChanged (1)",
+    "PlaylistJniBridge *Raw / 日志 / 更新类方法 (7)"
+  ],
+  "classes": [
+    {
+      "descriptor": "Lcom/netease/cloudmusic/android/sdk/playerengine/AudioPlayerUnit;",
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.AudioPlayerUnit",
+      "dex": "classes14.dex",
+      "preciseJniClass": true,
+      "nativeMethodCount": 27,
+      "nativeMethods": [
+        {
+          "name": "nativeApplyAudioEffect",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void nativeApplyAudioEffect(long)"
+        },
+        {
+          "name": "nativeCreate",
+          "javaReturn": "long",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "long nativeCreate(long)"
+        },
+        {
+          "name": "nativeDestroy",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void nativeDestroy(long)"
+        },
+        {
+          "name": "nativeGetDuration",
+          "javaReturn": "long",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "long nativeGetDuration(long)"
+        },
+        {
+          "name": "nativeGetMNNXPUType",
+          "javaReturn": "int",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "int nativeGetMNNXPUType(long)"
+        },
+        {
+          "name": "nativeGetPlayingTime",
+          "javaReturn": "long",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "long nativeGetPlayingTime(long)"
+        },
+        {
+          "name": "nativeGetState",
+          "javaReturn": "int",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "int nativeGetState(long)"
+        },
+        {
+          "name": "nativeGetVolume",
+          "javaReturn": "float",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "float nativeGetVolume(long)"
+        },
+        {
+          "name": "nativeLoadAIFilter",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "java.lang.String",
+            "int"
+          ],
+          "descriptorParams": [
+            "J",
+            "Ljava/lang/String;",
+            "I"
+          ],
+          "declaration": "void nativeLoadAIFilter(long, java.lang.String, int)"
+        },
+        {
+          "name": "nativeLoadAIModel",
+          "javaReturn": "int",
+          "javaParams": [
+            "long",
+            "byte[]",
+            "int",
+            "int"
+          ],
+          "descriptorParams": [
+            "J",
+            "[B",
+            "I",
+            "I"
+          ],
+          "declaration": "int nativeLoadAIModel(long, byte[], int, int)"
+        },
+        {
+          "name": "nativePause",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "boolean"
+          ],
+          "descriptorParams": [
+            "J",
+            "Z"
+          ],
+          "declaration": "void nativePause(long, boolean)"
+        },
+        {
+          "name": "nativePlay",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "boolean"
+          ],
+          "descriptorParams": [
+            "J",
+            "Z"
+          ],
+          "declaration": "void nativePlay(long, boolean)"
+        },
+        {
+          "name": "nativePrepareAsync",
+          "javaReturn": "int",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "int nativePrepareAsync(long)"
+        },
+        {
+          "name": "nativeReset",
+          "javaReturn": "int",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "int nativeReset(long)"
+        },
+        {
+          "name": "nativeSeek",
+          "javaReturn": "long",
+          "javaParams": [
+            "long",
+            "long"
+          ],
+          "descriptorParams": [
+            "J",
+            "J"
+          ],
+          "declaration": "long nativeSeek(long, long)"
+        },
+        {
+          "name": "nativeSetAudioEffect",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "long"
+          ],
+          "descriptorParams": [
+            "J",
+            "J"
+          ],
+          "declaration": "void nativeSetAudioEffect(long, long)"
+        },
+        {
+          "name": "nativeSetAudioEffectCallback",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "com.netease.cloudmusic.android.sdk.playerengine.AudioEffectReadyCallback"
+          ],
+          "descriptorParams": [
+            "J",
+            "Lcom/netease/cloudmusic/android/sdk/playerengine/AudioEffectReadyCallback;"
+          ],
+          "declaration": "void nativeSetAudioEffectCallback(long, com.netease.cloudmusic.android.sdk.playerengine.AudioEffectReadyCallback)"
+        },
+        {
+          "name": "nativeSetAudioIFEnable",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "int"
+          ],
+          "descriptorParams": [
+            "J",
+            "I"
+          ],
+          "declaration": "void nativeSetAudioIFEnable(long, int)"
+        },
+        {
+          "name": "nativeSetAudioIFProcess",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "long"
+          ],
+          "descriptorParams": [
+            "J",
+            "J"
+          ],
+          "declaration": "void nativeSetAudioIFProcess(long, long)"
+        },
+        {
+          "name": "nativeSetAudioIFRatio",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "int"
+          ],
+          "descriptorParams": [
+            "J",
+            "I"
+          ],
+          "declaration": "void nativeSetAudioIFRatio(long, int)"
+        },
+        {
+          "name": "nativeSetDataSource",
+          "javaReturn": "int",
+          "javaParams": [
+            "long",
+            "com.netease.cloudmusic.android.sdk.playerengine.PlayerDataSource"
+          ],
+          "descriptorParams": [
+            "J",
+            "Lcom/netease/cloudmusic/android/sdk/playerengine/PlayerDataSource;"
+          ],
+          "declaration": "int nativeSetDataSource(long, com.netease.cloudmusic.android.sdk.playerengine.PlayerDataSource)"
+        },
+        {
+          "name": "nativeSetListener",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "com.netease.cloudmusic.android.sdk.playerengine.PlayerUnitListener"
+          ],
+          "descriptorParams": [
+            "J",
+            "Lcom/netease/cloudmusic/android/sdk/playerengine/PlayerUnitListener;"
+          ],
+          "declaration": "void nativeSetListener(long, com.netease.cloudmusic.android.sdk.playerengine.PlayerUnitListener)"
+        },
+        {
+          "name": "nativeSetMNNXPUType",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "int"
+          ],
+          "descriptorParams": [
+            "J",
+            "I"
+          ],
+          "declaration": "void nativeSetMNNXPUType(long, int)"
+        },
+        {
+          "name": "nativeSetVividDecInfo",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "java.lang.String",
+            "java.lang.String",
+            "int"
+          ],
+          "descriptorParams": [
+            "J",
+            "Ljava/lang/String;",
+            "Ljava/lang/String;",
+            "I"
+          ],
+          "declaration": "void nativeSetVividDecInfo(long, java.lang.String, java.lang.String, int)"
+        },
+        {
+          "name": "nativeSetVolume",
+          "javaReturn": "int",
+          "javaParams": [
+            "long",
+            "float"
+          ],
+          "descriptorParams": [
+            "J",
+            "F"
+          ],
+          "declaration": "int nativeSetVolume(long, float)"
+        },
+        {
+          "name": "nativeStartAIModel",
+          "javaReturn": "int",
+          "javaParams": [
+            "long",
+            "int",
+            "int"
+          ],
+          "descriptorParams": [
+            "J",
+            "I",
+            "I"
+          ],
+          "declaration": "int nativeStartAIModel(long, int, int)"
+        },
+        {
+          "name": "nativeStop",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void nativeStop(long)"
+        }
+      ]
+    },
+    {
+      "descriptor": "Lcom/netease/cloudmusic/android/sdk/playerengine/DataProvider;",
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.DataProvider",
+      "dex": "classes14.dex",
+      "preciseJniClass": false,
+      "nativeMethodCount": 0,
+      "nativeMethods": []
+    },
+    {
+      "descriptor": "Lcom/netease/cloudmusic/android/sdk/playerengine/MusicInfo;",
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.MusicInfo",
+      "dex": "classes14.dex",
+      "preciseJniClass": false,
+      "nativeMethodCount": 0,
+      "nativeMethods": []
+    },
+    {
+      "descriptor": "Lcom/netease/cloudmusic/android/sdk/playerengine/NativeDataRequestErrorCallback;",
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.NativeDataRequestErrorCallback",
+      "dex": "classes14.dex",
+      "preciseJniClass": true,
+      "nativeMethodCount": 1,
+      "nativeMethods": [
+        {
+          "name": "nativeOnError",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "long",
+            "int",
+            "int"
+          ],
+          "descriptorParams": [
+            "J",
+            "J",
+            "I",
+            "I"
+          ],
+          "declaration": "void nativeOnError(long, long, int, int)"
+        }
+      ]
+    },
+    {
+      "descriptor": "Lcom/netease/cloudmusic/android/sdk/playerengine/Playback;",
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.Playback",
+      "dex": "classes14.dex",
+      "preciseJniClass": true,
+      "nativeMethodCount": 60,
+      "nativeMethods": [
+        {
+          "name": "nativeAttachAudioEffect",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "long",
+            "java.lang.String"
+          ],
+          "descriptorParams": [
+            "J",
+            "J",
+            "Ljava/lang/String;"
+          ],
+          "declaration": "void nativeAttachAudioEffect(long, long, java.lang.String)"
+        },
+        {
+          "name": "nativeBeginQualityContinuation",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void nativeBeginQualityContinuation(long)"
+        },
+        {
+          "name": "nativeCancelTransition",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void nativeCancelTransition(long)"
+        },
+        {
+          "name": "nativeChangeQuality",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "int"
+          ],
+          "descriptorParams": [
+            "J",
+            "I"
+          ],
+          "declaration": "void nativeChangeQuality(long, int)"
+        },
+        {
+          "name": "nativeCommitTransitionSwitch",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void nativeCommitTransitionSwitch(long)"
+        },
+        {
+          "name": "nativeCreate",
+          "javaReturn": "long",
+          "javaParams": [
+            "com.netease.cloudmusic.android.sdk.playerengine.PlaybackPlatform",
+            "long",
+            "com.netease.cloudmusic.android.sdk.playerengine.PlaybackListener"
+          ],
+          "descriptorParams": [
+            "Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackPlatform;",
+            "J",
+            "Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackListener;"
+          ],
+          "declaration": "long nativeCreate(com.netease.cloudmusic.android.sdk.playerengine.PlaybackPlatform, long, com.netease.cloudmusic.android.sdk.playerengine.PlaybackListener)"
+        },
+        {
+          "name": "nativeDiscardUSBDevice",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void nativeDiscardUSBDevice(long)"
+        },
+        {
+          "name": "nativeGetAudioDeviceType",
+          "javaReturn": "int",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "int nativeGetAudioDeviceType(long)"
+        },
+        {
+          "name": "nativeGetAudioLatency",
+          "javaReturn": "long",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "long nativeGetAudioLatency(long)"
+        },
+        {
+          "name": "nativeGetAudioTrackSessionId",
+          "javaReturn": "int",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "int nativeGetAudioTrackSessionId(long)"
+        },
+        {
+          "name": "nativeGetCacheProgress",
+          "javaReturn": "com.netease.cloudmusic.android.sdk.playerengine.PlaybackCacheProgress",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "com.netease.cloudmusic.android.sdk.playerengine.PlaybackCacheProgress nativeGetCacheProgress(long)"
+        },
+        {
+          "name": "nativeGetCurrentBitrate",
+          "javaReturn": "int",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "int nativeGetCurrentBitrate(long)"
+        },
+        {
+          "name": "nativeGetCurrentPosition",
+          "javaReturn": "long",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "long nativeGetCurrentPosition(long)"
+        },
+        {
+          "name": "nativeGetCurrentSongId",
+          "javaReturn": "java.lang.String",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "java.lang.String nativeGetCurrentSongId(long)"
+        },
+        {
+          "name": "nativeGetDuration",
+          "javaReturn": "long",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "long nativeGetDuration(long)"
+        },
+        {
+          "name": "nativeGetPlaybackState",
+          "javaReturn": "int",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "int nativeGetPlaybackState(long)"
+        },
+        {
+          "name": "nativeGetPlayedTime",
+          "javaReturn": "long",
+          "javaParams": [
+            "long",
+            "java.lang.String"
+          ],
+          "descriptorParams": [
+            "J",
+            "Ljava/lang/String;"
+          ],
+          "declaration": "long nativeGetPlayedTime(long, java.lang.String)"
+        },
+        {
+          "name": "nativeGetPlayedTimeWithSpeed",
+          "javaReturn": "long",
+          "javaParams": [
+            "long",
+            "java.lang.String"
+          ],
+          "descriptorParams": [
+            "J",
+            "Ljava/lang/String;"
+          ],
+          "declaration": "long nativeGetPlayedTimeWithSpeed(long, java.lang.String)"
+        },
+        {
+          "name": "nativeGetRoundPlayedTime",
+          "javaReturn": "long",
+          "javaParams": [
+            "long",
+            "java.lang.String"
+          ],
+          "descriptorParams": [
+            "J",
+            "Ljava/lang/String;"
+          ],
+          "declaration": "long nativeGetRoundPlayedTime(long, java.lang.String)"
+        },
+        {
+          "name": "nativeGetRoundPlayedTimeWithSpeed",
+          "javaReturn": "long",
+          "javaParams": [
+            "long",
+            "java.lang.String"
+          ],
+          "descriptorParams": [
+            "J",
+            "Ljava/lang/String;"
+          ],
+          "declaration": "long nativeGetRoundPlayedTimeWithSpeed(long, java.lang.String)"
+        },
+        {
+          "name": "nativeGetTransitionState",
+          "javaReturn": "int",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "int nativeGetTransitionState(long)"
+        },
+        {
+          "name": "nativeGetUnitPropertyBySongTag",
+          "javaReturn": "java.lang.String",
+          "javaParams": [
+            "long",
+            "java.lang.String",
+            "java.lang.String"
+          ],
+          "descriptorParams": [
+            "J",
+            "Ljava/lang/String;",
+            "Ljava/lang/String;"
+          ],
+          "declaration": "java.lang.String nativeGetUnitPropertyBySongTag(long, java.lang.String, java.lang.String)"
+        },
+        {
+          "name": "nativeGetVolume",
+          "javaReturn": "float",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "float nativeGetVolume(long)"
+        },
+        {
+          "name": "nativeIsBuffering",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "boolean nativeIsBuffering(long)"
+        },
+        {
+          "name": "nativeIsMuted",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "boolean nativeIsMuted(long)"
+        },
+        {
+          "name": "nativeIsPlaying",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "boolean nativeIsPlaying(long)"
+        },
+        {
+          "name": "nativeIsSeeking",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "boolean nativeIsSeeking(long)"
+        },
+        {
+          "name": "nativeMarkPlaybackRoundStarted",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "boolean nativeMarkPlaybackRoundStarted(long)"
+        },
+        {
+          "name": "nativeMusicInfoToDataSource",
+          "javaReturn": "long",
+          "javaParams": [
+            "long",
+            "com.netease.cloudmusic.android.sdk.playerengine.MusicInfo",
+            "com.netease.cloudmusic.android.sdk.playerengine.DataSourcePlatform"
+          ],
+          "descriptorParams": [
+            "J",
+            "Lcom/netease/cloudmusic/android/sdk/playerengine/MusicInfo;",
+            "Lcom/netease/cloudmusic/android/sdk/playerengine/DataSourcePlatform;"
+          ],
+          "declaration": "long nativeMusicInfoToDataSource(long, com.netease.cloudmusic.android.sdk.playerengine.MusicInfo, com.netease.cloudmusic.android.sdk.playerengine.DataSourcePlatform)"
+        },
+        {
+          "name": "nativeNotifyAudioEffectChanged",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void nativeNotifyAudioEffectChanged(long)"
+        },
+        {
+          "name": "nativeNotifyNetworkQualityReduce",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void nativeNotifyNetworkQualityReduce(long)"
+        },
+        {
+          "name": "nativePause",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "boolean"
+          ],
+          "descriptorParams": [
+            "J",
+            "Z"
+          ],
+          "declaration": "void nativePause(long, boolean)"
+        },
+        {
+          "name": "nativePlay",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "boolean"
+          ],
+          "descriptorParams": [
+            "J",
+            "Z"
+          ],
+          "declaration": "void nativePlay(long, boolean)"
+        },
+        {
+          "name": "nativePrepareNext",
+          "javaReturn": "int",
+          "javaParams": [
+            "long",
+            "long",
+            "com.netease.cloudmusic.android.sdk.playerengine.MusicInfo",
+            "java.lang.String",
+            "java.lang.String"
+          ],
+          "descriptorParams": [
+            "J",
+            "J",
+            "Lcom/netease/cloudmusic/android/sdk/playerengine/MusicInfo;",
+            "Ljava/lang/String;",
+            "Ljava/lang/String;"
+          ],
+          "declaration": "int nativePrepareNext(long, long, com.netease.cloudmusic.android.sdk.playerengine.MusicInfo, java.lang.String, java.lang.String)"
+        },
+        {
+          "name": "nativeRelease",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void nativeRelease(long)"
+        },
+        {
+          "name": "nativeResume",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void nativeResume(long)"
+        },
+        {
+          "name": "nativeSeekTo",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "long"
+          ],
+          "descriptorParams": [
+            "J",
+            "J"
+          ],
+          "declaration": "void nativeSeekTo(long, long)"
+        },
+        {
+          "name": "nativeSetAudioDeviceType",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "int"
+          ],
+          "descriptorParams": [
+            "J",
+            "I"
+          ],
+          "declaration": "void nativeSetAudioDeviceType(long, int)"
+        },
+        {
+          "name": "nativeSetAudioListener",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "long"
+          ],
+          "descriptorParams": [
+            "J",
+            "J"
+          ],
+          "declaration": "void nativeSetAudioListener(long, long)"
+        },
+        {
+          "name": "nativeSetAudioSystemVolume",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "int",
+            "int",
+            "int"
+          ],
+          "descriptorParams": [
+            "J",
+            "I",
+            "I",
+            "I"
+          ],
+          "declaration": "void nativeSetAudioSystemVolume(long, int, int, int)"
+        },
+        {
+          "name": "nativeSetBackgroundMusicVolume",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "float"
+          ],
+          "descriptorParams": [
+            "J",
+            "F"
+          ],
+          "declaration": "void nativeSetBackgroundMusicVolume(long, float)"
+        },
+        {
+          "name": "nativeSetDataSource",
+          "javaReturn": "int",
+          "javaParams": [
+            "long",
+            "long",
+            "com.netease.cloudmusic.android.sdk.playerengine.MusicInfo"
+          ],
+          "descriptorParams": [
+            "J",
+            "J",
+            "Lcom/netease/cloudmusic/android/sdk/playerengine/MusicInfo;"
+          ],
+          "declaration": "int nativeSetDataSource(long, long, com.netease.cloudmusic.android.sdk.playerengine.MusicInfo)"
+        },
+        {
+          "name": "nativeSetHeadSetType",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "int"
+          ],
+          "descriptorParams": [
+            "J",
+            "I"
+          ],
+          "declaration": "void nativeSetHeadSetType(long, int)"
+        },
+        {
+          "name": "nativeSetListener",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "com.netease.cloudmusic.android.sdk.playerengine.PlaybackListener"
+          ],
+          "descriptorParams": [
+            "J",
+            "Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackListener;"
+          ],
+          "declaration": "void nativeSetListener(long, com.netease.cloudmusic.android.sdk.playerengine.PlaybackListener)"
+        },
+        {
+          "name": "nativeSetMusicMode",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "int"
+          ],
+          "descriptorParams": [
+            "J",
+            "I"
+          ],
+          "declaration": "void nativeSetMusicMode(long, int)"
+        },
+        {
+          "name": "nativeSetMusicVoiceVolume",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "float"
+          ],
+          "descriptorParams": [
+            "J",
+            "F"
+          ],
+          "declaration": "void nativeSetMusicVoiceVolume(long, float)"
+        },
+        {
+          "name": "nativeSetMute",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "boolean"
+          ],
+          "descriptorParams": [
+            "J",
+            "Z"
+          ],
+          "declaration": "void nativeSetMute(long, boolean)"
+        },
+        {
+          "name": "nativeSetNativeABTestFlags",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "java.lang.String[]",
+            "int[]"
+          ],
+          "descriptorParams": [
+            "J",
+            "[Ljava/lang/String;",
+            "[I"
+          ],
+          "declaration": "void nativeSetNativeABTestFlags(long, java.lang.String[], int[])"
+        },
+        {
+          "name": "nativeSetNextDataSource",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "long",
+            "com.netease.cloudmusic.android.sdk.playerengine.MusicInfo"
+          ],
+          "descriptorParams": [
+            "J",
+            "J",
+            "Lcom/netease/cloudmusic/android/sdk/playerengine/MusicInfo;"
+          ],
+          "declaration": "void nativeSetNextDataSource(long, long, com.netease.cloudmusic.android.sdk.playerengine.MusicInfo)"
+        },
+        {
+          "name": "nativeSetPlaybackSpeed",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "float"
+          ],
+          "descriptorParams": [
+            "J",
+            "F"
+          ],
+          "declaration": "void nativeSetPlaybackSpeed(long, float)"
+        },
+        {
+          "name": "nativeSetSepTrackEnabled",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "int"
+          ],
+          "descriptorParams": [
+            "J",
+            "I"
+          ],
+          "declaration": "void nativeSetSepTrackEnabled(long, int)"
+        },
+        {
+          "name": "nativeSetSupportDolby",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "boolean"
+          ],
+          "descriptorParams": [
+            "J",
+            "Z"
+          ],
+          "declaration": "void nativeSetSupportDolby(long, boolean)"
+        },
+        {
+          "name": "nativeSetTransitionInfo",
+          "javaReturn": "int",
+          "javaParams": [
+            "long",
+            "java.lang.String",
+            "java.lang.String"
+          ],
+          "descriptorParams": [
+            "J",
+            "Ljava/lang/String;",
+            "Ljava/lang/String;"
+          ],
+          "declaration": "int nativeSetTransitionInfo(long, java.lang.String, java.lang.String)"
+        },
+        {
+          "name": "nativeSetUnitEventListener",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "com.netease.cloudmusic.android.sdk.playerengine.UnitEventListener"
+          ],
+          "descriptorParams": [
+            "J",
+            "Lcom/netease/cloudmusic/android/sdk/playerengine/UnitEventListener;"
+          ],
+          "declaration": "void nativeSetUnitEventListener(long, com.netease.cloudmusic.android.sdk.playerengine.UnitEventListener)"
+        },
+        {
+          "name": "nativeSetVolume",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "float"
+          ],
+          "descriptorParams": [
+            "J",
+            "F"
+          ],
+          "declaration": "void nativeSetVolume(long, float)"
+        },
+        {
+          "name": "nativeStop",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void nativeStop(long)"
+        },
+        {
+          "name": "nativeUnattachAudioEffect",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "long"
+          ],
+          "descriptorParams": [
+            "J",
+            "J"
+          ],
+          "declaration": "void nativeUnattachAudioEffect(long, long)"
+        },
+        {
+          "name": "nativeUpdateAudioEffectConfigBySongTag",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "java.lang.String",
+            "java.lang.String"
+          ],
+          "descriptorParams": [
+            "J",
+            "Ljava/lang/String;",
+            "Ljava/lang/String;"
+          ],
+          "declaration": "void nativeUpdateAudioEffectConfigBySongTag(long, java.lang.String, java.lang.String)"
+        },
+        {
+          "name": "nativeUseUSBDevice",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "int"
+          ],
+          "descriptorParams": [
+            "J",
+            "I"
+          ],
+          "declaration": "void nativeUseUSBDevice(long, int)"
+        },
+        {
+          "name": "nativeWriteCacheMeta",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "java.lang.String",
+            "java.lang.String"
+          ],
+          "descriptorParams": [
+            "J",
+            "Ljava/lang/String;",
+            "Ljava/lang/String;"
+          ],
+          "declaration": "void nativeWriteCacheMeta(long, java.lang.String, java.lang.String)"
+        }
+      ]
+    },
+    {
+      "descriptor": "Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackDataSource;",
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.PlaybackDataSource",
+      "dex": "classes14.dex",
+      "preciseJniClass": true,
+      "nativeMethodCount": 7,
+      "nativeMethods": [
+        {
+          "name": "nativeCancelPreload",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "boolean nativeCancelPreload(long)"
+        },
+        {
+          "name": "nativePreload",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "long",
+            "long"
+          ],
+          "descriptorParams": [
+            "J",
+            "J"
+          ],
+          "declaration": "boolean nativePreload(long, long)"
+        },
+        {
+          "name": "nativeRelease",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void nativeRelease(long)"
+        },
+        {
+          "name": "nativeReleaseEngineCacheLoadConfigHandle",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void nativeReleaseEngineCacheLoadConfigHandle(long)"
+        },
+        {
+          "name": "nativeRetainEngineCacheLoadConfigHandle",
+          "javaReturn": "long",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "long nativeRetainEngineCacheLoadConfigHandle(long)"
+        },
+        {
+          "name": "nativeSetEngineCacheLoadConfig",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "long",
+            "long",
+            "long",
+            "long",
+            "long",
+            "long"
+          ],
+          "descriptorParams": [
+            "J",
+            "J",
+            "J",
+            "J",
+            "J",
+            "J"
+          ],
+          "declaration": "boolean nativeSetEngineCacheLoadConfig(long, long, long, long, long, long)"
+        },
+        {
+          "name": "nativeSetPreloadCallback",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "long",
+            "boolean"
+          ],
+          "descriptorParams": [
+            "J",
+            "Z"
+          ],
+          "declaration": "boolean nativeSetPreloadCallback(long, boolean)"
+        }
+      ]
+    },
+    {
+      "descriptor": "Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackEngine;",
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.PlaybackEngine",
+      "dex": "classes14.dex",
+      "preciseJniClass": true,
+      "nativeMethodCount": 24,
+      "nativeMethods": [
+        {
+          "name": "nativeEngineAttachAudioEffect",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "long",
+            "java.lang.String"
+          ],
+          "descriptorParams": [
+            "J",
+            "J",
+            "Ljava/lang/String;"
+          ],
+          "declaration": "void nativeEngineAttachAudioEffect(long, long, java.lang.String)"
+        },
+        {
+          "name": "nativeEngineCancelTransition",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void nativeEngineCancelTransition(long)"
+        },
+        {
+          "name": "nativeEngineCreate",
+          "javaReturn": "long",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "long nativeEngineCreate(long)"
+        },
+        {
+          "name": "nativeEngineGetCurrentPosition",
+          "javaReturn": "long",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "long nativeEngineGetCurrentPosition(long)"
+        },
+        {
+          "name": "nativeEngineGetDuration",
+          "javaReturn": "long",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "long nativeEngineGetDuration(long)"
+        },
+        {
+          "name": "nativeEngineGetVolume",
+          "javaReturn": "float",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "float nativeEngineGetVolume(long)"
+        },
+        {
+          "name": "nativeEngineIsPlaying",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "boolean nativeEngineIsPlaying(long)"
+        },
+        {
+          "name": "nativeEngineNotifyAudioEffectChanged",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void nativeEngineNotifyAudioEffectChanged(long)"
+        },
+        {
+          "name": "nativeEnginePause",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "boolean"
+          ],
+          "descriptorParams": [
+            "J",
+            "Z"
+          ],
+          "declaration": "void nativeEnginePause(long, boolean)"
+        },
+        {
+          "name": "nativeEnginePlay",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "boolean"
+          ],
+          "descriptorParams": [
+            "J",
+            "Z"
+          ],
+          "declaration": "void nativeEnginePlay(long, boolean)"
+        },
+        {
+          "name": "nativeEnginePrepareAsync",
+          "javaReturn": "int",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "int nativeEnginePrepareAsync(long)"
+        },
+        {
+          "name": "nativeEnginePrepareNext",
+          "javaReturn": "int",
+          "javaParams": [
+            "long",
+            "com.netease.cloudmusic.android.sdk.playerengine.PlayerDataSource",
+            "java.lang.String",
+            "java.lang.String"
+          ],
+          "descriptorParams": [
+            "J",
+            "Lcom/netease/cloudmusic/android/sdk/playerengine/PlayerDataSource;",
+            "Ljava/lang/String;",
+            "Ljava/lang/String;"
+          ],
+          "declaration": "int nativeEnginePrepareNext(long, com.netease.cloudmusic.android.sdk.playerengine.PlayerDataSource, java.lang.String, java.lang.String)"
+        },
+        {
+          "name": "nativeEngineRelease",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void nativeEngineRelease(long)"
+        },
+        {
+          "name": "nativeEngineReset",
+          "javaReturn": "int",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "int nativeEngineReset(long)"
+        },
+        {
+          "name": "nativeEngineSeekTo",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "long"
+          ],
+          "descriptorParams": [
+            "J",
+            "J"
+          ],
+          "declaration": "void nativeEngineSeekTo(long, long)"
+        },
+        {
+          "name": "nativeEngineSetAudioEffectCallback",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "com.netease.cloudmusic.android.sdk.playerengine.AudioEffectReadyCallback"
+          ],
+          "descriptorParams": [
+            "J",
+            "Lcom/netease/cloudmusic/android/sdk/playerengine/AudioEffectReadyCallback;"
+          ],
+          "declaration": "void nativeEngineSetAudioEffectCallback(long, com.netease.cloudmusic.android.sdk.playerengine.AudioEffectReadyCallback)"
+        },
+        {
+          "name": "nativeEngineSetAudioListener",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "long"
+          ],
+          "descriptorParams": [
+            "J",
+            "J"
+          ],
+          "declaration": "void nativeEngineSetAudioListener(long, long)"
+        },
+        {
+          "name": "nativeEngineSetAudioVividInfo",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "java.lang.String",
+            "java.lang.String",
+            "int"
+          ],
+          "descriptorParams": [
+            "J",
+            "Ljava/lang/String;",
+            "Ljava/lang/String;",
+            "I"
+          ],
+          "declaration": "void nativeEngineSetAudioVividInfo(long, java.lang.String, java.lang.String, int)"
+        },
+        {
+          "name": "nativeEngineSetDataSource",
+          "javaReturn": "int",
+          "javaParams": [
+            "long",
+            "com.netease.cloudmusic.android.sdk.playerengine.PlayerDataSource"
+          ],
+          "descriptorParams": [
+            "J",
+            "Lcom/netease/cloudmusic/android/sdk/playerengine/PlayerDataSource;"
+          ],
+          "declaration": "int nativeEngineSetDataSource(long, com.netease.cloudmusic.android.sdk.playerengine.PlayerDataSource)"
+        },
+        {
+          "name": "nativeEngineSetListener",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "com.netease.cloudmusic.android.sdk.playerengine.PlaybackEngineListener"
+          ],
+          "descriptorParams": [
+            "J",
+            "Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackEngineListener;"
+          ],
+          "declaration": "void nativeEngineSetListener(long, com.netease.cloudmusic.android.sdk.playerengine.PlaybackEngineListener)"
+        },
+        {
+          "name": "nativeEngineSetPlaybackSpeed",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "float"
+          ],
+          "descriptorParams": [
+            "J",
+            "F"
+          ],
+          "declaration": "void nativeEngineSetPlaybackSpeed(long, float)"
+        },
+        {
+          "name": "nativeEngineSetVolume",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "float"
+          ],
+          "descriptorParams": [
+            "J",
+            "F"
+          ],
+          "declaration": "void nativeEngineSetVolume(long, float)"
+        },
+        {
+          "name": "nativeEngineStop",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void nativeEngineStop(long)"
+        },
+        {
+          "name": "nativeEngineUnattachAudioEffect",
+          "javaReturn": "void",
+          "javaParams": [
+            "long",
+            "long"
+          ],
+          "descriptorParams": [
+            "J",
+            "J"
+          ],
+          "declaration": "void nativeEngineUnattachAudioEffect(long, long)"
+        }
+      ]
+    },
+    {
+      "descriptor": "Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackEngineListener;",
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.PlaybackEngineListener",
+      "dex": "classes14.dex",
+      "preciseJniClass": false,
+      "nativeMethodCount": 0,
+      "nativeMethods": []
+    },
+    {
+      "descriptor": "Lcom/netease/cloudmusic/android/sdk/playerengine/PlaybackListener;",
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.PlaybackListener",
+      "dex": "classes14.dex",
+      "preciseJniClass": false,
+      "nativeMethodCount": 0,
+      "nativeMethods": []
+    },
+    {
+      "descriptor": "Lcom/netease/cloudmusic/android/sdk/playerengine/PlayerDataSource;",
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.PlayerDataSource",
+      "dex": "classes14.dex",
+      "preciseJniClass": false,
+      "nativeMethodCount": 0,
+      "nativeMethods": []
+    },
+    {
+      "descriptor": "Lcom/netease/cloudmusic/android/sdk/playerengine/PlayerUnitListener;",
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.PlayerUnitListener",
+      "dex": "classes14.dex",
+      "preciseJniClass": false,
+      "nativeMethodCount": 0,
+      "nativeMethods": []
+    },
+    {
+      "descriptor": "Lcom/netease/cloudmusic/android/sdk/playerengine/UrlResult;",
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.UrlResult",
+      "dex": "classes14.dex",
+      "preciseJniClass": false,
+      "nativeMethodCount": 0,
+      "nativeMethods": []
+    },
+    {
+      "descriptor": "Lcom/netease/cloudmusic/media/NEAudioDevice$NEAudioDeviceOnPlaybackPositionUpdateListener;",
+      "class": "com.netease.cloudmusic.media.NEAudioDevice$NEAudioDeviceOnPlaybackPositionUpdateListener",
+      "dex": "classes16.dex",
+      "preciseJniClass": true,
+      "nativeMethodCount": 2,
+      "nativeMethods": [
+        {
+          "name": "onMarkerReachedNative",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void onMarkerReachedNative(long)"
+        },
+        {
+          "name": "onPeriodicNotificationNative",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void onPeriodicNotificationNative(long)"
+        }
+      ]
+    },
+    {
+      "descriptor": "Lcom/netease/cloudmusic/playlist/core/PlaylistJniBridge;",
+      "class": "com.netease.cloudmusic.playlist.core.PlaylistJniBridge",
+      "dex": "classes5.dex",
+      "preciseJniClass": true,
+      "nativeMethodCount": 31,
+      "nativeMethods": [
+        {
+          "name": "nativeAppendMusicItems",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "long[]",
+            "byte[][]",
+            "java.lang.String[]",
+            "int"
+          ],
+          "descriptorParams": [
+            "[J",
+            "[[B",
+            "[Ljava/lang/String;",
+            "I"
+          ],
+          "declaration": "boolean nativeAppendMusicItems(long[], byte[][], java.lang.String[], int)"
+        },
+        {
+          "name": "nativeClearAll",
+          "javaReturn": "boolean",
+          "javaParams": [],
+          "descriptorParams": [],
+          "declaration": "boolean nativeClearAll()"
+        },
+        {
+          "name": "nativeClearCurrentAndSwitchToRecentRaw",
+          "javaReturn": "java.lang.Object",
+          "javaParams": [
+            "int"
+          ],
+          "descriptorParams": [
+            "I"
+          ],
+          "declaration": "java.lang.Object nativeClearCurrentAndSwitchToRecentRaw(int)"
+        },
+        {
+          "name": "nativeDeleteRecentPlaylist",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "int"
+          ],
+          "descriptorParams": [
+            "I"
+          ],
+          "declaration": "boolean nativeDeleteRecentPlaylist(int)"
+        },
+        {
+          "name": "nativeDestroy",
+          "javaReturn": "void",
+          "javaParams": [],
+          "descriptorParams": [],
+          "declaration": "void nativeDestroy()"
+        },
+        {
+          "name": "nativeEnterDerivedMode",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "long[]",
+            "byte[][]",
+            "int",
+            "int",
+            "int",
+            "java.lang.String",
+            "java.lang.String",
+            "java.lang.String",
+            "java.lang.String",
+            "java.lang.String[]",
+            "int"
+          ],
+          "descriptorParams": [
+            "[J",
+            "[[B",
+            "I",
+            "I",
+            "I",
+            "Ljava/lang/String;",
+            "Ljava/lang/String;",
+            "Ljava/lang/String;",
+            "Ljava/lang/String;",
+            "[Ljava/lang/String;",
+            "I"
+          ],
+          "declaration": "boolean nativeEnterDerivedMode(long[], byte[][], int, int, int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String[], int)"
+        },
+        {
+          "name": "nativeExitDerivedModeRaw",
+          "javaReturn": "java.lang.Object",
+          "javaParams": [],
+          "descriptorParams": [],
+          "declaration": "java.lang.Object nativeExitDerivedModeRaw()"
+        },
+        {
+          "name": "nativeGetOriginSnapshotMetaRaw",
+          "javaReturn": "java.lang.Object",
+          "javaParams": [],
+          "descriptorParams": [],
+          "declaration": "java.lang.Object nativeGetOriginSnapshotMetaRaw()"
+        },
+        {
+          "name": "nativeGetPlaybackPositionRaw",
+          "javaReturn": "java.lang.Object",
+          "javaParams": [],
+          "descriptorParams": [],
+          "declaration": "java.lang.Object nativeGetPlaybackPositionRaw()"
+        },
+        {
+          "name": "nativeGetSnapshotMetaRaw",
+          "javaReturn": "java.lang.Object",
+          "javaParams": [],
+          "descriptorParams": [],
+          "declaration": "java.lang.Object nativeGetSnapshotMetaRaw()"
+        },
+        {
+          "name": "nativeGetVersion",
+          "javaReturn": "java.lang.String",
+          "javaParams": [],
+          "descriptorParams": [],
+          "declaration": "java.lang.String nativeGetVersion()"
+        },
+        {
+          "name": "nativeImportRecentPlaylist",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "long[]",
+            "byte[][]",
+            "java.lang.String[]",
+            "java.lang.String",
+            "java.lang.String",
+            "java.lang.String",
+            "java.lang.String",
+            "int",
+            "int",
+            "int"
+          ],
+          "descriptorParams": [
+            "[J",
+            "[[B",
+            "[Ljava/lang/String;",
+            "Ljava/lang/String;",
+            "Ljava/lang/String;",
+            "Ljava/lang/String;",
+            "Ljava/lang/String;",
+            "I",
+            "I",
+            "I"
+          ],
+          "declaration": "boolean nativeImportRecentPlaylist(long[], byte[][], java.lang.String[], java.lang.String, java.lang.String, java.lang.String, java.lang.String, int, int, int)"
+        },
+        {
+          "name": "nativeInit",
+          "javaReturn": "int",
+          "javaParams": [
+            "java.lang.String",
+            "int"
+          ],
+          "descriptorParams": [
+            "Ljava/lang/String;",
+            "I"
+          ],
+          "declaration": "int nativeInit(java.lang.String, int)"
+        },
+        {
+          "name": "nativeInsertMusicItemsAt",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "long[]",
+            "byte[][]",
+            "java.lang.String[]",
+            "int",
+            "int"
+          ],
+          "descriptorParams": [
+            "[J",
+            "[[B",
+            "[Ljava/lang/String;",
+            "I",
+            "I"
+          ],
+          "declaration": "boolean nativeInsertMusicItemsAt(long[], byte[][], java.lang.String[], int, int)"
+        },
+        {
+          "name": "nativeListRecentPlaylistsRaw",
+          "javaReturn": "java.lang.Object[]",
+          "javaParams": [
+            "int"
+          ],
+          "descriptorParams": [
+            "I"
+          ],
+          "declaration": "java.lang.Object[] nativeListRecentPlaylistsRaw(int)"
+        },
+        {
+          "name": "nativePersistList",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "long[]",
+            "byte[][]",
+            "java.lang.String[]",
+            "java.lang.String",
+            "java.lang.String",
+            "java.lang.String",
+            "java.lang.String",
+            "int",
+            "int"
+          ],
+          "descriptorParams": [
+            "[J",
+            "[[B",
+            "[Ljava/lang/String;",
+            "Ljava/lang/String;",
+            "Ljava/lang/String;",
+            "Ljava/lang/String;",
+            "Ljava/lang/String;",
+            "I",
+            "I"
+          ],
+          "declaration": "boolean nativePersistList(long[], byte[][], java.lang.String[], java.lang.String, java.lang.String, java.lang.String, java.lang.String, int, int)"
+        },
+        {
+          "name": "nativePromoteRecentToCurrentRaw",
+          "javaReturn": "java.lang.Object",
+          "javaParams": [
+            "int",
+            "int"
+          ],
+          "descriptorParams": [
+            "I",
+            "I"
+          ],
+          "declaration": "java.lang.Object nativePromoteRecentToCurrentRaw(int, int)"
+        },
+        {
+          "name": "nativeReadRecentPlaylistRaw",
+          "javaReturn": "java.lang.Object[]",
+          "javaParams": [
+            "int",
+            "int",
+            "int"
+          ],
+          "descriptorParams": [
+            "I",
+            "I",
+            "I"
+          ],
+          "declaration": "java.lang.Object[] nativeReadRecentPlaylistRaw(int, int, int)"
+        },
+        {
+          "name": "nativeReadSnapshotRawRangeRaw",
+          "javaReturn": "java.lang.Object[]",
+          "javaParams": [
+            "long",
+            "int",
+            "int"
+          ],
+          "descriptorParams": [
+            "J",
+            "I",
+            "I"
+          ],
+          "declaration": "java.lang.Object[] nativeReadSnapshotRawRangeRaw(long, int, int)"
+        },
+        {
+          "name": "nativeRemoveMusicItems",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "long[]"
+          ],
+          "descriptorParams": [
+            "[J"
+          ],
+          "declaration": "boolean nativeRemoveMusicItems(long[])"
+        },
+        {
+          "name": "nativeReplaceCurrentSnapshotContent",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "long[]",
+            "byte[][]",
+            "java.lang.String[]",
+            "int",
+            "int"
+          ],
+          "descriptorParams": [
+            "[J",
+            "[[B",
+            "[Ljava/lang/String;",
+            "I",
+            "I"
+          ],
+          "declaration": "boolean nativeReplaceCurrentSnapshotContent(long[], byte[][], java.lang.String[], int, int)"
+        },
+        {
+          "name": "nativeRestoreFromDb",
+          "javaReturn": "com.netease.cloudmusic.playlist.core.RestoreResult",
+          "javaParams": [],
+          "descriptorParams": [],
+          "declaration": "com.netease.cloudmusic.playlist.core.RestoreResult nativeRestoreFromDb()"
+        },
+        {
+          "name": "nativeSetDbAdapter",
+          "javaReturn": "int",
+          "javaParams": [
+            "com.netease.cloudmusic.playlist.core.PlaylistDbAdapterProxy"
+          ],
+          "descriptorParams": [
+            "Lcom/netease/cloudmusic/playlist/core/PlaylistDbAdapterProxy;"
+          ],
+          "declaration": "int nativeSetDbAdapter(com.netease.cloudmusic.playlist.core.PlaylistDbAdapterProxy)"
+        },
+        {
+          "name": "nativeSetLogCallback",
+          "javaReturn": "void",
+          "javaParams": [
+            "com.netease.cloudmusic.playlist.core.LogCallback"
+          ],
+          "descriptorParams": [
+            "Lcom/netease/cloudmusic/playlist/core/LogCallback;"
+          ],
+          "declaration": "void nativeSetLogCallback(com.netease.cloudmusic.playlist.core.LogCallback)"
+        },
+        {
+          "name": "nativeSetLogEnabled",
+          "javaReturn": "void",
+          "javaParams": [
+            "boolean"
+          ],
+          "descriptorParams": [
+            "Z"
+          ],
+          "declaration": "void nativeSetLogEnabled(boolean)"
+        },
+        {
+          "name": "nativeSetLogLevel",
+          "javaReturn": "void",
+          "javaParams": [
+            "int"
+          ],
+          "descriptorParams": [
+            "I"
+          ],
+          "declaration": "void nativeSetLogLevel(int)"
+        },
+        {
+          "name": "nativeUpdateCurrentSnapshotExtraInfo",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "java.lang.String"
+          ],
+          "descriptorParams": [
+            "Ljava/lang/String;"
+          ],
+          "declaration": "boolean nativeUpdateCurrentSnapshotExtraInfo(java.lang.String)"
+        },
+        {
+          "name": "nativeUpdatePlayMode",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "int"
+          ],
+          "descriptorParams": [
+            "I"
+          ],
+          "declaration": "boolean nativeUpdatePlayMode(int)"
+        },
+        {
+          "name": "nativeUpdatePlaybackPosition",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "int",
+            "int",
+            "int"
+          ],
+          "descriptorParams": [
+            "I",
+            "I",
+            "I"
+          ],
+          "declaration": "boolean nativeUpdatePlaybackPosition(int, int, int)"
+        },
+        {
+          "name": "nativeUpdatePlaybackProgress",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "int",
+            "int"
+          ],
+          "descriptorParams": [
+            "I",
+            "I"
+          ],
+          "declaration": "boolean nativeUpdatePlaybackProgress(int, int)"
+        },
+        {
+          "name": "nativeUpdateShuffleOrder",
+          "javaReturn": "boolean",
+          "javaParams": [
+            "java.lang.String"
+          ],
+          "descriptorParams": [
+            "Ljava/lang/String;"
+          ],
+          "declaration": "boolean nativeUpdateShuffleOrder(java.lang.String)"
+        }
+      ]
+    },
+    {
+      "descriptor": "Lcom/netease/cloudmusic/sdk/NMCommonCache/NMBufferSource;",
+      "class": "com.netease.cloudmusic.sdk.NMCommonCache.NMBufferSource",
+      "dex": "classes5.dex",
+      "preciseJniClass": true,
+      "nativeMethodCount": 1,
+      "nativeMethods": [
+        {
+          "name": "DeletePtr",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void DeletePtr(long)"
+        }
+      ]
+    },
+    {
+      "descriptor": "Lcom/netease/cloudmusic/sdk/NMCommonCache/NMCacheBase;",
+      "class": "com.netease.cloudmusic.sdk.NMCommonCache.NMCacheBase",
+      "dex": "classes5.dex",
+      "preciseJniClass": true,
+      "nativeMethodCount": 1,
+      "nativeMethods": [
+        {
+          "name": "GetVersion",
+          "javaReturn": "java.lang.String",
+          "javaParams": [],
+          "descriptorParams": [],
+          "declaration": "java.lang.String GetVersion()"
+        }
+      ]
+    },
+    {
+      "descriptor": "Lcom/netease/cloudmusic/sdk/NMCommonCache/NMVirtualFile;",
+      "class": "com.netease.cloudmusic.sdk.NMCommonCache.NMVirtualFile",
+      "dex": "classes5.dex",
+      "preciseJniClass": true,
+      "nativeMethodCount": 1,
+      "nativeMethods": [
+        {
+          "name": "DeletePtr",
+          "javaReturn": "void",
+          "javaParams": [],
+          "descriptorParams": [],
+          "declaration": "void DeletePtr()"
+        }
+      ]
+    },
+    {
+      "descriptor": "Lcom/netease/cloudmusic/sdk/NMCommonCache/NMVirtualFileManager;",
+      "class": "com.netease.cloudmusic.sdk.NMCommonCache.NMVirtualFileManager",
+      "dex": "classes5.dex",
+      "preciseJniClass": true,
+      "nativeMethodCount": 5,
+      "nativeMethods": [
+        {
+          "name": "DeletePtr",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void DeletePtr(long)"
+        },
+        {
+          "name": "InitPtr",
+          "javaReturn": "void",
+          "javaParams": [],
+          "descriptorParams": [],
+          "declaration": "void InitPtr()"
+        },
+        {
+          "name": "SetLoggerCallback",
+          "javaReturn": "void",
+          "javaParams": [
+            "com.netease.cloudmusic.sdk.NMCommonCache.INMLogger",
+            "int"
+          ],
+          "descriptorParams": [
+            "Lcom/netease/cloudmusic/sdk/NMCommonCache/INMLogger;",
+            "I"
+          ],
+          "declaration": "void SetLoggerCallback(com.netease.cloudmusic.sdk.NMCommonCache.INMLogger, int)"
+        },
+        {
+          "name": "SetNetworkClassInfo",
+          "javaReturn": "void",
+          "javaParams": [
+            "java.lang.String"
+          ],
+          "descriptorParams": [
+            "Ljava/lang/String;"
+          ],
+          "declaration": "void SetNetworkClassInfo(java.lang.String)"
+        },
+        {
+          "name": "setABTestStringKeyValueInfo",
+          "javaReturn": "void",
+          "javaParams": [
+            "java.lang.String",
+            "int"
+          ],
+          "descriptorParams": [
+            "Ljava/lang/String;",
+            "I"
+          ],
+          "declaration": "void setABTestStringKeyValueInfo(java.lang.String, int)"
+        }
+      ]
+    },
+    {
+      "descriptor": "Lcom/netease/cloudmusic/sdk/NMCommonCache/SourceDataRequest;",
+      "class": "com.netease.cloudmusic.sdk.NMCommonCache.SourceDataRequest",
+      "dex": "classes5.dex",
+      "preciseJniClass": true,
+      "nativeMethodCount": 2,
+      "nativeMethods": [
+        {
+          "name": "DeletePtr",
+          "javaReturn": "void",
+          "javaParams": [
+            "long"
+          ],
+          "descriptorParams": [
+            "J"
+          ],
+          "declaration": "void DeletePtr(long)"
+        },
+        {
+          "name": "InitPtr",
+          "javaReturn": "void",
+          "javaParams": [],
+          "descriptorParams": [],
+          "declaration": "void InitPtr()"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "source": "analysis/smali14 + decoded/res/values/public.xml + jadx-anim-rclasses",
+  "scope": "14 §4.1 挂账的 loadAnimation 调用链静态解析（非真机确认）",
+  "loadAnimationCallSites": 12,
+  "staticFieldRefs": 4,
+  "staticFieldCount": 4,
+  "resolvedResourceIdCount": 2,
+  "fields": [
+    {
+      "ref": "Lcom/netease/cloudmusic/n1;->g:I",
+      "field": "g",
+      "callSites": [
+        "analysis/smali14/com/netease/cloudmusic/activity/c9$c.smali"
+      ],
+      "resourceId": "0x7f0100ba",
+      "source": "smali .field",
+      "publicName": "anim/eb"
+    },
+    {
+      "ref": "Lcom/netease/cloudmusic/n1;->m:I",
+      "field": "m",
+      "callSites": [
+        "analysis/smali14/com/netease/cloudmusic/activity/c9.smali",
+        "analysis/smali14/com/netease/cloudmusic/activity/PlayerChildActivity$b.smali",
+        "analysis/smali14/com/netease/cloudmusic/activity/PlayerChildActivity$c$a.smali",
+        "analysis/smali14/com/netease/cloudmusic/activity/PlayerChildActivity$c.smali",
+        "analysis/smali14/com/netease/cloudmusic/activity/PlayerVehicleActivity$d.smali"
+      ],
+      "resourceId": "0x7f0100eb",
+      "source": "smali .field",
+      "publicName": "anim/fn"
+    },
+    {
+      "ref": "Lv61/a;->a:I",
+      "field": "a",
+      "callSites": [
+        "analysis/smali14/com/netease/cloudmusic/activity/x8$h.smali"
+      ],
+      "resourceId": "0x7f0100eb",
+      "source": "jadx R class",
+      "publicName": "anim/fn"
+    },
+    {
+      "ref": "Lxj1/a;->e:I",
+      "field": "e",
+      "callSites": [
+        "analysis/smali14/com/netease/cloudmusic/activity/NewPlayerVehicleActivity.smali",
+        "analysis/smali14/com/netease/cloudmusic/activity/PlayerActivity.smali",
+        "analysis/smali14/com/netease/cloudmusic/activity/qa.smali"
+      ],
+      "resourceId": "0x7f0100eb",
+      "source": "jadx R class",
+      "publicName": "anim/fn"
+    }
+  ],
+  "resources": [
+    {
+      "resourceId": "0x7f0100ba",
+      "type": "anim",
+      "name": "eb",
+      "usedByFields": [
+        "Lcom/netease/cloudmusic/n1;->g:I"
+      ],
+      "file": "analysis/decoded/res/anim/eb.xml",
+      "kinds": [
+        "scale"
+      ],
+      "durations": [
+        "132"
+      ],
+      "rotateInfinite": false
+    },
+    {
+      "resourceId": "0x7f0100eb",
+      "type": "anim",
+      "name": "fn",
+      "usedByFields": [
+        "Lcom/netease/cloudmusic/n1;->m:I",
+        "Lv61/a;->a:I",
+        "Lxj1/a;->e:I"
+      ],
+      "file": "analysis/decoded/res/anim/fn.xml",
+      "kinds": [
+        "scale"
+      ],
+      "durations": [
+        "200"
+      ],
+      "rotateInfinite": false
+    }
+  ],
+  "rotateCandidates": {
+    "count": 40,
+    "durations": [
+      "1000",
+      "2000",
+      "3000",
+      "4000",
+      "5000",
+      "6000",
+      "8000",
+      "10000",
+      "15000",
+      "20000",
+      "25000",
+      "30000",
+      "45000",
+      "60000",
+      "120000",
+      "1800000",
+      "3600000",
+      "21600000",
+      "43200000",
+      "86400000"
+    ],
+    "has12000": false
+  },
+  "conclusion": "loadAnimation 全链路已静态解析：所有调用都以 R 类静态字段传入 ID，收敛到 2 个 anim 资源，均为 scale 缩放动画（点击/过渡反馈），不是无限循环 rotate。唱片旋转不由 AnimationUtils.loadAnimation 加载，可能走属性动画 / 自定义 View Canvas；40 个 rotate 候选仍需真机或属性动画链路确认。",
+  "assetMappingChanged": false,
+  "c4Note": "docs/assets-mapping.csv 保持空表 = 尚无素材导出，C4 语义不变"
+}

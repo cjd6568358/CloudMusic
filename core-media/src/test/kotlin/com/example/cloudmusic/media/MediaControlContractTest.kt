@@ -261,4 +261,89 @@ class MediaControlContractTest {
         control.onFocusChange(FocusChange.GAIN)
         assertEquals(0, c.resumeCount)
     }
+
+    @Test
+    @DisplayName("C-15 T03 生产链路：以 IMediaControl 门面类型通知手动暂停 → GAIN 不恢复")
+    fun c15T03ViaFacade() {
+        val (control, c) = media()
+        val facade: IMediaControl = control // PlaybackService 只持有门面类型
+        control.onFocusChange(FocusChange.LOSS_TRANSIENT) // 来电：因焦点暂停
+        assertTrue(control.isResumePending)
+        facade.onManualPause()                           // 用户手动暂停（Service.onPause）
+        assertFalse(control.isResumePending)
+        control.onFocusChange(FocusChange.GAIN)          // 来电结束
+        assertEquals(0, c.resumeCount)
+        assertEquals(FocusState.IDLE, control.snapshot().focus)
+    }
+
+    @Test
+    @DisplayName("C-15 手动播放清除恢复标记：LOSS_TRANSIENT → onPlaying → GAIN 不重复 resume")
+    fun c15OnPlayingClearsResumePending() {
+        val (control, c) = media()
+        val facade: IMediaControl = control
+        control.onFocusChange(FocusChange.LOSS_TRANSIENT)
+        assertTrue(control.isResumePending)
+        facade.onPlaying()                               // 用户主动播放（Service.onPlay）
+        assertFalse(control.isResumePending)
+        control.onFocusChange(FocusChange.GAIN)
+        assertEquals(0, c.resumeCount)
+        assertEquals(FocusState.IDLE, control.snapshot().focus)
+    }
+
+    @Test
+    @DisplayName("C-15 默认空实现零回归：未覆写的实现可直接编译且无副作用，覆写者正常生效")
+    fun c15DefaultAndOverride() {
+        var playingCalls = 0
+        val stub = object : IMediaControl {
+            override fun onFocusChange(change: FocusChange) = Unit
+            override fun onMediaButton(key: MediaKey, action: MediaAction) = Unit
+            override fun bind(controller: PlayerControllerHandle) = Unit
+            override fun publishMetadata(track: Track, coverPath: String?) = Unit
+            override fun setPlaybackState(state: EngineState, positionMs: Long, durationMs: Long) = Unit
+            override fun setEnabled(enabled: Boolean) = Unit
+            override fun release() = Unit
+            override fun onPlaying() { playingCalls++ }
+            // onManualPause() 故意不覆写：走接口默认空实现
+        }
+        stub.onPlaying()
+        stub.onManualPause()
+        assertEquals(1, playingCalls)
+    }
+
+    @Test
+    @DisplayName("T3 GAIN 三变体：LOSS_TRANSIENT 后均 unduck + resume（03-07 §4）")
+    fun t3GainVariantsResume() {
+        val variants = listOf(
+            FocusChange.GAIN, FocusChange.GAIN_TRANSIENT, FocusChange.GAIN_TRANSIENT_MAY_DUCK,
+        )
+        for (gain in variants) {
+            val (control, c) = media()
+            control.onFocusChange(FocusChange.LOSS_TRANSIENT)
+            assertTrue(control.isResumePending, "$gain 前置：应处于待恢复")
+            control.onFocusChange(gain)
+            assertEquals(1, c.resumeCount, "$gain 应恢复一次")
+            assertEquals(1, c.unduckCount, "$gain 应 unduck 一次")
+            assertEquals(FocusState.PLAYING, control.snapshot().focus)
+            assertFalse(control.isResumePending)
+        }
+    }
+
+    @Test
+    @DisplayName("T3 GAIN 三变体：duck 结束只 unduck，不下发 resume")
+    fun t3GainVariantsUnduckOnly() {
+        val variants = listOf(
+            FocusChange.GAIN, FocusChange.GAIN_TRANSIENT, FocusChange.GAIN_TRANSIENT_MAY_DUCK,
+        )
+        for (gain in variants) {
+            val (control, c) = media()
+            control.onFocusChange(FocusChange.LOSS_TRANSIENT_CAN_DUCK)
+            assertEquals(FocusState.DUCKED, control.snapshot().focus)
+            control.onFocusChange(gain)
+            assertEquals(1, c.unduckCount, "$gain 应恢复音量")
+            assertEquals(0, c.resumeCount, "$gain 不应重复 resume")
+            assertEquals(0, c.pauseFromFocusCount, "$gain 不应暂停")
+            assertEquals(1f, control.snapshot().volume)
+            assertEquals(FocusState.PLAYING, control.snapshot().focus)
+        }
+    }
 }

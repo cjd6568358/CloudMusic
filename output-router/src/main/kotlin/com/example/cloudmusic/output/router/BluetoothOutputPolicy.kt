@@ -14,7 +14,7 @@ import com.example.cloudmusic.media.IMediaControl
  * 广播接收器（BluetoothObserver）属 Android 侧，把系统事件翻译成本模块的 [BluetoothEvent]。
  */
 class BluetoothOutputPolicy(
-    private val settings: BluetoothSettings = BluetoothSettings(),
+    private var settings: BluetoothSettings = BluetoothSettings(),
     private val mediaControl: IMediaControl,
     private val router: OutputRouter,
 ) {
@@ -26,6 +26,16 @@ class BluetoothOutputPolicy(
         private set
     var pauseCount = 0
         private set
+
+    /**
+     * 生产接线（`12 §46`）：设置存在 DataStore 的 `Flow` 里，用户在设置页关闭
+     * `autoPauseOnDisconnect` 后必须**立即生效**，不能沿用构造时的快照。
+     * `PlaybackService` 在每次断连事件前用 `SettingsAccess.current()` 刷新本配置；
+     * 只替换配置，**保留 [pauseInFlight] 去重状态**（B04 / T06）。
+     */
+    fun updateSettings(next: BluetoothSettings) {
+        settings = next
+    }
 
     fun onEvent(event: BluetoothEvent, info: BluetoothInfo? = null): BluetoothEventResult {
         // B01 / T07：未授予 BLUETOOTH_CONNECT 时降级，只保留无需权限的有线拔出事件

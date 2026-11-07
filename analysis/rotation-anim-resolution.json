@@ -1,0 +1,190 @@
+{
+  "source": "analysis/jadx-player-views/*.java（jadx 1.5.1 定向反编译，已剥离 @Metadata）",
+  "scope": "14 §4.1 挂账收口：唱片旋转 / 唱针动画的实现方式与视觉参数",
+  "rotationIsPureCode": true,
+  "missingEvidence": [],
+  "visualParams": {
+    "angleDegrees": 360,
+    "interpolator": "LinearInterpolator",
+    "repeatCount": -1,
+    "repeatMode": 1,
+    "baselineDurationMs": 20000,
+    "durationFormula": "20000 / playSpeed（yh0.m.b()；c(f)=20000/f）",
+    "fromAnimXml": false
+  },
+  "needleAnimation": "ObjectAnimator：discHeadUpRotateAnimation / discHeadDownRotateAnimation",
+  "evidence": [
+    {
+      "claim": "ValueAnimator.ofFloat(0.0f, 1.0f)",
+      "hits": [
+        {
+          "file": "analysis/jadx-player-views/RotationRelativeLayout.java",
+          "line": 342,
+          "snippet": "ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);"
+        }
+      ],
+      "hitCount": 1
+    },
+    {
+      "claim": "setDuration(yh0.m.b())",
+      "hits": [
+        {
+          "file": "analysis/jadx-player-views/RotationRelativeLayout.java",
+          "line": 344,
+          "snippet": "ofFloat.setDuration(yh0.m.b());"
+        }
+      ],
+      "hitCount": 1
+    },
+    {
+      "claim": "LinearInterpolator",
+      "hits": [
+        {
+          "file": "analysis/jadx-player-views/RotationRelativeLayout.java",
+          "line": 345,
+          "snippet": "this.mAnimator.setInterpolator(new LinearInterpolator());"
+        }
+      ],
+      "hitCount": 1
+    },
+    {
+      "claim": "setRepeatCount(-1) 无限循环",
+      "hits": [
+        {
+          "file": "analysis/jadx-player-views/RotationRelativeLayout.java",
+          "line": 346,
+          "snippet": "this.mAnimator.setRepeatCount(-1);"
+        }
+      ],
+      "hitCount": 1
+    },
+    {
+      "claim": "setRepeatMode(1) RESTART",
+      "hits": [
+        {
+          "file": "analysis/jadx-player-views/RotationRelativeLayout.java",
+          "line": 347,
+          "snippet": "this.mAnimator.setRepeatMode(1);"
+        }
+      ],
+      "hitCount": 1
+    },
+    {
+      "claim": "getAnimatedFraction() * 360.0f",
+      "hits": [
+        {
+          "file": "analysis/jadx-player-views/RotationRelativeLayout.java",
+          "line": 183,
+          "snippet": "float animatedFraction = ((valueAnimator.getAnimatedFraction() * 360.0f) + this.mRotationOffset) % 360.0f;"
+        }
+      ],
+      "hitCount": 1
+    },
+    {
+      "claim": "View.setRotation",
+      "hits": [
+        {
+          "file": "analysis/jadx-player-views/PlayerVinylViewHolder.java",
+          "line": 760,
+          "snippet": "imageView.setRotation(0.0f);"
+        },
+        {
+          "file": "analysis/jadx-player-views/PlayerVinylViewHolder.java",
+          "line": 794,
+          "snippet": "imageView.setRotation(-25.0f);"
+        },
+        {
+          "file": "analysis/jadx-player-views/PlayerVinylViewHolder.java",
+          "line": 1401,
+          "snippet": "imageView.setRotation(-25.0f);"
+        },
+        {
+          "file": "analysis/jadx-player-views/PlayerVinylViewHolder.java",
+          "line": 1413,
+          "snippet": "imageView2.setRotation(0.0f);"
+        }
+      ],
+      "hitCount": 11
+    },
+    {
+      "claim": "唱针 ObjectAnimator 字段",
+      "hits": [
+        {
+          "file": "analysis/jadx-player-views/PlayerVinylViewHolder.java",
+          "line": 149,
+          "snippet": "private ObjectAnimator discHeadUpRotateAnimation;"
+        },
+        {
+          "file": "analysis/jadx-player-views/PlayerVinylViewHolder.java",
+          "line": 151,
+          "snippet": "private ObjectAnimator discHeadDownRotateAnimation;"
+        }
+      ],
+      "hitCount": 2
+    },
+    {
+      "claim": "旋转容器字段",
+      "hits": [
+        {
+          "file": "analysis/jadx-player-views/PlayerVinylViewHolder.java",
+          "line": 121,
+          "snippet": "private RotationRelativeLayout disc;"
+        }
+      ],
+      "hitCount": 1
+    },
+    {
+      "claim": "yh0.m.b() 周期公式 20000/speed",
+      "hits": [
+        {
+          "file": "analysis/jadx-player-views/yh0_m.java",
+          "line": 25,
+          "snippet": "return (long) (20000.0f / ((Float) u0.a.d(\"getPlaySpeed\", Integer.valueOf(currentPlayType)).c()).floatValue());"
+        }
+      ],
+      "hitCount": 1
+    },
+    {
+      "claim": "yh0.m.c(f) 速度公式 20000/f",
+      "hits": [
+        {
+          "file": "analysis/jadx-player-views/yh0_m.java",
+          "line": 29,
+          "snippet": "return (long) (20000.0f / f);"
+        }
+      ],
+      "hitCount": 1
+    }
+  ],
+  "rotateCandidates": {
+    "count": 40,
+    "durations": [
+      "1000",
+      "2000",
+      "3000",
+      "4000",
+      "5000",
+      "6000",
+      "8000",
+      "10000",
+      "15000",
+      "20000",
+      "25000",
+      "30000",
+      "45000",
+      "60000",
+      "120000",
+      "1800000",
+      "3600000",
+      "21600000",
+      "43200000",
+      "86400000"
+    ],
+    "has12000": false,
+    "has20000": true
+  },
+  "conclusion": "唱片旋转与唱针起落均为纯代码属性动画（ValueAnimator/ObjectAnimator + View.setRotation），不加载任何 res/anim XML；基准周期 20000ms ÷ 播放速度，0→360° 线性无限循环。14 §4.1 的「40 个 rotate 候选中挑一个」是伪命题：播放页资源闭包无需 anim 项，⑦ 素材导出不再被 anim 资源阻塞。",
+  "l3Impact": "14 §4.1 / §6 #1 挂账收口；03-10 §3.3 的 12s 示例值作废（实测基准 20s 且随速度变化）",
+  "assetMappingChanged": false,
+  "c4Note": "docs/assets-mapping.csv 保持空表（06 §4 / C4 语义不变）"
+}

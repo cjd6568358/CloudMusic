@@ -6,10 +6,17 @@ plugins {
     alias(libs.plugins.cloudmusic.android.application)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    // T-A6（12 §33）：Kotlin 2.1.0 的 Compose 编译器插件，版本随 catalog 的 kotlin 对齐
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
     namespace = "com.example.cloudmusic"
+
+    // T-A6：Compose 运行时（除播放页外全部页面自研；播放页照搬属 T-L L3，03-10 §2）
+    buildFeatures {
+        compose = true
+    }
 
     defaultConfig {
         applicationId = "com.example.cloudmusic"
@@ -22,6 +29,26 @@ android {
 dependencies {
     // :core-di 提供全项目唯一的 Hilt 注册点与门面 / Repository 绑定。
     implementation(project(":core-di"))
+    // T-L L1（12 §32）：让 :engine-legacy 的 18 个 arm64 so 经 manifest/资源合并进 APK。
+    // 舱内当前只有 jniLibs + R8 keep 规则，无 Java 源码；JNI 真类按 12 §10.2 后期按需补。
+    implementation(project(":engine-legacy"))
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+    // T-A5（12 §31）：Service 收集 PlaybackRuntime.state 更新通知；
+    // 不引入 Media3 / androidx.media，媒体会话与通知一律用平台 API（minSdk 26 已够）。
+    implementation(libs.kotlinx.coroutines.core)
+
+    // T-A6（12 §33 / 03-10 §2）：UI 只经 Repository 与 StateFlow 取数（§11 #4）。
+    // 不引 navigation-compose（V0.1 用状态切页）、不引 coil-compose（封面占位待 T-L L3）。
+    implementation(project(":core-model"))
+    implementation(project(":core-storage"))
+    implementation(project(":feature-player"))
+    // 第三十一批（12 §40）：输出设备页读取 OutputDeviceState / ActiveOutput。
+    implementation(project(":output-router"))
+    // 第三十三批（12 §42）：焦点事件映射到 FocusChange，交给 IMediaControl / FocusPolicy 裁决。
+    implementation(project(":core-media"))
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.activity.compose)
 }

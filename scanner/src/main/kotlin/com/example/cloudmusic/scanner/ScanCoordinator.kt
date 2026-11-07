@@ -130,14 +130,30 @@ class ScanCoordinator(
             return   // B07：单个 Storage 失败不影响其它 Storage
         }
 
-        val seen = candidates.map { it.obj.path }.toSet()
-        val changed = candidates.filter { c ->
-            val old = previous[c.obj.path]
-            request.refresh || old == null || !old.matches(c.obj.size, c.obj.modified)
+        // C-14（`12 §31`）：定向增量只重扫当前 Availability != OK 的条目。
+        // 没有失败项时整轮跳过并保留快照——否则 seen 为空会把全部历史条目标成 UNREACHABLE。
+        val targetPaths = if (request.onlyUnavailable) {
+            runCatching { trackSink.unavailablePaths(storage.id) }.getOrDefault(emptySet())
+        } else null
+        val scoped = when {
+            targetPaths == null -> candidates
+            targetPaths.isEmpty() -> {
+                state.addSkipped(candidates.size)
+                return
+            }
+            else -> candidates.filter { it.obj.path in targetPaths }
         }
-        state.addSkipped(candidates.size - changed.size)
+
+        val seen = scoped.map { it.obj.path }.toSet()
+        val changed = scoped.filter { c ->
+            val old = previous[c.obj.path]
+            // 定向增量必须强制重处理，否则文件未变时失败项永远不会被重新 upsert 置回 OK。
+            request.refresh || request.onlyUnavailable || old == null ||
+                !old.matches(c.obj.size, c.obj.modified)
+        }
+        state.addSkipped(scoped.size - changed.size)
         val accepted = changed.filter { !rules.tooShort(it.hint?.durationMs) }
-        state.addScanned(candidates.size)
+        state.addScanned(scoped.size)
 
         // 阶段 A：批量 upsert 骨架（禁止逐条写库）
         val tracks = accepted.map { trackFactory.build(it) }
@@ -146,8 +162,10 @@ class ScanCoordinator(
         state.stageA.incrementAndGet()
         emit(state.progress(storage.id, request, stageAFinished = true))
 
-        // 快照有、本次没扫到 → 标 UNREACHABLE，禁止删除（§8 / §15 #3）
-        val missing = previous.keys.filter { it !in seen }.map { TrackId.of(storage.id, it) }
+        // 快照有、本次没扫到 → 标 UNREACHABLE，禁止删除（§8 / §15 #3）。
+        // C-14：定向增量只处理子集，绝不能据 seen 推断其它条目缺失。
+        val missing = if (request.onlyUnavailable) emptyList()
+        else previous.keys.filter { it !in seen }.map { TrackId.of(storage.id, it) }
         if (missing.isNotEmpty()) {
             trackSink.markUnavailable(missing)
             state.addUnavailable(missing.size)

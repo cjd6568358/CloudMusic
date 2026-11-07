@@ -217,4 +217,29 @@ class OutputRoutingContractTest {
         assertEquals(listOf(FocusChange.LOSS), media.focusEvents)
         assertEquals(0, media.otherCalls)
     }
+
+    @Test
+    @DisplayName("12 §46 updateSettings 热更新：运行时关闭开关后 BECOMING_NOISY 不暂停，重开后仍可暂停")
+    fun productionHotUpdate() {
+        val (router, media, policy) = fixture(BluetoothSettings(permissionGranted = false))
+        // permissionGranted=false 时只放行 BECOMING_NOISY（B01 降级路径）
+        assertTrue(policy.onEvent(BluetoothEvent.BECOMING_NOISY).pauseDispatched)
+        assertEquals(listOf(FocusChange.LOSS), media.focusEvents)
+        policy.notifyPlaybackResumed()
+
+        // 模拟用户在设置页关闭自动暂停，Service 每次事件前刷新配置
+        policy.updateSettings(
+            BluetoothSettings(autoPauseOnDisconnect = false, permissionGranted = false),
+        )
+        assertFalse(policy.onEvent(BluetoothEvent.BECOMING_NOISY).pauseDispatched)
+        assertEquals(1, media.focusEvents.size)
+
+        // 重新开启后仍可暂停（去重标记已由 notifyPlaybackResumed 复位）
+        policy.updateSettings(
+            BluetoothSettings(autoPauseOnDisconnect = true, permissionGranted = false),
+        )
+        assertTrue(policy.onEvent(BluetoothEvent.BECOMING_NOISY).pauseDispatched)
+        assertEquals(2, media.focusEvents.size)
+        assertEquals(ActiveOutput.LOCAL, router.activeOutput)
+    }
 }

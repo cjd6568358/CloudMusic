@@ -14,6 +14,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.yield
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNull
@@ -169,6 +170,49 @@ class WebDavDriverTest {
 
     private fun storage(addition: String) =
         Storage("w1", "/nas", "webdav", Addition(addition))
+
+    // ---- C-12（12 §31）：ByteRangeCapability 生产实现 ------------------------
+
+    @Test
+    @DisplayName("T-A5-01 C-12 206：直接返回区间字节，请求带 GET + Range 头")
+    fun byteRange206() = runTest {
+        val bytes = byteArrayOf(1, 2, 3, 4, 5)
+        val fake = FakeHttp(mutableListOf(WebDavResponse(206, bodyBytes = bytes)))
+        val driver = driver(fake)
+        driver.init(DriverCtx())
+        val got = driver.readBytes(Obj(name = "a.flac", path = "/music/a.flac"), 0, 64 * 1024)
+        assertContentEquals(bytes, got)
+        assertEquals("GET", fake.requests[0].method)
+        assertEquals("bytes=0-65535", fake.requests[0].headers["Range"])
+    }
+
+    @Test
+    @DisplayName("T-A5-02 C-12 200：服务端忽略 Range 时本地切片，不把整文件交给解析器")
+    fun byteRange200Slices() = runTest {
+        val bytes = ByteArray(100) { it.toByte() }
+        val fake = FakeHttp(mutableListOf(WebDavResponse(200, bodyBytes = bytes)))
+        val driver = driver(fake)
+        driver.init(DriverCtx())
+        val got = driver.readBytes(Obj(name = "a.flac", path = "/music/a.flac"), 10, 4)
+        assertContentEquals(byteArrayOf(10, 11, 12, 13), got)
+        assertEquals("bytes=10-13", fake.requests[0].headers["Range"])
+    }
+
+    @Test
+    @DisplayName("T-A5-03 C-12 降级：非 2xx / 无 bodyBytes / 非法参数一律返回 null")
+    fun byteRangeFailure() = runTest {
+        val fake = FakeHttp(mutableListOf(
+            WebDavResponse(500, bodyBytes = ByteArray(10)),
+            WebDavResponse(200),
+        ))
+        val driver = driver(fake)
+        driver.init(DriverCtx())
+        val obj = Obj(name = "a.flac", path = "/music/a.flac")
+        assertNull(driver.readBytes(obj, 0, 10))
+        assertNull(driver.readBytes(obj, 0, 10))
+        assertNull(driver.readBytes(obj, -1, 10))
+        assertNull(driver.readBytes(obj, 0, 0))
+    }
 
     private fun driver(http: HttpStack, forceWebdavProxy: Boolean = false) =
         WebDavDriver(storage(BASE), BASE, http, forceWebdavProxy)

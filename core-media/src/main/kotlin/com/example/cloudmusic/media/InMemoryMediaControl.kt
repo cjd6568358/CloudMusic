@@ -92,11 +92,11 @@ class InMemoryMediaControl(
         playback = _playback.value,
     )
 
-    /** 供上层通知「用户手动暂停」，清除焦点恢复标记（§12 T03）。 */
-    fun onManualPause() = focus.onManualPause()
+    /** C-15（`12 §44`）：用户手动暂停 → 清「因焦点而暂停」标记，保证 §12 T03 生产链路成立。 */
+    override fun onManualPause() = focus.onManualPause()
 
-    /** 供上层通知「已开始播放」，供 PLAY_PAUSE 切换判定。 */
-    fun onPlaying() = focus.onPlaying()
+    /** C-15（`12 §44`）：用户主动开始播放，供 PLAY_PAUSE 切换判定。 */
+    override fun onPlaying() = focus.onPlaying()
 
     val isResumePending: Boolean get() = focus.isResumePending
 }

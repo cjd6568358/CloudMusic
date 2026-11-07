@@ -21,8 +21,35 @@
 
     <!-- 10 §2 R4 已拍板：DataStore 明文凭据禁止随系统备份上云，不可回退。
          Hilt 应用入口：启动时一次性注册 DataSourceModule 提供的 Driver factory。 -->
+    <!-- T-A5（12 §31 / 03-11 §1.1）：组件声明落 :app（:feature-player 是纯 JVM、无 Manifest）。
+         新增 service / receiver 不新增任何权限，11 项 ≤12 与 C3 检查不变。 -->
     <application
         android:name=".CloudMusicApplication"
-        android:allowBackup="false" />
+        android:allowBackup="false">
+
+        <!-- T-A6（12 §33 / 03-10 §5）：Compose 自研页面入口；播放页照搬属 T-L L3。 -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".PlaybackService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
+
+        <!-- 03-07 §5 B12：兼容兜底；主入口为 MediaSession.Callback，Receiver 不重复处理按键。 -->
+        <receiver
+            android:name=".MediaButtonEventReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+    </application>
 
 </manifest>

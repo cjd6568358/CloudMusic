@@ -13,6 +13,11 @@ enum class CandidateKind { AUDIO, STRM, PLAYLIST }
 data class ScanRequest(
     /** 空集合 = 扫描全部活跃 Storage */
     val storageIds: Set<String> = emptySet(),
+    /**
+     * C-14（`12 §31`）：**进度标签**，用于 `ScanProgress` / UI 展示，
+     * 不控制扫描分支；实际语义由 [refresh] / [storageIds] / [onlyUnavailable] 决定。
+     * 保留该字段是为了不改既有调用方与单测（03-04 §4）。
+     */
     val phase: ScanPhase = ScanPhase.FULL,
     val refresh: Boolean = false,
     /** 阶段 B 开关；阶段 A 从不等待网络元数据 */
@@ -23,6 +28,11 @@ data class ScanRequest(
     val metadataConcurrency: Int = 2,
     /** 每批 upsert 条数（03-04 §10：禁止逐条写库） */
     val batchSize: Int = 500,
+    /**
+     * C-14：03-04 §4「网络恢复 / 手动重试失败项」的**定向增量**。
+     * true 时只处理当前 `Availability != OK` 的条目；由 [TrackSink.unavailablePaths] 提供集合。
+     */
+    val onlyUnavailable: Boolean = false,
 )
 
 data class ScanError(val path: String, val code: String, val detail: String)

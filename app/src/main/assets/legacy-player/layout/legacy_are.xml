@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/miContainer" android:tag="layout/fragment_mi_miniplayer_0" android:background="#ff33333e" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View android:layout_gravity="top" android:id="@id/miTopBackground" android:layout_width="fill_parent" android:layout_height="100.0dip" />
+    <View android:layout_gravity="bottom" android:id="@id/miBottomBackground" android:layout_width="fill_parent" android:layout_height="100.0dip" />
+    <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:layout_gravity="bottom" android:id="@id/miCover" android:background="#ff33333e" android:layout_width="fill_parent" android:layout_height="372.0dip" />
+    <View android:layout_gravity="bottom" android:id="@id/miColorTBMask" android:layout_width="fill_parent" android:layout_height="372.0dip" />
+    <View android:layout_gravity="top" android:id="@id/miColorBTMask" android:layout_width="fill_parent" android:layout_height="372.0dip" />
+    <View android:id="@id/miBlackMask" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="bottom" android:id="@id/miOtherArea" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="144.0dip" android:layout_marginTop="35.0dip">
+        <com.netease.play.ui.MarqueeTextView android:textSize="20.0dip" android:textColor="#b3fff5eb" android:ellipsize="marquee" android:gravity="center" android:id="@id/miSongName" android:layout_width="292.0dip" android:layout_height="wrap_content" android:maxLines="1" android:marqueeRepeatLimit="marquee_forever" app:a5l="parent" app:a65="parent" app:a69="parent" />
+        <com.netease.play.ui.MarqueeTextView android:textSize="16.0dip" android:textColor="#73fff5eb" android:ellipsize="marquee" android:gravity="center" android:id="@id/miArtistName" android:layout_width="292.0dip" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:maxLines="1" android:marqueeRepeatLimit="marquee_forever" app:a5l="parent" app:a65="parent" app:a68="@id/miSongName" />
+        <FrameLayout android:id="@id/miSeekBarContainer" android:clipChildren="false" android:layout_width="fill_parent" android:layout_height="20.0dip" android:layout_marginTop="10.0dip" android:layout_marginStart="10.0dip" android:layout_marginEnd="10.0dip" app:a68="@id/miArtistName">
+            <com.netease.cloudmusic.ui.PlayerSeekBarNew android:id="@id/miSeekBar" android:paddingTop="5.0dip" android:paddingBottom="5.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxHeight="20.0dip" android:progressDrawable="@drawable/bn5" android:minHeight="20.0dip" android:paddingVertical="5.0dip" app:r8="false" app:aio="3.0dip" app:aip="3.0dip" app:axe="2.0dip" app:axf="6.0dip" app:axm="true" />
+        </FrameLayout>
+        <ImageView android:id="@id/miPlayBtn" android:layout_width="36.0dip" android:layout_height="36.0dip" android:layout_marginTop="22.0dip" android:src="@drawable/g_k" app:a5l="parent" app:a65="parent" app:a68="@id/miSeekBarContainer" />
+        <ImageView android:id="@id/miPrevBtn" android:layout_width="30.0dip" android:layout_height="30.0dip" android:src="@drawable/g_o" android:layout_marginEnd="44.0dip" app:a5f="@id/miPlayBtn" app:a5m="@id/miPlayBtn" app:a69="@id/miPlayBtn" />
+        <ImageView android:id="@id/miNextBtn" android:layout_width="30.0dip" android:layout_height="30.0dip" android:src="@drawable/g_a" android:layout_marginStart="44.0dip" app:a5f="@id/miPlayBtn" app:a64="@id/miPlayBtn" app:a69="@id/miPlayBtn" />
+        <ImageView android:id="@id/miModeBtn" android:layout_width="40.0dip" android:layout_height="40.0dip" android:src="@drawable/gc6" android:layout_marginEnd="37.0dip" app:a5f="@id/miPlayBtn" app:a5m="@id/miPrevBtn" app:a69="@id/miPlayBtn" />
+        <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/miLikeContainer" android:layout_width="wrap_content" android:layout_height="28.0dip" android:layout_marginStart="44.0dip" app:a5f="@id/miPlayBtn" app:a64="@id/miNextBtn" app:a69="@id/miPlayBtn">
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/miLikeBtn" android:layout_width="28.0dip" android:layout_height="28.0dip" app:a5f="parent" app:a65="parent" app:a69="parent" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="9.0dip" android:textColor="@color/b1w" android:gravity="center" android:id="@id/miLikeCount" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:maxLines="1" android:includeFontPadding="false" android:contentDescription="@null" android:layout_marginStart="20.0dip" app:xs="@font/a" app:a65="parent" app:a69="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout android:id="@id/miLyricAreaContainer" android:background="#ff33333e" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView android:id="@id/lyRicCover" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <View android:background="#4d000000" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <LinearLayout android:orientation="vertical" android:id="@id/miLyricContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="105.0dip">
+            <com.netease.play.ui.MarqueeTextView android:textSize="18.0dip" android:textColor="#ffebf9ff" android:ellipsize="marquee" android:gravity="left" android:id="@id/miLyricSongName" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="18.0dip" android:layout_marginTop="16.0dip" android:layout_marginRight="18.0dip" android:maxLines="1" android:marqueeRepeatLimit="marquee_forever" />
+            <com.netease.play.ui.MarqueeTextView android:textSize="16.0dip" android:textColor="#66ebf9ff" android:ellipsize="marquee" android:gravity="left" android:id="@id/miLyricArtistName" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="18.0dip" android:layout_marginTop="3.0dip" android:layout_marginRight="18.0dip" android:maxLines="1" android:marqueeRepeatLimit="marquee_forever" />
+            <com.netease.cloudmusic.module.miminiplayer.MiLyricViewContainer android:id="@id/lrcViewContainer" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_marginTop="14.0dip" android:layout_marginBottom="14.0dip" android:layout_weight="1.0" />
+        </LinearLayout>
+    </FrameLayout>
+    <FrameLayout android:layout_gravity="bottom|center" android:id="@id/miAnimContainer" android:background="@drawable/b_d" android:layout_width="105.0dip" android:layout_height="216.0dip">
+        <com.netease.cloudmusic.module.miminiplayer.MiAnimViewRender android:layout_gravity="center" android:id="@id/miAnimRender" android:layout_width="98.0dip" android:layout_height="64.0dip" />
+    </FrameLayout>
+    <LinearLayout android:gravity="center|top" android:orientation="vertical" android:id="@id/miPlayerControlPanel" android:background="@drawable/b_d" android:visibility="gone" android:layout_width="105.0dip" android:layout_height="105.0dip">
+        <FrameLayout android:id="@id/miControlLikeContainer" android:layout_width="wrap_content" android:layout_height="28.0dip" android:layout_marginTop="16.0dip">
+            <androidx.appcompat.widget.AppCompatImageView android:id="@id/mi_control_LikeBtn" android:layout_width="28.0dip" android:layout_height="28.0dip" android:layout_marginLeft="12.0dip" android:layout_marginRight="12.0dip" android:src="@drawable/gca" />
+            <androidx.appcompat.widget.AppCompatTextView android:textSize="9.0dip" android:textColor="@color/b1w" android:gravity="center" android:id="@id/mi_control_LikeCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:maxLines="1" android:includeFontPadding="false" android:contentDescription="@null" android:layout_marginStart="32.0dip" app:xs="@font/a" app:a65="parent" app:a69="parent" />
+        </FrameLayout>
+        <ImageView android:id="@id/miControlPlayBtn" android:layout_width="32.0dip" android:layout_height="32.0dip" android:layout_marginTop="20.0dip" android:src="@drawable/g_k" app:a5l="parent" app:a65="parent" app:a68="@id/miSeekBarContainer" />
+        <com.google.android.material.imageview.ShapeableImageView android:id="@id/miControlAlbumCover" android:background="#ff33333e" android:layout_width="49.0dip" android:layout_height="49.0dip" android:layout_marginTop="23.0dip" android:scaleType="centerCrop" />
+    </LinearLayout>
+</FrameLayout>

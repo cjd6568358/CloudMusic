@@ -1,0 +1,181 @@
+{
+  "source": "analysis/engine-jni-classes.json + analysis/jadx-jni-classes/**/*.java",
+  "preciseClassCount": 12,
+  "sourceFilesPresent": 12,
+  "sourceFilesMissing": 0,
+  "classesWithDiff": 5,
+  "dexAuditNativeTotal": 162,
+  "sourceNativeTotal": 210,
+  "jadxSupplementCount": 48,
+  "jniExportCount": 202,
+  "deltaVsJniExports": 8,
+  "matchesDexBaseline210": true,
+  "deltaKnown": [
+    "Playback.nativeNotifyAudioEffectChanged (1)",
+    "PlaylistJniBridge *Raw / 日志 / 更新类方法 (7)"
+  ],
+  "note": "差异需逐项核对：engine-api-audit.json 只记录了 JNI 符号对照涉及的方法，NMCommonCache 系列不完整；jadx 源码是更完整的真相。不自动改写索引，按 12 §10.4 登记簿逐个处置。",
+  "rows": [
+    {
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.AudioPlayerUnit",
+      "source": "analysis/jadx-jni-classes/com/netease/cloudmusic/android/sdk/playerengine/AudioPlayerUnit.java",
+      "present": true,
+      "expectedCount": 27,
+      "actualCount": 27,
+      "missingInSource": [],
+      "extraInSource": []
+    },
+    {
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.NativeDataRequestErrorCallback",
+      "source": "analysis/jadx-jni-classes/com/netease/cloudmusic/android/sdk/playerengine/NativeDataRequestErrorCallback.java",
+      "present": true,
+      "expectedCount": 1,
+      "actualCount": 1,
+      "missingInSource": [],
+      "extraInSource": []
+    },
+    {
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.Playback",
+      "source": "analysis/jadx-jni-classes/com/netease/cloudmusic/android/sdk/playerengine/Playback.java",
+      "present": true,
+      "expectedCount": 60,
+      "actualCount": 60,
+      "missingInSource": [],
+      "extraInSource": []
+    },
+    {
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.PlaybackDataSource",
+      "source": "analysis/jadx-jni-classes/com/netease/cloudmusic/android/sdk/playerengine/PlaybackDataSource.java",
+      "present": true,
+      "expectedCount": 7,
+      "actualCount": 7,
+      "missingInSource": [],
+      "extraInSource": []
+    },
+    {
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.PlaybackEngine",
+      "source": "analysis/jadx-jni-classes/com/netease/cloudmusic/android/sdk/playerengine/PlaybackEngine.java",
+      "present": true,
+      "expectedCount": 24,
+      "actualCount": 24,
+      "missingInSource": [],
+      "extraInSource": []
+    },
+    {
+      "class": "com.netease.cloudmusic.media.NEAudioDevice$NEAudioDeviceOnPlaybackPositionUpdateListener",
+      "source": "analysis/jadx-jni-classes/com/netease/cloudmusic/media/NEAudioDevice.java",
+      "present": true,
+      "expectedCount": 2,
+      "actualCount": 2,
+      "missingInSource": [],
+      "extraInSource": []
+    },
+    {
+      "class": "com.netease.cloudmusic.playlist.core.PlaylistJniBridge",
+      "source": "analysis/jadx-jni-classes/com/netease/cloudmusic/playlist/core/PlaylistJniBridge.java",
+      "present": true,
+      "expectedCount": 31,
+      "actualCount": 31,
+      "missingInSource": [],
+      "extraInSource": []
+    },
+    {
+      "class": "com.netease.cloudmusic.sdk.NMCommonCache.NMBufferSource",
+      "source": "analysis/jadx-jni-classes/com/netease/cloudmusic/sdk/NMCommonCache/NMBufferSource.java",
+      "present": true,
+      "expectedCount": 1,
+      "actualCount": 21,
+      "missingInSource": [],
+      "extraInSource": [
+        "Abort",
+        "CacheEnough",
+        "Close",
+        "GetCurrCachePostion",
+        "GetCurrCacheSize",
+        "Open",
+        "Preload",
+        "PreloadRange",
+        "Read",
+        "ReadBuf",
+        "Seek",
+        "SetDataRequest",
+        "SetFileOffset",
+        "SetRequestMaxRangeSize",
+        "SetRequestMinRangeSize",
+        "SetRequestRoundSize",
+        "SetRespectCacheSize",
+        "Size",
+        "SourceID",
+        "Stop"
+      ]
+    },
+    {
+      "class": "com.netease.cloudmusic.sdk.NMCommonCache.NMCacheBase",
+      "source": "analysis/jadx-jni-classes/com/netease/cloudmusic/sdk/NMCommonCache/NMCacheBase.java",
+      "present": true,
+      "expectedCount": 1,
+      "actualCount": 2,
+      "missingInSource": [],
+      "extraInSource": [
+        "InitFromPtr"
+      ]
+    },
+    {
+      "class": "com.netease.cloudmusic.sdk.NMCommonCache.NMVirtualFile",
+      "source": "analysis/jadx-jni-classes/com/netease/cloudmusic/sdk/NMCommonCache/NMVirtualFile.java",
+      "present": true,
+      "expectedCount": 1,
+      "actualCount": 7,
+      "missingInSource": [],
+      "extraInSource": [
+        "AvailableSize",
+        "Close",
+        "Open",
+        "Read",
+        "Size",
+        "Write"
+      ]
+    },
+    {
+      "class": "com.netease.cloudmusic.sdk.NMCommonCache.NMVirtualFileManager",
+      "source": "analysis/jadx-jni-classes/com/netease/cloudmusic/sdk/NMCommonCache/NMVirtualFileManager.java",
+      "present": true,
+      "expectedCount": 5,
+      "actualCount": 23,
+      "missingInSource": [],
+      "extraInSource": [
+        "AllCacheInfo",
+        "CacheIndexInfo",
+        "CacheInfo",
+        "CacheInfoDetail",
+        "CacheSize",
+        "CreateBufferSource",
+        "CreateNMVirtualFile",
+        "Delete",
+        "DeleteAll",
+        "DeleteExtFile",
+        "GetRootDir",
+        "ReadExtFile",
+        "SetCacheCleanRange",
+        "SetConfig",
+        "SetMaxSize",
+        "SetVirtualFileManagerHandler",
+        "TriggerCacheClean",
+        "WriteExtFile"
+      ]
+    },
+    {
+      "class": "com.netease.cloudmusic.sdk.NMCommonCache.SourceDataRequest",
+      "source": "analysis/jadx-jni-classes/com/netease/cloudmusic/sdk/NMCommonCache/SourceDataRequest.java",
+      "present": true,
+      "expectedCount": 2,
+      "actualCount": 5,
+      "missingInSource": [],
+      "extraInSource": [
+        "OnNativeDataRequestBegin",
+        "OnNativeDataRequestData",
+        "OnNativeDataRequestEnd"
+      ]
+    }
+  ]
+}

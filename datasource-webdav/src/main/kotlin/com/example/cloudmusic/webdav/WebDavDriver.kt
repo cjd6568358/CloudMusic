@@ -2,6 +2,7 @@ package com.example.cloudmusic.webdav
 
 import com.example.cloudmusic.common.CloudMusicError
 import com.example.cloudmusic.datasource.AbstractDriver
+import com.example.cloudmusic.datasource.ByteRangeCapability
 import com.example.cloudmusic.datasource.DirectLinkCapability
 import com.example.cloudmusic.datasource.DriverConfig
 import com.example.cloudmusic.datasource.DriverCtx
@@ -28,7 +29,7 @@ class WebDavDriver(
     private val http: HttpStack,
     /** 08 配置项：用户「WebDAV 强制走代理」开关。 */
     private val forceWebdavProxy: Boolean = false,
-) : AbstractDriver(storage, addition), DirectLinkCapability {
+) : AbstractDriver(storage, addition), DirectLinkCapability, ByteRangeCapability {
 
     override val config = DriverConfig(name = "WebDAV", localSort = true, preferProxy = false)
 
@@ -85,6 +86,9 @@ class WebDavDriver(
             proxy = true,
             contentLength = file.size,
             requireReference = true,
+            // C-07：PROXIED 必须携带回源 URL，否则本地代理每请求回源时无从定位。
+            // url 字段留空是为了让 kind 仍判定为 PROXIED（03-08 §3.1 决策表）。
+            proxySourceUrl = url,
         )
     }
 
@@ -100,6 +104,31 @@ class WebDavDriver(
         }.getOrDefault(false)
         probeCache[key] = ok
         return if (ok) candidate else null
+    }
+
+    /**
+     * C-12（`12 §31` / `03-04 §3`）：扫描网络音源时**只取指定区间**，禁止下载整文件。
+     *
+     * 复用 [executeWithAuth] 的 BASIC / DIGEST 三态协商（Range 请求同样需要鉴权头），
+     * 不新建第二套网络栈。服务端忽略 Range 返回 200 时，从完整响应里按 offset 切片，
+     * 避免把整个文件当成头部交给解析器。失败一律返回 null，由 `HeadTagReader` 降级（B01 / B16）。
+     */
+    override suspend fun readBytes(file: Obj, offset: Long, length: Int): ByteArray? {
+        if (offset < 0 || length <= 0) return null
+        ensureReady()
+        val request = WebDavRequest(
+            method = "GET",
+            url = buildUrl(file.path),
+            headers = mapOf("Range" to "bytes=$offset-${offset + length - 1}"),
+        )
+        val response = runCatching { executeWithAuth(request) }.getOrNull() ?: return null
+        if (response.status !in 200..299) return null
+        val bytes = response.bodyBytes ?: return null
+        if (response.status == 206) return bytes
+        // 200：服务端不支持 Range，只能本地切片；仍不把整个文件交给上层。
+        val from = offset.coerceAtMost(bytes.size.toLong()).toInt()
+        val to = (offset + length).coerceAtMost(bytes.size.toLong()).toInt()
+        return if (from >= to) ByteArray(0) else bytes.copyOfRange(from, to)
     }
 
     // ------------------------------------------------------------------

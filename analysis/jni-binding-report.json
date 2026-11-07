@@ -1,0 +1,193 @@
+{
+  "source": "NeteaseCloudMusic.apk (4 个 JNI 入口 so) + engine-legacy/src/main/java",
+  "scope": "03-06 §6 的 A1 / A2；A3 真机 G01~G09 需 adb + arm64 真机，本工具不覆盖",
+  "jniSymbolCount": 202,
+  "symbolsByLib": {
+    "libncmplayerengine.so": 118,
+    "libaudioplayer.so": 2,
+    "libnmplaylist.so": 24,
+    "libNMCommonCache.so": 58
+  },
+  "javaNativeClassCount": 12,
+  "javaNativeMethodCount": 210,
+  "staticBoundMethodCount": 195,
+  "dexOnlyCount": 15,
+  "dexOnly": [
+    "com.netease.cloudmusic.android.sdk.playerengine.Playback#nativeNotifyAudioEffectChanged",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeClearCurrentAndSwitchToRecentRaw",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeGetPlaybackPositionRaw",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeGetSnapshotMetaRaw",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeListRecentPlaylistsRaw",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativePromoteRecentToCurrentRaw",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeReadRecentPlaylistRaw",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeReadSnapshotRawRangeRaw",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeSetLogCallback",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeSetLogEnabled",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeSetLogLevel",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeUpdateCurrentSnapshotExtraInfo",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeUpdatePlayMode",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeUpdatePlaybackProgress",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeUpdateShuffleOrder"
+  ],
+  "soOnlyMethodCount": 7,
+  "soOnlyMethods": [
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeClearCurrentAndSwitchToRecent",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeGetPlaybackPosition",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeGetSnapshotMeta",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeListRecentPlaylists",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativePromoteRecentToCurrent",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeReadRecentPlaylist",
+    "com.netease.cloudmusic.playlist.core.PlaylistJniBridge#nativeReadSnapshotRawRange"
+  ],
+  "unmatchedSymbolCount": 0,
+  "unmatchedSymbols": [],
+  "netDelta": 8,
+  "matchesBaselineDelta8": true,
+  "a2": {
+    "packedLibCount": 18,
+    "closureLibCount": 14,
+    "closureLibs": [
+      "libMNN.so",
+      "libMNN_Express.so",
+      "libNMCommonCache.so",
+      "libaudioplayer.so",
+      "libc++_shared.so",
+      "libffmpeg.so",
+      "libncmaudioplayer.so",
+      "libncmplayerengine.so",
+      "libncmusbaudio.so",
+      "libneaudioaiif.so",
+      "libneaudioeffect_core.so",
+      "libneaudioeffects.so",
+      "libnmplaylist.so",
+      "libsqlite3x.so"
+    ],
+    "external": [],
+    "pass": true
+  },
+  "baseline": {
+    "sourceNativeTotal": 210,
+    "jniExportCount": 202,
+    "deltaKnown": [
+      "Playback.nativeNotifyAudioEffectChanged (1)",
+      "PlaylistJniBridge *Raw / 日志 / 更新类方法 (7)"
+    ],
+    "matchesDexBaseline210": true
+  },
+  "verdict": {
+    "a1": "PASS（静态符号对映完成，缺符号清单已列出）",
+    "a2": "PASS",
+    "a3": "NOT RUN（无 adb / 真机，见 12 §37）"
+  },
+  "classes": [
+    {
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.AudioPlayerUnit",
+      "declaredCount": 27,
+      "staticBoundCount": 27,
+      "missingInSo": [],
+      "soOnlyMethods": []
+    },
+    {
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.NativeDataRequestErrorCallback",
+      "declaredCount": 1,
+      "staticBoundCount": 1,
+      "missingInSo": [],
+      "soOnlyMethods": []
+    },
+    {
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.Playback",
+      "declaredCount": 60,
+      "staticBoundCount": 59,
+      "missingInSo": [
+        "nativeNotifyAudioEffectChanged"
+      ],
+      "soOnlyMethods": []
+    },
+    {
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.PlaybackDataSource",
+      "declaredCount": 7,
+      "staticBoundCount": 7,
+      "missingInSo": [],
+      "soOnlyMethods": []
+    },
+    {
+      "class": "com.netease.cloudmusic.android.sdk.playerengine.PlaybackEngine",
+      "declaredCount": 24,
+      "staticBoundCount": 24,
+      "missingInSo": [],
+      "soOnlyMethods": []
+    },
+    {
+      "class": "com.netease.cloudmusic.media.NEAudioDevice$NEAudioDeviceOnPlaybackPositionUpdateListener",
+      "declaredCount": 2,
+      "staticBoundCount": 2,
+      "missingInSo": [],
+      "soOnlyMethods": []
+    },
+    {
+      "class": "com.netease.cloudmusic.playlist.core.PlaylistJniBridge",
+      "declaredCount": 31,
+      "staticBoundCount": 17,
+      "missingInSo": [
+        "nativeClearCurrentAndSwitchToRecentRaw",
+        "nativeGetPlaybackPositionRaw",
+        "nativeGetSnapshotMetaRaw",
+        "nativeListRecentPlaylistsRaw",
+        "nativePromoteRecentToCurrentRaw",
+        "nativeReadRecentPlaylistRaw",
+        "nativeReadSnapshotRawRangeRaw",
+        "nativeSetLogCallback",
+        "nativeSetLogEnabled",
+        "nativeSetLogLevel",
+        "nativeUpdateCurrentSnapshotExtraInfo",
+        "nativeUpdatePlayMode",
+        "nativeUpdatePlaybackProgress",
+        "nativeUpdateShuffleOrder"
+      ],
+      "soOnlyMethods": [
+        "nativeClearCurrentAndSwitchToRecent",
+        "nativeGetPlaybackPosition",
+        "nativeGetSnapshotMeta",
+        "nativeListRecentPlaylists",
+        "nativePromoteRecentToCurrent",
+        "nativeReadRecentPlaylist",
+        "nativeReadSnapshotRawRange"
+      ]
+    },
+    {
+      "class": "com.netease.cloudmusic.sdk.NMCommonCache.NMBufferSource",
+      "declaredCount": 21,
+      "staticBoundCount": 21,
+      "missingInSo": [],
+      "soOnlyMethods": []
+    },
+    {
+      "class": "com.netease.cloudmusic.sdk.NMCommonCache.NMCacheBase",
+      "declaredCount": 2,
+      "staticBoundCount": 2,
+      "missingInSo": [],
+      "soOnlyMethods": []
+    },
+    {
+      "class": "com.netease.cloudmusic.sdk.NMCommonCache.NMVirtualFile",
+      "declaredCount": 7,
+      "staticBoundCount": 7,
+      "missingInSo": [],
+      "soOnlyMethods": []
+    },
+    {
+      "class": "com.netease.cloudmusic.sdk.NMCommonCache.NMVirtualFileManager",
+      "declaredCount": 23,
+      "staticBoundCount": 23,
+      "missingInSo": [],
+      "soOnlyMethods": []
+    },
+    {
+      "class": "com.netease.cloudmusic.sdk.NMCommonCache.SourceDataRequest",
+      "declaredCount": 5,
+      "staticBoundCount": 5,
+      "missingInSo": [],
+      "soOnlyMethods": []
+    }
+  ]
+}

@@ -21,6 +21,15 @@ data class Link(
     val contentLength: Long = 0,
     /** 需持有底层句柄（对齐 Go SyncClosers）。 */
     val requireReference: Boolean = false,
+    /**
+     * **C-07（2026-11-06，`12 §25`）**：PROXIED 态专用**回源 URL**，只供本地代理每请求回源使用。
+     * 不参与 [kind] 判定、不推给 DMR、禁止写入日志（可能含签名参数；凭据仍在 [headers] 里）。
+     * 默认 null、放在构造参数末尾，URL / LOCAL / TEXT 恒为 null，既有调用与 14 方法门面零改动。
+     *
+     * 背景：`WebDavDriver.link()` 的 PROXIED 分支原先只给鉴权 [headers]、不给 URL，
+     * 导致 `DriverStreamFactory` 生产实现无法回源（纯 JVM 测试用 fake 未暴露）。
+     */
+    val proxySourceUrl: String? = null,
 ) {
     enum class Kind { URL, LOCAL, PROXIED, TEXT }
 

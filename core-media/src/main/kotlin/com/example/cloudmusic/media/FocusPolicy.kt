@@ -84,7 +84,12 @@ class FocusPolicy(private val duckVolume: Float = 0.25f) {
         state = FocusState.IDLE
     }
 
+    /**
+     * 用户主动开始播放（C-15 / `12 §44`）：清掉「等待自动恢复」标记，
+     * 避免 `LOSS_TRANSIENT` 后手动播放、再收到 `GAIN` 时被重复 `resumeFromFocus()`。
+     */
     fun onPlaying() {
+        resumePending = false
         state = FocusState.PLAYING
     }
 

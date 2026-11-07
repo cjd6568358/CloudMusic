@@ -26,8 +26,11 @@ okhttp = "4.12.0"
 coil = "2.7.0"
 nanohttpd = "2.3.1"
 composeBom = "2025.01.00"
+activityCompose = "1.10.0"
 junitJupiter = "5.11.4"
 mockk = "1.13.16"
+datastore = "1.1.2"
+jaudiotaggerVersion = "3.0.1"
 
 [libraries]
 # 构建插件自身（build-logic convention plugins 用 compileOnly 引用）
@@ -46,15 +49,21 @@ androidx-media = { module = "androidx.media:media", version = "1.7.0" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
-androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version = "1.1.2" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+# T-A2（12 §27）：自定义 Serializer<AppSettings> 的 DataStore 核心库（非 Preferences）
+androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 nanohttpd = { module = "org.nanohttpd:nanohttpd", version.ref = "nanohttpd" }
+# 05 §3 / 03-04 §6.2 定案：标签解析不照搬 native，用 JAudioTagger(LGPL) + MediaMetadataRetriever
+jaudiotagger = { module = "net.jthink:jaudiotagger", version.ref = "jaudiotaggerVersion" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 androidx-compose-ui = { module = "androidx.compose.ui:ui" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
+# T-A6（12 §33）：ComponentActivity.setContent 的宿主；V0.1 不引 navigation-compose / coil-compose
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 
 # 测试（契约层用 JVM 单测，不需要 Android 设备）
 kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5", version.ref = "kotlin" }

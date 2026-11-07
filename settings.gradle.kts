@@ -29,12 +29,26 @@ rootProject.name = "CloudMusic"
 // + 第十三批 :engine-bridge（16 §5.3 T-P2，DataSourceAdapter 四态实现，12 §22）
 // + 第十四批 :feature-player（16 §5.3 T-P1，业务队列 / PlayerController，12 §23）
 // + 第十五批 :output-dlna（16 §5.3 T-P3，SSDP / SOAP / DIDL-Lite / CastUriResolver，12 §24）
-// + 第十批 :app 与第十一批 :core-di 为 Android 模块（见下方 skipAndroid 块，12 §19 / §20），
-//   当前共 17 个模块；前 15 个全部纯 JVM，本机可编译可单测。
+// + 第十批 :app 与第十一批 :core-di 为 Android 模块（见下方 skipAndroid 块，12 §19 / §20）。
+// + 第十七批（12 §26，T-A1）：Room 9 张物理表 + FTS4 + Migration(1,2) 落在 :core-di/db；
+// + 第十八批（12 §27，T-A2）：DataStore 的 AppSettings / StorageRepository 落在 :core-di/settings；
+//   两批均**未新建模块**，:core-storage 保持纯 JVM 契约层（D-40）。
+// + 第十九批（12 §28，T-A3）：新增第 18 个模块 :datasource-local（纯 JVM LocalDriver），
+// + 第二十批（12 §29，T-A4）：标签 / 封面 / 扫描器生产组合层落在 :core-di/scan，仍未新建模块。
+// + 第二十二批（12 §31，T-A5）：nanohttpd 本体 / effects 执行者 / PlaybackRuntime 落在
+//   :core-di/proxy|scan|playback，PlaybackService 与 Manifest 组件声明落在 :app，仍未新建模块。
+// + 第二十三批（12 §32，T-L L1 步骤 1）：启用第 19 个模块 :engine-legacy（Android library），
+//   18 个 arm64 so 落在 src/main/jniLibs/arm64-v8a/ + ENGINE-FINGERPRINT；仍无 JNI 真类 / slot。
+//   SAF / MediaStore 生产适配落在 :core-di/local。**当前共 19 个模块；前 16 个纯 JVM +
+//   :app + :core-di + :engine-legacy**，本机可编译可单测，noAndroid 逃生开关不变。
 // 任务拆分以 docs/16 §5 的四线任务表为唯一权威（取代 12 §7 滞后行 / 12 §20.5 / 15 §7.5 旧建议）：
 //   T-P 纯 JVM 先行（:engine-bridge / :feature-player / :output-dlna，T-P4 C-05/C-06 已完成）
-//   T-A Android 线（Room 9 张物理表 + DataStore / :datasource-local / JAudioTagger / Service / UI）
-//   T-L 照搬舱线（按 12 §10 后期按需触发）  T-V 验收线（真机 G01~G09 / 发布阻断 12 条）
+//   T-A Android 线（T-A1 Room / T-A2 DataStore / T-A3 本地音源 / T-A4 标签封面与扫描接线 /
+//      T-A5 PlaybackService + nanohttpd 本体 + effects 执行者 /
+//      T-A6 Compose UI 骨架：12 §33 全部收口，剩余 4 个主节点 = T-L L1/L2/L3 + T-V）
+//   T-L 照搬舱线（L1 已按 12 §10.2 完成步骤 1~3：so + 指纹 + 舱内真类编译通过 +
+//      EngineAdapter 门面换绑；登记簿 51 行。余真机 G01/G02 与 native 回调校准，见 12 §36）
+//   T-V 验收线（真机 G01~G09 / 发布阻断 12 条）
 // 引擎舱路线 A 已拍板、slot 后期按需实现，不影响上述模块先行（09 §2）。
 // ---------------------------------------------------------------------------
 include(":core-common")
@@ -43,6 +57,7 @@ include(":datasource-api")
 include(":datasource-strm")
 include(":datasource-playlist")
 include(":datasource-webdav")
+include(":datasource-local")  // 第十九批：T-A3 本地音源（纯 JVM 驱动 + 端口，12 §28）
 include(":scanner")
 include(":core-storage")
 include(":engine-api")
@@ -59,7 +74,7 @@ include(":output-dlna")     // 第十五批：T-P3 投屏协议与决策（12 §
 //
 // 默认包含 Android 模块，保证 CI 与 release 一定校验 Manifest（C3）与 Hilt DI 图。
 // 未配置 SDK 的成员可用 ./gradlew test -Pcloudmusic.noAndroid=true 临时跳过
-// Android 模块，只跑 12 个纯 JVM 契约模块；CI / release 禁止使用该开关。
+// Android 模块，只跑 16 个纯 JVM 契约模块；CI / release 禁止使用该开关。
 // ---------------------------------------------------------------------------
 val skipAndroid = providers.gradleProperty("cloudmusic.noAndroid")
     .map { it.equals("true", ignoreCase = true) }
@@ -68,7 +83,8 @@ if (skipAndroid) {
     logger.lifecycle("[CloudMusic] -Pcloudmusic.noAndroid=true：本次跳过 Android 模块（仅限纯 JVM 契约开发）")
 } else {
     include(":app")
-    include(":core-di")   // 第十一批：Hilt 唯一注册点（12 §20）
+    include(":core-di")         // 第十一批：Hilt 唯一注册点（12 §20）
+    include(":engine-legacy")   // 第二十三批：T-L L1 舱体（18 个 arm64 so，12 §10.2 步骤 1）
 }
 
 // ---------------------------------------------------------------------------

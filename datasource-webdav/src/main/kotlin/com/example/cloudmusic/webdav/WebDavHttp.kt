@@ -23,6 +23,12 @@ data class WebDavResponse(
     val status: Int,
     val headers: Map<String, String> = emptyMap(),
     val body: String = "",
+    /**
+     * C-12（12 §31）：二进制 Range 读的原始字节。`body` 是 String，会把 MP3/FLAC 头部
+     * 的非 UTF-8 字节替换掉，因此 `ByteRangeCapability.readBytes` 必须走本字段。
+     * PROPFIND 也顺带填充，避免为两种响应写两套读取路径。
+     */
+    val bodyBytes: ByteArray? = null,
 )
 
 fun WebDavResponse.header(name: String): String? =
@@ -58,7 +64,17 @@ class OkHttpStack(private val client: OkHttpClient) : HttpStack {
                             headers[resp.headers.name(i)] = resp.headers.value(i)
                         }
                         if (cont.isActive) {
-                            cont.resume(WebDavResponse(resp.code, headers, resp.body?.string().orEmpty()))
+                            // C-12：只读一次 body（OkHttp 的响应体只能消费一次），
+                            // 二进制与文本视图共用同一份字节。
+                            val bytes = resp.body?.bytes()
+                            cont.resume(
+                                WebDavResponse(
+                                    status = resp.code,
+                                    headers = headers,
+                                    body = bytes?.toString(Charsets.UTF_8).orEmpty(),
+                                    bodyBytes = bytes,
+                                ),
+                            )
                         }
                     }
                 }

@@ -19,6 +19,12 @@ interface TrackSink {
 
     /** 快照里有、本次没扫到 → 标 UNREACHABLE，禁止删除（03-04 §8 / §15 #3） */
     suspend fun markUnavailable(ids: List<TrackId>)
+
+    /**
+     * C-14（`12 §31`）：定向增量用的「当前不可用条目路径集合」。
+     * 默认空集 → 既有 fake / 内存实现零回归；生产 `RoomTrackSink` 从曲库投影。
+     */
+    suspend fun unavailablePaths(storageId: String): Set<String> = emptySet()
 }
 
 data class ScanSnapshot(
