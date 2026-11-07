@@ -51,4 +51,11 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.activity.compose)
+
+    // 12 §51（第四十二批）：§50 平台层改动的 JVM 单测；约定插件已配 useJUnitPlatform()。
+    // 只测纯判定逻辑（MediaKeyAction），不引入 Robolectric / Android 测试框架。
+    testImplementation(libs.kotlin.test.junit5)
+    testImplementation(libs.junit.jupiter)
+    // 12 §52（第四十三批）：用 LocalAddition.parse 反向校验 Addition JSON 键名（仅测试期）。
+    testImplementation(project(":datasource-local"))
 }

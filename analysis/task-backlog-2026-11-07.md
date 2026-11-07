@@ -120,3 +120,235 @@
 - 第三十七轮（§46）：`12 §46`、`09 §1/§2/§7`、`16 §5.3`、`03-09 §5/§8`、`03-11 §1.1`、`check_source_contracts.py`、`BluetoothOutputPolicy.kt`、`PlaybackService.kt`、`OutputRoutingContractTest.kt`、任务清单、日志、`MEMORY.md`。
 - 第三十八轮（§47）：`12 §47`、`09 §1/§2/§7`、`16 §5.3`、`14` 顶部现行状态注、`06 §4`、新增 `tools/export_player_assets.py`、`tools/check-assets.py`、`tools/check_source_contracts.py`、`tools/check-no-netease-import.py`、`docs/assets-mapping.csv`（空表 → 61 行）、`app/src/main/assets/legacy-player/`（51 文件）、任务清单、日志、`MEMORY.md`。
 - **本批按用户确认改了 `assets-mapping.csv` 与 C4 / dev / release 基线**；未改构建脚本 / Manifest / 模块依赖，零新增权限 / 依赖 / 模块。工作区仍未 commit / push。
+- 第四十二轮（§51，2026-11-07）：`12 §51`（含文首结论）、`09 §1/§7`、`16 §5.3`、新建
+  `app/src/main/kotlin/com/example/cloudmusic/MediaKeyAction.kt` 与
+  `app/src/test/kotlin/com/example/cloudmusic/PlatformContractTest.kt`、
+  `app/build.gradle.kts`（仅加 test 依赖）、`tools/check_source_contracts.py`
+  （清单 143→145 + 6 组 §50 守护 + 3 组签名 + 2 条 NOTE）、任务清单、日志、`MEMORY.md`。
+- **§51 验证基线**：`./gradlew test` **366 测试 / 39 套件 / 0 失败 / 0 错误 / 0 跳过**；
+  自检 **36 / 145 / 15** PASS；dev **6/6**；release **FAIL(C1, C4)** 正确阻断；
+  guard / py_compile OK；19 模块 / 20 so / 11 权限 / 61 行 csv / 51 素材全部未变。
+- **§42.3 的 T8 仍未收口**：`createDataRequestHandler()` 取流句柄、事件码常量表、
+  真机 G01~G09、61 项素材全量替换、蓝牙 ACL 广播授权、DLNA 输出切换触发点，
+  均需真机实证或用户决策；§51.4 已给出取流链路的逐条真机判据。工作区仍未 commit / push。
+- 第四十三轮（§52，2026-11-07）：`12 §52`（含文首结论）、`09 §1/§7`、`16 §5.3`、新建
+  `app/src/main/kotlin/com/example/cloudmusic/AppActionContracts.kt` /
+  `PermissionRequester.kt` / `LocalSourceAdder.kt`、
+  `app/src/test/kotlin/com/example/cloudmusic/AppActionContractTest.kt`、
+  `app/.../MainActivity.kt`、`app/.../ui/CloudMusicApp.kt`、`app/build.gradle.kts`
+  （仅加 `testImplementation`）、`tools/check_source_contracts.py`
+  （清单 145→149 + 5 组 §52 守护 + 4 组签名 + NOTE）、任务清单、日志、`MEMORY.md`。
+- **§52 验证基线**：`./gradlew test` **380 测试 / 41 套件 / 0 失败 / 0 错误 / 0 跳过**、
+  `:app:assembleDebug` BUILD SUCCESSFUL；自检 **36 / 149 / 15** PASS；dev **6/6**；
+  release **FAIL(C1, C4)**；guard / py_compile OK；11 权限 / 19 模块 / 20 so /
+  61 行 csv / 51 素材全部未变。
+- **§50.7 #3 已收口（应用侧）**：真机「曲库 0 首 / Room 夹具」前提移除，
+  复验判据见 `12 §52.4`。**§50.7 #1（取流句柄）与 #4（G01~G09）未动**；
+  蓝牙 ACL 授权 / 61 项素材替换 / DLNA 切换触发点仍需决策或真机。
+  第四十二、四十三批工作区仍未 commit / push。
+- 第四十四轮（§53，2026-11-07，**只读实证轮**）：`12 §53`（含文首结论）、`09 §1/§7`、
+  `16 §5.3`、新建 `analysis/data-request-handler-evidence-2026-11-07.md`、
+  `engine-legacy/.../EngineAdapter.kt`（**仅注释**，行为仍 `createDataRequestHandler() = null`）、
+  `tools/check_source_contracts.py`（4 组 §53 守护 + NOTE + docstring，清单仍 36/149/15）、
+  任务清单、日志、`MEMORY.md`。反汇编产物在系统临时目录，未入库。
+- **取流句柄结论**：`§50.6` 的「`IBaseDataSource` 或等价句柄」方向收窄为
+  **`SourceDataRequest` 子类实例**；`Start(JJJ)J` / `Stop()` 契约、
+  `libNMCommonCache.so` 的 5 个 JNI 符号、`NMCommonCache` 加载链全部核实。
+  **不缺类不缺库**，`null` 正是播放期零 GET 的原因。
+- **§53 验证**：`check_source_contracts.py` **PASS 36/149/15**（含 so 二进制符号扫描）；
+  **零生产行为改动 / 零构建基线变化**：19 模块 / 11 权限 / 20 so / 61 行 csv /
+  51 素材 / 380 测试均不变；Gradle 本轮 NOT RUN（§52 基线仍有效）。
+- **仍未实证**：`Start` 三个 long 的语义、`OnDataRequest*` 参数含义、
+  native 是否额外按名查找 `C(JII)V` / `H()Z`。实现规格见报告 §4，
+  分阶段真机判据 A~D 见 §5；**不得凭猜测实现**，否则只是再伪装一次 `DEEP RUN`。
+  第四十二~四十四批工作区仍未 commit / push。
+- 第四十五轮（§54，2026-11-07，取流句柄阶段 A/B 落地）：`12 §54`（含文首结论）、
+  `09 §1/§7`、`16 §5.3`、新建 `engine-legacy/.../RangeFetcher.kt` / `UrlDataRequest.kt` /
+  `RangeFetcherTest.kt`（7 用例）、`engine-legacy/.../EngineAdapter.kt` 接线、
+  `engine-legacy/build.gradle.kts`（仅 test 依赖）、
+  `analysis/data-request-handler-evidence-2026-11-07.md`（§2.5 / §3 / §4 / §5 更新）、
+  `tools/check_source_contracts.py`（§53 守护改口径 + 5 组 §54 守护 + 3 组签名 +
+  NOTE，清单 **149 → 152**）、任务清单、日志、`MEMORY.md`。
+- **§2.5 追加实证**：`Start(j1=请求标识 / j2=offset / j3=length)`，
+  `end=j2+j3`，`j1` 原样作 `OnDataRequest*` 首参；`Start` 立即返回 0、异步取流。
+  报告 §3 的未决项收窄为 `OnDataRequestData` 第 2/3 个 long 与 End 的 String。
+- **§54 验证基线**：`./gradlew test` **394 测试 / 43 套件 / 0 失败 / 0 错误 / 0 跳过**
+  （380 + `RangeFetcherTest` 7×2 变体）；自检 **36 / 152 / 15** PASS；dev **6/6**；
+  release **FAIL(C1, C4)**；guard / py_compile OK；19 模块 / 11 权限 / 20 so /
+  61 行 csv / 51 素材 / 指纹全部未变。
+- **§50.7 #1 阶段 A/B 代码已具备，仍未真机验证**：判据见报告 §5 / `12 §54.5`
+  （`InitPtr` / `SetDataRequest` 是否成功、播放期是否出现带 Range 的 GET、
+  `active tracks ≥ 1`、是否 `OnWriteNetData SKIP`）。**编译通过 ≠ 出声**，
+  A3 保持 `DEEP RUN`、舱不冻结。事件码常量表 / 61 项素材替换 / 蓝牙 ACL 授权 /
+  DLNA 切换触发点 / G01~G09 仍待。第四十二~四十五批工作区仍未 commit / push。
+- 第五十五轮（§55，2026-11-07，**真机验证轮，零源码改动**）：`12 §55`（含文首）、
+  `09 §7`、`analysis/a3-verification-runbook-2026-11-07.md`（§0 已更正）、任务清单、日志、`MEMORY.md`。
+  重新 `./gradlew :app:assembleDebug` BUILD SUCCESSFUL（APK 20:54 / 30 MB，含 §54 代码），
+  `zipfile` 校验 20 dex / 20 arm64 so 中取流类全部在位。
+- **首次判断错误已纠正（用户指出「手机还是同一个」）**：`adb devices` 只列出乐视电视
+  `Letv Y43`（API 19 / armeabi-v7a / `characteristics=tv` / `com.letv.*`），
+  手机无线端点断开未重连；`adb connect 192.168.1.11:39525` → **Redmi K60
+  `23013RK75C / mondrian` / Android 13 / API 33 / arm64-v8a**，完全兼容。
+  所有设备命令带 `-s`，电视未被触碰；未切网络、未 `pm grant` 伪造授权。
+- **签名不匹配 → 授权重装**：`apksigner` 对比旧包 `5474f219…` / 新包 `59f9c4cc…`
+  （两套 debug.keystore）→ `INSTALL_FAILED_UPDATE_INCOMPATIBLE`；用户授权后
+  `uninstall` + `install` Success（21:05:49）。恢复 §50 测试夹具（新库保留
+  `room_master_table`，`tracks/queue_items/playback_state=1/1/1`，明确标注为夹具），
+  `adb reverse tcp:8765` + PC `python -m http.server 8765`，设备 curl → 200 / 37824 B。
+- **首次实跑结果**：**阶段 A PASS**（native 全链 `JNI_OnLoad → PlaybackEngine →
+  setDataSource → PrepareAsync → BufferSource open → openSource 1`，crash 空、
+  无 CheckJNI / `NoSuchMethodError`）；**阶段 B FAIL**（`Play status 9` 后 PC 音源
+  **播放期零 GET**、`0 active tracks`、MediaSession `state=2`、logcat 无
+  `SetDataRequest` / `Request Start`）→ §53 类型结论正确，但**调用链仍缺竞品 Java 侧
+  `NMBufferSource.SetDataRequest` 接线**（或 `UrlResult` 字段 / `SourceConfig.type` 判定走本地分支）。
+- **下一步**（`12 §55.4`）：① 加诊断 `Log.i` 到 handler/Start/fetch 后 `install -r`
+  （签名已统一、夹具保留）确认 native 是否调用；② 反汇编 `DataSourcePlatformImpl` 找
+  `SetDataRequest` 接线；③ 校准 `UrlResult` / `SourceConfig.type`；④ 出现 GET 后才进 C/D。
+- **仍未出声**：A3 保持 `DEEP RUN`、舱不冻结、指纹不回填，C/D 与 G01~G09 仍 NOT RUN。
+- 构建基线不变：394 测试 / 43 套件、自检 36/152/15、dev 6/6、release FAIL(C1,C4)、
+  19 模块 / 11 权限 / 20 so / 61 行 csv。第四十二~四十五批工作区仍未 commit / push。
+- 第四十六轮（§56，2026-11-07，复核 + 真机诊断）：`12 §56`（含文首结论）、`09 §7`、
+  `16 §5.3`（补 §55/§56 条目）、`02 §7.4` 口径澄清、新建
+  `analysis/review-and-diagnosis-2026-11-07.md`、
+  `analysis/a3-verification-result-2026-11-07.md §7`、
+  `analysis/data-request-handler-evidence-2026-11-07.md §4 修正 + §7`、
+  `EngineAdapter.kt` / `UrlDataRequest.kt` / `SourceCallback.java`（`CM-DataReq` 诊断探针）、
+  `ResourceInfo.java` / `PlayerDataSource.java`（带参重载 + extension 校准）、
+  `tools/check_source_contracts.py`（§50 P0-5 守护改前缀匹配）、任务清单、日志。
+- **行尾归一**：11 个 M 文件被整体 LF→CRLF，已按 HEAD 统一回 LF，
+  `git diff --stat` 由 +7111/-6065 收敛为真实 **+1061/-15**；未新增 `.gitattributes` 文本规则。
+- **文档↔代码 9 项复核**：`01 §9` 权限 / `01 §5.1` SAF / `02 §4.3` 门面一致；
+  修正 `evidence §4` Range 公式（j1 误作 offset）、`02 §7.4` 字节流措辞、`16 §5.3` 补录；
+  登记 `01 §6.1`「默认仅 WiFi 播放」未实现（挂账）。
+- **真机两轮实证**：证伪 §55.4 方向 1 —— smali5 的 `SetDataRequest` 仅见于
+  `NMBufferSource.smali`，且 native **确实调用** `createDataRequestHandler()` 并成功建句柄；
+  但 `getUrl()` / `Start()` 全程未调用，prepare 阶段 `BufferSource open` 后回调
+  **`SourceCallback.onError code=1001`**，随后 `msg=300 arg1=9` / `Play status 9`。
+  `ResourceInfo.extension=mp3` 校准实验未改变结果（假设排除）。
+  播放期零 GET / 0 active tracks / MediaSession state=2 三项判据仍为否。
+- **§56 验证基线**：自检 36/152/15 PASS、`./gradlew test` **394 / 43 套件 / 0 失败**、
+  `:app:assembleDebug` BUILD SUCCESSFUL（两版）、APK 20 dex / 20 so 含诊断字符串；
+  dev 6/6 与 release FAIL(C1,C4) 本轮未复跑；19 模块 / 11 权限 / 20 so / 61 行 csv 零变化。
+- **下一步（按证据顺序）**：① 查 `onError(1001)` 的 native 码表；② 核对
+  `PlaybackEngine(0L)` 的 `cache=0x0` 与 `CreateBufferSource` 前置条件；③ 核对
+  `IDataSourcePlatform` / `IPlaybackPlatform` 空壳是否必须注册；④ 校准
+  `UrlResult.fileSize=0` 与 REMOTE 分支；⑤ 播放期出现带 Range 的 GET 后才进 C/D、G01~G09。
+  **仍未出声**，A3 保持 `DEEP RUN`、舱不冻结、指纹不回填。
+  第四十二~四十六批工作区仍未 commit / push.
+- 第四十七轮（§57，2026-11-07，阶段 A/B 首次通过）：`12 §57`（含文首）、`09 §7`、
+  `16 §5.3`、`analysis/a3-verification-result-2026-11-07.md §8`、
+  `analysis/review-and-diagnosis-2026-11-07.md §7`、新建
+  `analysis/a3-phase-ab-evidence-2026-11-07.md`、
+  `EngineAdapter.kt`（VFM handle / `resolveLength` / 真实长度 / release 释放）、
+  `NMCacheBase.java`（`getNativePtr()`）、`AppBindings.kt`（`@ApplicationContext`）、
+  `AndroidManifest.xml`（`usesCleartextTraffic="true"`）、
+  `tools/check_source_contracts.py`（两处 DI 守护改前缀）、任务清单、日志。
+- **静态实证**：`capstone` 反汇编 + ELF 符号表把 `onError(1001)` 定位到
+  `NMBufferSourceAdapter::Open()` 的多个失败分支（通用码）；jadx 真类证明
+  `PlaybackEngine(long cacheManagerHandle)` 需要 VFM 的 C++ 句柄。
+- **四轮真机实验**：E1 传真实 `cacheManagerHandle` → `onError(1001)` 消失、
+  首次 `getUrl` / `CreateBufferSource`，但 `size:0` → Memory Mode / `openSource 2`；
+  E2 HEAD 探测失败（Android HEAD 的 `contentLengthLong` 恒 -1）；
+  E3 加 `usesCleartextTraffic="true"` → HEAD 首次到达音源（此前 App 内 http 被拦）；
+  E4 后台线程读 `Content-Length` + `ResourceInfo`/`UrlResult` 同填 37824
+  → **`Start id=1 offset=0 length=37824`、播放期带 Range 的 GET、
+  `Decoder Open input file success`、`openSource 0`**。
+- **四阶段**：A PASS、B PASS（首次）、C 未通过（`OnWriteNetData Failed Not Support` ×15）、
+  D 未确认（active track 不稳定、MediaSession 恒 `state=2`）。**仍未出声**。
+- **基线**：自检 36/152/15 PASS、394 测试 / 43 套件 / 0 失败、assembleDebug SUCCESSFUL、
+  C3 PASS（11 权限）；19 模块 / 20 so / 61 行 csv / 51 素材零变化。
+- **下一步**：① 反汇编 `OnWriteNetData Failed Not Support` 分支与 `BufferSourceStrategy`；
+  ② 校准 `OnDataRequestData` 第 2/3 个 long（`SKIP offset/size/file_offset_` 判据）；
+  ③ 核对 `IDataSourcePlatform` / `IPlaybackPlatform` 空壳；④ 按 `13 §7.1` 补事件码状态机
+  （`msg=300 arg1=4`、`msg=200/7/8/101/6002`）；⑤ C/D 通过后才跑 G01~G09。
+  A3 保持 `DEEP RUN`、舱不冻结、指纹不回填。第四十二~四十七批仍未 commit / push.
+- 第四十八轮（§58，2026-11-07，阶段 C 反汇编定位）：`12 §58`（含文首）、`09 §7`、
+  `16 §5.3`、`analysis/a3-phase-ab-evidence-2026-11-07.md §7`、新建
+  `analysis/a3-stage-c-analysis-2026-11-07.md`、`SourceConfig.java`（实验回退注释）、
+  `EngineAdapter.kt`（探测健壮性 + 注释）、任务清单、日志。
+- **反汇编实证**：`NMBufferSourceImp::OnWriteNetData`(0xbcac/564) 的
+  `Failed Not Support` 唯一条件 = `this+0xb8` 为 0；构造函数(0x9164/1012)
+  `strh #0x101` 初值置 1，只在 `0x942c` 的 Memory Mode 分支清零；
+  条件为 `BufferSourceStrategy`(x5) bit0=0 或 `NMVirtualFile`(+0xd8) 为空。
+  `Java_..._OnNativeDataRequestData`(0x347f4) 用末参 long 作 buffer size。
+- **E5 证伪并回退**：`cacheLocal=true` → `NMSliceFile Open Failed. Root Dir Not Init.` /
+  `Open failed(-10), local cache unavailable` / `size:-1` / 零 Start / `openSource 2`；
+  `SetConfig` 有 `Dir Empty` 校验，`01 §6.1` 明确「缓存不落盘」→ 已回退 `false`。
+- **现场网络问题**：`SocketTimeoutException: failed to connect to /127.0.0.1:8765`，
+  设备 curl 仍 200；重设 `adb reverse`、换 `ThreadingHTTPServer`、改 GET/Range/
+  显式 `responseCode`/8s 均无效 → App 进程侧可达性问题，非协议回归。
+  代码恢复 §57 E4 的 HEAD 形式，只保留 `responseCode` + 8s 健壮性增强。
+- **基线**：自检 36/152/15 PASS、394 测试 / 43 套件 / 0 失败、assembleDebug SUCCESSFUL、
+  dev 6/6 + C3 PASS；19 模块 / 11 权限 / 20 so / 61 行 csv 零变化；本轮无生产行为变化。
+- **第四十九批（2026-11-08，`12 §59`）路线 1 证伪 + kind 槽校准 + E9**：
+  ① 竞品 `getResourceInfo()` 仅 4 字段构造、`libncmplayerengine` 硬编码拼
+  `{"id","md5","size","type":"cache"}`（type 无分支）、策略 bit0 = cache config 的
+  `cache_local` → §58 路线 1 前提不成立；② `OnDataRequestData` 首 long 是
+  `OnNetSourceData(int kind,…)` 的 kind 槽（==2 跳过 `NMMemoryCache::Write`），
+  `OnWriteNetData`/`OnFlushNetData` 经 GOT+lambda 异步调用（解开 §58"零调用方"矛盾）；
+  数据包 kind 恒传 1（2 组 §59 守护）。真机 E9：prepare 全通 / 解码器打开 MP3 /
+  AudioTrack 创建 / 首段 24576B 解码；尾段部分读恰逢 EOF 触发 Memory Mode FIFO
+  管道永久错位（×7 → -103 → `doDecoder -5`），native 级缺陷、Java 侧不可修复。
+- **下一步（唯一可行路线须拍板）**：路线 2 = `NMVirtualFileManager.SetConfig(<App
+  缓存根目录>)` + `cacheLocal=true`，与 `01 §6.1`「缓存不落盘」冲突，**须用户拍板**；
+  口径内备选 = LOCAL 文件源（适配器 `+0x48==0` 分支），但需先实证 native 对
+  `content://` URI / `openLocalFd` 的处理（现 slot 返回 -1），成本更高、暂列观察。
+  判据：不再 `Start Use Memory Mode` / `Failed Not Support`，播放窗口稳定
+  `active track ≥ 1` 且 MediaSession 非 `state=2`。
+- **第五十批（2026-11-08，`12 §60`）口径内 LOCAL 文件源真机链路打通**：DataStore 种子
+  + 夹具切换 + LocalDriver 纯路径回退零代码打通（免权限免缓存），引擎 `CreateLocalSource`
+  → `XorLocalSource`（NoneDecryptor=ret 空透传）probe/codec 对 mp3/wav 双格式全过，
+  但解码首包即 EOF（`0xDFB9B0BB` → EOS，格式/大小无关）；排除解密器/AVIO 回调/Size/
+  EncryptedType 变体，根因收敛到 libncmaudioplayer 的 source 包装层（裸 read(fd) 无
+  位置串行化，与 E9 的 FIFO 错位同族）。注意：真实 SAF/MediaStore 曲目 localPath 是
+  `content://`，届时需实现 `openLocalFd`（现 slot 返回 -1，已登记）。
+- **60 批续（AudioSourceAndroid 排除）**：该类无 DataProvider JNI 字符串（非本地文件
+  通路）；`CNCMAudioLocalSource`（fopen/fread 版）本库无虚表 = 死代码；解码器 AVIO
+  opaque 直连源对象。**LOCAL 路线判死（该 so 版本）**：fd 顺序位置被流层预读与解码
+  并发竞争，`SetSourceMode` 为空桩，无 Java 侧杠杆。
+- **第五十一批（2026-11-08，`12 §61`）用户拍板批准路线 2 并落地**：
+  `cacheLocal=true` + `SetConfig`（键名 dir/max_size/slice_size/cache_clean_range
+  反汇编钉死）；真机 E11/E11b 缓存管线物理全通（切片文件 37824 字节落盘、
+  三历史症状全消、E9 尾段错位消失）；docs/01 §6.1 口径演进批注落档。
+- **61 批续（虚表布局错位发现）**：解码器 AVIO 回调期望 INCMSourceIO 布局
+  （Seek@+0x28/Size@+0x50），而 NMBufferSourceImp 是 INCMSourceI 布局
+  （+0x28=Size、+0x50=SourceID）—— seek 回调命中 Size()、假成功真不 seek →
+  首包 EOF（`0xDFB9B0BB`）。0x70 包装类已排除（handler 控制块）。
+- **下一步**：定论适配器产物（[x21+0x28]）与 decoder+0x128 的赋值链——若裸 imp
+  直连，则竞品必有 IO 适配环节（候选：VFM 产品本身/ player 层包装），照它补齐
+  即可打通解码；路线 2 缓存层已全通（无需再动）。
+  判据不变：不再 `Start Use Memory Mode` / `Failed Not Support`，播放窗口稳定
+  `active track ≥ 1` 且 MediaSession 非 `state=2`。
+  判据不变：不再 `Start Use Memory Mode` / `Failed Not Support`，播放窗口稳定
+  `active track ≥ 1` 且 MediaSession 非 `state=2`。
+  **仍未出声**；A3 `DEEP RUN`、舱不冻结、指纹不回填。第四十二~五十批仍未 commit / push。
+
+- **61 批续（E12 系列 + 灭屏冻结 + 缓存命中缺陷）**：解码循环在 prepare 即消费完
+  整小文件并 EOS（1008ms/4704ms 即中止，Play 后至为空操作）；连续 5 轮被灭屏冻结
+  打断（Dozing + GreezeManager，屏幕无法远程唤醒）；发现磁盘缓存命中路径读 0 字节
+  （.nmsf 37824B 在盘但 readed_len:0）。下轮：无 force-stop 周期验证缓存命中；
+  .nmsfi 提交差异；若索引未提交则评估 Stop 提交路径。缓存命中可用则播放免网络。
+- **61 批末（缓存命中缺陷确认 + 设备离线）**：E11b 日志已复现缓存命中读 0 字节
+  （索引加载成功、数据读失败 result:-2）；设备无线 adb 掉线（灭屏深睡）阻塞 .nmsfi
+  分析。**需用户物理唤醒/解锁设备**后继续：拉取 .nmsfi 分析切片表 → 定位索引/数据
+  不一致根因 → 修通缓存命中（播放免网络，免疫灭屏冻结）。
+- **61.8（Java 侧修复落地）**：EngineAdapter 收到 msg=100（native 错误通知）→
+  ERROR + 异步 releaseAllInternal（imp Close → 索引提交 + slot 清理）；修复"错误后
+  slot 残留导致下次 prepare invariant 崩溃"与"索引不提交导致缓存命中读 0 字节"。
+  E14 待设备重连：验证错误后索引提交 → 二次播放缓存命中（免网络出声）。
+- **E14（缓存命中物理全通）**：免网络二次播放 `ReadFromFileNoLock readed_len:32768
+  + 5056` 完整从磁盘缓存提供；`.nmsfi` 为 JSON 格式；`openSource 0` prepare 成功；
+  解码仍 `-541478725` EOS —— **与源/数据管线完全无关**（三模式同点复现），
+  100% 位于 CNCMFFDecoder 层。下轮从解码器内部定位（mp3 demuxer seek 行为、
+  packet buffer、或换格式测试）。
+- **E15（WAV 隔离实验）被灭屏冻结打断**：需保持亮屏重试。WAV 简单 demuxer
+  若可解码则隔离 mp3 特定行为；若同败则确认 AVIO 胶水层通用缺陷。
+- **61.12（首包 EOF 根因定论）**：`0xDFB9B0BB` 是 CNCMFFDecoder 内部 EOF 标记；
+  mp3 demuxer find_stream_info 消费到 EOF 后 seek-back 未正确回退 → 首包 EOF →
+  1008ms PCM 即中止。静态分析已到边界，需运行时调试。缓存管线（路线 2）已完整
+  验证无需再动。修复方向：① 大文件测试（>4.7s，PCM 缓冲在 EOF 前填满）；
+  ② 换格式隔离；③ 反汇编 openWithSource post-find_stream_info 的显式 seek。
+- **E16（37.6s 长文件）推翻"文件太短"假说**：302592B (37.6s) 仍仅 1008ms PCM
+  即停——Read(2)+ 返回 0。根因确认为 CNCMFFDecoder 的 decode loop 固有行为，
+  与源模式/文件大小/格式无关。需运行时调试（gdb/插桩）定位
+  ffmpeg demuxer 在该 AVIO 配置下的 packet 解析失败点。

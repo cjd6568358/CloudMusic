@@ -58,7 +58,10 @@ import javax.inject.Singleton
 object EngineModule {
     @Provides
     @Singleton
-    fun provideMusicEngine(): IMusicEngine = EngineAdapter()
+    // 12 §57：注入 ApplicationContext 供照搬舱创建 NMVirtualFileManager（cacheManagerHandle 实验）。
+    // 用 `also` 设置属性而非改构造签名，保持 12 §36 的「零参数换绑」守护语义。
+    fun provideMusicEngine(@ApplicationContext context: Context): IMusicEngine =
+        EngineAdapter().also { it.appContext = context }
 }
 
 @Module

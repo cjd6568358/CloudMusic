@@ -1,9 +1,12 @@
 package com.example.cloudmusic
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
+import com.example.cloudmusic.common.PermissionGate
 import com.example.cloudmusic.di.playback.PlaybackRuntime
 import com.example.cloudmusic.output.router.OutputRouter
 import com.example.cloudmusic.player.QueueRepository
@@ -27,9 +30,30 @@ import javax.inject.Inject
  * `android:exported="false"`，但此前**没有任何生产启动点**（`adb shell` 也无法拉起未导出组件）。
  * Activity 进入前台时启动它，才会真正创建 FGS 通知 / MediaSession / 音频焦点 /
  * BECOMING_NOISY receiver 并触发 `PlaybackRuntime.start()` 扫描。
+ *
+ * **第四十三批（`12 §52`，`§50.7 #3`）**：接入按动作权限闸门与本地数据源添加闭环。
+ * `onPlay` 首次播放前申请 `POST_NOTIFICATIONS`（拒绝不阻断播放，B03）；
+ * 数据源页新增 SAF 目录 / 媒体库导入两个入口，写入 Storage 后立即
+ * `PlaybackRuntime.rescanAll()`，真机不再需要 `run-as` 灌 Room 测试夹具。
+ * 两个 ActivityResult launcher 在**构造期**注册（lifecycle INITIALIZED），
+ * 注入对象只在回调触发时才访问，故 `localSourceAdder` 用 `by lazy`。
  */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    /** 构造期注册；启动阶段零申请。 */
+    private val permissionRequester = PermissionRequester(this)
+
+    /** 构造期注册；回调里才访问 Hilt 注入的 Repository / Runtime。 */
+    private val treeLauncher = registerForActivityResult(
+        ActivityResultContracts.OpenDocumentTree(),
+    ) { uri: Uri? ->
+        if (uri != null) localSourceAdder.addSaf(uri)
+    }
+
+    private val localSourceAdder by lazy {
+        LocalSourceAdder(this, storages, runtime, permissionRequester)
+    }
 
     @Inject
     lateinit var tracks: TrackRepository
@@ -64,7 +88,15 @@ class MainActivity : ComponentActivity() {
                     playerState = runtime.playerState(),
                     onRescanAll = runtime::rescanAll,
                     onRetryUnavailable = runtime::retryUnavailable,
-                    onPlay = runtime::play,
+                    onAddSaf = { treeLauncher.launch(null) },
+                    onAddMediaStore = { localSourceAdder.addMediaStore() },
+                    onPlay = {
+                        // 03-11 §2：首次播放前按动作申请通知权限。B03：被拒仍照常播放，
+                        // 只少了通知卡片；核心能力不受权限拒绝影响。
+                        permissionRequester.request(PermissionGate.UserAction.START_PLAYBACK) {
+                            runtime.play()
+                        }
+                    },
                     onPause = runtime::pause,
                     onNext = runtime::next,
                     onPrev = runtime::prev,

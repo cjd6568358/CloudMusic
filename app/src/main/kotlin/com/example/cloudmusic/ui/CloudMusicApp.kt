@@ -72,6 +72,8 @@ fun CloudMusicApp(
     playerState: StateFlow<PlayerState>,
     onRescanAll: () -> Unit,
     onRetryUnavailable: () -> Unit,
+    onAddSaf: () -> Unit,
+    onAddMediaStore: () -> Unit,
     onPlay: () -> Unit,
     onPause: () -> Unit,
     onNext: () -> Unit,
@@ -128,7 +130,9 @@ fun CloudMusicApp(
         Column(Modifier.fillMaxSize().padding(padding)) {
             ScanBanner(runtime)
             when {
-                showSources -> SourcesScreen(storageList, onRescanAll, onRetryUnavailable)
+                showSources -> SourcesScreen(
+                    storageList, onRescanAll, onRetryUnavailable, onAddSaf, onAddMediaStore,
+                )
                 tab == 0 -> LibraryScreen(trackList, onRescanAll)
                 tab == 1 -> PlaylistsScreen(playlistList)
                 tab == 2 -> SearchScreen(query, { query = it }, searchResults)
@@ -232,15 +236,27 @@ private fun SourcesScreen(
     storages: List<Storage>,
     onRescan: () -> Unit,
     onRetry: () -> Unit,
+    onAddSaf: () -> Unit,
+    onAddMediaStore: () -> Unit,
 ) {
     Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text("数据源 · ${storages.size}", style = MaterialTheme.typography.titleMedium)
+        // 12 §52：真机 A3 暴露「数据源页只有展示、没有添加入口」→ 曲库 0 首只能靠
+        // run-as 灌 Room 夹具。SAF 优先（无需读取权限），MediaStore 按动作申请。
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Button(onClick = onAddSaf) { Text("添加本地目录 (SAF)") }
+            Button(onClick = onAddMediaStore) { Text("从媒体库导入") }
+        }
+        Text(
+            "SAF 目录无需读取权限；媒体库导入会按动作申请读媒体权限（03-11 §2）",
+            style = MaterialTheme.typography.bodySmall,
+        )
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Button(onClick = onRescan) { Text("全量重扫") }
             Button(onClick = onRetry) { Text("重试失败项") }
         }
         if (storages.isEmpty()) {
-            Text("还没有数据源（V0.1 经 DataStore 配置 Storage）")
+            Text("还没有数据源，点上方按钮添加本地目录或导入媒体库")
         } else {
             LazyColumn(Modifier.fillMaxSize()) {
                 items(storages, key = { it.id }) { storage ->

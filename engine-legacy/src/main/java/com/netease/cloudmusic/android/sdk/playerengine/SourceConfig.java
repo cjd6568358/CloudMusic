@@ -31,7 +31,13 @@ public final class SourceConfig {
     public SourceConfig(boolean remote) {
         this.type = remote ? Type.REMOTE : Type.LOCAL;
         this.encryptedType = EncryptedType.None;
-        this.cacheLocal = false;
+        // 12 §61（第五十一批 · 用户 2026-11-08 拍板批准路线 2）：置 true —— normal mode。
+        // §58/§59/§60 实证链：Memory Mode（cache_local=false）下 NMMemoryCache 是 FIFO
+        // 管道、OnWriteNetData 被拒、尾部错位、XorLocalSource fd 无位置串行化 —— 全部
+        // native 缺陷在 normal mode 下消失（竞品生产路径）。配套前提是 EngineAdapter
+        // 先调 NMVirtualFileManager.SetConfig 初始化缓存根目录（App 内部缓存子目录，
+        // 512MiB 上限，卸载即清；口径演进见 docs/01 §6.1 的 2026-11-08 批注）。
+        this.cacheLocal = true;
         this.cacheOnly = false;
         this.engineCacheLoadConfig = new EngineCacheLoadConfig();
     }

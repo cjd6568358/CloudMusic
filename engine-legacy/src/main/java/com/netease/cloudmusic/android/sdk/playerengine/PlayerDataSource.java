@@ -24,8 +24,14 @@ public class PlayerDataSource {
 
     /** 12 §50：按音源形态选择 SourceConfig.Type（URL 源必须 REMOTE）。 */
     public PlayerDataSource(DataProvider dataProvider, String songId, boolean remote) {
+        this(dataProvider, songId, remote, new ResourceInfo());
+    }
+
+    /** 12 §56：允许调用方按竞品口径填入 [ResourceInfo]，不改变其余四个 getter。 */
+    public PlayerDataSource(DataProvider dataProvider, String songId, boolean remote,
+                            ResourceInfo resourceInfo) {
         this.dataProvider = dataProvider;
-        this.resourceInfo = new ResourceInfo();
+        this.resourceInfo = resourceInfo;
         this.config = new SourceConfig(remote);
         this.songId = songId;
         this.sourceCallback = new SourceCallback();

@@ -17,20 +17,17 @@ import android.view.KeyEvent
  * 不会重复消费同一次按键。
  *
  * `exported=true`：系统媒体会话需要向本 receiver 投递 ACTION_MEDIA_BUTTON。
+ *
+ * 12 §51（第四十二批）：键码 → action 的判定下沉到纯 JVM 的 [MediaKeyAction]，
+ * 让 §50 的转发链路可被 `:app` 的 JVM 单测覆盖；本类只保留 Android 平台侧的解包与转发，
+ * **判定语义与 §50 完全一致**（含 null 键码兜底为播放、未知键码忽略）。
  */
 class MediaButtonEventReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action != Intent.ACTION_MEDIA_BUTTON) return
         // 用 Bundle.get 避免 getParcelableExtra 的 API 33 泛型重载，minSdk 26 直用。
         val event = intent.extras?.get(Intent.EXTRA_KEY_EVENT) as? KeyEvent
-        val action = when (event?.keyCode) {
-            KeyEvent.KEYCODE_MEDIA_PAUSE -> PlaybackService.ACTION_PAUSE
-            KeyEvent.KEYCODE_MEDIA_PLAY,
-            KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE,
-            KeyEvent.KEYCODE_HEADSETHOOK,
-            null -> PlaybackService.ACTION_PLAY
-            else -> null
-        } ?: return
+        val action = MediaKeyAction.resolve(event?.keyCode) ?: return
         context.startForegroundService(
             Intent(context, PlaybackService::class.java).setAction(action),
         )

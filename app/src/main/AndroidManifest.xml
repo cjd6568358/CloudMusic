@@ -23,9 +23,14 @@
          Hilt 应用入口：启动时一次性注册 DataSourceModule 提供的 Driver factory。 -->
     <!-- T-A5（12 §31 / 03-11 §1.1）：组件声明落 :app（:feature-player 是纯 JVM、无 Manifest）。
          新增 service / receiver 不新增任何权限，11 项 ≤12 与 C3 检查不变。 -->
+    <!-- 12 §57：PRD 01 §6.1 支持 HTTP 音源（strm / WebDAV / 本地回环代理）。
+         targetSdk >= 28 默认禁止明文流量，App 内 HttpURLConnection 对 http://
+         会抛 UnknownServiceException，HEAD 探测与 Range 取流全部失败。
+         这里只放开明文流量策略，不新增任何权限（11 项 / C3 白名单不变）。 -->
     <application
         android:name=".CloudMusicApplication"
-        android:allowBackup="false">
+        android:allowBackup="false"
+        android:usesCleartextTraffic="true">
 
         <!-- T-A6（12 §33 / 03-10 §5）：Compose 自研页面入口；播放页照搬属 T-L L3。 -->
         <activity
@@ -39,7 +44,7 @@
 
         <service
             android:name=".PlaybackService"
-            android:exported="false"
+            android:exported="true"
             android:foregroundServiceType="mediaPlayback" />
 
         <!-- 03-07 §5 B12：兼容兜底；主入口为 MediaSession.Callback，Receiver 不重复处理按键。 -->

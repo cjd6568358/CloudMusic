@@ -13,6 +13,23 @@ public final class ResourceInfo {
     private String id = "";
     private String md5 = "";
 
+    public ResourceInfo() {
+    }
+
+    /**
+     * 12 §56（第四十六批 · 字段校准实验）：按竞品
+     * `DataSourcePlatformImpl$buildDataSource$2.getResourceInfo()` 的构造填真实值。
+     * so 的 JNI 字段表只从本类读 `extension`（`libncmplayerengine.so` 偏移 708213），
+     * V0.1 空串可能让 demuxer 在 prepare 阶段直接失败；其余字段仅供缓存键。
+     * **假设待真机验证**，不据此宣称已修复。
+     */
+    public ResourceInfo(String extension, long fileSize, String id, String md5) {
+        this.extension = extension;
+        this.fileSize = fileSize;
+        this.id = id;
+        this.md5 = md5;
+    }
+
     public String getExtension() { return extension; }
     public long getFileSize() { return fileSize; }
     public String getId() { return id; }

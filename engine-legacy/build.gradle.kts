@@ -34,4 +34,9 @@ dependencies {
     implementation(project(":core-model"))
     implementation(project(":engine-api"))
     implementation(libs.kotlinx.coroutines.core)
+
+    // 12 §54（第四十五批）：RangeFetcher 纯取流逻辑的 JVM 单测；约定插件已配 useJUnitPlatform()。
+    // 只测不继承 native 类的纯逻辑，避免在 JVM 里实例化 SourceDataRequest.InitPtr()。
+    testImplementation(libs.kotlin.test.junit5)
+    testImplementation(libs.junit.jupiter)
 }

@@ -11,9 +11,22 @@ package com.netease.cloudmusic.android.sdk.playerengine;
  */
 public class SourceCallback {
 
-    public void onError(int errorCode) { }
+    /** 12 §56：三个 native 回调加诊断日志，确认 prepare 阶段 native 是否通知过 URL / 错误。 */
+    private static void diag(String message) {
+        try {
+            android.util.Log.i("CM-DataReq", message);
+        } catch (Throwable ignored) {
+            // JVM 单测里 android.util.Log 是 stub；诊断日志不得影响纯逻辑测试。
+        }
+    }
 
-    public void onProgress(long cachedBytes, long totalBytes) { }
+    public void onError(int errorCode) { diag("SourceCallback.onError code=" + errorCode); }
 
-    public void onUrlReady(int realBitrate, String format) { }
+    public void onProgress(long cachedBytes, long totalBytes) {
+        diag("SourceCallback.onProgress " + cachedBytes + "/" + totalBytes);
+    }
+
+    public void onUrlReady(int realBitrate, String format) {
+        diag("SourceCallback.onUrlReady bitrate=" + realBitrate + " format=" + format);
+    }
 }

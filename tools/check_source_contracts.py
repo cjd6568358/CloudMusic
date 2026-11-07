@@ -64,7 +64,35 @@ tools/check_jni_bindings.py 对映 202 个 Java_* 符号与 210 个 native 声�
 第三十二批（12 §41，T-A5 遗留）给 PlaybackService 接上音频焦点
 （AudioFocusRequest / OnAudioFocusChangeListener）与 ACTION_AUDIO_BECOMING_NOISY
 动态广播，全用平台 API、零新增权限与依赖；新增焦点接线守护。
-详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§41。
+第四十二批（12 §51，§50 平台层改动的回归守护）把媒体键判定下沉到纯 JVM 的
+MediaKeyAction，新增 :app 首个 JVM 单测 PlatformContractTest（5 用例），
+并在本脚本补 6 组 §50 长效守护（restore / PlaybackState / mediaButtonReceiver /
+Receiver 转发 / remote 分支 / 真类在位）；清单扩到 36 / 145 / 15。
+第四十三批（12 §52，§50.7 #3 应用侧闭环）接入按动作权限闸门
+（PermissionRequester → PermissionGate.requiredFor，按设备 SDK 分派）与本地数据源
+添加闭环（SAF 优先 / MediaStore 按动作申请 → StorageRepository.add → rescanAll）；
+新增 7 个 JVM 用例与 5 组 §52 守护，清单扩到 36 / 149 / 15。
+第四十四批（12 §53，取流句柄静态取证轮）用 baksmali 反汇编 classes5 / classes18.dex
+与 so 导出符号实证出 `createDataRequestHandler()` 的返回对象类型
+（`DataSourcePlatformImpl$d` → `nmcache/l` → `SourceDataRequest`）、`Start(JJJ)J` / `Stop()`
+契约与 5 个 JNI 符号；新增 4 组 §53 守护 + 报告引用，清单仍 36 / 149 / 15。
+第四十五批（12 §54，取流句柄阶段 A/B 落地）继续反汇编 l.w / l.k 与 OnDataRequest*
+调用点，实证出 Start(j1=请求标识, j2=offset, j3=length) 与回传首参，据此新建
+RangeFetcher（纯 JVM）/ UrlDataRequest（SourceDataRequest 子类）/ 7 个 JVM 用例，
+把 createDataRequestHandler() 从 null 改为按 source.url 缓存返回；
+新增 5 组 §54 守护，清单扩到 36 / 152 / 15。仍待真机阶段 C 校准回传协议、未出声。
+蓝牙 SHOW_BLUETOOTH_NAME 仍按 §48.6 挂账、未接入。
+第四十九批（12 §59，阶段 C 根因修复）用 capstone + exp6 原始 logcat 钉死数据通路：
+OnDataRequestData 首 long 是 native OnNetSourceData 的 kind 槽（==2 跳过
+NMMemoryCache::Write），不是 requestId；Memory Mode 下 OnWriteNetData 异步任务
+（GOT+lambda 间接调用）恒被拒。据此把 UrlDataRequest 的数据包 kind 恒传 1；
+resource config 由 builder 硬编码 {"id","md5","size","type":"cache"}（无 file_id/trunks）、
+strategy bit0 = cache config 的 cache_local —— §58 路线 1 证伪、路线 2 仍待用户拍板。
+新增 2 组 §59 守护，清单仍 36 / 152 / 15。
+第五十一批（12 §61，用户 2026-11-08 拍板批准路线 2）：SourceConfig.cacheLocal=true
+（normal mode，§58~§60 三个 native 缺陷的最终解）+ EngineAdapter.SetConfig 初始化
+App 内部缓存根目录（512MiB 上限）；docs/01 §6.1 口径演进随批落档。新增 4 组 §61 守护。
+详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61。
 """
 from __future__ import annotations
 
@@ -262,6 +290,18 @@ CONTRACT_FILES = (
     "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineNativeLoader.kt",
     # 12 §36 第二十七批：EngineAdapter 薄门面 + PlayerDataSource 数据链
     "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineAdapter.kt",
+    # 12 §51 第四十二批：§50 平台层改动的纯判定抽离 + :app 首个 JVM 单测
+    "app/src/main/kotlin/com/example/cloudmusic/MediaKeyAction.kt",
+    "app/src/test/kotlin/com/example/cloudmusic/PlatformContractTest.kt",
+    # 12 §52 第四十三批：按动作申请权限 + 本地数据源添加闭环
+    "app/src/main/kotlin/com/example/cloudmusic/AppActionContracts.kt",
+    "app/src/main/kotlin/com/example/cloudmusic/PermissionRequester.kt",
+    "app/src/main/kotlin/com/example/cloudmusic/LocalSourceAdder.kt",
+    "app/src/test/kotlin/com/example/cloudmusic/AppActionContractTest.kt",
+    # 12 §54 第四十五批：取流句柄阶段 A/B（SourceDataRequest 子类 + 纯 JVM RangeFetcher）
+    "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/RangeFetcher.kt",
+    "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt",
+    "engine-legacy/src/test/kotlin/com/example/cloudmusic/enginelegacy/RangeFetcherTest.kt",
 )
 
 CHECK_SCRIPTS = (
@@ -472,7 +512,9 @@ SIGNATURES = {
         "object EngineModule {",
         "object MediaModule {",
         "object LibraryModule {",
-        "fun provideMusicEngine(): IMusicEngine",
+        # 12 §57：provider 增加 @ApplicationContext 参数（供 cacheManagerHandle 实验），
+        # 守护改按方法名前缀匹配，换绑语义不变。
+        "fun provideMusicEngine(",
         # 第十七批（12 §26）：D-08 换绑 Room，仅改 @Provides 返回值
         "fun provideLibraryDatabase(@ApplicationContext context: Context): LibraryDatabase",
         "RoomTrackRepository(db)", "RoomQueueRepository(db)",
@@ -720,6 +762,48 @@ SIGNATURES = {
     "app/src/main/kotlin/com/example/cloudmusic/PlaybackService.kt": [
         "class PlaybackService : Service()", "@AndroidEntryPoint",
         "START_STICKY", "MediaSession.Callback", "startForeground(NOTIFICATION_ID",
+    ],
+    # 12 §51：§50 媒体键转发成果的签名（Receiver 只解包转发，判定在 MediaKeyAction）
+    "app/src/main/kotlin/com/example/cloudmusic/MediaButtonEventReceiver.kt": [
+        "class MediaButtonEventReceiver : BroadcastReceiver()",
+        "MediaKeyAction.resolve(event?.keyCode)", "startForegroundService(",
+    ],
+    "app/src/main/kotlin/com/example/cloudmusic/MediaKeyAction.kt": [
+        "object MediaKeyAction {", "fun resolve(keyCode: Int?): String?",
+    ],
+    "app/src/test/kotlin/com/example/cloudmusic/PlatformContractTest.kt": [
+        "class PlatformContractTest {", "fun pauseKey()", "fun playKeys()",
+        "fun unknownKeys()", "fun closedValueDomain()", "fun actionConstants()",
+    ],
+    # 12 §52：应用动作的纯判定与 Addition 构造（:app 侧签名）
+    "app/src/main/kotlin/com/example/cloudmusic/AppActionContracts.kt": [
+        "object PermissionDecision {", "object LocalSourceSpec {",
+        "fun classify(", "fun safAddition(treeUri: String): String",
+        "const val DRIVER_TYPE = \"local\"",
+    ],
+    "app/src/main/kotlin/com/example/cloudmusic/PermissionRequester.kt": [
+        "class PermissionRequester(", "fun request(", "RequestMultiplePermissions",
+    ],
+    "app/src/main/kotlin/com/example/cloudmusic/LocalSourceAdder.kt": [
+        "class LocalSourceAdder(", "fun addSaf(uri: Uri)", "fun addMediaStore()",
+        "runtime.rescanAll()",
+    ],
+    "app/src/test/kotlin/com/example/cloudmusic/AppActionContractTest.kt": [
+        "class AppActionContractTest {", "fun requiredForActions()",
+        "fun classifyPartitions()", "fun safAdditionRoundTrip()", "fun jsonEscaping()",
+    ],
+    # 12 §54：取流句柄的纯 JVM 协议与 native 适配签名
+    "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/RangeFetcher.kt": [
+        "object RangeFetcher {", "fun interface RangeOpener {", "interface RangeSink {",
+        "fun fetch(", "class HttpUrlRangeOpener(",
+    ],
+    "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt": [
+        "class UrlDataRequest(", ": SourceDataRequest()",
+        "override fun Start(j1: Long, j2: Long, j3: Long): Long", "override fun Stop()",
+    ],
+    "engine-legacy/src/test/kotlin/com/example/cloudmusic/enginelegacy/RangeFetcherTest.kt": [
+        "class RangeFetcherTest {", "fun rangeHeader()", "fun parseTotal()",
+        "fun fetchHappyPath()", "fun fetchFailure()",
     ],
 }
 
@@ -1073,7 +1157,8 @@ def main() -> int:
         ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
         / "cloudmusic" / "di" / "AppBindings.kt"
     ).read_text(encoding="utf-8")
-    if "= EngineAdapter()" not in bindings:
+    # 12 §57：改为 `EngineAdapter().also { ... }` 注入 Context，仍须保证 DI 绑的是舱内实现。
+    if "EngineAdapter()" not in bindings:
         failures.append("12 §36：EngineModule 未换绑 EngineAdapter（IMusicEngine 仍为内存实现）")
     else:
         print("[PASS] T-L L1：EngineModule 已换绑 EngineAdapter（D-08 换绑点，门面零改动）")
@@ -1283,6 +1368,349 @@ def main() -> int:
             "当前无触发点 → DLNA 豁免未激活，缺口见 12 §48"
         )
 
+    # ---- 12 §50 / §51（第四十二批 / 真机 A3 平台层改动的回归守护）--------------
+    # §50 的 5 个 P0 修复当时只有真机实证、没有 JVM 单测与静态守护（§50.6 明确挂账）。
+    # 这里把「冷启动恢复 / 会话播放态 / 媒体键入口 / 转发判定 / remote 分支 / 真类在位」
+    # 钉成成对断言；§51 把按键判定下沉到纯 JVM 的 MediaKeyAction，语义改由 :app
+    # 的 PlatformContractTest 覆盖。静态守护 + JVM 单测双保险，防止真机成果被回退。
+    composition = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                   / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt").read_text(encoding="utf-8")
+    restore_needles = (
+        "queueRepository.restore()", "queueRepository.observe().first()",
+        "controller.restore(snapshot, items)", 'Log.w("CloudMusicRuntime"',
+    )
+    missing_restore = [n for n in restore_needles if n not in composition]
+    if missing_restore:
+        failures.append(f"12 §50 P0-1：冷启动 restore 生产接线缺失 {missing_restore}")
+    else:
+        print("[PASS] 12 §50 P0-1：PlaybackRuntime.start() 读 Room 队列并 controller.restore()")
+
+    session50_needles = (
+        "setPlaybackState(", "PlaybackState.STATE_PAUSED",
+        "PlaybackState.ACTION_PLAY", "PlaybackState.ACTION_PAUSE",
+        "PlaybackState.ACTION_SKIP_TO_NEXT", "PlaybackState.ACTION_SKIP_TO_PREVIOUS",
+        "setMediaButtonReceiver(", "PendingIntent.getBroadcast(",
+        "MediaButtonEventReceiver::class.java", "PendingIntent.FLAG_IMMUTABLE",
+        "ACTION_PLAY -> performPlay()", "ACTION_PAUSE -> performPause()",
+    )
+    missing_session50 = [n for n in session50_needles if n not in service]
+    if missing_session50:
+        failures.append(f"12 §50 P0-2/3/4：会话播放态 / 媒体键入口 / action 分派缺失 {missing_session50}")
+    else:
+        print("[PASS] 12 §50 P0-2/3/4：PlaybackState + mediaButtonReceiver + action 分派在位")
+
+    receiver = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                / "cloudmusic" / "MediaButtonEventReceiver.kt").read_text(encoding="utf-8")
+    key_action = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                  / "cloudmusic" / "MediaKeyAction.kt").read_text(encoding="utf-8")
+    forward_needles = (
+        "MediaKeyAction.resolve(event?.keyCode)", "startForegroundService(",
+        "Intent(context, PlaybackService::class.java).setAction(action)",
+    )
+    map_needles = (
+        "object MediaKeyAction {", "fun resolve(keyCode: Int?): String?",
+        "KeyEvent.KEYCODE_MEDIA_PAUSE", "KeyEvent.KEYCODE_MEDIA_PLAY",
+        "KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE", "KeyEvent.KEYCODE_HEADSETHOOK",
+        "null -> PlaybackService.ACTION_PLAY", "else -> null",
+    )
+    missing_forward = [n for n in forward_needles if n not in receiver]
+    missing_map = [n for n in map_needles if n not in key_action]
+    if missing_forward or missing_map:
+        failures.append(
+            f"12 §50/§51：媒体键转发或纯 JVM 判定缺失 "
+            f"receiver={missing_forward} / MediaKeyAction={missing_map}"
+        )
+    else:
+        print("[PASS] 12 §50/§51：Receiver 转发到 MediaKeyAction 纯判定（JVM 单测可覆盖）")
+
+    manifest50 = (ROOT / "app" / "src" / "main" / "AndroidManifest.xml").read_text(encoding="utf-8")
+    recv_block = re.search(
+        r"<receiver[^>]*MediaButtonEventReceiver.*?</receiver>", manifest50, re.S
+    )
+    if (not recv_block or 'android:exported="true"' not in recv_block.group(0)
+            or "android.intent.action.MEDIA_BUTTON" not in recv_block.group(0)):
+        failures.append("12 §50：MediaButtonEventReceiver 的 exported=true / MEDIA_BUTTON 过滤缺失")
+    else:
+        print("[PASS] 12 §50：Receiver exported=true + MEDIA_BUTTON 过滤在位（零新增权限）")
+
+    adapter50 = (ROOT / "engine-legacy" / "src" / "main" / "java" / "com"
+                 / "example" / "cloudmusic" / "enginelegacy" / "EngineAdapter.kt").read_text(encoding="utf-8")
+    # 12 §56：prepare 增加第 4 个 ResourceInfo 参数，守护改按前缀匹配（语义不变）。
+    if "PlayerDataSource(provider, source.trackId, source.url != null" not in adapter50:
+        failures.append("12 §50 P0-5：SourceConfig.remote 未随 source.url 传入 native")
+    else:
+        print("[PASS] 12 §50 P0-5：URL 源按 source.url != null 走 REMOTE 分支")
+
+    legacy_root = ROOT / "engine-legacy" / "src" / "main" / "java" / "com" / "netease" / "cloudmusic"
+    true_classes = (
+        legacy_root / "media" / "audioplayer" / "NCMNativeAudioTrackBuilder.java",
+        legacy_root / "media" / "audioplayer" / "NCMNativeAudioPlayer.java",
+        legacy_root / "module" / "player" / "datasource" / "IBaseDataSource.java",
+        legacy_root / "android" / "sdk" / "playerengine" / "EncryptedType.java",
+    )
+    missing_true = [p.name for p in true_classes if not p.is_file()]
+    if missing_true:
+        failures.append(f"12 §50：CheckJNI 校准所需的真类 / 枚举缺失 {missing_true}")
+    else:
+        print("[PASS] 12 §50：3 个 JNI_OnLoad 真类 + EncryptedType 在位（CheckJNI 校准成果）")
+
+    # ---- 12 §52（第四十三批 / 按动作申请权限 + 本地数据源闭环）长效守护 --------
+    # §50.7 #3 的三项：按动作申请权限、配置数据源、全量重扫。真机 A3 实测
+    # 「三项运行时权限 granted=false / 曲库 0 首只能靠 run-as 灌 Room 夹具」，
+    # 本组守护把生产接线钉住；蓝牙 ACL / SHOW_BLUETOOTH_NAME 仍按 §48.6 挂账。
+    requester52 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                   / "cloudmusic" / "PermissionRequester.kt").read_text(encoding="utf-8")
+    request_needles = (
+        "PermissionGate.requiredFor(action, Build.VERSION.SDK_INT)",
+        "ActivityResultContracts.RequestMultiplePermissions",
+        "shouldShowRequestPermissionRationale", "checkSelfPermission",
+        "PermissionDecision.classify(grants, rationale)",
+    )
+    missing_request = [n for n in request_needles if n not in requester52]
+    if missing_request:
+        failures.append(f"12 §52：按动作权限闸门接线缺失 {missing_request}")
+    else:
+        print("[PASS] 12 §52：requiredFor 按设备 SDK 分派 + 三集合分类 + 已授予短路")
+
+    main52 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+              / "cloudmusic" / "MainActivity.kt").read_text(encoding="utf-8")
+    main_needles = (
+        "PermissionGate.UserAction.START_PLAYBACK", "permissionRequester.request(",
+        "onAddSaf = {", "onAddMediaStore = {", "ActivityResultContracts.OpenDocumentTree()",
+    )
+    missing_main = [n for n in main_needles if n not in main52]
+    # 03-11 §8 #2：启动阶段零申请 → request 只在 onPlay 一处出现。
+    startup_requests = len(re.findall(r"permissionRequester\.request\(", main52))
+    if missing_main or startup_requests != 1:
+        failures.append(
+            f"12 §52：MainActivity 动作接线缺失 {missing_main}；"
+            f"permissionRequester.request 应恰好 1 处（实测 {startup_requests}），启动不得申请"
+        )
+    else:
+        print("[PASS] 12 §52：首次播放按动作申请；启动阶段零申请、两个数据源入口在位")
+
+    # 蓝牙运行时授权仍需权限口径拍板（12 §48.6 ③ / §46），本批明确不越界。
+    bluetooth_calls = 0
+    for prod in sorted((ROOT / "app" / "src" / "main").rglob("*.kt")):
+        if "build" in prod.parts:
+            continue
+        bluetooth_calls += prod.read_text(encoding="utf-8", errors="replace").count(
+            "UserAction.SHOW_BLUETOOTH_NAME"
+        )
+    if bluetooth_calls:
+        failures.append("12 §52：未拍板就接入了 SHOW_BLUETOOTH_NAME（蓝牙 ACL 口径待决策）")
+    else:
+        print("[PASS] 12 §52：SHOW_BLUETOOTH_NAME 仍未接入（L2 蓝牙口径按 §48.6 挂账）")
+
+    spec52 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+              / "cloudmusic" / "AppActionContracts.kt").read_text(encoding="utf-8")
+    module52 = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                / "cloudmusic" / "di" / "DataSourceModule.kt").read_text(encoding="utf-8")
+    local_adapters52 = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                        / "cloudmusic" / "di" / "local" / "AndroidLocalSources.kt").read_text(encoding="utf-8")
+    if ("const val DRIVER_TYPE = \"local\"" not in spec52 or
+            "const val KEY_LOCAL = \"local\"" not in module52):
+        failures.append("12 §52：LocalSourceSpec.DRIVER_TYPE 与 DataSourceModule.KEY_LOCAL 漂移")
+    elif ("/storage/emulated/0" not in spec52 or
+          'VOLUME_ROOT = "/storage/emulated/0"' not in local_adapters52):
+        failures.append("12 §52：MEDIA_STORE_ROOT 与 MediaStoreDirectorySource.VOLUME_ROOT 漂移")
+    else:
+        print("[PASS] 12 §52：driverType / 沙箱卷根与生产实现逐字对齐")
+
+    adder52 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+               / "cloudmusic" / "LocalSourceAdder.kt").read_text(encoding="utf-8")
+    ui52 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+            / "cloudmusic" / "ui" / "CloudMusicApp.kt").read_text(encoding="utf-8")
+    adder_needles = (
+        "takePersistableUriPermission", "PermissionGate.UserAction.ADD_LOCAL_MEDIASTORE",
+        "storages.add(LocalSourceSpec.DRIVER_TYPE, additionJson)", "runtime.rescanAll()",
+        "PermissionDecision.mediaStoreImportAvailable",
+    )
+    missing_adder = [n for n in adder_needles if n not in adder52]
+    missing_ui = [n for n in ("onAddSaf", "onAddMediaStore", "添加本地目录 (SAF)", "从媒体库导入")
+                  if n not in ui52]
+    if missing_adder or missing_ui:
+        failures.append(
+            f"12 §52：数据源闭环缺失 adder={missing_adder} / ui={missing_ui}"
+        )
+    else:
+        print("[PASS] 12 §52：SAF 持久化授权 + 写 Storage + rescanAll + 两个 UI 入口成链")
+
+    # ---- 12 §53（第四十四批 / 取流句柄静态取证）长效守护 ----------------------
+    # §50.6 把「native 期望的取流句柄 / IBaseDataSource」列为唯一出声硬门槛，
+    # 但方向本身是推测。本轮用 baksmali + so 导出符号实证出类型与契约，
+    # 把结论钉成静态契约：防止有人删掉证据、凭猜测去实现 IBaseDataSource，
+    # 或误以为 createDataRequestHandler 已收口。生产行为仍返回 null（不伪造）。
+    evidence = ROOT / "analysis" / "data-request-handler-evidence-2026-11-07.md"
+    if not evidence.is_file():
+        failures.append("12 §53：取流句柄静态取证报告缺失")
+    else:
+        body53 = evidence.read_text(encoding="utf-8")
+        evidence_needles = (
+            "DataSourcePlatformImpl$d", "nmcache/l", "SourceDataRequest",
+            "Start(JJJ)J", "SetDataRequest", "OnDataRequestBegin", "分阶段真机判据",
+        )
+        missing_evidence = [n for n in evidence_needles if n not in body53]
+        if missing_evidence:
+            failures.append(f"12 §53：取证报告结论链不完整 {missing_evidence}")
+        else:
+            print("[PASS] 12 §53：取流句柄证据链完整（类型 / 继承 / 契约 / 判据）")
+
+    adapter53 = (ROOT / "engine-legacy" / "src" / "main" / "java" / "com"
+                 / "example" / "cloudmusic" / "enginelegacy" / "EngineAdapter.kt").read_text(encoding="utf-8")
+    if "data-request-handler-evidence-2026-11-07.md" not in adapter53:
+        failures.append("12 §53：EngineAdapter 未指向取流句柄实证报告")
+    else:
+        print("[PASS] 12 §53：EngineAdapter 注释指向取流句柄实证报告")
+    # §54 起 createDataRequestHandler() 已按实证接通；返回行为由下面的 §54 守护断言。
+
+    request_class53 = (ROOT / "engine-legacy" / "src" / "main" / "java" / "com"
+                       / "netease" / "cloudmusic" / "sdk" / "NMCommonCache" / "SourceDataRequest.java")
+    loader53 = (ROOT / "engine-legacy" / "src" / "main" / "java" / "com"
+                / "example" / "cloudmusic" / "enginelegacy" / "EngineNativeLoader.kt").read_text(encoding="utf-8")
+    request_body53 = request_class53.read_text(encoding="utf-8") if request_class53.is_file() else ""
+    if ("public abstract long Start(" not in request_body53 or
+            "public abstract void Stop()" not in request_body53):
+        failures.append("12 §53：SourceDataRequest 真类 / Start-Stop 契约缺失")
+    elif '"NMCommonCache"' not in loader53:
+        failures.append("12 §53：NMCommonCache 不在 so 加载链，InitPtr() 将不可解析")
+    else:
+        print("[PASS] 12 §53：SourceDataRequest 真类与 NMCommonCache 加载链在位")
+
+    cache_so = ROOT / "engine-legacy" / "src" / "main" / "jniLibs" / "arm64-v8a" / "libNMCommonCache.so"
+    if not cache_so.is_file():
+        failures.append("12 §53：libNMCommonCache.so 缺失，取流 JNI 符号无从解析")
+    else:
+        so_bytes = cache_so.read_bytes()
+        required_syms = (
+            b"Java_com_netease_cloudmusic_sdk_NMCommonCache_SourceDataRequest_InitPtr",
+            b"Java_com_netease_cloudmusic_sdk_NMCommonCache_SourceDataRequest_OnNativeDataRequestBegin",
+            b"Java_com_netease_cloudmusic_sdk_NMCommonCache_SourceDataRequest_OnNativeDataRequestData",
+            b"Java_com_netease_cloudmusic_sdk_NMCommonCache_SourceDataRequest_OnNativeDataRequestEnd",
+            b"Java_com_netease_cloudmusic_sdk_NMCommonCache_NMBufferSource_SetDataRequest",
+        )
+        missing_syms = [s.decode().rsplit('_', 1)[-1] for s in required_syms if s not in so_bytes]
+        if missing_syms:
+            failures.append(f"12 §53：libNMCommonCache.so 缺少取流 JNI 符号 {missing_syms}")
+        else:
+            print("[PASS] 12 §53：5 个取流 JNI 导出符号齐全（InitPtr / 3 回调 / SetDataRequest）")
+
+    # ---- 12 §54（第四十五批 / 取流句柄阶段 A/B 落地）长效守护 ----------------
+    # §2.5 追加实证出 Start(j1=请求标识, j2=offset, j3=length) 与回传首参后，
+    # 本批把 UrlDataRequest / RangeFetcher 接进生产。守护防止接线被回退成 null、
+    # LOCAL 源误建取流对象、或忘记释放 native C++ 对象（InitPtr 泄漏）。
+    legacy_main = ROOT / "engine-legacy" / "src" / "main" / "java" / "com" / "example" / "cloudmusic" / "enginelegacy"
+    fetcher54 = legacy_main / "RangeFetcher.kt"
+    request54 = legacy_main / "UrlDataRequest.kt"
+    test54 = (ROOT / "engine-legacy" / "src" / "test" / "kotlin" / "com" / "example"
+              / "cloudmusic" / "enginelegacy" / "RangeFetcherTest.kt")
+    missing_files54 = [str(p.name) for p in (fetcher54, request54, test54) if not p.is_file()]
+    if missing_files54:
+        failures.append(f"12 §54：取流实现 / 单测文件缺失 {missing_files54}")
+    else:
+        print("[PASS] 12 §54：RangeFetcher / UrlDataRequest / 7 用例单测文件在位")
+
+    fetcher_body = fetcher54.read_text(encoding="utf-8") if fetcher54.is_file() else ""
+    fetcher_needles = (
+        "object RangeFetcher {", "fun rangeHeader(offset: Long, length: Long): String",
+        "fun parseTotal(contentRange: String?): Long", "fun fetch(",
+        "class HttpUrlRangeOpener(", "OnDataRequestBegin/Data/End",
+    )
+    missing_fetcher = [n for n in fetcher_needles if n not in fetcher_body]
+    if missing_fetcher:
+        failures.append(f"12 §54：RangeFetcher 取流协议签名缺失 {missing_fetcher}")
+    else:
+        print("[PASS] 12 §54：Range 头 / Content-Range 解析 / 分片回传 / 生产 HTTP opener 在位")
+
+    request_body = request54.read_text(encoding="utf-8") if request54.is_file() else ""
+    request_needles = (
+        "class UrlDataRequest(", ": SourceDataRequest()", "override fun Start(j1: Long, j2: Long, j3: Long): Long",
+        "return 0L", "override fun Stop()", "fun release()", "OnDataRequestBegin(requestId",
+        # 12 §59：onData 首参 = native kind 槽，恒传 NATIVE_DATA_KIND_NORMAL（1）；
+        # End 仍传 requestId（两条 Done 分支均观测无害）。
+        "OnDataRequestData(NATIVE_DATA_KIND_NORMAL", "OnDataRequestEnd(requestId",
+    )
+    missing_request54 = [n for n in request_needles if n not in request_body]
+    if missing_request54:
+        failures.append(f"12 §54：UrlDataRequest 的 native 契约实现缺失 {missing_request54}")
+    else:
+        print("[PASS] 12 §54：SourceDataRequest 子类 + Start 立即返回 0 + 三通道回传在位")
+
+    adapter_needles = (
+        "UrlDataRequest(url)", "val url = source.url ?: return null",
+        "request?.Stop()", "request?.release()", "request = null",
+    )
+    missing_adapter = [n for n in adapter_needles if n not in adapter53]
+    if missing_adapter:
+        failures.append(f"12 §54：createDataRequestHandler 接线 / 释放缺失 {missing_adapter}")
+    else:
+        print("[PASS] 12 §54：仅 URL 源创建句柄、cancelRequest 与 close 成对释放")
+
+    evidence54 = evidence.read_text(encoding="utf-8") if evidence.is_file() else ""
+    if not all(n in evidence54 for n in ("### 2.5", "j1", "j2", "j3", "offset", "请求标识")):
+        failures.append("12 §54：实证报告未补 Start 三参数语义（§2.5），实现失去依据")
+    else:
+        print("[PASS] 12 §54：Start 参数语义实证已回写报告，实现有据可查")
+
+    # ---- 12 §59（第四十九批 / 阶段 C 根因修复：OnDataRequestData kind 槽校准）----
+    # exp6 原始日志 + capstone 实证：OnDataRequestData 首 long 是 native
+    # OnNetSourceData 的 kind 槽（==2 跳过 NMMemoryCache::Write、只投 OnWriteNetData
+    # 异步任务），不是 requestId 回传槽；Memory Mode（cache_local=false）下该任务
+    # 恒被 +0xb8 拒绝（GOT+lambda 间接调用），kind=2 的数据包无处落盘 → 读侧空数据
+    # → Send Packet Invalid data error → 解码器 EOS。守护防止把 kind 修回 requestId、
+    # 或把常量漂移成 2。
+    needles59 = (
+        "NATIVE_DATA_KIND_NORMAL", "OnDataRequestData(NATIVE_DATA_KIND_NORMAL",
+        "12 §59", "OnNetSourceData", "Send Packet Invalid data error",
+    )
+    missing59 = [n for n in needles59 if n not in request_body]
+    if missing59:
+        failures.append(f"12 §59：onData kind 槽校准缺失 {missing59}")
+    else:
+        print("[PASS] 12 §59：OnDataRequestData kind=1 校准与实证注释在位")
+
+    if "OnDataRequestData(requestId" in request_body:
+        failures.append("12 §59：onData 首参回退成 requestId（native 视为 kind，==2 跳过内存写）")
+    else:
+        print("[PASS] 12 §59：onData 首参未被回退成 requestId")
+
+    # ---- 12 §61（第五十一批 / 用户拍板路线 2：SetConfig 根目录 + cacheLocal=true）----
+    # §58~§60 实证链：Memory Mode（cache_local=false）下 NMMemoryCache FIFO 尾部错位、
+    # XorLocalSource fd 无位置串行化 —— 均 native 缺陷；normal mode（cache_local=true
+    # + SetConfig 初始化根目录）是竞品生产路径。用户 2026-11-08 拍板批准（01 §6.1
+    # 口径演进：App 内部缓存子目录、512MiB 上限、卸载即清）。守护防止回退成
+    # Memory Mode 或丢失根目录初始化。
+    adapter61 = adapter53  # EngineAdapter.kt 正文（§53 组已读取）
+    missing61a = [n for n in ("SetConfig(", "legacy_engine_cache", "536870912", "12 §61")
+                  if n not in adapter61]
+    if missing61a:
+        failures.append(f"12 §61：EngineAdapter 缺 SetConfig 缓存根目录初始化 {missing61a}")
+    else:
+        print("[PASS] 12 §61：EngineAdapter SetConfig(内部缓存目录 + 512MiB 上限) 在位")
+
+    config61 = (ROOT / "engine-legacy" / "src" / "main" / "java" / "com" / "netease"
+                / "cloudmusic" / "android" / "sdk" / "playerengine" / "SourceConfig.java")
+    if not config61.is_file():
+        failures.append("12 §61：SourceConfig.java 缺失")
+    else:
+        cfg_body = config61.read_text(encoding="utf-8")
+        if "this.cacheLocal = true" not in cfg_body:
+            failures.append("12 §61：SourceConfig.cacheLocal 回退成 false（Memory Mode 死路，§58~§60 已证）")
+        else:
+            print("[PASS] 12 §61：SourceConfig.cacheLocal=true（normal mode）在位")
+        if "12 §61" not in cfg_body:
+            failures.append("12 §61：SourceConfig 缺拍板注释（口径演进溯源）")
+        else:
+            print("[PASS] 12 §61：SourceConfig 拍板注释在位")
+
+    doc01 = ROOT / "docs" / "01-产品文档.md"
+    if doc01.is_file():
+        d01 = doc01.read_text(encoding="utf-8")
+        if "口径演进 2026-11-08" not in d01 or "12 §61" not in d01:
+            failures.append("12 §61：docs/01 §6.1 缺口径演进批注（2026-11-08 用户拍板）")
+        else:
+            print("[PASS] 12 §61：docs/01 §6.1 口径演进批注在位")
+
     for rel, needles in SIGNATURES.items():
         path = ROOT / rel
         if not path.is_file():
@@ -1358,6 +1786,13 @@ def main() -> int:
         warnings.append("契约演进 C-15（12 §44）：IMediaControl 增加带默认空实现的 onPlaying()/onManualPause()，照搬层与测试替身零回归；FocusPolicy.onPlaying() 同时清恢复标记，避免 GAIN 重复 resume")
         warnings.append("C4 口径（12 §47，D-145 用户确认）：61 项竞品素材导出至 app/src/main/assets/legacy-player/ 并登记 assets-mapping.csv（replaced=false）；check-assets.py 未替换项改 dev WARN / release FAIL，release 新增 C4 阻断")
         warnings.append("DLNA 输出链路缺口（12 §48）：OutputRouter.setActive / PlayerController.onOutputChanged / refreshBluetoothFrom 全库仅测试调用，activeOutput 恒 LOCAL、remoteOutput 恒 false；§46 的 DLNA 豁免当前空转。真实触发点待 T-V T20/T21 的 DMR 控制链路与 UI 切换决策，不擅自伪造投屏状态")
+        warnings.append("真机 A3（12 §50）：native 6 so → PlaybackEngine → setDataSource → prepareAsync → 焦点 GAIN → Play 全链真机跑通零崩溃，但 0 active track / 播放期无 HTTP 请求，仍放不出真实声音；createDataRequestHandler() 返回 null，取流回调链待真机实证（§50.7 #1）")
+        warnings.append("第四十二批（12 §51）：§50 的 5 个 P0 修复已补 6 组长效守护 + :app 首个 JVM 单测（5 用例；按键判定抽离为纯 JVM 的 MediaKeyAction）；不改 C4 / dev / release 基线，真机 G01~G09 仍待设备与用户判据")
+        warnings.append("第四十三批（12 §52）：§50.7 #3 应用侧闭环落地 —— 按动作申请权限（首次播放 POST_NOTIFICATIONS / MediaStore 导入 READ_MEDIA_AUDIO，启动零申请）+ 数据源页 SAF/媒体库两个添加入口，写 Storage 后立即 rescanAll；真机不再需要 run-as 灌 Room 夹具（待设备复验）。蓝牙 ACL / SHOW_BLUETOOTH_NAME 与取流句柄仍挂账")
+        warnings.append("第四十四批（12 §53，静态实证轮）：取流句柄类型已实证 —— createDataRequestHandler() 应返回 SourceDataRequest 子类（竞品 DataSourcePlatformImpl$d → nmcache/l → SourceDataRequest），不是 IBaseDataSource；native 经 NMBufferSource.SetDataRequest 绑定并回调 Start(JJJ)J / Stop()，5 个 JNI 符号齐全且 NMCommonCache 已在加载链。证据见 analysis/data-request-handler-evidence-2026-11-07.md。该批当时生产仍返回 null（第四十五批已按追加实证接通）；分阶段真机判据见报告 §5")
+        warnings.append("第四十五批（12 §54）：继续反汇编实证出 Start(j1=请求标识 / j2=offset / j3=length) 与 OnDataRequest* 回传首参后，落地 RangeFetcher（纯 JVM 取流 + RangeOpener/RangeSink）、UrlDataRequest（SourceDataRequest 子类，Start 立即返回 0）、7 个 JVM 用例，并把 createDataRequestHandler() 改为仅 URL 源缓存返回、close 时 release。清单 36/152/15、5 组 §54 守护。阶段 A/B 已具备代码但**仍待真机验证**：OnDataRequestData 第 2/3 个 long、OnDataRequestEnd 的 String 取值未校准；编译通过 ≠ 出声，A3 仍 DEEP RUN、舱不冻结")
+        warnings.append("第四十九批（12 §59，阶段 C 根因修复）：capstone + exp6 原始 logcat 钉死数据通路 —— OnDataRequestData 首 long 是 native OnNetSourceData 的 kind 槽（==2 跳过 NMMemoryCache::Write），Memory Mode 下 OnWriteNetData 异步任务恒被 +0xb8 拒绝（GOT+lambda 间接调用，.text 无直接 bl）；§58 路线 1 证伪（resource config 由 libncmplayerengine 硬编码 4 键、无 file_id/trunks）、路线 2 仍待用户拍板（SetConfig 根目录 + cacheLocal=true，与 01 §6.1 冲突）。本批 onData kind 恒传 1（exp6：kind=1 的 push 全部落内存缓存、32768B 送达解码器），阶段 C 数据通路待真机 E9 复验；A3 仍 DEEP RUN、舱不冻结、指纹不回填")
+        warnings.append("第五十一批（12 §61，用户 2026-11-08 拍板批准路线 2）：SourceConfig.cacheLocal=true（normal mode）+ EngineAdapter.SetConfig 初始化 App 内部缓存根目录（context.cacheDir/legacy_engine_cache，512MiB 上限，卸载即清）；docs/01 §6.1 口径演进批注随批落档。E9/E10 的两个 native 缺陷（Memory Mode FIFO 尾部错位、XorLocalSource fd 竞争）在 normal mode 下消失；真机 E11 判据 = 不再 Start Use Memory Mode / Failed Not Support、active track ≥1、MediaSession 非 state=2；A3 仍 DEEP RUN、舱不冻结、指纹不回填")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
