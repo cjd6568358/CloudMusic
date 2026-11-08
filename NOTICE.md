@@ -58,6 +58,14 @@
 **素材替换承诺**：上述素材仅作为**开发期占位**。首次对外分发前必须全量替换为自有素材，且 `assets-mapping.csv` 每行 `replaced=true`；包名、应用名、图标、启动页、文案不得含「网易云音乐」及任何品牌特征。该项为发布阻断项（`03-12 §8` #1/#2/#7）。
 当前 `app/src/main/` 无 `res/`、Manifest 无 `android:label` / `android:icon`，应用名与图标为系统默认：**未含第三方品牌特征，但也未自定义**（V0.1 现状，见 `12 §61.32`）。
 
+> **★ `12 §61.36` 分发合规补充（2026-11-08 审计）**：`app/src/main/assets/legacy-player/`
+> 的 **51 个文件随 debug APK 原样分发**（`assets/` 不参与 aapt2，但会进包），
+> 其中 **8 个 layout XML 含 44 处 `com.netease.*` 类名 / 20 个去重类**
+> （含带品牌名的 `NeteaseMusicSimpleDraweeView`）。C2 检查器跳过整个暂存目录后
+> 才 PASS，**该 PASS 不等于 APK 内无竞品内容**。公开发布前必须按
+> `analysis/tl-l3-substitution-plan.md` 的阶段 B~D 重写或删除这些 layout、
+> 移除暂存区并完成素材全量替换。证据 `analysis/tl-l3-assets-compliance-audit-2026-11-08.md`。
+
 ---
 
 ## 4. 合规风险与处置（如实声明）

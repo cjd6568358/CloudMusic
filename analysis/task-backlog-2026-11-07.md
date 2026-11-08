@@ -178,6 +178,25 @@
 > 为已知 OEM 限制（决定 A3 能否收口），其后 ABI 回填 + 冻结舱 + §61.33 施工单。
 > A3 状态不变：G01~G08 PASS / G09 PARTIAL，舱不冻结、指纹不回填。
 
+> **★ 2026-11-08 晚 第六十三批（见 `docs/12 §61.36`）**：用户对 G09 选
+> **「3 保持现状不收口，先推进 T-L L3 / T-V 其它项」** → 转推素材替换线。
+> `zipfile` 实证 **`app/src/main/assets/legacy-player/` 的 51 个竞品素材全部随
+> debug APK 分发**（此前文档只说「不参与 aapt2」，不等于不进包），其中
+> **8 个 layout XML 含 44 处 `com.netease.*` 类名 / 20 个去重类**
+> （含 `NeteaseMusicSimpleDraweeView`）；`tools/check-no-netease-import.py`
+> 跳过整个 `C4_STAGED_ASSETS` 目录后 C2 才 PASS（dev 报跳过 23 个文件），
+> **该 PASS 不覆盖 APK 内容**。
+> 修正发布阻断 #2（不能判 PASS）/ #5（豁免 + 分发侧残留）/ #7
+> （`NOTICE.md §3` 补随包分发声明）；#1 仍为头号阻断（61 行 `replaced=false`）。
+> 产出 `analysis/tl-l3-assets-compliance-audit-2026-11-08.md`（实证与类名清单）
+> + `analysis/tl-l3-substitution-plan.md`（61 项按 type 的 A~E 五阶段施工单：
+> 素材来源决策 → 重写/删除 8 个竞品 layout → csv 全 true / C4 转 PASS →
+> 移出暂存区 + `:ui-legacy` / R 引用改写 → 验证回写）。
+> `check_source_contracts.py` 加 §61.36 守护防伪造替换；`03-12 §8` 加口径注。
+> **零源码 / 零产物 / 零设备改动**，未删改任何素材；契约自检六条守护 PASS、
+> dev 6/6、release FAIL(C1,C4)。A3 按选项 3 保持 G09 PARTIAL，舱不冻结。
+> 剩余前置：自有素材来源与许可证（用户决策）、`:ui-legacy` 舱体、R 引用改写工具。
+
 ## 1. 当前进展（文档口径）
 
 - 进度断点：`docs/12 §41`（第三十二批，音频焦点 + `ACTION_AUDIO_BECOMING_NOISY` 平台接线）；`09 §1/§2`、`16 §5.3` 同步到该批。
