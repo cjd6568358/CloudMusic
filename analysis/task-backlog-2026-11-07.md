@@ -86,6 +86,98 @@
 > **下一步**：15:50 后补采样收口 G08；同环境复测 G09 / 非 WiFi 负向 / 已授权 ACL；
 > A3 全绿后才回填 ABI 验收与冻结舱；其后 Manifest 恢复、T-L L3、T-V。
 
+> **★ 2026-11-08 第五十八批（见 `docs/12 §61.31`）**：用户「拉取代码…继续任务」→
+> 断点由 `§61.30` 的「15:50 补采样收口 G08 2h」改为**用户新决策：20 分钟足够，
+> 实际使用有问题再修改**（`01 §10 #5` / `03-06 §6.2` / `03-12 §9` 口径统一）。
+> 真机实证：pid 16859 自 13:50:48 连续存活至 14:12:38（**21 分 49 秒**），
+> 期间后台灭屏、22 次完成过渡、阻断级异常 0、PSS 峰值 110.3 MiB；终点
+> `ApplicationExitInfo reason=10 USER REQUESTED / FORCE STOP / SwipeUpClean`
+> = **用户上划清理**，非系统回收、非崩溃 → **G08 = PASS（20 分钟口径）**。
+> 修复 `g08-longrun-sample.py` 硬编码 `adb`（本机 adb 不在 PATH，旧版直接
+> `[WinError 2]`，文档声称「可复跑」实际跑不起来）：adb 自动探测 / `--adb` /
+> `--connect` / `ApplicationExitInfo` 退出原因 / 进程消失不再退化全量 logcat /
+> 判据 20 分钟。证据 `analysis/g08-20min-verdict-2026-11-08.md`。
+> A3 = G01~G07 PASS / G08 PASS / G09 PARTIAL → **仍未全绿，舱不冻结、指纹不回填**。
+> 剩余：G09 复测、非 WiFi 负向、已授权 ACL、Manifest 生产形态、T-L L3、
+> T-V 阻断 12 条 / DMR T20/T21。
+> 基线：在线 `./gradlew test` **BUILD SUCCESSFUL in 2m4s**；契约自检 PASS；
+> dev **6/6**；release **FAIL(C1,C4)**；`--offline` 因本机缺 room/datastore
+> 缓存依赖失败（环境差异，非代码缺陷）。本批工作区未 commit / push。
+
+> **★ 2026-11-08 晚 第五十九批（见 `docs/12 §61.32`）**：用户「继续」→ 设备亮屏，
+> 推进 `§61.31` 剩余①的 G09 复测（**零源码 / Manifest / 构建改动**）。
+> 四组真机实验：① 桌面启动实测成功（`resolve-activity` 可解析、显式组件与
+> `monkey -c LAUNCHER` 均拉起；`am start -a/-c/-p` 失败属参数组合，非产品缺陷）；
+> ② 前台态 crash 约 100ms 恢复，但触发者是 **Activity 重建**而非 START_STICKY；
+> ③ 后台态 crash **亮屏下 206s 仍无服务重启**，日志 `toggled into fg service restriction`
+> + `RUN_ANY_IN_BACKGROUND: ignore` → **MIUI OEM 抑制**，推翻旧文档「需 USB/亮屏环境」
+> 的归因（USB 不改变 OEM 策略）；④ 用户重新点开 App 约 **957ms** 自动
+> `prepare g01-local`、保持 PAUSED，点播放即 `AudioTrack Write start play`。
+> **G09 仍 PARTIAL，不判 PASS**；按用户「实际使用有问题再修改」不加自恢复兜底。
+> A3 = G01~G08 PASS / G09 PARTIAL → 舱不冻结、指纹不回填。
+> 同批修正 **P1 合规声明错误**：`NOTICE.md §3` 原写「二进制与素材尚未引入」
+> （实际 18 so 已打包 / 12 JNI 真类已编译 / 61 项素材已导出），按实际状态重写；
+> `03-07 §12 T16` 的「后台 2h」同步为 20 分钟；登记 app 无 `res/`、无
+> `label`/`icon`（系统默认）的发布阻断 #2 现状。发布阻断 12 条盘点：
+> **PASS 5 / 部分 5 / 未满足 2**，自动检查实际阻断 C1 + C4。
+> 证据 `analysis/g09-recovery-evidence-2026-11-08.md`；验证结束 `force-stop`
+> 恢复设备起点。剩余断点：非 WiFi 负向 / 已授权 ACL / A3 全绿后 ABI 回填 /
+> Manifest 生产形态（LAUNCHER `exported` 口径需核实）/ T-L L3 / T-V 剩余项。
+> 工作区未 commit / push。
+
+> **★ 2026-11-08 晚 第六十批（见 `docs/12 §61.33`）**：用户「继续」→ 处理
+> `§61.32` 剩余④的 LAUNCHER `exported` 口径疑点，**零行为改动**（仅 Manifest 注释 + 文档）。
+> 按 Android 官方 `<activity>` 文档定论：带 MAIN/LAUNCHER 的 `MainActivity`
+> **必须 `exported=true`**（Launcher 是外部应用，设 false 会抛
+> `ActivityNotFoundException`），`§61.23` / `§61.24` 的「恢复 false / 随 Service
+> 一并恢复」为错误口径，**作废**；`§61.27` 原标【推断】本批定论。
+> 生产形态三组件：`MainActivity=true` / `PlaybackService=false` 且移除
+> `ACTION_PLAY` intent-filter / `MediaButtonEventReceiver=true`，
+> 施工单与验收步骤已写入 `12 §61.33`，**A3 全绿后才执行**（当前仍需 ACTION_PLAY
+> 做真机触发）。同批修 `03-11 §1.1` 表格（Receiver 原写 `exported=false` +
+> 「有意空实现」，与 `12 §50/§51` 的 `exported=true` + `MediaKeyAction` 转发矛盾），
+> 并把全库现行 **7 处**旧 2 小时判据统一为 20 分钟（`03-07 B10`、`03-09 B11/T12`、
+> `03-11 B07`、`10 §4`、`16 §5.3`、`09 §4 R8`；`12` 历史批次表述保留）。
+> `tools/check_source_contracts.py` 新增 §61.33 守护（LAUNCHER exported + 2h 残留）。
+> A3 状态不变：G01~G08 PASS / G09 PARTIAL → 舱不冻结、指纹不回填。
+> 设备未触碰；工作区未 commit / push。
+
+> **★ 2026-11-08 晚 第六十一批（见 `docs/12 §61.34` / C-16）**：用户「继续」→
+> 核对发布阻断 #11 的 JVM 覆盖时发现 `DegradationPolicy.evaluate()` 的 **`offline`
+> 是从未被读取的死参数**，`03-11 §3`「网络权限/飞行模式」一行只靠恒 false 的
+> `showNetworkErrorDialog` 表达，测试里两态断言等价（**假覆盖**）。
+> 本批做契约演进 C-16：`DegradationOutcome` 新增
+> `networkSourceAvailable: Boolean = true`（默认值，现有调用零破坏），
+> `evaluate` 映射 `!offline` 并追加离线信息提示；**硬规则不变**（本地曲库/播放恒可用、
+> 不弹网络错误弹窗）。`PermissionGateTest` 新增 2 用例（两态差异 / 五类叠加），
+> 把 `hardRuleNeverBlocksLocalPlayback` 的弱断言升级为 `assertEquals(!offline, …)`。
+> `./gradlew test --offline` **BUILD SUCCESSFUL in 1m6s，418 测试 / 46 套件 / 0 失败**
+> （基线 416 + 2，XML 确认两条 C-16 用例执行）；契约自检四条守护 PASS、
+> dev 6/6、release FAIL(C1,C4)。
+> 发布阻断 #11：**JVM 侧六行矩阵已全量覆盖**，真机 T05/T06/T14 仍待 T-V，仍为
+> 「部分验证」不判全绿；`networkSourceAvailable` 当前无生产消费方，如实登记不伪造接线。
+> `check_source_contracts.py` 新增 §61.34 守护防退回死参数。
+> A3 状态不变：G01~G08 PASS / G09 PARTIAL → 舱不冻结、指纹不回填。
+> 设备未触碰；工作区未 commit / push。
+
+> **★ 2026-11-08 晚 第六十二批（见 `docs/12 §61.35` / C-17）**：用户「继续」→
+> 想接上 §61.34 遗留的「`networkSourceAvailable` 无生产消费方」，核对后发现
+> **离线事实早有生产实现**：`NetworkPlaybackPolicy` 的 `NetworkKind.NONE` 分支
+> 经 `AndroidNetworkPlaybackGate`（ConnectivityManager）由 `PlayerController`
+> 在播放前消费；C-16 的 `DegradationPolicy.offline` 是 UI 降级契约，两套口径有分叉风险。
+> 本批新增 `isOffline(kind)` 作为**单一真相源** + `NetworkPlaybackPolicyTest`
+> 遍历 4 种 `NetworkKind` 的交叉断言 + `check_source_contracts.py` §61.35 守护；
+> **零产品行为改动，仍不伪造 UI 接线**（生产消费方依旧为空，如实登记）。
+> 真机硬阻塞定性：仅无线 adb 时关 WiFi / 开飞行模式会失联且无法远程恢复
+> （要关飞行模式又必须先有 adb），`pm grant` 缺 GRANT_RUNTIME_PERMISSIONS 且约定
+> 不伪造授权 → 发布阻断 #10 与非 WiFi 负向 / ACL 属 **USB / 物理在场** 条件。
+> `./gradlew test --offline` **419 测试 / 46 套件 / 0 失败**（416+C-16 的 2+C-17 的 1）、
+> 契约自检五条守护 PASS、dev 6/6、release FAIL(C1,C4)。
+> 本批把 §61.31~§61.35 五个批次按三组结构化**本地提交（未 push）**。
+> **剩余收敛为需用户拍板**：G09 走自恢复兜底 / 独立进程隔离 / 接受 PARTIAL
+> 为已知 OEM 限制（决定 A3 能否收口），其后 ABI 回填 + 冻结舱 + §61.33 施工单。
+> A3 状态不变：G01~G08 PASS / G09 PARTIAL，舱不冻结、指纹不回填。
+
 ## 1. 当前进展（文档口径）
 
 - 进度断点：`docs/12 §41`（第三十二批，音频焦点 + `ACTION_AUDIO_BECOMING_NOISY` 平台接线）；`09 §1/§2`、`16 §5.3` 同步到该批。

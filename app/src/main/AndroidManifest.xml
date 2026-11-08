@@ -33,9 +33,11 @@
         android:usesCleartextTraffic="true">
 
         <!-- T-A6（12 §33 / 03-10 §5）：Compose 自研页面入口；播放页照搬属 T-L L3。 -->
-        <!-- §61.24（A3 验收期调试改动）：exported=true 使 adb shell 可 am start
-             解除 stopped state（install -r / force-stop 后 startService 会被
-             stopped state 静默吞掉）。A3 验收后随 Service 一并恢复。 -->
+        <!-- ★ 12 §61.33 口径定论：LAUNCHER 必须保持 exported=true，A3 验收后**不改回 false**。
+             Android 官方 <activity> 文档：含 intent-filter 且需被其它应用（Launcher）启动时
+             必须 exported=true；设为 false 时外部应用启动会抛 ActivityNotFoundException
+             （https://developer.android.com/guide/topics/manifest/activity-element）。
+             §61.23 / §61.24 记的「随 Service 一并恢复」只适用于 PlaybackService。 -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -47,8 +49,10 @@
 
         <!-- §61.24（A3 验收期调试改动）：exported=true + ACTION_PLAY intent-filter
              是判据 D/E 真机实验的触发路径（am start-foreground-service 直启 performPlay），
-             无线 adb shell 无法启动非导出组件。A3 验收完成后恢复 exported=false
-             并移除 intent-filter（61.23 生产形态）。 -->
+             无线 adb shell 无法启动非导出组件。
+             ★ 12 §61.33 生产形态施工单（A3 收口后执行）：本组件改回 exported=false
+             并移除下面这段 <intent-filter>；生产播放由 UI / 通知 / 媒体键在进程内触发。
+             注意只改 Service —— MainActivity 的 LAUNCHER 必须保持 exported=true。 -->
         <service
             android:name=".PlaybackService"
             android:exported="true"

@@ -43,16 +43,20 @@
 
 ---
 
-## 3. 二进制与素材来源（按文档规划，当前未引入）
+## 3. 二进制与素材来源（实际引入状态，2026-11-08 核对）
 
-| 类别 | 计划来源 | 状态 | 登记位置 |
+> 本节此前写「当前未引入」，与 `12 §32` 起的实现不符，属**合规声明错误**，现按仓库实际状态更正。
+> 参考 APK 的来源、版本与权利声明见 §2；以下内容的权利一律归原权利人，本项目不声称原创或已获授权。
+
+| 类别 | 来源 | 实际状态 | 登记位置 |
 |---|---|---|---|
-| 播放内核 native 库（167 个 `arm64-v8a` so） | 上述参考 APK | **尚未提取进项目** | `:engine-legacy/assets/ENGINE-FINGERPRINT`（编码期生成，含各 so SHA-256） |
-| 播放内核 Java SDK 层 | 上述参考 APK，jadx 反编译重建源码 | **尚未提取** | `:engine-legacy` 源码头注释 |
-| 媒体会话/音频焦点层 | 同上 | **尚未提取** | `:media-legacy` 源码头注释 |
-| 播放页 layout / anim / drawable / 自定义 View | 上述参考 APK，资源 ID 反查导出 | **尚未导出**（`docs/assets-mapping.csv` 当前为空表） | `docs/assets-mapping.csv`、`docs/06-资源索引与映射.md` |
+| 播放内核 native 库 | 上述参考 APK | **已引入 18 个 `arm64-v8a` so（18.5 MiB）**，随 debug APK 打包；提取侧 167 个是上限，不等于打包集 | `engine-legacy/src/main/jniLibs/arm64-v8a/`、`assets/ENGINE-FINGERPRINT` 与 `app/src/main/assets/ENGINE-FINGERPRINT`（18 行 SHA-256，C6 dev/release PASS） |
+| 播放内核 Java SDK 层 | 上述参考 APK，jadx 反编译重建 | **已引入 12 个精确 JNI 真类 + slot**（`12 §35` 登记簿 51 行），编译进 `:engine-legacy` | `engine-legacy/src/main/java/com/netease/...`、`docs/12 §10.4`、`analysis/jadx-jni-classes/` |
+| 媒体会话 / 音频焦点层 | 自研为主，竞品语义参照 | **未引入竞品二进制或 dex**；`:core-media` 为纯 JVM 自研焦点状态机，平台接线在 `:app/PlaybackService`；`:media-legacy` 舱体未建立 | `docs/03-07`、`docs/12 §41 / §45` |
+| 播放页 layout / anim / drawable / 自定义 View | 上述参考 APK，资源 ID 反查导出 | **已导出 61 项 / 51 文件（320,569 字节）**，以 `legacy_` 前缀存于 assets 暂存区，**未接入 res、未参与 aapt2** | `docs/assets-mapping.csv`（61 行 `replaced=false`，C4 release FAIL）、`app/src/main/assets/legacy-player/`、`docs/06`、`docs/14` |
 
 **素材替换承诺**：上述素材仅作为**开发期占位**。首次对外分发前必须全量替换为自有素材，且 `assets-mapping.csv` 每行 `replaced=true`；包名、应用名、图标、启动页、文案不得含「网易云音乐」及任何品牌特征。该项为发布阻断项（`03-12 §8` #1/#2/#7）。
+当前 `app/src/main/` 无 `res/`、Manifest 无 `android:label` / `android:icon`，应用名与图标为系统默认：**未含第三方品牌特征，但也未自定义**（V0.1 现状，见 `12 §61.32`）。
 
 ---
 
