@@ -77,18 +77,22 @@ class UrlDataRequest(
         }
 
         override fun onEnd(requestId: Long, error: String?) {
-            // 12 §61.14（E16 实验驱动）：延迟 onEnd 30 秒 —— E16 实证解码循环在
-            // prepare 期间就消费完整个源并因源 EOF（-1 → 0xDFB9B0BB）提前中止。
-            // 延迟 onEnd 让 net source 保持 "active" 状态 → imp 的 ReadTaskAsync
-            // WaitNetResponse 持续等待而非命中 EOF → 解码循环不被提前终止。
-            // 30 秒后 onEnd 到达 → 源 EOF → 自然结束。test-only: 验证假设。
+            // §61.26（G01 真机 m4a 实证）：成功 EOF **延迟 2s** 回传，且分片检查
+            // [cancelled]。原因：引擎读循环对「push→读 vfile→onEnd」是紧耦合重试——
+            // vfile 落盘（OnWriteNetData 异步任务）需要 ~50ms，而立即 onEnd 会让
+            // 「Start→push→onEnd→ReadFromFileNoLock 0→重试」以 ~5ms/轮烧完重试预算
+            // （-103，moov-at-end 的 m4a 首当其冲）。E16 的 30s 延迟本质是同一掩盖，
+            // 但 30s 在自动进曲下会形成释放后回调（use-after-free）——2s + 取消检查
+            // 两全：vfile 有充足落盘窗口，release/Stop 后不再触碰 native。
+            // 错误路径立即回传（G07 快速跳曲依赖）。
             if (error == null) {
-                EngineDiag.i("onEnd id=$requestId error=null (delaying 30s — keep net source alive)")
-                try { Thread.sleep(30_000) } catch (_: InterruptedException) {}
-                EngineDiag.i("onEnd id=$requestId (delayed onEnd sending)")
-            } else {
-                EngineDiag.i("onEnd id=$requestId error=$error (immediate)")
+                repeat(20) {
+                    if (cancelled) return
+                    try { Thread.sleep(100) } catch (_: InterruptedException) { return }
+                }
             }
+            if (cancelled) return
+            EngineDiag.i("onEnd id=$requestId error=$error (delayed 2s or immediate)")
             OnDataRequestEnd(requestId, error ?: "")
         }
     }

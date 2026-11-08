@@ -495,3 +495,61 @@ dumpsys display: mScreenState=OFF
 （在线源灭屏网络冻结风险另行验证；A3 判据范围——离线缓存播放——已闭环。）
 
 > AI生成
+
+## 26. 🎉 G01~G09 验收（`12 §61.26`，53 批，2026-11-08）
+
+**G01 四格式**（ffmpeg/imageio 生成 12s 正弦音，URL 源，自动连播链）：
+
+```
+12:16:11 prepare g04-flac → Open codec for flac → Write start play → 12.1s 完成
+12:16:29 prepare g05-m4a → Open codec for aac  → Write start play → 12.1s 完成
+12:16:41 prepare g06-ogg → Open codec for vorbis → Write start play → 12.2s 完成
+```
+
+mp3 前证（E17~E24 七轮）。进程全程存活。
+
+**G05 自动进曲 + native 竞态 SEGV 修复**：
+
+```
+11:49:34.830 doPlayCompleted（g01）
+11:49:34.832 msg=2 → ENDED → PlayerController.next()
+11:49:34.861 prepare g02-remote（42ms 过渡）
+—— 但 tombstone：libncmplayerengine SetAudioListener SEGV（releaseAllInternal
+   与 prepare 并发踩共享 virtualFileManager）→ lifecycleLock + slot VFM 修复，
+   修复后 G05/G07 全链（含 3 次自动过渡）零 crash。
+```
+
+**G07 损坏曲链**（队列 [g03-bad, g01, g02]）：
+
+```
+11:53:54.200 prepare g03-bad（4096B 垃圾）
+11:53:54.283 Decoder: av_probe_input_buffer read error -1094995529 → msg=100
+11:53:54.289 prepare g01-local（6ms 自动跳）
+11:53:54.387 Write start play（g01 出声）→ 37.8s 完成 → g02 12s 完成 → ENDED
+```
+
+**G06 Range 读**：
+
+```
+Start id=1 offset=0 length=96000 + open url Range=bytes=0-95999（native 自发）
+Start id=2 offset=96677 length=3018（moov-at-end 尾部回源，非零 offset）
+—— 且暴露 200 投毒 bug：Range-ignoring 服务器回 200 全量正文，非零 offset
+   的回传被按错误区间标址写缓存（错误字节占正确地址）→ -103。
+   HttpUrlRangeOpener 200 时本地跳过 offset 字节修复。
+```
+
+**onEnd 延迟演进**（E16 30s → 立即 → 2s 可取消）：
+
+```
+立即 onEnd：m4a moov-at-end 触发 Start→push→onEnd→Read 0→重试 死循环
+            （~5ms/轮，vfile 异步落盘 ~50ms 赶不上）→ -103 重试预算烧完
+30s 延迟（E16 遗留）：g02 完成释放后 17s 悬空回调（use-after-free 风险）
+2s + cancelled 分片检查：vfile 有落盘窗口，release 后不触碰 native
+```
+
+**G09 PARTIAL**：`am crash com.example.cloudmusic` 注入 → `CrashedByAdbException`
+进程退出 ✓；START_STICKY 在 MIUI + 无线 adb 环境 2.5min 未自动重启（crash 指数
+退避 + MIUI 后台策略），恢复机制（Room 游标 → prepare → PAUSED）已由多轮冷启动
+反复验证；建议 USB adb / 亮屏环境复测。
+
+> AI生成

@@ -82,8 +82,14 @@ class EngineAdapter : IMusicEngine {
     @Volatile
     var appContext: Context? = null
 
-    @Volatile
-    private var virtualFileManager: NMVirtualFileManager? = null
+    /**
+     * §61.26（G05 真机实证）：prepare（含 native 引擎 / VFM 构造）与完成 / 错误触发的
+     * [releaseAllInternal] 必须互斥——自动进曲在 msg=2 后 ~40ms 就发起下一首 prepare，
+     * 与旧引擎的 native release 并发会踩出
+     * `libncmplayerengine AudioPlayerUnit::SetAudioListener` SEGV（tombstone 实证）。
+     * VFM 不再有共享字段：每次 prepare 的实例随 [Slot] 生命周期释放。
+     */
+    private val lifecycleLock = Any()
 
     /**
      * 12 §37：native 事件码常量表尚无实证（13 §7.1 要求「事件码 + 轮询」建状态机），
@@ -101,6 +107,10 @@ class EngineAdapter : IMusicEngine {
         val engine: PlaybackEngine,
         val source: EngineSource,
         val provider: UrlDataProvider,
+        /** §61.26：缓存管理器归 slot 所有——G05 真机实证共享字段 `virtualFileManager`
+         *  会在「msg=2 释放线程 vs 自动进曲 prepare 线程」竞态下被另一方 release，
+         *  旧引擎 release 途中缓存句柄悬空 → libncmplayerengine `SetAudioListener` SEGV。 */
+        val vfm: NMVirtualFileManager?,
     )
 
     /** 13 §3 的 9 方法音源接口：只喂 URL / localPath，不消费 Java 字节流。 */
@@ -294,6 +304,16 @@ class EngineAdapter : IMusicEngine {
                 // Finish Sync:0 饿死。只在 702 放行。
                 prepareGate?.countDown()
             } else if (msg == 100) {
+                // §61.26（G07）：native 错误通知须落入 lastError()（验收判据
+                // "ERROR + lastError() 非空"）；arg1/arg2 原样入串便于对账。
+                // countDown 放行 play（失败路径不得卡 10s 门闩）。
+                prepareGate?.countDown()
+                fail(
+                    CloudMusicError.DsUpstream(
+                        "ENGINE_MSG100",
+                        "native 错误通知 msg=100 arg1=$arg1 arg2=$arg2",
+                    ),
+                )
                 _state.value = EngineState.ERROR
                 Thread {
                     releaseAllInternal()
@@ -301,10 +321,12 @@ class EngineAdapter : IMusicEngine {
             } else if (msg == 2) {
                 // 12 §61.23（第五十一批续）：msg=2 = 播放完成通知（E23 实证：
                 // doPlayCompleted kPlayerPlaybackCompeted 后紧随 msg=2）。
-                // 释放 slot → imp Close → NMSlicesFile 索引提交（缓存命中前提）
-                // + 状态回退 IDLE（播完了自然回到空闲）。
+                // 释放 slot → imp Close → NMSlicesFile 索引提交（缓存命中前提）。
+                // §61.26（G05）：状态置 **ENDED**（契约语义：播完等消费方裁决——
+                // PlayerController 据此自动进下一首；releaseAllInternal 不再降级 IDLE，
+                // ENDED 保持到下一次 prepare / stop）。
                 prepareGate?.countDown()
-                _state.value = EngineState.IDLE
+                _state.value = EngineState.ENDED
                 Thread {
                     releaseAllInternal()
                 }.apply { isDaemon = true }.start()
@@ -314,17 +336,20 @@ class EngineAdapter : IMusicEngine {
 
     /** §61.8：错误后全量释放（镜像 [release] 的清理序），native 回调线程外执行。 */
     private fun releaseAllInternal() {
-        try {
-            for ((raw, slot) in slots) {
-                runCatching { slot.engine.release() }
-                runCatching { slot.provider.close() }
-                slots.remove(raw)
+        // §61.26：与 prepare 互斥（G05 native SEGV 实证），且 VFM 归 slot 各自释放。
+        synchronized(lifecycleLock) {
+            try {
+                for ((raw, slot) in slots) {
+                    runCatching { slot.engine.release() }
+                    runCatching { slot.provider.close() }
+                    runCatching { slot.vfm?.release() }
+                    slots.remove(raw)
+                }
+                // §61.26：不再降级状态——msg=2 置 ENDED / msg=100 置 ERROR 语义保留
+                // 到下一次 prepare（PREPARING）或 stop（IDLE），供消费方裁决。
+            } catch (_: Throwable) {
+                // 释放失败不阻塞回调线程；下一次 prepare 会因残留 slot 显式报错。
             }
-            runCatching { virtualFileManager?.release() }
-            virtualFileManager = null
-            _state.value = EngineState.IDLE
-        } catch (_: Throwable) {
-            // 释放失败不阻塞回调线程；下一次 prepare 会因残留 slot 显式报错。
         }
     }
 
@@ -332,13 +357,14 @@ class EngineAdapter : IMusicEngine {
     private var error: CloudMusicError? = null
 
     override fun prepare(source: EngineSource, config: EngineConfig): EngineHandle {
-        check(slots.isEmpty()) {
-            "single handle invariant: release() before a new prepare() (03-06 §4 / §15 T06)"
-        }
-        error = null
-        prepareGate = CountDownLatch(1)
-        _state.value = EngineState.PREPARING
-        return try {
+        synchronized(lifecycleLock) {
+            check(slots.isEmpty()) {
+                "single handle invariant: release() before a new prepare() (03-06 §4 / §15 T06)"
+            }
+            error = null
+            prepareGate = CountDownLatch(1)
+            _state.value = EngineState.PREPARING
+            return try {
             // 12 §34 D-104：按类实证顺序加载 6 个依赖库（去重、失败显式抛错）。
             EngineNativeLoader.loadChain(*EngineNativeLoader.PLAYBACK_ENGINE_CHAIN)
             // 12 §57：不再把 cacheManagerHandle 写死为 0。VFM 的 InitPtr() 由
@@ -365,7 +391,6 @@ class EngineAdapter : IMusicEngine {
                     }
                 }
             }
-            virtualFileManager = vfm
             val cacheHandle = vfm?.getNativePtr() ?: 0L
             EngineDiag.i("cacheManagerHandle=$cacheHandle hasContext=${appContext != null}")
             val engine = PlaybackEngine(cacheHandle)
@@ -394,12 +419,13 @@ class EngineAdapter : IMusicEngine {
             engine.setDataSource(pds)
             engine.prepareAsync()
             val raw = nextRaw++
-            slots[raw] = Slot(engine, source, provider)
+            slots[raw] = Slot(engine, source, provider, vfm)
             _state.value = EngineState.PAUSED
             EngineHandle(raw)
         } catch (t: Throwable) {
             fail(CloudMusicError.DsUpstream("ENGINE_PREPARE", t.message ?: "native 引擎准备失败"))
             throw CloudMusicError.DsUpstream("ENGINE_PREPARE", t.message ?: "native 引擎准备失败")
+        }
         }
     }
 
@@ -486,18 +512,20 @@ class EngineAdapter : IMusicEngine {
     }
 
     override fun release(handle: EngineHandle) {
-        val s = slots.remove(handle.raw) ?: return
-        try {
-            s.engine.release()
-        } catch (t: Throwable) {
-            fail(CloudMusicError.DsUpstream("ENGINE_RELEASE", t.message ?: "释放失败"))
-        } finally {
-            s.provider.close()   // §15 T09：release 同时关闭 IDataSource
-            // 12 §57：引擎释放后一并释放 VFM 的 C++ 对象，避免 native 句柄泄漏。
-            virtualFileManager?.release()
-            virtualFileManager = null
-            error = null
-            _state.value = EngineState.IDLE
+        // §61.26：与 prepare / releaseAllInternal 互斥；VFM 随 slot 释放（G05 实证
+        // 共享字段在自动进曲竞态下会释放到别人刚创建的实例上）。
+        synchronized(lifecycleLock) {
+            val s = slots.remove(handle.raw) ?: return
+            try {
+                s.engine.release()
+            } catch (t: Throwable) {
+                fail(CloudMusicError.DsUpstream("ENGINE_RELEASE", t.message ?: "释放失败"))
+            } finally {
+                s.provider.close()   // §15 T09：release 同时关闭 IDataSource
+                runCatching { s.vfm?.release() }
+                error = null
+                _state.value = EngineState.IDLE
+            }
         }
     }
 

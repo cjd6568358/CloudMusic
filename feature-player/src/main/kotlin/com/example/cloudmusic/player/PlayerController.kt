@@ -48,6 +48,26 @@ class PlayerController(
 
     init {
         media?.bind(controllerHandle)
+        // §61.26（G05/G07 验收）：引擎完成（ENDED）/ 出错（ERROR）事件此前无人消费——
+        // 播完不自动进下一首、解码失败不自动跳过。这里统一裁决：
+        // ENDED → 按播放模式进下一首（SEQUENCE 末尾置 ENDED 态收束）；
+        // ERROR → 记录 lastError 并按 autoSkipOnError 跳下一首。
+        // SINGLE_LOOP 的失败重试语义保留（同曲重试）。prepareAt 的异常就地吞掉，
+        // 记为该曲失败，不让未捕获异常带崩本 scope。
+        scope.launch {
+            engine.state().collect { s ->
+                runCatching {
+                    when (s) {
+                        EngineState.ENDED -> next()
+                        EngineState.ERROR -> onEngineError(
+                            engine.lastError()
+                                ?: CloudMusicError.DsUpstream("ENGINE", "未知引擎错误"),
+                        )
+                        else -> Unit
+                    }
+                }
+            }
+        }
     }
 
     /** 队列全量替换：重算 SHUFFLE 顺序并单向全量下发 native（§8）。 */

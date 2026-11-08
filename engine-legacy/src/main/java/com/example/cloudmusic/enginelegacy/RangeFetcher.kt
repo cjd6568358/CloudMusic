@@ -116,8 +116,26 @@ class HttpUrlRangeOpener(
             connection.disconnect()
             error("HTTP $status for $url (Range ${RangeFetcher.rangeHeader(offset, length)})")
         }
+        // §61.26（G01/G06 真机实证）：服务器忽略 Range 时回 **200 + 从 0 开始的全量正文**
+        // （python http.server 等）。206 正文起点 = 请求 offset；200 正文起点恒为 0 ——
+        // 必须本地跳过 offset 字节再交给 fetch，否则回传数据会按错误区间的绝对地址
+        // 写入缓存（缓存投毒：错误字节占着正确地址，解码 probe 必败 → -103）。
+        var input = connection.inputStream
+        if (status == HttpURLConnection.HTTP_OK && offset > 0) {
+            var skipped = 0L
+            while (skipped < offset) {
+                val n = input.skip(minOf(offset - skipped, 1L shl 16))
+                if (n > 0) {
+                    skipped += n
+                } else if (input.read() >= 0) {
+                    skipped += 1
+                } else {
+                    error("stream ended while skipping to offset $offset ($skipped done)")
+                }
+            }
+        }
         val total = RangeFetcher.parseTotal(connection.getHeaderField("Content-Range"))
             .takeIf { it >= 0L } ?: connection.contentLengthLong
-        return RangeResponse(connection.inputStream, total, connection.contentLengthLong)
+        return RangeResponse(input, total, connection.contentLengthLong)
     }
 }

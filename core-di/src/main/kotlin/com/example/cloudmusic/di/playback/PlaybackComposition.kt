@@ -197,6 +197,9 @@ class PlaybackRuntime @Inject constructor(
     fun next() = scope.launch { controller.next() }
     fun prev() = scope.launch { controller.prev() }
 
+    /** §61.26（G03 验收）：外部 seek 入口（通知栏进度条 / 验收 intent 共用同一裁决）。 */
+    fun seekTo(ms: Long) = scope.launch { controller.seek(ms) }
+
     /** T-A6（12 §33）：UI 需要具体类型来显示播放阶段 / 当前曲目 / 进度。 */
     fun playerState(): StateFlow<PlayerState> = controller.state
 

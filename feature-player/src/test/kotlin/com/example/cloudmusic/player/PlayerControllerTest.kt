@@ -128,7 +128,7 @@ class PlayerControllerTest {
     @Test
     @DisplayName("T11 · 冷启动恢复：曲目 / 进度 / 模式一致，且保持 PAUSED 不自动开播")
     fun t11() = runTest {
-        val f = fixture(scope = this)
+        val f = fixture(scope = backgroundScope)
         f.repo.setAll(tracks)
         f.repo.setMode(PlayMode.LIST_LOOP)
         f.repo.saveCursor("id-3", 42_000L)
@@ -154,7 +154,7 @@ class PlayerControllerTest {
     @Test
     @DisplayName("§9 · playAt / pause / resume / next 状态流转，prepare 前释放旧 handle（T06）")
     fun stateMachine() = runTest {
-        val f = fixture(scope = this)
+        val f = fixture(scope = backgroundScope)
         f.queue()
         f.controller.playAt(0)
         assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase)
@@ -179,7 +179,7 @@ class PlayerControllerTest {
     @DisplayName("C-05 · URL 态填 url、LOCAL 态填 localPath，门面 14 方法不变")
     fun c05Mapping() = runTest {
         val urlResolver = TrackSourceResolver { t -> Link(url = "https://example.com/${t.id.value}.mp3") }
-        val f = fixture(resolver = urlResolver, scope = this)
+        val f = fixture(resolver = urlResolver, scope = backgroundScope)
         f.queue()
         f.controller.playAt(0)
         val source = f.engine.snapshot().source
@@ -188,7 +188,7 @@ class PlayerControllerTest {
         assertNull(source.localPath)
         assertEquals("audio/mpeg", source.mimeHint)
 
-        val local = fixture(scope = this)
+        val local = fixture(scope = backgroundScope)
         local.queue()
         local.controller.playAt(0)
         val localSource = local.engine.snapshot().source
@@ -201,7 +201,7 @@ class PlayerControllerTest {
     @DisplayName("16 §3.2 · PROXIED 无回环 URL 时进入 ERROR，不静默播放")
     fun proxiedNeedsLoopbackUrl() = runTest {
         val broken = TrackSourceResolver { Link(proxy = true) }
-        val f = fixture(resolver = broken, scope = this)
+        val f = fixture(resolver = broken, scope = backgroundScope)
         f.queue()
         f.controller.playAt(0)
         val s = f.controller.state.value
@@ -212,7 +212,7 @@ class PlayerControllerTest {
     @Test
     @DisplayName("§8 双轨 · setQueue 全量下发且顺序一致；沙箱约束常量生效")
     fun queueSyncIsOneWay() = runTest {
-        val f = fixture(scope = this)
+        val f = fixture(scope = backgroundScope)
         f.queue(PlayMode.SHUFFLE)
         assertEquals(1, f.sync.pushes.size)
         assertEquals(5, f.sync.pushes[0].items.size)
@@ -228,14 +228,14 @@ class PlayerControllerTest {
     @Test
     @DisplayName("§9 · 解码失败自动跳下一首（可关）；DLNA 切换静音并转遥控器")
     fun errorAndOutputSwitch() = runTest {
-        val f = fixture(scope = this)
+        val f = fixture(scope = backgroundScope)
         f.queue()
         f.controller.playAt(0)
         f.controller.onEngineError(com.example.cloudmusic.common.CloudMusicError.DsUpstream("403", "上游拒绝"))
         assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase)
         assertEquals("id-2", f.controller.state.value.currentTrackId?.value)
 
-        val noSkip = fixture(config = PlayerConfig(autoSkipOnError = false), scope = this)
+        val noSkip = fixture(config = PlayerConfig(autoSkipOnError = false), scope = backgroundScope)
         noSkip.queue()
         noSkip.controller.playAt(0)
         noSkip.controller.onEngineError(com.example.cloudmusic.common.CloudMusicError.DsUpstream("500", "失败"))

@@ -246,9 +246,18 @@ class PlaybackService : Service() {
      * 03-06 §12.6：单进程 native crash 会带走整个进程，START_STICKY 是约定的恢复入口。
      */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        // §61.26（G03 真机暴露）：`startForegroundService()` 的每次启动调用都要求
+        // 服务随后确认前台态，否则 `ForegroundServiceDidNotStartInTimeException`
+        // 带崩进程（MIUI/A13 实测：服务已在运行时再发 ACTION_SEEK 未确认 → crash）。
+        // onCreate 已 post 过一次；这里每次启动重 post（幂等）。
+        startForeground(NOTIFICATION_ID, buildNotification("播放服务运行中"))
         when (intent?.action) {
             ACTION_PLAY -> performPlay()
             ACTION_PAUSE -> performPause()
+            ACTION_SEEK -> {
+                val ms = intent.getLongExtra(EXTRA_SEEK_POSITION_MS, -1L)
+                if (ms >= 0) runtime.seekTo(ms)
+            }
         }
         return START_STICKY
     }
@@ -396,5 +405,9 @@ class PlaybackService : Service() {
         /** 12 §50：媒体按键兜底 / 通知动作的标准入口，由本应用内部组件转发。 */
         const val ACTION_PLAY = "com.example.cloudmusic.action.PLAY"
         const val ACTION_PAUSE = "com.example.cloudmusic.action.PAUSE"
+
+        /** §61.26（G03 验收）：外部 seek 入口，`EXTRA_SEEK_POSITION_MS`（Long，毫秒）。 */
+        const val ACTION_SEEK = "com.example.cloudmusic.action.SEEK"
+        const val EXTRA_SEEK_POSITION_MS = "com.example.cloudmusic.extra.SEEK_POSITION_MS"
     }
 }
