@@ -279,6 +279,15 @@ class EngineAdapter : IMusicEngine {
                 Thread {
                     releaseAllInternal()
                 }.apply { isDaemon = true }.start()
+            } else if (msg == 2) {
+                // 12 §61.23（第五十一批续）：msg=2 = 播放完成通知（E23 实证：
+                // doPlayCompleted kPlayerPlaybackCompeted 后紧随 msg=2）。
+                // 释放 slot → imp Close → NMSlicesFile 索引提交（缓存命中前提）
+                // + 状态回退 IDLE（播完了自然回到空闲）。
+                _state.value = EngineState.IDLE
+                Thread {
+                    releaseAllInternal()
+                }.apply { isDaemon = true }.start()
             }
         }
     }
