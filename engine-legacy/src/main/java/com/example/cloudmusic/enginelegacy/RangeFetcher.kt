@@ -70,7 +70,16 @@ object RangeFetcher {
     ): Long {
         var delivered = 0L
         try {
-            val response = opener.open(url, offset, length)
+            // §61.26（G08 真机实证）：连接期失败（超时/拒连）立即重试一次。
+            // 无线调试隧道 / 弱网会周期性瞬断且秒级自愈——G08 观测 ETIMEDOUT 后
+            // 引擎立刻重发 Start 即成功。连接期重试不破坏流语义（onBegin 尚未发出，
+            // native 侧此请求等同未开始）；已开流的中途失败仍按错误上抛（不可续传）。
+            val response = try {
+                opener.open(url, offset, length)
+            } catch (t: Throwable) {
+                if (cancelled()) throw t
+                opener.open(url, offset, length)
+            }
             sink.onBegin(requestId, response.totalLength)
             response.body.use { input ->
                 val buffer = ByteArray(CHUNK)
@@ -101,7 +110,10 @@ object RangeFetcher {
 
 /** V0.1 生产实现：JDK / Android 均有的 `HttpURLConnection`，不引 OkHttp 到照搬舱。 */
 class HttpUrlRangeOpener(
-    private val connectTimeoutMs: Int = 10_000,
+    // §61.26（G08 实证）：连接超时 5s——G08 观测隧道瞬断自愈窗口 ~5s，10s 超时
+    // 会把「失败→重试」拖出引擎读预算（-103 整曲跳过）；5s 失败 + fetch 内一次
+    // 重试即可落在自愈窗口内。
+    private val connectTimeoutMs: Int = 5_000,
     private val readTimeoutMs: Int = 15_000,
 ) : RangeOpener {
 

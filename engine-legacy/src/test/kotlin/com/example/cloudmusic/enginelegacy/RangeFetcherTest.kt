@@ -142,6 +142,46 @@ class RangeFetcherTest {
     }
 
     @Test
+    @DisplayName("§61.26 · 连接期失败重试一次：瞬断自愈后成功回传（G08 ETIMEDOUT 实证）")
+    fun fetchRetriesConnectFailure() {
+        val payload = ByteArray(64) { it.toByte() }
+        var calls = 0
+        val opener = RangeOpener { _, _, _ ->
+            calls += 1
+            if (calls == 1) error("failed to connect after 5000ms: ETIMEDOUT")
+            RangeResponse(ByteArrayInputStream(payload), payload.size.toLong(), payload.size.toLong())
+        }
+        val sink = Recorder()
+        val read = RangeFetcher.fetch("http://h/a", 8L, 0L, 64L, opener, sink)
+
+        assertEquals(64L, read)
+        assertEquals(2, calls, "连接期失败应恰好重试一次")
+        assertEquals(1, sink.beginIds.size, "重试不重复发 Begin（native 侧等同未开始）")
+        assertNull(sink.endError)
+        assertEquals(listOf(0L), sink.offsets)
+    }
+
+    @Test
+    @DisplayName("§61.26 · 已取消时不重试连接失败：立即 End(error)")
+    fun fetchNoRetryWhenCancelled() {
+        var calls = 0
+        val opener = RangeOpener { _, _, _ ->
+            calls += 1
+            error("connect timed out")
+        }
+        val sink = Recorder()
+        val read = RangeFetcher.fetch(
+            "http://h/a", 4L, 0L, 10L, opener, sink,
+            cancelled = { true },
+        )
+
+        assertEquals(0L, read)
+        assertEquals(1, calls, "取消后不得重试")
+        assertTrue(sink.endCalled)
+        assertEquals("connect timed out", sink.endError)
+    }
+
+    @Test
     @DisplayName("12 §54 · Stop 取消：不回传数据，仍走 End 收尾")
     fun fetchCancelled() {
         val sink = Recorder()
