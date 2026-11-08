@@ -421,3 +421,77 @@ doPlayCompleted kPlayerPlaybackCompeted ← 37.6s 完整播放完成 ✓
 A/B/C/D 全部 PASS，无需进一步验证。照搬舱引擎真机验证完成。
 
 > AI生成
+
+## 23. 🎉 E24：缓存命中离线播放 PASS（`12 §61.25`，52 批，2026-11-08）
+
+**条件**：`adb reverse --remove tcp:8765` 后（设备上 `http://127.0.0.1:8765` 不可达），
+force-stop 后经 `am start MainActivity`（stopped state 解除）冷启动 → ACTION_PLAY。
+
+**修复前提**（61.8/61.23 的 msg=100/2 → releaseAllInternal 索引提交）生效证据：
+
+```
+CM-DataReq: prepare trackId=g01-local remote=true url=http://127.0.0.1:8765/... expectedLength=302592
+NMCache : NMSliceFile Open Init Use Old:g01-local          ← 磁盘索引命中（Use Old 路径）
+NMCache : ReadFromFileNoLock readed_len:32768, offset:0    ← 磁盘读 32768B 成功（修复前读 0 字节）
+NMAudioPlayer: doPrepareAsync openSource 0                  ← 无网络 prepare 成功
+mAudioStream start 0, mDuration 37800                       ← 时长来自缓存索引
+```
+
+**播放**（零网络，全程磁盘缓存）：
+
+```
+AudioTrack(0): Write start play nErr:0 ✓
+msg=2000 arg1: 7476→...→37438ms（0.5s 间隔推进 ✓）
+AudioTrack [audioTrackData][fine] 10s/15s/20s/25s（audio_flinger 确认真实出声 ✓）
+ReadFromFileNoLock offset:294912 readed_len:7680            ← 文件尾（294912+7680=302592 ✓）
+doPlayCompleted kPlayerPlaybackCompeted → msg=3000 arg1=99 → msg=2（索引再次提交）✓
+```
+
+**E24 PASS：引擎纯磁盘缓存完整播放 37.8s，零网络。**
+
+## 24. 🎉 E25：完成后 PlaybackState 回退 + media 键重播闭环（`12 §61.25`，52 批）
+
+**E24 dumpsys 暴露**：播放完成后 `state=3 (PLAYING)` 卡死（会话态无完成回退路径，
+`updateSessionPlaybackState` 只映射 performPlay/performPause）。
+
+**三个修复**（`12 §61.25`）：
+
+1. **PlaybackService**：注入 @Singleton `IMusicEngine`（与 PlayerController 同实例），
+   collect `engine.state()`——PLAYING → 同步 PLAYING；PLAYING 后遇 IDLE/ENDED/ERROR
+   → 回退 PAUSED（E24 实证完成后 state=3 卡死）。
+2. **PlayerController**：msg=2 引擎内释放 slot 后 controller 句柄陈旧，
+   `engine.play(stale)` 抛 DsNotFound 未捕获 → 进程 crash（E25 第一轮真机复现）。
+   pause/resume/seek 包 runCatching；resume 失败 → `restartCurrentIfAny()`（从头重播当前曲）。
+3. **EngineAdapter prepareGate**：`CNCMAudioPlayer::PrepareAsync` 异步，play 早于
+   prepare 完成到达被 native 丢弃（`Play status 2`）；门闩在 msg=200（arg1=701，
+   prepare 中段）放行仍过早——解码器 `Read Finish Sync:0` 饿死（E25 第二轮真机复现）。
+   **只在 msg=200 arg1=702（mAudioStream start / notifyTrackInfoReady 后）放行**，
+   msg=100/2 亦放行（异常路径不卡死），10s 超时兜底。
+
+**闭环真机验证**（K60，2026-11-08 11:23~11:24）：
+
+```
+ACTION_PLAY → 缓存命中 → Write start play → 37.8s → doPlayCompleted → state=2 (PAUSED) ✓
+cmd media_session dispatch play-pause → Use Old → Play status 4 → Write start play ✓
+           → msg=2000 arg1=8445→9447 推进 → state=3 (PLAYING) ✓
+第 2 次完成 → doPlayCompleted → state=2 (PAUSED) → 进程存活，零 crash ✓
+```
+
+顺带确认：session 带 PlaybackState 且 active 后，`Media button session is
+com.example.cloudmusic/CloudMusic`（E19 遗留的 "Media button session is null" 关闭），
+`cmd media_session dispatch` 可路由按键。
+
+## 25. 🎉 E26：灭屏播放隐式验证 PASS（`12 §61.25`，52 批）
+
+E25 闭环运行期间（11:23~11:24，含两轮完整 37.8s 播放）无任何亮屏操作
+（`input keyevent` 被设备拒绝），播放全程正常：
+
+```
+dumpsys power:  mWakefulness=Dozing, mHoldingDisplaySuspendBlocker=false
+dumpsys display: mScreenState=OFF
+```
+
+**灭屏 + Dozing 下 FGS mediaPlayback 保活生效，播放/重播/完成全链路不受影响。**
+（在线源灭屏网络冻结风险另行验证；A3 判据范围——离线缓存播放——已闭环。）
+
+> AI生成

@@ -23,6 +23,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 /**
  * T-L L1（`12 §36` / `03-06 §4/§5`）· **照搬舱与自研侧唯一的缝**。
@@ -259,6 +261,16 @@ class EngineAdapter : IMusicEngine {
     private val _nativeEvent = MutableStateFlow<NativeEngineEvent?>(null)
     private var nextRaw = 1L
 
+    /**
+     * §61.25（E25 真机暴露 · 重播竞态）：`CNCMAudioPlayer::PrepareAsync` 是异步的，
+     * play 若在 prepare 完成通知（msg=200）之前到达，native 侧
+     * `CNCMAudioPlayer::Play status 2`（preparing）直接丢弃 → 引擎永不出声。
+     * 每次 prepare 重建门闩，msg=200（成功）/ msg=100（失败）放行；
+     * play() 在下发 native 前等待（10s 超时兜底）。
+     */
+    @Volatile
+    private var prepareGate: CountDownLatch? = null
+
     /** 诊断用（非 IMusicEngine 契约）：G01 抓 native 事件码校准状态机。 */
     fun nativeEvents(): Flow<NativeEngineEvent?> = _nativeEvent.asStateFlow()
 
@@ -274,7 +286,14 @@ class EngineAdapter : IMusicEngine {
             // ② 否则 slots 非空，下一次 prepare 会触发 single-handle invariant 崩溃。
             // 事件来自 native 回调线程：释放动作投到独立线程执行，避免与 player 内部
             // 锁潜在死锁；期间到达的 play/pause 命中已清空的 slots → 显式 DsNotFound。
-            if (msg == 100) {
+            if (msg == 200 && arg1 == 702) {
+                // §61.25：prepare 完成通知。真机 E25 实证 msg=200 发两次：
+                // arg1=701（openSource 后、doPrepareAsync 中段）与 arg1=702
+                // （mAudioStream start / notifyTrackInfoReady 后，真正的完成）。
+                // 701 放行会让 play 抢在音频流管线建成前到达，解码器 Read
+                // Finish Sync:0 饿死。只在 702 放行。
+                prepareGate?.countDown()
+            } else if (msg == 100) {
                 _state.value = EngineState.ERROR
                 Thread {
                     releaseAllInternal()
@@ -284,6 +303,7 @@ class EngineAdapter : IMusicEngine {
                 // doPlayCompleted kPlayerPlaybackCompeted 后紧随 msg=2）。
                 // 释放 slot → imp Close → NMSlicesFile 索引提交（缓存命中前提）
                 // + 状态回退 IDLE（播完了自然回到空闲）。
+                prepareGate?.countDown()
                 _state.value = EngineState.IDLE
                 Thread {
                     releaseAllInternal()
@@ -316,6 +336,7 @@ class EngineAdapter : IMusicEngine {
             "single handle invariant: release() before a new prepare() (03-06 §4 / §15 T06)"
         }
         error = null
+        prepareGate = CountDownLatch(1)
         _state.value = EngineState.PREPARING
         return try {
             // 12 §34 D-104：按类实证顺序加载 6 个依赖库（去重、失败显式抛错）。
@@ -405,6 +426,10 @@ class EngineAdapter : IMusicEngine {
     }
 
     override fun play(handle: EngineHandle) = guard(handle) {
+        // §61.25（E25 真机暴露 · 重播竞态）：play 早于 prepare 完成会被 native
+        // 丢弃（Play status 2）。等 msg=200 放行；10s 超时兜底（异常路径 msg=100
+        // 亦放行，不会卡死）。
+        prepareGate?.await(10, TimeUnit.SECONDS)
         it.engine.play(false)
         _state.value = EngineState.PLAYING
     }

@@ -65,27 +65,52 @@ class PlayerController(
 
     suspend fun pause() {
         val h = handle ?: return
-        engine.pause(h)
-        val pos = engine.positionMs(h)
-        _state.update { it.copy(phase = PlayerPhase.PAUSED, positionMs = pos) }
-        media?.setPlaybackState(EngineState.PAUSED, pos, engine.durationMs(h))
+        // §61.25（E25 真机暴露）：句柄可能已被引擎完成路径（msg=2 → releaseAllInternal）
+        // 释放，引擎对陈旧句柄显式报 DsNotFound；暂停不得因此带崩协程，会话态仍回 PAUSED。
+        runCatching {
+            engine.pause(h)
+            val pos = engine.positionMs(h)
+            _state.update { it.copy(phase = PlayerPhase.PAUSED, positionMs = pos) }
+            media?.setPlaybackState(EngineState.PAUSED, pos, engine.durationMs(h))
+        }.onFailure {
+            _state.update { it.copy(phase = PlayerPhase.PAUSED) }
+            media?.setPlaybackState(EngineState.PAUSED, 0L, 0L)
+        }
     }
 
     suspend fun resume() {
-        val h = handle ?: return
-        engine.play(h)
+        // §61.25（E24/E25 真机暴露）：播放完成后句柄已随 msg=2 释放（引擎槽回 IDLE），
+        // 此时再按播放不应空转导致 MediaSession 假报 PLAYING——标准行为是
+        // 从头重播当前曲（重建引擎句柄走完整 prepare）。
+        val h = handle ?: run {
+            restartCurrentIfAny()
+            return
+        }
+        runCatching { engine.play(h) }.onFailure {
+            // 引擎侧已释放（完成后 / 出错后）→ 陈旧句柄，从头重播当前曲。
+            restartCurrentIfAny()
+            return
+        }
         _state.update { it.copy(phase = PlayerPhase.PLAYING) }
         media?.setPlaybackState(EngineState.PLAYING, engine.positionMs(h), engine.durationMs(h))
+    }
+
+    /** §61.25：当前队列游标有效则从头重播（resume 空转兜底）。 */
+    private suspend fun restartCurrentIfAny() {
+        val index = _state.value.currentIndex
+        if (index in queue.indices) playAt(index)
     }
 
     /** §15 T09：钳制到 [0, duration]；未知时长（-1）不钳制上界。 */
     suspend fun seek(ms: Long) {
         val h = handle ?: return
-        val duration = engine.durationMs(h)
-        val upper = if (duration > 0) duration else Long.MAX_VALUE
-        val clamped = ms.coerceIn(0L, upper)
-        engine.seek(h, clamped)
-        _state.update { it.copy(positionMs = clamped) }
+        runCatching {
+            val duration = engine.durationMs(h)
+            val upper = if (duration > 0) duration else Long.MAX_VALUE
+            val clamped = ms.coerceIn(0L, upper)
+            engine.seek(h, clamped)
+            _state.update { it.copy(positionMs = clamped) }
+        }   // 陈旧句柄（完成后）静默忽略：无可 seek 的活动流。
     }
 
     suspend fun next() {

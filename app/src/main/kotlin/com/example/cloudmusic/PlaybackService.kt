@@ -20,6 +20,8 @@ import android.util.Log
 import com.example.cloudmusic.di.playback.PlaybackRuntime
 import com.example.cloudmusic.di.playback.RuntimeState
 import com.example.cloudmusic.di.settings.SettingsAccess
+import com.example.cloudmusic.engine.api.EngineState
+import com.example.cloudmusic.engine.api.IMusicEngine
 import com.example.cloudmusic.media.FocusChange
 import com.example.cloudmusic.media.IMediaControl
 import com.example.cloudmusic.output.router.BluetoothEvent
@@ -79,6 +81,19 @@ class PlaybackService : Service() {
     /** `12 §46`：`03-09 §7` 唯一裁决者，用于投屏（DLNA）豁免判定。 */
     @Inject
     lateinit var outputRouter: OutputRouter
+
+    /**
+     * §61.25（E24 真机暴露）：与 [runtime] 内的 PlayerController 共享同一 @Singleton
+     * [IMusicEngine]（AppBindings EngineModule）。这里只读 `state()` 流做
+     * MediaSession PlaybackState 回退同步：播放完成（msg=2 → 引擎回 IDLE）或
+     * 引擎错误（msg=100 → ERROR）后，若此前观测过 PLAYING，则把会话态同步为
+     * PAUSED——E24 实证完成后 state=3 (PLAYING) 卡死在锁屏 / 通知控件上。
+     */
+    @Inject
+    lateinit var engine: IMusicEngine
+
+    /** §61.25：当前播放段内是否观测过引擎 PLAYING（完成 / 错误回退的判据）。 */
+    private var playingObserved = false
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var mediaSession: MediaSession? = null
@@ -198,6 +213,28 @@ class PlaybackService : Service() {
         runtime.start()   // 冷启动轻量增量扫描 + 订阅 effects
         scope.launch {
             runtime.state.collect { state -> updateNotification(state) }
+        }
+        // §61.25（E24 真机暴露）：引擎态 → MediaSession 回退同步。播放完成
+        // （msg=2 → 引擎回 IDLE）或引擎错误（msg=100 → ERROR）后，本播放段若
+        // 观测过 PLAYING，则把会话态回退 PAUSED——否则 state=3 卡死在锁屏 /
+        // 通知控件（E24 dumpsys 实证）。切歌（release→prepare→play）途中的
+        // 瞬时 IDLE 会被随后的 PLAYING 覆盖，无观察级影响。
+        scope.launch {
+            engine.state().collect { s ->
+                when (s) {
+                    EngineState.PLAYING -> {
+                        playingObserved = true
+                        updateSessionPlaybackState(PlaybackState.STATE_PLAYING)
+                    }
+                    EngineState.IDLE, EngineState.ENDED, EngineState.ERROR -> {
+                        if (playingObserved) {
+                            playingObserved = false
+                            updateSessionPlaybackState(PlaybackState.STATE_PAUSED)
+                        }
+                    }
+                    else -> Unit
+                }
+            }
         }
     }
 

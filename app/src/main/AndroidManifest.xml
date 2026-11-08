@@ -33,19 +33,31 @@
         android:usesCleartextTraffic="true">
 
         <!-- T-A6（12 §33 / 03-10 §5）：Compose 自研页面入口；播放页照搬属 T-L L3。 -->
+        <!-- §61.24（A3 验收期调试改动）：exported=true 使 adb shell 可 am start
+             解除 stopped state（install -r / force-stop 后 startService 会被
+             stopped state 静默吞掉）。A3 验收后随 Service 一并恢复。 -->
         <activity
             android:name=".MainActivity"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <!-- §61.24（A3 验收期调试改动）：exported=true + ACTION_PLAY intent-filter
+             是判据 D/E 真机实验的触发路径（am start-foreground-service 直启 performPlay），
+             无线 adb shell 无法启动非导出组件。A3 验收完成后恢复 exported=false
+             并移除 intent-filter（61.23 生产形态）。 -->
         <service
             android:name=".PlaybackService"
-            android:exported="false"
-            android:foregroundServiceType="mediaPlayback" />
+            android:exported="true"
+            android:foregroundServiceType="mediaPlayback">
+            <intent-filter>
+                <action android:name="com.example.cloudmusic.action.PLAY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
 
         <!-- 03-07 §5 B12：兼容兜底；主入口为 MediaSession.Callback，Receiver 不重复处理按键。
              §61.23：exported=true（系统媒体键广播需要；MEDIA_BUTTON intent-filter 必须可接收）。 -->
