@@ -2034,6 +2034,26 @@ def main() -> int:
         else:
             print(f"[PASS] 12 §61.36 守护：{len(branded)} 个竞品 layout 已被 C4 / NOTICE 如实登记")
 
+    # 12 §61.37 / D-146 守护：个人自用范围必须如实登记；
+    # 未替换素材不得被标成 replaced=true（防止以「已替换」伪造合规状态）。
+    scope_doc = ROOT / "docs" / "03-模块开发文档" / "03-12 构建发布与合规.md"
+    scope_notice = ROOT / "NOTICE.md"
+    scope_csv = ROOT / "docs" / "assets-mapping.csv"
+    if not (scope_doc.is_file() and scope_notice.is_file() and scope_csv.is_file()):
+        failures.append("12 §61.37 守护：03-12 / NOTICE.md / assets-mapping.csv 缺失")
+    else:
+        scope_text = scope_doc.read_text(encoding="utf-8")
+        notice_scope_text = scope_notice.read_text(encoding="utf-8")
+        scope_rows = [
+            ln for ln in scope_csv.read_text(encoding="utf-8-sig").splitlines() if ln.strip()
+        ][1:]
+        if "D-146" not in scope_text or "个人自用" not in notice_scope_text:
+            failures.append("12 §61.37 守护：D-146 个人自用范围口径缺失")
+        elif scope_rows and not all(ln.rstrip().endswith(",false") for ln in scope_rows):
+            failures.append("12 §61.37 守护：D-146 下不得把未替换素材标成 replaced=true")
+        else:
+            print("[PASS] 12 §61.37 守护：D-146 个人自用口径在位，C4 未伪造替换")
+
     if (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example" /
             "cloudmusic" / "common" / "PathNormalizer.kt").is_file():
         warnings.append("实现期修正 C-01：路径规范化下沉至 :core-common（见 PathNormalizer KDoc）")
@@ -2072,6 +2092,7 @@ def main() -> int:
         warnings.append("第六十一批（12 §61.34 / C-16，2026-11-08 晚）：发现 DegradationPolicy.evaluate 的 offline 是死参数、03-11 §3「网络权限/飞行模式」一行的语义未落地且 JVM 测试两态断言等价。新增 DegradationOutcome.networkSourceAvailable（默认 true，现有调用零破坏）+ offline 映射与信息提示，硬规则（本地曲库/播放恒可用、不弹网络错误）不变；PermissionGateTest 新增 2 用例并把原弱断言升级为 assertEquals(!offline, …)。发布阻断 #11 的 JVM 侧矩阵已全量覆盖，真机 T05/T06/T14 仍待 T-V；networkSourceAvailable 当前无生产消费方，如实登记不伪造接线")
         warnings.append("第六十二批（12 §61.35 / C-17，2026-11-08 晚）：核对发现离线事实存在两套表达 —— 播放闸门 NetworkPlaybackPolicy 的 NetworkKind.NONE（有 PlayerController 生产消费方）与 C-16 的 DegradationPolicy.offline（UI 降级契约）。新增 isOffline(kind) 作为单一真相源并在 NetworkPlaybackPolicyTest 加交叉断言，守护防分叉；零产品行为改动。另确认无线 adb 下无法做飞行模式 / 关 WiFi 真机实验（会失联且无法远程恢复），属 USB 环境硬阻塞。本批把 5 个批次的工作区改动固化为结构化本地提交（不 push）")
         warnings.append("第六十三批（12 §61.36，2026-11-08 晚）：用户选「保持 A3 不收口，先推进 T-L L3 / T-V 其它项」→ 审计素材暂存区发现 51 个文件全部随 debug APK 分发（不参与 aapt2 ≠ 不进包），其中 8 个 layout 含 44 处 com.netease.* 类名 / 20 个去重类；C2 PASS 是跳过整个 C4_STAGED_ASSETS 目录后的豁免结果。修正发布阻断 #2/#5/#7 口径、NOTICE.md 补「随 APK 分发」声明、03-12 §8 加注，新增 §61.36 守护防伪造替换；产出 tl-l3-assets-compliance-audit 与 tl-l3-substitution-plan 两份施工文档。零源码 / 零设备改动，A3 仍 G09 PARTIAL")
+        warnings.append("第六十四批（12 §61.37 / D-146，2026-11-08 21:49）：用户定案「素材直接用竞品的，这个 APP 只是我个人使用」→ 项目范围锁定个人自用 / 侧载（不公开发布 / 不分发 APK / 不上架），竞品素材直接沿用、不做替换，61 行 replaced=false 保持。03-12 §7/§8 与 NOTICE.md 改为范围口径、发布阻断清单仅公开发布时适用；C4 dev WARN / release FAIL 机制不变但降级为未来闸门；T-L L3 只剩技术接入（8 个含 com.netease.* 类名的 layout 因 aapt2 找不到类需重写/删除、:ui-legacy、R 引用改写、照搬播放页）。新增 §61.37 守护（范围口径在位 + 不得伪造 replaced=true）。权利归属如实声明保留，不作法律结论。零源码 / 零产物 / 零设备改动，A3 按用户选项 3 保持 PARTIAL")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

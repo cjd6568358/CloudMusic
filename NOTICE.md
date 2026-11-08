@@ -62,9 +62,14 @@
 > 的 **51 个文件随 debug APK 原样分发**（`assets/` 不参与 aapt2，但会进包），
 > 其中 **8 个 layout XML 含 44 处 `com.netease.*` 类名 / 20 个去重类**
 > （含带品牌名的 `NeteaseMusicSimpleDraweeView`）。C2 检查器跳过整个暂存目录后
-> 才 PASS，**该 PASS 不等于 APK 内无竞品内容**。公开发布前必须按
-> `analysis/tl-l3-substitution-plan.md` 的阶段 B~D 重写或删除这些 layout、
-> 移除暂存区并完成素材全量替换。证据 `analysis/tl-l3-assets-compliance-audit-2026-11-08.md`。
+> 才 PASS，**该 PASS 不等于 APK 内无竞品内容**。证据
+> `analysis/tl-l3-assets-compliance-audit-2026-11-08.md`。
+>
+> **★ D-146（2026-11-08 21:49 用户决策）**：本项目**仅供个人自用 / 侧载**，
+> 用户决定**竞品素材直接沿用、不做替换**，不公开发布仓库 / 不分发 APK / 不上架。
+> 因此上述分发事实在个人自用范围内**按已知状态保留**，素材替换与暂存区清除
+> 降级为「未来若公开发布才执行的备选路径」（见 `12 §61.37`）。
+> **权利归属声明不变**：本文件不声称这些二进制 / 素材为本项目原创或已获授权。
 
 ---
 
