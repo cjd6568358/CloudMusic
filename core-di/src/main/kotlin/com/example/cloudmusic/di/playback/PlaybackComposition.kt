@@ -1,6 +1,7 @@
 package com.example.cloudmusic.di.playback
 
 import android.util.Log
+import com.example.cloudmusic.common.NetworkPlaybackGate
 import com.example.cloudmusic.di.adapters.PrePublishedCastProxy
 import com.example.cloudmusic.di.scan.SettingsEffectsRunner
 import com.example.cloudmusic.di.settings.SettingsEffectsBus
@@ -193,6 +194,10 @@ class PlaybackRuntime @Inject constructor(
     }
 
     fun play() = scope.launch { controller.resume() }
+
+    /** 03-02 §344：供 PlaybackService 同步判定闸门，避免拒绝后会话假报 PLAYING。 */
+    fun currentNetworkSource(): Boolean = controller.currentSourceIsNetwork()
+
     fun pause() = scope.launch { controller.pause() }
     fun next() = scope.launch { controller.next() }
     fun prev() = scope.launch { controller.prev() }
@@ -223,6 +228,11 @@ object PlaybackModule {
     @Singleton
     fun provideQueueSync(): QueueSync = SandboxQueueSync()
 
+    /** 03-02 §344：把 Android 平台实现绑定到纯 JVM 端口（零新增权限）。 */
+    @Provides
+    @Singleton
+    fun provideNetworkPlaybackGate(impl: AndroidNetworkPlaybackGate): NetworkPlaybackGate = impl
+
     @Provides
     @Singleton
     fun provideTrackSourceResolver(
@@ -239,6 +249,7 @@ object PlaybackModule {
         resolver: TrackSourceResolver,
         media: IMediaControl,
         settings: SettingsStore,
+        networkGate: NetworkPlaybackGate,
     ): PlayerController = PlayerController(
         engine = engine,
         sync = sync,
@@ -246,5 +257,6 @@ object PlaybackModule {
         resolver = resolver,
         media = media,
         config = SettingsProjection.playerConfig(settings.current()),
+        networkGate = networkGate,
     )
 }

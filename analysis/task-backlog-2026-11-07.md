@@ -40,6 +40,51 @@
 > FGS / MediaSession / 扫描调度 / Room 真机生效。**A3 PARTIAL RUN**，
 > G01~G09 仍 NOT RUN（曲库 0 首 / 播放键未送达 / native 引擎未加载 / MIUI 无线 adb 限制授权与注入）。
 > 硬门槛收敛为应用侧播放链路 + 真机 G01/G02。
+>
+> **★ 2026-11-08 第五十四批（见 `docs/12 §61.27`）**：`§42.3` / 上表 §5 快照均已过期。
+> 真机 A3 已推进到 **G01~G07 PASS / G08 定向 PASS（2h 长稳未跑满）/ G09 PARTIAL**。
+> 本批补做 HEAD `211080c9` 缺失的设备验证（一次性 GET RST 注入 → 连接期重试救回
+> 302592B 全量取流、37.8s 完整播放、零 -103），并修复「冷启动首次 ACTION_PLAY
+> 被吞、MediaSession 假报 PLAYING 进度恒 0」（`pendingPlay` 兑现）。
+> 基线 **399 测试 / 43 套件 / 0 失败**、契约自检 PASS、dev 6/6。完整证据与复现步骤
+> 见 `analysis/g08-injection-evidence-2026-11-08.md`。剩余硬门槛收敛为：
+> **① USB/亮屏复测 G09；② G08 2h 长稳；③ 收口后恢复 Manifest 生产形态**
+> （含 61.23 把 LAUNCHER MainActivity 写 `exported=false` 的口径疑点）。
+>
+> **★ 2026-11-08 第五十五批（见 `docs/12 §61.28`）**：用户「按照文档计划完成任务」→
+> 推进 `§61.27` 下一步③中判据最明确的挂账项「默认仅 WiFi 播放」（`§56` 登记未实现）。
+> 四层落地：纯 JVM `NetworkPlaybackPolicy` → `PlayerController` 双入口闸门 →
+> `AndroidNetworkPlaybackGate`（ConnectivityManager + 实时 `wifiOnly`，零新增权限）→
+> 设置页开关 + `PlaybackService` 同步判定防假报 PLAYING。`09 §539` 的历史挂账收口。
+> 基线 **408 测试 / 44 套件 / 0 失败**、dev 6/6、release FAIL(C1,C4)、11 权限不变；
+> 真机 WiFi 正向回归 PASS（单次 PLAY 出声）。**负向路径需 USB 环境复测**（无线 adb
+> 关 WiFi 会断调试连接），未当结论用。剩余硬门槛仍是 G09 / G08 2h / Manifest 恢复。
+>
+> **★ 2026-11-08 第五十六批（见 `docs/12 §61.29`）**：用户「继续」→ 推进 `16 §5.3` 的
+> **T-L L2 主节点**。按 `03-11 §2` 既有 `SHOW_BLUETOOTH_NAME` 动作落地运行时授权
+> （输出弹窗触发、启动零申请）、`permissionGranted` 改运行时真值、授权后才动态注册
+> ACL 广播并用纯 JVM `BluetoothBroadcastAction` 翻译成 `BluetoothEvent`；未授权仍按
+> `03-09 §8` B01 只保留 `BECOMING_NOISY`，设备地址不入日志（B12）。**零新增权限 /
+> 零口径变更**。同步更新 3 条锁着旧口径的历史守护（§46 / §52）+ 新增 4 组 §61.29 守护，
+> 并回写 `03-09 §4` / `03-11 §1.1` / `PermissionRequester` 过时注释。
+> 基线 **416 测试 / 46 套件 / 0 失败**、契约自检 PASS、dev 6/6、C3 11 权限不变；
+> 真机 13:50 降级验证 PASS（`granted=false` → `ACL receiver off`，单次 PLAY 出声零崩溃）。
+> **已授权状态下的 ACL 链路未真机实测**（无线 adb 缺 GRANT_RUNTIME_PERMISSIONS、不伪造
+> 授权），需 USB 环境复测。剩余：G09 / G08 2h / Manifest 恢复 / T-L L3 / T-V。
+>
+> **★ 2026-11-08 第五十七批（见 `docs/12 §61.30`）**：用户「继续」→ 先核
+> 「一次性 ABI 验收 / 指纹回填」挂账，结论是 **A3 = G01~G09 全绿才冻结舱**
+> （`03-06 §6`），当前 G08/G09 未收口，**不回填才是正确状态、不伪造验收结论**；
+> A1/A2 与 C1/C6 本就 PASS。随后把设备上自 13:50:49 起持续运行的 LIST_LOOP 双曲
+> 循环正式登记为 **G08 2h 长稳监控**（终点 15:50:49），新增可复跑采样器
+> `analysis/g08-longrun-sample.py` + `g08-longrun-samples.jsonl`。
+> 首次中期样本 `13:50:49→13:59:19`（8.5 分钟；后续已更新至 14:01，见 §61.30）：pid 16859 未变、App 在后台
+> （焦点 `com.miui.home`）、灭屏 Dozing、16 次完成过渡、`-103`/`msg=100`/`FATAL`/
+> `ETIMEDOUT` 全 0、最大 PSS 106.6 MiB（目标 ≤180）→ **ALIVE + CLEAN（非 2h 结论）**。
+> 采样器迭代中按原始数据修正 4 处口径错误（非 UTF-8 解码 / `msg=2` 双日志重复计数 /
+> 全量 logcat 混入 Google Play 的 ETIMEDOUT / 重叠窗口汇总重复累加）。
+> **下一步**：15:50 后补采样收口 G08；同环境复测 G09 / 非 WiFi 负向 / 已授权 ACL；
+> A3 全绿后才回填 ABI 验收与冻结舱；其后 Manifest 恢复、T-L L3、T-V。
 
 ## 1. 当前进展（文档口径）
 

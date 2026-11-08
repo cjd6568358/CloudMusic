@@ -6,8 +6,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.lifecycleScope
 import com.example.cloudmusic.common.PermissionGate
 import com.example.cloudmusic.di.playback.PlaybackRuntime
+import com.example.cloudmusic.di.settings.SettingsStore
 import com.example.cloudmusic.output.router.OutputRouter
 import com.example.cloudmusic.player.QueueRepository
 import com.example.cloudmusic.storage.PlaylistRepository
@@ -16,6 +18,7 @@ import com.example.cloudmusic.storage.TrackRepository
 import com.example.cloudmusic.ui.CloudMusicApp
 import com.example.cloudmusic.ui.CloudMusicTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -73,6 +76,10 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var runtime: PlaybackRuntime
 
+    /** 01 §6.1：设置页「允许移动数据播放」开关写入 network.wifiOnly（08 §6 单一来源）。 */
+    @Inject
+    lateinit var settingsStore: SettingsStore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -83,6 +90,7 @@ class MainActivity : ComponentActivity() {
                     playlists = playlists.observePlaylists(),
                     queue = queue.observe(),
                     outputState = output.state(),
+                    settings = settingsStore.settings,
                     search = tracks::search,
                     runtimeState = runtime.state,
                     playerState = runtime.playerState(),
@@ -100,6 +108,28 @@ class MainActivity : ComponentActivity() {
                     onPause = runtime::pause,
                     onNext = runtime::next,
                     onPrev = runtime::prev,
+                    onWifiOnlyChanged = { value ->
+                        // 03-11 §4：写入后由 Flow 即时生效；B14 飞行模式下也照常保存、不联网校验。
+                        lifecycleScope.launch {
+                            settingsStore.update {
+                                it.copy(network = it.network.copy(wifiOnly = value))
+                            }
+                        }
+                    },
+                    onOpenOutput = {
+                        // §61.29 / 03-11 §2 SHOW_BLUETOOTH_NAME：只在用户主动打开输出设备
+                        // 弹窗时按动作申请，启动阶段零申请；拒绝由 PermissionDecision 降级
+                        // （B01：不显示设备名但仍可播放、有线拔出仍能暂停），不循环弹窗。
+                        permissionRequester.request(
+                            PermissionGate.UserAction.SHOW_BLUETOOTH_NAME,
+                        ) { _ ->
+                            // 同 App 显式 Intent：让 Service 重读权限并按需注册 / 注销 ACL 广播。
+                            startService(
+                                Intent(this@MainActivity, PlaybackService::class.java)
+                                    .setAction(PlaybackService.ACTION_BLUETOOTH_PERMISSION_CHANGED),
+                            )
+                        }
+                    },
                 )
             }
         }

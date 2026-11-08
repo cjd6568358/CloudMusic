@@ -21,6 +21,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -44,6 +45,7 @@ import com.example.cloudmusic.output.router.OutputDeviceState
 import com.example.cloudmusic.player.PlayerPhase
 import com.example.cloudmusic.player.PlayerState
 import com.example.cloudmusic.player.QueueItem
+import com.example.cloudmusic.storage.AppSettings
 import com.example.cloudmusic.storage.Playlist
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
@@ -67,6 +69,7 @@ fun CloudMusicApp(
     playlists: Flow<List<Playlist>>,
     queue: Flow<List<QueueItem>>,
     outputState: Flow<OutputDeviceState>,
+    settings: Flow<AppSettings>,
     search: (String) -> Flow<List<Track>>,
     runtimeState: StateFlow<RuntimeState>,
     playerState: StateFlow<PlayerState>,
@@ -78,6 +81,8 @@ fun CloudMusicApp(
     onPause: () -> Unit,
     onNext: () -> Unit,
     onPrev: () -> Unit,
+    onWifiOnlyChanged: (Boolean) -> Unit,
+    onOpenOutput: () -> Unit,
 ) {
     var tab by rememberSaveable { mutableIntStateOf(0) }
     var showSources by rememberSaveable { mutableStateOf(false) }
@@ -93,6 +98,7 @@ fun CloudMusicApp(
     )
     val runtime by runtimeState.collectAsState()
     val player by playerState.collectAsState()
+    val appSettings by settings.collectAsState(initial = AppSettings())
     val resultsFlow = remember(query) { search(query) }
     val searchResults by resultsFlow.collectAsState(initial = emptyList())
 
@@ -137,7 +143,14 @@ fun CloudMusicApp(
                 tab == 1 -> PlaylistsScreen(playlistList)
                 tab == 2 -> SearchScreen(query, { query = it }, searchResults)
                 tab == 3 -> QueueScreen(queueList)
-                else -> SettingsScreen(runtime, onRescanAll, { showSources = true }, { showOutput = true })
+                else -> SettingsScreen(
+                    runtime, appSettings.network.wifiOnly, onRescanAll,
+                    { showSources = true },
+                    // §61.29 / 03-11 §2：打开输出弹窗时按动作申请蓝牙权限显示设备名；
+                    // 弹窗本身不等待授权结果（B01 拒绝不阻断）。
+                    { showOutput = true; onOpenOutput() },
+                    onWifiOnlyChanged,
+                )
             }
         }
     }
@@ -353,9 +366,11 @@ private fun QueueScreen(queue: List<QueueItem>) {
 @Composable
 private fun SettingsScreen(
     runtime: RuntimeState,
+    wifiOnly: Boolean,
     onRescan: () -> Unit,
     onOpenSources: () -> Unit,
     onOpenOutput: () -> Unit,
+    onWifiOnlyChanged: (Boolean) -> Unit,
 ) {
     Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text("V0.1 运行态", style = MaterialTheme.typography.titleMedium)
@@ -370,6 +385,20 @@ private fun SettingsScreen(
         ListItem(
             headlineContent = { Text("最近生效副作用") },
             supportingContent = { Text(runtime.lastEffect.ifBlank { "无" }) },
+        )
+        // 01 §6.1 / 03-11 §4：默认仅 WiFi 播放网络音源；打开开关即允许移动数据播放。
+        // 写入 SettingsStore 后由 Flow 即时生效，下一次播放就按新值裁决（不重启）。
+        ListItem(
+            headlineContent = { Text("允许移动数据播放") },
+            supportingContent = {
+                Text(
+                    if (wifiOnly) "默认仅 WiFi 播放网络音源（01 §6.1）；本地曲目不受影响"
+                    else "移动网络下也可播放网络音源",
+                )
+            },
+            trailingContent = {
+                Switch(checked = !wifiOnly, onCheckedChange = { onWifiOnlyChanged(!it) })
+            },
         )
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Button(onClick = onOpenSources) { Text("数据源管理") }

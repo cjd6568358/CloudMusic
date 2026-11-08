@@ -92,6 +92,17 @@ strategy bit0 = cache config 的 cache_local —— §58 路线 1 证伪、路�
 第五十一批（12 §61，用户 2026-11-08 拍板批准路线 2）：SourceConfig.cacheLocal=true
 （normal mode，§58~§60 三个 native 缺陷的最终解）+ EngineAdapter.SetConfig 初始化
 App 内部缓存根目录（512MiB 上限）；docs/01 §6.1 口径演进随批落档。新增 4 组 §61 守护。
+第五十四批（12 §61.27，G08 故障注入 + 冷启动启动竞态）：PlayerController 记住
+restore 之前到达的播放意图（pendingPlay），修掉「首次 ACTION_PLAY 被吞、进度恒 0」；
+RangeFetcher 连接期失败重试一次 + 5s 连接超时经一次性 RST 注入实证救回全量取流。
+新增 4 组 §61.27 守护。
+第五十五批（12 §61.28，按文档计划补全「默认仅 WiFi 播放」）：01 §6.1 / 03-02 §344
+「播放前由 03-06 检查」此前只有 AppSettings.network.wifiOnly 字段、零生产消费方。
+新增纯 JVM 判定 NetworkPlaybackPolicy + PlayerController 闸门 + Android 生产实现
+（ConnectivityManager，零新增权限）+ 设置页开关，新增 4 组 §61.28 守护。
+第五十六批（12 §61.29，T-L L2 收口）：按 03-11 §2 已定义的 SHOW_BLUETOOTH_NAME
+动作在输出弹窗申请 BLUETOOTH_CONNECT，permissionGranted 改运行时真值，已授权才
+动态注册 ACL 广播并翻译成 BluetoothEvent；未授权仍按 03-09 §8 B01 降级。新增 4 组守护。
 详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61。
 """
 from __future__ import annotations
@@ -1333,7 +1344,8 @@ def main() -> int:
     disconnect_needles = (
         "BluetoothOutputPolicy(", "BluetoothEvent.BECOMING_NOISY",
         "disconnectPolicy.updateSettings", "autoPauseOnDisconnect = playback.autoPauseOnDisconnect",
-        "permissionGranted = false", "notifyPlaybackResumed()",
+        # §61.29：从硬编码 false 改为运行时权限真值（B01 降级仍由策略负责）。
+        "bluetoothConnectGranted()", "notifyPlaybackResumed()",
         "lateinit var settings: SettingsAccess", "lateinit var outputRouter: OutputRouter",
     )
     missing_disconnect = [n for n in disconnect_needles if n not in service]
@@ -1475,21 +1487,24 @@ def main() -> int:
     main52 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
               / "cloudmusic" / "MainActivity.kt").read_text(encoding="utf-8")
     main_needles = (
-        "PermissionGate.UserAction.START_PLAYBACK", "permissionRequester.request(",
+        "PermissionGate.UserAction.START_PLAYBACK",
+        "PermissionGate.UserAction.SHOW_BLUETOOTH_NAME", "permissionRequester.request(",
         "onAddSaf = {", "onAddMediaStore = {", "ActivityResultContracts.OpenDocumentTree()",
     )
     missing_main = [n for n in main_needles if n not in main52]
-    # 03-11 §8 #2：启动阶段零申请 → request 只在 onPlay 一处出现。
+    # 03-11 §8 #2：启动阶段零申请 → request 只出现在用户动作回调里。
+    # §61.29：START_PLAYBACK / SHOW_BLUETOOTH_NAME 各一处，均为 UI 回调、不在 onCreate 直接调用。
     startup_requests = len(re.findall(r"permissionRequester\.request\(", main52))
-    if missing_main or startup_requests != 1:
+    if missing_main or startup_requests != 2:
         failures.append(
             f"12 §52：MainActivity 动作接线缺失 {missing_main}；"
-            f"permissionRequester.request 应恰好 1 处（实测 {startup_requests}），启动不得申请"
+            f"permissionRequester.request 应恰好 2 处（实测 {startup_requests}），启动不得申请"
         )
     else:
-        print("[PASS] 12 §52：首次播放按动作申请；启动阶段零申请、两个数据源入口在位")
+        print("[PASS] 12 §52：两个按动作申请入口在位；启动阶段零申请、数据源入口齐备")
 
-    # 蓝牙运行时授权仍需权限口径拍板（12 §48.6 ③ / §46），本批明确不越界。
+    # §61.29（用户「按文档计划继续」授权）：T-L L2 已按 03-11 §2 既有动作落地。
+    # 守护防止申请时机扩散到启动阶段或多处重复弹窗。
     bluetooth_calls = 0
     for prod in sorted((ROOT / "app" / "src" / "main").rglob("*.kt")):
         if "build" in prod.parts:
@@ -1497,10 +1512,13 @@ def main() -> int:
         bluetooth_calls += prod.read_text(encoding="utf-8", errors="replace").count(
             "UserAction.SHOW_BLUETOOTH_NAME"
         )
-    if bluetooth_calls:
-        failures.append("12 §52：未拍板就接入了 SHOW_BLUETOOTH_NAME（蓝牙 ACL 口径待决策）")
+    if bluetooth_calls != 1:
+        failures.append(
+            f"12 §61.29：SHOW_BLUETOOTH_NAME 应恰好 1 处按动作申请（实测 {bluetooth_calls}），"
+            "不得在启动阶段或多入口重复申请"
+        )
     else:
-        print("[PASS] 12 §52：SHOW_BLUETOOTH_NAME 仍未接入（L2 蓝牙口径按 §48.6 挂账）")
+        print("[PASS] 12 §61.29：SHOW_BLUETOOTH_NAME 按动作申请恰好 1 处（L2 已收口）")
 
     spec52 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
               / "cloudmusic" / "AppActionContracts.kt").read_text(encoding="utf-8")
@@ -1711,6 +1729,134 @@ def main() -> int:
         else:
             print("[PASS] 12 §61：docs/01 §6.1 口径演进批注在位")
 
+    # ---- 12 §61.27（第五十四批 / G08 故障注入 + 冷启动启动竞态）----
+    # 真机 K60 13:11:14 实证：ACTION_PLAY 早于 Room.restore() 到达时 resume() 空转，
+    # MediaSession 假报 PLAYING、进度恒 0，需第二次 ACTION_PLAY 才出声；pendingPlay 兑现修复。
+    # G08 瞬断注入实证：代理对首个 GET 发 RST，RangeFetcher 连接期重试一次救回
+    # 302592B 全量取流（同一 Start id=1 对应两次 open url），37.8s 完整播放无 -103。
+    controller61 = (ROOT / "feature-player" / "src" / "main" / "kotlin" / "com"
+                    / "example" / "cloudmusic" / "player" / "PlayerController.kt")
+    body61 = controller61.read_text(encoding="utf-8") if controller61.is_file() else ""
+    needles61 = (
+        "pendingPlay", "AtomicBoolean(false)", "if (queue.isEmpty())",
+        "pendingPlay.set(true)", "pendingPlay.compareAndSet(true, false)", "§61.27",
+    )
+    missing61 = [n for n in needles61 if n not in body61]
+    if missing61:
+        failures.append(f"12 §61.27：冷启动播放意图兑现缺失 {missing61}")
+    else:
+        print("[PASS] 12 §61.27：pendingPlay 置位 / restore 兑现 / 实证注释在位")
+
+    test61 = (ROOT / "feature-player" / "src" / "test" / "kotlin" / "com"
+              / "example" / "cloudmusic" / "player" / "PlayerControllerTest.kt")
+    test61_body = test61.read_text(encoding="utf-8") if test61.is_file() else ""
+    if "pendingPlayBeforeRestore" not in test61_body:
+        failures.append("12 §61.27：冷启动竞态回归单测缺失")
+    else:
+        print("[PASS] 12 §61.27：restore 前播放指令不丢失的回归单测在位")
+
+    if "connectTimeoutMs: Int = 5_000" not in fetcher_body or "连接期失败（超时/拒连）立即重试一次" not in fetcher_body:
+        failures.append("12 §61.27：连接期重试 / 5s 连接超时被回退（G08 ETIMEDOUT -103 会复现）")
+    else:
+        print("[PASS] 12 §61.27：连接期重试一次 + 5s 连接超时在位")
+
+    injection61 = ROOT / "analysis" / "g08-fail-once-proxy.py"
+    if not injection61.is_file() or "FAIL_ONCE" not in injection61.read_text(encoding="utf-8"):
+        failures.append("12 §61.27：G08 一次性 GET 拒绝注入脚本缺失，实证不可复现")
+    else:
+        print("[PASS] 12 §61.27：G08 故障注入脚本在位（可复现）")
+
+    # ---- 12 §61.28（第五十五批 / 默认仅 WiFi 播放闸门）----
+    # 01 §6.1 / 03-02 §344「播放前由 03-06 检查」：配置字段早已有，但此前零生产消费方。
+    # 守护防止闸门被拆、本地音源被误拦（B05）、或绕过 Service 同步判定导致会话假报 PLAYING。
+    policy61c = (ROOT / "core-common" / "src" / "main" / "kotlin" / "com"
+                 / "example" / "cloudmusic" / "common" / "NetworkPlaybackPolicy.kt")
+    policy_body = policy61c.read_text(encoding="utf-8") if policy61c.is_file() else ""
+    policy_needles = (
+        "enum class NetworkKind", "fun interface NetworkPlaybackGate",
+        "const val ERROR_CODE = \"WIFI_ONLY\"", "if (!networkSource) return null",
+        "if (!wifiOnly) return null", "03-11 §6 B05",
+    )
+    missing_policy = [n for n in policy_needles if n not in policy_body]
+    if missing_policy:
+        failures.append(f"12 §61.28：仅 WiFi 判定层缺失 {missing_policy}")
+    else:
+        print("[PASS] 12 §61.28：纯 JVM 判定表（本地豁免 / 开关 / 错误码）在位")
+
+    if not all(n in body61 for n in (
+        "networkGate", "currentNetworkSource", "blockedByNetworkPolicy",
+        "if (autoPlay && blockedByNetworkPolicy()) return",
+    )):
+        failures.append("12 §61.28：PlayerController 的播放前闸门被拆除")
+    else:
+        print("[PASS] 12 §61.28：prepareAt / resume 双入口闸门与本地豁免在位")
+
+    gate61c = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+               / "example" / "cloudmusic" / "di" / "playback" / "AndroidNetworkPlaybackGate.kt")
+    gate_body = gate61c.read_text(encoding="utf-8") if gate61c.is_file() else ""
+    if not all(n in gate_body for n in (
+        "ConnectivityManager", "TRANSPORT_WIFI", "TRANSPORT_CELLULAR",
+        "settings.current().network.wifiOnly",
+    )):
+        failures.append("12 §61.28：Android 生产闸门缺失或未读实时设置（03-11 §4 即时生效）")
+    else:
+        print("[PASS] 12 §61.28：生产闸门读实时 wifiOnly + 平台网络态，零新增权限")
+
+    service61c = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "PlaybackService.kt"
+    service_body = service61c.read_text(encoding="utf-8") if service61c.is_file() else ""
+    ui61c = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt"
+    ui_body = ui61c.read_text(encoding="utf-8") if ui61c.is_file() else ""
+    if "networkGate.rejectReason(runtime.currentNetworkSource())" not in service_body:
+        failures.append("12 §61.28：Service 缺同步判定，拒绝后会假报 PLAYING（§61.27 同类问题）")
+    elif not all(n in ui_body for n in ("允许移动数据播放", "onWifiOnlyChanged", "Switch(")):
+        failures.append("12 §61.28：设置页缺移动数据播放开关（01 §6.1）")
+    else:
+        print("[PASS] 12 §61.28：Service 同步判定 + 设置页开关在位")
+
+    # ---- 12 §61.29（第五十六批 / T-L L2 蓝牙授权 + ACL 广播联动）----
+    # 03-09 §4 的广播映射表 / §8 B01 降级 / §10 B12 设备地址不入日志；
+    # 03-11 §2 的 SHOW_BLUETOOTH_NAME 按动作申请（启动阶段零申请）。守护防止
+    # permissionGranted 被写回硬编码 false 或 ACL 广播在启动时无条件注册。
+    bt_action = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                 / "cloudmusic" / "BluetoothBroadcastAction.kt")
+    bt_body = bt_action.read_text(encoding="utf-8") if bt_action.is_file() else ""
+    bt_needles = (
+        "BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED", "BluetoothProfile.STATE_CONNECTED",
+        "BluetoothProfile.STATE_DISCONNECTED", "BluetoothAdapter.STATE_OFF",
+        "BluetoothA2dp.ACTION_PLAYING_STATE_CHANGED", "AudioManager.ACTION_AUDIO_BECOMING_NOISY",
+    )
+    missing_bt = [n for n in bt_needles if n not in bt_body]
+    if missing_bt:
+        failures.append(f"12 §61.29：03-09 §4 广播映射层缺失 {missing_bt}")
+    else:
+        print("[PASS] 12 §61.29：ACL / 适配器 / 播放态 / 有线拔出四路映射在位")
+
+    service_bt = service61c.read_text(encoding="utf-8") if service61c.is_file() else ""
+    if not all(n in service_bt for n in (
+        "bluetoothConnectGranted()", "ACTION_BLUETOOTH_PERMISSION_CHANGED",
+        "registerAclReceiver()", "unregisterAclReceiver()", "RECEIVER_NOT_EXPORTED",
+    )):
+        failures.append("12 §61.29：Service 缺运行时权限真值 / ACL 动态注册 / 授权刷新入口")
+    elif "permissionGranted = false" in service_bt:
+        failures.append("12 §61.29：permissionGranted 被写回硬编码 false（B01 降级不再随授权生效）")
+    else:
+        print("[PASS] 12 §61.29：权限真值 + 授权后注册 / 未授权注销成对在位")
+
+    if "B12" not in bt_body and "B12" not in service_bt:
+        failures.append("12 §61.29：缺 03-09 §10 B12 设备名 / 地址不入日志的口径注")
+    else:
+        print("[PASS] 12 §61.29：B12 设备地址隐私口径在位")
+
+    main_activity = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                     / "cloudmusic" / "MainActivity.kt")
+    main_body = main_activity.read_text(encoding="utf-8") if main_activity.is_file() else ""
+    bt_test = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "example"
+               / "cloudmusic" / "BluetoothBroadcastActionTest.kt")
+    if "SHOW_BLUETOOTH_NAME" not in main_body or not bt_test.is_file():
+        failures.append("12 §61.29：按动作申请接线或广播映射单测缺失")
+    else:
+        print("[PASS] 12 §61.29：输出弹窗按动作申请 + JVM 单测在位")
+
     for rel, needles in SIGNATURES.items():
         path = ROOT / rel
         if not path.is_file():
@@ -1788,7 +1934,7 @@ def main() -> int:
         warnings.append("DLNA 输出链路缺口（12 §48）：OutputRouter.setActive / PlayerController.onOutputChanged / refreshBluetoothFrom 全库仅测试调用，activeOutput 恒 LOCAL、remoteOutput 恒 false；§46 的 DLNA 豁免当前空转。真实触发点待 T-V T20/T21 的 DMR 控制链路与 UI 切换决策，不擅自伪造投屏状态")
         warnings.append("真机 A3（12 §50）：native 6 so → PlaybackEngine → setDataSource → prepareAsync → 焦点 GAIN → Play 全链真机跑通零崩溃，但 0 active track / 播放期无 HTTP 请求，仍放不出真实声音；createDataRequestHandler() 返回 null，取流回调链待真机实证（§50.7 #1）")
         warnings.append("第四十二批（12 §51）：§50 的 5 个 P0 修复已补 6 组长效守护 + :app 首个 JVM 单测（5 用例；按键判定抽离为纯 JVM 的 MediaKeyAction）；不改 C4 / dev / release 基线，真机 G01~G09 仍待设备与用户判据")
-        warnings.append("第四十三批（12 §52）：§50.7 #3 应用侧闭环落地 —— 按动作申请权限（首次播放 POST_NOTIFICATIONS / MediaStore 导入 READ_MEDIA_AUDIO，启动零申请）+ 数据源页 SAF/媒体库两个添加入口，写 Storage 后立即 rescanAll；真机不再需要 run-as 灌 Room 夹具（待设备复验）。蓝牙 ACL / SHOW_BLUETOOTH_NAME 与取流句柄仍挂账")
+        warnings.append("第四十三批（12 §52）：§50.7 #3 应用侧闭环落地 —— 按动作申请权限（首次播放 POST_NOTIFICATIONS / MediaStore 导入 READ_MEDIA_AUDIO，启动零申请）+ 数据源页 SAF/媒体库两个添加入口，写 Storage 后立即 rescanAll；真机不再需要 run-as 灌 Room 夹具（待设备复验）。当时挂账的蓝牙 ACL / SHOW_BLUETOOTH_NAME 已由 12 §61.29 收口、取流句柄已由 §54/§61 收口")
         warnings.append("第四十四批（12 §53，静态实证轮）：取流句柄类型已实证 —— createDataRequestHandler() 应返回 SourceDataRequest 子类（竞品 DataSourcePlatformImpl$d → nmcache/l → SourceDataRequest），不是 IBaseDataSource；native 经 NMBufferSource.SetDataRequest 绑定并回调 Start(JJJ)J / Stop()，5 个 JNI 符号齐全且 NMCommonCache 已在加载链。证据见 analysis/data-request-handler-evidence-2026-11-07.md。该批当时生产仍返回 null（第四十五批已按追加实证接通）；分阶段真机判据见报告 §5")
         warnings.append("第四十五批（12 §54）：继续反汇编实证出 Start(j1=请求标识 / j2=offset / j3=length) 与 OnDataRequest* 回传首参后，落地 RangeFetcher（纯 JVM 取流 + RangeOpener/RangeSink）、UrlDataRequest（SourceDataRequest 子类，Start 立即返回 0）、7 个 JVM 用例，并把 createDataRequestHandler() 改为仅 URL 源缓存返回、close 时 release。清单 36/152/15、5 组 §54 守护。阶段 A/B 已具备代码但**仍待真机验证**：OnDataRequestData 第 2/3 个 long、OnDataRequestEnd 的 String 取值未校准；编译通过 ≠ 出声，A3 仍 DEEP RUN、舱不冻结")
         warnings.append("第四十九批（12 §59，阶段 C 根因修复）：capstone + exp6 原始 logcat 钉死数据通路 —— OnDataRequestData 首 long 是 native OnNetSourceData 的 kind 槽（==2 跳过 NMMemoryCache::Write），Memory Mode 下 OnWriteNetData 异步任务恒被 +0xb8 拒绝（GOT+lambda 间接调用，.text 无直接 bl）；§58 路线 1 证伪（resource config 由 libncmplayerengine 硬编码 4 键、无 file_id/trunks）、路线 2 仍待用户拍板（SetConfig 根目录 + cacheLocal=true，与 01 §6.1 冲突）。本批 onData kind 恒传 1（exp6：kind=1 的 push 全部落内存缓存、32768B 送达解码器），阶段 C 数据通路待真机 E9 复验；A3 仍 DEEP RUN、舱不冻结、指纹不回填")

@@ -1,5 +1,6 @@
 package com.example.cloudmusic
 
+import android.Manifest
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.PendingIntent
@@ -9,6 +10,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothA2dp
+import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothProfile
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
@@ -17,6 +23,8 @@ import android.media.session.PlaybackState
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import android.widget.Toast
+import com.example.cloudmusic.common.NetworkPlaybackGate
 import com.example.cloudmusic.di.playback.PlaybackRuntime
 import com.example.cloudmusic.di.playback.RuntimeState
 import com.example.cloudmusic.di.settings.SettingsAccess
@@ -25,6 +33,7 @@ import com.example.cloudmusic.engine.api.IMusicEngine
 import com.example.cloudmusic.media.FocusChange
 import com.example.cloudmusic.media.IMediaControl
 import com.example.cloudmusic.output.router.BluetoothEvent
+import com.example.cloudmusic.output.router.BluetoothInfo
 import com.example.cloudmusic.output.router.BluetoothOutputPolicy
 import com.example.cloudmusic.output.router.BluetoothSettings
 import com.example.cloudmusic.output.router.OutputRouter
@@ -60,9 +69,13 @@ import javax.inject.Inject
  * **第三十七批（`12 §46`，T-L L2 自研侧断连裁决）**：`ACTION_AUDIO_BECOMING_NOISY`
  * 不再无条件暂停，改由 [BluetoothOutputPolicy] 按 `03-09 §5` 裁决
  * （`autoPauseOnDisconnect` 开关 / `OutputRouter.activeOutput == DLNA` 豁免 / 连续断开去重）。
- * **`BLUETOOTH_CONNECT` 已在 Manifest 声明（既有 11 项之一），但 V0.1 未做运行时动态申请、
- * 也未接蓝牙 ACL 广播**：按 `03-09 §8`「未授予时降级」以 `permissionGranted=false`
- * 走 B01 路径，只处理 BECOMING_NOISY；C3 仍 11 项权限、零新增权限。
+ *
+ * **第五十六批（`12 §61.29`，T-L L2 收口）**：`BLUETOOTH_CONNECT` 本就在既有 11 项权限内，
+ * 现按 `03-11 §2` 已定义的 `SHOW_BLUETOOTH_NAME` 动作（用户打开输出设备弹窗时）申请，
+ * 由 [PermissionDecision] / `DegradationPolicy` 裁决拒绝降级；`permissionGranted` 改为
+ * 运行时真值，已授权才动态注册 ACL 广播并翻译成 [BluetoothEvent] 交策略，未授权仍按
+ * `03-09 §8` B01 只保留无需权限的 BECOMING_NOISY。设备名/地址不写日志（§10 B12）。
+ * **零新增权限 / 零启动阶段申请**。
  */
 @AndroidEntryPoint
 class PlaybackService : Service() {
@@ -77,6 +90,10 @@ class PlaybackService : Service() {
     /** `12 §46`：读取 `autoPauseOnDisconnect` 的当前值（DataStore Flow 的最新快照）。 */
     @Inject
     lateinit var settings: SettingsAccess
+
+    /** `12 §61.28` / `03-02 §344`：与编排层同一个 @Singleton 闸门实例。 */
+    @Inject
+    lateinit var networkGate: NetworkPlaybackGate
 
     /** `12 §46`：`03-09 §7` 唯一裁决者，用于投屏（DLNA）豁免判定。 */
     @Inject
@@ -100,6 +117,8 @@ class PlaybackService : Service() {
     private lateinit var audioManager: AudioManager
     private var focusRequest: AudioFocusRequest? = null
     private var noisyRegistered = false
+    /** §61.29：ACL 广播仅在 BLUETOOTH_CONNECT 已授予时注册（B01 降级）。 */
+    private var aclRegistered = false
     /** `12 §46`：断连策略与 Service 同生命周期，保留 B04 去重状态。 */
     private lateinit var disconnectPolicy: BluetoothOutputPolicy
 
@@ -139,15 +158,8 @@ class PlaybackService : Service() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action != AudioManager.ACTION_AUDIO_BECOMING_NOISY) return
             if (!::disconnectPolicy.isInitialized) return // onCreate 之前不处理
-            val playback = settings.current().playback
-            disconnectPolicy.updateSettings(
-                BluetoothSettings(
-                    autoPauseOnDisconnect = playback.autoPauseOnDisconnect,
-                    showConnectedToast = playback.showConnectedToast,
-                    // V0.1 未做运行时动态申请 → 按「未授予」处理（03-09 §8 B01 降级）
-                    permissionGranted = false,
-                ),
-            )
+            // §61.29：读运行时真值；未授权时策略仍放行 BECOMING_NOISY（B01）。
+            disconnectPolicy.updateSettings(bluetoothSettings(bluetoothConnectGranted()))
             val result = disconnectPolicy.onEvent(BluetoothEvent.BECOMING_NOISY)
             if (result.pauseDispatched) {
                 Log.d(SESSION_TAG, "BECOMING_NOISY -> FocusChange.LOSS (autoPause on / LOCAL)")
@@ -158,17 +170,41 @@ class PlaybackService : Service() {
         }
     }
 
+    /**
+     * §61.29 / 03-09 §4：A2DP 连接状态 / 播放状态 / 适配器开关广播。
+     * 只在 `BLUETOOTH_CONNECT` 已授予时注册；事件翻译交给纯 JVM 的
+     * [BluetoothBroadcastAction]，裁决仍统一走 [disconnectPolicy]（§5 正式链）。
+     */
+    private val aclReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (!::disconnectPolicy.isInitialized || !bluetoothConnectGranted()) return
+            val state = intent?.getIntExtra(BluetoothProfile.EXTRA_STATE, -1) ?: -1
+            val event = BluetoothBroadcastAction.resolve(intent?.action, state) ?: return
+            // BECOMING_NOISY 由 noisyReceiver 单独处理（未授权路径），避免重复裁决。
+            if (event == BluetoothEvent.BECOMING_NOISY) return
+            disconnectPolicy.updateSettings(bluetoothSettings(true))
+            val info = if (event == BluetoothEvent.CONNECTED) bluetoothInfoFrom(intent) else null
+            val result = disconnectPolicy.onEvent(event, info)
+            if (result.pauseDispatched) {
+                Log.d(SESSION_TAG, "bluetooth ${event.name} -> FocusChange.LOSS (LOCAL / autoPause on)")
+                abandonAudioFocus()
+            }
+            // 03-09 §10 B12：设备名 / 地址一律不写日志、不上传、不进曲库 DB。
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         // 12 §46：必须在注册 receiver 之前建好策略，避免 onCreate 前收到广播时无裁决者。
         disconnectPolicy = BluetoothOutputPolicy(
-            settings = BluetoothSettings(permissionGranted = false),
+            settings = bluetoothSettings(bluetoothConnectGranted()),
             mediaControl = mediaControl,
             router = outputRouter,
         )
         createNotificationChannel()
         registerNoisyReceiver()
+        refreshBluetoothPermission()
         mediaSession = MediaSession(this, SESSION_TAG).apply {
             // 03-07 §5 B12：targetSdk 35 下以 MediaSession.Callback 为主入口，
             // MediaButtonEventReceiver 只保留兼容声明，不重复消费按键。
@@ -258,11 +294,24 @@ class PlaybackService : Service() {
                 val ms = intent.getLongExtra(EXTRA_SEEK_POSITION_MS, -1L)
                 if (ms >= 0) runtime.seekTo(ms)
             }
+            // §61.29：Activity 侧 SHOW_BLUETOOTH_NAME 申请结果出来后，通知 Service
+            // 重读权限并按需注册 / 注销 ACL 广播（同 App 显式 Intent，不需要 exported）。
+            ACTION_BLUETOOTH_PERMISSION_CHANGED -> refreshBluetoothPermission()
         }
         return START_STICKY
     }
 
     private fun performPlay() {
+        // 03-02 §344：播放前同步检查「默认仅 WiFi 播放」。编排层的闸门在协程里，
+        // 若只在那里拒绝，本方法随后仍会把 MediaSession 置成 PLAYING（§61.27 假报
+        // 同类问题），故此处用同一 @Singleton 实例先判一次：拒绝就停在 PAUSED +
+        // 明确原因提示，不申请焦点、不下发 play。
+        val reason = networkGate.rejectReason(runtime.currentNetworkSource())
+        if (reason != null) {
+            updateSessionPlaybackState(PlaybackState.STATE_PAUSED)
+            Toast.makeText(this, reason, Toast.LENGTH_LONG).show()
+            return
+        }
         // 焦点未授予时不启动播放，避免与其他应用抢音频输出。
         if (requestAudioFocus()) {
             runtime.play()
@@ -310,6 +359,7 @@ class PlaybackService : Service() {
             unregisterReceiver(noisyReceiver)
             noisyRegistered = false
         }
+        unregisterAclReceiver()
         abandonAudioFocus()
         runtime.stop()
         mediaSession?.isActive = false
@@ -341,6 +391,65 @@ class PlaybackService : Service() {
     private fun abandonAudioFocus() {
         focusRequest?.let { audioManager.abandonAudioFocusRequest(it) }
         focusRequest = null
+    }
+
+    /** 03-11 §2 B09：API <31 无此运行时权限，视为已可用（走无需权限的旧路径）。 */
+    private fun bluetoothConnectGranted(): Boolean =
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.S ||
+            checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED
+
+    /** 每次事件读最新设置快照（自动暂停开关 / 连接提示热更新）+ 运行时权限真值。 */
+    private fun bluetoothSettings(permissionGranted: Boolean): BluetoothSettings {
+        val playback = settings.current().playback
+        return BluetoothSettings(
+            autoPauseOnDisconnect = playback.autoPauseOnDisconnect,
+            showConnectedToast = playback.showConnectedToast,
+            permissionGranted = permissionGranted,
+        )
+    }
+
+    /** 权限变化后幂等刷新：已授权注册 ACL，未授权注销并保留 B01 降级路径。 */
+    private fun refreshBluetoothPermission() {
+        val granted = bluetoothConnectGranted()
+        disconnectPolicy.updateSettings(bluetoothSettings(granted))
+        if (granted) registerAclReceiver() else unregisterAclReceiver()
+        Log.d(SESSION_TAG, "BLUETOOTH_CONNECT granted=$granted; ACL receiver ${if (granted) "on" else "off"}")
+    }
+
+    private fun registerAclReceiver() {
+        if (aclRegistered) return
+        val filter = IntentFilter().apply {
+            addAction(BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED)
+            addAction(BluetoothA2dp.ACTION_PLAYING_STATE_CHANGED)
+            addAction(BluetoothAdapter.ACTION_STATE_CHANGED)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(aclReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
+        } else {
+            @Suppress("UnspecifiedRegisterReceiverFlag")
+            registerReceiver(aclReceiver, filter)
+        }
+        aclRegistered = true
+    }
+
+    private fun unregisterAclReceiver() {
+        if (!aclRegistered) return
+        unregisterReceiver(aclReceiver)
+        aclRegistered = false
+    }
+
+    /** 读设备名 / 地址需 BLUETOOTH_CONNECT；已授权分支内调用，仍用 runCatching 防回收竞态。 */
+    private fun bluetoothInfoFrom(intent: Intent?): BluetoothInfo? {
+        val device = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent?.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE, BluetoothDevice::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent?.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
+        } ?: return null
+        val name = runCatching { device.name.orEmpty() }.getOrDefault("")
+        // B12：地址只在内存里用于 B14 去重，不写日志 / 不上传 / 不进 DB。
+        val address = runCatching { device.address.orEmpty() }.getOrDefault("")
+        return BluetoothInfo(name = name, address = address, connectedAt = System.currentTimeMillis())
     }
 
     private fun registerNoisyReceiver() {
@@ -409,5 +518,8 @@ class PlaybackService : Service() {
         /** §61.26（G03 验收）：外部 seek 入口，`EXTRA_SEEK_POSITION_MS`（Long，毫秒）。 */
         const val ACTION_SEEK = "com.example.cloudmusic.action.SEEK"
         const val EXTRA_SEEK_POSITION_MS = "com.example.cloudmusic.extra.SEEK_POSITION_MS"
+
+        /** §61.29：输出弹窗按动作申请 BLUETOOTH_CONNECT 后，通知 Service 刷新 ACL 注册。 */
+        const val ACTION_BLUETOOTH_PERMISSION_CHANGED = "com.example.cloudmusic.action.BT_PERMISSION_CHANGED"
     }
 }

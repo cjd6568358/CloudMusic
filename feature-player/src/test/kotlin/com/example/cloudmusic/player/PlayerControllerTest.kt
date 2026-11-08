@@ -1,5 +1,7 @@
 package com.example.cloudmusic.player
 
+import com.example.cloudmusic.common.NetworkPlaybackGate
+import com.example.cloudmusic.common.NetworkPlaybackPolicy
 import com.example.cloudmusic.engine.api.EngineState
 import com.example.cloudmusic.engine.api.InMemoryMusicEngine
 import com.example.cloudmusic.media.InMemoryMediaControl
@@ -40,6 +42,7 @@ class PlayerControllerTest {
         val resolver: TrackSourceResolver,
         val config: PlayerConfig = PlayerConfig(shuffleSeed = 42L),
         val scope: kotlinx.coroutines.CoroutineScope,
+        networkGate: NetworkPlaybackGate = NetworkPlaybackPolicy.ALLOW_ALL,
     ) {
         val engine = InMemoryMusicEngine()
         val sync = RecordingQueueSync()
@@ -52,6 +55,7 @@ class PlayerControllerTest {
             resolver = resolver,
             media = media,
             config = config,
+            networkGate = networkGate,
             scope = scope,
         )
 
@@ -71,7 +75,17 @@ class PlayerControllerTest {
         resolver: TrackSourceResolver = localResolver,
         config: PlayerConfig = PlayerConfig(shuffleSeed = 42L),
         scope: kotlinx.coroutines.CoroutineScope,
-    ) = Fixture(resolver, config, scope)
+        networkGate: NetworkPlaybackGate = NetworkPlaybackPolicy.ALLOW_ALL,
+    ) = Fixture(resolver, config, scope, networkGate)
+
+    private val urlResolver = TrackSourceResolver { t ->
+        Link(url = "https://example.com/${t.id.value}.mp3")
+    }
+
+    /** 模拟「仅 WiFi + 当前非 WiFi」：只对网络音源拒绝。 */
+    private val blockingGate = NetworkPlaybackGate { networkSource ->
+        if (networkSource) "当前为移动网络，已开启「仅 WiFi 播放」" else null
+    }
 
     private suspend fun Fixture.queue(mode: PlayMode = PlayMode.SEQUENCE) {
         repo.setAll(Fixture.tracksOf(5))
@@ -145,6 +159,85 @@ class PlayerControllerTest {
         assertEquals(PlayMode.LIST_LOOP, state.mode)
         assertEquals(EngineState.PAUSED, f.engine.snapshot().state, "引擎不得自动进入 PLAYING")
         assertEquals(1, f.sync.pushes.size, "恢复只能单向全量下发一次")
+    }
+
+    @Test
+    @DisplayName("§61.27 · 冷启动播放指令先于 Room.restore 到达时不丢失")
+    fun pendingPlayBeforeRestore() = runTest {
+        val f = fixture(scope = backgroundScope)
+        f.repo.setAll(tracks)
+        f.repo.setMode(PlayMode.LIST_LOOP)
+        f.repo.saveCursor("id-3", 42_000L)
+        val snapshot = f.repo.restore()
+        assertNotNull(snapshot)
+
+        // 播放指令先到：队列尚未恢复，不得假播、也不得丢指令
+        f.controller.resume()
+        assertEquals(PlayerPhase.IDLE, f.controller.state.value.phase)
+        assertEquals(EngineState.IDLE, f.engine.snapshot().state)
+
+        // restore 完成后兑现：只一次 play，状态与引擎都进 PLAYING
+        f.controller.restore(snapshot, f.repo.snapshotItems())
+        assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase)
+        assertEquals(EngineState.PLAYING, f.engine.snapshot().state)
+        assertEquals("id-3", f.engine.snapshot().source?.trackId)
+    }
+
+    // ------------------------------------------------------------------
+    // §61.28 · 03-02 §344「播放前由 03-06 检查」的默认仅 WiFi 闸门
+    // ------------------------------------------------------------------
+
+    @Test
+    @DisplayName("§61.28 · 非 WiFi 下网络音源被拒：不 prepare、明确错误、不自动跳曲")
+    fun wifiOnlyBlocksNetworkSource() = runTest {
+        val f = fixture(resolver = urlResolver, scope = backgroundScope, networkGate = blockingGate)
+        f.queue()
+        f.controller.playAt(0)
+        val state = f.controller.state.value
+        assertEquals(PlayerPhase.ERROR, state.phase)
+        assertEquals("E_DS_UPSTREAM_WIFI_ONLY", state.lastError?.code)
+        assertEquals(0, state.currentIndex, "用户策略拒绝不是音源故障，不逐首跳曲")
+        assertNull(f.engine.snapshot().source, "被拒时不得 prepare / 占用引擎句柄")
+    }
+
+    @Test
+    @DisplayName("§61.28 · 03-11 §6 B05：本地音源一律放行")
+    fun wifiOnlyNeverBlocksLocalSource() = runTest {
+        val f = fixture(scope = backgroundScope, networkGate = blockingGate)
+        f.queue()
+        f.controller.playAt(0)
+        assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase)
+        assertNotNull(f.engine.snapshot().source)
+        assertNull(f.engine.snapshot().source?.url)
+    }
+
+    @Test
+    @DisplayName("§61.28 · restore 只 prepare 不被拦，用户点播 resume 才被拦")
+    fun wifiOnlyBlocksResumeNotRestore() = runTest {
+        val f = fixture(resolver = urlResolver, scope = backgroundScope, networkGate = blockingGate)
+        f.repo.setAll(tracks)
+        f.repo.setMode(PlayMode.LIST_LOOP)
+        f.repo.saveCursor("id-3", 42_000L)
+        val snapshot = f.repo.restore()
+        assertNotNull(snapshot)
+
+        f.controller.restore(snapshot, f.repo.snapshotItems())
+        assertEquals(PlayerPhase.PAUSED, f.controller.state.value.phase)
+        assertNotNull(f.engine.snapshot().source, "恢复阶段只 prepare，不受闸门影响")
+
+        f.controller.resume()
+        assertEquals(PlayerPhase.ERROR, f.controller.state.value.phase)
+        assertEquals(EngineState.PAUSED, f.engine.snapshot().state, "不得假播，引擎仍暂停")
+    }
+
+    @Test
+    @DisplayName("§61.28 · WiFi / 放行态下网络音源正常 prepare 并播放")
+    fun wifiOnlyAllowsWifiNetworkSource() = runTest {
+        val f = fixture(resolver = urlResolver, scope = backgroundScope)
+        f.queue()
+        f.controller.playAt(0)
+        assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase)
+        assertEquals("https://example.com/id-1.mp3", f.engine.snapshot().source?.url)
     }
 
     // ------------------------------------------------------------------

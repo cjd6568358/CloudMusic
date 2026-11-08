@@ -1,6 +1,8 @@
 package com.example.cloudmusic.player
 
 import com.example.cloudmusic.common.CloudMusicError
+import com.example.cloudmusic.common.NetworkPlaybackGate
+import com.example.cloudmusic.common.NetworkPlaybackPolicy
 import com.example.cloudmusic.engine.api.EngineConfig
 import com.example.cloudmusic.engine.api.EngineHandle
 import com.example.cloudmusic.engine.api.EngineSource
@@ -35,6 +37,8 @@ class PlayerController(
     private val resolver: TrackSourceResolver,
     private val media: IMediaControl? = null,
     private val config: PlayerConfig = PlayerConfig(),
+    /** 03-02 §344：播放前由 03-06 检查「默认仅 WiFi 播放」；纯 JVM 端口，生产实现由 :core-di 注入。 */
+    private val networkGate: NetworkPlaybackGate = NetworkPlaybackPolicy.ALLOW_ALL,
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default),
 ) {
     private val _state = MutableStateFlow(PlayerState())
@@ -43,6 +47,21 @@ class PlayerController(
     private var queue: List<QueueItem> = emptyList()
     private var shuffle: List<Int> = emptyList()
     private var handle: EngineHandle? = null
+
+    /** 最近一次 prepare 的曲目是否为网络音源；供 PlaybackService 同步判定避免会话假报 PLAYING。 */
+    @Volatile
+    private var currentNetworkSource = false
+
+    /**
+     * §61.27（G08 真机实证 · 冷启动启动竞态）：`PlaybackService.onCreate` 异步
+     * `restore()` 重建队列，而 `ACTION_PLAY` / 媒体键可能在 queue 仍为空时到达 ——
+     * 此时 [resume] 既无 handle、`restartCurrentIfAny()` 的 index 又不在
+     * `queue.indices`，指令被静默丢弃；restore 随后按 PRD §6.1 只 prepare 不播
+     * → MediaSession 假报 PLAYING、进度恒 0（K60 13:11:14 实测：需第二次
+     * ACTION_PLAY 才出声）。这里记下**用户明确的播放意图**，由 restore 兑现。
+     * 用 AtomicBoolean：播放指令在 Service 线程、restore 在 [scope] 协程。
+     */
+    private val pendingPlay = java.util.concurrent.atomic.AtomicBoolean(false)
 
     private val controllerHandle: PlayerControllerHandle = HandleAdapter()
 
@@ -99,10 +118,18 @@ class PlayerController(
     }
 
     suspend fun resume() {
+        // 03-02 §344：用户点播 / 焦点恢复 / pendingPlay 兑现都必须过闸门；
+        // prepareAt 的 autoPlay 分支只覆盖 playAt / 自动进曲。
+        if (blockedByNetworkPolicy()) return
         // §61.25（E24/E25 真机暴露）：播放完成后句柄已随 msg=2 释放（引擎槽回 IDLE），
         // 此时再按播放不应空转导致 MediaSession 假报 PLAYING——标准行为是
         // 从头重播当前曲（重建引擎句柄走完整 prepare）。
         val h = handle ?: run {
+            // §61.27：队列尚未恢复（冷启动竞态）时不能丢掉这一次播放指令。
+            if (queue.isEmpty()) {
+                pendingPlay.set(true)
+                return
+            }
             restartCurrentIfAny()
             return
         }
@@ -181,10 +208,24 @@ class PlayerController(
         }
         prepareAt(index, autoPlay = false, seekTo = snapshot.positionMs)
         _state.update { it.copy(phase = PlayerPhase.PAUSED, positionMs = snapshot.positionMs) }
+        // §61.27：兑现冷启动期间到达的播放意图。PRD §6.1「不自动开播」约束的是
+        // 无用户指令的 restore；只有 ACTION_PLAY / 媒体键才会置位 pendingPlay。
+        // prepareAt 已建立 handle，resume() 会经 EngineAdapter 的 prepareGate 下发 play。
+        if (pendingPlay.compareAndSet(true, false)) resume()
     }
 
     /** 供 `IMediaControl.bind` 使用的非 suspend 适配（03-07 §3）。 */
     fun asHandle(): PlayerControllerHandle = controllerHandle
+
+    /** 03-02 §344：当前曲目是否网络音源（未 prepare 时按本地处理，不误拦）。 */
+    fun currentSourceIsNetwork(): Boolean = currentNetworkSource
+
+    /** @return true = 已落 ERROR 并中止本次播放动作。 */
+    private fun blockedByNetworkPolicy(): Boolean {
+        val reason = networkGate.rejectReason(currentNetworkSource) ?: return false
+        fail(CloudMusicError.DsUpstream(NetworkPlaybackPolicy.ERROR_CODE, reason))
+        return true
+    }
 
     private suspend fun prepareAt(index: Int, autoPlay: Boolean, seekTo: Long) {
         if (queue.isEmpty() || index !in queue.indices) {
@@ -209,6 +250,13 @@ class PlayerController(
             fail(if (e is CloudMusicError) e else CloudMusicError.DsUpstream("RESOLVE", e.message ?: "解析失败"))
             return
         }
+        currentNetworkSource = link.kind != Link.Kind.LOCAL
+        // 03-02 §344 / 01 §6.1：播放前检查「默认仅 WiFi 播放」。
+        // restore(autoPlay=false) 只 prepare + seek 不播，不得被闸门拦
+        // （PRD §6.1 不自动开播；03-11 §6 B05 飞行模式下本地/曲库完全可用）。
+        // 被拒时落 ERROR + 明确原因，不 prepare、不释放现有 handle，也不自动跳曲
+        // （这是用户策略拒绝而非音源故障，避免把整条队列逐首标失败）。
+        if (autoPlay && blockedByNetworkPolicy()) return
         val source = try {
             engineSourceOf(track, link)
         } catch (e: IllegalArgumentException) {

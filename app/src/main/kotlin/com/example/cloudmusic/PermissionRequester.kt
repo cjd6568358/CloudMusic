@@ -23,8 +23,10 @@ import com.example.cloudmusic.common.PermissionGate
  * - **SAF / 本地浏览 / 本地播放不申请**：`requiredFor` 返回空 → 直接回调、不弹窗。
  * - **拒绝不阻断核心能力**：调用方（播放 / 导入）按 `PermissionDecision` 的降级结果
  *   决定是否继续，通知权限被拒仍照常播放（B03）。
- * - `BLUETOOTH_CONNECT` / `SHOW_BLUETOOTH_NAME` **本批不接入**：蓝牙 ACL 广播与
- *   运行时授权流程仍需权限口径拍板（`12 §48.6` ③ / §46 挂账），不擅自扩大范围。
+ * - `BLUETOOTH_CONNECT` / `SHOW_BLUETOOTH_NAME` 已由 `12 §61.29` 按 `03-11 §2`
+ *   **既有动作**接入：用户打开输出设备弹窗时申请，拒绝走 `03-09 §8` B01 降级；
+ *   结果由 `MainActivity` 用显式 Intent 通知 `PlaybackService` 刷新 ACL 广播注册。
+ *   申请时机仍是「按动作」，启动阶段零申请，不扩大范围、不新增权限。
  *
  * 必须在 Activity 构造期（lifecycle INITIALIZED）实例化，
  * 因为 `registerForActivityResult` 要求在 `CREATED` 之前注册。
