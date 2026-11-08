@@ -35,7 +35,7 @@
         <!-- T-A6（12 §33 / 03-10 §5）：Compose 自研页面入口；播放页照搬属 T-L L3。 -->
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -44,10 +44,11 @@
 
         <service
             android:name=".PlaybackService"
-            android:exported="true"
+            android:exported="false"
             android:foregroundServiceType="mediaPlayback" />
 
-        <!-- 03-07 §5 B12：兼容兜底；主入口为 MediaSession.Callback，Receiver 不重复处理按键。 -->
+        <!-- 03-07 §5 B12：兼容兜底；主入口为 MediaSession.Callback，Receiver 不重复处理按键。
+             §61.23：exported=true（系统媒体键广播需要；MEDIA_BUTTON intent-filter 必须可接收）。 -->
         <receiver
             android:name=".MediaButtonEventReceiver"
             android:exported="true">

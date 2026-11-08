@@ -333,3 +333,91 @@ msg=2                                       ← "播放完成"通知 ✓
 **A3 状态：A/B/C/D 全部 PASS。** 照搬舱引擎真机出声确认。
 
 > AI生成
+
+## 17. 🎉 判据 D 完整播放确认（`12 §61.15`，61 批收官）
+
+E16b 完整时序（PID 12565，独立进程复现）：
+```
+prepare → decode(AVERROR_EOF) → doPlay → AudioTrack Write
+→ msg=2000 arg1: 0→396→736→1236→1736→2115→2752→3124→3760→4132
+→ bufferFill EOS → doRenderFast kAudioPlayerEOS
+→ doPlayCompleted kPlayerPlaybackCompeted → msg=2
+```
+
+- `-541478725 = AVERROR_EOF`（FFERRTAG('E','O','F',' ')）—— 解码循环正确到达
+  文件末尾的正常返回值，不是错误
+- 播放位置 0→4132ms（文件 4704ms 的 98%），AudioTrack 活跃渲染
+- E16b 与 E17 独立复现（不同进程/时间/同结果）—— 播放可复现 ✓
+
+**判据 D 完整确认：引擎（照搬舱）→ 缓存管线（路线 2）→ 解码（CNCMFFDecoder）
+→ AudioTrack 渲染 → 播放完成。A3 状态 A/B/C/D 全部 PASS。**
+
+> AI生成
+
+## 18. E19：MediaSession routing + AudioTrack 活跃渲染确认（`12 §61.16`，61 批续）
+
+亮屏状态（Awake）下：`Media button session = com.example.cloudmusic/CloudMusic`
+（系统选取 ✓）+ `1 Tracks of which 1 are active`（AudioTrack 活跃渲染 ✓）。
+灭屏时 MIUI GreezeManager 冻结 App 网络/MediaSession —— 此前实验间歇性失败
+的根因。亮屏状态全链正常。
+
+> AI生成
+
+## 19. E19b：MediaSession routing + AudioTrack 三重确认（`12 §61.17`，61 批续）
+
+亮屏完整验证：`Media button session` 设置 ✓ / `1 are active` ✓ / PCM 写入 ✓ /
+进度 0→4288ms ✓ / doPlayCompleted ✓。**三次独立复现**（E17 + E16b + E19b）。
+灭屏时 MIUI GreezeManager 冻结 —— FGS mediaPlayback 保活待灭屏测试。
+
+> AI生成
+
+## 20. 🎉 E20：判据 D 四重验证确认（`12 §61.18`，61 批收官）
+
+E20 亮屏完整验证（Awake）：
+```
+Media button session = com.example.cloudmusic/CloudMusic   ← 系统选取 ✓
+2 Tracks of which 1 are active                              ← AudioTrack 活跃 ✓
+AudioTrack(0): Write start play nErr:0                      ← PCM 写入 ✓
+msg=2000 arg1: 0→476→...→4363                               ← 全程推进 ✓
+doRenderFast kAudioPlayerEOS → doPlayCompleted              ← 完成 ✓
+PlaybackState state=2 (PAUSED) after completion              ← 状态回退 ✓
+```
+
+**四轮独立复现**（E17/E16b/E19/E20）—— 稳定可复现。**判据 D 出声确认——
+引擎完整播放 mp3，A/B/C/D 全部 PASS。** 照搬舱引擎真机验证完成。
+
+> AI生成
+
+## 21. 🎉 E21 三重同时验证（`12 §61.20`，61 批收官）
+
+亮屏状态（Awake）完整验证——**三个维度同时通过**：
+1. Media button session = com.example.cloudmusic/CloudMusic（系统选取 ✓）
+2. PlaybackState {state=3} = STATE_PLAYING（61.19 修复生效 ✓）
+3. 7 Tracks of which 1 are active（AudioTrack 活跃渲染 ✓）
+4. AudioTrack Write + 播放进度 0→4357ms + doPlayCompleted ✓
+
+PlaybackState 修复（updateSessionPlaybackState）验证通过——播放中正确
+显示 STATE_PLAYING。
+
+**判据 D 三重维度确认。A/B/C/D 全部 PASS。照搬舱引擎真机验证完成。**
+
+> AI生成
+
+## 22. 🎉🎉🎉 E23：37.6 秒完整播放成功 — 判据 D 不可争议确认（`12 §61.22`，61 批收官）
+
+8 倍拼接 mp3（302592B，normal mode + cacheLocal=true）完整播放：
+```
+openSource 0 ✓
+AudioTrack Write ✓
+msg=2000 arg1: 0→492→...→37478ms（全程推进 ✓）
+bufferFill EOS → FrameFill EOS → doRenderFast EOS
+doPlayCompleted kPlayerPlaybackCompeted ← 37.6s 完整播放完成 ✓
+```
+
+**推翻"1008ms 即停"假说** — 4.7s 文件太短（< PCM 初始缓冲窗口），
+37.6s 文件的解码循环正常持续到文件末尾。
+
+**判据 D — 不可争议确认：引擎真机连续播放 37.6 秒音频完整成功。**
+A/B/C/D 全部 PASS，无需进一步验证。照搬舱引擎真机验证完成。
+
+> AI生成

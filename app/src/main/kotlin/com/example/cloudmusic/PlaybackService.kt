@@ -224,6 +224,9 @@ class PlaybackService : Service() {
             mediaControl.onPlaying()
             // 12 §46 / B04：用户重新播放后允许下一次断开再次暂停（回连本身不复位）。
             if (::disconnectPolicy.isInitialized) disconnectPolicy.notifyPlaybackResumed()
+            // 12 §61.19（第五十一批续）：同步 MediaSession PlaybackState → PLAYING，
+            // 让系统正确设置 media button session 并在锁屏 / 通知中显示播放态。
+            updateSessionPlaybackState(PlaybackState.STATE_PLAYING)
         }
     }
 
@@ -233,6 +236,24 @@ class PlaybackService : Service() {
         mediaControl.onManualPause()
         runtime.pause()
         abandonAudioFocus()
+        updateSessionPlaybackState(PlaybackState.STATE_PAUSED)
+    }
+
+    /** 12 §61.19：同步 MediaSession PlaybackState（保持 actions 不变）。 */
+    private fun updateSessionPlaybackState(state: Int) {
+        mediaSession?.let { session ->
+            session.setPlaybackState(
+                PlaybackState.Builder()
+                    .setState(state, 0L, 1f)
+                    .setActions(
+                        PlaybackState.ACTION_PLAY or
+                            PlaybackState.ACTION_PAUSE or
+                            PlaybackState.ACTION_SKIP_TO_NEXT or
+                            PlaybackState.ACTION_SKIP_TO_PREVIOUS,
+                    )
+                    .build(),
+            )
+        }
     }
 
     /** D-93（12 §33）：Activity 与 Service 注入同一 @Singleton PlaybackRuntime，无需 Binder。 */

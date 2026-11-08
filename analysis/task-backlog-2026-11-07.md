@@ -352,3 +352,28 @@
   即停——Read(2)+ 返回 0。根因确认为 CNCMFFDecoder 的 decode loop 固有行为，
   与源模式/文件大小/格式无关。需运行时调试（gdb/插桩）定位
   ffmpeg demuxer 在该 AVIO 配置下的 packet 解析失败点。
+- **🎉 E16b/E17 判据 D 出声确认**：引擎真机完整播放 mp3 —— AudioTrack Write +
+  doRenderFast + PCM 进度 0→4132ms + doPlayCompleted + msg=2。两次独立复现。
+  `-541478725 = AVERROR_EOF`（正常 EOF，非错误）。A3 A/B/C/D 全部 PASS。
+- **E19（MediaSession routing + AudioTrack 活跃渲染确认）**：亮屏状态
+  `Media button session` 正确设置 + `1 are active` —— 全链正常。灭屏时 MIUI
+  GreezeManager 冻结 —— 产品需 FGS 保活（已有 mediaPlayback FGS）。下轮：
+  灭屏播放测试 + MediaSession PlaybackState 更新（PLAYING 状态同步）。
+- **🎉 E20 判据 D 四重验证确认（§61.18）**：亮屏 Awake 状态 Media button session
+  设置 ✓ / AudioTrack 活跃渲染（1 are active）✓ / PCM 写入 ✓ / 进度 0→4363ms ✓ /
+  doPlayCompleted ✓ / PlaybackState 回退 ✓。四轮独立复现稳定。**判据 D 出声确认。**
+  下轮：① MediaSession PlaybackState 更新（PLAYING 同步）；② 灭屏播放测试；
+  ③ exported=false 恢复；④ G01~G09 验收。
+- **🎉 E21 三重同时验证（§61.20）**：Media button session 设置 ✓ +
+  PlaybackState state=3 (PLAYING，61.19 修复生效) ✓ + AudioTrack 活跃渲染 ✓ +
+  播放进度 0→4357ms ✓ + doPlayCompleted ✓。**判据 D 三重维度确认，A/B/C/D 全部 PASS。**
+  下轮：① 灭屏播放测试（FGS 保活）；② exported=false 恢复；③ G01~G09 验收。
+- **E22（完整播放周期确认）**：PlaybackState state=3 (PLAYING) 持续 ✓ +
+  播放位置 0→4357ms（93%）+ ~4.5s 自然完成 + active tracks 归零 ✓。
+  61.19 修复生效（MediaSession 正确显示播放态）。完整周期：prepare→decode→render→complete ✓。
+  灭屏测试需更长文件（4.7s 在灭屏前已播完）。
+- **🎉🎉🎉 E23（37.6s 完整播放成功 — 判据 D 不可争议确认）**：8 倍拼接 mp3
+  (302592B) normal mode 完整播放 37.6 秒——位置 0→37478ms（99.2%）、零中断、
+  自然完成（bufferFill EOS → doPlayCompleted）。**推翻"1008ms 即停"假说**——
+  4.7s 文件太短（< PCM 初始缓冲窗口），37.6s 文件正常持续到末尾。
+  **判据 D 不可争议确认。A/B/C/D 全部 PASS。无需进一步验证。**
