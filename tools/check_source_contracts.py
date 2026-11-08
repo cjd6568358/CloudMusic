@@ -1907,6 +1907,110 @@ def main() -> int:
     else:
         print("[PASS] 12 §27 D-56 守护：无非 Unit 表达式体 runBlocking 测试")
 
+    # 12 §61.31 守护：G08 长稳口径 20 分钟（用户 2026-11-08 决策）必须在判据文档
+    # 与采样器中一致；采样器不得退回硬编码 adb，否则文档声称「可复跑」实际跑不起来。
+    sampler_path = ROOT / "analysis" / "g08-longrun-sample.py"
+    criteria_path = ROOT / "docs" / "03-模块开发文档" / "03-06 播放内核与队列.md"
+    if not sampler_path.is_file() or not criteria_path.is_file():
+        failures.append("12 §61.31 守护：缺少 g08-longrun-sample.py 或 03-06 §6.2 判据文件")
+    else:
+        sampler_src = sampler_path.read_text(encoding="utf-8")
+        criteria_src = criteria_path.read_text(encoding="utf-8")
+        if "TARGET_MINUTES = 20" not in sampler_src or "连续后台播放 20 分钟" not in criteria_src:
+            failures.append("12 §61.31 守护：G08 长稳口径应为 20 分钟且采样器与 03-06 §6.2 一致")
+        elif '["adb", "-s"' in sampler_src or "resolve_adb" not in sampler_src:
+            failures.append("12 §61.31 守护：采样器不得硬编码 adb，必须保留 resolve_adb() 自动探测")
+        else:
+            print("[PASS] 12 §61.31 守护：G08 20 分钟口径一致，采样器 adb 自动探测在位")
+
+    # 12 §61.32 守护：合规声明必须与实际引入状态一致；sticky 返回值与长稳口径不得回退。
+    notice_path = ROOT / "NOTICE.md"
+    service_path = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" /
+                    "cloudmusic" / "PlaybackService.kt")
+    t16_path = ROOT / "docs" / "03-模块开发文档" / "03-07 媒体会话与音频焦点.md"
+    if not all(p.is_file() for p in (notice_path, service_path, t16_path)):
+        failures.append("12 §61.32 守护：NOTICE.md / PlaybackService.kt / 03-07 §12 缺失")
+    else:
+        notice_src = notice_path.read_text(encoding="utf-8")
+        service_src = service_path.read_text(encoding="utf-8")
+        t16_src = t16_path.read_text(encoding="utf-8")
+        if "尚未提取进项目" in notice_src or "按文档规划，当前未引入" in notice_src:
+            failures.append("12 §61.32 守护：NOTICE.md 仍写「尚未引入」，与 18 so 已打包的合规声明不符")
+        elif "return START_STICKY" not in service_src:
+            failures.append("12 §61.32 守护：PlaybackService.onStartCommand 必须返回 START_STICKY")
+        elif "| T16 | 真机 | 后台 2h |" in t16_src:
+            failures.append("12 §61.32 守护：03-07 §12 T16 长稳口径应为 20 分钟")
+        else:
+            print("[PASS] 12 §61.32 守护：NOTICE 合规声明 / START_STICKY / T16 20 分钟口径一致")
+
+    # 12 §61.33 守护：LAUNCHER 必须 exported=true；现行口径文档不得残留 2h 判据。
+    manifest_path = ROOT / "app" / "src" / "main" / "AndroidManifest.xml"
+    if not manifest_path.is_file():
+        failures.append("12 §61.33 守护：app/src/main/AndroidManifest.xml 缺失")
+    else:
+        manifest_src = manifest_path.read_text(encoding="utf-8")
+        activity_slice = manifest_src.split('android:name=".MainActivity"', 1)[-1].split("</activity>", 1)[0]
+        scope = [
+            ROOT / "docs" / "01-产品文档.md",
+            ROOT / "docs" / "09-文档闭环总览.md",
+            ROOT / "docs" / "10-技术架构评估.md",
+            ROOT / "docs" / "16-架构与任务拆分复核报告.md",
+            ROOT / "docs" / "03-模块开发文档" / "03-06 播放内核与队列.md",
+            ROOT / "docs" / "03-模块开发文档" / "03-07 媒体会话与音频焦点.md",
+            ROOT / "docs" / "03-模块开发文档" / "03-09 蓝牙与音频输出.md",
+            ROOT / "docs" / "03-模块开发文档" / "03-11 权限与设置.md",
+            ROOT / "docs" / "03-模块开发文档" / "03-12 构建发布与合规.md",
+        ]
+        stale = []
+        for p in scope:
+            if not p.is_file():
+                continue
+            text = p.read_text(encoding="utf-8")
+            for needle in ("后台 2h", "2h 内存", "2h 后台"):
+                if needle in text:
+                    stale.append(f"{p.name}:{needle}")
+        if 'android:exported="true"' not in activity_slice:
+            failures.append("12 §61.33 守护：LAUNCHER MainActivity 必须 exported=true")
+        elif stale:
+            failures.append("12 §61.33 守护：现行口径文档残留 2h 判据：" + ", ".join(stale))
+        else:
+            print("[PASS] 12 §61.33 守护：LAUNCHER exported=true，现行文档无 2h 残留")
+
+    # 12 §61.34 / C-16 守护：offline 必须真实影响 networkSourceAvailable，不得退回死参数。
+    gate_path = (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example" /
+                 "cloudmusic" / "common" / "PermissionGate.kt")
+    gate_test = (ROOT / "core-common" / "src" / "test" / "kotlin" / "com" / "example" /
+                 "cloudmusic" / "common" / "PermissionGateTest.kt")
+    if not gate_path.is_file() or not gate_test.is_file():
+        failures.append("12 §61.34 守护：PermissionGate.kt / PermissionGateTest.kt 缺失")
+    else:
+        gate_src = gate_path.read_text(encoding="utf-8")
+        test_src = gate_test.read_text(encoding="utf-8")
+        if "networkSourceAvailable = !offline" not in gate_src:
+            failures.append("12 §61.34 守护：offline 必须映射为 networkSourceAvailable（C-16）")
+        elif "offlineBlocksNetworkSourceOnly" not in test_src or "assertEquals(!offline" not in test_src:
+            failures.append("12 §61.34 守护：缺少 offline 两态差异的 JVM 断言")
+        else:
+            print("[PASS] 12 §61.34 守护：C-16 离线语义与两态断言在位")
+
+    # 12 §61.35 / C-17 守护：离线事实必须由 isOffline(NONE) 单点给出，
+    # 且播放闸门与 UI 降级契约之间有交叉断言，防止两套口径分叉。
+    policy_path = (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example" /
+                   "cloudmusic" / "common" / "NetworkPlaybackPolicy.kt")
+    policy_test = (ROOT / "core-common" / "src" / "test" / "kotlin" / "com" / "example" /
+                   "cloudmusic" / "common" / "NetworkPlaybackPolicyTest.kt")
+    if not policy_path.is_file() or not policy_test.is_file():
+        failures.append("12 §61.35 守护：NetworkPlaybackPolicy.kt / Test 缺失")
+    else:
+        policy_src = policy_path.read_text(encoding="utf-8")
+        test_src = policy_test.read_text(encoding="utf-8")
+        if "fun isOffline(kind: NetworkKind): Boolean = kind == NetworkKind.NONE" not in policy_src:
+            failures.append("12 §61.35 守护：离线单一真相源 isOffline(NONE) 缺失")
+        elif "offlineFactHasSingleSource" not in test_src or "NetworkPlaybackPolicy.isOffline(kind)" not in test_src:
+            failures.append("12 §61.35 守护：播放闸门与降级契约的交叉断言缺失")
+        else:
+            print("[PASS] 12 §61.35 守护：C-17 离线事实单一真相源与交叉断言在位")
+
     if (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example" /
             "cloudmusic" / "common" / "PathNormalizer.kt").is_file():
         warnings.append("实现期修正 C-01：路径规范化下沉至 :core-common（见 PathNormalizer KDoc）")
@@ -1939,6 +2043,11 @@ def main() -> int:
         warnings.append("第四十五批（12 §54）：继续反汇编实证出 Start(j1=请求标识 / j2=offset / j3=length) 与 OnDataRequest* 回传首参后，落地 RangeFetcher（纯 JVM 取流 + RangeOpener/RangeSink）、UrlDataRequest（SourceDataRequest 子类，Start 立即返回 0）、7 个 JVM 用例，并把 createDataRequestHandler() 改为仅 URL 源缓存返回、close 时 release。清单 36/152/15、5 组 §54 守护。阶段 A/B 已具备代码但**仍待真机验证**：OnDataRequestData 第 2/3 个 long、OnDataRequestEnd 的 String 取值未校准；编译通过 ≠ 出声，A3 仍 DEEP RUN、舱不冻结")
         warnings.append("第四十九批（12 §59，阶段 C 根因修复）：capstone + exp6 原始 logcat 钉死数据通路 —— OnDataRequestData 首 long 是 native OnNetSourceData 的 kind 槽（==2 跳过 NMMemoryCache::Write），Memory Mode 下 OnWriteNetData 异步任务恒被 +0xb8 拒绝（GOT+lambda 间接调用，.text 无直接 bl）；§58 路线 1 证伪（resource config 由 libncmplayerengine 硬编码 4 键、无 file_id/trunks）、路线 2 仍待用户拍板（SetConfig 根目录 + cacheLocal=true，与 01 §6.1 冲突）。本批 onData kind 恒传 1（exp6：kind=1 的 push 全部落内存缓存、32768B 送达解码器），阶段 C 数据通路待真机 E9 复验；A3 仍 DEEP RUN、舱不冻结、指纹不回填")
         warnings.append("第五十一批（12 §61，用户 2026-11-08 拍板批准路线 2）：SourceConfig.cacheLocal=true（normal mode）+ EngineAdapter.SetConfig 初始化 App 内部缓存根目录（context.cacheDir/legacy_engine_cache，512MiB 上限，卸载即清）；docs/01 §6.1 口径演进批注随批落档。E9/E10 的两个 native 缺陷（Memory Mode FIFO 尾部错位、XorLocalSource fd 竞争）在 normal mode 下消失；真机 E11 判据 = 不再 Start Use Memory Mode / Failed Not Support、active track ≥1、MediaSession 非 state=2；A3 仍 DEEP RUN、舱不冻结、指纹不回填")
+        warnings.append("第五十八批（12 §61.31，2026-11-08 用户决策）：G08 长稳窗口 2h → 20 分钟（实际使用有问题再修改），01 §10 #5 / 03-06 §6.2 / 03-12 §9 口径统一；真机 21 分 49 秒未被回收、异常 0、PSS 峰值 110.3 MiB → G08 PASS（20 分钟口径），终点 SwipeUpClean 属人为强停；A3 = G01~G07 PASS / G08 PASS / G09 PARTIAL，舱仍不冻结、指纹不回填。修复 g08-longrun-sample.py 硬编码 adb 并补 ApplicationExitInfo 退出原因；证据 analysis/g08-20min-verdict-2026-11-08.md")
+        warnings.append("第五十九批（12 §61.32，2026-11-08 晚）：亮屏实证 G09 —— 前台态 crash 约 100ms 由 Activity 重建恢复（非 START_STICKY）、后台态 crash 206s 无重启归因 MIUI fg service restriction（推翻旧「需 USB/亮屏」归因）、用户重新点开约 957ms 自动 prepare 回上一曲目并保持 PAUSED；G09 仍 PARTIAL 不判 PASS，A3 仍不全绿、舱不冻结。修正 NOTICE.md §3 的 P1 合规声明错误（原写二进制/素材尚未引入）、03-07 §12 T16 同步 20 分钟；发布阻断 12 条盘点 PASS 5 / 部分 5 / 未满足 2。证据 analysis/g09-recovery-evidence-2026-11-08.md")
+        warnings.append("第六十批（12 §61.33，2026-11-08 晚）：按 Android 官方 <activity> 文档定论 LAUNCHER MainActivity 必须 exported=true（设 false 外部启动抛 ActivityNotFoundException），§61.23/§61.24 的「恢复 exported=false / 随 Service 一并恢复」为错误口径已作废；生产形态仅 PlaybackService 收口后改 false 并移除 ACTION_PLAY intent-filter，MediaButtonEventReceiver 保持 true。同步修正 03-11 §1.1 表格（Receiver exported=true + MediaKeyAction 转发，非「有意空实现」）并把全库现行 7 处「后台 2h」统一为 20 分钟；本批零行为改动，A3 仍 G09 PARTIAL")
+        warnings.append("第六十一批（12 §61.34 / C-16，2026-11-08 晚）：发现 DegradationPolicy.evaluate 的 offline 是死参数、03-11 §3「网络权限/飞行模式」一行的语义未落地且 JVM 测试两态断言等价。新增 DegradationOutcome.networkSourceAvailable（默认 true，现有调用零破坏）+ offline 映射与信息提示，硬规则（本地曲库/播放恒可用、不弹网络错误）不变；PermissionGateTest 新增 2 用例并把原弱断言升级为 assertEquals(!offline, …)。发布阻断 #11 的 JVM 侧矩阵已全量覆盖，真机 T05/T06/T14 仍待 T-V；networkSourceAvailable 当前无生产消费方，如实登记不伪造接线")
+        warnings.append("第六十二批（12 §61.35 / C-17，2026-11-08 晚）：核对发现离线事实存在两套表达 —— 播放闸门 NetworkPlaybackPolicy 的 NetworkKind.NONE（有 PlayerController 生产消费方）与 C-16 的 DegradationPolicy.offline（UI 降级契约）。新增 isOffline(kind) 作为单一真相源并在 NetworkPlaybackPolicyTest 加交叉断言，守护防分叉；零产品行为改动。另确认无线 adb 下无法做飞行模式 / 关 WiFi 真机实验（会失联且无法远程恢复），属 USB 环境硬阻塞。本批把 5 个批次的工作区改动固化为结构化本地提交（不 push）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
