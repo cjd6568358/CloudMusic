@@ -148,6 +148,43 @@ class PermissionGateTest {
     }
 
     @Test
+    @DisplayName("C-16 · 飞行模式使网络音源不可用，但本地能力恒可用且不弹网络错误")
+    fun offlineBlocksNetworkSourceOnly() {
+        val online = DegradationPolicy.evaluate(emptySet(), offline = false)
+        val offline = DegradationPolicy.evaluate(emptySet(), offline = true)
+        assertTrue(online.networkSourceAvailable)
+        assertFalse(offline.networkSourceAvailable, "PRD §10 #10：飞行模式下网络音源不可达")
+        for (o in listOf(online, offline)) {
+            assertTrue(o.localLibraryAvailable)
+            assertTrue(o.localPlaybackAvailable)
+            assertFalse(o.showNetworkErrorDialog)
+            assertFalse(o.isCoreCapabilityBlocked)
+        }
+        assertTrue(offline.hints.any { "网络音源" in it })
+        assertFalse(online.hints.any { "网络音源" in it }, "在线态不应出现离线提示")
+    }
+
+    @Test
+    @DisplayName("C-16 · 权限拒绝与飞行模式叠加时，降级提示同时覆盖两类原因")
+    fun offlineCombinesWithDenials() {
+        val o = DegradationPolicy.evaluate(
+            setOf(PermissionCatalog.POST_NOTIFICATIONS, PermissionCatalog.BLUETOOTH_CONNECT),
+            safRevoked = true,
+            multicastBlocked = true,
+            offline = true,
+        )
+        assertFalse(o.networkSourceAvailable)
+        assertFalse(o.mediaNotificationVisible)
+        assertFalse(o.bluetoothNameVisible)
+        assertFalse(o.safStorageAvailable)
+        assertTrue(o.manualDmrRequired)
+        assertTrue(o.localLibraryAvailable && o.localPlaybackAvailable)
+        assertFalse(o.showNetworkErrorDialog)
+        assertFalse(o.isCoreCapabilityBlocked)
+        assertTrue(o.hints.size >= 5, "通知 / 蓝牙 / SAF / 组播 / 离线 五类提示应同时存在")
+    }
+
+    @Test
     @DisplayName("§3 硬规则 / B05 · 任意拒绝组合下本地曲库与本地播放恒可用，飞行模式不弹网络错误")
     fun hardRuleNeverBlocksLocalPlayback() {
         val combos = listOf(
@@ -165,6 +202,7 @@ class PermissionGateTest {
                 assertTrue(o.localPlaybackAvailable)
                 assertFalse(o.showNetworkErrorDialog)
                 assertFalse(o.isCoreCapabilityBlocked)
+                assertEquals(!offline, o.networkSourceAvailable, "C-16：offline 必须真实生效")
                 assertTrue(o.hints.isNotEmpty() || denied.isEmpty())
             }
         }

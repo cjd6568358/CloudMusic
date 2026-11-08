@@ -43,6 +43,16 @@ object NetworkPlaybackPolicy {
     const val ERROR_CODE = "WIFI_ONLY"
 
     /**
+     * C-17（`12 §61.35`）：离线事实的**单一真相源**。
+     *
+     * 播放闸门（本对象的 [NetworkKind.NONE] 分支，有生产消费方 `PlayerController`）
+     * 与 UI 降级契约（`DegradationPolicy.evaluate` 的 `offline`，C-16）必须共用这一判定，
+     * 避免「飞行模式 / 无网络」演化成两套口径。Android 侧不要再另写一份
+     * `ConnectivityManager` 离线判断，直接用 `currentKind()` 的结果调用本函数。
+     */
+    fun isOffline(kind: NetworkKind): Boolean = kind == NetworkKind.NONE
+
+    /**
      * 唯一判定表。覆盖 `01 §6.1` 与 `03-11 §6 B05` 的全部边界：
      * - 本地音源 / 未 prepare（未知）→ 一律放行；
      * - 用户在设置中开启「移动数据播放」（`wifiOnly=false`）→ 任何网络都放行；

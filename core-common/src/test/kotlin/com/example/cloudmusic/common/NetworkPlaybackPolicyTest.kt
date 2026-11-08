@@ -3,6 +3,7 @@ package com.example.cloudmusic.common
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -56,6 +57,22 @@ class NetworkPlaybackPolicyTest {
         assertTrue(ErrorCatalog.isRegistered(error.code), "通配前缀必须已在 07 §2 登记")
         assertEquals(ErrorCatalog.Domain.DS, ErrorCatalog.lookup(error.code)?.domain)
         assertTrue(!ErrorCatalog.isFatal(error.code), "策略拒绝不是致命错误，不得阻断启动")
+    }
+
+    @Test
+    @DisplayName("C-17 · 离线事实单一真相源：NetworkKind.NONE ⇔ DegradationPolicy.offline")
+    fun offlineFactHasSingleSource() {
+        for (kind in NetworkKind.entries) {
+            val offline = NetworkPlaybackPolicy.isOffline(kind)
+            assertEquals(kind == NetworkKind.NONE, offline)
+            val outcome = DegradationPolicy.evaluate(emptySet(), offline = offline)
+            assertEquals(!offline, outcome.networkSourceAvailable)
+            assertTrue(outcome.localLibraryAvailable && outcome.localPlaybackAvailable)
+            assertFalse(outcome.showNetworkErrorDialog)
+        }
+        val none = reason(true, NetworkKind.NONE)
+        assertNotNull(none)
+        assertTrue("无网络" in none, "播放闸门对 NONE 的拒绝原因应可感知")
     }
 
     @Test

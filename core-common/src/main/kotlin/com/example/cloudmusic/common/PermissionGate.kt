@@ -129,6 +129,8 @@ data class DegradationOutcome(
     val manualDmrRequired: Boolean = false,
     /** B05 / PRD §10 #10：飞行模式不弹网络错误。 */
     val showNetworkErrorDialog: Boolean = false,
+    /** C-16（12 §61.34）：离线时网络音源不可达；本地能力恒可用、不弹错误弹窗。 */
+    val networkSourceAvailable: Boolean = true,
     val hints: List<String> = emptyList(),
 ) {
     /** §8 #3：权限拒绝不得作为致命错误处理。 */
@@ -139,6 +141,16 @@ data class DegradationOutcome(
 /**
  * 03-11 §3 降级矩阵的唯一裁决者。只依据「被拒集合 + 环境事实」计算能力，
  * 不持有任何 Android 组件，便于 JVM 单测覆盖全部组合。
+ *
+ * **C-16（`12 §61.34`）**：[offline] 此前是**死参数**（函数体从未读取），
+ * 「飞行模式 / 网络权限」这一行的语义只体现在恒为 false 的
+ * [DegradationOutcome.showNetworkErrorDialog] 上，两态断言实际等价。
+ * 现在 `offline = true` 会把 [DegradationOutcome.networkSourceAvailable] 置 false
+ * 并追加一条信息提示；§3 硬规则不变：本地曲库与本地播放恒可用、不弹网络错误弹窗。
+ *
+ * **C-17（`12 §61.35`）**：`offline` 的唯一来源是
+ * [NetworkPlaybackPolicy.isOffline]`(currentKind())`，即 [NetworkKind.NONE]；
+ * 播放闸门与 UI 降级共用同一份离线事实，由 `NetworkPlaybackPolicyTest` 交叉断言守护。
  */
 object DegradationPolicy {
 
@@ -161,9 +173,10 @@ object DegradationPolicy {
             if (!mediaStoreAvailable) add("已引导改用 SAF 添加本地目录")
             if (safRevoked) add("目录授权已失效，数据源暂不可用，请重新授权")
             if (!ssdpAvailable) add("自动发现不可用，请手动指定 DMR")
+            if (offline) add("离线中：网络音源暂不可用，本地曲库与播放不受影响")
         }
 
-        // 硬规则：本地曲库浏览与本地播放恒可用；offline 只影响网络音源，不弹网络错误。
+        // 硬规则：本地曲库浏览与本地播放恒可用；offline 只关闭网络音源，不弹网络错误。
         return DegradationOutcome(
             localLibraryAvailable = true,
             localPlaybackAvailable = true,
@@ -176,6 +189,7 @@ object DegradationPolicy {
             ssdpDiscoveryAvailable = ssdpAvailable,
             manualDmrRequired = !ssdpAvailable,
             showNetworkErrorDialog = false,
+            networkSourceAvailable = !offline,
             hints = hints,
         )
     }
