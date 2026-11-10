@@ -35,3 +35,7 @@ __pycache__/
 analysis/smali14/
 analysis/smali-probe*/
 analysis/*.log
+
+# 真机 app 私有数据备份（run-as tar，48.6 MiB，含 legacy_engine_cache 切片）。
+# 属本地调试产物、可由设备重新拉取，不进公开仓库（2026-11-11 提交前补入）。
+analysis/l3-f4-backup/

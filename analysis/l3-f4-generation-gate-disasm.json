@@ -1,0 +1,518 @@
+{
+  "method": "12 §61.67 / F4 请求代次闸门 + vfile 落盘门控一手反汇编（离线、只读、capstone + pyelftools，不需要设备在场）",
+  "generated_by": "tools/l3_f4_generation_gate_disasm.py",
+  "so": "engine-legacy/src/main/jniLibs/arm64-v8a/libNMCommonCache.so",
+  "so_size": 309632,
+  "sections": {
+    "plt": {
+      "addr": "0x8730",
+      "size": "0x7a0"
+    },
+    "text": {
+      "addr": "0x8ed0",
+      "size": "0x3271c"
+    }
+  },
+  "symbols": {
+    "_ZN17NMBufferSourceImp19NotifyCacheProgressEl": {
+      "addr": "0xc0c8",
+      "size": 324
+    },
+    "_ZN17NMBufferSourceImp13SetFileOffsetEl": {
+      "addr": "0xb740",
+      "size": 104
+    },
+    "_ZN17NMBufferSourceImp19OnNetSourceDataDoneEi": {
+      "addr": "0xbee8",
+      "size": 384
+    },
+    "_ZN17NMBufferSourceImp14OnWriteNetDataERKNSt6__ndk110shared_ptrI12NMDataBufferEEll": {
+      "addr": "0xbcac",
+      "size": 564
+    },
+    "_ZN17NMBufferSourceImp15OnNetSourceDataEiNSt6__ndk110unique_ptrI12NMDataBufferPFvPS2_EEEll": {
+      "addr": "0xba44",
+      "size": 616
+    },
+    "_ZN17NMBufferSourceImp14OnFlushNetDataEv": {
+      "addr": "0xc068",
+      "size": 88
+    }
+  },
+  "plt_resolved": {
+    "0x8e00": "_ZNSt6__ndk15mutex4lockEv",
+    "0x8950": "_ZNSt6__ndk15mutex6unlockEv",
+    "0x8ab0": "_ZNSt6__ndk118condition_variable10notify_allEv",
+    "0x8940": "_ZN17NMBufferSourceImp19NotifyCacheProgressEl"
+  },
+  "anchors": {
+    "0x10458 函数序言（WaitRequest @0x10304 唯一调用点）": {
+      "address": "0x10458",
+      "description": "函数序言（WaitRequest @0x10304 唯一调用点）",
+      "mnemonic": "stp",
+      "op_str": "x26, x25, [sp, #-0x50]!",
+      "expected": "stp x26, x25",
+      "ok": true
+    },
+    "0x10470 mutex = this+0x168": {
+      "address": "0x10470",
+      "description": "mutex = this+0x168",
+      "mnemonic": "add",
+      "op_str": "x19, x0, #0x168",
+      "expected": "add x19, x0, #0x168",
+      "ok": true
+    },
+    "0x10498 ★ pre-index 写回：x26 变为 this+0x20（故 +0xa0 == this+0xc0）": {
+      "address": "0x10498",
+      "description": "★ pre-index 写回：x26 变为 this+0x20（故 +0xa0 == this+0xc0）",
+      "mnemonic": "str",
+      "op_str": "x22, [x26, #0x20]!",
+      "expected": "str x22, [x26, #0x20]!",
+      "ok": true
+    },
+    "0x104A0 ★ 读当前请求代次 [this+0xC0]": {
+      "address": "0x104A0",
+      "description": "★ 读当前请求代次 [this+0xC0]",
+      "mnemonic": "ldr",
+      "op_str": "x8, [x26, #0xa0]",
+      "expected": "ldr x8, [x26, #0xa0]",
+      "ok": true
+    },
+    "0x104B0 ★★ 请求代次 +1": {
+      "address": "0x104B0",
+      "description": "★★ 请求代次 +1",
+      "mnemonic": "add",
+      "op_str": "x23, x8, #1",
+      "expected": "add x23, x8, #1",
+      "ok": true
+    },
+    "0x104B8 ★★ 写回新代次到 [this+0xC0] —— 代次递增点": {
+      "address": "0x104B8",
+      "description": "★★ 写回新代次到 [this+0xC0] —— 代次递增点",
+      "mnemonic": "str",
+      "op_str": "x23, [x26, #0xa0]",
+      "expected": "str x23, [x26, #0xa0]",
+      "ok": true
+    },
+    "0x104D8 ★ 新代次作为回调首参": {
+      "address": "0x104D8",
+      "description": "★ 新代次作为回调首参",
+      "mnemonic": "mov",
+      "op_str": "x1, x23",
+      "expected": "mov x1, x23",
+      "ok": true
+    },
+    "0x104E4 回调取 vtable+0x10（发起 Range 请求）": {
+      "address": "0x104E4",
+      "description": "回调取 vtable+0x10（发起 Range 请求）",
+      "mnemonic": "ldr",
+      "op_str": "x8, [x8, #0x10]",
+      "expected": "ldr x8, [x8, #0x10]",
+      "ok": true
+    },
+    "0x104E8 ★ 虚调用发起请求（Java Start 的 native 侧），args=(obj, gen, offset, length)": {
+      "address": "0x104E8",
+      "description": "★ 虚调用发起请求（Java Start 的 native 侧），args=(obj, gen, offset, length)",
+      "mnemonic": "blr",
+      "op_str": "x8",
+      "expected": "blr x8",
+      "ok": true
+    },
+    "0x10510 ★ 请求结果日志 0x3CD64 的 ADRP+ADD 还原": {
+      "address": "0x10510",
+      "description": "★ 请求结果日志 0x3CD64 的 ADRP+ADD 还原",
+      "mnemonic": "add",
+      "op_str": "x2, x2, #0xd64",
+      "expected": "add x2, x2, #0xd64",
+      "ok": true
+    },
+    "0x1053C 请求失败时把 [this+0x20..0x40] 区间置 -1": {
+      "address": "0x1053C",
+      "description": "请求失败时把 [this+0x20..0x40] 区间置 -1",
+      "mnemonic": "stp",
+      "op_str": "q0, q0, [x26]",
+      "expected": "stp q0, q0, [x26]",
+      "ok": true
+    },
+    "0x10790 ★ 读当前代次 [this+0xC0]": {
+      "address": "0x10790",
+      "description": "★ 读当前代次 [this+0xC0]",
+      "mnemonic": "ldr",
+      "op_str": "x8, [x20, #0xc0]",
+      "expected": "ldr x8, [x20, #0xc0]",
+      "ok": true
+    },
+    "0x10794 ★ 与回调 arg1（发起请求时的代次）比对": {
+      "address": "0x10794",
+      "description": "★ 与回调 arg1（发起请求时的代次）比对",
+      "mnemonic": "cmp",
+      "op_str": "x8, x24",
+      "expected": "cmp x8, x24",
+      "ok": true
+    },
+    "0x10798 ★★ 代次不匹配 → 整包丢弃，跳到 0x108E0 只 unlock 返回": {
+      "address": "0x10798",
+      "description": "★★ 代次不匹配 → 整包丢弃，跳到 0x108E0 只 unlock 返回",
+      "mnemonic": "b.ne",
+      "op_str": "#0x108e0",
+      "expected": "b.ne 0x108e0",
+      "ok": true
+    },
+    "0x10840 ★ 数据投递对象（落盘链入口）": {
+      "address": "0x10840",
+      "description": "★ 数据投递对象（落盘链入口）",
+      "mnemonic": "ldr",
+      "op_str": "x0, [x20, #0x190]",
+      "expected": "ldr x0, [x20, #0x190]",
+      "ok": true
+    },
+    "0x10868 数据回调取 vtable+0x18": {
+      "address": "0x10868",
+      "description": "数据回调取 vtable+0x18",
+      "mnemonic": "ldr",
+      "op_str": "x8, [x8, #0x18]",
+      "expected": "ldr x8, [x8, #0x18]",
+      "ok": true
+    },
+    "0x1086C ★★ 数据回调：投递 OnNetSourceData → OnWriteNetData（落盘入口）": {
+      "address": "0x1086C",
+      "description": "★★ 数据回调：投递 OnNetSourceData → OnWriteNetData（落盘入口）",
+      "mnemonic": "blr",
+      "op_str": "x8",
+      "expected": "blr x8",
+      "ok": true
+    },
+    "0x10884 commit 新值 = offset + length": {
+      "address": "0x10884",
+      "description": "commit 新值 = offset + length",
+      "mnemonic": "adds",
+      "op_str": "x8, x21, x22",
+      "expected": "adds x8, x21, x22",
+      "ok": true
+    },
+    "0x10888 ★ 写 commit（仅代次通过才执行）": {
+      "address": "0x10888",
+      "description": "★ 写 commit（仅代次通过才执行）",
+      "mnemonic": "str",
+      "op_str": "x8, [x20, #0x30]",
+      "expected": "str x8, [x20, #0x30]",
+      "ok": true
+    },
+    "0x108D0 越过等待阈值 → 置唤醒标志": {
+      "address": "0x108D0",
+      "description": "越过等待阈值 → 置唤醒标志",
+      "mnemonic": "str",
+      "op_str": "w8, [x20, #0xb8]",
+      "expected": "str w8, [x20, #0xb8]",
+      "ok": true
+    },
+    "0x108DC 唤醒等待读侧": {
+      "address": "0x108DC",
+      "description": "唤醒等待读侧",
+      "mnemonic": "bl",
+      "op_str": "#0x8ab0",
+      "expected": "bl 0x8ab0",
+      "ok": true
+    },
+    "0x108E0 ★ 丢弃路径终点：只 unlock + 栈保护检查 + ret": {
+      "address": "0x108E0",
+      "description": "★ 丢弃路径终点：只 unlock + 栈保护检查 + ret",
+      "mnemonic": "mov",
+      "op_str": "x0, x19",
+      "expected": "mov x0, x19",
+      "ok": true
+    },
+    "0x127C0 [+0xC8] 禁用标志": {
+      "address": "0x127C0",
+      "description": "[+0xC8] 禁用标志",
+      "mnemonic": "ldrb",
+      "op_str": "w8, [x0, #0xc8]",
+      "expected": "ldrb w8, [x0, #0xc8]",
+      "ok": true
+    },
+    "0x127CC 禁用 → 返回 -100，不写盘": {
+      "address": "0x127CC",
+      "description": "禁用 → 返回 -100，不写盘",
+      "mnemonic": "mov",
+      "op_str": "x0, #-0x64",
+      "expected": "mov x0, #-0x64",
+      "ok": true
+    },
+    "0x12810 len==0 → -102 分支": {
+      "address": "0x12810",
+      "description": "len==0 → -102 分支",
+      "mnemonic": "cbz",
+      "op_str": "w2, #0x12828",
+      "expected": "cbz w2, #0x12828",
+      "ok": true
+    },
+    "0x12814 offset 低 6 位非 0（未 64B 对齐）→ -102 分支": {
+      "address": "0x12814",
+      "description": "offset 低 6 位非 0（未 64B 对齐）→ -102 分支",
+      "mnemonic": "tbnz",
+      "op_str": "x21, #0x3f, #0x12828",
+      "expected": "tbnz x21, #0x3f",
+      "ok": true
+    },
+    "0x12818 ★ 读 file_len [+0x70]": {
+      "address": "0x12818",
+      "description": "★ 读 file_len [+0x70]",
+      "mnemonic": "ldr",
+      "op_str": "x8, [x19, #0x70]",
+      "expected": "ldr x8, [x19, #0x70]",
+      "ok": true
+    },
+    "0x1281C end = offset + len": {
+      "address": "0x1281C",
+      "description": "end = offset + len",
+      "mnemonic": "add",
+      "op_str": "x28, x21, w23, uxtw",
+      "expected": "add x28, x21, w23, uxtw",
+      "ok": true
+    },
+    "0x12820 ★ end 与 file_len 比较": {
+      "address": "0x12820",
+      "description": "★ end 与 file_len 比较",
+      "mnemonic": "cmp",
+      "op_str": "x28, x8",
+      "expected": "cmp x28, x8",
+      "ok": true
+    },
+    "0x12824 end <= file_len 才允许分片写": {
+      "address": "0x12824",
+      "description": "end <= file_len 才允许分片写",
+      "mnemonic": "b.le",
+      "op_str": "#0x12868",
+      "expected": "b.le 0x12868",
+      "ok": true
+    },
+    "0x12834 越界 → 返回 -102，不写盘": {
+      "address": "0x12834",
+      "description": "越界 → 返回 -102，不写盘",
+      "mnemonic": "mov",
+      "op_str": "x0, #-0x66",
+      "expected": "mov x0, #-0x66",
+      "ok": true
+    },
+    "0x12844 ★ NMSlicesFile Write buffer 日志 ADRP": {
+      "address": "0x12844",
+      "description": "★ NMSlicesFile Write buffer 日志 ADRP",
+      "mnemonic": "adrp",
+      "op_str": "x2, #0x3c000",
+      "expected": "adrp x2, #0x3c000",
+      "ok": true
+    },
+    "0x1284C ★ 日志 0x3CF90 的 ADRP+ADD 还原": {
+      "address": "0x1284C",
+      "description": "★ 日志 0x3CF90 的 ADRP+ADD 还原",
+      "mnemonic": "add",
+      "op_str": "x2, x2, #0xf90",
+      "expected": "add x2, x2, #0xf90",
+      "ok": true
+    },
+    "0x12868 file_len == offset ?": {
+      "address": "0x12868",
+      "description": "file_len == offset ?",
+      "mnemonic": "cmp",
+      "op_str": "x8, x21",
+      "expected": "cmp x8, x21",
+      "ok": true
+    },
+    "0x1286C 不等才进入分片写循环": {
+      "address": "0x1286C",
+      "description": "不等才进入分片写循环",
+      "mnemonic": "b.ne",
+      "op_str": "#0x12884",
+      "expected": "b.ne 0x12884",
+      "ok": true
+    },
+    "0x1287C file_len==offset（EOF）→ 返回 -1，不写盘": {
+      "address": "0x1287C",
+      "description": "file_len==offset（EOF）→ 返回 -1，不写盘",
+      "mnemonic": "mov",
+      "op_str": "x0, #-1",
+      "expected": "mov x0, #-1",
+      "ok": true
+    },
+    "0x12890 按 slice_size [+0xD0] 计算终止 slice 索引": {
+      "address": "0x12890",
+      "description": "按 slice_size [+0xD0] 计算终止 slice 索引",
+      "mnemonic": "sdiv",
+      "op_str": "x9, x28, x10",
+      "expected": "sdiv x9, x28, x10",
+      "ok": true
+    },
+    "0x12894 按 slice_size 计算起始 slice 索引": {
+      "address": "0x12894",
+      "description": "按 slice_size 计算起始 slice 索引",
+      "mnemonic": "sdiv",
+      "op_str": "x27, x21, x10",
+      "expected": "sdiv x27, x21, x10",
+      "ok": true
+    },
+    "0x12980 ★ 实际分片写调用": {
+      "address": "0x12980",
+      "description": "★ 实际分片写调用",
+      "mnemonic": "bl",
+      "op_str": "#0x150e8",
+      "expected": "bl 0x150e8",
+      "ok": true
+    },
+    "0x12AF4 写失败分支入口（tbnz w0,#0x1f）": {
+      "address": "0x12AF4",
+      "description": "写失败分支入口（tbnz w0,#0x1f）",
+      "mnemonic": "mov",
+      "op_str": "w20, w0",
+      "expected": "mov w20, w0",
+      "ok": true
+    },
+    "0x12B30 写失败 → 返回 -98": {
+      "address": "0x12B30",
+      "description": "写失败 → 返回 -98",
+      "mnemonic": "mov",
+      "op_str": "x0, #-0x62",
+      "expected": "mov x0, #-0x62",
+      "ok": true
+    },
+    "0x12AD4 ★ Write all finish 日志 ADRP": {
+      "address": "0x12AD4",
+      "description": "★ Write all finish 日志 ADRP",
+      "mnemonic": "adrp",
+      "op_str": "x2, #0x3d000",
+      "expected": "adrp x2, #0x3d000",
+      "ok": true
+    },
+    "0x12ADC ★ 日志 0x3D0AE 的 ADRP+ADD 还原": {
+      "address": "0x12ADC",
+      "description": "★ 日志 0x3D0AE 的 ADRP+ADD 还原",
+      "mnemonic": "add",
+      "op_str": "x2, x2, #0xae",
+      "expected": "add x2, x2, #0xae",
+      "ok": true
+    },
+    "0x12AEC 成功路径置完成标志 [+0x104]": {
+      "address": "0x12AEC",
+      "description": "成功路径置完成标志 [+0x104]",
+      "mnemonic": "strb",
+      "op_str": "w8, [x19, #0x104]",
+      "expected": "strb w8, [x19, #0x104]",
+      "ok": true
+    },
+    "0x12A84 成功返回 0": {
+      "address": "0x12A84",
+      "description": "成功返回 0",
+      "mnemonic": "mov",
+      "op_str": "x0, xzr",
+      "expected": "mov x0, xzr",
+      "ok": true
+    }
+  },
+  "rodata_strings": {
+    "0x3CB43": {
+      "text": "NMNetSource(%lld-%lld)::WaitRequest offset:%lld, length:%lld, signal_size:%lld, force:%s",
+      "ok": true
+    },
+    "0x3CBA1": {
+      "text": "NMNetSource(%lld-%lld)::WaitRequest cur offset:%lld, cur end : % lld, expect offset : % lld, end : % lld, commit : % lld",
+      "ok": true
+    },
+    "0x3CC1A": {
+      "text": "NMNetSource(%lld-%lld)::MakeRangeRequestAsync offset:%lld, length:%lld, signal_size:%lld",
+      "ok": true
+    },
+    "0x3CD64": {
+      "text": "NMNetSource::MakeRangeRequestAsync(%lld), start result:%d, offset:%lld, length:%lld",
+      "ok": true
+    },
+    "0x3CC73": {
+      "text": "NMNetSource(%lld-%lld)::OnData() offset:%lld, size:%lld, except offset:%lld, end:%lld",
+      "ok": true
+    },
+    "0x3CCC9": {
+      "text": "NMNetSource(%lld-%lld)::OnData() UnExpect New Offsetcommted:%lld, offset:%lld, size:%lld, cur_req_size:%lld",
+      "ok": true
+    },
+    "0x3CF90": {
+      "text": "NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld ",
+      "ok": true
+    },
+    "0x3CFCE": {
+      "text": "NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld Finish EOF.",
+      "ok": true
+    },
+    "0x3D017": {
+      "text": "NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld Fail. code:%d",
+      "ok": true
+    },
+    "0x3D062": {
+      "text": "NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld File Not Exsit",
+      "ok": true
+    },
+    "0x3D0AE": {
+      "text": "NMSlicesFile Write all finish",
+      "ok": true
+    }
+  },
+  "prior_evidence": {
+    "file": "analysis/l3-f4-netsource-commit-disasm.json",
+    "all_pass": true,
+    "on_data_packet_count": 1028,
+    "commit_values": [
+      16384,
+      16384
+    ],
+    "generations": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "7",
+      "8"
+    ]
+  },
+  "checks": {
+    "elf_and_symbols": true,
+    "plt_helpers_resolved": true,
+    "disasm_anchors_all": true,
+    "rodata_strings_all": true,
+    "generation_increment_chain": true,
+    "generation_passed_to_start_callback": true,
+    "generation_compare_chain": true,
+    "early_drop_skips_data_callback": true,
+    "commit_write_gated": true,
+    "slice_write_disabled_flag": true,
+    "slice_write_alignment_gate": true,
+    "slice_write_file_len_gate": true,
+    "slice_write_eof_gate": true,
+    "slice_write_actual_call": true,
+    "slice_write_error_and_finish": true,
+    "prior_61_65_evidence_intact": true,
+    "f4_still_blocked": true,
+    "no_credentials_in_output": true
+  },
+  "all_pass": true,
+  "failed_checks": [],
+  "finding": {
+    "binary_confirmed": [
+      "A. MakeRangeRequestAsync @0x10458（WaitRequest @0x10304 唯一调用点）：0x10498 'str x22,[x26,#0x20]!' 先写 offset 并把 x26 前移到 this+0x20；0x104A0 读 [x26,#0xA0]（== this+0xC0，当前代次）→ 0x104B0 'add x23,x8,#1' → 0x104B8 写回 [this+0xC0]（**代次递增点**）→ 0x104D8 'mov x1,x23' 把新代次作为首参、0x104E8 'blr x8'（vtable+0x10）发起 Range 请求。请求失败时 0x1053C 把 [this+0x20..0x40] 置 -1、0x10540 存错误码。",
+      "B. NMNetSource::OnData @0x10748：0x10790 读 [this+0xC0] 当前代次、0x10794 'cmp x8,x24' 与回调 arg1（发起请求时的代次）比对、0x10798 'b.ne 0x108E0' 不匹配即整包丢弃。0x108E0 位于数据回调 0x1086C 与 commit 写入 0x10888 **之后**，只做 unlock + 栈保护检查 + ret → **代次不匹配的数据包既不投递 0x1086C 'blr x8'（vtable+0x18 → OnNetSourceData → OnWriteNetData 落盘入口），也不写 commit、不置 +0xB8、不唤醒读侧**。通过校验才 0x10884/0x10888 写 commit=offset+length，并在 [+0x40]>=1 且 commit>=[+0x38]+[+0x40] 时 0x108D0/0x108DC 唤醒读侧。",
+      "C. NMSlicesFile::Write @0x127C0（日志锚 0x12844 → 0x3CF90）有四条静默不落盘门控：① [+0xC8] 非 0 → -100；② len==0 或 offset 低 6 位非 0（未 64B 对齐）→ -102；③ 0x12820 'cmp x28,x8' 要求 offset+len <= [+0x70]=file_len，越界 → -102；④ 0x12868 file_len==offset（EOF）→ -1。通过后才 0x12890/0x12894 按 [+0xD0] slice_size 计算起止片索引、0x12980 'bl 0x150E8' 实际分片写，写失败 0x12AF4 → -98，成功 0x12ADC 打 'Write all finish'（0x3D0AE）并置 [+0x104]。"
+    ],
+    "log_confirmed_from_61_65": [
+      "§61.64 变体 D（kind=2）主判据：Java 侧 onData 1028 条、9 次 Start 每次 length=1048576、每包 8192 B（末包可拆 215+7977）→ 1 MiB 完整回传，但 commit 恒 16384（2 包）；基线 kind=1 为 180224（22 包）。",
+      "读侧 ReadFromFileNoLock offset:327895 readed_len:0 result:-2 反复 12 次，请求代次日志从 (1-0) 递增到 (1-8)；§61.63 的 .nmsfi 索引一手取证显示 自洽 fMP4 只有 slices[0].trunks=[0,368640)、_0.nmsf 实际 368640 B，而 mp3/flac/wav 有多片全满 1 MiB trunk。"
+    ],
+    "inference_upgrade": "§61.65 把『读侧读空 → WaitRequest 立即 MakeRangeRequestAsync 递增代次 → 旧代次在途包在 0x10798 被整包丢弃 → commit 停在 16384』标为 inference。本批把该推断的**三个缺环全部补成一手二进制证据**：递增点（0x104B0/0x104B8）、新代次透传给请求（0x104D8/0x104E8）、比较与丢弃（0x10794/0x10798）。**并新增两条实证**：① 丢弃路径跳过 0x1086C 数据回调 → 直接解释 §61.63 『Java 回传 1 MiB 一个字节没进 vfile』；② NMSlicesFile::Write 要求 offset+len <= file_len → 直接解释 §61.61/§61.62 的跳跃式 probe 读 offset=605007 在 file_len 仅 368640 时必然 result:-2。**证据等级提升，但性质仍是 inference**：未做新的真机 A/B 直接命中 0x10798，level-5 日志未开启，读侧重发与代次失效的运行时时序未由日志逐包坐实。",
+    "precision_correction_preserved": "沿用 §61.65：commit 是 NMNetSource 的『连续确认偏移』，不是 vfile 磁盘写入字节数；vfile 实际落盘由 OnWriteNetData → NMSlicesFile::Write 独立执行，两者都受代次闸门控制但不等价。本批不改写该修正。",
+    "device_endpoint_41417": "用户 2026-11-10 23:58 给出新端口 41417（按 adb 无线调试端点处理）。实测：10.0.0.2:41417 → 10060 超时；192.168.1.11:41417 → 拒绝连接；已重启 adb 会话，系统 adb 35.0.2 与项目 tools/bin/adb.exe 37.0.1 两个版本均试过，adb devices 为空。上一轮在线端点为 10.0.0.2:41761。按用户选择『先继续离线任务』登记为待连端点，本批真机 A/B / level-5 日志实证 **NOT RUN**；不擅自改动用户网络，待用户补完整 IP:port 或确认设备无线调试开启后再跑。"
+  },
+  "honest_notes": [
+    "本轮为纯静态反汇编 + §61.65 已固化真机日志的交叉，零 P0 源码改动、libNMCommonCache.so 二进制原样、零新增依赖、零设备操作。",
+    "F4 仍 BLOCKED：定位 ≠ 修复 ≠ 验证；-103 判据未通过；自动进曲 3 首 / seek / ENDED 仍 NOT RUN；F3 14 格矩阵未改写；A3 仍 G09 PARTIAL → 舱不冻结、engine_compat_test 不回填。不写『F4 已解决 / m4a 已支持 / 全格式已支持』。",
+    "level-5 日志（NMSlicesFile Write SKIP / EOF / Fail / Write all finish、OnWriteNetData SKIP / TRIM / Failed Not Support）在现有 logcat 中未开启，C 段落盘门控分支只由二进制坐实、未由运行时日志确认。",
+    "设备端点 41417 不可达 → 真机 A/B 与『把 inference 升级为实证』的后半段仍待设备在线；本批只完成 §61.65 剩余断点①的前半（离线反汇编）。",
+    "§61.65 / §61.64 / §61.50 等历史批次块的当时快照口径按约定保留，不改写。"
+  ]
+}

@@ -1,0 +1,627 @@
+{
+  "batch": "docs/12 §61.70 / 第九十七批",
+  "generated_at": "2026-11-10T23:16:52.806966+00:00",
+  "mode": "pure-offline / read-only / no-device / no-network-change / no-P0-edit",
+  "artifacts": {
+    "so_relpath": "engine-legacy/src/main/jniLibs/arm64-v8a/libNMCommonCache.so",
+    "so_size": 309632,
+    "so_sha256": "7a1adc95c255c241c1d5d64060468cefe3961c73c459ba15527ce87e5fde4a6c",
+    "log_files_scanned": 34
+  },
+  "findings": {
+    "level_global": "0x4c388",
+    "bss_owner": [
+      ".bss",
+      "SHT_NOBITS"
+    ],
+    "level_global_writers": [
+      [
+        "0x37e38",
+        "str",
+        "w0, [x8, #0x388]"
+      ]
+    ],
+    "init_array_level_writes": 0,
+    "default_g_level": 0,
+    "getter": "0x37e20",
+    "getter_body": "adrp x8, #0x4c000 ldr w8, [x8, #0x388] cmp w8, w0 cset w0, gt",
+    "setter": "0x37e34",
+    "setter_body": "adrp x8, #0x4c000 str w0, [x8, #0x388] ret  mov x2, #0",
+    "jni_tailcall_to_setter": true,
+    "plt_stub": "0x8a70",
+    "plt_got_slot": "0x4bbd8",
+    "plt_import": "__android_log_print",
+    "log_tag": "NMCache",
+    "log_format": "%s",
+    "logger_method": "BIInfo",
+    "logger_sig": "(ILjava/lang/String;)V",
+    "getter_call_sites": 173,
+    "logfn_call_sites": 156,
+    "nm_identical": 163,
+    "nm_identity_ratio": 0.9422,
+    "nm_pair_distribution": [
+      {
+        "N": 5,
+        "M": 5,
+        "count": 98
+      },
+      {
+        "N": 4,
+        "M": 4,
+        "count": 30
+      },
+      {
+        "N": 3,
+        "M": 3,
+        "count": 27
+      },
+      {
+        "N": 6,
+        "M": 6,
+        "count": 8
+      },
+      {
+        "N": 5,
+        "M": null,
+        "count": 4
+      },
+      {
+        "N": 4,
+        "M": 5,
+        "count": 4
+      },
+      {
+        "N": 6,
+        "M": 5,
+        "count": 1
+      },
+      {
+        "N": null,
+        "M": 4,
+        "count": 1
+      }
+    ],
+    "branch_distribution": {
+      "tbnz": 147,
+      "tbz": 26
+    },
+    "f4_getters": [
+      {
+        "addr": "0x107bc",
+        "N": 5,
+        "M": 5,
+        "branch": "tbnz"
+      },
+      {
+        "addr": "0x10804",
+        "N": 5,
+        "M": 5,
+        "branch": "tbnz"
+      },
+      {
+        "addr": "0x1282c",
+        "N": 5,
+        "M": 5,
+        "branch": "tbz"
+      },
+      {
+        "addr": "0x12874",
+        "N": 5,
+        "M": null,
+        "branch": "tbz"
+      },
+      {
+        "addr": "0x12ac8",
+        "N": 5,
+        "M": 5,
+        "branch": "tbnz"
+      },
+      {
+        "addr": "0x12afc",
+        "N": 5,
+        "M": 5,
+        "branch": "tbnz"
+      },
+      {
+        "addr": "0x12c48",
+        "N": 5,
+        "M": 5,
+        "branch": "tbz"
+      }
+    ],
+    "prio4_log_sites": [
+      {
+        "addr": "0x10224",
+        "fmt": "NMNetSource(%lld-%lld)::WaitRequest offset:%lld, length:%lld, signal_size:%lld, force:%s"
+      },
+      {
+        "addr": "0x10274",
+        "fmt": "NMNetSource(%lld-%lld)::WaitRequest cur offset:%lld, cur end : % lld, expect offset : % lld, end : % lld, commit : % lld"
+      },
+      {
+        "addr": "0x102ec",
+        "fmt": "NMNetSource(%lld-%lld)::MakeRangeRequestAsync offset:%lld, length:%lld, signal_size:%lld"
+      },
+      {
+        "addr": "0x10528",
+        "fmt": "NMNetSource::MakeRangeRequestAsync(%lld), start result:%d, offset:%lld, length:%lld"
+      }
+    ],
+    "prio5_log_sites": [
+      {
+        "addr": "0x107f0",
+        "fmt": "NMNetSource(%lld-%lld)::OnData() offset:%lld, size:%lld, except offset:%lld, end:%lld"
+      },
+      {
+        "addr": "0x1083c",
+        "fmt": "NMNetSource(%lld-%lld)::OnData() UnExpect New Offsetcommted:%lld, offset:%lld, size:%lld, cur_req_size:%lld"
+      },
+      {
+        "addr": "0x1285c",
+        "fmt": "NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld "
+      },
+      {
+        "addr": "0x12a08",
+        "fmt": "NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld File Not Exsit"
+      },
+      {
+        "addr": "0x12a3c",
+        "fmt": "NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld Finish EOF."
+      },
+      {
+        "addr": "0x12ae4",
+        "fmt": "NMSlicesFile Write all finish"
+      },
+      {
+        "addr": "0x12b28",
+        "fmt": "NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld Fail. code:%d"
+      }
+    ],
+    "gate_semantics": "log emitted iff g_level <= N; default 0 => all D/I/W/E emitted; level=5 suppresses D(3)/I(4) and keeps W(5)/E(6); level>=6 suppresses W and alters tbz early-return error codes"
+  },
+  "logcat_evidence": {
+    "priorities": {
+      "I": 617,
+      "D": 1829,
+      "W": 21
+    },
+    "totals": {
+      "MakeRangeRequestAsync": 169,
+      "WaitRequest": 129,
+      "Finish Async:-103": 12
+    },
+    "f4_gate_string_hits": {
+      "NMSlicesFile Write buffer len": 0,
+      "NMSlicesFile::Read buffer len": 0,
+      "OnWriteNetData SKIP": 0,
+      "OnWriteNetData TRIM": 0,
+      "::OnData() offset": 0,
+      "UnExpect New Offsetcommted": 0,
+      "file_len:": 0
+    },
+    "w_nmcache_write_all_finish": 1,
+    "two_round_files": [
+      "vfile-commit-20261111-004310.txt",
+      "vfile-commit-20261111-004603.txt"
+    ],
+    "per_file": {
+      "ab-a-remote.txt": {
+        "lines": 3059,
+        "prio": {
+          "I": 17,
+          "D": 16
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "ab-control-baseline-remote.txt": {
+        "lines": 2448,
+        "prio": {
+          "I": 22,
+          "D": 24
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "ab-run1-m4a-remote.txt": {
+        "lines": 7140,
+        "prio": {
+          "I": 14,
+          "D": 22
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "ab-run2-m4a-remote.txt": {
+        "lines": 3362,
+        "prio": {
+          "I": 14,
+          "D": 22
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "fast-local.txt": {
+        "lines": 6407,
+        "prio": {
+          "I": 3
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "fast-remote-25s.txt": {
+        "lines": 2597,
+        "prio": {
+          "I": 17,
+          "D": 16
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "fast-remote.txt": {
+        "lines": 3074,
+        "prio": {
+          "I": 15,
+          "W": 1,
+          "D": 14
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "final-m4a-local.txt": {
+        "lines": 4534,
+        "prio": {
+          "I": 3
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "final-m4a-remote.txt": {
+        "lines": 5363,
+        "prio": {
+          "I": 16,
+          "D": 24
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "ksab-flac-remote.txt": {
+        "lines": 3226,
+        "prio": {
+          "I": 9,
+          "D": 201,
+          "W": 1
+        },
+        "w_write_all_finish": 1,
+        "gate_hits": {}
+      },
+      "ksab-m4a-remote.txt": {
+        "lines": 2774,
+        "prio": {
+          "I": 14,
+          "D": 22
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "ksab-mp3-local.txt": {
+        "lines": 3586,
+        "prio": {
+          "I": 2
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "ksab-mp3-remote.txt": {
+        "lines": 1706,
+        "prio": {
+          "I": 7,
+          "D": 54
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "ksab-wav-remote.txt": {
+        "lines": 4518,
+        "prio": {
+          "I": 42,
+          "D": 683
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "ksab-wma-remote.txt": {
+        "lines": 1918,
+        "prio": {
+          "I": 7,
+          "D": 25
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "m4a-local.txt": {
+        "lines": 3087,
+        "prio": {
+          "I": 3
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "m4a-remote.txt": {
+        "lines": 1548,
+        "prio": {
+          "I": 16,
+          "W": 1,
+          "D": 10
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "recheck-m4a-local.txt": {
+        "lines": 4675,
+        "prio": {},
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "recheck-m4a-remote.txt": {
+        "lines": 2078,
+        "prio": {
+          "I": 36,
+          "D": 41,
+          "W": 1
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "recheck-mp3-local.txt": {
+        "lines": 3766,
+        "prio": {
+          "I": 2
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "recheck-mp3-remote.txt": {
+        "lines": 2862,
+        "prio": {
+          "I": 7,
+          "D": 51
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "recheck-wma-remote.txt": {
+        "lines": 1604,
+        "prio": {
+          "I": 7,
+          "D": 23
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "selfconsist-local.txt": {
+        "lines": 6070,
+        "prio": {
+          "I": 3
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "selfconsist-remote.txt": {
+        "lines": 3498,
+        "prio": {
+          "I": 25,
+          "W": 1,
+          "D": 28
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "vfile-commit-20261110-102722.txt": {
+        "lines": 4560,
+        "prio": {
+          "I": 37,
+          "D": 50,
+          "W": 2
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "vfile-commit-20261110-114804.txt": {
+        "lines": 2894,
+        "prio": {
+          "I": 38,
+          "W": 3,
+          "D": 42
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "vfile-commit-20261110-115354.txt": {
+        "lines": 1610,
+        "prio": {
+          "I": 2
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "vfile-commit-20261110-115456.txt": {
+        "lines": 1338,
+        "prio": {
+          "I": 2
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "vfile-commit-20261110-115510.txt": {
+        "lines": 827,
+        "prio": {},
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "vfile-commit-20261110-130021.txt": {
+        "lines": 4181,
+        "prio": {
+          "I": 45,
+          "W": 2,
+          "D": 49
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "vfile-commit-20261110-130127.txt": {
+        "lines": 3124,
+        "prio": {
+          "I": 7,
+          "D": 53
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "vfile-commit-20261110-130142.txt": {
+        "lines": 3313,
+        "prio": {
+          "I": 10,
+          "D": 168
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "vfile-commit-20261111-004310.txt": {
+        "lines": 6725,
+        "prio": {
+          "I": 103,
+          "D": 111,
+          "W": 6
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      },
+      "vfile-commit-20261111-004603.txt": {
+        "lines": 5404,
+        "prio": {
+          "I": 72,
+          "D": 80,
+          "W": 3
+        },
+        "w_write_all_finish": 0,
+        "gate_hits": {}
+      }
+    }
+  },
+  "conclusions": [
+    "默认 g_level=0，libNMCommonCache.so 的 I/D/W/E 日志全部已输出，不存在需要额外开启的 level-5 开关",
+    "§61.68 两轮 F4 门控关键词全 0 是有效负结果，但归因应为 W 级分支未触发，而非 level-5 未开启",
+    "§61.69 的 SetLoggerCallback(INMLogger(), 5) 对 F4 目标 W 级日志零增益，且会抑制 I/D 级证据",
+    "INMLogger 空类缺少 BIInfo(ILjava/lang/String;)V，native GetMethodID 必然失败并可能留下 JNI pending exception",
+    "F4 仍 BLOCKED：断点性质从等设备开日志改为构造能触发 W 级分支的输入，或接受负结果重新定性"
+  ],
+  "groups": {
+    "binary": [
+      "so_sha256_recorded",
+      "level_global_in_bss_nobits",
+      "level_global_single_writer",
+      "init_array_no_level_write",
+      "getter_is_strict_gt",
+      "jni_tailcalls_setter",
+      "plt_0x8a70_is_android_log_print",
+      "tag_is_nmcache",
+      "logger_method_is_biinfo",
+      "logger_sig_is_int_string_void"
+    ],
+    "semantics": [
+      "call_site_counts",
+      "nm_identity_ratio_ge_093",
+      "branch_types_tbnz_and_tbz",
+      "f4_regions_all_level5",
+      "waitrequest_makerange_prio4",
+      "ondata_slicesfile_prio5"
+    ],
+    "logcat": [
+      "w_nmcache_write_all_finish_exists",
+      "f4_gate_strings_all_zero",
+      "i_and_d_priorities_present",
+      "two_round_logs_present",
+      "i_level_evidence_present"
+    ],
+    "docs": [
+      "d12_section_6170",
+      "d12_errata_for_6168_6169",
+      "d17_section_830",
+      "d09_d16_batch97",
+      "backlog_batch97",
+      "runbook_6170",
+      "report_present"
+    ],
+    "honesty": [
+      "f4_still_blocked",
+      "no_false_claims",
+      "level5_harmful_registered",
+      "rollback_pending_user",
+      "wiring_still_in_place",
+      "history_audits_intact"
+    ]
+  },
+  "group_counts": {
+    "binary": [
+      10,
+      10
+    ],
+    "semantics": [
+      6,
+      6
+    ],
+    "logcat": [
+      5,
+      5
+    ],
+    "docs": [
+      7,
+      7
+    ],
+    "honesty": [
+      6,
+      6
+    ]
+  },
+  "checks": {
+    "so_sha256_recorded": true,
+    "level_global_in_bss_nobits": true,
+    "level_global_single_writer": true,
+    "init_array_no_level_write": true,
+    "getter_is_strict_gt": true,
+    "jni_tailcalls_setter": true,
+    "plt_0x8a70_is_android_log_print": true,
+    "tag_is_nmcache": true,
+    "logger_method_is_biinfo": true,
+    "logger_sig_is_int_string_void": true,
+    "call_site_counts": true,
+    "nm_identity_ratio_ge_093": true,
+    "branch_types_tbnz_and_tbz": true,
+    "f4_regions_all_level5": true,
+    "waitrequest_makerange_prio4": true,
+    "ondata_slicesfile_prio5": true,
+    "w_nmcache_write_all_finish_exists": true,
+    "f4_gate_strings_all_zero": true,
+    "i_and_d_priorities_present": true,
+    "two_round_logs_present": true,
+    "i_level_evidence_present": true,
+    "d12_section_6170": true,
+    "d12_errata_for_6168_6169": true,
+    "d17_section_830": true,
+    "d09_d16_batch97": true,
+    "backlog_batch97": true,
+    "runbook_6170": true,
+    "report_present": true,
+    "f4_still_blocked": true,
+    "no_false_claims": true,
+    "level5_harmful_registered": true,
+    "rollback_pending_user": true,
+    "wiring_still_in_place": true,
+    "history_audits_intact": true
+  },
+  "checks_total": 34,
+  "checks_pass": 34,
+  "all_pass": true,
+  "failed_checks": []
+}

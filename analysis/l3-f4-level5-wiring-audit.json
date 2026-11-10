@@ -1,0 +1,114 @@
+{
+  "method": "12 §61.69 level-5 诊断接线只读审计（先读进变量再写，不碰生产源码 / 不连 adb）",
+  "generated_by": "tools/l3_f4_level5_wiring_audit.py",
+  "batch": "12 §61.69 / 第九十六批",
+  "date": "2026-11-11",
+  "device": {
+    "endpoint": "192.168.1.11:41703",
+    "state": "offline",
+    "tcp_41703": false,
+    "icmp": false,
+    "local_wlan": "192.168.1.19",
+    "network_unchanged": true,
+    "note": "连 ICMP 都不通；重新上线须用户开启无线调试并给新配对端点 + 一次性配对码（不落盘）"
+  },
+  "artifacts": {
+    "engine_adapter": "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineAdapter.kt",
+    "engine_adapter_p0_lines_added": 20,
+    "so": "engine-legacy/src/main/jniLibs/arm64-v8a/libNMCommonCache.so",
+    "so_sha256": "7a1adc95c255c241c1d5d64060468cefe3961c73c459ba15527ce87e5fde4a6c",
+    "debug_apk": "app/build/outputs/apk/debug/app-debug.apk",
+    "debug_apk_present": true,
+    "debug_apk_size": 31302687,
+    "debug_apk_build": "BUILD SUCCESSFUL in 2m31s (:app:assembleDebug --offline)",
+    "backup_tar": "analysis/l3-f4-backup/app-data-20261111.tar",
+    "backup_size": 50969600
+  },
+  "groups": {
+    "wiring": [
+      "inmlogger_import_present",
+      "setlogger_called_with_instance",
+      "setlogger_no_null_argument_anywhere",
+      "level_coerce_hard_cap_0_5",
+      "level_default_5",
+      "level_private_file_override",
+      "wiring_comment_cites_61_69",
+      "setconfig_still_present"
+    ],
+    "evidence": [
+      "loglevel_probe_all_pass_19",
+      "loglevel_probe_records_null_risk",
+      "loglevel_probe_records_strict_gt_semantics",
+      "gen_gate_live_audit_intact",
+      "gen_gate_disasm_audit_intact"
+    ],
+    "binary": [
+      "so_binary_present_and_hashed",
+      "setlogger_single_callsite_in_tree"
+    ],
+    "docs": [
+      "docs12_has_61_69",
+      "docs17_has_8_29",
+      "backlog_has_61_69",
+      "runbook_records_device_offline",
+      "docs09_and_16_record_61_69"
+    ],
+    "honesty": [
+      "f4_still_blocked_in_docs",
+      "no_level5_enabled_claim",
+      "device_state_recorded_as_offline"
+    ]
+  },
+  "group_counts": {
+    "wiring": 8,
+    "evidence": 5,
+    "binary": 2,
+    "docs": 5,
+    "honesty": 3
+  },
+  "counts": {
+    "checks_total": 23,
+    "checks_pass": 23,
+    "source_files_scanned": 82,
+    "loglevel_probe_checks": 19,
+    "gen_gate_live_checks": 29,
+    "gen_gate_disasm_checks": 25
+  },
+  "checks": {
+    "inmlogger_import_present": true,
+    "setlogger_called_with_instance": true,
+    "setlogger_no_null_argument_anywhere": true,
+    "level_coerce_hard_cap_0_5": true,
+    "level_default_5": true,
+    "level_private_file_override": true,
+    "wiring_comment_cites_61_69": true,
+    "setconfig_still_present": true,
+    "loglevel_probe_all_pass_19": true,
+    "loglevel_probe_records_null_risk": true,
+    "loglevel_probe_records_strict_gt_semantics": true,
+    "gen_gate_live_audit_intact": true,
+    "gen_gate_disasm_audit_intact": true,
+    "so_binary_present_and_hashed": true,
+    "setlogger_single_callsite_in_tree": true,
+    "docs12_has_61_69": true,
+    "docs17_has_8_29": true,
+    "backlog_has_61_69": true,
+    "runbook_records_device_offline": true,
+    "docs09_and_16_record_61_69": true,
+    "f4_still_blocked_in_docs": true,
+    "no_level5_enabled_claim": true,
+    "device_state_recorded_as_offline": true
+  },
+  "all_pass": true,
+  "failed_checks": [],
+  "honest_notes": [
+    "本批推进的是「诊断接线 + 编译产物就绪」，不是 F4 修复、不是真机验证。",
+    "真机 level-5 观测 NOT RUN：全新安装被 MIUI INSTALL_FAILED_USER_RESTRICTED 阻挡，随后设备完全离线（TCP/ICMP 均不通）。",
+    "后续真机起点是冷缓存（卸载清空 legacy_engine_cache），与 §61.68 暖缓存条件不同。",
+    "level 硬上限 5 的依据：g_level > 5 会令 NMSlicesFile::Write 直接返回 -102/-1/-99，注入原本不存在的错误返回会污染 F4 观测。",
+    "INMLogger 是空类；JNI 0x32d70 把 logger 交给唯一 callee 0x36198，传 null 的安全性未实证。",
+    "getter 0x37e20 是严格大于比较（cmp w8,w0; cset w0,gt），level=5 不是必然解锁 level-5 的可靠结论，须真机 0/4/5 对照。",
+    "F4 仍 BLOCKED：-103 未通过、自动进曲 3 首 / seek / ENDED NOT RUN、F3 14 格未改写、A3 仍 G09 PARTIAL、舱不冻结、指纹不回填。",
+    "未改动用户网络、配对码不落盘、未改 so 二进制、零新增依赖。"
+  ]
+}

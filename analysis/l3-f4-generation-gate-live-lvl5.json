@@ -1,0 +1,275 @@
+{
+  "method": "12 §61.62 / F4 vfile commit 时序真机纯观测（零代码改动、不覆盖既有证据）",
+  "generated_by": "tools/l3_f4_vfile_commit_probe.py",
+  "serial": "192.168.1.11:41703",
+  "sample": "f3_m4a_complete.m4a",
+  "sample_bytes": 16573387,
+  "wait_seconds": 35.0,
+  "elapsed_s": 35.4,
+  "log_file": "analysis/l3-f4-logs/vfile-commit-20261111-004603.txt",
+  "log_lines": 5404,
+  "verdict": "OBSERVED",
+  "evidence": {
+    "wait_request_commit_details": [
+      {
+        "ts": "11-11 00:46:07.589",
+        "cur_offset": 16384,
+        "cur_end": 1064960,
+        "expect_offset": 327895,
+        "end": 336087,
+        "commit": 16384
+      },
+      {
+        "ts": "11-11 00:46:16.529",
+        "cur_offset": 16384,
+        "cur_end": 1064960,
+        "expect_offset": 16384,
+        "end": 24576,
+        "commit": 16384
+      }
+    ],
+    "commit_values": [
+      16384,
+      16384
+    ],
+    "commit_distinct": [
+      16384
+    ],
+    "commit_grew": false,
+    "commit_max": 16384,
+    "commit_reached_jump_605007": false,
+    "wait_request_force_lines": [
+      {
+        "ts": "11-11 00:46:07.589",
+        "offset": 327895,
+        "length": 1048576,
+        "signal_size": 8192,
+        "force": "false"
+      },
+      {
+        "ts": "11-11 00:46:09.835",
+        "offset": 327895,
+        "length": 1048576,
+        "signal_size": 8192,
+        "force": "true"
+      },
+      {
+        "ts": "11-11 00:46:12.074",
+        "offset": 327895,
+        "length": 1048576,
+        "signal_size": 8192,
+        "force": "true"
+      },
+      {
+        "ts": "11-11 00:46:14.307",
+        "offset": 327895,
+        "length": 1048576,
+        "signal_size": 8192,
+        "force": "true"
+      },
+      {
+        "ts": "11-11 00:46:16.529",
+        "offset": 16384,
+        "length": 1048576,
+        "signal_size": 8192,
+        "force": "false"
+      },
+      {
+        "ts": "11-11 00:46:18.758",
+        "offset": 16384,
+        "length": 1048576,
+        "signal_size": 8192,
+        "force": "true"
+      },
+      {
+        "ts": "11-11 00:46:20.985",
+        "offset": 16384,
+        "length": 1048576,
+        "signal_size": 8192,
+        "force": "true"
+      },
+      {
+        "ts": "11-11 00:46:23.331",
+        "offset": 16384,
+        "length": 1048576,
+        "signal_size": 8192,
+        "force": "true"
+      },
+      {
+        "ts": "11-11 00:46:25.563",
+        "offset": 25941,
+        "length": 1048576,
+        "signal_size": 8192,
+        "force": "false"
+      },
+      {
+        "ts": "11-11 00:46:27.822",
+        "offset": 25941,
+        "length": 1048576,
+        "signal_size": 8192,
+        "force": "true"
+      },
+      {
+        "ts": "11-11 00:46:30.035",
+        "offset": 25941,
+        "length": 1048576,
+        "signal_size": 8192,
+        "force": "true"
+      },
+      {
+        "ts": "11-11 00:46:32.275",
+        "offset": 25941,
+        "length": 1048576,
+        "signal_size": 8192,
+        "force": "true"
+      },
+      {
+        "ts": "11-11 00:46:34.503",
+        "offset": 25941,
+        "length": 1048576,
+        "signal_size": 8192,
+        "force": "false"
+      },
+      {
+        "ts": "11-11 00:46:36.738",
+        "offset": 25941,
+        "length": 1048576,
+        "signal_size": 8192,
+        "force": "true"
+      },
+      {
+        "ts": "11-11 00:46:39.001",
+        "offset": 25941,
+        "length": 1048576,
+        "signal_size": 8192,
+        "force": "true"
+      }
+    ],
+    "read_lines_total": 20,
+    "jump_read_failures": [],
+    "jump_read_failure_count": 0,
+    "successful_reads_above_baseline_commit": [],
+    "starts": [
+      {
+        "id": 1,
+        "offset": 16384,
+        "length": 1048576
+      },
+      {
+        "id": 2,
+        "offset": 327895,
+        "length": 1048576
+      },
+      {
+        "id": 3,
+        "offset": 327895,
+        "length": 1048576
+      },
+      {
+        "id": 4,
+        "offset": 327895,
+        "length": 1048576
+      },
+      {
+        "id": 5,
+        "offset": 327895,
+        "length": 1048576
+      },
+      {
+        "id": 6,
+        "offset": 16384,
+        "length": 1048576
+      },
+      {
+        "id": 7,
+        "offset": 16384,
+        "length": 1048576
+      },
+      {
+        "id": 8,
+        "offset": 16384,
+        "length": 1048576
+      },
+      {
+        "id": 9,
+        "offset": 16384,
+        "length": 1048576
+      },
+      {
+        "id": 10,
+        "offset": 25941,
+        "length": 1048576
+      },
+      {
+        "id": 11,
+        "offset": 25941,
+        "length": 1048576
+      },
+      {
+        "id": 12,
+        "offset": 25941,
+        "length": 1048576
+      },
+      {
+        "id": 13,
+        "offset": 25941,
+        "length": 1048576
+      },
+      {
+        "id": 14,
+        "offset": 25941,
+        "length": 1048576
+      },
+      {
+        "id": 15,
+        "offset": 25941,
+        "length": 1048576
+      },
+      {
+        "id": 16,
+        "offset": 25941,
+        "length": 1048576
+      }
+    ],
+    "on_end_ids": [
+      "2",
+      "1",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15"
+    ],
+    "open_codec": [],
+    "write_start_play": [],
+    "play_status": [
+      "3"
+    ],
+    "has_103": true
+  },
+  "mechanism_verdict": "B：commit 在 35s 内恒定不变、force 重试仍拿不到 605007 数据 → 指向 commit / Range 记账语义不允许回填跳跃区间，而非单纯落盘速度不足",
+  "honest_notes": [
+    "本脚本只做观测，不实施也不验证任何修复；F4 仍 BLOCKED。",
+    "P0 引擎舱零改动：未改 UrlDataRequest.kt / 未重编译 / 未重装 APK。",
+    "临时 wifiOnly 前置、adb reverse、PC http.server、logcat 子进程均已在 finally 恢复。",
+    "样本是「自洽 fMP4」而非完整真实非 fMP4 的 .m4a；LOCAL PASS ≠ m4a 已支持。",
+    "自动进曲 3 首 / seek / ENDED 仍未测；A3 仍 G09 PARTIAL、舱不冻结。",
+    "机制判读基于 commit 是否随等待增长；具体 native 函数与字段仍需反汇编定位。"
+  ],
+  "restore": {
+    "reverse_before": "",
+    "reverse_removed": true,
+    "wifi_gate_file_removed": true,
+    "http_server_stopped": true,
+    "logcat_process_stopped": true,
+    "device_settings_unchanged": true
+  }
+}

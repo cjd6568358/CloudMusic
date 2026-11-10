@@ -1,0 +1,128 @@
+{
+  "method": "12 §61.68 剩余断点① · level-5 零侵入路径探查（ELF 符号 + capstone 全 .text 反汇编，纯离线只读）",
+  "generated_by": "tools/l3_f4_loglevel_gate_probe.py",
+  "so": "engine-legacy/src/main/jniLibs/arm64-v8a/libNMCommonCache.so",
+  "so_size": 309632,
+  "anchors": {
+    "jni_setlogger_prologue": [
+      "0x32d64",
+      "0x32d70",
+      "0x32d74",
+      "0x32d78",
+      "0x32d80",
+      "0x32d88"
+    ],
+    "setter_body": [
+      "0x37e34",
+      "0x37e38",
+      "0x37e3c"
+    ],
+    "getter_body": [
+      "0x37e20",
+      "0x37e24"
+    ],
+    "level_global": "0x4c388",
+    "level_global_section": ".bss",
+    "setter_callsites": [
+      "0x32d88"
+    ],
+    "global_access_count": 2,
+    "global_access": [
+      {
+        "adrp": 228896,
+        "access": 228900,
+        "insn": "ldr w8, [x8, #0x388]"
+      },
+      {
+        "adrp": 228916,
+        "access": 228920,
+        "insn": "str w0, [x8, #0x388]"
+      }
+    ],
+    "needed": [
+      "liblog.so",
+      "libm.so",
+      "libc++_shared.so",
+      "libdl.so",
+      "libc.so"
+    ],
+    "setconfig_body_insns": 286,
+    "setlogger_callee_callsites": [
+      "0x32d78"
+    ],
+    "getter_compare_is_strict_gt": true
+  },
+  "nblog_rodata_strings": [
+    "libnblog.so",
+    "nblog_write"
+  ],
+  "setconfig_rodata_refs": [
+    {
+      "addr": "0x3c5a5",
+      "text": "NMVirtualFileManager::SetConfig Config Error:%s"
+    },
+    {
+      "addr": "0x3c5d5",
+      "text": "NMVirtualFileManager::SetConfig Config Error. Except Object:%s"
+    },
+    {
+      "addr": "0x3c614",
+      "text": "NMVirtualFileManager::SetConfig Config Error. Dir Empty:%s"
+    },
+    {
+      "addr": "0x3c64f",
+      "text": "NMVirtualFileManager::SetConfig Config Error. Create Dir Failed:%s"
+    },
+    {
+      "addr": "0x3c692",
+      "text": "NMVirtualFileManager::SetConfig Config Error. Cache Clean Range Invalid:%s"
+    },
+    {
+      "addr": "0x3c6dd",
+      "text": "NMVirtualFileManager::SetConfig Finish:%s"
+    }
+  ],
+  "setconfig_level_like_refs": [],
+  "so_level_keyword_hits": [],
+  "checks": {
+    "so_binary_intact": true,
+    "needed_excludes_libnblog": true,
+    "needed_has_libdl_for_dlopen": true,
+    "android_log_print_is_undef_import": true,
+    "setlogger_jni_addr_and_size": true,
+    "setconfig_cpp_addr": true,
+    "level_global_in_bss_zero_init": true,
+    "setter_stores_w0_to_global": true,
+    "getter_loads_global": true,
+    "setter_has_single_callsite": true,
+    "jni_tailcalls_setter": true,
+    "jni_passes_w3_as_level": true,
+    "global_access_only_getter_and_setter": true,
+    "nblog_is_rodata_dlopen_probe_only": true,
+    "setconfig_cpp_refs_no_level_key": true,
+    "so_has_no_level_keyword_at_all": true,
+    "jni_passes_x2_as_logger": true,
+    "setlogger_callee_has_single_callsite": true,
+    "getter_is_strict_gt_compare": true
+  },
+  "all_pass": true,
+  "failed_checks": [],
+  "finding": {
+    "level_global": "0x4c388 位于 .bss（SHT_NOBITS）→ 进程启动恒为 0",
+    "sole_writer": "0x37e34 setter 全 .text 唯一调用点 0x32d88 = SetLoggerCallback JNI tail call",
+    "zero_intrusive_verdict": "不存在：SetConfig 函数体引用串与全 so 二进制均无 level/debug/verbose 关键字（大小写不敏感 0 命中）、无 prop / 配置文件 / 跨进程入口；libnblog.so 未链接（仅 dlopen 探测字符串）",
+    "only_path": "在 app 进程内调用 NMVirtualFileManager.SetLoggerCallback(INMLogger 实例, level)；生产 app 全库无调用点 → 须改 Java 源码 + 重编译 + 重装 APK（动 P0 舱体）",
+    "null_logger_risk": "JNI 0x32d70 mov x0,x2 把 logger 传给唯一 callee 0x36198（0x361c8 mov x20,x0）；传 null 的安全性未实证 → 改 P0 时应传 INMLogger 实例而非 null",
+    "level_compare_semantics": "getter 0x37e20 实为 cmp w8,w0; cset w0,gt（全局 level 严格大于传入 level 才为真）；level=5 是否足以解锁 level-5 分支须结合调用点实参确认，不是填 5 就一定开",
+    "f4_status": "BLOCKED（本探查只收窄断点，不修复、不验证）"
+  },
+  "honest_notes": [
+    "本探查是纯离线二进制取证，未连 adb、未改任何生产源码、so 二进制原样。",
+    "§61.68 两轮真机观测已实证 setprop log.tag.* VERBOSE 不解锁 level-5；本探查给出其二进制层原因。",
+    "0x10798 整包丢弃分支与 NMSlicesFile::Write 的 file_len 门控仍无直接分支日志；level-5 未开启。",
+    "改 P0 方案的两个前置风险已实证：SetLoggerCallback 传 null logger 的安全性未实证（应传 INMLogger 实例）；getter 是严格大于比较，level 取值须结合调用点实参确认。二者均未做取舍、未改代码。",
+    "§61.68 后修正：原 `setconfig_json_keys_have_no_level` 用字符串表凑 6 个 key，`dir` 仅 3 字符被 `{4,}` 正则漏掉而误报 FAIL；本轮不放宽门槛凑绿，改由 SetConfig 函数体 ADRP+ADD 反汇编直证 + 全 so 大小写不敏感关键字扫描。",
+    "F4 仍 BLOCKED：-103 未通过、无 Write start play / doPlayCompleted、自动进曲 3 首 / seek / ENDED NOT RUN、A3 仍 G09 PARTIAL、舱不冻结。",
+    "本文件为探查证据，不构成新交付批次；待用户拍板后并入下一批统一固化文档 / 守护。"
+  ]
+}

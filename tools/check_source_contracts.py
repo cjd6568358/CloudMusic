@@ -3328,6 +3328,225 @@ def main() -> int:
         print("[PASS] 12 §61.66 守护：28 批已同步 c26e7cb8；11 个钉死旧 HEAD 的"
               "历史审计工具按 §61.46 纪律拒绝重跑（返回 2），证据 JSON 未被覆盖")
 
+    # 12 §61.67 守护 / F4 请求代次闸门与 vfile 落盘门控：防把「静态证据链升级」
+    # 写成「已修复 / 已实证」、防 F4 状态提前改 PASS、防 41417 端点登记丢失、
+    # 防 §61.65 既有证据与 commit 精度修正回潮。
+    gg_tool = ROOT / "tools" / "l3_f4_generation_gate_disasm.py"
+    gg_audit_tool = ROOT / "tools" / "l3_f4_generation_gate_audit.py"
+    gg_json = ROOT / "analysis" / "l3-f4-generation-gate-disasm.json"
+    gg_audit_json = ROOT / "analysis" / "l3-f4-generation-gate-audit.json"
+    gg_report = ROOT / "analysis" / "l3-f4-generation-gate-report.md"
+    if not all(p.is_file() for p in (gg_tool, gg_audit_tool, gg_json,
+                                     gg_audit_json, gg_report, delivery12, plan17)):
+        failures.append("12 §61.67 守护：代次闸门反汇编工具 / JSON / 审计 / 报告缺失")
+    else:
+        try:
+            gg = json.loads(gg_json.read_text(encoding="utf-8"))
+            ga = json.loads(gg_audit_json.read_text(encoding="utf-8"))
+            gg_rep = gg_report.read_text(encoding="utf-8")
+            evidence_ok = (
+                gg["all_pass"] is True
+                and len(gg["checks"]) == 18
+                and all(gg["checks"].values())
+                and len(gg["anchors"]) == 45
+                and all(v["ok"] for v in gg["anchors"].values())
+                and len(gg["rodata_strings"]) == 11
+                and gg["checks"]["f4_still_blocked"] is True
+                and gg["checks"]["prior_61_65_evidence_intact"] is True
+                and ga["all_pass"] is True
+            )
+            doc_ok = (
+                "61.67" in delivery12.read_text(encoding="utf-8")
+                and "8.27" in plan17.read_text(encoding="utf-8")
+                and all(s in gg_rep for s in (
+                    "0x104B8", "0x10798", "0x1086C", "0x12820",
+                    "41417", "F4 仍 BLOCKED", "inference"))
+            )
+            if not (evidence_ok and doc_ok):
+                failures.append(
+                    "12 §61.67 守护：代次闸门证据 / 18 项 checks / 45 锚点 / "
+                    "F4 BLOCKED / 41417 端点 / 12 断点 / docs17 §8.27 漂移，请重跑 "
+                    "tools/l3_f4_generation_gate_disasm.py 与 _audit.py 并回写 12 §61.67"
+                )
+            else:
+                print("[PASS] 12 §61.67 守护：MakeRangeRequestAsync 0x104B0/0x104B8 "
+                      "代次递增 → 0x104D8 透传 → 0x10798 整包丢弃（跳过 0x1086C 数据回调）；"
+                      "NMSlicesFile::Write 的 file_len 门控坐实；F4 仍 BLOCKED、"
+                      "41417 端点待连、真机 A/B NOT RUN")
+        except (KeyError, ValueError, OSError, TypeError) as exc:
+            failures.append(f"12 §61.67 守护：代次闸门证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.68 守护 / F4 请求代次闸门真机实证：防把「一段链升级」写成
+    # F4 已修复、防 level-5 已开启伪证、防配对码落盘、防 41703 端点登记丢失、
+    # 防 §61.67 静态证据与历史证据回潮。
+    gl_tool = ROOT / "tools" / "l3_f4_generation_gate_live_audit.py"
+    gl_json = ROOT / "analysis" / "l3-f4-generation-gate-live-audit.json"
+    gl_report = ROOT / "analysis" / "l3-f4-generation-gate-live-report.md"
+    gl_ev1 = ROOT / "analysis" / "l3-f4-generation-gate-live.json"
+    gl_ev2 = ROOT / "analysis" / "l3-f4-generation-gate-live-lvl5.json"
+    gl_log1 = ROOT / "analysis" / "l3-f4-logs" / "vfile-commit-20261111-004310.txt"
+    gl_log2 = ROOT / "analysis" / "l3-f4-logs" / "vfile-commit-20261111-004603.txt"
+    if not all(p.is_file() for p in (gl_tool, gl_json, gl_report, gl_ev1,
+                                     gl_ev2, gl_log1, gl_log2)):
+        failures.append("12 §61.68 守护：真机实证工具 / 审计 JSON / 报告 / 证据 / 日志缺失")
+    else:
+        try:
+            gla = json.loads(gl_json.read_text(encoding="utf-8"))
+            gle1 = json.loads(gl_ev1.read_text(encoding="utf-8"))
+            gle2 = json.loads(gl_ev2.read_text(encoding="utf-8"))
+            gl_rep = gl_report.read_text(encoding="utf-8")
+            gl_d12 = delivery12.read_text(encoding="utf-8")
+            gl_d17 = plan17.read_text(encoding="utf-8")
+            gl_bl = (ROOT / "analysis" / "task-backlog-2026-11-07.md").read_text(encoding="utf-8")
+            gl_rb = (ROOT / "analysis" / "l3-f4-online-runbook.md").read_text(encoding="utf-8")
+            glc = gla.get("checks", {})
+            gl_ok = (
+                gla.get("all_pass") is True
+                and not gla.get("failed_checks")
+                and all(glc.get(k) is True for k in (
+                    "generation_sequence_1_to_22",
+                    "commit_constant_16384_both_runs",
+                    "level5_absent_round1", "level5_absent_round2",
+                    "setprop_verbose_ineffective", "f4_still_blocked",
+                    "no_credential_leak", "zero_p0_source_change"))
+            )
+            gl_doc_ok = (
+                "61.68" in gl_d12
+                and "8.28" in gl_d17
+                and "61.68" in gl_bl
+                and "41703" in gl_rb
+                and all(s in gl_rep for s in (
+                    "1→22", "16384", "-103", "level-5", "41703",
+                    "F4 仍 BLOCKED", "SetLoggerCallback", "剩余断点"))
+                and "F4 已解决" not in gl_rep.replace("不写「F4 已解决", "")
+            )
+            gl_ev_ok = (
+                gle1.get("verdict") == "OBSERVED"
+                and gle2.get("verdict") == "OBSERVED"
+                and gle1.get("serial") == "192.168.1.11:41703"
+                and gle1.get("evidence", {}).get("has_103") is True
+                and set(gle1.get("evidence", {}).get("commit_values", [])) == {16384}
+                and gle1.get("restore", {}).get("device_settings_unchanged") is True
+            )
+            if not (gl_ok and gl_doc_ok and gl_ev_ok):
+                failures.append(
+                    "12 §61.68 守护：真机代次实证 / level-5 有效负结果 / "
+                    "F4 BLOCKED / 41703 端点 / 配对码不落盘 / docs17 §8.28 漂移，请重跑 "
+                    "tools/l3_f4_generation_gate_live_audit.py 并回写 12 §61.68")
+            else:
+                print("[PASS] 12 §61.68 守护：MakeRangeRequestAsync(N) 1→22 连续递增坐实 "
+                      "§61.67 结论 A；setprop VERBOSE 证伪 liblog 优先级门控；F4 仍 BLOCKED、"
+                      "level-5 待拍板、配对码不落盘")
+        except (KeyError, ValueError, OSError, TypeError) as exc:
+            failures.append(f"12 §61.68 守护：真机审计 JSON 不可解析（{exc}）")
+
+    # 12 §61.69 守护 / F4 level-5 诊断接线：防 null logger 回退、防 level 上限
+    # 被突破、防「level-5 已开启 / F4 已收口」伪证、防设备离线事实被抹除、
+    # 防 §61.67 / §61.68 历史证据回潮。
+    w_tool = ROOT / "tools" / "l3_f4_level5_wiring_audit.py"
+    w_json = ROOT / "analysis" / "l3-f4-level5-wiring-audit.json"
+    w_report = ROOT / "analysis" / "l3-f4-level5-wiring-report.md"
+    w_probe_report = ROOT / "analysis" / "l3-f4-loglevel-gate-probe-report.md"
+    if not all(p.is_file() for p in (w_tool, w_json, w_report, w_probe_report)):
+        failures.append("12 §61.69 守护：接线审计工具 / JSON / 报告 / level-5 探查报告缺失")
+    else:
+        try:
+            wa = json.loads(w_json.read_text(encoding="utf-8"))
+            w_rep = w_report.read_text(encoding="utf-8")
+            w_d12 = delivery12.read_text(encoding="utf-8")
+            w_d17 = plan17.read_text(encoding="utf-8")
+            w_d09 = (ROOT / "docs" / "09-文档闭环总览.md").read_text(encoding="utf-8")
+            w_d16 = (ROOT / "docs" / "16-架构与任务拆分复核报告.md").read_text(encoding="utf-8")
+            w_bl = (ROOT / "analysis" / "task-backlog-2026-11-07.md").read_text(encoding="utf-8")
+            w_rb = (ROOT / "analysis" / "l3-f4-online-runbook.md").read_text(encoding="utf-8")
+            wc = wa.get("checks", {})
+            w_ok = (
+                wa.get("all_pass") is True
+                and not wa.get("failed_checks")
+                and wa.get("counts", {}).get("checks_total") == 23
+                and wa.get("counts", {}).get("checks_pass") == 23
+                and all(wc.get(k) is True for k in (
+                    "setlogger_called_with_instance",
+                    "setlogger_no_null_argument_anywhere",
+                    "level_coerce_hard_cap_0_5", "level_default_5",
+                    "f4_still_blocked_in_docs", "no_level5_enabled_claim",
+                    "device_state_recorded_as_offline",
+                    "runbook_records_device_offline",
+                    "gen_gate_live_audit_intact", "gen_gate_disasm_audit_intact"))
+                and len(wa.get("artifacts", {}).get("so_sha256", "")) == 64)
+            w_doc_ok = (
+                "### 61.69" in w_d12 and "### 8.29" in w_d17
+                and "61.69" in w_d09 and "61.69" in w_d16
+                and "61.69" in w_bl and "完全离线" in w_rb
+                and all(s in w_rep for s in (
+                    "23 项 checks 全 PASS", "NOT RUN", "完全离线",
+                    "F4 仍 BLOCKED", "INMLogger", "coerceIn",
+                    "SetLoggerCallback", "剩余断点")))
+            w_honest_ok = not any(b in w_rep for b in (
+                "F4 已解决", "F4 已修复", "level-5 已开启", "level-5 已解锁"))
+            if not (w_ok and w_doc_ok and w_honest_ok):
+                failures.append(
+                    "12 §61.69 守护：23 项接线审计 / null logger / level 上限 / "
+                    "F4 BLOCKED / 设备离线登记 / 文档 61.69·8.29 漂移，请重跑 "
+                    "tools/l3_f4_level5_wiring_audit.py 并回写 12 §61.69")
+            else:
+                print("[PASS] 12 §61.69 守护：SetLoggerCallback(INMLogger(), level) "
+                      "落地、coerceIn(0,5) 上限在位、23/23 审计全 PASS；"
+                      "真机 level-5 观测 NOT RUN / 设备完全离线 / F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError, TypeError) as exc:
+            failures.append(f"12 §61.69 守护：接线审计 JSON 不可解析（{exc}）")
+
+    # 12 §61.70 守护 / F4 level-5 日志门控语义纠正：防门控语义回潮（把
+    # 「默认全开」写成「需开 level-5」）、防「level-5 已开启 / F4 已收口」
+    # 伪证、防回滚未拍板先执行、防 §61.67/§61.68/§61.69 历史证据回潮。
+    s_tool = ROOT / "tools" / "l3_f4_level5_gate_semantics_audit.py"
+    s_json = ROOT / "analysis" / "l3-f4-level5-gate-semantics-audit.json"
+    s_report = ROOT / "analysis" / "l3-f4-level5-gate-semantics-report.md"
+    if not all(p.is_file() for p in (s_tool, s_json, s_report)):
+        failures.append("12 §61.70 守护：门控语义审计工具 / JSON / 报告缺失")
+    else:
+        try:
+            sa = json.loads(s_json.read_text(encoding="utf-8"))
+            s_ok = (
+                sa.get("all_pass") is True
+                and sa.get("failed_checks") == []
+                and sa.get("checks_total") == 34
+                and sa.get("checks_pass") == 34
+                and sa.get("findings", {}).get("default_g_level") == 0
+                and sa.get("findings", {}).get("nm_identical", 0) >= 160
+                and sa.get("findings", {}).get("plt_import") == "__android_log_print"
+                and sa.get("findings", {}).get("logger_method") == "BIInfo"
+                and sa.get("logcat_evidence", {}).get("w_nmcache_write_all_finish", 0) >= 1
+                and all(v == 0 for v in sa.get("logcat_evidence", {}).get(
+                    "f4_gate_string_hits", {"x": 1}).values())
+                and sa.get("checks", {}).get("history_audits_intact") is True
+            )
+            s_d12 = (ROOT / "docs/12-编码阶段第一批交付.md").read_text(encoding="utf-8")
+            s_d17 = (ROOT / "docs/17-竞品模块清单与复刻规划.md").read_text(encoding="utf-8")
+            s_rep = s_report.read_text(encoding="utf-8")
+            s_doc_ok = (
+                "### 61.70" in s_d12 and "### 8.30" in s_d17
+                and s_d12.count("§61.70 勘误") >= 2
+                and "回滚" in s_d12 and "待用户拍板" in s_d12
+                and "F4 仍 BLOCKED" in s_d12 and "F4 仍 BLOCKED" in s_d17
+                and all(k in s_rep for k in ("g_level > N", "零增益", "抑制", "BIInfo"))
+            )
+            s_honest_ok = not any(k in s_rep for k in (
+                "F4 已解决", "F4 已修复", "level-5 已开启", "level-5 已解锁",
+                "全格式已支持"))
+            if not (s_ok and s_doc_ok and s_honest_ok):
+                failures.append(
+                    "12 §61.70 守护：34 项门控语义审计 / 默认 g_level=0 / "
+                    "W 级日志默认已输出 / 勘误登记 / 回滚待拍板 / F4 BLOCKED "
+                    "漂移，请重跑 tools/l3_f4_level5_gate_semantics_audit.py "
+                    "并回写 12 §61.70")
+            else:
+                print("[PASS] 12 §61.70 守护：g_level 默认 0、I/D/W/E 日志默认全开、"
+                      "34/34 审计全 PASS；§61.68/§61.69 勘误登记、接线回滚待拍板、"
+                      "F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError, TypeError) as exc:
+            failures.append(f"12 §61.70 守护：门控语义审计 JSON 不可解析（{exc}）")
+
     if (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example" /
             "cloudmusic" / "common" / "PathNormalizer.kt").is_file():
         warnings.append("实现期修正 C-01：路径规范化下沉至 :core-common（见 PathNormalizer KDoc）")

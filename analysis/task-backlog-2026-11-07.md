@@ -1,5 +1,154 @@
 # CloudMusic · 文档 ↔ 代码核对与任务清单（2026-11-07 第三十三轮）
 
+> **★ 2026-11-11 执行层细化（非新批次，见 `analysis/l3-f4-online-runbook.md`
+> 的 `12 §61.70 补充执行层细化`）**：设备仍完全离线，纯离线反汇编把
+> `§61.70` 留下的「构造触发 W 级分支的输入」落成可执行判据 ——
+> ① F4 的 7 条 W 级格式串**全部是错误 / 边界分支告警**，正常顺序写入
+> 不打印（`§61.68` 两轮 0 命中是正确行为，非日志门控）；
+> ② `NMNetSource::OnData` 钉死因果链：代次与 `[this+0xc0]` 不等即
+> `b.ne 0x108e0` 整包丢弃，**仅代次匹配才更新 `commit=offset+size`**，
+> 收齐判据 `commit >= [this+0x38]+[this+0x40]` → 实证代次 `1→22`
+> 递增 + 重发 ⇒ `commit` 冻结 16384 ⇒ `-2` / `-103` ⇒ 无 `Write start play`；
+> ③ 真断点是**代次错配**不是日志级别；上线首要先手 = 保持 `g_level=0`
+> + 播放中**主动 seek** + 用真实格式串扫 `UnExpect New Offsetcommted`
+> （出现即把推断升级为一手实证）。
+> 该细化**只改 runbook 执行层**，不改 `docs/12` 章节号 / 进度表 /
+> 契约守护 / 断点号（正式断点仍 `§61.70`），零 P0 改动、零网络改动。
+> **F4 仍 BLOCKED**。
+>
+> **★ 2026-11-11 第九十七批（见 `docs/12 §61.70`，纯离线门控语义纠错）**：
+> 设备 `192.168.1.11:41703` 仍完全离线（`adb devices -l` 空列表），不空等、
+> 不擅动用户网络，转做纯离线取证并**纠正前两批结论**：
+> ① `libNMCommonCache.so` 门控是 `g_level > N` 抑制，`g_level` 默认 0
+> （`.bss` 零初值 + 全库唯一 setter + `.init_array` 无写）→ **I/D/W/E
+> 日志默认全部已输出**，不存在需额外开启的 level-5 开关；
+> ② `§61.68` 两轮 W 级关键词全 0 是**分支未触发**的有效负结果，
+> `setprop VERBOSE` 负结果成立但归因错误；
+> ③ `§61.69` 的 `SetLoggerCallback(INMLogger(), 5)` 对 F4 目标 W 级
+> **零增益**、会**抑制 I/D** 级证据；`INMLogger` 空类缺
+> `BIInfo(ILjava/lang/String;)V` → `GetMethodID` 必然失败、可能留 JNI
+> pending exception → **建议回滚，待用户拍板，本批未执行**；
+> ④ **F4 仍 BLOCKED**，断点性质改为「构造能触发 W 级分支的输入
+> （`offset+len > file_len` / 代次不匹配 / `commit != offset`）」，
+> 设备上线后复跑须保持 `g_level=0`、用真实 `.rodata` 格式串扫 W 级日志。
+> 新增 `tools/l3_f4_level5_gate_semantics_audit.py`（34/34 PASS）+ 报告 +
+> `check_source_contracts.py §61.70` 守护。零 P0 源码改动、未重编译 /
+> 未重装 APK、未改动用户网络。详见
+> `analysis/l3-f4-level5-gate-semantics-report.md`。
+>
+> **下一步（须用户拍板 / 操作）**：① `§61.69` 接线是否回滚（建议回滚，
+> 回滚需同步调整 `§61.69` 守护）；② 重新开启手机无线调试 → 给新配对端点
+> + 一次性配对码（不落盘）→ `adb pair` + `adb connect`；③ 保持
+> `g_level=0` 复跑并构造触发 W 级分支的输入；④ F4 验收 `17 §8.3` → F5。
+
+> **★ 2026-11-11 第九十六批（见 `docs/12 §61.69`，用户「`jx、` →
+> 选项「继续＝按 A 走（授权改 P0）」）**：承接第九十五批剩余断点①
+> 「level-5 开启决策」。① 先用 `tools/l3_f4_loglevel_gate_probe.py`
+> （19/19 PASS）+ 二进制取证定死三条硬约束：`INMLogger` 是空类 → 传
+> `INMLogger()` 实例而非 null；getter `0x37e20` 是 `cmp w8,w0; cset w0,gt`
+> **严格大于**语义 → `level=5` 不是必然解锁；`NMSlicesFile::Write` 里
+> `g_level > 5` 会直接 return `-102/-1/-99` → **level 绝不能 ≥ 6**。
+> ② 用户显式授权后落地**唯一生产源码改动** `EngineAdapter.kt` +20 行：
+> `prepare()` 内 `SetConfig(json)` 之前接入
+> `NMVirtualFileManager.SetLoggerCallback(INMLogger(), level)`
+> （默认 5 / `filesDir/nmcache_log_level` 覆写 / `.coerceIn(0,5)`）；
+> `:app:assembleDebug --offline` **BUILD SUCCESSFUL in 2m31s**、APK
+> `31302687 B`。零播放逻辑改动、零新增依赖、so 二进制原样。
+> ③ **真机 level-5 观测 NOT RUN**：`adb install -r` →
+> `INSTALL_FAILED_UPDATE_INCOMPATIBLE`（两套 debug.keystore）→ 卸载后全新
+> 安装触发 MIUI `INSTALL_FAILED_USER_RESTRICTED`；`pm install` / session
+> `install-create/write/commit` / `settings put global
+> package_verifier_user_consent 0`（无 `WRITE_SECURE_SETTINGS`）/
+> `am start` `file://` 与 MediaStore `content://`（报「解析软件包时出现问题
+> (11)」：`com.miui.packageinstaller has no access to
+> content://media/external/file/1000025218`）全部无效 → MIUI 系统级限制，
+> **须用户在手机上确认一次**。APK 已推到
+> `/sdcard/Download/CloudMusic-debug.apk`。随后设备 `192.168.1.11:41703`
+> **完全离线**（`Test-NetConnection :41703 = False`、ICMP 均不通，本机
+> WLAN 仍 `192.168.1.19`、**未改动用户网络**）。
+> ④ 卸载前已 `run-as tar` 备份 app 私有数据到
+> `analysis/l3-f4-backup/app-data-20261111.tar`（50969600 B，含
+> `legacy_engine_cache` 切片）；卸载清空该缓存 → **后续真机起点是冷缓存**，
+> 与 §61.68 暖缓存条件不同。`ACTION_PLAY` 直接 `playUrl`，不需恢复 Room 夹具。
+> ⑤ 交付 `tools/l3_f4_level5_wiring_audit.py` →
+> `analysis/l3-f4-level5-wiring-audit.json`（23 项 checks 全 PASS）+ 报告
+> `analysis/l3-f4-level5-wiring-report.md` + `check_source_contracts.py
+> §61.69` 守护。⑥ **F4 仍 BLOCKED**（诊断接线 + 编译产物就绪 ≠ 真机验证
+> ≠ 修复）：`0x10798` 丢弃分支 / `NMSlicesFile::Write` 门控仍无直接分支日志、
+> `-103` 未通过、自动进曲 3 首 / seek / ENDED NOT RUN、F3 14 格未改写、
+> A3 仍 G09 PARTIAL → 舱不冻结、指纹不回填。零基线变化、配对码不落盘、
+> 未改动用户网络。
+> **正式技术断点由 `§61.68` 推进到 `§61.69`**（推进的是「诊断接线 +
+> 编译产物就绪」，不是 F4 修复、不是真机验证）；本批改动未提交，
+> `origin/main` 仍 `917bb7c7`。
+> **下一步（须用户操作）**：重新开启手机无线调试 → 给新配对端点 +
+> 一次性配对码（不落盘）→ `adb pair` + `adb connect` → 确认 app 是否已装
+> （未装则在手机「文件管理」手动装 `/sdcard/Download/CloudMusic-debug.apk`）
+> → 跑 `python tools/l3_f4_vfile_commit_probe.py --serial <新端点>
+> --wait 60 --out analysis/l3-f4-level5-live.json` 对比 level-5 关键词，
+> 必要时 `run-as` 写 `files/nmcache_log_level` 做 0/4/5 对照。
+>
+> **★ 2026-11-11 第九十五批（见 `docs/12 §61.68`，用户「41703 →
+> 配对端点 + 一次性配对码 → 需要真机的任务赶紧做」）**：设备经
+> `adb pair`（配对码不落盘）+ `adb connect 192.168.1.11:41703` 重新上线
+> （Redmi K60 / Android 13 / API 33 / `arm64-v8a`；`41703` 单独 connect
+> 被拒但 TCP 连通 → 判定调试端口、须先 pair 配对端口）后，立即执行
+> **两轮真机纯观测**（60 s 基线 + 35 s `setprop log.tag.* VERBOSE` 试探，
+> 复用 `tools/l3_f4_vfile_commit_probe.py`），零 P0 源码改动、未重编译 /
+> 未重装 APK、未改动用户网络。① §61.67 的「代次递增 → 透传 → 重发」由
+> `inference` **升级为运行时一手实证**：`MakeRangeRequestAsync(N)` 的 `N`
+> 从 **1 连续递增到 22**、`NMNetSource(1-K)` 同步到 `1-21`、
+> `force:true` 15 次 / `commit` 两轮恒 `16384`、`-103` 5 次、
+> `result:-2` 26 条、Java `onData` 2706 条、aac codec 打开但
+> `Write start play` / `doPlayCompleted` 均 0。② level-5 门控：
+> `setprop VERBOSE` 为**有效负结果**（`D/NMCache` 80 条仍在、
+> `NMSlicesFile` / `OnWriteNetData` / SKIP / TRIM 两轮全 0）→ 真正开关是
+> native `NMVirtualFileManager.SetLoggerCallback(INMLogger, int)` 的
+> level 参数，开启须改 Java 源码 + 重编译 + 重装 APK（动 P0 舱体），
+> **本轮未做、待用户拍板**。③ 仍未升级：`0x10798` 整包丢弃分支与
+> `NMSlicesFile::Write` 的 `file_len` 门控无直接分支日志；本轮跳跃读
+> `offset=327895` / `25941`，未复现 §61.61/§61.62 的 `605007`。
+> ④ 交付 `tools/l3_f4_generation_gate_live_audit.py` →
+> `analysis/l3-f4-generation-gate-live-audit.json` + 报告
+> `analysis/l3-f4-generation-gate-live-report.md` + 两轮 logcat / 两份
+> 证据 JSON + `check_source_contracts.py §61.68` 守护。⑤ **F4 仍 BLOCKED**
+> （证据等级提升 ≠ 修复 ≠ 验证）：`-103` 未通过、自动进曲 3 首 / seek /
+> ENDED NOT RUN、F3 14 格未改写、A3 仍 G09 PARTIAL → 舱不冻结、
+> 指纹不回填。零基线变化、so 二进制原样、配对码不落盘。
+> **正式技术断点由 `§61.67` 推进到 `§61.68`**；本批改动未提交，
+> `origin/main` 仍 `917bb7c7`。
+>
+> **★ 2026-11-10 第九十四批（见 `docs/12 §61.67`，用户「拉取最新代码 →
+> 41417 → 先继续离线任务」）**：**纯离线、只读、不需要设备在场**。
+> ① 拉取：`git pull --ff-only origin main` 由 `fe081778` 快进到 `917bb7c7`
+> （7 提交 / 299 文件 / +129687 行），确认 `§61.66` 仅为仓库同步、
+> 正式技术断点仍 `§61.65` / F4 BLOCKED。② 用户追加端点 `41417`：
+> `10.0.0.2:41417` → `10060` 超时、`192.168.1.11:41417` → 拒绝连接，
+> 重启 adb 会话、系统 adb `35.0.2` 与项目 `tools/bin/adb.exe` `37.0.1`
+> 两个版本均试，`adb devices -l` 恒空 → 按用户选择登记为**待连端点**，
+> 真机 A/B / level-5 日志实证 **NOT RUN**，未改动用户网络。
+> ③ 离线把 §61.65 `inference` 的三个缺环补成一手二进制证据：
+> `MakeRangeRequestAsync @0x104B0/0x104B8` 每次重发把 `[this+0xC0]`
+> 代次 +1 并经 `0x104D8` 透传给 `0x104E8` 请求回调；
+> `NMNetSource::OnData @0x10794/0x10798` 比较并整包丢弃。
+> ④ 两条新实证：丢弃目标 `0x108E0` 位于 `0x1086C`（vtable+0x18 数据
+> 回调 → `OnWriteNetData` 落盘入口）与 `0x10888`（commit 写）之后 →
+> 被丢弃的包连数据投递都不执行（解释 §61.63 `.nmsfi` 只有 `[0,368640)`）；
+> `NMSlicesFile::Write @0x127C0` 的 `0x12820/0x12824` 要求
+> `offset+len <= [+0x70]=file_len`，越界 `-102` 静默不写
+> （解释 §61.61/§61.62 跳跃读 `offset=605007` 恒 `result:-2`）。
+> ⑤ 证据链：`tools/l3_f4_generation_gate_disasm.py`（45 锚点 / 11 字符串
+> / 18 项 checks）+ `analysis/l3-f4-generation-gate-disasm.json` /
+> `-report.md` + `tools/l3_f4_generation_gate_audit.py` →
+> `analysis/l3-f4-generation-gate-audit.json` +
+> `check_source_contracts.py §61.67` 守护。⑥ **F4 仍 BLOCKED**
+> （证据等级提升 ≠ 修复 ≠ 验证）：`-103` 判据未通过、自动进曲 3 首 /
+> seek / ENDED NOT RUN、F3 14 格未改写、A3 仍 G09 PARTIAL → 舱不冻结、
+> 指纹不回填。零 P0 源码改动、`libNMCommonCache.so` 二进制原样、
+> 零设备操作、零基线变化。⑦ **正式技术断点由 `docs/12 §61.65`
+> 推进到 `§61.67`**（§61.66 仅仓库同步）；本批改动当时未提交，
+> `origin/main` 仍 `917bb7c7`。
+>
 > **★ 2026-11-10 第九十三批（见 `docs/12 §61.66`，用户「提交推送」）**：
 > **仓库同步批次**，零生产源码改动 / 零设备操作 / 零验收结论变化，
 > **不推进技术断点**（仍 `§61.65` / F4 BLOCKED）。① 提交前实查

@@ -1,0 +1,630 @@
+========================================================================================================
+F4-A  OnData / 代次确认 / commit 区  0x10680-0x10920
+========================================================================================================
+0x010680  mov      x0, x20
+0x010684  str      xzr, [x19, #0x190]
+0x010688  bl       #0x8950
+0x01068c  add      x20, x19, #0x140
+0x010690  mov      x0, x20
+0x010694  bl       #0x8e00
+0x010698  ldr      x0, [x19, #0x198]
+0x01069c  cbz      x0, #0x106c4
+0x0106a0  ldr      x8, [x0]
+0x0106a4  mov      x1, xzr
+0x0106a8  ldr      x8, [x8, #0x20]
+0x0106ac  blr      x8
+0x0106b0  ldr      x0, [x19, #0x198]
+0x0106b4  ldr      x8, [x0]
+0x0106b8  ldr      x8, [x8, #0x18]
+0x0106bc  blr      x8
+0x0106c0  str      xzr, [x19, #0x198]
+0x0106c4  mov      x0, x20
+0x0106c8  bl       #0x8950
+0x0106cc  add      x21, x19, #0x88
+0x0106d0  mov      x0, x21
+0x0106d4  add      x20, x19, #0x58
+0x0106d8  bl       #0x8e00
+0x0106dc  mov      w8, #1
+0x0106e0  mov      x0, x21
+0x0106e4  str      w8, [x19, #0xb4]
+0x0106e8  bl       #0x8950
+0x0106ec  mov      x0, x20
+0x0106f0  ldp      x29, x30, [sp, #0x20]
+0x0106f4  ldp      x20, x19, [sp, #0x10]
+0x0106f8  ldr      x21, [sp], #0x30
+0x0106fc  b        #0x8ab0
+0x010700  stp      x20, x19, [sp, #-0x20]!
+0x010704  stp      x29, x30, [sp, #0x10]
+0x010708  add      x29, sp, #0x10
+0x01070c  mov      x19, x0
+0x010710  ldr      x0, [x0, #0x190]
+0x010714  mov      x20, x2
+0x010718  cbz      x0, #0x10730
+0x01071c  ldr      x8, [x0]
+0x010720  ldr      w1, [x19, #0x50]
+0x010724  mov      x2, x20
+0x010728  ldr      x8, [x8, #0x10]
+0x01072c  blr      x8
+0x010730  cmp      x20, #1
+0x010734  b.lt     #0x1073c
+0x010738  str      x20, [x19, #0x130]
+0x01073c  ldp      x29, x30, [sp, #0x10]
+0x010740  ldp      x20, x19, [sp], #0x20
+0x010744  ret      
+0x010748  sub      sp, sp, #0x80
+0x01074c  str      x25, [sp, #0x30]
+0x010750  stp      x24, x23, [sp, #0x40]
+0x010754  stp      x22, x21, [sp, #0x50]
+0x010758  stp      x20, x19, [sp, #0x60]
+0x01075c  stp      x29, x30, [sp, #0x70]
+0x010760  add      x29, sp, #0x70
+0x010764  mrs      x25, tpidr_el0
+0x010768  ldr      x8, [x25, #0x28]
+0x01076c  add      x19, x0, #0x168
+0x010770  mov      x20, x0
+0x010774  mov      x0, x19
+0x010778  mov      x21, x4
+0x01077c  mov      x22, x3
+0x010780  mov      x23, x2
+0x010784  mov      x24, x1
+0x010788  str      x8, [sp, #0x28]
+0x01078c  bl       #0x8e00
+0x010790  ldr      x8, [x20, #0xc0]
+0x010794  cmp      x8, x24
+0x010798  b.ne     #0x108e0
+0x01079c  ldr      x8, [x20, #0x20]
+0x0107a0  cmp      x8, x22
+0x0107a4  b.gt     #0x107b8
+0x0107a8  ldr      x8, [x20, #0x28]
+0x0107ac  add      x9, x21, x22
+0x0107b0  cmp      x9, x8
+0x0107b4  b.le     #0x107f4
+0x0107b8  mov      w0, #5
+0x0107bc  bl       #0x37e20  ; <== GETTER(g_level>N)
+0x0107c0  tbnz     w0, #0, #0x107f4
+0x0107c4  ldr      x4, [x20, #0xc0]
+0x0107c8  ldp      x3, x7, [x20, #0x18]
+0x0107cc  ldr      x8, [x20, #0x28]
+0x0107d0  adrp     x1, #0x3b000
+0x0107d4  adrp     x2, #0x3c000
+0x0107d8  add      x1, x1, #0x5f0  ; STR=NMCache
+0x0107dc  add      x2, x2, #0xc73  ; STR=NMNetSource(%lld-%lld)::OnData() offset:%lld, size:%lld, except offset:%lld, end:%lld
+0x0107e0  mov      w0, #5
+0x0107e4  mov      x5, x22
+0x0107e8  mov      x6, x21
+0x0107ec  str      x8, [sp]
+0x0107f0  bl       #0x3138c  ; <== LOGFN
+0x0107f4  ldr      x8, [x20, #0x30]
+0x0107f8  cmp      x8, x22
+0x0107fc  b.eq     #0x10840
+0x010800  mov      w0, #5
+0x010804  bl       #0x37e20  ; <== GETTER(g_level>N)
+0x010808  tbnz     w0, #0, #0x10840
+0x01080c  ldr      x3, [x20, #0x18]
+0x010810  ldr      x4, [x20, #0xc0]
+0x010814  ldr      x5, [x20, #0x30]
+0x010818  ldr      x8, [x20, #0x40]
+0x01081c  adrp     x1, #0x3b000
+0x010820  adrp     x2, #0x3c000
+0x010824  add      x1, x1, #0x5f0  ; STR=NMCache
+0x010828  add      x2, x2, #0xcc9  ; STR=NMNetSource(%lld-%lld)::OnData() UnExpect New Offsetcommted:%lld, offset:%lld, size:%lld, cur_req_size:%lld
+0x01082c  mov      w0, #5
+0x010830  mov      x6, x22
+0x010834  mov      x7, x21
+0x010838  str      x8, [sp]
+0x01083c  bl       #0x3138c  ; <== LOGFN
+0x010840  ldr      x0, [x20, #0x190]
+0x010844  cbz      x0, #0x10884
+0x010848  ldr      q0, [x23]
+0x01084c  ldr      w1, [x20, #0x50]
+0x010850  str      xzr, [x23]
+0x010854  add      x2, sp, #0x10
+0x010858  str      q0, [sp, #0x10]
+0x01085c  ldr      x8, [x0]
+0x010860  mov      x3, x22
+0x010864  mov      x4, x21
+0x010868  ldr      x8, [x8, #0x18]
+0x01086c  blr      x8
+0x010870  ldr      x0, [sp, #0x10]
+0x010874  str      xzr, [sp, #0x10]
+0x010878  cbz      x0, #0x10884
+0x01087c  ldr      x8, [sp, #0x18]
+0x010880  blr      x8
+0x010884  adds     x8, x21, x22
+0x010888  str      x8, [x20, #0x30]
+0x01088c  b.mi     #0x108e0
+0x010890  ldr      x10, [x20, #0x40]
+0x010894  cmp      x10, #1
+0x010898  b.lt     #0x108e0
+0x01089c  mov      x9, x20
+0x0108a0  ldr      x11, [x9, #0x38]!
+0x0108a4  add      x10, x11, x10
+0x0108a8  cmp      x8, x10
+0x0108ac  b.lt     #0x108e0
+0x0108b0  add      x22, x20, #0x88
+0x0108b4  mov      x8, #-1
+0x0108b8  mov      x0, x22
+0x0108bc  add      x21, x20, #0x58
+0x0108c0  stp      x8, x8, [x9]
+0x0108c4  bl       #0x8e00
+0x0108c8  mov      w8, #1
+0x0108cc  mov      x0, x22
+0x0108d0  str      w8, [x20, #0xb8]
+0x0108d4  bl       #0x8950
+0x0108d8  mov      x0, x21
+0x0108dc  bl       #0x8ab0
+0x0108e0  mov      x0, x19
+0x0108e4  bl       #0x8950
+0x0108e8  ldr      x8, [x25, #0x28]
+0x0108ec  ldr      x9, [sp, #0x28]
+0x0108f0  cmp      x8, x9
+0x0108f4  b.ne     #0x10914
+0x0108f8  ldp      x29, x30, [sp, #0x70]
+0x0108fc  ldp      x20, x19, [sp, #0x60]
+0x010900  ldp      x22, x21, [sp, #0x50]
+0x010904  ldp      x24, x23, [sp, #0x40]
+0x010908  ldr      x25, [sp, #0x30]
+0x01090c  add      sp, sp, #0x80
+0x010910  ret      
+0x010914  bl       #0x8d30
+0x010918  sub      sp, sp, #0x140
+0x01091c  str      x28, [sp, #0xf0]
+
+========================================================================================================
+F4-B  NMSlicesFile::Write 区  0x12780-0x12D40
+========================================================================================================
+0x012780  bl       #0x8d30
+0x012784  bl       #0x8bc0
+0x012788  sub      sp, sp, #0xb0
+0x01278c  stp      x28, x27, [sp, #0x50]
+0x012790  stp      x26, x25, [sp, #0x60]
+0x012794  stp      x24, x23, [sp, #0x70]
+0x012798  stp      x22, x21, [sp, #0x80]
+0x01279c  stp      x20, x19, [sp, #0x90]
+0x0127a0  stp      x29, x30, [sp, #0xa0]
+0x0127a4  add      x29, sp, #0xa0
+0x0127a8  mrs      x24, tpidr_el0
+0x0127ac  ldr      x8, [x24, #0x28]
+0x0127b0  str      x8, [sp, #0x48]
+0x0127b4  str      wzr, [x4]
+0x0127b8  ldrb     w8, [x0, #0x107]
+0x0127bc  cbz      w8, #0x127d4
+0x0127c0  ldrb     w8, [x0, #0xc8]
+0x0127c4  mov      x19, x0
+0x0127c8  cbz      w8, #0x12808
+0x0127cc  mov      x0, #-0x64
+0x0127d0  b        #0x127d8
+0x0127d4  mov      x0, #-0x69
+0x0127d8  ldr      x8, [x24, #0x28]
+0x0127dc  ldr      x9, [sp, #0x48]
+0x0127e0  cmp      x8, x9
+0x0127e4  b.ne     #0x12b38
+0x0127e8  ldp      x29, x30, [sp, #0xa0]
+0x0127ec  ldp      x20, x19, [sp, #0x90]
+0x0127f0  ldp      x22, x21, [sp, #0x80]
+0x0127f4  ldp      x24, x23, [sp, #0x70]
+0x0127f8  ldp      x26, x25, [sp, #0x60]
+0x0127fc  ldp      x28, x27, [sp, #0x50]
+0x012800  add      sp, sp, #0xb0
+0x012804  ret      
+0x012808  mov      x21, x3
+0x01280c  mov      w23, w2
+0x012810  cbz      w2, #0x12828
+0x012814  tbnz     x21, #0x3f, #0x12828
+0x012818  ldr      x8, [x19, #0x70]
+0x01281c  add      x28, x21, w23, uxtw
+0x012820  cmp      x28, x8
+0x012824  b.le     #0x12868
+0x012828  mov      w0, #5
+0x01282c  bl       #0x37e20  ; <== GETTER(g_level>N)
+0x012830  tbz      w0, #0, #0x1283c
+0x012834  mov      x0, #-0x66
+0x012838  b        #0x127d8
+0x01283c  ldr      x5, [x19, #0x70]
+0x012840  adrp     x1, #0x3b000
+0x012844  adrp     x2, #0x3c000
+0x012848  add      x1, x1, #0x5f0  ; STR=NMCache
+0x01284c  add      x2, x2, #0xf90  ; STR=NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld 
+0x012850  mov      w0, #5
+0x012854  mov      w3, w23
+0x012858  mov      x4, x21
+0x01285c  bl       #0x3138c  ; <== LOGFN
+0x012860  mov      x0, #-0x66
+0x012864  b        #0x127d8
+0x012868  cmp      x8, x21
+0x01286c  b.ne     #0x12884
+0x012870  mov      w0, #5
+0x012874  bl       #0x37e20  ; <== GETTER(g_level>N)
+0x012878  tbz      w0, #0, #0x12a1c
+0x01287c  mov      x0, #-1
+0x012880  b        #0x127d8
+0x012884  ldr      x10, [x19, #0xd0]
+0x012888  mov      w12, #1
+0x01288c  strb     w12, [x19, #0x106]
+0x012890  sdiv     x9, x28, x10
+0x012894  sdiv     x27, x21, x10
+0x012898  msub     x10, x9, x10, x28
+0x01289c  cmp      x10, #0
+0x0128a0  cinc     x11, x9, ne
+0x0128a4  cset     w10, ne
+0x0128a8  cmp      x27, x11
+0x0128ac  b.ge     #0x12a54
+0x0128b0  sub      x8, x11, #1
+0x0128b4  stp      x21, x8, [sp, #0x20]
+0x0128b8  add      x8, x27, #1
+0x0128bc  str      x8, [sp, #0x18]
+0x0128c0  add      x8, x9, x10
+0x0128c4  mov      w9, #0xe8
+0x0128c8  mov      x20, x1
+0x0128cc  str      w23, [sp, #0x14]
+0x0128d0  mov      x25, xzr
+0x0128d4  mov      w12, wzr
+0x0128d8  sub      x8, x8, x27
+0x0128dc  mul      x23, x27, x9
+0x0128e0  stp      x4, x24, [sp]
+0x0128e4  str      x8, [sp, #0x30]
+0x0128e8  b        #0x12904
+0x0128ec  mov      w12, w21
+0x0128f0  ldr      x8, [sp, #0x30]
+0x0128f4  add      x25, x25, #1
+0x0128f8  add      x23, x23, #0xe8
+0x0128fc  cmp      x8, x25
+0x012900  b.eq     #0x12a48
+0x012904  ldr      x8, [x19, #0xd8]
+0x012908  ldr      x0, [x19, #0xf8]
+0x01290c  add      x9, x8, x23
+0x012910  cmp      x9, x0
+0x012914  b.eq     #0x12944
+0x012918  cbz      x0, #0x1293c
+0x01291c  mov      w21, w12
+0x012920  bl       #0x15338
+0x012924  ldr      x8, [x19]
+0x012928  mov      x0, x19
+0x01292c  ldr      x8, [x8, #0x40]
+0x012930  blr      x8
+0x012934  ldr      x8, [x19, #0xd8]
+0x012938  mov      w12, w21
+0x01293c  add      x0, x8, x23
+0x012940  str      x0, [x19, #0xf8]
+0x012944  cbz      x25, #0x129a0
+0x012948  ldr      x9, [sp, #0x28]
+0x01294c  ldr      x26, [x19, #0xd0]
+0x012950  add      x8, x27, x25
+0x012954  cmp      x8, x9
+0x012958  b.ge     #0x129c8
+0x01295c  mov      x22, xzr
+0x012960  cbz      x0, #0x129d8
+0x012964  add      x1, x20, w12, sxtw
+0x012968  mov      w2, w26
+0x01296c  mov      x3, x22
+0x012970  mov      x21, x27
+0x012974  mov      x27, x28
+0x012978  mov      x28, x20
+0x01297c  mov      w24, w12
+0x012980  bl       #0x150e8
+0x012984  tbnz     w0, #0x1f, #0x12af4
+0x012988  add      w24, w26, w24
+0x01298c  mov      x20, x28
+0x012990  mov      x28, x27
+0x012994  mov      x27, x21
+0x012998  mov      w12, w24
+0x01299c  b        #0x128f0
+0x0129a0  ldr      x8, [x19, #0xd0]
+0x0129a4  ldp      x10, x11, [sp, #0x18]
+0x0129a8  sdiv     x9, x11, x8
+0x0129ac  mul      x10, x8, x10
+0x0129b0  cmp      x28, x10
+0x0129b4  msub     x22, x9, x8, x11
+0x0129b8  b.le     #0x12a10
+0x0129bc  sub      w26, w8, w22
+0x0129c0  cbnz     x0, #0x12964
+0x0129c4  b        #0x129d8
+0x0129c8  sdiv     x8, x28, x26
+0x0129cc  mov      x22, xzr
+0x0129d0  msub     w26, w8, w26, w28
+0x0129d4  cbnz     x0, #0x12964
+0x0129d8  mov      w0, #5
+0x0129dc  mov      w21, w12
+0x0129e0  bl       #0x37e20  ; <== GETTER(g_level>N)
+0x0129e4  tbnz     w0, #0, #0x128ec
+0x0129e8  ldr      x5, [x19, #0x70]
+0x0129ec  adrp     x1, #0x3b000
+0x0129f0  adrp     x2, #0x3d000
+0x0129f4  mov      w0, #5
+0x0129f8  add      x1, x1, #0x5f0  ; STR=NMCache
+0x0129fc  add      x2, x2, #0x62  ; STR=NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld File Not Exsit
+0x012a00  mov      w3, w26
+0x012a04  mov      x4, x22
+0x012a08  bl       #0x3138c  ; <== LOGFN
+0x012a0c  b        #0x128ec
+0x012a10  ldr      w26, [sp, #0x14]
+0x012a14  cbnz     x0, #0x12964
+0x012a18  b        #0x129d8
+0x012a1c  ldr      x5, [x19, #0x70]
+0x012a20  adrp     x1, #0x3b000
+0x012a24  adrp     x2, #0x3c000
+0x012a28  add      x1, x1, #0x5f0  ; STR=NMCache
+0x012a2c  add      x2, x2, #0xfce  ; STR=NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld Finish EOF.
+0x012a30  mov      w0, #5
+0x012a34  mov      w3, w23
+0x012a38  mov      x4, x21
+0x012a3c  bl       #0x3138c  ; <== LOGFN
+0x012a40  mov      x0, #-1
+0x012a44  b        #0x127d8
+0x012a48  ldr      x8, [x19, #0x70]
+0x012a4c  ldr      w23, [sp, #0x14]
+0x012a50  ldp      x4, x24, [sp]
+0x012a54  cmp      x28, x8
+0x012a58  str      w23, [x4]
+0x012a5c  b.lt     #0x12a7c
+0x012a60  ldr      x0, [x19, #0xf8]
+0x012a64  cbz      x0, #0x12a6c
+0x012a68  bl       #0x15338
+0x012a6c  ldr      x8, [x19]
+0x012a70  mov      x0, x19
+0x012a74  ldr      x8, [x8, #0x40]
+0x012a78  blr      x8
+0x012a7c  ldrb     w8, [x19, #0x104]
+0x012a80  cbz      w8, #0x12a8c
+0x012a84  mov      x0, xzr
+0x012a88  b        #0x127d8
+0x012a8c  stp      xzr, xzr, [sp, #0x38]
+0x012a90  ldr      x8, [x19]
+0x012a94  ldr      x1, [x19, #0x78]
+0x012a98  add      x2, sp, #0x40
+0x012a9c  add      x3, sp, #0x38
+0x012aa0  ldr      x8, [x8, #0x58]
+0x012aa4  mov      x0, x19
+0x012aa8  blr      x8
+0x012aac  tbnz     x0, #0x3f, #0x12a84
+0x012ab0  ldr      x8, [sp, #0x40]
+0x012ab4  tbnz     x8, #0x3f, #0x12ac4
+0x012ab8  ldr      x8, [sp, #0x38]
+0x012abc  cmp      x8, #0
+0x012ac0  b.gt     #0x12a84
+0x012ac4  mov      w0, #5
+0x012ac8  bl       #0x37e20  ; <== GETTER(g_level>N)
+0x012acc  tbnz     w0, #0, #0x12ae8
+0x012ad0  adrp     x1, #0x3b000
+0x012ad4  adrp     x2, #0x3d000
+0x012ad8  add      x1, x1, #0x5f0  ; STR=NMCache
+0x012adc  add      x2, x2, #0xae  ; STR=NMSlicesFile Write all finish
+0x012ae0  mov      w0, #5
+0x012ae4  bl       #0x3138c  ; <== LOGFN
+0x012ae8  mov      w8, #1
+0x012aec  strb     w8, [x19, #0x104]
+0x012af0  b        #0x12a84
+0x012af4  mov      w20, w0
+0x012af8  mov      w0, #5
+0x012afc  bl       #0x37e20  ; <== GETTER(g_level>N)
+0x012b00  tbnz     w0, #0, #0x12b2c
+0x012b04  ldr      x5, [x19, #0x70]
+0x012b08  adrp     x1, #0x3b000
+0x012b0c  adrp     x2, #0x3d000
+0x012b10  add      x1, x1, #0x5f0  ; STR=NMCache
+0x012b14  add      x2, x2, #0x17  ; STR=NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld Fail. code:%d
+0x012b18  mov      w0, #5
+0x012b1c  mov      w3, w26
+0x012b20  mov      x4, x22
+0x012b24  mov      w6, w20
+0x012b28  bl       #0x3138c  ; <== LOGFN
+0x012b2c  ldr      x24, [sp, #8]
+0x012b30  mov      x0, #-0x62
+0x012b34  b        #0x127d8
+0x012b38  bl       #0x8d30
+0x012b3c  sub      sp, sp, #0x40
+0x012b40  str      x19, [sp, #0x20]
+0x012b44  stp      x29, x30, [sp, #0x30]
+0x012b48  add      x29, sp, #0x30
+0x012b4c  mrs      x19, tpidr_el0
+0x012b50  ldr      x8, [x19, #0x28]
+0x012b54  add      x5, sp, #0x10
+0x012b58  add      x6, sp, #8
+0x012b5c  str      x8, [sp, #0x18]
+0x012b60  stp      xzr, xzr, [sp, #8]
+0x012b64  ldr      x8, [x0]
+0x012b68  ldr      x8, [x8, #0x28]
+0x012b6c  blr      x8
+0x012b70  ldr      x8, [x19, #0x28]
+0x012b74  ldr      x9, [sp, #0x18]
+0x012b78  cmp      x8, x9
+0x012b7c  b.ne     #0x12b90
+0x012b80  ldp      x29, x30, [sp, #0x30]
+0x012b84  ldr      x19, [sp, #0x20]
+0x012b88  add      sp, sp, #0x40
+0x012b8c  ret      
+0x012b90  bl       #0x8d30
+0x012b94  sub      sp, sp, #0x90
+0x012b98  stp      x28, x27, [sp, #0x30]
+0x012b9c  stp      x26, x25, [sp, #0x40]
+0x012ba0  stp      x24, x23, [sp, #0x50]
+0x012ba4  stp      x22, x21, [sp, #0x60]
+0x012ba8  stp      x20, x19, [sp, #0x70]
+0x012bac  stp      x29, x30, [sp, #0x80]
+0x012bb0  add      x29, sp, #0x80
+0x012bb4  str      wzr, [x4]
+0x012bb8  ldrb     w8, [x0, #0x107]
+0x012bbc  cbz      w8, #0x12c3c
+0x012bc0  mov      x19, x3
+0x012bc4  mov      w23, w2
+0x012bc8  mov      x20, x0
+0x012bcc  cbz      w2, #0x12c44
+0x012bd0  tbnz     x19, #0x3f, #0x12c44
+0x012bd4  ldr      x8, [x20, #0x70]
+0x012bd8  cmp      x8, x19
+0x012bdc  b.le     #0x12c58
+0x012be0  add      x9, x19, w23, uxtw
+0x012be4  mov      x25, x5
+0x012be8  sub      w10, w8, w19
+0x012bec  cmp      x9, x8
+0x012bf0  mov      x21, x4
+0x012bf4  mov      x22, x1
+0x012bf8  csel     w2, w10, w23, gt
+0x012bfc  add      x3, sp, #0x28
+0x012c00  add      x5, sp, #0x20
+0x012c04  mov      x0, x20
+0x012c08  mov      x1, x19
+0x012c0c  mov      x4, x25
+0x012c10  mov      x24, x6
+0x012c14  stp      xzr, xzr, [sp, #0x20]
+0x012c18  bl       #0x12e04
+0x012c1c  ldr      x8, [x25]
+0x012c20  tbnz     x8, #0x3f, #0x12c30
+0x012c24  ldr      x9, [sp, #0x20]
+0x012c28  add      x8, x9, x8
+0x012c2c  str      x8, [x24]
+0x012c30  cbz      w0, #0x12cc4
+0x012c34  mov      x0, #-0x65
+0x012c38  b        #0x12de4
+0x012c3c  mov      x0, #-0x69
+0x012c40  b        #0x12de4
+0x012c44  mov      w0, #5
+0x012c48  bl       #0x37e20  ; <== GETTER(g_level>N)
+0x012c4c  tbz      w0, #0, #0x12c6c
+0x012c50  mov      x0, #-0x63
+0x012c54  b        #0x12de4
+0x012c58  mov      w0, #4
+0x012c5c  bl       #0x37e20  ; <== GETTER(g_level>N)
+0x012c60  tbz      w0, #0, #0x12c98
+0x012c64  mov      x0, #-1
+0x012c68  b        #0x12de4
+0x012c6c  ldr      x5, [x20, #0x70]
+0x012c70  adrp     x1, #0x3b000
+0x012c74  adrp     x2, #0x3d000
+0x012c78  add      x1, x1, #0x5f0  ; STR=NMCache
+0x012c7c  add      x2, x2, #0xcc  ; STR=NMSlicesFile::Read buffer len:%u, offset:%lld, file_len:%lld 
+0x012c80  mov      w0, #5
+0x012c84  mov      w3, w23
+0x012c88  mov      x4, x19
+0x012c8c  bl       #0x3138c  ; <== LOGFN
+0x012c90  mov      x0, #-0x63
+0x012c94  b        #0x12de4
+0x012c98  ldr      x5, [x20, #0x70]
+0x012c9c  adrp     x1, #0x3b000
+0x012ca0  adrp     x2, #0x3d000
+0x012ca4  add      x1, x1, #0x5f0  ; STR=NMCache
+0x012ca8  add      x2, x2, #0x10a  ; STR=NMSlicesFile::Read buffer len:%u, offset:%lld, file_len:%lld Finish EOF.
+0x012cac  mov      w0, #4
+0x012cb0  mov      w3, w23
+0x012cb4  mov      x4, x19
+0x012cb8  bl       #0x3138c  ; <== LOGFN
+0x012cbc  mov      x0, #-1
+0x012cc0  b        #0x12de4
+0x012cc4  ldr      x12, [sp, #0x28]
+0x012cc8  ldr      x10, [x20, #0xd0]
+0x012ccc  add      x25, x12, x19
+0x012cd0  sdiv     x8, x25, x10
+0x012cd4  msub     x9, x8, x10, x25
+0x012cd8  cmp      x9, #0
+0x012cdc  cset     w9, ne
+0x012ce0  cinc     x11, x8, ne
+0x012ce4  cmp      x12, #1
+0x012ce8  str      x12, [sp, #8]
+0x012cec  b.lt     #0x12dc8
+0x012cf0  sdiv     x10, x19, x10
+0x012cf4  cmp      x10, x11
+0x012cf8  b.ge     #0x12dd0
+0x012cfc  sub      x11, x11, #1
+0x012d00  add      x8, x8, x9
+0x012d04  mov      w9, #0xe8
+0x012d08  mov      x28, xzr
+0x012d0c  mov      w26, wzr
+0x012d10  stp      x11, x10, [sp, #0x10]
+0x012d14  add      x11, x10, #1
+0x012d18  sub      x24, x8, x10
+0x012d1c  mul      x27, x10, x9
+0x012d20  str      x11, [sp]
+0x012d24  ldr      x8, [x20, #0xd8]
+0x012d28  ldr      x0, [x20, #0xf0]
+0x012d2c  add      x9, x8, x27
+0x012d30  cmp      x9, x0
+0x012d34  b.eq     #0x12d4c
+0x012d38  cbz      x0, #0x12d44
+0x012d3c  bl       #0x15358
+
+========================================================================================================
+F4 相关 .rodata 日志格式串（地址 -> 内容）
+========================================================================================================
+0x03b5f8  NMBufferSourceImp Create:%lld
+0x03b616  NMBufferSourceImp(%lld)::Start Render Task Failed.
+0x03b649  NMBufferSourceImp(%lld)::Start Use Memory Mode.
+0x03b679  NMBufferSourceImp Destroy:%lld begin
+0x03b69e  NMBufferSourceImp Destroy:%lld
+0x03b6bd  NMBufferSourceImp(%lld)::Open failed(%d), local cache unavailable.
+0x03b700  NMBufferSourceImp(%lld)::Open inherit file_offset:%lld, seek to audio start
+0x03b74c  NMBufferSourceImp(%lld)::Read param error
+0x03b776  NMBufferSourceImp(%lld)::Read  buffer len zero.
+0x03b7a6  NMBufferSourceImp(%lld)::Read Create Thread Failed.
+0x03b7da  NMBufferSourceImp(%lld)::Read(%lld)  buffer len:%u.
+0x03b80e  NMBufferSourceImp(%lld)::Read Exception.
+0x03b837  NMBufferSourceImp(%lld)::Read Finish
+0x03b85c  NMBufferSourceImp(%lld)::Read(%lld) Finish Sync:%d
+0x03b88f  NMBufferSourceImp(%lld)::ReadFromMemoryNoLock EOF
+0x03b8c1  NMBufferSourceImp::ReadFromMemoryNoLock Error:%d 
+0x03b8f3  NMBufferSourceImp::Read((%lld-%lld) Finish Async:%d
+0x03b927  NMBufferSourceImp::Seek(%lld-%lld) Offset:%lld, from_where:%d
+0x03b965  NMBufferSourceImp::Abort(%lld-%lld)
+0x03b989  NMBufferSourceImp::Stop(%lld-%lld)
+0x03b9ac  NMBufferSourceImp(%lld)::SetRespectCacheSize  max_cache_size_:%lld
+0x03b9ef  NMBufferSourceImp(%lld)::SetRequestMinRangeSize  min_range_size_:%lld
+0x03ba35  NMBufferSourceImp(%lld)::SetFileOffset offset:%lld
+0x03ba68  NMBufferSourceImp(%lld)::PreloadDoneTaskOnRenderThreadCheck Local Cached:%lld, empty_offset:%lld, emtpy_legnth:%lld
+0x03badc  NMBufferSourceImp(%lld):::OnNetSourceData() Failed.offset:%lld, length:%lld, result:%d
+0x03bb33  NMBufferSourceImp::OnWriteNetData Failed Not Support.
+0x03bb69  NMBufferSourceImp::OnWriteNetData Failed Data Invalid.
+0x03bba0  NMBufferSourceImp(%lld)::OnWriteNetData SKIP offset:%lld size:%lld file_offset_:%lld
+0x03bbf5  NMBufferSourceImp(%lld)::OnWriteNetData TRIM offset:%lld size:%lld skip:%lld
+0x03bc42  NMBufferSourceImp::OnWriteNetData Write Trimmed Data Failed:%d.
+0x03bc82  NMBufferSourceImp::OnWriteNetData Write Data Failed:%d.
+0x03bcba  NMBufferSourceImp::OnFlushNetData Failed Not Support.
+0x03bcf0  NMBufferSourceImp::ReadFromMemoryNoLock Unexcept Error:%d
+0x03bd2a  NMBufferSourceImp(%lld)::ReadFromFileNoLock Error:%d
+0x03bd5f  NMBufferSourceImp::ReadTaskAsync Read Op Valid.
+0x03bd8f  NMBufferSourceImp::ReadTaskAsync Read Stopped.
+0x03bdbe  NMBufferSourceImp::ReadTaskAsync Read  Begin(%lld-%d)
+0x03bdf4  NMBufferSourceImp::ReadTaskAsync Read  EOF.
+0x03be20  NMBufferSourceImp::ReadTaskAsync Pending.
+0x03be4a  NMBufferSourceImp::ReadTaskAsync Retry Failed.
+0x03be79  NMBufferSourceImp::ReadTaskAsync Read  End.
+0x03bea5  NMBufferSourceImp::ReadFromMemoryNoLock. Memory Cache Not Support.
+0x03bee8  NMBufferSourceImp(%lld)::ReadFromFileNoLock  Local File Read expect len:%u, offset:%lld, readed_len:%u, result:%d
+0x03bf5a  NMBufferSourceImp(%lld)::ReadFromFileNoLock  Local File Read Failed. expect len:%u, offset:%lld, readed_len:%u, result:%d
+0x03bfd4  NMBufferSourceImp(%lld)::PreSeekReadTask ADJUST offset:%lld -> file_offset_:%lld
+0x03c025  NMBufferSourceImp(%lld)::PreSeekReadTask offset:%lld, size:%lld, memory offset:%lld
+0x03c079  NMBufferSourceImp(%lld)::PreSeekReadTaskRead offset : % lld, size : % lld, out_len : %u, result:%d, begin:%lld, end:%lld
+0x03c0f2  NMBufferSourceImp(%lld)::PreSeekReadTask  Write offset:%lld, size:%lld, out_len:%u, writen:%u
+0x03c150  NMBufferSourceImp(%lld)::PreSeekReadTask  respect_cache_offset:%lld, hole_begin:%lld, read_offset_:%lld, max_cache_size_:%lld
+0x03c1ce  NMBufferSourceImp(%lld)::PreSeekReadTask request_len:%lld, request_round_size_ %lld, round_length %lld, hole_length %lld
+0x03c2cb  NMBufferSourceImp(%lld)::PreloadRangeTask local cache unsupported
+0x03c30d  NMBufferSourceImp(%lld)::PreloadRangeTask net source null
+0x03c347  NMBufferSourceImp(%lld)::PreloadRangeTask invalid offset:%lld length:%lld
+0x03c391  NMBufferSourceImp(%lld)::PreloadRangeTask offset beyond size:%lld size:%lld
+0x03c3dd  NMBufferSourceImp(%lld)::PreloadRangeTask target:%lld-%lld available:%lld empty:%lld length:%lld
+0x03c43e  NMBufferSourceImp(%lld)::PreloadRangeTask request ignored/failed result:%d start:%lld length:%lld
+0x03c4a0  NMBufferSourceImp(%lld)::CheckNetRequestRange length:%lld, request_round_size_ %lld, round_length %lld, hole_length %lld
+0x03c519  NMBufferSourceImp(%lld)::SetRequestRoundSize round_size:%lld
+0x03cb43  NMNetSource(%lld-%lld)::WaitRequest offset:%lld, length:%lld, signal_size:%lld, force:%s
+0x03cba1  NMNetSource(%lld-%lld)::WaitRequest cur offset:%lld, cur end : % lld, expect offset : % lld, end : % lld, commit : % lld
+0x03cc1a  NMNetSource(%lld-%lld)::MakeRangeRequestAsync offset:%lld, length:%lld, signal_size:%lld
+0x03cc73  NMNetSource(%lld-%lld)::OnData() offset:%lld, size:%lld, except offset:%lld, end:%lld
+0x03ccc9  NMNetSource(%lld-%lld)::OnData() UnExpect New Offsetcommted:%lld, offset:%lld, size:%lld, cur_req_size:%lld
+0x03cd3a  NMNetSource(%lld-%lld)::OnEnd() result:%s
+0x03cd64  NMNetSource::MakeRangeRequestAsync(%lld), start result:%d, offset:%lld, length:%lld
+0x03ceb8  NMSlicesFile::Open() Failed. Init Failed.
+0x03cf90  NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld 
+0x03cfce  NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld Finish EOF.
+0x03d017  NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld Fail. code:%d
+0x03d062  NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld File Not Exsit
+0x03d0ae  NMSlicesFile Write all finish
+0x03d0cc  NMSlicesFile::Read buffer len:%u, offset:%lld, file_len:%lld 
+0x03d10a  NMSlicesFile::Read buffer len:%u, offset:%lld, file_len:%lld Finish EOF.
+0x03d153  NMSlicesFile::InitFromJsonAndCheck Slice File:%s Not Exist Not Cached
+0x03d199  NMSlicesFile::Init Failed File Size Not Invalid.
+0x03d1ca  NMSlicesFile::AvailableSizeEx Failed Not Opened.
+0x03d1fb  NMSlicesFile::SetFileOffset id:%s offset:%lld
+0x03d359  file_offset
+0x03e724  Java_com_netease_cloudmusic_sdk_NMCommonCache_NMBufferSource_Read
+0x03e77e  Java_com_netease_cloudmusic_sdk_NMCommonCache_NMBufferSource_ReadBuf
+0x03ec9d  NMBufferSourceHanderAndroid Find method Progress Failed.
+0x03ecef  NMBufferSourceHanderAndroid Find method Preload Failed.
+0x03ed3f  NMBufferSourceHanderAndroid Find method OnSourceCacheInfo Failed.

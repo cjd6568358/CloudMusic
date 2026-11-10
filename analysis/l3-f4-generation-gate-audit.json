@@ -1,0 +1,72 @@
+{
+  "method": "12 §61.67 审计（只读复核证据 JSON / 报告 / 文档口径，可反复重跑）",
+  "generated_by": "tools/l3_f4_generation_gate_audit.py",
+  "inputs": {
+    "disasm_json": "analysis/l3-f4-generation-gate-disasm.json",
+    "report": "analysis/l3-f4-generation-gate-report.md"
+  },
+  "counts": {
+    "disasm_checks": 18,
+    "anchors": 45,
+    "strings": 11,
+    "audit_checks": 25
+  },
+  "evidence_checks": {
+    "disasm_json_all_pass": true,
+    "disasm_checks_total_18": true,
+    "disasm_checks_core_all": true,
+    "anchors_total_45": true,
+    "anchors_all_ok": true,
+    "strings_total_11": true,
+    "strings_all_ok": true,
+    "generation_increment_point_0x104B8": true,
+    "generation_passed_0x104D8": true,
+    "early_drop_0x10798": true,
+    "data_callback_0x1086C_skipped": true,
+    "slice_file_len_gate_0x12820": true,
+    "slice_log_0x3CF90_restored": true,
+    "inference_not_promoted_to_proof": true,
+    "f4_status_blocked_in_notes": true,
+    "no_solved_claim": true,
+    "device_41417_documented": true,
+    "zero_device_operation": true,
+    "no_credential_leak": true
+  },
+  "doc_checks": {
+    "delivery12_has_61_67": true,
+    "plan17_has_8_27": true,
+    "contract_guard_present": true,
+    "backlog_has_61_67": true,
+    "report_has_key_anchors": true,
+    "report_has_method": true
+  },
+  "checks": {
+    "disasm_json_all_pass": true,
+    "disasm_checks_total_18": true,
+    "disasm_checks_core_all": true,
+    "anchors_total_45": true,
+    "anchors_all_ok": true,
+    "strings_total_11": true,
+    "strings_all_ok": true,
+    "generation_increment_point_0x104B8": true,
+    "generation_passed_0x104D8": true,
+    "early_drop_0x10798": true,
+    "data_callback_0x1086C_skipped": true,
+    "slice_file_len_gate_0x12820": true,
+    "slice_log_0x3CF90_restored": true,
+    "inference_not_promoted_to_proof": true,
+    "f4_status_blocked_in_notes": true,
+    "no_solved_claim": true,
+    "device_41417_documented": true,
+    "zero_device_operation": true,
+    "no_credential_leak": true,
+    "delivery12_has_61_67": true,
+    "plan17_has_8_27": true,
+    "contract_guard_present": true,
+    "backlog_has_61_67": true,
+    "report_has_key_anchors": true,
+    "report_has_method": true
+  },
+  "all_pass": true,
+  "failed_checks": []
+}

@@ -16,6 +16,7 @@ import com.netease.cloudmusic.android.sdk.playerengine.PlaybackEngineListener
 import com.netease.cloudmusic.android.sdk.playerengine.PlayerDataSource
 import com.netease.cloudmusic.android.sdk.playerengine.ResourceInfo
 import com.netease.cloudmusic.android.sdk.playerengine.UrlResult
+import com.netease.cloudmusic.sdk.NMCommonCache.INMLogger
 import com.netease.cloudmusic.sdk.NMCommonCache.NMVirtualFileManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -379,6 +380,25 @@ class EngineAdapter : IMusicEngine {
             vfm?.let { manager ->
                 appContext?.let { context ->
                     runCatching {
+                        // 12 §61.69（F4 level-5 诊断接线，用户 2026-11-11 拍板授权改 P0）：
+                        // libNMCommonCache.so 的 native 日志 level 存于 .bss 全局 0x4c388，
+                        // 进程启动恒为 0；全 .text 唯一写入点是
+                        // SetLoggerCallback(INMLogger,int) JNI（0x32d64 -> 0x37e34
+                        // `str w0,[x8,#0x388]`），getter 0x37e20 实为
+                        // `cmp w8,w0; cset w0,gt`（全局严格大于传入值才为真）。
+                        // 硬约束：NMSlicesFile::Write 里 `g_level > 5` 会直接
+                        // return -102/-1/-99（0x1282c / 0x12874 / 0x12c48 / 0x12c5c），
+                        // 故 level 不得 >= 6，否则注入本来不存在的错误返回、污染 F4 观测。
+                        // INMLogger 是空类（无任何回调方法），传实例即可，不要传 null：
+                        // JNI 0x32d70 `mov x0,x2` 把 logger 交给 0x36198，null 安全性未实证。
+                        // level 默认 5；可从 app 私有文件 nmcache_log_level 读值做真机对照，
+                        // 该文件仅诊断期由 adb run-as 写入，不属正式设置项、不进 DataStore。
+                        val level = runCatching {
+                            java.io.File(context.filesDir, "nmcache_log_level")
+                                .readText().trim().toInt()
+                        }.getOrDefault(5).coerceIn(0, 5)
+                        NMVirtualFileManager.SetLoggerCallback(INMLogger(), level)
+                        EngineDiag.i("SetLoggerCallback level=$level logger=INMLogger cap<=5")
                         val dir = java.io.File(context.cacheDir, "legacy_engine_cache")
                         dir.mkdirs()
                         val json = "{\"dir\":\"${dir.absolutePath}\"," +
