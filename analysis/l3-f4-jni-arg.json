@@ -1,0 +1,83 @@
+{
+  "method": "12 §61.56 / F4 Java→native 参数槽透传的一手二进制复核（离线、只读）",
+  "generated_by": "tools/l3_f4_jni_arg_verify.py",
+  "so": "engine-legacy/src/main/jniLibs/arm64-v8a/libNMCommonCache.so",
+  "jni_calling_convention": "ARM64 JNI: x0=JNIEnv*, x1=jobject, x2=long j(native_ptr), x3=long j2(Java 侧 j1 请求标识), x4+=其余参数",
+  "checks": {
+    "jni_end_export_found": true,
+    "jni_data_export_found": true,
+    "end_saves_j2_into_x21": true,
+    "end_saves_native_ptr_into_x23": true,
+    "end_sets_x0_to_native_ptr": true,
+    "end_sets_x1_to_j2": true,
+    "end_calls_trampoline_0x36c70": true,
+    "data_saves_j2_into_x21": true,
+    "data_sets_x0_to_native_ptr": true,
+    "data_sets_x1_to_j2": true,
+    "data_calls_parallel_trampoline_0x36f68": true,
+    "trampoline_forwards_x1_unchanged": true,
+    "trampoline_dispatches_via_vtable_0x20": true,
+    "done_compares_w1_with_2": true,
+    "java_kdoc_documents_j1_as_kind_slot": true,
+    "url_request_passes_requestId": true,
+    "docs59_3_calibrated_data_kind_1L": true
+  },
+  "all_pass": true,
+  "failed_checks": [],
+  "evidence": {
+    "jni_end": {
+      "symbol": "Java_com_netease_cloudmusic_sdk_NMCommonCache_SourceDataRequest_OnNativeDataRequestEnd",
+      "addr": "0x3495c",
+      "size": 360,
+      "arg_moves": [
+        "0x34990  mov       x23, x2",
+        "0x34994  mov       x1, x4",
+        "0x349a4  mov       x21, x3",
+        "0x349a8  mov       x20, x0",
+        "0x349b0  mov       x22, x0",
+        "0x349c8  mov       x24, x0",
+        "0x34a28  mov       x0, x26",
+        "0x34a34  mov       x25, x0",
+        "0x34a40  mov       x0, x25",
+        "0x34a44  mov       x1, x22",
+        "0x34a54  mov       x0, x23",
+        "0x34a58  mov       x1, x21",
+        "0x34a78  mov       x0, x20",
+        "0x34a7c  mov       x1, x19"
+      ],
+      "call": "0x34a60  bl        #0x36c70"
+    },
+    "jni_data": {
+      "symbol": "Java_com_netease_cloudmusic_sdk_NMCommonCache_SourceDataRequest_OnNativeDataRequestData",
+      "addr": "0x347f4",
+      "size": 360,
+      "arg_moves": [
+        "0x34900  mov       x0, x22",
+        "0x34904  mov       x1, x21",
+        "0x34908  mov       x3, x20",
+        "0x3490c  mov       x4, x19"
+      ],
+      "call": "0x34914  bl        #0x36f68"
+    },
+    "trampoline_0x36c70": [
+      "0x36c80  mov       x19, x0",
+      "0x36c90  mov       x21, x1",
+      "0x36ca0  ldr       x8, [x0]",
+      "0x36ca4  mov       x1, x21",
+      "0x36cac  ldr       x8, [x8, #0x20]",
+      "0x36cb0  blr       x8"
+    ],
+    "native_done": [
+      "0xbf08  cmp       w1, #2",
+      "0xbf14  b.ne      #0xbfa0",
+      "0xc04c  b.ne      #0xc064"
+    ]
+  },
+  "conclusion": "JNI 导出 OnNativeDataRequestEnd 把 Java 的 j2（= UrlDataRequest 传入的 requestId）原样经 x21 放进 x1，调 trampoline 0x36c70；后者再次 mov x21,x1 → mov x1,x21 后经 vtable+0x20 虚调用，参数槽未被改写或重映射。与已被 §59.3 真机校准为 kind 的数据包路径（OnNativeDataRequestData，同样 x0=native_ptr / x1=j2 / 调 0x36f68）完全同构，而 native 侧 OnNetSourceDataDone 正是用 w1 与 #2 比较。因此假设的环节 A —— 「requestId 会原样落到 kind 槽，id==2 即 kind==2」—— 由二进制证据 与历史真机校准双重确认。环节 B（错误的完成通知是否就是 fMP4 REMOTE 卡点的原因）仍无真机证据，F4 仍 BLOCKED。",
+  "honest_notes": [
+    "虚表槽 vtable+0x20 的具体目标类型由运行时决定；静态反汇编证明的是「参数槽透传无变换」，结合 §59.3 数据包路径真机校准与 KDoc 记录构成高置信证据，但不是 100% 的类型证明。",
+    "§59.2 exp6 反例、竞品同样传 requestId 却可用、ape×remote 与 aiff 仍不解释。",
+    "本工具只读 so / java / docs，不连 adb、不改任何生产代码、零新增依赖。",
+    "A/B 尚未执行；自动进曲 3 首 / seek / ENDED 如实 NOT RUN；A3 仍 G09 PARTIAL、舱不冻结。"
+  ]
+}

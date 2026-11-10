@@ -1,0 +1,281 @@
+{
+  "method": "12 §61.61 / F4 第二卡点最终真机结论（离线复核已落盘 logcat，不连 adb）",
+  "generated_by": "tools/l3_f4_second_blocker_final_audit.py",
+  "sample": {
+    "path": "analysis/l3-f3-fixtures/f3_m4a_complete.m4a",
+    "bytes": 16573387,
+    "top_level_boxes": 158,
+    "box_counts": {
+      "ftyp": 1,
+      "moov": 1,
+      "styp": 52,
+      "moof": 52,
+      "mdat": 52
+    },
+    "head_types": [
+      "ftyp",
+      "moov"
+    ],
+    "tail_type": "mdat",
+    "parse_consumes_whole_file": true,
+    "paired_moof_mdat": true
+  },
+  "logs": {
+    "baseline_remote": {
+      "path": "analysis/l3-f4-logs/selfconsist-remote.txt",
+      "bytes": 205636,
+      "open_codec": [],
+      "write_start": [],
+      "play_status": [
+        "3"
+      ],
+      "reads": [
+        {
+          "offset": 0,
+          "readed_len": 0,
+          "result": -2
+        },
+        {
+          "offset": 327895,
+          "readed_len": 16169,
+          "result": 16169
+        },
+        {
+          "offset": 605007,
+          "readed_len": 0,
+          "result": -2
+        },
+        {
+          "offset": 605007,
+          "readed_len": 0,
+          "result": -2
+        },
+        {
+          "offset": 605007,
+          "readed_len": 0,
+          "result": -2
+        }
+      ],
+      "waits": [
+        {
+          "cur_offset": 0,
+          "cur_end": 1048576,
+          "expect_offset": 605007,
+          "end": 613199,
+          "commit": 368640
+        }
+      ],
+      "starts": [
+        {
+          "id": 1,
+          "offset": 0,
+          "length": 1048576
+        },
+        {
+          "id": 2,
+          "offset": 605007,
+          "length": 1048576
+        },
+        {
+          "id": 3,
+          "offset": 605007,
+          "length": 1048576
+        },
+        {
+          "id": 4,
+          "offset": 605007,
+          "length": 1048576
+        }
+      ],
+      "jump_read_failures": [
+        {
+          "offset": 605007,
+          "readed_len": 0,
+          "result": -2
+        },
+        {
+          "offset": 605007,
+          "readed_len": 0,
+          "result": -2
+        },
+        {
+          "offset": 605007,
+          "readed_len": 0,
+          "result": -2
+        }
+      ],
+      "has_103": false
+    },
+    "baseline_local": {
+      "path": "analysis/l3-f4-logs/selfconsist-local.txt",
+      "bytes": 397781,
+      "open_codec": [
+        "aac"
+      ],
+      "write_start": [
+        "0"
+      ],
+      "play_status": [
+        "4"
+      ],
+      "reads": [],
+      "waits": [],
+      "starts": [],
+      "jump_read_failures": [],
+      "has_103": false
+    },
+    "variantb_remote": {
+      "path": "analysis/l3-f4-logs/ksab-m4a-remote.txt",
+      "bytes": 153100,
+      "open_codec": [],
+      "write_start": [],
+      "play_status": [
+        "3"
+      ],
+      "reads": [
+        {
+          "offset": 0,
+          "readed_len": 32768,
+          "result": 32768
+        },
+        {
+          "offset": 327895,
+          "readed_len": 32768,
+          "result": 32768
+        },
+        {
+          "offset": 605007,
+          "readed_len": 0,
+          "result": -2
+        }
+      ],
+      "waits": [
+        {
+          "cur_offset": 368640,
+          "cur_end": 1417216,
+          "expect_offset": 605007,
+          "end": 613199,
+          "commit": 368640
+        }
+      ],
+      "starts": [
+        {
+          "id": 1,
+          "offset": 368640,
+          "length": 1048576
+        },
+        {
+          "id": 2,
+          "offset": 605007,
+          "length": 1048576
+        }
+      ],
+      "jump_read_failures": [
+        {
+          "offset": 605007,
+          "readed_len": 0,
+          "result": -2
+        }
+      ],
+      "has_103": false
+    },
+    "prior_variantb_remote": {
+      "path": "analysis/l3-f4-logs/ab-run2-m4a-remote.txt",
+      "bytes": 244220,
+      "open_codec": [],
+      "write_start": [],
+      "play_status": [
+        "3"
+      ],
+      "reads": [
+        {
+          "offset": 0,
+          "readed_len": 32768,
+          "result": 32768
+        },
+        {
+          "offset": 327895,
+          "readed_len": 32768,
+          "result": 32768
+        },
+        {
+          "offset": 605007,
+          "readed_len": 0,
+          "result": -2
+        }
+      ],
+      "waits": [
+        {
+          "cur_offset": 147456,
+          "cur_end": 327895,
+          "expect_offset": 605007,
+          "end": 613199,
+          "commit": 147456
+        }
+      ],
+      "starts": [
+        {
+          "id": 1,
+          "offset": 147456,
+          "length": 180439
+        },
+        {
+          "id": 2,
+          "offset": 605007,
+          "length": 1048576
+        }
+      ],
+      "jump_read_failures": [
+        {
+          "offset": 605007,
+          "readed_len": 0,
+          "result": -2
+        }
+      ],
+      "has_103": false
+    }
+  },
+  "json_evidence": {
+    "selfconsistent_probe": "analysis/l3-f4-selfconsistent-probe.json",
+    "variant_b_selfconsistent": "analysis/l3-f4-ab-selfconsistent.json",
+    "variant_b_primary_criterion_met": false,
+    "variant_b_p0_restored": true,
+    "variant_b_regression_all_pass": true
+  },
+  "decisive_comparison": {
+    "pass_cell": "P0 基线 × 自洽样本 LOCAL：Open codec for aac / Play status 4 / Write start play nErr:0",
+    "fail_cell": "P0 基线（及变体 B）× 自洽样本 REMOTE：ReadFromFileNoLock offset:605007 readed_len:0 result:-2，WaitRequest commit:368640 < expect offset:605007",
+    "prior_snapshot": "§61.59 变体 B × 非自洽样本同样 offset:605007 readed_len:0 result:-2，commit:147456"
+  },
+  "attribution_history": {
+    "61_59": "第二卡点写作「fMP4 多 Range × normal mode vfile 落盘 / probe 数据不足」",
+    "61_60": "离线样本结构实证把优先级改为「样本不自洽为主、vfile 落盘为次」（PENDING_REAL_SAMPLE；本批真机对照推翻其主次）",
+    "61_61": "样本自洽性 + 错误完成通知均排除，锁定 vfile 流式落盘 / 跳跃式 probe 读",
+    "history_rewritten": false
+  },
+  "status": {
+    "root_cause": "normal mode vfile 流式落盘跟不上 fMP4 demuxer 的跳跃式 probe 读：commit=368640 (< offset=605007) → ReadFromFileNoLock readed_len:0 result:-2 → 无 Open codec",
+    "sample_selfconsistency_ruled_out": true,
+    "wrong_completion_notification_ruled_out": true,
+    "commit_below_jump_evidence": true,
+    "root_cause_locked": true,
+    "native_mechanism_localized": false,
+    "fix_implemented": false,
+    "fix_verified": false,
+    "f4_status": "BLOCKED",
+    "device_phase": "COMPLETE",
+    "device_can_disconnect": true,
+    "auto_advance_3_tracks": "NOT RUN",
+    "seek_and_ended": "NOT RUN",
+    "a3_g09": "PARTIAL",
+    "engine_bay_frozen": false
+  },
+  "honest_notes": [
+    "根因锁定 ≠ 修复完成；F4 仍判 BLOCKED，自动进曲 3 首 / seek / ENDED 均未跑。",
+    "commit 是「落盘速度不足」还是「commit / Range 记账语义不允许回填跳跃区间」，尚未在 native 层区分；具体函数与字段待 native 级定位。",
+    "§61.59 环节 B 部分成立（确实消除 id>=3 重复请求）、§61.60 样本不完整的结构事实均不改写，只修正对第二卡点的归因。",
+    "变体 B 临时存在，finally 无条件恢复 P0 基线并重编译重装；git diff 空。",
+    "设备按用户指令可断开，本批不连 adb、不连 OpenList、零生产代码改动。",
+    "A3 仍 G09 PARTIAL、舱不冻结、engine_compat_test 不回填。"
+  ]
+}

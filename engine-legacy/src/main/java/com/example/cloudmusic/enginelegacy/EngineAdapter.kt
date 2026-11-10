@@ -402,14 +402,18 @@ class EngineAdapter : IMusicEngine {
                 "prepare trackId=${source.trackId} remote=${source.url != null} " +
                     "url=${source.url} expectedLength=${source.expectedLength}",
             )
-            // 12 §56：so 的 JNI 字段表只从 ResourceInfo 读 extension；V0.1 的空串
-            // 与竞品（checkNotNullExpressionValue 后传入非空值）不一致，故按 URL 后缀校准。
-            // 这是**待真机验证的假设**，不是已证实的修复。
-            val extension = source.url
-                ?.substringAfterLast('.', "")
-                ?.substringBefore('?')
-                ?.takeIf { it.isNotEmpty() && it.length <= 5 }
-                ?: source.mimeHint.orEmpty()
+            // 12 §61.48 / F2-b：extension 必须是真实扩展名，不能是 MIME 字符串。
+            // §61.47 真机取证已证实：LOCAL 源（url=null）旧链落到 source.mimeHint，
+            // 日志为 resourceInfo extension=audio/mpeg fileSize=-1；native 虽经
+            // XorLocalSource 内容探测仍可播 mp3，但语义错配真实存在，且其它格式
+            // 可能依赖 extension 选择 demuxer（待 F3 逐格式矩阵证实，不预断）。
+            // 现统一由 :core-model 的 AudioFormats 单一真相源推断：URL 后缀 →
+            // LOCAL 路径真实后缀 → mimeHint 反查已登记 MIME → 空串（不编造）。
+            // 历史 A3 已有 extension=mp3 成功日志（a3-phase-ab-evidence §E4），
+            // 传真实扩展名不是新猜测；零新增 Gradle 依赖、P0 native 舱零改动。
+            val extension = com.example.cloudmusic.model.AudioFormats.extOfSource(
+                source.url, source.localPath, source.mimeHint,
+            )
             // 12 §57：`CreateBufferSource` 的 resource config "size" 取自 ResourceInfo.fileSize，
             // 0 会让 NMBufferSourceImp 走 Memory Mode 而不向 Java 发起 Start 取流。
             val length = provider.resolveLength()

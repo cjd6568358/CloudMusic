@@ -1,0 +1,413 @@
+{
+  "method": "12 §61.44：全格式播放内核现状实证（6 处生产白名单 + libffmpeg.so 符号 + A3 G01 真机证据）",
+  "generated_by": "tools/l3_audio_format_audit.py",
+  "format_lists": {
+    "core-model/ObjectType.AUDIO_EXT": [
+      "mp3",
+      "flac",
+      "ogg",
+      "m4a",
+      "wav",
+      "opus",
+      "wma",
+      "aac",
+      "ape",
+      "dsf",
+      "dff",
+      "aiff",
+      "wv",
+      "tak"
+    ],
+    "scanner/ScanRules.audioExt": [
+      "mp3",
+      "flac",
+      "wav",
+      "m4a",
+      "aac",
+      "ogg",
+      "opus",
+      "wma"
+    ],
+    "datasource-strm/StrmPaths.defaultFilterTypes": [
+      "mp3",
+      "flac",
+      "aac",
+      "wav",
+      "ogg",
+      "m4a",
+      "wma",
+      "alac",
+      "opus"
+    ],
+    "engine-bridge/MimeHint.MAP": [
+      "mp3",
+      "flac",
+      "aac",
+      "m4a",
+      "ogg",
+      "wav",
+      "wma",
+      "alac",
+      "opus",
+      "m3u8",
+      "lrc"
+    ],
+    "feature-player/PlayerController.mimeHintOf": [
+      "mp3",
+      "flac",
+      "m4a",
+      "aac",
+      "wav",
+      "ogg",
+      "opus"
+    ],
+    "output-dlna/DidlLiteBuilder.mimeOf": [
+      "mp3",
+      "flac",
+      "m4a",
+      "aac",
+      "wav",
+      "ogg",
+      "opus"
+    ]
+  },
+  "canonical": {
+    "source": "core-model/ObjectType.AUDIO_EXT",
+    "count": 14,
+    "exts": [
+      "mp3",
+      "flac",
+      "ogg",
+      "m4a",
+      "wav",
+      "opus",
+      "wma",
+      "aac",
+      "ape",
+      "dsf",
+      "dff",
+      "aiff",
+      "wv",
+      "tak"
+    ]
+  },
+  "list_count": 6,
+  "inconsistencies": [
+    {
+      "list": "core-model/ObjectType.AUDIO_EXT",
+      "count": 14,
+      "missing_vs_object_type": [],
+      "extra_vs_object_type": []
+    },
+    {
+      "list": "scanner/ScanRules.audioExt",
+      "count": 8,
+      "missing_vs_object_type": [
+        "aiff",
+        "ape",
+        "dff",
+        "dsf",
+        "tak",
+        "wv"
+      ],
+      "extra_vs_object_type": []
+    },
+    {
+      "list": "datasource-strm/StrmPaths.defaultFilterTypes",
+      "count": 9,
+      "missing_vs_object_type": [
+        "aiff",
+        "ape",
+        "dff",
+        "dsf",
+        "tak",
+        "wv"
+      ],
+      "extra_vs_object_type": [
+        "alac"
+      ]
+    },
+    {
+      "list": "engine-bridge/MimeHint.MAP",
+      "count": 9,
+      "missing_vs_object_type": [
+        "aiff",
+        "ape",
+        "dff",
+        "dsf",
+        "tak",
+        "wv"
+      ],
+      "extra_vs_object_type": [
+        "alac"
+      ]
+    },
+    {
+      "list": "feature-player/PlayerController.mimeHintOf",
+      "count": 7,
+      "missing_vs_object_type": [
+        "aiff",
+        "ape",
+        "dff",
+        "dsf",
+        "tak",
+        "wma",
+        "wv"
+      ],
+      "extra_vs_object_type": []
+    },
+    {
+      "list": "output-dlna/DidlLiteBuilder.mimeOf",
+      "count": 7,
+      "missing_vs_object_type": [
+        "aiff",
+        "ape",
+        "dff",
+        "dsf",
+        "tak",
+        "wma",
+        "wv"
+      ],
+      "extra_vs_object_type": []
+    }
+  ],
+  "native": {
+    "decoder_library": "libffmpeg.so",
+    "library_bytes": 6658592,
+    "demuxer_count": 75,
+    "demuxers": [
+      "aac",
+      "amr",
+      "ape",
+      "asf",
+      "av3a",
+      "avi",
+      "dsf",
+      "dts",
+      "flac",
+      "flv",
+      "h263",
+      "h264",
+      "hevc",
+      "image2",
+      "image2pipe",
+      "image_bmp_pipe",
+      "image_dds_pipe",
+      "image_dpx_pipe",
+      "image_exr_pipe",
+      "image_gif_pipe",
+      "image_j2k_pipe",
+      "image_jpeg_pipe",
+      "image_jpegls_pipe",
+      "image_pam_pipe",
+      "image_pbm_pipe",
+      "image_pcx_pipe",
+      "image_pgm_pipe",
+      "image_pgmyuv_pipe",
+      "image_pictor_pipe",
+      "image_png_pipe",
+      "image_ppm_pipe",
+      "image_psd_pipe",
+      "image_qdraw_pipe",
+      "image_sgi_pipe",
+      "image_sunrast_pipe",
+      "image_svg_pipe",
+      "image_tiff_pipe",
+      "image_webp_pipe",
+      "image_xpm_pipe",
+      "image_xwd_pipe",
+      "kux",
+      "live_flv",
+      "m4v",
+      "matroska",
+      "mov",
+      "mp3",
+      "mpegps",
+      "mpegts",
+      "mpegtsraw",
+      "mpegvideo",
+      "ogg",
+      "pcm_alaw",
+      "pcm_f32be",
+      "pcm_f32le",
+      "pcm_f64be",
+      "pcm_f64le",
+      "pcm_mulaw",
+      "pcm_s16be",
+      "pcm_s16le",
+      "pcm_s24be",
+      "pcm_s24le",
+      "pcm_s32be",
+      "pcm_s32le",
+      "pcm_s8",
+      "pcm_u16be",
+      "pcm_u16le",
+      "pcm_u24be",
+      "pcm_u24le",
+      "pcm_u32be",
+      "pcm_u32le",
+      "pcm_u8",
+      "pcm_vidc",
+      "sln",
+      "wav",
+      "webm_dash_manifest"
+    ],
+    "decoder_count": 100,
+    "audio_decoder_names": [
+      "aac",
+      "aac_latm",
+      "adpcm_4xm",
+      "adpcm_afc",
+      "adpcm_agm",
+      "adpcm_aica",
+      "adpcm_argo",
+      "adpcm_ct",
+      "adpcm_dtk",
+      "adpcm_ea",
+      "adpcm_ea_maxis_xa",
+      "adpcm_ea_r1",
+      "adpcm_ea_r2",
+      "adpcm_ea_r3",
+      "adpcm_ea_xas",
+      "adpcm_ima_alp",
+      "adpcm_ima_amv",
+      "adpcm_ima_apc",
+      "adpcm_ima_apm",
+      "adpcm_ima_cunning",
+      "adpcm_ima_dat4",
+      "adpcm_ima_dk3",
+      "adpcm_ima_dk4",
+      "adpcm_ima_ea_eacs",
+      "adpcm_ima_ea_sead",
+      "adpcm_ima_iss",
+      "adpcm_ima_mtf",
+      "adpcm_ima_oki",
+      "adpcm_ima_qt",
+      "adpcm_ima_rad",
+      "adpcm_ima_smjpeg",
+      "adpcm_ima_ssi",
+      "adpcm_ima_wav",
+      "adpcm_ima_ws",
+      "adpcm_ms",
+      "adpcm_mtaf",
+      "adpcm_psx",
+      "adpcm_sbpro_2",
+      "adpcm_sbpro_3",
+      "adpcm_sbpro_4",
+      "adpcm_swf",
+      "adpcm_thp",
+      "adpcm_thp_le",
+      "adpcm_xa",
+      "adpcm_yamaha",
+      "adpcm_zork",
+      "alac",
+      "amrnb",
+      "amrwb",
+      "ape",
+      "flac",
+      "mp3",
+      "opus",
+      "pcm_alaw",
+      "pcm_f32le",
+      "pcm_f64le",
+      "pcm_mulaw",
+      "pcm_s16le",
+      "pcm_s24be",
+      "pcm_s24le",
+      "pcm_s32le",
+      "pcm_s8",
+      "pcm_u8",
+      "vorbis",
+      "wmalossless",
+      "wmapro",
+      "wmav1",
+      "wmav2",
+      "wmavoice"
+    ],
+    "dedicated_decoder_libs": [
+      "libnecmFlacDec.so",
+      "libnecmMP3Dec.so",
+      "libnecmAACDec.so"
+    ],
+    "note": "格式能力以 libffmpeg.so 内 ff_*_demuxer / ff_*_decoder 符号名为准；libncmplayerengine.so 只有少量格式字符串，不是解码器所在库。"
+  },
+  "verified_on_device": {
+    "formats": [
+      "mp3",
+      "flac",
+      "m4a",
+      "ogg"
+    ],
+    "count": 4,
+    "source_kind": "URL（adb reverse + python -m http.server 回环，12s 正弦音）",
+    "evidence": "analysis/a3-phase-ab-evidence-2026-11-07.md §26 G01 四格式",
+    "local_path_verified": false,
+    "note": "G01 只覆盖 REMOTE 取流路径；LOCAL 源与其余格式均未真机验证。"
+  },
+  "engine_extension_chain": {
+    "engine_adapter": "engine-legacy/.../EngineAdapter.kt:405-416",
+    "remote_extension": "source.url 后缀（substringBefore('?')，length <= 5）",
+    "local_extension_fallback": "source.mimeHint.orEmpty()（值是 audio/mpeg 这类 MIME 字符串，不是扩展名）",
+    "resource_info": "ResourceInfo(extension, length, source.trackId, \"\")",
+    "adapter_self_declared_status": true,
+    "create_data_request_handler_url_only": true,
+    "data_paths": {
+      "REMOTE": "createDataRequestHandler() -> UrlDataRequest -> RangeFetcher HTTP Range -> OnNetSourceData* 回传",
+      "LOCAL": "createDataRequestHandler() 返回 null；native 走 getLocalPath() / openLocalFd() 直读",
+      "device_verified": "仅 REMOTE"
+    },
+    "known_format_issue": {
+      "file": "engine-legacy/.../UrlDataRequest.kt:80-86",
+      "issue": "m4a（moov-at-end）触发 Start→push→onEnd→Read 0→重试 死循环（-103）",
+      "current_mitigation": "成功 EOF 延迟 2s 回传 + cancelled 检查（掩盖，非根治）",
+      "evidence_present": true
+    }
+  },
+  "todo": [
+    {
+      "phase": "F1",
+      "title": "建立单一格式真相源 AudioFormats",
+      "detail": "以 libffmpeg.so 实际编入的 demuxer+decoder 为客观边界，统一 6 处白名单；新增纯 JVM 契约与测试，消除 14/8/9/9/6/6 漂移",
+      "blocks": [
+        "F2",
+        "F3"
+      ]
+    },
+    {
+      "phase": "F2",
+      "title": "修正 EngineAdapter 的 ResourceInfo.extension 推断链",
+      "detail": "LOCAL 源不得拿 MIME 字符串当扩展名；URL 无后缀 / 签名直链需内容嗅探或显式扩展名；先真机证伪/证实代码注释里的「待验证假设」",
+      "blocks": [
+        "F3"
+      ]
+    },
+    {
+      "phase": "F3",
+      "title": "逐格式 × 双路径真机验收矩阵",
+      "detail": "每种候选格式分别跑 REMOTE（URL/回环）与 LOCAL（SAF/MediaStore）两条路径，记录 Open codec / Write start play / 时长 / seek / ENDED",
+      "blocks": [
+        "F4"
+      ]
+    },
+    {
+      "phase": "F4",
+      "title": "根治 m4a EOF 2s 延迟掩盖",
+      "detail": "定位 moov-at-end 死循环根因（vfile 落盘窗口 vs 读侧重试），替换 2s sleep 掩盖，保证自动进曲无释放后回调",
+      "blocks": [
+        "F5"
+      ]
+    },
+    {
+      "phase": "F5",
+      "title": "A3 全绿后 ABI 验收回填 + 冻结舱",
+      "detail": "G01~G09 全 PASS 后回填 engine_compat_test、冻结引擎舱、落 §61.33 Manifest 生产形态施工单",
+      "blocks": []
+    }
+  ],
+  "honest_notes": [
+    "本工具只读生产文件，不修改源码、不新增依赖、不触碰设备。",
+    "「全格式」客观边界必须以 libffmpeg.so 编入的 demuxer/decoder 为准，不能把 ObjectType 的 14 个扩展名直接当作 native 支持清单。",
+    "demuxer 存在不等于对应 decoder 编入、更不等于真机可播；逐格式结论只能由 F3 真机矩阵给出。",
+    "G01 四格式全部是 URL 回环源的 12s 正弦音夹具，不是真实曲库文件，也不是 LOCAL 源。"
+  ]
+}

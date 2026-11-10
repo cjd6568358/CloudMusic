@@ -1,0 +1,44 @@
+11-09 14:50:07.492 I/MediaFocusControl( 2525): requestAudioFocus() from uid/pid 10327/15572 AA=USAGE_MEDIA/CONTENT_TYPE_MUSIC clientId=android.media.AudioManager@85244e3com.example.cloudmusic.PlaybackService$$ExternalSyntheticLambda0@696aee0 callingPack=com.example.cloudmusic req=1 flags=0x0 sdk=35
+11-09 14:50:07.496 V/Avrcp_ext( 4592): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@568eded) null
+11-09 14:50:07.496 D/Avrcp_ext( 4592): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-09 14:50:07.496 V/Avrcp_ext( 4592): isBrowseSupported for com.example.cloudmusic: false
+11-09 14:50:07.506 I/MiuiMediaControlPanel( 4807): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 曲库就绪
+11-09 14:50:07.518 I/mple.cloudmusic(15572): This is non sticky GC, maxfree is 33554432 minfree is 8388608
+11-09 14:50:07.516 W/FinalizerDaemon(15572): type=1400 audit(0.0:44408): avc: denied { getopt } for path="/dev/socket/usap_pool_primary" scontext=u:r:untrusted_app:s0:c71,c257,c512,c768 tcontext=u:r:zygote:s0 tclass=unix_stream_socket permissive=0 app=com.example.cloudmusic
+11-09 14:50:07.545 I/NMAudioPlayer(15572): FindJavaClass Name(com/netease/cloudmusic/module/player/datasource/IBaseDataSource)
+11-09 14:50:07.545 I/NMAudioPlayer(15572): FindJavaClass Name(com/netease/cloudmusic/module/player/datasource/IBaseDataSource) Success
+11-09 14:50:07.545 I/NMAudioPlayer(15572): NewGlobalRef Name(com/netease/cloudmusic/module/player/datasource/IBaseDataSource) Success
+11-09 14:50:07.545 I/NMAudioPlayer(15572): FindJavaClass Name(com/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer)
+11-09 14:50:07.545 I/NMAudioPlayer(15572): FindJavaClass Name(com/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer) Success
+11-09 14:50:07.545 I/NMAudioPlayer(15572): NewGlobalRef Name(com/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer) Success
+11-09 14:50:07.552 I/NMCache (15572): NMVirtualFileManager::SetConfig Finish:{"dir":"/data/user/0/com.example.cloudmusic/cache/legacy_engine_cache","max_size":536870912,"slice_size":1048576,"cache_clean_range_min":0.8,"cache_clean_range_max":1.0}
+11-09 14:50:07.552 I/NMCache (15572): NMCacheControl::DoInit() dir:/data/user/0/com.example.cloudmusic/cache/legacy_engine_cache, limit:536870912
+11-09 14:50:07.552 I/CM-DataReq(15572): SetConfig ok dir=/data/user/0/com.example.cloudmusic/cache/legacy_engine_cache max=512MiB
+11-09 14:50:07.554 I/CM-DataReq(15572): prepare trackId=aac639b4bbea89897e628250f3536b4f remote=false url=null expectedLength=0
+11-09 14:50:07.554 I/CM-DataReq(15572): resourceInfo extension=audio/mpeg fileSize=-1
+11-09 14:50:07.555 I/CM-DataReq(15572): setDataRequestErrorCallback callback=com.netease.cloudmusic.android.sdk.playerengine.NativeDataRequestErrorCallback enabled=true
+11-09 14:50:07.681 I/CM-DataReq(15572): getLocalPath path=/data/data/com.example.cloudmusic/files/music/fixture.mp3
+11-09 14:50:07.681 I/NEPlayer(15572): CreateLocalSource: route XorLocalSource type=0 path=/data/data/com.example.cloudmusic/files/music/fixture.mp3
+11-09 14:50:07.682 I/NEPlayer(15572): XorLocalSource::Open success path=/data/data/com.example.cloudmusic/files/music/fixture.mp3 fd=5 size=37824 providerOwned=0
+11-09 14:50:07.682 I/NEPlayer(15572): BufferSource open: encryptedType=0, response=/data/data/com.example.cloudmusic/files/music/fixture.mp3, ret=0
+11-09 14:50:07.684 W/NMAudioPlayer(15572): Decoder(0): Open codec for mp3
+11-09 14:50:07.687 D/MiBarrage( 7884): The sbn packageName is :com.example.cloudmusic
+11-09 14:50:07.697 I/MiuiMediaControlPanel( 4807): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 播放服务运行中
+11-09 14:50:07.740 D/MiAudioPolicyManager( 1439): getPackageName: com.example.cloudmusic  uid 10327
+11-09 14:50:07.745 I/AudioFlinger( 1439): create audiotrack for com.example.cloudmusic  uid 10327
+11-09 14:50:07.754 I/AF::Track( 1439): isInWhiteList curPkgName com.example.cloudmusic  uid 10327
+11-09 14:50:07.762 I/AudioTrack(15572): AudioTrack::setVolume L:1.000000 R:1.000000 and the pakage is com.example.cloudmusic
+11-09 14:50:07.765 I/AudioTrack(15572): AudioTrack::setVolume L:1.000000 R:1.000000 and the pakage is com.example.cloudmusic
+11-09 14:50:07.768 W/NMAudioPlayer(15572): CNCMAudioPlayer::doPrepareAsync mAudioStream  start 0, mDuration 4704, audioOffset 349
+11-09 14:50:07.773 W/NMAudioPlayer(15572): CNCMAudioPlayer::Play status 4
+11-09 14:50:07.776 V/Avrcp_ext( 4592): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@568eded) null
+11-09 14:50:07.777 D/Avrcp_ext( 4592): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-09 14:50:07.777 V/Avrcp_ext( 4592): isBrowseSupported for com.example.cloudmusic: false
+11-09 14:50:07.779 I/AudioTrack(15572): AudioTrack::setVolume L:1.000000 R:1.000000 and the pakage is com.example.cloudmusic
+11-09 14:50:07.783 D/Avrcp_ext( 4592): AudioManager Player in started state: com.example.cloudmusic
+11-09 14:50:07.819 D/AHAL: AudioStream( 1213): astream_out_set_parameters: 808: enter: usecase(0: deep-buffer-playback) kvpairs: appname=+com.example.cloudmusic
+11-09 14:50:07.820 D/AHAL: AudioStreamCustom( 1213): SetParameters: 208: SetParameters(): set app name +com.example.cloudmusic
+11-09 14:50:07.821 D/AHAL: AudioStreamCustom( 1213): get_scenario: 107: app_name com.example.cloudmusic, scenario is 4
+11-09 14:50:07.821 D/APM_AudioPolicyManager( 1439): startOutput() output 29, stream 3, session 2473, appname com.example.cloudmusic, uid 10327
+11-09 14:50:07.848 W/NMAudioPlayer(15572): AudioTrack(0): Write start play nErr:0
+11-09 14:50:07.858 D/Avrcp_ext( 4592): AudioManager Player in started state: com.example.cloudmusic

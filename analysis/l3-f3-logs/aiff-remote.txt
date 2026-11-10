@@ -1,0 +1,618 @@
+--------- beginning of main
+11-09 16:49:38.144 D/MiBridge( 4807): cancelCpuHighFreq---uid: 1000
+11-09 16:49:38.144 D/MiBridge( 4807): cancelCpuHighFreq ret: 0
+11-09 16:49:38.144 D/CpuBoostUtil( 4807): cancelCpuHighFreq:0
+11-09 16:49:38.250 I/MediaFocusControl( 2525): requestAudioFocus() from uid/pid 10327/19130 AA=USAGE_MEDIA/CONTENT_TYPE_MUSIC clientId=android.media.AudioManager@b2abf84com.example.cloudmusic.PlaybackService$$ExternalSyntheticLambda0@ba5f36d callingPack=com.example.cloudmusic req=1 flags=0x0 sdk=35
+11-09 16:49:38.250 I/AudioService.FadeOutManager( 2525): unfadeOutUid() uid:10327
+11-09 16:49:38.251 D/ThermalScenarioManager(10020): additional: 1000000000000000000000000000000000000000000000000000
+11-09 16:49:38.251 D/ThermalScenarioManager(10020): handleMessage 12
+11-09 16:49:38.251 D/ThermalScenarioManager(10020): current: ScenarioName: 0
+11-09 16:49:38.251 D/ThermalScenarioManager(10020): Element list : 97	97	98	98	99	99	99	99	99	99	99	99	99	99	99	99	99	99	99	
+11-09 16:49:38.251 D/ThermalScenarioManager(10020): match scenario 0
+11-09 16:49:38.251 V/Avrcp_ext( 4592): onPlaybackStateChanged: state PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=36540065, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 16:49:38.252 V/Avrcp_ext( 4592): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@8a4d3c1) null
+11-09 16:49:38.252 V/Avrcp_ext( 4592): updateCurrentMediaState: isPlaying = false
+11-09 16:49:38.252 W/Avrcp_ext( 4592): isMusicActive: false getBluetoothPlayState: 2 A2dp State: 11 mAudioPlaybackIsActive: true
+11-09 16:49:38.252 D/Avrcp_ext( 4592): isMusicActive = false mAudioPlaybackIsActive = true player state = PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=36540066, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 16:49:38.252 D/MediaDataManager( 4807): State updated outside of notification
+11-09 16:49:38.252 V/Avrcp_ext( 4592): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-09 16:49:38.252 D/Avrcp_ext( 4592): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-09 16:49:38.252 V/Avrcp_ext( 4592): isBrowseSupported for com.example.cloudmusic: false
+11-09 16:49:38.252 V/Avrcp_ext( 4592): updatePlaybackState, state: PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=36540066, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-09 16:49:38.252 V/Avrcp_ext( 4592): Device: no name: 
+11-09 16:49:38.252 V/Avrcp_ext( 4592): Device: no name: 
+11-09 16:49:38.252 V/Avrcp_ext( 4592): Device: no name: 
+11-09 16:49:38.252 V/Avrcp_ext( 4592): Device: no name: 
+11-09 16:49:38.252 V/Avrcp_ext( 4592): Device: no name: 
+11-09 16:49:38.252 V/Avrcp_ext( 4592): updatePlayerStateAndPosition, old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=36539200, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=36540066, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 16:49:38.252 V/Avrcp_ext( 4592): old state = PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=36539200, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=36540066, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 16:49:38.252 D/HeadsetService( 4592): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@dc0fd90
+11-09 16:49:38.253 I/MediaCarouselController( 4807): media_data_arrive: addOrUpdatePlayer
+11-09 16:49:38.253 I/MiuiMediaControlPanel( 4807): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 曲库就绪
+11-09 16:49:38.252 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 16:49:38.254 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 16:49:38.254 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 16:49:38.254 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 16:49:38.254 V/Avrcp_ext( 4592): Single connection exists
+11-09 16:49:38.254 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 16:49:38.254 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 16:49:38.254 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 16:49:38.254 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 16:49:38.254 V/Avrcp_ext( 4592): Single connection exists
+11-09 16:49:38.254 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 16:49:38.254 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 16:49:38.254 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 16:49:38.254 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 16:49:38.254 V/Avrcp_ext( 4592): Single connection exists
+11-09 16:49:38.254 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 16:49:38.254 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 16:49:38.254 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 16:49:38.254 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 16:49:38.254 V/Avrcp_ext( 4592): Single connection exists
+11-09 16:49:38.254 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 16:49:38.254 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 16:49:38.254 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 16:49:38.254 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 16:49:38.254 V/Avrcp_ext( 4592): Single connection exists
+11-09 16:49:38.254 I/Avrcp_ext( 4592): No active device found, update playstate to stack
+11-09 16:49:38.254 E/BluetoothAvrcpServiceJni( 4592): updatePlayStatusToStack
+11-09 16:49:38.254 E/bt_btif ( 4592): update_play_status_to_stack:invalid index,remote suspend not set
+11-09 16:49:38.254 E/BluetoothAvrcpServiceJni( 4592): updatePlayStatusToStack: status: 1
+11-09 16:49:38.254 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 16:49:38.254 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 16:49:38.254 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 16:49:38.254 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 16:49:38.254 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 16:49:38.254 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 16:49:38.254 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 16:49:38.254 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 16:49:38.254 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 16:49:38.254 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 16:49:38.254 V/Avrcp_ext( 4592): Exit updatePlayerStateAndPosition
+11-09 16:49:38.254 V/Avrcp_ext( 4592):  Exit onPlaybackStateChanged
+11-09 16:49:38.280 I/NMAudioPlayer(19130): JNI_OnLoad Start***************************************************************************
+11-09 16:49:38.280 I/NMAudioPlayer(19130): *******************************************************************************************
+11-09 16:49:38.280 I/NMAudioPlayer(19130): JNI_OnLoad: JNI_VERSION_1_6
+11-09 16:49:38.280 I/NMAudioPlayer(19130): AudioDeviceAudioTrack::Init begin
+11-09 16:49:38.280 I/NMAudioPlayer(19130): SDK Version:33
+11-09 16:49:38.280 I/NMAudioPlayer(19130): AudioDeviceAudioTrack::Init check env success
+11-09 16:49:38.280 I/NMAudioPlayer(19130): AudioDeviceAudioTrack::Init FindClass success
+11-09 16:49:38.280 I/NMAudioPlayer(19130): AudioDeviceAudioTrack::Init GlobalRef start
+11-09 16:49:38.280 I/NMAudioPlayer(19130): AudioDeviceAudioTrack::Init GlobalRef end
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method <init>
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method <init>
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method getMinBufferSize
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method getMaxVolume
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method getMinVolume
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method getNativeOutputSampleRate
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method play
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method pause
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method flush
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method stop
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method release
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method write
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method setVolume
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method getAudioSessionId
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method getPlaybackHeadPosition
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method getPlayState
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method write
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method getLatency
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method getTimestamp
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method getSampleRate
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method getState
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack Method getUnderrunCount
+11-09 16:49:38.280 E/NMAudioPlayer(19130): Failed to create AudioTimestamp object
+11-09 16:49:38.280 I/NMAudioPlayer(19130): Init AudioTrack End!
+11-09 16:49:38.280 I/NMAudioPlayer(19130): FindJavaClass Name(com/netease/cloudmusic/module/player/datasource/IBaseDataSource)
+11-09 16:49:38.280 I/NMAudioPlayer(19130): FindJavaClass Name(com/netease/cloudmusic/module/player/datasource/IBaseDataSource) Success
+11-09 16:49:38.280 I/NMAudioPlayer(19130): NewGlobalRef Name(com/netease/cloudmusic/module/player/datasource/IBaseDataSource) Success
+11-09 16:49:38.280 I/NMAudioPlayer(19130): AndroidAudioPlayer::Init begin!
+11-09 16:49:38.280 I/NMAudioPlayer(19130): FindJavaClass Name(com/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer)
+11-09 16:49:38.280 I/NMAudioPlayer(19130): FindJavaClass Name(com/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer) Success
+11-09 16:49:38.280 I/NMAudioPlayer(19130): NewGlobalRef Name(com/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer) Success
+11-09 16:49:38.280 I/NMAudioPlayer(19130): AndroidAudioPlayer Register Method(0)
+11-09 16:49:38.285 I/NMVirtualFileManager(19130): Alloc
+11-09 16:49:38.285 I/NMCache (19130): NMVirtualFileManager::SetConfig Finish:{"dir":"/data/user/0/com.example.cloudmusic/cache/legacy_engine_cache","max_size":536870912,"slice_size":1048576,"cache_clean_range_min":0.8,"cache_clean_range_max":1.0}
+11-09 16:49:38.285 I/NMCache (19130): NMCacheControl::DoInit() dir:/data/user/0/com.example.cloudmusic/cache/legacy_engine_cache, limit:536870912
+11-09 16:49:38.285 I/CM-DataReq(19130): SetConfig ok dir=/data/user/0/com.example.cloudmusic/cache/legacy_engine_cache max=512MiB
+11-09 16:49:38.285 I/CM-DataReq(19130): cacheManagerHandle=-5476376604147611072 hasContext=true
+11-09 16:49:38.286 I/NEPlayer(19130): PlaybackEngine ctor: this=0xb400007ed9bb6800 cache=0xb400007e5d858a40 listener=0xb400007e5d858d40
+11-09 16:49:38.286 W/NMAudioPlayer(19130): CNCMAudioPlayer::SetPlaybackMode SetPlaybackMode 2, old mPlayBackMode:0
+11-09 16:49:38.286 I/NMAudioPlayer(19130): CNCMAudioProcess::setAudioQualityMode mQualityMode 2
+11-09 16:49:38.286 I/NEPlayer(19130): AudioPlayerUnit ctor: this=0xb400007e5d84e900 cache=0xb400007e5d858a40 (effect_engine deferred)
+11-09 16:49:38.286 W/NMAudioPlayer(19130): CNCMAudioPlayer::SetPlaybackMode SetPlaybackMode 2, old mPlayBackMode:0
+11-09 16:49:38.286 I/NMAudioPlayer(19130): CNCMAudioProcess::setAudioQualityMode mQualityMode 2
+11-09 16:49:38.286 I/NEPlayer(19130): AudioPlayerUnit ctor: this=0xb400007e5d84fe00 cache=0xb400007e5d858a40 (effect_engine deferred)
+11-09 16:49:38.287 I/CM-DataReq(19130): prepare trackId=0fdbe94332c6cf5a863682ac843b4ccb remote=true url=http://127.0.0.1:8765/f3_aiff.aiff expectedLength=0
+11-09 16:49:38.290 D/TrafficStats(19130): tagSocket(141) with statsTag=0xffffffff, statsUid=-1
+11-09 16:49:38.366 E/QTagParser(28555): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
+11-09 16:49:38.382 I/CM-DataReq(19130): probeLength=1146934 url=http://127.0.0.1:8765/f3_aiff.aiff
+11-09 16:49:38.382 I/CM-DataReq(19130): resourceInfo extension=aiff fileSize=1146934
+11-09 16:49:38.383 W/NMAudioPlayer(19130): CNCMAudioProcess::SetAudioEffect  audio_effect 0
+11-09 16:49:38.383 I/NEPlayer(19130): restoreInternalEffect: restore internal effect=0x0
+11-09 16:49:38.383 W/NMAudioPlayer(19130): CNCMAudioPlayer::Reset
+11-09 16:49:38.383 I/NEPlayer(19130): decoder route: bitrate=0 → decoderType=0
+11-09 16:49:38.383 I/NMAudioPlayer(19130): CNCMAudioPlayer::doStop status 1
+11-09 16:49:38.383 W/NMAudioPlayer(19130): CNCMAudioPlayer::doReset status 1
+11-09 16:49:38.383 I/CM-DataReq(19130): setDataRequestErrorCallback callback=null enabled=false
+11-09 16:49:38.383 I/CM-DataReq(19130): setDataRequestErrorCallback callback=com.netease.cloudmusic.android.sdk.playerengine.NativeDataRequestErrorCallback enabled=true
+11-09 16:49:38.383 I/NCMPlayerEngine(19130): Data request error callback installed isPlayback=1
+11-09 16:49:38.383 I/CM-DataReq(19130): createDataRequestHandler url=http://127.0.0.1:8765/f3_aiff.aiff cached=false
+11-09 16:49:38.385 I/CM-DataReq(19130): createDataRequestHandler -> NEW UrlDataRequest
+11-09 16:49:38.385 W/NMAudioPlayer(19130): CNCMAudioProcess::SetAudioEffect  audio_effect -5476376604146561024
+11-09 16:49:38.385 I/NEPlayer(19130): createMusicEffect: config= engine=0xb400007ed9bb2cd0 audioEffects=0xb400007e5d959000
+11-09 16:49:38.385 I/NEPlayer(19130): applyMusicInfoHandle: empty, skip
+11-09 16:49:38.386 I/NEPlayer(19130): setDataSource notifyTrackActivated: songId= songIdInt=0 ret=0
+11-09 16:49:38.386 I/NEPlayer(19130): PlayerNotifyEvent msg=300 arg1=2 arg2=0 has_music=1 songId=
+11-09 16:49:38.387 I/NCMPlayerEngine(19130): onEngineEvent: msg=300 arg1=2 arg2=0
+11-09 16:49:38.387 W/NMAudioPlayer(19130): CNCMAudioPlayer::PrepareAsync
+11-09 16:49:38.387 W/NMAudioPlayer(19130): CNCMAudioPlayer::doPrepareAsync start++ status  2, mNewStream 0
+11-09 16:49:38.387 I/NEPlayer(19130): BufferSource open: encryptedType=0
+11-09 16:49:38.387 I/NEPlayer(19130): PlayerNotifyEvent msg=300 arg1=3 arg2=0 has_music=1 songId=
+11-09 16:49:38.387 I/NEPlayer(19130): preparing notifyTrackPreparing: songId= songIdInt=0 ret=0
+11-09 16:49:38.387 I/NCMPlayerEngine(19130): onEngineEvent: msg=300 arg1=3 arg2=0
+11-09 16:49:38.387 I/CM-DataReq(19130): getUrl url=http://127.0.0.1:8765/f3_aiff.aiff fileSize=1146934 format=application/octet-stream
+11-09 16:49:38.387 I/NMCache (19130): NMVirtualFileManager::CreateBufferSource resource config:{"id":"0fdbe94332c6cf5a863682ac843b4ccb","md5":"","size":1146934,"type":"cache"}, cache config:{"range_size":1048576,"cache_local":true}
+11-09 16:49:38.387 I/NMCache (19130): NMBufferSourceImp Create:1
+11-09 16:49:38.389 I/NMCache (19130): NMMemoryCache Create:1
+11-09 16:49:38.390 I/NMCache (19130): NMCacheControl::DeleteCache total_size_:4382421 range_min_:0.800000 range_max_:1.000000
+11-09 16:49:38.390 W/NMCache (19130): NMSliceFile Open Index File:/data/user/0/com.example.cloudmusic/cache/legacy_engine_cache/0/0fdbe94332c6cf5a863682ac843b4ccb.nmsfi Not Exist Not Cached
+11-09 16:49:38.390 I/NMCache (19130): NMSliceFile Open Init :0fdbe94332c6cf5a863682ac843b4ccb 
+11-09 16:49:38.390 I/NMCache (19130): NMSliceFile Open Init :0fdbe94332c6cf5a863682ac843b4ccb Create Dir:/data/user/0/com.example.cloudmusic/cache/legacy_engine_cache/0
+11-09 16:49:38.390 I/CM-DataReq(19130): SourceCallback.onUrlReady bitrate=0 format=
+11-09 16:49:38.390 D/NMCache (19130): NMBufferSourceImp(1)::Read(1)  buffer len:32768.
+11-09 16:49:38.390 D/NMCache (19130): NMBufferSourceImp::ReadTaskAsync Read  Begin(0-32768)
+11-09 16:49:38.390 D/NMCache (19130): NMBufferSourceImp(1)::ReadFromFileNoLock  Local File Read expect len:32768, offset:0, readed_len:0, result:-2
+11-09 16:49:38.390 D/NMCache (19130): NMBufferSourceImp::ReadTaskAsync Pending.
+11-09 16:49:38.390 I/NMCache (19130): NMNetSource(1-0)::WaitRequest offset:0, length:1048576, signal_size:8192, force:false
+11-09 16:49:38.390 I/NMCache (19130): NMNetSource(1-0)::MakeRangeRequestAsync offset:0, length:1048576, signal_size:8192
+11-09 16:49:38.390 I/CM-DataReq(19130): Start id=1 offset=0 length=1048576 url=http://127.0.0.1:8765/f3_aiff.aiff
+11-09 16:49:38.391 I/NMCache (19130): NMNetSource::MakeRangeRequestAsync(1), start result:0, offset:0, length:1048576
+11-09 16:49:38.391 I/CM-DataReq(19130): open url=http://127.0.0.1:8765/f3_aiff.aiff Range=bytes=0-1048575
+11-09 16:49:38.393 D/TrafficStats(19130): tagSocket(105) with statsTag=0xffffffff, statsUid=-1
+11-09 16:49:38.442 W/ConstraintSet( 4807): id unknown center_vertical_guideline
+11-09 16:49:38.442 W/ConstraintSet( 4807): id unknown action_button_guideline
+11-09 16:49:38.442 W/ConstraintSet( 4807): id unknown media_action_barrier
+11-09 16:49:38.442 W/ConstraintSet( 4807): id unknown media_action_barrier_end
+11-09 16:49:38.442 W/ConstraintSet( 4807): id unknown media_action_barrier_top
+11-09 16:49:38.442 W/ConstraintSet( 4807): id unknown remove_text
+11-09 16:49:38.442 W/ConstraintSet( 4807): id unknown settings
+11-09 16:49:38.442 W/ConstraintSet( 4807): id unknown dismiss
+11-09 16:49:38.442 W/ConstraintSet( 4807): id unknown cancel
+--------- beginning of system
+11-09 16:49:38.453 W/DevicePolicyManager( 2525): Unknown user type: UserInfo{999:XSpace:801010}
+11-09 16:49:38.453 W/DevicePolicyManager( 2525): Unknown user type: UserInfo{999:XSpace:801010}
+11-09 16:49:38.455 D/MiBarrage( 7884): The sbn packageName is :com.example.cloudmusic
+11-09 16:49:38.455 D/MiBarrage( 7884): No barrage: not in game scene or in video scene
+11-09 16:49:38.455 I/NotificationController( 5752): onNotificationPosted: mSmartTravelNotificationMap 0
+11-09 16:49:38.458 I/CM-DataReq(19130): open result total=1146934 contentLength=1146934
+11-09 16:49:38.458 I/CM-DataReq(19130): onBegin id=1 total=1146934
+11-09 16:49:38.467 D/MiBridge( 4807): requestCpuHighFreq---- uid: 1000 level: 1 timeoutms:2000
+11-09 16:49:38.467 W/MiuiBooster( 2039): "MiuiBoosterService requestCpuHighFreq: 1000, 1, 2000"
+11-09 16:49:38.467 W/MiuiBooster( 2039): "requestCpuHighFreq,final level:1,final timeoutms:2000"
+11-09 16:49:38.467 W/MiuiBooster( 2039): "perf_hint_hc start"
+11-09 16:49:38.467 W/MiuiBooster( 2039): "big_core_value[level-1]:4095"
+11-09 16:49:38.467 W/MiuiBooster( 2039): "little_core_value[level-1]:4095"
+11-09 16:49:38.467 W/MiuiBooster( 2039): "prime_core_value[level - 1]:4095"
+11-09 16:49:38.467 W/MiuiBooster( 2039): "perf_handle:53220"
+11-09 16:49:38.467 D/MiBridge( 4807): requestCpuHighFreq handle: 1
+11-09 16:49:38.467 D/CpuBoostUtil( 4807): boostCpuToMax:0
+11-09 16:49:38.467 D/MiBridge( 4807): cancelCpuHighFreq---uid: 1000
+11-09 16:49:38.460 W/perf-hal-servic( 1326): type=1400 audit(0.0:52816): avc: denied { search } for name="2039" dev="proc" ino=13130487 scontext=u:r:vendor_hal_perf_default:s0 tcontext=u:r:miuibooster:s0 tclass=dir permissive=0
+11-09 16:49:38.460 W/perf-hal-servic( 1326): type=1400 audit(0.0:52817): avc: denied { search } for name="2039" dev="proc" ino=13130487 scontext=u:r:vendor_hal_perf_default:s0 tcontext=u:r:miuibooster:s0 tclass=dir permissive=0
+11-09 16:49:38.468 I/MediaCarouselController( 4807): media_data_arrive: addOrUpdatePlayer
+11-09 16:49:38.468 I/MiuiMediaControlPanel( 4807): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 播放服务运行中
+11-09 16:49:38.469 D/MiBridge( 4807): cancelCpuHighFreq ret: 0
+11-09 16:49:38.469 D/CpuBoostUtil( 4807): cancelCpuHighFreq:0
+11-09 16:49:38.492 D/MiBridge( 4807): requestCpuHighFreq---- uid: 1000 level: 1 timeoutms:2000
+11-09 16:49:38.492 W/MiuiBooster( 2039): "MiuiBoosterService requestCpuHighFreq: 1000, 1, 2000"
+11-09 16:49:38.492 W/MiuiBooster( 2039): "requestCpuHighFreq,final level:1,final timeoutms:2000"
+11-09 16:49:38.492 W/MiuiBooster( 2039): "perf_hint_hc start"
+11-09 16:49:38.492 W/MiuiBooster( 2039): "big_core_value[level-1]:4095"
+11-09 16:49:38.492 W/MiuiBooster( 2039): "little_core_value[level-1]:4095"
+11-09 16:49:38.492 W/MiuiBooster( 2039): "prime_core_value[level - 1]:4095"
+11-09 16:49:38.492 W/MiuiBooster( 2039): "perf_handle:53221"
+11-09 16:49:38.492 D/MiBridge( 4807): requestCpuHighFreq handle: 1
+11-09 16:49:38.492 D/CpuBoostUtil( 4807): boostCpuToMax:0
+11-09 16:49:38.492 D/MiBridge( 4807): cancelCpuHighFreq---uid: 1000
+11-09 16:49:38.488 W/perf-hal-servic( 1326): type=1400 audit(0.0:52818): avc: denied { search } for name="2039" dev="proc" ino=13130487 scontext=u:r:vendor_hal_perf_default:s0 tcontext=u:r:miuibooster:s0 tclass=dir permissive=0
+11-09 16:49:38.488 W/perf-hal-servic( 1326): type=1400 audit(0.0:52819): avc: denied { search } for name="2039" dev="proc" ino=13130487 scontext=u:r:vendor_hal_perf_default:s0 tcontext=u:r:miuibooster:s0 tclass=dir permissive=0
+11-09 16:49:38.493 D/MiBridge( 4807): cancelCpuHighFreq ret: 0
+11-09 16:49:38.493 D/CpuBoostUtil( 4807): cancelCpuHighFreq:0
+11-09 16:49:38.649 W/ConstraintSet( 4807): id unknown center_vertical_guideline
+11-09 16:49:38.650 W/ConstraintSet( 4807): id unknown action_button_guideline
+11-09 16:49:38.650 W/ConstraintSet( 4807): id unknown media_action_barrier
+11-09 16:49:38.650 W/ConstraintSet( 4807): id unknown media_action_barrier_end
+11-09 16:49:38.650 W/ConstraintSet( 4807): id unknown media_action_barrier_top
+11-09 16:49:38.650 W/ConstraintSet( 4807): id unknown remove_text
+11-09 16:49:38.650 W/ConstraintSet( 4807): id unknown settings
+11-09 16:49:38.650 W/ConstraintSet( 4807): id unknown dismiss
+11-09 16:49:38.650 W/ConstraintSet( 4807): id unknown cancel
+11-09 16:49:38.679 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 16:49:38.679 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 16:49:38.680 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 16:49:38.680 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 16:49:38.680 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 16:49:38.680 W/AOSP-MdnsDiscoveryManag( 4374): Error while decoding multicast packet (2841): 1 [CONTEXT service_id=168 ]
+11-09 16:49:38.680 W/AOSP-MdnsDiscoveryManag( 4374): Error while decoding multicast packet (2842): 1 [CONTEXT service_id=168 ]
+11-09 16:49:38.688 I/BeautyService( 8273): task Running...
+11-09 16:49:38.689 I/BeautyService( 8273): updateForegroundInfo new = ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity}, old Pkg = com.example.cloudmusic, old ClsName = com.example.cloudmusic.MainActivity
+11-09 16:49:38.690 I/BeautyService( 8273): inSplitScreenMode = false, isFrontCameraOpen = false, mCurPkgName = com.example.cloudmusic, mCurClsName = com.example.cloudmusic.MainActivity
+11-09 16:49:38.690 I/BeautyUtils( 8273): splitMode: onfalse
+11-09 16:49:38.690 D/z1      ( 8273): myUserId = 0	currentUserId0
+11-09 16:49:38.690 I/BeautyService( 8273): onDockSwitchChange : 	currentUser = true	 isBound = false, curState = NON_CONVERSATION_MODE, isSceneSupport = false, isAllowSplit = false
+11-09 16:49:38.690 I/BeautyService( 8273): already at target mode!
+11-09 16:49:39.259 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-09 16:49:39.259 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=4}
+11-09 16:49:39.259 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=17}
+11-09 16:49:39.259 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=15}
+11-09 16:49:39.259 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=38}
+11-09 16:49:39.259 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-09 16:49:39.259 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-09 16:49:39.259 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-09 16:49:39.260 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=13490}
+11-09 16:49:39.260 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=34819}
+11-09 16:49:39.260 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-09 16:49:39.260 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-09 16:49:39.260 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=732}
+11-09 16:49:39.260 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=638}
+11-09 16:49:39.260 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-09 16:49:39.260 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=5264}
+11-09 16:49:39.260 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=33739}
+11-09 16:49:39.260 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=12906}
+11-09 16:49:39.260 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=190}
+11-09 16:49:39.260 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-09 16:49:39.262 W/ConstraintSet( 4807): id unknown center_vertical_guideline
+11-09 16:49:39.262 W/ConstraintSet( 4807): id unknown action_button_guideline
+11-09 16:49:39.262 W/ConstraintSet( 4807): id unknown media_action_barrier
+11-09 16:49:39.262 W/ConstraintSet( 4807): id unknown media_action_barrier_end
+11-09 16:49:39.262 W/ConstraintSet( 4807): id unknown media_action_barrier_top
+11-09 16:49:39.262 W/ConstraintSet( 4807): id unknown remove_text
+11-09 16:49:39.262 W/ConstraintSet( 4807): id unknown settings
+11-09 16:49:39.262 W/ConstraintSet( 4807): id unknown dismiss
+11-09 16:49:39.262 W/ConstraintSet( 4807): id unknown cancel
+11-09 16:49:39.295 D/ConnectivityService( 2525): NetReassign [no changes]
+11-09 16:49:39.297 I/NearbyMediums( 4374): Wifi changed new SSID: "midea_fa_0670"
+11-09 16:49:39.297 I/NearbyMediums( 4374): WifiLanConnectivityInfo is not changed, skip notify.
+11-09 16:49:39.300 W/FMCEP   (29788): addUTEvent called
+11-09 16:49:39.367 E/QTagParser(28555): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
+11-09 16:49:39.438 I/SmartPower.com.miui.home/10128(4371)( 2525): background->idle(3001ms) R(broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }) adj=100.
+11-09 16:49:39.439 I/SmartPower( 2525): com.miui.home/10128 state=inactive adj=100 proc size=1 move to idle broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }
+11-09 16:49:39.484 D/Mi_ModemDebug_Service(27530): start to querySmartTransmitStatus.
+11-09 16:49:39.484 D/QC_RIL_OEM_HOOK(27530): qcRilFeatureQueryCmn featureType = 10, ctlCode = 1
+11-09 16:49:39.485 D/QcrilMsgTunnelIfaceManager( 4684): handleMessage what = 1
+11-09 16:49:39.486 I/QcrilOemhookMsgTunnel( 4684): [0]invokeOemRilRequestRaw: serial=1789 length=28
+11-09 16:49:39.492 I/QcrilOemhookMsgTunnel( 4684): [0]processOemHookResponse serial no: 1789 error: 44length=0
+11-09 16:49:39.493 E/QcRilRequest( 4684): [1789] < OEM_HOOK_RAW error: org.codeaurora.telephony.utils.CommandException: INVALID_ARGUMENTS
+11-09 16:49:39.493 D/QcrilMsgTunnelIfaceManager( 4684): handleMessage what = 2
+11-09 16:49:39.494 D/QC_RIL_OEM_HOOK(27530): sendOemRilRequestRaw returns value = -43
+11-09 16:49:39.494 W/QC_RIL_OEM_HOOK(27530): qcRilFeatureQueryCmn failed w/ org.codeaurora.telephony.utils.CommandException: SIM_ERR
+11-09 16:49:39.494 D/Mi_ModemDebug_Service(27530): querySmartTransmitStatus resultStr = 00000000
+11-09 16:49:39.603 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 16:49:39.605 D/TrafficManageService-TrafficSimManager( 8273): notifyByNetChange_time: return
+11-09 16:49:39.679 I/MiuiNetworkPolicy( 2525): bandwidth: 0 KB/s, Max bandwidth: 200 KB/s
+11-09 16:49:39.682 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 16:49:39.682 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 16:49:39.682 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 16:49:39.683 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 16:49:39.683 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 16:49:39.683 W/AOSP-MdnsDiscoveryManag( 4374): Error while decoding multicast packet (2843): 1 [CONTEXT service_id=168 ]
+11-09 16:49:39.683 W/AOSP-MdnsDiscoveryManag( 4374): Error while decoding multicast packet (2844): 1 [CONTEXT service_id=168 ]
+11-09 16:49:39.691 D/AppPredictService( 8273): start doPredict com.example.cloudmusic
+11-09 16:49:39.691 I/AppPredictManager( 8273): predict: recentApps size = 5
+11-09 16:49:39.697 I/AppPredictPrivacyLaunchManager( 8273): getLauncherHomeAppList size: 120
+11-09 16:49:39.697 I/AppPredictResultHelper( 8273): updatePreferenceStore: size = 27
+11-09 16:49:39.894 I/SmartPower.com.taobao.idlefish:windowChannel/10297(18174)( 2525): background->idle(3000ms) R(alarm start) adj=905.
+11-09 16:49:39.894 I/SmartPower.com.taobao.idlefish:normal_render_proc0/10297(5973)( 2525): background->idle(3000ms) R(alarm start) adj=915.
+11-09 16:49:39.894 I/SmartPower.com.taobao.idlefish/10297(29788)( 2525): background->idle(3500ms) R(alarm start) adj=905.
+11-09 16:49:39.895 W/libc    ( 2525): Access denied finding property "wifi.interface"
+11-09 16:49:39.895 I/SmartPower( 2525): com.taobao.idlefish/10297 state=inactive adj=905 proc size=4 move to idle alarm start
+11-09 16:49:39.895 D/NetworkManagement( 2525): wlan0 <====> 1
+11-09 16:49:39.895 I/MiuiNetworkPolicy( 2525): label wlan0, uid -1, active false, tsNanos 36541707518733
+11-09 16:49:39.895 D/MiuiNetworkPolicy( 2525): updateLimit mLimitEnabled=true,enabled=false,mNetworkPriorityMode=1
+11-09 16:49:39.888 W/android.fg( 2525): type=1400 audit(0.0:52820): avc: denied { read } for name="u:object_r:wifi_hal_prop:s0" dev="tmpfs" ino=505 scontext=u:r:system_server:s0 tcontext=u:object_r:wifi_hal_prop:s0 tclass=file permissive=0
+11-09 16:49:40.320 E/TaskPersister( 2525): File error accessing recents directory (directory doesn't exist?).
+11-09 16:49:40.369 E/QTagParser(28555): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
+11-09 16:49:40.568 W/Auth    ( 4374): [TokenResponseCallback] TokenResponse failed with exception [CONTEXT service_id=343 ]
+11-09 16:49:40.568 W/Auth    ( 4374): dmxw: Failed to process request
+11-09 16:49:40.568 W/Auth    ( 4374): 	at dmyd.a(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):23)
+11-09 16:49:40.568 W/Auth    ( 4374): 	at dnbz.b(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):17)
+11-09 16:49:40.568 W/Auth    ( 4374): 	at dncc.b(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):22)
+11-09 16:49:40.568 W/Auth    ( 4374): 	at dncu.onFailed(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):13)
+11-09 16:49:40.568 W/Auth    ( 4374): 	at m1.ik.onFailed(:com.google.android.gms.dynamite_cronetdynamite@264330029@26.43.30 (190400-0):3)
+11-09 16:49:40.568 W/Auth    ( 4374): 	at m1.hh.run(:com.google.android.gms.dynamite_cronetdynamite@264330029@26.43.30 (190400-0):16)
+11-09 16:49:40.568 W/Auth    ( 4374): 	at brrz.d(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):50)
+11-09 16:49:40.568 W/Auth    ( 4374): 	at brrz.c(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):5)
+11-09 16:49:40.568 W/Auth    ( 4374): 	at brrz.run(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):81)
+11-09 16:49:40.568 W/Auth    ( 4374): 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
+11-09 16:49:40.568 W/Auth    ( 4374): 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+11-09 16:49:40.568 W/Auth    ( 4374): 	at bryb.run(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):8)
+11-09 16:49:40.568 W/Auth    ( 4374): 	at java.lang.Thread.run(Thread.java:1012)
+11-09 16:49:40.568 W/Auth    ( 4374): Caused by: m1.hu: Exception in CronetUrlRequest: net::ERR_TIMED_OUT, ErrorCode=4, InternalErrorCode=-7, Retryable=true
+11-09 16:49:40.568 W/Auth    ( 4374): 	at org.chromium.net.impl.CronetUrlRequest.onError(:com.google.android.gms.dynamite_cronetdynamite@264330029@26.43.30 (190400-0):83)
+11-09 16:49:40.762 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 16:49:40.764 D/TrafficManageService-TrafficSimManager( 8273): notifyByNetChange_time: return
+11-09 16:49:41.370 E/QTagParser(28555): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
+11-09 16:49:41.383 D/GreezeManager( 2525): FZ uid = 10326 reason =from system success !
+11-09 16:49:41.383 D/GreezeManager( 2525): call socket destroy!
+11-09 16:49:41.385 D/MilletBrightHandler(10020): frozen uids:[10326] reason = from system
+11-09 16:49:41.385 D/MilletBrightHandler(10020): frozen fail result:[10327] freeze fail:[]
+11-09 16:49:41.439 I/SmartPower( 2525): com.miui.home/10128 state=idle adj=100 proc size=1 move to hibernation broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }
+11-09 16:49:41.454 D/GreezeManager( 2525): FZ uid = 10297 reason =from system success !
+11-09 16:49:41.454 D/GreezeManager( 2525): call socket destroy!
+11-09 16:49:41.456 D/GreezeManager( 2525): iso uid:10297 p:[30559] :true
+11-09 16:49:41.456 D/MilletBrightHandler(10020): frozen uids:[10297] reason = from system
+11-09 16:49:41.456 D/MilletBrightHandler(10020): frozen fail result:[10327] freeze fail:[]
+11-09 16:49:41.475 D/GreezeManager( 2525): FZ uid = 10298 reason =from system success !
+11-09 16:49:41.475 D/GreezeManager( 2525): call socket destroy!
+11-09 16:49:41.477 D/MilletBrightHandler(10020): frozen uids:[10298] reason = from system
+11-09 16:49:41.477 D/MilletBrightHandler(10020): frozen fail result:[10327] freeze fail:[]
+11-09 16:49:41.655 I/AICall_MemoryTrim$a(19135): Timer-600 trimMemory on background
+11-09 16:49:41.656 I/AICall_m0(19135): main invoke : null|80
+11-09 16:49:41.668 W/ActivityManager( 2525): Sending non-protected broadcast miui.intent.action.TELEPHONY_RESOURCE_ACCESS from system 4788:com.android.phone/1001 pkg com.android.phone. Callers=
+11-09 16:49:41.668 W/ActivityManager( 2525): Sending non-protected broadcast miui.intent.action.TELEPHONY_RESOURCE_ACCESS from system 4788:com.android.phone/1001 pkg com.android.phone. Callers=
+11-09 16:49:41.676 D/TelephonyManager( 4788): requestModemActivityInfo: Sending result to app: ModemActivityInfo{ mTimestamp=36538512 mSleepTimeMs=4710197 mIdleTimeMs=159466 mActivityStatsTechSpecificInfo=[{mRat=UNKNOWN,mFrequencyRange=UNKNOWN,mTxTimeMs[]=[31748, 29424, 29428, 17425, 37141],mRxTimeMs=24620890}]}
+11-09 16:49:41.710 D/GreezeManager( 2525): call socket destroy!
+11-09 16:49:41.717 D/MilletBrightHandler(10020): frozen uids:[10326] reason = tobg
+11-09 16:49:41.718 D/MilletBrightHandler(10020): frozen fail result:[10327] freeze fail:[]
+11-09 16:49:41.864 I/CM-DataReq(19130): onData id=1 offset=0 count=8192
+11-09 16:49:41.868 I/CM-DataReq(19130): onData id=1 offset=8192 count=8192
+11-09 16:49:41.868 I/CM-DataReq(19130): onData id=1 offset=16384 count=8192
+11-09 16:49:41.868 I/CM-DataReq(19130): onData id=1 offset=24576 count=8192
+11-09 16:49:41.868 I/CM-DataReq(19130): onData id=1 offset=32768 count=8192
+11-09 16:49:41.868 I/CM-DataReq(19130): onData id=1 offset=40960 count=8192
+11-09 16:49:41.869 I/CM-DataReq(19130): onData id=1 offset=49152 count=8192
+11-09 16:49:41.869 I/CM-DataReq(19130): onData id=1 offset=57344 count=8192
+11-09 16:49:41.869 I/CM-DataReq(19130): onData id=1 offset=65536 count=8192
+11-09 16:49:41.869 I/CM-DataReq(19130): onData id=1 offset=73728 count=8192
+11-09 16:49:41.869 I/CM-DataReq(19130): onData id=1 offset=81920 count=8192
+11-09 16:49:41.869 I/CM-DataReq(19130): onData id=1 offset=90112 count=8192
+11-09 16:49:41.869 I/CM-DataReq(19130): onData id=1 offset=98304 count=8192
+11-09 16:49:41.869 I/CM-DataReq(19130): onData id=1 offset=106496 count=8192
+11-09 16:49:41.869 I/CM-DataReq(19130): onData id=1 offset=114688 count=8192
+11-09 16:49:41.870 I/CM-DataReq(19130): onData id=1 offset=122880 count=8192
+11-09 16:49:41.870 I/CM-DataReq(19130): onData id=1 offset=131072 count=8192
+11-09 16:49:41.871 I/CM-DataReq(19130): onData id=1 offset=139264 count=8192
+11-09 16:49:41.871 I/CM-DataReq(19130): onData id=1 offset=147456 count=8192
+11-09 16:49:41.871 I/CM-DataReq(19130): onData id=1 offset=155648 count=8192
+11-09 16:49:41.871 I/CM-DataReq(19130): onData id=1 offset=163840 count=8192
+11-09 16:49:41.872 I/CM-DataReq(19130): onData id=1 offset=172032 count=8192
+11-09 16:49:41.872 D/NMCache (19130): NMBufferSourceImp::ReadTaskAsync Read  Begin(0-32768)
+11-09 16:49:41.872 D/NMCache (19130): NMBufferSourceImp::ReadTaskAsync Read  End.
+11-09 16:49:41.872 D/NMCache (19130): NMBufferSourceImp(1)::PreSeekReadTask offset:172032, size:5103616, memory offset:32768
+11-09 16:49:41.872 D/NMCache (19130): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  172032, size :  1048576, out_len : 0, result:-2, begin:172032, end:1146934
+11-09 16:49:41.872 I/CM-DataReq(19130): SourceCallback.onProgress 172032/0
+11-09 16:49:41.872 D/NMCache (19130): NMBufferSourceImp(1)::PreSeekReadTask offset:172032, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：974902 finish
+11-09 16:49:41.873 D/NMCache (19130): NMBufferSourceImp::Read((1-1) Finish Async:32768
+11-09 16:49:41.873 I/CM-DataReq(19130): onData id=1 offset=180224 count=8192
+11-09 16:49:41.876 I/CM-DataReq(19130): onData id=1 offset=188416 count=8192
+11-09 16:49:41.876 I/CM-DataReq(19130): onData id=1 offset=196608 count=8192
+11-09 16:49:41.876 I/CM-DataReq(19130): onData id=1 offset=204800 count=8192
+11-09 16:49:41.876 D/NMCache (19130): NMBufferSourceImp(1)::Read(2)  buffer len:32768.
+11-09 16:49:41.876 I/CM-DataReq(19130): onData id=1 offset=212992 count=8192
+11-09 16:49:41.876 D/NMCache (19130): NMBufferSourceImp(1)::Read(2) Finish Sync:0
+11-09 16:49:41.876 D/NMCache (19130): NMBufferSourceImp(1)::PreSeekReadTask offset:221184, size:5087232, memory offset:65536
+11-09 16:49:41.876 D/NMCache (19130): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  221184, size :  1048576, out_len : 0, result:-2, begin:221184, end:1146934
+11-09 16:49:41.876 D/NMCache (19130): NMBufferSourceImp(1)::PreSeekReadTask offset:221184, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：925750 finish
+11-09 16:49:41.877 I/CM-DataReq(19130): onData id=1 offset=221184 count=8192
+11-09 16:49:41.877 I/CM-DataReq(19130): onData id=1 offset=229376 count=8192
+11-09 16:49:41.877 I/CM-DataReq(19130): onData id=1 offset=237568 count=8192
+11-09 16:49:41.877 I/CM-DataReq(19130): onData id=1 offset=245760 count=8192
+11-09 16:49:41.878 D/NMCache (19130): NMBufferSourceImp(1)::Read(3)  buffer len:65536.
+11-09 16:49:41.878 D/NMCache (19130): NMBufferSourceImp(1)::Read(3) Finish Sync:0
+11-09 16:49:41.879 D/NMCache (19130): NMBufferSourceImp(1)::PreSeekReadTask offset:253952, size:5120000, memory offset:131072
+11-09 16:49:41.879 D/NMCache (19130): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  253952, size :  1048576, out_len : 0, result:-2, begin:253952, end:1146934
+11-09 16:49:41.879 D/NMCache (19130): NMBufferSourceImp(1)::PreSeekReadTask offset:253952, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：892982 finish
+11-09 16:49:41.880 I/CM-DataReq(19130): onData id=1 offset=253952 count=8192
+11-09 16:49:41.880 I/CM-DataReq(19130): onData id=1 offset=262144 count=8192
+11-09 16:49:41.880 I/CM-DataReq(19130): onData id=1 offset=270336 count=8192
+11-09 16:49:41.880 I/CM-DataReq(19130): onData id=1 offset=278528 count=8192
+11-09 16:49:41.880 I/CM-DataReq(19130): onData id=1 offset=286720 count=8192
+11-09 16:49:41.881 I/CM-DataReq(19130): onData id=1 offset=294912 count=8192
+11-09 16:49:41.881 I/CM-DataReq(19130): onData id=1 offset=303104 count=8192
+11-09 16:49:41.881 I/CM-DataReq(19130): onData id=1 offset=311296 count=8192
+11-09 16:49:41.881 I/CM-DataReq(19130): onData id=1 offset=319488 count=8192
+11-09 16:49:41.881 I/CM-DataReq(19130): onData id=1 offset=327680 count=8192
+11-09 16:49:41.881 I/CM-DataReq(19130): onData id=1 offset=335872 count=8192
+11-09 16:49:41.881 I/CM-DataReq(19130): onData id=1 offset=344064 count=8192
+11-09 16:49:41.881 I/CM-DataReq(19130): onData id=1 offset=352256 count=8192
+11-09 16:49:41.881 I/CM-DataReq(19130): onData id=1 offset=360448 count=8192
+11-09 16:49:41.881 I/CM-DataReq(19130): onData id=1 offset=368640 count=8192
+11-09 16:49:41.882 I/CM-DataReq(19130): onData id=1 offset=376832 count=8192
+11-09 16:49:41.882 I/CM-DataReq(19130): onData id=1 offset=385024 count=8192
+11-09 16:49:41.882 I/CM-DataReq(19130): onData id=1 offset=393216 count=8192
+11-09 16:49:41.882 I/CM-DataReq(19130): onData id=1 offset=401408 count=8192
+11-09 16:49:41.882 I/CM-DataReq(19130): onData id=1 offset=409600 count=8192
+11-09 16:49:41.882 I/CM-DataReq(19130): onData id=1 offset=417792 count=8192
+11-09 16:49:41.882 I/CM-DataReq(19130): onData id=1 offset=425984 count=8192
+11-09 16:49:41.882 I/CM-DataReq(19130): onData id=1 offset=434176 count=8192
+11-09 16:49:41.882 I/CM-DataReq(19130): onData id=1 offset=442368 count=8192
+11-09 16:49:41.882 I/CM-DataReq(19130): onData id=1 offset=450560 count=8192
+11-09 16:49:41.882 I/CM-DataReq(19130): onData id=1 offset=458752 count=8192
+11-09 16:49:41.882 I/CM-DataReq(19130): onData id=1 offset=466944 count=8192
+11-09 16:49:41.883 I/CM-DataReq(19130): onData id=1 offset=475136 count=8192
+11-09 16:49:41.883 I/CM-DataReq(19130): onData id=1 offset=483328 count=8192
+11-09 16:49:41.883 I/CM-DataReq(19130): onData id=1 offset=491520 count=8192
+11-09 16:49:41.883 I/CM-DataReq(19130): onData id=1 offset=499712 count=8192
+11-09 16:49:41.883 I/CM-DataReq(19130): onData id=1 offset=507904 count=8192
+11-09 16:49:41.883 I/CM-DataReq(19130): onData id=1 offset=516096 count=8192
+11-09 16:49:41.883 I/CM-DataReq(19130): onData id=1 offset=524288 count=8192
+11-09 16:49:41.883 I/CM-DataReq(19130): onData id=1 offset=532480 count=8192
+11-09 16:49:41.883 I/CM-DataReq(19130): onData id=1 offset=540672 count=8192
+11-09 16:49:41.883 D/NMCache (19130): NMBufferSourceImp(1)::Read(4)  buffer len:131072.
+11-09 16:49:41.883 I/CM-DataReq(19130): onData id=1 offset=548864 count=8192
+11-09 16:49:41.883 D/NMCache (19130): NMBufferSourceImp(1)::Read(4) Finish Sync:0
+11-09 16:49:41.883 D/NMCache (19130): NMBufferSourceImp(1)::PreSeekReadTask offset:557056, size:4947968, memory offset:262144
+11-09 16:49:41.884 D/NMCache (19130): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  557056, size :  1048576, out_len : 0, result:-2, begin:557056, end:1146934
+11-09 16:49:41.884 D/NMCache (19130): NMBufferSourceImp(1)::PreSeekReadTask offset:557056, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：589878 finish
+11-09 16:49:41.884 I/CM-DataReq(19130): onData id=1 offset=557056 count=8192
+11-09 16:49:41.884 I/CM-DataReq(19130): onData id=1 offset=565248 count=8192
+11-09 16:49:41.884 I/CM-DataReq(19130): onData id=1 offset=573440 count=8192
+11-09 16:49:41.884 I/CM-DataReq(19130): onData id=1 offset=581632 count=8192
+11-09 16:49:41.884 I/CM-DataReq(19130): onData id=1 offset=589824 count=8192
+11-09 16:49:41.884 I/CM-DataReq(19130): onData id=1 offset=598016 count=8192
+11-09 16:49:41.884 I/CM-DataReq(19130): onData id=1 offset=606208 count=8192
+11-09 16:49:41.884 I/CM-DataReq(19130): onData id=1 offset=614400 count=8192
+11-09 16:49:41.884 I/CM-DataReq(19130): onData id=1 offset=622592 count=8192
+11-09 16:49:41.884 I/CM-DataReq(19130): onData id=1 offset=630784 count=8192
+11-09 16:49:41.884 I/CM-DataReq(19130): onData id=1 offset=638976 count=8192
+11-09 16:49:41.884 I/CM-DataReq(19130): onData id=1 offset=647168 count=8192
+11-09 16:49:41.884 I/CM-DataReq(19130): onData id=1 offset=655360 count=8192
+11-09 16:49:41.884 I/CM-DataReq(19130): onData id=1 offset=663552 count=8192
+11-09 16:49:41.885 I/CM-DataReq(19130): onData id=1 offset=671744 count=8192
+11-09 16:49:41.885 I/CM-DataReq(19130): onData id=1 offset=679936 count=8192
+11-09 16:49:41.885 I/CM-DataReq(19130): onData id=1 offset=688128 count=8192
+11-09 16:49:41.885 I/CM-DataReq(19130): onData id=1 offset=696320 count=8192
+11-09 16:49:41.885 I/CM-DataReq(19130): onData id=1 offset=704512 count=8192
+11-09 16:49:41.885 I/CM-DataReq(19130): onData id=1 offset=712704 count=8192
+11-09 16:49:41.885 I/CM-DataReq(19130): onData id=1 offset=720896 count=8192
+11-09 16:49:41.885 I/CM-DataReq(19130): onData id=1 offset=729088 count=8192
+11-09 16:49:41.885 I/CM-DataReq(19130): onData id=1 offset=737280 count=8192
+11-09 16:49:41.885 I/CM-DataReq(19130): onData id=1 offset=745472 count=8192
+11-09 16:49:41.885 I/CM-DataReq(19130): onData id=1 offset=753664 count=8192
+11-09 16:49:41.885 I/CM-DataReq(19130): onData id=1 offset=761856 count=8192
+11-09 16:49:41.885 I/CM-DataReq(19130): onData id=1 offset=770048 count=8192
+11-09 16:49:41.885 I/CM-DataReq(19130): onData id=1 offset=778240 count=8192
+11-09 16:49:41.885 I/CM-DataReq(19130): onData id=1 offset=786432 count=8192
+11-09 16:49:41.885 I/CM-DataReq(19130): onData id=1 offset=794624 count=8192
+11-09 16:49:41.885 I/CM-DataReq(19130): onData id=1 offset=802816 count=8192
+11-09 16:49:41.885 I/CM-DataReq(19130): onData id=1 offset=811008 count=8192
+11-09 16:49:41.886 I/CM-DataReq(19130): onData id=1 offset=819200 count=8192
+11-09 16:49:41.886 I/CM-DataReq(19130): onData id=1 offset=827392 count=8192
+11-09 16:49:41.886 I/CM-DataReq(19130): onData id=1 offset=835584 count=8192
+11-09 16:49:41.886 I/CM-DataReq(19130): onData id=1 offset=843776 count=8192
+11-09 16:49:41.886 I/CM-DataReq(19130): onData id=1 offset=851968 count=8192
+11-09 16:49:41.886 I/CM-DataReq(19130): onData id=1 offset=860160 count=8192
+11-09 16:49:41.886 I/CM-DataReq(19130): onData id=1 offset=868352 count=8192
+11-09 16:49:41.886 I/CM-DataReq(19130): onData id=1 offset=876544 count=8192
+11-09 16:49:41.886 I/CM-DataReq(19130): onData id=1 offset=884736 count=8192
+11-09 16:49:41.886 I/CM-DataReq(19130): onData id=1 offset=892928 count=8192
+11-09 16:49:41.886 I/CM-DataReq(19130): onData id=1 offset=901120 count=8192
+11-09 16:49:41.886 I/CM-DataReq(19130): onData id=1 offset=909312 count=8192
+11-09 16:49:41.886 I/CM-DataReq(19130): onData id=1 offset=917504 count=8192
+11-09 16:49:41.886 I/CM-DataReq(19130): onData id=1 offset=925696 count=8192
+11-09 16:49:41.886 I/CM-DataReq(19130): onData id=1 offset=933888 count=8192
+11-09 16:49:41.886 I/CM-DataReq(19130): onData id=1 offset=942080 count=8192
+11-09 16:49:41.886 I/CM-DataReq(19130): onData id=1 offset=950272 count=8192
+11-09 16:49:41.887 I/CM-DataReq(19130): onData id=1 offset=958464 count=8192
+11-09 16:49:41.887 I/CM-DataReq(19130): onData id=1 offset=966656 count=8192
+11-09 16:49:41.887 I/CM-DataReq(19130): onData id=1 offset=974848 count=8192
+11-09 16:49:41.887 I/CM-DataReq(19130): onData id=1 offset=983040 count=8192
+11-09 16:49:41.887 I/CM-DataReq(19130): onData id=1 offset=991232 count=8192
+11-09 16:49:41.887 I/CM-DataReq(19130): onData id=1 offset=999424 count=8192
+11-09 16:49:41.887 I/CM-DataReq(19130): onData id=1 offset=1007616 count=8192
+11-09 16:49:41.887 I/CM-DataReq(19130): onData id=1 offset=1015808 count=8192
+11-09 16:49:41.887 I/CM-DataReq(19130): onData id=1 offset=1024000 count=8192
+11-09 16:49:41.887 I/CM-DataReq(19130): onData id=1 offset=1032192 count=8192
+11-09 16:49:41.887 I/CM-DataReq(19130): onData id=1 offset=1040384 count=8192
+11-09 16:49:41.888 D/NMCache (19130): NMBufferSourceImp(1)::Read(5)  buffer len:262144.
+11-09 16:49:41.888 D/NMCache (19130): NMBufferSourceImp(1)::Read(5) Finish Sync:0
+11-09 16:49:41.888 D/NMCache (19130): NMBufferSourceImp(1)::PreSeekReadTask offset:1048576, size:4718592, memory offset:524288
+11-09 16:49:41.888 D/NMCache (19130): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  1048576, size :  1048576, out_len : 0, result:-2, begin:1048576, end:1146934
+11-09 16:49:41.888 D/NMCache (19130): NMBufferSourceImp(1)::PreSeekReadTask offset:1048576, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：98358 finish
+11-09 16:49:41.894 I/SmartPower( 2525): com.taobao.idlefish/10297 state=idle adj=905 proc size=4 move to hibernation alarm start
+11-09 16:49:41.896 D/NMCache (19130): NMBufferSourceImp(1)::Read(6)  buffer len:524288.
+11-09 16:49:41.896 D/NMCache (19130): NMBufferSourceImp(1)::Read(6) Finish Sync:0
+11-09 16:49:41.896 D/NMCache (19130): NMBufferSourceImp(1)::PreSeekReadTask offset:1048576, size:5242880, memory offset:1048576
+11-09 16:49:41.896 D/NMCache (19130): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  1048576, size :  1048576, out_len : 0, result:-2, begin:1048576, end:1146934
+11-09 16:49:41.896 D/NMCache (19130): NMBufferSourceImp(1)::PreSeekReadTask offset:1048576, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：98358 finish
+11-09 16:49:41.911 E/NMAudioPlayer(19130): Decoder(0): av_probe_input_buffer read error -1094995529
+11-09 16:49:41.911 W/NMAudioPlayer(19130): CNCMAudioPlayer::doPrepareAsync openSource 2
+11-09 16:49:41.912 I/CM-DataReq(19130): setDataRequestErrorCallback callback=null enabled=false
+11-09 16:49:41.912 I/NEPlayer(19130): Abort: canceling requests
+11-09 16:49:41.912 I/NCMPlayerEngine(19130): JniDataProvider::CancelRequest
+11-09 16:49:41.912 I/CM-DataReq(19130): cancelRequest hasHandler=true
+11-09 16:49:41.912 I/CM-DataReq(19130): Stop
+11-09 16:49:41.912 I/NMCache (19130): NMBufferSourceImp::Abort(1-6)
+11-09 16:49:41.912 I/NCMPlayerEngine(19130): JniDataProvider::Close
+11-09 16:49:41.912 I/CM-DataReq(19130): close hasHandler=true
+11-09 16:49:41.912 I/CM-DataReq(19130): release
+11-09 16:49:41.912 I/NEPlayer(19130): PlayerNotifyEvent msg=100 arg1=2 arg2=0 has_music=1 songId=
+11-09 16:49:41.912 I/NCMPlayerEngine(19130): onEngineEvent: msg=100 arg1=2 arg2=0
+11-09 16:49:41.913 W/NMAudioPlayer(19130): CNCMAudioPlayer::Play status 9
+11-09 16:49:41.913 I/NEPlayer(19130): PlayerNotifyEvent msg=300 arg1=9 arg2=0 has_music=1 songId=
+11-09 16:49:41.913 I/NCMPlayerEngine(19130): onEngineEvent: msg=300 arg1=9 arg2=0
+11-09 16:49:41.914 I/NCMPlayerEngine(19130): nativeEngineRelease: handle=-5476376602063706112
+11-09 16:49:41.915 I/NMAudioPlayer(19130): CNCMAudioProcess::SetAudioListener  mAudioListener 0
+11-09 16:49:41.915 W/NMAudioPlayer(19130): CNCMAudioProcess::SetAudioEffect  audio_effect 0
+11-09 16:49:41.915 I/NEPlayer(19130): Abort: canceling requests
+11-09 16:49:41.915 I/NCMPlayerEngine(19130): JniDataProvider::CancelRequest
+11-09 16:49:41.915 I/CM-DataReq(19130): cancelRequest hasHandler=false
+11-09 16:49:41.915 I/NMCache (19130): NMBufferSourceImp::Abort(1-6)
+11-09 16:49:41.915 I/NMAudioPlayer(19130): CNCMAudioPlayer::doStop status 9
+11-09 16:49:41.915 I/NMAudioPlayer(19130): CNCMAudioPlayer::doResetFadeSource
+11-09 16:49:41.915 I/NMAudioPlayer(19130): NCMCPU::getlimit result = 0, cur = 40, max = 40, now get_prio 0
+11-09 16:49:41.915 I/NMAudioPlayer(19130): NCMCPU::setpriority ret = 0, new_prio -16, now_prio -16
+11-09 16:49:41.915 I/NMAudioPlayer(19130): NCMCPU::getLastRunOnCpu pid:19130 tid:25883, cpuid= 4
+11-09 16:49:41.915 I/NMAudioPlayer(19130): CNCMAudioPlayer::doStop done time:0
+11-09 16:49:41.916 I/NMCache (19130): NMBufferSourceImp Destroy:1 begin
+11-09 16:49:41.916 I/NMCache (19130): NMMemoryCache Destroy:1, 0
+11-09 16:49:41.916 I/NMCache (19130): NMBufferSourceImp Destroy:1
+11-09 16:49:41.916 I/NCMPlayerEngine(19130): JniPlayerDataSource destroyed
+11-09 16:49:41.916 I/NCMPlayerEngine(19130): JniSourceCallback destroyed
+11-09 16:49:41.916 I/CM-DataReq(19130): setDataRequestErrorCallback callback=null enabled=false
+11-09 16:49:41.916 I/NCMPlayerEngine(19130): JniDataProvider destroyed
+11-09 16:49:41.916 W/NMAudioPlayer(19130): CNCMAudioProcess::doProcessFunc AMsgProcessFlush
+11-09 16:49:41.916 I/NMAudioPlayer(19130): CNCMAudioProcess::SetAudioListener  mAudioListener 0
+11-09 16:49:41.916 W/NMAudioPlayer(19130): CNCMAudioProcess::SetAudioEffect  audio_effect 0
+11-09 16:49:41.916 I/NMAudioPlayer(19130): CNCMAudioPlayer::doStop status 1
+11-09 16:49:41.917 I/CM-DataReq(19130): close hasHandler=false
+11-09 16:49:41.917 I/NMCache (19130): NMCacheControl::~NMCacheControl
+11-09 16:49:41.917 I/NMVirtualFileManager(19130): Delete
+11-09 16:49:41.919 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 16:49:41.920 D/TrafficManageService-TrafficSimManager( 8273): notifyByNetChange_time: return
+11-09 16:49:41.953 I/ThermalObserver( 2525): Gallery hdr is disable by thermal.
+11-09 16:49:41.954 D/SLM-SRV-SLAService( 8115): checktemp temperature = 38351 temperature_average = 37688 isPerformanceMode = false thermal_enable_slm = true
+11-09 16:49:41.954 I/mstatdaemon( 2086): Entering time loop
+11-09 16:49:41.954 I/mstatdaemon( 2086): t = 1794214181
+11-09 16:49:41.954 I/mstatdaemon( 2086): translated_t = 1478224181
+11-09 16:49:41.954 I/mstat_log( 2086): mstatcommitLog log_alloc() failed
+11-09 16:49:42.291 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=17}
+11-09 16:49:42.291 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=15}
+11-09 16:49:42.291 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=41}
+11-09 16:49:42.291 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-09 16:49:42.291 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-09 16:49:42.291 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-09 16:49:42.294 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=13497}
+11-09 16:49:42.294 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=35083}
+11-09 16:49:42.294 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-09 16:49:42.294 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=732}
+11-09 16:49:42.294 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=638}
+11-09 16:49:42.294 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-09 16:49:42.294 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=5268}
+11-09 16:49:42.294 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=34070}
+11-09 16:49:42.294 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=13149}
+11-09 16:49:42.294 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=190}
+11-09 16:49:42.294 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-09 16:49:42.540 D/ProfileInstaller(19130): Installing profile for com.example.cloudmusic
+11-09 16:49:42.680 I/MiuiNetworkPolicy( 2525): bandwidth: 0 KB/s, Max bandwidth: 200 KB/s
+11-09 16:49:43.039 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 16:49:43.041 D/TrafficManageService-TrafficSimManager( 8273): notifyByNetChange: gooooo
+11-09 16:49:43.052 D/TrafficManageService-TrafficSimManager( 8273): getMonthDataUsageUsed: new_get = 11668392416
+11-09 16:49:43.054 D/TrafficManageService-TrafficSimManager( 8273): checkNormalTrafficStatus: 开关未打开
+11-09 16:49:43.171 D/HeapUsage Monitor( 2525): HeapAllocSize : 173MB; monitorSize : 500MB
+11-09 16:49:43.566 I/MiuiNetworkPolicy( 2525): updateUidState uid = 10115, uidState = 5
+11-09 16:49:44.462 D/TrafficStats(12150): tagSocket(78) with statsTag=0xffffffff, statsUid=-1
+11-09 16:49:44.756 D/TrafficStats( 4374): tagSocket(105) with statsTag=0x4000401, statsUid=10109
+11-09 16:49:44.887 I/mple.cloudmusic(19130): ProcessProfilingInfo new_methods=0 is saved saved_to_disk=0 resolve_classes_delay=8000
+11-09 16:49:45.269 D/TrafficStats( 4374): tagSocket(148) with statsTag=0x4000401, statsUid=10109
+11-09 16:49:45.325 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=18}
+11-09 16:49:45.325 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=15}
+11-09 16:49:45.325 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=1}
+11-09 16:49:45.325 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=41}
+11-09 16:49:45.325 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-09 16:49:45.325 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-09 16:49:45.326 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=13497}
+11-09 16:49:45.326 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=35091}
+11-09 16:49:45.326 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=1}
+11-09 16:49:45.326 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-09 16:49:45.326 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=732}
+11-09 16:49:45.326 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=638}
+11-09 16:49:45.326 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-09 16:49:45.326 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=5268}
+11-09 16:49:45.326 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=34070}
+11-09 16:49:45.326 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=13161}
+11-09 16:49:45.326 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=192}
+11-09 16:49:45.380 D/ConnectivityService( 2525): NetReassign [no changes]
+11-09 16:49:45.383 I/NearbyMediums( 4374): Wifi changed new SSID: "midea_fa_0670"
+11-09 16:49:45.383 I/NearbyMediums( 4374): WifiLanConnectivityInfo is not changed, skip notify.

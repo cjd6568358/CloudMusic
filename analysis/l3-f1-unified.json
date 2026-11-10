@@ -1,0 +1,135 @@
+{
+  "method": "12 §61.45 / F1：单一格式真相源 AudioFormats 接线审计（6 处消费方 + 集合口径）",
+  "generated_by": "tools/l3_f1_unified_audit.py",
+  "single_source": "core-model/src/main/kotlin/com/example/cloudmusic/model/AudioFormats.kt",
+  "unit_test": "core-model/src/test/kotlin/com/example/cloudmusic/model/AudioFormatsTest.kt",
+  "audio_ext": {
+    "count": 14,
+    "exts": [
+      "mp3",
+      "flac",
+      "ogg",
+      "m4a",
+      "wav",
+      "opus",
+      "wma",
+      "aac",
+      "ape",
+      "dsf",
+      "dff",
+      "aiff",
+      "wv",
+      "tak"
+    ]
+  },
+  "extra_audio_ext": {
+    "count": 1,
+    "exts": [
+      "alac"
+    ]
+  },
+  "text_mime_by_ext": {
+    "count": 2,
+    "pairs": {
+      "m3u8": "application/vnd.apple.mpegurl",
+      "lrc": "text/plain"
+    }
+  },
+  "mime_by_ext": {
+    "count": 11,
+    "pairs": {
+      "mp3": "audio/mpeg",
+      "flac": "audio/flac",
+      "aac": "audio/aac",
+      "m4a": "audio/mp4",
+      "ogg": "audio/ogg",
+      "wav": "audio/wav",
+      "wma": "audio/x-ms-wma",
+      "alac": "audio/x-alac",
+      "opus": "audio/ogg",
+      "m3u8": "application/vnd.apple.mpegurl",
+      "lrc": "text/plain"
+    }
+  },
+  "stream_filter_ext": {
+    "count": 15,
+    "exts": [
+      "mp3",
+      "flac",
+      "ogg",
+      "m4a",
+      "wav",
+      "opus",
+      "wma",
+      "aac",
+      "ape",
+      "dsf",
+      "dff",
+      "aiff",
+      "wv",
+      "tak",
+      "alac"
+    ],
+    "derived_from": "AUDIO_EXT + EXTRA_AUDIO_EXT（STREAM_FILTER_TYPES 由真相源运行时派生）"
+  },
+  "consumers": {
+    "core-model/ObjectType.AUDIO_EXT": {
+      "file": "core-model/src/main/kotlin/com/example/cloudmusic/model/ObjectType.kt",
+      "references_audio_formats": true,
+      "needle": "AudioFormats.AUDIO_EXT",
+      "legacy_literal_present": false,
+      "legacy_patterns_hit": []
+    },
+    "scanner/ScanRules.audioExt": {
+      "file": "scanner/src/main/kotlin/com/example/cloudmusic/scanner/ExcludeRule.kt",
+      "references_audio_formats": true,
+      "needle": "AudioFormats.AUDIO_EXT",
+      "legacy_literal_present": false,
+      "legacy_patterns_hit": []
+    },
+    "datasource-strm/StrmPaths.defaultFilterTypes": {
+      "file": "datasource-strm/src/main/kotlin/com/example/cloudmusic/strm/StrmPaths.kt",
+      "references_audio_formats": true,
+      "needle": "AudioFormats.STREAM_FILTER_TYPES",
+      "legacy_literal_present": false,
+      "legacy_patterns_hit": []
+    },
+    "engine-bridge/MimeHint.MAP": {
+      "file": "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/BaseDataSource.kt",
+      "references_audio_formats": true,
+      "needle": "AudioFormats.MIME_BY_EXT",
+      "legacy_literal_present": false,
+      "legacy_patterns_hit": []
+    },
+    "feature-player/PlayerController.mimeHintOf": {
+      "file": "feature-player/src/main/kotlin/com/example/cloudmusic/player/PlayerController.kt",
+      "references_audio_formats": true,
+      "needle": "AudioFormats.mimeOfName",
+      "legacy_literal_present": false,
+      "legacy_patterns_hit": []
+    },
+    "output-dlna/DidlLiteBuilder.mimeOf": {
+      "file": "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DidlLiteBuilder.kt",
+      "references_audio_formats": true,
+      "needle": "AudioFormats.mimeOfName",
+      "legacy_literal_present": false,
+      "legacy_patterns_hit": []
+    }
+  },
+  "consumers_total": 6,
+  "consumers_unified": 6,
+  "residual_hardcoded_lists": 0,
+  "behavior_changes": [
+    "ScanRules.audioExt 默认值 8 → 14 项：扫描器开始收录 aiff/ape/dff/dsf/tak/wv，能否真机播放待 F3 双路径矩阵判定，F1 不声称支持。",
+    "StrmPaths.defaultFilterTypes 9 → 15 项（14 + alac）：保持原有 alac 支持不回退，并补上此前被误过滤的 6 种格式；const val → val 因需运行时派生。",
+    "MIME 口径统一到 03-06 §7 的 MimeHint.MAP：.aac 由 audio/mp4 变 audio/aac，PlayerController / DidlLiteBuilder 的 .wma/.alac 由 octet-stream 变各自 MIME。",
+    "6 种新收录格式（ape/dsf/dff/aiff/wv/tak）在竞品与契约中无已确认 MIME，F1 不编造，仍落 application/octet-stream。",
+    "P0 引擎舱（20 so / EngineAdapter / EngineModule）、assets / Manifest / DI 图 / 指纹、模块数 19、权限 11 全部零变化。"
+  ],
+  "honest_notes": [
+    "统一的是「格式清单与 MIME 表的来源」，不是「native 已支持这些格式」；demuxer 存在 ≠ decoder 编入 ≠ 真机可播。",
+    "alac 是否并入 AUDIO_EXT 留待 F3 真机矩阵给出结论，F1 不擅自扩大收录集。",
+    "F1 只做自研层接线与纯 JVM 测试，未触碰设备、未跑真机格式矩阵（那是 F3）。",
+    "新增格式进入扫描/取流链路后是否引发播放失败，由 F3 逐格如实登记，不预先判 PASS。"
+  ]
+}

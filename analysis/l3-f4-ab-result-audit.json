@@ -1,0 +1,69 @@
+{
+  "method": "12 §61.59 / F4 kind 槽 A/B 真机结果的独立审计（离线、只读）",
+  "generated_by": "tools/l3_f4_ab_result_audit.py",
+  "checks": {
+    "ab_result_present": true,
+    "two_runs_backed_up": true,
+    "baseline_control_present": true,
+    "primary_criterion_not_met_all_runs": true,
+    "no_codec_in_all_variant_runs": true,
+    "no_write_in_all_variant_runs": true,
+    "regression_all_pass_all_runs": true,
+    "p0_restored_all_runs": true,
+    "auto_advance_not_faked": true,
+    "variant_eliminated_repeated_range": true,
+    "baseline_control_has_repeated_range": true,
+    "two_runs_reproducible": true,
+    "new_predicate_correct": true,
+    "report_present_and_honest": true,
+    "p0_git_diff_clean": true,
+    "no_credentials_in_evidence": true,
+    "contract_guard_present": true,
+    "delivery12_has_61_59": true,
+    "head_still_uncommitted": true
+  },
+  "all_pass": true,
+  "failed_checks": [],
+  "status": {
+    "ab_executed": true,
+    "serial": "192.168.1.11:40807",
+    "runs": 2,
+    "wait_s": [
+      25,
+      45
+    ],
+    "primary_criterion_met": false,
+    "verdict": "PARTIAL（环节 B 部分成立、非充分原因）",
+    "variant_effect": "消除了 id>=3 同区间重复请求（4 个 Start → 2 个）",
+    "second_blocker": "fMP4 多 Range × normal mode vfile 落盘 / demuxer probe 数据不足（待 native 级定位）",
+    "p0_restored": true,
+    "f4_status": "BLOCKED",
+    "auto_advance_3_tracks": "NOT RUN"
+  },
+  "evidence": {
+    "variant_starts_run1": [
+      "Start id=1 offset=147456 length=180439",
+      "Start id=2 offset=605007 length=1048576"
+    ],
+    "variant_starts_run2": [
+      "Start id=1 offset=147456 length=180439",
+      "Start id=2 offset=605007 length=1048576"
+    ],
+    "baseline_control_starts": [
+      "Start id=1 offset=442368 length=1048576",
+      "Start id=2 offset=605007 length=1048576",
+      "Start id=3 offset=605007 length=1048576",
+      "Start id=4 offset=605007 length=1048576"
+    ],
+    "repeated_range_predicate": {
+      "baseline": true,
+      "variant_run2": false
+    }
+  },
+  "honest_notes": [
+    "环节 B 部分成立（错误完成通知是重复请求的成因）≠ 整条因果链成立；消除重试后仍无 codec。",
+    "不得写「假设被证伪」「F4 已解决」「m4a 已支持」「全格式已支持」。",
+    "两个 m4a 是人工截取/重排 fMP4 片段；F3 矩阵 14 格未改写；自动进曲 3 首 / seek / ENDED 仍 NOT RUN。",
+    "A3 仍 G09 PARTIAL、舱不冻结；P0 零净改动、设备前置已恢复。"
+  ]
+}

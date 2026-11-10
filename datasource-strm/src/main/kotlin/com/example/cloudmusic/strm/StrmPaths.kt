@@ -2,7 +2,9 @@ package com.example.cloudmusic.strm
 
 /** docs/03-03 §2.3 · 借鉴 OpenList 的 paths 映射 / autoFlatten，不照搬虚拟文件生成。 */
 
-const val defaultFilterTypes = "mp3,flac,aac,wav,ogg,m4a,wma,alac,opus"
+// 12 §61.45 / F1：由 AudioFormats.STREAM_FILTER_EXT 派生（14 项 + alac = 15 项），
+// 保持原有 alac 支持不回退，并补上此前被误过滤的 6 种格式。const → val 因需运行时派生。
+val defaultFilterTypes: String = com.example.cloudmusic.model.AudioFormats.STREAM_FILTER_TYPES
 const val defaultDownloadTypes = "ass,srt,vtt,sub,strm,lrc"
 
 data class StrmPaths(

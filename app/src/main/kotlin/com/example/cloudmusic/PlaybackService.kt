@@ -112,6 +112,19 @@ class PlaybackService : Service() {
     /** §61.25：当前播放段内是否观测过引擎 PLAYING（完成 / 错误回退的判据）。 */
     private var playingObserved = false
 
+    /**
+     * 12 §61.47 / F2：`ACTION_PLAY` 的可选本地注入路径（验收期调试入口）。
+     * 无此 extra 时恒为 null，`performPlay()` 保持原行为零回归。
+     */
+    private var pendingLocalPath: String? = null
+
+    /**
+     * 12 §61.49 / F3：`ACTION_PLAY` 的可选 REMOTE（回环 URL）注入入口。
+     * 与 [pendingLocalPath] 互斥使用；两者皆空时 `runtime.play()` 原行为零回归。
+     * 仅用于逐格式 × REMOTE/LOCAL 双路径真机矩阵，随 `12 §61.33` 收口。
+     */
+    private var pendingSourceUrl: String? = null
+
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var mediaSession: MediaSession? = null
     private lateinit var audioManager: AudioManager
@@ -287,6 +300,9 @@ class PlaybackService : Service() {
         // 带崩进程（MIUI/A13 实测：服务已在运行时再发 ACTION_SEEK 未确认 → crash）。
         // onCreate 已 post 过一次；这里每次启动重 post（幂等）。
         startForeground(NOTIFICATION_ID, buildNotification("播放服务运行中"))
+        // 12 §61.47 / §61.49：可选调试注入；两个 extra 皆空时原播放链零回归。
+        pendingLocalPath = intent?.getStringExtra(EXTRA_LOCAL_PATH)
+        pendingSourceUrl = intent?.getStringExtra(EXTRA_SOURCE_URL)
         when (intent?.action) {
             ACTION_PLAY -> performPlay()
             ACTION_PAUSE -> performPause()
@@ -314,7 +330,16 @@ class PlaybackService : Service() {
         }
         // 焦点未授予时不启动播放，避免与其他应用抢音频输出。
         if (requestAudioFocus()) {
-            runtime.play()
+            // 12 §61.47 / §61.49：URL 优先于本地路径，两者皆空则保持原播放链。
+            val injectedPath = pendingLocalPath
+            val injectedUrl = pendingSourceUrl
+            pendingLocalPath = null
+            pendingSourceUrl = null
+            when {
+                !injectedUrl.isNullOrBlank() -> runtime.playUrl(injectedUrl)
+                !injectedPath.isNullOrBlank() -> runtime.playLocal(injectedPath)
+                else -> runtime.play()
+            }
             // C-15（12 §44）：把「用户主动播放」回传给 FocusPolicy。
             mediaControl.onPlaying()
             // 12 §46 / B04：用户重新播放后允许下一次断开再次暂停（回连本身不复位）。
@@ -521,5 +546,20 @@ class PlaybackService : Service() {
 
         /** §61.29：输出弹窗按动作申请 BLUETOOTH_CONNECT 后，通知 Service 刷新 ACL 注册。 */
         const val ACTION_BLUETOOTH_PERMISSION_CHANGED = "com.example.cloudmusic.action.BT_PERMISSION_CHANGED"
+
+        /**
+         * 12 §61.47 / F2：验收期 LOCAL 源注入 extra。值为 App 私有目录内的绝对文件路径，
+         * 不携带任何权限需求；复用既有 `ACTION_PLAY`，不新增 Manifest action。
+         * 生产形态随 `12 §61.33` 的 `ACTION_PLAY` 一并收口。
+         */
+        const val EXTRA_LOCAL_PATH = "com.example.cloudmusic.extra.LOCAL_PATH"
+
+        /**
+         * 12 §61.49 / F3：验收期 REMOTE 源注入 extra。值为 `http://127.0.0.1:8765/...`
+         * 回环直链（`adb reverse` + PC `http.server`，沿用 A3 G01 口径）。
+         * 复用既有 `ACTION_PLAY`，不新增 Manifest action / 权限 / 模块；
+         * 生产形态随 `12 §61.33` 一并收口。
+         */
+        const val EXTRA_SOURCE_URL = "com.example.cloudmusic.extra.SOURCE_URL"
     }
 }

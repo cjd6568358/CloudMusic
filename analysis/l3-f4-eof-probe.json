@@ -1,0 +1,61 @@
+{
+  "method": "12 §61.50 / F4：moov-at-end fMP4 样本的竞态路径真机探针",
+  "generated_by": "tools/l3_f4_eof_probe.py",
+  "serial": "10.0.0.2:39853",
+  "sample": "analysis/l3-f3-fixtures/f3_m4a.m4a",
+  "sample_bytes": 3918787,
+  "sample_origin": "设备 /sdcard/Download/SaveTwitter…(1280p).mp4 前 16MiB；纯 Python 把顶层 moov 从 ftyp 之后挪到文件末尾（fMP4 靠 moof/trun 相对偏移，不依赖 stco 绝对地址）",
+  "moov_offset": 3917485,
+  "cells": [
+    {
+      "path": "local",
+      "prepare_seen": true,
+      "extension": "m4a",
+      "start_requests": 0,
+      "tail_start_requests": 0,
+      "tail_start_samples": [],
+      "moov_seek_triggered": false,
+      "codec": null,
+      "open_source": "2",
+      "write_start_ok": false,
+      "on_end_delayed": false,
+      "eof_retry_minus103": false,
+      "source_error": false,
+      "fatal": false,
+      "on_end_lines": [],
+      "start_lines": [],
+      "log_file": "analysis/l3-f4-logs/m4a-local.txt"
+    },
+    {
+      "path": "remote",
+      "prepare_seen": true,
+      "extension": "m4a",
+      "start_requests": 1,
+      "tail_start_requests": 0,
+      "tail_start_samples": [],
+      "moov_seek_triggered": false,
+      "codec": null,
+      "open_source": "2",
+      "write_start_ok": false,
+      "on_end_delayed": false,
+      "eof_retry_minus103": false,
+      "source_error": false,
+      "fatal": false,
+      "on_end_lines": [],
+      "start_lines": [
+        "Start id=1 offset=0 length=1048576"
+      ],
+      "log_file": "analysis/l3-f4-logs/m4a-remote.txt"
+    }
+  ],
+  "verdict": {
+    "moov_tail_seek_triggered": false,
+    "codec_and_playback_ok": false,
+    "f4_repro_carrier": false
+  },
+  "honest_notes": [
+    "样本是人工重排的 fMP4 片段（前 ~3.9MB），不是完整真实 m4a 音频；若 demuxer 打不开，不能据此判播放器不支持 m4a。",
+    "本探针不修改 UrlDataRequest、不修改 F3 矩阵 JSON；只做取证。",
+    "F4 是否改 P0 Java 层，须以本探针是否能稳定复现竞态为前提，不未取证先改。"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "method": "12 §61.57 / F4 A/B 编译期预检的独立审计（离线、只读）",
+  "generated_by": "tools/l3_f4_ab_compile_precheck_audit.py",
+  "checks": {
+    "precheck_json_present": true,
+    "precheck_all_pass": true,
+    "variant_compiles_offline": true,
+    "baseline_recompiles_offline": true,
+    "variant_is_single_precise_change": true,
+    "source_restored_byte_exact": true,
+    "git_diff_clean_now": true,
+    "no_variant_left_in_p0": true,
+    "windows_gradle_launcher_fixed": true,
+    "restored_judgement_independent": true,
+    "dry_run_anchors_still_true": true,
+    "ab_audit_still_14_pass": true,
+    "ab_result_honest": true,
+    "report_present_and_honest": true,
+    "so_matches_engine_fingerprint": true,
+    "engine_compat_test_not_backfilled": true,
+    "no_credentials_in_evidence": true,
+    "contract_guard_present": true,
+    "delivery12_has_61_57": true,
+    "head_still_uncommitted": true
+  },
+  "all_pass": true,
+  "failed_checks": [],
+  "status": {
+    "ab_variant_b_compiles": true,
+    "windows_launcher_bug_fixed": true,
+    "p0_net_change": "ZERO（临时变体已逐字节恢复）",
+    "ab_executed": true,
+    "f4_status": "BLOCKED（A/B 主判据未达成，待第二卡点定位）",
+    "primary_criterion": "NOT MET（25s / 45s 两次均未达成）"
+  },
+  "honest_notes": [
+    "本批临时改过生产源码用于编译验证，最终零净改动；不写「零代码改动」。",
+    "编译通过只排除语法/类型/依赖/启动器问题，不证明变体真机行为，更不证明 §61.56 环节 B 因果链。",
+    "§61.59：A/B 已执行两次（25s/45s）+ 基线对照，主判据均未达成；自动进曲 3 首 / seek / ENDED 仍 NOT RUN。",
+    "A3 仍 G09 PARTIAL、舱不冻结；F3 矩阵 14 格未改写。"
+  ]
+}

@@ -1,0 +1,12 @@
+11-09 15:47:18.947 I/CM-DataReq(12479): prepare trackId=aac639b4bbea89897e628250f3536b4f remote=false url=null expectedLength=0
+11-09 15:47:18.947 I/CM-DataReq(12479): resourceInfo extension=mp3 fileSize=-1
+11-09 15:47:19.030 I/NEPlayer(12479): BufferSource open: encryptedType=0
+11-09 15:47:19.030 I/CM-DataReq(12479): getLocalPath path=/data/data/com.example.cloudmusic/files/music/fixture.mp3
+11-09 15:47:19.030 I/NEPlayer(12479): CreateLocalSource: route XorLocalSource type=0 path=/data/data/com.example.cloudmusic/files/music/fixture.mp3
+11-09 15:47:19.030 I/NEPlayer(12479): XorLocalSource::Open success path=/data/data/com.example.cloudmusic/files/music/fixture.mp3 fd=152 size=37824 providerOwned=0
+11-09 15:47:19.030 I/NEPlayer(12479): BufferSource open: encryptedType=0, response=/data/data/com.example.cloudmusic/files/music/fixture.mp3, ret=0
+11-09 15:47:19.030 I/CM-DataReq(12479): SourceCallback.onProgress 37824/37824
+11-09 15:47:19.035 W/NMAudioPlayer(12479): Decoder(0): Open codec for mp3
+11-09 15:47:19.082 W/NMAudioPlayer(12479): CNCMAudioPlayer::doPrepareAsync mAudioStream  start 0, mDuration 4704, audioOffset 349
+11-09 15:47:19.088 W/NMAudioPlayer(12479): CNCMAudioPlayer::Play status 4
+11-09 15:47:19.203 W/NMAudioPlayer(12479): AudioTrack(0): Write start play nErr:0

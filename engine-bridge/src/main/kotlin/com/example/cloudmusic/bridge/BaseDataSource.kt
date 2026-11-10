@@ -63,12 +63,8 @@ abstract class BaseDataSource(protected val link: Link) : IDataSource {
 
 /** 03-06 §7：mimeHint 按扩展名推断；`Link.headers` / 端口返回的 Content-Type 优先。 */
 object MimeHint {
-    private val MAP = mapOf(
-        "mp3" to "audio/mpeg", "flac" to "audio/flac", "aac" to "audio/aac",
-        "m4a" to "audio/mp4", "ogg" to "audio/ogg", "wav" to "audio/wav",
-        "wma" to "audio/x-ms-wma", "alac" to "audio/x-alac", "opus" to "audio/ogg",
-        "m3u8" to "application/vnd.apple.mpegurl", "lrc" to "text/plain",
-    )
+    // 12 §61.45 / F1：扩展名 → MIME 唯一映射表，统一取自 AudioFormats（03-06 §7 口径）。
+    private val MAP: Map<String, String> = com.example.cloudmusic.model.AudioFormats.MIME_BY_EXT
 
     fun extOf(link: Link): String {
         val raw = link.localPath?.takeIf { it.isNotBlank() }
@@ -77,5 +73,7 @@ object MimeHint {
     }
 
     fun of(link: Link, override: String? = null): String =
-        override?.takeIf { it.isNotBlank() } ?: MAP[extOf(link)] ?: "application/octet-stream"
+        override?.takeIf { it.isNotBlank() }
+            ?: MAP[extOf(link)]
+            ?: com.example.cloudmusic.model.AudioFormats.OCTET_STREAM
 }

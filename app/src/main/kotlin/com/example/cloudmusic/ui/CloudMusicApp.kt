@@ -1,5 +1,35 @@
 package com.example.cloudmusic.ui
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
+import android.text.TextUtils
+import android.util.TypedValue
+import android.view.Gravity
+import android.view.View
+import android.view.animation.LinearInterpolator
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.viewinterop.AndroidView
+import com.example.cloudmusic.ui.player.LegacyAsset
+import com.example.cloudmusic.ui.player.LegacyMetrics
+import com.example.cloudmusic.ui.player.LegacyPalette
+import com.example.cloudmusic.ui.player.loadLegacyBitmap
+import com.example.cloudmusic.ui.player.loadLegacyTypeface
+import com.example.cloudmusic.ui.player.rememberLegacyImageBitmap
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,6 +72,8 @@ import com.example.cloudmusic.model.Storage
 import com.example.cloudmusic.model.Track
 import com.example.cloudmusic.output.router.ActiveOutput
 import com.example.cloudmusic.output.router.OutputDeviceState
+import com.example.cloudmusic.ui.player.LegacyPlayerPage
+import com.example.cloudmusic.ui.player.PlayerStateBridge
 import com.example.cloudmusic.player.PlayerPhase
 import com.example.cloudmusic.player.PlayerState
 import com.example.cloudmusic.player.QueueItem
@@ -54,8 +86,14 @@ import kotlinx.coroutines.flow.StateFlow
  * T-A6（`12 §33`）/ 第三十一批（`12 §40`）：V0.1 最小自研 UI。
  *
  * 页面（03-10 §5 的 V0.1 子集）：曲库 / 歌单 / 搜索 / 队列 / 设置 五页 + 数据源管理入口
- * + 输出设备弹窗。**播放页整页照搬属 T-L L3**，本文件只用 Compose 迷你播放条做控制占位，
- * 不重写唱片动画（禁止事项 1）。
+ * + 输出设备弹窗。
+ *
+ * `12 §61.40`（用户「UI 交互严格复刻竞品」）：点击迷你播放条进入 `LegacyPlayerPage`，
+ * 按 `12 §39` / `docs/14 §4.1` / `03-10 §3.3` 的实证参数复刻唱片旋转、唱针起落、
+ * 跑马灯、横向手势切歌与进度控制。唱片动画用平台 `ValueAnimator` + `setRotation`
+ * 实现，**不是 Compose Canvas 重写**（`03-10 §11 #1`）、也不是 `animateFloatAsState` 近似；
+ * 交互经 `PlayerStateBridge` 单向绑定，播放页不持有 `PlayerController` / `IMusicEngine`。
+ * 零新增模块 / 依赖 / 权限，不改 `assets` 与 Manifest。
  *
  * 边界（`03-10 §11`）：只经 Repository / StateFlow 取数，不碰 Driver / Room / OkHttp；
  * 蓝牙只作状态提示、**不列为与本机/DLNA 并列的可选输出**（禁止事项 8）。
@@ -83,10 +121,15 @@ fun CloudMusicApp(
     onPrev: () -> Unit,
     onWifiOnlyChanged: (Boolean) -> Unit,
     onOpenOutput: () -> Unit,
+    bridge: PlayerStateBridge,
 ) {
     var tab by rememberSaveable { mutableIntStateOf(0) }
     var showSources by rememberSaveable { mutableStateOf(false) }
     var showOutput by rememberSaveable { mutableStateOf(false) }
+    // 12 §61.42：用户要求「1:1 像素级复刻竞品播放页」→ 启动即全屏播放页，
+    // V0.1 五页 tab 导航栏（曲库/歌单/搜索/队列/设置）不再出现在首屏；
+    // 播放页返回才回到功能页，避免把自研导航误当成竞品播放页组件。
+    var showPlayer by rememberSaveable { mutableStateOf(true) }
     var query by rememberSaveable { mutableStateOf("") }
 
     val trackList by tracks.collectAsState(initial = emptyList())
@@ -117,7 +160,7 @@ fun CloudMusicApp(
         },
         bottomBar = {
             Column {
-                MiniPlayer(player, onPlay, onPause, onNext, onPrev)
+                MiniPlayer(player, onPlay, onPause, onNext, onPrev) { showPlayer = true }
                 NavigationBar {
                     listOf(
                         "曲库" to "♫", "歌单" to "☰", "搜索" to "⌕", "队列" to "☷", "设置" to "⚙",
@@ -158,6 +201,11 @@ fun CloudMusicApp(
     if (showOutput) {
         OutputDialog(output) { showOutput = false }
     }
+
+    // 12 §61.40：整页播放页覆盖在 Scaffold 之上（局部混用两套 UI 框架，限制在播放页一屏）。
+    if (showPlayer) {
+        LegacyPlayerPage(bridge = bridge, onClose = { showPlayer = false })
+    }
 }
 
 @Composable
@@ -180,6 +228,15 @@ private fun ScanBanner(state: RuntimeState) {
     }
 }
 
+/**
+ * `12 §61.42` / `legacy_e0g.xml`（view_vinyl_records）+ `legacy_bnx.xml`：
+ * 迷你条由「37dip 圆环 → 36dip 旋转封面 → 9dip 红点 → 14sp 跑马灯(音符 drawableStart)
+ * → 上一首 / 播放 / 下一首」组成，背景是 18dip 圆角的
+ * `gradient dz(#33000000) → du(#00000000)`。色值 / 尺寸 / 位图全部取自竞品导出产物。
+ *
+ * 不伪造：`CircleProgressView` 的进度弧无生产数据源，只还原静态圆环；
+ * 暂停位图与唱针不在导出闭包内，按竞品形态自绘；旋转周期 12s 是自定值（挂账）。
+ */
 @Composable
 private fun MiniPlayer(
     player: PlayerState,
@@ -187,26 +244,204 @@ private fun MiniPlayer(
     onPause: () -> Unit,
     onNext: () -> Unit,
     onPrev: () -> Unit,
+    onOpen: () -> Unit,
 ) {
     val playing = player.phase == PlayerPhase.PLAYING
-    Surface(tonalElevation = 3.dp, modifier = Modifier.fillMaxWidth()) {
+    val barShape = RoundedCornerShape(LegacyMetrics.MiniBarCornerDp.dp)
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = LegacyMetrics.PagePaddingDp.dp, vertical = 4.dp)
+            .clip(barShape)
+            // 竞品 `legacy_are.xml` miContainer 深色底 #ff33333e：白色图标在浅色
+            // 系统主题下会不可见，先铺竞品深色底，再叠 `legacy_bnx.xml` 的横向渐变。
+            .background(Color(LegacyPalette.MiniPageBackground))
+            .background(
+                Brush.horizontalGradient(
+                    listOf(
+                        Color(LegacyPalette.ScrimBottom),
+                        Color(LegacyPalette.Transparent),
+                    ),
+                ),
+            )
+            .clickable(onClick = onOpen)
+            .padding(horizontal = 8.dp, vertical = 6.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        MiniCoverCluster(playing)
+
+        // `legacy_e0g.xml` slogan：14sp / b1e / 38dip 高 / maxWidth 125dip /
+        // drawableStart=@drawable/f6m / MARQUEE 无限循环。
+        val note = rememberLegacyImageBitmap(LegacyAsset.NoteGlyph)
         Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 4.dp),
+            modifier = Modifier
+                .weight(1f)
+                .height(LegacyMetrics.MarqueeHeightDp.dp)
+                .padding(start = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
-                text = player.currentTrackId?.value ?: "未在播放",
-                modifier = Modifier.weight(1f),
-                maxLines = 1,
-                style = MaterialTheme.typography.bodyMedium,
-            )
-            IconButton(onClick = onPrev) { Text("⏮") }
-            IconButton(onClick = { if (playing) onPause() else onPlay() }) {
-                Text(if (playing) "⏸" else "▶")
+            if (note != null) {
+                Image(
+                    bitmap = note,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp),
+                )
             }
-            IconButton(onClick = onNext) { Text("⏭") }
+            AndroidView(
+                factory = { ctx ->
+                    TextView(ctx).apply {
+                        setSingleLine(true)
+                        ellipsize = TextUtils.TruncateAt.MARQUEE
+                        marqueeRepeatLimit = -1
+                        isSelected = true
+                        gravity = Gravity.CENTER_VERTICAL
+                        setTextColor(LegacyPalette.TextPrimary)
+                        setTextSize(TypedValue.COMPLEX_UNIT_SP, LegacyMetrics.MarqueeTextSp)
+                        loadLegacyTypeface(ctx)?.let { typeface = it }
+                    }
+                },
+                update = { it.text = player.currentTrackId?.value ?: "未在播放" },
+                modifier = Modifier
+                    .weight(1f)
+                    .widthIn(max = LegacyMetrics.MarqueeMaxWidthDp.dp),
+            )
+        }
+
+        MiniControlButton(LegacyAsset.Prev, "上一首", LegacyMetrics.ControlPrevNextDp, onPrev)
+        MiniPlayPauseButton(playing, onPlay, onPause)
+        MiniControlButton(LegacyAsset.Next, "下一首", LegacyMetrics.ControlPrevNextDp, onNext)
+    }
+}
+
+/** `legacy_e0g.xml`：37dip `CircleProgressView` 包住 36dip `RotateFrameLayout` + 9dip 红点。 */
+@Composable
+private fun MiniCoverCluster(playing: Boolean) {
+    Box(
+        modifier = Modifier.size(LegacyMetrics.MiniProgressDp.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        // 进度弧无生产数据源，只还原静态圆环，不伪造进度（12 §61.42 挂账）。
+        Box(
+            Modifier
+                .fillMaxSize()
+                .clip(CircleShape)
+                .border(1.5.dp, Color(LegacyPalette.TrackBuffer), CircleShape),
+        )
+        RotatingMiniCover(playing, Modifier.size(LegacyMetrics.MiniCoverDp.dp))
+        Box(
+            Modifier
+                .size(LegacyMetrics.RedDotDp.dp)
+                .align(Alignment.TopEnd)
+                .clip(CircleShape)
+                .background(Color(LegacyPalette.AccentRed)),
+        )
+    }
+}
+
+/** 平台属性动画驱动的旋转封面（`RotateFrameLayout` 等价），不加载任何 `res/anim/` XML。 */
+@Composable
+private fun RotatingMiniCover(playing: Boolean, modifier: Modifier = Modifier) {
+    AndroidView(
+        factory = { ctx ->
+            ImageView(ctx).apply {
+                scaleType = ImageView.ScaleType.FIT_CENTER
+                setImageBitmap(loadLegacyBitmap(ctx, LegacyAsset.CoverPlaceholder))
+                val animator = ObjectAnimator.ofFloat(this, View.ROTATION, 0f, 360f).apply {
+                    duration = LegacyMetrics.MiniCoverSpinMs
+                    repeatCount = ValueAnimator.INFINITE
+                    interpolator = LinearInterpolator()
+                }
+                tag = animator
+            }
+        },
+        update = { view ->
+            val animator = view.tag as? ObjectAnimator ?: return@AndroidView
+            if (playing) {
+                when {
+                    !animator.isStarted -> animator.start()
+                    animator.isPaused -> animator.resume()
+                }
+            } else if (animator.isStarted && !animator.isPaused) {
+                animator.pause()
+            }
+        },
+        modifier = modifier.clip(CircleShape),
+    )
+}
+
+@Composable
+private fun MiniControlButton(
+    assetPath: String,
+    description: String,
+    sizeDp: Float,
+    onClick: () -> Unit,
+) {
+    val bitmap = rememberLegacyImageBitmap(assetPath)
+    val interactionSource = remember { MutableInteractionSource() }
+    Box(
+        modifier = Modifier
+            .size(LegacyMetrics.ControlSizeDp.dp)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick,
+            ),
+        contentAlignment = Alignment.Center,
+    ) {
+        if (bitmap != null) {
+            Image(
+                bitmap = bitmap,
+                contentDescription = description,
+                modifier = Modifier.size(sizeDp.dp),
+            )
         }
     }
+}
+
+@Composable
+private fun MiniPlayPauseButton(
+    playing: Boolean,
+    onPlay: () -> Unit,
+    onPause: () -> Unit,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    Box(
+        modifier = Modifier
+            .size(LegacyMetrics.ControlSizeDp.dp)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = { if (playing) onPause() else onPlay() },
+            ),
+        contentAlignment = Alignment.Center,
+    ) {
+        if (playing) {
+            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                MiniPauseBar()
+                MiniPauseBar()
+            }
+        } else {
+            val bitmap = rememberLegacyImageBitmap(LegacyAsset.Play)
+            if (bitmap != null) {
+                Image(
+                    bitmap = bitmap,
+                    contentDescription = "播放",
+                    modifier = Modifier.size(LegacyMetrics.ControlPlayDp.dp),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun MiniPauseBar() {
+    Box(
+        Modifier
+            .width(4.dp)
+            .height(20.dp)
+            .clip(RoundedCornerShape(2.dp))
+            .background(Color(LegacyPalette.White)),
+    )
 }
 
 @Composable

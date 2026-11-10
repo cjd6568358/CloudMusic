@@ -4,7 +4,8 @@ package com.example.cloudmusic.scanner
 enum class FileClass { DIRECTORY, AUDIO, STRM, PLAYLIST, PASS_THROUGH, IGNORED }
 
 data class ScanRules(
-    val audioExt: Set<String> = setOf("mp3", "flac", "wav", "m4a", "aac", "ogg", "opus", "wma"),
+    /** 12 §61.45 / F1：统一取自 AudioFormats（14 项），不再只认 8 项。 */
+    val audioExt: Set<String> = com.example.cloudmusic.model.AudioFormats.AUDIO_EXT,
     val strmExt: Set<String> = setOf("strm"),
     val playlistExt: Set<String> = setOf("m3u", "m3u8", "pls"),
     /** 透传但不入曲库（对齐 03-03 download_file_types） */

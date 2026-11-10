@@ -1,0 +1,36 @@
+{
+  "method": "12 §61.51 / F4 A/B 证据审计（只读、纯标准库、不连 adb）",
+  "generated_by": "tools/l3_f4_ab_audit.py",
+  "checks": {
+    "paired_samples_exist": true,
+    "final_local_pass_aac": true,
+    "final_remote_fail_no_codec": true,
+    "remote_repeated_start_reproduced": true,
+    "variant_a_no_codec": true,
+    "variant_a_log_marker": true,
+    "ab_negative_conclusion": true,
+    "p0_code_restored": true,
+    "baseline_recheck_no_regression": true,
+    "f3_matrix_untouched": true,
+    "f4_still_blocked": true,
+    "baseline_unchanged": true,
+    "docs_written_back": true,
+    "no_credentials_in_evidence": true
+  },
+  "all_pass": true,
+  "failed_checks": [],
+  "summary": {
+    "faststart_local": "PASS / Open codec for aac / openSource 0 / Write start nErr:0",
+    "faststart_remote": "FAIL / 无 codec / Start id=3 offset=327895 重复 / 无 -103",
+    "variant_a": "去掉 2s 等待后结果与基线相同 → 候选①证伪",
+    "p0": "UrlDataRequest 已回退基线、重新编译安装、5 格复验零回归",
+    "f3_matrix": "14 格 / 11 PASS / 3 FAIL / 7 NO_SAMPLE 未被改写",
+    "f4_status": "BLOCKED（证据升级，但仍未完成）"
+  },
+  "honest_notes": [
+    "两个 m4a 样本是人工截取/重排的 fMP4 片段，不是完整真实 m4a 音频；LOCAL 能解出 aac 不等于「m4a 已支持」。",
+    "本批未改任何生产代码；A/B 变体临时存在并已回退。",
+    "设备离线后本工具不连 adb；真机证据均为离线前采集的原始 logcat。",
+    "A3 仍 G09 PARTIAL、舱不冻结；F4 之后仍需 F5 才回 P2→P3→P4。"
+  ]
+}

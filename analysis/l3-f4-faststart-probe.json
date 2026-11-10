@@ -1,0 +1,30 @@
+{
+  "sample": "f3_m4a_fast.m4a",
+  "cells": [
+    {
+      "path": "local",
+      "ext": "m4a",
+      "codec": "aac",
+      "openSource": "0",
+      "write": true,
+      "starts": [],
+      "onEnd": [],
+      "m103": false
+    },
+    {
+      "path": "remote",
+      "ext": "m4a",
+      "codec": null,
+      "openSource": null,
+      "write": false,
+      "starts": [
+        "Start id=1 offset=0 length=1048576",
+        "Start id=2 offset=327895 length=1048576"
+      ],
+      "onEnd": [
+        "onEnd id=1 error=null (delayed 2s or immediate)\r"
+      ],
+      "m103": false
+    }
+  ]
+}

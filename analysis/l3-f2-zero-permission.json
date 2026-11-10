@@ -1,0 +1,116 @@
+{
+  "method": "12 §61.47 / F2：零权限本地曲库注入通道静态审计 + 真机取证证据校验（只读、纯标准库、不连 adb、不重放实验）",
+  "generated_by": "tools/l3_f2_zero_permission_audit.py",
+  "batch": "12 §61.47 / 第七十四批 / 2026-11-09 14:50",
+  "device": {
+    "endpoint": "10.0.0.2:37827",
+    "model": "23013RK75C / mondrian / Redmi K60",
+    "android": 13,
+    "abi": "arm64-v8a",
+    "pid": 15572,
+    "uid": 10327
+  },
+  "injection_channel": {
+    "extra": "com.example.cloudmusic.extra.LOCAL_PATH",
+    "reuses_action": "com.example.cloudmusic.action.PLAY",
+    "service_hooks": {
+      "const val EXTRA_LOCAL_PATH = \"com.example.cloudmusic.extra.LOCAL_PATH\"": true,
+      "pendingLocalPath = intent?.getStringExtra(EXTRA_LOCAL_PATH)": true,
+      "!injectedUrl.isNullOrBlank() -> runtime.playUrl(injectedUrl)": true,
+      "!injectedPath.isNullOrBlank() -> runtime.playLocal(injectedPath)": true,
+      "else -> runtime.play()": true,
+      "ACTION_PLAY -> performPlay()": true
+    },
+    "runtime_hooks": {
+      "fun playLocal(path: String)": true,
+      "private val tracks: TrackRepository": true,
+      "java.io.File": true,
+      "LOCAL_FIXTURE_STORAGE_ID = \"debug-local-fixture\"": true,
+      "ensureLocalFixtureDriver(root)": true,
+      "DriverRegistry.put(LOCAL_FIXTURE_STORAGE_ID, driver)": true,
+      "private object FileDirectorySource : LocalDirectorySource": true,
+      "tracks.upsertBatch(listOf(track))": true,
+      "queueRepository.setAll(listOf(track))": true,
+      "controller.setQueue(items, PlayMode.SEQUENCE, 0)": true,
+      "controller.playAt(0)": true,
+      "SourceType.LOCAL": true
+    },
+    "zero_baseline": {
+      "permission_count": true,
+      "module_count": true,
+      "action_play_present": true,
+      "no_extra_declared_in_manifest": true,
+      "no_new_custom_action": true
+    },
+    "permission_count": 11,
+    "module_count": 19,
+    "custom_actions": [
+      "com.example.cloudmusic.action.PLAY"
+    ],
+    "p0_engine_unchanged": true,
+    "engine_unchanged_anchors": {
+      "-> -1 (V0.1 未实现)": true
+    },
+    "fixture": {
+      "source": "/sdcard/Music/cloudmusic_g01.mp3",
+      "private_path": "/data/data/com.example.cloudmusic/files/music/fixture.mp3",
+      "bytes": 37824,
+      "room_db_bytes": 151552
+    }
+  },
+  "device_probe": {
+    "log_lines": 44,
+    "assertions": {
+      "prepare_local": true,
+      "remote_false_url_null": true,
+      "extension_is_mime": true,
+      "get_local_path": true,
+      "xor_local_source": true,
+      "xor_open_success": true,
+      "buffer_source_open": true,
+      "open_codec_mp3": true,
+      "duration": true,
+      "play_status": true,
+      "write_start": true
+    },
+    "extension_value": "audio/mpeg",
+    "extension_is_mime": true,
+    "local_source_opens_natively": true,
+    "native_decode_ok": true,
+    "ui_track_visible": true,
+    "report_assertions": {
+      "12 §61.47": true,
+      "自研 APP 没有音乐": true,
+      "1 首": true,
+      "fixture": true,
+      "F2-b 未做": true,
+      "P0 引擎舱零改动": true,
+      "F2 的语义错配": true,
+      "XorLocalSource": true
+    }
+  },
+  "verdict": {
+    "f2_assumption_verified": true,
+    "mp3_local_playable_despite_mismatch": true,
+    "no_music_resolved": true,
+    "f2b_pending": true,
+    "p0_engine_unchanged": true
+  },
+  "artifacts": [
+    "analysis\\l3-f2-device-probe.md",
+    "analysis\\l3-f2-device-probe-logcat.txt",
+    "analysis\\l3-reference\\self-ui-with-local-track-2.png",
+    "analysis\\l3-f2-zero-permission.json"
+  ],
+  "checks": {
+    "service_hooks_all": true,
+    "runtime_hooks_all": true,
+    "engine_unchanged_all": true,
+    "zero_baseline_all": true,
+    "log_assertions_all": true,
+    "md_assertions_all": true,
+    "screenshot_present": true,
+    "log_nonempty": true
+  },
+  "all_pass": true
+}

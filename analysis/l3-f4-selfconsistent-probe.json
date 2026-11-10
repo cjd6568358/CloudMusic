@@ -1,0 +1,48 @@
+{
+  "method": "12 §61.60 / F4 自洽 fMP4 样本（52 moof/52 mdat、末尾 mdat、无孤立 moof）REMOTE/LOCAL 判别实验",
+  "serial": "192.168.1.11:40807",
+  "sample": "f3_m4a_complete.m4a",
+  "sample_bytes": 16573387,
+  "cells": [
+    {
+      "path": "remote",
+      "push_ok": true,
+      "extension": "m4a",
+      "codec": null,
+      "write": false,
+      "m103": false,
+      "openSource": null,
+      "mDuration": null,
+      "starts": [
+        "Start id=1 offset=0 length=1048576",
+        "Start id=2 offset=605007 length=1048576",
+        "Start id=3 offset=605007 length=1048576",
+        "Start id=4 offset=605007 length=1048576"
+      ],
+      "onEnd": [
+        "onEnd id=1 error=null (delayed 2s or immediate)",
+        "onEnd id=2 error=null (delayed 2s or immediate)",
+        "onEnd id=3 error=null (delayed 2s or immediate)"
+      ],
+      "playStatus": [
+        "3"
+      ]
+    },
+    {
+      "path": "local",
+      "push_ok": true,
+      "extension": "m4a",
+      "codec": "aac",
+      "write": true,
+      "m103": false,
+      "openSource": "0",
+      "mDuration": "155933",
+      "starts": [],
+      "onEnd": [],
+      "playStatus": [
+        "4"
+      ]
+    }
+  ],
+  "note": "P0 基线 APK（未改代码）；与 f3_m4a_fast.m4a（13 moof/12 mdat、孤立尾部 moof）形成对照"
+}

@@ -1,0 +1,2238 @@
+{
+  "method": "12 §61.41：B 路线（三项拍板全开）前置实证，48 个闭包 layout 全量审计 + 39 个未导出 layout 工作区副本",
+  "generated_by": "tools/l3_full_replica_audit.py",
+  "inputs": [
+    "analysis/player-resource-closure.json",
+    "analysis/legacy-layout-audit.json",
+    "analysis/decoded/res/layout/",
+    "app/src/main/assets/legacy-player/layout/",
+    "analysis/decoded/res/values/attrs.xml"
+  ],
+  "closure_tag_count": 48,
+  "staged_layout_count": 9,
+  "remaining_layout_count": 39,
+  "exported_copies": 39,
+  "missing_decoded_files": [],
+  "scope_calibration": {
+    "player_like_tags": [
+      "activity_new_player_land",
+      "activity_new_player_vehicle",
+      "activity_player_audio",
+      "activity_player_video",
+      "activity_player_voice_share",
+      "activity_podcast_program_player",
+      "dialog_player_danmaku_bubble",
+      "fragment_luck_money_info_player_club",
+      "fragment_mi_miniplayer",
+      "fragment_player_music_sheet",
+      "fragment_player_music_sheet_v2",
+      "item_player_music_sheet",
+      "layout_item_land_vinyl",
+      "layout_item_land_vinyl_footer",
+      "layout_item_top_player_group",
+      "layout_land_player_control",
+      "layout_land_vinyl",
+      "layout_player_backgroud",
+      "layout_player_group_special_anim",
+      "layout_player_land_back",
+      "layout_player_land_lyric",
+      "layout_player_land_ui_mode",
+      "layout_player_landscape_immerse",
+      "layout_player_landscape_vinyl",
+      "layout_player_live_bubble_play_unit",
+      "layout_podcast_mix_player",
+      "layout_podcast_program_player",
+      "layout_video_party_player",
+      "layout_video_player",
+      "mlog_activity_vinyl_aggregate",
+      "mlog_item_vinyl_aggregate_selected_mlog",
+      "mlog_layout_vinyl_aggregate_entrances",
+      "player_dolphin_bubble_view",
+      "view_anchor_player",
+      "view_anchor_player2",
+      "view_player_setting",
+      "view_vinyl_records"
+    ],
+    "non_player_like_tags": [
+      "activity_discovery_music",
+      "discovery_item_artist_live",
+      "discovery_item_artist_notice",
+      "discovery_item_block_big_video_v3",
+      "discovery_item_flash_station_new",
+      "discovery_item_voice_live_personalise",
+      "discovery_item_voice_live_type_4",
+      "discovery_item_voice_live_type_6",
+      "discovery_item_voicelive_item_new",
+      "fragment_circle_discussion",
+      "layout_comment_discuss_item"
+    ],
+    "has_standard_portrait_main_player_tag": false,
+    "note": "48 个 layout_semantic_tags 是 player-resource-closure.json 的「资源闭包涉及的 layout」，并非 48 个播放页；其中混有 discovery / podcast / video / mlog / comment 等条目，且不存在标准竖屏主播放页 tag。§61.40 报告中「39 个含标准竖屏主播放页」的表述需按本实证校正。"
+  },
+  "remaining_aggregate": {
+    "element_count": 421,
+    "netease_class_occurrences": 114,
+    "netease_classes_unique": [
+      "com.netease.cloudmusic.alphavideo.AlphaVideoTextureView",
+      "com.netease.cloudmusic.common.nova.widget.NovaRecyclerView",
+      "com.netease.cloudmusic.core.dolphin.component.bubble.DolphinBubble",
+      "com.netease.cloudmusic.discovery.view.module.artistlive.ui.VisibleFrameLayout",
+      "com.netease.cloudmusic.discovery.view.widget.RankRoundedLinearLayout",
+      "com.netease.cloudmusic.discovery.view.widget.titleview.DiscoveryTitleView",
+      "com.netease.cloudmusic.land.lyric.view.LandPlayerLyricView",
+      "com.netease.cloudmusic.land.plugin.PlayerLandscapeViewGroup",
+      "com.netease.cloudmusic.module.listentogether.view.LTMiniAvatarComponent",
+      "com.netease.cloudmusic.module.musicshare.NightLinearLayout",
+      "com.netease.cloudmusic.module.musicshare.NightRelativeLayout",
+      "com.netease.cloudmusic.module.newplayeruimode.view.PlayerUiModeSurfaceView",
+      "com.netease.cloudmusic.music.base.ui.arc.BottomArcLayout",
+      "com.netease.cloudmusic.music.biz.circle.ui.CircleFadingRecyclerView",
+      "com.netease.cloudmusic.music.biz.mlog.consume.vinyl.ui.widget.recyclerview.MlogVinylAggregateVideoRecyclerView",
+      "com.netease.cloudmusic.music.biz.voice.player.immersive.view.ImmersiveSwitcher",
+      "com.netease.cloudmusic.music.biz.voice.player.immersive.view.PlayerProgramViewFlipper",
+      "com.netease.cloudmusic.music.biz.voice.player.share.card.VoiceShareCardRecyclerView",
+      "com.netease.cloudmusic.music.biz.voice.player.share.dragonball.VoiceShareDragonBallRecyclerView",
+      "com.netease.cloudmusic.music.biz.voice.player.view.PlayerBottomTabLayout",
+      "com.netease.cloudmusic.music.biz.voice.player.view.VoiceHintView",
+      "com.netease.cloudmusic.music.biz.voice.widget.AlphaGradientLayout",
+      "com.netease.cloudmusic.music.biz.voice.widget.EnableBottomNotification",
+      "com.netease.cloudmusic.music.biz.voice.widget.FadingEdgeLayout",
+      "com.netease.cloudmusic.music.biz.voice.widget.LyricDragView",
+      "com.netease.cloudmusic.music.biz.voice.widget.StrokeTextView",
+      "com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout",
+      "com.netease.cloudmusic.theme.ui.CustomThemeIconImageView",
+      "com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout",
+      "com.netease.cloudmusic.theme.ui.CustomThemeTextView",
+      "com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout",
+      "com.netease.cloudmusic.ui.AutoScrollViewSwitcher",
+      "com.netease.cloudmusic.ui.AvatarImage",
+      "com.netease.cloudmusic.ui.AvatarStackView",
+      "com.netease.cloudmusic.ui.CommonSimpleDraweeView",
+      "com.netease.cloudmusic.ui.GestureImageSwitcher",
+      "com.netease.cloudmusic.ui.NeteaseMusicRoundedSimpleDraweeView",
+      "com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView",
+      "com.netease.cloudmusic.ui.NeteaseMusicToolbar",
+      "com.netease.cloudmusic.ui.NeteaseMusicViewPager",
+      "com.netease.cloudmusic.ui.PlayerLandScapePageImageView",
+      "com.netease.cloudmusic.ui.PlayerPageTextView",
+      "com.netease.cloudmusic.ui.RoundTextView",
+      "com.netease.cloudmusic.ui.RoundedFrameLayout",
+      "com.netease.cloudmusic.ui.RoundedLinearLayout",
+      "com.netease.cloudmusic.ui.TextViewFixTouchConsume",
+      "com.netease.cloudmusic.ui.impress.ImpressRatioFrameLayout",
+      "com.netease.play.livepage.music2.LineProgressView",
+      "com.netease.play.livepage.music2.player.TogglePlayView",
+      "com.netease.play.livepage.playergroup.adapter.PlayerGroupVideoTextureView",
+      "com.netease.play.ui.LiveTextureView",
+      "com.netease.play.ui.MarqueTextView",
+      "com.netease.play.ui.avatar.AvatarImage"
+    ],
+    "netease_class_unique_count": 53,
+    "app_attr_unique": [
+      "a41",
+      "a56",
+      "a5_",
+      "a5f",
+      "a5g",
+      "a5k",
+      "a5l",
+      "a5m",
+      "a5n",
+      "a5v",
+      "a5w",
+      "a5z",
+      "a60",
+      "a62",
+      "a63",
+      "a64",
+      "a65",
+      "a68",
+      "a69",
+      "a6_",
+      "a6a",
+      "a6b",
+      "a6o",
+      "a6s",
+      "a6t",
+      "a76",
+      "aa0",
+      "aa5",
+      "adf",
+      "adi",
+      "adk",
+      "ae",
+      "ae8",
+      "aes",
+      "ahy",
+      "ahz",
+      "ai4",
+      "aii",
+      "aj1",
+      "akk",
+      "aln",
+      "alo",
+      "alp",
+      "alq",
+      "alr",
+      "alv",
+      "alw",
+      "am0",
+      "ao_",
+      "aod",
+      "aqh",
+      "aqi",
+      "aqk",
+      "aql",
+      "aqm",
+      "aqn",
+      "aqo",
+      "as",
+      "asm",
+      "asp",
+      "at7",
+      "at_",
+      "ata",
+      "atg",
+      "atk",
+      "ayt",
+      "cs",
+      "cv",
+      "dn",
+      "e6",
+      "jw",
+      "l1",
+      "nr",
+      "p_",
+      "py",
+      "qe",
+      "w_",
+      "wa",
+      "wt",
+      "xs",
+      "y4"
+    ],
+    "app_attr_unique_count": 81,
+    "id_ref_unique_count": 282,
+    "new_id_ref_unique_count": 259,
+    "new_id_ref_unique_sample": [
+      "actionArea",
+      "actionBarrier",
+      "adContainer0",
+      "adContainer1",
+      "arcLayout",
+      "arrow",
+      "artistName",
+      "audioDynamicCover",
+      "avatar",
+      "avatars_img",
+      "avtv",
+      "back",
+      "barrier_top",
+      "bgImageView",
+      "blurCover",
+      "blurToolbar",
+      "bottomContainer",
+      "btn_packup",
+      "bubble",
+      "button"
+    ],
+    "plus_id_definitions": 0,
+    "exportable_refs_unique_by_type": {
+      "anim": [
+        "aw0",
+        "aw1"
+      ],
+      "color": [
+        "a0k",
+        "aiv",
+        "aiw",
+        "aix",
+        "aiz",
+        "aj5",
+        "aj6",
+        "aj8",
+        "ay_",
+        "b12",
+        "b1c",
+        "b1d",
+        "b1e",
+        "b1h",
+        "b1i",
+        "b1l",
+        "b1n",
+        "b1o",
+        "b1q",
+        "b1t",
+        "b1w",
+        "b1z",
+        "b21",
+        "b25",
+        "dv",
+        "dw",
+        "dz",
+        "e3",
+        "e5",
+        "e6",
+        "lt",
+        "oa",
+        "q7",
+        "t_dialogNightBackground"
+      ],
+      "dimen": [
+        "acb",
+        "acc",
+        "acd",
+        "ace",
+        "ajb",
+        "al4",
+        "art",
+        "avc",
+        "awf",
+        "hu",
+        "hv",
+        "jv",
+        "s7",
+        "va"
+      ],
+      "drawable": [
+        "afn",
+        "akz",
+        "ao5",
+        "apo",
+        "ay6",
+        "aya",
+        "ayb",
+        "azs",
+        "azt",
+        "azv",
+        "b3z",
+        "b5e",
+        "ba9",
+        "ba_",
+        "baq",
+        "bby",
+        "bn8",
+        "bp1",
+        "bpq",
+        "bpt",
+        "c14",
+        "c16",
+        "c5l",
+        "clr",
+        "coy",
+        "cx5",
+        "cx6",
+        "dku",
+        "dkv",
+        "dkx",
+        "dky",
+        "dkz",
+        "dwr",
+        "e_h",
+        "e_j",
+        "eag",
+        "eai",
+        "eb6",
+        "ek0",
+        "ekk",
+        "ex5",
+        "eyu",
+        "ezh",
+        "f07",
+        "f6f",
+        "f6h",
+        "f6i",
+        "f6m",
+        "f9g",
+        "fpe",
+        "fuh",
+        "g9c",
+        "g9l",
+        "gd0",
+        "gd6",
+        "gdt",
+        "gdu",
+        "gf5",
+        "gfy",
+        "gr7",
+        "sw",
+        "t2"
+      ],
+      "font": [
+        "a"
+      ],
+      "layout": [
+        "aci",
+        "c6g",
+        "c6h",
+        "c6i",
+        "c6j",
+        "c7q",
+        "c7z",
+        "cff",
+        "cq7",
+        "db9",
+        "dbd",
+        "dzc",
+        "vu"
+      ],
+      "string": [
+        "b6x",
+        "b6z",
+        "bg_",
+        "dpk",
+        "dzi",
+        "e4f",
+        "eim",
+        "ein",
+        "eio",
+        "eip",
+        "eiq",
+        "eis",
+        "er6",
+        "er_",
+        "exm",
+        "f",
+        "f2o",
+        "fhm",
+        "g_u",
+        "gal",
+        "gez",
+        "gsx",
+        "gsy",
+        "gwm",
+        "hy6",
+        "id0",
+        "igk",
+        "mc",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "w"
+      ],
+      "style": [
+        "b6",
+        "jt",
+        "l6"
+      ]
+    },
+    "exportable_ref_unique_count": 163,
+    "exportable_ref_occurrences": 282
+  },
+  "staged_baseline_for_comparison": {
+    "id_ref_unique": 187,
+    "id_unique_known": 101,
+    "app_attr_unique": 33,
+    "exportable_ref_unique": 45
+  },
+  "attr_semantics_probe": {
+    "standard_layout_constraint_attr_names_in_competitor_attrs_xml": [],
+    "sample_obfuscated_attr_definitions": [
+      "<attr name=\"a41\">",
+      "<attr name=\"a56\" format=\"string\" />",
+      "<attr name=\"a5_\" format=\"boolean\" />",
+      "<attr name=\"a5f\" format=\"reference\">",
+      "<attr name=\"a5g\" format=\"reference\">",
+      "<attr name=\"a5k\" format=\"string\" />"
+    ],
+    "conclusion": "竞品 layout 里 androidx.constraintlayout.widget.ConstraintLayout 是标准类名（第三方库类不被 R8 改名），但其 layout_constraint* 属性名被资源混淆成 a5f/a5l/a65/a69 等。在自研工程里重新声明同名 <attr> 会分配新的资源 ID，ConstraintLayout 编译期读的是R.attr.layout_constraint* 的固定 ID，读不到 app:a5f 等值 → 约束布局语义不会还原。§61.39 的 attrs.xml 只让 aapt2 编译通过，不等于布局语义可还原；引入 androidx.constraintlayout 依赖同样不解决该问题，需先把 33+ 个混淆 attr 反查回标准名。"
+  },
+  "per_layout": [
+    {
+      "semantic_tag": "activity_discovery_music",
+      "obfuscated_file": "cl.xml",
+      "element_count": 2,
+      "netease_class_occurrences": 1,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout"
+      ],
+      "app_attr_occurrences": 5,
+      "app_attrs_unique": [
+        "a5f",
+        "a5z",
+        "a63",
+        "a69",
+        "py"
+      ],
+      "id_ref_occurrences": 1,
+      "id_refs_unique": [
+        "fragmentContainer"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 0,
+      "exportable_refs_unique_by_type": {}
+    },
+    {
+      "semantic_tag": "activity_player_video",
+      "obfuscated_file": "h4.xml",
+      "element_count": 12,
+      "netease_class_occurrences": 2,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.ui.CommonSimpleDraweeView",
+        "com.netease.play.ui.LiveTextureView"
+      ],
+      "app_attr_occurrences": 29,
+      "app_attrs_unique": [
+        "a5f",
+        "a5z",
+        "a60",
+        "a62",
+        "a63",
+        "a69",
+        "ahy"
+      ],
+      "id_ref_occurrences": 18,
+      "id_refs_unique": [
+        "background",
+        "btnPlay",
+        "durationTime",
+        "ivFinish",
+        "ivShare",
+        "seekBar",
+        "textureView",
+        "totalTime"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 7,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "b1z",
+          "dz"
+        ],
+        "drawable": [
+          "ay6",
+          "b3z",
+          "coy",
+          "gr7"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "activity_player_voice_share",
+      "obfuscated_file": "h5.xml",
+      "element_count": 13,
+      "netease_class_occurrences": 6,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.module.listentogether.view.LTMiniAvatarComponent",
+        "com.netease.cloudmusic.module.musicshare.NightLinearLayout",
+        "com.netease.cloudmusic.module.musicshare.NightRelativeLayout",
+        "com.netease.cloudmusic.music.biz.voice.player.share.card.VoiceShareCardRecyclerView",
+        "com.netease.cloudmusic.music.biz.voice.player.share.dragonball.VoiceShareDragonBallRecyclerView",
+        "com.netease.cloudmusic.theme.ui.CustomThemeTextView"
+      ],
+      "app_attr_occurrences": 7,
+      "app_attrs_unique": [
+        "adk",
+        "ae8",
+        "aes",
+        "jw"
+      ],
+      "id_ref_occurrences": 19,
+      "id_refs_unique": [
+        "cardContainer",
+        "cardRecyclerView",
+        "cardTitle",
+        "container",
+        "divider",
+        "dragonBallContainer",
+        "dragonBallRecyclerView",
+        "dragonBallTitleContainer",
+        "ivClose",
+        "loadView",
+        "ltMiniAvatarComponent",
+        "nightCover",
+        "targetTitle"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 11,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "aiv",
+          "aj6",
+          "b1d",
+          "b1e",
+          "dz",
+          "t_dialogNightBackground"
+        ],
+        "drawable": [
+          "bn8"
+        ],
+        "layout": [
+          "cff"
+        ],
+        "string": [
+          "er6",
+          "er_"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "activity_podcast_program_player",
+      "obfuscated_file": "hd.xml",
+      "element_count": 95,
+      "netease_class_occurrences": 21,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.core.dolphin.component.bubble.DolphinBubble",
+        "com.netease.cloudmusic.music.biz.voice.player.immersive.view.ImmersiveSwitcher",
+        "com.netease.cloudmusic.music.biz.voice.player.immersive.view.PlayerProgramViewFlipper",
+        "com.netease.cloudmusic.music.biz.voice.player.view.PlayerBottomTabLayout",
+        "com.netease.cloudmusic.music.biz.voice.player.view.VoiceHintView",
+        "com.netease.cloudmusic.music.biz.voice.widget.EnableBottomNotification",
+        "com.netease.cloudmusic.music.biz.voice.widget.FadingEdgeLayout",
+        "com.netease.cloudmusic.music.biz.voice.widget.LyricDragView",
+        "com.netease.cloudmusic.music.biz.voice.widget.StrokeTextView",
+        "com.netease.cloudmusic.ui.GestureImageSwitcher",
+        "com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView",
+        "com.netease.cloudmusic.ui.NeteaseMusicViewPager",
+        "com.netease.cloudmusic.ui.RoundTextView",
+        "com.netease.cloudmusic.ui.RoundedFrameLayout",
+        "com.netease.cloudmusic.ui.RoundedLinearLayout"
+      ],
+      "app_attr_occurrences": 0,
+      "app_attrs_unique": [],
+      "id_ref_occurrences": 115,
+      "id_refs_unique": [
+        "actionArea",
+        "actionBarrier",
+        "adContainer0",
+        "adContainer1",
+        "bottomContainer",
+        "buttonContainer",
+        "collect",
+        "commentBtn",
+        "commentCount",
+        "commentItem",
+        "countTimerBubble",
+        "coverBg",
+        "customSubtitle",
+        "custom_title",
+        "danmakuFadeEdgeView",
+        "danmakuView",
+        "danmakuView2",
+        "danmaku_edit_view",
+        "danmaku_switch_tv",
+        "danmuSwitchContainer",
+        "danmu_edit_layer",
+        "disc0",
+        "disc1",
+        "discSwitcher0",
+        "discSwitcher1",
+        "dlna",
+        "edt",
+        "effectContainer",
+        "enableBottomNotification",
+        "flBodyContainer",
+        "goDetail",
+        "immersiveBg",
+        "immersiveBgBottom",
+        "immersiveBgTop",
+        "immersiveSwitcher0",
+        "immersiveSwitcher1",
+        "iv_danmu_fold",
+        "iv_like_danmuku",
+        "ldv",
+        "ll_damnu_fold",
+        "loading",
+        "modeBtn",
+        "moreBtn",
+        "moreBtnNewTag",
+        "musicOpContainer",
+        "nativeContainer",
+        "nestedScrollView",
+        "nextBtn",
+        "playBtn",
+        "playCount",
+        "playModeTag",
+        "playerAlbumCover",
+        "playerAppBar",
+        "playerControlContainer",
+        "praiseBtn",
+        "praiseCount",
+        "praiseItem",
+        "preBtn",
+        "relationSongIcon",
+        "relativeSongCover",
+        "relativeSongCover1",
+        "relativeSongCoverContainer",
+        "relativeSongCoverContainer1",
+        "relativeSongCoverMask",
+        "relativeSongCoverMask1",
+        "relativeSongCoverText",
+        "relativeSongCoverText1",
+        "rnContainer",
+        "rnDescDetailContainer",
+        "rnTopCoverBg",
+        "rv_intro_danmu",
+        "seekBarContainer",
+        "send",
+        "smallAlbumCover0",
+        "smallAlbumCover1",
+        "sourceName",
+        "subtitleContainer",
+        "switch_button",
+        "tabLayout",
+        "tv_danmu_fold",
+        "tv_danmu_fold_num",
+        "viewPager",
+        "volumeSeekBar",
+        "volumeSeekBarContainer",
+        "ybhv"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 51,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "b1o",
+          "b1q",
+          "b1t",
+          "b1w",
+          "b1z",
+          "dv",
+          "e3"
+        ],
+        "dimen": [
+          "ajb",
+          "avc",
+          "awf",
+          "jv"
+        ],
+        "drawable": [
+          "afn",
+          "ao5",
+          "apo",
+          "azs",
+          "azt",
+          "azv",
+          "bpq",
+          "bpt",
+          "clr",
+          "dwr",
+          "gd6",
+          "gdt",
+          "gdu",
+          "gf5",
+          "t2"
+        ],
+        "font": [
+          "a"
+        ],
+        "layout": [
+          "c7q",
+          "dbd"
+        ],
+        "string": [
+          "b6x",
+          "b6z",
+          "gwm",
+          "id0",
+          "p",
+          "q",
+          "r",
+          "s",
+          "t",
+          "w"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "dialog_player_danmaku_bubble",
+      "obfuscated_file": "a7l.xml",
+      "element_count": 9,
+      "netease_class_occurrences": 0,
+      "netease_classes_unique": [],
+      "app_attr_occurrences": 0,
+      "app_attrs_unique": [],
+      "id_ref_occurrences": 5,
+      "id_refs_unique": [
+        "icLike",
+        "likeButton",
+        "likeCount",
+        "sendCloneBtn",
+        "textView"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 6,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "b1i",
+          "b1z"
+        ],
+        "drawable": [
+          "eag",
+          "eai"
+        ],
+        "font": [
+          "a"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "discovery_item_artist_live",
+      "obfuscated_file": "a_f.xml",
+      "element_count": 14,
+      "netease_class_occurrences": 5,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.discovery.view.module.artistlive.ui.VisibleFrameLayout",
+        "com.netease.cloudmusic.discovery.view.widget.RankRoundedLinearLayout",
+        "com.netease.cloudmusic.ui.AutoScrollViewSwitcher",
+        "com.netease.cloudmusic.ui.CommonSimpleDraweeView"
+      ],
+      "app_attr_occurrences": 48,
+      "app_attrs_unique": [
+        "a5_",
+        "a5f",
+        "a5g",
+        "a5l",
+        "a5m",
+        "a5v",
+        "a5w",
+        "a64",
+        "a65",
+        "a68",
+        "a69",
+        "a6a",
+        "am0",
+        "ao_",
+        "aod",
+        "cs",
+        "xs"
+      ],
+      "id_ref_occurrences": 40,
+      "id_refs_unique": [
+        "artistName",
+        "audioDynamicCover",
+        "container",
+        "cover",
+        "followed",
+        "living",
+        "mask",
+        "musicianAuth",
+        "popularity",
+        "title",
+        "topMark",
+        "videoDynamicCover"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 11,
+      "exportable_refs_unique_by_type": {
+        "anim": [
+          "aw0",
+          "aw1"
+        ],
+        "color": [
+          "b12",
+          "b1z"
+        ],
+        "drawable": [
+          "c5l",
+          "dku",
+          "dkv"
+        ],
+        "font": [
+          "a"
+        ],
+        "style": [
+          "jt"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "discovery_item_artist_notice",
+      "obfuscated_file": "a_g.xml",
+      "element_count": 8,
+      "netease_class_occurrences": 6,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.discovery.view.widget.RankRoundedLinearLayout",
+        "com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout",
+        "com.netease.cloudmusic.theme.ui.CustomThemeTextView",
+        "com.netease.cloudmusic.ui.CommonSimpleDraweeView"
+      ],
+      "app_attr_occurrences": 18,
+      "app_attrs_unique": [
+        "a5_",
+        "a5f",
+        "a5l",
+        "a5v",
+        "a64",
+        "a65",
+        "a69",
+        "am0",
+        "ao_",
+        "aod"
+      ],
+      "id_ref_occurrences": 14,
+      "id_refs_unique": [
+        "container",
+        "cover",
+        "date",
+        "notice",
+        "tag",
+        "title"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 5,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "aiv",
+          "b12"
+        ],
+        "font": [
+          "a"
+        ],
+        "string": [
+          "bg_"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "discovery_item_block_big_video_v3",
+      "obfuscated_file": "a_j.xml",
+      "element_count": 11,
+      "netease_class_occurrences": 4,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.discovery.view.widget.titleview.DiscoveryTitleView",
+        "com.netease.cloudmusic.ui.AvatarStackView",
+        "com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView",
+        "com.netease.cloudmusic.ui.impress.ImpressRatioFrameLayout"
+      ],
+      "app_attr_occurrences": 10,
+      "app_attrs_unique": [
+        "ahy",
+        "ahz",
+        "akk",
+        "aqi",
+        "aqk",
+        "aql",
+        "aqm",
+        "aqn",
+        "aqo",
+        "jw"
+      ],
+      "id_ref_occurrences": 9,
+      "id_refs_unique": [
+        "avatars_img",
+        "count_tv",
+        "impress_view",
+        "info_view",
+        "name_tv",
+        "title_tv",
+        "title_view",
+        "videoContainer",
+        "videoCover"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 4,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "aj5",
+          "b25",
+          "e6"
+        ],
+        "drawable": [
+          "g9c"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "discovery_item_flash_station_new",
+      "obfuscated_file": "aat.xml",
+      "element_count": 9,
+      "netease_class_occurrences": 4,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.theme.ui.CustomThemeTextView",
+        "com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView"
+      ],
+      "app_attr_occurrences": 6,
+      "app_attrs_unique": [
+        "ahy",
+        "ahz",
+        "am0",
+        "qe"
+      ],
+      "id_ref_occurrences": 12,
+      "id_refs_unique": [
+        "bgImageView",
+        "contentContainer",
+        "listenDesc",
+        "playContainer",
+        "playIconImageView",
+        "playTextView",
+        "timeTextView",
+        "voiceRecyclerView"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 2,
+      "exportable_refs_unique_by_type": {
+        "drawable": [
+          "cx6"
+        ],
+        "string": [
+          "igk"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "discovery_item_voice_live_personalise",
+      "obfuscated_file": "ac2.xml",
+      "element_count": 4,
+      "netease_class_occurrences": 0,
+      "netease_classes_unique": [],
+      "app_attr_occurrences": 0,
+      "app_attrs_unique": [],
+      "id_ref_occurrences": 3,
+      "id_refs_unique": [
+        "voicelive_item_1",
+        "voicelive_item_2",
+        "voicelive_item_3"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 3,
+      "exportable_refs_unique_by_type": {
+        "layout": [
+          "aci"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "discovery_item_voice_live_type_4",
+      "obfuscated_file": "ac5.xml",
+      "element_count": 7,
+      "netease_class_occurrences": 2,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.ui.CommonSimpleDraweeView",
+        "com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView"
+      ],
+      "app_attr_occurrences": 30,
+      "app_attrs_unique": [
+        "a5_",
+        "a5f",
+        "a5g",
+        "a5l",
+        "a5v",
+        "a64",
+        "a65",
+        "a68",
+        "a69",
+        "a6a",
+        "ae",
+        "ahy",
+        "ahz",
+        "am0",
+        "ayt"
+      ],
+      "id_ref_occurrences": 19,
+      "id_refs_unique": [
+        "description",
+        "liveCover",
+        "livingIcon",
+        "tag",
+        "title"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 6,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "b1e",
+          "b1z"
+        ],
+        "dimen": [
+          "s7"
+        ],
+        "drawable": [
+          "dkx",
+          "g9l"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "discovery_item_voice_live_type_6",
+      "obfuscated_file": "ac6.xml",
+      "element_count": 8,
+      "netease_class_occurrences": 2,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.ui.CommonSimpleDraweeView",
+        "com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView"
+      ],
+      "app_attr_occurrences": 36,
+      "app_attrs_unique": [
+        "a5_",
+        "a5f",
+        "a5g",
+        "a5l",
+        "a5v",
+        "a64",
+        "a65",
+        "a68",
+        "a69",
+        "a6a",
+        "ae",
+        "ahy",
+        "ahz",
+        "aln",
+        "ayt"
+      ],
+      "id_ref_occurrences": 21,
+      "id_refs_unique": [
+        "description",
+        "liveCover",
+        "livingIcon",
+        "popularityTag",
+        "topMask",
+        "topTag"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 6,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "b1e",
+          "b1t"
+        ],
+        "drawable": [
+          "dky",
+          "dkz",
+          "g9l"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "discovery_item_voicelive_item_new",
+      "obfuscated_file": "aci.xml",
+      "element_count": 7,
+      "netease_class_occurrences": 6,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout",
+        "com.netease.cloudmusic.theme.ui.CustomThemeTextView",
+        "com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView"
+      ],
+      "app_attr_occurrences": 30,
+      "app_attrs_unique": [
+        "a5_",
+        "a5f",
+        "a5g",
+        "a5l",
+        "a5m",
+        "a5v",
+        "a64",
+        "a65",
+        "a68",
+        "a69",
+        "a6a",
+        "ae",
+        "ahy",
+        "ahz",
+        "am0",
+        "qe"
+      ],
+      "id_ref_occurrences": 19,
+      "id_refs_unique": [
+        "container",
+        "ivCover",
+        "ivLiving",
+        "ivLivingBg",
+        "seeLive",
+        "tvSubTitle",
+        "tvTitle"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 4,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "aiv",
+          "aix"
+        ],
+        "drawable": [
+          "cx5"
+        ],
+        "string": [
+          "e4f"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "fragment_circle_discussion",
+      "obfuscated_file": "an8.xml",
+      "element_count": 9,
+      "netease_class_occurrences": 4,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.music.biz.circle.ui.CircleFadingRecyclerView",
+        "com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout"
+      ],
+      "app_attr_occurrences": 22,
+      "app_attrs_unique": [
+        "a5f",
+        "a63",
+        "a68",
+        "a69",
+        "a6_",
+        "a6b",
+        "a6t",
+        "e6",
+        "jw",
+        "y4"
+      ],
+      "id_ref_occurrences": 10,
+      "id_refs_unique": [
+        "chatRoomTip",
+        "chatRoomTipContainer",
+        "fl_bottom",
+        "inputContainer",
+        "recyclerView",
+        "stickyView",
+        "topView",
+        "topViewContainer"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 4,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "e5"
+        ],
+        "dimen": [
+          "hu",
+          "hv"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "fragment_luck_money_info_player_club",
+      "obfuscated_file": "aqe.xml",
+      "element_count": 5,
+      "netease_class_occurrences": 1,
+      "netease_classes_unique": [
+        "com.netease.play.ui.avatar.AvatarImage"
+      ],
+      "app_attr_occurrences": 12,
+      "app_attrs_unique": [
+        "a5l",
+        "a65",
+        "a68",
+        "a69"
+      ],
+      "id_ref_occurrences": 14,
+      "id_refs_unique": [
+        "avatar",
+        "button",
+        "name",
+        "rootView",
+        "title"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 5,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "lt",
+          "oa"
+        ],
+        "drawable": [
+          "aya",
+          "ayb"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "fragment_player_music_sheet",
+      "obfuscated_file": "atw.xml",
+      "element_count": 5,
+      "netease_class_occurrences": 0,
+      "netease_classes_unique": [],
+      "app_attr_occurrences": 0,
+      "app_attrs_unique": [],
+      "id_ref_occurrences": 5,
+      "id_refs_unique": [
+        "cl_player_music_sheet",
+        "group_has_data",
+        "group_load_error",
+        "group_loading",
+        "group_no_data"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 4,
+      "exportable_refs_unique_by_type": {
+        "layout": [
+          "c6g",
+          "c6h",
+          "c6i",
+          "c6j"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "fragment_player_music_sheet_v2",
+      "obfuscated_file": "atx.xml",
+      "element_count": 10,
+      "netease_class_occurrences": 1,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.ui.PlayerPageTextView"
+      ],
+      "app_attr_occurrences": 28,
+      "app_attrs_unique": [
+        "a5f",
+        "a5g",
+        "a5l",
+        "a64",
+        "a65",
+        "a68",
+        "a69",
+        "a6s",
+        "a6t",
+        "ae",
+        "alp",
+        "alq",
+        "alv",
+        "alw",
+        "am0",
+        "w_",
+        "wa"
+      ],
+      "id_ref_occurrences": 20,
+      "id_refs_unique": [
+        "container",
+        "iv_music_sheet",
+        "iv_partner",
+        "iv_signet",
+        "music_sheet_container",
+        "shadow",
+        "tv_content",
+        "tv_instrument",
+        "tv_title",
+        "tv_type"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 7,
+      "exportable_refs_unique_by_type": {
+        "dimen": [
+          "acb",
+          "acc",
+          "acd",
+          "ace"
+        ],
+        "drawable": [
+          "e_j",
+          "ex5",
+          "sw"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "item_player_music_sheet",
+      "obfuscated_file": "bcy.xml",
+      "element_count": 10,
+      "netease_class_occurrences": 1,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.ui.AvatarImage"
+      ],
+      "app_attr_occurrences": 36,
+      "app_attrs_unique": [
+        "a5f",
+        "a5g",
+        "a5k",
+        "a5l",
+        "a5m",
+        "a5w",
+        "a64",
+        "a65",
+        "a68",
+        "a69",
+        "a6o",
+        "a6t",
+        "ae",
+        "alo",
+        "alr",
+        "am0",
+        "cv",
+        "dn",
+        "l1",
+        "w_",
+        "wa"
+      ],
+      "id_ref_occurrences": 21,
+      "id_refs_unique": [
+        "barrier_top",
+        "iv_creator",
+        "iv_music_sheet",
+        "iv_partner",
+        "tv_content",
+        "tv_creator",
+        "tv_page_num",
+        "tv_title"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 7,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "aix",
+          "aiz",
+          "dw"
+        ],
+        "drawable": [
+          "e_h",
+          "e_j",
+          "sw"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "layout_comment_discuss_item",
+      "obfuscated_file": "bni.xml",
+      "element_count": 5,
+      "netease_class_occurrences": 2,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.theme.ui.CustomThemeTextView",
+        "com.netease.cloudmusic.ui.TextViewFixTouchConsume"
+      ],
+      "app_attr_occurrences": 19,
+      "app_attrs_unique": [
+        "a5_",
+        "a5f",
+        "a5g",
+        "a5l",
+        "a5n",
+        "a5v",
+        "a64",
+        "a65",
+        "a68",
+        "a69",
+        "adf",
+        "adi"
+      ],
+      "id_ref_occurrences": 11,
+      "id_refs_unique": [
+        "guide_line",
+        "multiImages",
+        "multiImagesViewStub",
+        "tv_action",
+        "tv_content"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 3,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "a0k",
+          "q7"
+        ],
+        "layout": [
+          "vu"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "layout_item_land_vinyl_footer",
+      "obfuscated_file": "buv.xml",
+      "element_count": 2,
+      "netease_class_occurrences": 0,
+      "netease_classes_unique": [],
+      "app_attr_occurrences": 0,
+      "app_attrs_unique": [],
+      "id_ref_occurrences": 1,
+      "id_refs_unique": [
+        "listCompletelyFooterView"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 1,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "b1l"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "layout_item_top_player_group",
+      "obfuscated_file": "bv1.xml",
+      "element_count": 6,
+      "netease_class_occurrences": 1,
+      "netease_classes_unique": [
+        "com.netease.play.ui.avatar.AvatarImage"
+      ],
+      "app_attr_occurrences": 19,
+      "app_attrs_unique": [
+        "a5f",
+        "a5z",
+        "a60",
+        "a63",
+        "a68",
+        "a69",
+        "ai4",
+        "aj1"
+      ],
+      "id_ref_occurrences": 15,
+      "id_refs_unique": [
+        "container",
+        "desc_bg",
+        "group_pic",
+        "guide_bottom",
+        "icon",
+        "online_count"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 2,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "b12"
+        ],
+        "drawable": [
+          "f9g"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "layout_land_player_control",
+      "obfuscated_file": "bv4.xml",
+      "element_count": 4,
+      "netease_class_occurrences": 3,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.ui.PlayerLandScapePageImageView"
+      ],
+      "app_attr_occurrences": 2,
+      "app_attrs_unique": [
+        "a41",
+        "wt"
+      ],
+      "id_ref_occurrences": 4,
+      "id_refs_unique": [
+        "controlContainer",
+        "nextBtn",
+        "playBtn",
+        "prevBtn"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 6,
+      "exportable_refs_unique_by_type": {
+        "dimen": [
+          "va"
+        ],
+        "drawable": [
+          "f6f",
+          "f6h",
+          "f6i"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "layout_player_group_special_anim",
+      "obfuscated_file": "c64.xml",
+      "element_count": 5,
+      "netease_class_occurrences": 1,
+      "netease_classes_unique": [
+        "com.netease.play.livepage.playergroup.adapter.PlayerGroupVideoTextureView"
+      ],
+      "app_attr_occurrences": 14,
+      "app_attrs_unique": [
+        "a5f",
+        "a5l",
+        "a65",
+        "a68",
+        "a69",
+        "ahy",
+        "aln",
+        "l1"
+      ],
+      "id_ref_occurrences": 7,
+      "id_refs_unique": [
+        "avatar",
+        "avtv",
+        "scale_group",
+        "tv_name"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 2,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "b12"
+        ],
+        "drawable": [
+          "fpe"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "layout_player_land_back",
+      "obfuscated_file": "c67.xml",
+      "element_count": 2,
+      "netease_class_occurrences": 1,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.ui.PlayerLandScapePageImageView"
+      ],
+      "app_attr_occurrences": 0,
+      "app_attrs_unique": [],
+      "id_ref_occurrences": 1,
+      "id_refs_unique": [
+        "back"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 1,
+      "exportable_refs_unique_by_type": {
+        "drawable": [
+          "gfy"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "layout_player_land_lyric",
+      "obfuscated_file": "c68.xml",
+      "element_count": 2,
+      "netease_class_occurrences": 1,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.land.lyric.view.LandPlayerLyricView"
+      ],
+      "app_attr_occurrences": 0,
+      "app_attrs_unique": [],
+      "id_ref_occurrences": 1,
+      "id_refs_unique": [
+        "lrc"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 0,
+      "exportable_refs_unique_by_type": {}
+    },
+    {
+      "semantic_tag": "layout_player_land_ui_mode",
+      "obfuscated_file": "c69.xml",
+      "element_count": 3,
+      "netease_class_occurrences": 2,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.module.newplayeruimode.view.PlayerUiModeSurfaceView",
+        "com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView"
+      ],
+      "app_attr_occurrences": 0,
+      "app_attrs_unique": [],
+      "id_ref_occurrences": 2,
+      "id_refs_unique": [
+        "screenshotView",
+        "surfaceView"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 0,
+      "exportable_refs_unique_by_type": {}
+    },
+    {
+      "semantic_tag": "layout_player_landscape_immerse",
+      "obfuscated_file": "c6_.xml",
+      "element_count": 1,
+      "netease_class_occurrences": 1,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.land.plugin.PlayerLandscapeViewGroup"
+      ],
+      "app_attr_occurrences": 0,
+      "app_attrs_unique": [],
+      "id_ref_occurrences": 1,
+      "id_refs_unique": [
+        "immerse"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 1,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "b1c"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "layout_player_live_bubble_play_unit",
+      "obfuscated_file": "c6c.xml",
+      "element_count": 3,
+      "netease_class_occurrences": 1,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.theme.ui.CustomThemeTextView"
+      ],
+      "app_attr_occurrences": 0,
+      "app_attrs_unique": [],
+      "id_ref_occurrences": 3,
+      "id_refs_unique": [
+        "close",
+        "container",
+        "content1"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 2,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "aj6"
+        ],
+        "drawable": [
+          "ek0"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "layout_podcast_mix_player",
+      "obfuscated_file": "c7p.xml",
+      "element_count": 55,
+      "netease_class_occurrences": 9,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.core.dolphin.component.bubble.DolphinBubble",
+        "com.netease.cloudmusic.music.biz.voice.player.immersive.view.PlayerProgramViewFlipper",
+        "com.netease.cloudmusic.music.biz.voice.player.view.PlayerBottomTabLayout",
+        "com.netease.cloudmusic.music.biz.voice.widget.AlphaGradientLayout",
+        "com.netease.cloudmusic.music.biz.voice.widget.LyricDragView",
+        "com.netease.cloudmusic.ui.GestureImageSwitcher",
+        "com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView",
+        "com.netease.cloudmusic.ui.NeteaseMusicViewPager"
+      ],
+      "app_attr_occurrences": 0,
+      "app_attrs_unique": [],
+      "id_ref_occurrences": 74,
+      "id_refs_unique": [
+        "actionArea",
+        "bottomContainer",
+        "buttonContainer",
+        "collect",
+        "collectBtn",
+        "collectItem",
+        "commentBtn",
+        "commentCount",
+        "commentItem",
+        "countTimerBubble",
+        "coverBg",
+        "customSubtitle",
+        "custom_title",
+        "disc0",
+        "disc1",
+        "flBodyContainer",
+        "goDetail",
+        "icnDevice",
+        "ldv",
+        "mixDiscSwitcher0",
+        "mixPodcastSmallAlbumCover0",
+        "mixPodcastSmallAlbumCover1",
+        "modeBtn",
+        "moreBtn",
+        "musicOpContainer",
+        "nativeContainer",
+        "nestedScrollView",
+        "nextBtn",
+        "playBtn",
+        "playCount",
+        "playModeTag",
+        "playerAlbumCover",
+        "playerAppBar",
+        "playerControlContainer",
+        "podcastViewPager",
+        "praiseBtn",
+        "praiseCount",
+        "praiseItem",
+        "preBtn",
+        "seekBarContainer",
+        "sourceName",
+        "subtitleContainer",
+        "tabLayout",
+        "tvFastForward",
+        "tvRewind",
+        "xiayiContainer0",
+        "xiayiContainer1",
+        "xiayiHeaderBg"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 43,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "b1o",
+          "b1q",
+          "b1t",
+          "b1w",
+          "dv",
+          "dz"
+        ],
+        "dimen": [
+          "al4",
+          "awf"
+        ],
+        "drawable": [
+          "ao5",
+          "azs",
+          "azt",
+          "azv",
+          "bpq",
+          "dwr",
+          "eb6",
+          "ekk",
+          "gd0",
+          "gd6"
+        ],
+        "font": [
+          "a"
+        ],
+        "layout": [
+          "c7z",
+          "db9"
+        ],
+        "string": [
+          "f",
+          "gsx",
+          "gsy",
+          "gwm",
+          "id0",
+          "p",
+          "q",
+          "r",
+          "s",
+          "t",
+          "w"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "layout_podcast_program_player",
+      "obfuscated_file": "c7r.xml",
+      "element_count": 2,
+      "netease_class_occurrences": 1,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.common.nova.widget.NovaRecyclerView"
+      ],
+      "app_attr_occurrences": 0,
+      "app_attrs_unique": [],
+      "id_ref_occurrences": 0,
+      "id_refs_unique": [],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 0,
+      "exportable_refs_unique_by_type": {}
+    },
+    {
+      "semantic_tag": "layout_video_party_player",
+      "obfuscated_file": "cd7.xml",
+      "element_count": 11,
+      "netease_class_occurrences": 2,
+      "netease_classes_unique": [
+        "com.netease.play.livepage.music2.LineProgressView",
+        "com.netease.play.ui.MarqueTextView"
+      ],
+      "app_attr_occurrences": 38,
+      "app_attrs_unique": [
+        "a5_",
+        "a5f",
+        "a5g",
+        "a5l",
+        "a5m",
+        "a5v",
+        "a5w",
+        "a5z",
+        "a64",
+        "a65",
+        "a69"
+      ],
+      "id_ref_occurrences": 41,
+      "id_refs_unique": [
+        "btn_packup",
+        "layer",
+        "layer_end_edge",
+        "loadingLine",
+        "musicState",
+        "next",
+        "playlistBtn",
+        "setting",
+        "slogan",
+        "target"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 12,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "b1e",
+          "b1n"
+        ],
+        "drawable": [
+          "b5e",
+          "f07",
+          "f6m"
+        ],
+        "string": [
+          "dpk",
+          "f2o",
+          "gal",
+          "mc"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "layout_video_player",
+      "obfuscated_file": "cdg.xml",
+      "element_count": 3,
+      "netease_class_occurrences": 1,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.alphavideo.AlphaVideoTextureView"
+      ],
+      "app_attr_occurrences": 8,
+      "app_attrs_unique": [
+        "a5f",
+        "a5l",
+        "a65",
+        "a69"
+      ],
+      "id_ref_occurrences": 2,
+      "id_refs_unique": [
+        "mp4Player",
+        "stubView"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 2,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "ay_"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "mlog_activity_vinyl_aggregate",
+      "obfuscated_file": "coj.xml",
+      "element_count": 25,
+      "netease_class_occurrences": 8,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.music.base.ui.arc.BottomArcLayout",
+        "com.netease.cloudmusic.music.biz.mlog.consume.vinyl.ui.widget.recyclerview.MlogVinylAggregateVideoRecyclerView",
+        "com.netease.cloudmusic.theme.ui.CustomThemeTextView",
+        "com.netease.cloudmusic.theme.ui.tab.CustomThemeTabLayout",
+        "com.netease.cloudmusic.ui.CommonSimpleDraweeView",
+        "com.netease.cloudmusic.ui.NeteaseMusicToolbar",
+        "com.netease.cloudmusic.ui.RoundTextView"
+      ],
+      "app_attr_occurrences": 50,
+      "app_attrs_unique": [
+        "a56",
+        "a5_",
+        "a5f",
+        "a5l",
+        "a5v",
+        "a5z",
+        "a63",
+        "a64",
+        "a65",
+        "a68",
+        "a69",
+        "a6t",
+        "a76",
+        "aa0",
+        "aa5",
+        "aii",
+        "as",
+        "asm",
+        "asp",
+        "at7",
+        "at_",
+        "ata",
+        "atg",
+        "atk",
+        "jw",
+        "l1",
+        "nr",
+        "p_"
+      ],
+      "id_ref_occurrences": 31,
+      "id_refs_unique": [
+        "arcLayout",
+        "blurCover",
+        "blurToolbar",
+        "chosenGroup",
+        "chosenList",
+        "chosenTitle",
+        "clTop",
+        "entrances",
+        "fakeFragmentContainer",
+        "headerContainer",
+        "headerGradient",
+        "ivRule",
+        "ksongGroup",
+        "rankTitle",
+        "tabLayout",
+        "toolbar",
+        "toolbarSing",
+        "toolbarSubtitle",
+        "toolbarTitle",
+        "tvTopic",
+        "viewPager"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 23,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "aiv",
+          "aiw",
+          "ay_",
+          "b1d",
+          "b1e",
+          "b1t",
+          "b21"
+        ],
+        "dimen": [
+          "art"
+        ],
+        "drawable": [
+          "akz",
+          "ba9",
+          "ba_",
+          "bby"
+        ],
+        "layout": [
+          "cq7"
+        ],
+        "string": [
+          "eim",
+          "eip",
+          "eis",
+          "gez"
+        ],
+        "style": [
+          "b6",
+          "l6"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "mlog_item_vinyl_aggregate_selected_mlog",
+      "obfuscated_file": "cq6.xml",
+      "element_count": 8,
+      "netease_class_occurrences": 3,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout",
+        "com.netease.cloudmusic.ui.NeteaseMusicRoundedSimpleDraweeView",
+        "com.netease.cloudmusic.ui.RoundTextView"
+      ],
+      "app_attr_occurrences": 13,
+      "app_attrs_unique": [
+        "a5f",
+        "a5l",
+        "a64",
+        "a65",
+        "a69",
+        "aqh",
+        "jw",
+        "l1",
+        "y4"
+      ],
+      "id_ref_occurrences": 9,
+      "id_refs_unique": [
+        "mlogCover",
+        "mlogTypeIcon",
+        "mvLabel",
+        "praiseCount",
+        "praiseGroup",
+        "praiseIcon",
+        "videoContainer"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 6,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "aj6",
+          "aj8",
+          "dz"
+        ],
+        "drawable": [
+          "fuh"
+        ],
+        "string": [
+          "exm"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "mlog_layout_vinyl_aggregate_entrances",
+      "obfuscated_file": "cq7.xml",
+      "element_count": 11,
+      "netease_class_occurrences": 7,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.theme.ui.CustomThemeIconImageView",
+        "com.netease.cloudmusic.theme.ui.CustomThemeLinearLayout",
+        "com.netease.cloudmusic.theme.ui.CustomThemeTextView"
+      ],
+      "app_attr_occurrences": 2,
+      "app_attrs_unique": [
+        "jw",
+        "y4"
+      ],
+      "id_ref_occurrences": 10,
+      "id_refs_unique": [
+        "entrance1",
+        "entrance1Icon",
+        "entrance1Text",
+        "entrance2",
+        "entrance2Icon",
+        "entrance2Text",
+        "entrance3",
+        "entrance3Icon",
+        "entrance3Text",
+        "llContainer"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 8,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "aiv",
+          "b21"
+        ],
+        "drawable": [
+          "baq"
+        ],
+        "string": [
+          "ein",
+          "eio",
+          "eiq"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "player_dolphin_bubble_view",
+      "obfuscated_file": "d6b.xml",
+      "element_count": 1,
+      "netease_class_occurrences": 1,
+      "netease_classes_unique": [
+        "com.netease.cloudmusic.core.dolphin.component.bubble.DolphinBubble"
+      ],
+      "app_attr_occurrences": 0,
+      "app_attrs_unique": [],
+      "id_ref_occurrences": 1,
+      "id_refs_unique": [
+        "bubble"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 0,
+      "exportable_refs_unique_by_type": {}
+    },
+    {
+      "semantic_tag": "view_anchor_player",
+      "obfuscated_file": "dxt.xml",
+      "element_count": 13,
+      "netease_class_occurrences": 1,
+      "netease_classes_unique": [
+        "com.netease.play.livepage.music2.LineProgressView"
+      ],
+      "app_attr_occurrences": 0,
+      "app_attrs_unique": [],
+      "id_ref_occurrences": 36,
+      "id_refs_unique": [
+        "arrow",
+        "layer",
+        "musicMode",
+        "musicState",
+        "next",
+        "playerGroup",
+        "playerSetting",
+        "playlistBtn",
+        "redDot",
+        "setting",
+        "toneControl"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 7,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "b1z"
+        ],
+        "drawable": [
+          "bp1",
+          "c14"
+        ],
+        "layout": [
+          "dzc"
+        ],
+        "string": [
+          "hy6",
+          "mc"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "view_anchor_player2",
+      "obfuscated_file": "dxu.xml",
+      "element_count": 14,
+      "netease_class_occurrences": 2,
+      "netease_classes_unique": [
+        "com.netease.play.livepage.music2.LineProgressView",
+        "com.netease.play.livepage.music2.player.TogglePlayView"
+      ],
+      "app_attr_occurrences": 39,
+      "app_attrs_unique": [
+        "a5f",
+        "a5g",
+        "a5w",
+        "a5z",
+        "a60",
+        "a62",
+        "a63",
+        "a69",
+        "l1"
+      ],
+      "id_ref_occurrences": 40,
+      "id_refs_unique": [
+        "arrow",
+        "layer",
+        "loadingLine",
+        "musicMode",
+        "musicState",
+        "next",
+        "playType",
+        "playerGroup",
+        "playlistBtn",
+        "redDot",
+        "setting",
+        "target"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 12,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "b1n"
+        ],
+        "drawable": [
+          "b5e",
+          "bp1",
+          "c14"
+        ],
+        "string": [
+          "f2o",
+          "fhm",
+          "gal",
+          "hy6"
+        ]
+      }
+    },
+    {
+      "semantic_tag": "view_player_setting",
+      "obfuscated_file": "dzc.xml",
+      "element_count": 7,
+      "netease_class_occurrences": 0,
+      "netease_classes_unique": [],
+      "app_attr_occurrences": 14,
+      "app_attrs_unique": [
+        "a5g",
+        "a5z",
+        "a63",
+        "l1"
+      ],
+      "id_ref_occurrences": 18,
+      "id_refs_unique": [
+        "feedBack",
+        "lineFeedback",
+        "lyric",
+        "setting",
+        "settingGroup",
+        "settingLayer",
+        "triangle"
+      ],
+      "plus_id_definitions": 0,
+      "exportable_ref_occurrences": 8,
+      "exportable_refs_unique_by_type": {
+        "color": [
+          "b1e",
+          "b1h"
+        ],
+        "drawable": [
+          "c16",
+          "eyu",
+          "ezh"
+        ],
+        "string": [
+          "dzi",
+          "g_u"
+        ]
+      }
+    }
+  ],
+  "verdict": {
+    "all_48_located_and_readable": true,
+    "remaining_copies_exported": true,
+    "no_standard_portrait_main_player": true,
+    "attr_semantics_not_restorable_by_dependency": true
+  },
+  "conclusion": "B 的三项拍板（第 20 模块 / 4 类依赖 / 补导 39 个 layout）在文件与网络层面均可行：39 个 layout 已从 analysis/decoded 全量导出到工作区，Google Maven 实测 HTTP 200。但「像素级一致」仍被两道原理性缺口阻断：① 混淆 app:* attr 的布局语义需逐个反查回标准名，仅引依赖或搬 attrs.xml 不还原约束；② 20 个竞品自定义 View 的 onDraw / 状态机不可机械还原，只能自研近似。此外 48 个 tag 里混有非播放页、且无标准竖屏主播放页，需先做「哪些才是播放页」的筛选再决定补导范围。故本批按 §61.38 纪律先实证与回写，改基线（模块/依赖/生产 res/）与 View 重写按施工单分阶段执行，不伪造完成。"
+}

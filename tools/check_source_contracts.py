@@ -2054,6 +2054,1251 @@ def main() -> int:
         else:
             print("[PASS] 12 §61.37 守护：D-146 个人自用口径在位，C4 未伪造替换")
 
+    # 12 §61.38 守护：T-L L3 技术接入前置实证在位。
+    # 9 个暂存 layout 含 101 个无定义 @id / 33 个未声明 app:* attr /
+    # 20 个无实现的 com.netease.* 自定义 View；三道改写完成前不得搬进 res/。
+    audit_tool = ROOT / "tools" / "legacy_layout_audit.py"
+    audit_json = ROOT / "analysis" / "legacy-layout-audit.json"
+    staged_layout_dir = (ROOT / "app" / "src" / "main" / "assets" /
+                         "legacy-player" / "layout")
+    res_layout_dir = ROOT / "app" / "src" / "main" / "res"
+    if not (audit_tool.is_file() and audit_json.is_file() and staged_layout_dir.is_dir()):
+        failures.append("12 §61.38 守护：layout 审计工具 / JSON / 暂存 layout 目录缺失")
+    else:
+        leaked = []
+        if res_layout_dir.is_dir():
+            for p in res_layout_dir.rglob("layout/*.xml"):
+                if "com.netease" in p.read_text(encoding="utf-8", errors="ignore"):
+                    leaked.append(p.relative_to(ROOT).as_posix())
+        if leaked:
+            failures.append(
+                "12 §61.38 守护：含 com.netease 类名的 layout 搬进 res/ 但三道改写未完成"
+                "（101 个 @id 无定义 / 33 个 attr 未声明 / 20 个 View 无实现）: "
+                + ", ".join(leaked[:3])
+            )
+        else:
+            try:
+                audit = json.loads(audit_json.read_text(encoding="utf-8"))
+                totals = audit["totals"]
+                prod = audit["production_refs"]
+                ui_included = 'include(":ui-legacy")' in (
+                    ROOT / "settings.gradle.kts").read_text(encoding="utf-8")
+                if ui_included:
+                    warnings.append(
+                        "12 §61.38：:ui-legacy 已启用，请重跑 tools/legacy_layout_audit.py 并更新技术接入施工单"
+                    )
+                elif (totals["netease_class_occurrences_raw"] != 44
+                      or totals["refs_missing_in_mapping_unique"] != 0
+                      or totals["refs_missing_staged_definition_unique"] != 0
+                      or prod["staged_asset_production_ref_count"] != 0):
+                    failures.append(
+                        "12 §61.38 守护：layout 实证基线漂移，请重跑 tools/legacy_layout_audit.py 并回写施工单"
+                    )
+                else:
+                    print("[PASS] 12 §61.38 守护：44 处竞品类名 / 45 项素材全覆盖 / "
+                          "零生产引用方，res 未误搬")
+            except (KeyError, ValueError, OSError) as exc:
+                failures.append(f"12 §61.38 守护：审计 JSON 不可解析（{exc}）")
+
+    # 12 §61.39 守护：阶段 A/B 精确还原与 aapt2 四步实证在位。
+    # 33/33 attr 定义 + 101/101 public id 命中；四步 link 逐步归零，
+    # step4 在仓库外临时工程 aapt2 全绿。漂移即要求重跑两个工具。
+    resolve_tool = ROOT / "tools" / "legacy_layout_resolve.py"
+    resolve_json = ROOT / "analysis" / "legacy-layout-resolve.json"
+    probe_tool = ROOT / "tools" / "l3_aapt2_probe.py"
+    probe_json = ROOT / "analysis" / "l3-probe" / "aapt2-probe-result.json"
+    resolution_doc = ROOT / "analysis" / "tl-l3-attr-id-resolution-2026-11-08.md"
+    l3_artifacts = [
+        resolve_tool, resolve_json, probe_tool, probe_json, resolution_doc,
+        ROOT / "analysis" / "l3-probe" / "ids.xml",
+        ROOT / "analysis" / "l3-probe" / "attrs.xml",
+    ]
+    if not all(p.is_file() for p in l3_artifacts):
+        failures.append("12 §61.39 守护：attr/id 还原或 aapt2 四步实证产物缺失")
+    else:
+        try:
+            rj = json.loads(resolve_json.read_text(encoding="utf-8"))
+            pj = json.loads(probe_json.read_text(encoding="utf-8"))
+            cov = rj["coverage"]
+            steps = pj["steps"]
+            v = pj["verdict"]
+            ok = (
+                rj["targets"]["attr_count"] == 33
+                and rj["targets"]["id_count"] == 101
+                and cov["attr_defined"] == 33
+                and cov["id_in_public_xml"] == 101
+                and cov["attr_missing"] == []
+                and cov["id_missing"] == []
+                and len(steps) == 4
+                and v["ids_remove_all_id_errors"] is True
+                and v["attrs_remove_all_attr_errors"] is True
+                and v["step4_aapt2_clean"] is True
+                and v["staged_res_remove_all_errors"] is True
+                and steps[3]["link_rc"] == 0
+                and steps[3]["error_line_count"] == 0
+            )
+            if not ok:
+                failures.append(
+                    "12 §61.39 守护：attr/id 还原或 aapt2 四步实证基线漂移，"
+                    "请重跑 tools/legacy_layout_resolve.py 与 tools/l3_aapt2_probe.py"
+                )
+            else:
+                print("[PASS] 12 §61.39 守护：33 attr / 101 id 精确还原，"
+                      "aapt2 四步归零（step4 link_rc=0 / 错误 0）")
+        except (KeyError, ValueError, OSError, IndexError) as exc:
+            failures.append(f"12 §61.39 守护：证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.40 守护：播放页交互复刻在位 + 属性动画参数精确 + 零发布基线变更。
+    # 用户「UI 交互严格复刻竞品」后按 12 §39 / docs/14 §4.1 / 03-10 §3.3 §6
+    # 落地；任一漂移即 FAIL 并要求重跑 tools/l3_interaction_spec.py。
+    spec_tool = ROOT / "tools" / "l3_interaction_spec.py"
+    spec_json = ROOT / "analysis" / "l3-interaction-spec.json"
+    spec_doc = ROOT / "analysis" / "tl-l3-interaction-replica-2026-11-08.md"
+    player_dir = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "player"
+    player_files = [player_dir / n for n in (
+        "VinylDiscView.kt", "PlayerStateBridge.kt", "LegacyPlayerPage.kt",
+    )]
+    if not all(p.is_file() for p in [spec_tool, spec_json, spec_doc] + player_files):
+        failures.append("12 §61.40 守护：播放页交互复刻工具 / 证据 / 报告 / 源码缺失")
+    else:
+        try:
+            sj = json.loads(spec_json.read_text(encoding="utf-8"))
+            ck = sj["checks"]
+            base = sj["baseline"]
+            ok = (
+                sj["verdict"]["all_checks_pass"] is True
+                and all(ck.values())
+                and sj["animation_parameters"]["base_period_ms"] == 20000
+                and sj["animation_parameters"]["anim_xml_loaded"] is False
+                and len(sj["netease_classes_from_audit"]) == 20
+                and len(sj["replicated_interactions"]) == 7
+                and len(sj["unwired_interactions"]) == 6
+                and base["module_count"] == 19
+                and base["permission_count"] == 11
+                and base["staged_assets_files"] == 51
+                and base["mapping_rows"] == 61
+                and base["mapping_replaced_false"] == 61
+                and not base["new_dependencies"]
+                and base["res_dir_exists"] is False
+                and base["ui_legacy_included"] is False
+            )
+            if not ok:
+                failures.append(
+                    "12 §61.40 守护：交互复刻证据或零基线口径漂移，"
+                    "请重跑 tools/l3_interaction_spec.py 并回写 12 §61.40"
+                )
+            else:
+                print("[PASS] 12 §61.40 守护：20 类 / 7 项交互复刻 / 6 项只读占位，"
+                      "属性动画参数精确、19 模块 / 11 权限 / 51 素材 / 61 行 csv 零变化")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.40 守护：交互规格证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.41 守护：B 路线（三项拍板全开）前置实证在位 + 本批未改基线。
+    # 用户 2026-11-09 拍板 B；按 §61.38 同纪律先实证、不动基线。任一证据漂移
+    # 或基线被提前改动即 FAIL，要求重跑 tools/l3_full_replica_audit.py 并回写 12 §61.41。
+    full_tool = ROOT / "tools" / "l3_full_replica_audit.py"
+    full_json = ROOT / "analysis" / "l3-full-replica-audit.json"
+    full_doc = ROOT / "analysis" / "tl-l3-full-replica-plan-2026-11-09.md"
+    full_layout_dir = ROOT / "analysis" / "l3-full-replica" / "layouts"
+    if not all(p.is_file() for p in (full_tool, full_json, full_doc)):
+        failures.append("12 §61.41 守护：B 路线前置实证工具 / 证据 / 施工单缺失")
+    else:
+        try:
+            fj = json.loads(full_json.read_text(encoding="utf-8"))
+            copies = sorted(full_layout_dir.glob("*.xml")) if full_layout_dir.is_dir() else []
+            settings_text = (ROOT / "settings.gradle.kts").read_text(encoding="utf-8")
+            agg = fj["remaining_aggregate"]
+            baseline_untouched = (
+                'include(":ui-legacy")' not in settings_text
+                and not (ROOT / "app" / "src" / "main" / "res").exists()
+                and not (ROOT / "ui-legacy").exists()
+            )
+            ok = (
+                all(fj["verdict"].values())
+                and fj["closure_tag_count"] == 48
+                and fj["staged_layout_count"] == 9
+                and fj["remaining_layout_count"] == 39
+                and fj["exported_copies"] == 39
+                and len(copies) == 39
+                and not fj["missing_decoded_files"]
+                and fj["scope_calibration"]["has_standard_portrait_main_player_tag"] is False
+                and not fj["attr_semantics_probe"]["standard_layout_constraint_attr_names_in_competitor_attrs_xml"]
+                and agg["netease_class_unique_count"] == 53
+                and agg["app_attr_unique_count"] == 81
+                and agg["id_ref_unique_count"] == 282
+                and agg["exportable_ref_unique_count"] == 163
+                and agg["plus_id_definitions"] == 0
+                and baseline_untouched
+            )
+            if not ok:
+                failures.append(
+                    "12 §61.41 守护：B 路线前置实证口径漂移或基线被提前改动，"
+                    "请重跑 tools/l3_full_replica_audit.py 并回写 12 §61.41"
+                )
+            else:
+                print("[PASS] 12 §61.41 守护：48 tag / 39 副本 / 53 类 / 81 attr / 282 id / "
+                      "无标准竖屏主页、attr 语义不可逆；本批未建模块、未加依赖、res/ 未建")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.41 守护：B 路线前置实证证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.42 守护：用户把口径升级为「1:1 像素级复刻」后，按竞品可观测证据
+    # 自研重画播放页（竞品真实位图 / 色值 / 尺寸 / 控件层级），并如实挂账
+    # pixel_level_1to1=False。任一证据漂移、基线被改动，或把 1:1 伪造成已达成即 FAIL。
+    visual_tool = ROOT / "tools" / "l3_visual_replica_spec.py"
+    visual_json = ROOT / "analysis" / "l3-visual-replica-spec.json"
+    player_dir = (ROOT / "app" / "src" / "main" / "kotlin" / "com" /
+                  "example" / "cloudmusic" / "ui" / "player")
+    if not all(p.is_file() for p in (
+        visual_tool, visual_json,
+        player_dir / "LegacyAssets.kt", player_dir / "VinylDiscView.kt",
+        player_dir / "LegacyPlayerPage.kt",
+    )):
+        failures.append("12 §61.42 守护：视觉规格工具 / 证据 / 播放页源码缺失")
+    else:
+        try:
+            vj = json.loads(visual_json.read_text(encoding="utf-8"))
+            vd = vj["verdict"]
+            bl = vj["baseline"]
+            honest_1to1 = vd["pixel_level_1to1"] is False and len(vd["pixel_level_gaps"]) >= 4
+            baseline_ok = (
+                bl["module_count"] == 19
+                and bl["permission_count"] == 11
+                and bl["staged_assets_files"] == 51
+                and bl["mapping_rows"] == 61
+                and bl["mapping_replaced_false"] == 61
+                and not bl["new_dependencies"]
+                and not bl["res_dir_exists"]
+                and not bl["ui_legacy_included"]
+            )
+            if not (all(vj["checks"].values()) and vd["all_checks_pass"]
+                    and honest_1to1 and baseline_ok):
+                failures.append(
+                    "12 §61.42 守护：视觉规格证据漂移、1:1 被伪造成已达成，或发布基线被改动，"
+                    "请重跑 tools/l3_visual_replica_spec.py 并回写 12 §61.42"
+                )
+            else:
+                print("[PASS] 12 §61.42 守护：竞品色值 14 项 / 尺寸 20 项 / 位图 19 项 / "
+                      "唱片叠层 5 层全部取自一手证据；1:1 未达成如实挂账，19 模块 / "
+                      "11 权限 / 51 素材 / 61 行 csv / 零新增依赖 / res 未建零变化")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.42 守护：视觉规格证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.43 守护：用户 2026-11-09 11:55 叫停「零碎修补」，要求有规划有目标的
+    # 复刻 —— 竞品模块清单 / 重合冲突 / 开发优先级 / 代码与文档差异复核必须固化在
+    # docs/17，并由可复跑的机器证据支撑；任一漂移或基线被改动即 FAIL。
+    inventory_tool = ROOT / "tools" / "l3_module_inventory.py"
+    inventory_json = ROOT / "analysis" / "l3-module-inventory.json"
+    plan_doc = ROOT / "docs" / "17-竞品模块清单与复刻规划.md"
+    overview = ROOT / "docs" / "09-文档闭环总览.md"
+    if not all(p.is_file() for p in (inventory_tool, inventory_json, plan_doc, overview)):
+        failures.append("12 §61.43 守护：模块清单工具 / 证据 / 规划文档 / 09 总览缺失")
+    else:
+        try:
+            inv = json.loads(inventory_json.read_text(encoding="utf-8"))
+            t = inv["competitor_totals"]
+            self_side = inv["self_side"]
+            plan = plan_doc.read_text(encoding="utf-8")
+            overview_text = overview.read_text(encoding="utf-8")
+            inventory_ok = (
+                t["activities"] == 799
+                and t["activity_aliases"] == 182
+                and t["services"] == 93
+                and t["permissions"] == 84
+                and self_side["module_count"] == 19
+                and len(inv["package_groups"]) >= 60
+                and len(inv["activity_family_breakdown"]) >= 15
+                and len(inv["chinese_module_labels"]) >= 45
+                and "永久不做" in self_side["prd_never_line"]
+            )
+            plan_ok = all(s in plan for s in (
+                "P0 不可变基线", "开发优先级", "重合 / 冲突", "代码实现 ↔ 文档差异复核",
+                "核心播放逻辑复用竞品二进制", "pixel_level_1to1",
+            ))
+            index_ok = ("31 个文件" in overview_text
+                        and "docs/17-竞品模块清单与复刻规划.md" in overview_text)
+            if not (inventory_ok and plan_ok and index_ok):
+                failures.append(
+                    "12 §61.43 守护：模块清单证据 / 规划文档 / 09 §3 索引计数漂移，"
+                    "请重跑 tools/l3_module_inventory.py 并回写 12 §61.43"
+                )
+            else:
+                print("[PASS] 12 §61.43 守护：799 activity / 63 包组 / 17 功能域 / "
+                      "50 中文模块名 / 19 自研模块；P0 二进制基线冻结 + P1~P5 优先级 + "
+                      "代码文档差异复核；09 §3 计数 31")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.43 守护：模块清单证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.44 守护：用户 2026-11-09 13:01 三条指令 —— P0 诚实边界拍板接受、
+    # 首要目标重排为「调通全格式播放内核」、之后按 F1~F5 todo 顺序开发。
+    # 格式现状证据必须可复跑且不漂移；文档口径 / 优先级 / 计数任一漂移即 FAIL。
+    audit_tool = ROOT / "tools" / "l3_audio_format_audit.py"
+    audit_json = ROOT / "analysis" / "l3-audio-format-audit.json"
+    audit_plan = ROOT / "analysis" / "tl-l3-audio-format-plan-2026-11-09.md"
+    plan17 = ROOT / "docs" / "17-竞品模块清单与复刻规划.md"
+    delivery12 = ROOT / "docs" / "12-编码阶段第一批交付.md"
+    if not all(p.is_file() for p in (audit_tool, audit_json, audit_plan,
+                                     plan17, delivery12, overview)):
+        failures.append("12 §61.44 守护：格式审计工具 / 证据 / 施工单 / 规划文档 / 12 断点缺失")
+    else:
+        try:
+            au = json.loads(audit_json.read_text(encoding="utf-8"))
+            p17 = plan17.read_text(encoding="utf-8")
+            d12 = delivery12.read_text(encoding="utf-8")
+            ov = overview.read_text(encoding="utf-8")
+            inc = {i["list"]: i for i in au["inconsistencies"]}
+            evidence_ok = (
+                au["list_count"] == 6
+                and au["canonical"]["count"] == 14
+                and au["native"]["demuxer_count"] == 75
+                and len(au["native"]["dedicated_decoder_libs"]) == 3
+                and au["verified_on_device"]["count"] == 4
+                and au["verified_on_device"]["formats"] == ["mp3", "flac", "m4a", "ogg"]
+                and au["verified_on_device"]["local_path_verified"] is False
+                and au["engine_extension_chain"]["adapter_self_declared_status"] is True
+                and au["engine_extension_chain"]["create_data_request_handler_url_only"] is True
+                and au["engine_extension_chain"]["known_format_issue"]["evidence_present"] is True
+                and len(au["todo"]) == 5
+                and inc["scanner/ScanRules.audioExt"]["count"] == 8
+                and inc["datasource-strm/StrmPaths.defaultFilterTypes"]["count"] == 9
+            )
+            doc_ok = all(s in p17 for s in (
+                "P1★ 首要", "调通全格式播放内核", "用户 2026-11-09 13:01 已拍板确认",
+                "F1→F5", "顺延", "## 8. 首要目标",
+            )) and "61.44" in d12 and "31 个文件" in ov
+            if not (evidence_ok and doc_ok):
+                failures.append(
+                    "12 §61.44 守护：全格式内核证据 / P1★ 优先级 / P0 拍板口径 / "
+                    "F1~F5 todo 顺序漂移，请重跑 tools/l3_audio_format_audit.py 并回写 12 §61.44"
+                )
+            else:
+                print("[PASS] 12 §61.44 守护：P0 诚实边界已拍板接受 + 首要目标 P1★ "
+                      "调通全格式内核；6 处白名单(14/8/9) / libffmpeg 75 demuxer / "
+                      "G01 4 格式仅 REMOTE 证据一致；F1~F5 顺序在位，docs 计数仍 31")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.44 守护：格式审计证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.45 守护 / F1：单一格式真相源 AudioFormats 落地 —— 6 处白名单必须
+    # 全部接线、零残留硬编码清单；§61.44 历史证据不得被 F1 后工具覆盖；F1 只
+    # 统一「清单来源」不声称「全格式已支持」；未新增 docs 文件，09 §3 计数仍 31。
+    f1_source = ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/AudioFormats.kt"
+    f1_test = ROOT / "core-model/src/test/kotlin/com/example/cloudmusic/model/AudioFormatsTest.kt"
+    f1_tool = ROOT / "tools" / "l3_f1_unified_audit.py"
+    f1_json = ROOT / "analysis" / "l3-f1-unified.json"
+    legacy_tool = ROOT / "tools" / "l3_audio_format_audit.py"
+    if not all(p.is_file() for p in (f1_source, f1_test, f1_tool, f1_json,
+                                     legacy_tool, plan17, delivery12, overview)):
+        failures.append("12 §61.45 守护：F1 真相源 / 单测 / 证据工具 / JSON / §61.44 历史工具缺失")
+    else:
+        try:
+            f1 = json.loads(f1_json.read_text(encoding="utf-8"))
+            cons = f1["consumers"]
+            evidence_ok = (
+                f1["audio_ext"]["count"] == 14
+                and f1["extra_audio_ext"]["exts"] == ["alac"]
+                and f1["mime_by_ext"]["count"] == 11
+                and f1["stream_filter_ext"]["count"] == 15
+                and f1["consumers_total"] == 6
+                and f1["consumers_unified"] == 6
+                and f1["residual_hardcoded_lists"] == 0
+                and all(v["references_audio_formats"] and not v["legacy_literal_present"]
+                        for v in cons.values())
+            )
+            guard_ok = "拒绝重跑" in legacy_tool.read_text(encoding="utf-8")
+            doc_ok = (
+                "61.45" in delivery12.read_text(encoding="utf-8")
+                and "F1 已完成" in plan17.read_text(encoding="utf-8")
+                and "31 个文件" in overview.read_text(encoding="utf-8")
+            )
+            if not (evidence_ok and guard_ok and doc_ok):
+                failures.append(
+                    "12 §61.45 守护：F1 单一真相源接线 / 证据计数 / §61.44 历史证据保护 / "
+                    "12 断点 / docs 计数漂移，请重跑 tools/l3_f1_unified_audit.py 并回写 12 §61.45"
+                )
+            else:
+                print("[PASS] 12 §61.45 守护：F1 单一真相源 AudioFormats 落地，6 处白名单全接线 / "
+                      "残留硬编码 0 / AUDIO_EXT 14 + alac / MIME 11 / strm 15；"
+                      "§61.44 历史证据受保护，docs 计数仍 31")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.45 守护：F1 证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.46 守护 / F2 前置实证：钉死 EngineAdapter 的 extension 推断链现状，
+    # 防「未真机取证就先改 P0 引擎舱代码」、防证据漂移；adb 端点以 12 §61.46
+    # 为准（10.0.0.2:37827），本批未新增 docs 文件，09 §3 计数仍 31。
+    f2_tool = ROOT / "tools" / "l3_f2_extension_chain_audit.py"
+    f2_json = ROOT / "analysis" / "l3-f2-extension-chain.json"
+    engine_adapter = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineAdapter.kt"
+    if not all(p.is_file() for p in (f2_tool, f2_json, engine_adapter,
+                                     plan17, delivery12, overview)):
+        failures.append("12 §61.46 守护：F2 前置实证工具 / JSON / EngineAdapter 源码缺失")
+    else:
+        try:
+            f2 = json.loads(f2_json.read_text(encoding="utf-8"))
+            ec = f2["extension_chain"]
+            pv = f2["provider"]
+            evidence_ok = (
+                all(ec["url_branch_steps"].values())
+                and ec["local_fallback_is_mime"] is True
+                and ec["self_declared_assumption"] is True
+                and ec["f2_code_unchanged"] is True
+                and pv["create_data_request_handler_url_only"] is True
+                and pv["get_local_path_returns_real_path"] is True
+                and pv["open_local_fd_returns"] == -1
+                and len(f2["blockers"]) == 3
+                and len(f2["todo"]) == 3
+            )
+            # 12 §61.48 语义演进：F2-b 已按 §61.47 真机结论修正 extension 推断链，
+            # 当前源码改由 §61.48 守护约束；本守护只钉死 §61.46 历史静态证据
+            # 快照（f2_code_unchanged=True），不再要求当前源码保持未改。
+            unchanged_ok = ec["f2_code_unchanged"] is True
+            d12_txt = delivery12.read_text(encoding="utf-8")
+            doc_ok = (
+                "61.46" in d12_txt
+                and "37827" in d12_txt
+                and "F2 前置实证" in plan17.read_text(encoding="utf-8")
+                and "31 个文件" in overview.read_text(encoding="utf-8")
+            )
+            if not (evidence_ok and unchanged_ok and doc_ok):
+                failures.append(
+                    "12 §61.46 守护：F2 前置实证证据 / P0 引擎舱未改状态 / adb 端点 / "
+                    "12 断点 / docs 计数漂移，请重跑 tools/l3_f2_extension_chain_audit.py"
+                )
+            else:
+                print("[PASS] 12 §61.46 守护：F2 前置实证历史快照钉死 —— LOCAL 源 "
+                      "extension 落 mimeHint（MIME 非扩展名）/ f2_code_unchanged=True / "
+                      "openLocalFd=-1；extension 现状由 §61.48 守护约束，"
+                      "端点 37827 在位，docs 计数仍 31")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.46 守护：F2 证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.47 守护 / F2 真机取证 + 零权限本地曲库注入：钉死「自研 APP 没有音乐」
+    # 的解决通道与真机结论；防证据漂移、防未取证先改 P0 引擎舱、防伪造 F2-b 完成。
+    f2z_tool = ROOT / "tools" / "l3_f2_zero_permission_audit.py"
+    f2z_json = ROOT / "analysis" / "l3-f2-zero-permission.json"
+    f2z_md = ROOT / "analysis" / "l3-f2-device-probe.md"
+    f2z_log = ROOT / "analysis" / "l3-f2-device-probe-logcat.txt"
+    f2z_shot = ROOT / "analysis" / "l3-reference" / "self-ui-with-local-track-2.png"
+    if not all(p.is_file() for p in (f2z_tool, f2z_json, f2z_md, f2z_log, f2z_shot,
+                                     delivery12, plan17, overview, engine_adapter)):
+        failures.append("12 §61.47 守护：零权限注入审计工具 / JSON / 取证报告 / 原始日志 / 截图缺失")
+    else:
+        try:
+            f2z = json.loads(f2z_json.read_text(encoding="utf-8"))
+            v = f2z["verdict"]
+            dp = f2z["device_probe"]
+            ic = f2z["injection_channel"]
+            evidence_ok = (
+                f2z["all_pass"] is True
+                and ic["permission_count"] == 11
+                and ic["module_count"] == 19
+                and all(ic["zero_baseline"].values())
+                and ic["p0_engine_unchanged"] is True
+                and dp["extension_value"] == "audio/mpeg"
+                and dp["extension_is_mime"] is True
+                and dp["local_source_opens_natively"] is True
+                and dp["native_decode_ok"] is True
+                and dp["ui_track_visible"] is True
+                and v["f2_assumption_verified"] is True
+                and v["mp3_local_playable_despite_mismatch"] is True
+                and v["no_music_resolved"] is True
+                and v["f2b_pending"] is True
+            )
+            src = engine_adapter.read_text(encoding="utf-8")
+            # 12 §61.48：extension 推断链已由 F2-b 修正，本守护只钉死 P0 舱体
+            # openLocalFd 未动；extension 现状由 §61.48 守护约束。
+            unchanged_ok = "-> -1 (V0.1 未实现)" in src
+            doc_ok = (
+                "61.47" in delivery12.read_text(encoding="utf-8")
+                and "8.7" in plan17.read_text(encoding="utf-8")
+                and "31 个文件" in overview.read_text(encoding="utf-8")
+            )
+            if not (evidence_ok and unchanged_ok and doc_ok):
+                failures.append(
+                    "12 §61.47 守护：F2 真机证据 / 零基线 / P0 引擎舱未改 / 12 断点 / "
+                    "docs17 §8.7 / docs 计数漂移，请重跑 tools/l3_f2_zero_permission_audit.py "
+                    "并回写 12 §61.47"
+                )
+            else:
+                print("[PASS] 12 §61.47 守护：零权限 LOCAL 注入解决「自研 APP 没有音乐」—— "
+                      "曲库 UI 可见 1 首 / extension=audio/mpeg 证实 MIME 非扩展名 / "
+                      "XorLocalSource 打开本地文件 + Open codec for mp3 + Write start play / "
+                      "P0 舱体未动、§61.47 历史快照 F2-b 挂账（现状由 §61.48 约束）、"
+                      "零新增权限·模块·action")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.47 守护：F2 零权限证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.48 守护 / F2-b + F2-c：extension 推断链收敛到 :core-model 的
+    # AudioFormats 单一真相源；防「把 MIME 当扩展名」的旧 Elvis 链回潮、
+    # 防伪造 F2-c 真机复验结论、防零新增 Gradle 依赖口径漂移。
+    # §61.46 / §61.47 两条旧守护保留为历史快照，只钉死当时的证据状态。
+    f2x_tool = ROOT / "tools" / "l3_f2_ext_fix_audit.py"
+    f2x_json = ROOT / "analysis" / "l3-f2-ext-fix.json"
+    f2x_log = ROOT / "analysis" / "l3-f2c-extension-verify-logcat.txt"
+    audio_formats = ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/AudioFormats.kt"
+    engine_gradle = ROOT / "engine-legacy/build.gradle.kts"
+    if not all(p.is_file() for p in (f2x_tool, f2x_json, f2x_log, audio_formats,
+                                     engine_gradle, engine_adapter, delivery12, plan17)):
+        failures.append("12 §61.48 守护：F2-b/F2-c 审计工具 / JSON / 真机日志 / 源码缺失")
+    else:
+        try:
+            f2x = json.loads(f2x_json.read_text(encoding="utf-8"))
+            ck = f2x["checks"]
+            dv = f2x["device_verification"]
+            evidence_ok = (
+                f2x["all_pass"] is True
+                and len(ck) == 10
+                and all(ck.values())
+                and dv["verdict"] == "PASS"
+                and dv["extension_before"] == "audio/mpeg（§61.47，MIME 字符串）"
+                and dv["extension_after"] == "mp3（本批 F2-c）"
+                and dv["zero_crash"] is True
+                and f2x["fix"]["zero_new_gradle_dependency"] is True
+                and f2x["baseline"]["docs_index_31_ok"] is True
+            )
+            adapter_txt = engine_adapter.read_text(encoding="utf-8")
+            src_ok = (
+                "AudioFormats.extOfSource(" in adapter_txt
+                and "?: source.mimeHint.orEmpty()" not in adapter_txt
+                and "-> -1 (V0.1 未实现)" in adapter_txt
+                and "fun extOfSource(url: String?, localPath: String?, mimeHint: String?): String"
+                    in audio_formats.read_text(encoding="utf-8")
+                and 'implementation(project(":core-model"))'
+                    in engine_gradle.read_text(encoding="utf-8")
+            )
+            log_ok = (
+                "resourceInfo extension=mp3 fileSize=-1" in f2x_log.read_text(encoding="utf-8")
+                and "Open codec for mp3" in f2x_log.read_text(encoding="utf-8")
+            )
+            doc_ok = (
+                "61.48" in delivery12.read_text(encoding="utf-8")
+                and "8.8" in plan17.read_text(encoding="utf-8")
+                and "31 个文件" in overview.read_text(encoding="utf-8")
+            )
+            if not (evidence_ok and src_ok and log_ok and doc_ok):
+                failures.append(
+                    "12 §61.48 守护：F2-b 接线 / 旧链移除 / 零新增依赖 / F2-c 真机日志 / "
+                    "12 断点 / docs17 §8.8 / docs 计数漂移，请重跑 "
+                    "tools/l3_f2_ext_fix_audit.py 并回写 12 §61.48"
+                )
+            else:
+                print("[PASS] 12 §61.48 守护：F2-b 把 extension 推断收敛到 "
+                      "AudioFormats.extOfSource（URL 后缀 → LOCAL 真实后缀 → MIME 逆查 → 空串）"
+                      " / :engine-legacy 既有 :core-model 依赖、零新增 / 4 个 F2-b JVM 用例 / "
+                      "F2-c 真机 extension=mp3 + Open codec for mp3 + 零崩溃；"
+                      "§61.46/§61.47 历史快照保留、docs 计数仍 31")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.48 守护：F2-b/F2-c 证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.49 守护 / F3 双路径矩阵：防伪造 PASS、防把 NO_SAMPLE 写成 PASS、
+    # 防凭据落盘、防 F2-b 的 extension 链在矩阵里回潮、防发布基线漂移。
+    f3_tool = ROOT / "tools" / "l3_f3_matrix_audit.py"
+    f3_json = ROOT / "analysis" / "l3-f3-audit.json"
+    f3_matrix = ROOT / "analysis" / "l3-f3-matrix.json"
+    f3_report = ROOT / "analysis" / "l3-f3-matrix-report.md"
+    f3_fixtures = ROOT / "analysis" / "l3-f3-fixtures.json"
+    if not all(p.is_file() for p in (f3_tool, f3_json, f3_matrix, f3_report,
+                                     f3_fixtures, delivery12, plan17, overview)):
+        failures.append("12 §61.49 守护：F3 审计工具 / JSON / 矩阵 / 报告 / 样本清单缺失")
+    else:
+        try:
+            f3 = json.loads(f3_json.read_text(encoding="utf-8"))
+            mx = json.loads(f3_matrix.read_text(encoding="utf-8"))
+            ck = f3["checks"]
+            evidence_ok = (
+                f3["all_pass"] is True
+                and len(ck) == 17
+                and all(ck.values())
+                and f3["matrix_summary"]["cells"] == 14
+                and f3["matrix_summary"]["counts"] == {"PASS": 11, "FAIL": 3}
+                and f3["matrix_summary"]["extension_ok_all"] is True
+                and len(f3["matrix_summary"]["no_sample_formats"]) == 7
+                and mx["overall_verdict"] == "PARTIAL"
+                and mx["test_precondition"]["device_settings_unchanged"] is True
+            )
+            doc_ok = (
+                "61.49" in delivery12.read_text(encoding="utf-8")
+                and "8.9" in plan17.read_text(encoding="utf-8")
+                and "31 个文件" in overview.read_text(encoding="utf-8")
+            )
+            if not (evidence_ok and doc_ok):
+                failures.append(
+                    "12 §61.49 守护：F3 矩阵证据 / 11 PASS 3 FAIL / 14 格 extension 全对 / "
+                    "NO_SAMPLE 7 种 / 12 断点 / docs17 §8.9 / docs 计数漂移，请重跑 "
+                    "tools/l3_f3_matrix_audit.py 并回写 12 §61.49"
+                )
+            else:
+                print("[PASS] 12 §61.49 守护：F3 双路径真机矩阵 7 格式 × 2 路径 = "
+                      "11 PASS / 3 FAIL / 7 种 NO_SAMPLE；14/14 格 extension 为真实扩展名；"
+                      "OpenList 真实音源无需编码器 / REMOTE 调试通道零新增依赖 / "
+                      "探针前置已恢复；F3 判 PARTIAL、docs 计数仍 31")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.49 守护：F3 证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.50 守护 / F4：防伪造 F4 完成、防 2s 等待被悄悄改掉、
+    # 防把 F3 的 ape×remote 误当竞态复现载体、防基线漂移。
+    f4_tool = ROOT / "tools" / "l3_f4_eof_audit.py"
+    f4_json = ROOT / "analysis" / "l3-f4-eof-audit.json"
+    f4_probe = ROOT / "analysis" / "l3-f4-eof-probe.json"
+    f4_plan = ROOT / "analysis" / "tl-l3-f4-eof-plan-2026-11-09.md"
+    f4_request = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
+    if not all(p.is_file() for p in (f4_tool, f4_json, f4_probe, f4_plan,
+                                     f4_request, delivery12, plan17)):
+        failures.append("12 §61.50 守护：F4 审计工具 / JSON / 探针 / 施工单 / 源码缺失")
+    else:
+        try:
+            f4 = json.loads(f4_json.read_text(encoding="utf-8"))
+            probe = json.loads(f4_probe.read_text(encoding="utf-8"))
+            ck = f4["checks"]
+            evidence_ok = (
+                f4["all_pass"] is True
+                and len(ck) == 13
+                and all(ck.values())
+                and f4["f4_status"] == "BLOCKED"
+                and probe["verdict"]["f4_repro_carrier"] is False
+                and all(s in f4_request.read_text(encoding="utf-8")
+                        for s in ("repeat(20)", "Thread.sleep(100)",
+                                  "delayed 2s or immediate"))
+            )
+            doc_ok = "61.50" in delivery12.read_text(encoding="utf-8") \
+                and "8.10" in plan17.read_text(encoding="utf-8")
+            if not (evidence_ok and doc_ok):
+                failures.append(
+                    "12 §61.50 守护：F4 根因证据 / BLOCKED 状态 / 2s 等待原样 / "
+                    "12 断点 / docs17 §8.10 漂移，请重跑 tools/l3_f4_eof_audit.py "
+                    "并回写 12 §61.50"
+                )
+            else:
+                print("[PASS] 12 §61.50 守护：F4 根因钉死（normal mode 写线程落盘 "
+                      "~50ms vs 读侧 5ms 重试）/ moov-at-end 探针未触发竞态 / "
+                      "F3 ape×remote 非复现载体 / P0 取流代码零改动 / "
+                      "F4 判 BLOCKED 待真实样本，不伪造完成")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.50 守护：F4 证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.51 守护 / F4 A/B：防伪造 F4 完成、防 P0 取流代码残留 A/B 变体、
+    # 防 F3 矩阵被悄悄改写、防基线漂移。真机证据均为设备离线前采集的原始 logcat。
+    ab_tool = ROOT / "tools" / "l3_f4_ab_audit.py"
+    ab_json = ROOT / "analysis" / "l3-f4-ab-audit.json"
+    ab_report = ROOT / "analysis" / "l3-f4-ab-report.md"
+    ab_probe = ROOT / "analysis" / "l3-f4-m4a-final.json"
+    ab_request = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
+    if not all(p.is_file() for p in (ab_tool, ab_json, ab_report, ab_probe,
+                                     ab_request, delivery12, plan17)):
+        failures.append("12 §61.51 守护：F4 A/B 审计工具 / JSON / 报告 / 取证 / 源码缺失")
+    else:
+        try:
+            ab = json.loads(ab_json.read_text(encoding="utf-8"))
+            ck = ab["checks"]
+            evidence_ok = (
+                ab["all_pass"] is True
+                and len(ck) == 14
+                and all(ck.values())
+                and ab["summary"]["f4_status"] == "BLOCKED（证据升级，但仍未完成）"
+                and "repeat(20)" in ab_request.read_text(encoding="utf-8")
+                and "AB-A immediate" not in ab_request.read_text(encoding="utf-8")
+            )
+            doc_ok = "61.51" in delivery12.read_text(encoding="utf-8") \
+                and "8.11" in plan17.read_text(encoding="utf-8")
+            if not (evidence_ok and doc_ok):
+                failures.append(
+                    "12 §61.51 守护：F4 A/B 证据 / P0 基线回退 / F3 矩阵未改写 / "
+                    "12 断点 / docs17 §8.11 漂移，请重跑 tools/l3_f4_ab_audit.py "
+                    "并回写 12 §61.51"
+                )
+            else:
+                print("[PASS] 12 §61.51 守护：faststart fMP4 对照样本 "
+                      "LOCAL 解出 aac PASS / REMOTE 重复 Start 无 codec；"
+                      "去掉 2s 等待的 A/B 变体结果相同 → 候选①证伪；"
+                      "P0 代码已回退基线并复验零回归、F3 矩阵未改写；"
+                      "F4 仍 BLOCKED、不伪造完成")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.51 守护：F4 A/B 证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.52 守护 / F4 卡点根因：防把「kind 槽假设」写成已证实根因、
+    # 防伪造 F4 完成、防 P0 代码被提前改动、防基线漂移。纯离线，不连 adb。
+    ks_tool = ROOT / "tools" / "l3_f4_kind_slot_audit.py"
+    ks_json = ROOT / "analysis" / "l3-f4-kind-slot-audit.json"
+    ks_report = ROOT / "analysis" / "l3-f4-kind-slot-rootcause.md"
+    ks_request = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
+    if not all(p.is_file() for p in (ks_tool, ks_json, ks_report, ks_request,
+                                     delivery12, plan17)):
+        failures.append("12 §61.52 守护：F4 根因审计工具 / JSON / 报告 / 源码缺失")
+    else:
+        try:
+            ks = json.loads(ks_json.read_text(encoding="utf-8"))
+            ck = ks["checks"]
+            evidence_ok = (
+                ks["all_pass"] is True
+                and len(ck) == 15
+                and all(ck.values())
+                and ks["hypothesis"]["confidence"].startswith("高置信假设")
+                and ks["hypothesis"]["f4_status"].startswith("BLOCKED")
+                and "OnDataRequestEnd(requestId, error ?: \"\")" \
+                    in ks_request.read_text(encoding="utf-8")
+                and "NATIVE_DONE_KIND_FLUSH" not in ks_request.read_text(encoding="utf-8")
+            )
+            doc_ok = "61.52" in delivery12.read_text(encoding="utf-8") \
+                and "8.12" in plan17.read_text(encoding="utf-8")
+            if not (evidence_ok and doc_ok):
+                failures.append(
+                    "12 §61.52 守护：F4 根因证据 / 假设未证实口径 / P0 代码零改动 / "
+                    "12 断点 / docs17 §8.12 漂移，请重跑 "
+                    "tools/l3_f4_kind_slot_audit.py 并回写 12 §61.52"
+                )
+            else:
+                print("[PASS] 12 §61.52 守护：定位到 OnDataRequestEnd 首参是 "
+                      "OnNetSourceDataDone 的 kind 槽（id=2 → PreloadDone 完成通知 → "
+                      "1~2ms 后重发同区间）；§59.2 反汇编 + F3 日志交叉验证 + "
+                      "A/B 排除 2s；仅为高置信假设、P0 零改动、F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.52 守护：F4 根因证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.59：A/B 结果如实登记判定，必须在 §61.53 守护引用之前定义。
+    _abr = ROOT / "analysis" / "l3-f4-kind-slot-ab.json"
+    _abd = json.loads(_abr.read_text(encoding="utf-8")) if _abr.is_file() else {}
+    ab_result_honest = bool(_abd) and (
+        _abd.get("primary_criterion_met") is False
+        and _abd.get("p0_restored") is True
+        and _abd.get("regression_all_pass") is True
+        and "NOT RUN" in _abd.get("auto_advance_3_tracks", ""))
+
+    # 12 §61.53 守护 / F4 kind 槽 A/B 脚本：防提前改 P0、防伪造 A/B 结果、
+    # 防把未跑的连播判据写成 PASS、防基线漂移。纯离线，不连 adb。
+    ab2_tool = ROOT / "tools" / "l3_f4_kind_slot_ab.py"
+    ab2_audit = ROOT / "tools" / "l3_f4_kind_slot_ab_audit.py"
+    ab2_json = ROOT / "analysis" / "l3-f4-kind-slot-ab-audit.json"
+    ab2_plan = ROOT / "analysis" / "l3-f4-kind-slot-ab-plan.json"
+    ab2_src = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
+    if not all(p.is_file() for p in (ab2_tool, ab2_audit, ab2_json, ab2_plan,
+                                     ab2_src, delivery12, plan17)):
+        failures.append("12 §61.53 守护：A/B 脚本 / 审计 / 计划 / 源码缺失")
+    else:
+        try:
+            a2 = json.loads(ab2_json.read_text(encoding="utf-8"))
+            ck2 = a2["checks"]
+            evidence_ok = (
+                a2["all_pass"] is True
+                and len(ck2) == 14
+                and all(ck2.values())
+                and a2["status"]["script_ready"] is True
+                and a2["status"]["dry_run_executed"] is True
+                and a2["status"]["ab_executed"] is True
+                and ab_result_honest
+                and 'OnDataRequestEnd(requestId, error ?: "")' \
+                    in ab2_src.read_text(encoding="utf-8")
+                and "NATIVE_DONE_KIND_FLUSH" not in ab2_src.read_text(
+                    encoding="utf-8")
+            )
+            doc_ok = "61.53" in delivery12.read_text(encoding="utf-8") \
+                and "8.13" in plan17.read_text(encoding="utf-8")
+            if not (evidence_ok and doc_ok):
+                failures.append(
+                    "12 §61.53 守护：A/B 脚本 / dry-run 计划 / P0 零改动 / "
+                    "12 断点 / docs17 §8.13 漂移，请重跑 "
+                    "tools/l3_f4_kind_slot_ab_audit.py 并回写 12 §61.53"
+                )
+            else:
+                print("[PASS] 12 §61.53 守护：kind 槽 A/B 脚本就绪（默认 dry-run、"
+                      "--apply 才动 P0、finally 无条件恢复基线并重编译重装）"
+                      " / 主判据与证伪条件齐备 / 连播 3 首如实 NOT RUN / "
+                      "P0 零改动；设备上线后一条命令即可验证")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.53 守护：A/B 脚本证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.54 守护 / F4 native 侧一手二进制复核：防把「§59.2 分支语义已由
+    # 反汇编 + GOT 重定位证实」偷换成「§61.52 的 kind 槽因果假设已证实」，
+    # 并防借本批名义提前改 P0、回填指纹、伪造 A/B 结果。纯离线、只读。
+    dv_json = ROOT / "analysis" / "l3-f4-disasm-verify.json"
+    dv_report = ROOT / "analysis" / "l3-f4-disasm-verify-report.md"
+    dv_tool = ROOT / "tools" / "l3_f4_disasm_verify.py"
+    dv_audit = ROOT / "tools" / "l3_f4_disasm_verify_audit.py"
+    if not all(p.is_file() for p in (dv_json, dv_report, dv_tool, dv_audit)):
+        failures.append("12 §61.54 守护：native 二进制复核证据 / 工具缺失")
+    else:
+        try:
+            dv = json.loads(dv_json.read_text(encoding="utf-8"))
+            dv_ck = dv["checks"]
+            dv_ok = (
+                dv["all_pass"] is True
+                and len(dv_ck) == 10
+                and all(dv_ck.values())
+                and dv["evidence"]["queue_call_sites"] == ["0xbf7c", "0xc004"]
+                and dv["evidence"]["got_relocations"]["0x4bed0"]["symbol"].endswith(
+                    "PreloadDoneTaskOnWriteThreadEv")
+                and dv["evidence"]["got_relocations"]["0x4bee8"]["symbol"].endswith(
+                    "OnFlushNetDataEv")
+                and "61.54" in delivery12.read_text(encoding="utf-8")
+                and "**F4 仍判 BLOCKED**" in dv_report.read_text(encoding="utf-8")
+            )
+            if not dv_ok:
+                failures.append(
+                    "12 §61.54 守护：一手二进制证据 / 分支语义 / 诚实边界 / "
+                    "12 断点漂移，请重跑 tools/l3_f4_disasm_verify.py 与 "
+                    "tools/l3_f4_disasm_verify_audit.py"
+                )
+            else:
+                print("[PASS] 12 §61.54 守护：OnNetSourceDataDone 的 "
+                      "cmp w1,#2 分支语义由一手反汇编 + GOT GLOB_DAT 重定位确认"
+                      "（kind==2 → PreloadDoneTaskOnWriteThread，其余 → OnFlushNetData）；"
+                      "§61.52 因果假设仍待设备上线 A/B，F4 仍 BLOCKED、P0 零改动")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.54 守护：native 二进制复核证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.55 守护 / F4 两个 task 行为差异 + F3 样本边界盘点：
+    # 防把「task 差异已证实」偷换成「因果链已证实」，防伪造 NO_SAMPLE 样本、
+    # 防凭据落盘、防提前改 P0 / 回填指纹 / 伪造 A/B。纯离线、只读。
+    td_json = ROOT / "analysis" / "l3-f4-task-diff.json"
+    td_report = ROOT / "analysis" / "l3-f4-task-diff-report.md"
+    td_scan = ROOT / "analysis" / "l3-f3-openlist-scan.json"
+    td_tool = ROOT / "tools" / "l3_f4_task_diff_verify.py"
+    td_scan_tool = ROOT / "tools" / "l3_f3_openlist_scan.py"
+    td_audit = ROOT / "tools" / "l3_f4_task_diff_audit.py"
+    if not all(p.is_file() for p in (td_json, td_report, td_scan, td_tool,
+                                     td_scan_tool, td_audit)):
+        failures.append("12 §61.55 守护：task 差异 / 样本盘点证据或工具缺失")
+    else:
+        try:
+            td = json.loads(td_json.read_text(encoding="utf-8"))
+            sc = json.loads(td_scan.read_text(encoding="utf-8"))
+            td_ck = td["checks"]
+            td_ok = (
+                td["all_pass"] is True
+                and len(td_ck) == 14
+                and all(td_ck.values())
+                and "PreloadDoneTaskOnRenderThread" in
+                    td["evidence"]["got_render_relocation"]["0x4bf28"]["symbol"]
+                and td_ck["flush_is_lightweight"] is True
+                and td_ck["docs59_3_kind1_calibrated"] is True
+                and sc["dirs_scanned"] >= 80
+                and sc["list_errors"] == 0
+                and sc["no_sample_candidate_total"] == 0
+                and not sc["no_sample_found"]
+                and "61.55" in delivery12.read_text(encoding="utf-8")
+                and "**F4 仍判 BLOCKED**" in td_report.read_text(encoding="utf-8")
+            )
+            if not td_ok:
+                failures.append(
+                    "12 §61.55 守护：task 差异证据 / 样本盘点 / 诚实边界 / "
+                    "12 断点漂移，请重跑 tools/l3_f4_task_diff_verify.py、"
+                    "tools/l3_f3_openlist_scan.py 与 tools/l3_f4_task_diff_audit.py"
+                )
+            else:
+                print("[PASS] 12 §61.55 守护：kind==2 级联投递 "
+                      "PreloadDoneTaskOnRenderThread（重完成链）、kind!=2 仅 88B "
+                      "轻量刷数据；1L 为 §59.3 已校准正常值（A/B 风险降低）；"
+                      "OpenList 80 目录零 NO_SAMPLE 样本；§61.52 因果假设仍待 A/B，"
+                      "F4 仍 BLOCKED、P0 零改动")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.55 守护：task 差异 / 盘点证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.56 守护 / F4 JNI 参数槽透传复核：只允许「环节 A 已证实」，
+    # 防偷换成「整条因果链已证实」，防提前改 P0 / 回填指纹 / 伪造 A/B。
+    ja_json = ROOT / "analysis" / "l3-f4-jni-arg.json"
+    ja_report = ROOT / "analysis" / "l3-f4-jni-arg-report.md"
+    ja_tool = ROOT / "tools" / "l3_f4_jni_arg_verify.py"
+    ja_audit = ROOT / "tools" / "l3_f4_jni_arg_audit.py"
+    if not all(p.is_file() for p in (ja_json, ja_report, ja_tool, ja_audit)):
+        failures.append("12 §61.56 守护：JNI 参数槽证据 / 工具缺失")
+    else:
+        try:
+            ja = json.loads(ja_json.read_text(encoding="utf-8"))
+            ja_ck = ja["checks"]
+            ja_ok = (
+                ja["all_pass"] is True
+                and len(ja_ck) == 17
+                and all(ja_ck.values())
+                and ja_ck["end_sets_x1_to_j2"] is True
+                and ja_ck["data_sets_x1_to_j2"] is True
+                and ja_ck["trampoline_forwards_x1_unchanged"] is True
+                and ja_ck["done_compares_w1_with_2"] is True
+                and "环节 A" in ja_report.read_text(encoding="utf-8")
+                and "环节 B" in ja_report.read_text(encoding="utf-8")
+                and "**F4 仍判 BLOCKED**" in ja_report.read_text(encoding="utf-8")
+                and "61.56" in delivery12.read_text(encoding="utf-8")
+            )
+            if not ja_ok:
+                failures.append(
+                    "12 §61.56 守护：JNI 透传证据 / 因果链拆分 / 诚实边界 / "
+                    "12 断点漂移，请重跑 tools/l3_f4_jni_arg_verify.py 与 "
+                    "tools/l3_f4_jni_arg_audit.py"
+                )
+            else:
+                print("[PASS] 12 §61.56 守护：JNI 导出与 trampoline 把 Java "
+                      "j2(requestId) 原样放进 x1，与 §59.3 已校准为 kind 的"
+                      "数据包路径同构 → 环节 A 已证实；环节 B（完成通知是否"
+                      "导致 fMP4 卡点）仍待设备上线 A/B，F4 仍 BLOCKED、P0 零改动")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.56 守护：JNI 参数槽证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.57 守护 / F4 A/B 编译期预检：防把「编译通过」偷换成
+    # 「A/B 已执行 / 环节 B 已证实」，防 P0 残留变体、防 Windows
+    # gradlew 启动器缺陷回潮、防伪造零净改动。纯离线、只读。
+    cp_json = ROOT / "analysis" / "l3-f4-ab-compile-precheck.json"
+    cp_report = ROOT / "analysis" / "l3-f4-ab-compile-precheck-report.md"
+    cp_tool = ROOT / "tools" / "l3_f4_ab_compile_precheck.py"
+    cp_audit = ROOT / "tools" / "l3_f4_ab_compile_precheck_audit.py"
+    cp_ab_tool = ROOT / "tools" / "l3_f4_kind_slot_ab.py"
+    if not all(p.is_file() for p in (cp_json, cp_report, cp_tool, cp_audit,
+                                     cp_ab_tool)):
+        failures.append("12 §61.57 守护：编译期预检证据 / 工具缺失")
+    else:
+        try:
+            cp = json.loads(cp_json.read_text(encoding="utf-8"))
+            cp_ck = cp["checks"]
+            cp_ab_src = cp_ab_tool.read_text(encoding="utf-8")
+            cp_ok = (
+                cp["all_pass"] is True
+                and len(cp_ck) == 9
+                and all(cp_ck.values())
+                and cp_ck["variant_compiles_offline"] is True
+                and cp_ck["baseline_recompiles_offline"] is True
+                and cp_ck["source_restored_byte_exact"] is True
+                and cp["evidence"]["git_diff_clean"] is True
+                and ab_result_honest
+                and 'GRADLE.with_name("gradlew.bat")' in cp_ab_src
+                and "baseline_rebuild_ok" in cp_ab_src
+                and "61.57" in delivery12.read_text(encoding="utf-8")
+                and "零净改动" in cp_report.read_text(encoding="utf-8")
+            )
+            if not cp_ok:
+                failures.append(
+                    "12 §61.57 守护：编译期预检证据 / Windows 启动器修复 / "
+                    "P0 零净改动 / 12 断点漂移，请重跑 "
+                    "tools/l3_f4_ab_compile_precheck.py 与其审计"
+                )
+            else:
+                print("[PASS] 12 §61.57 守护：A/B 变体 B 已编译期预检通过"
+                      "（:app:assembleDebug --offline BUILD SUCCESSFUL），"
+                      "Windows gradlew.bat 启动器缺陷已修，P0 逐字节恢复、"
+                      "git diff 空；§61.59 A/B 已执行、主判据未达成，F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.57 守护：编译期预检证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.58 守护 / F4 设备上线前自检：防伪造「设备已在线 / A/B 已执行」，
+    # 防 runbook 漏掉判读分支或恢复确认、防守护 JSON 漂移。纯离线、只读。
+    pf_json = ROOT / "analysis" / "l3-f4-preflight.json"
+    pf_runbook = ROOT / "analysis" / "l3-f4-online-runbook.md"
+    pf_tool = ROOT / "tools" / "l3_f4_preflight.py"
+    pf_audit = ROOT / "tools" / "l3_f4_preflight_audit.py"
+    if not all(p.is_file() for p in (pf_json, pf_runbook, pf_tool, pf_audit)):
+        failures.append("12 §61.58 守护：上线前自检 / runbook 证据或工具缺失")
+    else:
+        try:
+            pf = json.loads(pf_json.read_text(encoding="utf-8"))
+            pf_ck = pf["checks"]
+            pf_ok = (
+                pf["all_pass"] is True
+                and len(pf_ck) == 15
+                and all(pf_ck.values())
+                and pf["ready_to_run"] is False
+                and ab_result_honest
+                and len(pf["evidence"]["guard_jsons"]) == 10
+                and all(pf["evidence"]["guard_jsons"].values())
+                and "61.58" in delivery12.read_text(encoding="utf-8")
+                and "一键" in pf_runbook.read_text(encoding="utf-8")
+            )
+            if not pf_ok:
+                failures.append(
+                    "12 §61.58 守护：上线前自检 / 设备离线如实登记 / runbook / "
+                    "12 断点漂移，请重跑 tools/l3_f4_preflight.py 与其审计"
+                )
+            else:
+                print("[PASS] 12 §61.58 守护：A/B 前置条件自检全绿"
+                      "（15 项 / 10 批守护 / 契约 / P0 基线）；§61.59 A/B 已执行、"
+                      "结果如实登记，F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.58 守护：上线前自检证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.59 守护 / F4 kind 槽 A/B 真机裁决：防把「部分成立」写成 PASS /
+    # 证伪 / F4 已解决，防伪造 P0 恢复、防把 NOT RUN 的连播判据写成已测。
+    rj = ROOT / "analysis" / "l3-f4-ab-result-audit.json"
+    rr = ROOT / "analysis" / "l3-f4-ab-result-report.md"
+    r1 = ROOT / "analysis" / "l3-f4-ab-run1-25s.json"
+    r2 = ROOT / "analysis" / "l3-f4-ab-run2-45s.json"
+    rc = ROOT / "analysis" / "l3-f4-ab-control-baseline.json"
+    if not all(p.is_file() for p in (rj, rr, r1, r2, rc)):
+        failures.append("12 §61.59 守护：A/B 真机结果 / 报告 / 对照证据缺失")
+    else:
+        try:
+            rjd = json.loads(rj.read_text(encoding="utf-8"))
+            r_ok = (
+                rjd["all_pass"] is True
+                and rjd["status"]["ab_executed"] is True
+                and rjd["status"]["primary_criterion_met"] is False
+                and rjd["status"]["p0_restored"] is True
+                and "PARTIAL" in rjd["status"]["verdict"]
+                and "F4 仍判 BLOCKED" in rr.read_text(encoding="utf-8")
+                and ab_result_honest
+                and "61.59" in delivery12.read_text(encoding="utf-8")
+            )
+            if not r_ok:
+                failures.append(
+                    "12 §61.59 守护：A/B 结果 / 诚实边界 / 12 断点漂移，请重跑 "
+                    "tools/l3_f4_ab_result_audit.py"
+                )
+            else:
+                print("[PASS] 12 §61.59 守护：kind 槽 A/B 已真机执行（25s/45s 两次 + "
+                      "基线对照）；环节 B 部分成立（消除 id>=3 重复请求）但非充分原因"
+                      "（仍无 codec），主判据未达成、P0 零净改动，F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.59 守护：A/B 结果证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.60 守护 / F4 第二卡点样本侧复核：防把「归因优先级修正」
+    # 写成「第二卡点已定位 / F4 已解决」，防改写 §61.59 A/B 实测事实。
+    sb_json = ROOT / "analysis" / "l3-f4-fmp4-structure.json"
+    sb_report = ROOT / "analysis" / "l3-f4-second-blocker-report.md"
+    sb_audit = ROOT / "analysis" / "l3-f4-second-blocker-audit.json"
+    sb_tool = ROOT / "tools" / "l3_f4_fmp4_structure_audit.py"
+    if not all(p.is_file() for p in (sb_json, sb_report, sb_audit, sb_tool)):
+        failures.append("12 §61.60 守护：样本结构复核证据 / 工具缺失")
+    else:
+        try:
+            sb = json.loads(sb_json.read_text(encoding="utf-8"))
+            sb_ck = sb["checks"]
+            sb_ok = (
+                sb["all_pass"] is True
+                and len(sb_ck) == 12
+                and all(sb_ck.values())
+                and sb_ck["tail_is_orphan_moof_no_mdat"] is True
+                and sb_ck["no_sidx_mfra_mfro_index"] is True
+                and sb_ck["ondata_matches_request_exactly"] is True
+                and "PENDING_REAL_SAMPLE" in sb_report.read_text(encoding="utf-8")
+                and ab_result_honest
+                and "61.60" in delivery12.read_text(encoding="utf-8")
+            )
+            if not sb_ok:
+                failures.append(
+                    "12 §61.60 守护：样本结构证据 / 归因修正 / 12 断点漂移，请重跑 "
+                    "tools/l3_f4_fmp4_structure_audit.py 与其审计"
+                )
+            else:
+                print("[PASS] 12 §61.60 守护（历史快照）：fMP4 样本不完整（孤立尾部 moof / "
+                      "13 moof-12 mdat / 无索引 / 两处未请求空洞）、onData 与请求"
+                      "逐字节一致 → 当时把第二卡点归因修正为「样本不自洽为主、vfile 落盘为次」；"
+                      "该主次已被 §61.61 真机结论推翻，结构事实与 A/B 实测不改写，F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.60 守护：样本结构证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.61 守护 / F4 第二卡点最终真机结论：防把「根因锁定」写成
+    # 「F4 已解决 / 修复已验证」，防把样本自洽性或错误完成通知重新写回
+    # 第二卡点，防伪造设备在场 / P0 基线改动。
+    f_ev = ROOT / "analysis" / "l3-f4-second-blocker-final.json"
+    f_report = ROOT / "analysis" / "l3-f4-second-blocker-final-report.md"
+    f_audit = ROOT / "analysis" / "l3-f4-second-blocker-final-audit.json"
+    f_tool = ROOT / "tools" / "l3_f4_second_blocker_final_audit.py"
+    if not all(p.is_file() for p in (f_ev, f_report, f_audit, f_tool)):
+        failures.append("12 §61.61 守护：最终真机结论证据 / 审计 / 工具缺失")
+    else:
+        try:
+            fa = json.loads(f_audit.read_text(encoding="utf-8"))
+            fe = json.loads(f_ev.read_text(encoding="utf-8"))
+            fst = fa["status"]
+            f_ok = (
+                fa["all_pass"] is True
+                and fa["checks_total"] >= 35
+                and all(fa["checks"].values())
+                and fst["root_cause_locked"] is True
+                and fst["sample_selfconsistency_ruled_out"] is True
+                and fst["wrong_completion_notification_ruled_out"] is True
+                and fst["fix_implemented"] is False
+                and fst["fix_verified"] is False
+                and fst["f4_status"] == "BLOCKED"
+                and fst["device_phase"] == "COMPLETE"
+                and fst["device_can_disconnect"] is True
+                and "commit=368640" in fst["root_cause"]
+                and "offset=605007" in fst["root_cause"]
+                and fe["sample"]["paired_moof_mdat"] is True
+                and "F4 仍判 BLOCKED" in f_report.read_text(encoding="utf-8")
+                and "61.61" in delivery12.read_text(encoding="utf-8")
+            )
+            if not f_ok:
+                failures.append(
+                    "12 §61.61 守护：最终结论证据 / 诚实边界 / 12 断点漂移，请重跑 "
+                    "tools/l3_f4_second_blocker_final_audit.py"
+                )
+            else:
+                print("[PASS] 12 §61.61 守护（历史快照，窗口精度修正见 §61.62）："
+                      "变体 B + 自洽样本在短窗口下无 codec → 样本自洽性、"
+                      "错误完成通知均排除；第二卡点锁定 vfile 流式落盘（commit=368640）"
+                      "跟不上 fMP4 跳跃式 probe 读（offset=605007, readed_len:0 result:-2）；"
+                      "§61.62 的 60s 观测补上长窗口，F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.61 守护：最终结论证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.62 守护 / vfile commit 时序 60s 纯观测：防把「codec 打开」
+    # 写成「已出声 / F4 已解决」，防把 commit 恒定写成「落盘速度不足」，
+    # 防回改 §61.61 历史结论、防 P0 基线改动、防伪造设备在场。
+    vc_probe = ROOT / "analysis" / "l3-f4-vfile-commit-probe.json"
+    vc_report = ROOT / "analysis" / "l3-f4-vfile-commit-report.md"
+    vc_audit = ROOT / "analysis" / "l3-f4-vfile-commit-audit.json"
+    vc_tool = ROOT / "tools" / "l3_f4_vfile_commit_audit.py"
+    vc_logs = list((ROOT / "analysis" / "l3-f4-logs").glob("vfile-commit-*.txt"))
+    if not all(p.is_file() for p in (vc_probe, vc_report, vc_audit, vc_tool)) or not vc_logs:
+        failures.append("12 §61.62 守护：commit 时序观测证据 / 日志 / 审计缺失")
+    else:
+        try:
+            va = json.loads(vc_audit.read_text(encoding="utf-8"))
+            vp = json.loads(vc_probe.read_text(encoding="utf-8"))
+            vst = va["status"]
+            vc_ok = (
+                va["all_pass"] is True
+                and va["checks_total"] >= 25
+                and all(va["checks"].values())
+                and vst["commit_constant_60s"] is True
+                and vst["speed_progress_hypothesis_ruled_out"] is True
+                and (vst["codec_opened_after_seconds"] or 0) > 25
+                and vst["write_start_play_count"] == 0
+                and vst["minus_103_observed"] is True
+                and vst["audio_output"] is False
+                and vst["f4_status"] == "BLOCKED"
+                and vst["fix_implemented"] is False
+                and vst["fix_verified"] is False
+                and bool(vst["device_endpoint"]) and ":" in vst["device_endpoint"]
+                and "UNEXPECTED_CODEC_OPENED" in vp.get("mechanism_verdict", "")
+                and "F4 判据收窄到" in vc_report.read_text(encoding="utf-8")
+                and "不改写" in vc_report.read_text(encoding="utf-8")
+                and "61.62" in delivery12.read_text(encoding="utf-8")
+            )
+            if not vc_ok:
+                failures.append(
+                    "12 §61.62 守护：commit 时序结论 / 诚实边界 / 12 断点漂移，请重跑 "
+                    "tools/l3_f4_vfile_commit_audit.py"
+                )
+            else:
+                print("[PASS] 12 §61.62 守护：60s 观测 commit 恒定 368640（排除速度不足）、"
+                      "≈33s 回退 368640 后打开 aac codec 但 -103 未出声 → §61.61 归因强化、"
+                      "「无 codec」修正为窗口不足、F4 判据收窄到 -103；F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.62 守护：commit 时序证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.63 守护 / vfile 索引取证 + 清缓存对照 + 变体 D 受阻：防把
+    # RULED_OUT 写成「根因已定位」，防把两次「无有效判据」写成证伪 /
+    # PASS / 崩溃，防伪造 P0 恢复、防写 F4 已解决。
+    vd_audit = ROOT / "analysis" / "l3-f4-vfile-diagnosis-audit.json"
+    vd_report = ROOT / "analysis" / "l3-f4-vfile-diagnosis-report.md"
+    vd_idx = ROOT / "analysis" / "l3-f4-vfile-index-before.json"
+    vd_reset = ROOT / "analysis" / "l3-f4-cache-reset-verdict.json"
+    vd_r1 = ROOT / "analysis" / "l3-f4-data-kind-ab-run1.json"
+    vd_r2 = ROOT / "analysis" / "l3-f4-data-kind-ab-run2.json"
+    if not all(p.is_file() for p in (vd_audit, vd_report, vd_idx, vd_reset,
+                                     vd_r1, vd_r2)):
+        failures.append("12 §61.63 守护：vfile 索引 / 清缓存 / 变体 D 证据缺失")
+    else:
+        try:
+            vd = json.loads(vd_audit.read_text(encoding="utf-8"))
+            vst = vd["status"]
+            vd_ok = (
+                vd["all_pass"] is True
+                and vd["checks_total"] >= 30
+                and all(vd["checks"].values())
+                and vst["stale_slice_hypothesis"] == "RULED_OUT"
+                and vst["kind_mismatch_hypothesis"] == "UNVERIFIED"
+                and vst["variant_d_verdict"] == "NO_VALID_CRITERION"
+                and vst["variant_d_runs"] == 2
+                and vst["f4_status"] == "BLOCKED"
+                and vst["fix_implemented"] is False
+                and vst["fix_verified"] is False
+                and vst["device_offline_at_end"] is True
+                and vst["p0_restored"] is True
+                and "RULED_OUT" in vd_report.read_text(encoding="utf-8")
+                and "NO_VALID_CRITERION" in vd_report.read_text(encoding="utf-8")
+                and "61.63" in delivery12.read_text(encoding="utf-8")
+            )
+            if not vd_ok:
+                failures.append(
+                    "12 §61.63 守护：vfile 诊断结论 / 诚实边界 / 12 断点漂移，请重跑 "
+                    "tools/l3_f4_vfile_diagnosis_audit.py"
+                )
+            else:
+                print("[PASS] 12 §61.63 守护：.nmsfi 索引坐实 Java 回传数据未落盘；"
+                      "清缓存对照 RULED_OUT（非陈旧切片）；变体 D 两次 NO_VALID_CRITERION"
+                      "（冷启动 + 设备离线），P0 零净改动，F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.63 守护：vfile 诊断证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.64 守护 / 变体 D 真机裁决：防把「有效负结果」写成「无有效判据 /
+    # 假设未测」，防把回归 PASS 写成主判据 PASS，防写 F4 已解决。
+    kv_audit = ROOT / "analysis" / "l3-f4-data-kind-verdict-audit.json"
+    kv_report = ROOT / "analysis" / "l3-f4-data-kind-verdict-report.md"
+    kv_run3 = ROOT / "analysis" / "l3-f4-data-kind-ab-run3.json"
+    if not all(p.is_file() for p in (kv_audit, kv_report, kv_run3)):
+        failures.append("12 §61.64 守护：变体 D 裁决证据 / 报告缺失")
+    else:
+        try:
+            kv = json.loads(kv_audit.read_text(encoding="utf-8"))
+            kst = kv["status"]
+            kv_ok = (
+                kv["all_pass"] is True
+                and kv["checks_total"] >= 25
+                and all(kv["checks"].values())
+                and kst["variant_d_verdict"] == "FALSIFIED_EFFECTIVE_NEGATIVE"
+                and kst["primary_criterion_met"] is False
+                and kst["regression_all_pass"] is True
+                and kst["commit_kind1_baseline"] == 180224
+                and kst["commit_kind2_variant"] == 16384
+                and kst["fix_implemented"] is False
+                and kst["fix_verified"] is False
+                and kst["f4_status"] == "BLOCKED"
+                and kst["device_endpoint"] == "10.0.0.2:41761"
+                and "修复预测被证伪" in kv_report.read_text(encoding="utf-8")
+                and "61.64" in delivery12.read_text(encoding="utf-8")
+            )
+            if not kv_ok:
+                failures.append(
+                    "12 §61.64 守护：变体 D 裁决 / 诚实边界 / 12 断点漂移，请重跑 "
+                    "tools/l3_f4_data_kind_verdict_audit.py"
+                )
+            else:
+                print("[PASS] 12 §61.64 守护：kind=2 有效负结果（commit 180224→16384、"
+                      "无 codec、回归两格 PASS）→ 修复预测证伪，根因转向 native "
+                      "OnWriteNetData 落盘链路；F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.64 守护：变体 D 裁决 JSON 不可解析（{exc}）")
+
+    # 12 §61.65 守护 / F4 native 反汇编：防把「静态推断」写成「已修复」、
+    # 防 F4 状态被提前改成 PASS、防 commit 被继续当成落盘字节数、防证据漂移。
+    f4d_tool = ROOT / "tools" / "l3_f4_netsource_commit_disasm.py"
+    f4d_json = ROOT / "analysis" / "l3-f4-netsource-commit-disasm.json"
+    f4d_report = ROOT / "analysis" / "l3-f4-netsource-commit-report.md"
+    f4d_eof = ROOT / "analysis" / "l3-f4-eof-audit.json"
+    if not all(p.is_file() for p in (f4d_tool, f4d_json, f4d_report,
+                                     f4d_eof, delivery12, plan17)):
+        failures.append("12 §61.65 守护：native 反汇编工具 / JSON / 报告 / F4 状态缺失")
+    else:
+        try:
+            f4d = json.loads(f4d_json.read_text(encoding="utf-8"))
+            ck = f4d["checks"]
+            rep = f4d_report.read_text(encoding="utf-8")
+            eof = json.loads(f4d_eof.read_text(encoding="utf-8"))
+            evidence_ok = (
+                f4d["all_pass"] is True
+                and len(ck) == 15
+                and all(ck.values())
+                and f4d["log_cross_check"]["on_data_packet_count"] >= 1000
+                and f4d["log_cross_check"]["commit_values"] == [16384, 16384]
+                and eof.get("f4_status") == "BLOCKED"
+            )
+            doc_ok = (
+                "61.65" in delivery12.read_text(encoding="utf-8")
+                and "8.25" in plan17.read_text(encoding="utf-8")
+                and all(s in rep for s in (
+                    "0x10798", "commit", "推断", "精度修正",
+                    "F4 仍判 BLOCKED", "不写",
+                ))
+            )
+            if not (evidence_ok and doc_ok):
+                failures.append(
+                    "12 §61.65 守护：native 反汇编证据 / 15 项 checks / 1028 包与 "
+                    "commit=16384 / F4 BLOCKED / 12 断点 / docs17 §8.25 漂移，请重跑 "
+                    "tools/l3_f4_netsource_commit_disasm.py 并回写 12 §61.65"
+                )
+            else:
+                print("[PASS] 12 §61.65 守护：libNMCommonCache.so 落盘链反汇编定位 "
+                      "NMNetSource::OnData 0x10798 代次早退 + 0x10888 commit 记账；"
+                      "Java 1028 包完整回传但 commit 恒 16384；kind=1 多内存镜像；"
+                      "F4 仍 BLOCKED、不写已解决")
+        except (KeyError, ValueError, OSError) as exc:
+            failures.append(f"12 §61.65 守护：反汇编证据 JSON 不可解析（{exc}）")
+
     if (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example" /
             "cloudmusic" / "common" / "PathNormalizer.kt").is_file():
         warnings.append("实现期修正 C-01：路径规范化下沉至 :core-common（见 PathNormalizer KDoc）")
@@ -2093,6 +3338,12 @@ def main() -> int:
         warnings.append("第六十二批（12 §61.35 / C-17，2026-11-08 晚）：核对发现离线事实存在两套表达 —— 播放闸门 NetworkPlaybackPolicy 的 NetworkKind.NONE（有 PlayerController 生产消费方）与 C-16 的 DegradationPolicy.offline（UI 降级契约）。新增 isOffline(kind) 作为单一真相源并在 NetworkPlaybackPolicyTest 加交叉断言，守护防分叉；零产品行为改动。另确认无线 adb 下无法做飞行模式 / 关 WiFi 真机实验（会失联且无法远程恢复），属 USB 环境硬阻塞。本批把 5 个批次的工作区改动固化为结构化本地提交（不 push）")
         warnings.append("第六十三批（12 §61.36，2026-11-08 晚）：用户选「保持 A3 不收口，先推进 T-L L3 / T-V 其它项」→ 审计素材暂存区发现 51 个文件全部随 debug APK 分发（不参与 aapt2 ≠ 不进包），其中 8 个 layout 含 44 处 com.netease.* 类名 / 20 个去重类；C2 PASS 是跳过整个 C4_STAGED_ASSETS 目录后的豁免结果。修正发布阻断 #2/#5/#7 口径、NOTICE.md 补「随 APK 分发」声明、03-12 §8 加注，新增 §61.36 守护防伪造替换；产出 tl-l3-assets-compliance-audit 与 tl-l3-substitution-plan 两份施工文档。零源码 / 零设备改动，A3 仍 G09 PARTIAL")
         warnings.append("第六十四批（12 §61.37 / D-146，2026-11-08 21:49）：用户定案「素材直接用竞品的，这个 APP 只是我个人使用」→ 项目范围锁定个人自用 / 侧载（不公开发布 / 不分发 APK / 不上架），竞品素材直接沿用、不做替换，61 行 replaced=false 保持。03-12 §7/§8 与 NOTICE.md 改为范围口径、发布阻断清单仅公开发布时适用；C4 dev WARN / release FAIL 机制不变但降级为未来闸门；T-L L3 只剩技术接入（8 个含 com.netease.* 类名的 layout 因 aapt2 找不到类需重写/删除、:ui-legacy、R 引用改写、照搬播放页）。新增 §61.37 守护（范围口径在位 + 不得伪造 replaced=true）。权利归属如实声明保留，不作法律结论。零源码 / 零产物 / 零设备改动，A3 按用户选项 3 保持 PARTIAL")
+        warnings.append("第六十五批（12 §61.38，2026-11-08 晚）：T-L L3 技术接入前置实证 —— 新增可复跑的 tools/legacy_layout_audit.py 与 analysis/legacy-layout-audit.json，钉死 9 个暂存 layout 的引用图：44 处 com.netease.* / 20 去重类（与 §61.36 吻合）、33 个混淆 app:* attr、251 处资源引用（187 处 @id 且 @+id 定义 0 / 64 处可导出 / 45 唯一）。口径澄清 §47 的「146 项资源」= 101 个唯一 id + 45 个可导出资源，且 45 项被 csv 61 行 / 闭包 163 项 / 暂存 51 文件三方完整覆盖、缺口 0；暂存素材在自研源码里零生产引用方、:ui-legacy 未 include。故真正阻塞是三道 aapt2 缺口（无定义 id / 未声明 attr / 无实现 View），接 res 属「照搬播放页」可选增强而非运行必需。产出 analysis/tl-l3-technical-onboarding-2026-11-08.md 施工单与 §61.38 守护（防 layout 误搬进 res、防实证基线漂移）。零源码 / 零产物 / 零设备改动，A3 仍 G09 PARTIAL、舱不冻结")
+
+        warnings.append("第六十六批（12 §61.39，2026-11-08 晚）：承接 §61.38 阶段 A/B「待猜项」做编译级实证 —— tools/legacy_layout_resolve.py 从竞品 attrs.xml / public.xml 精确还原 33/33 attr 定义 + 101/101 id（16 个带 enum/flag 子项），阶段 A/B 由「猜语义」改为「机械可搬」；tools/l3_aapt2_probe.py 扩展为四步 aapt2 实证：step1 baseline id+attr 错误 → step2 ids.xml 消除 id → step3 attrs.xml 消除 attr（剩 20 条资源引用缺失）→ step4 把 42 个暂存资源去 legacy_ 前缀接入仓库外临时工程后 compile_rc=0 / link_rc=0 / 错误 0 行。精确化结论：aapt2 不校验 Java 类，§61.37「因 aapt2 找不到竞品类」归因不完整，真正编译阻塞始终是资源定义缺失；20 个 com.netease.* View 是运行时 LayoutInflater 阻塞，须阶段 C 重写。产出 analysis/tl-l3-attr-id-resolution-2026-11-08.md 与 §61.39 守护；证据产物已路径脱敏。零源码 / 零产物 / 零设备改动，app/src/main/res/ 仍未建立、:ui-legacy 未 include、三项需拍板不变，A3 仍 G09 PARTIAL")
+
+        warnings.append("第六十七批（12 §61.40，2026-11-08 晚）：用户拍板「UI 交互严格复刻竞品」→ 按 12 §39 / docs/14 §4.1 / 03-10 §3.3 §6 的实证参数，在 :app 内零发布基线变更落地播放页：VinylDiscView（ValueAnimator.ofFloat(0,1) + LinearInterpolator + repeatCount(-1) + repeatMode(1) + 20000ms÷playSpeed + fraction*360 → setRotation，唱针用两个 ObjectAnimator；不用 Compose Canvas、不用 animateFloatAsState 近似、不加载 anim XML）、平台 TextView 原生 MARQUEE 跑马灯、72dp 横向手势切歌、Slider→PlayerStateBridge.onSeek、迷你条点击展开整页。PlayerStateBridge 按 03-10 §6 单向绑定 StateFlow，不持有 PlayerController/IMusicEngine；契约中 onModeToggle/onFavorite/歌词/输出切换/队列弹窗/封面 6 项生产无后端，只读占位不伪造。新增 tools/l3_interaction_spec.py + analysis/l3-interaction-spec.json + §61.40 守护（14 项全 PASS）：19 模块 / 11 权限 / 51 素材 / 61 行 csv 全 false / 零新增依赖 / res/ 未建 / :ui-legacy 未 include 零变化。48 个播放页 layout 的像素级照搬、20 个竞品 View 的 XML 视觉、横屏黑胶页仍需拍板后另批；A3 仍 G01~G08 PASS / G09 PARTIAL、舱不冻结")
+        warnings.append("第六十八批（12 §61.41，2026-11-09 上午）：用户拍板 B（三项全开：第 20 模块 :ui-legacy / 联网补 4 类依赖 / 补导其余 39 个 layout）→ 按 §61.38 同纪律先实证。tools/l3_full_replica_audit.py 全量审计 48 个 layout_semantic_tags：39 个未导出 layout 已复制到 analysis/l3-full-replica/layouts/，合计 421 元素 / 53 个竞品 View 类 / 81 个混淆 app:* attr / 282 个 @id / 163 项资源引用（约为已导出 9 个的 3 倍）。口径校正：48 项是「资源闭包涉及的 layout」不是 48 个播放页，其中 11 个非播放页误命中、且不存在标准竖屏主播放页 tag；§61.40 报告「39 个含标准竖屏主播放页」表述作废。决定性结论：竞品 gb.xml 里 ConstraintLayout 是标准类名但 layout_constraint* 属性名被资源混淆成 a5f/a5l/a65/a69，竞品 attrs.xml 中标准名 0 个 → 在自研工程重声明同名 attr 只会分配新 ID，ConstraintLayout 读不到值，约束语义不还原；引入 androidx.constraintlayout 依赖或 §61.39 的 attrs.xml 都只让 aapt2 编译通过，不等于布局语义还原。Google Maven 实测 HTTP 200（依赖可达）。故三项授权保留但本批不改基线：19 模块 / 零新增依赖 / res/ 未建 / :ui-legacy 未 include / 51 素材 / 61 行 csv 全 false 零变化，新增 §61.41 守护防证据漂移与基线被提前改动。修正后路径 B1 结构照搬 / B2 先补主页面与 attr 反查 / A 真实贴图优先 / C 维持现状待重新拍板。A3 仍 G01~G08 PASS / G09 PARTIAL、舱不冻结")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

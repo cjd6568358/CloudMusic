@@ -1,0 +1,192 @@
+{
+  "method": "T-L L3 编译阻塞的 aapt2 编译级四步实证（仓库外临时工程）",
+  "generated_by": "tools/l3_aapt2_probe.py",
+  "inputs": {
+    "layout_dir": "app/src/main/assets/legacy-player/layout",
+    "staged_dir": "app/src/main/assets/legacy-player",
+    "ids_xml": "analysis/l3-probe/ids.xml",
+    "attrs_xml": "analysis/l3-probe/attrs.xml",
+    "workdir_is_repo_external": true
+  },
+  "steps": [
+    {
+      "name": "step1_baseline",
+      "values_files": [],
+      "layout_count": 9,
+      "staged_resources": null,
+      "compile_rc": 0,
+      "flat_count": 9,
+      "link_rc": 1,
+      "error_line_count": 20,
+      "id_not_found_count": 11,
+      "id_not_found_unique": [
+        "miArtistName",
+        "miBlackMask",
+        "miBottomBackground",
+        "miColorBTMask",
+        "miColorTBMask",
+        "miContainer",
+        "miCover",
+        "miOtherArea",
+        "miSeekBarContainer",
+        "miSongName",
+        "miTopBackground"
+      ],
+      "attr_not_found_count": 9,
+      "attr_not_found_unique": [
+        "a5l",
+        "a65",
+        "a68",
+        "a69",
+        "aio",
+        "aip"
+      ],
+      "other_error_count": 0,
+      "other_error_sample": [],
+      "error_sample": [
+        "<workdir>\\step1_baseline\\res\\layout\\legacy_are.xml:2: error: resource id/miContainer (aka com.example.l3probe:id/miContainer) not found.",
+        "<workdir>\\step1_baseline\\res\\layout\\legacy_are.xml:4: error: resource id/miTopBackground (aka com.example.l3probe:id/miTopBackground) not found.",
+        "<workdir>\\step1_baseline\\res\\layout\\legacy_are.xml:5: error: resource id/miBottomBackground (aka com.example.l3probe:id/miBottomBackground) not found.",
+        "<workdir>\\step1_baseline\\res\\layout\\legacy_are.xml:6: error: resource id/miCover (aka com.example.l3probe:id/miCover) not found.",
+        "<workdir>\\step1_baseline\\res\\layout\\legacy_are.xml:7: error: resource id/miColorTBMask (aka com.example.l3probe:id/miColorTBMask) not found.",
+        "<workdir>\\step1_baseline\\res\\layout\\legacy_are.xml:8: error: resource id/miColorBTMask (aka com.example.l3probe:id/miColorBTMask) not found.",
+        "<workdir>\\step1_baseline\\res\\layout\\legacy_are.xml:9: error: resource id/miBlackMask (aka com.example.l3probe:id/miBlackMask) not found.",
+        "<workdir>\\step1_baseline\\res\\layout\\legacy_are.xml:10: error: resource id/miOtherArea (aka com.example.l3probe:id/miOtherArea) not found."
+      ],
+      "link_log": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:2: error: resource id/miContainer (aka com.example.l3probe:id/miContainer) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:4: error: resource id/miTopBackground (aka com.example.l3probe:id/miTopBackground) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:5: error: resource id/miBottomBackground (aka com.example.l3probe:id/miBottomBackground) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:6: error: resource id/miCover (aka com.example.l3probe:id/miCover) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:7: error: resource id/miColorTBMask (aka com.example.l3probe:id/miColorTBMask) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:8: error: resource id/miColorBTMask (aka com.example.l3probe:id/miColorBTMask) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:9: error: resource id/miBlackMask (aka com.example.l3probe:id/miBlackMask) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:10: error: resource id/miOtherArea (aka com.example.l3probe:id/miOtherArea) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:11: error: attribute a5l (aka com.example.l3probe:a5l) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:11: error: attribute a65 (aka com.example.l3probe:a65) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:11: error: attribute a69 (aka com.example.l3probe:a69) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:11: error: resource id/miSongName (aka com.example.l3probe:id/miSongName) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:12: error: attribute a5l (aka com.example.l3probe:a5l) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:12: error: attribute a65 (aka com.example.l3probe:a65) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:12: error: attribute a68 (aka com.example.l3probe:a68) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:12: error: resource id/miArtistName (aka com.example.l3probe:id/miArtistName) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:13: error: attribute a68 (aka com.example.l3probe:a68) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:13: error: resource id/miSeekBarContainer (aka com.example.l3probe:id/miSeekBarContainer) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:14: error: attribute aio (aka com.example.l3probe:aio) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step1_baseline\\res\\layout\\legacy_are.xml:14: error: attribute aip (aka com.example.l3probe:aip) not found.",
+      "compile_log": ""
+    },
+    {
+      "name": "step2_with_ids",
+      "values_files": [
+        "ids.xml"
+      ],
+      "layout_count": 9,
+      "staged_resources": null,
+      "compile_rc": 0,
+      "flat_count": 10,
+      "link_rc": 1,
+      "error_line_count": 20,
+      "id_not_found_count": 0,
+      "id_not_found_unique": [],
+      "attr_not_found_count": 18,
+      "attr_not_found_unique": [
+        "a5f",
+        "a5l",
+        "a5m",
+        "a65",
+        "a68",
+        "a69",
+        "aio",
+        "aip",
+        "axe",
+        "axf",
+        "axm",
+        "r8"
+      ],
+      "other_error_count": 2,
+      "other_error_sample": [
+        "<workdir>\\step2_with_ids\\res\\layout\\legacy_are.xml:14: error: resource drawable/bn5 (aka com.example.l3probe:drawable/bn5) not found.",
+        "<workdir>\\step2_with_ids\\res\\layout\\legacy_are.xml:16: error: resource drawable/g_k (aka com.example.l3probe:drawable/g_k) not found."
+      ],
+      "error_sample": [
+        "<workdir>\\step2_with_ids\\res\\layout\\legacy_are.xml:11: error: attribute a5l (aka com.example.l3probe:a5l) not found.",
+        "<workdir>\\step2_with_ids\\res\\layout\\legacy_are.xml:11: error: attribute a65 (aka com.example.l3probe:a65) not found.",
+        "<workdir>\\step2_with_ids\\res\\layout\\legacy_are.xml:11: error: attribute a69 (aka com.example.l3probe:a69) not found.",
+        "<workdir>\\step2_with_ids\\res\\layout\\legacy_are.xml:12: error: attribute a5l (aka com.example.l3probe:a5l) not found.",
+        "<workdir>\\step2_with_ids\\res\\layout\\legacy_are.xml:12: error: attribute a65 (aka com.example.l3probe:a65) not found.",
+        "<workdir>\\step2_with_ids\\res\\layout\\legacy_are.xml:12: error: attribute a68 (aka com.example.l3probe:a68) not found.",
+        "<workdir>\\step2_with_ids\\res\\layout\\legacy_are.xml:13: error: attribute a68 (aka com.example.l3probe:a68) not found.",
+        "<workdir>\\step2_with_ids\\res\\layout\\legacy_are.xml:14: error: attribute aio (aka com.example.l3probe:aio) not found."
+      ],
+      "link_log": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:11: error: attribute a5l (aka com.example.l3probe:a5l) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:11: error: attribute a65 (aka com.example.l3probe:a65) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:11: error: attribute a69 (aka com.example.l3probe:a69) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:12: error: attribute a5l (aka com.example.l3probe:a5l) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:12: error: attribute a65 (aka com.example.l3probe:a65) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:12: error: attribute a68 (aka com.example.l3probe:a68) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:13: error: attribute a68 (aka com.example.l3probe:a68) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:14: error: attribute aio (aka com.example.l3probe:aio) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:14: error: attribute aip (aka com.example.l3probe:aip) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:14: error: attribute axe (aka com.example.l3probe:axe) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:14: error: attribute axf (aka com.example.l3probe:axf) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:14: error: attribute axm (aka com.example.l3probe:axm) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:14: error: attribute r8 (aka com.example.l3probe:r8) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:14: error: resource drawable/bn5 (aka com.example.l3probe:drawable/bn5) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:16: error: attribute a5l (aka com.example.l3probe:a5l) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:16: error: attribute a65 (aka com.example.l3probe:a65) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:16: error: attribute a68 (aka com.example.l3probe:a68) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:16: error: resource drawable/g_k (aka com.example.l3probe:drawable/g_k) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:17: error: attribute a5f (aka com.example.l3probe:a5f) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step2_with_ids\\res\\layout\\legacy_are.xml:17: error: attribute a5m (aka com.example.l3probe:a5m) not found.",
+      "compile_log": ""
+    },
+    {
+      "name": "step3_with_attrs",
+      "values_files": [
+        "ids.xml",
+        "attrs.xml"
+      ],
+      "layout_count": 9,
+      "staged_resources": null,
+      "compile_rc": 0,
+      "flat_count": 11,
+      "link_rc": 1,
+      "error_line_count": 20,
+      "id_not_found_count": 0,
+      "id_not_found_unique": [],
+      "attr_not_found_count": 0,
+      "attr_not_found_unique": [],
+      "other_error_count": 20,
+      "other_error_sample": [
+        "<workdir>\\step3_with_attrs\\res\\layout\\legacy_are.xml:14: error: resource drawable/bn5 (aka com.example.l3probe:drawable/bn5) not found.",
+        "<workdir>\\step3_with_attrs\\res\\layout\\legacy_are.xml:16: error: resource drawable/g_k (aka com.example.l3probe:drawable/g_k) not found.",
+        "<workdir>\\step3_with_attrs\\res\\layout\\legacy_are.xml:17: error: resource drawable/g_o (aka com.example.l3probe:drawable/g_o) not found.",
+        "<workdir>\\step3_with_attrs\\res\\layout\\legacy_are.xml:18: error: resource drawable/g_a (aka com.example.l3probe:drawable/g_a) not found.",
+        "<workdir>\\step3_with_attrs\\res\\layout\\legacy_are.xml:19: error: resource drawable/gc6 (aka com.example.l3probe:drawable/gc6) not found."
+      ],
+      "error_sample": [
+        "<workdir>\\step3_with_attrs\\res\\layout\\legacy_are.xml:14: error: resource drawable/bn5 (aka com.example.l3probe:drawable/bn5) not found.",
+        "<workdir>\\step3_with_attrs\\res\\layout\\legacy_are.xml:16: error: resource drawable/g_k (aka com.example.l3probe:drawable/g_k) not found.",
+        "<workdir>\\step3_with_attrs\\res\\layout\\legacy_are.xml:17: error: resource drawable/g_o (aka com.example.l3probe:drawable/g_o) not found.",
+        "<workdir>\\step3_with_attrs\\res\\layout\\legacy_are.xml:18: error: resource drawable/g_a (aka com.example.l3probe:drawable/g_a) not found.",
+        "<workdir>\\step3_with_attrs\\res\\layout\\legacy_are.xml:19: error: resource drawable/gc6 (aka com.example.l3probe:drawable/gc6) not found.",
+        "<workdir>\\step3_with_attrs\\res\\layout\\legacy_are.xml:22: error: resource font/a (aka com.example.l3probe:font/a) not found.",
+        "<workdir>\\step3_with_attrs\\res\\layout\\legacy_are.xml:22: error: resource color/b1w (aka com.example.l3probe:color/b1w) not found.",
+        "<workdir>\\step3_with_attrs\\res\\layout\\legacy_are.xml:34: error: resource drawable/b_d (aka com.example.l3probe:drawable/b_d) not found."
+      ],
+      "link_log": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_are.xml:14: error: resource drawable/bn5 (aka com.example.l3probe:drawable/bn5) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_are.xml:16: error: resource drawable/g_k (aka com.example.l3probe:drawable/g_k) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_are.xml:17: error: resource drawable/g_o (aka com.example.l3probe:drawable/g_o) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_are.xml:18: error: resource drawable/g_a (aka com.example.l3probe:drawable/g_a) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_are.xml:19: error: resource drawable/gc6 (aka com.example.l3probe:drawable/gc6) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_are.xml:22: error: resource font/a (aka com.example.l3probe:font/a) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_are.xml:22: error: resource color/b1w (aka com.example.l3probe:color/b1w) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_are.xml:34: error: resource drawable/b_d (aka com.example.l3probe:drawable/b_d) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_are.xml:37: error: resource drawable/b_d (aka com.example.l3probe:drawable/b_d) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_are.xml:39: error: resource drawable/gca (aka com.example.l3probe:drawable/gca) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_are.xml:40: error: resource font/a (aka com.example.l3probe:font/a) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_are.xml:40: error: resource color/b1w (aka com.example.l3probe:color/b1w) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_are.xml:42: error: resource drawable/g_k (aka com.example.l3probe:drawable/g_k) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_buu.xml:6: error: resource color/ew (aka com.example.l3probe:color/ew) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_bv5.xml:5: error: resource drawable/ga9 (aka com.example.l3probe:drawable/ga9) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_bv5.xml:6: error: resource drawable/ga8 (aka com.example.l3probe:drawable/ga8) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_c6a.xml:5: error: resource drawable/ga6 (aka com.example.l3probe:drawable/ga6) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_c6a.xml:8: error: resource color/b12 (aka com.example.l3probe:color/b12) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_c6a.xml:9: error: resource drawable/aoa (aka com.example.l3probe:drawable/aoa) not found.\nC:\\Users\\Administrator\\AppData\\Local\\Temp\\cloudmusic-l3-probe\\step3_with_attrs\\res\\layout\\legacy_c6a.xml:10: error: resource drawable/f6j (aka com.example.l3probe:drawable/f6j) not found.",
+      "compile_log": ""
+    },
+    {
+      "name": "step4_with_staged_res",
+      "values_files": [
+        "ids.xml",
+        "attrs.xml"
+      ],
+      "layout_count": 9,
+      "staged_resources": {
+        "copied_file_count": 42,
+        "values_xml_rewritten": 5,
+        "by_staged_dir": {
+          "drawable": 7,
+          "drawable-anydpi-v24": 1,
+          "drawable-hdpi": 1,
+          "drawable-ldpi": 1,
+          "drawable-mdpi": 2,
+          "drawable-xhdpi": 2,
+          "drawable-xxhdpi": 21,
+          "drawable-xxxhdpi": 1,
+          "font": 1,
+          "values": 3,
+          "values-h640dp": 1,
+          "values-h736dp": 1
+        }
+      },
+      "compile_rc": 0,
+      "flat_count": 53,
+      "link_rc": 0,
+      "error_line_count": 0,
+      "id_not_found_count": 0,
+      "id_not_found_unique": [],
+      "attr_not_found_count": 0,
+      "attr_not_found_unique": [],
+      "other_error_count": 0,
+      "other_error_sample": [],
+      "error_sample": [],
+      "link_log": "",
+      "compile_log": ""
+    }
+  ],
+  "verdict": {
+    "baseline_has_id_errors": true,
+    "baseline_has_attr_errors": true,
+    "ids_remove_all_id_errors": true,
+    "attrs_remove_all_attr_errors": true,
+    "step3_remaining_are_resource_refs": true,
+    "staged_res_remove_all_errors": true,
+    "step4_aapt2_clean": true,
+    "conclusion": "四步证明 aapt2 层面三类错误（101 个无定义 @id、33 个未声明 app:* attr、45 项 layout 资源引用）全部可由「竞品 attrs.xml + public.xml + 已暂存的 45 项素材」机械搬运彻底消除，9 个 layout 在仓库外临时工程中 aapt2 编译 / 链接全绿。唯一剩余阻塞是 20 个 com.netease.* 自定义 View 无实现：aapt2 不校验 Java 类，故这不属编译错误，而是运行时 LayoutInflater 的 ClassNotFoundException，须由阶段 C 重写；是否照搬播放页仍待拍板，本实证不构成接线。"
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "method": "12 §61.60 / F4 第二卡点的样本侧结构复核（纯离线、只读）",
+  "generated_by": "tools/l3_f4_fmp4_structure_audit.py",
+  "sample": "analysis/l3-f3-fixtures/f3_m4a_fast.m4a",
+  "checks": {
+    "sample_size_exact": true,
+    "faststart_layout": true,
+    "fragment_count_13_styp_13_moof_12_mdat": true,
+    "tail_is_orphan_moof_no_mdat": true,
+    "no_sidx_mfra_mfro_index": true,
+    "variant_b_requests_two_ranges": true,
+    "head_including_moov_not_requested": true,
+    "middle_fragment_not_requested": true,
+    "ondata_matches_request_exactly": true,
+    "no_codec_in_variant_b": true,
+    "baseline_repeats_same_offset": true,
+    "onend_only_two_in_variant_b": true
+  },
+  "all_pass": true,
+  "failed_checks": [],
+  "evidence": {
+    "file_size": 3918787,
+    "box_counts": {
+      "ftyp": 1,
+      "mdat": 12,
+      "moof": 13,
+      "moov": 1,
+      "styp": 13
+    },
+    "first_boxes": [
+      {
+        "type": "ftyp",
+        "offset": 0,
+        "size": 32
+      },
+      {
+        "type": "moov",
+        "offset": 32,
+        "size": 1302
+      },
+      {
+        "type": "styp",
+        "offset": 1334,
+        "size": 32
+      },
+      {
+        "type": "moof",
+        "offset": 1366,
+        "size": 1576
+      },
+      {
+        "type": "mdat",
+        "offset": 2942,
+        "size": 324953
+      },
+      {
+        "type": "styp",
+        "offset": 327895,
+        "size": 32
+      },
+      {
+        "type": "moof",
+        "offset": 327927,
+        "size": 1220
+      },
+      {
+        "type": "mdat",
+        "offset": 329147,
+        "size": 275860
+      },
+      {
+        "type": "styp",
+        "offset": 605007,
+        "size": 32
+      },
+      {
+        "type": "moof",
+        "offset": 605039,
+        "size": 1220
+      }
+    ],
+    "last_boxes": [
+      {
+        "type": "moof",
+        "offset": 3537307,
+        "size": 1220
+      },
+      {
+        "type": "mdat",
+        "offset": 3538527,
+        "size": 379008
+      },
+      {
+        "type": "styp",
+        "offset": 3917535,
+        "size": 32
+      },
+      {
+        "type": "moof",
+        "offset": 3917567,
+        "size": 1220
+      }
+    ],
+    "requested_ranges": [
+      [
+        147456,
+        327895
+      ],
+      [
+        605007,
+        1653583
+      ]
+    ],
+    "ondata_id1_span": [
+      147456,
+      327895
+    ],
+    "ondata_id2_span": [
+      605007,
+      1653583
+    ],
+    "unrequested_gaps": [
+      [
+        0,
+        147456
+      ],
+      [
+        327895,
+        605007
+      ]
+    ],
+    "onend_ids": [
+      "1",
+      "2"
+    ]
+  },
+  "conclusion": "f3_m4a_fast.m4a 是人工截取/重排且**不完整的 fMP4**：13 个 moof 但只有 12 个 mdat，文件末尾是**没有配对 mdat 的孤立 moof**（截断在分片中间），且没有 sidx / mfra / mfro 索引。变体 B 下 native 只请求 [147456,327895) 与 [605007,1653583)，**跳过开头 147456 B（含 ftyp+moov）与整个第二分片 [327895,605007)**；onData 覆盖与请求范围逐字节一致（180439 B + 1048576 B），说明 Java 侧数据没有丢、不是 vfile 落盘丢数据。因此 demuxer probe 拿到的字节集合本身不完整，**第二卡点应优先归因于样本不自洽，而不是 native vfile 落盘缺陷**。",
+  "attribution_correction": "§61.59 把第二卡点写作「fMP4 多 Range × normal mode vfile 落盘 / demuxer probe 数据不足」；本批把优先级修正为：① 人工重排样本不自洽（缺索引 / 尾部截断 / 分片跳读）为主要嫌疑，② normal mode vfile 落盘时序为次要候选。A/B 的实测结果（环节 B 部分成立、主判据未达成）不改写。",
+  "honest_notes": [
+    "结构分析是静态的；「样本不自洽导致 probe 失败」仍是高置信推论，未真机验证。",
+    "判据需要一个完整、未经重排的真实 .m4a（或原始 mp4 完整片段）重建可判定场景；设备已离线，本批判 PENDING_REAL_SAMPLE。",
+    "不判播放器缺陷，也不写「F4 已解决 / m4a 已支持 / 全格式已支持」。",
+    "A/B 实测事实不改写；自动进曲 3 首 / seek / ENDED 仍 NOT RUN；A3 仍 G09 PARTIAL、舱不冻结。"
+  ]
+}

@@ -1,0 +1,335 @@
+{
+  "method": "12 §61.65 / F4 native 落盘链路一手反汇编（离线、只读、capstone + pyelftools，不需要设备在场）",
+  "generated_by": "tools/l3_f4_netsource_commit_disasm.py",
+  "so": "engine-legacy/src/main/jniLibs/arm64-v8a/libNMCommonCache.so",
+  "so_size": 309632,
+  "sections": {
+    "plt": {
+      "addr": "0x8730",
+      "size": "0x7a0"
+    },
+    "text": {
+      "addr": "0x8ed0",
+      "size": "0x3271c"
+    }
+  },
+  "symbols": {
+    "_ZN17NMBufferSourceImp19NotifyCacheProgressEl": {
+      "addr": "0xc0c8",
+      "size": 324
+    },
+    "_ZN17NMBufferSourceImp13SetFileOffsetEl": {
+      "addr": "0xb740",
+      "size": 104
+    },
+    "_ZN17NMBufferSourceImp19OnNetSourceDataDoneEi": {
+      "addr": "0xbee8",
+      "size": 384
+    },
+    "_ZN17NMBufferSourceImp14OnWriteNetDataERKNSt6__ndk110shared_ptrI12NMDataBufferEEll": {
+      "addr": "0xbcac",
+      "size": 564
+    },
+    "_ZN17NMBufferSourceImp15OnNetSourceDataEiNSt6__ndk110unique_ptrI12NMDataBufferPFvPS2_EEEll": {
+      "addr": "0xba44",
+      "size": 616
+    },
+    "_ZN17NMBufferSourceImp14OnFlushNetDataEv": {
+      "addr": "0xc068",
+      "size": 88
+    }
+  },
+  "plt_resolved": {
+    "0x8940": "_ZN17NMBufferSourceImp19NotifyCacheProgressEl",
+    "0x8950": "_ZNSt6__ndk15mutex6unlockEv",
+    "0x8b80": "_ZNSt6__ndk119__shared_weak_count14__release_weakEv",
+    "0x8c80": "_Znwm",
+    "0x8e00": "_ZNSt6__ndk15mutex4lockEv"
+  },
+  "anchors": {
+    "0xBAAC OnNetSourceData: kind 与 2 比较": {
+      "address": "0xBAAC",
+      "description": "OnNetSourceData: kind 与 2 比较",
+      "mnemonic": "cmp",
+      "op_str": "w23, #2",
+      "expected": "cmp w23, #2",
+      "ok": true
+    },
+    "0xBAB0 kind==2 跳过 NMMemoryCache::Write，汇合到任务投递": {
+      "address": "0xBAB0",
+      "description": "kind==2 跳过 NMMemoryCache::Write，汇合到任务投递",
+      "mnemonic": "b.eq",
+      "op_str": "#0xbb34",
+      "expected": "b.eq 0xbb34",
+      "ok": true
+    },
+    "0xBAE8 kind!=2 额外写 NMMemoryCache": {
+      "address": "0xBAE8",
+      "description": "kind!=2 额外写 NMMemoryCache",
+      "mnemonic": "bl",
+      "op_str": "#0xfe48",
+      "expected": "bl 0xfe48",
+      "ok": true
+    },
+    "0xBC10 两种 kind 都投递 OnWriteNetData 任务到同一队列": {
+      "address": "0xBC10",
+      "description": "两种 kind 都投递 OnWriteNetData 任务到同一队列",
+      "mnemonic": "bl",
+      "op_str": "#0x16468",
+      "expected": "bl 0x16468",
+      "ok": true
+    },
+    "0xBCD8 OnWriteNetData: 读 normal-mode 标志 +0xb8": {
+      "address": "0xBCD8",
+      "description": "OnWriteNetData: 读 normal-mode 标志 +0xb8",
+      "mnemonic": "ldrb",
+      "op_str": "w8, [x0, #0xb8]",
+      "expected": "ldrb 0xb8",
+      "ok": true
+    },
+    "0xBDD4 0xb8==0 → Failed Not Support 分支入口": {
+      "address": "0xBDD4",
+      "description": "0xb8==0 → Failed Not Support 分支入口",
+      "mnemonic": "mov",
+      "op_str": "w0, #5",
+      "expected": "(any) ",
+      "ok": true
+    },
+    "0xBD00 OnWriteNetData: 读 file_offset_ (+0xa8)": {
+      "address": "0xBD00",
+      "description": "OnWriteNetData: 读 file_offset_ (+0xa8)",
+      "mnemonic": "ldr",
+      "op_str": "x8, [x19, #0xa8]",
+      "expected": "ldr 0xa8",
+      "ok": true
+    },
+    "0xBD14 end <= file_offset_ → SKIP": {
+      "address": "0xBD14",
+      "description": "end <= file_offset_ → SKIP",
+      "mnemonic": "b.le",
+      "op_str": "#0xbe88",
+      "expected": "b.le 0xbe88",
+      "ok": true
+    },
+    "0xBD18 TRIM 计算 skip = file_offset_ - offset": {
+      "address": "0xBD18",
+      "description": "TRIM 计算 skip = file_offset_ - offset",
+      "mnemonic": "subs",
+      "op_str": "x23, x8, x21",
+      "expected": "subs x8, x21",
+      "ok": true
+    },
+    "0xBE80 写失败后永久清零 +0xb8": {
+      "address": "0xBE80",
+      "description": "写失败后永久清零 +0xb8",
+      "mnemonic": "strb",
+      "op_str": "wzr, [x19, #0xb8]",
+      "expected": "strb 0xb8",
+      "ok": true
+    },
+    "0xBED4 写成功后调用 NotifyCacheProgress": {
+      "address": "0xBED4",
+      "description": "写成功后调用 NotifyCacheProgress",
+      "mnemonic": "bl",
+      "op_str": "#0x8940",
+      "expected": "bl 0x8940",
+      "ok": true
+    },
+    "0xBF08 OnNetSourceDataDone 的 kind==2 分支（§61.54 复核）": {
+      "address": "0xBF08",
+      "description": "OnNetSourceDataDone 的 kind==2 分支（§61.54 复核）",
+      "mnemonic": "cmp",
+      "op_str": "w1, #2",
+      "expected": "cmp w1, #2",
+      "ok": true
+    },
+    "0x101E4 WaitRequest: 日志取当前请求代次 [+0xc0]": {
+      "address": "0x101E4",
+      "description": "WaitRequest: 日志取当前请求代次 [+0xc0]",
+      "mnemonic": "ldr",
+      "op_str": "x4, [x19, #0xc0]",
+      "expected": "ldr 0xc0",
+      "ok": true
+    },
+    "0x10320 WaitRequest: 读 commit 字段 [+0x30]": {
+      "address": "0x10320",
+      "description": "WaitRequest: 读 commit 字段 [+0x30]",
+      "mnemonic": "ldr",
+      "op_str": "x8, [x19, #0x30]",
+      "expected": "ldr 0x30",
+      "ok": true
+    },
+    "0x10794 NMNetSource::OnData: 请求代次 [+0xc0] 与回调 arg1 比对": {
+      "address": "0x10794",
+      "description": "NMNetSource::OnData: 请求代次 [+0xc0] 与回调 arg1 比对",
+      "mnemonic": "cmp",
+      "op_str": "x8, x24",
+      "expected": "cmp x8, x24",
+      "ok": true
+    },
+    "0x10798 ★ 代次不匹配 → 整包丢弃，直接返回": {
+      "address": "0x10798",
+      "description": "★ 代次不匹配 → 整包丢弃，直接返回",
+      "mnemonic": "b.ne",
+      "op_str": "#0x108e0",
+      "expected": "b.ne 0x108e0",
+      "ok": true
+    },
+    "0x107F8 commit 与当前包 offset 比对（不等只打日志，不丢弃）": {
+      "address": "0x107F8",
+      "description": "commit 与当前包 offset 比对（不等只打日志，不丢弃）",
+      "mnemonic": "cmp",
+      "op_str": "x8, x22",
+      "expected": "cmp x8, x22",
+      "ok": true
+    },
+    "0x10884 commit 新值 = offset + length": {
+      "address": "0x10884",
+      "description": "commit 新值 = offset + length",
+      "mnemonic": "adds",
+      "op_str": "x8, x21, x22",
+      "expected": "adds x8, x21, x22",
+      "ok": true
+    },
+    "0x10888 ★ 写入 commit = offset + length": {
+      "address": "0x10888",
+      "description": "★ 写入 commit = offset + length",
+      "mnemonic": "str",
+      "op_str": "x8, [x20, #0x30]",
+      "expected": "str 0x30",
+      "ok": true
+    },
+    "0x108D0 commit 越过等待阈值 → 置唤醒标志": {
+      "address": "0x108D0",
+      "description": "commit 越过等待阈值 → 置唤醒标志",
+      "mnemonic": "str",
+      "op_str": "w8, [x20, #0xb8]",
+      "expected": "str 0xb8",
+      "ok": true
+    },
+    "0x108DC 唤醒等待读侧的条件变量": {
+      "address": "0x108DC",
+      "description": "唤醒等待读侧的条件变量",
+      "mnemonic": "bl",
+      "op_str": "#0x8ab0",
+      "expected": "bl 0x8ab0",
+      "ok": true
+    }
+  },
+  "rodata_strings": {
+    "0x3BB33": {
+      "text": "NMBufferSourceImp::OnWriteNetData Failed Not Support.",
+      "ok": true
+    },
+    "0x3BB69": {
+      "text": "NMBufferSourceImp::OnWriteNetData Failed Data Invalid.",
+      "ok": true
+    },
+    "0x3BBA0": {
+      "text": "NMBufferSourceImp(%lld)::OnWriteNetData SKIP offset:%lld size:%lld file_offset_:%lld",
+      "ok": true
+    },
+    "0x3BBF5": {
+      "text": "NMBufferSourceImp(%lld)::OnWriteNetData TRIM offset:%lld size:%lld skip:%lld",
+      "ok": true
+    },
+    "0x3CB43": {
+      "text": "NMNetSource(%lld-%lld)::WaitRequest offset:%lld, length:%lld, signal_size:%lld, force:%s",
+      "ok": true
+    },
+    "0x3CBA1": {
+      "text": "NMNetSource(%lld-%lld)::WaitRequest cur offset:%lld, cur end : % lld, expect offset : % lld, end : % lld, commit : % lld",
+      "ok": true
+    },
+    "0x3CC1A": {
+      "text": "NMNetSource(%lld-%lld)::MakeRangeRequestAsync offset:%lld, length:%lld, signal_size:%lld",
+      "ok": true
+    },
+    "0x3CC73": {
+      "text": "NMNetSource(%lld-%lld)::OnData() offset:%lld, size:%lld, except offset:%lld, end:%lld",
+      "ok": true
+    },
+    "0x3CCC9": {
+      "text": "NMNetSource(%lld-%lld)::OnData() UnExpect New Offsetcommted:%lld, offset:%lld, size:%lld, cur_req_size:%lld",
+      "ok": true
+    },
+    "0x3CF90": {
+      "text": "NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld ",
+      "ok": true
+    },
+    "0x3D0AE": {
+      "text": "NMSlicesFile Write all finish",
+      "ok": true
+    }
+  },
+  "log_cross_check": {
+    "file": "analysis/l3-f4-logs/vfile-commit-20261110-130021.txt",
+    "on_data_packet_count": 1028,
+    "on_data_chunk_size": [
+      215,
+      7977,
+      8192
+    ],
+    "start_count": 9,
+    "start_length": [
+      1048576
+    ],
+    "commit_values": [
+      16384,
+      16384
+    ],
+    "generations": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "7",
+      "8"
+    ],
+    "read_result_minus2_count": 12,
+    "delayed_on_end_count": 8,
+    "note": "§61.64 变体 D（kind=2）主判据日志；一手统计为 9 次 Start（每次 length=1048576）、1028 条 onData（绝大多数 8192 B，末包可被拆成 215+7977），Java 侧回传完整，但 commit 恒 16384。§61.64 正文写「8 次 Start」为当时窗口口径，此处按原始日志如实登记，历史不改写。"
+  },
+  "checks": {
+    "elf_and_symbols": true,
+    "plt_notify_cache_progress": true,
+    "plt_mutex_lock_unlock": true,
+    "disasm_anchors_all": true,
+    "rodata_strings_all": true,
+    "kind2_only_skips_memory_cache": true,
+    "commit_field_write_located": true,
+    "generation_early_drop_located": true,
+    "log_java_delivered_full_megabyte": true,
+    "log_commit_pinned_at_16384": true,
+    "log_generation_regenerated": true,
+    "log_read_side_starved": true,
+    "f4_still_blocked": true,
+    "variant_d_verdict_preserved": true,
+    "no_credentials_in_output": true
+  },
+  "all_pass": true,
+  "failed_checks": [],
+  "finding": {
+    "binary_confirmed": [
+      "OnNetSourceData @0xBA44：cmp w23,#2 / b.eq 0xBB34；kind!=2 额外 bl 0xFE48 (NMMemoryCache::Write)，kind==2 跳过；两者都汇合到 0xBB34 构造任务并 bl 0x16468 投递。",
+      "OnWriteNetData @0xBCAC：+0xB8==0 → 'Failed Not Support' 直接返回；以 [this+0xA8]=file_offset_ 与 offset+len 比较，产生 SKIP / TRIM 分支；写失败 0xBE80 永久清零 +0xB8；写成功 0xBED4 → NotifyCacheProgress。",
+      "NMNetSource::OnData @0x10748：0x10794 cmp [this+0xC0],arg1 / 0x10798 b.ne 0x108E0 —— 请求代次不匹配则整包丢弃（不回调、不更新 commit、不唤醒读侧）；通过校验后 0x10884/0x10888 把 commit 写为 offset+length，0x108D0/0x108DC 越过阈值才唤醒等待读侧。",
+      "WaitRequest @0x10198 用 [+0x30] 作为 commit 打印，并在读侧读空时经 MakeRangeRequestAsync 生成新请求（日志 NMNetSource(1-N) 的 N 递增）。"
+    ],
+    "log_confirmed": [
+      "变体 D 主判据 4,181 行：onData 1028 条（8 次 Start，每次 length=1048576，每包 8192 B）→ Java 侧回传完整，不是取流被提前取消。",
+      "commit 仅 16384（2 个 8192 B 包）；基线 kind=1 为 180224（22 个包）。",
+      "读侧 ReadFromFileNoLock offset:327895 readed_len:0 result:-2 反复出现，请求代次从 (1-0) 重发到 (1-8)。"
+    ],
+    "inference": "读侧在 moov 尾部 offset 327895 读空 → WaitRequest 立即 MakeRangeRequestAsync 递增请求代次 → 旧代次仍在途的 OnDataRequestData 包在 0x10798 被 b.ne 整包丢弃 → commit 永久停在首次唤醒前已通过代次校验的少量包。kind=1 因额外写 NMMemoryCache（内存镜像）让读侧较晚读空/较少重发，故 commit 更大（180224）；kind=2 完全依赖这条易失效的 commit 唤醒链，只剩 16384。",
+    "precision_correction": "commit 是 NMNetSource 的『连续确认偏移』，不是 vfile 磁盘写入字节数；§61.62/§61.64 曾把 commit 当作落盘量代理，本批给出精度修正。"
+  },
+  "honest_notes": [
+    "本轮为静态反汇编 + 已有真机日志的交叉推断，未做新的真机 A/B 直接触发 0x10798 早退；推断部分标为 inference，不写成已实证的因果。",
+    "level-5 日志（OnWriteNetData SKIP / TRIM / Failed Not Support）在现有 logcat 中未开启，故这些分支只由二进制坐实、未由运行时日志确认。",
+    "F4 仍 BLOCKED：根因方向已定位但未修复、未验证；-103 判据未通过；自动进曲 3 首 / seek / ENDED 仍 NOT RUN；F3 14 格未改写；A3 仍 G09 PARTIAL、舱不冻结。",
+    "零 P0 源码改动、零设备操作、零新增依赖；不写「F4 已解决 / m4a 已支持」。"
+  ]
+}

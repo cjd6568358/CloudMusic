@@ -1,0 +1,72 @@
+{
+  "method": "12 §61.58 / F4 kind 槽 A/B 的设备上线前置条件自检（离线、只读）",
+  "generated_by": "tools/l3_f4_preflight.py",
+  "checks": {
+    "adb_binary_present": true,
+    "apk_present_nonzero": true,
+    "five_samples_present_nonzero": true,
+    "port_8765_bindable": true,
+    "runner_symbols_complete": true,
+    "ab_tool_present": true,
+    "windows_launcher_fix_present": true,
+    "ab_result_honest": true,
+    "p0_baseline_clean": true,
+    "all_ten_guard_jsons_green": true,
+    "contract_selfcheck_pass": true,
+    "compile_precheck_evidence_green": true,
+    "runbook_present": true,
+    "device_probe_completed": true,
+    "no_credentials_in_new_evidence": true
+  },
+  "all_pass": true,
+  "failed_checks": [],
+  "device_online": true,
+  "device_lines": [
+    "10.0.0.2:39737\tdevice"
+  ],
+  "ready_to_run": false,
+  "blocking_reason": "A/B 已执行且结果如实登记；主判据未达成，待第二卡点定位",
+  "one_liner": "python tools/l3_f4_kind_slot_ab.py --serial <ip:port> --apply",
+  "evidence": {
+    "apk_bytes": 31433878,
+    "samples": {
+      "f3_mp3.mp3": 1129442,
+      "f3_wma.wma": 722095,
+      "f3_flac.flac": 4194304,
+      "f3_wav.wav": 4194304,
+      "f3_m4a_fast.m4a": 3918787
+    },
+    "guard_jsons": {
+      "l3-f4-ab-compile-precheck-audit.json": true,
+      "l3-f4-jni-arg-audit.json": true,
+      "l3-f4-task-diff-audit.json": true,
+      "l3-f4-disasm-verify-audit.json": true,
+      "l3-f4-kind-slot-ab-audit.json": true,
+      "l3-f4-kind-slot-audit.json": true,
+      "l3-f4-ab-audit.json": true,
+      "l3-f4-eof-audit.json": true,
+      "l3-f3-audit.json": true,
+      "l3-f2-ext-fix.json": true
+    },
+    "runner_symbols": [
+      "adb",
+      "push_local",
+      "set_network_gate",
+      "parse_log",
+      "ACTION_PLAY",
+      "EXTRA_URL",
+      "EXTRA_LOCAL",
+      "PRIVATE_DIR",
+      "PKG"
+    ],
+    "contract_selfcheck": true,
+    "p0_git_diff_clean": true
+  },
+  "conclusion": "A/B 的全部离线前置条件（工具链 / APK / 5 个样本 / 端口 / runner 符号 / 10 批守护 / 契约自检 / P0 基线 / 编译期预检）已汇总自检；§61.59 后 A/B 已执行两次（25s/45s）+ 基线对照：环节 B 部分成立（消除了 id>=3 同区间重复请求）但非充分原因（仍无 codec），主判据未达成、F4 仍 BLOCKED。本工具不执行 A/B。",
+  "honest_notes": [
+    "只读探测 adb devices，不 connect、不改设备现场、不跑任何格。",
+    "all_pass 与 ready_to_run 是两个不同结论；A/B 已执行后 ready_to_run 恒为 false。",
+    "本工具不证明因果链；§61.59 真机结论见 analysis/l3-f4-ab-result-report.md；自动进曲 3 首判据仍 NOT RUN。",
+    "纯离线、零生产代码改动、零新增依赖；A3 仍 G09 PARTIAL、舱不冻结。"
+  ]
+}

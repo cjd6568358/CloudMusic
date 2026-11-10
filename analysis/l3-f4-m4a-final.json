@@ -1,0 +1,33 @@
+{
+  "method": "12 §61.51 m4a faststart 双路径最终真机取证",
+  "serial": "10.0.0.2:39853",
+  "cells": [
+    {
+      "path": "local",
+      "push_ok": true,
+      "extension": "m4a",
+      "codec": "aac",
+      "openSource": "0",
+      "write": true,
+      "m103": false,
+      "starts": [],
+      "onEnd": []
+    },
+    {
+      "path": "remote",
+      "push_ok": true,
+      "extension": "m4a",
+      "codec": null,
+      "openSource": null,
+      "write": false,
+      "m103": false,
+      "starts": [
+        "Start id=1 offset=327895 length=1048576",
+        "Start id=2 offset=605007 length=1048576"
+      ],
+      "onEnd": [
+        "onEnd id=1 error=null (delayed 2s or immediate)\r"
+      ]
+    }
+  ]
+}

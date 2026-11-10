@@ -1,0 +1,36 @@
+{
+  "method": "12 §61.60 / F4 第二卡点样本侧复核的独立审计（离线、只读）",
+  "generated_by": "tools/l3_f4_second_blocker_audit.py",
+  "checks": {
+    "structure_json_present": true,
+    "structure_all_pass": true,
+    "orphan_tail_moof": true,
+    "no_index_boxes": true,
+    "fragment_counts_asymmetric": true,
+    "two_unrequested_gaps": true,
+    "ondata_exact_no_loss": true,
+    "report_present_and_honest": true,
+    "ab_facts_not_rewritten": true,
+    "attribution_correction_in_delivery12": true,
+    "p0_git_diff_clean": true,
+    "no_credentials_in_evidence": true,
+    "contract_guard_present": true,
+    "delivery12_has_61_60": true,
+    "head_still_uncommitted": true
+  },
+  "all_pass": true,
+  "failed_checks": [],
+  "status": {
+    "second_blocker_primary_suspect": "人工重排样本不自洽（缺索引 / 尾部截断 / 分片跳读）",
+    "second_blocker_secondary": "normal mode vfile 落盘时序",
+    "verification": "PENDING_REAL_SAMPLE（设备已离线，未真机验证）",
+    "ab_facts_rewritten": false,
+    "f4_status": "BLOCKED"
+  },
+  "honest_notes": [
+    "本批只做归因优先级修正，未定位也未证实第二卡点的真机成因。",
+    "§61.59 A/B 实测结论（环节 B 部分成立、主判据未达成、P0 零净改动）不改写。",
+    "人工构造的容器不能用来判定播放器缺陷；自动进曲 3 首 / seek / ENDED 仍 NOT RUN。",
+    "纯离线、只读、零代码改动；A3 仍 G09 PARTIAL、舱不冻结。"
+  ]
+}

@@ -1,0 +1,2289 @@
+{
+  "method": "T-L L3 技术接入前置实证：layout 引用图 + 暂存资源定义覆盖核对 + 生产引用方统计",
+  "generated_by": "tools/legacy_layout_audit.py",
+  "inputs": {
+    "layout_dir": "app/src/main/assets/legacy-player/layout",
+    "mapping_csv": "docs/assets-mapping.csv",
+    "closure_json": "analysis/player-resource-closure.json",
+    "mapping_rows": 61,
+    "closure_count": 163,
+    "staged_file_count": 51,
+    "staged_files_by_dir": {
+      "drawable": 7,
+      "drawable-anydpi-v24": 1,
+      "drawable-hdpi": 1,
+      "drawable-ldpi": 1,
+      "drawable-mdpi": 2,
+      "drawable-xhdpi": 2,
+      "drawable-xxhdpi": 21,
+      "drawable-xxxhdpi": 1,
+      "font": 1,
+      "layout": 9,
+      "values": 3,
+      "values-h640dp": 1,
+      "values-h736dp": 1
+    },
+    "staged_definitions_by_type": {
+      "color": 18,
+      "dimen": 2,
+      "drawable": 28,
+      "font": 1,
+      "layout": 9,
+      "string": 3
+    }
+  },
+  "totals": {
+    "layout_count": 9,
+    "well_formed_xml": 9,
+    "element_count": 114,
+    "netease_class_occurrences_raw": 44,
+    "netease_class_unique": 20,
+    "app_attr_unique": 33,
+    "resource_ref_occurrences": 251,
+    "exportable_ref_occurrences": 64,
+    "exportable_ref_unique": 45,
+    "refs_in_mapping_unique": 45,
+    "refs_missing_in_mapping_unique": 0,
+    "refs_in_closure_unique": 45,
+    "refs_with_staged_definition_unique": 45,
+    "refs_missing_staged_definition_unique": 0,
+    "id_ref_occurrences": 187,
+    "plus_id_ref_occurrences": 0,
+    "attr_ref_occurrences": 0,
+    "system_ref_occurrences": 0,
+    "null_ref_occurrences": 2
+  },
+  "layout_partition": {
+    "branded_layouts": [
+      "legacy_are",
+      "legacy_buu",
+      "legacy_bv5",
+      "legacy_c6a",
+      "legacy_e0g",
+      "legacy_gb",
+      "legacy_gc",
+      "legacy_gr"
+    ],
+    "plain_layouts": [
+      "legacy_c5y"
+    ]
+  },
+  "netease_classes_unique": [
+    "com.netease.cloudmusic.land.plugin.PlayerLandscapeViewGroup",
+    "com.netease.cloudmusic.land.vinyl.CircleTouchView",
+    "com.netease.cloudmusic.land.vinyl.RotationVinylView",
+    "com.netease.cloudmusic.land.vinyl.TouchInterceptorRecyclerView",
+    "com.netease.cloudmusic.module.miminiplayer.MiAnimViewRender",
+    "com.netease.cloudmusic.module.miminiplayer.MiLyricViewContainer",
+    "com.netease.cloudmusic.ui.AnimableDrawerImageView",
+    "com.netease.cloudmusic.ui.CommonSimpleDraweeView",
+    "com.netease.cloudmusic.ui.GestureImageSwitcher",
+    "com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView",
+    "com.netease.cloudmusic.ui.PlayerDiscViewFlipper",
+    "com.netease.cloudmusic.ui.PlayerLandScapePageImageView",
+    "com.netease.cloudmusic.ui.PlayerLandScapePageMarqueeTextView",
+    "com.netease.cloudmusic.ui.PlayerSeekBarNew",
+    "com.netease.cloudmusic.ui.PlayerStarAnimImageView",
+    "com.netease.cloudmusic.ui.RotationRelativeLayout",
+    "com.netease.play.livepage.music2.CircleProgressView",
+    "com.netease.play.ui.MarqueTextView",
+    "com.netease.play.ui.MarqueeTextView",
+    "com.netease.play.ui.RotateFrameLayout"
+  ],
+  "app_attrs_unique": [
+    "a5_",
+    "a5f",
+    "a5g",
+    "a5k",
+    "a5l",
+    "a5m",
+    "a5p",
+    "a5v",
+    "a5w",
+    "a5z",
+    "a60",
+    "a62",
+    "a63",
+    "a64",
+    "a65",
+    "a68",
+    "a69",
+    "a6a",
+    "ae",
+    "ahy",
+    "ahz",
+    "aio",
+    "aip",
+    "aln",
+    "am0",
+    "am1",
+    "am3",
+    "axe",
+    "axf",
+    "axm",
+    "r8",
+    "w3",
+    "xs"
+  ],
+  "resource_refs_unique_by_type": {
+    "color": [
+      "b12",
+      "b1c",
+      "b1e",
+      "b1n",
+      "b1q",
+      "b1t",
+      "b1w",
+      "b1z",
+      "dv",
+      "ew",
+      "ff"
+    ],
+    "dimen": [
+      "auh",
+      "aui"
+    ],
+    "drawable": [
+      "aoa",
+      "ay6",
+      "b3z",
+      "b_d",
+      "bn5",
+      "bnx",
+      "bp1",
+      "coy",
+      "csp",
+      "dwr",
+      "epi",
+      "f6j",
+      "f6m",
+      "g9f",
+      "g_a",
+      "g_k",
+      "g_o",
+      "ga0",
+      "ga6",
+      "ga8",
+      "ga9",
+      "gc6",
+      "gca",
+      "gr7",
+      "h0c",
+      "h0g",
+      "h0h",
+      "h0o"
+    ],
+    "font": [
+      "a"
+    ],
+    "id": [
+      "background",
+      "backgroundImage",
+      "bigAlbumCover",
+      "bottomGuideLine",
+      "btnNext",
+      "btnPlay",
+      "btnPre",
+      "clickDelegateSpace",
+      "closeBtn",
+      "container",
+      "cover",
+      "coverImage",
+      "curSongInfo",
+      "currentIndicator",
+      "currentMode",
+      "disc0",
+      "disc1",
+      "discSwitcher",
+      "disk",
+      "durationTime",
+      "infoContainer",
+      "ivCover",
+      "ivFinish",
+      "ivShare",
+      "likeBtn",
+      "likedImage",
+      "lrcViewContainer",
+      "lyRicCover",
+      "mask",
+      "miAnimContainer",
+      "miAnimRender",
+      "miArtistName",
+      "miBlackMask",
+      "miBottomBackground",
+      "miColorBTMask",
+      "miColorTBMask",
+      "miContainer",
+      "miControlAlbumCover",
+      "miControlLikeContainer",
+      "miControlPlayBtn",
+      "miCover",
+      "miLikeBtn",
+      "miLikeContainer",
+      "miLikeCount",
+      "miLyricAreaContainer",
+      "miLyricArtistName",
+      "miLyricContainer",
+      "miLyricSongName",
+      "miModeBtn",
+      "miNextBtn",
+      "miOtherArea",
+      "miPlayBtn",
+      "miPlayerControlPanel",
+      "miPrevBtn",
+      "miSeekBar",
+      "miSeekBarContainer",
+      "miSongName",
+      "miTopBackground",
+      "mi_control_LikeBtn",
+      "mi_control_LikeCount",
+      "nextBtn",
+      "placeholderIv",
+      "playBtn",
+      "playDiscBg",
+      "playSeekBar",
+      "playerBackgroundImage",
+      "prevBtn",
+      "programDiscSwitcher",
+      "programDisk",
+      "programSmallAlbumCover0",
+      "programSmallAlbumCover1",
+      "progressInfo",
+      "progressView",
+      "recyclerView",
+      "redDot",
+      "resourceCreator",
+      "resourceName",
+      "root",
+      "seekBar",
+      "seekBarContainer",
+      "settingBtn",
+      "slogan",
+      "smallAlbumCover0",
+      "smallAlbumCover1",
+      "smallAlbumDisc0",
+      "smallAlbumDisc0NoShadow",
+      "smallAlbumDisc0WithShadow",
+      "smallAlbumDisc1",
+      "songName",
+      "songNameTag",
+      "songTrialTag",
+      "test",
+      "topGuideLine",
+      "totalTime",
+      "tvTitle",
+      "vehicleIndicator",
+      "vehicleRadio",
+      "vinylContent",
+      "vinylDecorate",
+      "vinylRoot",
+      "vinyl_records"
+    ],
+    "string": [
+      "dpk",
+      "j33",
+      "j37"
+    ]
+  },
+  "missing_in_mapping_unique": [],
+  "missing_staged_definition_unique": [],
+  "production_refs": {
+    "staged_asset_production_ref_count": 0,
+    "staged_asset_production_refs": [],
+    "ui_legacy_mentions": [
+      {
+        "file": "settings.gradle.kts",
+        "matches": [
+          ":ui-legacy"
+        ]
+      }
+    ],
+    "ui_legacy_include_active": false
+  },
+  "layouts": [
+    {
+      "file": "app/src/main/assets/legacy-player/layout/legacy_are.xml",
+      "name": "legacy_are",
+      "well_formed_xml": true,
+      "element_count": 34,
+      "tag_classes": {
+        "androidx": {
+          "count": 7,
+          "unique": [
+            "androidx.appcompat.widget.AppCompatImageView",
+            "androidx.appcompat.widget.AppCompatTextView",
+            "androidx.constraintlayout.widget.ConstraintLayout",
+            "com.google.android.material.imageview.ShapeableImageView"
+          ]
+        },
+        "framework": {
+          "count": 18,
+          "unique": [
+            "FrameLayout",
+            "ImageView",
+            "LinearLayout",
+            "View"
+          ]
+        },
+        "netease": {
+          "count": 9,
+          "unique": [
+            "com.netease.cloudmusic.module.miminiplayer.MiAnimViewRender",
+            "com.netease.cloudmusic.module.miminiplayer.MiLyricViewContainer",
+            "com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView",
+            "com.netease.cloudmusic.ui.PlayerSeekBarNew",
+            "com.netease.play.ui.MarqueeTextView"
+          ]
+        }
+      },
+      "netease_class_occurrences_raw": 9,
+      "netease_classes": [
+        "com.netease.cloudmusic.module.miminiplayer.MiAnimViewRender",
+        "com.netease.cloudmusic.module.miminiplayer.MiLyricViewContainer",
+        "com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView",
+        "com.netease.cloudmusic.ui.PlayerSeekBarNew",
+        "com.netease.play.ui.MarqueeTextView"
+      ],
+      "app_attrs": [
+        "a5f",
+        "a5l",
+        "a5m",
+        "a64",
+        "a65",
+        "a68",
+        "a69",
+        "aio",
+        "aip",
+        "axe",
+        "axf",
+        "axm",
+        "r8",
+        "xs"
+      ],
+      "resource_refs": [
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miContainer"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miTopBackground"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miBottomBackground"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miCover"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miColorTBMask"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miColorBTMask"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miBlackMask"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miOtherArea"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miSongName"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miArtistName"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miSongName"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miSeekBarContainer"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miArtistName"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miSeekBar"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "bn5"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miPlayBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "g_k"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miSeekBarContainer"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miPrevBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "g_o"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miPlayBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miPlayBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miPlayBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miNextBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "g_a"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miPlayBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miPlayBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miPlayBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miModeBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "gc6"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miPlayBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miPrevBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miPlayBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miLikeContainer"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miPlayBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miNextBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miPlayBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miLikeBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "color",
+          "name": "b1w"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miLikeCount"
+        },
+        {
+          "sigil": "@",
+          "type": "font",
+          "name": "a"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miLyricAreaContainer"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "lyRicCover"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miLyricContainer"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miLyricSongName"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miLyricArtistName"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "lrcViewContainer"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miAnimContainer"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "b_d"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miAnimRender"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miPlayerControlPanel"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "b_d"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miControlLikeContainer"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "mi_control_LikeBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "gca"
+        },
+        {
+          "sigil": "@",
+          "type": "color",
+          "name": "b1w"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "mi_control_LikeCount"
+        },
+        {
+          "sigil": "@",
+          "type": "font",
+          "name": "a"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miControlPlayBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "g_k"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miSeekBarContainer"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "miControlAlbumCover"
+        }
+      ],
+      "null_ref_count": 2,
+      "plus_id_ref_count": 0,
+      "exportable_refs": [
+        "color/b1w",
+        "drawable/b_d",
+        "drawable/bn5",
+        "drawable/g_a",
+        "drawable/g_k",
+        "drawable/g_o",
+        "drawable/gc6",
+        "drawable/gca",
+        "font/a"
+      ],
+      "exportable_ref_count": 13,
+      "refs_in_mapping": [
+        "color/b1w",
+        "drawable/b_d",
+        "drawable/bn5",
+        "drawable/g_a",
+        "drawable/g_k",
+        "drawable/g_o",
+        "drawable/gc6",
+        "drawable/gca",
+        "font/a"
+      ],
+      "refs_missing_in_mapping": [],
+      "refs_in_closure": [
+        "color/b1w",
+        "drawable/b_d",
+        "drawable/bn5",
+        "drawable/g_a",
+        "drawable/g_k",
+        "drawable/g_o",
+        "drawable/gc6",
+        "drawable/gca",
+        "font/a"
+      ],
+      "refs_with_staged_definition": [
+        "color/b1w",
+        "drawable/b_d",
+        "drawable/bn5",
+        "drawable/g_a",
+        "drawable/g_k",
+        "drawable/g_o",
+        "drawable/gc6",
+        "drawable/gca",
+        "font/a"
+      ],
+      "refs_missing_staged_definition": [],
+      "id_ref_count": 49,
+      "attr_ref_count": 0,
+      "system_ref_count": 0
+    },
+    {
+      "file": "app/src/main/assets/legacy-player/layout/legacy_buu.xml",
+      "name": "legacy_buu",
+      "well_formed_xml": true,
+      "element_count": 4,
+      "tag_classes": {
+        "androidx": {
+          "count": 2,
+          "unique": [
+            "androidx.appcompat.widget.AppCompatTextView",
+            "androidx.constraintlayout.widget.ConstraintLayout"
+          ]
+        },
+        "netease": {
+          "count": 2,
+          "unique": [
+            "com.netease.cloudmusic.land.vinyl.CircleTouchView",
+            "com.netease.cloudmusic.land.vinyl.RotationVinylView"
+          ]
+        }
+      },
+      "netease_class_occurrences_raw": 2,
+      "netease_classes": [
+        "com.netease.cloudmusic.land.vinyl.CircleTouchView",
+        "com.netease.cloudmusic.land.vinyl.RotationVinylView"
+      ],
+      "app_attrs": [
+        "a5f",
+        "a5l",
+        "a5z",
+        "a63",
+        "a65",
+        "a69"
+      ],
+      "resource_refs": [
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vinylContent"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "clickDelegateSpace"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vinylContent"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vinylContent"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vinylContent"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vinylContent"
+        },
+        {
+          "sigil": "@",
+          "type": "color",
+          "name": "ew"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "test"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vinylContent"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vinylContent"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vinylContent"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vinylContent"
+        }
+      ],
+      "null_ref_count": 0,
+      "plus_id_ref_count": 0,
+      "exportable_refs": [
+        "color/ew"
+      ],
+      "exportable_ref_count": 1,
+      "refs_in_mapping": [
+        "color/ew"
+      ],
+      "refs_missing_in_mapping": [],
+      "refs_in_closure": [
+        "color/ew"
+      ],
+      "refs_with_staged_definition": [
+        "color/ew"
+      ],
+      "refs_missing_staged_definition": [],
+      "id_ref_count": 11,
+      "attr_ref_count": 0,
+      "system_ref_count": 0
+    },
+    {
+      "file": "app/src/main/assets/legacy-player/layout/legacy_bv5.xml",
+      "name": "legacy_bv5",
+      "well_formed_xml": true,
+      "element_count": 4,
+      "tag_classes": {
+        "androidx": {
+          "count": 2,
+          "unique": [
+            "androidx.appcompat.widget.AppCompatImageView"
+          ]
+        },
+        "framework": {
+          "count": 1,
+          "unique": [
+            "RelativeLayout"
+          ]
+        },
+        "netease": {
+          "count": 1,
+          "unique": [
+            "com.netease.cloudmusic.ui.AnimableDrawerImageView"
+          ]
+        }
+      },
+      "netease_class_occurrences_raw": 1,
+      "netease_classes": [
+        "com.netease.cloudmusic.ui.AnimableDrawerImageView"
+      ],
+      "app_attrs": [],
+      "resource_refs": [
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "disc0"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "smallAlbumCover0"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "smallAlbumDisc0NoShadow"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "ga9"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "smallAlbumDisc0WithShadow"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "ga8"
+        }
+      ],
+      "null_ref_count": 0,
+      "plus_id_ref_count": 0,
+      "exportable_refs": [
+        "drawable/ga8",
+        "drawable/ga9"
+      ],
+      "exportable_ref_count": 2,
+      "refs_in_mapping": [
+        "drawable/ga8",
+        "drawable/ga9"
+      ],
+      "refs_missing_in_mapping": [],
+      "refs_in_closure": [
+        "drawable/ga8",
+        "drawable/ga9"
+      ],
+      "refs_with_staged_definition": [
+        "drawable/ga8",
+        "drawable/ga9"
+      ],
+      "refs_missing_staged_definition": [],
+      "id_ref_count": 4,
+      "attr_ref_count": 0,
+      "system_ref_count": 0
+    },
+    {
+      "file": "app/src/main/assets/legacy-player/layout/legacy_c5y.xml",
+      "name": "legacy_c5y",
+      "well_formed_xml": true,
+      "element_count": 2,
+      "tag_classes": {
+        "framework": {
+          "count": 2,
+          "unique": [
+            "FrameLayout",
+            "ImageSwitcher"
+          ]
+        }
+      },
+      "netease_class_occurrences_raw": 0,
+      "netease_classes": [],
+      "app_attrs": [],
+      "resource_refs": [
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "playerBackgroundImage"
+        }
+      ],
+      "null_ref_count": 0,
+      "plus_id_ref_count": 0,
+      "exportable_refs": [],
+      "exportable_ref_count": 0,
+      "refs_in_mapping": [],
+      "refs_missing_in_mapping": [],
+      "refs_in_closure": [],
+      "refs_with_staged_definition": [],
+      "refs_missing_staged_definition": [],
+      "id_ref_count": 1,
+      "attr_ref_count": 0,
+      "system_ref_count": 0
+    },
+    {
+      "file": "app/src/main/assets/legacy-player/layout/legacy_c6a.xml",
+      "name": "legacy_c6a",
+      "well_formed_xml": true,
+      "element_count": 8,
+      "tag_classes": {
+        "androidx": {
+          "count": 4,
+          "unique": [
+            "androidx.appcompat.widget.AppCompatImageView",
+            "androidx.constraintlayout.widget.ConstraintLayout"
+          ]
+        },
+        "netease": {
+          "count": 4,
+          "unique": [
+            "com.netease.cloudmusic.land.vinyl.TouchInterceptorRecyclerView",
+            "com.netease.cloudmusic.ui.PlayerLandScapePageImageView",
+            "com.netease.cloudmusic.ui.PlayerLandScapePageMarqueeTextView"
+          ]
+        }
+      },
+      "netease_class_occurrences_raw": 4,
+      "netease_classes": [
+        "com.netease.cloudmusic.land.vinyl.TouchInterceptorRecyclerView",
+        "com.netease.cloudmusic.ui.PlayerLandScapePageImageView",
+        "com.netease.cloudmusic.ui.PlayerLandScapePageMarqueeTextView"
+      ],
+      "app_attrs": [
+        "a5_",
+        "a5f",
+        "a5l",
+        "a5v",
+        "a5w",
+        "a5z",
+        "a60",
+        "a62",
+        "a63",
+        "a65",
+        "a68",
+        "a69",
+        "a6a"
+      ],
+      "resource_refs": [
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vinylRoot"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "backgroundImage"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vinylDecorate"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "ga6"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "recyclerView"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "curSongInfo"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vinylDecorate"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vinylDecorate"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vinylDecorate"
+        },
+        {
+          "sigil": "@",
+          "type": "color",
+          "name": "b12"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "songName"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "songNameTag"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "songNameTag"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "aoa"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "songName"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "songName"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "songTrialTag"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "songName"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "songTrialTag"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "f6j"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "songName"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "songNameTag"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "songName"
+        }
+      ],
+      "null_ref_count": 0,
+      "plus_id_ref_count": 0,
+      "exportable_refs": [
+        "color/b12",
+        "drawable/aoa",
+        "drawable/f6j",
+        "drawable/ga6"
+      ],
+      "exportable_ref_count": 4,
+      "refs_in_mapping": [
+        "color/b12",
+        "drawable/aoa",
+        "drawable/f6j",
+        "drawable/ga6"
+      ],
+      "refs_missing_in_mapping": [],
+      "refs_in_closure": [
+        "color/b12",
+        "drawable/aoa",
+        "drawable/f6j",
+        "drawable/ga6"
+      ],
+      "refs_with_staged_definition": [
+        "color/b12",
+        "drawable/aoa",
+        "drawable/f6j",
+        "drawable/ga6"
+      ],
+      "refs_missing_staged_definition": [],
+      "id_ref_count": 19,
+      "attr_ref_count": 0,
+      "system_ref_count": 0
+    },
+    {
+      "file": "app/src/main/assets/legacy-player/layout/legacy_e0g.xml",
+      "name": "legacy_e0g",
+      "well_formed_xml": true,
+      "element_count": 7,
+      "tag_classes": {
+        "androidx": {
+          "count": 1,
+          "unique": [
+            "androidx.constraintlayout.widget.ConstraintLayout"
+          ]
+        },
+        "framework": {
+          "count": 2,
+          "unique": [
+            "ImageView",
+            "View"
+          ]
+        },
+        "netease": {
+          "count": 3,
+          "unique": [
+            "com.netease.play.livepage.music2.CircleProgressView",
+            "com.netease.play.ui.MarqueTextView",
+            "com.netease.play.ui.RotateFrameLayout"
+          ]
+        },
+        "other": {
+          "count": 1,
+          "unique": [
+            "com.facebook.drawee.view.SimpleDraweeView"
+          ]
+        }
+      },
+      "netease_class_occurrences_raw": 4,
+      "netease_classes": [
+        "com.netease.play.livepage.music2.CircleProgressView",
+        "com.netease.play.ui.MarqueTextView",
+        "com.netease.play.ui.RotateFrameLayout"
+      ],
+      "app_attrs": [
+        "a5f",
+        "a5l",
+        "a5z",
+        "a65",
+        "a69",
+        "ahy",
+        "ahz",
+        "am0"
+      ],
+      "resource_refs": [
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vinyl_records"
+        },
+        {
+          "sigil": "@",
+          "type": "color",
+          "name": "b1e"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "slogan"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "bnx"
+        },
+        {
+          "sigil": "@",
+          "type": "string",
+          "name": "dpk"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "f6m"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "progressView"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "cover"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "cover"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "cover"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "cover"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "cover"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "placeholderIv"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "epi"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "coverImage"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "epi"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "redDot"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "bp1"
+        }
+      ],
+      "null_ref_count": 0,
+      "plus_id_ref_count": 0,
+      "exportable_refs": [
+        "color/b1e",
+        "drawable/bnx",
+        "drawable/bp1",
+        "drawable/epi",
+        "drawable/f6m",
+        "string/dpk"
+      ],
+      "exportable_ref_count": 7,
+      "refs_in_mapping": [
+        "color/b1e",
+        "drawable/bnx",
+        "drawable/bp1",
+        "drawable/epi",
+        "drawable/f6m",
+        "string/dpk"
+      ],
+      "refs_missing_in_mapping": [],
+      "refs_in_closure": [
+        "color/b1e",
+        "drawable/bnx",
+        "drawable/bp1",
+        "drawable/epi",
+        "drawable/f6m",
+        "string/dpk"
+      ],
+      "refs_with_staged_definition": [
+        "color/b1e",
+        "drawable/bnx",
+        "drawable/bp1",
+        "drawable/epi",
+        "drawable/f6m",
+        "string/dpk"
+      ],
+      "refs_missing_staged_definition": [],
+      "id_ref_count": 11,
+      "attr_ref_count": 0,
+      "system_ref_count": 0
+    },
+    {
+      "file": "app/src/main/assets/legacy-player/layout/legacy_gb.xml",
+      "name": "legacy_gb",
+      "well_formed_xml": true,
+      "element_count": 3,
+      "tag_classes": {
+        "androidx": {
+          "count": 1,
+          "unique": [
+            "androidx.constraintlayout.widget.ConstraintLayout"
+          ]
+        },
+        "framework": {
+          "count": 1,
+          "unique": [
+            "FrameLayout"
+          ]
+        },
+        "netease": {
+          "count": 1,
+          "unique": [
+            "com.netease.cloudmusic.land.plugin.PlayerLandscapeViewGroup"
+          ]
+        }
+      },
+      "netease_class_occurrences_raw": 2,
+      "netease_classes": [
+        "com.netease.cloudmusic.land.plugin.PlayerLandscapeViewGroup"
+      ],
+      "app_attrs": [
+        "a5f",
+        "a5l",
+        "a65",
+        "a69"
+      ],
+      "resource_refs": [
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "root"
+        },
+        {
+          "sigil": "@",
+          "type": "color",
+          "name": "ff"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "mask"
+        },
+        {
+          "sigil": "@",
+          "type": "color",
+          "name": "b1c"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "container"
+        }
+      ],
+      "null_ref_count": 0,
+      "plus_id_ref_count": 0,
+      "exportable_refs": [
+        "color/b1c",
+        "color/ff"
+      ],
+      "exportable_ref_count": 2,
+      "refs_in_mapping": [
+        "color/b1c",
+        "color/ff"
+      ],
+      "refs_missing_in_mapping": [],
+      "refs_in_closure": [
+        "color/b1c",
+        "color/ff"
+      ],
+      "refs_with_staged_definition": [
+        "color/b1c",
+        "color/ff"
+      ],
+      "refs_missing_staged_definition": [],
+      "id_ref_count": 3,
+      "attr_ref_count": 0,
+      "system_ref_count": 0
+    },
+    {
+      "file": "app/src/main/assets/legacy-player/layout/legacy_gc.xml",
+      "name": "legacy_gc",
+      "well_formed_xml": true,
+      "element_count": 37,
+      "tag_classes": {
+        "androidx": {
+          "count": 18,
+          "unique": [
+            "androidx.appcompat.widget.AppCompatImageView",
+            "androidx.appcompat.widget.AppCompatTextView",
+            "androidx.constraintlayout.widget.ConstraintLayout",
+            "androidx.constraintlayout.widget.Guideline"
+          ]
+        },
+        "framework": {
+          "count": 5,
+          "unique": [
+            "FrameLayout",
+            "LinearLayout",
+            "View"
+          ]
+        },
+        "netease": {
+          "count": 14,
+          "unique": [
+            "com.netease.cloudmusic.ui.AnimableDrawerImageView",
+            "com.netease.cloudmusic.ui.GestureImageSwitcher",
+            "com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView",
+            "com.netease.cloudmusic.ui.PlayerDiscViewFlipper",
+            "com.netease.cloudmusic.ui.PlayerSeekBarNew",
+            "com.netease.cloudmusic.ui.PlayerStarAnimImageView",
+            "com.netease.cloudmusic.ui.RotationRelativeLayout",
+            "com.netease.play.ui.MarqueeTextView"
+          ]
+        }
+      },
+      "netease_class_occurrences_raw": 20,
+      "netease_classes": [
+        "com.netease.cloudmusic.ui.AnimableDrawerImageView",
+        "com.netease.cloudmusic.ui.GestureImageSwitcher",
+        "com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView",
+        "com.netease.cloudmusic.ui.PlayerDiscViewFlipper",
+        "com.netease.cloudmusic.ui.PlayerSeekBarNew",
+        "com.netease.cloudmusic.ui.PlayerStarAnimImageView",
+        "com.netease.cloudmusic.ui.RotationRelativeLayout",
+        "com.netease.play.ui.MarqueeTextView"
+      ],
+      "app_attrs": [
+        "a5f",
+        "a5g",
+        "a5k",
+        "a5l",
+        "a5m",
+        "a5p",
+        "a5w",
+        "a64",
+        "a65",
+        "a68",
+        "a69",
+        "ae",
+        "ahy",
+        "ahz",
+        "aln",
+        "am0",
+        "am1",
+        "am3",
+        "w3"
+      ],
+      "resource_refs": [
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "bigAlbumCover"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "csp"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "closeBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "h0g"
+        },
+        {
+          "sigil": "@",
+          "type": "color",
+          "name": "b1n"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "currentMode"
+        },
+        {
+          "sigil": "@",
+          "type": "string",
+          "name": "j33"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "closeBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vehicleRadio"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "closeBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "closeBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "currentIndicator"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "h0c"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "currentMode"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "currentMode"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "currentMode"
+        },
+        {
+          "sigil": "@",
+          "type": "color",
+          "name": "b1n"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vehicleRadio"
+        },
+        {
+          "sigil": "@",
+          "type": "string",
+          "name": "j37"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "closeBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "settingBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "currentMode"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "closeBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vehicleIndicator"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "h0c"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vehicleRadio"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vehicleRadio"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "vehicleRadio"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "settingBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "h0h"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "topGuideLine"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "bottomGuideLine"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "disk"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "topGuideLine"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "playDiscBg"
+        },
+        {
+          "sigil": "@",
+          "type": "dimen",
+          "name": "aui"
+        },
+        {
+          "sigil": "@",
+          "type": "dimen",
+          "name": "aui"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "ga6"
+        },
+        {
+          "sigil": "@",
+          "type": "dimen",
+          "name": "aui"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "discSwitcher"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "playDiscBg"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "playDiscBg"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "disc0"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "smallAlbumCover0"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "g9f"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "smallAlbumDisc0"
+        },
+        {
+          "sigil": "@",
+          "type": "dimen",
+          "name": "auh"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "ga0"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "disc1"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "smallAlbumCover1"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "g9f"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "smallAlbumDisc1"
+        },
+        {
+          "sigil": "@",
+          "type": "dimen",
+          "name": "auh"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "ga0"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "programDisk"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "disk"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "disk"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "programDiscSwitcher"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "programSmallAlbumCover0"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "dwr"
+        },
+        {
+          "sigil": "@",
+          "type": "color",
+          "name": "dv"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "programSmallAlbumCover1"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "dwr"
+        },
+        {
+          "sigil": "@",
+          "type": "color",
+          "name": "dv"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "likedImage"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "disk"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "disk"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "infoContainer"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "disk"
+        },
+        {
+          "sigil": "@",
+          "type": "color",
+          "name": "b1e"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "resourceName"
+        },
+        {
+          "sigil": "@",
+          "type": "color",
+          "name": "b1t"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "resourceCreator"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "likeBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "color",
+          "name": "b1e"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "progressInfo"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "disk"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "playBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "bottomGuideLine"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "prevBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "playBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "playBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "nextBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "playBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "playBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "seekBarContainer"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "playBtn"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "playSeekBar"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "h0o"
+        }
+      ],
+      "null_ref_count": 0,
+      "plus_id_ref_count": 0,
+      "exportable_refs": [
+        "color/b1e",
+        "color/b1n",
+        "color/b1t",
+        "color/dv",
+        "dimen/auh",
+        "dimen/aui",
+        "drawable/csp",
+        "drawable/dwr",
+        "drawable/g9f",
+        "drawable/ga0",
+        "drawable/ga6",
+        "drawable/h0c",
+        "drawable/h0g",
+        "drawable/h0h",
+        "drawable/h0o",
+        "string/j33",
+        "string/j37"
+      ],
+      "exportable_ref_count": 27,
+      "refs_in_mapping": [
+        "color/b1e",
+        "color/b1n",
+        "color/b1t",
+        "color/dv",
+        "dimen/auh",
+        "dimen/aui",
+        "drawable/csp",
+        "drawable/dwr",
+        "drawable/g9f",
+        "drawable/ga0",
+        "drawable/ga6",
+        "drawable/h0c",
+        "drawable/h0g",
+        "drawable/h0h",
+        "drawable/h0o",
+        "string/j33",
+        "string/j37"
+      ],
+      "refs_missing_in_mapping": [],
+      "refs_in_closure": [
+        "color/b1e",
+        "color/b1n",
+        "color/b1t",
+        "color/dv",
+        "dimen/auh",
+        "dimen/aui",
+        "drawable/csp",
+        "drawable/dwr",
+        "drawable/g9f",
+        "drawable/ga0",
+        "drawable/ga6",
+        "drawable/h0c",
+        "drawable/h0g",
+        "drawable/h0h",
+        "drawable/h0o",
+        "string/j33",
+        "string/j37"
+      ],
+      "refs_with_staged_definition": [
+        "color/b1e",
+        "color/b1n",
+        "color/b1t",
+        "color/dv",
+        "dimen/auh",
+        "dimen/aui",
+        "drawable/csp",
+        "drawable/dwr",
+        "drawable/g9f",
+        "drawable/ga0",
+        "drawable/ga6",
+        "drawable/h0c",
+        "drawable/h0g",
+        "drawable/h0h",
+        "drawable/h0o",
+        "string/j33",
+        "string/j37"
+      ],
+      "refs_missing_staged_definition": [],
+      "id_ref_count": 62,
+      "attr_ref_count": 0,
+      "system_ref_count": 0
+    },
+    {
+      "file": "app/src/main/assets/legacy-player/layout/legacy_gr.xml",
+      "name": "legacy_gr",
+      "well_formed_xml": true,
+      "element_count": 15,
+      "tag_classes": {
+        "androidx": {
+          "count": 10,
+          "unique": [
+            "androidx.appcompat.widget.AppCompatImageView",
+            "androidx.appcompat.widget.AppCompatSeekBar",
+            "androidx.appcompat.widget.AppCompatTextView",
+            "androidx.constraintlayout.widget.ConstraintLayout"
+          ]
+        },
+        "framework": {
+          "count": 3,
+          "unique": [
+            "View"
+          ]
+        },
+        "netease": {
+          "count": 2,
+          "unique": [
+            "com.netease.cloudmusic.ui.CommonSimpleDraweeView"
+          ]
+        }
+      },
+      "netease_class_occurrences_raw": 2,
+      "netease_classes": [
+        "com.netease.cloudmusic.ui.CommonSimpleDraweeView"
+      ],
+      "app_attrs": [],
+      "resource_refs": [
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "background"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "ivFinish"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "coy"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "ivShare"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "gr7"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "ivFinish"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "ivCover"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "ivFinish"
+        },
+        {
+          "sigil": "@",
+          "type": "color",
+          "name": "b1q"
+        },
+        {
+          "sigil": "@",
+          "type": "color",
+          "name": "b1e"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "tvTitle"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "ivCover"
+        },
+        {
+          "sigil": "@",
+          "type": "color",
+          "name": "b1z"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "durationTime"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "btnPlay"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "seekBar"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "b3z"
+        },
+        {
+          "sigil": "@",
+          "type": "drawable",
+          "name": "ay6"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "durationTime"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "durationTime"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "totalTime"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "durationTime"
+        },
+        {
+          "sigil": "@",
+          "type": "color",
+          "name": "b1z"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "totalTime"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "durationTime"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "durationTime"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "btnPlay"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "btnPre"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "btnPlay"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "btnPlay"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "btnPlay"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "btnNext"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "btnPlay"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "btnPlay"
+        },
+        {
+          "sigil": "@",
+          "type": "id",
+          "name": "btnPlay"
+        }
+      ],
+      "null_ref_count": 0,
+      "plus_id_ref_count": 0,
+      "exportable_refs": [
+        "color/b1e",
+        "color/b1q",
+        "color/b1z",
+        "drawable/ay6",
+        "drawable/b3z",
+        "drawable/coy",
+        "drawable/gr7"
+      ],
+      "exportable_ref_count": 8,
+      "refs_in_mapping": [
+        "color/b1e",
+        "color/b1q",
+        "color/b1z",
+        "drawable/ay6",
+        "drawable/b3z",
+        "drawable/coy",
+        "drawable/gr7"
+      ],
+      "refs_missing_in_mapping": [],
+      "refs_in_closure": [
+        "color/b1e",
+        "color/b1q",
+        "color/b1z",
+        "drawable/ay6",
+        "drawable/b3z",
+        "drawable/coy",
+        "drawable/gr7"
+      ],
+      "refs_with_staged_definition": [
+        "color/b1e",
+        "color/b1q",
+        "color/b1z",
+        "drawable/ay6",
+        "drawable/b3z",
+        "drawable/coy",
+        "drawable/gr7"
+      ],
+      "refs_missing_staged_definition": [],
+      "id_ref_count": 27,
+      "attr_ref_count": 0,
+      "system_ref_count": 0
+    }
+  ]
+}

@@ -1,0 +1,735 @@
+{
+  "method": "T-L L3 阶段 A/B 前置：从竞品 attrs.xml / public.xml 精确还原混淆 attr 与 id",
+  "generated_by": "tools/legacy_layout_resolve.py",
+  "inputs": {
+    "audit_json": "analysis/legacy-layout-audit.json",
+    "attrs_xml": "analysis/decoded/res/values/attrs.xml",
+    "public_xml": "analysis/decoded/res/values/public.xml",
+    "attrs_xml_total_attr_defs": 2361,
+    "public_xml_id_entries": 22004,
+    "public_xml_attr_entries": 2361
+  },
+  "targets": {
+    "attr_count": 33,
+    "id_count": 101
+  },
+  "coverage": {
+    "attr_defined": 33,
+    "attr_missing": [],
+    "attr_with_public_id": 33,
+    "attr_missing_public_id": [],
+    "id_in_public_xml": 101,
+    "id_missing": []
+  },
+  "attr_format_distribution": {
+    "(none)": 4,
+    "boolean": 4,
+    "dimension": 6,
+    "float": 2,
+    "integer": 1,
+    "reference": 13,
+    "reference|color": 1,
+    "string": 2
+  },
+  "attr_with_enum_flag_children": 16,
+  "attr_entries": [
+    {
+      "name": "a5_",
+      "format": "boolean",
+      "child_tags": [],
+      "public_id": "0x7f04049f",
+      "defined": true
+    },
+    {
+      "name": "a5f",
+      "format": "reference",
+      "child_tags": [
+        "enum"
+      ],
+      "public_id": "0x7f0404a5",
+      "defined": true
+    },
+    {
+      "name": "a5g",
+      "format": "reference",
+      "child_tags": [
+        "enum"
+      ],
+      "public_id": "0x7f0404a6",
+      "defined": true
+    },
+    {
+      "name": "a5k",
+      "format": "string",
+      "child_tags": [],
+      "public_id": "0x7f0404aa",
+      "defined": true
+    },
+    {
+      "name": "a5l",
+      "format": "reference",
+      "child_tags": [
+        "enum"
+      ],
+      "public_id": "0x7f0404ab",
+      "defined": true
+    },
+    {
+      "name": "a5m",
+      "format": "reference",
+      "child_tags": [
+        "enum"
+      ],
+      "public_id": "0x7f0404ac",
+      "defined": true
+    },
+    {
+      "name": "a5p",
+      "format": "float",
+      "child_tags": [],
+      "public_id": "0x7f0404af",
+      "defined": true
+    },
+    {
+      "name": "a5v",
+      "format": "float",
+      "child_tags": [],
+      "public_id": "0x7f0404b5",
+      "defined": true
+    },
+    {
+      "name": "a5w",
+      "format": "(none)",
+      "child_tags": [
+        "enum",
+        "enum",
+        "enum"
+      ],
+      "public_id": "0x7f0404b6",
+      "defined": true
+    },
+    {
+      "name": "a5z",
+      "format": "reference",
+      "child_tags": [
+        "enum"
+      ],
+      "public_id": "0x7f0404b9",
+      "defined": true
+    },
+    {
+      "name": "a60",
+      "format": "reference",
+      "child_tags": [
+        "enum"
+      ],
+      "public_id": "0x7f0404ba",
+      "defined": true
+    },
+    {
+      "name": "a62",
+      "format": "reference",
+      "child_tags": [
+        "enum"
+      ],
+      "public_id": "0x7f0404bc",
+      "defined": true
+    },
+    {
+      "name": "a63",
+      "format": "reference",
+      "child_tags": [
+        "enum"
+      ],
+      "public_id": "0x7f0404bd",
+      "defined": true
+    },
+    {
+      "name": "a64",
+      "format": "reference",
+      "child_tags": [
+        "enum"
+      ],
+      "public_id": "0x7f0404be",
+      "defined": true
+    },
+    {
+      "name": "a65",
+      "format": "reference",
+      "child_tags": [
+        "enum"
+      ],
+      "public_id": "0x7f0404bf",
+      "defined": true
+    },
+    {
+      "name": "a68",
+      "format": "reference",
+      "child_tags": [
+        "enum"
+      ],
+      "public_id": "0x7f0404c2",
+      "defined": true
+    },
+    {
+      "name": "a69",
+      "format": "reference",
+      "child_tags": [
+        "enum"
+      ],
+      "public_id": "0x7f0404c3",
+      "defined": true
+    },
+    {
+      "name": "a6a",
+      "format": "(none)",
+      "child_tags": [
+        "enum",
+        "enum",
+        "enum"
+      ],
+      "public_id": "0x7f0404c5",
+      "defined": true
+    },
+    {
+      "name": "ae",
+      "format": "(none)",
+      "child_tags": [
+        "enum",
+        "enum",
+        "enum",
+        "enum",
+        "enum",
+        "enum",
+        "enum",
+        "enum",
+        "enum",
+        "enum"
+      ],
+      "public_id": "0x7f040029",
+      "defined": true
+    },
+    {
+      "name": "ahy",
+      "format": "reference",
+      "child_tags": [],
+      "public_id": "0x7f040699",
+      "defined": true
+    },
+    {
+      "name": "ahz",
+      "format": "(none)",
+      "child_tags": [
+        "enum",
+        "enum",
+        "enum",
+        "enum",
+        "enum",
+        "enum",
+        "enum",
+        "enum",
+        "enum",
+        "enum"
+      ],
+      "public_id": "0x7f04069a",
+      "defined": true
+    },
+    {
+      "name": "aio",
+      "format": "dimension",
+      "child_tags": [],
+      "public_id": "0x7f0406b4",
+      "defined": true
+    },
+    {
+      "name": "aip",
+      "format": "dimension",
+      "child_tags": [],
+      "public_id": "0x7f0406b5",
+      "defined": true
+    },
+    {
+      "name": "aln",
+      "format": "boolean",
+      "child_tags": [],
+      "public_id": "0x7f040722",
+      "defined": true
+    },
+    {
+      "name": "am0",
+      "format": "dimension",
+      "child_tags": [],
+      "public_id": "0x7f04072f",
+      "defined": true
+    },
+    {
+      "name": "am1",
+      "format": "reference|color",
+      "child_tags": [],
+      "public_id": "0x7f040730",
+      "defined": true
+    },
+    {
+      "name": "am3",
+      "format": "dimension",
+      "child_tags": [],
+      "public_id": "0x7f040732",
+      "defined": true
+    },
+    {
+      "name": "axe",
+      "format": "dimension",
+      "child_tags": [],
+      "public_id": "0x7f0408d4",
+      "defined": true
+    },
+    {
+      "name": "axf",
+      "format": "dimension",
+      "child_tags": [],
+      "public_id": "0x7f0408d5",
+      "defined": true
+    },
+    {
+      "name": "axm",
+      "format": "boolean",
+      "child_tags": [],
+      "public_id": "0x7f0408dc",
+      "defined": true
+    },
+    {
+      "name": "r8",
+      "format": "boolean",
+      "child_tags": [],
+      "public_id": "0x7f040297",
+      "defined": true
+    },
+    {
+      "name": "w3",
+      "format": "integer",
+      "child_tags": [],
+      "public_id": "0x7f04034b",
+      "defined": true
+    },
+    {
+      "name": "xs",
+      "format": "string",
+      "child_tags": [],
+      "public_id": "0x7f04038a",
+      "defined": true
+    }
+  ],
+  "id_entries": [
+    {
+      "name": "background",
+      "resource_id": "0x7f0904d8"
+    },
+    {
+      "name": "backgroundImage",
+      "resource_id": "0x7f0904df"
+    },
+    {
+      "name": "bigAlbumCover",
+      "resource_id": "0x7f090586"
+    },
+    {
+      "name": "bottomGuideLine",
+      "resource_id": "0x7f090622"
+    },
+    {
+      "name": "btnNext",
+      "resource_id": "0x7f0906fb"
+    },
+    {
+      "name": "btnPlay",
+      "resource_id": "0x7f090701"
+    },
+    {
+      "name": "btnPre",
+      "resource_id": "0x7f090702"
+    },
+    {
+      "name": "clickDelegateSpace",
+      "resource_id": "0x7f0909d3"
+    },
+    {
+      "name": "closeBtn",
+      "resource_id": "0x7f090ac0"
+    },
+    {
+      "name": "container",
+      "resource_id": "0x7f090c56"
+    },
+    {
+      "name": "cover",
+      "resource_id": "0x7f090d1d"
+    },
+    {
+      "name": "coverImage",
+      "resource_id": "0x7f090d2b"
+    },
+    {
+      "name": "curSongInfo",
+      "resource_id": "0x7f090dca"
+    },
+    {
+      "name": "currentIndicator",
+      "resource_id": "0x7f090dd2"
+    },
+    {
+      "name": "currentMode",
+      "resource_id": "0x7f090dd4"
+    },
+    {
+      "name": "disc0",
+      "resource_id": "0x7f090f31"
+    },
+    {
+      "name": "disc1",
+      "resource_id": "0x7f090f32"
+    },
+    {
+      "name": "discSwitcher",
+      "resource_id": "0x7f090f36"
+    },
+    {
+      "name": "disk",
+      "resource_id": "0x7f090f75"
+    },
+    {
+      "name": "durationTime",
+      "resource_id": "0x7f091092"
+    },
+    {
+      "name": "infoContainer",
+      "resource_id": "0x7f0918b7"
+    },
+    {
+      "name": "ivCover",
+      "resource_id": "0x7f0919e4"
+    },
+    {
+      "name": "ivFinish",
+      "resource_id": "0x7f0919f6"
+    },
+    {
+      "name": "ivShare",
+      "resource_id": "0x7f091a1f"
+    },
+    {
+      "name": "likeBtn",
+      "resource_id": "0x7f091c8a"
+    },
+    {
+      "name": "likedImage",
+      "resource_id": "0x7f091ca8"
+    },
+    {
+      "name": "lrcViewContainer",
+      "resource_id": "0x7f091ed4"
+    },
+    {
+      "name": "lyRicCover",
+      "resource_id": "0x7f091f5b"
+    },
+    {
+      "name": "mask",
+      "resource_id": "0x7f09202a"
+    },
+    {
+      "name": "miAnimContainer",
+      "resource_id": "0x7f0920f1"
+    },
+    {
+      "name": "miAnimRender",
+      "resource_id": "0x7f0920f2"
+    },
+    {
+      "name": "miArtistName",
+      "resource_id": "0x7f0920f3"
+    },
+    {
+      "name": "miBlackMask",
+      "resource_id": "0x7f0920f4"
+    },
+    {
+      "name": "miBottomBackground",
+      "resource_id": "0x7f0920f5"
+    },
+    {
+      "name": "miColorBTMask",
+      "resource_id": "0x7f0920f6"
+    },
+    {
+      "name": "miColorTBMask",
+      "resource_id": "0x7f0920f7"
+    },
+    {
+      "name": "miContainer",
+      "resource_id": "0x7f0920f8"
+    },
+    {
+      "name": "miControlAlbumCover",
+      "resource_id": "0x7f0920f9"
+    },
+    {
+      "name": "miControlLikeContainer",
+      "resource_id": "0x7f0920fa"
+    },
+    {
+      "name": "miControlPlayBtn",
+      "resource_id": "0x7f0920fb"
+    },
+    {
+      "name": "miCover",
+      "resource_id": "0x7f0920fc"
+    },
+    {
+      "name": "miLikeBtn",
+      "resource_id": "0x7f092104"
+    },
+    {
+      "name": "miLikeContainer",
+      "resource_id": "0x7f092105"
+    },
+    {
+      "name": "miLikeCount",
+      "resource_id": "0x7f092106"
+    },
+    {
+      "name": "miLyricAreaContainer",
+      "resource_id": "0x7f092107"
+    },
+    {
+      "name": "miLyricArtistName",
+      "resource_id": "0x7f092108"
+    },
+    {
+      "name": "miLyricContainer",
+      "resource_id": "0x7f092109"
+    },
+    {
+      "name": "miLyricSongName",
+      "resource_id": "0x7f09210a"
+    },
+    {
+      "name": "miModeBtn",
+      "resource_id": "0x7f09210b"
+    },
+    {
+      "name": "miNextBtn",
+      "resource_id": "0x7f09210c"
+    },
+    {
+      "name": "miOtherArea",
+      "resource_id": "0x7f09210d"
+    },
+    {
+      "name": "miPlayBtn",
+      "resource_id": "0x7f09210e"
+    },
+    {
+      "name": "miPlayerControlPanel",
+      "resource_id": "0x7f09210f"
+    },
+    {
+      "name": "miPrevBtn",
+      "resource_id": "0x7f092110"
+    },
+    {
+      "name": "miSeekBar",
+      "resource_id": "0x7f092111"
+    },
+    {
+      "name": "miSeekBarContainer",
+      "resource_id": "0x7f092112"
+    },
+    {
+      "name": "miSongName",
+      "resource_id": "0x7f092113"
+    },
+    {
+      "name": "miTopBackground",
+      "resource_id": "0x7f092114"
+    },
+    {
+      "name": "mi_control_LikeBtn",
+      "resource_id": "0x7f092116"
+    },
+    {
+      "name": "mi_control_LikeCount",
+      "resource_id": "0x7f092117"
+    },
+    {
+      "name": "nextBtn",
+      "resource_id": "0x7f09258a"
+    },
+    {
+      "name": "placeholderIv",
+      "resource_id": "0x7f09293a"
+    },
+    {
+      "name": "playBtn",
+      "resource_id": "0x7f092950"
+    },
+    {
+      "name": "playDiscBg",
+      "resource_id": "0x7f092973"
+    },
+    {
+      "name": "playSeekBar",
+      "resource_id": "0x7f0929d3"
+    },
+    {
+      "name": "playerBackgroundImage",
+      "resource_id": "0x7f092a0c"
+    },
+    {
+      "name": "prevBtn",
+      "resource_id": "0x7f092bb6"
+    },
+    {
+      "name": "programDiscSwitcher",
+      "resource_id": "0x7f092c76"
+    },
+    {
+      "name": "programDisk",
+      "resource_id": "0x7f092c77"
+    },
+    {
+      "name": "programSmallAlbumCover0",
+      "resource_id": "0x7f092c87"
+    },
+    {
+      "name": "programSmallAlbumCover1",
+      "resource_id": "0x7f092c88"
+    },
+    {
+      "name": "progressInfo",
+      "resource_id": "0x7f092c9c"
+    },
+    {
+      "name": "progressView",
+      "resource_id": "0x7f092ca5"
+    },
+    {
+      "name": "recyclerView",
+      "resource_id": "0x7f092e64"
+    },
+    {
+      "name": "redDot",
+      "resource_id": "0x7f092e75"
+    },
+    {
+      "name": "resourceCreator",
+      "resource_id": "0x7f092f2d"
+    },
+    {
+      "name": "resourceName",
+      "resource_id": "0x7f092f37"
+    },
+    {
+      "name": "root",
+      "resource_id": "0x7f09308b"
+    },
+    {
+      "name": "seekBar",
+      "resource_id": "0x7f093238"
+    },
+    {
+      "name": "seekBarContainer",
+      "resource_id": "0x7f09323a"
+    },
+    {
+      "name": "settingBtn",
+      "resource_id": "0x7f0932db"
+    },
+    {
+      "name": "slogan",
+      "resource_id": "0x7f093407"
+    },
+    {
+      "name": "smallAlbumCover0",
+      "resource_id": "0x7f093410"
+    },
+    {
+      "name": "smallAlbumCover1",
+      "resource_id": "0x7f093411"
+    },
+    {
+      "name": "smallAlbumDisc0",
+      "resource_id": "0x7f093412"
+    },
+    {
+      "name": "smallAlbumDisc0NoShadow",
+      "resource_id": "0x7f093413"
+    },
+    {
+      "name": "smallAlbumDisc0WithShadow",
+      "resource_id": "0x7f093414"
+    },
+    {
+      "name": "smallAlbumDisc1",
+      "resource_id": "0x7f093415"
+    },
+    {
+      "name": "songName",
+      "resource_id": "0x7f0934a4"
+    },
+    {
+      "name": "songNameTag",
+      "resource_id": "0x7f0934a9"
+    },
+    {
+      "name": "songTrialTag",
+      "resource_id": "0x7f0934d1"
+    },
+    {
+      "name": "test",
+      "resource_id": "0x7f0949d7"
+    },
+    {
+      "name": "topGuideLine",
+      "resource_id": "0x7f094b76"
+    },
+    {
+      "name": "totalTime",
+      "resource_id": "0x7f094c16"
+    },
+    {
+      "name": "tvTitle",
+      "resource_id": "0x7f094e31"
+    },
+    {
+      "name": "vehicleIndicator",
+      "resource_id": "0x7f09528a"
+    },
+    {
+      "name": "vehicleRadio",
+      "resource_id": "0x7f09528e"
+    },
+    {
+      "name": "vinylContent",
+      "resource_id": "0x7f0953cb"
+    },
+    {
+      "name": "vinylDecorate",
+      "resource_id": "0x7f0953cc"
+    },
+    {
+      "name": "vinylRoot",
+      "resource_id": "0x7f0953ce"
+    },
+    {
+      "name": "vinyl_records",
+      "resource_id": "0x7f0953cf"
+    }
+  ],
+  "generated_files": {
+    "ids_xml": "analysis/l3-probe/ids.xml",
+    "attrs_xml": "analysis/l3-probe/attrs.xml",
+    "ids_xml_line_count": 104,
+    "attrs_xml_line_count": 90
+  },
+  "conclusion": "33/33 attr 与 101/101 id 在竞品资源表中均有精确定义；阶段 A/B 为机械可搬，不需要猜测语义。"
+}

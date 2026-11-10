@@ -1,0 +1,40 @@
+{
+  "method": "12 §61.56 / F4 JNI 参数槽透传复核的独立审计（离线、只读）",
+  "generated_by": "tools/l3_f4_jni_arg_audit.py",
+  "checks": {
+    "jni_json_present": true,
+    "jni_all_pass": true,
+    "end_path_transparent": "0x34a60  bl        #0x36c70",
+    "data_path_isomorphic": "0x34914  bl        #0x36f68",
+    "trampoline_forwards_unchanged": true,
+    "native_done_uses_w1": true,
+    "kdoc_and_url_source_agree": true,
+    "docs59_3_data_kind_calibration": true,
+    "report_splits_chain_into_two_parts": true,
+    "rootcause_still_hypothesis": true,
+    "ab_result_honest": true,
+    "p0_baseline_unchanged": true,
+    "so_matches_engine_fingerprint": true,
+    "engine_compat_test_not_backfilled": true,
+    "no_credentials_in_evidence": true,
+    "verify_tool_readonly": true,
+    "contract_guard_present": true,
+    "delivery12_has_61_56": true,
+    "head_still_uncommitted": true
+  },
+  "all_pass": true,
+  "failed_checks": [],
+  "status": {
+    "chain_part_A_java_to_kind_slot": "CONFIRMED_BY_BINARY_DISASM_PLUS_E9_CALIBRATION",
+    "chain_part_B_notification_to_fmp4_stall": "UNVERIFIED_PENDING_AB",
+    "ab_executed": false,
+    "f4_status": "BLOCKED（待设备上线执行 --apply）",
+    "p0_modified": false
+  },
+  "honest_notes": [
+    "环节 A 被证实不等于整条因果链被证实；虚表槽的具体目标类型由运行时决定，静态证据不是 100% 的 C++ 类型证明。",
+    "§59.2 exp6 反例、竞品同样传 requestId 却可用、ape×remote 与 aiff 仍不解释。",
+    "A/B 尚未执行；自动进曲 3 首 / seek / ENDED 如实 NOT RUN；A3 仍 G09 PARTIAL、舱不冻结。",
+    "纯离线、只读、零生产代码改动、零设备操作、零新增依赖。"
+  ]
+}

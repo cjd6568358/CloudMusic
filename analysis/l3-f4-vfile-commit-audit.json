@@ -1,0 +1,92 @@
+{
+  "method": "12 §61.62 / F4 vfile commit 时序观测的离线复核（只读、零依赖）",
+  "generated_by": "tools/l3_f4_vfile_commit_audit.py",
+  "log_file": "analysis/l3-f4-logs/vfile-commit-20261110-102722.txt",
+  "checks": {
+    "probe_json_present": true,
+    "log_file_present_and_nonempty": true,
+    "probe_wait_60s": true,
+    "probe_sample_selfconsistent": true,
+    "serial_present_and_wellformed": true,
+    "single_remote_prepare_confirmed": true,
+    "commit_only_368640": true,
+    "commit_never_reached_605007": true,
+    "force_retry_at_least_3": true,
+    "jump_read_fail_at_least_5": true,
+    "probe_json_commit_distinct_single": true,
+    "fallback_start_id6_to_368640": true,
+    "preseek_refilled_data": true,
+    "codec_opened_once": true,
+    "codec_delay_about_33s": true,
+    "no_write_start_play": true,
+    "no_play_status_4": true,
+    "minus_103_observed": true,
+    "audiotrack_released": true,
+    "codec_opened_but_no_audio": true,
+    "speed_hypothesis_ruled_out": true,
+    "probe_initial_verdict_preserved": true,
+    "report_has_refinement": true,
+    "report_no_false_audio_claim": true,
+    "p0_git_diff_clean": true,
+    "no_credentials_in_evidence": true,
+    "contract_guard_61_62_present": true,
+    "delivery12_has_61_62": true,
+    "head_still_uncommitted": true,
+    "probe_tool_present": true
+  },
+  "checks_total": 30,
+  "all_pass": true,
+  "failed_checks": [],
+  "evidence_extracted": {
+    "commit_values": [
+      368640
+    ],
+    "force_wait_request_count": 3,
+    "jump_read_failure_count": 5,
+    "codec_line": "11-10 10:27:58.763 W/NMAudioPlayer(22536): Decoder(0): Open codec for aac",
+    "codec_delay_seconds": 32.893,
+    "preseek_out_len": 332914,
+    "minus_103_lines": [
+      "11-10 10:27:58.869 E/NMAudioPlayer(22536): CNCMAudioPlayer::doBufferFill status 4 nErr 1, lasterr -103",
+      "11-10 10:27:58.871 I/NEPlayer(22536): PlayerNotifyEvent msg=100 arg1=1 arg2=-103 has_music=1 songId=",
+      "11-10 10:27:58.871 I/NCMPlayerEngine(22536): onEngineEvent: msg=100 arg1=1 arg2=-103"
+    ],
+    "write_start_play_count": 0
+  },
+  "refinement": {
+    "strengthened": "commit 60s 恒定 368640 + 5 次 force 重试仍拿不到 605007 → 排除单纯落盘速度不足；只有回退到 368640 重新请求才补齐数据打开 codec，印证 §61.61「空洞未补齐」机理",
+    "corrected": "§61.61 的「REMOTE 无 codec」源于观察窗口不足：60s 窗口下 ≈32.9s 时 codec 打开，但立即 -103 终止、Write start play 0 次、未出声；历史日志与实测判据不改写，只补充窗口条件",
+    "narrowed": "F4 主判据收窄到 -103（与 §61.50/§61.51 原始判据一致），真实阻塞是长时间重试 + 数据不足，而非 codec 打不开",
+    "history_rewritten": false
+  },
+  "status": {
+    "root_cause_direction": "§61.61 用户裁决强化：vfile 连续提交点（commit=368640）与 fMP4 跳跃式 probe 读（offset=605007）错位、中间空洞未补齐",
+    "commit_constant_60s": true,
+    "speed_progress_hypothesis_ruled_out": true,
+    "commit_range_bookkeeping_supported": true,
+    "native_fallback_to_368640": true,
+    "codec_opened_after_seconds": 32.893,
+    "write_start_play_count": 0,
+    "minus_103_observed": true,
+    "audio_output": false,
+    "f4_status": "BLOCKED",
+    "f4_primary_criterion_refined": "自动进曲连续 3 首无 -103、无释放后回调",
+    "auto_advance_3_tracks": "NOT RUN",
+    "seek_and_ended": "NOT RUN",
+    "fix_implemented": false,
+    "fix_verified": false,
+    "native_mechanism_localized": false,
+    "device_endpoint": "10.0.0.2:39737",
+    "device_can_disconnect": true,
+    "a3_g09": "PARTIAL",
+    "engine_bay_frozen": false
+  },
+  "honest_notes": [
+    "本批是纯观测，未实施、未验证任何修复；F4 仍 BLOCKED，-103 判据未通过。",
+    "Open codec for aac ≠ 出声：无 Write start play、无 Play status 4、有 -103 与 AudioTrack Release。",
+    "probe 初判 UNEXPECTED_CODEC_OPENED 如实保留，不回改原始证据。",
+    "P0 引擎舱零净改动、零发布基线变化；A3 仍 G09 PARTIAL、舱不冻结。",
+    "自动进曲 3 首 / seek / ENDED 仍 NOT RUN；F3 14 格矩阵未改写。",
+    "commit 恒定的具体 native 字段 / PreSeekReadTask 回退触发条件仍未反汇编定位。"
+  ]
+}

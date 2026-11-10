@@ -1,0 +1,91 @@
+{
+  "method": "12 §61.51 基线恢复后的真机复验（A/B 变体已回退）",
+  "serial": "10.0.0.2:39853",
+  "cells": [
+    {
+      "label": "mp3-local",
+      "format": "mp3",
+      "path": "local",
+      "push_ok": true,
+      "verdict": "PASS",
+      "extension": "mp3",
+      "extension_ok": true,
+      "codec": "mp3",
+      "write": true,
+      "prepare_remote": "false",
+      "reason": "解码链打开且 Write start play nErr:0",
+      "starts": [],
+      "onEnd": []
+    },
+    {
+      "label": "mp3-remote",
+      "format": "mp3",
+      "path": "remote",
+      "push_ok": true,
+      "verdict": "PASS",
+      "extension": "mp3",
+      "extension_ok": true,
+      "codec": "mp3",
+      "write": true,
+      "prepare_remote": "true",
+      "reason": "解码链打开且 Write start play nErr:0",
+      "starts": [],
+      "onEnd": []
+    },
+    {
+      "label": "wma-remote",
+      "format": "wma",
+      "path": "remote",
+      "push_ok": true,
+      "verdict": "PASS",
+      "extension": "wma",
+      "extension_ok": true,
+      "codec": "wmav2",
+      "write": true,
+      "prepare_remote": "true",
+      "reason": "解码链打开且 Write start play nErr:0",
+      "starts": [],
+      "onEnd": []
+    },
+    {
+      "label": "m4a-local",
+      "format": "m4a",
+      "path": "local",
+      "push_ok": false,
+      "verdict": "FAIL",
+      "extension": null,
+      "extension_ok": false,
+      "codec": null,
+      "write": false,
+      "prepare_remote": null,
+      "reason": "未见 prepare（注入未生效 / 后台启动被拒）",
+      "starts": [],
+      "onEnd": []
+    },
+    {
+      "label": "m4a-remote",
+      "format": "m4a",
+      "path": "remote",
+      "push_ok": true,
+      "verdict": "PARTIAL",
+      "extension": "m4a",
+      "extension_ok": true,
+      "codec": "aac",
+      "write": false,
+      "prepare_remote": "true",
+      "reason": "解码链打开但未见成功 Write start play",
+      "starts": [
+        "Start id=3 offset=327895 length=1048576",
+        "Start id=4 offset=327895 length=1048576",
+        "Start id=5 offset=327895 length=1048576",
+        "Start id=6 offset=147456 length=1048576"
+      ],
+      "onEnd": [
+        "onEnd id=4 error=Failed to connect to /127.0.0.1:8765 (delayed 2s or immediate)\r",
+        "onEnd id=5 error=Failed to connect to /127.0.0.1:8765 (delayed 2s or immediate)\r",
+        "onEnd id=6 error=Failed to connect to /127.0.0.1:8765 (delayed 2s or immediate)\r"
+      ]
+    }
+  ],
+  "note": "确认 P0 UrlDataRequest 恢复 repeat(20) 基线后行为与 §61.49/§61.50 一致"
+}

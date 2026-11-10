@@ -1,0 +1,81 @@
+{
+  "method": "12 §61.62 / F4 vfile commit 时序真机纯观测（零代码改动、不覆盖既有证据）",
+  "generated_by": "tools/l3_f4_vfile_commit_probe.py",
+  "serial": "10.0.0.2:41761",
+  "sample": "f3_wav.wav",
+  "sample_bytes": 4194304,
+  "wait_seconds": 12.0,
+  "elapsed_s": 19.8,
+  "log_file": "analysis/l3-f4-logs/vfile-commit-20261110-130142.txt",
+  "log_lines": 3313,
+  "verdict": "OBSERVED",
+  "evidence": {
+    "wait_request_commit_details": [
+      {
+        "ts": "11-10 13:01:48.640",
+        "cur_offset": 1048576,
+        "cur_end": 2097152,
+        "expect_offset": 1048576,
+        "end": 1056768,
+        "commit": 1048576
+      }
+    ],
+    "commit_values": [
+      1048576
+    ],
+    "commit_distinct": [
+      1048576
+    ],
+    "commit_grew": false,
+    "commit_max": 1048576,
+    "commit_reached_jump_605007": true,
+    "wait_request_force_lines": [
+      {
+        "ts": "11-10 13:01:48.640",
+        "offset": 1048576,
+        "length": 1048576,
+        "signal_size": 8192,
+        "force": "false"
+      }
+    ],
+    "read_lines_total": 2,
+    "jump_read_failures": [],
+    "jump_read_failure_count": 0,
+    "successful_reads_above_baseline_commit": [],
+    "starts": [
+      {
+        "id": 1,
+        "offset": 1048576,
+        "length": 1048576
+      }
+    ],
+    "on_end_ids": [],
+    "open_codec": [
+      "pcm_s16le"
+    ],
+    "write_start_play": [
+      "0"
+    ],
+    "play_status": [
+      "4"
+    ],
+    "has_103": false
+  },
+  "mechanism_verdict": "UNEXPECTED_CODEC_OPENED（需复核样本/环境，不据此收口 F4）",
+  "honest_notes": [
+    "本脚本只做观测，不实施也不验证任何修复；F4 仍 BLOCKED。",
+    "P0 引擎舱零改动：未改 UrlDataRequest.kt / 未重编译 / 未重装 APK。",
+    "临时 wifiOnly 前置、adb reverse、PC http.server、logcat 子进程均已在 finally 恢复。",
+    "样本是「自洽 fMP4」而非完整真实非 fMP4 的 .m4a；LOCAL PASS ≠ m4a 已支持。",
+    "自动进曲 3 首 / seek / ENDED 仍未测；A3 仍 G09 PARTIAL、舱不冻结。",
+    "机制判读基于 commit 是否随等待增长；具体 native 函数与字段仍需反汇编定位。"
+  ],
+  "restore": {
+    "reverse_before": "",
+    "reverse_removed": true,
+    "wifi_gate_file_removed": true,
+    "http_server_stopped": true,
+    "logcat_process_stopped": true,
+    "device_settings_unchanged": true
+  }
+}

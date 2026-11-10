@@ -1,0 +1,418 @@
+{
+  "method": "12 §61.43：竞品 PlayerActivity 真机基准图的纯标准库 PNG 像素实证",
+  "generated_by": "tools/l3_baseline_probe.py",
+  "source": "analysis\\l3-reference\\competitor-player-baseline.png",
+  "size": [
+    1440,
+    3200
+  ],
+  "channels": 4,
+  "competitor_activity": "com.netease.cloudmusic/.activity.PlayerActivity",
+  "captured_by": "adb screencap（用户手动切到竞品播放页后取图，2026-11-09）",
+  "reverse_engineered_background_chain": [
+    "layout/c5y.xml: FrameLayout #ff262626 兜底 + ImageSwitcher @id/playerBackgroundImage",
+    "PlayerCoverCacheHelper.a(MusicInfo, Function1, Function0)：切歌时异步加载封面 + 取色并缓存",
+    "PlayerCoverCacheHelper.t(J)/y2(J) -> ExtractColorResult（getMainColor / getDominantColorHSL）",
+    "androidx.palette.graphics.Palette.getDominantColor(int)（we/b.smali 实证）",
+    "PlayerActivity.Ph(ExtractColorResult) -> nf(Drawable, ExtractColorResult, int, float[])",
+    "nf: PlayerCoverCacheHelper.n(ViewGroup, ExtractColorResult) + r8.j:PlayerBackgroundImage.setImageDrawable(Drawable)",
+    "PlayerBackgroundImage.BLUR_RADIUS / setBlurCover(String,String[,int]) / OnDrawableChangedListener（classes15.strings.txt 实证）",
+    "qh.p(DraweeView, String url, int blurRadius)：带模糊半径加载封面",
+    "supportGaussianBlur / updateCurrentBgAlphaAndBlur / CustomBgBlurMaterialHelper / getCacheBgBlurDrawable"
+  ],
+  "conclusion": "竞品播放页背景 = 当前曲目封面经 Palette 取主色 + 高斯模糊 + 暗化/主色叠加后，由 ImageSwitcher 带动画切换的模糊封面；#ff262626 仅是无封面/加载中的兜底底色。背景随封面变化，不是固定深色（印证用户观察）。",
+  "samples": [
+    {
+      "name": "bg_top_left",
+      "norm": [
+        0.02,
+        0.17
+      ],
+      "px": [
+        28,
+        544
+      ],
+      "rgb": [
+        36,
+        71,
+        93
+      ],
+      "hex": "#24475D",
+      "note": "顶栏下方左侧背景"
+    },
+    {
+      "name": "bg_top_right",
+      "norm": [
+        0.98,
+        0.17
+      ],
+      "px": [
+        1411,
+        544
+      ],
+      "rgb": [
+        36,
+        71,
+        93
+      ],
+      "hex": "#24475D",
+      "note": "顶栏下方右侧背景"
+    },
+    {
+      "name": "bg_mid_left",
+      "norm": [
+        0.02,
+        0.66
+      ],
+      "px": [
+        28,
+        2112
+      ],
+      "rgb": [
+        25,
+        50,
+        65
+      ],
+      "hex": "#193241",
+      "note": "唱片下方左侧背景"
+    },
+    {
+      "name": "bg_mid_right",
+      "norm": [
+        0.98,
+        0.66
+      ],
+      "px": [
+        1411,
+        2112
+      ],
+      "rgb": [
+        25,
+        50,
+        66
+      ],
+      "hex": "#193242",
+      "note": "唱片下方右侧背景"
+    },
+    {
+      "name": "bg_below_disc",
+      "norm": [
+        0.5,
+        0.65
+      ],
+      "px": [
+        720,
+        2080
+      ],
+      "rgb": [
+        25,
+        51,
+        66
+      ],
+      "hex": "#193342",
+      "note": "唱片正下方背景"
+    },
+    {
+      "name": "bg_info",
+      "norm": [
+        0.5,
+        0.73
+      ],
+      "px": [
+        720,
+        2336
+      ],
+      "rgb": [
+        23,
+        47,
+        62
+      ],
+      "hex": "#172F3E",
+      "note": "歌曲信息区背景"
+    },
+    {
+      "name": "bg_control",
+      "norm": [
+        0.5,
+        0.85
+      ],
+      "px": [
+        720,
+        2720
+      ],
+      "rgb": [
+        21,
+        42,
+        55
+      ],
+      "hex": "#152A37",
+      "note": "主控制行背景"
+    },
+    {
+      "name": "bg_bottom",
+      "norm": [
+        0.5,
+        0.97
+      ],
+      "px": [
+        720,
+        3104
+      ],
+      "rgb": [
+        0,
+        0,
+        0
+      ],
+      "hex": "#000000",
+      "note": "底部功能行背景"
+    },
+    {
+      "name": "bg_topbar",
+      "norm": [
+        0.5,
+        0.11
+      ],
+      "px": [
+        720,
+        352
+      ],
+      "rgb": [
+        37,
+        74,
+        96
+      ],
+      "hex": "#254A60",
+      "note": "顶栏中央背景"
+    },
+    {
+      "name": "bg_above_disc",
+      "norm": [
+        0.5,
+        0.22
+      ],
+      "px": [
+        720,
+        704
+      ],
+      "rgb": [
+        35,
+        69,
+        90
+      ],
+      "hex": "#23455A",
+      "note": "唱片上方背景"
+    },
+    {
+      "name": "disc_vinyl",
+      "norm": [
+        0.13,
+        0.43
+      ],
+      "px": [
+        187,
+        1376
+      ],
+      "rgb": [
+        17,
+        17,
+        17
+      ],
+      "hex": "#111111",
+      "note": "黑胶盘外圈"
+    },
+    {
+      "name": "disc_vinyl2",
+      "norm": [
+        0.87,
+        0.43
+      ],
+      "px": [
+        1252,
+        1376
+      ],
+      "rgb": [
+        17,
+        17,
+        17
+      ],
+      "hex": "#111111",
+      "note": "黑胶盘外圈右侧"
+    },
+    {
+      "name": "cover_center",
+      "norm": [
+        0.5,
+        0.43
+      ],
+      "px": [
+        720,
+        1376
+      ],
+      "rgb": [
+        102,
+        138,
+        167
+      ],
+      "hex": "#668AA7",
+      "note": "中心专辑封面"
+    },
+    {
+      "name": "needle",
+      "norm": [
+        0.52,
+        0.17
+      ],
+      "px": [
+        748,
+        544
+      ],
+      "rgb": [
+        32,
+        64,
+        84
+      ],
+      "hex": "#204054",
+      "note": "唱臂 pivot 附近"
+    },
+    {
+      "name": "text_title",
+      "norm": [
+        0.1,
+        0.7
+      ],
+      "px": [
+        144,
+        2240
+      ],
+      "rgb": [
+        24,
+        48,
+        63
+      ],
+      "hex": "#18303F",
+      "note": "歌曲标题文字"
+    },
+    {
+      "name": "progress_active",
+      "norm": [
+        0.2,
+        0.774
+      ],
+      "px": [
+        288,
+        2476
+      ],
+      "rgb": [
+        23,
+        45,
+        59
+      ],
+      "hex": "#172D3B",
+      "note": "进度条已播部分"
+    }
+  ],
+  "left_edge_vertical_gradient": [
+    {
+      "y": 0.1,
+      "hex": "#254A61",
+      "rgb": [
+        37,
+        74,
+        97
+      ]
+    },
+    {
+      "y": 0.2,
+      "hex": "#23465B",
+      "rgb": [
+        35,
+        70,
+        91
+      ]
+    },
+    {
+      "y": 0.3,
+      "hex": "#214256",
+      "rgb": [
+        33,
+        66,
+        86
+      ]
+    },
+    {
+      "y": 0.4,
+      "hex": "#1F3D50",
+      "rgb": [
+        31,
+        61,
+        80
+      ]
+    },
+    {
+      "y": 0.5,
+      "hex": "#1D394A",
+      "rgb": [
+        29,
+        57,
+        74
+      ]
+    },
+    {
+      "y": 0.6,
+      "hex": "#1A3545",
+      "rgb": [
+        26,
+        53,
+        69
+      ]
+    },
+    {
+      "y": 0.7,
+      "hex": "#18303F",
+      "rgb": [
+        24,
+        48,
+        63
+      ]
+    },
+    {
+      "y": 0.8,
+      "hex": "#162C3A",
+      "rgb": [
+        22,
+        44,
+        58
+      ]
+    },
+    {
+      "y": 0.9,
+      "hex": "#142834",
+      "rgb": [
+        20,
+        40,
+        52
+      ]
+    },
+    {
+      "y": 0.96,
+      "hex": "#000000",
+      "rgb": [
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "crop_zoom_files": [
+    "analysis\\l3-reference\\cp-crop-01-topbar.png",
+    "analysis\\l3-reference\\cp-crop-02-disc.png",
+    "analysis\\l3-reference\\cp-crop-03-info.png",
+    "analysis\\l3-reference\\cp-crop-04-controls.png"
+  ],
+  "cover_extract": "analysis\\l3-reference\\competitor-cover-extract.png",
+  "pixel_level_1to1": {
+    "baseline_available": true,
+    "self_ui_aligned": false,
+    "note": "基准已取得；自研页按本报告色值 / 几何规格在 12 §61.43 对齐，对齐后仍需真机截图逐像素复核，不预先宣称达成。"
+  }
+}

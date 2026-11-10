@@ -1,0 +1,827 @@
+--------- beginning of system
+11-10 11:55:12.511 I/ActivityManager( 2387): Force stopping com.example.cloudmusic appid=10327 user=0: from process:18197
+11-10 11:55:12.523 W/ActivityManager( 2387): Invalid packageName: com.example.cloudmusic
+--------- beginning of main
+11-10 11:55:12.534 I/MiuiWallpaper-MiuiWallpaperManagerService( 4478): receive broadcast action = android.intent.action.PACKAGE_RESTARTED
+11-10 11:55:12.536 D/CarrierSvcBindHelper( 4812): onHandleForceStop: [com.example.cloudmusic]
+11-10 11:55:12.537 D/CarrierSvcBindHelper( 4812): No carrier app for: 0
+11-10 11:55:12.537 D/CarrierSvcBindHelper( 4812): No carrier app for: 1
+11-10 11:55:12.538 D/RegisteredServicesCache( 7970): Intent action: android.intent.action.PACKAGE_RESTARTED
+11-10 11:55:12.540 D/MyLog   ( 8783): -->log(0): [T370] pcc handle intent in sjm android.intent.action.PACKAGE_RESTARTED
+11-10 11:55:12.546 E/RegisteredServicesCache( 7970): Skipping application component ComponentInfo{com.autonavi.minimap/com.alibaba.ariver.commonability.device.jsapi.nfc.service.TinyAppHostApduService}: it must request the permission android.permission.NFC
+11-10 11:55:12.546 E/RegisteredServicesCache( 7970): Skipping application component ComponentInfo{com.autonavi.minimap/com.alipay.mobile.aompdevice.nfc.service.TinyAppHostApduService}: it must request the permission android.permission.NFC
+11-10 11:55:12.547 E/ApduServiceInfo( 7970): Ignoring invalid or duplicate aid: 5041592E41505059
+11-10 11:55:12.551 E/RegisteredServicesCache( 7970): Skipping application component ComponentInfo{com.tmall.wireless/com.alibaba.ariver.commonability.device.jsapi.nfc.service.TinyAppHostApduService}: it must request the permission android.permission.NFC
+11-10 11:55:12.552 E/RegisteredServicesCache( 7970): Skipping application component ComponentInfo{me.ele/com.alibaba.ariver.commonability.device.jsapi.nfc.service.TinyAppHostApduService}: it must request the permission android.permission.NFC
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.google.android.gms/com.google.android.gms.tapandpay.hce.service.TpHceService} AIDs: [325041592E5359532E4444463031]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.google.android.gms/com.google.android.gms.nearby.mediums.nearfieldcommunication.NfcAdvertisingService} AIDs: [F00000FE2C]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.google.android.gms/com.google.android.gms.pay.hce.service.PayHceService} AIDs: []
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.xiaomi.digitalkey/com.xiaomi.digitalkey.ccc.OnHostService} AIDs: [A000000809434343444B467631]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.alibaba.ailabs.tg/com.alibaba.ariver.commonability.device.jsapi.nfc.service.TinyAppHostApduService} AIDs: []
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.android.bankabc/com.android.bankabc.nfc.CardService} AIDs: [ABC0000001]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} AIDs: [A000000632010105, A0000006320101050220581058000000, A000000632010106, 315041592E5359532E4444463031, 325041592E5359532E4444463031, A00000000386980701, A00000000386980702, A00000000386980703, A00000000386980704, A00000000386980705, 5943542E49534431, 5943542E55534552, 5041592E41505059, 5041592E4D463158, 5041592E50415344, 5041592E5449434C, 5041592E45585431, 5041592E45585432]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} AIDs: [A000000632010105, A000000632010106, 315041592E5359532E4444463031, 325041592E5359532E4444463031, A00000000386980701, A00000000386980702, A00000000386980703, A00000000386980704, A00000000386980705, A0584D45544B0101, 5041592E41505059, 5041592E535A54, A0000006320101050220581058000000, 5943542E49534431, 5943542E55534552, 5041592E4D463158, 5041592E50415344, 5041592E5449434C, 5041592E45585431, 5041592E45585432]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.chinamworld.main/com.ccb.business.miniprogExtension.card_mulation.CardService} AIDs: [F18120008928]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.eg.android.AlipayGphone/com.alipay.mobile.aompdevice.nfc.service.TinyAppHostApduService} AIDs: []
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.eg.android.AlipayGphone/com.alibaba.ariver.commonability.device.jsapi.nfc.service.TinyAppHostApduService} AIDs: []
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.eg.android.AlipayGphone/com.alipay.android.phone.buscodeofflinepay.nfc.CardService} AIDs: [B06937896756002478]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.jd.jdlite/com.jingdong.app.mall.service.QuickPassNFCService} AIDs: [325041592E5359532E4444463031, A000000333010101, A000000333010102, A000000333010103]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.jingdong.app.mall/com.jingdong.app.mall.service.QuickPassNFCService} AIDs: [325041592E5359532E4444463031, A000000333010101, A000000333010102, A000000333010103]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.srcb.pmbank/com.froad.eid.service.CardService} AIDs: [A000000003454944]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.taobao.litetao/com.alibaba.ariver.commonability.device.jsapi.nfc.service.TinyAppHostApduService} AIDs: []
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.taobao.taobao/com.alibaba.ariver.commonability.device.jsapi.nfc.service.TinyAppHostApduService} AIDs: []
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.tencent.mm/com.tencent.mm.plugin.appbrand.jsapi.nfc.hce.HCEService} AIDs: [F123456789]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.tencent.mobileqq/com.tencent.mm.plugin.appbrand.jsapi.nfc.hce.HCEService} AIDs: [F123456789]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.unionpay/com.unionpay.uppay.hce.ApduService} AIDs: [325041592E5359532E4444463031, A000000333010101, A000000333010102, A000000333010103, A000000333010106]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.google.android.gms/com.google.android.gms.fido.hybrid.NfcEmulationService} AIDs: [A0000006472F0002]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{cn.gov.pbc.dcep/cn.gov.pbc.dcep.tap.service.HceHostApduService} AIDs: [F0010203040507, F077616C6C65740001, A000000044434550, A00000087249000000]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.chinamworld.bocmbci/com.boc.bocsoft.mobile.bocmobile.buss.equickpay.service.BocopApduService} AIDs: [F0010203040506, F0394148148100, 325041592E5359532E4444463031, A0000000031010, A000000333010102, A000000333010101, A0000000041010]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.eg.android.AlipayGphone/com.alipay.mobile.framework.service.common.impl.hce.HCEOverSeaPayApduService} AIDs: [325041592E5359532E4444463031, A0000000041010]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.twitter.android/com.x.share.impl.nfc.ProfileTagApduService} AIDs: [D2760000850101]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.android.nfc/com.android.nfc.cardemulation.ESEWalletDummyService} AIDs: [AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]
+11-10 11:55:12.554 D/RegisteredServicesCache( 7970): Adding service: ComponentInfo{com.android.nfc/com.android.nfc.cardemulation.SIMWalletDummyService} AIDs: [BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB]
+11-10 11:55:12.554 D/CardEmulationManager( 7970): Current default: ComponentInfo{com.android.nfc/com.android.nfc.cardemulation.ESEWalletDummyService} for user:0
+11-10 11:55:12.554 D/RegisteredAidCache( 7970): onServicesUpdated
+11-10 11:55:12.555 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.google.android.gms/com.google.android.gms.tapandpay.hce.service.TpHceService}
+11-10 11:55:12.555 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.google.android.gms/com.google.android.gms.nearby.mediums.nearfieldcommunication.NfcAdvertisingService}
+11-10 11:55:12.555 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.google.android.gms/com.google.android.gms.pay.hce.service.PayHceService}
+11-10 11:55:12.555 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.xiaomi.digitalkey/com.xiaomi.digitalkey.ccc.OnHostService}
+11-10 11:55:12.555 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.alibaba.ailabs.tg/com.alibaba.ariver.commonability.device.jsapi.nfc.service.TinyAppHostApduService}
+11-10 11:55:12.555 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.android.bankabc/com.android.bankabc.nfc.CardService}
+11-10 11:55:12.555 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService}
+11-10 11:55:12.555 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService}
+11-10 11:55:12.555 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.chinamworld.main/com.ccb.business.miniprogExtension.card_mulation.CardService}
+11-10 11:55:12.555 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.eg.android.AlipayGphone/com.alipay.mobile.aompdevice.nfc.service.TinyAppHostApduService}
+11-10 11:55:12.555 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.eg.android.AlipayGphone/com.alibaba.ariver.commonability.device.jsapi.nfc.service.TinyAppHostApduService}
+11-10 11:55:12.555 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.eg.android.AlipayGphone/com.alipay.android.phone.buscodeofflinepay.nfc.CardService}
+11-10 11:55:12.555 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.jd.jdlite/com.jingdong.app.mall.service.QuickPassNFCService}
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.jingdong.app.mall/com.jingdong.app.mall.service.QuickPassNFCService}
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.srcb.pmbank/com.froad.eid.service.CardService}
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.taobao.litetao/com.alibaba.ariver.commonability.device.jsapi.nfc.service.TinyAppHostApduService}
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.taobao.taobao/com.alibaba.ariver.commonability.device.jsapi.nfc.service.TinyAppHostApduService}
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.tencent.mm/com.tencent.mm.plugin.appbrand.jsapi.nfc.hce.HCEService}
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.tencent.mobileqq/com.tencent.mm.plugin.appbrand.jsapi.nfc.hce.HCEService}
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.unionpay/com.unionpay.uppay.hce.ApduService}
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.google.android.gms/com.google.android.gms.fido.hybrid.NfcEmulationService}
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{cn.gov.pbc.dcep/cn.gov.pbc.dcep.tap.service.HceHostApduService}
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.chinamworld.bocmbci/com.boc.bocsoft.mobile.bocmobile.buss.equickpay.service.BocopApduService}
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.eg.android.AlipayGphone/com.alipay.mobile.framework.service.common.impl.hce.HCEOverSeaPayApduService}
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.twitter.android/com.x.share.impl.nfc.ProfileTagApduService}
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.android.nfc/com.android.nfc.cardemulation.ESEWalletDummyService}
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateServiceMap component: ComponentInfo{com.android.nfc/com.android.nfc.cardemulation.SIMWalletDummyService}
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid 315041592E5359532E4444463031
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): AIDs: [315041592E5359532E4444463031] were resolved.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid 325041592E5359532E4444463031
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.google.android.gms/com.google.android.gms.tapandpay.hce.service.TpHceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.jd.jdlite/com.jingdong.app.mall.service.QuickPassNFCService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.jingdong.app.mall/com.jingdong.app.mall.service.QuickPassNFCService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.unionpay/com.unionpay.uppay.hce.ApduService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.chinamworld.bocmbci/com.boc.bocsoft.mobile.bocmobile.buss.equickpay.service.BocopApduService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.eg.android.AlipayGphone/com.alipay.mobile.framework.service.common.impl.hce.HCEOverSeaPayApduService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): AIDs: [325041592E5359532E4444463031] were resolved.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid 4F53452E5641532E3031
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: making single handling service ComponentInfo{com.google.android.gms/com.google.android.gms.pay.hce.service.PayHceService} default.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): AIDs: [4F53452E5641532E3031] were resolved.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid 5041592E41505059
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): AIDs: [5041592E41505059] were resolved.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid 5041592E45585431
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): AIDs: [5041592E45585431] were resolved.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid 5041592E45585432
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): AIDs: [5041592E45585432] were resolved.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid 5041592E4D463158
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): AIDs: [5041592E4D463158] were resolved.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid 5041592E50415344
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): AIDs: [5041592E50415344] were resolved.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid 5041592E535A54
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): AIDs: [5041592E535A54] were resolved.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid 5041592E5449434C
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): AIDs: [5041592E5449434C] were resolved.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid 5943542E49534431
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): AIDs: [5943542E49534431] were resolved.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid 5943542E55534552
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): AIDs: [5943542E55534552] were resolved.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A0000000031010
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.556 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.chinamworld.bocmbci/com.boc.bocsoft.mobile.bocmobile.buss.equickpay.service.BocopApduService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A0000000031010] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A000000003454944
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.srcb.pmbank/com.froad.eid.service.CardService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A000000003454944] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A00000000386980701
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A00000000386980701] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A00000000386980702
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A00000000386980702] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A00000000386980703
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A00000000386980703] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A00000000386980704
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A00000000386980704] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A00000000386980705
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A00000000386980705] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A0000000041010
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.chinamworld.bocmbci/com.boc.bocsoft.mobile.bocmobile.buss.equickpay.service.BocopApduService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.eg.android.AlipayGphone/com.alipay.mobile.framework.service.common.impl.hce.HCEOverSeaPayApduService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A0000000041010] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A000000044434550
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{cn.gov.pbc.dcep/cn.gov.pbc.dcep.tap.service.HceHostApduService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A000000044434550] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A000000333010101
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.jd.jdlite/com.jingdong.app.mall.service.QuickPassNFCService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.jingdong.app.mall/com.jingdong.app.mall.service.QuickPassNFCService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.unionpay/com.unionpay.uppay.hce.ApduService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.chinamworld.bocmbci/com.boc.bocsoft.mobile.bocmobile.buss.equickpay.service.BocopApduService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A000000333010101] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A000000333010102
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.jd.jdlite/com.jingdong.app.mall.service.QuickPassNFCService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.jingdong.app.mall/com.jingdong.app.mall.service.QuickPassNFCService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.unionpay/com.unionpay.uppay.hce.ApduService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.chinamworld.bocmbci/com.boc.bocsoft.mobile.bocmobile.buss.equickpay.service.BocopApduService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A000000333010102] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A000000333010103
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.jd.jdlite/com.jingdong.app.mall.service.QuickPassNFCService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.jingdong.app.mall/com.jingdong.app.mall.service.QuickPassNFCService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.unionpay/com.unionpay.uppay.hce.ApduService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A000000333010103] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A000000333010106
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.unionpay/com.unionpay.uppay.hce.ApduService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A000000333010106] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A000000476D0000111
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: making single handling service ComponentInfo{com.google.android.gms/com.google.android.gms.pay.hce.service.PayHceService} default.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A000000476D0000111] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A000000632010105
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A000000632010105] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A0000006320101050220581058000000
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A0000006320101050220581058000000] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A000000632010106
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A000000632010106] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A0000006472F0002
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: making single handling service ComponentInfo{com.google.android.gms/com.google.android.gms.fido.hybrid.NfcEmulationService} default.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A0000006472F0002] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A000000809434343444B467631
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: making single handling service ComponentInfo{com.xiaomi.digitalkey/com.xiaomi.digitalkey.ccc.OnHostService} default.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A000000809434343444B467631] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A00000087249000000
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{cn.gov.pbc.dcep/cn.gov.pbc.dcep.tap.service.HceHostApduService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A00000087249000000] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid A0584D45544B0101
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [A0584D45544B0101] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to payment default default ApduService: ComponentInfo{com.android.nfc/com.android.nfc.cardemulation.ESEWalletDummyService}, UID: 1027, description: 小米钱包, Static AID Groups: Category: payment, AIDs:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA, , Dynamic AID Groups: 
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid ABC0000001
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: making single handling service ComponentInfo{com.android.bankabc/com.android.bankabc.nfc.CardService} default.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [ABC0000001] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid B06937896756002478
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: making single handling service ComponentInfo{com.eg.android.AlipayGphone/com.alipay.android.phone.buscodeofflinepay.nfc.CardService} default.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [B06937896756002478] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.android.nfc/com.android.nfc.cardemulation.SIMWalletDummyService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid D2760000850101
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: making single handling service ComponentInfo{com.twitter.android/com.x.share.impl.nfc.ProfileTagApduService} default.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [D2760000850101] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid F00000FE2C
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: making single handling service ComponentInfo{com.google.android.gms/com.google.android.gms.nearby.mediums.nearfieldcommunication.NfcAdvertisingService} default.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [F00000FE2C] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid F0010203040506
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.chinamworld.bocmbci/com.boc.bocsoft.mobile.bocmobile.buss.equickpay.service.BocopApduService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [F0010203040506] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid F0010203040507
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{cn.gov.pbc.dcep/cn.gov.pbc.dcep.tap.service.HceHostApduService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [F0010203040507] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid F0394148148100
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.chinamworld.bocmbci/com.boc.bocsoft.mobile.bocmobile.buss.equickpay.service.BocopApduService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [F0394148148100] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid F077616C6C65740001
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{cn.gov.pbc.dcep/cn.gov.pbc.dcep.tap.service.HceHostApduService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [F077616C6C65740001] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid F123456789
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.tencent.mm/com.tencent.mm.plugin.appbrand.jsapi.nfc.hce.HCEService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: (Ignoring handling service ComponentInfo{com.tencent.mobileqq/com.tencent.mm.plugin.appbrand.jsapi.nfc.hce.HCEService} because it's not the payment default.)
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: routing to all matching services
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [F123456789] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): generateAidCacheLocked: starting with aid F18120008928
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact AID, resolving.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): resolveAidLocked: DECISION: making single handling service ComponentInfo{com.chinamworld.main/com.ccb.business.miniprogExtension.card_mulation.CardService} default.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [F18120008928] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact or Prefix AID.F18120008928
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [F18120008928] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact or Prefix AID.F123456789
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [F123456789] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact or Prefix AID.F077616C6C65740001
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [F077616C6C65740001] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact or Prefix AID.F0394148148100
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [F0394148148100] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact or Prefix AID.F0010203040507
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [F0010203040507] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact or Prefix AID.F0010203040506
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [F0010203040506] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact or Prefix AID.F00000FE2C
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [F00000FE2C] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact or Prefix AID.D2760000850101
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [D2760000850101] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact or Prefix AID.BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB] were resolved.
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): Exact or Prefix AID.B06937896756002478
+11-10 11:55:12.557 D/RegisteredAidCache( 7970): AIDs: [B06937896756002478] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.ABC0000001
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [ABC0000001] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A0584D45544B0101
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A0584D45544B0101] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A00000087249000000
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A00000087249000000] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A000000809434343444B467631
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A000000809434343444B467631] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A0000006472F0002
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A0000006472F0002] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A000000632010106
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A000000632010106] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A0000006320101050220581058000000
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A0000006320101050220581058000000] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A000000632010105
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A000000632010105] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A000000476D0000111
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A000000476D0000111] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A000000333010106
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A000000333010106] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A000000333010103
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A000000333010103] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A000000333010102
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A000000333010102] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A000000333010101
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A000000333010101] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A000000044434550
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A000000044434550] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A0000000041010
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A0000000041010] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A00000000386980705
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A00000000386980705] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A00000000386980704
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A00000000386980704] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A00000000386980703
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A00000000386980703] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A00000000386980702
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A00000000386980702] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A00000000386980701
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A00000000386980701] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A000000003454944
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A000000003454944] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.A0000000031010
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [A0000000031010] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.5943542E55534552
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [5943542E55534552] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.5943542E49534431
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [5943542E49534431] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.5041592E5449434C
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [5041592E5449434C] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.5041592E535A54
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [5041592E535A54] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.5041592E50415344
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [5041592E50415344] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.5041592E4D463158
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [5041592E4D463158] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.5041592E45585432
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [5041592E45585432] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.5041592E45585431
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [5041592E45585431] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.5041592E41505059
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [5041592E41505059] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.4F53452E5641532E3031
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [4F53452E5641532E3031] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.325041592E5359532E4444463031
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [325041592E5359532E4444463031] were resolved.
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): Exact or Prefix AID.315041592E5359532E4444463031
+11-10 11:55:12.558 D/RegisteredAidCache( 7970): AIDs: [315041592E5359532E4444463031] were resolved.
+11-10 11:55:12.558 I/RegisteredAidCache( 7970): updateRoutingLocked(false): Enter
+11-10 11:55:12.558 I/AidRoutingManager( 7970): configureRouting(false): Enter
+11-10 11:55:12.558 E/AidRoutingManager( 7970): Size of routing table970
+11-10 11:55:12.558 D/AidRoutingManager( 7970): configureRouting: seList: add 1
+11-10 11:55:12.558 D/AidRoutingManager( 7970): configureRouting: A000000809434343444B467631=AidEntry{isOnHost:true, offHostSE:Host, route:0, aidInfo:0x0, power:0x11}
+11-10 11:55:12.558 D/AidRoutingManager( 7970): #######Routing AID A000000809434343444B467631 to route 0 with power 17
+11-10 11:55:12.558 D/AidRoutingManager( 7970): configureRouting: F00000FE2C=AidEntry{isOnHost:true, offHostSE:Host, route:0, aidInfo:0x0, power:0x11}
+11-10 11:55:12.558 D/AidRoutingManager( 7970): configureRouting: 4F53452E5641532E3031=AidEntry{isOnHost:true, offHostSE:Host, route:0, aidInfo:0x0, power:0x39}
+11-10 11:55:12.558 D/AidRoutingManager( 7970): configureRouting: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=AidEntry{isOnHost:false, offHostSE:eSE1, route:0, aidInfo:0x0, power:0x3b}
+11-10 11:55:12.558 D/AidRoutingManager( 7970): configureRouting: ABC0000001=AidEntry{isOnHost:true, offHostSE:Host, route:0, aidInfo:0x0, power:0x11}
+11-10 11:55:12.558 D/AidRoutingManager( 7970): configureRouting: F18120008928=AidEntry{isOnHost:true, offHostSE:Host, route:0, aidInfo:0x0, power:0x11}
+11-10 11:55:12.558 D/AidRoutingManager( 7970): configureRouting: D2760000850101=AidEntry{isOnHost:true, offHostSE:Host, route:0, aidInfo:0x0, power:0x11}
+11-10 11:55:12.558 D/AidRoutingManager( 7970): configureRouting: B06937896756002478=AidEntry{isOnHost:true, offHostSE:Host, route:0, aidInfo:0x0, power:0x11}
+11-10 11:55:12.558 D/AidRoutingManager( 7970): configureRouting: A000000476D0000111=AidEntry{isOnHost:true, offHostSE:Host, route:0, aidInfo:0x0, power:0x39}
+11-10 11:55:12.558 D/AidRoutingManager( 7970): configureRouting: A0000006472F0002=AidEntry{isOnHost:true, offHostSE:Host, route:0, aidInfo:0x0, power:0x11}
+11-10 11:55:12.558 I/NfcService( 7970): Add T4T Nfcee AID
+11-10 11:55:12.558 D/NfcService( 7970): T4TNfceePowerState : 59
+11-10 11:55:12.558 D/AidRoutingManager( 7970): Routing table unchanged, not updating
+11-10 11:55:12.558 I/RegisteredAidCache( 7970): updateRoutingLocked(false): exit
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.google.android.gms/com.google.android.gms.tapandpay.hce.service.TpHceService}, UID: 10115, description: Google Pay, Static AID Groups: Category: payment, AIDs:325041592E5359532E4444463031, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.google.android.gms/com.google.android.gms.nearby.mediums.nearfieldcommunication.NfcAdvertisingService}, UID: 10115, description: Nearby, Static AID Groups: Category: other, AIDs:F00000FE2C, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.google.android.gms/com.google.android.gms.pay.hce.service.PayHceService}, UID: 10115, description: Google 钱包, Static AID Groups: , Dynamic AID Groups: Category: other, AIDs:4F53452E5641532E3031, A000000476D0000111, 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.xiaomi.digitalkey/com.xiaomi.digitalkey.ccc.OnHostService}, UID: 1000, description: CCC Digital Key HCE Service, Static AID Groups: Category: other, AIDs:A000000809434343444B467631, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.alibaba.ailabs.tg/com.alibaba.ariver.commonability.device.jsapi.nfc.service.TinyAppHostApduService}, UID: 10351, description: 阿里小程序, Static AID Groups: , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.android.bankabc/com.android.bankabc.nfc.CardService}, UID: 10283, description: CardService, Static AID Groups: Category: other, AIDs:ABC0000001, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.android.bankabc/com.vfuchong.hce.service.abc.HceService}, UID: 10283, description: 中国农业银行-羊城通, Static AID Groups: Category: payment, AIDs:A000000632010105, A0000006320101050220581058000000, A000000632010106, 315041592E5359532E4444463031, 325041592E5359532E4444463031, A00000000386980701, A00000000386980702, A00000000386980703, A00000000386980704, A00000000386980705, 5943542E49534431, 5943542E55534552, 5041592E41505059, 5041592E4D463158, 5041592E50415344, 5041592E5449434C, 5041592E45585431, 5041592E45585432, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.ccb.longjiLife/com.vfuchong.hce.service.HceService}, UID: 10307, description: 中国建设银行-羊城通, Static AID Groups: Category: payment, AIDs:A000000632010105, A000000632010106, 315041592E5359532E4444463031, 325041592E5359532E4444463031, A00000000386980701, A00000000386980702, A00000000386980703, A00000000386980704, A00000000386980705, A0584D45544B0101, 5041592E41505059, 5041592E535A54, A0000006320101050220581058000000, 5943542E49534431, 5943542E55534552, 5041592E4D463158, 5041592E50415344, 5041592E5449434C, 5041592E45585431, 5041592E45585432, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.chinamworld.main/com.ccb.business.miniprogExtension.card_mulation.CardService}, UID: 10278, description: 建行付款码碰一碰付款, Static AID Groups: Category: other, AIDs:F18120008928, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.eg.android.AlipayGphone/com.alipay.mobile.aompdevice.nfc.service.TinyAppHostApduService}, UID: 10335, description: 支付宝(Alipay) NFC, Static AID Groups: , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.eg.android.AlipayGphone/com.alibaba.ariver.commonability.device.jsapi.nfc.service.TinyAppHostApduService}, UID: 10335, description: 支付宝(Alipay) NFC, Static AID Groups: , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.eg.android.AlipayGphone/com.alipay.android.phone.buscodeofflinepay.nfc.CardService}, UID: 10335, description: 支付宝, Static AID Groups: Category: other, AIDs:B06937896756002478, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.jd.jdlite/com.jingdong.app.mall.service.QuickPassNFCService}, UID: 10295, description: 京东闪付, Static AID Groups: Category: payment, AIDs:325041592E5359532E4444463031, A000000333010101, A000000333010102, A000000333010103, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.jingdong.app.mall/com.jingdong.app.mall.service.QuickPassNFCService}, UID: 10298, description: 京东闪付, Static AID Groups: Category: payment, AIDs:325041592E5359532E4444463031, A000000333010101, A000000333010102, A000000333010103, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.srcb.pmbank/com.froad.eid.service.CardService}, UID: 10317, description: SIMeID盾, Static AID Groups: Category: payment, AIDs:A000000003454944, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.taobao.litetao/com.alibaba.ariver.commonability.device.jsapi.nfc.service.TinyAppHostApduService}, UID: 10294, description: 阿里小程序, Static AID Groups: , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.taobao.taobao/com.alibaba.ariver.commonability.device.jsapi.nfc.service.TinyAppHostApduService}, UID: 10311, description: 阿里小程序, Static AID Groups: , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.tencent.mm/com.tencent.mm.plugin.appbrand.jsapi.nfc.hce.HCEService}, UID: 10257, description: 微信, Static AID Groups: Category: payment, AIDs:F123456789, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.tencent.mobileqq/com.tencent.mm.plugin.appbrand.jsapi.nfc.hce.HCEService}, UID: 10269, description: 微信, Static AID Groups: Category: payment, AIDs:F123456789, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.unionpay/com.unionpay.uppay.hce.ApduService}, UID: 10281, description: 云闪付, Static AID Groups: Category: payment, AIDs:325041592E5359532E4444463031, A000000333010101, A000000333010102, A000000333010103, A000000333010106, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.google.android.gms/com.google.android.gms.fido.hybrid.NfcEmulationService}, UID: 10115, description: Fido NFC Emulation Service, Static AID Groups: Category: other, AIDs:A0000006472F0002, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{cn.gov.pbc.dcep/cn.gov.pbc.dcep.tap.service.HceHostApduService}, UID: 10321, description: null, Static AID Groups: Category: payment, AIDs:F0010203040507, F077616C6C65740001, A000000044434550, A00000087249000000, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.chinamworld.bocmbci/com.boc.bocsoft.mobile.bocmobile.buss.equickpay.service.BocopApduService}, UID: 10280, description: 中国银行云闪付, Static AID Groups: Category: payment, AIDs:F0010203040506, F0394148148100, 325041592E5359532E4444463031, A0000000031010, A000000333010102, A000000333010101, A0000000041010, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.eg.android.AlipayGphone/com.alipay.mobile.framework.service.common.impl.hce.HCEOverSeaPayApduService}, UID: 10335, description: 支付宝NFC支付服务, Static AID Groups: Category: payment, AIDs:325041592E5359532E4444463031, A0000000041010, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.twitter.android/com.x.share.impl.nfc.ProfileTagApduService}, UID: 10313, description: 分享你的 X 个人资料，只需将手机放在一起即可, Static AID Groups: Category: other, AIDs:D2760000850101, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.android.nfc/com.android.nfc.cardemulation.ESEWalletDummyService}, UID: 1027, description: 小米钱包, Static AID Groups: Category: payment, AIDs:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA, , Dynamic AID Groups: 
+11-10 11:55:12.558 D/RegisteredServicesCache( 7970): ApduService: ComponentInfo{com.android.nfc/com.android.nfc.cardemulation.SIMWalletDummyService}, UID: 1027, description: SIM卡钱包, Static AID Groups: Category: payment, AIDs:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB, , Dynamic AID Groups: 
+11-10 11:55:12.559 D/RegisteredNfcFServicesCache( 7970): Service unchanged, not updating
+11-10 11:55:12.559 I/libnfc_nci( 7970): [INFO:NativeT4tNfcee.cpp(865)] nfcManager_isFwSupportNonStdT4TAid Enter isFwSupport = 1
+11-10 11:55:12.559 I/libnfc_nci( 7970): [INFO:SecureElement.cpp(1512)] SecureElement::getEseHandleFromGenericId: enter; ESE-ID = 0x7F
+11-10 11:55:12.559 I/libnfc_nci( 7970): [INFO:SecureElement.cpp(1547)] SecureElement::getEseHandleFromGenericId: enter; ESE-Handle = 0x410
+11-10 11:55:12.560 D/SecureElementService( 4742): getReaders() for com.miui.tsmclient
+11-10 11:55:12.621 I/MiuiNetworkPolicy( 2387): bandwidth: 0 KB/s, Max bandwidth: 200 KB/s
+11-10 11:55:12.949 E/ANDR-PERF-OPTSHANDLER( 1328): Unable to find the correct node storage pointers for                   resource index=68, node path=/proc/sys/walt/sched_downmigrate
+11-10 11:55:12.949 E/ANDR-PERF-OPTSHANDLER( 1328): Unable to find the correct node storage pointers for                   resource index=68, node path=/proc/sys/walt/sched_upmigrate
+11-10 11:55:12.949 E/ANDR-PERF-RESOURCEQS( 1328): Failed to reset optimization [3, 56]
+11-10 11:55:12.949 E/ANDR-PERF-OPTSHANDLER( 1328): Unable to find the correct node storage pointers for                   resource index=68, node path=/proc/sys/walt/sched_upmigrate
+11-10 11:55:12.949 E/ANDR-PERF-OPTSHANDLER( 1328): Unable to find the correct node storage pointers for                   resource index=68, node path=/proc/sys/walt/sched_downmigrate
+11-10 11:55:12.949 E/ANDR-PERF-RESOURCEQS( 1328): Failed to reset optimization [3, 56]
+11-10 11:55:12.949 E/ANDR-PERF-RESOURCEQS( 1328): Failed to reset optimization [3, 61]
+11-10 11:55:13.023 W/WakeLock( 4409): GCM_CONN_ALARM release without a matched acquire! [CONTEXT service_id=259 ]
+11-10 11:55:13.057 D/TrafficManageService( 8438): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-10 11:55:13.062 D/TrafficManageService-TrafficSimManager( 8438): notifyByNetChange: gooooo
+11-10 11:55:13.072 D/TrafficManageService-TrafficSimManager( 8438): getMonthDataUsageUsed: new_get = 12747974948
+11-10 11:55:13.075 D/TrafficManageService-TrafficSimManager( 8438): checkNormalTrafficStatus: 开关未打开
+11-10 11:55:13.104 D/CompatibilityChangeReporter( 2387): Compat change id reported: 161252188; UID 10327; state: DISABLED
+11-10 11:55:13.105 I/ActivityTaskManager( 2387): START u0 {flg=0x10000000 cmp=com.example.cloudmusic/.MainActivity} from uid 2000 from pid 18204 callingPackage com.android.shell
+11-10 11:55:13.105 D/MiuiMultiWindowAdapter( 2387): MiuiMultiWindowAdapter::getFreeformBlackList::sSmallWindowBlackList = [com.miui.mishare.connectivity, com.android.settings, com.android.printspooler, com.miui.backup, com.miui.huanji, com.android.thememanager, com.mfashiongallery.emag, com.miui.virtualsim, com.miui.smarttravel, com.mi.health, com.android.camera, com.lbe.security.miui, com.miui.cleanmaster, com.miui.newhome, com.android.phone, com.miui.yellowpage, com.android.updater, com.miui.tsmclient, com.miui.securitycore, com.xiaomi.account, com.xiaomi.hm.health, com.xiaomi.mibrain.speech, com.xiaomi.mimoji, com.xiaomi.scanner, com.duokan.phone.remotecontroller, com.miui.hybrid, com.miui.videoplayer, com.miui.packageinstaller, com.mi.android.globallauncher, com.mi.android.globallauncher-poco, com.google.android.dialer, com.miui.compass, com.miui.greenguard, com.kiteguard, com.google.ar.lens, com.xiangkan.android, com.android.bankabc, com.shyz.toutiao, com.outfit7.talkingtomgoldrun.mi, com.doudz.mi, com.wepie.snake.new.mi, cn.jj, com.standddz002.mi, com.miHoYo.bh3.mi, com.happyelements.AndroidAnimal, com.mfp.jelly.xiaomi, com.lilithgames.afk.mi, com.tencent.peng, com.teenpatti.hd.gold, blockpuzzle.jewelgames.jewelslegend, com.playgendary.tanks, com.chillingo.robberybobfree.android.row, com.episodeinteractive.android.catalog, com.playrix.township, com.ansangha.drdriving, com.tencent.tetris, com.sukhavati.gotoplaying.bubble.BubbleShooter.mint, com.block.puzzle.game.hippo.mi, com.youzu.bs.mi, com.appsomniacs.da2, com.android.stk, com.feiyu.carrot3.mi, com.popcap.pvz2cthdxm, com.mxtech.videoplayer.ad, cn.cisc, com.kiloo.subwaysurf, com.cncyj.mostbrain, pdf.tap.scanner, com.og.ttddz.mi, com.ximalaya.ting.lite, com.google.android.apps.googleassistant, com.netease.mrzh.mi, com.netease.mrzh.bili, com.netease.pes.huawei, com.netease.pes.mi, com.netease.pes.bili, com.flyfish.supermario, com.picsart.studio, com.netease.dwrg.bili, com.netease.dwrg.nearme.gamecenter, com.netease.dwrg, com.netease.dwrg.huawei, com.tencent.tmgp.dwrg, com.netease.dwrg.m4399, com.netease.dwrg.mz, com.netease.dwrg.aligames, com.netease.dwrg.baidu, com.netease.dwrg.qihoo, com.moji.mjweather, com.tencent.tmgp.kof98, com.ledou.mhhy.mi, com.hzfy.ddzbs.mi, com.qsmy.walkmonkey, com.fy.bzzbc.mi, com.dw.xprqj.mi, com.miui.accessibility, com.ymt.nbaftx.mi, com.amazon.kindlefc, com.mcdonalds.gma.cn, com.midea.ai.appliances, com.eco.global.app, com.inspur.icity.tianjin, com.zy.game.thief.mi, com.alimama.moon, com.xinhu.steward, com.rytong.ceair, com.nxy.mobilebank.gx, com.xplaygame.mfbwz.mi, cn.gov.lottery, com.zy.game.bubbletea.mi, com.zy.game.psdc.mi, com.microsoft.office.powerpoint, com.duoduo.child.story, com.lemon.lv, com.xiaomi.aiasst.vision, com.road7.ddtdmxandroid.mi, com.mi.car.mobile, com.android.intentresolver, com.xiaomi.mihomemanager, com.xiaomi.bluetooth, com.android.bluetooth, com.example.chinesechess.mi, com.tencent.tmgp.pubgmhd, com.lemon.lvpro, cn.com.wind.wft_pc, cn.wps.moffice_hd, com.xiaomi.cadlaunche, com.xiaomi.cajlauncher, com.xiaomi.emlauncher, com.xiaomi.zw3d]
+11-10 11:55:13.107 D/CompatibilityChangeReporter( 2387): Compat change id reported: 194480991; UID 10327; state: ENABLED
+11-10 11:55:13.109 E/vendor.qti.hardware.perf-hal-service( 1328): PerfLockHelper: GetCustBoostConfig() 342: applist: com.example.cloudmusic, it->applist com.miui.calculator, com.miui.weather2, com.miui.notes, com.miui.gallery, com.android.calendar, com.android.deskclock,                      com.android.soundrecorder, com.android.contacts, com.android.mms, com.duokan.reader, com.miui.securitycenter, com.android.settings,                      com.xiaomi.market, com.android.quicksearchbox, com.android.fileexplorer, com.xiaomi.gamecenter, com.miui.video
+11-10 11:55:13.110 D/MiGgameTypeIdentificationImpl( 2387): checkIfGameBeSupported app:com.example.cloudmusic
+11-10 11:55:13.110 E/ANDR-PERF-LM( 1328): MetaMeter: handleAsync() 166: AdaptLaunch Invalid Async
+11-10 11:55:13.110 I/WindowManager( 2387): When perf version exceed 2.3, MiGTStub result: false, gameType: 1, packageName: com.example.cloudmusic
+11-10 11:55:13.110 D/MiGgameTypeIdentificationImpl( 2387): checkIfGameBeSupported app:com.example.cloudmusic
+11-10 11:55:13.111 E/ANDR-PERF-LM( 1328): MetaMeter: handleAsync() 166: AdaptLaunch Invalid Async
+11-10 11:55:13.111 E/ANDR-PERF-JNI( 2387): com_qualcomm_qtiperformance_native_perf_io_prefetch_start
+11-10 11:55:13.112 E/CellBroadcastUtils( 2387): getDefaultCellBroadcastReceiverPackageName: no package found
+11-10 11:55:13.115 I/OneHandedController( 4826): stopOneHanded mState = 0, uiEvent = 5
+11-10 11:55:13.116 D/OneHandedController( 4826): stopOneHanded state isTransitioning or STATE_NONE
+11-10 11:55:13.116 E/ANDR-IOP( 1319): io prefetch is disabled
+11-10 11:55:13.118 E/vendor.qti.hardware.perf-hal-service( 1328): PerfLockHelper: GetCustBoostConfig() 342: applist: android, it->applist com.miui.calculator, com.miui.weather2, com.miui.notes, com.miui.gallery, com.android.calendar, com.android.deskclock,                      com.android.soundrecorder, com.android.contacts, com.android.mms, com.duokan.reader, com.miui.securitycenter, com.android.settings,                      com.xiaomi.market, com.android.quicksearchbox, com.android.fileexplorer, com.xiaomi.gamecenter, com.miui.video
+11-10 11:55:13.119 D/CompatibilityChangeReporter( 2387): Compat change id reported: 174042980; UID 10327; state: DISABLED
+11-10 11:55:13.119 D/CompatibilityChangeReporter( 2387): Compat change id reported: 184838306; UID 10327; state: DISABLED
+11-10 11:55:13.120 D/CompatibilityChangeReporter( 2387): Compat change id reported: 185004937; UID 10327; state: DISABLED
+11-10 11:55:13.120 D/CompatibilityChangeReporter( 2387): Compat change id reported: 181136395; UID 10327; state: DISABLED
+11-10 11:55:13.120 D/CompatibilityChangeReporter( 2387): Compat change id reported: 174042936; UID 10327; state: DISABLED
+11-10 11:55:13.122 D/ActivityTaskManager( 2387): Temporarily retain top process state for launching app
+11-10 11:55:13.131 D/TaskStackChangeListeners( 4407): onTaskDisplayChanged =  taskId = 957 newDisplayId = 0
+11-10 11:55:13.132 I/OneHandedController( 4826): stopOneHanded mState = 0, uiEvent = 5
+11-10 11:55:13.132 D/OneHandedController( 4826): stopOneHanded state isTransitioning or STATE_NONE
+11-10 11:55:13.133 D/TaskStackChangeListeners( 4407): onTaskDescriptionChanged =  taskId = 957
+11-10 11:55:13.134 D/MyLog   ( 8783): -->log(0): [T415] GamePopupListeneronForegroundAppEnter: pkg=com.example.cloudmusic cls=com.example.cloudmusic.MainActivity
+11-10 11:55:13.136 I/OneHandedController( 4826): stopOneHanded mState = 0, uiEvent = 5
+11-10 11:55:13.136 D/OneHandedController( 4826): stopOneHanded state isTransitioning or STATE_NONE
+11-10 11:55:13.136 D/MyLog   ( 8783): -->log(0): [T415] GamePopupJudgefindMatchedPlans: matched 0 plans for pkg=com.example.cloudmusic, cls=com.example.cloudmusic.MainActivity
+11-10 11:55:13.136 D/MyLog   ( 8783): -->log(0): [T415] GamePopupListeneronForegroundAppEnter: no matching plans found, pkg=com.example.cloudmusic, cls=com.example.cloudmusic.MainActivity, totalPlans=0
+11-10 11:55:13.137 D/SurfaceFlinger( 1466): buildWindowInfos try add DEFAULT_LAYER_STACK inputInfo
+11-10 11:55:13.137 E/ANDR-PERF-RESOURCEQS( 1328): Failed to reset optimization [11, 8]
+11-10 11:55:13.137 D/CompatibilityChangeReporter( 2387): Compat change id reported: 135634846; UID 10327; state: DISABLED
+11-10 11:55:13.137 D/CompatibilityChangeReporter( 2387): Compat change id reported: 177438394; UID 10327; state: DISABLED
+11-10 11:55:13.137 D/CompatibilityChangeReporter( 2387): Compat change id reported: 135772972; UID 10327; state: DISABLED
+11-10 11:55:13.137 D/CompatibilityChangeReporter( 2387): Compat change id reported: 135754954; UID 10327; state: ENABLED
+11-10 11:55:13.138 D/CompatibilityChangeReporter( 2387): Compat change id reported: 143937733; UID 10327; state: ENABLED
+11-10 11:55:13.139 D/RecentsModel( 4407): onTaskStackChangedBackground
+11-10 11:55:13.139 D/RecentsModel( 4407): onTaskStackChangedBackground
+11-10 11:55:13.139 D/RecentsModel( 4407): onTaskStackChangedBackground
+11-10 11:55:13.140 D/EventBus( 4407): No subscribers registered for event class com.miui.home.recents.messages.RecentTasksChangedEvent
+11-10 11:55:13.140 D/RecentsModel( 4407): onTaskStackChangedBackground    MSG_TASK_STACK_CHANGE
+11-10 11:55:13.140 D/EventBus( 4407): No subscribers registered for event class org.greenrobot.eventbus.NoSubscriberEvent
+11-10 11:55:13.140 D/RecentsModel( 4407): preloadRecents
+11-10 11:55:13.140 W/RecentsModel( 4407): getRunningTask
+11-10 11:55:13.140 D/EventBus( 4407): No subscribers registered for event class com.miui.home.recents.messages.RecentTasksChangedEvent
+11-10 11:55:13.140 D/EventBus( 4407): No subscribers registered for event class com.miui.home.recents.messages.RecentTasksChangedEvent
+11-10 11:55:13.140 D/EventBus( 4407): No subscribers registered for event class org.greenrobot.eventbus.NoSubscriberEvent
+11-10 11:55:13.140 D/EventBus( 4407): No subscribers registered for event class org.greenrobot.eventbus.NoSubscriberEvent
+11-10 11:55:13.141 W/RecentsModel( 4407): getRunningTask   taskInfo=TaskInfo{userId=0 taskId=957 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=com.example.cloudmusic/.MainActivity } baseActivity=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity} topActivity=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity} origActivity=null realActivity=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity} numActivities=1 lastActiveTime=18997774 supportsSplitScreenMultiWindow=true supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=200 token=WCT{android.window.IWindowContainerToken$Stub$Proxy@2a9cb0c} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=0 displayCutoutSafeInsets=Rect(0, 120 - 0, 0) topActivityInfo=ActivityInfo{5714c55 com.example.cloudmusic.MainActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isSleeping=true topActivityInSizeCompat=false topActivityInMiuiSizeCompat=false topActivityEligibleForLetterboxEducation= false locusId=null displayAreaFeatureId=1 cameraCompatControlState=hidden mIsCastMode=false}
+11-10 11:55:13.141 W/RecentsModel( 4407): getTaskInfoIgnoreHomeAndFreeform   taskInfo=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity}
+11-10 11:55:13.142 E/ActivityManagerWrapper( 4407): get all recent tasks force including 957
+11-10 11:55:13.143 D/Boost   ( 2387): hostingType=top-activity, hostingName={com.example.cloudmusic/com.example.cloudmusic.MainActivity}, callerPackage=com.android.shell, isSystem=true, isBoostNeeded=false.
+11-10 11:55:13.143 I/ActivityManager( 2387): Start proc 29134:com.example.cloudmusic/u0a327 for top-activity {com.example.cloudmusic/com.example.cloudmusic.MainActivity} caller=com.android.shell
+11-10 11:55:13.145 E/ActivityManagerWrapper( 4407): getRecentTasks: size=8
+11-10 11:55:13.145 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=957   userId=0   baseIntent=Intent { act=null flag=268435456 cmp=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity} }
+11-10 11:55:13.145 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=939   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.tencent.mm/com.tencent.mm.ui.LauncherUI} }
+11-10 11:55:13.145 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=944   userId=0   baseIntent=Intent { act=null flag=268435456 cmp=ComponentInfo{com.hexin.plat.android/com.hexin.plat.android.Hexin} }
+11-10 11:55:13.145 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=952   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.xunmeng.pinduoduo/com.xunmeng.pinduoduo.ui.activity.MainFrameActivity} }
+11-10 11:55:13.145 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=928   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.xingin.xhs/com.xingin.xhs.index.v2.IndexActivityV2} }
+11-10 11:55:13.145 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=947   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.kkrainbow.easytier/com.kkrainbow.easytier.MainActivity} }
+11-10 11:55:13.145 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=946   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.follow.clash/com.follow.clash.MainActivity} }
+11-10 11:55:13.145 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=945   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.android.settings/com.android.settings.MainSettings} }
+11-10 11:55:13.147 D/RecentsModel( 4407): onTaskStackChangedBackground    MSG_TASK_STACK_CHANGE
+11-10 11:55:13.147 D/RecentsModel( 4407): preloadRecents
+11-10 11:55:13.147 W/RecentsModel( 4407): getRunningTask
+11-10 11:55:13.148 W/RecentsModel( 4407): getRunningTask   taskInfo=TaskInfo{userId=0 taskId=957 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=com.example.cloudmusic/.MainActivity } baseActivity=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity} topActivity=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity} origActivity=null realActivity=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity} numActivities=1 lastActiveTime=18997774 supportsSplitScreenMultiWindow=true supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=200 token=WCT{android.window.IWindowContainerToken$Stub$Proxy@53d966a} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=0 displayCutoutSafeInsets=Rect(0, 120 - 0, 0) topActivityInfo=ActivityInfo{f09875b com.example.cloudmusic.MainActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isSleeping=true topActivityInSizeCompat=false topActivityInMiuiSizeCompat=false topActivityEligibleForLetterboxEducation= false locusId=null displayAreaFeatureId=1 cameraCompatControlState=hidden mIsCastMode=false}
+11-10 11:55:13.149 W/RecentsModel( 4407): getTaskInfoIgnoreHomeAndFreeform   taskInfo=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity}
+11-10 11:55:13.149 E/ActivityManagerWrapper( 4407): get all recent tasks force including 957
+11-10 11:55:13.152 E/ActivityManagerWrapper( 4407): getRecentTasks: size=8
+11-10 11:55:13.152 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=957   userId=0   baseIntent=Intent { act=null flag=268435456 cmp=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity} }
+11-10 11:55:13.152 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=939   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.tencent.mm/com.tencent.mm.ui.LauncherUI} }
+11-10 11:55:13.152 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=944   userId=0   baseIntent=Intent { act=null flag=268435456 cmp=ComponentInfo{com.hexin.plat.android/com.hexin.plat.android.Hexin} }
+11-10 11:55:13.152 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=952   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.xunmeng.pinduoduo/com.xunmeng.pinduoduo.ui.activity.MainFrameActivity} }
+11-10 11:55:13.152 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=928   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.xingin.xhs/com.xingin.xhs.index.v2.IndexActivityV2} }
+11-10 11:55:13.152 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=947   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.kkrainbow.easytier/com.kkrainbow.easytier.MainActivity} }
+11-10 11:55:13.152 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=946   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.follow.clash/com.follow.clash.MainActivity} }
+11-10 11:55:13.152 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=945   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.android.settings/com.android.settings.MainSettings} }
+11-10 11:55:13.154 I/mple.cloudmusic(29134): Late-enabling -Xcheck:jni
+11-10 11:55:13.176 W/AccessibilityWindowsPopulator( 2387): The displayInfo of this displayId (0) called back from the surface fligner is null
+11-10 11:55:13.179 I/adbd    ( 1882): jdwp connection from 29134
+11-10 11:55:13.184 I/MessageMonitor(29134): Load libmiui_runtime
+11-10 11:55:13.188 D/SymlinkUtils( 2387): attachApplication file op go pass: 0 ms
+11-10 11:55:13.189 E/ANDR-PERF-LM( 1328): MetaMeter: handleAsync() 166: AdaptLaunch Invalid Async
+11-10 11:55:13.189 I/SmartPower.com.example.cloudmusic/10327(29134)( 2387): died->invisible(1897ms) R(process start ) adj=-10000.
+11-10 11:55:13.189 I/SmartPower( 2387): com.example.cloudmusic/10327 state=died adj=0 proc size=1 move to background process start 
+11-10 11:55:13.190 D/CompatibilityChangeReporter( 2387): Compat change id reported: 168419799; UID 10327; state: DISABLED
+11-10 11:55:13.190 D/CompatibilityInfo( 2387): mCompatibilityFlags - 0
+11-10 11:55:13.190 D/CompatibilityInfo( 2387): applicationDensity - 560
+11-10 11:55:13.190 D/CompatibilityInfo( 2387): applicationScale - 1.0
+11-10 11:55:13.192 D/CompatibilityInfo( 2387): mCompatibilityFlags - 0
+11-10 11:55:13.192 D/CompatibilityInfo( 2387): applicationDensity - 560
+11-10 11:55:13.192 D/CompatibilityInfo( 2387): applicationScale - 1.0
+11-10 11:55:13.192 W/PowerKeeper.FrozenApp( 9416): warning resend EVENT_ID_SCREEN_ON
+11-10 11:55:13.193 I/SmartPower.com.example.cloudmusic/10327(29134)( 2387): invisible->visible(4ms) R(become visible) adj=-10000.
+11-10 11:55:13.195 I/SmartPower( 2387): com.example.cloudmusic/10327 state=background adj=0 proc size=1 move to foreground become visible
+11-10 11:55:13.197 I/SmartPower.com.example.cloudmusic/10327(29134)( 2387): visible->invisible(4ms) R(become invisible) adj=-10000.
+11-10 11:55:13.197 I/SmartPower.com.example.cloudmusic/10327(29134)( 2387): invisible->background(0ms) R(become background) adj=-10000.
+11-10 11:55:13.198 I/SmartPower( 2387): com.example.cloudmusic/10327 state=foreground adj=0 proc size=1 move to background become background
+11-10 11:55:13.198 D/ActivityTrigger( 2387): ActivityTrigger activityPauseTrigger 
+11-10 11:55:13.200 D/ProcessManager( 2387): skip notify foregroundAppInfo:ApplicationInfo{8c7d482 com.example.cloudmusic}
+11-10 11:55:13.200 D/Aurogon ( 2387):  uid = 10327 switch to FG
+11-10 11:55:13.201 D/A2dpLatencyMode( 4614): onForegroundActivitiesChanged, pid: 29134 uid: 10327 foregroundActivities: true
+11-10 11:55:13.201 D/AppScoutStateMachine(29134): 29134-ScoutStateMachinecreated
+11-10 11:55:13.203 I/MiuiNetworkPolicy( 2387): updateUidState uid = 10327, uidState = 2
+11-10 11:55:13.203 I/MiuiNetworkPolicy( 2387): updateWmmForUidState uid: 10327 state: 2 wmm: 1
+11-10 11:55:13.203 D/SurfaceFlinger( 1466): buildWindowInfos try add DEFAULT_LAYER_STACK inputInfo
+11-10 11:55:13.204 D/AppLifecycleObserver( 9836): onReceive: com.example.cloudmusic FOREGROUND
+11-10 11:55:13.204 I/GameEventTag( 9836): notify start com.example.cloudmusic event=3
+11-10 11:55:13.205 D/VA_ActivityUtils( 9531): getTopActivity packageName:ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity}
+11-10 11:55:13.205 D/VA_AppStateWatcher( 9531): currentPkgName:com.example.cloudmusic, className:com.example.cloudmusic.MainActivity, lastPkgName:com.example.cloudmusic
+11-10 11:55:13.205 E/VA_AppStateWatcher( 9531): handleMessage: return!
+11-10 11:55:13.206 I/GameEventTag( 9836): notify failed, pkg=com.example.cloudmusic event=3 metadata not match
+11-10 11:55:13.206 I/GameEventTag( 9836): notify end
+11-10 11:55:13.206 W/libc    ( 2387): Access denied finding property "wifi.interface"
+11-10 11:55:13.206 D/NetworkManagement( 2387): wlan0 <====> 1
+11-10 11:55:13.206 I/MiuiNetworkPolicy( 2387): label wlan0, uid 0, active true, tsNanos 18997852507472
+11-10 11:55:13.209 W/MQSService( 7947): CallerName:com.example.cloudmusic,calling Uid:10327
+11-10 11:55:13.209 D/MQSService( 7947): registerApplicationScoutThread pid = 29134, packageName = com.example.cloudmusic
+11-10 11:55:13.210 D/CompatibilityChangeReporter(29134): Compat change id reported: 171979766; UID 10327; state: ENABLED
+11-10 11:55:13.212 D/PkgUtils( 9836): getApplicationInfo packageName:com.example.cloudmusic, flags:128 applicationInfo:ApplicationInfo{3870296 com.example.cloudmusic} needSecondSpace:false
+11-10 11:55:13.204 W/android.fg( 2387): type=1400 audit(0.0:9467): avc: denied { read } for name="u:object_r:wifi_hal_prop:s0" dev="tmpfs" ino=505 scontext=u:r:system_server:s0 tcontext=u:object_r:wifi_hal_prop:s0 tclass=file permissive=0
+11-10 11:55:13.213 I/MiuiNetworkPolicyTrafficLimit( 2387): updateWhiteListUidForMobileTraffic uid=10327,add=true
+11-10 11:55:13.213 D/MiuiNetworkPolicy( 2387): updateLimit mLimitEnabled=false,enabled=true,mNetworkPriorityMode=1
+11-10 11:55:13.215 E/traffic ( 1161): add TrafficMobileLimiter whitelist 10327
+11-10 11:55:13.216 D/MiuiNetworkPolicyTrafficLimit( 2387): updateWhiteListUidForMobileTraffic rst=true
+11-10 11:55:13.218 W/ziparchive(29134): Unable to open '/data/app/~~undPIWu6GnDcQ-dk3xzIoA==/com.example.cloudmusic-MWppDzs9SLCw3Nr19yF_Yg==/base.dm': No such file or directory
+11-10 11:55:13.218 W/ziparchive(29134): Unable to open '/data/app/~~undPIWu6GnDcQ-dk3xzIoA==/com.example.cloudmusic-MWppDzs9SLCw3Nr19yF_Yg==/base.dm': No such file or directory
+11-10 11:55:13.240 W/AccessibilityWindowsPopulator( 2387): The displayInfo of this displayId (0) called back from the surface fligner is null
+11-10 11:55:13.307 D/TrafficStats( 6671): tagSocket(174) with statsTag=0xffffffff, statsUid=-1
+11-10 11:55:13.317 E/in.plat.android( 6671): No package ID 7f found for ID 0x7f0705d6.
+11-10 11:55:13.397 I/Perf    (29134): Connecting to perf service.
+11-10 11:55:13.399 V/GraphicsEnvironment(29134): ANGLE Developer option for 'com.example.cloudmusic' set to: 'default'
+11-10 11:55:13.400 V/GraphicsEnvironment(29134): ANGLE GameManagerService for com.example.cloudmusic: false
+11-10 11:55:13.400 V/GraphicsEnvironment(29134): Updatable production driver is not supported on the device.
+11-10 11:55:13.401 I/ForceDarkHelperStubImpl(29134): initialize for com.example.cloudmusic , ForceDarkOrigin
+11-10 11:55:13.402 D/mple.cloudmusic(29134): JNI_OnLoad success
+11-10 11:55:13.402 I/MiuiForceDarkConfig(29134): setConfig density:3.500000, mainRule:0, secondaryRule:0, tertiaryRule:0
+11-10 11:55:13.402 D/NetworkSecurityConfig(29134): No Network Security Config specified, using platform default
+11-10 11:55:13.402 D/NetworkSecurityConfig(29134): No Network Security Config specified, using platform default
+11-10 11:55:13.449 D/MiuiMultiWindowAdapter( 2387): MiuiMultiWindowAdapter::getFreeformVideoWhiteList::sSmallWindowWhiteList = [com.hunantv.imgo.activity, com.tencent.qqlive, com.qiyi.video, com.hunantv.imgo.activity.inter, com.tencent.qqlivei18n, com.iqiyi.i18n, tv.danmaku.bili]
+11-10 11:55:13.449 D/MiuiMultiWindowAdapter(29134): MiuiMultiWindowAdapter::getFreeformVideoWhiteListInSystem::LIST_ABOUT_SUPPORT_LANDSCAPE_VIDEO = [com.hunantv.imgo.activity, com.tencent.qqlive, com.qiyi.video, com.hunantv.imgo.activity.inter, com.tencent.qqlivei18n, com.iqiyi.i18n, tv.danmaku.bili]
+11-10 11:55:13.515 W/libc    (29134): Access denied finding property "ro.vendor.df.effect.conflict"
+11-10 11:55:13.512 W/mple.cloudmusic(29134): type=1400 audit(0.0:9468): avc: denied { read } for name="u:object_r:vendor_displayfeature_prop:s0" dev="tmpfs" ino=389 scontext=u:r:untrusted_app:s0:c71,c257,c512,c768 tcontext=u:object_r:vendor_displayfeature_prop:s0 tclass=file permissive=0 app=com.example.cloudmusic
+11-10 11:55:13.520 D/IS_CTS_MODE(29134): false
+11-10 11:55:13.520 D/MULTI_WINDOW_ENABLED(29134): false
+11-10 11:55:13.522 D/TaskStackChangeListeners( 4407): onTaskDescriptionChanged =  taskId = 957
+11-10 11:55:13.522 D/DecorView[](29134): getWindowModeFromSystem  windowmode is 1
+11-10 11:55:13.527 D/ViewContentFactory(29134): initViewContentFetcherClass
+11-10 11:55:13.527 D/ViewContentFactory(29134): getInterceptorPackageInfo
+11-10 11:55:13.527 D/ViewContentFactory(29134): getInitialApplication took 0ms
+11-10 11:55:13.527 D/ViewContentFactory(29134): packageInfo.packageName: com.miui.catcherpatch
+11-10 11:55:13.531 D/ViewContentFactory(29134): initViewContentFetcherClass took 4ms
+11-10 11:55:13.531 I/ContentCatcher(29134): ViewContentFetcher : ViewContentFetcher
+11-10 11:55:13.531 D/ViewContentFactory(29134): createInterceptor took 5ms
+11-10 11:55:13.544 D/MediaProjectionManagerServiceStubImpl( 2387): handleForegroundServicesChanged
+11-10 11:55:13.544 D/CompatibilityInfo( 2387): mCompatibilityFlags - 0
+11-10 11:55:13.544 D/CompatibilityInfo( 2387): applicationDensity - 560
+11-10 11:55:13.544 D/MyLog   ( 9836): -->log(0): [T461] onForegroundServicesChanged:pid = 29134,uid=10327,serviceTypes=0
+11-10 11:55:13.544 D/CompatibilityInfo( 2387): applicationScale - 1.0
+11-10 11:55:13.544 D/MyLog   (10860): -->log(0): [T502] onForegroundServicesChanged:pid = 29134,uid=10327,serviceTypes=0
+11-10 11:55:13.544 D/MyLog   ( 8783): -->log(0): [T883] onForegroundServicesChanged:pid = 29134,uid=10327,serviceTypes=0
+11-10 11:55:13.547 D/CompatibilityChangeReporter(29134): Compat change id reported: 210923482; UID 10327; state: ENABLED
+11-10 11:55:13.565 D/CoreBackPreview( 2387): Window{dbb3b83 u0 com.example.cloudmusic/com.example.cloudmusic.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@65a4d39, mPriority=0}
+11-10 11:55:13.565 W/AccessibilityWindowsPopulator( 2387): The displayInfo of this displayId (0) called back from the surface fligner is null
+11-10 11:55:13.567 W/Looper  (29134): PerfMonitor looperActivity : package=com.example.cloudmusic/.MainActivity time=0ms latency=373ms running=0ms  procState=-1  historyMsgCount=4 (msgIndex=3 wall=238ms seq=3 running=235ms runnable=3ms binder=214ms slowpath=20ms late=17ms h=android.app.ActivityThread$H w=110) (msgIndex=4 wall=118ms seq=4 running=106ms runnable=7ms binder=91ms slowpath=12ms late=255ms h=android.app.ActivityThread$H w=159)
+11-10 11:55:13.567 D/services( 9836): [XMS][observer] ActivityObserver activityResumed packageName: com.example.cloudmusic
+11-10 11:55:13.567 W/Looper  (29134): PerfMonitor looperActivity : package=com.example.cloudmusic/.MainActivity time=1ms latency=368ms running=1ms  procState=-1  historyMsgCount=6 (msgIndex=3 wall=238ms seq=3 running=235ms runnable=3ms binder=214ms slowpath=20ms late=17ms h=android.app.ActivityThread$H w=110) (msgIndex=4 wall=118ms seq=4 running=106ms runnable=7ms binder=91ms slowpath=12ms late=255ms h=android.app.ActivityThread$H w=159)
+11-10 11:55:13.567 D/RecentsImpl( 4407): mActivityStateObserver com.example.cloudmusic.MainActivity
+11-10 11:55:13.568 D/auth    ( 9836): [XMS][Auth] ActivityObserver activityResumed packageName: com.example.cloudmusic
+11-10 11:55:13.568 W/RecentsImpl( 4407): onResumed className=com.example.cloudmusic.MainActivity   mIsInAnotherPro=false   isKeyguardLocked=true   mSecuritySpaceGuideShown=false
+11-10 11:55:13.568 W/Looper  (29134): PerfMonitor looperActivity : package=com.example.cloudmusic/.MainActivity time=1ms latency=368ms running=1ms  procState=-1  historyMsgCount=7 (msgIndex=3 wall=238ms seq=3 running=235ms runnable=3ms binder=214ms slowpath=20ms late=17ms h=android.app.ActivityThread$H w=110) (msgIndex=4 wall=118ms seq=4 running=106ms runnable=7ms binder=91ms slowpath=12ms late=255ms h=android.app.ActivityThread$H w=159)
+11-10 11:55:13.570 I/VA_ActivityStateHelper( 9531): activityResumed componentName ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity}
+11-10 11:55:13.570 I/VA_ActivityStateHelper( 9531): activityResumed mAiSkillPush is false
+11-10 11:55:13.571 E/MiuiActivityController( 2387): MiuiLog-ActivityObserver: There was something wrong : null
+11-10 11:55:13.571 D/SurfaceFlinger( 1466): buildWindowInfos try add DEFAULT_LAYER_STACK inputInfo
+11-10 11:55:13.577 E/ANDR-PERF-RESOURCEQS( 1328): Failed to reset optimization [11, 8]
+11-10 11:55:13.577 D/SurfaceFlinger( 1466): buildWindowInfos try add DEFAULT_LAYER_STACK inputInfo
+11-10 11:55:13.614 W/AccessibilityWindowsPopulator( 2387): The displayInfo of this displayId (0) called back from the surface fligner is null
+11-10 11:55:13.669 D/RecentsModel( 4407): onTaskStackChangedBackground
+11-10 11:55:13.670 D/RecentsModel( 4407): onTaskStackChangedBackground
+11-10 11:55:13.670 I/SCTaskStackListener( 8438): onTaskStackChanged! inSplit = false
+11-10 11:55:13.670 I/MultiScreenObserver( 9416): onTaskStackChanged, splitScreenMode: false isCameraFloat: false isSmallScreen: false
+11-10 11:55:13.670 D/RecentsModel( 4407): onTaskStackChangedBackground    MSG_TASK_STACK_CHANGE
+11-10 11:55:13.670 D/RecentsModel( 4407): preloadRecents
+11-10 11:55:13.670 W/RecentsModel( 4407): getRunningTask
+11-10 11:55:13.670 D/EventBus( 4407): No subscribers registered for event class com.miui.home.recents.messages.RecentTasksChangedEvent
+11-10 11:55:13.671 D/EventBus( 4407): No subscribers registered for event class org.greenrobot.eventbus.NoSubscriberEvent
+11-10 11:55:13.671 D/RecentsModel( 4407): onTaskStackChangedBackground
+11-10 11:55:13.671 D/EventBus( 4407): No subscribers registered for event class com.miui.home.recents.messages.RecentTasksChangedEvent
+11-10 11:55:13.671 D/EventBus( 4407): No subscribers registered for event class org.greenrobot.eventbus.NoSubscriberEvent
+11-10 11:55:13.671 I/SCTaskStackListener( 8438): onTaskStackChanged! inSplit = false
+11-10 11:55:13.671 D/RecentsModel( 4407): onTaskStackChangedBackground
+11-10 11:55:13.671 D/EventBus( 4407): No subscribers registered for event class com.miui.home.recents.messages.RecentTasksChangedEvent
+11-10 11:55:13.671 D/EventBus( 4407): No subscribers registered for event class org.greenrobot.eventbus.NoSubscriberEvent
+11-10 11:55:13.671 W/RecentsModel( 4407): getRunningTask   taskInfo=TaskInfo{userId=0 taskId=957 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=com.example.cloudmusic/.MainActivity } baseActivity=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity} topActivity=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity} origActivity=null realActivity=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity} numActivities=1 lastActiveTime=18997847 supportsSplitScreenMultiWindow=true supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=200 token=WCT{android.window.IWindowContainerToken$Stub$Proxy@9ae8bf8} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=0 displayCutoutSafeInsets=Rect(0, 120 - 0, 0) topActivityInfo=ActivityInfo{7c758d1 com.example.cloudmusic.MainActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=true isVisible=false isSleeping=true topActivityInSizeCompat=false topActivityInMiuiSizeCompat=false topActivityEligibleForLetterboxEducation= false locusId=null displayAreaFeatureId=1 cameraCompatControlState=hidden mIsCastMode=false}
+11-10 11:55:13.671 W/RecentsModel( 4407): getTaskInfoIgnoreHomeAndFreeform   taskInfo=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity}
+11-10 11:55:13.672 E/ActivityManagerWrapper( 4407): get all recent tasks force including 957
+11-10 11:55:13.673 E/ActivityManagerWrapper( 4407): getRecentTasks: size=8
+11-10 11:55:13.673 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=957   userId=0   baseIntent=Intent { act=null flag=268435456 cmp=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity} }
+11-10 11:55:13.673 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=939   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.tencent.mm/com.tencent.mm.ui.LauncherUI} }
+11-10 11:55:13.673 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=944   userId=0   baseIntent=Intent { act=null flag=268435456 cmp=ComponentInfo{com.hexin.plat.android/com.hexin.plat.android.Hexin} }
+11-10 11:55:13.673 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=952   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.xunmeng.pinduoduo/com.xunmeng.pinduoduo.ui.activity.MainFrameActivity} }
+11-10 11:55:13.673 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=928   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.xingin.xhs/com.xingin.xhs.index.v2.IndexActivityV2} }
+11-10 11:55:13.674 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=947   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.kkrainbow.easytier/com.kkrainbow.easytier.MainActivity} }
+11-10 11:55:13.674 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=946   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.follow.clash/com.follow.clash.MainActivity} }
+11-10 11:55:13.674 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=945   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.android.settings/com.android.settings.MainSettings} }
+11-10 11:55:13.676 D/RecentsModel( 4407): onTaskStackChangedBackground    MSG_TASK_STACK_CHANGE
+11-10 11:55:13.676 D/RecentsModel( 4407): preloadRecents
+11-10 11:55:13.676 W/RecentsModel( 4407): getRunningTask
+11-10 11:55:13.676 W/RecentsModel( 4407): getRunningTask   taskInfo=TaskInfo{userId=0 taskId=957 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=com.example.cloudmusic/.MainActivity } baseActivity=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity} topActivity=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity} origActivity=null realActivity=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity} numActivities=1 lastActiveTime=18997847 supportsSplitScreenMultiWindow=true supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=200 token=WCT{android.window.IWindowContainerToken$Stub$Proxy@f96af36} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=0 displayCutoutSafeInsets=Rect(0, 120 - 0, 0) topActivityInfo=ActivityInfo{64f3e37 com.example.cloudmusic.MainActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=true isVisible=false isSleeping=true topActivityInSizeCompat=false topActivityInMiuiSizeCompat=false topActivityEligibleForLetterboxEducation= false locusId=null displayAreaFeatureId=1 cameraCompatControlState=hidden mIsCastMode=false}
+11-10 11:55:13.676 W/RecentsModel( 4407): getTaskInfoIgnoreHomeAndFreeform   taskInfo=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity}
+11-10 11:55:13.677 E/ActivityManagerWrapper( 4407): get all recent tasks force including 957
+11-10 11:55:13.678 E/ActivityManagerWrapper( 4407): getRecentTasks: size=8
+11-10 11:55:13.678 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=957   userId=0   baseIntent=Intent { act=null flag=268435456 cmp=ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity} }
+11-10 11:55:13.678 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=939   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.tencent.mm/com.tencent.mm.ui.LauncherUI} }
+11-10 11:55:13.678 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=944   userId=0   baseIntent=Intent { act=null flag=268435456 cmp=ComponentInfo{com.hexin.plat.android/com.hexin.plat.android.Hexin} }
+11-10 11:55:13.678 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=952   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.xunmeng.pinduoduo/com.xunmeng.pinduoduo.ui.activity.MainFrameActivity} }
+11-10 11:55:13.678 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=928   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.xingin.xhs/com.xingin.xhs.index.v2.IndexActivityV2} }
+11-10 11:55:13.678 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=947   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.kkrainbow.easytier/com.kkrainbow.easytier.MainActivity} }
+11-10 11:55:13.678 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=946   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.follow.clash/com.follow.clash.MainActivity} }
+11-10 11:55:13.678 E/ActivityManagerWrapper( 4407): getRecentTasks: mainTaskId=945   userId=0   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{com.android.settings/com.android.settings.MainSettings} }
+11-10 11:55:13.724 E/ANDR-PERF-OPTSHANDLER( 1328): perf_lock_rel: failed for /sys/devices/system/cpu/bus_dcvs/DDR/soc:qcom,memlat:ddr:silver/min_freq as previous value is not stored
+11-10 11:55:13.832 E/ANDR-PERF-RESOURCEQS( 1328): Failed to reset optimization [11, 8]
+11-10 11:55:13.835 W/DevicePolicyManager( 2387): Unknown user type: UserInfo{999:XSpace:801010}
+11-10 11:55:13.835 W/DevicePolicyManager( 2387): Unknown user type: UserInfo{999:XSpace:801010}
+11-10 11:55:13.835 W/DevicePolicyManager( 2387): Unknown user type: UserInfo{999:XSpace:801010}
+11-10 11:55:13.835 D/CompatibilityChangeReporter( 2387): Compat change id reported: 161145287; UID 10327; state: DISABLED
+11-10 11:55:13.836 W/DevicePolicyManager( 2387): Unknown user type: UserInfo{999:XSpace:801010}
+11-10 11:55:13.836 D/CloudMusic(29134): BLUETOOTH_CONNECT granted=false; ACL receiver off
+11-10 11:55:13.836 W/DevicePolicyManager( 2387): Unknown user type: UserInfo{999:XSpace:801010}
+11-10 11:55:13.836 W/DevicePolicyManager( 2387): Unknown user type: UserInfo{999:XSpace:801010}
+11-10 11:55:13.836 W/DevicePolicyManager( 2387): Unknown user type: UserInfo{999:XSpace:801010}
+11-10 11:55:13.836 W/DevicePolicyManager( 2387): Unknown user type: UserInfo{999:XSpace:801010}
+11-10 11:55:13.836 W/DevicePolicyManager( 2387): Unknown user type: UserInfo{999:XSpace:801010}
+11-10 11:55:13.836 W/DevicePolicyManager( 2387): Unknown user type: UserInfo{999:XSpace:801010}
+11-10 11:55:13.837 W/DevicePolicyManager( 2387): Unknown user type: UserInfo{999:XSpace:801010}
+11-10 11:55:13.837 W/DevicePolicyManager( 2387): Unknown user type: UserInfo{999:XSpace:801010}
+11-10 11:55:13.837 W/DevicePolicyManager( 2387): Unknown user type: UserInfo{999:XSpace:801010}
+11-10 11:55:13.837 W/DevicePolicyManager( 2387): Unknown user type: UserInfo{999:XSpace:801010}
+11-10 11:55:13.838 D/CompatibilityChangeReporter(29134): Compat change id reported: 160794467; UID 10327; state: ENABLED
+11-10 11:55:13.839 V/Avrcp_ext( 4614): updateCurrentMediaState: mMediaController: null
+11-10 11:55:13.839 V/Avrcp_ext( 4614): updateCurrentMediaState: isPlaying = false
+11-10 11:55:13.839 W/Avrcp_ext( 4614): isMusicActive: false getBluetoothPlayState: 2 A2dp State: 11 mAudioPlaybackIsActive: false
+11-10 11:55:13.839 V/Avrcp_ext( 4614): updateCurrentMediaState: isPlaying = false
+11-10 11:55:13.839 V/Avrcp_ext( 4614): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-10 11:55:13.839 D/Avrcp_ext( 4614): isPackageNameValid: browsedPackage = isValid = false
+11-10 11:55:13.839 V/Avrcp_ext( 4614): updatePlaybackState, state: PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18998487, actions=0, custom actions=[], active item id=-1, error=null} device: null
+11-10 11:55:13.839 V/Avrcp_ext( 4614): Device: no name: 
+11-10 11:55:13.839 V/Avrcp_ext( 4614): Device: no name: 
+11-10 11:55:13.839 V/Avrcp_ext( 4614): Device: no name: 
+11-10 11:55:13.839 V/Avrcp_ext( 4614): Device: no name: 
+11-10 11:55:13.839 V/Avrcp_ext( 4614): Device: no name: 
+11-10 11:55:13.839 V/Avrcp_ext( 4614): updatePlayerStateAndPosition, old=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18996018, actions=0, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18998487, actions=0, custom actions=[], active item id=-1, error=null}
+11-10 11:55:13.839 V/Avrcp_ext( 4614): old state = PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18996018, actions=0, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18998487, actions=0, custom actions=[], active item id=-1, error=null}
+11-10 11:55:13.839 D/HeadsetService( 4614): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@99269c5
+11-10 11:55:13.839 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0
+11-10 11:55:13.839 D/HeadsetService( 4614): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-10 11:55:13.839 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0
+11-10 11:55:13.840 I/Avrcp_ext( 4614): updatePlayStatusForDevice: device: null
+11-10 11:55:13.840 V/Avrcp_ext( 4614): updatePlaybackState (1): old=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18996018, actions=0, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18998487, actions=0, custom actions=[], active item id=-1, error=null}(2)
+11-10 11:55:13.840 I/Avrcp_ext( 4614): Exit updatePlayStatusForDevice
+11-10 11:55:13.840 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0
+11-10 11:55:13.840 D/HeadsetService( 4614): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-10 11:55:13.840 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0
+11-10 11:55:13.840 I/Avrcp_ext( 4614): updatePlayStatusForDevice: device: null
+11-10 11:55:13.840 V/Avrcp_ext( 4614): updatePlaybackState (1): old=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18996018, actions=0, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18998487, actions=0, custom actions=[], active item id=-1, error=null}(2)
+11-10 11:55:13.840 I/Avrcp_ext( 4614): Exit updatePlayStatusForDevice
+11-10 11:55:13.840 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0
+11-10 11:55:13.840 D/HeadsetService( 4614): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-10 11:55:13.840 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0
+11-10 11:55:13.840 D/MediaProjectionManagerServiceStubImpl( 2387): handleForegroundServicesChanged
+11-10 11:55:13.840 I/Avrcp_ext( 4614): updatePlayStatusForDevice: device: null
+11-10 11:55:13.840 V/Avrcp_ext( 4614): updatePlaybackState (1): old=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18996018, actions=0, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18998487, actions=0, custom actions=[], active item id=-1, error=null}(2)
+11-10 11:55:13.840 I/Avrcp_ext( 4614): Exit updatePlayStatusForDevice
+11-10 11:55:13.840 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0
+11-10 11:55:13.840 D/HeadsetService( 4614): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-10 11:55:13.840 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0
+11-10 11:55:13.840 I/Avrcp_ext( 4614): updatePlayStatusForDevice: device: null
+11-10 11:55:13.840 V/Avrcp_ext( 4614): updatePlaybackState (1): old=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18996018, actions=0, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18998487, actions=0, custom actions=[], active item id=-1, error=null}(2)
+11-10 11:55:13.840 I/Avrcp_ext( 4614): Exit updatePlayStatusForDevice
+11-10 11:55:13.840 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0
+11-10 11:55:13.840 D/HeadsetService( 4614): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-10 11:55:13.840 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0
+11-10 11:55:13.840 I/Avrcp_ext( 4614): updatePlayStatusForDevice: device: null
+11-10 11:55:13.840 V/Avrcp_ext( 4614): updatePlaybackState (1): old=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18996018, actions=0, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18998487, actions=0, custom actions=[], active item id=-1, error=null}(2)
+11-10 11:55:13.840 I/Avrcp_ext( 4614): Exit updatePlayStatusForDevice
+11-10 11:55:13.840 D/Avrcp_ext( 4614): Enter sendPlayPosNotificationRsp
+11-10 11:55:13.840 D/Avrcp_ext( 4614): sendPlayPosNotificationRsp: Not registered or requesting.
+11-10 11:55:13.840 D/Avrcp_ext( 4614): Enter sendPlayPosNotificationRsp
+11-10 11:55:13.840 D/Avrcp_ext( 4614): sendPlayPosNotificationRsp: Not registered or requesting.
+11-10 11:55:13.840 D/Avrcp_ext( 4614): Enter sendPlayPosNotificationRsp
+11-10 11:55:13.840 D/Avrcp_ext( 4614): sendPlayPosNotificationRsp: Not registered or requesting.
+11-10 11:55:13.840 D/Avrcp_ext( 4614): Enter sendPlayPosNotificationRsp
+11-10 11:55:13.840 D/MyLog   ( 9836): -->log(0): [T461] onForegroundServicesChanged:pid = 29134,uid=10327,serviceTypes=2
+11-10 11:55:13.840 D/Avrcp_ext( 4614): sendPlayPosNotificationRsp: Not registered or requesting.
+11-10 11:55:13.840 D/Avrcp_ext( 4614): Enter sendPlayPosNotificationRsp
+11-10 11:55:13.841 D/Avrcp_ext( 4614): sendPlayPosNotificationRsp: Not registered or requesting.
+11-10 11:55:13.841 V/Avrcp_ext( 4614): Exit updatePlayerStateAndPosition
+11-10 11:55:13.841 D/HeadsetService( 4614): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@99269c5
+11-10 11:55:13.841 D/MyLog   ( 8783): -->log(0): [T883] onForegroundServicesChanged:pid = 29134,uid=10327,serviceTypes=2
+11-10 11:55:13.841 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0
+11-10 11:55:13.841 D/HeadsetService( 4614): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-10 11:55:13.841 D/MyLog   (10860): -->log(0): [T502] onForegroundServicesChanged:pid = 29134,uid=10327,serviceTypes=2
+11-10 11:55:13.841 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0
+11-10 11:55:13.841 V/Avrcp_ext( 4614): ActiveSession: MediaController (com.example.cloudmusic@2163f70) null
+11-10 11:55:13.842 V/Avrcp_ext( 4614): isBrowseSupported for com.example.cloudmusic: false
+11-10 11:55:13.844 D/Avrcp_ext( 4614): Adding media player info for com.example.cloudmusic with id 15
+11-10 11:55:13.844 D/Avrcp_ext( 4614): update #15:MediaPlayerInfo com.example.cloudmusic (as 'com.example.cloudmusic.CloudMusicApplication') Type = 1, SubType = 0, Status = 2 Feature Bits [40 41 42 44 45 47 48 58] Controller: MediaController (com.example.cloudmusic@2163f70) null
+11-10 11:55:13.844 W/Avrcp_ext( 4614): No addressed player but active sessions, taking first.
+11-10 11:55:13.844 W/Avrcp_ext( 4614): No package name for player (0 not valid)
+11-10 11:55:13.844 W/Avrcp_ext( 4614): Changing addressed media session to com.example.cloudmusic
+11-10 11:55:13.844 V/Avrcp_ext( 4614): getMediaPlayerInfo: Found com.example.cloudmusic
+11-10 11:55:13.845 V/Avrcp_ext( 4614): Set addressed #15 MediaPlayerInfo com.example.cloudmusic (as 'com.example.cloudmusic.CloudMusicApplication') Type = 1, SubType = 0, Status = 2 Feature Bits [40 41 42 44 45 47 48 58] Controller: MediaController (com.example.cloudmusic@2163f70) null
+11-10 11:55:13.845 V/Avrcp_ext( 4614): updateNewIds: Addressed:0 to 15, Browse:0 to 0
+11-10 11:55:13.845 D/Avrcp_ext( 4614): updateCurrentController: null to MediaController (com.example.cloudmusic@2163f70) null
+11-10 11:55:13.848 V/Avrcp_ext( 4614): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@2163f70) null
+11-10 11:55:13.848 V/Avrcp_ext( 4614): updateCurrentMediaState: isPlaying = false
+11-10 11:55:13.848 W/Avrcp_ext( 4614): isMusicActive: false getBluetoothPlayState: 2 A2dp State: 11 mAudioPlaybackIsActive: false
+11-10 11:55:13.849 D/Avrcp_ext( 4614): isMusicActive = false mAudioPlaybackIsActive = false player state = PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=18998485, actions=54, custom actions=[], active item id=-1, error=null}
+11-10 11:55:13.849 V/Avrcp_ext( 4614): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-10 11:55:13.849 D/Avrcp_ext( 4614): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-10 11:55:13.849 I/SmartPower( 2387): com.example.cloudmusic/10327 state=background adj=0 proc size=1 move to inactive service end com.example.cloudmusic/.PlaybackService
+11-10 11:55:13.849 V/Avrcp_ext( 4614): isBrowseSupported for com.example.cloudmusic: false
+11-10 11:55:13.849 V/Avrcp_ext( 4614): updatePlaybackState, state: PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=18998485, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-10 11:55:13.849 V/Avrcp_ext( 4614): Device: no name: 
+11-10 11:55:13.849 V/Avrcp_ext( 4614): Device: no name: 
+11-10 11:55:13.849 V/Avrcp_ext( 4614): Device: no name: 
+11-10 11:55:13.849 V/Avrcp_ext( 4614): Device: no name: 
+11-10 11:55:13.849 V/Avrcp_ext( 4614): Device: no name: 
+11-10 11:55:13.849 V/Avrcp_ext( 4614): updatePlayerStateAndPosition, old=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18998487, actions=0, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=18998485, actions=54, custom actions=[], active item id=-1, error=null}
+11-10 11:55:13.849 V/Avrcp_ext( 4614): old state = PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18998487, actions=0, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=18998485, actions=54, custom actions=[], active item id=-1, error=null}
+11-10 11:55:13.850 D/HeadsetService( 4614): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@99269c5
+11-10 11:55:13.850 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0
+11-10 11:55:13.850 D/HeadsetService( 4614): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-10 11:55:13.850 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0
+11-10 11:55:13.850 I/Avrcp_ext( 4614): updatePlayStatusForDevice: device: null
+11-10 11:55:13.850 V/Avrcp_ext( 4614): updatePlaybackState (1): old=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18998487, actions=0, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=18998485, actions=54, custom actions=[], active item id=-1, error=null}(2)
+11-10 11:55:13.850 I/Avrcp_ext( 4614): Exit updatePlayStatusForDevice
+11-10 11:55:13.850 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0
+11-10 11:55:13.850 D/HeadsetService( 4614): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-10 11:55:13.850 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0
+11-10 11:55:13.850 I/Avrcp_ext( 4614): updatePlayStatusForDevice: device: null
+11-10 11:55:13.850 V/Avrcp_ext( 4614): updatePlaybackState (1): old=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18998487, actions=0, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=18998485, actions=54, custom actions=[], active item id=-1, error=null}(2)
+11-10 11:55:13.850 I/Avrcp_ext( 4614): Exit updatePlayStatusForDevice
+11-10 11:55:13.850 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0
+11-10 11:55:13.850 D/HeadsetService( 4614): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-10 11:55:13.850 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0
+11-10 11:55:13.850 I/Avrcp_ext( 4614): updatePlayStatusForDevice: device: null
+11-10 11:55:13.850 V/Avrcp_ext( 4614): updatePlaybackState (1): old=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=18998487, actions=0, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=18998485, actions=54, custom actions=[], active item id=-1, error=null}(2)
+11-10 11:55:13.850 I/Avrcp_ext( 4614): Exit updatePlayStatusForDevice
+11-10 11:55:13.850 D/HeadsetService( 4614):  isAudioOn: The number of audio connected devices 0

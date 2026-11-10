@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/fragment_circle_discussion_0" android:background="@color/e5" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.netease.cloudmusic.music.biz.circle.ui.CircleFadingRecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:requiresFadingEdge="vertical" app:a5f="parent" app:a68="@id/topViewContainer" app:a6_="1.0" app:a6b="1.0" />
+    <LinearLayout android:orientation="vertical" android:id="@id/topViewContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/hu" app:a5f="parent" app:a69="parent" app:a6_="0.0">
+        <com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:id="@id/topView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginRight="16.0dip" android:layout_marginBottom="@dimen/hv" app:e6="noline" app:jw="10.0dip" app:y4="true" />
+        <com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:id="@id/stickyView" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="16.0dip" android:layout_marginTop="@dimen/hu" android:layout_marginRight="16.0dip" app:e6="noline" app:jw="10.0dip" app:y4="true" />
+    </LinearLayout>
+    <com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout android:id="@id/chatRoomTipContainer" android:paddingRight="25.0dip" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:translationX="25.0dip" app:e6="noline" app:jw="25.0dip" app:y4="true" app:a5f="parent" app:a63="parent" app:a68="@id/topViewContainer" app:a6_="0.0" app:a6t="40.0dip">
+        <TextView android:textSize="14.0sp" android:gravity="center_vertical" android:layout_gravity="end" android:id="@id/chatRoomTip" android:layout_width="wrap_content" android:layout_height="32.0dip" android:paddingStart="12.0dip" android:paddingEnd="10.0dip" />
+    </com.netease.cloudmusic.theme.ui.CustomThemeConstraintLayout>
+    <FrameLayout android:id="@id/fl_bottom" android:layout_width="fill_parent" android:layout_height="wrap_content" app:a5f="parent" />
+    <FrameLayout android:id="@id/inputContainer" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

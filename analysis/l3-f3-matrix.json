@@ -1,0 +1,671 @@
+{
+  "method": "12 §61.49 / F3：逐格式 × REMOTE/LOCAL 双路径真机矩阵",
+  "generated_by": "tools/l3_f3_matrix_run.py",
+  "serial": "10.0.0.2:39853",
+  "device": "Redmi K60 23013RK75C / Android 13 / arm64-v8a",
+  "local_channel": "ACTION_PLAY + EXTRA_LOCAL_PATH → app 私有 files/music/（零权限）",
+  "remote_channel": "ACTION_PLAY + EXTRA_SOURCE_URL → http://127.0.0.1:8765/ + adb reverse + PC http.server",
+  "cells": [
+    {
+      "path": "local",
+      "verdict": "PASS",
+      "reason": "解码链打开且 Write start play nErr:0",
+      "prepare_seen": true,
+      "prepare_remote": "false",
+      "prepare_url": "null",
+      "extension": "mp3",
+      "extension_ok": true,
+      "codec": "mp3",
+      "write_start_play": true,
+      "write_nerr_values": [
+        "0"
+      ],
+      "probe_length": "-1",
+      "path_evidence": {
+        "get_local_path": true,
+        "create_local_source": true,
+        "xor_open": true
+      },
+      "errors": {
+        "source_callback_on_error": false,
+        "fatal_exception": false,
+        "anr": false,
+        "write_nerr_nonzero": false,
+        "open_source_failed": false,
+        "engine_prepare_failed": false,
+        "probe_failed": false
+      },
+      "seek_observed": false,
+      "ended_observed": false,
+      "diag_line_count": 194,
+      "format": "mp3",
+      "truncated_sample": false,
+      "sample_bytes": 1129442,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "startservice_stderr": "",
+      "log_file": "analysis/l3-f3-logs/mp3-local.txt",
+      "mDuration_raw": 26253
+    },
+    {
+      "path": "remote",
+      "verdict": "PASS",
+      "reason": "解码链打开且 Write start play nErr:0",
+      "prepare_seen": true,
+      "prepare_remote": "true",
+      "prepare_url": "http://127.0.0.1:8765/f3_mp3.mp3",
+      "extension": "mp3",
+      "extension_ok": true,
+      "codec": "mp3",
+      "write_start_play": true,
+      "write_nerr_values": [
+        "0"
+      ],
+      "probe_length": "1129442",
+      "path_evidence": {
+        "get_url": true,
+        "data_request_handler": true,
+        "start_range": true
+      },
+      "errors": {
+        "source_callback_on_error": false,
+        "fatal_exception": false,
+        "anr": false,
+        "write_nerr_nonzero": false,
+        "open_source_failed": false,
+        "engine_prepare_failed": false,
+        "probe_failed": false
+      },
+      "seek_observed": false,
+      "ended_observed": false,
+      "diag_line_count": 318,
+      "format": "mp3",
+      "truncated_sample": false,
+      "sample_bytes": 1129442,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "startservice_stderr": "",
+      "log_file": "analysis/l3-f3-logs/mp3-remote.txt",
+      "mDuration_raw": 26253
+    },
+    {
+      "path": "local",
+      "verdict": "PASS",
+      "reason": "解码链打开且 Write start play nErr:0",
+      "prepare_seen": true,
+      "prepare_remote": "false",
+      "prepare_url": "null",
+      "extension": "wma",
+      "extension_ok": true,
+      "codec": "wmav2",
+      "write_start_play": true,
+      "write_nerr_values": [
+        "0"
+      ],
+      "probe_length": "-1",
+      "path_evidence": {
+        "get_local_path": true,
+        "create_local_source": true,
+        "xor_open": true
+      },
+      "errors": {
+        "source_callback_on_error": false,
+        "fatal_exception": false,
+        "anr": false,
+        "write_nerr_nonzero": false,
+        "open_source_failed": false,
+        "engine_prepare_failed": false,
+        "probe_failed": false
+      },
+      "seek_observed": false,
+      "ended_observed": false,
+      "diag_line_count": 193,
+      "format": "wma",
+      "truncated_sample": false,
+      "sample_bytes": 722095,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "startservice_stderr": "",
+      "log_file": "analysis/l3-f3-logs/wma-local.txt",
+      "mDuration_raw": 43866
+    },
+    {
+      "path": "remote",
+      "verdict": "PASS",
+      "reason": "解码链打开且 Write start play nErr:0",
+      "prepare_seen": true,
+      "prepare_remote": "true",
+      "prepare_url": "http://127.0.0.1:8765/f3_wma.wma",
+      "extension": "wma",
+      "extension_ok": true,
+      "codec": "wmav2",
+      "write_start_play": true,
+      "write_nerr_values": [
+        "0"
+      ],
+      "probe_length": "722095",
+      "path_evidence": {
+        "get_url": true,
+        "data_request_handler": true,
+        "start_range": true
+      },
+      "errors": {
+        "source_callback_on_error": false,
+        "fatal_exception": false,
+        "anr": false,
+        "write_nerr_nonzero": false,
+        "open_source_failed": false,
+        "engine_prepare_failed": false,
+        "probe_failed": false
+      },
+      "seek_observed": false,
+      "ended_observed": false,
+      "diag_line_count": 312,
+      "format": "wma",
+      "truncated_sample": false,
+      "sample_bytes": 722095,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "startservice_stderr": "",
+      "log_file": "analysis/l3-f3-logs/wma-remote.txt",
+      "mDuration_raw": 43866
+    },
+    {
+      "path": "local",
+      "verdict": "PASS",
+      "reason": "解码链打开且 Write start play nErr:0",
+      "prepare_seen": true,
+      "prepare_remote": "false",
+      "prepare_url": "null",
+      "extension": "flac",
+      "extension_ok": true,
+      "codec": "flac",
+      "write_start_play": true,
+      "write_nerr_values": [
+        "0"
+      ],
+      "probe_length": "-1",
+      "path_evidence": {
+        "get_local_path": true,
+        "create_local_source": true,
+        "xor_open": true
+      },
+      "errors": {
+        "source_callback_on_error": false,
+        "fatal_exception": false,
+        "anr": false,
+        "write_nerr_nonzero": false,
+        "open_source_failed": false,
+        "engine_prepare_failed": false,
+        "probe_failed": false
+      },
+      "seek_observed": false,
+      "ended_observed": false,
+      "diag_line_count": 195,
+      "format": "flac",
+      "truncated_sample": true,
+      "sample_bytes": 4194304,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "startservice_stderr": "",
+      "log_file": "analysis/l3-f3-logs/flac-local.txt",
+      "mDuration_raw": 223041
+    },
+    {
+      "path": "remote",
+      "verdict": "PASS",
+      "reason": "解码链打开且 Write start play nErr:0",
+      "prepare_seen": true,
+      "prepare_remote": "true",
+      "prepare_url": "http://127.0.0.1:8765/f3_flac.flac",
+      "extension": "flac",
+      "extension_ok": true,
+      "codec": "flac",
+      "write_start_play": true,
+      "write_nerr_values": [
+        "0"
+      ],
+      "probe_length": "4194304",
+      "path_evidence": {
+        "get_url": true,
+        "data_request_handler": true,
+        "start_range": true
+      },
+      "errors": {
+        "source_callback_on_error": false,
+        "fatal_exception": false,
+        "anr": false,
+        "write_nerr_nonzero": false,
+        "open_source_failed": false,
+        "engine_prepare_failed": false,
+        "probe_failed": false
+      },
+      "seek_observed": false,
+      "ended_observed": false,
+      "diag_line_count": 684,
+      "format": "flac",
+      "truncated_sample": true,
+      "sample_bytes": 4194304,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "startservice_stderr": "",
+      "log_file": "analysis/l3-f3-logs/flac-remote.txt",
+      "mDuration_raw": 223041
+    },
+    {
+      "path": "local",
+      "verdict": "PASS",
+      "reason": "解码链打开且 Write start play nErr:0",
+      "prepare_seen": true,
+      "prepare_remote": "false",
+      "prepare_url": "null",
+      "extension": "wav",
+      "extension_ok": true,
+      "codec": "pcm_s16le",
+      "write_start_play": true,
+      "write_nerr_values": [
+        "0"
+      ],
+      "probe_length": "-1",
+      "path_evidence": {
+        "get_local_path": true,
+        "create_local_source": true,
+        "xor_open": true
+      },
+      "errors": {
+        "source_callback_on_error": false,
+        "fatal_exception": false,
+        "anr": false,
+        "write_nerr_nonzero": false,
+        "open_source_failed": false,
+        "engine_prepare_failed": false,
+        "probe_failed": false
+      },
+      "seek_observed": false,
+      "ended_observed": false,
+      "diag_line_count": 194,
+      "format": "wav",
+      "truncated_sample": true,
+      "sample_bytes": 4194304,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "startservice_stderr": "",
+      "log_file": "analysis/l3-f3-logs/wav-local.txt",
+      "mDuration_raw": 23776
+    },
+    {
+      "path": "remote",
+      "verdict": "PASS",
+      "reason": "解码链打开且 Write start play nErr:0",
+      "prepare_seen": true,
+      "prepare_remote": "true",
+      "prepare_url": "http://127.0.0.1:8765/f3_wav.wav",
+      "extension": "wav",
+      "extension_ok": true,
+      "codec": "pcm_s16le",
+      "write_start_play": true,
+      "write_nerr_values": [
+        "0"
+      ],
+      "probe_length": "4194304",
+      "path_evidence": {
+        "get_url": true,
+        "data_request_handler": true,
+        "start_range": true
+      },
+      "errors": {
+        "source_callback_on_error": false,
+        "fatal_exception": false,
+        "anr": false,
+        "write_nerr_nonzero": false,
+        "open_source_failed": false,
+        "engine_prepare_failed": false,
+        "probe_failed": false
+      },
+      "seek_observed": false,
+      "ended_observed": false,
+      "diag_line_count": 522,
+      "format": "wav",
+      "truncated_sample": true,
+      "sample_bytes": 4194304,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "startservice_stderr": "",
+      "log_file": "analysis/l3-f3-logs/wav-remote.txt",
+      "mDuration_raw": 23776
+    },
+    {
+      "path": "local",
+      "verdict": "PASS",
+      "reason": "解码链打开且 Write start play nErr:0",
+      "prepare_seen": true,
+      "prepare_remote": "false",
+      "prepare_url": "null",
+      "extension": "ape",
+      "extension_ok": true,
+      "codec": "ape",
+      "write_start_play": true,
+      "write_nerr_values": [
+        "0"
+      ],
+      "probe_length": "-1",
+      "path_evidence": {
+        "get_local_path": true,
+        "create_local_source": true,
+        "xor_open": true
+      },
+      "errors": {
+        "source_callback_on_error": false,
+        "fatal_exception": false,
+        "anr": false,
+        "write_nerr_nonzero": false,
+        "open_source_failed": false,
+        "engine_prepare_failed": false,
+        "probe_failed": false
+      },
+      "seek_observed": false,
+      "ended_observed": false,
+      "diag_line_count": 199,
+      "format": "ape",
+      "truncated_sample": true,
+      "sample_bytes": 4194304,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "startservice_stderr": "",
+      "log_file": "analysis/l3-f3-logs/ape-local.txt",
+      "mDuration_raw": 2398100
+    },
+    {
+      "path": "remote",
+      "verdict": "FAIL",
+      "reason": "未见 Open codec / Open input file success",
+      "prepare_seen": true,
+      "prepare_remote": "true",
+      "prepare_url": "http://127.0.0.1:8765/f3_ape.ape",
+      "extension": "ape",
+      "extension_ok": true,
+      "codec": null,
+      "write_start_play": false,
+      "write_nerr_values": [],
+      "probe_length": "4194304",
+      "path_evidence": {
+        "get_url": true,
+        "data_request_handler": true,
+        "start_range": true
+      },
+      "errors": {
+        "source_callback_on_error": false,
+        "fatal_exception": false,
+        "anr": false,
+        "write_nerr_nonzero": false,
+        "open_source_failed": false,
+        "engine_prepare_failed": false,
+        "probe_failed": false
+      },
+      "seek_observed": false,
+      "ended_observed": false,
+      "diag_line_count": 228,
+      "format": "ape",
+      "truncated_sample": true,
+      "sample_bytes": 4194304,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "startservice_stderr": "",
+      "log_file": "analysis/l3-f3-logs/ape-remote.txt",
+      "mDuration_raw": null
+    },
+    {
+      "path": "local",
+      "verdict": "PASS",
+      "reason": "解码链打开且 Write start play nErr:0",
+      "prepare_seen": true,
+      "prepare_remote": "false",
+      "prepare_url": "null",
+      "extension": "ogg",
+      "extension_ok": true,
+      "codec": "vorbis",
+      "write_start_play": true,
+      "write_nerr_values": [
+        "0"
+      ],
+      "probe_length": "-1",
+      "path_evidence": {
+        "get_local_path": true,
+        "create_local_source": true,
+        "xor_open": true
+      },
+      "errors": {
+        "source_callback_on_error": false,
+        "fatal_exception": false,
+        "anr": false,
+        "write_nerr_nonzero": false,
+        "open_source_failed": false,
+        "engine_prepare_failed": false,
+        "probe_failed": false
+      },
+      "seek_observed": false,
+      "ended_observed": false,
+      "diag_line_count": 248,
+      "format": "ogg",
+      "truncated_sample": false,
+      "sample_bytes": 6401,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "startservice_stderr": "",
+      "log_file": "analysis/l3-f3-logs/ogg-local.txt",
+      "mDuration_raw": 200
+    },
+    {
+      "path": "remote",
+      "verdict": "PASS",
+      "reason": "解码链打开且 Write start play nErr:0",
+      "prepare_seen": true,
+      "prepare_remote": "true",
+      "prepare_url": "http://127.0.0.1:8765/f3_ogg.ogg",
+      "extension": "ogg",
+      "extension_ok": true,
+      "codec": "vorbis",
+      "write_start_play": true,
+      "write_nerr_values": [
+        "0"
+      ],
+      "probe_length": "6401",
+      "path_evidence": {
+        "get_url": true,
+        "data_request_handler": true,
+        "start_range": true
+      },
+      "errors": {
+        "source_callback_on_error": false,
+        "fatal_exception": false,
+        "anr": false,
+        "write_nerr_nonzero": false,
+        "open_source_failed": false,
+        "engine_prepare_failed": false,
+        "probe_failed": false
+      },
+      "seek_observed": false,
+      "ended_observed": false,
+      "diag_line_count": 279,
+      "format": "ogg",
+      "truncated_sample": false,
+      "sample_bytes": 6401,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "startservice_stderr": "",
+      "log_file": "analysis/l3-f3-logs/ogg-remote.txt",
+      "mDuration_raw": 200
+    },
+    {
+      "path": "local",
+      "verdict": "FAIL",
+      "reason": "存在明确错误回调 / 崩溃 / 打开失败",
+      "prepare_seen": true,
+      "prepare_remote": "false",
+      "prepare_url": "null",
+      "extension": "aiff",
+      "extension_ok": true,
+      "codec": null,
+      "write_start_play": false,
+      "write_nerr_values": [],
+      "probe_length": "-1",
+      "path_evidence": {
+        "get_local_path": true,
+        "create_local_source": true,
+        "xor_open": true
+      },
+      "errors": {
+        "source_callback_on_error": false,
+        "fatal_exception": false,
+        "anr": false,
+        "write_nerr_nonzero": false,
+        "open_source_failed": true,
+        "engine_prepare_failed": false,
+        "probe_failed": false
+      },
+      "seek_observed": false,
+      "ended_observed": false,
+      "diag_line_count": 101,
+      "format": "aiff",
+      "truncated_sample": false,
+      "sample_bytes": 1146934,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "startservice_stderr": "",
+      "log_file": "analysis/l3-f3-logs/aiff-local.txt",
+      "mDuration_raw": null
+    },
+    {
+      "path": "remote",
+      "verdict": "FAIL",
+      "reason": "存在明确错误回调 / 崩溃 / 打开失败",
+      "prepare_seen": true,
+      "prepare_remote": "true",
+      "prepare_url": "http://127.0.0.1:8765/f3_aiff.aiff",
+      "extension": "aiff",
+      "extension_ok": true,
+      "codec": null,
+      "write_start_play": false,
+      "write_nerr_values": [],
+      "probe_length": "1146934",
+      "path_evidence": {
+        "get_url": true,
+        "data_request_handler": true,
+        "start_range": true
+      },
+      "errors": {
+        "source_callback_on_error": false,
+        "fatal_exception": false,
+        "anr": false,
+        "write_nerr_nonzero": false,
+        "open_source_failed": true,
+        "engine_prepare_failed": false,
+        "probe_failed": false
+      },
+      "seek_observed": false,
+      "ended_observed": false,
+      "diag_line_count": 276,
+      "format": "aiff",
+      "truncated_sample": false,
+      "sample_bytes": 1146934,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "startservice_stderr": "",
+      "log_file": "analysis/l3-f3-logs/aiff-remote.txt",
+      "mDuration_raw": null
+    }
+  ],
+  "counts": {
+    "PASS": 11,
+    "FAIL": 3
+  },
+  "no_sample_formats": [
+    "m4a",
+    "aac",
+    "opus",
+    "wv",
+    "tak",
+    "dsf",
+    "dff"
+  ],
+  "no_sample_cells": [
+    {
+      "format": "m4a",
+      "path": "local",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "m4a",
+      "path": "remote",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "aac",
+      "path": "local",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "aac",
+      "path": "remote",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "opus",
+      "path": "local",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "opus",
+      "path": "remote",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "wv",
+      "path": "local",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "wv",
+      "path": "remote",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "tak",
+      "path": "local",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "tak",
+      "path": "remote",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "dsf",
+      "path": "local",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "dsf",
+      "path": "remote",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "dff",
+      "path": "local",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "dff",
+      "path": "remote",
+      "verdict": "NO_SAMPLE"
+    }
+  ],
+  "elapsed_s": 216.3,
+  "test_precondition": {
+    "network_wifi_only": "false（仅 REMOTE 跑批期间）",
+    "reason": "设备默认网络实测 MOBILE[NR]，AppSettings 默认 wifiOnly=true 会由 PlayerController.blockedByNetworkPolicy() 拒绝 URL 源；等价于用户在设置页开启「移动数据播放」",
+    "mechanism": "写入 app 私有 files/datastore/cloudmusic_settings.pb（显式 JSON codec）",
+    "restored": "跑完删除该文件恢复默认",
+    "device_settings_unchanged": true
+  },
+  "overall_verdict": "PARTIAL",
+  "overall_reason": "7 种格式无真实样本（NO_SAMPLE）；大文件为前 4 MiB 片段，只验证 demuxer/codec 打开与播放链；未逐格验证 seek / 完整时长 / ENDED；不得据此写「全格式已支持」",
+  "honest_notes": [
+    "每格均 force-stop + 前台拉起 + 清空 logcat 后单独注入，避免上一格残留。",
+    "截断样本（flac/wav/ape）不计完整时长 / ENDED 通过；WAV 片段已修正 RIFF/data 长度。",
+    "aiff 为纯标准库合成容器、未经第三方解码器校验；mp3/wma/ogg 为真实完整音频。",
+    "本工具不申请权限、不改设备设置；真机命令全部带 -s <serial>。"
+  ],
+  "mDuration_note": "原始 native 日志 mDuration 值，单位未在 ABI 契约中钉死，不是毫秒，不换算、不据此声称完整时长",
+  "f2b_extension_chain": {
+    "cells_checked": 14,
+    "extension_ok_all": true,
+    "note": "F2-b 的 AudioFormats.extOfSource 在 REMOTE/LOCAL 双路径均产出真实扩展名，不再出现 audio/mpeg 之类 MIME 字符串"
+  }
+}

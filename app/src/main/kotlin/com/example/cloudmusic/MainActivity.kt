@@ -17,6 +17,7 @@ import com.example.cloudmusic.storage.StorageRepository
 import com.example.cloudmusic.storage.TrackRepository
 import com.example.cloudmusic.ui.CloudMusicApp
 import com.example.cloudmusic.ui.CloudMusicTheme
+import com.example.cloudmusic.ui.player.PlayerStateBridge
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -56,6 +57,14 @@ class MainActivity : ComponentActivity() {
 
     private val localSourceAdder by lazy {
         LocalSourceAdder(this, storages, runtime, permissionRequester)
+    }
+
+    /**
+     * `12 §61.40` / `03-10 §6`：播放页状态桥。用已注入的 `PlaybackRuntime` /
+     * `TrackRepository` / `QueueRepository` 现场构造，不改 Hilt 注册图、不新建模块。
+     */
+    private val playerBridge by lazy {
+        PlayerStateBridge(runtime, tracks, queue)
     }
 
     @Inject
@@ -130,6 +139,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     },
+                    bridge = playerBridge,
                 )
             }
         }

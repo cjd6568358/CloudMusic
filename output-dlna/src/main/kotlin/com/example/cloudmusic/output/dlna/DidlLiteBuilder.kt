@@ -27,18 +27,12 @@ object DidlLiteBuilder {
         return String.format(Locale.ROOT, "%02d:%02d:%02d.%03d", h, m, s, ms)
     }
 
+    /** 12 §61.45 / F1：MIME 推断统一委托 AudioFormats，本处不再维护 when 分支。 */
     fun mimeOf(track: Track, hint: String? = null): String =
-        hint?.takeIf { it.isNotBlank() } ?: when (
-            (track.sourceRef.url ?: track.sourceRef.path).substringBefore('?')
-                .substringAfterLast('.', "").lowercase(Locale.ROOT)
-        ) {
-            "mp3" -> "audio/mpeg"
-            "flac" -> "audio/flac"
-            "m4a", "aac" -> "audio/mp4"
-            "wav" -> "audio/wav"
-            "ogg", "opus" -> "audio/ogg"
-            else -> "application/octet-stream"
-        }
+        hint?.takeIf { it.isNotBlank() }
+            ?: com.example.cloudmusic.model.AudioFormats.mimeOfName(
+                track.sourceRef.url ?: track.sourceRef.path
+            )
 
     fun build(
         track: Track,

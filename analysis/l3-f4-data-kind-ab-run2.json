@@ -1,0 +1,30 @@
+{
+  "method": "12 §61.63 / F4 变体 D 第二次尝试（加长预热 warmup=4.0s）",
+  "generated_by": "tools/l3_f4_data_kind_ab.py --apply --warmup 4.0",
+  "serial": "10.0.0.2:39737",
+  "run": 2,
+  "status": "BLOCKED_DEVICE_OFFLINE",
+  "steps": {
+    "variant_written": true,
+    "assemble_debug": "BUILD SUCCESSFUL in 7s（rc=0）",
+    "install": "rc=1 / Performing Streamed Install → 失败",
+    "install_failure_diagnosis": "随后独立执行 adb install -r 返回 `adb.exe: device offline`；adb connect 报 already connected、get-state=offline、kill-server/start-server 重连仍 failed / offline → 无线 adb 设备掉线，不是 APK 签名或编译问题",
+    "primary_probe": "NOT RUN（安装失败，脚本提前返回）",
+    "regression": "NOT RUN（安装失败，脚本提前返回）"
+  },
+  "verdict": "NO_VALID_CRITERION（设备离线导致安装失败，主判据/回归均未跑；不得写「假设证伪」也不写「PASS」）",
+  "restore": {
+    "source_restored_byte_equal": true,
+    "baseline_rebuild_ok": true,
+    "baseline_reinstall": "设备离线，重装未成功；设备上 APK 自第一次 --apply 的 finally 起即为 P0 基线",
+    "p0_engine_bay_zero_net_change": true
+  },
+  "run1_reference": "analysis/l3-f4-data-kind-ab-run1.json（三格只有 prepare、取流/解码链未展开，判据缺陷已在本轮修正）",
+  "honest_notes": [
+    "变体 D 的 kind=2 落盘假说**未获有效判据**：首跑无播放链、次跑设备离线安装失败。",
+    "首跑三格无播放链的判据缺陷已修正（chain_started / NO_VALID_CRITERION），历史 JSON 不改写。",
+    "本轮唯一有效结论来自零代码改动的设备侧 .nmsfi 索引取证 + 清缓存对照实验（RULED_OUT）。",
+    "F4 仍判 BLOCKED；自动进曲 3 首 / seek / ENDED 仍 NOT RUN。",
+    "设备可断开；下次上线复跑变体 D 前须先确认 get-state=device。"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "method": "12 §61.53 / F4 kind 槽 A/B 执行计划（dry-run，零改动）",
+  "source_file": "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt",
+  "anchor_checks": {
+    "old_call_exactly_once": true,
+    "companion_anchor_present": true,
+    "variant_not_already_applied": true,
+    "p0_baseline_present": true
+  },
+  "variant_b_change": {
+    "replace": "OnDataRequestEnd(requestId, error ?: \"\")  →  OnDataRequestEnd(NATIVE_DONE_KIND_FLUSH, error ?: \"\")",
+    "insert_after": "const val NATIVE_DATA_KIND_NORMAL = 1L",
+    "insert": "/** 12 §61.53 / F4 A/B：End 回调恒走 OnFlushNetData（kind!=2）。 */\n        const val NATIVE_DONE_KIND_FLUSH = 1L",
+    "files_touched": 1,
+    "gradle_dependencies_added": 0
+  },
+  "steps": [
+    "1. 校验设备 get-state=device（所有 adb 命令带 -s）",
+    "2. 备份 UrlDataRequest.kt 到系统临时目录（不落仓库）",
+    "3. 应用变体 B（1 处替换 + 1 行常量）",
+    "4. ./gradlew :app:assembleDebug --offline → adb install -r",
+    "5. 主判据：f3_m4a_fast.m4a × REMOTE，等待 25s，抓 logcat",
+    "6. 回归：5 格（mp3 local/remote、wma/flac/wav remote）",
+    "7. finally：恢复基线文件 → 重编译 → 重装 → 校验源码与基线一致",
+    "8. 恢复 wifiOnly / adb reverse；产出 JSON 证据"
+  ],
+  "primary_criterion": "fMP4 REMOTE 出现 Open codec for aac + Write start play nErr:0",
+  "falsification": "仍出现 id>=3 与 id=2 同 offset 的连锁重复且无 codec → 假设证伪（§61.59 不再硬编码 offset）",
+  "regression_criterion": "5 格全部 PASS，且 F3 14 格矩阵建议另行全量复跑",
+  "safety": [
+    "默认 dry-run，--apply 才执行",
+    "try/finally 无条件恢复 P0 基线并重编译重装",
+    "不连 OpenList、不写凭据、不改设备系统设置",
+    "自动进曲 3 首连播本脚本未实现，须单独按 docs/17 §8.3 判据补测（NOT RUN）"
+  ]
+}

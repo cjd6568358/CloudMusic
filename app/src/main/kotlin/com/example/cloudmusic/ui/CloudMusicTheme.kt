@@ -1,28 +1,33 @@
 package com.example.cloudmusic.ui
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.example.cloudmusic.ui.player.LegacyPalette
 
 /**
- * T-A6（`12 §33` / `03-10 §2`）：深色优先 + 跟随系统，主色 `#FF3A3A` / `#FF2C55`
- * （PRD §13 #9）。播放页照搬主题属 T-L L3，本文件只管自研 Compose 页面。
+ * T-A6（`12 §33` / `03-10 §2`）：主色 `#FF3A3A` / `#FF2C55`（PRD §13 #9）。
+ *
+ * `12 §61.42`：用户要求 1:1 复刻竞品视觉 → **固定深色主题**，色值全部取自
+ * [LegacyPalette]（竞品反编译一手证据），不再跟随系统亮/暗模式。
+ * 原先跟随系统亮色会让竞品白色图标落在浅紫背景上、对比度不足，也不符合竞品风格。
  */
 @Composable
 fun CloudMusicTheme(content: @Composable () -> Unit) {
-    val scheme = if (isSystemInDarkTheme()) {
-        darkColorScheme(
-            primary = Color(0xFFFF3A3A.toInt()),
-            secondary = Color(0xFFFF2C55.toInt()),
-        )
-    } else {
-        lightColorScheme(
-            primary = Color(0xFFFF2C55.toInt()),
-            secondary = Color(0xFFFF3A3A.toInt()),
-        )
-    }
-    MaterialTheme(colorScheme = scheme, content = content)
+    MaterialTheme(
+        colorScheme = darkColorScheme(
+            primary = Color(LegacyPalette.PrimaryRed),
+            secondary = Color(LegacyPalette.AccentRed),
+            background = Color(LegacyPalette.PageBackground),      // #ff262626
+            surface = Color(LegacyPalette.PageBackground),        // #ff262626
+            onPrimary = Color(LegacyPalette.White),
+            onBackground = Color(LegacyPalette.TextPrimary),
+            onSurface = Color(LegacyPalette.TextPrimary),
+            // `legacy_are.xml` miContainer 的 #ff33333e，作为次级容器底色。
+            secondaryContainer = Color(LegacyPalette.MiniPageBackground),
+            onSecondaryContainer = Color(LegacyPalette.TextPrimary),
+        ),
+        content = content,
+    )
 }

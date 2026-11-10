@@ -1,0 +1,42 @@
+{
+  "method": "12 §61.50 / F4 根因实证与阻塞状态审计（只读、纯标准库、不连 adb）",
+  "generated_by": "tools/l3_f4_eof_audit.py",
+  "checks": {
+    "probe_carrier_is_false": true,
+    "probe_two_cells": true,
+    "probe_logs_present": true,
+    "probe_no_race_evidence": true,
+    "sample_moov_at_end": true,
+    "p0_eof_wait_unchanged": true,
+    "no_p0_change_claimed": true,
+    "root_cause_documented": true,
+    "ape_remote_not_a_carrier": true,
+    "candidate_plans_are_hypotheses": true,
+    "baseline_unchanged": true,
+    "docs_written_back": true,
+    "no_credentials_in_evidence": true
+  },
+  "all_pass": true,
+  "failed_checks": [],
+  "f4_status": "BLOCKED",
+  "f4_status_reason": "根因已钉死（normal mode 下 OnWriteNetData 写线程异步落 vfile ~50ms，Java 侧无落盘完成信号、P0 二进制不可改），但缺真实 moov-at-end 样本：OpenList 无 m4a/aac、本机无编码器且外网不通、历史 G01 用 faststart 绕开竞态、F3 的 ape×remote 只是同走 onEnd 延迟路径、人工重排 fMP4 探针未触发尾部 seek。按先实证后改 P0 的纪律不施工，不伪造完成。",
+  "root_cause": {
+    "code": "UrlDataRequest.sink.onEnd 成功 EOF 固定 2s（20×100ms）分片等待",
+    "hidden_race": "立即 onEnd → ReadFromFileNoLock 0 → ~5ms/轮重试烧完预算 → -103",
+    "why": "native normal mode 的 OnWriteNetData GOT+lambda 异步任务落 vfile 约 50ms",
+    "java_signal": "JNI 只有 Begin/Data/End/Start/Stop，无落盘完成回调",
+    "p0_constraint": "native so 原样复用不可改 → 严格事件驱动根治不可达"
+  },
+  "unblock_conditions": [
+    "提供 1 个 faststart=false（moov 在末尾）的真实 .m4a/.mp4 音频样本（几 MB 即可）",
+    "或恢复外网 / 提供可用 ffmpeg 二进制以生成该样本",
+    "或用户明确接受「只做自适应等待改良、不追求根治」（候选 3）"
+  ],
+  "verification_criteria": "自动进曲连续 3 首无 -103、无释放后回调；onEnd 不再固定 2s 盲等",
+  "honest_notes": [
+    "本批 P0 引擎舱零改动：UrlDataRequest / RangeFetcher / EngineAdapter / 20 so / 指纹全部原样。",
+    "f3_m4a.m4a 是 F4 探针专用人工重排 fMP4 片段，未纳入 F3 矩阵样本清单。",
+    "F3 的 ape×remote FAIL 根因是截断片段缺 APE 尾部 seek table，不是 F4 竞态复现。",
+    "A3 仍 G09 PARTIAL、舱不冻结；F4 后仍需 F5 才回 P2→P3→P4。"
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "method": "12 §61.55 / F4 kind 槽两个 task 的行为差异复核（离线、只读）",
+  "generated_by": "tools/l3_f4_task_diff_verify.py",
+  "so": "engine-legacy/src/main/jniLibs/arm64-v8a/libNMCommonCache.so",
+  "functions": {
+    "preload_write": {
+      "name": "_ZN17NMBufferSourceImp28PreloadDoneTaskOnWriteThreadEv",
+      "addr": "0xb86c",
+      "size": 288,
+      "instructions": 72
+    },
+    "preload_render": {
+      "name": "_ZN17NMBufferSourceImp29PreloadDoneTaskOnRenderThreadEb",
+      "addr": "0xadbc",
+      "size": 420,
+      "instructions": 105
+    },
+    "flush": {
+      "name": "_ZN17NMBufferSourceImp14OnFlushNetDataEv",
+      "addr": "0xc068",
+      "size": 88,
+      "instructions": 22
+    }
+  },
+  "checks": {
+    "done_has_cmp_w1_2": true,
+    "done_posts_both_slots_to_same_queue": true,
+    "got_kind2_is_preload_write": true,
+    "got_other_is_flush": true,
+    "got_render_is_preload_done_render": true,
+    "preload_write_loads_render_got": true,
+    "preload_write_sets_bool_true": true,
+    "preload_write_posts_cascade_task": true,
+    "render_task_is_substantial": true,
+    "flush_is_lightweight": true,
+    "flush_checks_flag_at_0xb8": true,
+    "flush_tail_calls_vtable_0x40": true,
+    "docs59_3_kind1_calibrated": true,
+    "queue_post_is_shared_address": true
+  },
+  "all_pass": true,
+  "failed_checks": [],
+  "evidence": {
+    "got_render_relocation": {
+      "0x4bf28": {
+        "symbol": "_ZN17NMBufferSourceImp29PreloadDoneTaskOnRenderThreadEb",
+        "symbol_addr": "0xadbc",
+        "reloc_type": 1025
+      }
+    },
+    "preload_write_key_instructions": [
+      "0xb8c0  ldr       x9, [x9, #0xf28]",
+      "0xb8d8  mov       w10, #1",
+      "0xb8f0  strb      w10, [x0, #0x20]",
+      "0xb900  bl        #0xd23c",
+      "0xb914  blr       x8",
+      "0xb924  bl        #0x16468",
+      "0xb954  blr       x8"
+    ],
+    "flush_full": [
+      "0xc068  stp       x29, x30, [sp, #-0x10]!",
+      "0xc06c  mov       x29, sp",
+      "0xc070  ldrb      w8, [x0, #0xb8]",
+      "0xc074  cbz       w8, #0xc090",
+      "0xc078  ldr       x0, [x0, #0xd8]",
+      "0xc07c  cbz       x0, #0xc09c",
+      "0xc080  ldr       x8, [x0]",
+      "0xc084  ldr       x1, [x8, #0x40]",
+      "0xc088  ldp       x29, x30, [sp], #0x10",
+      "0xc08c  br        x1",
+      "0xc090  mov       w0, #5",
+      "0xc094  bl        #0x37e20",
+      "0xc098  tbz       w0, #0, #0xc0a4",
+      "0xc09c  ldp       x29, x30, [sp], #0x10",
+      "0xc0a0  ret       ",
+      "0xc0a4  adrp      x1, #0x3b000",
+      "0xc0a8  adrp      x2, #0x3b000",
+      "0xc0ac  add       x1, x1, #0x5f0",
+      "0xc0b0  add       x2, x2, #0xcba",
+      "0xc0b4  mov       w0, #5",
+      "0xc0b8  ldp       x29, x30, [sp], #0x10",
+      "0xc0bc  b         #0x3138c"
+    ],
+    "render_key_calls": [
+      "0xae08  blr       x8",
+      "0xae14  bl        #0x37e20",
+      "0xae3c  bl        #0x3138c",
+      "0xaeb4  bl        #0x37e20",
+      "0xaee4  bl        #0x3138c",
+      "0xaf10  blr       x8",
+      "0xaf50  bl        #0x10580",
+      "0xaf5c  bl        #0x8d30"
+    ],
+    "historical_calibration": "docs/12 §59.3 E9：kind=1 的 push 全部落内存缓存、32768B 送达解码器；kind=2 的尾段 push 数据丢失 → Send Packet Invalid data error。数据包已校准 NATIVE_DATA_KIND_NORMAL=1L，End 回调从未校准。"
+  },
+  "conclusion": "kind==2 触发的是一条重的级联完成链：PreloadDoneTaskOnWriteThread（288B）构造对象、置 bool=true、把 PreloadDoneTaskOnRenderThread（GOT 0x4bf28 → 0xadbc, 420B）再投递到同一个 0x16468 队列，即向渲染线程宣告『预加载完成』；kind!=2 的 OnFlushNetData 只有 88B，检查 this+0xb8 标志后经 vtable+0x40 尾调用刷数据，不投递任何新任务。两者严重不对称，误传 kind=2 会让数据不足的流被宣告完成，与 §59.3 E9『kind=2 尾段 push 数据丢失』互相印证。同时 §59.3 已把数据包 kind 真机校准为 1L，故 §61.53 A/B 的『恒传 1L』是对齐到已验证的正常值、不是引入未验证新路径，变体风险显著降低。但『requestId==2 导致 fMP4 卡点』的因果链仍无真机证据，F4 仍 BLOCKED。",
+  "honest_notes": [
+    "本工具只读 so 与 docs，不连 adb、不改任何生产代码、零新增依赖。",
+    "静态反汇编能证明『两个 task 做什么』，不能证明 Java 侧传了什么或 fMP4 卡点的因果。",
+    "§59.2 exp6 反例、竞品同样传 requestId 却可用、ape×remote 与 aiff 仍不解释。",
+    "OnFlushNetData 在 this+0xb8 为 0 时会走日志/错误分支；但 1L 是 §59.3 已校准的数据包值，正常播放每天都在走，非新路径。",
+    "A/B 尚未执行；自动进曲 3 首 / seek / ENDED 如实 NOT RUN；A3 仍 G09 PARTIAL、舱不冻结。"
+  ]
+}

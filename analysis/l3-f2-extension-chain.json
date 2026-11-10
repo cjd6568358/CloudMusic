@@ -1,0 +1,49 @@
+{
+  "method": "12 §61.46 / F2 前置实证：EngineAdapter.ResourceInfo.extension 推断链静态盘点（只读）",
+  "generated_by": "tools/l3_f2_extension_chain_audit.py",
+  "source": "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineAdapter.kt",
+  "extension_chain": {
+    "line_range": "405-417",
+    "url_branch_steps": {
+      "substringAfterLast_dot": true,
+      "substringBefore_query": true,
+      "takeIf_len_le_5": true,
+      "elvis_to_mimeHint": true
+    },
+    "local_fallback": "source.mimeHint.orEmpty()",
+    "local_fallback_is_mime": true,
+    "resource_info_ctor": "ResourceInfo(extension, length, source.trackId, \"\")",
+    "diag_log": "resourceInfo extension=$extension fileSize=$length",
+    "self_declared_assumption": true,
+    "f2_code_unchanged": true
+  },
+  "provider": {
+    "create_data_request_handler_url_only": true,
+    "local_returns_null": true,
+    "get_local_path_returns_real_path": true,
+    "open_local_fd_returns": -1,
+    "url_result_format_arg": true
+  },
+  "findings": [
+    "LOCAL 源 source.url == null 时，整条 Elvis 链落到 source.mimeHint.orEmpty()，把 audio/mpeg 这类 MIME 字符串当作 extension 传进 ResourceInfo 第一个参数。",
+    "REMOTE 源若 URL 无点、或最后一个点之后超过 5 字符（如回环直链 http://10.0.0.2:port/t/tok），takeIf 失败后同样落到 mimeHint。",
+    "UrlDataProvider.getUrl() 构造 UrlResult 时 format 参数也传 source.mimeHint，与 extension 同源的 MIME/扩展名混用语义。",
+    "createDataRequestHandler() 仅 URL 源创建 UrlDataRequest，LOCAL 源返回 null；getLocalPath() 返回真实路径，但 openLocalFd() 返回 -1（注释 V0.1 未实现），LOCAL 真实取流能力仍待真机确认，不预断为阻塞。",
+    "代码自述「待真机验证的假设，不是已证实的修复」；本批未改该链、未改 P0 引擎舱。"
+  ],
+  "blockers": [
+    "本批 adb 实跑：历史 logcat 缓冲区 622 行内无 EngineDiag / resourceInfo / Open codec / CloudMusic 命中 → 无法从历史日志证实或证伪假设。",
+    "MIUI 无线调试限制 input tap / input keyevent（INJECT_EVENTS 被拒），无法自动切到 LOCAL 源并触发播放。",
+    "需用户手动在自研 app 播放一个本地文件（或授权预置夹具 + am start），由本助手 adb logcat 抓 resourceInfo extension=... 与 Open codec 对照。"
+  ],
+  "todo": [
+    "F2-a 真机取证：REMOTE 与 LOCAL 各播放一次，逐路径记录 extension 实际值与解码结果。",
+    "F2-b 按证据修正 extension 推断：LOCAL 优先取 source.localPath 的真实扩展名，不再拿 MIME 字符串当扩展名；REMOTE 保留 URL 后缀但处理无扩展名直链。",
+    "F2-c 复验并更新 §61.46 守护，随后进入 F3 双路径矩阵。"
+  ],
+  "honest_notes": [
+    "本工具只做静态源码盘点，不调用 adb、不改生产代码、不声称 LOCAL 或全格式可播。",
+    "设备侧实证（端点 10.0.0.2:37827 / 23013RK75C / Android 13 / 历史 logcat 命中 0）由 12 §61.46 断点正文登记，工具重跑不重新采集设备状态。",
+    "P0 引擎舱（20 so / EngineAdapter / EngineModule）本批零改动。"
+  ]
+}

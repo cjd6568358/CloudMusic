@@ -1,0 +1,76 @@
+{
+  "method": "12 §61.63 / F4 陈旧 vfile 切片假说：清缓存前后索引对比 + 60s REMOTE 复跑",
+  "generated_by": "tools/l3_f4_cache_reset_probe.py",
+  "serial": "10.0.0.2:39737",
+  "sample": "f3_m4a_complete.m4a",
+  "target_file_size": 16573387,
+  "wait_seconds": 60.0,
+  "log_file": "analysis/l3-f4-logs/vfile-commit-20261110-114804.txt",
+  "log_lines": 2894,
+  "cache_indexes": {
+    "before_file": "analysis/l3-f4-vfile-index-before.json",
+    "after_file": "analysis/l3-f4-vfile-index-after.json",
+    "before_target_trunks": [
+      [
+        {
+          "slice_offset": 0,
+          "trunks": [
+            {
+              "offset": 0,
+              "size": 368640
+            }
+          ]
+        }
+      ]
+    ],
+    "after_target_trunks": [
+      [
+        {
+          "slice_offset": 0,
+          "trunks": [
+            {
+              "offset": 0,
+              "size": 180224
+            }
+          ]
+        }
+      ]
+    ],
+    "before_trunk_bytes": 368640,
+    "after_trunk_bytes": 180224,
+    "trunk_grew": false,
+    "cleared": [
+      "cache/legacy_engine_cache/d/d6a57b0298f6fe7bf7b7c2c07fdf8c6e.nmsfi"
+    ]
+  },
+  "evidence": {
+    "slice_init_lines": [],
+    "commit_values": [
+      180224
+    ],
+    "commit_max": 180224,
+    "jump_read_failures": 0,
+    "force_wait_requests": 0,
+    "open_codec": [
+      "aac"
+    ],
+    "write_start_play_nerr": [],
+    "play_status": [
+      "3"
+    ],
+    "minus_103_occurrences": 4
+  },
+  "verdict": "RULED_OUT（清缓存后新建 vfile 的落盘总字节数 368640 → 180224 未增加、commit 仍停在 180224 < 605007，且仍 -103 未出声 → 陈旧切片复用不是 F4 的根因，落盘失败另有原因）",
+  "criteria": {
+    "audio_output": false,
+    "no_minus_103": false,
+    "trunk_grew": false
+  },
+  "honest_notes": [
+    "删除的是 app 私有 engine 缓存（可从 files/music/ 样本重建），不是用户数据；删除前已导出 .nmsfi 索引作为证据。",
+    "零生产代码改动、未重编译、未重装 APK；P0 引擎舱不变。",
+    "即使出现 Write start play，自动进曲 3 首 / seek / ENDED 仍未测，F4 不收口。",
+    "清缓存改变的是运行状态而非代码；若 PASS 只说明陈旧切片是直接诱因，不等于 native / Java 层无需修复。",
+    "本实验只跑一次，未做多次稳定性复验。"
+  ]
+}

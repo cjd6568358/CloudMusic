@@ -1,0 +1,1387 @@
+--------- beginning of main
+11-09 23:58:40.038 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:40.038 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:40.062 D/MilletBrightHandler(10020): frozen uids:[] reason = tobg
+11-09 23:58:40.062 D/MilletBrightHandler(10020): frozen fail result:[10240, 10327] freeze fail:[10240]
+11-09 23:58:40.093 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:40.112 D/A11yRuleEngine( 8243): startQueryJob end 19 ms
+11-09 23:58:40.145 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:40.163 D/A11yRuleEngine( 8243): startQueryJob end 18 ms
+11-09 23:58:40.169 I/MediaFocusControl( 2525): requestAudioFocus() from uid/pid 10327/1991 AA=USAGE_MEDIA/CONTENT_TYPE_MUSIC clientId=android.media.AudioManager@ff01413com.example.cloudmusic.PlaybackService$$ExternalSyntheticLambda0@9088650 callingPack=com.example.cloudmusic req=1 flags=0x0 sdk=35
+11-09 23:58:40.169 D/PlaybackActivityMonitorStubImpl( 2525): interruptMusicPlayback uid=10240 hasUid=false
+11-09 23:58:40.169 D/PlaybackActivityMonitorStubImpl( 2525):  mRouteCast: -1 uid: 10240
+11-09 23:58:40.169 D/MediaFocusControl( 2525): skip handle audio focus change for user setting ...
+11-09 23:58:40.169 D/PlaybackActivityMonitorStubImpl( 2525): interruptMusicPlayback uid=10240 hasUid=false
+11-09 23:58:40.169 D/PlaybackActivityMonitorStubImpl( 2525):  mRouteCast: -1 uid: 10240
+11-09 23:58:40.169 I/AudioService.FadeOutManager( 2525): unfadeOutUid() uid:10327
+11-09 23:58:40.170 V/Avrcp_ext( 4592): onPlaybackStateChanged: state PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=62281984, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:58:40.171 V/Avrcp_ext( 4592): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@7420880) null
+11-09 23:58:40.171 V/Avrcp_ext( 4592): updateCurrentMediaState: isPlaying = false
+11-09 23:58:40.171 W/Avrcp_ext( 4592): isMusicActive: false getBluetoothPlayState: 2 A2dp State: 11 mAudioPlaybackIsActive: true
+11-09 23:58:40.171 D/Avrcp_ext( 4592): isMusicActive = false mAudioPlaybackIsActive = true player state = PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=62281985, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:58:40.171 V/Avrcp_ext( 4592): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-09 23:58:40.171 D/Avrcp_ext( 4592): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-09 23:58:40.171 V/Avrcp_ext( 4592): isBrowseSupported for com.example.cloudmusic: false
+11-09 23:58:40.171 V/Avrcp_ext( 4592): updatePlaybackState, state: PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=62281985, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-09 23:58:40.171 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:58:40.171 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:58:40.171 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:58:40.171 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:58:40.171 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:58:40.171 V/Avrcp_ext( 4592): updatePlayerStateAndPosition, old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=62281305, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=62281985, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:58:40.171 V/Avrcp_ext( 4592): old state = PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=62281305, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=62281985, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:58:40.171 D/HeadsetService( 4592): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@dc0fd90
+11-09 23:58:40.171 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:40.171 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:58:40.171 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:40.171 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:58:40.171 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:58:40.171 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:40.171 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:58:40.171 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:40.171 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:58:40.171 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:58:40.171 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:40.171 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:58:40.171 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:40.171 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:58:40.171 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:58:40.171 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:40.171 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:58:40.171 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:40.171 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:58:40.171 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:58:40.171 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:40.171 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:58:40.171 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:40.171 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:58:40.171 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:58:40.171 I/Avrcp_ext( 4592): No active device found, update playstate to stack
+11-09 23:58:40.171 E/BluetoothAvrcpServiceJni( 4592): updatePlayStatusToStack
+11-09 23:58:40.171 E/bt_btif ( 4592): update_play_status_to_stack:invalid index,remote suspend not set
+11-09 23:58:40.171 E/BluetoothAvrcpServiceJni( 4592): updatePlayStatusToStack: status: 1
+11-09 23:58:40.171 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:58:40.171 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:58:40.171 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:58:40.171 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:58:40.171 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:58:40.171 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:58:40.171 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:58:40.171 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:58:40.171 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:58:40.171 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:58:40.171 V/Avrcp_ext( 4592): Exit updatePlayerStateAndPosition
+11-09 23:58:40.171 V/Avrcp_ext( 4592):  Exit onPlaybackStateChanged
+11-09 23:58:40.172 D/MediaDataManager( 4807): State updated outside of notification
+11-09 23:58:40.172 I/MediaCarouselController( 4807): media_data_arrive: addOrUpdatePlayer
+11-09 23:58:40.173 I/MiuiMediaControlPanel( 4807): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 曲库就绪
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): JNI_OnLoad Start***************************************************************************
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): *******************************************************************************************
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): JNI_OnLoad: JNI_VERSION_1_6
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): AudioDeviceAudioTrack::Init begin
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): SDK Version:33
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): AudioDeviceAudioTrack::Init check env success
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): AudioDeviceAudioTrack::Init FindClass success
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): AudioDeviceAudioTrack::Init GlobalRef start
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): AudioDeviceAudioTrack::Init GlobalRef end
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method <init>
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method <init>
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method getMinBufferSize
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method getMaxVolume
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method getMinVolume
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method getNativeOutputSampleRate
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method play
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method pause
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method flush
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method stop
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method release
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method write
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method setVolume
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method getAudioSessionId
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method getPlaybackHeadPosition
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method getPlayState
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method write
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method getLatency
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method getTimestamp
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method getSampleRate
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method getState
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack Method getUnderrunCount
+11-09 23:58:40.191 E/NMAudioPlayer( 1991): Failed to create AudioTimestamp object
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): Init AudioTrack End!
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): FindJavaClass Name(com/netease/cloudmusic/module/player/datasource/IBaseDataSource)
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): FindJavaClass Name(com/netease/cloudmusic/module/player/datasource/IBaseDataSource) Success
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): NewGlobalRef Name(com/netease/cloudmusic/module/player/datasource/IBaseDataSource) Success
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): AndroidAudioPlayer::Init begin!
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): FindJavaClass Name(com/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer)
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): FindJavaClass Name(com/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer) Success
+11-09 23:58:40.191 I/NMAudioPlayer( 1991): NewGlobalRef Name(com/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer) Success
+11-09 23:58:40.192 I/NMAudioPlayer( 1991): AndroidAudioPlayer Register Method(0)
+11-09 23:58:40.196 I/NMVirtualFileManager( 1991): Alloc
+11-09 23:58:40.198 I/NMCache ( 1991): NMVirtualFileManager::SetConfig Finish:{"dir":"/data/user/0/com.example.cloudmusic/cache/legacy_engine_cache","max_size":536870912,"slice_size":1048576,"cache_clean_range_min":0.8,"cache_clean_range_max":1.0}
+11-09 23:58:40.198 I/NMCache ( 1991): NMCacheControl::DoInit() dir:/data/user/0/com.example.cloudmusic/cache/legacy_engine_cache, limit:536870912
+11-09 23:58:40.198 I/CM-DataReq( 1991): SetConfig ok dir=/data/user/0/com.example.cloudmusic/cache/legacy_engine_cache max=512MiB
+11-09 23:58:40.198 I/CM-DataReq( 1991): cacheManagerHandle=-5476376602081141056 hasContext=true
+11-09 23:58:40.198 I/NEPlayer( 1991): PlaybackEngine ctor: this=0xb400007ed8bdb000 cache=0xb400007ed8b15ec0 listener=0xb400007ed8b15fc0
+11-09 23:58:40.199 W/NMAudioPlayer( 1991): CNCMAudioPlayer::SetPlaybackMode SetPlaybackMode 2, old mPlayBackMode:0
+11-09 23:58:40.199 I/NMAudioPlayer( 1991): CNCMAudioProcess::setAudioQualityMode mQualityMode 2
+11-09 23:58:40.199 I/NEPlayer( 1991): AudioPlayerUnit ctor: this=0xb400007ed8ba5200 cache=0xb400007ed8b15ec0 (effect_engine deferred)
+11-09 23:58:40.199 W/NMAudioPlayer( 1991): CNCMAudioPlayer::SetPlaybackMode SetPlaybackMode 2, old mPlayBackMode:0
+11-09 23:58:40.199 I/NMAudioPlayer( 1991): CNCMAudioProcess::setAudioQualityMode mQualityMode 2
+11-09 23:58:40.199 I/NEPlayer( 1991): AudioPlayerUnit ctor: this=0xb400007ed8ba6700 cache=0xb400007ed8b15ec0 (effect_engine deferred)
+11-09 23:58:40.200 I/CM-DataReq( 1991): prepare trackId=d6a57b0298f6fe7bf7b7c2c07fdf8c6e remote=true url=http://127.0.0.1:8765/f3_m4a_complete.m4a expectedLength=0
+11-09 23:58:40.204 D/TrafficStats( 1991): tagSocket(145) with statsTag=0xffffffff, statsUid=-1
+11-09 23:58:40.205 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   3.8475,   3.8300,  17.0000>,time=62282018511136, sensor=5, temperature(K)=   3.8300
+11-09 23:58:40.205 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 4, lux = 3, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:58:40.285 D/A11yRuleEngine( 8243): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-09 23:58:40.299 D/A11yRuleEngine( 8243): startQueryJob end 14 ms
+11-09 23:58:40.300 D/A11yRuleEngine( 8243): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-09 23:58:40.302 D/A11yRuleEngine( 8243): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-09 23:58:40.302 D/A11yRuleEngine( 8243): startQueryJob end 0 ms
+11-09 23:58:40.305 I/CM-DataReq( 1991): probeLength=16573387 url=http://127.0.0.1:8765/f3_m4a_complete.m4a
+11-09 23:58:40.305 I/CM-DataReq( 1991): resourceInfo extension=m4a fileSize=16573387
+11-09 23:58:40.306 W/NMAudioPlayer( 1991): CNCMAudioProcess::SetAudioEffect  audio_effect 0
+11-09 23:58:40.306 I/NEPlayer( 1991): restoreInternalEffect: restore internal effect=0x0
+11-09 23:58:40.306 W/NMAudioPlayer( 1991): CNCMAudioPlayer::Reset
+11-09 23:58:40.306 I/NEPlayer( 1991): decoder route: bitrate=0 → decoderType=0
+11-09 23:58:40.306 I/NMAudioPlayer( 1991): CNCMAudioPlayer::doStop status 1
+11-09 23:58:40.306 W/NMAudioPlayer( 1991): CNCMAudioPlayer::doReset status 1
+11-09 23:58:40.306 I/CM-DataReq( 1991): setDataRequestErrorCallback callback=null enabled=false
+11-09 23:58:40.306 I/CM-DataReq( 1991): setDataRequestErrorCallback callback=com.netease.cloudmusic.android.sdk.playerengine.NativeDataRequestErrorCallback enabled=true
+11-09 23:58:40.306 I/NCMPlayerEngine( 1991): Data request error callback installed isPlayback=1
+11-09 23:58:40.306 I/CM-DataReq( 1991): createDataRequestHandler url=http://127.0.0.1:8765/f3_m4a_complete.m4a cached=false
+11-09 23:58:40.307 I/CM-DataReq( 1991): createDataRequestHandler -> NEW UrlDataRequest
+11-09 23:58:40.307 W/NMAudioPlayer( 1991): CNCMAudioProcess::SetAudioEffect  audio_effect -5476376602080565248
+11-09 23:58:40.307 I/NEPlayer( 1991): createMusicEffect: config= engine=0xb400007ed8a23178 audioEffects=0xb400007ed8ba2800
+11-09 23:58:40.307 I/NEPlayer( 1991): applyMusicInfoHandle: empty, skip
+11-09 23:58:40.308 I/NEPlayer( 1991): setDataSource notifyTrackActivated: songId= songIdInt=0 ret=0
+11-09 23:58:40.308 W/NMAudioPlayer( 1991): CNCMAudioPlayer::PrepareAsync
+11-09 23:58:40.308 I/NEPlayer( 1991): PlayerNotifyEvent msg=300 arg1=2 arg2=0 has_music=1 songId=
+11-09 23:58:40.308 I/NCMPlayerEngine( 1991): onEngineEvent: msg=300 arg1=2 arg2=0
+11-09 23:58:40.309 W/NMAudioPlayer( 1991): CNCMAudioPlayer::doPrepareAsync start++ status  2, mNewStream 0
+11-09 23:58:40.309 I/NEPlayer( 1991): BufferSource open: encryptedType=0
+11-09 23:58:40.309 I/CM-DataReq( 1991): getUrl url=http://127.0.0.1:8765/f3_m4a_complete.m4a fileSize=16573387 format=audio/mp4
+11-09 23:58:40.309 I/NEPlayer( 1991): PlayerNotifyEvent msg=300 arg1=3 arg2=0 has_music=1 songId=
+11-09 23:58:40.309 I/NEPlayer( 1991): preparing notifyTrackPreparing: songId= songIdInt=0 ret=0
+11-09 23:58:40.309 I/NCMPlayerEngine( 1991): onEngineEvent: msg=300 arg1=3 arg2=0
+11-09 23:58:40.309 I/NMCache ( 1991): NMVirtualFileManager::CreateBufferSource resource config:{"id":"d6a57b0298f6fe7bf7b7c2c07fdf8c6e","md5":"","size":16573387,"type":"cache"}, cache config:{"range_size":1048576,"cache_local":true}
+11-09 23:58:40.309 I/NMCache ( 1991): NMBufferSourceImp Create:1
+11-09 23:58:40.311 I/NMCache ( 1991): NMMemoryCache Create:1
+11-09 23:58:40.311 I/NMCache ( 1991): NMCacheControl::DeleteCache total_size_:9586404 range_min_:0.800000 range_max_:1.000000
+11-09 23:58:40.312 I/NMCache ( 1991): NMSliceFile Open Init Use Old:d6a57b0298f6fe7bf7b7c2c07fdf8c6e  
+11-09 23:58:40.312 I/CM-DataReq( 1991): SourceCallback.onUrlReady bitrate=0 format=
+11-09 23:58:40.312 I/CM-DataReq( 1991): SourceCallback.onProgress 368640/16573387
+11-09 23:58:40.312 D/NMCache ( 1991): NMBufferSourceImp(1)::Read(1)  buffer len:32768.
+11-09 23:58:40.313 D/NMCache ( 1991): NMBufferSourceImp::ReadTaskAsync Read  Begin(0-32768)
+11-09 23:58:40.313 D/NMCache ( 1991): NMBufferSourceImp(1)::ReadFromFileNoLock  Local File Read expect len:32768, offset:0, readed_len:32768, result:32768
+11-09 23:58:40.313 D/NMCache ( 1991): NMBufferSourceImp::ReadTaskAsync Read  End.
+11-09 23:58:40.313 D/NMCache ( 1991): NMBufferSourceImp(1)::PreSeekReadTask offset:32768, size:5242880, memory offset:32768
+11-09 23:58:40.313 D/NMCache ( 1991): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  32768, size :  1048576, out_len : 335872, result:335872, begin:368640, end:16573387
+11-09 23:58:40.313 D/NMCache ( 1991): NMBufferSourceImp(1)::PreSeekReadTask  Write offset:32768, size:1048576, out_len:335872, writen:335872
+11-09 23:58:40.313 I/CM-DataReq( 1991): SourceCallback.onProgress 368640/0
+11-09 23:58:40.313 D/NMCache ( 1991): NMBufferSourceImp::Read((1-1) Finish Async:32768
+11-09 23:58:40.313 I/CM-DataReq( 1991): Start id=1 offset=368640 length=1048576 url=http://127.0.0.1:8765/f3_m4a_complete.m4a
+11-09 23:58:40.314 I/NMCache ( 1991): NMNetSource::MakeRangeRequestAsync(1), start result:0, offset:368640, length:1048576
+11-09 23:58:40.314 D/NMCache ( 1991): NMBufferSourceImp(1)::PreSeekReadTask offset:32768, size:1048576 writed:335872, net_try:1, net_try_result:0, request_len：1048576 finish
+11-09 23:58:40.314 I/CM-DataReq( 1991): open url=http://127.0.0.1:8765/f3_m4a_complete.m4a Range=bytes=368640-1417215
+11-09 23:58:40.315 I/NMCache ( 1991): NMBufferSourceImp::Seek(1-1) Offset:327895, from_where:0
+11-09 23:58:40.315 D/NMCache ( 1991): NMBufferSourceImp(1)::Read(2)  buffer len:32768.
+11-09 23:58:40.316 D/NMCache ( 1991): NMBufferSourceImp::ReadTaskAsync Read  Begin(327895-32768)
+11-09 23:58:40.316 D/NMCache ( 1991): NMBufferSourceImp(1)::ReadFromFileNoLock  Local File Read expect len:32768, offset:327895, readed_len:32768, result:32768
+11-09 23:58:40.316 D/NMCache ( 1991): NMBufferSourceImp::ReadTaskAsync Read  End.
+11-09 23:58:40.316 D/NMCache ( 1991): NMBufferSourceImp(1)::PreSeekReadTask offset:360663, size:5242880, memory offset:360663
+11-09 23:58:40.316 D/NMCache ( 1991): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  360663, size :  1048576, out_len : 7977, result:7977, begin:368640, end:16573387
+11-09 23:58:40.316 D/NMCache ( 1991): NMBufferSourceImp(1)::PreSeekReadTask  Write offset:360663, size:1048576, out_len:7977, writen:7977
+11-09 23:58:40.316 D/NMCache ( 1991): NMBufferSourceImp(1)::PreSeekReadTask offset:360663, size:1048576 writed:7977, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:58:40.316 D/NMCache ( 1991): NMBufferSourceImp::Read((1-2) Finish Async:32768
+11-09 23:58:40.316 I/NMCache ( 1991): NMBufferSourceImp::Seek(1-2) Offset:605007, from_where:0
+11-09 23:58:40.316 D/NMCache ( 1991): NMBufferSourceImp(1)::Read(3)  buffer len:32768.
+11-09 23:58:40.317 D/NMCache ( 1991): NMBufferSourceImp::ReadTaskAsync Read  Begin(605007-32768)
+11-09 23:58:40.317 D/TrafficStats( 1991): tagSocket(105) with statsTag=0xffffffff, statsUid=-1
+11-09 23:58:40.317 D/NMCache ( 1991): NMBufferSourceImp(1)::ReadFromFileNoLock  Local File Read expect len:32768, offset:605007, readed_len:0, result:-2
+11-09 23:58:40.317 D/NMCache ( 1991): NMBufferSourceImp::ReadTaskAsync Pending.
+11-09 23:58:40.317 I/NMCache ( 1991): NMNetSource(1-1)::WaitRequest offset:605007, length:1048576, signal_size:8192, force:false
+11-09 23:58:40.317 I/NMCache ( 1991): NMNetSource(1-1)::WaitRequest cur offset:368640, cur end :  1417216, expect offset :  605007, end :  613199, commit :  368640
+11-09 23:58:40.317 I/NMCache ( 1991): NMNetSource(1-1)::MakeRangeRequestAsync offset:605007, length:1048576, signal_size:8192
+11-09 23:58:40.317 I/CM-DataReq( 1991): Start id=2 offset=605007 length=1048576 url=http://127.0.0.1:8765/f3_m4a_complete.m4a
+11-09 23:58:40.317 I/NMCache ( 1991): NMNetSource::MakeRangeRequestAsync(2), start result:0, offset:605007, length:1048576
+11-09 23:58:40.317 I/CM-DataReq( 1991): open url=http://127.0.0.1:8765/f3_m4a_complete.m4a Range=bytes=605007-1653582
+11-09 23:58:40.318 D/TrafficStats( 1991): tagSocket(145) with statsTag=0xffffffff, statsUid=-1
+11-09 23:58:40.322 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=440}
+11-09 23:58:40.322 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=1204}
+11-09 23:58:40.334 D/A11yRuleEngine( 8243): startQueryJob end 34 ms
+--------- beginning of system
+11-09 23:58:40.368 W/DevicePolicyManager( 2525): Unknown user type: UserInfo{999:XSpace:801010}
+11-09 23:58:40.368 W/DevicePolicyManager( 2525): Unknown user type: UserInfo{999:XSpace:801010}
+11-09 23:58:40.370 I/NotificationController( 5752): onNotificationPosted: mSmartTravelNotificationMap 0
+11-09 23:58:40.371 D/NotificationFilterController( 4807): filter group summary suppressed key=0|com.hexin.plat.android|2147483647|ranker_group|10312|ranker_group
+11-09 23:58:40.371 D/MiBarrage( 7884): The sbn packageName is :com.example.cloudmusic
+11-09 23:58:40.371 D/MiBarrage( 7884): No barrage: not in game scene or in video scene
+11-09 23:58:40.376 D/NotificationFilterController( 4807): filter group summary suppressed key=0|com.hexin.plat.android|2147483647|ranker_group|10312|ranker_group
+11-09 23:58:40.379 I/MediaCarouselController( 4807): media_data_arrive: addOrUpdatePlayer
+11-09 23:58:40.379 I/MiuiMediaControlPanel( 4807): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 播放服务运行中
+11-09 23:58:40.386 D/A11yRuleEngine( 8243): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-09 23:58:40.398 D/NotificationFilterController( 4807): filter group summary suppressed key=0|com.hexin.plat.android|2147483647|ranker_group|10312|ranker_group
+11-09 23:58:40.404 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 23:58:40.406 D/A11yRuleEngine( 8243): startQueryJob end 20 ms
+11-09 23:58:40.412 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:40.428 D/A11yRuleEngine( 8243): startQueryJob end 16 ms
+11-09 23:58:40.457 I/MiuiNetworkPolicy( 2525): bandwidth: 54 KB/s, Max bandwidth: 687 KB/s
+11-09 23:58:40.463 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:40.484 D/A11yRuleEngine( 8243): startQueryJob end 21 ms
+11-09 23:58:40.492 E/sensors-hal( 1240): handle_sns_std_sensor_event:57, ambient_light_event: wrong event
+11-09 23:58:40.513 E/sensors-hal( 1240): handle_sns_std_sensor_event:57, ambient_light_event: wrong event
+11-09 23:58:40.539 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:40.539 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:40.599 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:40.616 D/A11yRuleEngine( 8243): startQueryJob end 17 ms
+11-09 23:58:40.634 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:40.664 D/A11yRuleEngine( 8243): startQueryJob end 30 ms
+11-09 23:58:40.673 I/WakeupConsumer( 8797): event=FRONT_APP_EXIT subject=FRONT_APP
+11-09 23:58:40.674 V/services( 8797): [XMS][observer] isInLowMemStatus(): result=false total=11719004160 avail=3337961472 threshold=226492416 isLow=false rateStd=0
+11-09 23:58:40.674 I/WakeupConsumer( 8797): event=FRONT_APP_EXIT matched 0 strategy(ies)
+11-09 23:58:40.674 I/ContextAwareThread( 8797): [j1.c] cost=1343μs
+11-09 23:58:40.674 I/WakeupConsumer( 8797): event=FRONT_APP_ENTER subject=FRONT_APP
+11-09 23:58:40.675 V/services( 8797): [XMS][observer] isInLowMemStatus(): result=false total=11719004160 avail=3337961472 threshold=226492416 isLow=false rateStd=0
+11-09 23:58:40.675 I/WakeupConsumer( 8797): event=FRONT_APP_ENTER matched 1 strategy(ies)
+11-09 23:58:40.675 I/XMSF-GlobalEnableHandler( 8797): contextAwareWakeupEnabled=true, strategyId=69 -> PASS
+11-09 23:58:40.675 I/XMSF-EvaluatorHandler( 8797): BLOCK notInstalled, strategyId=69, pkg=com.xmpush.mipushdemo
+11-09 23:58:40.676 I/WakeupConsumer( 8797): event=FRONT_APP_ENTER strategy=69(com.xmpush.mipushdemo) -> BLOCK
+11-09 23:58:40.676 I/ContextAwareThread( 8797): [androidx.room.y] cost=1832μs
+11-09 23:58:40.707 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:40.719 D/AHAL: AudioStream( 1213): astream_out_standby: 615: enter: stream (0xb400007c61e2c000), usecase(0: deep-buffer-playback)
+11-09 23:58:40.719 D/AHAL: AudioStreamCustom( 1213): Standby: 355: usecase_ is 0
+11-09 23:58:40.719 D/android.hardware.audio.service_64( 1213): send_music_to_xlog : devices:0x0
+11-09 23:58:40.719 E/android.hardware.audio.service_64( 1213): get_headset_type the type(0x0) is invaluable
+11-09 23:58:40.719 D/android.hardware.audio.service_64( 1213): send_music_to_xlog, the headset type is 
+11-09 23:58:40.719 E/android.hardware.audio.service_64( 1213): send_music_to_xlog, the headset type is NULL
+11-09 23:58:40.719 D/AHAL: AudioStreamCustom( 1213): Standby: 363: onetrack rbis
+11-09 23:58:40.719 D/AHAL: AudioStream( 1213): Standby: 1961: Enter
+11-09 23:58:40.719 I/PAL: API( 1213): pal_stream_stop: 298: Enter. Stream handle :0xb400007c61e505c0K
+11-09 23:58:40.719 D/PAL: StreamPCM( 1213): stop: 681: Enter. session handle - 0xb400007c61e2f200K mStreamAttr->direction - 1 state 3 (STREAM_STARTED)
+11-09 23:58:40.719 D/PAL: ResourceManager( 1213): isDeviceActive_l: 3330: Enter.
+11-09 23:58:40.720 D/PAL: ResourceManager( 1213): isDeviceActive_l: 3337: Exit. device 3 (PAL_DEVICE_OUT_SPEAKER) is active 1
+11-09 23:58:40.720 D/PAL: ResourceManager( 1213): deregisterDevice: 3188: Enter. dev id: 3
+11-09 23:58:40.720 D/PAL: ResourceManager( 1213): deregisterDevice: 3288: Exit. status: 0
+11-09 23:58:40.720 I/PAL: StreamPCM( 1213): stop: 704: stopping device 3
+11-09 23:58:40.720 D/PAL: SpeakerProtection( 1213): stop: 2236: Inside Speaker Protection stop
+11-09 23:58:40.720 D/PAL: Device( 1213): stop_l: 576: Enter. deviceCount 1 deviceStartStopCount 1 for device id 3 (PAL_DEVICE_OUT_SPEAKER)
+11-09 23:58:40.720 I/PAL: Device( 1213): stop_l: 587: disabling awinic smartpa for device 3
+11-09 23:58:40.720 D/PAL: ResourceManager( 1213): getHwAudioMixer: 3420: ar 0x7c38498ca0K audio_hw_mixer 0xb400007c63b2b000K
+11-09 23:58:40.732 I/BeautyService( 8273): task Running...
+11-09 23:58:40.734 I/BeautyService( 8273): updateForegroundInfo new = ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity}, old Pkg = com.example.cloudmusic, old ClsName = com.example.cloudmusic.MainActivity
+11-09 23:58:40.735 I/BeautyService( 8273): inSplitScreenMode = false, isFrontCameraOpen = false, mCurPkgName = com.example.cloudmusic, mCurClsName = com.example.cloudmusic.MainActivity
+11-09 23:58:40.736 I/BeautyUtils( 8273): splitMode: onfalse
+11-09 23:58:40.736 D/z1      ( 8273): myUserId = 0	currentUserId0
+11-09 23:58:40.737 I/BeautyService( 8273): onDockSwitchChange : 	currentUser = true	 isBound = false, curState = NON_CONVERSATION_MODE, isSceneSupport = false, isAllowSplit = false
+11-09 23:58:40.737 I/BeautyService( 8273): already at target mode!
+11-09 23:58:40.768 W/ConstraintSet( 4807): id unknown center_vertical_guideline
+11-09 23:58:40.768 W/ConstraintSet( 4807): id unknown action_button_guideline
+11-09 23:58:40.769 W/ConstraintSet( 4807): id unknown media_action_barrier
+11-09 23:58:40.769 W/ConstraintSet( 4807): id unknown media_action_barrier_end
+11-09 23:58:40.769 W/ConstraintSet( 4807): id unknown media_action_barrier_top
+11-09 23:58:40.769 W/ConstraintSet( 4807): id unknown remove_text
+11-09 23:58:40.769 W/ConstraintSet( 4807): id unknown settings
+11-09 23:58:40.770 W/ConstraintSet( 4807): id unknown dismiss
+11-09 23:58:40.770 W/ConstraintSet( 4807): id unknown cancel
+11-09 23:58:40.787 D/PAL: SpeakerProtection( 1213): spkrProtProcessingMode: 1354: Flag 0
+11-09 23:58:40.787 D/PAL: SpeakerProtection( 1213): spkrProtSetSpkrStatus: 154: Enter
+11-09 23:58:40.787 I/PAL: SpeakerProtection( 1213): spkrProtSetSpkrStatus: 161: Speaker used last time 62282
+11-09 23:58:40.787 D/PAL: SpeakerProtection( 1213): spkrProtSetSpkrStatus: 164: Exit
+11-09 23:58:40.787 D/PAL: SpeakerProtection( 1213): spkrProtProcessingMode: 2060: Closing VI path
+11-09 23:58:40.788 D/PAL: ResourceManager( 1213): getAudioRoute: 3398: ar 0x7c384982e8K audio_route 0xb400007c63b58790K
+11-09 23:58:40.788 D/AGM: graph( 1280): graph_stop: 909 entry graph_handle 0x47534c
+11-09 23:58:40.788 I/gsl     ( 1280): gsl_send_spf_cmd:156 sending pkt with token 0xf52
+11-09 23:58:40.791 I/gsl     ( 1280): gsl_send_spf_cmd:183 rcvd pkt token : 0xf52
+11-09 23:58:40.791 D/AGM: graph( 1280): graph_stop: 953 exit, ret 0
+11-09 23:58:40.791 D/AGM: graph( 1280): graph_stop: 909 entry graph_handle 0x47534c
+11-09 23:58:40.791 I/gsl     ( 1280): gsl_graph_close_sgids_and_connections:2048 num_sgid= 1
+11-09 23:58:40.791 I/gsl     ( 1280): gsl_graph_close_sgids_and_connections:2049 sg list:
+11-09 23:58:40.792 I/gsl     ( 1280): gsl_graph_close_sgids_and_connections:2051 b00000d5
+11-09 23:58:40.792 I/gsl     ( 1280): gsl_print_sg_conn_info:187 num_sg_conn = 0
+11-09 23:58:40.792 I/gsl     ( 1280): gsl_send_spf_cmd:156 sending pkt with token 0xf53
+11-09 23:58:40.793 I/gsl     ( 1280): gsl_send_spf_cmd:183 rcvd pkt token : 0xf53
+11-09 23:58:40.793 D/AGM: graph( 1280): graph_stop: 953 exit, ret 0
+11-09 23:58:40.794 I/PAL: ResourceManager( 1213): freeFrontEndIds: 5851: stream type 1 (PAL_STREAM_LOW_LATENCY), freeing 121
+11-09 23:58:40.795 D/AGM: session( 1280): session_close: 1255 enter
+11-09 23:58:40.795 D/AGM: graph( 1280): graph_close: 745 entry handle 0x47534c
+11-09 23:58:40.795 D/A11yRuleEngine( 8243): startQueryJob end 88 ms
+11-09 23:58:40.795 D/AGM: graph( 1280): graph_close: 765 exit, ret 0
+11-09 23:58:40.795 D/AGM: session( 1280): session_close: 1304 exit, ret 0
+11-09 23:58:40.796 D/PAL: SessionAlsaPcm( 1213): stop: 1332: Enter
+11-09 23:58:40.796 D/AGM: graph( 1280): graph_stop: 909 entry graph_handle 0x147534c
+11-09 23:58:40.796 I/gsl     ( 1280): gsl_send_spf_cmd:156 sending pkt with token 0xf54
+11-09 23:58:40.800 I/gsl     ( 1280): gsl_send_spf_cmd:183 rcvd pkt token : 0xf54
+11-09 23:58:40.800 D/AGM: graph( 1280): graph_stop: 953 exit, ret 0
+11-09 23:58:40.801 D/PAL: ResourceManager( 1213): getDeviceNameFromID: 1174: pcm id name is PCM117 
+11-09 23:58:40.801 D/PAL: ResourceManager( 1213): getDeviceNameFromID: 1174: pcm id name is PCM117 
+11-09 23:58:40.801 D/PAL: SessionAlsaUtils( 1213): setStreamMetadataType: 1235: - mixer -PCM117 control-
+11-09 23:58:40.801 E/PLUGIN: mixer( 1213): amp_pcm_mtd_control_put: 1089 pcm id 117, idx 8, value 19
+11-09 23:58:40.801 D/PAL: SessionAlsaUtils( 1213): getModuleInstanceId: 1064: - mixer -PCM117 getTaggedInfo-
+11-09 23:58:40.801 D/PAL: SessionAlsaUtils( 1213): getModuleInstanceId: 1086: num of tags associated with stream 117 is 21
+11-09 23:58:40.801 D/PAL: SessionAlsaUtils( 1213): getModuleInstanceId: 1092: tag id[0] = 0xc0000001, num_modules = 0x1
+11-09 23:58:40.802 D/PAL: SessionAlsaUtils( 1213): getModuleInstanceId: 1092: tag id[1] = 0xc0000002, num_modules = 0x1
+11-09 23:58:40.802 D/PAL: SessionAlsaUtils( 1213): getModuleInstanceId: 1092: tag id[2] = 0xc0000003, num_modules = 0x2
+11-09 23:58:40.802 D/PAL: SessionAlsaUtils( 1213): getModuleInstanceId: 1092: tag id[3] = 0xc0000004, num_modules = 0x1
+11-09 23:58:40.802 D/PAL: SessionAlsaUtils( 1213): getModuleInstanceId: 1092: tag id[4] = 0xc0000006, num_modules = 0x1
+11-09 23:58:40.802 D/PAL: SessionAlsaUtils( 1213): getModuleInstanceId: 1100: MIID is 0x4019
+11-09 23:58:40.802 D/PAL: ResourceManager( 1213): getDeviceNameFromID: 1174: pcm id name is PCM117 
+11-09 23:58:40.802 D/PAL: SessionAlsaUtils( 1213): registerMixerEvent: 1289: - mixer -PCM117 event-
+11-09 23:58:40.802 I/gsl     ( 1280): gsl_send_spf_cmd:156 sending pkt with token 0xf55
+11-09 23:58:40.803 I/gsl     ( 1280): gsl_send_spf_cmd:183 rcvd pkt token : 0xf55
+11-09 23:58:40.803 D/PAL: Stream( 1213): getStreamType: 400: streamType - 2 (PAL_STREAM_DEEP_BUFFER)
+11-09 23:58:40.803 I/PAL: ResourceManager( 1213): voteSleepMonitor: 1419: Enter for stream type 2
+11-09 23:58:40.803 I/PAL: ResourceManager( 1213): voteSleepMonitor: 1471: Unvoting done for nlpi use case, lpi votes 0, nlpi votes : 0
+11-09 23:58:40.803 D/PAL: SessionAlsaPcm( 1213): stop: 1448: Exit status: 0
+11-09 23:58:40.804 D/PAL: StreamPCM( 1213): stop: 805: Exit. status 0, state 6 (STREAM_STOPPED)
+11-09 23:58:40.804 I/PAL: API( 1213): pal_stream_stop: 308: Exit. status 0
+11-09 23:58:40.804 I/PAL: API( 1213): pal_stream_close: 233: Enter. Stream handle :0xb400007c61e505c0K
+11-09 23:58:40.804 D/PAL: StreamPCM( 1213): close: 297: Enter. session handle - 0xb400007c61e2f200K device count - 1 state 6
+11-09 23:58:40.804 D/PAL: SessionAlsaPcm( 1213): close: 1464: Enter
+11-09 23:58:40.804 D/PAL: Stream( 1213): getAssociatedDevices: 492: no. of devices 1
+11-09 23:58:40.804 D/PAL: SessionAlsaPcm( 1213): close: 1524: backendname TDM-LPAIF-RX-TERTIARY-VIRT-0
+11-09 23:58:40.804 D/PAL: SessionAlsaPcm( 1213): close: 1529: Rx dev not active
+11-09 23:58:40.805 D/PAL: ResourceManager( 1213): getVirtualAudioMixer: 3409: ar 0x7c384983e8K audio_virt_mixer 0xb400007c63b2b1c0K
+11-09 23:58:40.805 D/PAL: SessionAlsaUtils( 1213): getFeMixerControl: 309: mixer control PCM117 control
+11-09 23:58:40.805 D/PAL: SessionAlsaUtils( 1213): getFeMixerControl: 309: mixer control PCM117 metadata
+11-09 23:58:40.805 D/PAL: SessionAlsaUtils( 1213): getFeMixerControl: 309: mixer control PCM117 connect
+11-09 23:58:40.805 D/PAL: SessionAlsaUtils( 1213): getFeMixerControl: 309: mixer control PCM117 disconnect
+11-09 23:58:40.805 D/PAL: SessionAlsaUtils( 1213): getBeMixerControl: 319: mixer control TDM-LPAIF-RX-TERTIARY-VIRT-0 metadata
+11-09 23:58:40.806 D/AGM: graph( 1280): graph_stop: 909 entry graph_handle 0x147534c
+11-09 23:58:40.806 I/gsl     ( 1280): gsl_graph_close_sgids_and_connections:2048 num_sgid= 3
+11-09 23:58:40.806 I/gsl     ( 1280): gsl_graph_close_sgids_and_connections:2049 sg list:
+11-09 23:58:40.806 I/gsl     ( 1280): gsl_graph_close_sgids_and_connections:2051 b0000002
+11-09 23:58:40.806 I/gsl     ( 1280): gsl_graph_close_sgids_and_connections:2051 b0000008
+11-09 23:58:40.806 I/gsl     ( 1280): gsl_graph_close_sgids_and_connections:2051 b000001c
+11-09 23:58:40.807 I/gsl     ( 1280): gsl_print_sg_conn_info:187 num_sg_conn = 3
+11-09 23:58:40.807 I/gsl     ( 1280): gsl_print_sg_conn_info:189 sg b0000008 has 1 children:
+11-09 23:58:40.807 I/gsl     ( 1280): gsl_print_sg_conn_info:192 b0000002, 
+11-09 23:58:40.807 I/gsl     ( 1280): gsl_print_sg_conn_info:189 sg b000001c has 1 children:
+11-09 23:58:40.807 I/gsl     ( 1280): gsl_print_sg_conn_info:192 b0000008, 
+11-09 23:58:40.807 I/gsl     ( 1280): gsl_print_sg_conn_info:189 sg b0000001 has 1 children:
+11-09 23:58:40.807 I/gsl     ( 1280): gsl_print_sg_conn_info:192 b000001c, 
+11-09 23:58:40.808 I/gsl     ( 1280): gsl_send_spf_cmd:156 sending pkt with token 0xf56
+11-09 23:58:40.812 I/gsl     ( 1280): gsl_send_spf_cmd:183 rcvd pkt token : 0xf56
+11-09 23:58:40.812 D/AGM: graph( 1280): graph_stop: 953 exit, ret 0
+11-09 23:58:40.812 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:58:40.813 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:58:40.813 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:58:40.814 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:58:40.814 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:58:40.814 W/AOSP-MdnsDiscoveryManag( 4374): Error while decoding multicast packet (4383): 1 [CONTEXT service_id=168 ]
+11-09 23:58:40.814 W/AOSP-MdnsDiscoveryManag( 4374): Error while decoding multicast packet (4384): 1 [CONTEXT service_id=168 ]
+11-09 23:58:40.814 D/PAL: SessionAlsaUtils( 1213): close: 622: backend TDM-LPAIF-RX-TERTIARY-VIRT-0 and freedevicemetadata 1
+11-09 23:58:40.815 E/PLUGIN: mixer( 1213): amp_pcm_mtd_control_put: 1089 pcm id 117, idx 8, value 19
+11-09 23:58:40.815 E/PLUGIN: mixer( 1213): amp_pcm_mtd_control_put: 1089 pcm id 117, idx 8, value 0
+11-09 23:58:40.815 E/PLUGIN: mixer( 1213): amp_pcm_mtd_control_put: 1089 pcm id 117, idx 8, value 0
+11-09 23:58:40.816 D/AGM: session( 1280): session_close: 1255 enter
+11-09 23:58:40.816 D/AGM: graph( 1280): graph_close: 745 entry handle 0x147534c
+11-09 23:58:40.816 I/gsl     ( 1280): gsl_graph_close_sgids_and_connections:2048 num_sgid= 1
+11-09 23:58:40.816 I/gsl     ( 1280): gsl_graph_close_sgids_and_connections:2049 sg list:
+11-09 23:58:40.816 I/gsl     ( 1280): gsl_graph_close_sgids_and_connections:2051 b0000001
+11-09 23:58:40.816 I/gsl     ( 1280): gsl_print_sg_conn_info:187 num_sg_conn = 0
+11-09 23:58:40.816 I/gsl     ( 1280): gsl_send_spf_cmd:156 sending pkt with token 0xf57
+11-09 23:58:40.818 I/gsl     ( 1280): gsl_send_spf_cmd:183 rcvd pkt token : 0xf57
+11-09 23:58:40.819 D/AGM: graph( 1280): graph_close: 765 exit, ret 0
+11-09 23:58:40.819 D/AGM: session( 1280): session_close: 1304 exit, ret 0
+11-09 23:58:40.820 D/PAL: ResourceManager( 1213): registerMixerEventCallback: 3983: callback found for pcm id 117, remove
+11-09 23:58:40.820 I/PAL: ResourceManager( 1213): freeFrontEndIds: 5851: stream type 2 (PAL_STREAM_DEEP_BUFFER), freeing 117
+11-09 23:58:40.820 D/PAL: SessionAlsaPcm( 1213): close: 1651: Exit status: 0
+11-09 23:58:40.820 I/PAL: Device( 1213): close: 472: Enter. deviceCount 1 for device id 3 (PAL_DEVICE_OUT_SPEAKER)
+11-09 23:58:40.820 D/PAL: Device( 1213): close: 477: Disabling device 3 with snd dev speaker
+11-09 23:58:40.821 I/PAL: Device( 1213): close: 492: Exit. deviceCount 0 for device id 3 (PAL_DEVICE_OUT_SPEAKER), exit status 0
+11-09 23:58:40.821 D/PAL: StreamPCM( 1213): close: 325: Exit. closed the stream successfully 0 status 0
+11-09 23:58:40.821 D/PAL: API( 1213): notify_concurrent_stream: 71: Notify concurrent stream type 2, direction 1, active 0
+11-09 23:58:40.821 D/PAL: ResourceManager( 1213): HandleConcurrencyForSoundTriggerStreams: 4426: Enter, stream type 2 (PAL_STREAM_DEEP_BUFFER), direction 1, active 0
+11-09 23:58:40.821 I/PAL: ResourceManager( 1213): GetConcurrencyInfo: 4281: stream type 2 (PAL_STREAM_DEEP_BUFFER) Tx conc 0, Rx conc 1, concurrency allowed
+11-09 23:58:40.821 I/PAL: ResourceManager( 1213): GetConcurrencyInfo: 4281: stream type 2 (PAL_STREAM_DEEP_BUFFER) Tx conc 0, Rx conc 1, concurrency allowed
+11-09 23:58:40.821 I/PAL: ResourceManager( 1213): GetConcurrencyInfo: 4281: stream type 2 (PAL_STREAM_DEEP_BUFFER) Tx conc 0, Rx conc 1, concurrency allowed
+11-09 23:58:40.821 D/PAL: ResourceManager( 1213): HandleDetectionStreamAction: 4154: Enter
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): isStreamActive: 2861: Enter.
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): isStreamActive: 2868: Exit, ret 1
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): HandleDetectionStreamAction: 4212: Exit, status 0
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): HandleDetectionStreamAction: 4154: Enter
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): isStreamActive: 2861: Enter.
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): isStreamActive: 2868: Exit, ret 1
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): HandleDetectionStreamAction: 4212: Exit, status 0
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): HandleDetectionStreamAction: 4154: Enter
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): isStreamActive: 2861: Enter.
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): isStreamActive: 2868: Exit, ret 1
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): HandleDetectionStreamAction: 4212: Exit, status 0
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): handleConcurrentStreamSwitch: 4345: No ST session active, reset capture profile
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): handleConcurrentStreamSwitch: 4356: stop/unload stream type 17 (PAL_STREAM_VOICE_UI)
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): HandleDetectionStreamAction: 4154: Enter
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): isStreamActive: 2861: Enter.
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): isStreamActive: 2868: Exit, ret 1
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): HandleDetectionStreamAction: 4212: Exit, status 0
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): handleConcurrentStreamSwitch: 4356: stop/unload stream type 23 (PAL_STREAM_ACD)
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): HandleDetectionStreamAction: 4154: Enter
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): isStreamActive: 2861: Enter.
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): isStreamActive: 2868: Exit, ret 1
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): HandleDetectionStreamAction: 4212: Exit, status 0
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): handleConcurrentStreamSwitch: 4356: stop/unload stream type 25 (PAL_STREAM_SENSOR_PCM_DATA)
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): HandleDetectionStreamAction: 4154: Enter
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): isStreamActive: 2861: Enter.
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): isStreamActive: 2868: Exit, ret 1
+11-09 23:58:40.822 D/PAL: ResourceManager( 1213): HandleDetectionStreamAction: 4212: Exit, status 0
+11-09 23:58:40.823 D/PAL: ResourceManager( 1213): handleConcurrentStreamSwitch: 4364: load/start stream type 17 (PAL_STREAM_VOICE_UI)
+11-09 23:58:40.823 D/PAL: ResourceManager( 1213): HandleDetectionStreamAction: 4154: Enter
+11-09 23:58:40.823 D/PAL: ResourceManager( 1213): isStreamActive: 2861: Enter.
+11-09 23:58:40.823 D/PAL: ResourceManager( 1213): isStreamActive: 2868: Exit, ret 1
+11-09 23:58:40.823 D/PAL: ResourceManager( 1213): HandleDetectionStreamAction: 4212: Exit, status 0
+11-09 23:58:40.823 D/PAL: ResourceManager( 1213): handleConcurrentStreamSwitch: 4364: load/start stream type 23 (PAL_STREAM_ACD)
+11-09 23:58:40.823 D/PAL: ResourceManager( 1213): HandleDetectionStreamAction: 4154: Enter
+11-09 23:58:40.824 D/PAL: ResourceManager( 1213): isStreamActive: 2861: Enter.
+11-09 23:58:40.824 D/PAL: ResourceManager( 1213): isStreamActive: 2868: Exit, ret 1
+11-09 23:58:40.824 D/PAL: ResourceManager( 1213): HandleDetectionStreamAction: 4212: Exit, status 0
+11-09 23:58:40.824 D/PAL: ResourceManager( 1213): handleConcurrentStreamSwitch: 4364: load/start stream type 25 (PAL_STREAM_SENSOR_PCM_DATA)
+11-09 23:58:40.824 D/PAL: ResourceManager( 1213): HandleDetectionStreamAction: 4154: Enter
+11-09 23:58:40.824 D/PAL: ResourceManager( 1213): isStreamActive: 2861: Enter.
+11-09 23:58:40.824 D/PAL: ResourceManager( 1213): isStreamActive: 2868: Exit, ret 1
+11-09 23:58:40.824 D/PAL: ResourceManager( 1213): HandleDetectionStreamAction: 4212: Exit, status 0
+11-09 23:58:40.825 D/PAL: ResourceManager( 1213): HandleConcurrencyForSoundTriggerStreams: 4482: Exit
+11-09 23:58:40.825 D/PAL: ResourceManager( 1213): deregisterStream: 2708: Enter. stream 0xb400007c61e505c0K
+11-09 23:58:40.825 D/PAL: Stream( 1213): getStreamType: 400: streamType - 2 (PAL_STREAM_DEEP_BUFFER)
+11-09 23:58:40.825 I/PAL: ResourceManager( 1213): deregisterStream: 2719: stream type 2 (PAL_STREAM_DEEP_BUFFER)
+11-09 23:58:40.825 D/PAL: ResourceManager( 1213): deregisterStream: 2852: Exit. ret 0
+11-09 23:58:40.825 D/PAL: ResourceManager( 1213): restoreDevice: 10562: Enter
+11-09 23:58:40.825 D/PAL: ResourceManager( 1213): checkAndUpdateGroupDevConfig: 5139: virtual port enabled for device 3
+11-09 23:58:40.825 I/PAL: ResourceManager( 1213): getActiveStream_l: 4896: no active streams found for device 20 ret -2
+11-09 23:58:40.825 E/PAL: ResourceManager( 1213): checkAndUpdateGroupDevConfig: 5304: group config for -1 is missing
+11-09 23:58:40.825 E/PAL: ResourceManager( 1213): restoreDevice: 10595: no valid group device config found
+11-09 23:58:40.825 I/PAL: ResourceManager( 1213): getActiveStream_l: 4896: no active streams found for device 2 ret -2
+11-09 23:58:40.826 D/PAL: ResourceManager( 1213): getSharedBEActiveStreamDevs: 6010: got dev 2 (PAL_DEVICE_OUT_HANDSET) active streams on dev is 0
+11-09 23:58:40.826 I/PAL: ResourceManager( 1213): getActiveStream_l: 4896: no active streams found for device 3 ret -2
+11-09 23:58:40.826 D/PAL: ResourceManager( 1213): getSharedBEActiveStreamDevs: 6010: got dev 3 (PAL_DEVICE_OUT_SPEAKER) active streams on dev is 0
+11-09 23:58:40.826 D/PAL: ResourceManager( 1213): restoreDevice: 10737: no active device, switch un-needed
+11-09 23:58:40.826 D/PAL: ResourceManager( 1213): restoreDevice: 10745: Exit
+11-09 23:58:40.826 I/PAL: API( 1213): pal_stream_close: 253: Exit. status 0
+11-09 23:58:40.826 D/AHAL: AudioStream( 1213): Standby: 2031: Exit ret: 0
+11-09 23:58:40.826 D/AHAL: AudioStream( 1213): astream_out_standby: 623: Exit ret: 0
+11-09 23:58:40.917 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:40.967 D/A11yRuleEngine( 8243): startQueryJob end 50 ms
+11-09 23:58:40.977 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   4.2525,   4.2740,  15.0000>,time=62282788576657, sensor=5, temperature(K)=   4.2740
+11-09 23:58:40.977 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 3, lux = 4, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:58:40.989 I/SmartPower( 2525): com.miui.home/10128 state=idle adj=100 proc size=1 move to hibernation broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }
+11-09 23:58:41.019 D/GreezeManager( 2525): FZ uid = 10298 reason =from system success !
+11-09 23:58:41.020 D/GreezeManager( 2525): call socket destroy!
+11-09 23:58:41.027 D/MilletBrightHandler(10020): frozen uids:[10298] reason = from system
+11-09 23:58:41.028 D/MilletBrightHandler(10020): frozen fail result:[10240, 10327] freeze fail:[10240]
+11-09 23:58:41.040 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:41.040 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:41.052 I/SmartPower( 2525): com.miui.systemAdSolution/10151 state=idle adj=100 proc size=1 move to hibernation broadcast start Intent { act=android.intent.action.PACKAGE_REMOVED dat=package: flg=0x4000010 (has extras) }
+11-09 23:58:41.057 I/SmartPower( 2525): com.miui.personalassistant/10121 state=idle adj=100 proc size=1 move to hibernation broadcast start Intent { act=android.intent.action.PACKAGE_REMOVED dat=package: flg=0x4000010 (has extras) }
+11-09 23:58:41.057 I/SmartPower( 2525): com.miui.voiceassist/10172 state=idle adj=100 proc size=3 move to hibernation broadcast start Intent { act=android.intent.action.PACKAGE_REMOVED dat=package: flg=0x4000010 (has extras) }
+11-09 23:58:41.057 I/SmartPower( 2525): com.xiaomi.market/10149 state=idle adj=905 proc size=3 move to hibernation broadcast start Intent { act=android.intent.action.PACKAGE_REMOVED dat=package: flg=0x4000010 (has extras) }
+11-09 23:58:41.065 I/SmartPower( 2525): com.android.providers.blockednumber/10067 state=idle adj=800 proc size=2 move to hibernation broadcast start Intent { act=android.intent.action.PACKAGE_REMOVED dat=package: flg=0x4000010 (has extras) }
+11-09 23:58:41.065 I/SmartPower( 2525): com.android.vending/10109 state=idle adj=250 proc size=4 move to hibernation broadcast start Intent { act=android.intent.action.PACKAGE_REMOVED dat=package: flg=0x4000010 (has extras) }
+11-09 23:58:41.088 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   3.5100,   3.5340,  14.0000>,time=62282898583845, sensor=5, temperature(K)=   3.5340
+11-09 23:58:41.089 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 4, lux = 3, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:58:41.095 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:41.148 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:58:41.149 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:57
+11-09 23:58:41.166 D/A11yRuleEngine( 8243): startQueryJob end 71 ms
+11-09 23:58:41.269 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:41.326 D/A11yRuleEngine( 8243): startQueryJob end 57 ms
+11-09 23:58:41.397 W/ConstraintSet( 4807): id unknown center_vertical_guideline
+11-09 23:58:41.398 W/ConstraintSet( 4807): id unknown action_button_guideline
+11-09 23:58:41.398 W/ConstraintSet( 4807): id unknown media_action_barrier
+11-09 23:58:41.398 W/ConstraintSet( 4807): id unknown media_action_barrier_end
+11-09 23:58:41.398 W/ConstraintSet( 4807): id unknown media_action_barrier_top
+11-09 23:58:41.398 W/ConstraintSet( 4807): id unknown remove_text
+11-09 23:58:41.398 W/ConstraintSet( 4807): id unknown settings
+11-09 23:58:41.398 W/ConstraintSet( 4807): id unknown dismiss
+11-09 23:58:41.398 W/ConstraintSet( 4807): id unknown cancel
+11-09 23:58:41.467 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:41.477 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 23:58:41.511 D/A11yRuleEngine( 8243): startQueryJob end 44 ms
+11-09 23:58:41.518 I/AudioManager(30682): In isBluetoothScoOn() calling application: com.ss.android.ugc.aweme.lite
+11-09 23:58:41.519 V/AS.AudioDeviceBroker( 2525): requestedCommunicationDevice, device: nullmAudioModeOwner: AudioModeInfo: mMode=MODE_NORMAL, mPid=0, mUid=0
+11-09 23:58:41.541 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:41.541 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:41.616 I/SmartPower.com.android.browser/10118(23072)( 2525): background->idle(3012ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=901.
+11-09 23:58:41.617 I/SmartPower( 2525): com.android.browser/10118 state=inactive adj=901 proc size=1 move to idle broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:41.627 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:41.679 D/A11yRuleEngine( 8243): startQueryJob end 51 ms
+11-09 23:58:41.682 E/sensors-hal( 1240): handle_sns_std_sensor_event:57, ambient_light_event: wrong event
+11-09 23:58:41.691 I/sscrpcd (  967): vendor/qcom/proprietary/adsprpc/src/apps_std_imp.c:860: Successfully opened file /mnt/vendor/persist/sensors/registry/registry/../temp.json
+11-09 23:58:41.734 D/AppPredictService( 8273): start doPredict com.example.cloudmusic
+11-09 23:58:41.734 I/AppPredictManager( 8273): predict: recentApps size = 5
+11-09 23:58:41.741 I/AppPredictPrivacyLaunchManager( 8273): getLauncherHomeAppList size: 120
+11-09 23:58:41.741 I/AppPredictResultHelper( 8273): updatePreferenceStore: size = 32
+11-09 23:58:41.781 I/CM-DataReq( 1991): open result total=16573387 contentLength=16573387
+11-09 23:58:41.782 I/CM-DataReq( 1991): onBegin id=1 total=16573387
+11-09 23:58:41.782 I/CM-DataReq( 1991): onData id=1 offset=368640 count=8192
+11-09 23:58:41.782 I/CM-DataReq( 1991): onData id=1 offset=376832 count=8192
+11-09 23:58:41.782 I/CM-DataReq( 1991): onData id=1 offset=385024 count=8192
+11-09 23:58:41.783 I/CM-DataReq( 1991): onData id=1 offset=393216 count=8192
+11-09 23:58:41.783 I/CM-DataReq( 1991): onData id=1 offset=401408 count=8192
+11-09 23:58:41.783 I/CM-DataReq( 1991): onData id=1 offset=409600 count=8192
+11-09 23:58:41.783 I/CM-DataReq( 1991): onData id=1 offset=417792 count=8192
+11-09 23:58:41.783 I/CM-DataReq( 1991): onData id=1 offset=425984 count=8192
+11-09 23:58:41.783 I/CM-DataReq( 1991): onData id=1 offset=434176 count=8192
+11-09 23:58:41.784 I/CM-DataReq( 1991): onData id=1 offset=442368 count=8192
+11-09 23:58:41.784 I/CM-DataReq( 1991): onData id=1 offset=450560 count=8192
+11-09 23:58:41.784 I/CM-DataReq( 1991): onData id=1 offset=458752 count=8192
+11-09 23:58:41.784 I/CM-DataReq( 1991): onData id=1 offset=466944 count=8192
+11-09 23:58:41.784 I/CM-DataReq( 1991): onData id=1 offset=475136 count=8192
+11-09 23:58:41.784 I/CM-DataReq( 1991): onData id=1 offset=483328 count=8192
+11-09 23:58:41.785 I/CM-DataReq( 1991): onData id=1 offset=491520 count=8192
+11-09 23:58:41.785 I/CM-DataReq( 1991): onData id=1 offset=499712 count=8192
+11-09 23:58:41.785 I/CM-DataReq( 1991): onData id=1 offset=507904 count=8192
+11-09 23:58:41.785 I/CM-DataReq( 1991): onData id=1 offset=516096 count=8192
+11-09 23:58:41.785 I/CM-DataReq( 1991): onData id=1 offset=524288 count=8192
+11-09 23:58:41.785 I/CM-DataReq( 1991): onData id=1 offset=532480 count=8192
+11-09 23:58:41.785 I/CM-DataReq( 1991): onData id=1 offset=540672 count=8192
+11-09 23:58:41.786 I/CM-DataReq( 1991): onData id=1 offset=548864 count=8192
+11-09 23:58:41.786 I/CM-DataReq( 1991): onData id=1 offset=557056 count=8192
+11-09 23:58:41.786 I/CM-DataReq( 1991): onData id=1 offset=565248 count=8192
+11-09 23:58:41.786 I/CM-DataReq( 1991): onData id=1 offset=573440 count=8192
+11-09 23:58:41.786 I/CM-DataReq( 1991): onData id=1 offset=581632 count=8192
+11-09 23:58:41.786 I/CM-DataReq( 1991): onData id=1 offset=589824 count=8192
+11-09 23:58:41.786 I/CM-DataReq( 1991): onData id=1 offset=598016 count=8192
+11-09 23:58:41.787 I/CM-DataReq( 1991): onData id=1 offset=606208 count=8192
+11-09 23:58:41.787 I/CM-DataReq( 1991): onData id=1 offset=614400 count=8192
+11-09 23:58:41.787 I/CM-DataReq( 1991): onData id=1 offset=622592 count=8192
+11-09 23:58:41.787 I/CM-DataReq( 1991): onData id=1 offset=630784 count=8192
+11-09 23:58:41.787 I/CM-DataReq( 1991): onData id=1 offset=638976 count=8192
+11-09 23:58:41.787 I/CM-DataReq( 1991): onData id=1 offset=647168 count=8192
+11-09 23:58:41.787 I/CM-DataReq( 1991): onData id=1 offset=655360 count=8192
+11-09 23:58:41.788 I/CM-DataReq( 1991): onData id=1 offset=663552 count=8192
+11-09 23:58:41.788 I/CM-DataReq( 1991): onData id=1 offset=671744 count=8192
+11-09 23:58:41.788 I/CM-DataReq( 1991): onData id=1 offset=679936 count=8192
+11-09 23:58:41.788 I/CM-DataReq( 1991): onData id=1 offset=688128 count=8192
+11-09 23:58:41.788 I/CM-DataReq( 1991): onData id=1 offset=696320 count=8192
+11-09 23:58:41.788 I/CM-DataReq( 1991): onData id=1 offset=704512 count=8192
+11-09 23:58:41.788 I/CM-DataReq( 1991): onData id=1 offset=712704 count=8192
+11-09 23:58:41.789 I/CM-DataReq( 1991): onData id=1 offset=720896 count=8192
+11-09 23:58:41.789 I/CM-DataReq( 1991): onData id=1 offset=729088 count=8192
+11-09 23:58:41.789 I/CM-DataReq( 1991): onData id=1 offset=737280 count=8192
+11-09 23:58:41.789 I/CM-DataReq( 1991): onData id=1 offset=745472 count=8192
+11-09 23:58:41.789 I/CM-DataReq( 1991): onData id=1 offset=753664 count=8192
+11-09 23:58:41.789 I/CM-DataReq( 1991): onData id=1 offset=761856 count=8192
+11-09 23:58:41.789 I/CM-DataReq( 1991): onData id=1 offset=770048 count=8192
+11-09 23:58:41.790 I/CM-DataReq( 1991): onData id=1 offset=778240 count=8192
+11-09 23:58:41.790 I/CM-DataReq( 1991): onData id=1 offset=786432 count=8192
+11-09 23:58:41.790 I/CM-DataReq( 1991): onData id=1 offset=794624 count=8192
+11-09 23:58:41.790 I/CM-DataReq( 1991): onData id=1 offset=802816 count=8192
+11-09 23:58:41.790 I/CM-DataReq( 1991): onData id=1 offset=811008 count=8192
+11-09 23:58:41.790 I/CM-DataReq( 1991): onData id=1 offset=819200 count=8192
+11-09 23:58:41.790 I/CM-DataReq( 1991): onData id=1 offset=827392 count=8192
+11-09 23:58:41.790 I/CM-DataReq( 1991): onData id=1 offset=835584 count=8192
+11-09 23:58:41.791 I/CM-DataReq( 1991): onData id=1 offset=843776 count=8192
+11-09 23:58:41.791 I/CM-DataReq( 1991): onData id=1 offset=851968 count=8192
+11-09 23:58:41.791 I/CM-DataReq( 1991): onData id=1 offset=860160 count=8192
+11-09 23:58:41.791 I/CM-DataReq( 1991): onData id=1 offset=868352 count=8192
+11-09 23:58:41.791 I/CM-DataReq( 1991): onData id=1 offset=876544 count=8192
+11-09 23:58:41.791 I/CM-DataReq( 1991): onData id=1 offset=884736 count=8192
+11-09 23:58:41.791 I/CM-DataReq( 1991): onData id=1 offset=892928 count=8192
+11-09 23:58:41.791 I/CM-DataReq( 1991): onData id=1 offset=901120 count=8192
+11-09 23:58:41.791 I/CM-DataReq( 1991): onData id=1 offset=909312 count=8192
+11-09 23:58:41.791 I/CM-DataReq( 1991): onData id=1 offset=917504 count=8192
+11-09 23:58:41.792 I/CM-DataReq( 1991): onData id=1 offset=925696 count=8192
+11-09 23:58:41.792 I/CM-DataReq( 1991): onData id=1 offset=933888 count=8192
+11-09 23:58:41.792 I/CM-DataReq( 1991): onData id=1 offset=942080 count=8192
+11-09 23:58:41.792 I/CM-DataReq( 1991): onData id=1 offset=950272 count=8192
+11-09 23:58:41.792 I/CM-DataReq( 1991): onData id=1 offset=958464 count=8192
+11-09 23:58:41.792 I/CM-DataReq( 1991): onData id=1 offset=966656 count=8192
+11-09 23:58:41.792 I/CM-DataReq( 1991): onData id=1 offset=974848 count=8192
+11-09 23:58:41.792 I/CM-DataReq( 1991): onData id=1 offset=983040 count=8192
+11-09 23:58:41.792 I/CM-DataReq( 1991): onData id=1 offset=991232 count=8192
+11-09 23:58:41.792 I/CM-DataReq( 1991): onData id=1 offset=999424 count=8192
+11-09 23:58:41.792 I/CM-DataReq( 1991): onData id=1 offset=1007616 count=8192
+11-09 23:58:41.792 I/CM-DataReq( 1991): onData id=1 offset=1015808 count=8192
+11-09 23:58:41.792 I/CM-DataReq( 1991): onData id=1 offset=1024000 count=8192
+11-09 23:58:41.792 I/CM-DataReq( 1991): onData id=1 offset=1032192 count=8192
+11-09 23:58:41.792 I/CM-DataReq( 1991): onData id=1 offset=1040384 count=8192
+11-09 23:58:41.811 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:41.815 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:58:41.815 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:58:41.816 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:58:41.816 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:58:41.817 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:58:41.817 W/AOSP-MdnsDiscoveryManag( 4374): Error while decoding multicast packet (4385): 1 [CONTEXT service_id=168 ]
+11-09 23:58:41.817 W/AOSP-MdnsDiscoveryManag( 4374): Error while decoding multicast packet (4386): 1 [CONTEXT service_id=168 ]
+11-09 23:58:41.853 D/A11yRuleEngine( 8243): startQueryJob end 42 ms
+11-09 23:58:41.980 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:42.031 D/A11yRuleEngine( 8243): startQueryJob end 52 ms
+11-09 23:58:42.042 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:42.042 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:42.144 E/TaskPersister( 2525): File error accessing recents directory (directory doesn't exist?).
+11-09 23:58:42.154 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:42.204 D/A11yRuleEngine( 8243): startQueryJob end 51 ms
+11-09 23:58:42.332 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:42.399 D/A11yRuleEngine( 8243): startQueryJob end 67 ms
+11-09 23:58:42.505 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:42.543 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:42.543 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:42.582 D/A11yRuleEngine( 8243): startQueryJob end 77 ms
+11-09 23:58:42.587 D/MemorySizeMonitor(23072): Current memory: 390037KB, ratio: 3%, total: 11444340KB
+11-09 23:58:42.587 W/MemorySizeMonitor(23072): Memory threshold exceeded continuously! duration=8173591ms
+11-09 23:58:42.587 D/MemorySizeMonitor(23072): Skip report due to report interval (5000ms < 60000ms)
+11-09 23:58:42.700 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:42.760 D/A11yRuleEngine( 8243): startQueryJob end 60 ms
+11-09 23:58:42.808 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 23:58:42.883 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:42.957 D/A11yRuleEngine( 8243): startQueryJob end 74 ms
+11-09 23:58:43.045 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:43.045 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:43.061 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:43.127 D/A11yRuleEngine( 8243): startQueryJob end 66 ms
+11-09 23:58:43.150 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:58:43.151 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:57
+11-09 23:58:43.258 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:43.327 D/A11yRuleEngine( 8243): startQueryJob end 68 ms
+11-09 23:58:43.337 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=440}
+11-09 23:58:43.337 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=1204}
+11-09 23:58:43.427 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:43.461 I/MiuiNetworkPolicy( 2525): bandwidth: 577 KB/s, Max bandwidth: 687 KB/s
+11-09 23:58:43.510 D/A11yRuleEngine( 8243): startQueryJob end 83 ms
+11-09 23:58:43.546 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:43.547 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:43.612 D/SchedBoost( 2525): thread tid=30682, priority is set to 0
+11-09 23:58:43.612 D/SchedBoost( 2525): thread tid=27231, priority is set to -4
+11-09 23:58:43.617 I/SmartPower( 2525): com.android.browser/10118 state=idle adj=901 proc size=1 move to hibernation broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:43.627 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:43.690 D/A11yRuleEngine( 8243): startQueryJob end 63 ms
+11-09 23:58:43.722 I/AICall_MemoryTrim$a(19135): Timer-936 trimMemory on background
+11-09 23:58:43.722 I/AICall_m0(19135): main invoke : null|80
+11-09 23:58:43.768 D/GreezeManager( 2525): FZ uid = 10240 reason =tobg success !
+11-09 23:58:43.770 D/GreezeManager( 2525): call socket destroy!
+11-09 23:58:43.778 D/MilletBrightHandler(10020): frozen uids:[10240] reason = tobg
+11-09 23:58:43.778 D/MilletBrightHandler(10020): frozen fail result:[10327] freeze fail:[]
+11-09 23:58:43.811 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:43.880 D/A11yRuleEngine( 8243): startQueryJob end 69 ms
+11-09 23:58:43.991 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:44.048 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:44.048 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:44.061 D/A11yRuleEngine( 8243): startQueryJob end 70 ms
+11-09 23:58:44.180 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:44.194 I/CM-DataReq( 1991): open result total=16573387 contentLength=16573387
+11-09 23:58:44.194 I/CM-DataReq( 1991): onBegin id=2 total=16573387
+11-09 23:58:44.194 I/CM-DataReq( 1991): onData id=2 offset=605007 count=2737
+11-09 23:58:44.194 I/CM-DataReq( 1991): onData id=2 offset=607744 count=8192
+11-09 23:58:44.194 I/CM-DataReq( 1991): onData id=2 offset=615936 count=8192
+11-09 23:58:44.195 I/CM-DataReq( 1991): onData id=2 offset=624128 count=8192
+11-09 23:58:44.195 I/CM-DataReq( 1991): onData id=2 offset=632320 count=8192
+11-09 23:58:44.195 I/CM-DataReq( 1991): onData id=2 offset=640512 count=8192
+11-09 23:58:44.195 I/CM-DataReq( 1991): onData id=2 offset=648704 count=8192
+11-09 23:58:44.195 I/CM-DataReq( 1991): onData id=2 offset=656896 count=8192
+11-09 23:58:44.195 I/CM-DataReq( 1991): onData id=2 offset=665088 count=8192
+11-09 23:58:44.195 I/CM-DataReq( 1991): onData id=2 offset=673280 count=8192
+11-09 23:58:44.195 I/CM-DataReq( 1991): onData id=2 offset=681472 count=8192
+11-09 23:58:44.195 I/CM-DataReq( 1991): onData id=2 offset=689664 count=8192
+11-09 23:58:44.196 I/CM-DataReq( 1991): onData id=2 offset=697856 count=8192
+11-09 23:58:44.196 I/CM-DataReq( 1991): onData id=2 offset=706048 count=8192
+11-09 23:58:44.196 I/CM-DataReq( 1991): onData id=2 offset=714240 count=8192
+11-09 23:58:44.196 I/CM-DataReq( 1991): onData id=2 offset=722432 count=8192
+11-09 23:58:44.196 I/CM-DataReq( 1991): onData id=2 offset=730624 count=8192
+11-09 23:58:44.196 I/CM-DataReq( 1991): onData id=2 offset=738816 count=8192
+11-09 23:58:44.196 I/CM-DataReq( 1991): onData id=2 offset=747008 count=8192
+11-09 23:58:44.196 I/CM-DataReq( 1991): onData id=2 offset=755200 count=8192
+11-09 23:58:44.197 I/CM-DataReq( 1991): onData id=2 offset=763392 count=8192
+11-09 23:58:44.197 I/CM-DataReq( 1991): onData id=2 offset=771584 count=8192
+11-09 23:58:44.197 I/CM-DataReq( 1991): onData id=2 offset=779776 count=8192
+11-09 23:58:44.197 I/CM-DataReq( 1991): onData id=2 offset=787968 count=8192
+11-09 23:58:44.197 I/CM-DataReq( 1991): onData id=2 offset=796160 count=8192
+11-09 23:58:44.197 I/CM-DataReq( 1991): onData id=2 offset=804352 count=8192
+11-09 23:58:44.197 I/CM-DataReq( 1991): onData id=2 offset=812544 count=8192
+11-09 23:58:44.197 I/CM-DataReq( 1991): onData id=2 offset=820736 count=8192
+11-09 23:58:44.197 I/CM-DataReq( 1991): onData id=2 offset=828928 count=8192
+11-09 23:58:44.197 I/CM-DataReq( 1991): onData id=2 offset=837120 count=8192
+11-09 23:58:44.197 I/CM-DataReq( 1991): onData id=2 offset=845312 count=8192
+11-09 23:58:44.197 I/CM-DataReq( 1991): onData id=2 offset=853504 count=8192
+11-09 23:58:44.198 I/CM-DataReq( 1991): onData id=2 offset=861696 count=8192
+11-09 23:58:44.198 I/CM-DataReq( 1991): onData id=2 offset=869888 count=8192
+11-09 23:58:44.198 I/CM-DataReq( 1991): onData id=2 offset=878080 count=8192
+11-09 23:58:44.198 I/CM-DataReq( 1991): onData id=2 offset=886272 count=8192
+11-09 23:58:44.198 I/CM-DataReq( 1991): onData id=2 offset=894464 count=8192
+11-09 23:58:44.198 I/CM-DataReq( 1991): onData id=2 offset=902656 count=8192
+11-09 23:58:44.198 I/CM-DataReq( 1991): onData id=2 offset=910848 count=8192
+11-09 23:58:44.198 I/CM-DataReq( 1991): onData id=2 offset=919040 count=8192
+11-09 23:58:44.198 I/CM-DataReq( 1991): onData id=2 offset=927232 count=8192
+11-09 23:58:44.198 I/CM-DataReq( 1991): onData id=2 offset=935424 count=8192
+11-09 23:58:44.198 I/CM-DataReq( 1991): onData id=2 offset=943616 count=8192
+11-09 23:58:44.198 I/CM-DataReq( 1991): onData id=2 offset=951808 count=8192
+11-09 23:58:44.199 I/CM-DataReq( 1991): onData id=2 offset=960000 count=8192
+11-09 23:58:44.199 I/CM-DataReq( 1991): onData id=2 offset=968192 count=8192
+11-09 23:58:44.199 I/CM-DataReq( 1991): onData id=2 offset=976384 count=8192
+11-09 23:58:44.199 I/CM-DataReq( 1991): onData id=2 offset=984576 count=8192
+11-09 23:58:44.199 I/CM-DataReq( 1991): onData id=2 offset=992768 count=8192
+11-09 23:58:44.199 I/CM-DataReq( 1991): onData id=2 offset=1000960 count=8192
+11-09 23:58:44.199 I/CM-DataReq( 1991): onData id=2 offset=1009152 count=8192
+11-09 23:58:44.199 I/CM-DataReq( 1991): onData id=2 offset=1017344 count=8192
+11-09 23:58:44.199 I/CM-DataReq( 1991): onData id=2 offset=1025536 count=8192
+11-09 23:58:44.199 I/CM-DataReq( 1991): onData id=2 offset=1033728 count=8192
+11-09 23:58:44.199 I/CM-DataReq( 1991): onData id=2 offset=1041920 count=6656
+11-09 23:58:44.243 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 23:58:44.246 D/A11yRuleEngine( 8243): startQueryJob end 66 ms
+11-09 23:58:44.362 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:44.426 D/A11yRuleEngine( 8243): startQueryJob end 64 ms
+11-09 23:58:44.549 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:44.549 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:44.549 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:44.607 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   4.3200,   4.3480,  10.0000>,time=62286418586970, sensor=5, temperature(K)=   4.3480
+11-09 23:58:44.607 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 3, lux = 4, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:58:44.616 D/A11yRuleEngine( 8243): startQueryJob end 67 ms
+11-09 23:58:44.692 D/MyLog   ( 8797): -->log(1): [T2] [KeepAliveBindBridge] -->doUnbindInternal(): targetPkg=com.xiaomi.market
+11-09 23:58:44.696 I/SmartPower.com.xiaomi.market/10149(10335)( 2525): idle->background(5639ms) R(service unbind com.xiaomi.market/.reverse_ad.wakeup.ReverseAdWakeUpService) adj=905.
+11-09 23:58:44.698 I/SmartPower( 2525): com.xiaomi.market/10149 state=hibernation adj=905 proc size=3 move to background service unbind com.xiaomi.market/.reverse_ad.wakeup.ReverseAdWakeUpService
+11-09 23:58:44.698 I/SmartPower( 2525): com.xiaomi.market/10149 state=background adj=905 proc size=3 move to inactive service unbind com.xiaomi.market/.reverse_ad.wakeup.ReverseAdWakeUpService
+11-09 23:58:44.698 I/Market-ReverseAdWakeUpService(10335): onUnbind
+11-09 23:58:44.699 I/Market-ServiceUtils(10335): stop foreground service: ReverseAdWakeUpService
+11-09 23:58:44.701 I/Market-ReverseAdWakeUpService(10335): onDestroy
+11-09 23:58:44.707 I/MiuiNetworkPolicy( 2525): updateUidState uid = 99004, uidState = 10
+11-09 23:58:44.707 I/MiuiNetworkPolicy( 2525): updateUidState uid = 10149, uidState = 10
+11-09 23:58:44.707 I/MiuiNetworkPolicy( 2525): updateUidState uid = 10149, uidState = 19
+11-09 23:58:44.707 I/MiuiNetworkPolicy( 2525): updateUidState uid = 99004, uidState = 19
+11-09 23:58:44.726 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-09 23:58:44.748 D/ProfileInstaller( 1991): Installing profile for com.example.cloudmusic
+11-09 23:58:44.791 D/A11yRuleEngine( 8243): startQueryJob end 64 ms
+11-09 23:58:44.827 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   3.9150,   3.9040,  11.0000>,time=62286638578636, sensor=5, temperature(K)=   3.9040
+11-09 23:58:44.827 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 4, lux = 3, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:58:44.917 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:44.937 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   4.6575,   4.6440,  17.0000>,time=62286748394782, sensor=5, temperature(K)=   4.6440
+11-09 23:58:44.937 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 3, lux = 4, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:58:44.962 D/A11yRuleEngine( 8243): startQueryJob end 45 ms
+11-09 23:58:44.973 D/NetworkMetricsController( 4788): isDataRegistered:true,isLteNrRegistered newRat:20,mIsFeatureEnable:false,isDds:1
+11-09 23:58:45.050 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:45.051 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:45.092 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:45.122 D/A11yRuleEngine( 8243): startQueryJob end 30 ms
+11-09 23:58:45.153 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:58:45.157 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:57
+11-09 23:58:45.263 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:45.293 D/A11yRuleEngine( 8243): startQueryJob end 30 ms
+11-09 23:58:45.331 D/MiOkhttpDns(23072): ==-----==---===dnsTrack is close
+11-09 23:58:45.336 D/TrafficStats(23072): tagSocket(85) with statsTag=0xffffffff, statsUid=-1
+11-09 23:58:45.423 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:45.451 D/A11yRuleEngine( 8243): startQueryJob end 28 ms
+11-09 23:58:45.551 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:45.552 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:45.592 E/sensors-hal( 1240): handle_sns_std_sensor_event:57, ambient_light_event: wrong event
+11-09 23:58:45.594 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:45.614 E/sensors-hal( 1240): handle_sns_std_sensor_event:57, ambient_light_event: wrong event
+11-09 23:58:45.616 I/MiuiNetworkPolicy( 2525): updateUidState uid = 10115, uidState = 5
+11-09 23:58:45.617 I/BtGatt.ScanManager( 4592): msg.what = MSG_IMPORTANCE_CHANGE, msg.arg1 = IMPORTANCE_CHANGE
+11-09 23:58:45.628 D/A11yRuleEngine( 8243): startQueryJob end 34 ms
+11-09 23:58:45.675 I/Client  (23072): intercept = DA8B9B38CF97900520E99BBD9B5D411C17E4457356C352B44FC1D2A2E60CBBA1329AFD9E670F29F4AF4F13AC260EB109EAFA40679F36C88417566F00AFA2B53E
+11-09 23:58:45.752 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:45.763 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 23:58:45.777 D/A11yRuleEngine( 8243): startQueryJob end 25 ms
+11-09 23:58:45.889 D/TrafficStats(19728): tagSocket(79) with statsTag=0xffffffff, statsUid=-1
+11-09 23:58:45.929 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:45.952 D/A11yRuleEngine( 8243): startQueryJob end 23 ms
+11-09 23:58:45.983 I/VA_AliveCore:AssistInteractionService( 7814): onProcessChanged: processName=com.miui.voiceassist;isRunning=false
+11-09 23:58:46.053 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:46.054 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:46.078 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:46.102 D/A11yRuleEngine( 8243): startQueryJob end 24 ms
+11-09 23:58:46.147 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   5.2650,   5.2360,  20.0000>,time=62287958384261, sensor=5, temperature(K)=   5.2360
+11-09 23:58:46.147 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 4, lux = 5, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:58:46.254 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:46.290 D/A11yRuleEngine( 8243): startQueryJob end 35 ms
+11-09 23:58:46.362 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=440}
+11-09 23:58:46.362 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=1205}
+11-09 23:58:46.366 I/CM-DataReq( 1991): onData id=1 offset=1048576 count=8192
+11-09 23:58:46.366 I/CM-DataReq( 1991): onData id=1 offset=1056768 count=8192
+11-09 23:58:46.366 I/CM-DataReq( 1991): onData id=1 offset=1064960 count=8192
+11-09 23:58:46.366 I/CM-DataReq( 1991): onData id=1 offset=1073152 count=8192
+11-09 23:58:46.367 I/CM-DataReq( 1991): onData id=1 offset=1081344 count=8192
+11-09 23:58:46.367 I/CM-DataReq( 1991): onData id=1 offset=1089536 count=8192
+11-09 23:58:46.367 I/CM-DataReq( 1991): onData id=1 offset=1097728 count=8192
+11-09 23:58:46.367 I/CM-DataReq( 1991): onData id=1 offset=1105920 count=8192
+11-09 23:58:46.368 I/CM-DataReq( 1991): onData id=1 offset=1114112 count=8192
+11-09 23:58:46.368 I/CM-DataReq( 1991): onData id=1 offset=1122304 count=8192
+11-09 23:58:46.368 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   6.3450,   6.3460,  26.0000>,time=62288178589939, sensor=5, temperature(K)=   6.3460
+11-09 23:58:46.368 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 5, lux = 6, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:58:46.370 I/CM-DataReq( 1991): onData id=1 offset=1130496 count=8192
+11-09 23:58:46.370 I/CM-DataReq( 1991): onData id=1 offset=1138688 count=8192
+11-09 23:58:46.371 I/CM-DataReq( 1991): onData id=1 offset=1146880 count=8192
+11-09 23:58:46.371 I/CM-DataReq( 1991): onData id=1 offset=1155072 count=8192
+11-09 23:58:46.371 I/CM-DataReq( 1991): onData id=1 offset=1163264 count=8192
+11-09 23:58:46.373 I/CM-DataReq( 1991): onData id=1 offset=1171456 count=8192
+11-09 23:58:46.373 I/CM-DataReq( 1991): onData id=1 offset=1179648 count=8192
+11-09 23:58:46.373 I/CM-DataReq( 1991): onData id=1 offset=1187840 count=8192
+11-09 23:58:46.374 I/CM-DataReq( 1991): onData id=1 offset=1196032 count=8192
+11-09 23:58:46.374 I/CM-DataReq( 1991): onData id=1 offset=1204224 count=8192
+11-09 23:58:46.374 I/CM-DataReq( 1991): onData id=1 offset=1212416 count=8192
+11-09 23:58:46.374 I/CM-DataReq( 1991): onData id=1 offset=1220608 count=8192
+11-09 23:58:46.374 I/CM-DataReq( 1991): onData id=1 offset=1228800 count=8192
+11-09 23:58:46.374 I/CM-DataReq( 1991): onData id=1 offset=1236992 count=8192
+11-09 23:58:46.374 I/CM-DataReq( 1991): onData id=1 offset=1245184 count=8192
+11-09 23:58:46.375 I/CM-DataReq( 1991): onData id=1 offset=1253376 count=8192
+11-09 23:58:46.375 I/CM-DataReq( 1991): onData id=1 offset=1261568 count=8192
+11-09 23:58:46.375 I/CM-DataReq( 1991): onData id=1 offset=1269760 count=8192
+11-09 23:58:46.375 I/CM-DataReq( 1991): onData id=1 offset=1277952 count=8192
+11-09 23:58:46.375 I/CM-DataReq( 1991): onData id=1 offset=1286144 count=8192
+11-09 23:58:46.375 I/CM-DataReq( 1991): onData id=1 offset=1294336 count=8192
+11-09 23:58:46.375 I/CM-DataReq( 1991): onData id=1 offset=1302528 count=8192
+11-09 23:58:46.375 I/CM-DataReq( 1991): onData id=1 offset=1310720 count=8192
+11-09 23:58:46.375 I/CM-DataReq( 1991): onData id=1 offset=1318912 count=8192
+11-09 23:58:46.376 I/CM-DataReq( 1991): onData id=1 offset=1327104 count=8192
+11-09 23:58:46.376 I/CM-DataReq( 1991): onData id=1 offset=1335296 count=8192
+11-09 23:58:46.376 I/CM-DataReq( 1991): onData id=1 offset=1343488 count=8192
+11-09 23:58:46.376 I/CM-DataReq( 1991): onData id=1 offset=1351680 count=8192
+11-09 23:58:46.376 I/CM-DataReq( 1991): onData id=1 offset=1359872 count=8192
+11-09 23:58:46.376 I/CM-DataReq( 1991): onData id=1 offset=1368064 count=8192
+11-09 23:58:46.377 I/CM-DataReq( 1991): onData id=1 offset=1376256 count=8192
+11-09 23:58:46.378 I/CM-DataReq( 1991): onData id=1 offset=1384448 count=8192
+11-09 23:58:46.378 I/CM-DataReq( 1991): onData id=1 offset=1392640 count=8192
+11-09 23:58:46.378 I/CM-DataReq( 1991): onData id=1 offset=1400832 count=8192
+11-09 23:58:46.378 I/CM-DataReq( 1991): onData id=1 offset=1409024 count=8192
+11-09 23:58:46.403 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:46.430 W/ProcessStats( 2525): Tracking association SourceState{1619a18 com.xiaomi.aiasst.vision/1000 BTopFgs #116064} whose proc state 2 is better than process ProcessState{53cef40 com.miui.analytics/10130 pkg=com.miui.analytics} proc state 3 (538 skipped)
+11-09 23:58:46.433 D/BoundBrokerSvc( 4374): onRebind: Intent { act=com.google.android.gms.libs.gmscorelogger.service.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.PersistentDirectBootAwareApiService }
+11-09 23:58:46.434 D/A11yRuleEngine( 8243): startQueryJob end 31 ms
+11-09 23:58:46.463 I/MiuiNetworkPolicy( 2525): bandwidth: 507 KB/s, Max bandwidth: 577 KB/s
+11-09 23:58:46.519 I/MiuiNetworkPolicy( 2525): updateUidState uid = 10222, uidState = 10
+11-09 23:58:46.529 I/MiuiNetworkPolicy( 2525): updateUidState uid = 10222, uidState = 19
+11-09 23:58:46.555 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:46.556 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:46.590 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:46.598 D/CompatibilityChangeReporter( 2525): Compat change id reported: 197654537; UID 10327; state: ENABLED
+11-09 23:58:46.617 D/A11yRuleEngine( 8243): startQueryJob end 27 ms
+11-09 23:58:46.703 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   5.5350,   5.5320,  21.0000>,time=62288508579470, sensor=5, temperature(K)=   5.5320
+11-09 23:58:46.703 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 6, lux = 5, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:58:46.736 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:46.764 D/A11yRuleEngine( 8243): startQueryJob end 27 ms
+11-09 23:58:46.808 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   4.7925,   4.7920,  22.0000>,time=62288618385668, sensor=5, temperature(K)=   4.7920
+11-09 23:58:46.808 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 5, lux = 4, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:58:46.906 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 23:58:46.916 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   5.6700,   5.6800,  17.0000>,time=62288728398689, sensor=5, temperature(K)=   5.6800
+11-09 23:58:46.916 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 4, lux = 5, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:58:46.917 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:46.925 I/mple.cloudmusic( 1991): ProcessProfilingInfo new_methods=13830 is saved saved_to_disk=1 resolve_classes_delay=8000
+11-09 23:58:46.937 D/A11yRuleEngine( 8243): startQueryJob end 20 ms
+11-09 23:58:47.027 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   6.2775,   6.2720,  19.0000>,time=62288838398428, sensor=5, temperature(K)=   6.2720
+11-09 23:58:47.027 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 5, lux = 6, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:58:47.057 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:47.057 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:47.064 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:47.092 D/A11yRuleEngine( 8243): startQueryJob end 28 ms
+11-09 23:58:47.160 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:58:47.162 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:57
+11-09 23:58:47.238 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:47.247 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   7.7625,   7.7520,  22.0000>,time=62289058578793, sensor=5, temperature(K)=   7.7520
+11-09 23:58:47.247 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 6, lux = 7, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:58:47.276 D/A11yRuleEngine( 8243): startQueryJob end 38 ms
+11-09 23:58:47.394 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:47.426 D/A11yRuleEngine( 8243): startQueryJob end 32 ms
+11-09 23:58:47.490 I/SmartPower.com.android.permissioncontroller/10222(29471)( 2525): background->idle(11050ms) R(adj below visible) adj=905.
+11-09 23:58:47.491 I/SmartPower( 2525): com.android.permissioncontroller/10222 state=inactive adj=905 proc size=1 move to idle adj below visible
+11-09 23:58:47.559 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:47.559 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:47.577 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:47.587 D/MemorySizeMonitor(23072): Current memory: 390037KB, ratio: 3%, total: 11444340KB
+11-09 23:58:47.587 W/MemorySizeMonitor(23072): Memory threshold exceeded continuously! duration=8178591ms
+11-09 23:58:47.587 D/MemorySizeMonitor(23072): Skip report due to report interval (10000ms < 60000ms)
+11-09 23:58:47.608 D/A11yRuleEngine( 8243): startQueryJob end 30 ms
+11-09 23:58:47.687 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   8.7750,   8.7880,  23.0000>,time=62289498394782, sensor=5, temperature(K)=   8.7880
+11-09 23:58:47.687 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 7, lux = 8, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:58:47.700 I/SmartPower.com.xiaomi.market/10149(10335)( 2525): background->idle(3004ms) R(service unbind com.xiaomi.market/.reverse_ad.wakeup.ReverseAdWakeUpService) adj=905.
+11-09 23:58:47.701 I/SmartPower( 2525): com.xiaomi.market/10149 state=inactive adj=905 proc size=3 move to idle service unbind com.xiaomi.market/.reverse_ad.wakeup.ReverseAdWakeUpService
+11-09 23:58:47.727 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:47.759 D/A11yRuleEngine( 8243): startQueryJob end 32 ms
+11-09 23:58:47.906 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:47.936 D/A11yRuleEngine( 8243): startQueryJob end 29 ms
+11-09 23:58:48.060 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:48.061 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:48.062 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:48.094 D/A11yRuleEngine( 8243): startQueryJob end 34 ms
+11-09 23:58:48.237 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:48.238 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   7.6950,   7.6780,  22.0000>,time=62290048584939, sensor=5, temperature(K)=   7.6780
+11-09 23:58:48.239 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 8, lux = 7, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:58:48.266 D/A11yRuleEngine( 8243): startQueryJob end 29 ms
+11-09 23:58:48.286 E/sensors-hal( 1240): handle_sns_std_sensor_event:57, ambient_light_event: wrong event
+11-09 23:58:48.293 I/sscrpcd (  967): vendor/qcom/proprietary/adsprpc/src/apps_std_imp.c:860: Successfully opened file /mnt/vendor/persist/sensors/registry/registry/../temp.json
+11-09 23:58:48.388 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 23:58:48.395 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:48.424 D/A11yRuleEngine( 8243): startQueryJob end 29 ms
+11-09 23:58:48.488 I/CM-DataReq( 1991): onEnd id=1 error=null (delayed 2s or immediate)
+11-09 23:58:48.562 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:48.563 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:48.567 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:48.597 D/A11yRuleEngine( 8243): startQueryJob end 30 ms
+11-09 23:58:48.677 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   8.5725,   8.5660,  26.0000>,time=62290488588168, sensor=5, temperature(K)=   8.5660
+11-09 23:58:48.677 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 7, lux = 8, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:58:48.725 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:48.726 I/mple.cloudmusic( 1991): This is non sticky GC, maxfree is 33554432 minfree is 8388608
+11-09 23:58:48.733 W/FinalizerDaemon( 1991): type=1400 audit(0.0:83887): avc: denied { getopt } for path="/dev/socket/usap_pool_primary" scontext=u:r:untrusted_app:s0:c71,c257,c512,c768 tcontext=u:r:zygote:s0 tclass=unix_stream_socket permissive=0 app=com.example.cloudmusic
+11-09 23:58:48.743 D/A11yRuleEngine( 8243): startQueryJob end 18 ms
+11-09 23:58:48.838 I/CM-DataReq( 1991): onData id=2 offset=1048576 count=8192
+11-09 23:58:48.839 I/CM-DataReq( 1991): onData id=2 offset=1056768 count=8192
+11-09 23:58:48.839 I/CM-DataReq( 1991): onData id=2 offset=1064960 count=8192
+11-09 23:58:48.840 I/CM-DataReq( 1991): onData id=2 offset=1073152 count=8192
+11-09 23:58:48.840 I/CM-DataReq( 1991): onData id=2 offset=1081344 count=8192
+11-09 23:58:48.840 I/CM-DataReq( 1991): onData id=2 offset=1089536 count=8192
+11-09 23:58:48.840 I/CM-DataReq( 1991): onData id=2 offset=1097728 count=8192
+11-09 23:58:48.840 I/CM-DataReq( 1991): onData id=2 offset=1105920 count=8192
+11-09 23:58:48.841 I/CM-DataReq( 1991): onData id=2 offset=1114112 count=8192
+11-09 23:58:48.841 I/CM-DataReq( 1991): onData id=2 offset=1122304 count=8192
+11-09 23:58:48.841 I/CM-DataReq( 1991): onData id=2 offset=1130496 count=8192
+11-09 23:58:48.841 I/CM-DataReq( 1991): onData id=2 offset=1138688 count=8192
+11-09 23:58:48.841 I/CM-DataReq( 1991): onData id=2 offset=1146880 count=8192
+11-09 23:58:48.841 I/CM-DataReq( 1991): onData id=2 offset=1155072 count=8192
+11-09 23:58:48.842 I/CM-DataReq( 1991): onData id=2 offset=1163264 count=8192
+11-09 23:58:48.842 I/CM-DataReq( 1991): onData id=2 offset=1171456 count=8192
+11-09 23:58:48.842 I/CM-DataReq( 1991): onData id=2 offset=1179648 count=8192
+11-09 23:58:48.842 I/CM-DataReq( 1991): onData id=2 offset=1187840 count=8192
+11-09 23:58:48.842 I/CM-DataReq( 1991): onData id=2 offset=1196032 count=8192
+11-09 23:58:48.842 I/CM-DataReq( 1991): onData id=2 offset=1204224 count=8192
+11-09 23:58:48.845 I/CM-DataReq( 1991): onData id=2 offset=1212416 count=8192
+11-09 23:58:48.845 I/CM-DataReq( 1991): onData id=2 offset=1220608 count=8192
+11-09 23:58:48.845 I/CM-DataReq( 1991): onData id=2 offset=1228800 count=8192
+11-09 23:58:48.845 I/CM-DataReq( 1991): onData id=2 offset=1236992 count=8192
+11-09 23:58:48.845 I/CM-DataReq( 1991): onData id=2 offset=1245184 count=8192
+11-09 23:58:48.846 I/CM-DataReq( 1991): onData id=2 offset=1253376 count=8192
+11-09 23:58:48.847 I/CM-DataReq( 1991): onData id=2 offset=1261568 count=8192
+11-09 23:58:48.848 I/CM-DataReq( 1991): onData id=2 offset=1269760 count=8192
+11-09 23:58:48.848 I/CM-DataReq( 1991): onData id=2 offset=1277952 count=8192
+11-09 23:58:48.848 I/CM-DataReq( 1991): onData id=2 offset=1286144 count=8192
+11-09 23:58:48.848 I/CM-DataReq( 1991): onData id=2 offset=1294336 count=8192
+11-09 23:58:48.848 I/CM-DataReq( 1991): onData id=2 offset=1302528 count=8192
+11-09 23:58:48.848 I/CM-DataReq( 1991): onData id=2 offset=1310720 count=8192
+11-09 23:58:48.849 I/CM-DataReq( 1991): onData id=2 offset=1318912 count=8192
+11-09 23:58:48.849 I/CM-DataReq( 1991): onData id=2 offset=1327104 count=8192
+11-09 23:58:48.849 I/CM-DataReq( 1991): onData id=2 offset=1335296 count=8192
+11-09 23:58:48.849 I/CM-DataReq( 1991): onData id=2 offset=1343488 count=8192
+11-09 23:58:48.849 I/CM-DataReq( 1991): onData id=2 offset=1351680 count=8192
+11-09 23:58:48.849 I/CM-DataReq( 1991): onData id=2 offset=1359872 count=8192
+11-09 23:58:48.849 I/CM-DataReq( 1991): onData id=2 offset=1368064 count=8192
+11-09 23:58:48.849 I/CM-DataReq( 1991): onData id=2 offset=1376256 count=8192
+11-09 23:58:48.849 I/CM-DataReq( 1991): onData id=2 offset=1384448 count=8192
+11-09 23:58:48.849 I/CM-DataReq( 1991): onData id=2 offset=1392640 count=8192
+11-09 23:58:48.850 I/CM-DataReq( 1991): onData id=2 offset=1400832 count=8192
+11-09 23:58:48.850 I/CM-DataReq( 1991): onData id=2 offset=1409024 count=8192
+11-09 23:58:48.850 I/CM-DataReq( 1991): onData id=2 offset=1417216 count=8192
+11-09 23:58:48.850 I/CM-DataReq( 1991): onData id=2 offset=1425408 count=8192
+11-09 23:58:48.850 I/CM-DataReq( 1991): onData id=2 offset=1433600 count=8192
+11-09 23:58:48.850 I/CM-DataReq( 1991): onData id=2 offset=1441792 count=8192
+11-09 23:58:48.850 I/CM-DataReq( 1991): onData id=2 offset=1449984 count=8192
+11-09 23:58:48.850 I/CM-DataReq( 1991): onData id=2 offset=1458176 count=8192
+11-09 23:58:48.850 I/CM-DataReq( 1991): onData id=2 offset=1466368 count=8192
+11-09 23:58:48.851 I/CM-DataReq( 1991): onData id=2 offset=1474560 count=8192
+11-09 23:58:48.851 I/CM-DataReq( 1991): onData id=2 offset=1482752 count=8192
+11-09 23:58:48.851 I/CM-DataReq( 1991): onData id=2 offset=1490944 count=8192
+11-09 23:58:48.852 I/CM-DataReq( 1991): onData id=2 offset=1499136 count=8192
+11-09 23:58:48.852 I/CM-DataReq( 1991): onData id=2 offset=1507328 count=8192
+11-09 23:58:48.852 I/CM-DataReq( 1991): onData id=2 offset=1515520 count=8192
+11-09 23:58:48.852 I/CM-DataReq( 1991): onData id=2 offset=1523712 count=8192
+11-09 23:58:48.853 I/CM-DataReq( 1991): onData id=2 offset=1531904 count=8192
+11-09 23:58:48.853 I/CM-DataReq( 1991): onData id=2 offset=1540096 count=8192
+11-09 23:58:48.853 I/CM-DataReq( 1991): onData id=2 offset=1548288 count=8192
+11-09 23:58:48.853 I/CM-DataReq( 1991): onData id=2 offset=1556480 count=8192
+11-09 23:58:48.853 I/CM-DataReq( 1991): onData id=2 offset=1564672 count=8192
+11-09 23:58:48.853 I/CM-DataReq( 1991): onData id=2 offset=1572864 count=8192
+11-09 23:58:48.853 I/CM-DataReq( 1991): onData id=2 offset=1581056 count=8192
+11-09 23:58:48.853 I/CM-DataReq( 1991): onData id=2 offset=1589248 count=8192
+11-09 23:58:48.853 I/CM-DataReq( 1991): onData id=2 offset=1597440 count=8192
+11-09 23:58:48.853 I/CM-DataReq( 1991): onData id=2 offset=1605632 count=8192
+11-09 23:58:48.854 I/CM-DataReq( 1991): onData id=2 offset=1613824 count=8192
+11-09 23:58:48.854 I/CM-DataReq( 1991): onData id=2 offset=1622016 count=8192
+11-09 23:58:48.854 I/CM-DataReq( 1991): onData id=2 offset=1630208 count=8192
+11-09 23:58:48.854 I/CM-DataReq( 1991): onData id=2 offset=1638400 count=8192
+11-09 23:58:48.854 I/CM-DataReq( 1991): onData id=2 offset=1646592 count=6991
+11-09 23:58:48.898 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:48.929 D/A11yRuleEngine( 8243): startQueryJob end 31 ms
+11-09 23:58:49.044 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:49.063 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:49.064 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:49.074 D/A11yRuleEngine( 8243): startQueryJob end 30 ms
+11-09 23:58:49.164 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:58:49.166 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:57
+11-09 23:58:49.217 D/SLM-SRV-SLAService( 8115): checktemp temperature = 32076 temperature_average = 31514 isPerformanceMode = false thermal_enable_slm = true
+11-09 23:58:49.217 I/ThermalObserver( 2525): Temperature control has been released.
+11-09 23:58:49.221 I/mstatdaemon( 2086): Entering time loop
+11-09 23:58:49.221 I/mstatdaemon( 2086): t = 1794239929
+11-09 23:58:49.221 I/mstatdaemon( 2086): translated_t = 1478249929
+11-09 23:58:49.221 I/mstat_log( 2086): mstatcommitLog log_alloc() failed
+11-09 23:58:49.230 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:49.260 D/A11yRuleEngine( 8243): startQueryJob end 30 ms
+11-09 23:58:49.375 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:49.384 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=441}
+11-09 23:58:49.384 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=1208}
+11-09 23:58:49.405 D/A11yRuleEngine( 8243): startQueryJob end 30 ms
+11-09 23:58:49.464 I/MiuiNetworkPolicy( 2525): bandwidth: 432 KB/s, Max bandwidth: 577 KB/s
+11-09 23:58:49.491 I/SmartPower( 2525): com.android.permissioncontroller/10222 state=idle adj=905 proc size=1 move to hibernation adj below visible
+11-09 23:58:49.512 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 23:58:49.561 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:49.562 D/A11yRuleEngine( 8243): startQueryJob end 1 ms
+11-09 23:58:49.565 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:49.565 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:49.701 I/SmartPower( 2525): com.xiaomi.market/10149 state=idle adj=905 proc size=3 move to hibernation service unbind com.xiaomi.market/.reverse_ad.wakeup.ReverseAdWakeUpService
+11-09 23:58:49.707 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:58:49.707 D/A11yRuleEngine( 8243): startQueryJob end 0 ms
+11-09 23:58:49.932 I/m.xiaomi.market(10335): This is non sticky GC, maxfree is 33554432 minfree is 8388608
+11-09 23:58:49.932 W/m.xiaomi.market(10335): Reducing the number of considered missed Gc histogram windows from 385 to 100
+11-09 23:58:50.067 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:50.067 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:50.287 I/keystore2(  949): keystore2::watchdog: Watchdog thread idle -> terminating. Have a great day.
+11-09 23:58:50.311 W/NMAudioPlayer( 1991): CNCMAudioPlayer::Play status 3
+11-09 23:58:50.315 V/Avrcp_ext( 4592): onPlaybackStateChanged: state PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=62292127, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:58:50.316 V/Avrcp_ext( 4592): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@7420880) null
+11-09 23:58:50.316 V/Avrcp_ext( 4592): updateCurrentMediaState: isPlaying = false
+11-09 23:58:50.316 W/Avrcp_ext( 4592): isMusicActive: false getBluetoothPlayState: 1 A2dp State: 11 mAudioPlaybackIsActive: true
+11-09 23:58:50.317 D/Avrcp_ext( 4592): isMusicActive = false mAudioPlaybackIsActive = true player state = PlaybackState {state=3, position=4, buffered position=0, speed=1.0, updated=62292131, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:58:50.318 V/Avrcp_ext( 4592): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-09 23:58:50.318 D/Avrcp_ext( 4592): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-09 23:58:50.318 V/Avrcp_ext( 4592): isBrowseSupported for com.example.cloudmusic: false
+11-09 23:58:50.318 V/Avrcp_ext( 4592): updatePlaybackState, state: PlaybackState {state=3, position=4, buffered position=0, speed=1.0, updated=62292131, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-09 23:58:50.318 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:58:50.318 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:58:50.318 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:58:50.318 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:58:50.318 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:58:50.318 V/Avrcp_ext( 4592): updatePlayerStateAndPosition, old=PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=62281985, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=4, buffered position=0, speed=1.0, updated=62292131, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:58:50.318 V/Avrcp_ext( 4592): old state = PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=62281985, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=4, buffered position=0, speed=1.0, updated=62292131, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:58:50.318 D/HeadsetService( 4592): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@dc0fd90
+11-09 23:58:50.318 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:50.318 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:58:50.318 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:50.318 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:58:50.318 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:58:50.318 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:50.318 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:58:50.318 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:50.318 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:58:50.318 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:58:50.319 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:50.319 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:58:50.319 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:50.319 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:58:50.319 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:58:50.319 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:50.319 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:58:50.319 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:50.319 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:58:50.319 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:58:50.319 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:50.319 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:58:50.319 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:58:50.319 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:58:50.319 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:58:50.319 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:58:50.319 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:58:50.319 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:58:50.319 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:58:50.319 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:58:50.319 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:58:50.319 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:58:50.319 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:58:50.319 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:58:50.319 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:58:50.319 V/Avrcp_ext( 4592): Exit updatePlayerStateAndPosition
+11-09 23:58:50.319 V/Avrcp_ext( 4592):  Exit onPlaybackStateChanged
+11-09 23:58:50.552 D/UiModeManager( 2525): updateConfigurationLocked: mDockState=0; mCarMode=false; mCar=false; mPowerSave=false; mComputedNightMode=false; mNightMode=1; uiMode=17
+11-09 23:58:50.554 D/DynamicService( 4788):  ACTION_BATTERY_CHANGED change,USB plug = 0
+11-09 23:58:50.558 I/PowerSaveService( 8273): onReceive: android.intent.action.BATTERY_CHANGED
+11-09 23:58:50.558 D/PowerCheckerService(10020): onBatteryChanged, mBatteryLevel = 32, status = 3, level = 32, plug = 0, scale = 100
+11-09 23:58:50.558 I/SmartPower.com.miui.systemAdSolution/10151(13974)( 2525): idle->background(11507ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=100.
+11-09 23:58:50.559 I/PowerNoticeUI( 8273): handleBatteryChanged oldPlugType 0 mPlugType 0 oldBatteryLevel 32 mBatteryLevel 32 temperature 319
+11-09 23:58:50.559 I/ChargerBatteryIntelligenceReceiver( 8273): onBatteryChanged temperature：31,plugType:0
+11-09 23:58:50.559 I/ChargerBatteryIntelligenceReceiver( 8273): dissmissTempFastChargeReminder not support
+11-09 23:58:50.559 I/PowerFeatureUtils( 8273): getVendorName:qcom
+11-09 23:58:50.559 D/PowerKeeper.Thermal(10020): mBatteryTemperature: 31
+11-09 23:58:50.559 I/SmartPower.com.xiaomi.market/10149(10335)( 2525): idle->background(2860ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=905.
+11-09 23:58:50.560 I/SmartPower.com.android.browser/10118(23072)( 2525): idle->background(8944ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=901.
+11-09 23:58:50.560 D/PowerKeeper.FrozenApp(10020): onBatteryChanged plug=false mBatteryPlugged=0
+11-09 23:58:50.560 I/SmartPower.com.xiaomi.market:guard/10149(11821)( 2525): idle->background(11504ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=945.
+11-09 23:58:50.561 I/SmartPower( 2525): com.miui.systemAdSolution/10151 state=hibernation adj=100 proc size=1 move to background broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:50.562 I/android_os_HwBinder( 2525): HwBinder: Starting thread pool for getting: vendor.xiaomi.hardware.micharge@1.0::IMiCharge/default
+11-09 23:58:50.562 E/vendor.xiaomi.hardware.micharge@1.0-service( 1366): Failed to open node /sys/class/qcom-battery/reverse_chg_mode
+11-09 23:58:50.562 I/vendor.xiaomi.hardware.micharge@1.0-service( 1366): ReadFilePathValue path = /sys/class/qcom-battery/reverse_chg_mode value = 
+11-09 23:58:50.563 I/SmartPower( 2525): com.android.browser/10118 state=hibernation adj=901 proc size=1 move to background broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:50.563 I/SmartPower( 2525): com.xiaomi.market/10149 state=hibernation adj=905 proc size=3 move to background broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:50.564 I/SmartPower( 2525): com.miui.systemAdSolution/10151 state=background adj=100 proc size=1 move to inactive broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:50.564 V/DeviceStatisticsService( 4765): chargerType=0 batteryLevel=32 totalBatteryCapacity=4000
+11-09 23:58:50.564 I/android_os_HwBinder( 2525): HwBinder: Starting thread pool for getting: vendor.xiaomi.hardware.micharge@1.0::IMiCharge/default
+11-09 23:58:50.564 I/SmartPower( 2525): com.android.browser/10118 state=background adj=901 proc size=1 move to inactive broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:50.565 I/SmartPower( 2525): com.xiaomi.market/10149 state=background adj=905 proc size=3 move to inactive broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:50.565 I/vendor.xiaomi.hardware.micharge@1.0-service( 1366): ReadFilePathValue path = /sys/class/qcom-battery/fastchg_mode value = 0
+11-09 23:58:50.568 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:50.568 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:50.632 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 23:58:50.967 I/CM-DataReq( 1991): onEnd id=2 error=null (delayed 2s or immediate)
+11-09 23:58:51.069 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:51.069 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:51.168 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:58:51.170 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:57
+11-09 23:58:51.297 D/BoundBrokerSvc( 4374): onUnbind: Intent { act=com.google.android.gms.auth.aang.events.services.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.PersistentApiService }
+11-09 23:58:51.445 D/BoundBrokerSvc( 4374): onUnbind: Intent { act=com.google.android.gms.feedback.internal.IFeedbackService dat=chimera-action:/... cmp=com.google.android.gms/.chimera.GmsApiService }
+11-09 23:58:51.571 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:51.571 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:51.759 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 23:58:52.072 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:52.072 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:52.198 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   9.4500,   9.4540,  26.0000>,time=62294008584394, sensor=5, temperature(K)=   9.4540
+11-09 23:58:52.198 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 8, lux = 9, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:58:52.412 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=441}
+11-09 23:58:52.412 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=1208}
+11-09 23:58:52.469 I/MiuiNetworkPolicy( 2525): bandwidth: 506 KB/s, Max bandwidth: 577 KB/s
+11-09 23:58:52.573 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:52.575 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:52.587 D/MemorySizeMonitor(23072): Current memory: 390037KB, ratio: 3%, total: 11444340KB
+11-09 23:58:52.588 W/MemorySizeMonitor(23072): Memory threshold exceeded continuously! duration=8183592ms
+11-09 23:58:52.588 D/MemorySizeMonitor(23072): Skip report due to report interval (15001ms < 60000ms)
+11-09 23:58:52.665 W/ThreadPoolForeg(13679): type=1400 audit(0.0:83888): avc: denied { write } for name="traced_producer" dev="tmpfs" ino=1594 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 app=com.google.android.gms
+11-09 23:58:53.075 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:53.076 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:53.173 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:58:53.175 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:57
+11-09 23:58:53.225 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 23:58:53.245 W/ThreadPoolForeg( 4374): type=1400 audit(0.0:83889): avc: denied { write } for name="traced_producer" dev="tmpfs" ino=1594 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 app=com.google.android.gms
+11-09 23:58:53.565 I/SmartPower.com.miui.systemAdSolution/10151(13974)( 2525): background->idle(3006ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=100.
+11-09 23:58:53.565 I/SmartPower.com.android.browser/10118(23072)( 2525): background->idle(3005ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=901.
+11-09 23:58:53.565 I/SmartPower.com.xiaomi.market:guard/10149(11821)( 2525): background->idle(3005ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=945.
+11-09 23:58:53.566 I/SmartPower.com.xiaomi.market/10149(10335)( 2525): background->idle(3007ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=905.
+11-09 23:58:53.566 I/SmartPower( 2525): com.miui.systemAdSolution/10151 state=inactive adj=100 proc size=1 move to idle broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:53.567 I/SmartPower( 2525): com.android.browser/10118 state=inactive adj=901 proc size=1 move to idle broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:53.568 I/SmartPower( 2525): com.xiaomi.market/10149 state=inactive adj=905 proc size=3 move to idle broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:53.577 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:53.577 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:53.967 I/System.out(23072): ab test net error: com.bytedance.frameworks.baselib.network.http.cronet.impl.CronetIOException: 
+11-09 23:58:54.078 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:54.078 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:54.579 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:54.580 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:55.069 D/SecurityCenter(25799): ImageLoader clear memory info
+11-09 23:58:55.082 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:55.082 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:55.087 D/TemperatureController( 2525): mTemperature: 32076.0, mLastTemperature: 31712.0, heating: 364.0
+11-09 23:58:55.178 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:58:55.180 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:57
+11-09 23:58:55.433 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=441}
+11-09 23:58:55.433 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=1208}
+11-09 23:58:55.473 I/MiuiNetworkPolicy( 2525): bandwidth: 133 KB/s, Max bandwidth: 577 KB/s
+11-09 23:58:55.566 I/SmartPower( 2525): com.miui.systemAdSolution/10151 state=idle adj=100 proc size=1 move to hibernation broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:55.566 I/SmartPower( 2525): com.android.browser/10118 state=idle adj=901 proc size=1 move to hibernation broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:55.567 I/SmartPower( 2525): com.xiaomi.market/10149 state=idle adj=905 proc size=3 move to hibernation broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:55.583 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:55.583 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:55.937 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   8.4375,   8.4180,  17.0000>,time=62297748397988, sensor=5, temperature(K)=   8.4180
+11-09 23:58:55.937 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 9, lux = 8, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:58:55.988 I/VA_AliveCore:AssistInteractionService( 7814): onProcessChanged: processName=com.miui.voiceassist;isRunning=false
+11-09 23:58:56.084 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:56.085 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:56.108 E/SLM-HAL-SladSocketClient( 1352): connect failed:-1, socket:44, error:No such file or directory
+11-09 23:58:56.109 I/SLM-HAL ( 1352): setSLAUidList 10269,10298,10326,10238,10335,10311,10274,10230,
+11-09 23:58:56.109 I/SLM-HAL-SladSocketClient( 1352): createSocket
+11-09 23:58:56.109 I/SLM-HAL-SladSocketClient( 1352): connectServer /dev/socket/slad
+11-09 23:58:56.551 W/ProcessStats( 2525): Tracking association SourceState{5a78aa5 com.miui.analytics/10130 BTopFgs #116076} whose proc state 2 is better than process ProcessState{99c61ef com.miui.securitycenter.remote/1000 pkg=com.miui.securitycenter} proc state 3 (143 skipped)
+11-09 23:58:56.586 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:56.586 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:57.034 D/MiuiFastConnectService_Plugin( 4415): stopBleScan: scanning: true
+11-09 23:58:57.035 D/BluetoothAdapter( 4415): isLeEnabled(): ON
+11-09 23:58:57.035 D/BluetoothAdapter( 4415): isLeEnabled(): ON
+11-09 23:58:57.039 D/BtGatt.GattService( 4592): stopScan() - queue size =3
+11-09 23:58:57.041 I/BtGatt.ScanManager( 4592): msg.what = MSG_STOP_BLE_SCAN, msg.arg1 = None
+11-09 23:58:57.041 D/BtGatt.ScanManager( 4592): track LE scan event: callerPackage = [com.xiaomi.bluetooth], scanMode = [0], reportDelayMillis = [0], behavior = [2], scannerId = [9], duration = [59964]
+11-09 23:58:57.043 D/BtGatt.GattService( 4592): unregisterScanner() - scannerId=9
+11-09 23:58:57.044 D/BtGatt.ScanManager( 4592): handling stopping scan  [ScanClient scanModeApp 0 scanModeUsed 0 [appScanStats android.uid.bluetooth:1002]]
+11-09 23:58:57.045 D/vendor.qti.bluetooth@1.0-ibs_handler( 1214): SerialClockVote: vote for UART CLK ON
+11-09 23:58:57.046 D/vendor.qti.bluetooth@1.0-wake_lock( 1214): Acquire wakelock is acquired 
+11-09 23:58:57.046 I/vendor.qti.bluetooth@1.0-ibs_handler( 1214): DeviceWakeUp: Writing IBS_WAKE_IND
+11-09 23:58:57.052 I/vendor.qti.bluetooth@1.0-ibs_handler( 1214): ProcessIbsCmd: Received IBS_WAKE_ACK: 0xFC
+11-09 23:58:57.052 I/vendor.qti.bluetooth@1.0-ibs_handler( 1214): ProcessIbsCmd: Signal wack_cond_
+11-09 23:58:57.052 D/vendor.qti.bluetooth@1.0-ibs_handler( 1214): DeviceWakeUp: Unblocked from waiting for FC, pthread_cond_timedwait ret = 0
+11-09 23:58:57.053 I/vendor.qti.bluetooth@1.0-ibs_handler( 1214): ProcessIbsCmd: Received IBS_WAKE_IND: 0xFD
+11-09 23:58:57.053 I/vendor.qti.bluetooth@1.0-ibs_handler( 1214): ProcessIbsCmd: Writing IBS_WAKE_ACK
+11-09 23:58:57.054 D/BtGatt.GattService( 4592): onScanFilterParamsConfigured() - clientIf=9, status=0, action=1, availableSpace=56
+11-09 23:58:57.054 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.055 D/BtGatt.GattService( 4592): onScanFilterParamsConfigured() - clientIf=9, status=0, action=1, availableSpace=57
+11-09 23:58:57.056 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.057 D/BtGatt.GattService( 4592): onScanFilterParamsConfigured() - clientIf=9, status=0, action=1, availableSpace=58
+11-09 23:58:57.057 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.061 D/BtGatt.GattService( 4592): onScanFilterParamsConfigured() - clientIf=9, status=0, action=1, availableSpace=59
+11-09 23:58:57.061 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.063 D/BtGatt.GattService( 4592): onScanFilterParamsConfigured() - clientIf=9, status=0, action=1, availableSpace=60
+11-09 23:58:57.063 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.064 D/BtGatt.GattService( 4592): onScanFilterParamsConfigured() - clientIf=9, status=0, action=1, availableSpace=61
+11-09 23:58:57.065 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.065 D/BtGatt.ScanManager( 4592): configureRegularScanParams() - queue=2
+11-09 23:58:57.065 D/BtGatt.ScanManager( 4592): configureRegularScanParams() - ScanSetting LE 1M Scan mode=0 ScanSetting LE Coded Scan mode=0 mLastConfiguredScanSettingLE1M=0 mLastConfiguredScanSettingLECoded=0 scanPhy=255
+11-09 23:58:57.069 D/BtGatt.ScanManager( 4592): configureRegularScanParams - scanInterval LE 1M = 660 configureRegularScanParams - scanWindow LE 1M= 66 configureRegularScanParams - scanInterval LE Coded= 660 configureRegularScanParams - scanWindow LE Coded= 66
+11-09 23:58:57.070 E/BtGatt.GattService( 4592): Advertise app or callback is null
+11-09 23:58:57.087 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:57.088 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:57.104 D/BluetoothAdapter( 4415): isLeEnabled(): ON
+11-09 23:58:57.105 D/MiuiFastConnectService_Plugin( 4415): handleMessage: MSG_START_BLE_SCAN mode: 0
+11-09 23:58:57.105 V/BluetoothPluginCloud( 4415): queryPluginFeatureSupport: pluginVersion = 1.1_1.31featureId = scan_aux
+11-09 23:58:57.112 D/BluetoothAdapter( 4415): isLeEnabled(): ON
+11-09 23:58:57.113 I/vendor.qti.bluetooth@1.0-ibs_handler( 1214): ProcessIbsCmd: Received IBS_SLEEP_IND: 0xFE
+11-09 23:58:57.115 D/BtGatt.GattService( 4592): registerScanner() - UUID=16214f8c-d6ce-4945-b5ac-682157fde92c
+11-09 23:58:57.117 D/BtGatt.GattService( 4592): onScannerRegistered() - UUID=16214f8c-d6ce-4945-b5ac-682157fde92c, scannerId=9, status=0
+11-09 23:58:57.121 D/BluetoothLeScanner( 4415): onScannerRegistered() - status=0 scannerId=9 mScannerId=0
+11-09 23:58:57.121 D/BtGatt.GattService( 4592): start scan with filters. callingPackage: com.xiaomi.bluetooth
+11-09 23:58:57.123 D/BtGatt.GattService( 4592): enforcePrivilegedPermissionIfNeeded([BluetoothLeScanFilter [mDeviceName=null, mDeviceAddress=null, mUuid=null, mUuidMask=null, mServiceSolicitationUuid=null, mServiceSolicitationUuidMask=null, mServiceDataUuid=null, mServiceData=null, mServiceDataMask=null, mManufacturerId=911, mManufacturerData=[], mManufacturerDataMask=null, mAdvertisingDataType=-1, mAdvertisingData=null, mAdvertisingDataMask=null, mOrganizationId=-1, mTDSFlags=-1, mTDSFlagsMask=-1, mWifiNANHash=null], mGroupBasedFiltering=false, BluetoothLeScanFilter [mDeviceName=null, mDeviceAddress=null, mUuid=null, mUuidMask=null, mServiceSolicitationUuid=null, mServiceSolicitationUuidMask=null, mServiceDataUuid=null, mServiceData=null, mServiceDataMask=null, mManufacturerId=65535, mManufacturerData=[77], mManufacturerDataMask=null, mAdvertisingDataType=-1, mAdvertisingData=null, mAdvertisingDataMask=null, mOrganizationId=-1, mTDSFlags=-1, mTDSFlagsMask=-1, mWifiNANHash=null], mGroupBasedFiltering=false, BluetoothLeScanFilter [mDeviceName=null, mDeviceAddress=null, mUuid=null, mUuidMask=null, mServiceSolicitationUuid=null, mServiceSolicitationUuidMask=null, mServiceDataUuid=0000fe95-0000-1000-8000-00805f9b34fb, mServiceData=[], mServiceDataMask=null, mManufacturerId=-1, mManufacturerData=null, mManufacturerDataMask=null, mAdvertisingDataType=-1, mAdvertisingData=null, mAdvertisingDataMask=null, mOrganizationId=-1, mTDSFlags=-1, mTDSFlagsMask=-1, mWifiNANHash=null], mGroupBasedFiltering=false, BluetoothLeScanFilter [mDeviceName=null, mDeviceAddress=null, mUuid=null, mUuidMask=null, mServiceSolicitationUuid=null, mServiceSolicitationUuidMask=null, mServiceDataUuid=0000fdaa-0000-1000-8000-00805f9b34fb, mServiceData=[], mServiceDataMask=null, mManufacturerId=-1, mManufacturerData=null, mManufacturerDataMask=null, mAdvertisingDataType=-1, mAdvertisingData=null, mAdvertisingDataMask=null, mOrganizationId=-1, mTDSFlags=-1, mTDSFlagsMask=-1, mWifiNANHash=null], mGroupBasedFiltering=false, BluetoothLeScanFilter [mDeviceName=null, mDeviceAddress=null, mUuid=null, mUuidMask=null, mServiceSolicitationUuid=null, mServiceSolicitationUuidMask=null, mServiceDataUuid=0000fdee-0000-1000-8000-00805f9b34fb, mServiceData=[1, 1, 1], mServiceDataMask=null, mManufacturerId=-1, mManufacturerData=null, mManufacturerDataMask=null, mAdvertisingDataType=-1, mAdvertisingData=null, mAdvertisingDataMask=null, mOrganizationId=-1, mTDSFlags=-1, mTDSFlagsMask=-1, mWifiNANHash=null], mGroupBasedFiltering=false, BluetoothLeScanFilter [mDeviceName=null, mDeviceAddress=null, mUuid=null, mUuidMask=null, mServiceSolicitationUuid=null, mServiceSolicitationUuidMask=null, mServiceDataUuid=0000fd2d-0000-1000-8000-00805f9b34fb, mServiceData=[], mServiceDataMask=null, mManufacturerId=-1, mManufacturerData=null, mManufacturerDataMask=null, mAdvertisingDataType=-1, mAdvertisingData=null, mAdvertisingDataMask=null, mOrganizationId=-1, mTDSFlags=-1, mTDSFlagsMask=-1, mWifiNANHash=null], mGroupBasedFiltering=false])
+11-09 23:58:57.127 W/BluetoothUtils( 4592): callingUid is Process.BLUETOOTH_UID
+11-09 23:58:57.130 D/BtGatt.ScanManager( 4592): startScan()  [ScanClient scanModeApp 0 scanModeUsed 0 [appScanStats android.uid.bluetooth:1002]]
+11-09 23:58:57.130 I/BtGatt.ScanManager( 4592): msg.what = MSG_RECORD_CALLER, msg.arg1 = None
+11-09 23:58:57.130 I/BtGatt.ScanManager( 4592): msg.what = MSG_START_BLE_SCAN, msg.arg1 = None
+11-09 23:58:57.130 D/BtGatt.ScanManager( 4592): handling starting scan
+11-09 23:58:57.131 D/BtGatt.ScanManager( 4592): isAptXLowLatencyModeEnabled: false
+11-09 23:58:57.131 D/BtGatt.ScanManager( 4592): track LE scan event: callerPackage = [com.xiaomi.bluetooth], scanMode = [0], reportDelayMillis = [0], behavior = [1], scannerId = [9], duration = [0]
+11-09 23:58:57.136 I/vendor.qti.bluetooth@1.0-ibs_handler( 1214): ProcessIbsCmd: Received IBS_WAKE_IND: 0xFD
+11-09 23:58:57.136 I/vendor.qti.bluetooth@1.0-ibs_handler( 1214): ProcessIbsCmd: Writing IBS_WAKE_ACK
+11-09 23:58:57.137 D/BtGatt.GattService( 4592): onScanFilterEnableDisabled() - clientIf=9, status=0, action=1
+11-09 23:58:57.137 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.138 D/BtGatt.ScanManager( 4592): configureScanFilters rssiThreshold: -60, 15
+11-09 23:58:57.138 D/BtGatt.ScanManager( 4592): Available Filter size: 58
+11-09 23:58:57.139 D/BtGatt.GattService( 4592): onScanFilterConfig() - clientIf=9, action = 0 status = 0, filterType=0, availableSpace=0
+11-09 23:58:57.139 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.139 D/BtGatt.ScanManager( 4592): configureFilterParamter 500 10000 1 0, deliveryMode=0
+11-09 23:58:57.141 D/BtGatt.GattService( 4592): onScanFilterParamsConfigured() - clientIf=9, status=0, action=0, availableSpace=60
+11-09 23:58:57.141 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.141 D/BtGatt.GattService( 4592): onScanFilterConfig() - clientIf=9, action = 0 status = 0, filterType=0, availableSpace=0
+11-09 23:58:57.142 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.142 D/BtGatt.ScanManager( 4592): configureFilterParamter 500 10000 1 0, deliveryMode=0
+11-09 23:58:57.144 D/BtGatt.GattService( 4592): onScanFilterParamsConfigured() - clientIf=9, status=0, action=0, availableSpace=59
+11-09 23:58:57.144 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.145 D/BtGatt.GattService( 4592): onScanFilterConfig() - clientIf=9, action = 0 status = 0, filterType=0, availableSpace=0
+11-09 23:58:57.145 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.145 D/BtGatt.ScanManager( 4592): configureFilterParamter 500 10000 1 0, deliveryMode=0
+11-09 23:58:57.147 D/BtGatt.GattService( 4592): onScanFilterParamsConfigured() - clientIf=9, status=0, action=0, availableSpace=58
+11-09 23:58:57.147 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.148 D/BtGatt.GattService( 4592): onScanFilterConfig() - clientIf=9, action = 0 status = 0, filterType=0, availableSpace=0
+11-09 23:58:57.148 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.148 D/BtGatt.ScanManager( 4592): configureFilterParamter 500 10000 1 0, deliveryMode=0
+11-09 23:58:57.152 D/BtGatt.GattService( 4592): onScanFilterParamsConfigured() - clientIf=9, status=0, action=0, availableSpace=57
+11-09 23:58:57.152 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.153 D/BtGatt.GattService( 4592): onScanFilterConfig() - clientIf=9, action = 0 status = 0, filterType=0, availableSpace=0
+11-09 23:58:57.153 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.153 D/BtGatt.ScanManager( 4592): configureFilterParamter 500 10000 1 0, deliveryMode=0
+11-09 23:58:57.155 D/BtGatt.GattService( 4592): onScanFilterParamsConfigured() - clientIf=9, status=0, action=0, availableSpace=56
+11-09 23:58:57.155 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.156 D/BtGatt.GattService( 4592): onScanFilterConfig() - clientIf=9, action = 0 status = 0, filterType=0, availableSpace=0
+11-09 23:58:57.156 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.156 D/BtGatt.ScanManager( 4592): configureFilterParamter 500 10000 1 0, deliveryMode=0
+11-09 23:58:57.159 D/BtGatt.GattService( 4592): onScanFilterParamsConfigured() - clientIf=9, status=0, action=0, availableSpace=55
+11-09 23:58:57.159 D/BtGatt.ScanManager( 4592): callback done for scannerId - 9 status - 0
+11-09 23:58:57.159 D/BtGatt.ScanManager( 4592): configureRegularScanParams() - queue=3
+11-09 23:58:57.159 D/BtGatt.ScanManager( 4592): configureRegularScanParams() - ScanSetting LE 1M Scan mode=0 ScanSetting LE Coded Scan mode=0 mLastConfiguredScanSettingLE1M=0 mLastConfiguredScanSettingLECoded=0 scanPhy=255
+11-09 23:58:57.161 D/BtGatt.ScanManager( 4592): configureRegularScanParams - scanInterval LE 1M = 660 configureRegularScanParams - scanWindow LE 1M= 66 configureRegularScanParams - scanInterval LE Coded= 660 configureRegularScanParams - scanWindow LE Coded= 66
+11-09 23:58:57.161 E/BtGatt.GattService( 4592): Advertise app or callback is null
+11-09 23:58:57.182 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:58:57.185 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:57
+11-09 23:58:57.206 I/vendor.qti.bluetooth@1.0-ibs_handler( 1214): ProcessIbsCmd: Received IBS_SLEEP_IND: 0xFE
+11-09 23:58:57.588 D/MemorySizeMonitor(23072): Current memory: 390037KB, ratio: 3%, total: 11444340KB
+11-09 23:58:57.588 W/MemorySizeMonitor(23072): Memory threshold exceeded continuously! duration=8188592ms
+11-09 23:58:57.588 D/MemorySizeMonitor(23072): Skip report due to report interval (20001ms < 60000ms)
+11-09 23:58:57.590 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:57.590 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:58.091 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:58.092 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:58.165 I/vendor.qti.bluetooth@1.0-ibs_handler( 1214): DeviceSleep: TX Awake, Sending SLEEP_IND
+11-09 23:58:58.166 D/vendor.qti.bluetooth@1.0-ibs_handler( 1214): SerialClockVote: vote for UART CLK OFF
+11-09 23:58:58.316 D/vendor.qti.bluetooth@1.0-wake_lock( 1214): Release wakelock is released 
+11-09 23:58:58.403 D/TrafficStats( 7120): tagSocket(97) with statsTag=0xffffffff, statsUid=-1
+11-09 23:58:58.454 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=441}
+11-09 23:58:58.454 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=1208}
+11-09 23:58:58.476 I/MiuiNetworkPolicy( 2525): bandwidth: 6 KB/s, Max bandwidth: 577 KB/s
+11-09 23:58:58.593 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:58.593 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:59.094 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:59.095 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:58:59.187 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:58:59.189 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:57
+11-09 23:58:59.218 I/ThermalObserver( 2525): Temperature control has been released.
+11-09 23:58:59.218 D/SLM-SRV-SLAService( 8115): checktemp temperature = 32000 temperature_average = 31619 isPerformanceMode = false thermal_enable_slm = true
+11-09 23:58:59.221 I/mstatdaemon( 2086): Entering time loop
+11-09 23:58:59.222 I/mstatdaemon( 2086): t = 1794239939
+11-09 23:58:59.222 I/mstatdaemon( 2086): translated_t = 1478249939
+11-09 23:58:59.222 I/mstat_log( 2086): mstatcommitLog log_alloc() failed
+11-09 23:58:59.328 D/DynamicService( 4788):  ACTION_BATTERY_CHANGED change,USB plug = 0
+11-09 23:58:59.330 D/UiModeManager( 2525): updateConfigurationLocked: mDockState=0; mCarMode=false; mCar=false; mPowerSave=false; mComputedNightMode=false; mNightMode=1; uiMode=17
+11-09 23:58:59.332 I/SmartPower.com.miui.systemAdSolution/10151(13974)( 2525): idle->background(5767ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=100.
+11-09 23:58:59.332 D/PowerCheckerService(10020): onBatteryChanged, mBatteryLevel = 32, status = 3, level = 32, plug = 0, scale = 100
+11-09 23:58:59.332 I/SmartPower.com.xiaomi.market/10149(10335)( 2525): idle->background(5766ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=905.
+11-09 23:58:59.333 D/PowerKeeper.FrozenApp(10020): onBatteryChanged plug=false mBatteryPlugged=0
+11-09 23:58:59.333 I/SmartPower( 2525): com.miui.systemAdSolution/10151 state=hibernation adj=100 proc size=1 move to background broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:59.333 I/SmartPower( 2525): com.xiaomi.market/10149 state=hibernation adj=905 proc size=3 move to background broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:59.333 I/SmartPower.com.android.browser/10118(23072)( 2525): idle->background(5768ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=901.
+11-09 23:58:59.333 I/SmartPower( 2525): com.miui.systemAdSolution/10151 state=background adj=100 proc size=1 move to inactive broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:59.333 I/SmartPower( 2525): com.xiaomi.market/10149 state=background adj=905 proc size=3 move to inactive broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:59.333 I/SmartPower.com.xiaomi.market:guard/10149(11821)( 2525): idle->background(5768ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=945.
+11-09 23:58:59.333 D/PowerKeeper.Thermal(10020): mBatteryTemperature: 32
+11-09 23:58:59.337 I/PowerSaveService( 8273): onReceive: android.intent.action.BATTERY_CHANGED
+11-09 23:58:59.338 V/DeviceStatisticsService( 4765): chargerType=0 batteryLevel=32 totalBatteryCapacity=4000
+11-09 23:58:59.338 I/SmartPower( 2525): com.android.browser/10118 state=hibernation adj=901 proc size=1 move to background broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:59.339 I/PowerNoticeUI( 8273): handleBatteryChanged oldPlugType 0 mPlugType 0 oldBatteryLevel 32 mBatteryLevel 32 temperature 320
+11-09 23:58:59.339 I/ChargerBatteryIntelligenceReceiver( 8273): onBatteryChanged temperature：32,plugType:0
+11-09 23:58:59.339 I/ChargerBatteryIntelligenceReceiver( 8273): dissmissTempFastChargeReminder not support
+11-09 23:58:59.339 I/PowerFeatureUtils( 8273): getVendorName:qcom
+11-09 23:58:59.339 I/SmartPower( 2525): com.android.browser/10118 state=background adj=901 proc size=1 move to inactive broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:58:59.339 I/android_os_HwBinder( 2525): HwBinder: Starting thread pool for getting: vendor.xiaomi.hardware.micharge@1.0::IMiCharge/default
+11-09 23:58:59.339 E/vendor.xiaomi.hardware.micharge@1.0-service( 1366): Failed to open node /sys/class/qcom-battery/reverse_chg_mode
+11-09 23:58:59.339 I/vendor.xiaomi.hardware.micharge@1.0-service( 1366): ReadFilePathValue path = /sys/class/qcom-battery/reverse_chg_mode value = 
+11-09 23:58:59.341 I/android_os_HwBinder( 2525): HwBinder: Starting thread pool for getting: vendor.xiaomi.hardware.micharge@1.0::IMiCharge/default
+11-09 23:58:59.343 I/vendor.xiaomi.hardware.micharge@1.0-service( 1366): ReadFilePathValue path = /sys/class/qcom-battery/fastchg_mode value = 0
+11-09 23:58:59.596 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:58:59.597 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:00.002 D/AlarmManager( 2525): mBroadcastRefCount -> 1
+11-09 23:59:00.008 D/KeyguardUpdateMonitor( 4807): received broadcast android.intent.action.TIME_TICK
+11-09 23:59:00.009 D/AlarmManager( 2525): mBroadcastRefCount -> 0
+11-09 23:59:00.009 D/AlarmManager( 2525): mPendingIntent -> null
+11-09 23:59:00.009 D/KeyguardUpdateMonitor( 4807): handleTimeUpdate
+11-09 23:59:00.098 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:00.098 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:00.599 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:00.600 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:01.020 D/MiuiNetworkPolicy( 2525): updateLimit mLimitEnabled=true,enabled=false,mNetworkPriorityMode=1
+11-09 23:59:01.101 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:01.101 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:01.107 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   9.5850,   9.6020,  26.0000>,time=62302918398248, sensor=5, temperature(K)=   9.6020
+11-09 23:59:01.108 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 8, lux = 9, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:59:01.190 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:59:01.192 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:58
+11-09 23:59:01.463 D/BoundBrokerSvc( 4374): onUnbind: Intent { act=com.google.android.gms.libs.gmscorelogger.service.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.PersistentDirectBootAwareApiService }
+11-09 23:59:01.478 I/MiuiNetworkPolicy( 2525): bandwidth: 5 KB/s, Max bandwidth: 577 KB/s
+11-09 23:59:01.481 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=441}
+11-09 23:59:01.482 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=1208}
+11-09 23:59:01.602 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:01.602 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:01.821 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:01.822 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:01.822 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:01.823 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:01.824 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:01.824 W/AOSP-MdnsDiscoveryManag( 4374): Error while decoding multicast packet (4396): 1 [CONTEXT service_id=168 ]
+11-09 23:59:01.825 W/AOSP-MdnsDiscoveryManag( 4374): Error while decoding multicast packet (4397): 1 [CONTEXT service_id=168 ]
+11-09 23:59:02.103 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:02.105 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:02.334 I/SmartPower.com.miui.systemAdSolution/10151(13974)( 2525): background->idle(3003ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=100.
+11-09 23:59:02.335 I/SmartPower.com.xiaomi.market:guard/10149(11821)( 2525): background->idle(3002ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=945.
+11-09 23:59:02.335 I/SmartPower.com.xiaomi.market/10149(10335)( 2525): background->idle(3003ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=905.
+11-09 23:59:02.336 I/SmartPower( 2525): com.miui.systemAdSolution/10151 state=inactive adj=100 proc size=1 move to idle broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:59:02.337 I/SmartPower( 2525): com.xiaomi.market/10149 state=inactive adj=905 proc size=3 move to idle broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:59:02.340 I/SmartPower.com.android.browser/10118(23072)( 2525): background->idle(3006ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=901.
+11-09 23:59:02.341 I/SmartPower( 2525): com.android.browser/10118 state=inactive adj=901 proc size=1 move to idle broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:59:02.586 D/MemorySizeMonitor(23072): Current memory: 390037KB, ratio: 3%, total: 11444340KB
+11-09 23:59:02.586 W/MemorySizeMonitor(23072): Memory threshold exceeded continuously! duration=8193590ms
+11-09 23:59:02.586 D/MemorySizeMonitor(23072): Skip report due to report interval (24999ms < 60000ms)
+11-09 23:59:02.605 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:02.606 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:02.978 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   8.3700,   8.3440,  27.0000>,time=62304788583613, sensor=5, temperature(K)=   8.3440
+11-09 23:59:02.978 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 9, lux = 8, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:59:03.107 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:03.107 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:03.195 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:59:03.197 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:58
+11-09 23:59:03.608 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:03.608 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:03.990 D/TrafficStats( 8466): tagSocket(81) with statsTag=0xffffffff, statsUid=-1
+11-09 23:59:04.111 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:04.112 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:04.335 I/SmartPower( 2525): com.miui.systemAdSolution/10151 state=idle adj=100 proc size=1 move to hibernation broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:59:04.337 I/SmartPower( 2525): com.xiaomi.market/10149 state=idle adj=905 proc size=3 move to hibernation broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:59:04.340 I/SmartPower( 2525): com.android.browser/10118 state=idle adj=901 proc size=1 move to hibernation broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-09 23:59:04.481 I/MiuiNetworkPolicy( 2525): bandwidth: 8 KB/s, Max bandwidth: 577 KB/s
+11-09 23:59:04.503 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=441}
+11-09 23:59:04.504 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=1208}
+11-09 23:59:04.613 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:04.613 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:05.058 D/TrafficStats(23221): tagSocket(88) with statsTag=0xffffffff, statsUid=-1
+11-09 23:59:05.114 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:05.114 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:05.199 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:59:05.201 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:59

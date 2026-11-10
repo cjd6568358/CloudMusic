@@ -1,0 +1,108 @@
+{
+  "method": "12 §61.49 / F3 样本：OpenList strm_test_probe → /ecloud_self/我的音乐 真实音频 + 竞品 ogg + 标准库 AIFF；不需要音频编码器",
+  "generated_by": "tools/l3_f3_fixture_gen.py",
+  "openlist_base": "http://192.168.1.1:15244",
+  "probe_dir": "/strm_test_probe（92 个 .strm 指向 /ecloud_self/我的音乐）",
+  "formats": {
+    "mp3": {
+      "origin": "openlist",
+      "openlist_path": "/ecloud_self/我的音乐/dollyy99 - 官方回答.mp3",
+      "full_size": 1129442,
+      "truncated": false,
+      "bytes": 1129442,
+      "third_party_decoder_verified": true,
+      "note": "完整真实音频",
+      "file": "analysis/l3-f3-fixtures/f3_mp3.mp3",
+      "sha256": "4a647862a85d3cfef6fe933bf2519c3ae19c72ce69f648a75b27f92f414e27a6",
+      "magic": "4944330300000004"
+    },
+    "wma": {
+      "origin": "openlist",
+      "openlist_path": "/ecloud_self/我的音乐/未知歌手 - sellect-loop2.WMA",
+      "full_size": 722095,
+      "truncated": false,
+      "bytes": 722095,
+      "third_party_decoder_verified": true,
+      "note": "完整真实音频",
+      "file": "analysis/l3-f3-fixtures/f3_wma.wma",
+      "sha256": "629e683fb0134f1237d67d05c5e9514ae81d1e92d805413bf0688bd5a82e555b",
+      "magic": "3026b2758e66cf11"
+    },
+    "flac": {
+      "origin": "openlist",
+      "openlist_path": "/ecloud_self/我的音乐/G.E.M.邓紫棋 - 后会无期.flac",
+      "full_size": 20458409,
+      "truncated": true,
+      "bytes": 4194304,
+      "third_party_decoder_verified": true,
+      "note": "前 4 MiB 片段（仅验证 demuxer/codec 打开）",
+      "file": "analysis/l3-f3-fixtures/f3_flac.flac",
+      "sha256": "dac908dff5632be0d9df4c3316935aab7c8734356f910b1e176cdfd5e956594c",
+      "magic": "664c614300000022"
+    },
+    "wav": {
+      "origin": "openlist",
+      "openlist_path": "/ecloud_self/我的音乐/孙露 - 那年的情书.wav",
+      "full_size": 45537204,
+      "truncated": true,
+      "bytes": 4194304,
+      "third_party_decoder_verified": true,
+      "note": "前 4 MiB 片段（WAV 已修正 RIFF/data 长度）",
+      "file": "analysis/l3-f3-fixtures/f3_wav.wav",
+      "sha256": "c1449e60b78313bdcd421da5fe3c3f390f316f28e3ba8e74f593517f769d38f8",
+      "magic": "52494646f8ff3f00"
+    },
+    "ape": {
+      "origin": "openlist",
+      "openlist_path": "/ecloud_self/我的音乐/刘若英.-.[收获.harvest(CD1)].专辑.(ape).ape",
+      "full_size": 228210015,
+      "truncated": true,
+      "bytes": 4194304,
+      "third_party_decoder_verified": true,
+      "note": "前 4 MiB 片段（仅验证 demuxer/codec 打开）",
+      "file": "analysis/l3-f3-fixtures/f3_ape.ape",
+      "sha256": "1d5e112d85b981d4651f724dc84091ae7b68a4e009ff11c0d9619325fdbaa24f",
+      "magic": "4d414320960f0000"
+    },
+    "ogg": {
+      "origin": "apk_asset",
+      "openlist_path": null,
+      "full_size": 6401,
+      "truncated": false,
+      "bytes": 6401,
+      "third_party_decoder_verified": true,
+      "note": "竞品 analysis/decoded/res/raw/d.ogg（Vorbis，完整）",
+      "file": "analysis/l3-f3-fixtures/f3_ogg.ogg",
+      "sha256": "9bd6f5856d9162d4a41c016976edc4bfc2dfbbff9d98f05a362a50fa678dd5bc",
+      "magic": "4f67675300020000"
+    },
+    "aiff": {
+      "origin": "synthetic",
+      "openlist_path": null,
+      "full_size": 1146934,
+      "truncated": false,
+      "bytes": 1146934,
+      "third_party_decoder_verified": false,
+      "note": "纯标准库 FORM/AIFF COMM+SSND / PCM s16be（无现成样本）",
+      "file": "analysis/l3-f3-fixtures/f3_aiff.aiff",
+      "sha256": "d73a62c9aad0dfb4919fa49036d5c6d5a393c7bab717c170913795ac1ce3b2a4",
+      "magic": "464f524d0011802e"
+    }
+  },
+  "no_sample_formats": [
+    "m4a",
+    "aac",
+    "opus",
+    "wv",
+    "tak",
+    "dsf",
+    "dff"
+  ],
+  "no_sample_reason": "OpenList 音乐库实测只有 ape/mp3/flac/wma/wav；其余 7 种无真实样本，矩阵标 NO_SAMPLE（不计 PASS/FAIL）",
+  "honest_notes": [
+    "OpenList 凭据只在本次进程内使用，未写入仓库；清单不含 token 与签名直链。",
+    "flac/wav/ape/大文件为前 4 MiB 片段：只验证 demuxer 识别 + codec 打开 + 播放链，不能据此声称完整时长 / ENDED 通过。WAV 片段已修正 RIFF/data 长度使容器自洽。",
+    "aiff 为自造极简容器，未经第三方解码器校验；mp3/wma/ogg 为真实完整音频。",
+    "F3 整体仍判 PARTIAL：7 种格式无样本，且未做逐格 seek / 完整时长 / ENDED 全量判据。"
+  ]
+}

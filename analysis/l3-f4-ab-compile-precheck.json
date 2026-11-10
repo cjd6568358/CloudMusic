@@ -1,0 +1,47 @@
+{
+  "method": "12 §61.57 / F4 kind 槽 A/B 变体 B 的编译期预检（离线、临时变体已恢复、零净改动、非 A/B）",
+  "generated_by": "tools/l3_f4_ab_compile_precheck.py",
+  "build_command": "./gradlew :app:assembleDebug --offline",
+  "variant": "OnDataRequestEnd 首参恒传 NATIVE_DONE_KIND_FLUSH = 1L",
+  "checks": {
+    "anchors_all_true": true,
+    "variant_single_precise_change": true,
+    "variant_compiles_offline": true,
+    "baseline_recompiles_offline": true,
+    "source_restored_byte_exact": true,
+    "git_diff_clean_after_restore": true,
+    "ab_result_honest": true,
+    "ab_executed": true,
+    "no_credentials_in_evidence": true
+  },
+  "all_pass": true,
+  "failed_checks": [],
+  "evidence": {
+    "anchor_checks": {
+      "old_call_exactly_once": true,
+      "companion_anchor_present": true,
+      "variant_not_already_applied": true,
+      "p0_baseline_present": true
+    },
+    "variant_shape": {
+      "old_call_absent": true,
+      "new_call_present": true,
+      "const_present": true,
+      "single_const_occurrence": true,
+      "byte_delta": 144
+    },
+    "variant_build_returncode": 0,
+    "variant_build_tail": "bugGlobalSynthetics UP-TO-DATE\n> Task :app:processDebugJavaRes UP-TO-DATE\n> Task :app:mergeDebugJavaResource UP-TO-DATE\n> Task :app:mergeLibDexDebug FROM-CACHE\n> Task :app:mergeProjectDexDebug UP-TO-DATE\n> Task :app:packageDebug\n> Task :app:createDebugApkListingFileRedirect UP-TO-DATE\n> Task :app:assembleDebug\n\nBUILD SUCCESSFUL in 8s\n124 actionable tasks: 4 executed, 12 from cache, 108 up-to-date\n",
+    "baseline_build_returncode": 0,
+    "baseline_build_tail": "bugGlobalSynthetics UP-TO-DATE\n> Task :app:processDebugJavaRes UP-TO-DATE\n> Task :app:mergeDebugJavaResource UP-TO-DATE\n> Task :app:mergeLibDexDebug FROM-CACHE\n> Task :app:mergeProjectDexDebug UP-TO-DATE\n> Task :app:packageDebug\n> Task :app:createDebugApkListingFileRedirect UP-TO-DATE\n> Task :app:assembleDebug\n\nBUILD SUCCESSFUL in 6s\n124 actionable tasks: 4 executed, 12 from cache, 108 up-to-date\n",
+    "source_restored": true,
+    "git_diff_clean": true
+  },
+  "conclusion": "设备上线后 --apply 的编译环节已实证可过：变体 B（1 处调用替换 + 1 行 Long 常量）在 --offline 下 :app:assembleDebug 成功；finally 已恢复 P0 基线并重编译、源码逐字节一致、git diff 为空。本工具不连 adb、不 install、不产生任何真机判据。§61.59 真机 A/B 已执行两次，主判据未达成、F4 仍 BLOCKED。",
+  "honest_notes": [
+    "本批**临时改过**生产源码用于编译验证，最终零净改动；不写「零代码改动」，如实写「零净改动」。",
+    "编译通过只排除语法/类型/依赖问题，不证明变体在真机上的行为，更不证明环节 B 因果链。",
+    "不连设备、不安装 APK、不跑任何格；§61.59 真机结果见 analysis/l3-f4-ab-result-report.md；自动进曲 3 首仍 NOT RUN。",
+    "A3 仍 G09 PARTIAL、舱不冻结；engine_compat_test 不回填。"
+  ]
+}

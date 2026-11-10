@@ -1,0 +1,40 @@
+{
+  "method": "12 §61.55 / F3 NO_SAMPLE 格式的数据源边界盘点（只读列目录、不下载音频、凭据仅进程内）",
+  "generated_by": "tools/l3_f3_openlist_scan.py",
+  "scanned_at": "2026-11-09T20:22:41",
+  "config": {
+    "max_depth": 3,
+    "max_dirs": 80,
+    "per_page": 500,
+    "endpoint_host": "192.168.1.1"
+  },
+  "dirs_scanned": 80,
+  "list_errors": 0,
+  "audio_ext_counts": {
+    "ape": 54,
+    "flac": 66,
+    "mp3": 242,
+    "mp4": 3,
+    "wav": 9,
+    "wma": 27
+  },
+  "no_sample_formats_checked": [
+    "m4a",
+    "aac",
+    "opus",
+    "wv",
+    "tak",
+    "dsf",
+    "dff"
+  ],
+  "no_sample_candidates": {},
+  "no_sample_found": [],
+  "no_sample_candidate_total": 0,
+  "conclusion": "递归列目录后，7 种 NO_SAMPLE 格式在数据源中一个都没有；F3 的 NO_SAMPLE 缺口不是脚本能力问题，而是数据源确实没有这些格式，只能由用户提供样本或换数据源后复用 §8.9 脚本复跑。",
+  "honest_notes": [
+    "只列目录不改任何远端文件；不下载音频；不连 adb、不碰设备。",
+    "凭据从 OLU/OLP 环境变量读取，不写入源码、日志或本 JSON；token 仅在进程内存活。",
+    "扫描受 max_depth / max_dirs 上限约束，结论只对已扫描到的目录成立。",
+    "本盘点不改变 F3 矩阵 14 格的既有结论，也不判任何格式为已支持。"
+  ]
+}

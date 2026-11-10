@@ -1,0 +1,39 @@
+{
+  "method": "12 §61.58 / F4 上线前自检的独立审计（离线、只读）",
+  "generated_by": "tools/l3_f4_preflight_audit.py",
+  "checks": {
+    "preflight_json_present": true,
+    "preflight_all_pass": true,
+    "ten_guard_jsons_green": true,
+    "contract_and_compile_precheck_green": true,
+    "five_samples_recorded": true,
+    "device_state_recorded": true,
+    "ab_result_honest": true,
+    "p0_baseline_clean": true,
+    "runbook_has_one_liner": true,
+    "runbook_has_three_verdict_branches": true,
+    "runbook_has_restore_checklist": true,
+    "runbook_records_known_limits": true,
+    "no_credentials_in_evidence": true,
+    "contract_guard_present": true,
+    "delivery12_has_61_58": true,
+    "head_still_uncommitted": true
+  },
+  "all_pass": true,
+  "failed_checks": [],
+  "status": {
+    "offline_preconditions": "ALL_GREEN",
+    "device_online": true,
+    "ready_to_run": false,
+    "sole_blocker": "第二卡点（fMP4 多 Range × vfile 落盘 / demuxer probe）待 native 级定位",
+    "ab_executed": true,
+    "ab_verdict": "PARTIAL：环节 B 部分成立、非充分原因",
+    "f4_status": "BLOCKED"
+  },
+  "honest_notes": [
+    "§61.59：A/B 已执行两次（25s/45s）+ 基线对照，主判据均未达成；前置条件全绿不等于因果链成立。",
+    "本守护不证明环节 B 因果链；自动进曲 3 首 / seek / ENDED 仍 NOT RUN。",
+    "只读探测 adb devices，不 connect、不改设备现场、零生产代码改动。",
+    "A3 仍 G09 PARTIAL、舱不冻结；F3 矩阵 14 格未改写。"
+  ]
+}

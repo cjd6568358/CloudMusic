@@ -1,0 +1,209 @@
+{
+  "method": "12 §61.42：按竞品反编译色值 / 尺寸 / 位图 / layout 层级逐项核对自研 UI，并守护 12 §61.40 动画参数与零发布基线",
+  "generated_by": "tools/l3_visual_replica_spec.py",
+  "sources": [
+    "app/src/main/assets/legacy-player/values/legacy_colors.xml",
+    "app/src/main/assets/legacy-player/values/legacy_dimens.xml",
+    "app/src/main/assets/legacy-player/layout/legacy_c5y.xml / legacy_are.xml / legacy_e0g.xml / legacy_gr.xml / legacy_gc.xml / legacy_bv5.xml",
+    "app/src/main/assets/legacy-player/drawable/legacy_bn5.xml / legacy_bnx.xml / legacy_bp1.xml",
+    "analysis/l3-reference/legacy-icons-sheet.png / legacy-control-zoom.png / legacy-disc-layers.png",
+    "app/src/main/kotlin/com/example/cloudmusic/ui/**.kt"
+  ],
+  "competitor_palette": {
+    "legacy_ew": {
+      "xml": "#ffff3a3a",
+      "constant": "PrimaryRed",
+      "value": "0xFFFF3A3A"
+    },
+    "legacy_ff": {
+      "xml": "#eecc0000",
+      "constant": "DeepRed",
+      "value": "0xEECC0000"
+    },
+    "legacy_anm": {
+      "xml": "#ffff2c55",
+      "constant": "AccentRed",
+      "value": "0xFFFF2C55"
+    },
+    "legacy_b1e": {
+      "xml": "#ffffffff",
+      "constant": "TextPrimary",
+      "value": "0xFFFFFFFF"
+    },
+    "legacy_b1w": {
+      "xml": "#b3ffffff",
+      "constant": "TextSecondary",
+      "value": "0xB3FFFFFF"
+    },
+    "legacy_b1n": {
+      "xml": "#66ffffff",
+      "constant": "TextTertiary",
+      "value": "0x66FFFFFF"
+    },
+    "legacy_b1q": {
+      "xml": "#80ffffff",
+      "constant": "TextHint",
+      "value": "0x80FFFFFF"
+    },
+    "legacy_b1z": {
+      "xml": "#cdffffff",
+      "constant": "IconTint",
+      "value": "0xCDFFFFFF"
+    },
+    "legacy_b1d": {
+      "xml": "#1affffff",
+      "constant": "TrackBackground",
+      "value": "0x1AFFFFFF"
+    },
+    "legacy_b1h": {
+      "xml": "#33ffffff",
+      "constant": "TrackBuffer",
+      "value": "0x33FFFFFF"
+    },
+    "legacy_b1t": {
+      "xml": "#99ffffff",
+      "constant": "TrackProgressSoft",
+      "value": "0x99FFFFFF"
+    },
+    "legacy_dv": {
+      "xml": "#1a000000",
+      "constant": "ScrimTop",
+      "value": "0x1A000000"
+    },
+    "legacy_dz": {
+      "xml": "#33000000",
+      "constant": "ScrimBottom",
+      "value": "0x33000000"
+    },
+    "legacy_du": {
+      "xml": "#00000000",
+      "constant": "Transparent",
+      "value": "0x00000000"
+    }
+  },
+  "competitor_metrics": {
+    "PagePaddingDp": "10f",
+    "ControlSizeDp": "54f",
+    "TrackCornerDp": "3f",
+    "TrackHeightDp": "8f",
+    "MiniBarCornerDp": "18f",
+    "MiniCoverDp": "36f",
+    "MiniCoverImageDp": "22f",
+    "MiniProgressDp": "37f",
+    "RedDotDp": "9f",
+    "BackArrowDp": "26f",
+    "BackBarHeightDp": "44f",
+    "ControlPrevNextDp": "30f",
+    "ControlPlayDp": "36f",
+    "ControlModeDp": "40f",
+    "ControlLikeDp": "28f",
+    "TitleSp": "18f",
+    "TimeSp": "12f",
+    "MarqueeTextSp": "14f",
+    "MarqueeMaxWidthDp": "125f",
+    "MarqueeHeightDp": "38f"
+  },
+  "asset_constants": {
+    "BackArrow": "legacy-player\\drawable-xxhdpi\\legacy_coy.png",
+    "Close": "legacy-player\\drawable-xxhdpi\\legacy_h0g.webp",
+    "CoverPlaceholder": "legacy-player\\drawable-xxhdpi\\legacy_epi.png",
+    "DiscBacking": "legacy-player\\drawable-xxhdpi\\legacy_ga6.webp",
+    "DiscFrame": "legacy-player\\drawable-xxhdpi\\legacy_ga8.png",
+    "DiscRed": "legacy-player\\drawable-xxhdpi\\legacy_g9f.webp",
+    "DiscRing": "legacy-player\\drawable-xxhdpi\\legacy_ga9.webp",
+    "DiscVinyl": "legacy-player\\drawable-xxhdpi\\legacy_ga0.png",
+    "Favorite": "legacy-player\\drawable-xxhdpi\\legacy_gca.webp",
+    "Font": "legacy-player\\font\\legacy_a.ttf",
+    "ModeLoop": "legacy-player\\drawable-xxhdpi\\legacy_gc6.webp",
+    "Next": "legacy-player\\drawable-xxhdpi\\legacy_g_a.webp",
+    "NoteGlyph": "legacy-player\\drawable-xxhdpi\\legacy_f6m.png",
+    "Play": "legacy-player\\drawable-xxhdpi\\legacy_g_k.webp",
+    "Prev": "legacy-player\\drawable-xxhdpi\\legacy_g_o.webp",
+    "ProgramCover": "legacy-player\\drawable-xxhdpi\\legacy_dwr.webp",
+    "ShareArrow": "legacy-player\\drawable-xxhdpi\\legacy_gr7.png",
+    "SoundEffect": "legacy-player\\drawable-xxhdpi\\legacy_h0h.webp",
+    "TrialLabel": "legacy-player\\drawable-xxhdpi\\legacy_f6j.webp"
+  },
+  "disc_layer_order": [
+    {
+      "view": "discBacking",
+      "asset": "DiscBacking"
+    },
+    {
+      "view": "albumLabel",
+      "asset": "DiscRed"
+    },
+    {
+      "view": "vinylPlate",
+      "asset": "DiscVinyl"
+    },
+    {
+      "view": "vinylRing",
+      "asset": "DiscRing"
+    },
+    {
+      "view": "discFrame",
+      "asset": "DiscFrame"
+    }
+  ],
+  "rotation_markers": {
+    "base_period_20000": true,
+    "linear_interpolator": true,
+    "infinite_repeat": true,
+    "restart_repeat_mode": true,
+    "fraction_360": true,
+    "set_rotation": true,
+    "needle_object_animator": true,
+    "period_formula": true
+  },
+  "baseline": {
+    "module_count": 19,
+    "permission_count": 11,
+    "staged_assets_files": 51,
+    "mapping_rows": 61,
+    "mapping_replaced_false": 61,
+    "new_dependencies": [],
+    "res_dir_exists": false,
+    "ui_legacy_included": false
+  },
+  "checks": {
+    "visual_spec_source_present": true,
+    "palette_matches_competitor_xml": true,
+    "metrics_match_competitor_layout": true,
+    "asset_constants_all_exist": true,
+    "disc_layer_order_from_layout_xml": true,
+    "page_uses_competitor_assets_and_colors": true,
+    "mini_bar_matches_e0g_spec": true,
+    "theme_fixed_dark_competitor": true,
+    "player_is_launch_screen_no_tab_bar": true,
+    "no_banned_animation_api": true,
+    "rotation_parameters_intact": true,
+    "single_channel_bridge_intact": true,
+    "baseline_unchanged": true
+  },
+  "mismatches": {
+    "palette": [],
+    "metrics": [],
+    "missing_assets": [],
+    "hardcoded_colors_in_page": [],
+    "banned_apis": []
+  },
+  "verdict": {
+    "all_checks_pass": true,
+    "pixel_level_1to1": false,
+    "one_to_one_conclusion": "未达成 1:1 像素级复刻。本批达成的是「色值 / 尺寸 / 位图 / 控件顺序全部取自竞品一手证据的自研实现」，不含竞品自定义 View 的绘制代码与 XML 骨架。",
+    "pixel_level_gaps": [
+      "竞品无标准竖屏主播放页 layout tag（12 §61.41：48 个闭包 layout 中 11 个非播放页误命中，主播放页由 Activity / Presenter 代码动态组合），无可逐像素对照的 XML 骨架",
+      "20 个竞品自定义 View 的 onDraw / 状态机无源码（12 §61.39：aapt2 不校验 Java 类，XML 进 res/ 会 LayoutInflater ClassNotFoundException）",
+      "81 个混淆 app:* attr 语义不可逆（layout_constraint* 被混淆成 a5f/a5l/a65/a69，重声明同名 attr 只会分配新资源 ID，ConstraintLayout 读不到值）",
+      "12 §61.42 实证：竞品 com.netease.cloudmusic.activity.PlayerActivity 在 Manifest exported=false，am start -n 被 SecurityException ... not exported 拒绝；AppwidgetPlayerRedirectActivity / MiMiniPlayerActivity 直达后前台仍停在自研 app；无线 adb 受 MIUI INJECT_EVENTS 限制 input tap / keyevent 被拒 → 无法自动取竞品播放页真机截图做逐像素比对（属手工 / USB 在场硬阻塞，不是待办）",
+      "离线 Gradle 缓存缺 constraintlayout / appcompat / material / recyclerview，且 app/src/main/res/ 未建立、:ui-legacy 未 include（12 §61.40 / §61.41 基线）"
+    ],
+    "conditions_for_1to1": [
+      "用户手动把竞品切到播放页后由本助手 adb screencap 取真机截图，作为逐像素比对基准",
+      "或按 12 §61.41 三项授权补导其余 39 个 layout + 4 类依赖 + :ui-legacy 舱体",
+      "无论哪条路径，20 个竞品 View 的 onDraw / 状态机仍需按截图自研重绘（不搬 XML）"
+    ]
+  },
+  "conclusion": "12 §61.42：用户把口径升级为「1:1 像素级复刻」并指出 V0.1 五页 tab 导航栏不是竞品组件。本批把竞品 27 张真实位图（含 g_o/g_k/g_a/gc6/gca 控制图标、ga6/g9f/ga0/ga9/ga8 唱片叠层）与竞品色值 / dp 规格接入播放页与迷你条，主题固定为竞品深色、启动即全屏播放页（无 tab bar）。核心播放逻辑（PlaybackRuntime / native 引擎 / PlayerStateBridge 单通道）零改动；19 模块 / 11 权限 / 51 素材 / 61 行 csv 全 false / 零新增依赖 / res 未建 / :ui-legacy 未 include 零变化。像素级 1:1 仍受竞品无主播放页 layout、20 个 View 无绘制源码、81 个混淆 attr 不可逆、无线 adb 无法注入点击取竞品截图四项约束，如实挂账不伪造。"
+}

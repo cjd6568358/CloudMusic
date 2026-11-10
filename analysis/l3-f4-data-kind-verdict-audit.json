@@ -1,0 +1,87 @@
+{
+  "method": "12 §61.64 / 变体 D 真机裁决的离线复核（只读、零依赖）",
+  "generated_by": "tools/l3_f4_data_kind_verdict_audit.py",
+  "checks": {
+    "run3_result_present": true,
+    "run3_verdict_not_met": true,
+    "run3_primary_criterion_false": true,
+    "run3_regression_all_pass": true,
+    "run3_p0_restored": true,
+    "run3_baseline_rebuild_ok": true,
+    "run3_chain_started": true,
+    "run3_warmup_4": true,
+    "main_log_line_count": true,
+    "main_handler_created": true,
+    "main_new_slice_no_use_old": true,
+    "main_start_offset_zero": true,
+    "main_commit_only_16384": true,
+    "main_jump_read_fails_5": true,
+    "main_fallback_to_16384": true,
+    "main_no_codec": true,
+    "main_no_write_start": true,
+    "main_minus_103_present": true,
+    "regression_mp3_codec_and_write": true,
+    "regression_wav_codec_and_write": true,
+    "regression_wav_commit_1048576": true,
+    "kind1_vs_kind2_commit_contrast": true,
+    "report_has_falsified": true,
+    "report_points_to_write_chain": true,
+    "report_no_false_claims": true,
+    "p0_git_diff_clean": true,
+    "no_credentials_in_evidence": true,
+    "contract_guard_61_64_present": true,
+    "delivery12_has_61_64": true,
+    "head_still_uncommitted": true
+  },
+  "checks_total": 30,
+  "all_pass": true,
+  "failed_checks": [],
+  "evidence_extracted": {
+    "main_commit_values": [
+      16384,
+      16384
+    ],
+    "main_jump_read_failures": 5,
+    "main_open_codec": [],
+    "main_write_start_nerr": [],
+    "mp3_codec": [
+      "mp3"
+    ],
+    "mp3_write_start_nerr": [
+      "0"
+    ],
+    "wav_codec": [
+      "pcm_s16le"
+    ],
+    "wav_write_start_nerr": [
+      "0"
+    ]
+  },
+  "status": {
+    "variant_d_verdict": "FALSIFIED_EFFECTIVE_NEGATIVE",
+    "primary_criterion_met": false,
+    "regression_all_pass": true,
+    "chain_started": true,
+    "commit_kind1_baseline": 180224,
+    "commit_kind2_variant": 16384,
+    "kind_slot_affects_vfile_write": true,
+    "root_cause_direction": "OnWriteNetData / NMSliceFile::Write / commit 记账的 native 落盘链路（非 Java 侧把 kind 改成 2）",
+    "fix_implemented": false,
+    "fix_verified": false,
+    "f4_status": "BLOCKED",
+    "auto_advance_3_tracks": "NOT RUN",
+    "seek_and_ended": "NOT RUN",
+    "device_endpoint": "10.0.0.2:41761",
+    "device_can_disconnect": true,
+    "p0_restored": true,
+    "a3_g09": "PARTIAL",
+    "engine_bay_frozen": false
+  },
+  "honest_notes": [
+    "本轮是有效判据（链路完整展开、回归两格真实出声），不是 §61.63 run1 的空跑。",
+    "证伪的是「kind 改成 2 能修复落盘」这一具体预测；kind 槽确实影响落盘量，方向相反。",
+    "根因方向转移到 native 落盘链路，具体函数仍待反汇编定位。",
+    "F4 仍 BLOCKED；自动进曲 3 首 / seek / ENDED 仍 NOT RUN；A3 仍 G09 PARTIAL、舱不冻结。",
+    "P0 引擎舱零净改动、零发布基线变化；变体只临时存在，finally 无条件恢复。"
+  ]
+}

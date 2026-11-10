@@ -1,0 +1,196 @@
+{
+  "method": "12 §61.40：按 12 §39 / docs/14 §4.1 / 03-10 §3.3 §6 的实证参数核对播放页交互复刻，并守护零发布基线变更",
+  "generated_by": "tools/l3_interaction_spec.py",
+  "sources": [
+    "docs/14-播放页资源反查.md §4 / §4.1",
+    "docs/03-模块开发文档/03-10 UI 组件与主题.md §3.3 / §6 / §11",
+    "docs/12-编码阶段第一批交付.md §39 / §61.38 / §61.39",
+    "analysis/legacy-layout-audit.json",
+    "app/src/main/kotlin/com/example/cloudmusic/ui/player/*.kt"
+  ],
+  "animation_parameters": {
+    "base_period_ms": 20000,
+    "period_formula": "20000.0f / getPlaySpeed(...)",
+    "interpolator": "LinearInterpolator",
+    "value_animator": "ValueAnimator.ofFloat(0.0f, 1.0f)",
+    "repeat_count": -1,
+    "repeat_mode": 1,
+    "angle_expression": "getAnimatedFraction() * 360.0f",
+    "rotation_target": "View.setRotation",
+    "needle": "PlayerVinylViewHolder 的 discHeadUpRotateAnimation / discHeadDownRotateAnimation（两个 ObjectAnimator）",
+    "anim_xml_loaded": false,
+    "source": "12 §39 / docs/14 §4.1 / analysis/rotation-anim-resolution.json"
+  },
+  "rotation_markers": {
+    "base_period_20000": true,
+    "linear_interpolator": true,
+    "infinite_repeat": true,
+    "restart_repeat_mode": true,
+    "fraction_360": true,
+    "set_rotation": true,
+    "needle_object_animator": true,
+    "period_formula": true,
+    "no_anim_xml": true
+  },
+  "netease_view_groups": {
+    "唱片 / 旋转": [
+      "com.netease.cloudmusic.ui.PlayerDiscViewFlipper",
+      "com.netease.cloudmusic.ui.RotationRelativeLayout",
+      "com.netease.cloudmusic.ui.AnimableDrawerImageView",
+      "com.netease.cloudmusic.ui.GestureImageSwitcher",
+      "com.netease.cloudmusic.ui.PlayerStarAnimImageView"
+    ],
+    "横屏黑胶": [
+      "com.netease.cloudmusic.land.vinyl.RotationVinylView",
+      "com.netease.cloudmusic.land.vinyl.CircleTouchView",
+      "com.netease.cloudmusic.land.vinyl.TouchInterceptorRecyclerView",
+      "com.netease.cloudmusic.land.plugin.PlayerLandscapeViewGroup"
+    ],
+    "迷你播放条": [
+      "com.netease.cloudmusic.module.miminiplayer.MiAnimViewRender",
+      "com.netease.cloudmusic.module.miminiplayer.MiLyricViewContainer"
+    ],
+    "跑马灯 / 旋转容器": [
+      "com.netease.play.ui.MarqueeTextView",
+      "com.netease.play.ui.MarqueTextView",
+      "com.netease.play.ui.RotateFrameLayout",
+      "com.netease.play.livepage.music2.CircleProgressView"
+    ],
+    "进度 / 图片": [
+      "com.netease.cloudmusic.ui.PlayerSeekBarNew",
+      "com.netease.cloudmusic.ui.PlayerLandScapePageImageView",
+      "com.netease.cloudmusic.ui.PlayerLandScapePageMarqueeTextView",
+      "com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView",
+      "com.netease.cloudmusic.ui.CommonSimpleDraweeView"
+    ]
+  },
+  "netease_classes_from_audit": [
+    "com.netease.cloudmusic.land.plugin.PlayerLandscapeViewGroup",
+    "com.netease.cloudmusic.land.vinyl.CircleTouchView",
+    "com.netease.cloudmusic.land.vinyl.RotationVinylView",
+    "com.netease.cloudmusic.land.vinyl.TouchInterceptorRecyclerView",
+    "com.netease.cloudmusic.module.miminiplayer.MiAnimViewRender",
+    "com.netease.cloudmusic.module.miminiplayer.MiLyricViewContainer",
+    "com.netease.cloudmusic.ui.AnimableDrawerImageView",
+    "com.netease.cloudmusic.ui.CommonSimpleDraweeView",
+    "com.netease.cloudmusic.ui.GestureImageSwitcher",
+    "com.netease.cloudmusic.ui.NeteaseMusicSimpleDraweeView",
+    "com.netease.cloudmusic.ui.PlayerDiscViewFlipper",
+    "com.netease.cloudmusic.ui.PlayerLandScapePageImageView",
+    "com.netease.cloudmusic.ui.PlayerLandScapePageMarqueeTextView",
+    "com.netease.cloudmusic.ui.PlayerSeekBarNew",
+    "com.netease.cloudmusic.ui.PlayerStarAnimImageView",
+    "com.netease.cloudmusic.ui.RotationRelativeLayout",
+    "com.netease.play.livepage.music2.CircleProgressView",
+    "com.netease.play.ui.MarqueTextView",
+    "com.netease.play.ui.MarqueeTextView",
+    "com.netease.play.ui.RotateFrameLayout"
+  ],
+  "replicated_interactions": [
+    {
+      "interaction": "唱片旋转（0→360° 线性无限循环，20s÷倍速，暂停冻结/恢复续转）",
+      "competitor_view": "RotationRelativeLayout / PlayerDiscViewFlipper / RotationVinylView",
+      "implementation": "VinylDiscView.startRotation() / pauseRotation()"
+    },
+    {
+      "interaction": "唱针起落（播放落下、暂停抬起）",
+      "competitor_view": "PlayerVinylViewHolder discHeadUp/DownRotateAnimation",
+      "implementation": "VinylDiscView.animateNeedle()"
+    },
+    {
+      "interaction": "标题跑马灯（单行超长滚动、无限循环）",
+      "competitor_view": "MarqueeTextView / MarqueTextView / PlayerLandScapePageMarqueeTextView",
+      "implementation": "LegacyPlayerPage 的 TextView(ellipsize=MARQUEE, marqueeRepeatLimit=-1)"
+    },
+    {
+      "interaction": "横向滑动切歌（上一首 / 下一首）",
+      "competitor_view": "GestureImageSwitcher / CircleTouchView / PlayerDiscViewFlipper",
+      "implementation": "LegacyPlayerPage 的 detectHorizontalDragGestures 覆盖层（72dp 阈值）"
+    },
+    {
+      "interaction": "进度条拖动 seek",
+      "competitor_view": "PlayerSeekBarNew / CircleProgressView",
+      "implementation": "LegacyPlayerPage 的 Slider → PlayerStateBridge.onSeek → PlaybackRuntime.seekTo"
+    },
+    {
+      "interaction": "播放 / 暂停 / 上一首 / 下一首",
+      "competitor_view": "播放页控制按钮",
+      "implementation": "PlayerStateBridge.onPlayPause / onNext / onPrev"
+    },
+    {
+      "interaction": "迷你播放条点击展开整页、整页返回",
+      "competitor_view": "fragment_mi_miniplayer → PlayerActivity",
+      "implementation": "CloudMusicApp.showPlayer / LegacyPlayerPage.onClose"
+    }
+  ],
+  "unwired_interactions": [
+    {
+      "name": "onModeToggle()",
+      "reason": "PlayerController 只有 setQueue(items, mode, startAt)，切换会 sync.push 全量下发 native 队列；不擅自改变真机运行时行为",
+      "ui_form": "模式图标只读展示"
+    },
+    {
+      "name": "onFavorite()",
+      "reason": "Track 无收藏字段、无收藏 Repository",
+      "ui_form": "♡ 只读占位"
+    },
+    {
+      "name": "歌词（MiLyricViewContainer）",
+      "reason": "生产侧无歌词数据源",
+      "ui_form": "「· 暂无歌词 ·」占位"
+    },
+    {
+      "name": "onOpenOutput()",
+      "reason": "OutputRouter.setActive 生产调用方为 0（12 §48），不伪造投屏状态",
+      "ui_form": "不显示切换入口"
+    },
+    {
+      "name": "onOpenQueue()",
+      "reason": "03-10 §5 队列弹窗属 V0.2 完善项",
+      "ui_form": "队列数量只读展示"
+    },
+    {
+      "name": "封面图（DraweeView 系列）",
+      "reason": "未引 coil-compose（12 §33 V0.1 口径）；生产侧仍无真实封面数据源",
+      "ui_form": "竞品真实位图 ga6/g9f/ga0/ga9/ga8 叠层作默认占位（12 §61.42）"
+    }
+  ],
+  "not_replicated_scopes": [
+    "48 个播放页相关 layout 中的其余 39 个（含标准竖屏主播放页、横屏黑胶页、行车电台页、歌词页、播放列表 sheet 等）未补导",
+    "20 个竞品 View 的像素级视觉（混淆 layout XML 未搬进生产 res/）",
+    "横屏黑胶页 / 行车电台页 / 音频播放页变体的专属交互",
+    "aapt2 四步实证（12 §61.39）仍只在仓库外临时工程，未接生产 res/"
+  ],
+  "baseline": {
+    "module_count": 19,
+    "permission_count": 11,
+    "staged_assets_files": 51,
+    "mapping_rows": 61,
+    "mapping_replaced_false": 61,
+    "new_dependencies": [],
+    "res_dir_exists": false,
+    "ui_legacy_included": false
+  },
+  "checks": {
+    "player_files_present": true,
+    "rotation_parameters_exact": true,
+    "no_compose_canvas_or_approximation": true,
+    "bridge_no_engine_import": true,
+    "entry_wired": true,
+    "single_channel_bridge": true,
+    "netease_class_count_20": true,
+    "baseline_19_modules": true,
+    "baseline_11_permissions": true,
+    "baseline_51_assets": true,
+    "baseline_61_rows_false": true,
+    "no_new_dependencies": true,
+    "res_dir_not_created": true,
+    "ui_legacy_not_included": true
+  },
+  "verdict": {
+    "all_checks_pass": true,
+    "banned_api_hits": [],
+    "bridge_forbidden_imports": []
+  },
+  "conclusion": "严格复刻的是「UI 交互」而非「像素级 XML 照搬」：交互行为参数逐项来自竞品反编译实证，用平台属性动画 + 自研 View 落地，零新增模块 / 依赖 / 权限、不动 assets 与 Manifest；契约 §6 中无生产后端的 6 项交互只读占位、不伪造；48 个播放页 layout 的完整像素级照搬与 :ui-legacy 舱体仍未做，需另行拍板（12 §61.40）。"
+}

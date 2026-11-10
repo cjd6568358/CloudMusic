@@ -2,6 +2,19 @@ package com.example.cloudmusic.di.playback
 
 import android.util.Log
 import com.example.cloudmusic.common.NetworkPlaybackGate
+import com.example.cloudmusic.common.PathNormalizer
+import com.example.cloudmusic.datasource.DriverCtx
+import com.example.cloudmusic.datasource.DriverRegistry
+import com.example.cloudmusic.local.LocalChannel
+import com.example.cloudmusic.local.LocalDirectorySource
+import com.example.cloudmusic.local.LocalDriver
+import com.example.cloudmusic.local.LocalEntry
+import com.example.cloudmusic.local.LocalRoot
+import com.example.cloudmusic.model.Addition
+import com.example.cloudmusic.model.SourceRef
+import com.example.cloudmusic.model.SourceType
+import com.example.cloudmusic.model.Storage
+import java.io.File
 import com.example.cloudmusic.di.adapters.PrePublishedCastProxy
 import com.example.cloudmusic.di.scan.SettingsEffectsRunner
 import com.example.cloudmusic.di.settings.SettingsEffectsBus
@@ -43,6 +56,20 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
+
+/**
+ * 12 §61.47 / F2：验收期零权限本地曲库注入的固定 Storage id。
+ * 与 DataStore 中任何真实 Storage 都不冲突；仅供 adb 注入通道使用。
+ */
+private const val LOCAL_FIXTURE_STORAGE_ID = "debug-local-fixture"
+
+/**
+ * 12 §61.49 / F3：REMOTE 注入用的 storageId。**故意不注册 DriverRegistry 实例** ——
+ * `RegistryLinkProvider.link()` 在查不到 driver 时会按 `SourceRef.url` 产出
+ * `Link(url=…)`，进而由 `engineSourceOf()` 得到 `EngineSource(url=…, localPath=null)`，
+ * 这正是 F3 需要验证的 REMOTE 取流路径（与 §61.47 的 LOCAL 路径互补）。
+ */
+private const val REMOTE_FIXTURE_STORAGE_ID = "debug-remote-fixture"
 
 /** Room 是曲库唯一真相源，播放编排层按 TrackId 反查即可（03-05 / 03-06 §11）。 */
 class RoomTrackLookup(private val tracks: TrackRepository) : TrackLookup {
@@ -117,6 +144,8 @@ class PlaybackRuntime @Inject constructor(
     private val bus: SettingsEffectsBus,
     private val controller: PlayerController,
     private val queueRepository: QueueRepository,
+    /** 12 §61.47：F2 零权限本地曲库注入时把曲目写进 Room，使曲库 / 队列真实可见。 */
+    private val tracks: TrackRepository,
     private val proxy: PrePublishedCastProxy,
     private val settings: SettingsStore,
 ) {
@@ -194,6 +223,129 @@ class PlaybackRuntime @Inject constructor(
     }
 
     fun play() = scope.launch { controller.resume() }
+
+    /**
+     * 12 §61.47 / F2 真机取证通道：**零权限本地曲库注入**。
+     *
+     * 真机实证：`READ_MEDIA_AUDIO` 恒 `granted=false`，MIUI 无线 adb 拒绝 `pm grant`
+     * （`GRANT_RUNTIME_PERMISSIONS`）与 `input tap`（`INJECT_EVENTS`）→ UI 上的
+     * 「添加媒体库 / SAF 目录」入口无法由脚本触发；`DataStore.storages` 恒空 →
+     * `ScanCoordinator` 无数据源可扫、曲库 0 首，且 `RegistryLinkProvider` 因
+     * `DriverRegistry` 无实例而无法把 Track 解析成 `Link.Kind.LOCAL`。
+     *
+     * 本入口把音频放进 App 私有目录（`run-as ... cp`，无需任何读取权限），由 adb
+     * `ACTION_PLAY --es ...LOCAL_PATH <path>` 注入：
+     * ① 注册以该目录为沙箱根的 `LocalDriver` 实例（`java.io.File` 实现
+     *    `LocalDirectorySource`，零权限），使播放链能产出 `Link.Kind.LOCAL`；
+     * ② `TrackRepository.upsertBatch` + `QueueRepository.setAll` 让曲库 / 队列
+     *    **真实有曲目**（不是只读夹具，UI 可见）；
+     * ③ 走 `PlayerController.setQueue / playAt` 完整生产链 →
+     *    `EngineSource(localPath=…, url=null)`，真机日志可对照
+     *    `resourceInfo extension=...` 与 `Open codec` 判定 F2 假设。
+     *
+     * 这是**验收期调试入口**：复用既有 `ACTION_PLAY`，不新增 Manifest action /
+     * 权限 / 依赖 / 模块，P0 引擎舱（20 so / EngineAdapter / EngineModule）零改动；
+     * 生产形态随 `12 §61.33` 的 `ACTION_PLAY` 一并收口。
+     */
+    fun playLocal(path: String) = scope.launch {
+        val file = File(path)
+        if (!file.isFile) {
+            Log.w("CloudMusicRuntime", "playLocal: 文件不存在或不是普通文件")
+            return@launch
+        }
+        val root = file.parentFile?.absolutePath ?: return@launch
+        runCatching { ensureLocalFixtureDriver(root) }
+            .onFailure { Log.w("CloudMusicRuntime", "playLocal: driver 注册失败", it) }
+        val name = file.name
+        val track = Track(
+            id = TrackId.of(LOCAL_FIXTURE_STORAGE_ID, name),
+            title = name.substringBeforeLast('.', name),
+            artist = "本地音源",
+            album = "零权限注入",
+            durationMs = 0L,
+            sourceRef = SourceRef(storageId = LOCAL_FIXTURE_STORAGE_ID, path = name, url = null),
+            sourceType = SourceType.LOCAL,
+        )
+        runCatching {
+            tracks.upsertBatch(listOf(track))
+            queueRepository.setAll(listOf(track))
+            val items = queueRepository.observe().first()
+            controller.setQueue(items, PlayMode.SEQUENCE, 0)
+            controller.playAt(0)
+        }.onFailure { Log.w("CloudMusicRuntime", "playLocal: 注入播放失败", it) }
+    }
+
+    /**
+     * 12 §61.49 / F3：`ACTION_PLAY` + `EXTRA_SOURCE_URL` 的 REMOTE 注入（验收期调试入口）。
+     *
+     * 不注册 driver、不碰 `DriverRegistry`，让 `RegistryLinkProvider` 走 `ref.url`
+     * 直推分支；URL 后缀保留真实扩展名，使 F2-b 的 `AudioFormats.extOfSource` 能给出
+     * 与 LOCAL 路径同源的结果。曲库 / 队列仍经 `upsertBatch` / `setAll` 真实落库，
+     * 与 `playLocal` 完全对称。生产形态随 `12 §61.33` 收口。
+     */
+    fun playUrl(url: String) = scope.launch {
+        val name = url.substringBefore('?').substringAfterLast('/')
+        val track = Track(
+            id = TrackId.of(REMOTE_FIXTURE_STORAGE_ID, name),
+            title = name.substringBeforeLast('.', name),
+            artist = "回环音源",
+            album = "F3 双路径矩阵",
+            durationMs = 0L,
+            sourceRef = SourceRef(
+                storageId = REMOTE_FIXTURE_STORAGE_ID, path = name, url = url,
+            ),
+            sourceType = SourceType.STRM,
+        )
+        runCatching {
+            tracks.upsertBatch(listOf(track))
+            queueRepository.setAll(listOf(track))
+            val items = queueRepository.observe().first()
+            controller.setQueue(items, PlayMode.SEQUENCE, 0)
+            controller.playAt(0)
+        }.onFailure { Log.w("CloudMusicRuntime", "playUrl: 注入播放失败", it) }
+    }
+
+    /** 以 App 私有目录为沙箱根，用平台 `java.io.File` 实现 `LocalDirectorySource`（零权限）。 */
+    private suspend fun ensureLocalFixtureDriver(root: String) {
+        if (DriverRegistry.get(LOCAL_FIXTURE_STORAGE_ID) != null) return
+        val escaped = root.replace("\\", "\\\\").replace("\"", "\\\"")
+        val additionJson = "{\"root_folder_path\":\"$escaped\",\"show_hidden\":true}"
+        val storage = Storage(
+            id = LOCAL_FIXTURE_STORAGE_ID,
+            mountPath = "/local",
+            driverType = "local",
+            addition = Addition(additionJson),
+        )
+        val driver = LocalDriver(
+            storage = storage,
+            additionJson = additionJson,
+            saf = null,
+            mediaStore = FileDirectorySource,
+        )
+        driver.init(DriverCtx(tag = "[play:local]", caller = "play"))
+        DriverRegistry.put(LOCAL_FIXTURE_STORAGE_ID, driver)
+    }
+
+    private object FileDirectorySource : LocalDirectorySource {
+        override val channel: LocalChannel = LocalChannel.MEDIA_STORE
+
+        override suspend fun list(root: LocalRoot, absolutePath: String): List<LocalEntry> =
+            File(absolutePath).listFiles().orEmpty().map(::entry)
+
+        override suspend fun find(root: LocalRoot, absolutePath: String): LocalEntry? {
+            val f = File(absolutePath)
+            return if (f.isFile) entry(f) else null
+        }
+
+        private fun entry(f: File): LocalEntry = LocalEntry(
+            name = f.name,
+            path = PathNormalizer.normalize(f.absolutePath),
+            isDir = f.isDirectory,
+            size = if (f.isFile) f.length() else 0L,
+            modified = f.lastModified() / 1000L,
+            uri = f.absolutePath,
+        )
+    }
 
     /** 03-02 §344：供 PlaybackService 同步判定闸门，避免拒绝后会话假报 PLAYING。 */
     fun currentNetworkSource(): Boolean = controller.currentSourceIsNetwork()

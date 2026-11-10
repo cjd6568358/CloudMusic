@@ -1,0 +1,853 @@
+--------- beginning of main
+11-09 23:59:17.651 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:17.651 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:17.688 I/DisplayFrameSetting(10020): homeToAppEnd pkg=com.example.cloudmusic
+11-09 23:59:17.715 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   9.1125,   9.1452,  22.0000>,time=62319528520904, sensor=5, temperature(K)=   9.1452
+11-09 23:59:17.715 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 8, lux = 9, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:59:17.831 I/MediaFocusControl( 2525): requestAudioFocus() from uid/pid 10327/1995 AA=USAGE_MEDIA/CONTENT_TYPE_MUSIC clientId=android.media.AudioManager@4eeec8fcom.example.cloudmusic.PlaybackService$$ExternalSyntheticLambda0@b687b1c callingPack=com.example.cloudmusic req=1 flags=0x0 sdk=35
+11-09 23:59:17.832 D/PlaybackActivityMonitorStubImpl( 2525): interruptMusicPlayback uid=10240 hasUid=false
+11-09 23:59:17.832 D/PlaybackActivityMonitorStubImpl( 2525):  mRouteCast: -1 uid: 10240
+11-09 23:59:17.832 D/MediaFocusControl( 2525): skip handle audio focus change for user setting ...
+11-09 23:59:17.832 D/PlaybackActivityMonitorStubImpl( 2525): interruptMusicPlayback uid=10240 hasUid=false
+11-09 23:59:17.832 D/PlaybackActivityMonitorStubImpl( 2525):  mRouteCast: -1 uid: 10240
+11-09 23:59:17.832 I/AudioService.FadeOutManager( 2525): unfadeOutUid() uid:10327
+11-09 23:59:17.833 V/Avrcp_ext( 4592): onPlaybackStateChanged: state PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=62319647, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:17.833 V/Avrcp_ext( 4592): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@b5e834) null
+11-09 23:59:17.833 V/Avrcp_ext( 4592): updateCurrentMediaState: isPlaying = false
+11-09 23:59:17.833 W/Avrcp_ext( 4592): isMusicActive: false getBluetoothPlayState: 2 A2dp State: 11 mAudioPlaybackIsActive: true
+11-09 23:59:17.833 D/Avrcp_ext( 4592): isMusicActive = false mAudioPlaybackIsActive = true player state = PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=62319648, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:17.834 V/Avrcp_ext( 4592): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-09 23:59:17.834 D/Avrcp_ext( 4592): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-09 23:59:17.834 V/Avrcp_ext( 4592): isBrowseSupported for com.example.cloudmusic: false
+11-09 23:59:17.834 V/Avrcp_ext( 4592): updatePlaybackState, state: PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=62319648, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-09 23:59:17.834 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.834 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.834 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.834 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.834 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.834 V/Avrcp_ext( 4592): updatePlayerStateAndPosition, old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=62318968, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=62319648, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:17.834 V/Avrcp_ext( 4592): old state = PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=62318968, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=62319648, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:17.834 D/HeadsetService( 4592): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@dc0fd90
+11-09 23:59:17.834 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.834 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.834 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.834 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.834 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.834 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.834 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.834 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.834 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.834 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.834 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.834 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.834 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.834 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.834 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.834 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.834 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.834 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.834 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.834 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.834 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.834 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.834 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.834 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.834 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.834 I/Avrcp_ext( 4592): No active device found, update playstate to stack
+11-09 23:59:17.834 E/BluetoothAvrcpServiceJni( 4592): updatePlayStatusToStack
+11-09 23:59:17.834 E/bt_btif ( 4592): update_play_status_to_stack:invalid index,remote suspend not set
+11-09 23:59:17.834 E/BluetoothAvrcpServiceJni( 4592): updatePlayStatusToStack: status: 1
+11-09 23:59:17.834 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.834 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.834 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.834 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.834 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.834 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.834 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.834 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.834 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.834 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.834 V/Avrcp_ext( 4592): Exit updatePlayerStateAndPosition
+11-09 23:59:17.834 V/Avrcp_ext( 4592):  Exit onPlaybackStateChanged
+11-09 23:59:17.834 D/MediaDataManager( 4807): State updated outside of notification
+11-09 23:59:17.835 I/MediaCarouselController( 4807): media_data_arrive: addOrUpdatePlayer
+11-09 23:59:17.835 I/MiuiMediaControlPanel( 4807): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 曲库就绪
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): JNI_OnLoad Start***************************************************************************
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): *******************************************************************************************
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): JNI_OnLoad: JNI_VERSION_1_6
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): AudioDeviceAudioTrack::Init begin
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): SDK Version:33
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): AudioDeviceAudioTrack::Init check env success
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): AudioDeviceAudioTrack::Init FindClass success
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): AudioDeviceAudioTrack::Init GlobalRef start
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): AudioDeviceAudioTrack::Init GlobalRef end
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method <init>
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method <init>
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method getMinBufferSize
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method getMaxVolume
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method getMinVolume
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method getNativeOutputSampleRate
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method play
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method pause
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method flush
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method stop
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method release
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method write
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method setVolume
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method getAudioSessionId
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method getPlaybackHeadPosition
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method getPlayState
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method write
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method getLatency
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method getTimestamp
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method getSampleRate
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method getState
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack Method getUnderrunCount
+11-09 23:59:17.853 E/NMAudioPlayer( 1995): Failed to create AudioTimestamp object
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): Init AudioTrack End!
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): FindJavaClass Name(com/netease/cloudmusic/module/player/datasource/IBaseDataSource)
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): FindJavaClass Name(com/netease/cloudmusic/module/player/datasource/IBaseDataSource) Success
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): NewGlobalRef Name(com/netease/cloudmusic/module/player/datasource/IBaseDataSource) Success
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): AndroidAudioPlayer::Init begin!
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): FindJavaClass Name(com/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer)
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): FindJavaClass Name(com/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer) Success
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): NewGlobalRef Name(com/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer) Success
+11-09 23:59:17.853 I/NMAudioPlayer( 1995): AndroidAudioPlayer Register Method(0)
+11-09 23:59:17.857 I/NMVirtualFileManager( 1995): Alloc
+11-09 23:59:17.858 I/NMCache ( 1995): NMVirtualFileManager::SetConfig Finish:{"dir":"/data/user/0/com.example.cloudmusic/cache/legacy_engine_cache","max_size":536870912,"slice_size":1048576,"cache_clean_range_min":0.8,"cache_clean_range_max":1.0}
+11-09 23:59:17.858 I/CM-DataReq( 1995): SetConfig ok dir=/data/user/0/com.example.cloudmusic/cache/legacy_engine_cache max=512MiB
+11-09 23:59:17.858 I/NMCache ( 1995): NMCacheControl::DoInit() dir:/data/user/0/com.example.cloudmusic/cache/legacy_engine_cache, limit:536870912
+11-09 23:59:17.858 I/CM-DataReq( 1995): cacheManagerHandle=-5476376604423781888 hasContext=true
+11-09 23:59:17.858 I/NEPlayer( 1995): PlaybackEngine ctor: this=0xb400007e5f6db800 cache=0xb400007e4d0f8200 listener=0xb400007e5fdae600
+11-09 23:59:17.859 W/NMAudioPlayer( 1995): CNCMAudioPlayer::SetPlaybackMode SetPlaybackMode 2, old mPlayBackMode:0
+11-09 23:59:17.859 I/NMAudioPlayer( 1995): CNCMAudioProcess::setAudioQualityMode mQualityMode 2
+11-09 23:59:17.859 I/NEPlayer( 1995): AudioPlayerUnit ctor: this=0xb400007e5f657e00 cache=0xb400007e4d0f8200 (effect_engine deferred)
+11-09 23:59:17.859 W/NMAudioPlayer( 1995): CNCMAudioPlayer::SetPlaybackMode SetPlaybackMode 2, old mPlayBackMode:0
+11-09 23:59:17.859 I/NMAudioPlayer( 1995): CNCMAudioProcess::setAudioQualityMode mQualityMode 2
+11-09 23:59:17.859 I/NEPlayer( 1995): AudioPlayerUnit ctor: this=0xb400007e4d17ff00 cache=0xb400007e4d0f8200 (effect_engine deferred)
+11-09 23:59:17.859 I/CM-DataReq( 1995): prepare trackId=5980aeaabf4833ad4dde88566474c35c remote=true url=http://127.0.0.1:8765/f3_mp3.mp3 expectedLength=0
+11-09 23:59:17.862 D/TrafficStats( 1995): tagSocket(144) with statsTag=0xffffffff, statsUid=-1
+11-09 23:59:17.892 I/CM-DataReq( 1995): probeLength=1129442 url=http://127.0.0.1:8765/f3_mp3.mp3
+11-09 23:59:17.892 I/CM-DataReq( 1995): resourceInfo extension=mp3 fileSize=1129442
+11-09 23:59:17.892 W/NMAudioPlayer( 1995): CNCMAudioProcess::SetAudioEffect  audio_effect 0
+11-09 23:59:17.893 I/NEPlayer( 1995): restoreInternalEffect: restore internal effect=0x0
+11-09 23:59:17.893 W/NMAudioPlayer( 1995): CNCMAudioPlayer::Reset
+11-09 23:59:17.893 I/NEPlayer( 1995): decoder route: bitrate=0 → decoderType=0
+11-09 23:59:17.893 I/NMAudioPlayer( 1995): CNCMAudioPlayer::doStop status 1
+11-09 23:59:17.893 W/NMAudioPlayer( 1995): CNCMAudioPlayer::doReset status 1
+11-09 23:59:17.893 I/CM-DataReq( 1995): setDataRequestErrorCallback callback=null enabled=false
+11-09 23:59:17.893 I/CM-DataReq( 1995): setDataRequestErrorCallback callback=com.netease.cloudmusic.android.sdk.playerengine.NativeDataRequestErrorCallback enabled=true
+11-09 23:59:17.893 I/NCMPlayerEngine( 1995): Data request error callback installed isPlayback=1
+11-09 23:59:17.893 I/CM-DataReq( 1995): createDataRequestHandler url=http://127.0.0.1:8765/f3_mp3.mp3 cached=false
+11-09 23:59:17.893 I/CM-DataReq( 1995): createDataRequestHandler -> NEW UrlDataRequest
+11-09 23:59:17.894 W/NMAudioPlayer( 1995): CNCMAudioProcess::SetAudioEffect  audio_effect -5476376604117155840
+11-09 23:59:17.894 I/NEPlayer( 1995): createMusicEffect: config= engine=0xb400007ed98d0de0 audioEffects=0xb400007e5f564000
+11-09 23:59:17.894 I/NEPlayer( 1995): applyMusicInfoHandle: empty, skip
+11-09 23:59:17.895 I/NEPlayer( 1995): PlayerNotifyEvent msg=300 arg1=2 arg2=0 has_music=1 songId=
+11-09 23:59:17.895 I/NCMPlayerEngine( 1995): onEngineEvent: msg=300 arg1=2 arg2=0
+11-09 23:59:17.895 I/NEPlayer( 1995): setDataSource notifyTrackActivated: songId= songIdInt=0 ret=0
+11-09 23:59:17.895 W/NMAudioPlayer( 1995): CNCMAudioPlayer::PrepareAsync
+11-09 23:59:17.895 W/NMAudioPlayer( 1995): CNCMAudioPlayer::doPrepareAsync start++ status  2, mNewStream 0
+11-09 23:59:17.895 I/NEPlayer( 1995): BufferSource open: encryptedType=0
+11-09 23:59:17.895 I/NEPlayer( 1995): PlayerNotifyEvent msg=300 arg1=3 arg2=0 has_music=1 songId=
+11-09 23:59:17.895 I/NEPlayer( 1995): preparing notifyTrackPreparing: songId= songIdInt=0 ret=0
+11-09 23:59:17.895 I/NCMPlayerEngine( 1995): onEngineEvent: msg=300 arg1=3 arg2=0
+11-09 23:59:17.896 I/CM-DataReq( 1995): getUrl url=http://127.0.0.1:8765/f3_mp3.mp3 fileSize=1129442 format=audio/mpeg
+11-09 23:59:17.896 I/NMCache ( 1995): NMVirtualFileManager::CreateBufferSource resource config:{"id":"5980aeaabf4833ad4dde88566474c35c","md5":"","size":1129442,"type":"cache"}, cache config:{"range_size":1048576,"cache_local":true}
+11-09 23:59:17.896 I/NMCache ( 1995): NMBufferSourceImp Create:1
+11-09 23:59:17.899 I/NMCache ( 1995): NMMemoryCache Create:1
+11-09 23:59:17.900 I/NMCache ( 1995): NMCacheControl::DeleteCache total_size_:9586404 range_min_:0.800000 range_max_:1.000000
+11-09 23:59:17.901 I/NMCache ( 1995): NMSliceFile Open Init Use Old:5980aeaabf4833ad4dde88566474c35c  
+11-09 23:59:17.901 I/CM-DataReq( 1995): SourceCallback.onUrlReady bitrate=0 format=
+11-09 23:59:17.901 I/CM-DataReq( 1995): SourceCallback.onProgress 1129442/1129442
+11-09 23:59:17.902 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(1)  buffer len:32768.
+11-09 23:59:17.902 D/NMCache ( 1995): NMBufferSourceImp::ReadTaskAsync Read  Begin(0-32768)
+11-09 23:59:17.903 D/NMCache ( 1995): NMBufferSourceImp(1)::ReadFromFileNoLock  Local File Read expect len:32768, offset:0, readed_len:32768, result:32768
+11-09 23:59:17.903 D/NMCache ( 1995): NMBufferSourceImp::ReadTaskAsync Read  End.
+11-09 23:59:17.903 D/NMCache ( 1995): NMBufferSourceImp::Read((1-1) Finish Async:32768
+11-09 23:59:17.904 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(2)  buffer len:32768.
+11-09 23:59:17.904 D/NMCache ( 1995): NMBufferSourceImp::ReadTaskAsync Read  Begin(32768-32768)
+11-09 23:59:17.904 D/NMCache ( 1995): NMBufferSourceImp(1)::ReadFromFileNoLock  Local File Read expect len:32768, offset:32768, readed_len:32768, result:32768
+11-09 23:59:17.904 D/NMCache ( 1995): NMBufferSourceImp::ReadTaskAsync Read  End.
+11-09 23:59:17.904 D/NMCache ( 1995): NMBufferSourceImp(1)::PreSeekReadTask offset:65536, size:5242880, memory offset:65536
+11-09 23:59:17.907 D/NMCache ( 1995): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  65536, size :  1048576, out_len : 1048576, result:1048576, begin:-1, end:0
+11-09 23:59:17.907 D/NMCache ( 1995): NMBufferSourceImp(1)::PreSeekReadTask  Write offset:65536, size:1048576, out_len:1048576, writen:1048576
+11-09 23:59:17.907 I/CM-DataReq( 1995): SourceCallback.onProgress 1129442/1129442
+11-09 23:59:17.907 D/NMCache ( 1995): NMBufferSourceImp(1)::PreSeekReadTask offset:65536, size:1048576 writed:1048576, net_try:0, net_try_result:0, request_len：0 finish
+11-09 23:59:17.907 D/NMCache ( 1995): NMBufferSourceImp(1)::PreSeekReadTask offset:1114112, size:4194304, memory offset:65536
+11-09 23:59:17.907 D/NMCache ( 1995): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  1114112, size :  1048576, out_len : 15330, result:15330, begin:-1, end:0
+11-09 23:59:17.907 D/NMCache ( 1995): NMBufferSourceImp(1)::PreSeekReadTask  Write offset:1114112, size:1048576, out_len:15330, writen:15330
+11-09 23:59:17.907 D/NMCache ( 1995): NMBufferSourceImp(1)::PreSeekReadTask offset:1114112, size:1048576 writed:15330, net_try:0, net_try_result:0, request_len：0 finish
+11-09 23:59:17.907 D/NMCache ( 1995): NMBufferSourceImp::Read((1-2) Finish Async:32768
+11-09 23:59:17.908 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(3)  buffer len:65536.
+11-09 23:59:17.908 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(3) Finish Sync:0
+11-09 23:59:17.909 W/NMAudioPlayer( 1995): Decoder(0): Open input file success!
+11-09 23:59:17.910 W/NMAudioPlayer( 1995): Decoder(0): Open codec for mp3
+11-09 23:59:17.910 W/NMAudioPlayer( 1995): Decoder(0): Codec ID - 86017 Code Info - Audio: mp3, 44100 Hz, stereo, s16p, 320 kb/s
+11-09 23:59:17.910 W/NMAudioPlayer( 1995): CNCMAudioPlayer::doPrepareAsync openSource 0
+11-09 23:59:17.910 E/NMAudioPlayer( 1995): CNCMAudioStream::SetBackMusicVolume (1.000000)
+11-09 23:59:17.910 E/NMAudioPlayer( 1995): CNCMAudioStream::SetVoiceVolume (1.000000)
+11-09 23:59:17.910 W/NMAudioPlayer( 1995): CNCMAudioStream::SetAudioIFProcess mNEAiAudioIF 0
+11-09 23:59:17.910 E/NMAudioPlayer( 1995): CNCMAudioStream::SetAudioIFRatio nRatio 90
+11-09 23:59:17.910 W/NMAudioPlayer( 1995): CNCMAudioStream::SetAudioIFEnable nEnable 0
+11-09 23:59:17.910 E/NMAudioPlayer( 1995): CNCMAudioStream::initIFProcess mNEAiAudioType 0
+11-09 23:59:17.910 I/NMAudioPlayer( 1995): AudioTrack(0): Alloc.
+11-09 23:59:17.910 W/NMAudioPlayer( 1995): AudioTrack(0)::Open time_frame_ratio_  0
+11-09 23:59:17.910 W/NMAudioPlayer( 1995): AudioTrack(0) mEnableFloat 1, support_float_ 1, input_format->nWavFormat 1, *sample_format 2
+11-09 23:59:17.910 W/NMAudioPlayer( 1995): AudioTrack(0): DoGetSuggestAudioTrackFormat, nChannelLayout(3), *layout(12), *sample_format(2)
+11-09 23:59:17.910 I/NEPlayer( 1995): PlayerNotifyEvent msg=200 arg1=701 arg2=0 has_music=1 songId=
+11-09 23:59:17.910 I/NCMPlayerEngine( 1995): onEngineEvent: msg=200 arg1=701 arg2=0
+11-09 23:59:17.910 I/NEPlayer( 1995): PlayerNotifyEvent msg=7 arg1=26253 arg2=0 has_music=1 songId=
+11-09 23:59:17.910 I/NCMPlayerEngine( 1995): onEngineEvent: msg=7 arg1=26253 arg2=0
+11-09 23:59:17.911 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f1b3a8fc0, event 0
+11-09 23:59:17.912 D/AudioFlinger( 1439): updateWakeLockUids_l AudioOut_D uids:
+11-09 23:59:17.912 D/AudioFlinger( 1439): updateWakeLockUids_l AudioOut_15 uids:
+11-09 23:59:17.912 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f1b2ebf80, event 0
+11-09 23:59:17.912 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f30328f40, event 0
+11-09 23:59:17.912 D/AudioFlinger( 1439): updateWakeLockUids_l AudioOut_4D uids:
+11-09 23:59:17.912 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f1b48ddc0, event 0
+11-09 23:59:17.912 D/AudioFlinger( 1439): updateWakeLockUids_l AudioOut_3D uids:
+11-09 23:59:17.912 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f1b43c540, event 0
+11-09 23:59:17.912 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=10, cmdSize=8, pCmdData=0xb400007c61e121b8, replySize=0, pReplyData=0x0)
+11-09 23:59:17.912 V/DlbDlbEffect( 1213): handle_EFFECT_CMD_SET_VOLUME(vl=16777216, vr=16777216)
+11-09 23:59:17.913 I/NMAudioPlayer( 1995): multipliedBufferSize:56576, minAppBufferSize:44100, maxAppBufferSize:132300, expect_min_buffer_size:56576, pcmFrameSize 4, factor 4
+11-09 23:59:17.913 I/NMAudioPlayer( 1995): GetMinBufferSize:14144, sample_rat:44100, channel_config:12, audio_format:2, Expected Size:56576
+11-09 23:59:17.913 W/NMAudioPlayer( 1995): Create AudioTrack: 56576, stream_type:3, sample_rate:44100, channel_config:12, format:2
+11-09 23:59:17.915 D/AudioTrack( 1995): set(sessionId=0)
+11-09 23:59:17.915 D/AudioTrack( 1995): set(): streamType -1, sampleRate 44100, format 0x1, channelMask 0x3, frameCount 14144, flags #0, notificationFrames 0, sessionId 0, transferType 3, uid -1, pid -1
+11-09 23:59:17.918 D/APM_AudioPolicyManager( 1439): getOutputForAttrInt()+ attributes={ Content type: AUDIO_CONTENT_TYPE_MUSIC Usage: AUDIO_USAGE_MEDIA Source: AUDIO_SOURCE_DEFAULT Flags: 0xa00 Tags:  } stream=AUDIO_STREAM_MUSIC session 8489 output 0 selectedDeviceId 0 device AUDIO_DEVICE_NONE sampling rate 44100 format 0x1channel mask 0x3 flags 0x8 stream AUDIO_STREAM_MUSIC uid 10327
+11-09 23:59:17.918 D/APM_AudioPolicyManager( 1439): getOutputForAttrInt() device {AUDIO_DEVICE_OUT_SPEAKER, @:}, sampling rate 44100, format 0x1, channel mask 0x3, flags 0x8 stream AUDIO_STREAM_MUSIC
+11-09 23:59:17.918 D/MiAudioPolicyManager( 1439): getPackageName: com.example.cloudmusic  uid 10327
+11-09 23:59:17.918 D/AHAL: FM( 1213): fm_get_parameters: 232: enter
+11-09 23:59:17.918 D/AHAL: FM( 1213): fm_get_parameters: 239: exit
+11-09 23:59:17.918 D/AHAL: Loopback_karaoke( 1213): karaoke_get_parameters: Enter
+11-09 23:59:17.918 D/AHAL: Loopback_karaoke( 1213): karaoke_get_parameters: Exit
+11-09 23:59:17.919 D/AHAL: FM( 1213): fm_get_parameters: 232: enter
+11-09 23:59:17.919 D/AHAL: FM( 1213): fm_get_parameters: 239: exit
+11-09 23:59:17.919 D/AHAL: Loopback_karaoke( 1213): karaoke_get_parameters: Enter
+11-09 23:59:17.919 D/AHAL: Loopback_karaoke( 1213): karaoke_get_parameters: Exit
+11-09 23:59:17.919 D/APM_AudioPolicyManager( 1439): getOutputForAttrInt()- attributes={ Content type: AUDIO_CONTENT_TYPE_MUSIC Usage: AUDIO_USAGE_MEDIA Source: AUDIO_SOURCE_DEFAULT Flags: 0xa00 Tags:  } stream=AUDIO_STREAM_MUSIC session 8489 output 29 selectedDeviceId 0 device {AUDIO_DEVICE_OUT_SPEAKER, @:} sampling rate 44100 format 0x1channel mask 0x3 flags 0x8 stream AUDIO_STREAM_MUSIC uid 10327
+11-09 23:59:17.919 D/APM_AudioPolicyManager( 1439): getOutputForAttr() returns output 29 requestedPortId 0 selectedDeviceId 3 for port ID 995
+11-09 23:59:17.919 I/AudioFlinger( 1439): create audiotrack for com.example.cloudmusic  uid 10327
+11-09 23:59:17.919 D/AudioFlinger( 1439): Client defaulted notificationFrames to 7072 for frameCount 14144
+11-09 23:59:17.920 D/AF::TrackHandle( 1439): OpPlayAudio: track:933 usage:1 not muted
+11-09 23:59:17.920 I/AF::Track( 1439): isInWhiteList curPkgName com.example.cloudmusic  uid 10327
+11-09 23:59:17.920 D/AF::Track( 1439): Track(933): usage = 1 mbIsAttrNeedFade = 0
+11-09 23:59:17.921 D/AHAL: AudioStream( 1213): astream_out_get_parameters: 839: enter
+11-09 23:59:17.921 D/AHAL: AudioStream( 1213): astream_out_get_parameters: 861: keys: is_direct_pcm_track
+11-09 23:59:17.921 D/AHAL: AudioStream( 1213): astream_out_get_parameters: 898: exit: returns - is_direct_pcm_track=false
+11-09 23:59:17.921 D/AudioAnalytics( 2034): gc(400, 500): key size:400
+11-09 23:59:17.924 W/AudioTrack( 1995): Use of stream types is deprecated for operations other than volume control
+11-09 23:59:17.924 W/AudioTrack( 1995): See the documentation of AudioTrack() for what to use instead with android.media.AudioAttributes to qualify your playback use case
+11-09 23:59:17.924 I/NMAudioPlayer( 1995): AudioTrack(0): Format layout:c channels:2, sample_format:1, sample_rate:44100, sample_size:16, status 1
+11-09 23:59:17.924 I/NMAudioPlayer( 1995): AudioTrack(0):AudioSessionId:8489, audio_latency: 429, expect_buffer_size_ 56576, min_buffer_size_ 14144
+11-09 23:59:17.924 I/NMAudioPlayer( 1995): AudioTrack(0):AudioSessionId:8489, audio_latency: 429, mAudioOffSetTime 349, expect_render_time_ 320
+11-09 23:59:17.924 W/NMAudioPlayer( 1995): CNCMAudioPlayer::doPrepareAsync mAudioDevices  Open 0
+11-09 23:59:17.924 I/AudioTrack( 1995): AudioTrack::setVolume L:1.000000 R:1.000000 and the pakage is com.example.cloudmusic
+11-09 23:59:17.924 I/AudioTrack( 1995): AudioTrack::setVolume L:1.000000 R:1.000000
+11-09 23:59:17.924 I/NMAudioPlayer( 1995): AudioTrack(0): SetVolume(1.000000), audio_session_id(8489)
+11-09 23:59:17.924 I/AudioTrack( 1995): AudioTrack::setVolume L:1.000000 R:1.000000 and the pakage is com.example.cloudmusic
+11-09 23:59:17.924 I/AudioTrack( 1995): AudioTrack::setVolume L:1.000000 R:1.000000
+11-09 23:59:17.925 I/NMAudioPlayer( 1995): Create new AudioEffects instance: 1, 44100, 2, 2048
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetLoudnessON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetLoudnessPlaybackRef: playbackRef -12.000000
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetReverbON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetStereoEnhancerON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetRotate3DON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetALCON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetSpatialAudioON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetEarFingerAudioON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): _SetHearAudioON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetSpeakerSpatialON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetGraphEQON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetBassTrebleON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetCompressorON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetPostCompressorON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetMultiBandCompressorON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetParametricEQON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetParametricEQ2ON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetDelayON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetChannelDelayON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetFIRON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetHeadphoneON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetElectronicON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetVibratoON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetTremoloON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetChorusON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetFlangerON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetDynamicEQON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetPitchChangerON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetPitchChangerON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetNoiseGenON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetMBStereoFieldON: on false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetMSEQON: on false
+11-09 23:59:17.928 I/NMAudioPlayer( 1995): _SetLimiterON: on true
+11-09 23:59:17.928 I/NMAudioPlayer( 1995): _SetLimiterParams Limiter: on true, Threshold 0.000000, Attack 0.005000, Release 0.100000, OutputGain 0.000000, Ratio 4.000000, InfiniteRatio true
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): SetBypassMode: bypass false
+11-09 23:59:17.928 D/NMAudioPlayer( 1995): Initialize audio effect instance done.
+11-09 23:59:17.928 W/NMAudioPlayer( 1995): CNCMAudioProcess::setAudioDescription  mAudioEffect Init 1, 1, 2, 44100, 8192
+11-09 23:59:17.928 I/NMAudioPlayer( 1995): CNCMAudioProcess::SetPlaySpeed  speed 1.000000
+11-09 23:59:17.928 I/NMAudioPlayer( 1995): CNCMAudioProcess::open songID 5980aeaabf4833ad4dde88566474c35c
+11-09 23:59:17.928 W/NMAudioPlayer( 1995): CNCMAudioProcess::setStepSize mStepSize 56576
+11-09 23:59:17.928 I/NMAudioPlayer( 1995): CNCMAudioStream::SetPlaybackCacheParams cache_min 4000, cache_max 7000, buffering_min 1000, buffering_max 1500
+11-09 23:59:17.928 W/NMAudioPlayer( 1995): CNCMAudioStream::setSpeed mSpeed 1.000000, mNEAiAudioStatus 1
+11-09 23:59:17.928 W/NMAudioPlayer( 1995): CNCMAudioPlayer::doPrepareAsync mAudioStream  start 0, mDuration 26253, audioOffset 349
+11-09 23:59:17.929 E/NMAudioPlayer( 1995): CNCMAudioStream::doDecoder nErr -16
+11-09 23:59:17.929 I/NEPlayer( 1995): PlayerNotifyEvent msg=8 arg1=349 arg2=0 has_music=1 songId=
+11-09 23:59:17.929 I/NCMPlayerEngine( 1995): onEngineEvent: msg=8 arg1=349 arg2=0
+11-09 23:59:17.929 I/NEPlayer( 1995): PlayerNotifyEvent msg=1 arg1=0 arg2=0 has_music=1 songId=
+11-09 23:59:17.929 I/NEPlayer( 1995): prepared notifyTrackInfoReady: songId= songIdInt=0 selectedBitrate=0 kbps=0 level=auto ret=0
+11-09 23:59:17.929 I/NCMPlayerEngine( 1995): onEngineEvent: msg=1 arg1=0 arg2=0
+11-09 23:59:17.929 I/NEPlayer( 1995): PlayerNotifyEvent msg=300 arg1=4 arg2=0 has_music=1 songId=
+11-09 23:59:17.929 I/NCMPlayerEngine( 1995): onEngineEvent: msg=300 arg1=4 arg2=0
+11-09 23:59:17.929 I/NEPlayer( 1995): PlayerNotifyEvent msg=6 arg1=44100 arg2=2 has_music=1 songId=
+11-09 23:59:17.929 I/NEPlayer( 1995): audioFormat notifyAudioFormatReady: songId= songIdInt=0 sampleRate=44100 channels=2 ret=0
+11-09 23:59:17.929 I/NCMPlayerEngine( 1995): onEngineEvent: msg=6 arg1=44100 arg2=2
+11-09 23:59:17.929 I/NEPlayer( 1995): PlayerNotifyEvent msg=6002 arg1=44100 arg2=2 has_music=1 songId=
+11-09 23:59:17.929 I/NCMPlayerEngine( 1995): onEngineEvent: msg=6002 arg1=44100 arg2=2
+11-09 23:59:17.933 I/NMAudioPlayer( 1995): NCMCPU::getlimit result = 0, cur = 40, max = 40, now get_prio 0
+11-09 23:59:17.933 I/NMAudioPlayer( 1995): NCMCPU::setpriority ret = 0, new_prio -16, now_prio -16
+11-09 23:59:17.933 I/NMAudioPlayer( 1995): NCMCPU::getLastRunOnCpu pid:1995 tid:7628, cpuid= 5
+11-09 23:59:17.934 E/NMAudioPlayer( 1995): CNCMAudioStream::bufferFill mProcessBufferTime 320, mBuffering 1
+11-09 23:59:17.934 W/NMAudioPlayer( 1995): CNCMAudioStream::bufferFill buffer empty
+11-09 23:59:17.934 W/NMAudioPlayer( 1995): CNCMAudioProcess::doProcess nSize:19
+11-09 23:59:17.934 E/NMAudioPlayer( 1995): CNCMAudioStream::bufferFill mProcessBufferTime 645, mBuffering 1
+11-09 23:59:17.934 W/NMAudioPlayer( 1995): CNCMAudioStream::bufferFill buffer empty
+11-09 23:59:17.934 W/NMAudioPlayer( 1995): CNCMAudioProcess::doProcess nSize:19
+11-09 23:59:17.936 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(4)  buffer len:32768.
+11-09 23:59:17.936 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(4) Finish Sync:0
+11-09 23:59:17.937 E/NMAudioPlayer( 1995): CNCMAudioStream::doCheckStatus 000 mBufDuration 676, offsetTime 970, mProcessBufferCount 3
+11-09 23:59:17.937 I/NEPlayer( 1995): PlayerNotifyEvent msg=200 arg1=702 arg2=0 has_music=1 songId=
+11-09 23:59:17.937 I/NCMPlayerEngine( 1995): onEngineEvent: msg=200 arg1=702 arg2=0
+11-09 23:59:17.937 W/NMAudioPlayer( 1995): CNCMAudioPlayer::Play status 4
+11-09 23:59:17.937 W/NMAudioPlayer( 1995): CNCMAudioPlayer::doPlay mAudioStream start 0 mBuffering 0, fadeIn 0
+11-09 23:59:17.937 I/NMAudioPlayer( 1995): AudioTrack(0): SetVolume(1.000000), audio_session_id(8489), the same volume, return
+11-09 23:59:17.937 W/NMAudioPlayer( 1995): AudioTrack(0): Play(1)
+11-09 23:59:17.937 W/NMAudioPlayer( 1995): CNCMAudioPlayer::doPlay mAudioDevices Play 0, mFadein 0, mPeriodicInMS 500 mBuffering 0
+11-09 23:59:17.937 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(5)  buffer len:32768.
+11-09 23:59:17.937 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(5) Finish Sync:0
+11-09 23:59:17.937 I/NMAudioPlayer( 1995): NCMCPU::getlimit result = 0, cur = 40, max = 40, now get_prio 0
+11-09 23:59:17.937 I/NMAudioPlayer( 1995): NCMCPU::setpriority ret = 0, new_prio -16, now_prio -16
+11-09 23:59:17.938 I/NMAudioPlayer( 1995): NCMCPU::getCPUCoreFreqs coreID = 0, max frequency 1804800, min frequency 300000, cur frequency 0, scale cur frequency 1804800
+11-09 23:59:17.938 I/NMAudioPlayer( 1995): NCMCPU::getCPUCoreFreqs coreID = 1, max frequency 1804800, min frequency 300000, cur frequency 0, scale cur frequency 1804800
+11-09 23:59:17.938 I/NMAudioPlayer( 1995): NCMCPU::getCPUCoreFreqs coreID = 2, max frequency 1804800, min frequency 300000, cur frequency 0, scale cur frequency 1804800
+11-09 23:59:17.938 I/NMAudioPlayer( 1995): NCMCPU::getCPUCoreFreqs coreID = 3, max frequency 1804800, min frequency 300000, cur frequency 0, scale cur frequency 1804800
+11-09 23:59:17.938 V/Avrcp_ext( 4592): onPlaybackStateChanged: state PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=62319752, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:17.939 I/NEPlayer( 1995): PlayerNotifyEvent msg=300 arg1=5 arg2=0 has_music=1 songId=
+11-09 23:59:17.939 I/NCMPlayerEngine( 1995): onEngineEvent: msg=300 arg1=5 arg2=0
+11-09 23:59:17.939 I/NMAudioPlayer( 1995): NCMCPU::getCPUCoreFreqs coreID = 4, max frequency 2496000, min frequency 633600, cur frequency 0, scale cur frequency 2342400
+11-09 23:59:17.939 I/NMAudioPlayer( 1995): NCMCPU::getCPUCoreFreqs coreID = 5, max frequency 2496000, min frequency 633600, cur frequency 0, scale cur frequency 2342400
+11-09 23:59:17.940 I/NMAudioPlayer( 1995): NCMCPU::getCPUCoreFreqs coreID = 6, max frequency 2496000, min frequency 633600, cur frequency 0, scale cur frequency 2342400
+11-09 23:59:17.940 V/Avrcp_ext( 4592): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@b5e834) null
+11-09 23:59:17.940 V/Avrcp_ext( 4592): updateCurrentMediaState: isPlaying = false
+11-09 23:59:17.940 W/Avrcp_ext( 4592): isMusicActive: false getBluetoothPlayState: 1 A2dp State: 11 mAudioPlaybackIsActive: true
+11-09 23:59:17.940 I/NMAudioPlayer( 1995): NCMCPU::getCPUCoreFreqs coreID = 7, max frequency 2995200, min frequency 787200, cur frequency 0, scale cur frequency 2822400
+11-09 23:59:17.940 I/NMAudioPlayer( 1995): NCMCPU::getLastRunOnCpu pid:1995 tid:7641, cpuid= 6
+11-09 23:59:17.940 W/NMAudioPlayer( 1995): AudioTrack::doRenderFast mType 80
+11-09 23:59:17.941 D/Avrcp_ext( 4592): isMusicActive = false mAudioPlaybackIsActive = true player state = PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=62319755, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:17.941 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f30328f40, event 0
+11-09 23:59:17.941 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f1b2ebf80, event 0
+11-09 23:59:17.941 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f1b3a8fc0, event 0
+11-09 23:59:17.941 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f1b43c540, event 0
+11-09 23:59:17.941 D/AudioTrack( 1995): start(995): prior state:STATE_STOPPED
+11-09 23:59:17.941 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f1b48ddc0, event 0
+11-09 23:59:17.941 V/Avrcp_ext( 4592): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-09 23:59:17.942 D/Avrcp_ext( 4592): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-09 23:59:17.942 V/Avrcp_ext( 4592): isBrowseSupported for com.example.cloudmusic: false
+11-09 23:59:17.942 V/Avrcp_ext( 4592): updatePlaybackState, state: PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=62319755, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-09 23:59:17.942 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.942 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.942 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.942 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.942 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.942 V/Avrcp_ext( 4592): updatePlayerStateAndPosition, old=PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=62319648, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=62319755, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:17.942 V/Avrcp_ext( 4592): old state = PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=62319648, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=62319755, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:17.942 D/HeadsetService( 4592): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@dc0fd90
+11-09 23:59:17.942 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.942 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.942 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.942 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.942 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.942 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.942 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.942 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.942 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.942 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.942 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.942 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.942 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.942 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.942 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.942 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.942 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.942 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.942 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.942 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.942 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.942 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.942 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.942 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.942 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.942 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.942 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.942 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.942 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.942 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.942 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.942 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.942 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.942 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.942 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.942 V/Avrcp_ext( 4592): Exit updatePlayerStateAndPosition
+11-09 23:59:17.942 V/Avrcp_ext( 4592):  Exit onPlaybackStateChanged
+11-09 23:59:17.942 D/MediaSessionService( 2525): Media button session is changed to com.example.cloudmusic/CloudMusic (userId=0)
+11-09 23:59:17.942 D/AF::Track( 1439): setFadeIn isFadeNeeded = 0
+11-09 23:59:17.943 I/NCMPlayerEngine( 1995): onEngineEvent: msg=2000 arg1=0 arg2=0
+11-09 23:59:17.943 I/NEPlayer( 1995): PlayerNotifyEvent msg=6001 arg1=0 arg2=0 has_music=1 songId=
+11-09 23:59:17.943 I/NCMPlayerEngine( 1995): onEngineEvent: msg=6001 arg1=0 arg2=0
+11-09 23:59:17.943 I/NEPlayer( 1995): PlayerNotifyEvent msg=5 arg1=1 arg2=0 has_music=1 songId=
+11-09 23:59:17.943 I/NEPlayer( 1995): firstFrame notifyFirstAudioFrameParsing: songId= songIdInt=0 ret=0
+11-09 23:59:17.943 I/NCMPlayerEngine( 1995): onEngineEvent: msg=5 arg1=1 arg2=0
+11-09 23:59:17.944 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(6)  buffer len:32768.
+11-09 23:59:17.944 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(6) Finish Sync:0
+11-09 23:59:17.944 W/AudioFlinger( 1439): The package name(android) provided does not correspond to the uid 1041
+11-09 23:59:17.944 D/Avrcp_ext( 4592): onMediaKeyEventSessionChanged: player = MediaPlayerInfo com.example.cloudmusic (as 'com.example.cloudmusic.CloudMusicApplication') Type = 1, SubType = 0, Status = 2 Feature Bits [40 41 42 44 45 47 48 58] Controller: MediaController (com.example.cloudmusic@b5e834) null, id = 16, updateController = false
+11-09 23:59:17.944 I/AudioTrack( 1995): AudioTrack::setVolume L:1.000000 R:1.000000 and the pakage is com.example.cloudmusic
+11-09 23:59:17.944 I/Avrcp_ext( 4592): onMediaKeyEventSessionChanged: token=com.example.cloudmusic
+11-09 23:59:17.944 I/AudioTrack( 1995): AudioTrack::setVolume L:1.000000 R:1.000000
+11-09 23:59:17.944 V/Avrcp_ext( 4592): Player 16 package: com.example.cloudmusic
+11-09 23:59:17.945 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:6439 deviceId:3 type:android.media.AudioTrack u/pid:10240/30682 state:paused attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:7233
+11-09 23:59:17.945 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:47 deviceId:0 type:android.media.SoundPool u/pid:1000/2525 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-09 23:59:17.945 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:79 deviceId:0 type:android.media.SoundPool u/pid:1027/7934 state:started attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-09 23:59:17.946 D/Avrcp_ext( 4592): AudioManager Player in started state: com.android.nfc
+11-09 23:59:17.946 D/Avrcp_ext( 4592): AudioManager Active Player: com.android.nfc
+11-09 23:59:17.946 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:7695 deviceId:0 type:android.media.AudioTrack u/pid:10327/1995 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0xA00 tags= bundle=null sessionId:8489
+11-09 23:59:17.946 D/Avrcp_ext( 4592): AudioManager Player in started state: com.example.cloudmusic
+11-09 23:59:17.946 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:55 deviceId:0 type:android.media.SoundPool u/pid:10128/4371 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-09 23:59:17.946 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:63 deviceId:0 type:android.media.SoundPool u/pid:1000/4807 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-09 23:59:17.946 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:7679 deviceId:3 type:android.media.AudioTrack u/pid:10240/30682 state:paused attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:8473
+11-09 23:59:17.946 D/Avrcp_ext( 4592): AudioManager isPlaying: true, mAudioPlaybackIsActive: true, isMusiActive: false
+11-09 23:59:17.946 D/HeadsetService( 4592): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@dc0fd90
+11-09 23:59:17.946 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.946 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.946 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.947 V/Avrcp_ext( 4592): ActiveSession: MediaController (com.example.cloudmusic@aba09cc) null
+11-09 23:59:17.947 V/Avrcp_ext( 4592): isBrowseSupported for com.example.cloudmusic: false
+11-09 23:59:17.947 I/EffectsFactory( 1213): EffectCreate() create_effect
+11-09 23:59:17.947 D/Avrcp_ext( 4592): Adding media player info for com.example.cloudmusic with id 16
+11-09 23:59:17.947 D/Avrcp_ext( 4592): update #16:MediaPlayerInfo com.example.cloudmusic (as 'com.example.cloudmusic.CloudMusicApplication') Type = 1, SubType = 0, Status = 1 Feature Bits [40 41 42 44 45 47 48 58] Controller: MediaController (com.example.cloudmusic@aba09cc) null
+11-09 23:59:17.947 V/Avrcp_ext( 4592): updateNewIds: Addressed:16 to 16, Browse:0 to 0
+11-09 23:59:17.947 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(7)  buffer len:32768.
+11-09 23:59:17.947 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(7) Finish Sync:0
+11-09 23:59:17.948 D/Avrcp_ext( 4592): updateCurrentController: MediaController (com.example.cloudmusic@b5e834) null to MediaController (com.example.cloudmusic@aba09cc) null
+11-09 23:59:17.948 V/APM::EffectDescriptor( 1439): registerEffect() effect Volume listener for Music, io 29, session 8489 id 10043
+11-09 23:59:17.948 V/APM::EffectDescriptor( 1439): registerEffect() memory 1, total memory 2
+11-09 23:59:17.948 V/APM::EffectDescriptor( 1439): setEffectEnabled(true) total CPU 0
+11-09 23:59:17.948 D/PAL: API( 1213): pal_set_param: 838: Enter: param id 27 (PAL_PARAM_ID_GAIN_LVL_CAL)
+11-09 23:59:17.948 I/PAL: ResourceManager( 1213): setParameter: 7780: Enter param id: 27 (PAL_PARAM_ID_GAIN_LVL_CAL)
+11-09 23:59:17.948 D/PAL: Stream( 1213): getAssociatedDevices: 492: no. of devices 1
+11-09 23:59:17.948 D/PAL: Stream( 1213): getAssociatedSession: 562: session 0xb400007c61e2fc00K
+11-09 23:59:17.948 D/PAL: SessionAlsaPcm( 1213): setConfig: 436: Enter tag: -1073741781
+11-09 23:59:17.948 D/PAL: Stream( 1213): getVolumeData: 583: num config 1
+11-09 23:59:17.949 E/ACDB    ( 1280): AcdbCmdGetSubgraphCalDataNonPersist:6151 Error[19]: No calibration found
+11-09 23:59:17.949 I/gsl     ( 1280): gsl_graph_send_persist_cal:857 Skipping persist cal for SG_ID -1342177278: already started
+11-09 23:59:17.949 I/gsl     ( 1280): gsl_graph_send_persist_cal:857 Skipping persist cal for SG_ID -1342177272: already started
+11-09 23:59:17.949 I/gsl     ( 1280): gsl_graph_send_persist_cal:857 Skipping persist cal for SG_ID -1342177252: already started
+11-09 23:59:17.949 I/gsl     ( 1280): gsl_graph_send_persist_cal:857 Skipping persist cal for SG_ID -1342177279: already started
+11-09 23:59:17.949 D/PAL: SessionAlsaPcm( 1213): setConfig: 561: exit status: 0 
+11-09 23:59:17.949 D/PAL: ResourceManager( 1213): setParameter: 8539: Exit status: 0
+11-09 23:59:17.949 D/PAL: API( 1213): pal_set_param: 853: Exit, status 0
+11-09 23:59:17.949 V/AudioPolicyManagerImpl( 1439): notification filter: setNotificationFilter notificationFilterFeature=1
+11-09 23:59:17.949 D/AudioPolicyManagerImpl( 1439): notification filter: setNotificationFilter muteMaskInt=0
+11-09 23:59:17.949 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(8)  buffer len:32768.
+11-09 23:59:17.949 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(8) Finish Sync:0
+11-09 23:59:17.951 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(9)  buffer len:32768.
+11-09 23:59:17.951 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(9) Finish Sync:0
+11-09 23:59:17.953 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(10)  buffer len:32768.
+11-09 23:59:17.953 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(10) Finish Sync:0
+11-09 23:59:17.954 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(11)  buffer len:32768.
+11-09 23:59:17.954 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(11) Finish Sync:0
+11-09 23:59:17.955 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(12)  buffer len:32768.
+11-09 23:59:17.955 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(12) Finish Sync:0
+11-09 23:59:17.975 D/AHAL: AudioStream( 1213): astream_out_set_parameters: 808: enter: usecase(0: deep-buffer-playback) kvpairs: appname=+com.example.cloudmusic
+11-09 23:59:17.976 D/AHAL: AudioStreamCustom( 1213): SetParameters: 208: SetParameters(): set app name +com.example.cloudmusic
+11-09 23:59:17.976 D/AHAL: AudioStreamCustom( 1213): platform_set_out_scenario: 20: platform_set_out_scenario
+11-09 23:59:17.976 D/AHAL: AudioStreamCustom( 1213): get_scenario: 107: app_name com.example.cloudmusic, scenario is 4
+11-09 23:59:17.976 D/AHAL: AudioStreamCustom( 1213): isSupportMisoundAsc mode is0
+11-09 23:59:17.976 D/AHAL: AudioStream( 1213): SetParameters: 2204: enter 
+11-09 23:59:17.976 I/AHAL: AudioStream( 1213): SetParameters: 2213: ret 0, plugin device cont -1 stream -1
+11-09 23:59:17.976 D/AHAL: AudioStream( 1213): SetParameters: 2252: exit 0
+11-09 23:59:17.976 D/AHAL: AudioStream( 1213): astream_out_set_parameters: 825: Exit ret: 0
+11-09 23:59:17.976 D/APM_AudioPolicyManager( 1439): startOutput() output 29, stream 3, session 8489, appname com.example.cloudmusic, uid 10327
+11-09 23:59:17.976 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=1, cmdSize=112, pCmdData=0x7c3fbde0a0, replySize=4, pReplyData=0x7c3fbde11c)
+11-09 23:59:17.976 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_SET_CONFIG()
+11-09 23:59:17.977 V/EffectMiSound( 1213): MiSound_command() start, cmdCode=20
+11-09 23:59:17.977 V/EffectMiSound( 1213): MiSound_Command EFFECT_CMD_OFFLOAD
+11-09 23:59:17.977 V/EffectMiSound( 1213): MiSound_command() start, cmdCode=1
+11-09 23:59:17.977 V/EffectMiSound( 1213): MiSound_setConfig start
+11-09 23:59:17.977 V/EffectMiSound( 1213): MiSound_command() start, cmdCode=1
+11-09 23:59:17.977 V/EffectMiSound( 1213): MiSound_setConfig start
+11-09 23:59:17.977 V/EffectMiSound( 1213): MiSound_command() start, cmdCode=9
+11-09 23:59:17.977 V/EffectMiSound( 1213): MiSound_Command EFFECT_CMD_SET_DEVICE: 0x00000002
+11-09 23:59:17.977 D/MiSoundQdspGefDriver( 1213): setDevice(device=0x00000002): old device 0x00000002
+11-09 23:59:17.978 V/EffectMiSound( 1213): MiSound_command() start, cmdCode=11
+11-09 23:59:17.978 V/EffectMiSound( 1213): MiSound_Command EFFECT_CMD_SET_AUDIO_MODE: 0
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=5, cmdSize=20, pCmdData=0xb400007c61e344a0, replySize=4, pReplyData=0xb400007c63b985b8)
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_SET_PARAM()
+11-09 23:59:17.978 V/DlbDapEffectContext( 1213): setParam() received parameter EFFECT_PARAM_SKIP_HARD_BYPASS
+11-09 23:59:17.978 V/DlbEffectQdspDap( 1213): setPreferredOffType()
+11-09 23:59:17.978 D/DlbQdspGefDriver( 1213): setPreferredOffType(type=2)
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=4, cmdSize=0, pCmdData=0x0, replySize=4, pReplyData=0xb400007c61e121b8)
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_DISABLE()
+11-09 23:59:17.978 V/DlbEffectQdspDap( 1213): setEnabled()
+11-09 23:59:17.978 V/DlbEffectQdspDap( 1213): updateEnabled(enabled=0, bypassed=0)
+11-09 23:59:17.978 D/DlbQdspGefDriver( 1213): setEnabled(enable=0)
+11-09 23:59:17.978 D/DlbQdspGefDriver( 1213): setEnabled(): Skip the transient enabled state 0
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=20, cmdSize=8, pCmdData=0xb400007c63b985b8, replySize=4, pReplyData=0xb400007c61e121b8)
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_OFFLOAD(offload=0, ioHandle=29)
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=1, cmdSize=112, pCmdData=0x7c3fbde0a0, replySize=4, pReplyData=0x7c3fbde11c)
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_SET_CONFIG()
+11-09 23:59:17.978 V/EffectMiSound( 1213): MiSound_command() start, cmdCode=1
+11-09 23:59:17.978 V/EffectMiSound( 1213): MiSound_setConfig start
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=1, cmdSize=112, pCmdData=0x7c3739c0a0, replySize=4, pReplyData=0x7c3739c11c)
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_SET_CONFIG()
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=9, cmdSize=4, pCmdData=0xb400007c61e12588, replySize=4, pReplyData=0xb400007c61e12650)
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_SET_DEVICE(device=0x00000002)
+11-09 23:59:17.978 V/DlbDapEffectContext( 1213): setDevice(00000002)
+11-09 23:59:17.978 V/DlbEffectQdspDap( 1213): setBypass(bypass = 0)
+11-09 23:59:17.978 V/DlbEffectQdspDap( 1213): setDevice()
+11-09 23:59:17.978 D/DlbQdspGefDriver( 1213): setDevice(device=0x00000002): old device 0x00000002
+11-09 23:59:17.978 D/DMSService( 1267): setActiveDevice called with device = 0x2 (original 0x2)
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=11, cmdSize=4, pCmdData=0xb400007c61e12588, replySize=4, pReplyData=0xb400007c61e12650)
+11-09 23:59:17.978 V/DlbDlbEffect( 1213): handle_EFFECT_CMD_SET_AUDIO_MODE(mode=0x00000000)
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=5, cmdSize=20, pCmdData=0xb400007c61e34d80, replySize=4, pReplyData=0xb400007c61e12588)
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_SET_PARAM()
+11-09 23:59:17.978 E/DlbEffectContext( 1213): setParam() received unknown parameter 20
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=20, cmdSize=8, pCmdData=0xb400007c61e12588, replySize=4, pReplyData=0xb400007c61e12650)
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_OFFLOAD(offload=1, ioHandle=29)
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=3, cmdSize=0, pCmdData=0x0, replySize=4, pReplyData=0xb400007c61e12650)
+11-09 23:59:17.978 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_ENABLE()
+11-09 23:59:17.978 V/DlbEffectQdspDap( 1213): setEnabled()
+11-09 23:59:17.978 V/DlbEffectQdspDap( 1213): updateEnabled(enabled=1, bypassed=0)
+11-09 23:59:17.978 D/DlbQdspGefDriver( 1213): setEnabled(enable=1)
+11-09 23:59:17.978 D/DlbQdspGefDriver( 1213): setEnabled(): the enabled state is already 1
+11-09 23:59:17.978 D/AudioFlinger( 1439): moveEffectChain_l: successful move of session 0 from srcThread 0xb400006f30328f40 to dstThread 0xb400006f1b3a8fc0 (2 effects moved, 1 effects started)
+11-09 23:59:17.978 V/APM::EffectDescriptor( 1439): moveEffects session 0 srcOutput 13 dstOutput 29
+11-09 23:59:17.979 D/APM_AudioPolicyManager( 1439): setOutputDevices output 29 device {AUDIO_DEVICE_OUT_SPEAKER, @:} delayMs 0 force 0 requiresMuteCheck 0
+11-09 23:59:17.979 D/APM_AudioPolicyManager( 1439): setOutputDevices() prevDevice {AUDIO_DEVICE_OUT_SPEAKER, @:}
+11-09 23:59:17.979 D/APM_AudioPolicyManager( 1439): checkAndSetVolume: set volumeSource 4 volume index 0 for device 0x2, volumeDb = -758.000000
+11-09 23:59:17.979 E/AudioFlingerImpl( 1439): open /proc/1995/cmdline error
+11-09 23:59:17.979 I/AudioFlingerImpl( 1439): setAppName(), name=[], active=[1]
+11-09 23:59:17.979 V/Avrcp_ext( 4592): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@aba09cc) null
+11-09 23:59:17.979 V/Avrcp_ext( 4592): updateCurrentMediaState: isPlaying = false
+11-09 23:59:17.979 W/Avrcp_ext( 4592): isMusicActive: true getBluetoothPlayState: 1 A2dp State: 11 mAudioPlaybackIsActive: true
+11-09 23:59:17.979 V/EffectMiSound( 1213): MiSound_command() start, cmdCode=24
+11-09 23:59:17.979 D/Avrcp_ext( 4592): isMusicActive = true mAudioPlaybackIsActive = true player state = PlaybackState {state=3, position=42, buffered position=0, speed=1.0, updated=62319794, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:17.979 V/EffectMiSound( 1213): MiSound_Command EFFECT_CMD_SET_APP_NAME: stream=3, name=+
+11-09 23:59:17.979 V/Avrcp_ext( 4592): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-09 23:59:17.979 D/Avrcp_ext( 4592): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-09 23:59:17.979 V/Avrcp_ext( 4592): isBrowseSupported for com.example.cloudmusic: false
+11-09 23:59:17.979 I/PowerCheckerService(10020): uid:10327 change to active
+11-09 23:59:17.979 V/Avrcp_ext( 4592): updatePlaybackState, state: PlaybackState {state=3, position=42, buffered position=0, speed=1.0, updated=62319794, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-09 23:59:17.979 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.979 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.979 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.979 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.979 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.979 V/Avrcp_ext( 4592): updatePlayerStateAndPosition, old=PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=62319755, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=42, buffered position=0, speed=1.0, updated=62319794, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:17.979 V/Avrcp_ext( 4592): old state = PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=62319755, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=42, buffered position=0, speed=1.0, updated=62319794, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:17.979 D/HeadsetService( 4592): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@dc0fd90
+11-09 23:59:17.980 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.980 W/NMAudioPlayer( 1995): AudioTrack(0): Write start play nErr:0
+11-09 23:59:17.980 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.980 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.980 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.980 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.980 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.980 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.980 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.980 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.980 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.980 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.980 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.980 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.980 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.980 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.980 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.980 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.980 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.980 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.980 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.980 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.980 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.980 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.980 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.980 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.980 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.980 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.980 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.980 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.980 I/AppActiveChecker(10020): uid:10327 change to active
+11-09 23:59:17.980 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.980 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.980 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.980 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.980 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.980 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.980 V/Avrcp_ext( 4592): Exit updatePlayerStateAndPosition
+11-09 23:59:17.980 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f1b3a8fc0, event 8
+11-09 23:59:17.980 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=10, cmdSize=8, pCmdData=0xb400007c63b985b8, replySize=0, pReplyData=0x0)
+11-09 23:59:17.980 V/DlbDlbEffect( 1213): handle_EFFECT_CMD_SET_VOLUME(vl=16777216, vr=16777216)
+11-09 23:59:17.981 D/AudioFlinger( 1439): updateWakeLockUids_l AudioOut_1D uids:10327 
+11-09 23:59:17.981 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(13)  buffer len:32768.
+11-09 23:59:17.981 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(13) Finish Sync:0
+--------- beginning of system
+11-09 23:59:17.981 D/ProcessManager( 2525): add audio active uid : 10327
+11-09 23:59:17.982 V/Avrcp_ext( 4592): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@aba09cc) null
+11-09 23:59:17.982 V/Avrcp_ext( 4592): updateCurrentMediaState: isPlaying = false
+11-09 23:59:17.982 W/Avrcp_ext( 4592): isMusicActive: true getBluetoothPlayState: 1 A2dp State: 11 mAudioPlaybackIsActive: true
+11-09 23:59:17.982 D/Avrcp_ext( 4592): isMusicActive = true mAudioPlaybackIsActive = true player state = PlaybackState {state=3, position=45, buffered position=0, speed=1.0, updated=62319797, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:17.982 V/Avrcp_ext( 4592): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-09 23:59:17.982 D/Avrcp_ext( 4592): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-09 23:59:17.982 V/Avrcp_ext( 4592): isBrowseSupported for com.example.cloudmusic: false
+11-09 23:59:17.982 V/Avrcp_ext( 4592): updatePlaybackState, state: PlaybackState {state=3, position=45, buffered position=0, speed=1.0, updated=62319797, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-09 23:59:17.982 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.982 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.982 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.982 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.982 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:17.982 V/Avrcp_ext( 4592): updatePlayerStateAndPosition, old=PlaybackState {state=3, position=42, buffered position=0, speed=1.0, updated=62319794, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=45, buffered position=0, speed=1.0, updated=62319797, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:17.982 V/Avrcp_ext( 4592): old state = PlaybackState {state=3, position=42, buffered position=0, speed=1.0, updated=62319794, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=45, buffered position=0, speed=1.0, updated=62319797, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:17.982 D/HeadsetService( 4592): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@dc0fd90
+11-09 23:59:17.982 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.982 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.982 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.982 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.982 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.982 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.982 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.982 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.982 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.982 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.982 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.982 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.982 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.982 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.982 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.982 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.982 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.982 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.982 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.982 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.982 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.982 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:17.982 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:17.982 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:17.982 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:17.982 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.982 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.982 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.982 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.982 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.982 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.982 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.982 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.982 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:17.982 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:17.982 V/Avrcp_ext( 4592): Exit updatePlayerStateAndPosition
+11-09 23:59:17.985 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:6439 deviceId:3 type:android.media.AudioTrack u/pid:10240/30682 state:paused attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:7233
+11-09 23:59:17.985 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:47 deviceId:0 type:android.media.SoundPool u/pid:1000/2525 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-09 23:59:17.985 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:79 deviceId:0 type:android.media.SoundPool u/pid:1027/7934 state:started attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-09 23:59:17.986 D/Avrcp_ext( 4592): AudioManager Player in started state: com.android.nfc
+11-09 23:59:17.986 D/Avrcp_ext( 4592): AudioManager Active Player: com.android.nfc
+11-09 23:59:17.986 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:7695 deviceId:3 type:android.media.AudioTrack u/pid:10327/1995 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0xA00 tags= bundle=null sessionId:8489
+11-09 23:59:17.986 D/Avrcp_ext( 4592): AudioManager Player in started state: com.example.cloudmusic
+11-09 23:59:17.986 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:55 deviceId:0 type:android.media.SoundPool u/pid:10128/4371 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-09 23:59:17.986 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:63 deviceId:0 type:android.media.SoundPool u/pid:1000/4807 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-09 23:59:17.986 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:7679 deviceId:3 type:android.media.AudioTrack u/pid:10240/30682 state:paused attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:8473
+11-09 23:59:17.986 D/Avrcp_ext( 4592): AudioManager isPlaying: true, mAudioPlaybackIsActive: true, isMusiActive: true
+11-09 23:59:18.030 W/DevicePolicyManager( 2525): Unknown user type: UserInfo{999:XSpace:801010}
+11-09 23:59:18.030 W/DevicePolicyManager( 2525): Unknown user type: UserInfo{999:XSpace:801010}
+11-09 23:59:18.032 I/NotificationController( 5752): onNotificationPosted: mSmartTravelNotificationMap 0
+11-09 23:59:18.033 D/MiBarrage( 7884): The sbn packageName is :com.example.cloudmusic
+11-09 23:59:18.033 D/MiBarrage( 7884): No barrage: not in game scene or in video scene
+11-09 23:59:18.034 D/NotificationFilterController( 4807): filter group summary suppressed key=0|com.hexin.plat.android|2147483647|ranker_group|10312|ranker_group
+11-09 23:59:18.040 D/NotificationFilterController( 4807): filter group summary suppressed key=0|com.hexin.plat.android|2147483647|ranker_group|10312|ranker_group
+11-09 23:59:18.047 I/MediaCarouselController( 4807): media_data_arrive: addOrUpdatePlayer
+11-09 23:59:18.047 I/MiuiMediaControlPanel( 4807): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 播放服务运行中
+11-09 23:59:18.052 D/WifiNl80211Manager( 2525): Scan result ready event
+11-09 23:59:18.052 D/WifiNative( 2525): Scan result ready event
+11-09 23:59:18.052 I/LOWI-9.0.1.18( 2798): [LOWI-Scan] lowi_close_record:Scan done in 62306351ms, 25 APs in scan results
+11-09 23:59:18.054 D/WificondScannerImpl( 2525): Filtering out 8 scan results.
+11-09 23:59:18.060 D/NotificationFilterController( 4807): filter group summary suppressed key=0|com.hexin.plat.android|2147483647|ranker_group|10312|ranker_group
+11-09 23:59:18.063 D/GreezeManager( 2525): THAW uid = 10297 pid = [ 20498 21043 28155 ]  reason : broadcast caller : 1000
+11-09 23:59:18.063 I/SmartPower.com.taobao.idlefish/10297(21043)( 2525): idle->background(7008ms) R(broadcast start Intent { act=android.net.wifi.SCAN_RESULTS flg=0x4000010 (has extras) }) adj=925.
+11-09 23:59:18.063 I/SmartPower( 2525): com.taobao.idlefish/10297 state=hibernation adj=925 proc size=4 move to background broadcast start Intent { act=android.net.wifi.SCAN_RESULTS flg=0x4000010 (has extras) }
+11-09 23:59:18.063 I/SmartPower( 2525): com.taobao.idlefish/10297 state=background adj=925 proc size=4 move to inactive broadcast start Intent { act=android.net.wifi.SCAN_RESULTS flg=0x4000010 (has extras) }
+11-09 23:59:18.065 D/GreezeCallback(10020): thawedByOther uid=10297 pid=20498
+11-09 23:59:18.068 D/GreezeManager( 2525): THAW uid = 10257 pid = [ 31457 31477 ]  reason : broadcast caller : 1000
+11-09 23:59:18.069 D/GreezeCallback(10020): thawedByOther uid=10257 pid=31457
+11-09 23:59:18.070 D/TrafficStats(21043): tagSocket(445) with statsTag=0xffffffff, statsUid=-1
+11-09 23:59:18.076 E/AppScanObserverService( 2525): Result available, null observers for user: 0
+11-09 23:59:18.084 V/[dmojo_support](21043): Start DetachFromVM
+11-09 23:59:18.087 V/[dmojo_support](21043): End DetachFromVM
+11-09 23:59:18.150 I/MiuiNetworkPolicy( 2525): updateUidState uid = 10269, uidState = 10
+11-09 23:59:18.152 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:18.152 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:18.162 D/ProcessManager( 2525): real remove inactive uid : 10240 flag : 2
+11-09 23:59:18.240 I/taobao.idlefish(21043): This is sticky GC, maxfree is 33554432 minfree is 8388608
+11-09 23:59:18.299 I/.ugc.aweme.lite(30682): This is non sticky GC, maxfree is 33554432 minfree is 50331648
+11-09 23:59:18.404 W/ConstraintSet( 4807): id unknown center_vertical_guideline
+11-09 23:59:18.404 W/ConstraintSet( 4807): id unknown action_button_guideline
+11-09 23:59:18.405 W/ConstraintSet( 4807): id unknown media_action_barrier
+11-09 23:59:18.405 W/ConstraintSet( 4807): id unknown media_action_barrier_end
+11-09 23:59:18.405 W/ConstraintSet( 4807): id unknown media_action_barrier_top
+11-09 23:59:18.405 W/ConstraintSet( 4807): id unknown remove_text
+11-09 23:59:18.405 W/ConstraintSet( 4807): id unknown settings
+11-09 23:59:18.405 W/ConstraintSet( 4807): id unknown dismiss
+11-09 23:59:18.405 W/ConstraintSet( 4807): id unknown cancel
+11-09 23:59:18.439 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:18.439 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:18.439 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:18.440 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:18.440 W/AOSP-MdnsDiscoveryManag( 4374): Error while decoding multicast packet (4422): 1 [CONTEXT service_id=168 ]
+11-09 23:59:18.441 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:18.442 W/AOSP-MdnsDiscoveryManag( 4374): Error while decoding multicast packet (4423): 1 [CONTEXT service_id=168 ]
+11-09 23:59:18.444 I/NCMPlayerEngine( 1995): onEngineEvent: msg=2000 arg1=480 arg2=0
+11-09 23:59:18.507 I/BeautyService( 8273): task Running...
+11-09 23:59:18.509 I/BeautyService( 8273): updateForegroundInfo new = ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity}, old Pkg = com.example.cloudmusic, old ClsName = com.example.cloudmusic.MainActivity
+11-09 23:59:18.509 I/BeautyService( 8273): inSplitScreenMode = false, isFrontCameraOpen = false, mCurPkgName = com.example.cloudmusic, mCurClsName = com.example.cloudmusic.MainActivity
+11-09 23:59:18.510 I/BeautyUtils( 8273): splitMode: onfalse
+11-09 23:59:18.510 D/z1      ( 8273): myUserId = 0	currentUserId0
+11-09 23:59:18.510 I/BeautyService( 8273): onDockSwitchChange : 	currentUser = true	 isBound = false, curState = NON_CONVERSATION_MODE, isSceneSupport = false, isAllowSplit = false
+11-09 23:59:18.511 I/BeautyService( 8273): already at target mode!
+11-09 23:59:18.653 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:18.653 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:18.741 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(14)  buffer len:32768.
+11-09 23:59:18.741 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(14) Finish Sync:0
+11-09 23:59:18.892 W/adbd    ( 1861): timeout expired while flushing socket, closing
+11-09 23:59:18.944 I/NCMPlayerEngine( 1995): onEngineEvent: msg=2000 arg1=980 arg2=0
+11-09 23:59:19.033 W/ConstraintSet( 4807): id unknown center_vertical_guideline
+11-09 23:59:19.033 W/ConstraintSet( 4807): id unknown action_button_guideline
+11-09 23:59:19.034 W/ConstraintSet( 4807): id unknown media_action_barrier
+11-09 23:59:19.034 W/ConstraintSet( 4807): id unknown media_action_barrier_end
+11-09 23:59:19.034 W/ConstraintSet( 4807): id unknown media_action_barrier_top
+11-09 23:59:19.034 W/ConstraintSet( 4807): id unknown remove_text
+11-09 23:59:19.035 W/ConstraintSet( 4807): id unknown settings
+11-09 23:59:19.035 W/ConstraintSet( 4807): id unknown dismiss
+11-09 23:59:19.035 W/ConstraintSet( 4807): id unknown cancel
+11-09 23:59:19.110 I/SmartPower.com.miui.home/10128(4371)( 2525): background->idle(3000ms) R(broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }) adj=100.
+11-09 23:59:19.110 I/SmartPower( 2525): com.miui.home/10128 state=inactive adj=100 proc size=1 move to idle broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }
+11-09 23:59:19.122 V/[ark] jni_util(21043): AutoDetachFromVMWhenThreadExit
+11-09 23:59:19.155 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:19.155 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:19.220 D/SLM-SRV-SLAService( 8115): checktemp temperature = 31968 temperature_average = 31803 isPerformanceMode = false thermal_enable_slm = true
+11-09 23:59:19.220 I/ThermalObserver( 2525): Temperature control has been released.
+11-09 23:59:19.223 I/mstatdaemon( 2086): Entering time loop
+11-09 23:59:19.223 I/mstatdaemon( 2086): t = 1794239959
+11-09 23:59:19.223 I/mstatdaemon( 2086): translated_t = 1478249959
+11-09 23:59:19.223 I/mstat_log( 2086): mstatcommitLog log_alloc() failed
+11-09 23:59:19.231 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:59:19.233 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:57
+11-09 23:59:19.441 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:19.442 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:19.442 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:19.444 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:19.444 I/NCMPlayerEngine( 1995): onEngineEvent: msg=2000 arg1=1480 arg2=0
+11-09 23:59:19.445 W/AOSP-MdnsDiscoveryManag( 4374): Error while decoding multicast packet (4424): 1 [CONTEXT service_id=168 ]
+11-09 23:59:19.449 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:19.450 W/AOSP-MdnsDiscoveryManag( 4374): Error while decoding multicast packet (4425): 1 [CONTEXT service_id=168 ]
+11-09 23:59:19.488 I/MiuiNetworkPolicy( 2525): bandwidth: 15 KB/s, Max bandwidth: 577 KB/s
+11-09 23:59:19.513 D/AppPredictService( 8273): start doPredict com.example.cloudmusic
+11-09 23:59:19.513 I/AppPredictManager( 8273): predict: recentApps size = 5
+11-09 23:59:19.519 I/AppPredictPrivacyLaunchManager( 8273): getLauncherHomeAppList size: 120
+11-09 23:59:19.519 I/AppPredictResultHelper( 8273): updatePreferenceStore: size = 32
+11-09 23:59:19.606 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=441}
+11-09 23:59:19.606 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=1208}
+11-09 23:59:19.657 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:19.658 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:19.738 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(15)  buffer len:32768.
+11-09 23:59:19.739 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(15) Finish Sync:0
+11-09 23:59:19.946 I/NCMPlayerEngine( 1995): onEngineEvent: msg=2000 arg1=1982 arg2=0
+11-09 23:59:20.051 E/TaskPersister( 2525): File error accessing recents directory (directory doesn't exist?).
+11-09 23:59:20.137 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   8.1675,   8.1557,  23.0000>,time=62321948398248, sensor=5, temperature(K)=   8.1557
+11-09 23:59:20.137 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 9, lux = 8, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:59:20.159 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:20.159 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:20.340 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(16)  buffer len:32768.
+11-09 23:59:20.340 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(16) Finish Sync:0
+11-09 23:59:20.357 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   9.2475,   9.2138,  29.0000>,time=62322168510956, sensor=5, temperature(K)=   9.2138
+11-09 23:59:20.357 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 8, lux = 9, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:59:20.446 I/NCMPlayerEngine( 1995): onEngineEvent: msg=2000 arg1=2482 arg2=0
+11-09 23:59:20.467 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   8.1675,   8.1815,  22.0000>,time=62322278542259, sensor=5, temperature(K)=   8.1815
+11-09 23:59:20.467 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 9, lux = 8, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:59:20.660 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:20.661 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:20.804 I/keystore2(  949): keystore2::watchdog: Watchdog thread idle -> terminating. Have a great day.
+11-09 23:59:20.830 I/MiuiNetworkPolicy( 2525): updateUidState uid = 10257, uidState = 10
+11-09 23:59:20.947 I/NCMPlayerEngine( 1995): onEngineEvent: msg=2000 arg1=2982 arg2=0
+11-09 23:59:21.006 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 23:59:21.064 I/SmartPower.com.taobao.idlefish/10297(21043)( 2525): background->idle(3000ms) R(broadcast start Intent { act=android.net.wifi.SCAN_RESULTS flg=0x4000010 (has extras) }) adj=925.
+11-09 23:59:21.064 I/SmartPower( 2525): com.taobao.idlefish/10297 state=inactive adj=925 proc size=4 move to idle broadcast start Intent { act=android.net.wifi.SCAN_RESULTS flg=0x4000010 (has extras) }
+11-09 23:59:21.095 D/MilletBrightHandler(10020): frozen uids:[] reason = from system
+11-09 23:59:21.095 D/MilletBrightHandler(10020): frozen fail result:[10240, 10327] freeze fail:[10240]
+11-09 23:59:21.111 I/SmartPower( 2525): com.miui.home/10128 state=idle adj=100 proc size=1 move to hibernation broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }
+11-09 23:59:21.128 D/GreezeManager( 2525): FZ uid = 10298 reason =from system success !
+11-09 23:59:21.129 D/GreezeManager( 2525): call socket destroy!
+11-09 23:59:21.134 D/MilletBrightHandler(10020): frozen uids:[10298] reason = from system
+11-09 23:59:21.134 D/MilletBrightHandler(10020): frozen fail result:[10240, 10327] freeze fail:[10240]
+11-09 23:59:21.138 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(17)  buffer len:32768.
+11-09 23:59:21.138 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(17) Finish Sync:0
+11-09 23:59:21.161 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:21.161 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:21.234 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:59:21.235 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:57
+11-09 23:59:21.446 I/NCMPlayerEngine( 1995): onEngineEvent: msg=2000 arg1=3482 arg2=0
+11-09 23:59:21.487 I/AICall_MemoryTrim$a(19135): Timer-940 trimMemory on background
+11-09 23:59:21.489 I/AICall_m0(19135): main invoke : null|80
+11-09 23:59:21.512 D/MilletBrightHandler(10020): frozen uids:[] reason = tobg
+11-09 23:59:21.512 D/MilletBrightHandler(10020): frozen fail result:[10240, 10327] freeze fail:[10240]
+11-09 23:59:21.662 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:21.663 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:21.787 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   9.3825,   9.3984,  25.0000>,time=62323598394342, sensor=5, temperature(K)=   9.3984
+11-09 23:59:21.787 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 8, lux = 9, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:59:21.948 I/NCMPlayerEngine( 1995): onEngineEvent: msg=2000 arg1=3982 arg2=0
+11-09 23:59:22.053 D/ProfileInstaller( 1995): Installing profile for com.example.cloudmusic
+11-09 23:59:22.139 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(18)  buffer len:32768.
+11-09 23:59:22.140 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(18) Finish Sync:0
+11-09 23:59:22.164 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:22.164 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:22.446 I/NCMPlayerEngine( 1995): onEngineEvent: msg=2000 arg1=4482 arg2=0
+11-09 23:59:22.490 I/MiuiNetworkPolicy( 2525): bandwidth: 6 KB/s, Max bandwidth: 577 KB/s
+11-09 23:59:22.587 D/MemorySizeMonitor(23072): Current memory: 390037KB, ratio: 3%, total: 11444340KB
+11-09 23:59:22.587 W/MemorySizeMonitor(23072): Memory threshold exceeded continuously! duration=8213591ms
+11-09 23:59:22.587 D/MemorySizeMonitor(23072): Skip report due to report interval (45000ms < 60000ms)
+11-09 23:59:22.636 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=441}
+11-09 23:59:22.636 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=1208}
+11-09 23:59:22.665 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:22.666 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:22.673 W/ThreadPoolForeg(13679): type=1400 audit(0.0:83897): avc: denied { write } for name="traced_producer" dev="tmpfs" ino=1594 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 app=com.google.android.gms
+11-09 23:59:22.743 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(19)  buffer len:32768.
+11-09 23:59:22.743 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(19) Finish Sync:0
+11-09 23:59:22.888 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   8.4375,   8.4347,  20.0000>,time=62324698508561, sensor=5, temperature(K)=   8.4347
+11-09 23:59:22.888 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 9, lux = 8, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:59:22.947 I/NCMPlayerEngine( 1995): onEngineEvent: msg=2000 arg1=4982 arg2=0
+11-09 23:59:23.066 I/SmartPower( 2525): com.taobao.idlefish/10297 state=idle adj=925 proc size=4 move to hibernation broadcast start Intent { act=android.net.wifi.SCAN_RESULTS flg=0x4000010 (has extras) }
+11-09 23:59:23.098 D/GreezeManager( 2525): FZ uid = 10297 reason =from system success !
+11-09 23:59:23.099 D/GreezeManager( 2525): call socket destroy!
+11-09 23:59:23.104 D/MilletBrightHandler(10020): frozen uids:[10297] reason = from system
+11-09 23:59:23.105 D/MilletBrightHandler(10020): frozen fail result:[10240, 10327] freeze fail:[10240]
+11-09 23:59:23.138 D/AudioTrack( 1995): [audioTrackData][fine] 5s(f:5159 m:0 s:0 k:0) : pid 1995 uid 10327 sessionId 8489 sr 44100 ch 2 fmt 1
+11-09 23:59:23.167 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:23.168 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:23.238 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:59:23.240 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:57
+11-09 23:59:23.277 W/ThreadPoolForeg( 4374): type=1400 audit(0.0:83898): avc: denied { write } for name="traced_producer" dev="tmpfs" ino=1594 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 app=com.google.android.gms
+11-09 23:59:23.376 I/MiuiNetworkPolicy( 2525): updateUidState uid = 10115, uidState = 5
+11-09 23:59:23.378 I/BtGatt.ScanManager( 4592): msg.what = MSG_IMPORTANCE_CHANGE, msg.arg1 = IMPORTANCE_CHANGE
+11-09 23:59:23.446 I/NCMPlayerEngine( 1995): onEngineEvent: msg=2000 arg1=5482 arg2=0
+11-09 23:59:23.668 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:23.669 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:23.742 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(20)  buffer len:32768.
+11-09 23:59:23.742 D/NMCache ( 1995): NMBufferSourceImp(1)::Read(20) Finish Sync:0
+11-09 23:59:23.946 I/NCMPlayerEngine( 1995): onEngineEvent: msg=2000 arg1=5982 arg2=0

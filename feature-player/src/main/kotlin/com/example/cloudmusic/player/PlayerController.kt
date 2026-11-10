@@ -307,17 +307,9 @@ class PlayerController(
         )
     }
 
-    private fun mimeHintOf(link: Link): String {
-        val raw = link.localPath ?: link.url.substringBefore('?')
-        return when (raw.substringAfterLast('.', "").lowercase()) {
-            "mp3" -> "audio/mpeg"
-            "flac" -> "audio/flac"
-            "m4a", "aac" -> "audio/mp4"
-            "wav" -> "audio/wav"
-            "ogg", "opus" -> "audio/ogg"
-            else -> "application/octet-stream"
-        }
-    }
+    /** 12 §61.45 / F1：MIME 推断统一委托 AudioFormats，本处不再维护 when 分支。 */
+    private fun mimeHintOf(link: Link): String =
+        com.example.cloudmusic.model.AudioFormats.mimeOfName(link.localPath ?: link.url)
 
     private fun fail(error: CloudMusicError) {
         _state.update { it.copy(phase = PlayerPhase.ERROR, lastError = error) }

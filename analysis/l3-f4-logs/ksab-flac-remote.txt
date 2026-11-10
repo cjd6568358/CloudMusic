@@ -1,0 +1,1613 @@
+--------- beginning of main
+11-09 23:59:34.408 E/AppScanObserverService( 2525): Result available, null observers for user: 0
+11-09 23:59:34.413 D/A11yRuleEngine( 8243): startQueryJob end 11 ms
+11-09 23:59:34.499 I/MiuiNetworkPolicy( 2525): bandwidth: 9 KB/s, Max bandwidth: 577 KB/s
+11-09 23:59:34.543 I/MediaFocusControl( 2525): requestAudioFocus() from uid/pid 10327/1992 AA=USAGE_MEDIA/CONTENT_TYPE_MUSIC clientId=android.media.AudioManager@9088650com.example.cloudmusic.PlaybackService$$ExternalSyntheticLambda0@36dc049 callingPack=com.example.cloudmusic req=1 flags=0x0 sdk=35
+11-09 23:59:34.543 D/PlaybackActivityMonitorStubImpl( 2525): interruptMusicPlayback uid=10240 hasUid=false
+11-09 23:59:34.543 D/PlaybackActivityMonitorStubImpl( 2525):  mRouteCast: -1 uid: 10240
+11-09 23:59:34.543 D/MediaFocusControl( 2525): skip handle audio focus change for user setting ...
+11-09 23:59:34.543 D/PlaybackActivityMonitorStubImpl( 2525): interruptMusicPlayback uid=10240 hasUid=false
+11-09 23:59:34.543 D/PlaybackActivityMonitorStubImpl( 2525):  mRouteCast: -1 uid: 10240
+11-09 23:59:34.543 I/AudioService.FadeOutManager( 2525): unfadeOutUid() uid:10327
+11-09 23:59:34.544 V/Avrcp_ext( 4592): onPlaybackStateChanged: state PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=62336358, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:34.545 V/Avrcp_ext( 4592): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@5c23a8e) null
+11-09 23:59:34.545 V/Avrcp_ext( 4592): updateCurrentMediaState: isPlaying = false
+11-09 23:59:34.545 W/Avrcp_ext( 4592): isMusicActive: false getBluetoothPlayState: 2 A2dp State: 11 mAudioPlaybackIsActive: true
+11-09 23:59:34.545 D/Avrcp_ext( 4592): isMusicActive = false mAudioPlaybackIsActive = true player state = PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=62336359, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:34.545 V/Avrcp_ext( 4592): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-09 23:59:34.545 D/Avrcp_ext( 4592): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-09 23:59:34.545 V/Avrcp_ext( 4592): isBrowseSupported for com.example.cloudmusic: false
+11-09 23:59:34.545 V/Avrcp_ext( 4592): updatePlaybackState, state: PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=62336359, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-09 23:59:34.545 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.545 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.545 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.545 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.545 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.545 V/Avrcp_ext( 4592): updatePlayerStateAndPosition, old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=62335611, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=62336359, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:34.545 V/Avrcp_ext( 4592): old state = PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=62335611, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=62336359, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:34.545 D/HeadsetService( 4592): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@dc0fd90
+11-09 23:59:34.545 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.545 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.545 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.545 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.545 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.545 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.545 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.545 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.545 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.545 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.545 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.545 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.545 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.545 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.545 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.545 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.545 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.545 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.545 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.545 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.545 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.545 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.545 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.545 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.545 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.545 I/Avrcp_ext( 4592): No active device found, update playstate to stack
+11-09 23:59:34.545 E/BluetoothAvrcpServiceJni( 4592): updatePlayStatusToStack
+11-09 23:59:34.545 E/bt_btif ( 4592): update_play_status_to_stack:invalid index,remote suspend not set
+11-09 23:59:34.545 E/BluetoothAvrcpServiceJni( 4592): updatePlayStatusToStack: status: 1
+11-09 23:59:34.545 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.545 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.545 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.545 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.545 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.545 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.545 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.545 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.545 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.545 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.545 V/Avrcp_ext( 4592): Exit updatePlayerStateAndPosition
+11-09 23:59:34.545 V/Avrcp_ext( 4592):  Exit onPlaybackStateChanged
+11-09 23:59:34.545 D/MediaDataManager( 4807): State updated outside of notification
+11-09 23:59:34.549 I/MediaCarouselController( 4807): media_data_arrive: addOrUpdatePlayer
+11-09 23:59:34.549 I/MiuiMediaControlPanel( 4807): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 曲库就绪
+11-09 23:59:34.562 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): JNI_OnLoad Start***************************************************************************
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): *******************************************************************************************
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): JNI_OnLoad: JNI_VERSION_1_6
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): AudioDeviceAudioTrack::Init begin
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): SDK Version:33
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): AudioDeviceAudioTrack::Init check env success
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): AudioDeviceAudioTrack::Init FindClass success
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): AudioDeviceAudioTrack::Init GlobalRef start
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): AudioDeviceAudioTrack::Init GlobalRef end
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method <init>
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method <init>
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method getMinBufferSize
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method getMaxVolume
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method getMinVolume
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method getNativeOutputSampleRate
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method play
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method pause
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method flush
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method stop
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method release
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method write
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method setVolume
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method getAudioSessionId
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method getPlaybackHeadPosition
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method getPlayState
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method write
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method getLatency
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method getTimestamp
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method getSampleRate
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method getState
+11-09 23:59:34.565 I/NMAudioPlayer( 1992): Init AudioTrack Method getUnderrunCount
+11-09 23:59:34.566 E/NMAudioPlayer( 1992): Failed to create AudioTimestamp object
+11-09 23:59:34.566 I/NMAudioPlayer( 1992): Init AudioTrack End!
+11-09 23:59:34.566 I/NMAudioPlayer( 1992): FindJavaClass Name(com/netease/cloudmusic/module/player/datasource/IBaseDataSource)
+11-09 23:59:34.566 I/NMAudioPlayer( 1992): FindJavaClass Name(com/netease/cloudmusic/module/player/datasource/IBaseDataSource) Success
+11-09 23:59:34.566 I/NMAudioPlayer( 1992): NewGlobalRef Name(com/netease/cloudmusic/module/player/datasource/IBaseDataSource) Success
+11-09 23:59:34.566 I/NMAudioPlayer( 1992): AndroidAudioPlayer::Init begin!
+11-09 23:59:34.566 I/NMAudioPlayer( 1992): FindJavaClass Name(com/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer)
+11-09 23:59:34.566 I/NMAudioPlayer( 1992): FindJavaClass Name(com/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer) Success
+11-09 23:59:34.566 I/NMAudioPlayer( 1992): NewGlobalRef Name(com/netease/cloudmusic/media/audioplayer/NCMNativeAudioPlayer) Success
+11-09 23:59:34.566 I/NMAudioPlayer( 1992): AndroidAudioPlayer Register Method(0)
+11-09 23:59:34.571 I/NMVirtualFileManager( 1992): Alloc
+11-09 23:59:34.572 I/NMCache ( 1992): NMVirtualFileManager::SetConfig Finish:{"dir":"/data/user/0/com.example.cloudmusic/cache/legacy_engine_cache","max_size":536870912,"slice_size":1048576,"cache_clean_range_min":0.8,"cache_clean_range_max":1.0}
+11-09 23:59:34.572 I/CM-DataReq( 1992): SetConfig ok dir=/data/user/0/com.example.cloudmusic/cache/legacy_engine_cache max=512MiB
+11-09 23:59:34.572 I/CM-DataReq( 1992): cacheManagerHandle=-5476376602366090432 hasContext=true
+11-09 23:59:34.573 I/NEPlayer( 1992): PlaybackEngine ctor: this=0xb400007ec7e1d800 cache=0xb400007ec7b56340 listener=0xb400007ec7b563c0
+11-09 23:59:34.573 W/NMAudioPlayer( 1992): CNCMAudioPlayer::SetPlaybackMode SetPlaybackMode 2, old mPlayBackMode:0
+11-09 23:59:34.573 I/NMAudioPlayer( 1992): CNCMAudioProcess::setAudioQualityMode mQualityMode 2
+11-09 23:59:34.573 I/NEPlayer( 1992): AudioPlayerUnit ctor: this=0xb400007e5eb33e00 cache=0xb400007ec7b56340 (effect_engine deferred)
+11-09 23:59:34.574 I/NMCache ( 1992): NMCacheControl::DoInit() dir:/data/user/0/com.example.cloudmusic/cache/legacy_engine_cache, limit:536870912
+11-09 23:59:34.574 W/NMAudioPlayer( 1992): CNCMAudioPlayer::SetPlaybackMode SetPlaybackMode 2, old mPlayBackMode:0
+11-09 23:59:34.574 I/NMAudioPlayer( 1992): CNCMAudioProcess::setAudioQualityMode mQualityMode 2
+11-09 23:59:34.574 I/NEPlayer( 1992): AudioPlayerUnit ctor: this=0xb400007e4d8e5f00 cache=0xb400007ec7b56340 (effect_engine deferred)
+11-09 23:59:34.574 I/CM-DataReq( 1992): prepare trackId=a852aff8e1a6ac8b43f3582bf1fd8af5 remote=true url=http://127.0.0.1:8765/f3_flac.flac expectedLength=0
+11-09 23:59:34.577 D/TrafficStats( 1992): tagSocket(145) with statsTag=0xffffffff, statsUid=-1
+11-09 23:59:34.584 D/A11yRuleEngine( 8243): startQueryJob end 22 ms
+11-09 23:59:34.605 I/CM-DataReq( 1992): probeLength=4194304 url=http://127.0.0.1:8765/f3_flac.flac
+11-09 23:59:34.605 I/CM-DataReq( 1992): resourceInfo extension=flac fileSize=4194304
+11-09 23:59:34.606 W/NMAudioPlayer( 1992): CNCMAudioProcess::SetAudioEffect  audio_effect 0
+11-09 23:59:34.606 I/NEPlayer( 1992): restoreInternalEffect: restore internal effect=0x0
+11-09 23:59:34.606 W/NMAudioPlayer( 1992): CNCMAudioPlayer::Reset
+11-09 23:59:34.606 I/NEPlayer( 1992): decoder route: bitrate=0 → decoderType=0
+11-09 23:59:34.606 I/NMAudioPlayer( 1992): CNCMAudioPlayer::doStop status 1
+11-09 23:59:34.606 W/NMAudioPlayer( 1992): CNCMAudioPlayer::doReset status 1
+11-09 23:59:34.606 I/CM-DataReq( 1992): setDataRequestErrorCallback callback=null enabled=false
+11-09 23:59:34.606 I/CM-DataReq( 1992): setDataRequestErrorCallback callback=com.netease.cloudmusic.android.sdk.playerengine.NativeDataRequestErrorCallback enabled=true
+11-09 23:59:34.606 I/NCMPlayerEngine( 1992): Data request error callback installed isPlayback=1
+11-09 23:59:34.606 I/CM-DataReq( 1992): createDataRequestHandler url=http://127.0.0.1:8765/f3_flac.flac cached=false
+11-09 23:59:34.607 I/CM-DataReq( 1992): createDataRequestHandler -> NEW UrlDataRequest
+11-09 23:59:34.607 W/NMAudioPlayer( 1992): CNCMAudioProcess::SetAudioEffect  audio_effect -5476376602363952128
+11-09 23:59:34.607 I/NEPlayer( 1992): createMusicEffect: config= engine=0xb400007e5efb7ec8 audioEffects=0xb400007ec7d60400
+11-09 23:59:34.607 I/NEPlayer( 1992): applyMusicInfoHandle: empty, skip
+11-09 23:59:34.609 I/NEPlayer( 1992): PlayerNotifyEvent msg=300 arg1=2 arg2=0 has_music=1 songId=
+11-09 23:59:34.609 I/NCMPlayerEngine( 1992): onEngineEvent: msg=300 arg1=2 arg2=0
+11-09 23:59:34.609 I/NEPlayer( 1992): setDataSource notifyTrackActivated: songId= songIdInt=0 ret=0
+11-09 23:59:34.609 W/NMAudioPlayer( 1992): CNCMAudioPlayer::PrepareAsync
+11-09 23:59:34.609 W/NMAudioPlayer( 1992): CNCMAudioPlayer::doPrepareAsync start++ status  2, mNewStream 0
+11-09 23:59:34.609 I/NEPlayer( 1992): BufferSource open: encryptedType=0
+11-09 23:59:34.609 I/NEPlayer( 1992): PlayerNotifyEvent msg=300 arg1=3 arg2=0 has_music=1 songId=
+11-09 23:59:34.609 I/NEPlayer( 1992): preparing notifyTrackPreparing: songId= songIdInt=0 ret=0
+11-09 23:59:34.609 I/NCMPlayerEngine( 1992): onEngineEvent: msg=300 arg1=3 arg2=0
+11-09 23:59:34.609 I/CM-DataReq( 1992): getUrl url=http://127.0.0.1:8765/f3_flac.flac fileSize=4194304 format=audio/flac
+11-09 23:59:34.609 I/NMCache ( 1992): NMVirtualFileManager::CreateBufferSource resource config:{"id":"a852aff8e1a6ac8b43f3582bf1fd8af5","md5":"","size":4194304,"type":"cache"}, cache config:{"range_size":1048576,"cache_local":true}
+11-09 23:59:34.609 I/NMCache ( 1992): NMBufferSourceImp Create:1
+11-09 23:59:34.611 I/NMCache ( 1992): NMMemoryCache Create:1
+11-09 23:59:34.611 I/NMCache ( 1992): NMCacheControl::DeleteCache total_size_:9586404 range_min_:0.800000 range_max_:1.000000
+11-09 23:59:34.614 I/NMCache ( 1992): NMSliceFile Open Init Use Old:a852aff8e1a6ac8b43f3582bf1fd8af5  
+11-09 23:59:34.614 I/CM-DataReq( 1992): SourceCallback.onUrlReady bitrate=0 format=
+11-09 23:59:34.614 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/4194304
+11-09 23:59:34.614 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(1)  buffer len:32768.
+11-09 23:59:34.614 D/NMCache ( 1992): NMBufferSourceImp::ReadTaskAsync Read  Begin(0-32768)
+11-09 23:59:34.615 D/NMCache ( 1992): NMBufferSourceImp(1)::ReadFromFileNoLock  Local File Read expect len:32768, offset:0, readed_len:32768, result:32768
+11-09 23:59:34.616 D/NMCache ( 1992): NMBufferSourceImp::ReadTaskAsync Read  End.
+11-09 23:59:34.616 D/NMCache ( 1992): NMBufferSourceImp::Read((1-1) Finish Async:32768
+11-09 23:59:34.616 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(2)  buffer len:531496.
+11-09 23:59:34.616 D/NMCache ( 1992): NMBufferSourceImp::ReadTaskAsync Read  Begin(32768-531496)
+11-09 23:59:34.618 D/NMCache ( 1992): NMBufferSourceImp(1)::ReadFromFileNoLock  Local File Read expect len:531496, offset:32768, readed_len:531496, result:531496
+11-09 23:59:34.618 D/NMCache ( 1992): NMBufferSourceImp::ReadTaskAsync Read  End.
+11-09 23:59:34.618 D/NMCache ( 1992): NMBufferSourceImp::Read((1-2) Finish Async:531496
+11-09 23:59:34.618 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(3)  buffer len:32768.
+11-09 23:59:34.618 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:564264, size:5242880, memory offset:564264
+11-09 23:59:34.622 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  564264, size :  1048576, out_len : 1048576, result:1048576, begin:3145728, end:4194304
+11-09 23:59:34.622 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask  Write offset:564264, size:1048576, out_len:1048576, writen:1048576
+11-09 23:59:34.622 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:34.622 I/CM-DataReq( 1992): Start id=1 offset=3145728 length=1048576 url=http://127.0.0.1:8765/f3_flac.flac
+11-09 23:59:34.623 I/NMCache ( 1992): NMNetSource::MakeRangeRequestAsync(1), start result:0, offset:3145728, length:1048576
+11-09 23:59:34.623 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:564264, size:1048576 writed:1048576, net_try:1, net_try_result:0, request_len：1048576 finish
+11-09 23:59:34.623 D/NMCache ( 1992): NMBufferSourceImp::ReadTaskAsync Read  Begin(564264-32768)
+11-09 23:59:34.623 D/NMCache ( 1992): NMBufferSourceImp::ReadTaskAsync Read  End.
+11-09 23:59:34.623 D/NMCache ( 1992): NMBufferSourceImp::Read((1-3) Finish Async:32768
+11-09 23:59:34.623 I/NMCache ( 1992): NMBufferSourceImp::Seek(1-3) Offset:630837, from_where:0
+11-09 23:59:34.623 W/NMAudioPlayer( 1992): Decoder(0): Open input file success!
+11-09 23:59:34.623 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(4)  buffer len:32768.
+11-09 23:59:34.623 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:597032, size:5242880, memory offset:597032
+11-09 23:59:34.624 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  597032, size :  1048576, out_len : 1048576, result:1048576, begin:3145728, end:4194304
+11-09 23:59:34.624 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask  Write offset:597032, size:1048576, out_len:1048576, writen:1048576
+11-09 23:59:34.624 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:597032, size:1048576 writed:1048576, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:34.624 D/NMCache ( 1992): NMBufferSourceImp::ReadTaskAsync Read  Begin(630837-32768)
+11-09 23:59:34.624 D/NMCache ( 1992): NMBufferSourceImp(1)::ReadFromFileNoLock  Local File Read expect len:32768, offset:630837, readed_len:32768, result:32768
+11-09 23:59:34.624 D/NMCache ( 1992): NMBufferSourceImp::ReadTaskAsync Read  End.
+11-09 23:59:34.624 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:663605, size:5242880, memory offset:663605
+11-09 23:59:34.624 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  663605, size :  1048576, out_len : 1048576, result:1048576, begin:3145728, end:4194304
+11-09 23:59:34.624 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask  Write offset:663605, size:1048576, out_len:1048576, writen:1048576
+11-09 23:59:34.624 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:663605, size:1048576 writed:1048576, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:34.624 D/NMCache ( 1992): NMBufferSourceImp::Read((1-4) Finish Async:32768
+11-09 23:59:34.624 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:1712181, size:4194304, memory offset:663605
+11-09 23:59:34.624 W/NMAudioPlayer( 1992): Decoder(0): Open codec for flac
+11-09 23:59:34.624 W/NMAudioPlayer( 1992): Decoder(0): Codec ID - 86028 Code Info - Audio: flac, 48000 Hz, stereo, s16
+11-09 23:59:34.624 W/NMAudioPlayer( 1992): CNCMAudioPlayer::doPrepareAsync openSource 0
+11-09 23:59:34.624 E/NMAudioPlayer( 1992): CNCMAudioStream::SetBackMusicVolume (1.000000)
+11-09 23:59:34.624 E/NMAudioPlayer( 1992): CNCMAudioStream::SetVoiceVolume (1.000000)
+11-09 23:59:34.625 W/NMAudioPlayer( 1992): CNCMAudioStream::SetAudioIFProcess mNEAiAudioIF 0
+11-09 23:59:34.625 E/NMAudioPlayer( 1992): CNCMAudioStream::SetAudioIFRatio nRatio 90
+11-09 23:59:34.625 W/NMAudioPlayer( 1992): CNCMAudioStream::SetAudioIFEnable nEnable 0
+11-09 23:59:34.625 E/NMAudioPlayer( 1992): CNCMAudioStream::initIFProcess mNEAiAudioType 0
+11-09 23:59:34.625 I/NMAudioPlayer( 1992): AudioTrack(0): Alloc.
+11-09 23:59:34.625 W/NMAudioPlayer( 1992): AudioTrack(0)::Open time_frame_ratio_  0
+11-09 23:59:34.625 I/NEPlayer( 1992): PlayerNotifyEvent msg=200 arg1=701 arg2=0 has_music=1 songId=
+11-09 23:59:34.625 W/NMAudioPlayer( 1992): AudioTrack(0) mEnableFloat 1, support_float_ 1, input_format->nWavFormat 1, *sample_format 2
+11-09 23:59:34.625 W/NMAudioPlayer( 1992): AudioTrack(0): DoGetSuggestAudioTrackFormat, nChannelLayout(3), *layout(12), *sample_format(2)
+11-09 23:59:34.625 I/NCMPlayerEngine( 1992): onEngineEvent: msg=200 arg1=701 arg2=0
+11-09 23:59:34.625 I/NEPlayer( 1992): PlayerNotifyEvent msg=7 arg1=223041 arg2=0 has_music=1 songId=
+11-09 23:59:34.625 I/NCMPlayerEngine( 1992): onEngineEvent: msg=7 arg1=223041 arg2=0
+11-09 23:59:34.625 I/CM-DataReq( 1992): open url=http://127.0.0.1:8765/f3_flac.flac Range=bytes=3145728-4194303
+11-09 23:59:34.626 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f1b3a8fc0, event 0
+11-09 23:59:34.627 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  1712181, size :  1048576, out_len : 1048576, result:1048576, begin:3145728, end:4194304
+11-09 23:59:34.627 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask  Write offset:1712181, size:1048576, out_len:1048576, writen:1048576
+11-09 23:59:34.627 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:1712181, size:1048576 writed:1048576, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:34.627 D/AudioFlinger( 1439): updateWakeLockUids_l AudioOut_4D uids:
+11-09 23:59:34.627 D/AudioFlinger( 1439): updateWakeLockUids_l AudioOut_15 uids:
+11-09 23:59:34.627 D/AudioFlinger( 1439): updateWakeLockUids_l AudioOut_3D uids:
+11-09 23:59:34.627 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f1b2ebf80, event 0
+11-09 23:59:34.627 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f1b43c540, event 0
+11-09 23:59:34.628 D/AudioFlinger( 1439): updateWakeLockUids_l AudioOut_D uids:
+11-09 23:59:34.628 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f30328f40, event 0
+11-09 23:59:34.627 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f1b48ddc0, event 0
+11-09 23:59:34.628 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=10, cmdSize=8, pCmdData=0xb400007c61e126f8, replySize=0, pReplyData=0x0)
+11-09 23:59:34.628 V/DlbDlbEffect( 1213): handle_EFFECT_CMD_SET_VOLUME(vl=16777216, vr=16777216)
+11-09 23:59:34.629 I/NMAudioPlayer( 1992): multipliedBufferSize:61504, minAppBufferSize:48000, maxAppBufferSize:144000, expect_min_buffer_size:61504, pcmFrameSize 4, factor 4
+11-09 23:59:34.629 I/NMAudioPlayer( 1992): GetMinBufferSize:15376, sample_rat:48000, channel_config:12, audio_format:2, Expected Size:61504
+11-09 23:59:34.629 W/NMAudioPlayer( 1992): Create AudioTrack: 61504, stream_type:3, sample_rate:48000, channel_config:12, format:2
+11-09 23:59:34.630 D/AudioTrack( 1992): set(sessionId=0)
+11-09 23:59:34.630 D/AudioTrack( 1992): set(): streamType -1, sampleRate 48000, format 0x1, channelMask 0x3, frameCount 15376, flags #0, notificationFrames 0, sessionId 0, transferType 3, uid -1, pid -1
+11-09 23:59:34.631 D/TrafficStats( 1992): tagSocket(142) with statsTag=0xffffffff, statsUid=-1
+11-09 23:59:34.633 D/APM_AudioPolicyManager( 1439): getOutputForAttrInt()+ attributes={ Content type: AUDIO_CONTENT_TYPE_MUSIC Usage: AUDIO_USAGE_MEDIA Source: AUDIO_SOURCE_DEFAULT Flags: 0xa00 Tags:  } stream=AUDIO_STREAM_MUSIC session 8505 output 0 selectedDeviceId 0 device AUDIO_DEVICE_NONE sampling rate 48000 format 0x1channel mask 0x3 flags 0x8 stream AUDIO_STREAM_MUSIC uid 10327
+11-09 23:59:34.633 D/APM_AudioPolicyManager( 1439): getOutputForAttrInt() device {AUDIO_DEVICE_OUT_SPEAKER, @:}, sampling rate 48000, format 0x1, channel mask 0x3, flags 0x8 stream AUDIO_STREAM_MUSIC
+11-09 23:59:34.633 D/MiAudioPolicyManager( 1439): getPackageName: com.example.cloudmusic  uid 10327
+11-09 23:59:34.633 D/AHAL: FM( 1213): fm_get_parameters: 232: enter
+11-09 23:59:34.633 D/AHAL: FM( 1213): fm_get_parameters: 239: exit
+11-09 23:59:34.633 D/AHAL: Loopback_karaoke( 1213): karaoke_get_parameters: Enter
+11-09 23:59:34.633 D/AHAL: Loopback_karaoke( 1213): karaoke_get_parameters: Exit
+11-09 23:59:34.634 D/AHAL: FM( 1213): fm_get_parameters: 232: enter
+11-09 23:59:34.634 D/AHAL: FM( 1213): fm_get_parameters: 239: exit
+11-09 23:59:34.634 D/AHAL: Loopback_karaoke( 1213): karaoke_get_parameters: Enter
+11-09 23:59:34.634 D/AHAL: Loopback_karaoke( 1213): karaoke_get_parameters: Exit
+11-09 23:59:34.634 D/APM_AudioPolicyManager( 1439): getOutputForAttrInt()- attributes={ Content type: AUDIO_CONTENT_TYPE_MUSIC Usage: AUDIO_USAGE_MEDIA Source: AUDIO_SOURCE_DEFAULT Flags: 0xa00 Tags:  } stream=AUDIO_STREAM_MUSIC session 8505 output 29 selectedDeviceId 0 device {AUDIO_DEVICE_OUT_SPEAKER, @:} sampling rate 48000 format 0x1channel mask 0x3 flags 0x8 stream AUDIO_STREAM_MUSIC uid 10327
+11-09 23:59:34.634 D/APM_AudioPolicyManager( 1439): getOutputForAttr() returns output 29 requestedPortId 0 selectedDeviceId 3 for port ID 997
+11-09 23:59:34.634 I/AudioFlinger( 1439): create audiotrack for com.example.cloudmusic  uid 10327
+11-09 23:59:34.634 D/AudioFlinger( 1439): Client defaulted notificationFrames to 7688 for frameCount 15376
+11-09 23:59:34.635 D/AF::TrackHandle( 1439): OpPlayAudio: track:935 usage:1 not muted
+11-09 23:59:34.636 I/AF::Track( 1439): isInWhiteList curPkgName com.example.cloudmusic  uid 10327
+11-09 23:59:34.636 D/AF::Track( 1439): Track(935): usage = 1 mbIsAttrNeedFade = 0
+11-09 23:59:34.638 D/AHAL: AudioStream( 1213): astream_out_get_parameters: 839: enter
+11-09 23:59:34.638 D/AHAL: AudioStream( 1213): astream_out_get_parameters: 861: keys: is_direct_pcm_track
+11-09 23:59:34.638 D/AHAL: AudioStream( 1213): astream_out_get_parameters: 898: exit: returns - is_direct_pcm_track=false
+11-09 23:59:34.640 W/AudioTrack( 1992): Use of stream types is deprecated for operations other than volume control
+11-09 23:59:34.640 W/AudioTrack( 1992): See the documentation of AudioTrack() for what to use instead with android.media.AudioAttributes to qualify your playback use case
+11-09 23:59:34.640 I/NMAudioPlayer( 1992): AudioTrack(0): Format layout:c channels:2, sample_format:1, sample_rate:48000, sample_size:16, status 1
+11-09 23:59:34.640 I/NMAudioPlayer( 1992): AudioTrack(0):AudioSessionId:8505, audio_latency: 429, expect_buffer_size_ 61504, min_buffer_size_ 15376
+11-09 23:59:34.640 I/NMAudioPlayer( 1992): AudioTrack(0):AudioSessionId:8505, audio_latency: 429, mAudioOffSetTime 349, expect_render_time_ 320
+11-09 23:59:34.641 I/AudioTrack( 1992): AudioTrack::setVolume L:1.000000 R:1.000000 and the pakage is com.example.cloudmusic
+11-09 23:59:34.641 I/AudioTrack( 1992): AudioTrack::setVolume L:1.000000 R:1.000000
+11-09 23:59:34.641 W/NMAudioPlayer( 1992): CNCMAudioPlayer::doPrepareAsync mAudioDevices  Open 0
+11-09 23:59:34.641 I/NMAudioPlayer( 1992): AudioTrack(0): SetVolume(1.000000), audio_session_id(8505)
+11-09 23:59:34.641 I/AudioTrack( 1992): AudioTrack::setVolume L:1.000000 R:1.000000 and the pakage is com.example.cloudmusic
+11-09 23:59:34.641 I/AudioTrack( 1992): AudioTrack::setVolume L:1.000000 R:1.000000
+11-09 23:59:34.641 I/NMAudioPlayer( 1992): Create new AudioEffects instance: 1, 48000, 2, 2048
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetLoudnessON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetLoudnessPlaybackRef: playbackRef -12.000000
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetReverbON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetStereoEnhancerON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetRotate3DON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetALCON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetSpatialAudioON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetEarFingerAudioON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): _SetHearAudioON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetSpeakerSpatialON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetGraphEQON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetBassTrebleON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetCompressorON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetPostCompressorON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetMultiBandCompressorON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetParametricEQON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetParametricEQ2ON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetDelayON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetChannelDelayON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetFIRON: on false
+11-09 23:59:34.646 D/NMAudioPlayer( 1992): SetHeadphoneON: on false
+11-09 23:59:34.647 D/NMAudioPlayer( 1992): SetElectronicON: on false
+11-09 23:59:34.647 D/NMAudioPlayer( 1992): SetVibratoON: on false
+11-09 23:59:34.647 D/NMAudioPlayer( 1992): SetTremoloON: on false
+11-09 23:59:34.647 D/NMAudioPlayer( 1992): SetChorusON: on false
+11-09 23:59:34.647 D/NMAudioPlayer( 1992): SetFlangerON: on false
+11-09 23:59:34.647 D/NMAudioPlayer( 1992): SetDynamicEQON: on false
+11-09 23:59:34.647 D/NMAudioPlayer( 1992): SetPitchChangerON: on false
+11-09 23:59:34.647 D/NMAudioPlayer( 1992): SetPitchChangerON: on false
+11-09 23:59:34.647 D/NMAudioPlayer( 1992): SetNoiseGenON: on false
+11-09 23:59:34.647 D/NMAudioPlayer( 1992): SetMBStereoFieldON: on false
+11-09 23:59:34.647 D/NMAudioPlayer( 1992): SetMSEQON: on false
+11-09 23:59:34.647 I/NMAudioPlayer( 1992): _SetLimiterON: on true
+11-09 23:59:34.647 I/NMAudioPlayer( 1992): _SetLimiterParams Limiter: on true, Threshold 0.000000, Attack 0.005000, Release 0.100000, OutputGain 0.000000, Ratio 4.000000, InfiniteRatio true
+11-09 23:59:34.647 D/NMAudioPlayer( 1992): SetBypassMode: bypass false
+11-09 23:59:34.648 D/NMAudioPlayer( 1992): Initialize audio effect instance done.
+11-09 23:59:34.648 W/NMAudioPlayer( 1992): CNCMAudioProcess::setAudioDescription  mAudioEffect Init 1, 1, 2, 48000, 8192
+11-09 23:59:34.648 I/NMAudioPlayer( 1992): CNCMAudioProcess::SetPlaySpeed  speed 1.000000
+11-09 23:59:34.648 I/NMAudioPlayer( 1992): CNCMAudioProcess::open songID a852aff8e1a6ac8b43f3582bf1fd8af5
+11-09 23:59:34.648 W/NMAudioPlayer( 1992): CNCMAudioProcess::setStepSize mStepSize 61504
+11-09 23:59:34.648 I/NMAudioPlayer( 1992): CNCMAudioStream::SetPlaybackCacheParams cache_min 4000, cache_max 7000, buffering_min 1000, buffering_max 1500
+11-09 23:59:34.648 W/NMAudioPlayer( 1992): CNCMAudioStream::setSpeed mSpeed 1.000000, mNEAiAudioStatus 1
+11-09 23:59:34.648 W/NMAudioPlayer( 1992): CNCMAudioPlayer::doPrepareAsync mAudioStream  start 0, mDuration 223041, audioOffset 349
+11-09 23:59:34.648 I/NEPlayer( 1992): PlayerNotifyEvent msg=8 arg1=349 arg2=0 has_music=1 songId=
+11-09 23:59:34.648 I/NCMPlayerEngine( 1992): onEngineEvent: msg=8 arg1=349 arg2=0
+11-09 23:59:34.649 I/NEPlayer( 1992): PlayerNotifyEvent msg=1 arg1=0 arg2=0 has_music=1 songId=
+11-09 23:59:34.649 I/NEPlayer( 1992): prepared notifyTrackInfoReady: songId= songIdInt=0 selectedBitrate=0 kbps=0 level=auto ret=0
+11-09 23:59:34.649 I/NCMPlayerEngine( 1992): onEngineEvent: msg=1 arg1=0 arg2=0
+11-09 23:59:34.649 I/NEPlayer( 1992): PlayerNotifyEvent msg=300 arg1=4 arg2=0 has_music=1 songId=
+11-09 23:59:34.649 I/NCMPlayerEngine( 1992): onEngineEvent: msg=300 arg1=4 arg2=0
+11-09 23:59:34.649 I/NEPlayer( 1992): PlayerNotifyEvent msg=6 arg1=48000 arg2=2 has_music=1 songId=
+11-09 23:59:34.649 I/NEPlayer( 1992): audioFormat notifyAudioFormatReady: songId= songIdInt=0 sampleRate=48000 channels=2 ret=0
+11-09 23:59:34.649 I/NCMPlayerEngine( 1992): onEngineEvent: msg=6 arg1=48000 arg2=2
+11-09 23:59:34.649 I/NEPlayer( 1992): PlayerNotifyEvent msg=6002 arg1=48000 arg2=2 has_music=1 songId=
+11-09 23:59:34.649 I/NCMPlayerEngine( 1992): onEngineEvent: msg=6002 arg1=48000 arg2=2
+11-09 23:59:34.649 I/NMAudioPlayer( 1992): NCMCPU::getlimit result = 0, cur = 40, max = 40, now get_prio 0
+11-09 23:59:34.649 I/NMAudioPlayer( 1992): NCMCPU::setpriority ret = 0, new_prio -16, now_prio -16
+11-09 23:59:34.649 I/NMAudioPlayer( 1992): NCMCPU::getLastRunOnCpu pid:1992 tid:8021, cpuid= 7
+11-09 23:59:34.649 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(5)  buffer len:32768.
+11-09 23:59:34.649 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(5) Finish Sync:0
+11-09 23:59:34.649 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:2760757, size:3178496, memory offset:696373
+11-09 23:59:34.649 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  2760757, size :  1048576, out_len : 384971, result:384971, begin:3145728, end:4194304
+11-09 23:59:34.650 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask  Write offset:2760757, size:1048576, out_len:384971, writen:384971
+11-09 23:59:34.650 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:2760757, size:1048576 writed:384971, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:34.651 E/NMAudioPlayer( 1992): CNCMAudioStream::doCheckStatus 000 mBufDuration 384, offsetTime 1147, mProcessBufferCount 3
+11-09 23:59:34.651 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(6)  buffer len:32768.
+11-09 23:59:34.651 I/NEPlayer( 1992): PlayerNotifyEvent msg=200 arg1=702 arg2=0 has_music=1 songId=
+11-09 23:59:34.651 I/NCMPlayerEngine( 1992): onEngineEvent: msg=200 arg1=702 arg2=0
+11-09 23:59:34.651 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(6) Finish Sync:0
+11-09 23:59:34.651 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:2826293, memory offset:729141
+11-09 23:59:34.651 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:34.651 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:34.651 W/NMAudioPlayer( 1992): CNCMAudioPlayer::Play status 4
+11-09 23:59:34.651 W/NMAudioPlayer( 1992): CNCMAudioPlayer::doPlay mAudioStream start 0 mBuffering 0, fadeIn 0
+11-09 23:59:34.651 I/NMAudioPlayer( 1992): AudioTrack(0): SetVolume(1.000000), audio_session_id(8505), the same volume, return
+11-09 23:59:34.651 W/NMAudioPlayer( 1992): AudioTrack(0): Play(1)
+11-09 23:59:34.651 W/NMAudioPlayer( 1992): CNCMAudioPlayer::doPlay mAudioDevices Play 0, mFadein 0, mPeriodicInMS 500 mBuffering 0
+11-09 23:59:34.651 I/NMAudioPlayer( 1992): NCMCPU::getlimit result = 0, cur = 40, max = 40, now get_prio 0
+11-09 23:59:34.651 I/NMAudioPlayer( 1992): NCMCPU::setpriority ret = 0, new_prio -16, now_prio -16
+11-09 23:59:34.651 I/NMAudioPlayer( 1992): NCMCPU::getCPUCoreFreqs coreID = 0, max frequency 1804800, min frequency 300000, cur frequency 0, scale cur frequency 1804800
+11-09 23:59:34.651 I/NMAudioPlayer( 1992): NCMCPU::getCPUCoreFreqs coreID = 1, max frequency 1804800, min frequency 300000, cur frequency 0, scale cur frequency 1804800
+11-09 23:59:34.651 I/NMAudioPlayer( 1992): NCMCPU::getCPUCoreFreqs coreID = 2, max frequency 1804800, min frequency 300000, cur frequency 0, scale cur frequency 1804800
+11-09 23:59:34.652 I/NMAudioPlayer( 1992): NCMCPU::getCPUCoreFreqs coreID = 3, max frequency 1804800, min frequency 300000, cur frequency 0, scale cur frequency 1804800
+11-09 23:59:34.652 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(7)  buffer len:32768.
+11-09 23:59:34.652 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(7) Finish Sync:0
+11-09 23:59:34.653 I/NMAudioPlayer( 1992): NCMCPU::getCPUCoreFreqs coreID = 4, max frequency 2496000, min frequency 633600, cur frequency 0, scale cur frequency 2342400
+11-09 23:59:34.653 V/Avrcp_ext( 4592): onPlaybackStateChanged: state PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=62336466, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:34.653 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:2859061, memory offset:761909
+11-09 23:59:34.653 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:34.653 V/Avrcp_ext( 4592): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@5c23a8e) null
+11-09 23:59:34.653 V/Avrcp_ext( 4592): updateCurrentMediaState: isPlaying = false
+11-09 23:59:34.653 W/Avrcp_ext( 4592): isMusicActive: false getBluetoothPlayState: 1 A2dp State: 11 mAudioPlaybackIsActive: true
+11-09 23:59:34.653 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:34.653 D/Avrcp_ext( 4592): isMusicActive = false mAudioPlaybackIsActive = true player state = PlaybackState {state=3, position=2, buffered position=0, speed=1.0, updated=62336468, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:34.653 I/NMAudioPlayer( 1992): NCMCPU::getCPUCoreFreqs coreID = 5, max frequency 2496000, min frequency 633600, cur frequency 0, scale cur frequency 2342400
+11-09 23:59:34.653 V/Avrcp_ext( 4592): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-09 23:59:34.653 D/Avrcp_ext( 4592): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-09 23:59:34.653 V/Avrcp_ext( 4592): isBrowseSupported for com.example.cloudmusic: false
+11-09 23:59:34.653 V/Avrcp_ext( 4592): updatePlaybackState, state: PlaybackState {state=3, position=2, buffered position=0, speed=1.0, updated=62336468, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-09 23:59:34.653 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.653 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.653 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.653 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.653 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.653 V/Avrcp_ext( 4592): updatePlayerStateAndPosition, old=PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=62336359, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=2, buffered position=0, speed=1.0, updated=62336468, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:34.653 V/Avrcp_ext( 4592): old state = PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=62336359, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=2, buffered position=0, speed=1.0, updated=62336468, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:34.653 D/HeadsetService( 4592): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@dc0fd90
+11-09 23:59:34.653 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.653 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.653 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.653 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.653 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.653 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.653 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.653 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.653 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.653 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.653 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.653 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.653 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.653 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.653 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.653 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.653 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.653 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.653 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.653 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.653 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.653 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.653 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.653 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.653 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.653 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.653 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.653 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.653 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.653 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.653 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.653 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.653 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.653 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.653 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.653 V/Avrcp_ext( 4592): Exit updatePlayerStateAndPosition
+11-09 23:59:34.653 V/Avrcp_ext( 4592):  Exit onPlaybackStateChanged
+11-09 23:59:34.653 I/NMAudioPlayer( 1992): NCMCPU::getCPUCoreFreqs coreID = 6, max frequency 2496000, min frequency 633600, cur frequency 0, scale cur frequency 2342400
+11-09 23:59:34.654 I/NMAudioPlayer( 1992): NCMCPU::getCPUCoreFreqs coreID = 7, max frequency 2995200, min frequency 787200, cur frequency 0, scale cur frequency 2822400
+11-09 23:59:34.654 I/NMAudioPlayer( 1992): NCMCPU::getLastRunOnCpu pid:1992 tid:8047, cpuid= 6
+11-09 23:59:34.654 W/NMAudioPlayer( 1992): AudioTrack::doRenderFast mType 80
+11-09 23:59:34.654 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f30328f40, event 0
+11-09 23:59:34.654 D/AudioTrack( 1992): start(997): prior state:STATE_STOPPED
+11-09 23:59:34.654 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f1b2ebf80, event 0
+11-09 23:59:34.654 I/NEPlayer( 1992): PlayerNotifyEvent msg=300 arg1=5 arg2=0 has_music=1 songId=
+11-09 23:59:34.654 D/AF::Track( 1439): setFadeIn isFadeNeeded = 0
+11-09 23:59:34.654 I/NCMPlayerEngine( 1992): onEngineEvent: msg=300 arg1=5 arg2=0
+11-09 23:59:34.654 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f1b48ddc0, event 0
+11-09 23:59:34.655 I/NCMPlayerEngine( 1992): onEngineEvent: msg=2000 arg1=0 arg2=0
+11-09 23:59:34.655 I/NEPlayer( 1992): PlayerNotifyEvent msg=6001 arg1=0 arg2=0 has_music=1 songId=
+11-09 23:59:34.655 I/NCMPlayerEngine( 1992): onEngineEvent: msg=6001 arg1=0 arg2=0
+11-09 23:59:34.655 I/NEPlayer( 1992): PlayerNotifyEvent msg=5 arg1=1 arg2=0 has_music=1 songId=
+11-09 23:59:34.655 I/NEPlayer( 1992): firstFrame notifyFirstAudioFrameParsing: songId= songIdInt=0 ret=0
+11-09 23:59:34.655 I/NCMPlayerEngine( 1992): onEngineEvent: msg=5 arg1=1 arg2=0
+11-09 23:59:34.655 D/MediaSessionService( 2525): Media button session is changed to com.example.cloudmusic/CloudMusic (userId=0)
+11-09 23:59:34.656 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(8)  buffer len:32768.
+11-09 23:59:34.656 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(8) Finish Sync:0
+11-09 23:59:34.656 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:2891829, memory offset:794677
+11-09 23:59:34.656 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:34.656 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:34.655 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:6439 deviceId:3 type:android.media.AudioTrack u/pid:10240/30682 state:paused attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:7233
+11-09 23:59:34.656 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f1b3a8fc0, event 0
+11-09 23:59:34.656 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:47 deviceId:0 type:android.media.SoundPool u/pid:1000/2525 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-09 23:59:34.656 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:79 deviceId:0 type:android.media.SoundPool u/pid:1027/7934 state:started attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-09 23:59:34.657 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(9)  buffer len:32768.
+11-09 23:59:34.657 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(9) Finish Sync:0
+11-09 23:59:34.657 W/AudioFlinger( 1439): The package name(android) provided does not correspond to the uid 1041
+11-09 23:59:34.658 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f1b43c540, event 0
+11-09 23:59:34.658 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:2924597, memory offset:827445
+11-09 23:59:34.658 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:34.658 D/Avrcp_ext( 4592): AudioManager Player in started state: com.android.nfc
+11-09 23:59:34.658 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:34.658 D/Avrcp_ext( 4592): AudioManager Active Player: com.android.nfc
+11-09 23:59:34.658 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:55 deviceId:0 type:android.media.SoundPool u/pid:10128/4371 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-09 23:59:34.658 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:63 deviceId:0 type:android.media.SoundPool u/pid:1000/4807 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-09 23:59:34.658 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:7679 deviceId:3 type:android.media.AudioTrack u/pid:10240/30682 state:paused attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:8473
+11-09 23:59:34.658 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:7711 deviceId:0 type:android.media.AudioTrack u/pid:10327/1992 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0xA00 tags= bundle=null sessionId:8505
+11-09 23:59:34.659 I/AudioTrack( 1992): AudioTrack::setVolume L:1.000000 R:1.000000 and the pakage is com.example.cloudmusic
+11-09 23:59:34.659 I/AudioTrack( 1992): AudioTrack::setVolume L:1.000000 R:1.000000
+11-09 23:59:34.659 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(10)  buffer len:32768.
+11-09 23:59:34.659 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(10) Finish Sync:0
+11-09 23:59:34.659 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:2957365, memory offset:860213
+11-09 23:59:34.659 D/Avrcp_ext( 4592): AudioManager Player in started state: com.example.cloudmusic
+11-09 23:59:34.659 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:34.659 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:34.660 D/Avrcp_ext( 4592): AudioManager isPlaying: true, mAudioPlaybackIsActive: true, isMusiActive: false
+11-09 23:59:34.660 D/HeadsetService( 4592): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@dc0fd90
+11-09 23:59:34.660 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.660 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.660 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.660 V/Avrcp_ext( 4592): ActiveSession: MediaController (com.example.cloudmusic@abf0d66) null
+11-09 23:59:34.660 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(11)  buffer len:32768.
+11-09 23:59:34.660 V/Avrcp_ext( 4592): isBrowseSupported for com.example.cloudmusic: false
+11-09 23:59:34.660 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(11) Finish Sync:0
+11-09 23:59:34.660 D/Avrcp_ext( 4592): Adding media player info for com.example.cloudmusic with id 16
+11-09 23:59:34.661 D/A11yRuleEngine( 8243): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-09 23:59:34.662 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:2990133, memory offset:892981
+11-09 23:59:34.662 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:34.662 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:34.662 D/Avrcp_ext( 4592): update #16:MediaPlayerInfo com.example.cloudmusic (as 'com.example.cloudmusic.CloudMusicApplication') Type = 1, SubType = 0, Status = 1 Feature Bits [40 41 42 44 45 47 48 58] Controller: MediaController (com.example.cloudmusic@abf0d66) null
+11-09 23:59:34.662 V/Avrcp_ext( 4592): updateNewIds: Addressed:16 to 16, Browse:0 to 0
+11-09 23:59:34.662 D/Avrcp_ext( 4592): updateCurrentController: MediaController (com.example.cloudmusic@5c23a8e) null to MediaController (com.example.cloudmusic@abf0d66) null
+11-09 23:59:34.662 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(12)  buffer len:32768.
+11-09 23:59:34.662 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(12) Finish Sync:0
+11-09 23:59:34.663 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(13)  buffer len:32768.
+11-09 23:59:34.663 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(13) Finish Sync:0
+11-09 23:59:34.663 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3055669, memory offset:958517
+11-09 23:59:34.663 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:34.663 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:34.663 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3055669, memory offset:958517
+11-09 23:59:34.663 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:34.663 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:34.664 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(14)  buffer len:32768.
+11-09 23:59:34.664 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(14) Finish Sync:0
+11-09 23:59:34.664 D/Avrcp_ext( 4592): onMediaKeyEventSessionChanged: player = MediaPlayerInfo com.example.cloudmusic (as 'com.example.cloudmusic.CloudMusicApplication') Type = 1, SubType = 0, Status = 2 Feature Bits [40 41 42 44 45 47 48 58] Controller: MediaController (com.example.cloudmusic@5c23a8e) null, id = 16, updateController = false
+11-09 23:59:34.664 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3088437, memory offset:991285
+11-09 23:59:34.664 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:34.664 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:34.664 I/Avrcp_ext( 4592): onMediaKeyEventSessionChanged: token=com.example.cloudmusic
+11-09 23:59:34.664 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(15)  buffer len:32768.
+11-09 23:59:34.664 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(15) Finish Sync:0
+11-09 23:59:34.665 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3121205, memory offset:1024053
+11-09 23:59:34.665 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:34.665 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:34.665 V/Avrcp_ext( 4592): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@abf0d66) null
+11-09 23:59:34.665 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(16)  buffer len:32768.
+11-09 23:59:34.665 V/Avrcp_ext( 4592): updateCurrentMediaState: isPlaying = false
+11-09 23:59:34.665 W/Avrcp_ext( 4592): isMusicActive: false getBluetoothPlayState: 1 A2dp State: 11 mAudioPlaybackIsActive: true
+11-09 23:59:34.665 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(16) Finish Sync:0
+11-09 23:59:34.665 I/EffectsFactory( 1213): EffectCreate() create_effect
+11-09 23:59:34.665 D/Avrcp_ext( 4592): isMusicActive = false mAudioPlaybackIsActive = true player state = PlaybackState {state=3, position=14, buffered position=0, speed=1.0, updated=62336480, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:34.665 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3153973, memory offset:1056821
+11-09 23:59:34.665 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:34.665 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:34.666 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(17)  buffer len:32768.
+11-09 23:59:34.666 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(17) Finish Sync:0
+11-09 23:59:34.666 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3186741, memory offset:1089589
+11-09 23:59:34.666 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:34.666 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:34.666 V/Avrcp_ext( 4592): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-09 23:59:34.666 D/Avrcp_ext( 4592): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-09 23:59:34.666 V/Avrcp_ext( 4592): isBrowseSupported for com.example.cloudmusic: false
+11-09 23:59:34.666 V/Avrcp_ext( 4592): updatePlaybackState, state: PlaybackState {state=3, position=14, buffered position=0, speed=1.0, updated=62336480, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-09 23:59:34.666 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.666 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.666 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.666 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.666 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.666 V/Avrcp_ext( 4592): updatePlayerStateAndPosition, old=PlaybackState {state=3, position=2, buffered position=0, speed=1.0, updated=62336468, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=14, buffered position=0, speed=1.0, updated=62336480, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:34.666 V/Avrcp_ext( 4592): old state = PlaybackState {state=3, position=2, buffered position=0, speed=1.0, updated=62336468, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=14, buffered position=0, speed=1.0, updated=62336480, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:34.666 D/HeadsetService( 4592): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@dc0fd90
+11-09 23:59:34.666 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.666 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.666 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.666 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.666 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.666 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.666 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.666 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.666 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.666 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.666 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.666 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.666 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.666 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.666 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.666 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.666 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.666 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.666 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.666 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.666 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.666 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.666 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.666 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.666 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.666 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.666 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.666 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.666 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.666 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.666 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.666 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.666 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.666 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.666 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.666 V/Avrcp_ext( 4592): Exit updatePlayerStateAndPosition
+11-09 23:59:34.667 V/APM::EffectDescriptor( 1439): registerEffect() effect Volume listener for Music, io 29, session 8505 id 10075
+11-09 23:59:34.667 V/APM::EffectDescriptor( 1439): registerEffect() memory 1, total memory 2
+11-09 23:59:34.667 V/APM::EffectDescriptor( 1439): setEffectEnabled(true) total CPU 0
+11-09 23:59:34.667 D/PAL: API( 1213): pal_set_param: 838: Enter: param id 27 (PAL_PARAM_ID_GAIN_LVL_CAL)
+11-09 23:59:34.667 I/PAL: ResourceManager( 1213): setParameter: 7780: Enter param id: 27 (PAL_PARAM_ID_GAIN_LVL_CAL)
+11-09 23:59:34.667 D/PAL: Stream( 1213): getAssociatedDevices: 492: no. of devices 1
+11-09 23:59:34.667 D/PAL: Stream( 1213): getAssociatedSession: 562: session 0xb400007c61e2fc00K
+11-09 23:59:34.667 D/PAL: SessionAlsaPcm( 1213): setConfig: 436: Enter tag: -1073741781
+11-09 23:59:34.667 D/PAL: Stream( 1213): getVolumeData: 583: num config 1
+11-09 23:59:34.667 V/Avrcp_ext( 4592): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@abf0d66) null
+11-09 23:59:34.667 V/Avrcp_ext( 4592): updateCurrentMediaState: isPlaying = false
+11-09 23:59:34.667 W/Avrcp_ext( 4592): isMusicActive: false getBluetoothPlayState: 1 A2dp State: 11 mAudioPlaybackIsActive: true
+11-09 23:59:34.667 E/ACDB    ( 1280): AcdbCmdGetSubgraphCalDataNonPersist:6151 Error[19]: No calibration found
+11-09 23:59:34.667 I/gsl     ( 1280): gsl_graph_send_persist_cal:857 Skipping persist cal for SG_ID -1342177278: already started
+11-09 23:59:34.667 I/gsl     ( 1280): gsl_graph_send_persist_cal:857 Skipping persist cal for SG_ID -1342177272: already started
+11-09 23:59:34.667 I/gsl     ( 1280): gsl_graph_send_persist_cal:857 Skipping persist cal for SG_ID -1342177252: already started
+11-09 23:59:34.667 I/gsl     ( 1280): gsl_graph_send_persist_cal:857 Skipping persist cal for SG_ID -1342177279: already started
+11-09 23:59:34.667 D/Avrcp_ext( 4592): isMusicActive = false mAudioPlaybackIsActive = true player state = PlaybackState {state=3, position=16, buffered position=0, speed=1.0, updated=62336482, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:34.667 D/PAL: SessionAlsaPcm( 1213): setConfig: 561: exit status: 0 
+11-09 23:59:34.667 D/PAL: ResourceManager( 1213): setParameter: 8539: Exit status: 0
+11-09 23:59:34.667 D/PAL: API( 1213): pal_set_param: 853: Exit, status 0
+11-09 23:59:34.667 V/AudioPolicyManagerImpl( 1439): notification filter: setNotificationFilter notificationFilterFeature=1
+11-09 23:59:34.667 D/AudioPolicyManagerImpl( 1439): notification filter: setNotificationFilter muteMaskInt=0
+11-09 23:59:34.667 V/Avrcp_ext( 4592): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-09 23:59:34.668 D/Avrcp_ext( 4592): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-09 23:59:34.668 V/Avrcp_ext( 4592): isBrowseSupported for com.example.cloudmusic: false
+11-09 23:59:34.668 V/Avrcp_ext( 4592): updatePlaybackState, state: PlaybackState {state=3, position=16, buffered position=0, speed=1.0, updated=62336482, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-09 23:59:34.668 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.668 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.668 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.668 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.668 V/Avrcp_ext( 4592): Device: no name: 
+11-09 23:59:34.668 V/Avrcp_ext( 4592): updatePlayerStateAndPosition, old=PlaybackState {state=3, position=14, buffered position=0, speed=1.0, updated=62336480, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=16, buffered position=0, speed=1.0, updated=62336482, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:34.668 V/Avrcp_ext( 4592): old state = PlaybackState {state=3, position=14, buffered position=0, speed=1.0, updated=62336480, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=16, buffered position=0, speed=1.0, updated=62336482, actions=54, custom actions=[], active item id=-1, error=null}
+11-09 23:59:34.668 D/HeadsetService( 4592): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@dc0fd90
+11-09 23:59:34.668 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.668 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.668 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.668 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.668 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.668 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.668 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.668 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.668 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.668 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.668 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.668 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.668 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.668 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.668 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.668 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.668 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.668 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.668 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.668 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.668 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.668 D/HeadsetService( 4592): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-09 23:59:34.668 D/HeadsetService( 4592):  isAudioOn: The number of audio connected devices 0
+11-09 23:59:34.668 V/Avrcp_ext( 4592): isPlayStateTobeUpdated: device: null
+11-09 23:59:34.668 V/Avrcp_ext( 4592): Single connection exists
+11-09 23:59:34.668 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.668 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.668 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.668 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.668 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.668 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.668 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.668 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.668 D/Avrcp_ext( 4592): Enter sendPlayPosNotificationRsp
+11-09 23:59:34.668 D/Avrcp_ext( 4592): sendPlayPosNotificationRsp: Not registered or requesting.
+11-09 23:59:34.668 V/Avrcp_ext( 4592): Exit updatePlayerStateAndPosition
+11-09 23:59:34.668 V/Avrcp_ext( 4592): Player 16 package: com.example.cloudmusic
+11-09 23:59:34.695 D/AHAL: AudioStream( 1213): astream_out_set_parameters: 808: enter: usecase(0: deep-buffer-playback) kvpairs: appname=+com.example.cloudmusic
+11-09 23:59:34.696 D/AHAL: AudioStreamCustom( 1213): SetParameters: 208: SetParameters(): set app name +com.example.cloudmusic
+11-09 23:59:34.696 D/AHAL: AudioStreamCustom( 1213): platform_set_out_scenario: 20: platform_set_out_scenario
+11-09 23:59:34.696 D/AHAL: AudioStreamCustom( 1213): get_scenario: 107: app_name com.example.cloudmusic, scenario is 4
+11-09 23:59:34.696 D/AHAL: AudioStreamCustom( 1213): isSupportMisoundAsc mode is0
+11-09 23:59:34.696 D/AHAL: AudioStream( 1213): SetParameters: 2204: enter 
+11-09 23:59:34.696 I/AHAL: AudioStream( 1213): SetParameters: 2213: ret 0, plugin device cont -1 stream -1
+11-09 23:59:34.696 D/AHAL: AudioStream( 1213): SetParameters: 2252: exit 0
+11-09 23:59:34.696 D/AHAL: AudioStream( 1213): astream_out_set_parameters: 825: Exit ret: 0
+11-09 23:59:34.696 D/APM_AudioPolicyManager( 1439): startOutput() output 29, stream 3, session 8505, appname com.example.cloudmusic, uid 10327
+11-09 23:59:34.696 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:34.696 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:34.696 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=1, cmdSize=112, pCmdData=0x7c40cdb0a0, replySize=4, pReplyData=0x7c40cdb11c)
+11-09 23:59:34.696 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_SET_CONFIG()
+11-09 23:59:34.697 D/A11yRuleEngine( 8243): startQueryJob end 36 ms
+11-09 23:59:34.697 V/EffectMiSound( 1213): MiSound_command() start, cmdCode=20
+11-09 23:59:34.697 V/EffectMiSound( 1213): MiSound_Command EFFECT_CMD_OFFLOAD
+11-09 23:59:34.697 V/EffectMiSound( 1213): MiSound_command() start, cmdCode=1
+11-09 23:59:34.697 V/EffectMiSound( 1213): MiSound_setConfig start
+11-09 23:59:34.697 V/EffectMiSound( 1213): MiSound_command() start, cmdCode=1
+11-09 23:59:34.697 V/EffectMiSound( 1213): MiSound_setConfig start
+11-09 23:59:34.697 V/EffectMiSound( 1213): MiSound_command() start, cmdCode=9
+11-09 23:59:34.697 V/EffectMiSound( 1213): MiSound_Command EFFECT_CMD_SET_DEVICE: 0x00000002
+11-09 23:59:34.697 D/MiSoundQdspGefDriver( 1213): setDevice(device=0x00000002): old device 0x00000002
+11-09 23:59:34.698 V/EffectMiSound( 1213): MiSound_command() start, cmdCode=11
+11-09 23:59:34.698 V/EffectMiSound( 1213): MiSound_Command EFFECT_CMD_SET_AUDIO_MODE: 0
+11-09 23:59:34.698 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=5, cmdSize=20, pCmdData=0xb400007c49767a60, replySize=4, pReplyData=0xb400007c63b985b8)
+11-09 23:59:34.698 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_SET_PARAM()
+11-09 23:59:34.698 V/DlbDapEffectContext( 1213): setParam() received parameter EFFECT_PARAM_SKIP_HARD_BYPASS
+11-09 23:59:34.698 V/DlbEffectQdspDap( 1213): setPreferredOffType()
+11-09 23:59:34.698 D/DlbQdspGefDriver( 1213): setPreferredOffType(type=2)
+11-09 23:59:34.698 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=4, cmdSize=0, pCmdData=0x0, replySize=4, pReplyData=0xb400007c61e121b8)
+11-09 23:59:34.698 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_DISABLE()
+11-09 23:59:34.698 V/DlbEffectQdspDap( 1213): setEnabled()
+11-09 23:59:34.698 V/DlbEffectQdspDap( 1213): updateEnabled(enabled=0, bypassed=0)
+11-09 23:59:34.698 D/DlbQdspGefDriver( 1213): setEnabled(enable=0)
+11-09 23:59:34.698 D/DlbQdspGefDriver( 1213): setEnabled(): Skip the transient enabled state 0
+11-09 23:59:34.698 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=20, cmdSize=8, pCmdData=0xb400007c63b985b8, replySize=4, pReplyData=0xb400007c61e121b8)
+11-09 23:59:34.698 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_OFFLOAD(offload=0, ioHandle=29)
+11-09 23:59:34.698 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=1, cmdSize=112, pCmdData=0x7c3739c0a0, replySize=4, pReplyData=0x7c3739c11c)
+11-09 23:59:34.698 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_SET_CONFIG()
+11-09 23:59:34.698 V/EffectMiSound( 1213): MiSound_command() start, cmdCode=1
+11-09 23:59:34.698 V/EffectMiSound( 1213): MiSound_setConfig start
+11-09 23:59:34.698 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=1, cmdSize=112, pCmdData=0x7c3739c0a0, replySize=4, pReplyData=0x7c3739c11c)
+11-09 23:59:34.698 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_SET_CONFIG()
+11-09 23:59:34.698 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=9, cmdSize=4, pCmdData=0xb400007c63b985b8, replySize=4, pReplyData=0xb400007c61e121b8)
+11-09 23:59:34.698 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_SET_DEVICE(device=0x00000002)
+11-09 23:59:34.698 V/DlbDapEffectContext( 1213): setDevice(00000002)
+11-09 23:59:34.698 V/DlbEffectQdspDap( 1213): setBypass(bypass = 0)
+11-09 23:59:34.698 V/DlbEffectQdspDap( 1213): setDevice()
+11-09 23:59:34.698 D/DlbQdspGefDriver( 1213): setDevice(device=0x00000002): old device 0x00000002
+11-09 23:59:34.698 D/DMSService( 1267): setActiveDevice called with device = 0x2 (original 0x2)
+11-09 23:59:34.698 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=11, cmdSize=4, pCmdData=0xb400007c63b985b8, replySize=4, pReplyData=0xb400007c61e121b8)
+11-09 23:59:34.698 V/DlbDlbEffect( 1213): handle_EFFECT_CMD_SET_AUDIO_MODE(mode=0x00000000)
+11-09 23:59:34.698 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=5, cmdSize=20, pCmdData=0xb400007c49767a40, replySize=4, pReplyData=0xb400007c63b985b8)
+11-09 23:59:34.698 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_SET_PARAM()
+11-09 23:59:34.698 E/DlbEffectContext( 1213): setParam() received unknown parameter 20
+11-09 23:59:34.698 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=20, cmdSize=8, pCmdData=0xb400007c63b985b8, replySize=4, pReplyData=0xb400007c61e121b8)
+11-09 23:59:34.699 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_OFFLOAD(offload=1, ioHandle=29)
+11-09 23:59:34.699 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=3, cmdSize=0, pCmdData=0x0, replySize=4, pReplyData=0xb400007c61e121b8)
+11-09 23:59:34.699 D/DlbDlbEffect( 1213): handle_EFFECT_CMD_ENABLE()
+11-09 23:59:34.699 V/DlbEffectQdspDap( 1213): setEnabled()
+11-09 23:59:34.699 V/DlbEffectQdspDap( 1213): updateEnabled(enabled=1, bypassed=0)
+11-09 23:59:34.699 D/DlbQdspGefDriver( 1213): setEnabled(enable=1)
+11-09 23:59:34.699 D/DlbQdspGefDriver( 1213): setEnabled(): the enabled state is already 1
+11-09 23:59:34.699 D/AudioFlinger( 1439): moveEffectChain_l: successful move of session 0 from srcThread 0xb400006f30328f40 to dstThread 0xb400006f1b3a8fc0 (2 effects moved, 1 effects started)
+11-09 23:59:34.699 V/APM::EffectDescriptor( 1439): moveEffects session 0 srcOutput 13 dstOutput 29
+11-09 23:59:34.699 D/APM_AudioPolicyManager( 1439): setOutputDevices output 29 device {AUDIO_DEVICE_OUT_SPEAKER, @:} delayMs 0 force 0 requiresMuteCheck 0
+11-09 23:59:34.699 D/APM_AudioPolicyManager( 1439): setOutputDevices() prevDevice {AUDIO_DEVICE_OUT_SPEAKER, @:}
+11-09 23:59:34.699 D/APM_AudioPolicyManager( 1439): checkAndSetVolume: set volumeSource 4 volume index 0 for device 0x2, volumeDb = -758.000000
+11-09 23:59:34.699 E/AudioFlingerImpl( 1439): open /proc/1992/cmdline error
+11-09 23:59:34.699 I/AudioFlingerImpl( 1439): setAppName(), name=[], active=[1]
+11-09 23:59:34.699 V/EffectMiSound( 1213): MiSound_command() start, cmdCode=24
+11-09 23:59:34.699 V/EffectMiSound( 1213): MiSound_Command EFFECT_CMD_SET_APP_NAME: stream=3, name=+
+11-09 23:59:34.700 I/PowerCheckerService(10020): uid:10327 change to active
+11-09 23:59:34.700 I/AppActiveChecker(10020): uid:10327 change to active
+11-09 23:59:34.700 D/AudioFlinger( 1439): PlaybackThread::ioConfigChanged, thread 0xb400006f1b3a8fc0, event 8
+11-09 23:59:34.700 D/DlbDlbEffect( 1213): effectCommand(handle=0xb400007c61e0c180, cmdCode=10, cmdSize=8, pCmdData=0xb400007c63b985b8, replySize=0, pReplyData=0x0)
+11-09 23:59:34.700 V/DlbDlbEffect( 1213): handle_EFFECT_CMD_SET_VOLUME(vl=16777216, vr=16777216)
+11-09 23:59:34.700 W/NMAudioPlayer( 1992): AudioTrack(0): Write start play nErr:0
+11-09 23:59:34.700 D/AudioFlinger( 1439): updateWakeLockUids_l AudioOut_1D uids:10327 
+--------- beginning of system
+11-09 23:59:34.701 D/ProcessManager( 2525): add audio active uid : 10327
+11-09 23:59:34.706 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:6439 deviceId:3 type:android.media.AudioTrack u/pid:10240/30682 state:paused attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:7233
+11-09 23:59:34.706 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:47 deviceId:0 type:android.media.SoundPool u/pid:1000/2525 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-09 23:59:34.706 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:79 deviceId:0 type:android.media.SoundPool u/pid:1027/7934 state:started attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-09 23:59:34.706 D/Avrcp_ext( 4592): AudioManager Player in started state: com.android.nfc
+11-09 23:59:34.706 D/Avrcp_ext( 4592): AudioManager Active Player: com.android.nfc
+11-09 23:59:34.706 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:55 deviceId:0 type:android.media.SoundPool u/pid:10128/4371 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-09 23:59:34.706 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:63 deviceId:0 type:android.media.SoundPool u/pid:1000/4807 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-09 23:59:34.706 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:7679 deviceId:3 type:android.media.AudioTrack u/pid:10240/30682 state:paused attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:8473
+11-09 23:59:34.706 D/Avrcp_ext( 4592): AudioManager Player: AudioPlaybackConfiguration piid:7711 deviceId:3 type:android.media.AudioTrack u/pid:10327/1992 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0xA00 tags= bundle=null sessionId:8505
+11-09 23:59:34.707 D/Avrcp_ext( 4592): AudioManager Player in started state: com.example.cloudmusic
+11-09 23:59:34.707 D/Avrcp_ext( 4592): AudioManager isPlaying: true, mAudioPlaybackIsActive: true, isMusiActive: true
+11-09 23:59:34.710 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=441}
+11-09 23:59:34.710 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=1208}
+11-09 23:59:34.714 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:59:34.727 D/A11yRuleEngine( 8243): startQueryJob end 13 ms
+11-09 23:59:34.743 W/DevicePolicyManager( 2525): Unknown user type: UserInfo{999:XSpace:801010}
+11-09 23:59:34.743 W/DevicePolicyManager( 2525): Unknown user type: UserInfo{999:XSpace:801010}
+11-09 23:59:34.747 D/MiBarrage( 7884): The sbn packageName is :com.example.cloudmusic
+11-09 23:59:34.747 D/MiBarrage( 7884): No barrage: not in game scene or in video scene
+11-09 23:59:34.747 I/NotificationController( 5752): onNotificationPosted: mSmartTravelNotificationMap 0
+11-09 23:59:34.748 D/NotificationFilterController( 4807): filter group summary suppressed key=0|com.hexin.plat.android|2147483647|ranker_group|10312|ranker_group
+11-09 23:59:34.754 D/NotificationFilterController( 4807): filter group summary suppressed key=0|com.hexin.plat.android|2147483647|ranker_group|10312|ranker_group
+11-09 23:59:34.756 I/MediaCarouselController( 4807): media_data_arrive: addOrUpdatePlayer
+11-09 23:59:34.756 I/MiuiMediaControlPanel( 4807): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 播放服务运行中
+11-09 23:59:34.768 D/A11yRuleEngine( 8243): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-09 23:59:34.776 D/NotificationFilterController( 4807): filter group summary suppressed key=0|com.hexin.plat.android|2147483647|ranker_group|10312|ranker_group
+11-09 23:59:34.781 D/ProcessManager( 2525): real remove inactive uid : 10240 flag : 2
+11-09 23:59:34.788 D/A11yRuleEngine( 8243): startQueryJob end 20 ms
+11-09 23:59:34.869 D/A11yRuleEngine( 8243): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-09 23:59:34.897 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(18)  buffer len:32768.
+11-09 23:59:34.897 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(18) Finish Sync:0
+11-09 23:59:34.897 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3219509, memory offset:1122357
+11-09 23:59:34.897 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:34.897 D/A11yRuleEngine( 8243): startQueryJob end 28 ms
+11-09 23:59:34.897 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:34.897 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:34.999 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:59:35.021 D/A11yRuleEngine( 8243): startQueryJob end 23 ms
+11-09 23:59:35.027 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:59:35.041 D/A11yRuleEngine( 8243): startQueryJob end 14 ms
+11-09 23:59:35.053 W/ConstraintSet( 4807): id unknown center_vertical_guideline
+11-09 23:59:35.053 W/ConstraintSet( 4807): id unknown action_button_guideline
+11-09 23:59:35.053 W/ConstraintSet( 4807): id unknown media_action_barrier
+11-09 23:59:35.054 W/ConstraintSet( 4807): id unknown media_action_barrier_end
+11-09 23:59:35.054 W/ConstraintSet( 4807): id unknown media_action_barrier_top
+11-09 23:59:35.054 W/ConstraintSet( 4807): id unknown remove_text
+11-09 23:59:35.054 W/ConstraintSet( 4807): id unknown settings
+11-09 23:59:35.054 W/ConstraintSet( 4807): id unknown dismiss
+11-09 23:59:35.055 W/ConstraintSet( 4807): id unknown cancel
+11-09 23:59:35.069 D/A11yRuleEngine( 8243): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-09 23:59:35.091 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:35.092 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:35.092 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:35.092 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:35.092 W/AOSP-MdnsDiscoveryManag( 4374): Error while decoding multicast packet (4445): 1 [CONTEXT service_id=168 ]
+11-09 23:59:35.093 W/AOSP-MdnsDiscoveryManag( 4374): Error while decoding multicast packet (4446): 1 [CONTEXT service_id=168 ]
+11-09 23:59:35.093 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:35.130 I/BeautyService( 8273): task Running...
+11-09 23:59:35.130 D/A11yRuleEngine( 8243): startQueryJob end 61 ms
+11-09 23:59:35.131 I/BeautyService( 8273): updateForegroundInfo new = ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity}, old Pkg = com.example.cloudmusic, old ClsName = com.example.cloudmusic.MainActivity
+11-09 23:59:35.132 I/BeautyService( 8273): inSplitScreenMode = false, isFrontCameraOpen = false, mCurPkgName = com.example.cloudmusic, mCurClsName = com.example.cloudmusic.MainActivity
+11-09 23:59:35.132 I/BeautyUtils( 8273): splitMode: onfalse
+11-09 23:59:35.132 D/z1      ( 8273): myUserId = 0	currentUserId0
+11-09 23:59:35.133 I/BeautyService( 8273): onDockSwitchChange : 	currentUser = true	 isBound = false, curState = NON_CONVERSATION_MODE, isSceneSupport = false, isAllowSplit = false
+11-09 23:59:35.133 I/BeautyService( 8273): already at target mode!
+11-09 23:59:35.155 I/NCMPlayerEngine( 1992): onEngineEvent: msg=2000 arg1=294 arg2=0
+11-09 23:59:35.172 D/A11yRuleEngine( 8243): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-09 23:59:35.197 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:35.197 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:35.222 D/A11yRuleEngine( 8243): startQueryJob end 50 ms
+11-09 23:59:35.259 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:59:35.260 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:57
+11-09 23:59:35.274 D/A11yRuleEngine( 8243): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-09 23:59:35.329 D/A11yRuleEngine( 8243): startQueryJob end 55 ms
+11-09 23:59:35.342 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:59:35.375 D/A11yRuleEngine( 8243): startQueryJob end 33 ms
+11-09 23:59:35.431 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:59:35.438 V/[ark] jni_util(21043): AutoDetachFromVMWhenThreadExit
+11-09 23:59:35.455 D/A11yRuleEngine( 8243): startQueryJob end 24 ms
+11-09 23:59:35.474 D/A11yRuleEngine( 8243): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-09 23:59:35.518 D/A11yRuleEngine( 8243): startQueryJob end 44 ms
+11-09 23:59:35.523 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:59:35.523 D/A11yRuleEngine( 8243): startQueryJob end 0 ms
+11-09 23:59:35.630 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:59:35.630 D/A11yRuleEngine( 8243): startQueryJob end 0 ms
+11-09 23:59:35.656 I/NCMPlayerEngine( 1992): onEngineEvent: msg=2000 arg1=794 arg2=0
+11-09 23:59:35.677 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:59:35.677 D/A11yRuleEngine( 8243): startQueryJob end 0 ms
+11-09 23:59:35.681 W/ConstraintSet( 4807): id unknown center_vertical_guideline
+11-09 23:59:35.681 W/ConstraintSet( 4807): id unknown action_button_guideline
+11-09 23:59:35.681 W/ConstraintSet( 4807): id unknown media_action_barrier
+11-09 23:59:35.681 W/ConstraintSet( 4807): id unknown media_action_barrier_end
+11-09 23:59:35.681 W/ConstraintSet( 4807): id unknown media_action_barrier_top
+11-09 23:59:35.681 W/ConstraintSet( 4807): id unknown remove_text
+11-09 23:59:35.681 W/ConstraintSet( 4807): id unknown settings
+11-09 23:59:35.682 W/ConstraintSet( 4807): id unknown dismiss
+11-09 23:59:35.682 W/ConstraintSet( 4807): id unknown cancel
+11-09 23:59:35.697 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(19)  buffer len:32768.
+11-09 23:59:35.697 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(19) Finish Sync:0
+11-09 23:59:35.698 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:35.699 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:35.699 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3252277, memory offset:1155125
+11-09 23:59:35.700 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:35.700 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:35.700 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:35.700 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(20)  buffer len:32768.
+11-09 23:59:35.700 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(20) Finish Sync:0
+11-09 23:59:35.700 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3285045, memory offset:1187893
+11-09 23:59:35.700 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:35.700 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:35.756 D/A11yRuleEngine( 8243): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-09 23:59:35.756 D/A11yRuleEngine( 8243): startQueryJob end 0 ms
+11-09 23:59:35.810 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 23:59:35.824 I/SmartPower.com.miui.home/10128(4371)( 2525): background->idle(3003ms) R(broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }) adj=100.
+11-09 23:59:35.825 I/SmartPower( 2525): com.miui.home/10128 state=inactive adj=100 proc size=1 move to idle broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }
+11-09 23:59:35.837 D/UidObserver(10020): onUidIdle uid=10327 uidstate=100
+11-09 23:59:35.844 D/vendor.qti.bluetooth@1.0-ibs_handler( 1214): SerialClockVote: vote for UART CLK ON
+11-09 23:59:35.845 D/vendor.qti.bluetooth@1.0-wake_lock( 1214): Acquire wakelock is acquired 
+11-09 23:59:35.845 I/vendor.qti.bluetooth@1.0-ibs_handler( 1214): DeviceWakeUp: Writing IBS_WAKE_IND
+11-09 23:59:35.851 I/vendor.qti.bluetooth@1.0-ibs_handler( 1214): ProcessIbsCmd: Received IBS_WAKE_ACK: 0xFC
+11-09 23:59:35.851 I/vendor.qti.bluetooth@1.0-ibs_handler( 1214): ProcessIbsCmd: Signal wack_cond_
+11-09 23:59:35.851 D/vendor.qti.bluetooth@1.0-ibs_handler( 1214): DeviceWakeUp: Unblocked from waiting for FC, pthread_cond_timedwait ret = 0
+11-09 23:59:35.853 I/vendor.qti.bluetooth@1.0-ibs_handler( 1214): ProcessIbsCmd: Received IBS_WAKE_IND: 0xFD
+11-09 23:59:35.853 I/vendor.qti.bluetooth@1.0-ibs_handler( 1214): ProcessIbsCmd: Writing IBS_WAKE_ACK
+11-09 23:59:35.894 I/vendor.qti.bluetooth@1.0-ibs_handler( 1214): ProcessIbsCmd: Received IBS_SLEEP_IND: 0xFE
+11-09 23:59:35.976 I/zygote  ( 1149): Delayed USAP Pool refill. New USAPs: 5
+11-09 23:59:35.996 I/VA_AliveCore:AssistInteractionService( 7814): onProcessChanged: processName=com.miui.voiceassist;isRunning=false
+11-09 23:59:35.996 D/Zygote  ( 1149): Forked child process 8067
+11-09 23:59:36.003 D/Zygote  ( 1149): Forked child process 8068
+11-09 23:59:36.008 D/Zygote  ( 1149): Forked child process 8069
+11-09 23:59:36.013 D/Zygote  ( 1149): Forked child process 8070
+11-09 23:59:36.019 D/Zygote  ( 1149): Forked child process 8071
+11-09 23:59:36.038 D/MiuiNetworkPolicy( 2525): updateLimit mLimitEnabled=false,enabled=true,mNetworkPriorityMode=1
+11-09 23:59:36.094 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:36.094 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:36.094 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:36.095 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:36.095 I/AOSP-MdnsDiscoveryManag( 4374): (REDACTED) %s
+11-09 23:59:36.095 W/AOSP-MdnsDiscoveryManag( 4374): Error while decoding multicast packet (4447): 1 [CONTEXT service_id=168 ]
+11-09 23:59:36.095 W/AOSP-MdnsDiscoveryManag( 4374): Error while decoding multicast packet (4448): 1 [CONTEXT service_id=168 ]
+11-09 23:59:36.098 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(21)  buffer len:32768.
+11-09 23:59:36.098 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(21) Finish Sync:0
+11-09 23:59:36.098 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3317813, memory offset:1220661
+11-09 23:59:36.098 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:36.098 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:36.098 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:36.123 E/SLM-HAL-SladSocketClient( 1352): connect failed:-1, socket:46, error:No such file or directory
+11-09 23:59:36.140 D/AppPredictService( 8273): start doPredict com.example.cloudmusic
+11-09 23:59:36.140 I/AppPredictManager( 8273): predict: recentApps size = 5
+11-09 23:59:36.147 I/AppPredictPrivacyLaunchManager( 8273): getLauncherHomeAppList size: 120
+11-09 23:59:36.147 I/AppPredictResultHelper( 8273): updatePreferenceStore: size = 32
+11-09 23:59:36.155 I/NCMPlayerEngine( 1992): onEngineEvent: msg=2000 arg1=1294 arg2=0
+11-09 23:59:36.200 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:36.200 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:36.204 V/ContactsTaskScheduler(17557): [ContactsPackageMonitor] Thread[Worker-19,5,main] stopping...
+11-09 23:59:36.300 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(22)  buffer len:32768.
+11-09 23:59:36.301 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(22) Finish Sync:0
+11-09 23:59:36.301 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3350581, memory offset:1253429
+11-09 23:59:36.301 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:36.301 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:36.301 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:36.370 D/BoundBrokerSvc( 4374): onUnbind: Intent { act=com.google.android.gms.common.BIND_SHARED_PREFS pkg=com.google.android.gms }
+11-09 23:59:36.546 E/PlayCommon(23221): [5938] akra.j(143): Failed to connect to server for server timestamp: java.net.SocketTimeoutException: failed to connect to play.googleapis.com/172.217.119.4 (port 443) from /192.168.1.11 (port 43046) after 40000ms: isConnected failed: ETIMEDOUT (Connection timed out)
+11-09 23:59:36.625 I/AppOpsAdapter( 6542): start apply permission record!, writeAll:true
+11-09 23:59:36.626 I/DatabaseUtil( 6542): writeApplyOperatorDetailInfo
+11-09 23:59:36.638 I/DatabaseUtil( 6542): writeApplyOperatorDetailInfo
+11-09 23:59:36.641 I/DatabaseUtil( 6542): writeApplyOperatorDetailInfo
+11-09 23:59:36.642 I/DatabaseUtil( 6542): writeApplyOperatorDetailInfo
+11-09 23:59:36.644 I/DatabaseUtil( 6542): writeApplyOperatorDetailInfo
+11-09 23:59:36.645 I/DatabaseUtil( 6542): writeApplyOperatorDetailInfo
+11-09 23:59:36.656 I/NCMPlayerEngine( 1992): onEngineEvent: msg=2000 arg1=1929 arg2=0
+11-09 23:59:36.699 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(23)  buffer len:32768.
+11-09 23:59:36.699 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(23) Finish Sync:0
+11-09 23:59:36.699 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3383349, memory offset:1286197
+11-09 23:59:36.699 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:36.699 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:36.699 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:36.701 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:36.702 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:36.813 E/TaskPersister( 2525): File error accessing recents directory (directory doesn't exist?).
+11-09 23:59:36.852 I/vendor.qti.bluetooth@1.0-ibs_handler( 1214): DeviceSleep: TX Awake, Sending SLEEP_IND
+11-09 23:59:36.852 D/vendor.qti.bluetooth@1.0-ibs_handler( 1214): SerialClockVote: vote for UART CLK OFF
+11-09 23:59:36.858 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   8.3025,   8.3198,  21.0000>,time=62338668504134, sensor=5, temperature(K)=   8.3198
+11-09 23:59:36.858 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 9, lux = 8, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:59:37.003 D/vendor.qti.bluetooth@1.0-wake_lock( 1214): Release wakelock is released 
+11-09 23:59:37.045 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 23:59:37.098 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(24)  buffer len:32768.
+11-09 23:59:37.099 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(24) Finish Sync:0
+11-09 23:59:37.100 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3416117, memory offset:1318965
+11-09 23:59:37.100 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:37.100 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:37.100 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:37.156 I/NCMPlayerEngine( 1992): onEngineEvent: msg=2000 arg1=2429 arg2=0
+11-09 23:59:37.202 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:37.203 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:37.264 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:59:37.266 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:57
+11-09 23:59:37.302 D/SRE     ( 1358): sensorCallback mDisplayId = 0 dataCallback value=<   9.1800,   9.2109,  20.0000>,time=62339108397988, sensor=5, temperature(K)=   9.2109
+11-09 23:59:37.302 D/SRE     ( 1358): setSREStrength mDisplayId = 0, mLastLux = 8, lux = 9, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-09 23:59:37.393 I/SmartPower.com.taobao.idlefish/10297(21043)( 2525): background->idle(3000ms) R(broadcast start Intent { act=android.net.wifi.SCAN_RESULTS flg=0x4000010 (has extras) }) adj=925.
+11-09 23:59:37.394 I/SmartPower( 2525): com.taobao.idlefish/10297 state=inactive adj=925 proc size=4 move to idle broadcast start Intent { act=android.net.wifi.SCAN_RESULTS flg=0x4000010 (has extras) }
+11-09 23:59:37.498 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(25)  buffer len:32768.
+11-09 23:59:37.498 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(25) Finish Sync:0
+11-09 23:59:37.498 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3448885, memory offset:1351733
+11-09 23:59:37.498 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:37.499 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:37.499 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:37.501 I/MiuiNetworkPolicy( 2525): bandwidth: 550 KB/s, Max bandwidth: 577 KB/s
+11-09 23:59:37.557 E/u4native(21043): [InfoLevelMessage] [INFO:not_a_file.cc(0)] NetworkServiceThread heartbeat, pid/tid: 21043/28196, interval/index: 30s/7
+11-09 23:59:37.562 E/u4native(28155): [InfoLevelMessage] [INFO:not_a_file.cc(0)] GpuMainThread heartbeat, pid/tid: 28155/28247, interval/index: 30s/7, ucCoreSoImplVersion: 5.18.9.0_250804171926
+11-09 23:59:37.564 E/u4native(21043): [InfoLevelMessage] [INFO:not_a_file.cc(0)] BrowserIOThread heartbeat, pid/tid: 21043/28187, interval/index: 30s/7, ucCoreSoImplVersion: 5.18.9.0_250804171926
+11-09 23:59:37.568 E/u4native(28155): [InfoLevelMessage] [INFO:not_a_file.cc(0)] RenderIOThread heartbeat, pid/tid: 28155/28232, interval/index: 30s/7
+11-09 23:59:37.571 E/u4native(28155): [InfoLevelMessage] [INFO:not_a_file.cc(0)] RenderMainThread heartbeat, pid/tid: 28155/28227, interval/index: 30s/7, ucCoreSoImplVersion: 5.18.9.0_250804171926
+11-09 23:59:37.587 D/MemorySizeMonitor(23072): Current memory: 390037KB, ratio: 3%, total: 11444340KB
+11-09 23:59:37.588 W/MemorySizeMonitor(23072): Memory threshold exceeded continuously! duration=8228592ms
+11-09 23:59:37.589 W/MemorySizeMonitor(23072): 内存持续超标! 当前PSS: 390037KB, 当前占比: 3%, 占比阈值: 0%, 大小阈值: 1000KB, 持续时长: 8228592ms, 当前页面: BrowserActivity
+11-09 23:59:37.592 D/ReflectMethodWrapper(23072): -->invokeMethod(): java cost time:34us, method=Method{mPtr=0, methodName='get', jMethod=public static java.lang.String android.os.SystemProperties.get(java.lang.String,java.lang.String)}, class=SystemProperties
+11-09 23:59:37.606 E/SensorService( 2525): com.taobao.idlefish Tried enabling a sensor (lsm6dso Accelerometer Non-wakeup) without holding 
+11-09 23:59:37.609 E/SensorService( 2525): com.taobao.idlefish Tried enabling a sensor (lsm6dso Gyroscope Non-wakeup) without holding 
+11-09 23:59:37.656 I/NCMPlayerEngine( 1992): onEngineEvent: msg=2000 arg1=2929 arg2=0
+11-09 23:59:37.703 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:37.704 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:37.723 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=441}
+11-09 23:59:37.723 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=1208}
+11-09 23:59:37.825 I/SmartPower( 2525): com.miui.home/10128 state=idle adj=100 proc size=1 move to hibernation broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }
+11-09 23:59:37.844 D/GreezeManager( 2525): FZ uid = 10298 reason =from system success !
+11-09 23:59:37.845 D/GreezeManager( 2525): call socket destroy!
+11-09 23:59:37.855 D/MilletBrightHandler(10020): frozen uids:[10298] reason = from system
+11-09 23:59:37.856 D/MilletBrightHandler(10020): frozen fail result:[10240, 10327] freeze fail:[10240]
+11-09 23:59:37.859 D/MilletBrightHandler(10020): frozen uids:[] reason = tobg
+11-09 23:59:37.860 D/MilletBrightHandler(10020): frozen fail result:[10240, 10327] freeze fail:[10240]
+11-09 23:59:37.898 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(26)  buffer len:32768.
+11-09 23:59:37.899 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(26) Finish Sync:0
+11-09 23:59:37.899 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3481653, memory offset:1384501
+11-09 23:59:37.899 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:37.899 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:37.899 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:38.124 I/AICall_MemoryTrim$a(19135): Timer-944 trimMemory on background
+11-09 23:59:38.125 I/AICall_m0(19135): main invoke : null|80
+11-09 23:59:38.137 D/MilletBrightHandler(10020): frozen uids:[] reason = tobg
+11-09 23:59:38.138 D/MilletBrightHandler(10020): frozen fail result:[10240, 10327] freeze fail:[10240]
+11-09 23:59:38.156 I/NCMPlayerEngine( 1992): onEngineEvent: msg=2000 arg1=3429 arg2=0
+11-09 23:59:38.205 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:38.205 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:38.299 E/sensors-hal( 1240): handle_sns_std_sensor_event:57, ambient_light_event: wrong event
+11-09 23:59:38.300 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(27)  buffer len:32768.
+11-09 23:59:38.300 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(27) Finish Sync:0
+11-09 23:59:38.300 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3514421, memory offset:1417269
+11-09 23:59:38.300 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:38.300 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:38.301 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:38.320 E/sensors-hal( 1240): handle_sns_std_sensor_event:57, ambient_light_event: wrong event
+11-09 23:59:38.397 D/HeapUsage Monitor( 2525): HeapAllocSize : 163MB; monitorSize : 500MB
+11-09 23:59:38.657 I/NCMPlayerEngine( 1992): onEngineEvent: msg=2000 arg1=3930 arg2=0
+11-09 23:59:38.686 D/UidObserver(10020): onUidIdle uid=10327 uidstate=100
+11-09 23:59:38.706 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:38.707 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:38.854 W/ProcessStats( 2525): Tracking association SourceState{5a78aa5 com.miui.analytics/10130 BTopFgs #116355} whose proc state 2 is better than process ProcessState{99c61ef com.miui.securitycenter.remote/1000 pkg=com.miui.securitycenter} proc state 3 (454 skipped)
+11-09 23:59:39.100 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(28)  buffer len:32768.
+11-09 23:59:39.100 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(28) Finish Sync:0
+11-09 23:59:39.100 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3547189, memory offset:1450037
+11-09 23:59:39.103 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:39.104 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:39.104 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:39.122 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 23:59:39.158 I/NCMPlayerEngine( 1992): onEngineEvent: msg=2000 arg1=4317 arg2=0
+11-09 23:59:39.207 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:39.208 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:39.222 D/SLM-SRV-SLAService( 8115): checktemp temperature = 32686 temperature_average = 32107 isPerformanceMode = false thermal_enable_slm = true
+11-09 23:59:39.224 I/mstatdaemon( 2086): Entering time loop
+11-09 23:59:39.224 I/mstatdaemon( 2086): t = 1794239979
+11-09 23:59:39.224 I/mstatdaemon( 2086): translated_t = 1478249979
+11-09 23:59:39.224 I/mstat_log( 2086): mstatcommitLog log_alloc() failed
+11-09 23:59:39.224 I/ThermalObserver( 2525): Temperature control has been released.
+11-09 23:59:39.254 D/GreezeManager( 2525): FZ uid = 10257 reason =receiver pkg success !
+11-09 23:59:39.255 D/MilletBrightHandler(10020): frozen uids:[10257] reason = receiver pkg
+11-09 23:59:39.255 D/MilletBrightHandler(10020): frozen fail result:[10240, 10327] freeze fail:[10240]
+11-09 23:59:39.259 D/MilletBrightHandler(10020): frozen uids:[10257] reason = from system
+11-09 23:59:39.259 D/MilletBrightHandler(10020): frozen fail result:[10240, 10327] freeze fail:[10240]
+11-09 23:59:39.268 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:59:39.269 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:57
+11-09 23:59:39.364 D/TrafficStats( 4374): tagSocket(87) with statsTag=0xc004901, statsUid=-1
+11-09 23:59:39.372 E/sensors-hal( 1240): handle_sns_std_sensor_event:57, ambient_light_event: wrong event
+11-09 23:59:39.382 I/sscrpcd (  967): vendor/qcom/proprietary/adsprpc/src/apps_std_imp.c:860: Successfully opened file /mnt/vendor/persist/sensors/registry/registry/../temp.json
+11-09 23:59:39.390 D/ProfileInstaller( 1992): Installing profile for com.example.cloudmusic
+11-09 23:59:39.393 I/SmartPower( 2525): com.taobao.idlefish/10297 state=idle adj=925 proc size=4 move to hibernation broadcast start Intent { act=android.net.wifi.SCAN_RESULTS flg=0x4000010 (has extras) }
+11-09 23:59:39.414 D/GreezeManager( 2525): FZ uid = 10297 reason =from system success !
+11-09 23:59:39.414 D/GreezeManager( 2525): call socket destroy!
+11-09 23:59:39.416 D/MilletBrightHandler(10020): frozen uids:[10297] reason = from system
+11-09 23:59:39.416 D/MilletBrightHandler(10020): frozen fail result:[10240, 10327] freeze fail:[10240]
+11-09 23:59:39.617 D/TrafficStats( 4374): tagSocket(101) with statsTag=0xc004901, statsUid=-1
+11-09 23:59:39.657 I/NCMPlayerEngine( 1992): onEngineEvent: msg=2000 arg1=4817 arg2=0
+11-09 23:59:39.709 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:39.709 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:39.801 I/Finsky  ( 7120): [2] pma.b(1): HC: beginRecoverGmscoreIfApplicable
+11-09 23:59:39.801 I/Finsky  ( 7120): [2] pma.b(2): HC: No target version, skip Gmscore recovery.
+11-09 23:59:39.803 W/Finsky  ( 7120): [2] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:39.804 W/Finsky  ( 7120): [2] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:39.805 W/Finsky  ( 7120): [2] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:39.805 W/Finsky  ( 7120): [2] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:39.806 W/Finsky  ( 7120): [2] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:39.806 W/Finsky  ( 7120): [2] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:39.807 W/Finsky  ( 7120): [2] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:39.808 W/Finsky  ( 7120): [2] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:39.809 W/Finsky  ( 7120): [2] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:39.809 W/Finsky  ( 7120): [2] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:39.810 W/Finsky  ( 7120): [2] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:39.810 W/Finsky  ( 7120): [2] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:39.811 W/Finsky  ( 7120): [2] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:39.811 W/Finsky  ( 7120): [2] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:39.812 W/Finsky  ( 7120): [2] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:39.812 I/AdrenoGLES-0( 7120): QUALCOMM build                   : ee4b625, I41c6f366e1
+11-09 23:59:39.812 I/AdrenoGLES-0( 7120): Build Date                       : 02/16/23
+11-09 23:59:39.812 I/AdrenoGLES-0( 7120): OpenGL ES Shader Compiler Version: EV031.36.08.19
+11-09 23:59:39.812 I/AdrenoGLES-0( 7120): Local Branch                     : 
+11-09 23:59:39.812 I/AdrenoGLES-0( 7120): Remote Branch                    : 
+11-09 23:59:39.812 I/AdrenoGLES-0( 7120): Remote Branch                    : 
+11-09 23:59:39.812 I/AdrenoGLES-0( 7120): Reconstruct Branch               : 
+11-09 23:59:39.812 I/AdrenoGLES-0( 7120): Build Config                     : S P 12.1.1 AArch64
+11-09 23:59:39.812 I/AdrenoGLES-0( 7120): Driver Path                      : /vendor/lib64/egl/libGLESv2_adreno.so
+11-09 23:59:39.812 I/AdrenoGLES-0( 7120): Driver Version                   : 0615.60
+11-09 23:59:39.814 I/SmartPower.com.google.process.gapps/10115(20340)( 2525): idle->background(26561ms) R(content provider start ContentProviderRecord{2db00a4 u0 com.google.android.gsf/.settings.GoogleSettingsProvider}) adj=250.
+11-09 23:59:39.815 I/SmartPower( 2525): com.google.android.gms/10115 state=hibernation adj=0 proc size=4 move to background content provider start ContentProviderRecord{2db00a4 u0 com.google.android.gsf/.settings.GoogleSettingsProvider}
+11-09 23:59:39.817 I/SmartPower( 2525): com.google.android.gms/10115 state=background adj=0 proc size=4 move to inactive content provider start ContentProviderRecord{2db00a4 u0 com.google.android.gsf/.settings.GoogleSettingsProvider}
+11-09 23:59:39.826 I/AdrenoGLES-0( 7120): PFP: 0x01730155, ME: 0x00000000
+11-09 23:59:39.829 E/DatabaseUtils( 4788): Writing exception to parcel
+11-09 23:59:39.829 E/DatabaseUtils( 4788): java.lang.SecurityException: No permission to access APN settings
+11-09 23:59:39.829 E/DatabaseUtils( 4788): 	at com.android.providers.telephony.TelephonyProvider.checkPermissionForApnTable(TelephonyProvider.java:5102)
+11-09 23:59:39.829 E/DatabaseUtils( 4788): 	at com.android.providers.telephony.TelephonyProvider.checkPermission(TelephonyProvider.java:5074)
+11-09 23:59:39.829 E/DatabaseUtils( 4788): 	at com.android.providers.telephony.TelephonyProvider.checkPermissionCompat(TelephonyProvider.java:5119)
+11-09 23:59:39.829 E/DatabaseUtils( 4788): 	at com.android.providers.telephony.TelephonyProvider.query(TelephonyProvider.java:3931)
+11-09 23:59:39.829 E/DatabaseUtils( 4788): 	at android.content.ContentProvider.query(ContentProvider.java:1467)
+11-09 23:59:39.829 E/DatabaseUtils( 4788): 	at android.content.ContentProvider.query(ContentProvider.java:1563)
+11-09 23:59:39.829 E/DatabaseUtils( 4788): 	at android.content.ContentProvider$Transport.query(ContentProvider.java:290)
+11-09 23:59:39.829 E/DatabaseUtils( 4788): 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:107)
+11-09 23:59:39.829 E/DatabaseUtils( 4788): 	at android.os.Binder.execTransactInternal(Binder.java:1285)
+11-09 23:59:39.829 E/DatabaseUtils( 4788): 	at android.os.Binder.execTransact(Binder.java:1249)
+11-09 23:59:39.832 W/Finsky  ( 7120): [4696] lgn.a(24): Failed to read APN: java.lang.SecurityException: No permission to access APN settings
+11-09 23:59:39.897 D/AudioTrack( 1992): [audioTrackData][fine] 5s(f:5000 m:0 s:196 k:0) : pid 1992 uid 10327 sessionId 8505 sr 48000 ch 2 fmt 1
+11-09 23:59:39.897 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(29)  buffer len:32768.
+11-09 23:59:39.897 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(29) Finish Sync:0
+11-09 23:59:39.897 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3579957, memory offset:1482805
+11-09 23:59:39.897 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:39.897 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:39.897 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:39.991 I/MiuiNetworkPolicy( 2525): updateUidState uid = 10115, uidState = 5
+11-09 23:59:39.991 I/BtGatt.ScanManager( 4592): msg.what = MSG_IMPORTANCE_CHANGE, msg.arg1 = IMPORTANCE_CHANGE
+11-09 23:59:40.157 I/NCMPlayerEngine( 1992): onEngineEvent: msg=2000 arg1=5317 arg2=0
+11-09 23:59:40.210 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:40.210 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:40.215 I/Finsky  ( 7120): [4701] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.216 I/Finsky  ( 7120): [4701] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.216 I/Finsky  ( 7120): [4701] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.216 I/Finsky  ( 7120): [4701] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.217 I/Finsky  ( 7120): [4701] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.217 I/Finsky  ( 7120): [4701] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.217 I/Finsky  ( 7120): [4701] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.218 I/Finsky  ( 7120): [4701] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.218 I/Finsky  ( 7120): [4701] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.218 I/Finsky  ( 7120): [4701] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.218 I/Finsky  ( 7120): [4701] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.219 I/Finsky  ( 7120): [4701] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.219 I/Finsky  ( 7120): [4701] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.219 I/Finsky  ( 7120): [4701] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.220 I/Finsky  ( 7120): [4701] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.220 I/Finsky  ( 7120): [4701] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.227 I/Finsky  ( 7120): [4701] acos.n(10): [PLUS] Triggering sync due to NOW_EXCLUSIVE urgency payload
+11-09 23:59:40.227 I/Finsky  ( 7120): [4706] aeoe.a(1): [PLUS] Syncing for users with urgency above: NOW_EXCLUSIVE
+11-09 23:59:40.277 W/Auth    ( 4374): [RequestTokenManager] getToken() -> NETWORK_ERROR. App: com.android.vending, Service: oauth2:https://www.googleapis.com/auth/googleplay [CONTEXT service_id=343 ]
+11-09 23:59:40.277 W/Auth    ( 4374): bqkr: Error when calling server using GmsNetworkStack.
+11-09 23:59:40.277 W/Auth    ( 4374): 	at alya.b(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):1640)
+11-09 23:59:40.277 W/Auth    ( 4374): 	at alxy.a(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):640)
+11-09 23:59:40.277 W/Auth    ( 4374): 	at alxx.b(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):133)
+11-09 23:59:40.277 W/Auth    ( 4374): 	at afbw.d(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):971)
+11-09 23:59:40.277 W/Auth    ( 4374): 	at alqx.getAuthToken(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):354)
+11-09 23:59:40.277 W/Auth    ( 4374): 	at android.accounts.AbstractAccountAuthenticator$Transport.getAuthToken(AbstractAccountAuthenticator.java:246)
+11-09 23:59:40.277 W/Auth    ( 4374): 	at android.accounts.IAccountAuthenticator$Stub.onTransact(IAccountAuthenticator.java:242)
+11-09 23:59:40.277 W/Auth    ( 4374): 	at android.os.Binder.transact(Binder.java:1169)
+11-09 23:59:40.277 W/Auth    ( 4374): 	at dbsq.onTransact(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):8)
+11-09 23:59:40.277 W/Auth    ( 4374): 	at android.os.Binder.transact(Binder.java:1169)
+11-09 23:59:40.277 W/Auth    ( 4374): 	at cmzg.onTransact(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):168)
+11-09 23:59:40.277 W/Auth    ( 4374): 	at android.os.Binder.execTransactInternal(Binder.java:1290)
+11-09 23:59:40.277 W/Auth    ( 4374): 	at android.os.Binder.execTransact(Binder.java:1249)
+11-09 23:59:40.277 W/Auth    ( 4374): Caused by: bqkr: Error requesting token.
+11-09 23:59:40.277 W/Auth    ( 4374): 	at alya.d(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):220)
+11-09 23:59:40.277 W/Auth    ( 4374): 	at alya.b(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):47)
+11-09 23:59:40.277 W/Auth    ( 4374): 	... 12 more
+11-09 23:59:40.277 W/Auth    ( 4374): Caused by: java.util.concurrent.TimeoutException: Waited 30 seconds (plus 134781 nanoseconds delay) for ihku@afc25d0[status=PENDING, info=[inputFuture=[ihku@fc1a9c9[status=PENDING, info=[inputFuture=[mlx@1a6b8ce[status=PENDING, info=[tag=[GmsUrlRequestImpl.startWithFuture()]]]], function=[akyv@d9fa3ef]]]], function=[alxz@ac5cefc]]]
+11-09 23:59:40.277 W/Auth    ( 4374): 	at ihkr.v(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):366)
+11-09 23:59:40.277 W/Auth    ( 4374): 	at alya.d(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):205)
+11-09 23:59:40.277 W/Auth    ( 4374): 	... 13 more
+11-09 23:59:40.277 W/Auth    ( 4374): [RequestTokenManager] Message is Error when calling server using GmsNetworkStack. [CONTEXT service_id=343 ]
+11-09 23:59:40.277 I/Auth    ( 4374): (REDACTED) [GetToken] GetToken failed for app=%s with non recoverable status code: %s 
+11-09 23:59:40.278 W/Auth    ( 4374): [ChimeraGetToken] exception while trying to fetch auth tokens for app=com.google.android.gsf, scope=oauth2:https://www.googleapis.com/auth/googleplay [CONTEXT service_id=153 ]
+11-09 23:59:40.278 W/Auth    ( 4374): alxs: GetToken failed with status code: NetworkError
+11-09 23:59:40.278 W/Auth    ( 4374): 	at alxx.b(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):328)
+11-09 23:59:40.278 W/Auth    ( 4374): 	at afbw.d(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):971)
+11-09 23:59:40.278 W/Auth    ( 4374): 	at alqx.getAuthToken(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):354)
+11-09 23:59:40.278 W/Auth    ( 4374): 	at android.accounts.AbstractAccountAuthenticator$Transport.getAuthToken(AbstractAccountAuthenticator.java:246)
+11-09 23:59:40.278 W/Auth    ( 4374): 	at android.accounts.IAccountAuthenticator$Stub.onTransact(IAccountAuthenticator.java:242)
+11-09 23:59:40.278 W/Auth    ( 4374): 	at android.os.Binder.transact(Binder.java:1169)
+11-09 23:59:40.278 W/Auth    ( 4374): 	at dbsq.onTransact(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):8)
+11-09 23:59:40.278 W/Auth    ( 4374): 	at android.os.Binder.transact(Binder.java:1169)
+11-09 23:59:40.278 W/Auth    ( 4374): 	at cmzg.onTransact(:com.google.android.gms@264330029@26.43.30 (190400-1006944126):168)
+11-09 23:59:40.278 W/Auth    ( 4374): 	at android.os.Binder.execTransactInternal(Binder.java:1290)
+11-09 23:59:40.278 W/Auth    ( 4374): 	at android.os.Binder.execTransact(Binder.java:1249)
+11-09 23:59:40.278 W/Auth    ( 4374): [GmsAccountAuthenticatorImpl] error status while fetching token:NetworkError [CONTEXT service_id=343 ]
+11-09 23:59:40.291 E/Finsky  ( 7120): [2] jfw.a(9): [PLUS] Request failed for account: [f1omoAtSG9C34wt0ZhCy-PUYaUE2H_yHM77I2HY_N68]
+11-09 23:59:40.291 E/Finsky  ( 7120): network time: 30045, HTTP status code: na, exception com.android.volley.AuthFailureError: Error while retrieving auth token
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at tzs.m(PG:42)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at hwz.k(PG:2)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at itg.k(PG:3)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at hwu.run(PG:6)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at android.os.Handler.handleCallback(Handler.java:942)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at android.os.Looper.loopOnce(Looper.java:210)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at android.os.Looper.loop(Looper.java:299)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at android.app.ActivityThread.main(ActivityThread.java:8247)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at java.lang.reflect.Method.invoke(Native Method)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:559)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:954)
+11-09 23:59:40.291 E/Finsky  ( 7120): Caused by: com.android.volley.AuthFailureError: Error while retrieving auth token
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at hxm.a(PG:3)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at xwt.c(PG:1)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at iun.a(PG:3)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at itg.g(PG:2)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at umb.b(PG:3)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at hxl.a(PG:1)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at hwx.a(PG:13)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at hwx.run(PG:2)
+11-09 23:59:40.291 E/Finsky  ( 7120): Caused by: java.io.IOException: NetworkError
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at android.accounts.AccountManager.convertErrorToException(AccountManager.java:2656)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at android.accounts.AccountManager.-$$Nest$mconvertErrorToException(Unknown Source:0)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at android.accounts.AccountManager$AmsTask$Response.onError(AccountManager.java:2507)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at android.accounts.IAccountManagerResponse$Stub.onTransact(IAccountManagerResponse.java:107)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at android.os.Binder.execTransactInternal(Binder.java:1290)
+11-09 23:59:40.291 E/Finsky  ( 7120): 	at android.os.Binder.execTransact(Binder.java:1249)
+11-09 23:59:40.291 I/Finsky  ( 7120): [4696] aeqa.a(63): [PLUS] Sync complete, number synced: 0, number failed: 1
+11-09 23:59:40.292 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.292 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.293 E/Finsky  ( 7120): [4696] zii.a(21): [PLUS] Failed to trigger NOW_EXCLUSIVE urgency sync
+11-09 23:59:40.293 E/Finsky  ( 7120): com.google.android.finsky.unifiedsync.SyncExceptions$SyncCompositeException: CompositeException occurred containing 1 exception(s), unique errors: [Error while retrieving auth token]
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at zbm.a(PG:40)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at anlk.e(PG:2)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at anlm.run(PG:9)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at ql.execute(PG:11)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at annf.execute(PG:4)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at anli.m(PG:1)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at anli.d(PG:6)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at anlm.h(PG:3)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at aeqa.a(PG:69)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at anlk.e(PG:2)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at anlm.run(PG:9)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at ksw.run(PG:12)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at java.lang.Thread.run(Thread.java:1012)
+11-09 23:59:40.293 E/Finsky  ( 7120): Caused by: network time: 30045, HTTP status code: na, exception com.android.volley.AuthFailureError: Error while retrieving auth token
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at tzs.m(PG:42)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at hwz.k(PG:2)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at itg.k(PG:3)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at hwu.run(PG:6)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.os.Handler.handleCallback(Handler.java:942)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.os.Looper.loopOnce(Looper.java:210)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.os.Looper.loop(Looper.java:299)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.app.ActivityThread.main(ActivityThread.java:8247)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at java.lang.reflect.Method.invoke(Native Method)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:559)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:954)
+11-09 23:59:40.293 E/Finsky  ( 7120): Caused by: com.android.volley.AuthFailureError: Error while retrieving auth token
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at hxm.a(PG:3)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at xwt.c(PG:1)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at iun.a(PG:3)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at itg.g(PG:2)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at umb.b(PG:3)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at hxl.a(PG:1)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at hwx.a(PG:13)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at hwx.run(PG:2)
+11-09 23:59:40.293 E/Finsky  ( 7120): Caused by: java.io.IOException: NetworkError
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.accounts.AccountManager.convertErrorToException(AccountManager.java:2656)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.accounts.AccountManager.-$$Nest$mconvertErrorToException(Unknown Source:0)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.accounts.AccountManager$AmsTask$Response.onError(AccountManager.java:2507)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.accounts.IAccountManagerResponse$Stub.onTransact(IAccountManagerResponse.java:107)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.os.Binder.execTransactInternal(Binder.java:1290)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.os.Binder.execTransact(Binder.java:1249)
+11-09 23:59:40.293 E/Finsky  ( 7120): [4701] zii.a(15): [PLUS] Sync failed
+11-09 23:59:40.293 E/Finsky  ( 7120): com.google.android.finsky.unifiedsync.SyncExceptions$SyncCompositeException: CompositeException occurred containing 1 exception(s), unique errors: [Error while retrieving auth token]
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at zbm.a(PG:40)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at anlk.e(PG:2)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at anlm.run(PG:9)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at ql.execute(PG:11)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at annf.execute(PG:4)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at anli.m(PG:1)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at anli.d(PG:6)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at anlm.h(PG:3)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at aeqa.a(PG:69)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at anlk.e(PG:2)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at anlm.run(PG:9)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at ksw.run(PG:12)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at java.lang.Thread.run(Thread.java:1012)
+11-09 23:59:40.293 E/Finsky  ( 7120): Caused by: network time: 30045, HTTP status code: na, exception com.android.volley.AuthFailureError: Error while retrieving auth token
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at tzs.m(PG:42)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at hwz.k(PG:2)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at itg.k(PG:3)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at hwu.run(PG:6)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.os.Handler.handleCallback(Handler.java:942)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.os.Looper.loopOnce(Looper.java:210)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.os.Looper.loop(Looper.java:299)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.app.ActivityThread.main(ActivityThread.java:8247)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at java.lang.reflect.Method.invoke(Native Method)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:559)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:954)
+11-09 23:59:40.293 E/Finsky  ( 7120): Caused by: com.android.volley.AuthFailureError: Error while retrieving auth token
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at hxm.a(PG:3)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at xwt.c(PG:1)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at iun.a(PG:3)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at itg.g(PG:2)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at umb.b(PG:3)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at hxl.a(PG:1)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at hwx.a(PG:13)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at hwx.run(PG:2)
+11-09 23:59:40.293 E/Finsky  ( 7120): Caused by: java.io.IOException: NetworkError
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.accounts.AccountManager.convertErrorToException(AccountManager.java:2656)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.accounts.AccountManager.-$$Nest$mconvertErrorToException(Unknown Source:0)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.accounts.AccountManager$AmsTask$Response.onError(AccountManager.java:2507)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.accounts.IAccountManagerResponse$Stub.onTransact(IAccountManagerResponse.java:107)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.os.Binder.execTransactInternal(Binder.java:1290)
+11-09 23:59:40.293 E/Finsky  ( 7120): 	at android.os.Binder.execTransact(Binder.java:1249)
+11-09 23:59:40.293 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.294 E/Finsky  ( 7120): [4696] mgm.a(41): [DeviceConfig] failed to update device attribute payloads
+11-09 23:59:40.294 E/Finsky  ( 7120): com.google.android.finsky.unifiedsync.SyncExceptions$SyncCompositeException: CompositeException occurred containing 1 exception(s), unique errors: [Error while retrieving auth token]
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at zbm.a(PG:40)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at anlk.e(PG:2)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at anlm.run(PG:9)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at ql.execute(PG:11)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at annf.execute(PG:4)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at anli.m(PG:1)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at anli.d(PG:6)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at anlm.h(PG:3)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at aeqa.a(PG:69)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at anlk.e(PG:2)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at anlm.run(PG:9)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at ksw.run(PG:12)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at java.lang.Thread.run(Thread.java:1012)
+11-09 23:59:40.294 E/Finsky  ( 7120): Caused by: network time: 30045, HTTP status code: na, exception com.android.volley.AuthFailureError: Error while retrieving auth token
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at tzs.m(PG:42)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at hwz.k(PG:2)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at itg.k(PG:3)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at hwu.run(PG:6)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at android.os.Handler.handleCallback(Handler.java:942)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at android.os.Looper.loopOnce(Looper.java:210)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at android.os.Looper.loop(Looper.java:299)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at android.app.ActivityThread.main(ActivityThread.java:8247)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at java.lang.reflect.Method.invoke(Native Method)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:559)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:954)
+11-09 23:59:40.294 E/Finsky  ( 7120): Caused by: com.android.volley.AuthFailureError: Error while retrieving auth token
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at hxm.a(PG:3)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at xwt.c(PG:1)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at iun.a(PG:3)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at itg.g(PG:2)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at umb.b(PG:3)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at hxl.a(PG:1)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at hwx.a(PG:13)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at hwx.run(PG:2)
+11-09 23:59:40.294 E/Finsky  ( 7120): Caused by: java.io.IOException: NetworkError
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at android.accounts.AccountManager.convertErrorToException(AccountManager.java:2656)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at android.accounts.AccountManager.-$$Nest$mconvertErrorToException(Unknown Source:0)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at android.accounts.AccountManager$AmsTask$Response.onError(AccountManager.java:2507)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at android.accounts.IAccountManagerResponse$Stub.onTransact(IAccountManagerResponse.java:107)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at android.os.Binder.execTransactInternal(Binder.java:1290)
+11-09 23:59:40.294 E/Finsky  ( 7120): 	at android.os.Binder.execTransact(Binder.java:1249)
+11-09 23:59:40.294 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.294 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.295 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.295 I/Finsky  ( 7120): [2] pbj.a(4): Requesting device config token failed when fetching experiments.
+11-09 23:59:40.295 E/Finsky  ( 7120): [5286] ldp.run(62): Upload device configuration failed
+11-09 23:59:40.296 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.297 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.297 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.299 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(30)  buffer len:32768.
+11-09 23:59:40.299 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(30) Finish Sync:0
+11-09 23:59:40.299 I/Finsky  ( 7120): [5290] voh.h(1): Triggered update for experiment package com.google.android.finsky.stable.
+11-09 23:59:40.300 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3612725, memory offset:1515573
+11-09 23:59:40.300 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:40.300 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:40.300 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:40.301 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.303 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.304 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.304 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.306 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.306 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.307 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.308 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.308 W/ProxyAndroidLoggerBackend( 7120): Too many Flogger logs received before configuration. Dropping old logs.
+11-09 23:59:40.308 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.309 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.309 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.310 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.310 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.311 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.311 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.312 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.312 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.313 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.313 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.314 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.314 W/Finsky  ( 7120): [4706] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.315 I/Finsky  ( 7120): [4706] afhr.a(104): [PLUS] Syncing 1 train(s)
+11-09 23:59:40.316 I/Finsky  ( 7120): [4706] akdk.a(7): [PLUS] Sending payloads for account: [f1omoAtSG9C34wt0ZhCy-PUYaUE2H_yHM77I2HY_N68]
+11-09 23:59:40.331 E/KeymasterUtils(  885): rsp_header->status: -28
+11-09 23:59:40.331 E/KeyMasterHalDevice(  885): abort_operation
+11-09 23:59:40.331 E/KeyMasterHalDevice(  885): ret: -28
+11-09 23:59:40.361 I/Finsky  ( 7120): [5290] voh.h(7): Already at the latest configurations for experiment package com.google.android.finsky.stable.
+11-09 23:59:40.361 I/Finsky  ( 7120): [5289] voh.h(1): Triggered update for experiment package com.google.android.finsky.regular.
+11-09 23:59:40.365 W/ProxyAndroidLoggerBackend( 7120): Too many Flogger logs received before configuration. Dropping old logs.
+11-09 23:59:40.438 I/Finsky  ( 7120): [5289] voh.h(7): Already at the latest configurations for experiment package com.google.android.finsky.regular.
+11-09 23:59:40.439 I/Finsky  ( 7120): [5286] pma.b(1): HC: beginRecoverGmscoreIfApplicable
+11-09 23:59:40.439 I/Finsky  ( 7120): [5286] pma.b(2): HC: No target version, skip Gmscore recovery.
+11-09 23:59:40.440 W/Finsky  ( 7120): [5286] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.441 W/Finsky  ( 7120): [5286] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.442 W/Finsky  ( 7120): [5286] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.442 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 23:59:40.442 W/Finsky  ( 7120): [5286] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.442 W/Finsky  ( 7120): [5286] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.443 W/Finsky  ( 7120): [5286] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.443 W/Finsky  ( 7120): [5286] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.444 W/Finsky  ( 7120): [5286] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.444 W/Finsky  ( 7120): [5286] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.444 W/Finsky  ( 7120): [5286] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.445 W/Finsky  ( 7120): [5286] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.445 W/Finsky  ( 7120): [5286] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.446 W/Finsky  ( 7120): [5286] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.446 W/Finsky  ( 7120): [5286] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.447 W/Finsky  ( 7120): [5286] mfs.a(17): [DAS] Falling back to syncing all accounts due to current account auth failure
+11-09 23:59:40.447 I/AdrenoGLES-0( 7120): QUALCOMM build                   : ee4b625, I41c6f366e1
+11-09 23:59:40.447 I/AdrenoGLES-0( 7120): Build Date                       : 02/16/23
+11-09 23:59:40.447 I/AdrenoGLES-0( 7120): OpenGL ES Shader Compiler Version: EV031.36.08.19
+11-09 23:59:40.447 I/AdrenoGLES-0( 7120): Local Branch                     : 
+11-09 23:59:40.447 I/AdrenoGLES-0( 7120): Remote Branch                    : 
+11-09 23:59:40.447 I/AdrenoGLES-0( 7120): Remote Branch                    : 
+11-09 23:59:40.447 I/AdrenoGLES-0( 7120): Reconstruct Branch               : 
+11-09 23:59:40.447 I/AdrenoGLES-0( 7120): Build Config                     : S P 12.1.1 AArch64
+11-09 23:59:40.447 I/AdrenoGLES-0( 7120): Driver Path                      : /vendor/lib64/egl/libGLESv2_adreno.so
+11-09 23:59:40.447 I/AdrenoGLES-0( 7120): Driver Version                   : 0615.60
+11-09 23:59:40.453 E/DatabaseUtils( 4788): Writing exception to parcel
+11-09 23:59:40.453 E/DatabaseUtils( 4788): java.lang.SecurityException: No permission to access APN settings
+11-09 23:59:40.453 E/DatabaseUtils( 4788): 	at com.android.providers.telephony.TelephonyProvider.checkPermissionForApnTable(TelephonyProvider.java:5102)
+11-09 23:59:40.453 E/DatabaseUtils( 4788): 	at com.android.providers.telephony.TelephonyProvider.checkPermission(TelephonyProvider.java:5074)
+11-09 23:59:40.453 E/DatabaseUtils( 4788): 	at com.android.providers.telephony.TelephonyProvider.checkPermissionCompat(TelephonyProvider.java:5119)
+11-09 23:59:40.453 E/DatabaseUtils( 4788): 	at com.android.providers.telephony.TelephonyProvider.query(TelephonyProvider.java:3931)
+11-09 23:59:40.453 E/DatabaseUtils( 4788): 	at android.content.ContentProvider.query(ContentProvider.java:1467)
+11-09 23:59:40.453 E/DatabaseUtils( 4788): 	at android.content.ContentProvider.query(ContentProvider.java:1563)
+11-09 23:59:40.453 E/DatabaseUtils( 4788): 	at android.content.ContentProvider$Transport.query(ContentProvider.java:290)
+11-09 23:59:40.453 E/DatabaseUtils( 4788): 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:107)
+11-09 23:59:40.453 E/DatabaseUtils( 4788): 	at android.os.Binder.execTransactInternal(Binder.java:1285)
+11-09 23:59:40.453 E/DatabaseUtils( 4788): 	at android.os.Binder.execTransact(Binder.java:1249)
+11-09 23:59:40.454 W/Finsky  ( 7120): [4706] lgn.a(24): Failed to read APN: java.lang.SecurityException: No permission to access APN settings
+11-09 23:59:40.466 I/AdrenoGLES-0( 7120): PFP: 0x01730155, ME: 0x00000000
+11-09 23:59:40.502 I/MiuiNetworkPolicy( 2525): bandwidth: 525 KB/s, Max bandwidth: 577 KB/s
+11-09 23:59:40.611 D/TrafficStats( 4374): tagSocket(182) with statsTag=0x4000401, statsUid=10109
+11-09 23:59:40.658 I/NCMPlayerEngine( 1992): onEngineEvent: msg=2000 arg1=5818 arg2=0
+11-09 23:59:40.697 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(31)  buffer len:32768.
+11-09 23:59:40.697 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(31) Finish Sync:0
+11-09 23:59:40.697 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3645493, memory offset:1548341
+11-09 23:59:40.697 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:40.697 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:40.697 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:40.711 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:40.711 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:40.741 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=441}
+11-09 23:59:40.742 D/MiuiTcpSocketTracker( 2525): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=1208}
+11-09 23:59:40.792 I/CM-DataReq( 1992): open result total=4194304 contentLength=4194304
+11-09 23:59:40.792 I/CM-DataReq( 1992): onBegin id=1 total=4194304
+11-09 23:59:40.825 I/Finsky  ( 7120): [4696] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.825 I/Finsky  ( 7120): [4696] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.825 I/Finsky  ( 7120): [4696] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.827 I/Finsky  ( 7120): [4696] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.827 I/Finsky  ( 7120): [4696] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.828 I/Finsky  ( 7120): [4696] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.829 I/Finsky  ( 7120): [4696] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.830 I/Finsky  ( 7120): [4696] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.830 I/Finsky  ( 7120): [4696] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.833 I/Finsky  ( 7120): [4696] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.833 I/Finsky  ( 7120): [4696] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.834 I/Finsky  ( 7120): [4696] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.835 I/Finsky  ( 7120): [4696] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.835 I/Finsky  ( 7120): [4696] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.835 I/Finsky  ( 7120): [4696] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.836 I/Finsky  ( 7120): [4696] aeit.apply(9): [PLUS] Adding payload
+11-09 23:59:40.850 I/Finsky  ( 7120): [4696] acos.n(10): [PLUS] Triggering sync due to NOW_EXCLUSIVE urgency payload
+11-09 23:59:40.850 I/Finsky  ( 7120): [4696] aeoe.a(1): [PLUS] Syncing for users with urgency above: NOW_EXCLUSIVE
+11-09 23:59:40.929 I/android.vending( 7120): This is sticky GC, maxfree is 33554432 minfree is 8388608
+11-09 23:59:41.098 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(32)  buffer len:32768.
+11-09 23:59:41.098 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(32) Finish Sync:0
+11-09 23:59:41.098 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3678261, memory offset:1581109
+11-09 23:59:41.098 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:41.099 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:41.099 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:41.158 I/NCMPlayerEngine( 1992): onEngineEvent: msg=2000 arg1=6318 arg2=0
+11-09 23:59:41.212 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:41.212 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:41.272 I/NetworkAccelerateSwitchService( 8115): EVENT_RSSI_POLL
+11-09 23:59:41.274 I/NetworkAccelerateSwitchService( 8115): getAverageWifiRssi:57
+11-09 23:59:41.299 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(33)  buffer len:32768.
+11-09 23:59:41.299 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(33) Finish Sync:0
+11-09 23:59:41.300 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3711029, memory offset:1613877
+11-09 23:59:41.300 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:41.300 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:41.300 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:41.314 I/mple.cloudmusic( 1992): ProcessProfilingInfo new_methods=0 is saved saved_to_disk=0 resolve_classes_delay=8000
+11-09 23:59:41.659 I/NCMPlayerEngine( 1992): onEngineEvent: msg=2000 arg1=6924 arg2=0
+11-09 23:59:41.699 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(34)  buffer len:32768.
+11-09 23:59:41.699 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(34) Finish Sync:0
+11-09 23:59:41.700 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3743797, memory offset:1646645
+11-09 23:59:41.700 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:41.700 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:41.700 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:41.713 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:41.713 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:41.817 D/TrafficManageService( 8273): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-09 23:59:41.924 D/TrafficStats( 4374): tagSocket(186) with statsTag=0x4000401, statsUid=10109
+11-09 23:59:42.099 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(35)  buffer len:32768.
+11-09 23:59:42.100 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(35) Finish Sync:0
+11-09 23:59:42.100 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3776565, memory offset:1679413
+11-09 23:59:42.100 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:42.100 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:42.100 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:42.159 I/NCMPlayerEngine( 1992): onEngineEvent: msg=2000 arg1=7424 arg2=0
+11-09 23:59:42.214 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:42.215 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:42.499 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(36)  buffer len:32768.
+11-09 23:59:42.499 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(36) Finish Sync:0
+11-09 23:59:42.499 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3809333, memory offset:1712181
+11-09 23:59:42.499 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:42.501 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:42.502 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:42.587 D/MemorySizeMonitor(23072): Current memory: 390037KB, ratio: 3%, total: 11444340KB
+11-09 23:59:42.587 W/MemorySizeMonitor(23072): Memory threshold exceeded continuously! duration=8233591ms
+11-09 23:59:42.587 D/MemorySizeMonitor(23072): Skip report due to report interval (4999ms < 60000ms)
+11-09 23:59:42.659 I/NCMPlayerEngine( 1992): onEngineEvent: msg=2000 arg1=7924 arg2=0
+11-09 23:59:42.689 D/TrafficStats( 4374): tagSocket(103) with statsTag=0x4000401, statsUid=10109
+11-09 23:59:42.715 E/SELinux (  722): avc:  denied  { find } for pid=23072 uid=10118 name=miui.sedc scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:sedc_service:s0 tclass=service_manager permissive=0
+11-09 23:59:42.716 E/SecurityDeviceCredentialManager(23072): getService: NULL binder, retry...
+11-09 23:59:42.809 D/CompatibilityChangeReporter( 2525): Compat change id reported: 197654537; UID 10327; state: ENABLED
+11-09 23:59:42.818 I/SmartPower.com.google.process.gapps/10115(20340)( 2525): background->idle(3003ms) R(content provider start ContentProviderRecord{2db00a4 u0 com.google.android.gsf/.settings.GoogleSettingsProvider}) adj=250.
+11-09 23:59:42.818 I/SmartPower( 2525): com.google.android.gms/10115 state=inactive adj=100 proc size=4 move to idle content provider start ContentProviderRecord{2db00a4 u0 com.google.android.gsf/.settings.GoogleSettingsProvider}
+11-09 23:59:42.898 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(37)  buffer len:32768.
+11-09 23:59:42.899 D/NMCache ( 1992): NMBufferSourceImp(1)::Read(37) Finish Sync:0
+11-09 23:59:42.899 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:3842101, memory offset:1744949
+11-09 23:59:42.899 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTaskRead offset :  3145728, size :  1048576, out_len : 0, result:-2, begin:3145728, end:4194304
+11-09 23:59:42.899 I/CM-DataReq( 1992): SourceCallback.onProgress 3145728/0
+11-09 23:59:42.899 D/NMCache ( 1992): NMBufferSourceImp(1)::PreSeekReadTask offset:3145728, size:1048576 writed:0, net_try:1, net_try_result:6, request_len：1048576 finish
+11-09 23:59:42.899 D/GreezeManager( 2525): FZ uid = 10240 reason =retry success !
+11-09 23:59:42.900 D/GreezeManager( 2525): call socket destroy!
+11-09 23:59:42.902 D/MilletBrightHandler(10020): frozen uids:[10240] reason = retry
+11-09 23:59:42.903 I/CM-DataReq( 1992): onData id=1 offset=3145728 count=8192
+11-09 23:59:42.903 I/CM-DataReq( 1992): onData id=1 offset=3153920 count=8192
+11-09 23:59:42.903 I/CM-DataReq( 1992): onData id=1 offset=3162112 count=8192
+11-09 23:59:42.904 I/CM-DataReq( 1992): onData id=1 offset=3170304 count=8192
+11-09 23:59:42.904 I/CM-DataReq( 1992): onData id=1 offset=3178496 count=8192
+11-09 23:59:42.904 I/CM-DataReq( 1992): onData id=1 offset=3186688 count=8192
+11-09 23:59:42.904 I/CM-DataReq( 1992): onData id=1 offset=3194880 count=8192
+11-09 23:59:42.904 I/CM-DataReq( 1992): onData id=1 offset=3203072 count=8192
+11-09 23:59:42.904 I/CM-DataReq( 1992): onData id=1 offset=3211264 count=8192
+11-09 23:59:42.907 I/CM-DataReq( 1992): onData id=1 offset=3219456 count=8192
+11-09 23:59:42.907 I/CM-DataReq( 1992): onData id=1 offset=3227648 count=8192
+11-09 23:59:42.907 I/CM-DataReq( 1992): onData id=1 offset=3235840 count=8192
+11-09 23:59:42.907 I/CM-DataReq( 1992): onData id=1 offset=3244032 count=8192
+11-09 23:59:42.907 I/CM-DataReq( 1992): onData id=1 offset=3252224 count=8192
+11-09 23:59:42.907 I/CM-DataReq( 1992): onData id=1 offset=3260416 count=8192
+11-09 23:59:42.907 I/CM-DataReq( 1992): onData id=1 offset=3268608 count=8192
+11-09 23:59:42.907 I/CM-DataReq( 1992): onData id=1 offset=3276800 count=8192
+11-09 23:59:42.908 I/CM-DataReq( 1992): onData id=1 offset=3284992 count=8192
+11-09 23:59:42.908 I/CM-DataReq( 1992): onData id=1 offset=3293184 count=8192
+11-09 23:59:42.908 I/CM-DataReq( 1992): onData id=1 offset=3301376 count=8192
+11-09 23:59:42.908 I/CM-DataReq( 1992): onData id=1 offset=3309568 count=8192
+11-09 23:59:42.908 I/CM-DataReq( 1992): onData id=1 offset=3317760 count=8192
+11-09 23:59:42.908 I/CM-DataReq( 1992): onData id=1 offset=3325952 count=8192
+11-09 23:59:42.908 I/CM-DataReq( 1992): onData id=1 offset=3334144 count=8192
+11-09 23:59:42.908 I/CM-DataReq( 1992): onData id=1 offset=3342336 count=8192
+11-09 23:59:42.908 I/CM-DataReq( 1992): onData id=1 offset=3350528 count=8192
+11-09 23:59:42.909 I/CM-DataReq( 1992): onData id=1 offset=3358720 count=8192
+11-09 23:59:42.909 I/CM-DataReq( 1992): onData id=1 offset=3366912 count=8192
+11-09 23:59:42.909 I/CM-DataReq( 1992): onData id=1 offset=3375104 count=8192
+11-09 23:59:42.909 I/CM-DataReq( 1992): onData id=1 offset=3383296 count=8192
+11-09 23:59:42.909 I/CM-DataReq( 1992): onData id=1 offset=3391488 count=8192
+11-09 23:59:42.909 I/CM-DataReq( 1992): onData id=1 offset=3399680 count=8192
+11-09 23:59:42.909 I/CM-DataReq( 1992): onData id=1 offset=3407872 count=8192
+11-09 23:59:42.909 I/CM-DataReq( 1992): onData id=1 offset=3416064 count=8192
+11-09 23:59:42.909 I/CM-DataReq( 1992): onData id=1 offset=3424256 count=8192
+11-09 23:59:42.909 I/CM-DataReq( 1992): onData id=1 offset=3432448 count=8192
+11-09 23:59:42.909 I/CM-DataReq( 1992): onData id=1 offset=3440640 count=8192
+11-09 23:59:42.909 I/CM-DataReq( 1992): onData id=1 offset=3448832 count=8192
+11-09 23:59:42.910 I/CM-DataReq( 1992): onData id=1 offset=3457024 count=8192
+11-09 23:59:42.910 I/CM-DataReq( 1992): onData id=1 offset=3465216 count=8192
+11-09 23:59:42.910 I/CM-DataReq( 1992): onData id=1 offset=3473408 count=8192
+11-09 23:59:42.910 I/CM-DataReq( 1992): onData id=1 offset=3481600 count=8192
+11-09 23:59:42.910 I/CM-DataReq( 1992): onData id=1 offset=3489792 count=8192
+11-09 23:59:42.910 I/CM-DataReq( 1992): onData id=1 offset=3497984 count=8192
+11-09 23:59:42.910 I/CM-DataReq( 1992): onData id=1 offset=3506176 count=8192
+11-09 23:59:42.910 I/CM-DataReq( 1992): onData id=1 offset=3514368 count=8192
+11-09 23:59:42.910 I/CM-DataReq( 1992): onData id=1 offset=3522560 count=8192
+11-09 23:59:42.910 I/CM-DataReq( 1992): onData id=1 offset=3530752 count=8192
+11-09 23:59:42.910 I/CM-DataReq( 1992): onData id=1 offset=3538944 count=8192
+11-09 23:59:42.911 I/CM-DataReq( 1992): onData id=1 offset=3547136 count=8192
+11-09 23:59:42.911 I/CM-DataReq( 1992): onData id=1 offset=3555328 count=8192
+11-09 23:59:42.911 I/CM-DataReq( 1992): onData id=1 offset=3563520 count=8192
+11-09 23:59:42.911 I/CM-DataReq( 1992): onData id=1 offset=3571712 count=8192
+11-09 23:59:42.911 I/CM-DataReq( 1992): onData id=1 offset=3579904 count=8192
+11-09 23:59:42.911 I/CM-DataReq( 1992): onData id=1 offset=3588096 count=8192
+11-09 23:59:42.911 I/CM-DataReq( 1992): onData id=1 offset=3596288 count=8192
+11-09 23:59:42.911 I/CM-DataReq( 1992): onData id=1 offset=3604480 count=8192
+11-09 23:59:42.911 I/CM-DataReq( 1992): onData id=1 offset=3612672 count=8192
+11-09 23:59:42.912 I/CM-DataReq( 1992): onData id=1 offset=3620864 count=8192
+11-09 23:59:42.912 I/CM-DataReq( 1992): onData id=1 offset=3629056 count=8192
+11-09 23:59:42.912 I/CM-DataReq( 1992): onData id=1 offset=3637248 count=8192
+11-09 23:59:42.912 I/CM-DataReq( 1992): onData id=1 offset=3645440 count=8192
+11-09 23:59:42.912 I/CM-DataReq( 1992): onData id=1 offset=3653632 count=8192
+11-09 23:59:42.912 I/CM-DataReq( 1992): onData id=1 offset=3661824 count=8192
+11-09 23:59:42.912 I/CM-DataReq( 1992): onData id=1 offset=3670016 count=8192
+11-09 23:59:42.912 I/CM-DataReq( 1992): onData id=1 offset=3678208 count=8192
+11-09 23:59:42.912 I/CM-DataReq( 1992): onData id=1 offset=3686400 count=8192
+11-09 23:59:42.912 I/CM-DataReq( 1992): onData id=1 offset=3694592 count=8192
+11-09 23:59:42.913 I/CM-DataReq( 1992): onData id=1 offset=3702784 count=8192
+11-09 23:59:42.913 I/CM-DataReq( 1992): onData id=1 offset=3710976 count=8192
+11-09 23:59:42.913 I/CM-DataReq( 1992): onData id=1 offset=3719168 count=8192
+11-09 23:59:42.913 I/CM-DataReq( 1992): onData id=1 offset=3727360 count=8192
+11-09 23:59:42.913 I/CM-DataReq( 1992): onData id=1 offset=3735552 count=8192
+11-09 23:59:42.913 I/CM-DataReq( 1992): onData id=1 offset=3743744 count=8192
+11-09 23:59:42.913 I/CM-DataReq( 1992): onData id=1 offset=3751936 count=8192
+11-09 23:59:42.913 I/CM-DataReq( 1992): onData id=1 offset=3760128 count=8192
+11-09 23:59:42.913 I/CM-DataReq( 1992): onData id=1 offset=3768320 count=8192
+11-09 23:59:42.913 I/CM-DataReq( 1992): onData id=1 offset=3776512 count=8192
+11-09 23:59:42.913 I/CM-DataReq( 1992): onData id=1 offset=3784704 count=8192
+11-09 23:59:42.913 I/CM-DataReq( 1992): onData id=1 offset=3792896 count=8192
+11-09 23:59:42.913 I/CM-DataReq( 1992): onData id=1 offset=3801088 count=8192
+11-09 23:59:42.913 I/CM-DataReq( 1992): onData id=1 offset=3809280 count=8192
+11-09 23:59:42.913 I/CM-DataReq( 1992): onData id=1 offset=3817472 count=8192
+11-09 23:59:42.913 I/CM-DataReq( 1992): onData id=1 offset=3825664 count=8192
+11-09 23:59:42.914 I/CM-DataReq( 1992): onData id=1 offset=3833856 count=8192
+11-09 23:59:42.914 I/CM-DataReq( 1992): onData id=1 offset=3842048 count=8192
+11-09 23:59:42.914 I/CM-DataReq( 1992): onData id=1 offset=3850240 count=8192
+11-09 23:59:42.914 I/CM-DataReq( 1992): onData id=1 offset=3858432 count=8192
+11-09 23:59:42.914 I/CM-DataReq( 1992): onData id=1 offset=3866624 count=8192
+11-09 23:59:42.914 I/CM-DataReq( 1992): onData id=1 offset=3874816 count=8192
+11-09 23:59:42.914 I/CM-DataReq( 1992): onData id=1 offset=3883008 count=8192
+11-09 23:59:42.914 I/CM-DataReq( 1992): onData id=1 offset=3891200 count=8192
+11-09 23:59:42.914 I/CM-DataReq( 1992): onData id=1 offset=3899392 count=8192
+11-09 23:59:42.914 I/CM-DataReq( 1992): onData id=1 offset=3907584 count=8192
+11-09 23:59:42.914 I/CM-DataReq( 1992): onData id=1 offset=3915776 count=8192
+11-09 23:59:42.914 I/CM-DataReq( 1992): onData id=1 offset=3923968 count=8192
+11-09 23:59:42.914 I/CM-DataReq( 1992): onData id=1 offset=3932160 count=8192
+11-09 23:59:42.914 I/CM-DataReq( 1992): onData id=1 offset=3940352 count=8192
+11-09 23:59:42.914 I/CM-DataReq( 1992): onData id=1 offset=3948544 count=8192
+11-09 23:59:42.915 I/CM-DataReq( 1992): onData id=1 offset=3956736 count=8192
+11-09 23:59:42.915 I/CM-DataReq( 1992): onData id=1 offset=3964928 count=8192
+11-09 23:59:42.915 I/CM-DataReq( 1992): onData id=1 offset=3973120 count=8192
+11-09 23:59:42.915 I/CM-DataReq( 1992): onData id=1 offset=3981312 count=8192
+11-09 23:59:42.915 I/CM-DataReq( 1992): onData id=1 offset=3989504 count=8192
+11-09 23:59:42.915 I/CM-DataReq( 1992): onData id=1 offset=3997696 count=8192
+11-09 23:59:42.915 I/CM-DataReq( 1992): onData id=1 offset=4005888 count=8192
+11-09 23:59:42.915 I/CM-DataReq( 1992): onData id=1 offset=4014080 count=8192
+11-09 23:59:42.915 I/CM-DataReq( 1992): onData id=1 offset=4022272 count=8192
+11-09 23:59:42.915 I/CM-DataReq( 1992): onData id=1 offset=4030464 count=8192
+11-09 23:59:42.915 I/CM-DataReq( 1992): onData id=1 offset=4038656 count=8192
+11-09 23:59:42.915 I/CM-DataReq( 1992): onData id=1 offset=4046848 count=8192
+11-09 23:59:42.915 I/CM-DataReq( 1992): onData id=1 offset=4055040 count=8192
+11-09 23:59:42.915 I/CM-DataReq( 1992): onData id=1 offset=4063232 count=8192
+11-09 23:59:42.915 I/CM-DataReq( 1992): onData id=1 offset=4071424 count=8192
+11-09 23:59:42.915 I/CM-DataReq( 1992): onData id=1 offset=4079616 count=8192
+11-09 23:59:42.915 I/CM-DataReq( 1992): onData id=1 offset=4087808 count=8192
+11-09 23:59:42.915 I/CM-DataReq( 1992): onData id=1 offset=4096000 count=8192
+11-09 23:59:42.916 I/CM-DataReq( 1992): onData id=1 offset=4104192 count=8192
+11-09 23:59:42.916 I/CM-DataReq( 1992): onData id=1 offset=4112384 count=8192
+11-09 23:59:42.916 I/CM-DataReq( 1992): onData id=1 offset=4120576 count=8192
+11-09 23:59:42.916 I/CM-DataReq( 1992): onData id=1 offset=4128768 count=8192
+11-09 23:59:42.916 I/CM-DataReq( 1992): onData id=1 offset=4136960 count=8192
+11-09 23:59:42.916 I/CM-DataReq( 1992): onData id=1 offset=4145152 count=8192
+11-09 23:59:42.916 I/CM-DataReq( 1992): onData id=1 offset=4153344 count=8192
+11-09 23:59:42.916 I/CM-DataReq( 1992): onData id=1 offset=4161536 count=8192
+11-09 23:59:42.916 I/CM-DataReq( 1992): onData id=1 offset=4169728 count=8192
+11-09 23:59:42.916 I/CM-DataReq( 1992): onData id=1 offset=4177920 count=8192
+11-09 23:59:42.916 I/CM-DataReq( 1992): onData id=1 offset=4186112 count=8192
+11-09 23:59:42.917 W/NMCache ( 1992): NMSlicesFile Write all finish
+11-09 23:59:42.917 I/CM-DataReq( 1992): SourceCallback.onProgress 4194304/4194304

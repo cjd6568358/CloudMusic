@@ -10,10 +10,8 @@ enum class ObjectType(val value: Int) {
     companion object {
         // 集合加 _EXT 后缀，避免与同名枚举常量冲突。
         // 判定顺序 AUDIO → VIDEO → IMAGE → TEXT（对齐 OpenList-zig utils.GetObjType）。
-        private val AUDIO_EXT = setOf(
-            "mp3", "flac", "ogg", "m4a", "wav", "opus", "wma", "aac",
-            "ape", "dsf", "dff", "aiff", "wv", "tak",
-        )
+        // 12 §61.45 / F1：音频格式清单统一取自 AudioFormats，本处不再维护字面量。
+        private val AUDIO_EXT: Set<String> = AudioFormats.AUDIO_EXT
         // m3u8 已移出 VIDEO：本项目按文本播放列表处理（03-03 §3.5，10 §2 R14）。
         private val VIDEO_EXT = setOf("mp4", "mkv", "avi", "mov", "rmvb", "webm", "flv")
         private val IMAGE_EXT = setOf("jpg", "jpeg", "png", "gif", "bmp", "webp", "avif", "ico")

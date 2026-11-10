@@ -1,0 +1,64 @@
+{
+  "method": "12 §61.49 / F3 双路径矩阵证据审计（只读、纯标准库、不连 adb）",
+  "generated_by": "tools/l3_f3_matrix_audit.py",
+  "checks": {
+    "sample_set_exact": true,
+    "no_sample_exact": true,
+    "cell_count_14": true,
+    "both_paths_per_format": true,
+    "counts_not_forged": true,
+    "fail_cells_exact": true,
+    "extension_chain_all_real": true,
+    "pass_cells_backed_by_logs": true,
+    "fail_cells_not_silently_dropped": true,
+    "all_logs_present": true,
+    "no_sample_cells_count": true,
+    "test_precondition_restored": true,
+    "source_anchors": true,
+    "baseline_unchanged": true,
+    "report_honest": true,
+    "overall_is_partial": true,
+    "no_credentials_in_evidence": true
+  },
+  "all_pass": true,
+  "failed_checks": [],
+  "matrix_summary": {
+    "cells": 14,
+    "counts": {
+      "PASS": 11,
+      "FAIL": 3
+    },
+    "formats": [
+      "aiff",
+      "ape",
+      "flac",
+      "mp3",
+      "ogg",
+      "wav",
+      "wma"
+    ],
+    "no_sample_formats": [
+      "aac",
+      "dff",
+      "dsf",
+      "m4a",
+      "opus",
+      "tak",
+      "wv"
+    ],
+    "extension_ok_all": true,
+    "elapsed_s": 216.3,
+    "serial": "10.0.0.2:39853"
+  },
+  "failure_attribution": {
+    "ape/remote": "4 MiB 截断片段缺 APE 尾部 seek table；日志 Start id=2 offset=4194272 length=32 → onEnd delayed 2s，未进解码链；同片段 LOCAL 路径 PASS → 归因样本截断 + REMOTE 取流，不判播放器缺陷；需完整 228 MB 样本复核。与 F4 的 m4a EOF 2s 掩盖同源。",
+    "aiff/local": "openSource 2 / Play status 9，native demuxer 未打开；样本为自造极简 AIFF 容器且未经第三方解码器校验 → 无法区分「样本不可解」与「aiff demuxer/decoder 未编入」，需真实 .aiff 样本复核。",
+    "aiff/remote": "同 aiff/local；extension=aiff 正确，失败发生在 demuxer 阶段。"
+  },
+  "honest_notes": [
+    "F3 整体判 PARTIAL：7 种格式无样本、3 格 FAIL、截断片段不验证完整时长 / seek / ENDED。",
+    "PASS 判据只到「Open codec + Write start play nErr:0 + 零错误回调」，不等于 G01 全量验收。",
+    "测试前置 network.wifiOnly=false 仅跑批期间生效，跑完删除 app 私有设置文件恢复默认。",
+    "P0 native 舱零改动；A3 仍 G09 PARTIAL、舱不冻结。"
+  ]
+}

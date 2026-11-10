@@ -1,0 +1,2891 @@
+{
+  "method": "12 §61.43：竞品模块清单实证（Manifest 组件计数 + strings.xml 中文功能名 + smali/res 落点）",
+  "generated_by": "tools/l3_module_inventory.py",
+  "sources": [
+    "analysis/decoded/AndroidManifest.xml",
+    "analysis/decoded/res/values/strings.xml",
+    "analysis/decoded/res/layout|drawable*|anim|values/",
+    "analysis/smali14/",
+    "analysis/manifest-and-strings-report.txt",
+    "settings.gradle.kts",
+    "docs/01-产品文档.md"
+  ],
+  "competitor_totals": {
+    "activities": 799,
+    "activity_aliases": 182,
+    "services": 93,
+    "receivers": 38,
+    "providers": 23,
+    "permissions": 84,
+    "launcher_activities": [
+      "com.netease.cloudmusic.dialogtest.DialogTestActivity",
+      "com.netease.cloudmusic.music.biz.search.activity.SearchActivity"
+    ],
+    "res_dir_file_counts": {
+      "anim": 2232,
+      "anim-land": 1,
+      "animator": 35,
+      "color": 166,
+      "color-night": 3,
+      "drawable": 4927,
+      "drawable-anydpi": 1,
+      "drawable-anydpi-v24": 123,
+      "drawable-hdpi": 312,
+      "drawable-land": 3,
+      "drawable-ldpi": 79,
+      "drawable-ldrtl-hdpi": 3,
+      "drawable-ldrtl-mdpi": 3,
+      "drawable-ldrtl-xhdpi": 3,
+      "drawable-ldrtl-xxhdpi": 3,
+      "drawable-ldrtl-xxxhdpi": 3,
+      "drawable-mdpi": 164,
+      "drawable-night": 1,
+      "drawable-night-mdpi": 3,
+      "drawable-night-xhdpi": 3,
+      "drawable-night-xxhdpi": 5,
+      "drawable-nodpi": 8,
+      "drawable-sw600dp": 1,
+      "drawable-v24": 2,
+      "drawable-v26": 1,
+      "drawable-watch": 1,
+      "drawable-xhdpi": 338,
+      "drawable-xhdpi-v24": 1,
+      "drawable-xxhdpi": 6005,
+      "drawable-xxhdpi-v24": 4,
+      "drawable-xxxhdpi": 161,
+      "drawable-xxxhdpi-v24": 14,
+      "layout": 6676,
+      "layout-land": 66,
+      "layout-ldrtl": 3,
+      "layout-port": 4,
+      "layout-sw600dp": 4,
+      "layout-v26": 2,
+      "layout-v31": 16,
+      "layout-watch": 2,
+      "values": 13,
+      "values-480x320": 1,
+      "values-800x480": 2,
+      "values-en": 2,
+      "values-h320dp-port": 1,
+      "values-h360dp-land": 1,
+      "values-h480dp-land": 1,
+      "values-h550dp-port": 1,
+      "values-h560dp": 3,
+      "values-h560dp-xhdpi": 1,
+      "values-h560dp-xxhdpi": 1,
+      "values-h580dp": 2,
+      "values-h600dp": 2,
+      "values-h640dp": 1,
+      "values-h720dp": 1,
+      "values-h736dp": 1,
+      "values-h750dp-xxhdpi": 1,
+      "values-hdpi": 3,
+      "values-land": 4,
+      "values-large": 2,
+      "values-ldrtl": 1,
+      "values-night": 2,
+      "values-night-v29": 2,
+      "values-port": 2,
+      "values-small": 1,
+      "values-sw340dp": 2,
+      "values-sw360dp": 1,
+      "values-sw414dp": 1,
+      "values-sw480dp": 1,
+      "values-sw500dp": 2,
+      "values-sw600dp": 4,
+      "values-sw600dp-land": 1,
+      "values-sw640dp": 1,
+      "values-sw720dp": 1,
+      "values-v24": 2,
+      "values-v25": 1,
+      "values-v26": 1,
+      "values-v28": 2,
+      "values-v29": 1,
+      "values-v31": 1,
+      "values-w320dp": 2,
+      "values-w320dp-land": 1,
+      "values-w360dp": 2,
+      "values-w360dp-port": 1,
+      "values-w440dp": 1,
+      "values-w480dp-port": 1,
+      "values-w600dp-land": 1,
+      "values-w780dp": 1,
+      "values-w820dp": 2,
+      "values-watch": 1,
+      "values-xhdpi": 1,
+      "values-xlarge": 1,
+      "values-xxhdpi": 1,
+      "values-xxhdpi-1920x1152": 1,
+      "values-xxxhdpi": 1,
+      "values-zh": 1,
+      "values-zh-rCN": 2,
+      "values-zh-rTW": 2
+    },
+    "smali_class_total": 9246,
+    "exported_legacy_asset_files": 51
+  },
+  "chinese_module_labels": {
+    "发现": {
+      "string_ids": [
+        "f6",
+        "mq",
+        "ti",
+        "aa3",
+        "ays",
+        "bcn"
+      ],
+      "hit_count": 29
+    },
+    "首页": {
+      "string_ids": [
+        "cj",
+        "a5x",
+        "ajd",
+        "bg3",
+        "bg7",
+        "bgk"
+      ],
+      "hit_count": 34
+    },
+    "我的": {
+      "string_ids": [
+        "k",
+        "l",
+        "m",
+        "n",
+        "g_",
+        "k_"
+      ],
+      "hit_count": 155
+    },
+    "云村": {
+      "string_ids": [
+        "by",
+        "v6",
+        "aa3",
+        "asn",
+        "av6",
+        "awe"
+      ],
+      "hit_count": 31
+    },
+    "播客": {
+      "string_ids": [
+        "le",
+        "aai",
+        "abm",
+        "anq",
+        "ao5",
+        "aoc"
+      ],
+      "hit_count": 116
+    },
+    "电台": {
+      "string_ids": [
+        "dw",
+        "kw",
+        "l2",
+        "v4",
+        "a89",
+        "aaj"
+      ],
+      "hit_count": 65
+    },
+    "视频": {
+      "string_ids": [
+        "n",
+        "a4",
+        "h9",
+        "j4",
+        "jb",
+        "ks"
+      ],
+      "hit_count": 319
+    },
+    "商城": {
+      "string_ids": [
+        "aav",
+        "bnj",
+        "e9l",
+        "im1",
+        "im_"
+      ],
+      "hit_count": 5
+    },
+    "直播": {
+      "string_ids": [
+        "c_",
+        "ca",
+        "ce",
+        "cl",
+        "cm",
+        "cs"
+      ],
+      "hit_count": 379
+    },
+    "关注": {
+      "string_ids": [
+        "bb",
+        "c6",
+        "k7",
+        "k8",
+        "k9",
+        "qd"
+      ],
+      "hit_count": 207
+    },
+    "动态": {
+      "string_ids": [
+        "b_",
+        "bg",
+        "y9",
+        "a1j",
+        "a2d",
+        "alu"
+      ],
+      "hit_count": 74
+    },
+    "私人漫游": {
+      "string_ids": [
+        "bn",
+        "bq",
+        "bu",
+        "kx",
+        "ve",
+        "vf"
+      ],
+      "hit_count": 25
+    },
+    "私人FM": {
+      "string_ids": [
+        "cn8"
+      ],
+      "hit_count": 1
+    },
+    "每日推荐": {
+      "string_ids": [
+        "aqs",
+        "b7f",
+        "chn",
+        "fti",
+        "g8j",
+        "ihk"
+      ],
+      "hit_count": 6
+    },
+    "排行榜": {
+      "string_ids": [
+        "a89",
+        "dyf",
+        "eq6",
+        "exq",
+        "eyh",
+        "g8c"
+      ],
+      "hit_count": 10
+    },
+    "歌单": {
+      "string_ids": [
+        "a4",
+        "fa",
+        "kk",
+        "kl",
+        "km",
+        "kn"
+      ],
+      "hit_count": 259
+    },
+    "搜索": {
+      "string_ids": [
+        "dx",
+        "ans",
+        "bj_",
+        "bja",
+        "bsv",
+        "cc1"
+      ],
+      "hit_count": 77
+    },
+    "本地音乐": {
+      "string_ids": [
+        "f6",
+        "o1",
+        "cev",
+        "cf1",
+        "dj5",
+        "dj8"
+      ],
+      "hit_count": 23
+    },
+    "正在播放": {
+      "string_ids": [
+        "hf",
+        "kv",
+        "kw",
+        "kx",
+        "ky",
+        "kz"
+      ],
+      "hit_count": 22
+    },
+    "听歌识曲": {
+      "string_ids": [
+        "bgj",
+        "c88",
+        "cnd",
+        "crp",
+        "crw",
+        "cry"
+      ],
+      "hit_count": 26
+    },
+    "设置": {
+      "string_ids": [
+        "c_",
+        "cl",
+        "cs",
+        "cv",
+        "fk",
+        "gm"
+      ],
+      "hit_count": 374
+    },
+    "扫描设置": {
+      "string_ids": [
+        "cnb",
+        "djr",
+        "dk1"
+      ],
+      "hit_count": 3
+    },
+    "收藏": {
+      "string_ids": [
+        "d",
+        "a4",
+        "kg",
+        "kh",
+        "ki",
+        "kj"
+      ],
+      "hit_count": 179
+    },
+    "评论": {
+      "string_ids": [
+        "b9",
+        "pt",
+        "qc",
+        "qf",
+        "tr",
+        "a_q"
+      ],
+      "hit_count": 116
+    },
+    "云圈": {
+      "string_ids": [
+        "yw",
+        "akv",
+        "alj",
+        "alu",
+        "am4",
+        "am7"
+      ],
+      "hit_count": 29
+    },
+    "MLOG": {
+      "string_ids": [
+        "anl",
+        "cz7"
+      ],
+      "hit_count": 2
+    },
+    "MV": {
+      "string_ids": [
+        "lp",
+        "a6e",
+        "a7x",
+        "ais",
+        "ann",
+        "b8w"
+      ],
+      "hit_count": 57
+    },
+    "专辑": {
+      "string_ids": [
+        "o3",
+        "o4",
+        "o5",
+        "o7",
+        "o8",
+        "oa"
+      ],
+      "hit_count": 93
+    },
+    "歌手": {
+      "string_ids": [
+        "o6",
+        "pq",
+        "qk",
+        "xo",
+        "xp",
+        "xt"
+      ],
+      "hit_count": 74
+    },
+    "歌曲": {
+      "string_ids": [
+        "az",
+        "b2",
+        "b6",
+        "bu",
+        "eu",
+        "f1"
+      ],
+      "hit_count": 572
+    },
+    "声音": {
+      "string_ids": [
+        "li",
+        "a2s",
+        "a2z",
+        "aae",
+        "aai",
+        "agn"
+      ],
+      "hit_count": 141
+    },
+    "群聊": {
+      "string_ids": [
+        "al5",
+        "ali",
+        "am5",
+        "anr",
+        "g8d",
+        "ic3"
+      ],
+      "hit_count": 6
+    },
+    "笔记": {
+      "string_ids": [
+        "acm",
+        "ak4",
+        "arj",
+        "au_",
+        "av8",
+        "av9"
+      ],
+      "hit_count": 92
+    },
+    "草稿箱": {
+      "string_ids": [
+        "ac6",
+        "cnh",
+        "d2v",
+        "e1i",
+        "e25",
+        "ec3"
+      ],
+      "hit_count": 17
+    },
+    "云盘": {
+      "string_ids": [
+        "g51"
+      ],
+      "hit_count": 1
+    },
+    "我的音乐": {
+      "string_ids": [
+        "l",
+        "kq",
+        "l7",
+        "qw",
+        "bkd",
+        "bm8"
+      ],
+      "hit_count": 19
+    },
+    "歌单广场": {
+      "string_ids": [
+        "co2",
+        "eaz",
+        "g6f",
+        "gea"
+      ],
+      "hit_count": 4
+    },
+    "消息": {
+      "string_ids": [
+        "v9",
+        "zh",
+        "zi",
+        "a63",
+        "a64",
+        "a65"
+      ],
+      "hit_count": 82
+    },
+    "私信": {
+      "string_ids": [
+        "a9",
+        "gp",
+        "zh",
+        "zi",
+        "ad8",
+        "apy"
+      ],
+      "hit_count": 41
+    },
+    "会员": {
+      "string_ids": [
+        "h7",
+        "h8",
+        "hj",
+        "qr",
+        "a9e",
+        "aar"
+      ],
+      "hit_count": 57
+    },
+    "VIP": {
+      "string_ids": [
+        "h8",
+        "hj",
+        "ii",
+        "ix",
+        "j0",
+        "j3"
+      ],
+      "hit_count": 205
+    },
+    "音效": {
+      "string_ids": [
+        "b",
+        "a0e",
+        "a0n",
+        "a0r",
+        "a0v",
+        "a0w"
+      ],
+      "hit_count": 47
+    },
+    "歌词": {
+      "string_ids": [
+        "uu",
+        "a7u",
+        "a7v",
+        "adr",
+        "adt",
+        "adu"
+      ],
+      "hit_count": 138
+    },
+    "投屏": {
+      "string_ids": [
+        "bia",
+        "bib",
+        "bic",
+        "bid",
+        "bie",
+        "bif"
+      ],
+      "hit_count": 29
+    },
+    "蓝牙": {
+      "string_ids": [
+        "c4",
+        "a94",
+        "a9t",
+        "a9u",
+        "a9x",
+        "a9y"
+      ],
+      "hit_count": 43
+    },
+    "DLNA": {
+      "string_ids": [
+        "b03",
+        "bhz",
+        "bi0",
+        "bi1",
+        "bi2",
+        "bi6"
+      ],
+      "hit_count": 11
+    },
+    "驾驶": {
+      "string_ids": [
+        "a5i",
+        "adv",
+        "az_",
+        "c6z",
+        "d0l",
+        "f51"
+      ],
+      "hit_count": 9
+    },
+    "HiCar": {
+      "string_ids": [
+        "cnu"
+      ],
+      "hit_count": 1
+    },
+    "广告": {
+      "string_ids": [
+        "gw",
+        "gy",
+        "gz",
+        "h1",
+        "h2",
+        "hd"
+      ],
+      "hit_count": 42
+    },
+    "分享": {
+      "string_ids": [
+        "bf",
+        "g9",
+        "pv",
+        "u2",
+        "vz",
+        "xo"
+      ],
+      "hit_count": 225
+    }
+  },
+  "activity_family_breakdown": [
+    {
+      "domain": "H5 / WebView / RN 容器",
+      "second_level_entry_count": 14,
+      "activity_classes": [
+        "BP_EmbedBrowserActivity",
+        "BP_H5CustomViewActivity",
+        "EmbedBrowserActivity",
+        "H5CustomViewActivity",
+        "MainProcessEmbedBrowserActivity",
+        "MainProcessWebActivity",
+        "MainWebContainerActivity",
+        "ReactNativeActivity",
+        "RedirectActivity",
+        "RouterDemoActivity",
+        "StudyRoomMainWebActivity",
+        "TransparentBrowserActivity",
+        "TransparentMakePicBrowserActivity",
+        "VboxReactNativeActivity"
+      ]
+    },
+    {
+      "domain": "曲库 / 本地音乐 / 扫描 / 音质",
+      "second_level_entry_count": 13,
+      "activity_classes": [
+        "AlbumActivity",
+        "ArtistActivity",
+        "ArtistActivityV3",
+        "ArtistBillboardActivity",
+        "ArtistListActivity",
+        "AudioCacheSettingActivity",
+        "ForwardTrackActivity",
+        "MissingFileActivity",
+        "MusicDownloadQualityActivity",
+        "MusicOnlineQualityActivity",
+        "SDcardAuthorizeActivity",
+        "ScanActivity",
+        "TrackActivitySearchActivity"
+      ]
+    },
+    {
+      "domain": "播放器（含横屏 / 电台 / 车机 / 迷你 / 锁屏变体）",
+      "second_level_entry_count": 13,
+      "activity_classes": [
+        "LockScreenActivity",
+        "LockScreenPermissionDialogActivity",
+        "MiMiniPlayerActivity",
+        "NewPlayerVehicleActivity",
+        "PlayerActivity",
+        "PlayerChildActivity",
+        "PlayerClassicalFmActivity",
+        "PlayerLandscapeActivity",
+        "PlayerRadioActivity",
+        "PlayerVehicleActivity",
+        "VinylCropActivity",
+        "VinylDIYEditActivity",
+        "VinylPictureVideoChooserActivity"
+      ]
+    },
+    {
+      "domain": "歌单",
+      "second_level_entry_count": 11,
+      "activity_classes": [
+        "AddToPlayListActivity",
+        "ColumnCollectionActivity",
+        "EditPlayListActivity",
+        "MainPlaylistActivity",
+        "MusicSheetDisplayDemoActivity",
+        "MusicSheetPreviewActivity",
+        "PlayListActivity",
+        "PlayListExpertListActivity",
+        "PlayListTagManagerActivity",
+        "PlaylistCategoryActivity",
+        "RNPlaylistSortActivity"
+      ]
+    },
+    {
+      "domain": "其他（未归类）",
+      "second_level_entry_count": 9,
+      "activity_classes": [
+        "AlarmAlertScreenActivity",
+        "AlarmClockMusicActivity",
+        "AlarmClockPermissionActivity",
+        "AlarmMusicCategoryActivity",
+        "BeatRelationSongActivity",
+        "DownloadApkPromptActivity",
+        "MLogAggregationMusicActivity",
+        "MainActivity",
+        "MyCollectionActivity"
+      ]
+    },
+    {
+      "domain": "账号 / 社交 / 关注 / 邀请 / 个人主页",
+      "second_level_entry_count": 8,
+      "activity_classes": [
+        "CloudMusicMusicianActivity",
+        "ColumnActivity",
+        "FindAndInviteFriendActivity",
+        "InviteFriendActivity",
+        "MainFollowActivity",
+        "ProfileBgEditActivity",
+        "SetAliasActivity",
+        "StarUserActivity"
+      ]
+    },
+    {
+      "domain": "视频 / MV",
+      "second_level_entry_count": 8,
+      "activity_classes": [
+        "PictureVideoChooserActivity",
+        "SimpleVideoActivity",
+        "VideoCoverCaptureActivity",
+        "VideoEditActivity",
+        "VideoEditChooseMusicActivity",
+        "VideoEditMusicCategoryActivity",
+        "VideoPreviewActivity",
+        "VideoRelatedMusicActivity"
+      ]
+    },
+    {
+      "domain": "设置 / 关于 / 隐私",
+      "second_level_entry_count": 7,
+      "activity_classes": [
+        "AboutActivity",
+        "DownloadPromptActivity",
+        "GeneralResourceActivity",
+        "IntroduceActivity",
+        "PlayProtectSettingTutorialActivity",
+        "PlayProtectTutorialDetailActivity",
+        "PrivacySafeBasicMusicActivity"
+      ]
+    },
+    {
+      "domain": "直播 / K歌 / 电台节目",
+      "second_level_entry_count": 7,
+      "activity_classes": [
+        "KtvRoomBrowserActivity",
+        "ListenLiveActivity",
+        "ListenMoreLiveActivity",
+        "LiveOperationMoreActivity",
+        "MainPageCircleLiveActivity",
+        "MainPageMoreLiveActivity",
+        "SportRadioFinishActivity"
+      ]
+    },
+    {
+      "domain": "会员 / 打赏 / 广告",
+      "second_level_entry_count": 5,
+      "activity_classes": [
+        "AdActionClientInfoActivity",
+        "LoadingAdActivity",
+        "MainProcessAdEmbedBrowserActivity",
+        "ThanksForRewardActivity",
+        "VipActivity"
+      ]
+    },
+    {
+      "domain": "设备 / 车机 / 智联",
+      "second_level_entry_count": 4,
+      "activity_classes": [
+        "DeviceManagementActivity",
+        "SmartDeviceBrowerActivity",
+        "VehicleFMConnectStateActivity",
+        "VehicleFMSetStereoActivity"
+      ]
+    },
+    {
+      "domain": "歌词",
+      "second_level_entry_count": 4,
+      "activity_classes": [
+        "FloatLyricPermissionDialogActivity",
+        "LyricAllVideoChooseActivity",
+        "LyricShareActivity",
+        "ShareLyricVideoActivity"
+      ]
+    },
+    {
+      "domain": "搜索 / 推荐 / 榜单",
+      "second_level_entry_count": 4,
+      "activity_classes": [
+        "ListenMusicRankActivity",
+        "LookMoreClassifyActivity",
+        "SimilarRecommendActivity",
+        "SongTasteActivity"
+      ]
+    },
+    {
+      "domain": "主题 / 装扮 / 黑胶 DIY",
+      "second_level_entry_count": 4,
+      "activity_classes": [
+        "ThemeBgDetailActivity",
+        "ThemeColorDetailActivity",
+        "ThemeColorTopBarBrowserActivity",
+        "ThemeManagerEditListActivity"
+      ]
+    },
+    {
+      "domain": "评论 / 反馈 / 举报",
+      "second_level_entry_count": 3,
+      "activity_classes": [
+        "EditCommentActivity",
+        "FeedbackActivity",
+        "ReportActivity"
+      ]
+    },
+    {
+      "domain": "分享 / 图片",
+      "second_level_entry_count": 3,
+      "activity_classes": [
+        "ImageBrowseActivity",
+        "ImageShareActivity",
+        "SharePicForAgentActivity"
+      ]
+    },
+    {
+      "domain": "调试 / 中转 / 加载",
+      "second_level_entry_count": 3,
+      "activity_classes": [
+        "LoadingActivity",
+        "ShortcutTrampolineActivity",
+        "TransparentDialogActivity"
+      ]
+    }
+  ],
+  "package_groups": [
+    {
+      "package_group": "third_party",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 218,
+      "second_level_entries": 216,
+      "representative_activities": [
+        "com.alipay.sdk.app.APayEntranceActivity",
+        "com.alipay.sdk.app.AlipayResultActivity",
+        "com.alipay.sdk.app.H5AuthActivity",
+        "com.alipay.sdk.app.H5OpenAuthActivity",
+        "com.alipay.sdk.app.H5PayActivity",
+        "com.alipay.sdk.app.PayResultActivity",
+        "com.bun.miitmdid.utilsforrequestpermission.PermissionTransparentActivity",
+        "com.bytedance.sdk.open.douyin.impl.openapp.startapp.DouYinSDKEntryActivity",
+        "com.bytedance.sdk.open.douyin.ui.DouYinWebAuthorizeActivity",
+        "com.dtf.face.ui.LandFaceLoadingActivity"
+      ],
+      "sub_feature_hints": [
+        "Stubs",
+        "Stub",
+        "Pay",
+        "Live",
+        "Web",
+        "Card",
+        "Anchor",
+        "Look",
+        "Transparent",
+        "Phone",
+        "Open",
+        "Face",
+        "List",
+        "Entrance",
+        "Result",
+        "Common",
+        "Pwd",
+        "Wallet"
+      ],
+      "code_path": "非 com.netease.cloudmusic 包",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 0
+    },
+    {
+      "package_group": "activity",
+      "domain": "播放器 / 主 Activity 族",
+      "activity_count": 120,
+      "second_level_entries": 120,
+      "representative_activities": [
+        "com.netease.cloudmusic.activity.AboutActivity",
+        "com.netease.cloudmusic.activity.AdActionClientInfoActivity",
+        "com.netease.cloudmusic.activity.AddToPlayListActivity",
+        "com.netease.cloudmusic.activity.AlarmAlertScreenActivity",
+        "com.netease.cloudmusic.activity.AlarmClockMusicActivity",
+        "com.netease.cloudmusic.activity.AlarmClockPermissionActivity",
+        "com.netease.cloudmusic.activity.AlarmMusicCategoryActivity",
+        "com.netease.cloudmusic.activity.AlbumActivity",
+        "com.netease.cloudmusic.activity.ArtistActivity",
+        "com.netease.cloudmusic.activity.ArtistActivityV3"
+      ],
+      "sub_feature_hints": [
+        "Music",
+        "Video",
+        "List",
+        "Browser",
+        "Edit",
+        "Player",
+        "Play",
+        "Live",
+        "Alarm",
+        "Artist",
+        "Embed",
+        "Lyric",
+        "Share",
+        "More",
+        "Vehicle",
+        "Theme",
+        "Screen",
+        "Permission"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/activity/",
+      "smali14_class_count": 1300,
+      "cross_dex_string_hits": 1894
+    },
+    {
+      "package_group": "music.biz.setting",
+      "domain": "设置",
+      "activity_count": 51,
+      "second_level_entries": 51,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.setting.activity.AdRecommentTagSettingActivity",
+        "com.netease.cloudmusic.music.biz.setting.activity.AeToolsDemoActivity",
+        "com.netease.cloudmusic.music.biz.setting.activity.AudioCacheSettingActivity",
+        "com.netease.cloudmusic.music.biz.setting.activity.AudioKeepAliveTestActivity",
+        "com.netease.cloudmusic.music.biz.setting.activity.AudioSepTrackSettingDemoActivity",
+        "com.netease.cloudmusic.music.biz.setting.activity.AutoPlaySettingActivity",
+        "com.netease.cloudmusic.music.biz.setting.activity.BlacklistActivity",
+        "com.netease.cloudmusic.music.biz.setting.activity.ChangeIconDemoActivity",
+        "com.netease.cloudmusic.music.biz.setting.activity.ClearCacheActivity",
+        "com.netease.cloudmusic.music.biz.setting.activity.CookieConfigActivity"
+      ],
+      "sub_feature_hints": [
+        "Setting",
+        "Test",
+        "Developer",
+        "Demo",
+        "Play",
+        "Debug",
+        "Audio",
+        "Music",
+        "Tag",
+        "Cache",
+        "Clear",
+        "Config",
+        "Player",
+        "Device",
+        "Ctrl",
+        "Download",
+        "Quality",
+        "Router"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/setting/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 810
+    },
+    {
+      "package_group": "module",
+      "domain": "业务模块根",
+      "activity_count": 49,
+      "second_level_entries": 48,
+      "representative_activities": [
+        "com.netease.cloudmusic.module.account.AccountWebViewActivity",
+        "com.netease.cloudmusic.module.account.AccountWebViewActivity",
+        "com.netease.cloudmusic.module.ad.banner.download.AdBannerSnifferDialogActivity",
+        "com.netease.cloudmusic.module.ad.boot.ui.AdDownloadDialogActivity",
+        "com.netease.cloudmusic.module.ad.motivation.MotivationVideoGuideActivity",
+        "com.netease.cloudmusic.module.ad.motivation.commonui.AdMotivationVideoActivity",
+        "com.netease.cloudmusic.module.ad.motivation.commonui.AdTransparentDialogActivity",
+        "com.netease.cloudmusic.module.ad.motivation.external.AdClickStayFailedDialogActivity",
+        "com.netease.cloudmusic.module.ad.motivation.pcopendialog.AdPcOpenDialogActivity",
+        "com.netease.cloudmusic.module.ad.motivation.rightagain.AdRightAgainDialogActivity"
+      ],
+      "sub_feature_hints": [
+        "Account",
+        "Bind",
+        "Video",
+        "Web",
+        "Listen",
+        "Together",
+        "Test",
+        "Setting",
+        "Verify",
+        "Player",
+        "Download",
+        "Motivation",
+        "Mode",
+        "Daily",
+        "History",
+        "Invite",
+        "For",
+        "Login"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/module/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 17330
+    },
+    {
+      "package_group": "music.biz.mlogproduct",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 37,
+      "second_level_entries": 37,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.mlogproduct.clip.MLogVideoClipActivity",
+        "com.netease.cloudmusic.music.biz.mlogproduct.comment.CommentVideoEditActivity",
+        "com.netease.cloudmusic.music.biz.mlogproduct.comment.CommentVideoTemplateActivity",
+        "com.netease.cloudmusic.music.biz.mlogproduct.cover.MLogCoverCaptureActivity",
+        "com.netease.cloudmusic.music.biz.mlogproduct.cover.MLogCoverEditActivity",
+        "com.netease.cloudmusic.music.biz.mlogproduct.cover.MlogCoverCropActivity",
+        "com.netease.cloudmusic.music.biz.mlogproduct.cover.PicMLogCoverEditActivity",
+        "com.netease.cloudmusic.music.biz.mlogproduct.edit.MLogVideoEditActivity",
+        "com.netease.cloudmusic.music.biz.mlogproduct.edit.lyric.MLogLyricPicActivity",
+        "com.netease.cloudmusic.music.biz.mlogproduct.edit.lyric.MLogLyricVideoActivity"
+      ],
+      "sub_feature_hints": [
+        "Log",
+        "Video",
+        "Publish",
+        "Edit",
+        "Select",
+        "Cover",
+        "Entrance",
+        "Launch",
+        "Pic",
+        "Moment",
+        "Note",
+        "Music",
+        "Comment",
+        "Template",
+        "Mlog",
+        "Lyric",
+        "Picture",
+        "Sets"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/mlogproduct/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 1329
+    },
+    {
+      "package_group": "music.biz.rn",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 32,
+      "second_level_entries": 32,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.rn.activity.AccountSafeRNActivity",
+        "com.netease.cloudmusic.music.biz.rn.activity.AccountSafeRNLayerActivity",
+        "com.netease.cloudmusic.music.biz.rn.activity.ArtistRNActivity",
+        "com.netease.cloudmusic.music.biz.rn.activity.BgMainProcessRNActivity",
+        "com.netease.cloudmusic.music.biz.rn.activity.CacheManagerRNActivity",
+        "com.netease.cloudmusic.music.biz.rn.activity.CashierRNActivity",
+        "com.netease.cloudmusic.music.biz.rn.activity.CloudMusicAutoOrientationRNActivity",
+        "com.netease.cloudmusic.music.biz.rn.activity.CloudMusicRNActivity",
+        "com.netease.cloudmusic.music.biz.rn.activity.FansGroupRNActivity",
+        "com.netease.cloudmusic.music.biz.rn.activity.FloatRNCommentActivity"
+      ],
+      "sub_feature_hints": [
+        "Layer",
+        "Agent",
+        "React",
+        "Native",
+        "Process",
+        "Music",
+        "Sheet",
+        "Account",
+        "Safe",
+        "Cloud",
+        "Preload",
+        "Note",
+        "Debug",
+        "Multi",
+        "Instance",
+        "Artist",
+        "Cache",
+        "Manager"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/rn/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 763
+    },
+    {
+      "package_group": "music.biz.member",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 28,
+      "second_level_entries": 28,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.member.audioeffect.personal.eartexture.EarTextureTestActivity",
+        "com.netease.cloudmusic.music.biz.member.audioeffect.player.twinkle.TwinkleTestActivity",
+        "com.netease.cloudmusic.music.biz.member.audioeffect.ui.AudioAdvanceSettingsActivity",
+        "com.netease.cloudmusic.music.biz.member.audioeffect.ui.AudioEffectActivity",
+        "com.netease.cloudmusic.music.biz.member.audioeffect.ui.AudioEffectAnimChooseActivity",
+        "com.netease.cloudmusic.music.biz.member.audioeffect.ui.AudioEffectDetailActivity",
+        "com.netease.cloudmusic.music.biz.member.audioeffect.ui.AudioEffectThemeChooseActivity",
+        "com.netease.cloudmusic.music.biz.member.audioeffect.ui.DeviceAudioEffectActivity",
+        "com.netease.cloudmusic.music.biz.member.audioeffect.ui.DeviceAudioEffectBrandActivity",
+        "com.netease.cloudmusic.music.biz.member.audioeffect.ui.DeviceAudioEffectEqActivity"
+      ],
+      "sub_feature_hints": [
+        "Audio",
+        "Effect",
+        "Device",
+        "Pay",
+        "Choose",
+        "Equalizer",
+        "Test",
+        "Preset",
+        "Netease",
+        "Music",
+        "Ringtone",
+        "Ear",
+        "Texture",
+        "Twinkle",
+        "Advance",
+        "Settings",
+        "Anim",
+        "Theme"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/member/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 942
+    },
+    {
+      "package_group": "music.biz.voice",
+      "domain": "播客 / 电台 / 声音",
+      "activity_count": 21,
+      "second_level_entries": 21,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.voice.editinfo.PodcastCoverEditActivity",
+        "com.netease.cloudmusic.music.biz.voice.favorite.VoiceListFavorActivity",
+        "com.netease.cloudmusic.music.biz.voice.home.MainPageVoiceHostActivity",
+        "com.netease.cloudmusic.music.biz.voice.home.category.ui.VoiceCatHostActivity",
+        "com.netease.cloudmusic.music.biz.voice.homepage.recommend.PodcastIndependentActivity",
+        "com.netease.cloudmusic.music.biz.voice.player.revisionV1.ProgramPlayerActivityV1",
+        "com.netease.cloudmusic.music.biz.voice.player.share.PlayerVoiceShareActivity",
+        "com.netease.cloudmusic.music.biz.voice.player.share.ShareVoiceLyricActivity",
+        "com.netease.cloudmusic.music.biz.voice.player.share.podcastposter.SharePodcastPosterActivity",
+        "com.netease.cloudmusic.music.biz.voice.player.share.voiceposter.ShareVoicePosterActivity"
+      ],
+      "sub_feature_hints": [
+        "Voice",
+        "Podcast",
+        "Program",
+        "Share",
+        "Edit",
+        "List",
+        "Player",
+        "Poster",
+        "Cover",
+        "Favor",
+        "Cat",
+        "Independent",
+        "Lyric",
+        "Publish",
+        "Record",
+        "Upload",
+        "Pod",
+        "Cast"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/voice/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 2902
+    },
+    {
+      "package_group": "person",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 20,
+      "second_level_entries": 20,
+      "representative_activities": [
+        "com.netease.cloudmusic.person.activity.ConcertInfoListActivity",
+        "com.netease.cloudmusic.person.activity.GeneralResourceActivity",
+        "com.netease.cloudmusic.person.activity.ProfileActivity",
+        "com.netease.cloudmusic.person.activity.ProfileActivityV3",
+        "com.netease.cloudmusic.person.activity.ProfileActivityV4",
+        "com.netease.cloudmusic.person.activity.ProfileCommentsActivity",
+        "com.netease.cloudmusic.person.activity.ProfileInfoDetailActivity",
+        "com.netease.cloudmusic.person.activity.ProfileInfoDetailActivityV3",
+        "com.netease.cloudmusic.person.activity.ProfileModifyActivity",
+        "com.netease.cloudmusic.person.activity.ProfilePrivacySettingActivity"
+      ],
+      "sub_feature_hints": [
+        "Profile",
+        "Artist",
+        "Info",
+        "List",
+        "Concert",
+        "General",
+        "Resource",
+        "Comments",
+        "Modify",
+        "Privacy",
+        "Setting",
+        "Track",
+        "School",
+        "Choose",
+        "Singer",
+        "Topic",
+        "Category",
+        "Identify"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/person/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 1428
+    },
+    {
+      "package_group": "social",
+      "domain": "社交",
+      "activity_count": 18,
+      "second_level_entries": 18,
+      "representative_activities": [
+        "com.netease.cloudmusic.social.activity.AtSomebodyActivity",
+        "com.netease.cloudmusic.social.activity.EditCommentActivity",
+        "com.netease.cloudmusic.social.activity.EditInviteActivity",
+        "com.netease.cloudmusic.social.activity.EditTagActivity",
+        "com.netease.cloudmusic.social.activity.FindAndInviteFriendActivity",
+        "com.netease.cloudmusic.social.activity.InviteFriendActivity",
+        "com.netease.cloudmusic.social.activity.InviteFriendActivityNew",
+        "com.netease.cloudmusic.social.activity.InviteFriendCommentActivity",
+        "com.netease.cloudmusic.social.activity.InvitePairsFollowActivity",
+        "com.netease.cloudmusic.social.activity.MvVideoActivity"
+      ],
+      "sub_feature_hints": [
+        "Invite",
+        "Friend",
+        "Edit",
+        "Video",
+        "Comment",
+        "Program",
+        "Related",
+        "People",
+        "Somebody",
+        "Tag",
+        "Find",
+        "And",
+        "Pairs",
+        "Follow",
+        "Music",
+        "Relative",
+        "Rewarded",
+        "List"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/social/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 189
+    },
+    {
+      "package_group": "biz",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 17,
+      "second_level_entries": 17,
+      "representative_activities": [
+        "com.netease.cloudmusic.biz.billboard.activity.ArtistBillboardActivity",
+        "com.netease.cloudmusic.biz.billboard.activity.MainBillboardActivity",
+        "com.netease.cloudmusic.biz.billboard.activity.MvVideoBillboardActivity",
+        "com.netease.cloudmusic.biz.billboard.activity.RewardRadioAnchorActivity",
+        "com.netease.cloudmusic.biz.billboard.activity.RewardSongTopListActivity",
+        "com.netease.cloudmusic.biz.billboard.activity.UserBillboardActivity",
+        "com.netease.cloudmusic.biz.inputpanel.emoji.EmojiManagerActivity",
+        "com.netease.cloudmusic.biz.watch.WatchInitActivity",
+        "com.netease.cloudmusic.biz.watch.module.addvideo.AddVideoActivity",
+        "com.netease.cloudmusic.biz.watch.module.addvideo.AddVideoGuideActivity"
+      ],
+      "sub_feature_hints": [
+        "Guide",
+        "Billboard",
+        "Video",
+        "Watch",
+        "Reward",
+        "Add",
+        "Artist",
+        "Radio",
+        "Anchor",
+        "Song",
+        "Top",
+        "List",
+        "User",
+        "Emoji",
+        "Manager",
+        "Init",
+        "Auto",
+        "Start"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/biz/",
+      "smali14_class_count": 627,
+      "cross_dex_string_hits": 811
+    },
+    {
+      "package_group": "music.biz.mlog",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 17,
+      "second_level_entries": 17,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.mlog.consume.detail.module.video.CategoryMvListActivity",
+        "com.netease.cloudmusic.music.biz.mlog.consume.detail.module.video.CategoryVideoListActivity",
+        "com.netease.cloudmusic.music.biz.mlog.consume.detail.module.video.MVSelectedActivity",
+        "com.netease.cloudmusic.music.biz.mlog.consume.detail.module.video.MvVideoFilterActivity",
+        "com.netease.cloudmusic.music.biz.mlog.consume.detail.module.video.MvVideoSelectedActivity",
+        "com.netease.cloudmusic.music.biz.mlog.consume.detail.music.biz.mlogdetail.MLogPicActivity",
+        "com.netease.cloudmusic.music.biz.mlog.consume.detail.music.biz.mlogdetail.MLogPicActivityV2",
+        "com.netease.cloudmusic.music.biz.mlog.consume.detail.music.biz.mlogdetail.MLogVideoActivity",
+        "com.netease.cloudmusic.music.biz.mlog.consume.detail.music.biz.mlogdetail.SongEmptyActivity",
+        "com.netease.cloudmusic.music.biz.mlog.consume.detail.music.biz.videobox.VideoBoxActivity"
+      ],
+      "sub_feature_hints": [
+        "Video",
+        "Log",
+        "List",
+        "Category",
+        "Selected",
+        "Pic",
+        "Box",
+        "Mlog",
+        "Filter",
+        "Song",
+        "Empty",
+        "Draft",
+        "Feed",
+        "Liked",
+        "Square",
+        "Vinyl",
+        "Aggregate"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/mlog/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 1502
+    },
+    {
+      "package_group": "music.biz.comment",
+      "domain": "评论",
+      "activity_count": 12,
+      "second_level_entries": 12,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.comment.activity.AirborneDetailActivity",
+        "com.netease.cloudmusic.music.biz.comment.activity.CommentActivity",
+        "com.netease.cloudmusic.music.biz.comment.activity.DemoDetailActivity",
+        "com.netease.cloudmusic.music.biz.comment.activity.FloatCommentActivity2",
+        "com.netease.cloudmusic.music.biz.comment.activity.FloatCommentAllReplyActivity",
+        "com.netease.cloudmusic.music.biz.comment.activity.FoldCommentActivity",
+        "com.netease.cloudmusic.music.biz.comment.activity.ReplyCommentActivity2",
+        "com.netease.cloudmusic.music.biz.comment.commentdetail.CommentDetailActivity",
+        "com.netease.cloudmusic.music.biz.comment.discuss.DiscussFloatReplyActivity",
+        "com.netease.cloudmusic.music.biz.comment.player.FloatCommentForPlayerActivity"
+      ],
+      "sub_feature_hints": [
+        "Comment",
+        "Float",
+        "Reply",
+        "For",
+        "Activity2",
+        "Podcast",
+        "Airborne",
+        "Demo",
+        "All",
+        "Fold",
+        "Discuss",
+        "Player"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/comment/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 1496
+    },
+    {
+      "package_group": "core",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 12,
+      "second_level_entries": 12,
+      "representative_activities": [
+        "com.netease.cloudmusic.core.customconfig.debug.CustomDebugActivity",
+        "com.netease.cloudmusic.core.customconfig.debug.CustomDebugDetailActivity",
+        "com.netease.cloudmusic.core.customconfig.debug.CustomSearchActivity",
+        "com.netease.cloudmusic.core.dai.debug.DAIDebugMainActivity",
+        "com.netease.cloudmusic.core.dai.debug.view.DAIDebugDataActivity",
+        "com.netease.cloudmusic.core.dai.debug.view.DAIDebugFeatureConfigActivity",
+        "com.netease.cloudmusic.core.dai.debug.view.DAIDebugFeatureLocalActivity",
+        "com.netease.cloudmusic.core.dai.debug.view.DAIDebugModelInfoActivity",
+        "com.netease.cloudmusic.core.dai.debug.view.DAIDebugTaskActivity",
+        "com.netease.cloudmusic.core.mp.container.MpAboutActivity"
+      ],
+      "sub_feature_hints": [
+        "Debug",
+        "Custom",
+        "Feature",
+        "Search",
+        "Data",
+        "Config",
+        "Local",
+        "Model",
+        "Info",
+        "Task",
+        "About",
+        "Launch",
+        "Pay"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/core/",
+      "smali14_class_count": 1361,
+      "cross_dex_string_hits": 2827
+    },
+    {
+      "package_group": "music.biz.circle",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 11,
+      "second_level_entries": 11,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.circle.activity.CircleAtActivity",
+        "com.netease.cloudmusic.music.biz.circle.activity.CircleChatRoomActivity",
+        "com.netease.cloudmusic.music.biz.circle.activity.CircleChatRoomQrCodeActivity",
+        "com.netease.cloudmusic.music.biz.circle.activity.CircleDetailActivity",
+        "com.netease.cloudmusic.music.biz.circle.activity.CircleEventActivity",
+        "com.netease.cloudmusic.music.biz.circle.activity.CircleMainPageActivity",
+        "com.netease.cloudmusic.music.biz.circle.activity.EssenceMixtureActivity",
+        "com.netease.cloudmusic.music.biz.circle.activity.FollowedCircleActivity",
+        "com.netease.cloudmusic.music.biz.circle.activity.MainPageTestActivity",
+        "com.netease.cloudmusic.music.biz.circle.demo.DemoAggregationActivity"
+      ],
+      "sub_feature_hints": [
+        "Circle",
+        "Chat",
+        "Room",
+        "Code",
+        "Event",
+        "Essence",
+        "Mixture",
+        "Followed",
+        "Test",
+        "Demo",
+        "Aggregation",
+        "Promotion",
+        "Message"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/circle/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 484
+    },
+    {
+      "package_group": "music.biz.usertrack",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 11,
+      "second_level_entries": 11,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.usertrack.activity.PostDraftTrackActivity",
+        "com.netease.cloudmusic.music.biz.usertrack.activity.PostFailTrackActivity",
+        "com.netease.cloudmusic.music.biz.usertrack.activity.TrackActivitySearchActivity",
+        "com.netease.cloudmusic.music.biz.usertrack.activity.TrackChallengeActivity",
+        "com.netease.cloudmusic.music.biz.usertrack.activity.TrackHistoryActivity",
+        "com.netease.cloudmusic.music.biz.usertrack.activitydetail.ActivityTrackActivity",
+        "com.netease.cloudmusic.music.biz.usertrack.activitydetail.fansGroup.FansGroupQRcodeActivity",
+        "com.netease.cloudmusic.music.biz.usertrack.debug.TrackDebugUIActivity",
+        "com.netease.cloudmusic.music.biz.usertrack.nearby.NearbyActivity",
+        "com.netease.cloudmusic.music.biz.usertrack.trackdetail.TrackDetailActivity"
+      ],
+      "sub_feature_hints": [
+        "Track",
+        "Post",
+        "Draft",
+        "Fail",
+        "Search",
+        "Challenge",
+        "History",
+        "Fans",
+        "Group",
+        "Rcode",
+        "Debug",
+        "Nearby",
+        "Activity2"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/usertrack/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 1452
+    },
+    {
+      "package_group": "messagecenter",
+      "domain": "消息中心",
+      "activity_count": 10,
+      "second_level_entries": 10,
+      "representative_activities": [
+        "com.netease.cloudmusic.messagecenter.MessageCenterActivity",
+        "com.netease.cloudmusic.messagecenter.MessageCenterAggActivity",
+        "com.netease.cloudmusic.messagecenter.activity.MessageCenterAtMeActivity",
+        "com.netease.cloudmusic.messagecenter.activity.MessageCenterCommentActivity",
+        "com.netease.cloudmusic.messagecenter.activity.MessageCenterNotificationActivity",
+        "com.netease.cloudmusic.messagecenter.activity.MessageCenterShareActivity",
+        "com.netease.cloudmusic.messagecenter.activity.MessageNoticeActivity",
+        "com.netease.cloudmusic.messagecenter.activity.PrivateMsgDetailActivity",
+        "com.netease.cloudmusic.messagecenter.activity.UserFansActivity",
+        "com.netease.cloudmusic.messagecenter.activity.VideoPlayActivity"
+      ],
+      "sub_feature_hints": [
+        "Message",
+        "Center",
+        "Agg",
+        "Comment",
+        "Notification",
+        "Share",
+        "Notice",
+        "Private",
+        "Msg",
+        "User",
+        "Fans",
+        "Video",
+        "Play"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/messagecenter/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 403
+    },
+    {
+      "package_group": "music.biz.recognition",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 7,
+      "second_level_entries": 7,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.recognition.ui.activity.IdentifyActivityV2",
+        "com.netease.cloudmusic.music.biz.recognition.ui.activity.IdentifyGuideActivity",
+        "com.netease.cloudmusic.music.biz.recognition.ui.activity.IdentifyHistoryActivity",
+        "com.netease.cloudmusic.music.biz.recognition.ui.activity.IdentifyMusicListActivity",
+        "com.netease.cloudmusic.music.biz.recognition.ui.activity.IdentifyResultActivity",
+        "com.netease.cloudmusic.music.biz.recognition.ui.activity.IdentifyResultActivityV2",
+        "com.netease.cloudmusic.music.biz.recognition.ui.activity.IdentifyResultFailActivity"
+      ],
+      "sub_feature_hints": [
+        "Identify",
+        "Result",
+        "Guide",
+        "History",
+        "Music",
+        "List",
+        "Fail"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/recognition/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 281
+    },
+    {
+      "package_group": "music.biz.share",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 7,
+      "second_level_entries": 7,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.share.CircleQRcodeActivity",
+        "com.netease.cloudmusic.music.biz.share.DetailSharePanelActivity",
+        "com.netease.cloudmusic.music.biz.share.MyBarcodeActivity",
+        "com.netease.cloudmusic.music.biz.share.SharePanelActivity",
+        "com.netease.cloudmusic.music.biz.share.SharePanelPromptActivity",
+        "com.netease.cloudmusic.music.biz.share.musicshare.PlayerMusicShareActivity",
+        "com.netease.cloudmusic.music.biz.share.musicshare.customshare.CustomTextShareActivity"
+      ],
+      "sub_feature_hints": [
+        "Share",
+        "Panel",
+        "Circle",
+        "Rcode",
+        "Barcode",
+        "Prompt",
+        "Player",
+        "Music",
+        "Custom",
+        "Text"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/share/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 274
+    },
+    {
+      "package_group": "music.biz.friend",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 6,
+      "second_level_entries": 6,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.friend.modular.fans.FansActivity",
+        "com.netease.cloudmusic.music.biz.friend.modular.follow.ProfileFollowingActivity",
+        "com.netease.cloudmusic.music.biz.friend.modular.follow.both.BothFollowActivity",
+        "com.netease.cloudmusic.music.biz.friend.modular.follow.subartist.SubArtistActivity",
+        "com.netease.cloudmusic.music.biz.friend.modular.friend.FriendActivity",
+        "com.netease.cloudmusic.music.biz.friend.modular.home.MyFriendActivity"
+      ],
+      "sub_feature_hints": [
+        "Friend",
+        "Fans",
+        "Profile",
+        "Following",
+        "Both",
+        "Follow",
+        "Sub",
+        "Artist"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/friend/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 309
+    },
+    {
+      "package_group": "music.biz.mp",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 6,
+      "second_level_entries": 6,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.mp.container.MPRedirectActivity",
+        "com.netease.cloudmusic.music.biz.mp.container.MpActivity1",
+        "com.netease.cloudmusic.music.biz.mp.container.MpActivity2",
+        "com.netease.cloudmusic.music.biz.mp.container.MpActivity3",
+        "com.netease.cloudmusic.music.biz.mp.container.MpActivity4",
+        "com.netease.cloudmusic.music.biz.mp.container.MpActivity5"
+      ],
+      "sub_feature_hints": [
+        "Redirect",
+        "Activity1",
+        "Activity2",
+        "Activity3",
+        "Activity4",
+        "Activity5"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/mp/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 58
+    },
+    {
+      "package_group": "music.biz.clouddisk",
+      "domain": "我的音乐云盘",
+      "activity_count": 5,
+      "second_level_entries": 5,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.clouddisk.activity.ExternalFileRouterActivity",
+        "com.netease.cloudmusic.music.biz.clouddisk.activity.MyPrivateCloudActivity",
+        "com.netease.cloudmusic.music.biz.clouddisk.activity.MyPrivateCloudUploadActivity",
+        "com.netease.cloudmusic.music.biz.clouddisk.activity.UploadMusicActivity",
+        "com.netease.cloudmusic.music.biz.clouddisk.activity.UploadSimpleActivity"
+      ],
+      "sub_feature_hints": [
+        "Upload",
+        "Private",
+        "Cloud",
+        "External",
+        "File",
+        "Router",
+        "Music",
+        "Simple"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/clouddisk/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 300
+    },
+    {
+      "package_group": "music.biz.localmusic",
+      "domain": "本地音乐 / 曲库",
+      "activity_count": 5,
+      "second_level_entries": 5,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.localmusic.activity.DuplicateLocalMusicActivity",
+        "com.netease.cloudmusic.music.biz.localmusic.activity.EncrptDldPayMusicActivity",
+        "com.netease.cloudmusic.music.biz.localmusic.activity.MyDownloadMusicActivity",
+        "com.netease.cloudmusic.music.biz.localmusic.activity.ScanMusicActivity",
+        "com.netease.cloudmusic.music.biz.localmusic.autofix.LocalAutoFixActivity"
+      ],
+      "sub_feature_hints": [
+        "Music",
+        "Local",
+        "Duplicate",
+        "Encrpt",
+        "Dld",
+        "Pay",
+        "Download",
+        "Scan",
+        "Auto",
+        "Fix"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/localmusic/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 358
+    },
+    {
+      "package_group": "music.biz.oldcomment",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 5,
+      "second_level_entries": 5,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.oldcomment.activity.AllMusicianCommentActivity",
+        "com.netease.cloudmusic.music.biz.oldcomment.activity.CommentAllReplyActivity",
+        "com.netease.cloudmusic.music.biz.oldcomment.activity.FloatCommentActivity",
+        "com.netease.cloudmusic.music.biz.oldcomment.activity.MoreHotCommentActivity",
+        "com.netease.cloudmusic.music.biz.oldcomment.activity.ResourceCommentActivity"
+      ],
+      "sub_feature_hints": [
+        "Comment",
+        "All",
+        "Musician",
+        "Reply",
+        "Float",
+        "More",
+        "Hot",
+        "Resource"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/oldcomment/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 88
+    },
+    {
+      "package_group": "music.biz.search",
+      "domain": "搜索",
+      "activity_count": 4,
+      "second_level_entries": 4,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.search.activity.SearchActivity",
+        "com.netease.cloudmusic.music.biz.search.activity.SearchForSelectActivity",
+        "com.netease.cloudmusic.music.biz.search.activity.SearchToRcmdSongActivity",
+        "com.netease.cloudmusic.music.biz.search.portfolio.activity.SearchPortfolioDetailActivity"
+      ],
+      "sub_feature_hints": [
+        "Search",
+        "For",
+        "Select",
+        "Rcmd",
+        "Song",
+        "Portfolio"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/search/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 1486
+    },
+    {
+      "package_group": "music.biz.sidebar",
+      "domain": "侧边栏 / 设置",
+      "activity_count": 4,
+      "second_level_entries": 4,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.sidebar.activity.DownloadWhenCacheCompleteActivity",
+        "com.netease.cloudmusic.music.biz.sidebar.activity.DrawerManagerActivity",
+        "com.netease.cloudmusic.music.biz.sidebar.setting.VolumeBalanceActivity",
+        "com.netease.cloudmusic.music.biz.sidebar.setting.systempermission.SystemPermissionSettingActivity"
+      ],
+      "sub_feature_hints": [
+        "Download",
+        "When",
+        "Cache",
+        "Complete",
+        "Drawer",
+        "Manager",
+        "Volume",
+        "Balance",
+        "System",
+        "Permission",
+        "Setting"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/sidebar/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 241
+    },
+    {
+      "package_group": "music.biz.appwidgets",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 4,
+      "second_level_entries": 4,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.appwidgets.view.AppwidgetPlayerRedirectActivity",
+        "com.netease.cloudmusic.music.biz.appwidgets.view.EditTrampolineActivity",
+        "com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.player.test.WidgetsTestActivity",
+        "com.netease.cloudmusic.music.biz.appwidgets.view.appwidget.yoyo.SuggestPermissionActivity"
+      ],
+      "sub_feature_hints": [
+        "Appwidget",
+        "Player",
+        "Redirect",
+        "Edit",
+        "Trampoline",
+        "Widgets",
+        "Test",
+        "Suggest",
+        "Permission"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/appwidgets/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 150
+    },
+    {
+      "package_group": "playlive",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 4,
+      "second_level_entries": 4,
+      "representative_activities": [
+        "com.netease.cloudmusic.playlive.PlayliveBridgeActivity",
+        "com.netease.cloudmusic.playlive.page.LiveMPActivity",
+        "com.netease.cloudmusic.playlive.room.PfLiveEndActivity",
+        "com.netease.cloudmusic.playlive.room.PlatformLiveActivity"
+      ],
+      "sub_feature_hints": [
+        "Live",
+        "Playlive",
+        "Bridge",
+        "End",
+        "Platform"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/playlive/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 412
+    },
+    {
+      "package_group": "opensdk",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 3,
+      "second_level_entries": 3,
+      "representative_activities": [
+        "com.netease.cloudmusic.opensdk.auth.AuthActivity",
+        "com.netease.cloudmusic.opensdk.auth.SignInActivity",
+        "com.netease.cloudmusic.opensdk.auth.SignInActivityForH5"
+      ],
+      "sub_feature_hints": [
+        "Sign",
+        "Auth",
+        "For"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/opensdk/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 17
+    },
+    {
+      "package_group": "ui",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 3,
+      "second_level_entries": 3,
+      "representative_activities": [
+        "com.netease.cloudmusic.ui.douyin.DouYinAuthRespActivity",
+        "com.netease.cloudmusic.ui.gift.GiftTransparentActivity",
+        "com.netease.cloudmusic.ui.video.MusicPlayVideoActivity"
+      ],
+      "sub_feature_hints": [
+        "Dou",
+        "Yin",
+        "Auth",
+        "Resp",
+        "Gift",
+        "Transparent",
+        "Music",
+        "Play",
+        "Video"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/ui/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 8838
+    },
+    {
+      "package_group": "music_biz_mus_yb",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 3,
+      "second_level_entries": 3,
+      "representative_activities": [
+        "com.netease.cloudmusic.music_biz_mus_yb.YbWeb2Activity",
+        "com.netease.cloudmusic.music_biz_mus_yb.YbWebActivity",
+        "com.netease.cloudmusic.music_biz_mus_yb.picker.aigc.CameraActivity"
+      ],
+      "sub_feature_hints": [
+        "Web2",
+        "Web",
+        "Camera"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music_biz_mus_yb/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 251
+    },
+    {
+      "package_group": "discovery",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 3,
+      "second_level_entries": 3,
+      "representative_activities": [
+        "com.netease.cloudmusic.discovery.view.module.secondfloor.DiscoverySecondFloorAllActivity",
+        "com.netease.cloudmusic.discovery.view.newframework.DiscoveryMusicActivity",
+        "com.netease.cloudmusic.discovery.view.newframework.FeatureActivity"
+      ],
+      "sub_feature_hints": [
+        "Discovery",
+        "Second",
+        "Floor",
+        "All",
+        "Music",
+        "Feature"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/discovery/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 3315
+    },
+    {
+      "package_group": "dsl",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 3,
+      "second_level_entries": 3,
+      "representative_activities": [
+        "com.netease.cloudmusic.dsl.activity.DslLayoutProducePicActivity",
+        "com.netease.cloudmusic.dsl.activity.DslPageActivity",
+        "com.netease.cloudmusic.dsl.container.MixContainerTestActivity"
+      ],
+      "sub_feature_hints": [
+        "Dsl",
+        "Layout",
+        "Produce",
+        "Pic",
+        "Mix",
+        "Container",
+        "Test"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/dsl/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 242
+    },
+    {
+      "package_group": "log",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 3,
+      "second_level_entries": 3,
+      "representative_activities": [
+        "com.netease.cloudmusic.log.panel.issue.fd.FdActivity",
+        "com.netease.cloudmusic.log.panel.issue.leak.LeakActivity",
+        "com.netease.cloudmusic.log.panel.issue.thread.ThreadTraceActivity"
+      ],
+      "sub_feature_hints": [
+        "Leak",
+        "Thread",
+        "Trace"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/log/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 274
+    },
+    {
+      "package_group": "hop",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 2,
+      "second_level_entries": 2,
+      "representative_activities": [
+        "com.netease.cloudmusic.hop.FinishHopHintActivity",
+        "com.netease.cloudmusic.hop.HarmonyHopActivity"
+      ],
+      "sub_feature_hints": [
+        "Hop",
+        "Finish",
+        "Hint",
+        "Harmony"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/hop/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 18
+    },
+    {
+      "package_group": "music.biz.lyric",
+      "domain": "歌词",
+      "activity_count": 2,
+      "second_level_entries": 2,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.lyric.LyricShareActivity",
+        "com.netease.cloudmusic.music.biz.lyric.lyricselect.LyricSelectActivity"
+      ],
+      "sub_feature_hints": [
+        "Lyric",
+        "Share",
+        "Select"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/lyric/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 54
+    },
+    {
+      "package_group": "music.biz.moment",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 2,
+      "second_level_entries": 2,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.moment.MomentDetailActivity",
+        "com.netease.cloudmusic.music.biz.moment.MomentPicPreviewActivity"
+      ],
+      "sub_feature_hints": [
+        "Moment",
+        "Pic",
+        "Preview"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/moment/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 328
+    },
+    {
+      "package_group": "music.biz.trackpublish",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 2,
+      "second_level_entries": 2,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.trackpublish.activity.ResourceInputPanelDemoActivity",
+        "com.netease.cloudmusic.music.biz.trackpublish.activity.ShareActivity"
+      ],
+      "sub_feature_hints": [
+        "Resource",
+        "Input",
+        "Panel",
+        "Demo",
+        "Share"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/trackpublish/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 284
+    },
+    {
+      "package_group": "musiccalendar",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 2,
+      "second_level_entries": 2,
+      "representative_activities": [
+        "com.netease.cloudmusic.musiccalendar.view.activity.MusicCalendarActivity",
+        "com.netease.cloudmusic.musiccalendar.view.activity.MusicCalendarSubscriptionDetailActivity"
+      ],
+      "sub_feature_hints": [
+        "Music",
+        "Calendar",
+        "Subscription"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/musiccalendar/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 108
+    },
+    {
+      "package_group": "wxapi",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 2,
+      "second_level_entries": 2,
+      "representative_activities": [
+        "com.netease.cloudmusic.wxapi.WXEntryActivity",
+        "com.netease.cloudmusic.wxapi.WXPayEntryActivity"
+      ],
+      "sub_feature_hints": [
+        "Entry",
+        "Pay"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/wxapi/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 8
+    },
+    {
+      "package_group": "previewlive",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 2,
+      "second_level_entries": 2,
+      "representative_activities": [
+        "com.netease.cloudmusic.previewlive.PreviewLiveTestActivity",
+        "com.netease.cloudmusic.previewlive.texture.PreDelegateActivity"
+      ],
+      "sub_feature_hints": [
+        "Preview",
+        "Live",
+        "Test",
+        "Pre",
+        "Delegate"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/previewlive/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 121
+    },
+    {
+      "package_group": "live",
+      "domain": "直播",
+      "activity_count": 2,
+      "second_level_entries": 2,
+      "representative_activities": [
+        "com.netease.cloudmusic.live.hybrid.webview.ui.input.InputBoxActivity",
+        "com.netease.cloudmusic.live.webcache.manager.WeAppManagerActivity"
+      ],
+      "sub_feature_hints": [
+        "Input",
+        "Box",
+        "App",
+        "Manager"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/live/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 501
+    },
+    {
+      "package_group": "faceVerify",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 2,
+      "second_level_entries": 2,
+      "representative_activities": [
+        "com.netease.cloudmusic.faceVerify.YDFaceAuthActivity",
+        "com.netease.cloudmusic.faceVerify.YDFaceAuthActivityV2"
+      ],
+      "sub_feature_hints": [
+        "Face",
+        "Auth"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/faceVerify/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 38
+    },
+    {
+      "package_group": "share",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 2,
+      "second_level_entries": 2,
+      "representative_activities": [
+        "com.netease.cloudmusic.share.framework.ShareTransferActivity",
+        "com.netease.cloudmusic.share.ui.activity.douyinapi.DouYinEntryActivity"
+      ],
+      "sub_feature_hints": [
+        "Share",
+        "Transfer",
+        "Dou",
+        "Yin",
+        "Entry"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/share/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 171
+    },
+    {
+      "package_group": "push",
+      "domain": "推送",
+      "activity_count": 2,
+      "second_level_entries": 2,
+      "representative_activities": [
+        "com.netease.cloudmusic.push.ui.GetuiKeepAliveActivity",
+        "com.netease.cloudmusic.push.ui.PushRedirectActivity"
+      ],
+      "sub_feature_hints": [
+        "Getui",
+        "Keep",
+        "Alive",
+        "Push",
+        "Redirect"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/push/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 29
+    },
+    {
+      "package_group": "dialogtest",
+      "domain": "调试 / 测试",
+      "activity_count": 1,
+      "second_level_entries": 1,
+      "representative_activities": [
+        "com.netease.cloudmusic.dialogtest.DialogTestActivity"
+      ],
+      "sub_feature_hints": [
+        "Test"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/dialogtest/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 94
+    },
+    {
+      "package_group": "newsong",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 1,
+      "second_level_entries": 1,
+      "representative_activities": [
+        "com.netease.cloudmusic.newsong.activity.FollowNewMusicActivity"
+      ],
+      "sub_feature_hints": [
+        "Follow",
+        "Music"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/newsong/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 44
+    },
+    {
+      "package_group": "music.biz.recentplay",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 1,
+      "second_level_entries": 1,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.recentplay.ui.activity.MyRecentPlayActivity"
+      ],
+      "sub_feature_hints": [
+        "Recent",
+        "Play"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/recentplay/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 96
+    },
+    {
+      "package_group": "test",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 1,
+      "second_level_entries": 1,
+      "representative_activities": [
+        "com.netease.cloudmusic.test.CarFlowTestActivity"
+      ],
+      "sub_feature_hints": [
+        "Car",
+        "Flow",
+        "Test"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/test/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 8
+    },
+    {
+      "package_group": "halffold",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 1,
+      "second_level_entries": 1,
+      "representative_activities": [
+        "com.netease.cloudmusic.halffold.HalfFoldPlayerActivity"
+      ],
+      "sub_feature_hints": [
+        "Half",
+        "Fold",
+        "Player"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/halffold/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 79
+    },
+    {
+      "package_group": "music.biz.discuss",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 1,
+      "second_level_entries": 1,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.discuss.DiscussDetailActivity"
+      ],
+      "sub_feature_hints": [
+        "Discuss"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/discuss/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 25
+    },
+    {
+      "package_group": "music.biz.gamehouse",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 1,
+      "second_level_entries": 1,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.gamehouse.GameHouseActivity"
+      ],
+      "sub_feature_hints": [
+        "Game",
+        "House"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/gamehouse/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 485
+    },
+    {
+      "package_group": "sportfm",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 1,
+      "second_level_entries": 1,
+      "representative_activities": [
+        "com.netease.cloudmusic.sportfm.PlayerSportRadioActivity"
+      ],
+      "sub_feature_hints": [
+        "Player",
+        "Sport",
+        "Radio"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/sportfm/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 29
+    },
+    {
+      "package_group": "newmusic",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 1,
+      "second_level_entries": 1,
+      "representative_activities": [
+        "com.netease.cloudmusic.newmusic.NewMusicAlbumContainerActivity"
+      ],
+      "sub_feature_hints": [
+        "Music",
+        "Album",
+        "Container"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/newmusic/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 27
+    },
+    {
+      "package_group": "music.biz.mlogdetail",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 1,
+      "second_level_entries": 1,
+      "representative_activities": [
+        "com.netease.cloudmusic.music.biz.mlogdetail.MLogPicActivity"
+      ],
+      "sub_feature_hints": [
+        "Log",
+        "Pic"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/music/biz/mlogdetail/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 0
+    },
+    {
+      "package_group": "rocketapi",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 1,
+      "second_level_entries": 1,
+      "representative_activities": [
+        "com.netease.cloudmusic.rocketapi.RocketEntryActivity"
+      ],
+      "sub_feature_hints": [
+        "Rocket",
+        "Entry"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/rocketapi/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 1
+    },
+    {
+      "package_group": "ktxmvvmdemo",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 1,
+      "second_level_entries": 1,
+      "representative_activities": [
+        "com.netease.cloudmusic.ktxmvvmdemo.demo.ui.DemoActivity"
+      ],
+      "sub_feature_hints": [
+        "Demo"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/ktxmvvmdemo/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 0
+    },
+    {
+      "package_group": "framework",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 1,
+      "second_level_entries": 1,
+      "representative_activities": [
+        "com.netease.cloudmusic.framework.demo.ui.DemoDolphinActivity"
+      ],
+      "sub_feature_hints": [
+        "Demo",
+        "Dolphin"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/framework/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 2
+    },
+    {
+      "package_group": "nimmini",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 1,
+      "second_level_entries": 1,
+      "representative_activities": [
+        "com.netease.cloudmusic.nimmini.NimMiniTestActivity"
+      ],
+      "sub_feature_hints": [
+        "Nim",
+        "Mini",
+        "Test"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/nimmini/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 20
+    },
+    {
+      "package_group": "pay",
+      "domain": "支付",
+      "activity_count": 1,
+      "second_level_entries": 1,
+      "representative_activities": [
+        "com.netease.cloudmusic.pay.PayActivity2"
+      ],
+      "sub_feature_hints": [
+        "Pay",
+        "Activity2"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/pay/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 45
+    },
+    {
+      "package_group": "video",
+      "domain": "视频",
+      "activity_count": 1,
+      "second_level_entries": 1,
+      "representative_activities": [
+        "com.netease.cloudmusic.video.demo.videoplay.DemoVideoActivity"
+      ],
+      "sub_feature_hints": [
+        "Demo",
+        "Video"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/video/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 521
+    },
+    {
+      "package_group": "mock",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 1,
+      "second_level_entries": 1,
+      "representative_activities": [
+        "com.netease.cloudmusic.mock.ui.MockPlatformActivity"
+      ],
+      "sub_feature_hints": [
+        "Mock",
+        "Platform"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/mock/",
+      "smali14_class_count": 0,
+      "cross_dex_string_hits": 12
+    },
+    {
+      "package_group": "abtest2",
+      "domain": "未归类（原样保留包路径）",
+      "activity_count": 1,
+      "second_level_entries": 1,
+      "representative_activities": [
+        "com.netease.cloudmusic.abtest2.ABTestDebugActivity"
+      ],
+      "sub_feature_hints": [
+        "Test",
+        "Debug"
+      ],
+      "code_path": "analysis/smali14/com/netease/cloudmusic/abtest2/",
+      "smali14_class_count": 105,
+      "cross_dex_string_hits": 193
+    }
+  ],
+  "cross_dex_group_hits": {
+    "appground": 97,
+    "bottom": 237,
+    "common": 1072,
+    "core": 2827,
+    "datasource": 62,
+    "drawable": 71,
+    "imicconnect": 144,
+    "media": 600,
+    "network": 679,
+    "structure": 426,
+    "ui": 8838,
+    "utils": 4668,
+    "video": 521,
+    "avatar": 20,
+    "INoProguard": 18,
+    "abtest2": 193,
+    "adapter": 477,
+    "alphavideo": 49,
+    "android": 104,
+    "commonui": 18,
+    "crypto": 52,
+    "datareport": 99,
+    "dialog": 43,
+    "eventcenter": 72,
+    "im": 171,
+    "live": 501,
+    "log": 274,
+    "meta": 6225,
+    "micconnect": 190,
+    "module": 17330,
+    "nim": 219,
+    "party": 58,
+    "pay": 45,
+    "permission": 34,
+    "previewlive": 121,
+    "reactnative": 459,
+    "service": 409,
+    "share": 171,
+    "sliding": 33,
+    "widget": 30,
+    "PlayContinueHandleImp": 2,
+    "activity": 1894,
+    "appupdate": 75,
+    "biz": 811,
+    "d0": 6,
+    "discovery": 3315,
+    "dsl": 242,
+    "fragment": 1928,
+    "inim": 16,
+    "l0": 5,
+    "luna": 147,
+    "magent": 138,
+    "messagecenter": 403,
+    "music.base": 1203,
+    "music.biz.chat": 568,
+    "music.biz.circle": 484,
+    "music.biz.comment": 1496,
+    "music.biz.gamehouse": 485,
+    "music.biz.localmusic": 358,
+    "music.biz.member": 942,
+    "music.biz.mlog": 1502,
+    "music.biz.mlogproduct": 1329,
+    "music.biz.moment": 328,
+    "music.biz.mp": 58,
+    "music.biz.recentplay": 96,
+    "music.biz.recognition": 281,
+    "music.biz.rn": 763,
+    "music.biz.search": 1486,
+    "music.biz.setting": 810,
+    "music.biz.sidebar": 241,
+    "music.biz.trackpublish": 284,
+    "music.biz.usertrack": 1452,
+    "music.biz.voice": 2902,
+    "music.biz.web": 773,
+    "music_biz_mus_yb": 251,
+    "orpheusTest": 5,
+    "playcontinue": 4,
+    "playlive": 412,
+    "provider": 16,
+    "rpc": 269,
+    "social": 189,
+    "theme": 1300,
+    "u1": 13,
+    "z1": 13,
+    "commoninterface": 117,
+    "h": 12,
+    "monitor": 155,
+    "DataBinderMapperImpl": 13,
+    "NeteaseMusicApplication": 14,
+    "androidx": 13,
+    "base": 105,
+    "circleprocess": 13,
+    "codetail": 13,
+    "disk": 197,
+    "dslv": 14,
+    "localdata": 13,
+    "material": 13,
+    "music.biz.magent": 18,
+    "music.biz.module": 17,
+    "nimmini": 20,
+    "nova": 13,
+    "perf": 32,
+    "photodrawee": 13,
+    "proxy": 14,
+    "scheduler": 26,
+    "shimmer": 24,
+    "shortcut": 13,
+    "swipebacklayout": 13,
+    "tflip": 13,
+    "actor": 29,
+    "ad": 21,
+    "assets": 118,
+    "bean": 56,
+    "bilog": 6,
+    "broadcast": 11,
+    "broadcastdog": 15,
+    "aidl": 89,
+    "cmbridge": 8,
+    "m1": 5,
+    "f0": 7,
+    "AdCountDownView": 15,
+    "CloudMusicApplication": 7,
+    "CloudMusicApplicationLike": 1,
+    "CloudMusicFlowService": 3,
+    "a0": 1,
+    "a1": 1,
+    "a2": 11,
+    "a": 1,
+    "analysecheck": 2,
+    "api": 101,
+    "app": 125,
+    "asynctask": 463,
+    "audio": 17,
+    "b0": 1,
+    "b1": 1,
+    "b2": 9,
+    "b": 1,
+    "banner": 1,
+    "baselineprofile": 5,
+    "behavior": 19,
+    "bottomsheet": 9,
+    "bugbash": 1,
+    "c": 15,
+    "c0": 6,
+    "c1": 8,
+    "c2": 1,
+    "collection": 3,
+    "comment": 12,
+    "crashcatcherlib": 23,
+    "d1": 1,
+    "d2": 8,
+    "d": 2,
+    "dai": 1,
+    "db": 23,
+    "diagnose": 70,
+    "e0": 3,
+    "e1": 316,
+    "e2": 1,
+    "e": 1,
+    "effect": 52,
+    "f1": 3,
+    "f2": 1,
+    "f": 1,
+    "flvcrypto": 2,
+    "g0": 1,
+    "g1": 62,
+    "g2": 1,
+    "g": 1,
+    "gift": 22,
+    "h0": 3,
+    "h1": 1,
+    "h2": 1,
+    "halffold": 79,
+    "helper": 9,
+    "hint": 20,
+    "i0": 1,
+    "i1": 1,
+    "i2": 1,
+    "i": 1,
+    "image": 26,
+    "j0": 16,
+    "j1": 3,
+    "j2": 1,
+    "j": 1,
+    "k": 25,
+    "k0": 3,
+    "k1": 142,
+    "k2": 1,
+    "l1": 2,
+    "l2": 1,
+    "l": 1,
+    "land": 37,
+    "libload": 13,
+    "loading": 5,
+    "look": 5,
+    "m0": 7,
+    "m2": 1,
+    "m": 1,
+    "main": 107,
+    "modular": 3,
+    "more": 114,
+    "music.biz.DataBinderMapperImpl": 2,
+    "music.biz.ad": 5,
+    "music.biz.appwidgets": 150,
+    "music.biz.carflow": 4,
+    "music.biz.clouddisk": 300,
+    "music.biz.component": 4,
+    "music.biz.component_wrapper": 4,
+    "music.biz.fm": 4,
+    "music.biz.friend": 309,
+    "music.biz.harmony": 4,
+    "music.biz.hicar": 4,
+    "music.biz.hybrid": 13,
+    "music.biz.login": 4,
+    "music.biz.messagecenter": 4,
+    "music.biz.mlogbase": 21,
+    "music.biz.mlogconsume": 4,
+    "music.biz.mymusic": 4,
+    "music.biz.oppo": 4,
+    "music.biz.perf": 4,
+    "music.biz.platform": 4,
+    "music.biz.player": 5,
+    "music.biz.regulation": 4,
+    "music.biz.repertoire": 4,
+    "music.biz.share": 274,
+    "music.biz.social": 103,
+    "music.biz.strategy": 4,
+    "music.biz.vbox": 4,
+    "music.biz.watch": 5,
+    "music.dsl": 6,
+    "music.res": 5,
+    "musiccalendar": 108,
+    "musicgift": 76,
+    "musicsheet": 44,
+    "n0": 4,
+    "n1": 7,
+    "n2": 1,
+    "n": 1,
+    "newsong": 44,
+    "o0": 5,
+    "o1": 8,
+    "o2": 1,
+    "o": 1,
+    "oaid": 7,
+    "p0": 3,
+    "p1": 4,
+    "p2": 1,
+    "p": 1,
+    "person": 1428,
+    "playback": 87,
+    "player": 264,
+    "playlist": 32,
+    "process": 1107,
+    "push": 29,
+    "q0": 2,
+    "q1": 11,
+    "q2": 1,
+    "q": 1,
+    "r0": 3,
+    "r1": 11,
+    "r2": 1,
+    "r": 1,
+    "redux": 31,
+    "rn": 8,
+    "rnpreload": 13,
+    "s0": 26,
+    "s1": 11,
+    "s2": 1,
+    "s": 1,
+    "scan": 4,
+    "smartBundle": 12,
+    "sportfm": 29,
+    "startup": 21,
+    "startupcheck": 10,
+    "statistic": 15,
+    "t0": 1,
+    "t1": 2,
+    "t2": 1,
+    "t": 1,
+    "tombstone": 4,
+    "u0": 5,
+    "u2": 1,
+    "u": 1,
+    "update": 5,
+    "v0": 8,
+    "v1": 12,
+    "v2": 45,
+    "v": 1,
+    "vh": 162,
+    "videoedit": 4,
+    "viewholder": 32,
+    "w0": 3,
+    "w1": 2,
+    "w2": 1,
+    "w": 1,
+    "x0": 10,
+    "x1": 3,
+    "x2": 3,
+    "x": 1,
+    "y0": 4,
+    "y1": 2,
+    "y": 1,
+    "z0": 1,
+    "z": 1,
+    "NeteaseMusicConst": 1,
+    "PlayerNormalModular": 1,
+    "beat": 2,
+    "catcher": 2,
+    "dslmodule": 32,
+    "edit": 76,
+    "encrypt": 7,
+    "harmony": 19,
+    "hop": 18,
+    "insidenotification": 12,
+    "jscruntime": 10,
+    "lcp": 18,
+    "dialogtest": 94,
+    "offline": 61,
+    "demo": 8,
+    "download": 5,
+    "faceVerify": 38,
+    "floatingnotice": 8,
+    "framework": 2,
+    "gameHouse": 2,
+    "header": 4,
+    "ifaceVerify": 11,
+    "increase": 7,
+    "input": 9,
+    "js": 2,
+    "jskernel": 2,
+    "letterIndex": 1,
+    "programEdit": 8,
+    "state": 38,
+    "util": 22,
+    "view": 35,
+    "delivery": 1,
+    "ftp": 7,
+    "home": 1,
+    "immersive": 1,
+    "linkposition": 1,
+    "looper": 39,
+    "post": 32,
+    "member": 8,
+    "livemini": 3,
+    "mock": 12,
+    "nativemodule": 2,
+    "opensdk": 17,
+    "test": 8,
+    "manager": 3,
+    "receiver": 29,
+    "sdk": 42,
+    "threed": 30,
+    "moment": 21,
+    "msgbar": 8,
+    "moshi": 7,
+    "music.biz.DataBinderMapperImpl$a": 1,
+    "music.biz.DataBinderMapperImpl$b": 1,
+    "viewcomponent": 24,
+    "music.biz.lyric": 54,
+    "music.biz.discuss": 25,
+    "music.biz.oldcomment": 88,
+    "react": 3,
+    "vc": 9,
+    "mymusic": 18,
+    "newmusic": 27,
+    "notification": 7,
+    "persistence": 3,
+    "relay": 4,
+    "repo": 3,
+    "third": 51,
+    "thumbnail": 6,
+    "phone": 3,
+    "recycleview": 4,
+    "rocketapi": 1,
+    "singroom": 1,
+    "titleservice": 4,
+    "syscalendar": 3,
+    "wxapi": 8,
+    "youngmode": 6
+  },
+  "self_side": {
+    "module_count": 19,
+    "modules": [
+      "core-common",
+      "core-model",
+      "datasource-api",
+      "datasource-strm",
+      "datasource-playlist",
+      "datasource-webdav",
+      "datasource-local",
+      "scanner",
+      "core-storage",
+      "engine-api",
+      "core-media",
+      "output-localproxy",
+      "output-router",
+      "engine-bridge",
+      "feature-player",
+      "output-dlna",
+      "app",
+      "core-di",
+      "engine-legacy"
+    ],
+    "prd_never_line": "| 账号/社交/评论/推荐/商城/直播/广告/支付 | — | — | — | ❌ **永久不做** |",
+    "prd_never_keywords": [
+      "账号",
+      "社交",
+      "评论",
+      "推荐",
+      "商城",
+      "直播",
+      "广告",
+      "支付"
+    ]
+  },
+  "evidence_paths": {
+    "interaction_and_ui_code": "analysis/smali14/com/netease/cloudmusic/<package_group>/",
+    "ui_skeleton": "analysis/decoded/res/layout*/（含 android:tag 语义名）",
+    "visual_assets": "analysis/decoded/res/drawable*/ 与 analysis/decoded/res/anim/",
+    "exported_reusable_assets": "app/src/main/assets/legacy-player/（D-146 导出 51 文件）",
+    "chinese_names": "analysis/decoded/res/values/strings.xml",
+    "resource_id_map": "analysis/decoded/res/values/public.xml"
+  },
+  "honest_notes": [
+    "静态 Manifest 只能数出「可进入的页面」，不能还原底部导航 tab 的精确个数与顺序；一级模块清单按功能域分组，导航顺序需真机 UI 层级 / 截图实证，不推测。",
+    "sub_feature_hints 由 Activity 类名机械提取，是线索不是完整子功能定义。",
+    "analysis/smali14/ 只反汇编了 classes14 单个 dex，smali14_class_count 为该 dex 的覆盖数；cross_dex_string_hits 才是跨 20 个 dex 的引用量证据（analysis/strings/*.strings.txt）。",
+    "保留 / 剔除 / 冲突判定与开发优先级在 docs/17，判定依据逐条回溯到 PRD §3 与用户口径。"
+  ]
+}

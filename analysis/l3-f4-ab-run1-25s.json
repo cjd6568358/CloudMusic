@@ -1,0 +1,100 @@
+{
+  "method": "12 §61.53 / F4 kind 槽 A/B 变体 B（OnDataRequestEnd 首参恒传 1L）",
+  "serial": "192.168.1.11:40807",
+  "variant": "NATIVE_DONE_KIND_FLUSH = 1L；requestId 仅留日志",
+  "cells": [
+    {
+      "tag": "ksab-m4a-remote",
+      "format": "m4a",
+      "path": "remote",
+      "extension": "m4a",
+      "codec": null,
+      "write": false,
+      "m103": false,
+      "starts": [
+        "Start id=1 offset=147456 length=180439",
+        "Start id=2 offset=605007 length=1048576"
+      ],
+      "on_end": [
+        "onEnd id=1 error=null (delayed 2s or immediate)\r",
+        "onEnd id=2 error=null (delayed 2s or immediate)\r"
+      ]
+    },
+    {
+      "tag": "ksab-mp3-local",
+      "format": "mp3",
+      "path": "local",
+      "extension": "mp3",
+      "codec": "mp3",
+      "write": true,
+      "m103": false,
+      "starts": [],
+      "on_end": []
+    },
+    {
+      "tag": "ksab-mp3-remote",
+      "format": "mp3",
+      "path": "remote",
+      "extension": "mp3",
+      "codec": "mp3",
+      "write": true,
+      "m103": false,
+      "starts": [],
+      "on_end": []
+    },
+    {
+      "tag": "ksab-wma-remote",
+      "format": "wma",
+      "path": "remote",
+      "extension": "wma",
+      "codec": "wmav2",
+      "write": true,
+      "m103": false,
+      "starts": [],
+      "on_end": []
+    },
+    {
+      "tag": "ksab-flac-remote",
+      "format": "flac",
+      "path": "remote",
+      "extension": "flac",
+      "codec": "flac",
+      "write": true,
+      "m103": false,
+      "starts": [
+        "Start id=1 offset=1048576 length=1048576",
+        "Start id=2 offset=2097152 length=1048576"
+      ],
+      "on_end": [
+        "onEnd id=1 error=null (delayed 2s or immediate)\r"
+      ]
+    },
+    {
+      "tag": "ksab-wav-remote",
+      "format": "wav",
+      "path": "remote",
+      "extension": "wav",
+      "codec": "pcm_s16le",
+      "write": true,
+      "m103": true,
+      "starts": [
+        "Start id=1 offset=1048576 length=1048576",
+        "Start id=2 offset=2097152 length=1048576"
+      ],
+      "on_end": [
+        "onEnd id=1 error=null (delayed 2s or immediate)\r"
+      ]
+    }
+  ],
+  "primary_criterion_met": false,
+  "falsified": false,
+  "regression_all_pass": true,
+  "p0_restored": true,
+  "baseline_rebuild_ok": true,
+  "auto_advance_3_tracks": "NOT RUN（本脚本未实现连播注入，须单独补测）",
+  "honest_notes": [
+    "变体 B 只临时存在，finally 无条件恢复 P0 基线并重编译重装。",
+    "自动进曲 3 首 / seek / ENDED 未测，不能据此收口 F4。",
+    "fMP4 样本是人工截取片段，不是完整真实 m4a 音频。"
+  ]
+}

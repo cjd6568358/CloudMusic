@@ -1,0 +1,69 @@
+{
+  "method": "12 §61.54 / F4 kind 槽假设的 native 侧一手二进制复核（离线、只读）",
+  "generated_by": "tools/l3_f4_disasm_verify.py",
+  "so": "engine-legacy/src/main/jniLibs/arm64-v8a/libNMCommonCache.so",
+  "function": {
+    "name": "_ZN17NMBufferSourceImp19OnNetSourceDataDoneEi",
+    "addr": "0xbee8",
+    "size": 384
+  },
+  "checks": {
+    "func_symbol_found": true,
+    "cmp_kind_against_2": true,
+    "conditional_branch_to_flush_path": true,
+    "two_got_loads_present": true,
+    "both_post_to_same_queue": true,
+    "got_kind2_resolves_to_preload_done": true,
+    "got_other_resolves_to_flush": true,
+    "both_got_relocs_are_glob_dat": true,
+    "task_executed_by_virtual_dispatch": true,
+    "kind2_slot_is_0x4bed0_other_is_0x4bee8": true
+  },
+  "all_pass": true,
+  "failed_checks": [],
+  "evidence": {
+    "cmp_kind_line": "0xbf08  cmp       w1, #2",
+    "branch_line": "0xbf14  b.ne      #0xbfa0",
+    "got_kind2_load": "0xbf5c  ldr       x9, [x9, #0xed0]",
+    "got_other_load": "0xbfe4  ldr       x9, [x9, #0xee8]",
+    "queue_bl_0x16468_count": 2,
+    "queue_call_sites": [
+      "0xbf7c",
+      "0xc004"
+    ],
+    "got_relocations": {
+      "0x4bed0": {
+        "symbol": "_ZN17NMBufferSourceImp28PreloadDoneTaskOnWriteThreadEv",
+        "addend": 0,
+        "reloc_type": 1025,
+        "symbol_addr": 47212
+      },
+      "0x4bee8": {
+        "symbol": "_ZN17NMBufferSourceImp14OnFlushNetDataEv",
+        "addend": 0,
+        "reloc_type": 1025,
+        "symbol_addr": 49256
+      }
+    },
+    "key_instructions": [
+      "0xbf08  cmp       w1, #2",
+      "0xbf14  b.ne      #0xbfa0",
+      "0xbf5c  ldr       x9, [x9, #0xed0]",
+      "0xbf7c  bl        #0x16468",
+      "0xbfe4  ldr       x9, [x9, #0xee8]",
+      "0xc004  bl        #0x16468",
+      "0xc034  blr       x8",
+      "0xc048  cmp       x8, x9",
+      "0xc04c  b.ne      #0xc064"
+    ],
+    "section_note": "发布 so 已 strip：无 .symtab，符号与 size 取自 .dynsym；.text vaddr==file offset（0x8ed0）"
+  },
+  "conclusion": "libNMCommonCache.so 的 OnNetSourceDataDone 首参 w1 与 #2 比较：kind==2 从 GOT 0x4bed0 取 PreloadDoneTaskOnWriteThread，其余从 GOT 0x4bee8 取 OnFlushNetData，两者都投递 0x16468 队列。§59.2 的文字记录经一手反汇编复核成立，§61.52 kind 槽假设的 native 侧前提由此加固；但假设本身（id=2 导致 fMP4 卡点）仍需设备上线做 A/B 才能证实。",
+  "honest_notes": [
+    "本工具只复核 native 分支语义，不证明 Java 侧传 requestId 与 fMP4 卡点的因果。",
+    "§59.2 的 kind==2 / 其余 二分语义由一手反汇编 + GOT GLOB_DAT 重定位双重确认；但这是必要条件，不是充分条件。",
+    "§59.2 exp6 已知反例（两条路径读侧均正常收尾）仍未解释；竞品同样传 requestId 却可用，原因未实证。",
+    "纯离线、只读、不连 adb、不改任何生产代码；零新增依赖（capstone/pyelftools 为本机已有）。",
+    "A3 仍 G09 PARTIAL、舱不冻结；F4 仍 BLOCKED。"
+  ]
+}

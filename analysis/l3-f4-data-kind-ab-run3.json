@@ -1,0 +1,85 @@
+{
+  "method": "12 §61.63 / F4 变体 D：OnDataRequestData kind 1L→2L（normal mode 落盘）",
+  "generated_by": "tools/l3_f4_data_kind_ab.py",
+  "serial": "10.0.0.2:41761",
+  "old_call": "OnDataRequestData(NATIVE_DATA_KIND_NORMAL, bytes, offset, count)",
+  "new_call": "OnDataRequestData(2L, bytes, offset, count)  // 12 §61.63 变体 D：kind=2 → 投递 OnWriteNetData 落盘",
+  "wait_seconds": 60.0,
+  "main": {
+    "log_file": "analysis/l3-f4-logs/vfile-commit-20261110-130021.txt",
+    "log_lines": 4181,
+    "codec": [],
+    "write_start_play_nerr": [],
+    "minus_103_occurrences": 1,
+    "commit_values": [
+      16384,
+      16384
+    ],
+    "slice_init": [
+      ""
+    ],
+    "audio_output": false,
+    "prepare_seen": true,
+    "chain_started": true,
+    "warmup_seconds": 4.0,
+    "sample": "f3_m4a_complete.m4a"
+  },
+  "regression": [
+    {
+      "log_file": "analysis/l3-f4-logs/vfile-commit-20261110-130127.txt",
+      "log_lines": 3124,
+      "codec": [
+        "mp3"
+      ],
+      "write_start_play_nerr": [
+        "0"
+      ],
+      "minus_103_occurrences": 0,
+      "commit_values": [],
+      "slice_init": [
+        "Use Old"
+      ],
+      "audio_output": true,
+      "prepare_seen": true,
+      "chain_started": true,
+      "warmup_seconds": 4.0,
+      "sample": "f3_mp3.mp3",
+      "format": "mp3"
+    },
+    {
+      "log_file": "analysis/l3-f4-logs/vfile-commit-20261110-130142.txt",
+      "log_lines": 3313,
+      "codec": [
+        "pcm_s16le"
+      ],
+      "write_start_play_nerr": [
+        "0"
+      ],
+      "minus_103_occurrences": 0,
+      "commit_values": [
+        1048576
+      ],
+      "slice_init": [
+        "Use Old"
+      ],
+      "audio_output": true,
+      "prepare_seen": true,
+      "chain_started": true,
+      "warmup_seconds": 4.0,
+      "sample": "f3_wav.wav",
+      "format": "wav"
+    }
+  ],
+  "regression_all_pass": true,
+  "primary_criterion_met": false,
+  "verdict": "NOT_MET（变体 D 未消除 -103 / 未出声；kind=2 落盘假说未获支持或需进一步定位）",
+  "p0_restored": true,
+  "baseline_rebuild_ok": true,
+  "honest_notes": [
+    "变体 D 只临时存在，finally 无条件恢复 P0 基线并重编译重装。",
+    "判据以 -103 消除 + Write start play nErr:0 为准；Open codec ≠ 出声（§61.62）。",
+    "即使主判据达成，自动进曲 3 首 / seek / ENDED 未测，F4 仍判 BLOCKED。",
+    "回归只跑 2 格 REMOTE（mp3/wav），不是 F3 14 格全量矩阵，矩阵未改写。",
+    "零 native so 改动、零新增依赖；清的是 app 私有 vfile 缓存，可重建。"
+  ]
+}
