@@ -3299,6 +3299,35 @@ def main() -> int:
         except (KeyError, ValueError, OSError) as exc:
             failures.append(f"12 §61.65 守护：反汇编证据 JSON 不可解析（{exc}）")
 
+    # 12 §61.66 守护 / 仓库同步与历史快照工具口径：防仓库状态登记丢失、
+    # 防 11 个钉死旧 HEAD 的历史审计工具被误重跑覆盖当时快照证据 JSON。
+    snap_tools = [p for p in sorted((ROOT / "tools").glob("l3_f4_*_audit.py"))
+                  if "head_still_uncommitted" in
+                  p.read_text(encoding="utf-8", errors="replace")]
+    snap_guard_ok = (
+        len(snap_tools) == 11
+        and all("12 §61.66 历史快照审计" in
+                p.read_text(encoding="utf-8", errors="replace")
+                and "return 2" in p.read_text(encoding="utf-8", errors="replace")
+                for p in snap_tools))
+    d12_text = (delivery12.read_text(encoding="utf-8", errors="replace")
+                if delivery12.is_file() else "")
+    kv_path = ROOT / "analysis" / "l3-f4-data-kind-verdict-audit.json"
+    try:
+        kv_now = json.loads(kv_path.read_text(encoding="utf-8"))
+        kv_snapshot_ok = (kv_now["all_pass"] is True
+                          and kv_now["checks_total"] == 30)
+    except (KeyError, ValueError, OSError, TypeError):
+        kv_snapshot_ok = False
+    if not (snap_guard_ok and kv_snapshot_ok and "61.66" in d12_text
+            and "fe081778..c26e7cb8" in d12_text):
+        failures.append(
+            "12 §61.66 守护：仓库同步登记 / 11 个历史快照工具保护 / "
+            "§61.64 证据 JSON 当时快照漂移")
+    else:
+        print("[PASS] 12 §61.66 守护：28 批已同步 c26e7cb8；11 个钉死旧 HEAD 的"
+              "历史审计工具按 §61.46 纪律拒绝重跑（返回 2），证据 JSON 未被覆盖")
+
     if (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example" /
             "cloudmusic" / "common" / "PathNormalizer.kt").is_file():
         warnings.append("实现期修正 C-01：路径规范化下沉至 :core-common（见 PathNormalizer KDoc）")

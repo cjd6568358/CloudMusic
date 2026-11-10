@@ -34,6 +34,19 @@ def read(p: Path) -> str:
 
 
 def main() -> int:
+    # 12 §61.66：本工具是 §61.6x 当时的历史快照审计，其
+    # head_still_uncommitted 断言钉死「HEAD=8c9d79b1 且未提交」。
+    # 仓库同步（c26e7cb8 已 push）后重跑会把当时快照误判为 FAIL 并覆盖
+    # 历史证据 JSON；按 §61.46 既有纪律拒绝重跑（返回 2），长效守护以
+    # check_source_contracts.py + 已固化 JSON 为准。
+    _snapshot_head = subprocess.run(
+        ["git", "log", "-1", "--format=%h"], cwd=str(ROOT),
+        capture_output=True, text=True, timeout=20).stdout.strip()
+    if _snapshot_head and not _snapshot_head.startswith("8c9d79b1"):
+        print("[SKIP] 12 §61.66 历史快照审计：当前 HEAD=%s 已非当时的 "
+              "8c9d79b1，拒绝重跑以免覆盖历史证据 JSON（返回 2）"
+              % _snapshot_head)
+        return 2
     pf = json.loads(read(PF_JSON) or "{}")
     ck = pf.get("checks", {})
     ev = pf.get("evidence", {})
