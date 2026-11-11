@@ -1,5 +1,42 @@
 # CloudMusic · 文档 ↔ 代码核对与任务清单（2026-11-07 第三十三轮）
 
+> **★ 2026-11-12 第一百一十一批（`docs/12 §61.84~§61.85`，用户「拉取最新代码
+> 了解最新进展 继续任务」→「无人值守按既定方案推进」）：M1 门禁补全 + B2 M2
+> 落地 + F3 夹具扩展。**
+> ① **M1 门禁 PASS（§61.84）**：联网拉取 media3 1.11.1 三制品后
+> `:engine-opensource:compileDebugKotlin` 首次真实编译验证 SUCCESS（关闭 §61.81
+> 遗留的联网编译验证缺口）；**施工单 §3 预判纠错** —— media3 1.11.1 AAR
+> metadata 实测要求 compileSdk ≥ 36（7 issues，预判「要求 35」只查了 Maven
+> 可达性未查 metadata）→ `libs.versions.toml compileSdk 35→36`（targetSdk
+> 保持 35）+ android-36 平台入 SDK（platform-36_r02.zip）+ ndk 目录项对齐实装
+> 27.1.12297006；全量回归 `test :app:assembleDebug` PASS（commit `228347af`）。
+> ② **M2 落地（§61.85，commit `32ee7e6a`）**：JNI 三件 + decoder_ffmpeg Java
+> 源入库（1.11.1 原样，Apache 2.0）；**Windows 构建四缺口逐一解决**（NDK 无
+> 扩展名 shim ×47 / chocolatey make 4.4.1 / SDK 路径空格 → D:
+dk271 junction /
+> FFmpeg `VERSION` 与 libc++ `<version>` 大小写冲突改名）；FFmpeg 6.0
+> `--disable-everything` + 16 解码器裁剪 4 ABI 交叉编译 EXIT:0；
+> `:engine-opensource` externalNativeBuild → **libffmpegJNI.so 7.2MB 双 ABI**；
+> 依赖演进（C4）：media3-decoder / androidx.annotation 1.9.1 / checker-qual
+> 3.49.0；`Media3EngineAdapter` 接 `EXTENSION_RENDERER_MODE_ON`（硬解优先）。
+> ③ **F3 夹具扩展（61.85b，commit `e905432e`）**：`l3_f3_fixture_gen.py` 新增
+> ffmpeg 合成通道（生成后 `-f null` 全解码自检）→ **NO_SAMPLE 7→3**（aac/opus/
+> wv 合成、m4a 登记 §61.61 已验证样本；tak/dsf/dff 无编码器——ffmpeg
+> decode-only / 无 DSD encoder，结论材料 = OpenList 0 命中 + §61.83 符号实证）；
+> `--skip-openlist` 幂等化。**M2 门禁第二条件（明确样本或换源结论）实质达成**；
+> 第一条件（F3 重跑 PASS ≥ 11）仍 NOT RUN——需设备上线。
+> ④ **守护**：新增 §61.85；**修复 §61.81~83 守护对 gitignored 本地记忆文件的
+> 不可移植依赖**（`.workbuddy*/memory` 在其他会话/机器不存在或不含批次号 →
+> 改为只对仓库内文件断言，防跨会话误报、不伪造记忆内容）。
+> ⑤ **诚实边界**：libffmpegJNI.so 产物存在 ≠ decoder 可用 ≠ 真机可播；F3 14 格
+> 重跑 NOT RUN、**M2 门禁未通过、不得进入 M3**；ape/wma（ASF）容器无 Media3
+> Extractor（重跑时预期 FAIL/降级，如实登记）；**F4 仍 BLOCKED**、§61.75 终局
+> 裁决不变；A3 仍 G09 PARTIAL、舱不冻结、指纹不回填。零 P0 native 改动、
+> 18 私有 so 原样、未连 adb。正式断点 `§61.83 → §61.85`。
+> **下一步（均需设备上线）**：① F3 22 格重跑（11 格式 × REMOTE/LOCAL，
+> `tools/l3_f3_matrix_run.py`）→ 判 M2 门禁；② M3 `RangeCacheDataSource`；
+> ③ G09 复测（USB / 亮屏）。tak/dsf/dff 维持换源结论。
+>
 > **★ 2026-11-11 第一百一十批（`docs/12 §61.83`，用户「继续」→ M2 前置补证 / 纯离线）**：
 > 承接 §61.82 留下的「9 个格式 decoder 编入未确认」缺口，在用户选定的「保持离线」
 > 框架内做纯离线补证：新增 `tools/l3_b2_m2_decoder_symbol_audit.py`（**纯 stdlib 零依赖**，
