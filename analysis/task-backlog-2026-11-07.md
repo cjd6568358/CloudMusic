@@ -1,5 +1,20 @@
 # CloudMusic · 文档 ↔ 代码核对与任务清单（2026-11-07 第三十三轮）
 
+> **★ 2026-11-12 第一百一十三批（`docs/12 §61.88`，用户「继续」）：B2 M3
+> 缓存/Range 接线落地（官方 CacheDataSource + SimpleCache）。**
+> URL 态 = CacheDataSource 包 DefaultDataSource（HTTP 跨协议重定向），缓存优先
+> + FLAG_IGNORE_CACHE_ON_ERROR 回落直连；SimpleCache LRU 256MiB @
+> cacheDir/b2_media_cache（卸载即清）；LOCAL 态直读不缓存；DefaultMediaSourceFactory
+> 注入。**全部官方语义，零 A 路线私有 vfile/commit/代次门控移植**。真机一手：
+> 65s URL 源 READY(64999ms) + PLAYING + media cache ready（端点 38407）。
+> 排障两枚：`am start-foreground-service` 触发 MIUI 前台限制 → 服务拆解 →
+> playUrl 协程静默取消（外部注入一律 am startservice，F3 同）；dumpsys user
+> 三层 restrictions 空确认门在 MIUI 层。观测中断：MIUI Doze 重置无线调试 →
+> **M3 门禁未判**（60s 连续观测 + 缓存命中复播待设备回归补测，logcat 现场
+> 留存设备侧）；自动发现轮询器守候。F4 仍 BLOCKED（历史档案）、A3 仍 G09
+> PARTIAL、舱不冻结。断点 `§61.87 → §61.88`。下一步：设备回归 → M3 验收
+> 补测 → M4 播放语义（seek/ENDED/gapless，seek 判据不再 NOT RUN）→ M5。
+>
 > **★ 2026-11-12 第一百一十二批（`docs/12 §61.87`，用户「继续」×3 + 新端点
 > 38407）：M1 真机缺陷修复 + F3 22 格真机重跑 + **M2 门禁 PASS**。**
 > ① **M1 骨架真机缺陷**：ExoPlayer 单线程违例（verifyApplicationThread 拒跨线程
