@@ -6,6 +6,7 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
+import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.cloudmusic.common.CloudMusicError
 import com.example.cloudmusic.engine.api.EngineConfig
@@ -76,9 +77,12 @@ class Media3EngineAdapter : IMusicEngine {
         val ctx = appContext
             ?: throw CloudMusicError.DsUpstream(
                 "MEDIA3_CONTEXT", "appContext 未注入（EngineModule 单点换绑需 .also）")
+        // 局部副本：跨模块 val 无法 smart-cast（M1 编译 warning 的根因）。
+        val url = source.url
+        val localPath = source.localPath
         val uri: Uri = when {
-            source.url != null -> Uri.parse(source.url)
-            source.localPath != null -> Uri.fromFile(File(source.localPath))
+            url != null -> Uri.parse(url)
+            localPath != null -> Uri.fromFile(File(localPath))
             else -> throw CloudMusicError.DsUpstream(
                 "MEDIA3_SOURCE", "EngineSource 既无 url 也无 localPath，无法构造 MediaItem")
         }
@@ -92,7 +96,12 @@ class Media3EngineAdapter : IMusicEngine {
                 if (source.mimeHint.contains('/')) setMimeType(source.mimeHint)
             }
             .build()
-        val p = ExoPlayer.Builder(ctx).build()
+        // §61.85（B2 M2）：EXTENSION_RENDERER_MODE_ON = 平台 MediaCodec 硬解优先，
+        // FFmpeg 软解（FfmpegAudioRenderer，libffmpegJNI）仅补位平台不支持的
+        // 格式——对齐施工单 §4「硬解优先」与 B2 的「删掉缺陷层、不换解码器」。
+        val renderersFactory = DefaultRenderersFactory(ctx)
+            .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
+        val p = ExoPlayer.Builder(ctx, renderersFactory).build()
         p.addListener(listener)
         p.setMediaItem(item)
         p.prepare()

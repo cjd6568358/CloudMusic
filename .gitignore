@@ -39,3 +39,10 @@ analysis/*.log
 # 真机 app 私有数据备份（run-as tar，48.6 MiB，含 legacy_engine_cache 切片）。
 # 属本地调试产物、可由设备重新拉取，不进公开仓库（2026-11-11 提交前补入）。
 analysis/l3-f4-backup/
+
+# §61.85（B2 M2）：FFmpeg 6.0 源码与交叉编译产物不入库（build_ffmpeg.sh 可复现）。
+# 入库内容只有 JNI 包装层三件（build_ffmpeg.sh / CMakeLists.txt / ffmpeg_jni.cc）
+# 与 androidx/media3 decoder_ffmpeg 的 Java 源（Apache 2.0）。
+engine-opensource/src/main/jni/ffmpeg/
+engine-opensource/src/main/jni/ffmpeg-*/
+engine-opensource/.cxx/

@@ -76,6 +76,13 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3" }
 androidx-media3-datasource = { module = "androidx.media3:media3-datasource", version.ref = "media3" }
 androidx-media3-common = { module = "androidx.media3:media3-common", version.ref = "media3" }
+# §61.85（B2 M2）：FFmpeg 软解扩展 Java 侧依赖（FfmpegAudioRenderer 需要
+# media3-decoder 的 SimpleDecoder / CryptoConfig 基类）。
+androidx-media3-decoder = { module = "androidx.media3:media3-decoder", version.ref = "media3" }
+# §61.85：decoder_ffmpeg Java 源直接使用 androidx.annotation 的 @Nullable 与
+# checkerframework 的 @MonotonicNonNull（上游模块的 api 依赖），本模块需显式声明。
+androidx-annotation = { module = "androidx.annotation:annotation", version = "1.9.1" }
+checker-qual = { module = "org.checkerframework:checker-qual", version = "3.49.0" }
 
 # 测试（契约层用 JVM 单测，不需要 Android 设备）
 kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5", version.ref = "kotlin" }

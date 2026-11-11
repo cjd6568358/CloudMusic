@@ -4357,6 +4357,8 @@ def main() -> int:
             m1g_app = (ROOT / "app" / "build.gradle.kts").read_text(encoding="utf-8")
             m1g_coredi = (ROOT / "core-di" / "build.gradle.kts").read_text(encoding="utf-8")
             m1g_d12 = delivery12.read_text(encoding="utf-8")
+            # §61.84：.workbuddy 记忆文件是 gitignored 本地工件（跨检出不存在），
+            # 改为存在才读——守护的可移植性修复；核心断言（仓库内文件）不变。
             m1_docs = [
                 (ROOT / p).read_text(encoding="utf-8")
                 for p in (
@@ -4366,9 +4368,8 @@ def main() -> int:
                     "analysis/task-backlog-2026-11-07.md",
                     "analysis/l3-f4-online-runbook.md",
                     "analysis/l3-b2-implementation-plan-2026-11-11.md",
-                    ".workbuddy-ai/memory/2026-11-11.md",
-                    ".workbuddy/memory/2026-11-11.md",
                 )
+                if (ROOT / p).is_file() and "workbuddy" not in p
             ]
             m1_methods = (
                 "fun prepare(", "fun attachDataSource(", "fun play(", "fun pause(",
@@ -4454,11 +4455,8 @@ def main() -> int:
                     "analysis/task-backlog-2026-11-07.md",
                     "analysis/l3-f4-online-runbook.md",
                     "analysis/l3-b2-implementation-plan-2026-11-11.md",
-                    ".workbuddy-ai/memory/2026-11-11.md",
-                    ".workbuddy/memory/2026-11-11.md",
-                    ".workbuddy-ai/memory/MEMORY.md",
-                    ".workbuddy/memory/MEMORY.md",
                 )
+                if (ROOT / p).is_file() and "workbuddy" not in p
             ]
             m2_ok = (
                 m2d.get("all_pass") is True
@@ -4532,11 +4530,8 @@ def main() -> int:
                     "analysis/task-backlog-2026-11-07.md",
                     "analysis/l3-f4-online-runbook.md",
                     "analysis/l3-b2-implementation-plan-2026-11-11.md",
-                    ".workbuddy-ai/memory/2026-11-11.md",
-                    ".workbuddy/memory/2026-11-11.md",
-                    ".workbuddy-ai/memory/MEMORY.md",
-                    ".workbuddy/memory/MEMORY.md",
                 )
+                if (ROOT / p).is_file() and "workbuddy" not in p
             ]
             rows9 = sd.get("unconfirmed_9", [])
             n_no = sum(1 for r in rows9 if r.get("symbol_verdict") == "NO_SYMBOL")
@@ -4595,6 +4590,45 @@ def main() -> int:
                       "纯离线、F4 仍 BLOCKED")
         except (KeyError, ValueError, OSError, TypeError) as exc:
             failures.append(f"12 §61.83 守护：decoder 符号表证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.85 守护 / B2 M2（FFmpeg 软解扩展落地）：
+    # ① JNI 包装层三件入库（build_ffmpeg.sh / CMakeLists.txt / ffmpeg_jni.cc），
+    #    FFmpeg 6.0 源码与 android-libs 产物**不入库**（.gitignore 排除，脚本可复现）；
+    # ② androidx/media3 decoder_ffmpeg Java 渲染器入库（Apache 2.0，同源 1.11.1）；
+    # ③ :engine-opensource 接 externalNativeBuild cmake + media3-decoder 依赖 +
+    #    ndkVersion；④ compileSdk=36（media3 1.11.1 AAR metadata 实测要求）。
+    # 诚实边界：交叉编译产物存在 ≠ F3 14 格 PASS ≠ 真机可播；F4 仍 BLOCKED。
+    m2_jni = ROOT / "engine-opensource" / "src" / "main" / "jni"
+    m2_java = ROOT / "engine-opensource" / "src" / "main" / "java" / "androidx" / \
+        "media3" / "decoder" / "ffmpeg"
+    m2_gradle_txt = (ROOT / "engine-opensource" / "build.gradle.kts").read_text(
+        encoding="utf-8") if (ROOT / "engine-opensource" / "build.gradle.kts").is_file() else ""
+    m2_toml_txt = (ROOT / "gradle" / "libs.versions.toml").read_text(
+        encoding="utf-8")
+    m2_gitignore_txt = (ROOT / ".gitignore").read_text(encoding="utf-8")
+    m2_d12_txt = (ROOT / "docs" / "12-编码阶段第一批交付.md").read_text(
+        encoding="utf-8")
+    if (m2_jni / "build_ffmpeg.sh").is_file() \
+            and (m2_jni / "CMakeLists.txt").is_file() \
+            and (m2_jni / "ffmpeg_jni.cc").is_file() \
+            and (m2_java / "FfmpegAudioRenderer.java").is_file() \
+            and (m2_java / "FfmpegAudioDecoder.java").is_file() \
+            and (m2_java / "FfmpegLibrary.java").is_file() \
+            and "externalNativeBuild" in m2_gradle_txt \
+            and "libs.androidx.media3.decoder" in m2_gradle_txt \
+            and "27.1.12297006" in m2_gradle_txt \
+            and "androidx-media3-decoder" in m2_toml_txt \
+            and "compileSdk = \"36\"" in m2_toml_txt \
+            and "engine-opensource/src/main/jni/ffmpeg/" in m2_gitignore_txt \
+            and "### 61.85" in m2_d12_txt:
+        print("[PASS] 12 §61.85 守护：FFmpeg 软解扩展 JNI 三件 + Java 渲染器入库、"
+              "externalNativeBuild + media3-decoder 接线、compileSdk 36、"
+              "ffmpeg 源码/产物 gitignore；符号存在 ≠ 真机可播、F4 仍 BLOCKED")
+    else:
+        failures.append(
+            "12 §61.85 守护：B2 M2 落地态漂移（JNI 三件 / Java 渲染器 / "
+            "externalNativeBuild / media3-decoder / compileSdk 36 / gitignore / "
+            "docs/12 §61.85 缺失）")
 
 
 
