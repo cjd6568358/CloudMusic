@@ -5,16 +5,23 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
+import androidx.media3.datasource.DefaultDataSource
+import androidx.media3.datasource.DefaultHttpDataSource
+import androidx.media3.datasource.cache.CacheDataSource
+import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
+import androidx.media3.datasource.cache.SimpleCache
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import com.example.cloudmusic.common.CloudMusicError
 import com.example.cloudmusic.engine.api.EngineConfig
+import java.io.File
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 import com.example.cloudmusic.engine.api.EngineHandle
 import com.example.cloudmusic.engine.api.EngineSource
 import com.example.cloudmusic.engine.api.EngineState
@@ -23,7 +30,6 @@ import com.example.cloudmusic.model.IDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.io.File
 
 /**
  * docs/12 §61.81 / B2 M1 · `IMusicEngine` 的 Media3/ExoPlayer 实现骨架。
@@ -176,9 +182,28 @@ class Media3EngineAdapter : IMusicEngine {
                 ) + "engine=media3-1.11.1 ffmpeg=EXTENSION_RENDERER_MODE_ON",
         )
         val handle = EngineHandle(nextRaw++)
+        // §61.88（B2 M3）：URL 态 = 官方 CacheDataSource（缓存优先 + LRU 256MiB +
+        // FLAG_IGNORE_CACHE_ON_ERROR 回落直连）；LOCAL 态 = DefaultDataSource
+        // 直读文件（不缓存本地文件）。全部官方语义，无 A 路线私有 vfile/commit。
+        val dataSourceFactory: androidx.media3.datasource.DataSource.Factory =
+            if (url != null) {
+                CacheDataSource.Factory()
+                    .setCache(ensureCache(ctx))
+                    .setUpstreamDataSourceFactory(
+                        DefaultDataSource.Factory(
+                            ctx,
+                            DefaultHttpDataSource.Factory()
+                                .setAllowCrossProtocolRedirects(true),
+                        ),
+                    )
+                    .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
+            } else {
+                DefaultDataSource.Factory(ctx)
+            }
+        val mediaSourceFactory = DefaultMediaSourceFactory(dataSourceFactory)
         // §61.87：ExoPlayer 的构建 + prepare 必须在 application thread（主 Looper）。
         onMainSync(10L, Unit) {
-            val p = ExoPlayer.Builder(ctx, renderersFactory).build()
+            val p = ExoPlayer.Builder(ctx, renderersFactory, mediaSourceFactory).build()
             p.addListener(listener)
             p.setMediaItem(item)
             p.prepare()
@@ -311,6 +336,34 @@ class Media3EngineAdapter : IMusicEngine {
     }
 
     override fun lastError(): CloudMusicError? = error
+
+    /**
+     * §61.88（B2 M3）：URL 态走官方 `CacheDataSource + SimpleCache`——HTTP Range、
+     * 磁盘缓存、离线命中、`FLAG_IGNORE_CACHE_ON_ERROR` 失败回落直连，全部是
+     * 官方 DataSource 语义（施工单 §4.2），**不移植 A 路线的 vfile / commit /
+     * 代次门控私有语义**（F4 缺陷层在 B2 中不存在）。LOCAL 态直读文件不缓存。
+     * 缓存目录在 App 内部缓存（卸载即清，与 A 路线 SetConfig 根目录口径一致），
+     * LRU 上限 256MiB。
+     */
+    @Volatile
+    private var mediaCache: SimpleCache? = null
+
+    private fun ensureCache(ctx: Context): SimpleCache {
+        mediaCache?.let { return it }
+        synchronized(this) {
+            mediaCache?.let { return it }
+            val dir = File(ctx.cacheDir, "b2_media_cache")
+            dir.mkdirs()
+            val cache = SimpleCache(
+                dir,
+                LeastRecentlyUsedCacheEvictor(256L * 1024 * 1024),
+                androidx.media3.database.StandaloneDatabaseProvider(ctx),
+            )
+            mediaCache = cache
+            Log.i(TAG, "media cache ready dir=%s cap=256MiB".format(dir.absolutePath))
+            return cache
+        }
+    }
 
     companion object {
         /** §61.86：F3 双引擎判据的 B2 侧 logcat tag（tools/l3_f3_matrix_run.py 解析）。 */
