@@ -4591,6 +4591,32 @@ def main() -> int:
         except (KeyError, ValueError, OSError, TypeError) as exc:
             failures.append(f"12 §61.83 守护：decoder 符号表证据 JSON 不可解析（{exc}）")
 
+    # 12 §61.86 守护 / F3 双引擎判据：B2 侧 CM-Media3 一手日志 + 矩阵引擎感知
+    # 双分支（A 路线签名不得硬套 B2 运行——§61.74 口径「多信号、不反向推断」）。
+    m86_adapter_path = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" /
+                        "com" / "example" / "cloudmusic" / "engineopensource" /
+                        "Media3EngineAdapter.kt")
+    m86_adapter = m86_adapter_path.read_text(encoding="utf-8") \
+        if m86_adapter_path.is_file() else ""
+    m86_matrix = (ROOT / "tools" / "l3_f3_matrix_run.py").read_text(
+        encoding="utf-8")
+    m86_d12 = (ROOT / "docs" / "12-编码阶段第一批交付.md").read_text(
+        encoding="utf-8")
+    if ('const val TAG = "CM-Media3"' in m86_adapter
+            and "prepare trackId=%s remote=%s url=%s" in m86_adapter
+            and "state=READY durationMs=" in m86_adapter
+            and 'engine = ("media3"' in m86_matrix
+            and "STATE_READY(duration>0)" in m86_matrix
+            and '"CM-Media3"' in m86_matrix
+            and "### 61.86" in m86_d12
+            and "不依赖 A 路线" in m86_d12):
+        print("[PASS] 12 §61.86 守护：CM-Media3 诊断日志（prepare 行双引擎同格式 / "
+              "READY+isPlaying 一手信号）与矩阵引擎感知双判据在位")
+    else:
+        failures.append(
+            "12 §61.86 守护：F3 双引擎判据漂移（CM-Media3 日志 / 引擎指纹分支 / "
+            "docs/12 §61.86 缺失）")
+
     # 12 §61.85 守护 / B2 M2（FFmpeg 软解扩展落地）：
     # ① JNI 包装层三件入库（build_ffmpeg.sh / CMakeLists.txt / ffmpeg_jni.cc），
     #    FFmpeg 6.0 源码与 android-libs 产物**不入库**（.gitignore 排除，脚本可复现）；

@@ -2,6 +2,7 @@ package com.example.cloudmusic.engineopensource
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
@@ -58,15 +59,42 @@ class Media3EngineAdapter : IMusicEngine {
 
     private val listener = object : Player.Listener {
         override fun onPlaybackStateChanged(playbackState: Int) {
-            if (playbackState == Player.STATE_ENDED) {
-                _state.value = EngineState.ENDED
+            when (playbackState) {
+                Player.STATE_READY -> {
+                    val d = player?.duration ?: C.TIME_UNSET
+                    Log.i(
+                        TAG,
+                        "state=READY durationMs=%d".format(
+                            if (d == C.TIME_UNSET) -1L else d),
+                    )
+                }
+                Player.STATE_ENDED -> {
+                    Log.i(TAG, "state=ENDED positionMs=%d".format(positionNow()))
+                    _state.value = EngineState.ENDED
+                }
+                Player.STATE_IDLE -> Log.i(TAG, "state=IDLE")
+                Player.STATE_BUFFERING -> Log.i(TAG, "state=BUFFERING")
             }
         }
 
+        // §61.86：F3 双引擎判据的 B2 侧「真实出声」信号——isPlaying=true 表示
+        // 渲染器已就绪且音频正在写 AudioTrack（对应 A 路线的 Write start play）。
+        override fun onIsPlayingChanged(isPlaying: Boolean) {
+            Log.i(TAG, "state=%s positionMs=%d".format(
+                if (isPlaying) "PLAYING" else "PAUSED", positionNow()))
+        }
+
         override fun onPlayerError(e: PlaybackException) {
+            Log.i(TAG, "error=%s code=%s".format(e.message ?: "", e.errorCodeName))
             fail(CloudMusicError.DsUpstream(
                 "MEDIA3_PLAYBACK", e.message ?: "Media3 播放错误"))
         }
+    }
+
+    private fun positionNow(): Long {
+        val p = player ?: return 0L
+        val pos = p.currentPosition
+        return if (pos == C.TIME_UNSET) 0L else pos
     }
 
     @Suppress("UNUSED_PARAMETER")
@@ -102,6 +130,20 @@ class Media3EngineAdapter : IMusicEngine {
         val renderersFactory = DefaultRenderersFactory(ctx)
             .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
         val p = ExoPlayer.Builder(ctx, renderersFactory).build()
+        // §61.86：F3 双引擎判据的 B2 侧一手日志。prepare 行与 A 路线
+        // EngineAdapter 的 `prepare trackId=... remote=... url=...` 同格式，
+        // 使 tools/l3_f3_matrix_run.py 的正则对两引擎通用。
+        Log.i(
+            TAG,
+            "prepare trackId=%s remote=%s url=%s localPath=%s expectedLength=%d "
+                .format(
+                    source.trackId,
+                    (source.url != null).toString(),
+                    source.url ?: "-",
+                    source.localPath ?: "-",
+                    source.expectedLength,
+                ) + "engine=media3-1.11.1 ffmpeg=EXTENSION_RENDERER_MODE_ON",
+        )
         p.addListener(listener)
         p.setMediaItem(item)
         p.prepare()
@@ -120,6 +162,7 @@ class Media3EngineAdapter : IMusicEngine {
     }
 
     private fun fail(e: CloudMusicError) {
+        Log.i(TAG, "engine_error=%s code=%s".format(e.message, e.code))
         error = e
         _state.value = EngineState.ERROR
     }
@@ -202,6 +245,7 @@ class Media3EngineAdapter : IMusicEngine {
 
     override fun release(handle: EngineHandle) {
         requireActive(handle)
+        Log.i(TAG, "release handle=%d".format(handle.raw))
         try {
             player?.removeListener(listener)
             player?.release()
@@ -219,4 +263,9 @@ class Media3EngineAdapter : IMusicEngine {
     }
 
     override fun lastError(): CloudMusicError? = error
+
+    companion object {
+        /** §61.86：F3 双引擎判据的 B2 侧 logcat tag（tools/l3_f3_matrix_run.py 解析）。 */
+        const val TAG = "CM-Media3"
+    }
 }

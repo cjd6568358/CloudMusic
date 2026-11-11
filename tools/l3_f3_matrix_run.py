@@ -46,7 +46,8 @@ PORT = 8765
 PRIVATE_DIR = "/data/data/%s/files/music" % PKG
 
 TAGS = ("CM-DataReq", "CM-Player", "NEPlayer", "NMAudioPlayer", "CloudMusicRuntime",
-        "AndroidRuntime", "BufferSource", "AudioTrack")
+        "AndroidRuntime", "BufferSource", "AudioTrack", "CM-Media3",
+        "MediaCodecAudioRenderer", "FfmpegAudioRenderer")
 
 
 def adb(serial: str, *args: str, stdin: bytes | None = None,
@@ -110,6 +111,11 @@ def parse_log(text: str, ext: str, path_kind: str) -> dict:
     probe = last(r"probeLength=(-?\d+)", text)
     keys = [l for l in text.splitlines() if any(t in l for t in TAGS)]
 
+    # §61.86：引擎指纹——B2（Media3）与 A 路线（EngineAdapter）的日志特征不同，
+    # 判据分支必须跟引擎走，不能用 A 路线签名硬套 B2 运行（会整批假 FAIL）。
+    engine = ("media3" if ("engine=media3-1.11.1" in text or "CM-Media3" in text)
+              else "legacy" if "CM-DataReq" in text else "unknown")
+
     errors = {
         "source_callback_on_error": "SourceCallback.onError" in text,
         "fatal_exception": "FATAL EXCEPTION" in text,
@@ -118,10 +124,13 @@ def parse_log(text: str, ext: str, path_kind: str) -> dict:
         "open_source_failed": bool(re.search(r"openSource [1-9]", text)),
         "engine_prepare_failed": "ENGINE_PREPARE" in text,
         "probe_failed": "probeLength FAILED" in text,
+        # §61.86 B2 侧错误信号（engine_error= / onPlayerError 的 error= 行）
+        "media3_error": bool(re.search(r"CM-Media3: (engine_)?error=", text)),
     }
     hard_error = any(errors[k] for k in (
         "source_callback_on_error", "fatal_exception", "anr",
         "write_nerr_nonzero", "open_source_failed", "engine_prepare_failed",
+        "media3_error",
     ))
 
     path_evidence = {
@@ -129,16 +138,31 @@ def parse_log(text: str, ext: str, path_kind: str) -> dict:
             "get_local_path": "getLocalPath path=" in text,
             "create_local_source": "CreateLocalSource" in text,
             "xor_open": "XorLocalSource::Open success" in text,
+            # B2：prepare 行的 localPath 字段非 "-" 即为 LOCAL 装配证据
+            "media3_local": bool(re.search(r"localPath=(?!-)\S+", text)),
         },
         "remote": {
             "get_url": "getUrl url=http://127.0.0.1:%d/" % PORT in text,
             "data_request_handler": "createDataRequestHandler" in text,
             "start_range": bool(re.search(r"Start id=\d+", text)),
+            # B2：prepare 行 url=http://127.0.0.1:8765/... 即 REMOTE 装配证据
+            "media3_remote": "url=http://127.0.0.1:%d/" % PORT in text,
         },
     }[path_kind]
 
     codec_opened = bool(codec) or "Open input file success" in text
     played = any(int(x) == 0 for x in writes)
+
+    if engine == "media3":
+        # §61.86 B2 判据（对齐 §61.74 多信号口径，不依赖 A 路线原生日志）：
+        # READY 且 durationMs>0 ≈「解码链打开」；state=PLAYING ≈「真实出声」。
+        ready = re.findall(r"CM-Media3: state=READY durationMs=(-?\d+)", text)
+        dur_ms = int(ready[-1]) if ready else -1
+        playing = "CM-Media3: state=PLAYING" in text
+        codec_opened = dur_ms > 0
+        played = playing
+        duration = str(dur_ms) if dur_ms > 0 else None
+
     if last_prepare is None:
         verdict = "FAIL"
         reason = "未见 prepare（注入未生效 / 后台启动被拒）"
@@ -147,16 +171,20 @@ def parse_log(text: str, ext: str, path_kind: str) -> dict:
         reason = "存在明确错误回调 / 崩溃 / 打开失败"
     elif codec_opened and played:
         verdict = "PASS"
-        reason = "解码链打开且 Write start play nErr:0"
+        reason = ("解码链打开且 Write start play nErr:0" if engine == "legacy"
+                  else "STATE_READY(duration>0) 且 isPlaying（软/硬解渲染出声）")
     elif codec_opened:
         verdict = "PARTIAL"
-        reason = "解码链打开但未见成功 Write start play"
+        reason = ("解码链打开但未见成功 Write start play" if engine == "legacy"
+                  else "STATE_READY(duration>0) 但未见 isPlaying")
     else:
         verdict = "FAIL"
-        reason = "未见 Open codec / Open input file success"
+        reason = ("未见 Open codec / Open input file success" if engine == "legacy"
+                  else "未见 STATE_READY(duration>0)")
 
     return {
         "path": path_kind,
+        "engine": engine,
         "verdict": verdict,
         "reason": reason,
         "prepare_seen": last_prepare is not None,
