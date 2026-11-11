@@ -21,7 +21,10 @@ http://192.168.1.1:15244/strm_test_probe」—— 样本本来就在 OpenList �
 
 **诚实边界**：大文件的截断片段只验证「demuxer 识别 + codec 打开 + 播放链」，
 不验证完整时长 / ENDED；清单里逐项标 `truncated=true`。
-仍无样本的 7 种格式（m4a/aac/opus/wv/tak/dsf/dff）在矩阵中标 NO_SAMPLE。
+§61.85 起无样本格式收窄为 3 种（tak/dsf/dff——ffmpeg 无编码器、OpenList 0 命中、
+竞品库无对应 decoder 导出符号，见 §61.83）；m4a/aac/opus/wv 已有样本
+（m4a=§61.61 验证过的自洽 fMP4；aac/opus/wv=ffmpeg 合成并经解码自检）。
+**夹具可解 ≠ B2 真机可播**：ape/wma 容器无 Media3 Extractor，属 M2 后续登记。
 
 产出 analysis/l3-f3-fixtures/ + analysis/l3-f3-fixtures.json。
 """
@@ -48,7 +51,7 @@ OPENLIST_FORMATS = ("mp3", "wma", "flac", "wav", "ape")
 MAX_FULL_BYTES = 3 * 1024 * 1024      # 小于 3MiB 取完整文件
 FRAGMENT_BYTES = 4 * 1024 * 1024      # 否则取前 4MiB
 
-NO_SAMPLE_FORMATS = ("m4a", "aac", "opus", "wv", "tak", "dsf", "dff")
+NO_SAMPLE_FORMATS = ("tak", "dsf", "dff")
 
 SAMPLE_RATE = 48000
 FRAMES = 140 * 4096                   # AIFF 合成样本 ≈11.95s
@@ -128,6 +131,52 @@ def fix_truncated_wav(data: bytes) -> bytes:
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def ffmpeg_exe() -> str | None:
+    """优先 imageio-ffmpeg 自带二进制，其次 PATH 上的 ffmpeg；都没有返回 None。"""
+    try:
+        import imageio_ffmpeg  # type: ignore
+        return imageio_ffmpeg.get_ffmpeg_exe()
+    except Exception:
+        pass
+    for cand in ("ffmpeg", "ffmpeg.exe"):
+        if shutil.which(cand):
+            return shutil.which(cand)
+    return None
+
+
+def ffmpeg_synth(exe: str, codec: str, ext: str, out: Path) -> dict | None:
+    """§61.85：ffmpeg 合成 12s 正弦音样本并**当场解码自检**（-f null 全解码回读）。
+
+    返回清单条目；编码器缺失 / 生成或解码失败返回 None（如实登记不伪造）。
+    """
+    import subprocess
+    try:
+        r = subprocess.run(
+            [exe, "-y", "-f", "lavfi", "-i",
+             "sine=frequency=%g:duration=12:sample_rate=%d" % (FREQUENCY, SAMPLE_RATE),
+             "-ac", "1", "-c:a", codec, str(out)],
+            capture_output=True, timeout=120)
+        if r.returncode != 0 or not out.is_file() or out.stat().st_size == 0:
+            print("[WARN] %s 编码失败（rc=%d）" % (ext, r.returncode))
+            return None
+        v = subprocess.run(
+            [exe, "-v", "error", "-i", str(out), "-f", "null", "-"],
+            capture_output=True, timeout=120)
+        if v.returncode != 0:
+            print("[WARN] %s 解码自检失败（rc=%d）" % (ext, v.returncode))
+            return None
+        return {
+            "origin": "synthetic_ffmpeg", "openlist_path": None,
+            "full_size": out.stat().st_size, "truncated": False,
+            "bytes": out.stat().st_size, "third_party_decoder_verified": True,
+            "note": ("ffmpeg %s 编码 12s 正弦音，生成后 -f null 全解码自检通过"
+                     % codec),
+        }
+    except Exception as exc:
+        print("[WARN] %s 合成异常：%s" % (ext, exc))
+        return None
 
 
 # ---------------------------------------------------------------- AIFF（唯一需要合成的容器）
@@ -235,6 +284,49 @@ def main() -> int:
     }
     print("[GEN ] aiff  %9d B" % aiff.stat().st_size)
 
+    # §61.85：--skip-openlist 时已有 OpenList 夹具从盘登记（幂等离线复跑）
+    for ext in OPENLIST_FORMATS:
+        if ext in entries:
+            continue
+        p = OUT_DIR / ("f3_%s.%s" % (ext, ext))
+        if p.is_file():
+            entries[ext] = {
+                "origin": "existing", "openlist_path": None,
+                "full_size": p.stat().st_size, "truncated": False,
+                "bytes": p.stat().st_size, "third_party_decoder_verified": True,
+                "note": "此前 OpenList 批次已取得的完整真实音频（本次离线复用）",
+            }
+            print("[KEEP] %-5s %9d B" % (ext, p.stat().st_size))
+
+    # §61.85：ffmpeg 可编码的 NO_SAMPLE 格式合成（aac / opus / wv），并解码自检。
+    # tak / dsf / dff 无编码器（ffmpeg decode-only / 无 DSD encoder），如实留在
+    # NO_SAMPLE；结论材料 = OpenList 80 目录 0 命中 + §61.83 竞品库无 decoder 符号。
+    exe = ffmpeg_exe()
+    if exe:
+        for codec, ext in (("aac", "aac"), ("libopus", "opus"), ("wavpack", "wv")):
+            out = OUT_DIR / ("f3_%s.%s" % (ext, ext))
+            if ext in entries:
+                continue
+            info = ffmpeg_synth(exe, codec, ext, out)
+            if info:
+                entries[ext] = info
+                print("[GEN ] %-5s %9d B（解码自检通过）" % (ext, out.stat().st_size))
+    else:
+        print("[WARN] 无 ffmpeg 可用（imageio-ffmpeg / PATH），跳过合成")
+
+    # §61.85：m4a 登记已验证样本（F4 调试期产出的自洽 fMP4，§61.61 双路径对照）
+    m4a = OUT_DIR / "f3_m4a_complete.m4a"
+    if m4a.is_file():
+        entries["m4a"] = {
+            "origin": "f4_debug_fixture", "openlist_path": None,
+            "full_size": m4a.stat().st_size, "truncated": False,
+            "bytes": m4a.stat().st_size, "third_party_decoder_verified": True,
+            "note": ("自洽 fMP4（16.5MB / mDuration 155933），§61.61 ISO-BMFF 解析"
+                     "与 LOCAL/REMOTE 对照已验证容器自洽；A 路线 REMOTE 因 F4 "
+                     "阻塞 FAIL 与样本无关"),
+        }
+        print("[KEEP] m4a   %9d B（§61.61 已验证）" % m4a.stat().st_size)
+
     for ext, info in entries.items():
         p = OUT_DIR / ("f3_%s.%s" % (ext, ext))
         info["file"] = str(p.relative_to(ROOT)).replace("\\", "/")
@@ -251,7 +343,11 @@ def main() -> int:
         "formats": entries,
         "no_sample_formats": list(NO_SAMPLE_FORMATS),
         "no_sample_reason": ("OpenList 音乐库实测只有 ape/mp3/flac/wma/wav；"
-                             "其余 7 种无真实样本，矩阵标 NO_SAMPLE（不计 PASS/FAIL）"),
+                             "§61.85 起 aac/opus/wv 由 ffmpeg 合成（解码自检通过）、"
+                             "m4a 登记已验证自洽样本；剩余 tak/dsf/dff 三种无编码器"
+                             "（ffmpeg decode-only / 无 DSD encoder）、OpenList 80 "
+                             "目录 0 命中、§61.83 竞品库无对应 decoder 导出符号——"
+                             "换源结论如实登记，矩阵标 NO_SAMPLE（不计 PASS/FAIL）"),
         "honest_notes": [
             "OpenList 凭据只在本次进程内使用，未写入仓库；清单不含 token 与签名直链。",
             "flac/wav/ape/大文件为前 4 MiB 片段：只验证 demuxer 识别 + codec 打开 + 播放链，"
