@@ -1,0 +1,77 @@
+{
+  "tool": "reverse-engine/tools/gen_catalog.py",
+  "sanitize": {
+    "rule": "simpleName / simpleType only; NO package paths in Kotlin",
+    "forbiddenLiterals": [
+      "com.netease",
+      "com/netease"
+    ],
+    "declaration": "rebuilt from sanitized return+params, never copied verbatim"
+  },
+  "sources": {
+    "engine-jni-classes.json": {
+      "sha256": "d9542ef0a3397d2e0102505cacdeb22d9972123dec603f8dcd64798218511671",
+      "bytes": 64946,
+      "classCount": 19,
+      "preciseJniClassCount": 12,
+      "nativeMethodCount": 162,
+      "jniSymbolCount": 202
+    },
+    "l3-b2-m2-decoder-symbols.json": {
+      "sha256": "79fadbfcf42833841c75f604f24384fa231d7489539ad37b57e7e1d79050fd1c",
+      "bytes": 20216,
+      "decoderSymbolCount": 100,
+      "demuxerSymbolCount": 75,
+      "unconfirmed": 9,
+      "candidate": 15,
+      "codecQueries": 19,
+      "boundaries": 8
+    }
+  },
+  "outputs": {
+    "NmJniCatalog.kt": {
+      "classes": 19,
+      "methods": 162,
+      "symbolsByLib": 202,
+      "deltaKnown": 2
+    },
+    "NmFormatCatalog.kt": {
+      "decoders": 100,
+      "demuxers": 75,
+      "unconfirmed": 9,
+      "candidate": 15,
+      "codecQueries": 19,
+      "boundaries": 8
+    }
+  },
+  "kotlinConstants": {
+    "CLASS_COUNT": 19,
+    "PRECISE_CLASS_COUNT": 12,
+    "METHOD_COUNT": 162,
+    "JNI_SYMBOL_COUNT": 202,
+    "DECODER_SYMBOL_COUNT": 100,
+    "DEMUXER_SYMBOL_COUNT": 75
+  },
+  "specIds": {
+    "C": [
+      "C-01",
+      "C-02",
+      "C-03",
+      "C-04",
+      "C-05",
+      "C-06",
+      "C-07",
+      "C-08"
+    ],
+    "F": [
+      "F-01",
+      "F-02",
+      "F-03",
+      "F-04",
+      "F-05",
+      "F-06",
+      "F-07",
+      "F-08"
+    ]
+  }
+}

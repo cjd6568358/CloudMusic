@@ -1,0 +1,78 @@
+{
+  "generatedBy": "tools/gen_chapter_matrix_manifest.py",
+  "sourceCount": 2,
+  "sources": [
+    {
+      "path": "spec/chapter-matrix-scan.json",
+      "sha256": "8e016dfaea9bf54e621a354464e34ef14adc012bcc69e7545e96e5881186c1f7",
+      "bytes": 46592
+    },
+    {
+      "path": "spec/lowscore-asm-scan.json",
+      "sha256": "2a79918875d8848b7984dc846cba5e353632001a7aa10ee9940dbc0a0b7824be",
+      "bytes": 53620
+    }
+  ],
+  "kotlinIntConstants": {
+    "TOTAL_CHAPTERS": 84,
+    "NUMBERED_MAX": 88,
+    "MISSING_NUMBER_COUNT": 4,
+    "TABLE_ROWS": 24,
+    "TABLE_MAPPED_NUMBER_COUNT": 88,
+    "A_CLASS_COUNT": 9,
+    "B_CLASS_COUNT": 1,
+    "C_CLASS_COUNT": 74,
+    "NONE_CLASS_COUNT": 4,
+    "UNMAPPED_COUNT": 0,
+    "C_CLASS_HIGH_L1_COUNT": 0,
+    "C_CLASS_L1_HIGH_SCORE_CHAPTER_COUNT": 4,
+    "C_CLASS_ANCHOR_CHAPTER_COUNT": 2,
+    "ANCHOR_ADJUDICATION_COUNT": 2,
+    "NEWLY_REGISTERED_BY_V_COUNT": 16,
+    "MAX_C_CLASS_ADDR_INSN_LINES": 0,
+    "MAX_C_CLASS_MAX_MNE_BLOCK": 0,
+    "A_CLASS_FIRST": 54,
+    "B_CLASS_FIRST": 83,
+    "TOP_L1_A_CLASS_CHAPTER": 67,
+    "LOW_SCORE_TOTAL": 134,
+    "ASM_CANDIDATE_COUNT": 0,
+    "ASM_FENCE_TOTAL": 0,
+    "MAX_ADDR_INSN_LINES": 0,
+    "MAX_MAX_MNE_BLOCK": 0,
+    "MAX_INLINE_ADDR_MNEMONIC_LINES": 0,
+    "PLAIN_FENCE_CANDIDATE_COUNT": 29,
+    "PLAIN_FENCE_ADJUDICATION_COUNT": 29,
+    "F3_B2_PASS": 14,
+    "F3_B2_FAIL": 8,
+    "F3_B2_NO_SAMPLE": 3,
+    "M2_PASS_BASELINE_A": 11
+  },
+  "kotlinStringConstants": {
+    "CHAPTER_SCAN_SHA256": "8e016dfaea9bf54e621a354464e34ef14adc012bcc69e7545e96e5881186c1f7",
+    "LOW_SCORE_SCAN_SHA256": "2a79918875d8848b7984dc846cba5e353632001a7aa10ee9940dbc0a0b7824be",
+    "FENCE_FINGERPRINT": "51a8b36982271dad9531d5f2da6b5280ab769940951b8105a14dc1a47f84c4ec",
+    "LATEST_CHAPTER": "61.88",
+    "F4_STATUS": "BLOCKED"
+  },
+  "kotlinBooleanConstants": {
+    "B2_M2_GATE_PASSED": true,
+    "B2_M3_GATE_PASSED": false
+  },
+  "specIds": [
+    "V-01",
+    "V-02",
+    "V-03",
+    "V-04",
+    "V-05",
+    "V-06"
+  ],
+  "derived": [
+    "V 组把 COVERAGE 第 8 节手工章节矩阵升级为机器可复现自证（unmapped=0 + A/B 类集合固定）",
+    "不写死总章节数上界：并行工作流新增 docs/12 章节须先补登记，否则 scan_chapter_matrix.py fail",
+    "V 组补登 16 章：§61.5~§61.18（14 章）+ §61.87 / §61.88（2 章）",
+    "§61.5 / §61.8 含 native 锚点但按「假设未坐实 / Java 侧 vtable 调用链」逐份裁定不翻译",
+    "134 份 score<12 低分证据的纯汇编片段候选为 0；29 份多 fence 文件逐份裁定为普通 markdown 块",
+    "B2 的 F3 22 格 / M2 PASS / M3 接线只登记，不改变 F4 仍 BLOCKED 与本目录不实现 M2/M3 的口径",
+    "NmFormatCatalog.VERDICT 的 M2_GATE_NOT_PASSED / NOT RUN 是 §61.83 源证据 1:1 登记，源未变故保留"
+  ]
+}

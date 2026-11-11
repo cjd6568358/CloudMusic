@@ -1,0 +1,93 @@
+{
+  "tool": "reverse-engine/tools/gen_read_gap_manifest.py",
+  "source": {
+    "path": "analysis/l3-f4-read-gap-chain.json",
+    "sha256": "d4816ff8a625f95f679db9b82abc57563be5b5553571a962c16bb9a1b852d804",
+    "bytes": 7006,
+    "so": "engine-legacy/src/main/jniLibs/arm64-v8a/libNMCommonCache.so",
+    "soSha256": "7a1adc95c255c241c1d5d64060468cefe3961c73c459ba15527ce87e5fde4a6c",
+    "mode": "offline_disasm",
+    "deviceRun": false,
+    "checksTotal": 31,
+    "checksPass": 31,
+    "allPass": true,
+    "f4Status": "BLOCKED",
+    "verdict": "INFERENCE：`result:-2` 由 `0xc6f8 bl 0x10198`(WaitRequest) 返回 1 后于 `0xc728 mov w0,#-2` 产生；-2 与 -103 是 `0xa9bc`/`0xa9c4` 两条硬编码分支，共用 `0xa9e4` 写 `[+0x1a0]`，且仅在挂起异步读 `[+0x198]` 非零时发生。与 §61.65/§61.67/§61.74/§61.76 串成完整静态链。不断定本次命中哪条分支，需动态插桩。"
+  },
+  "kotlinConstants": {
+    "RODATA_ADDR": 245480,
+    "RODATA_REF_ADRP_ADDR": 50260,
+    "RODATA_REF_ADD_ADDR": 50268,
+    "ANCHOR_COUNT": 24,
+    "A_FMT_REF_ADRP_ADDR": 50260,
+    "A_FMT_REF_ADD_ADDR": 50268,
+    "A_READ_RESULT_CALL_ADDR": 50228,
+    "A_READ_LOG_CALL_ADDR": 50288,
+    "A_MINUS2_BRANCH_ADDR": 50296,
+    "A_WAIT_REQUEST_CALL_ADDR": 50936,
+    "A_WAIT_RET1_CMP_ADDR": 50944,
+    "A_WAIT_RET1_BEQ_ADDR": 50948,
+    "A_RESULT_MINUS2_ADDR": 50984,
+    "A_RESULT_MINUS106_ADDR": 50960,
+    "A_RESULT_MINUS103_ADDR": 50992,
+    "A_READ_RET_ADDR": 51004,
+    "A_HARDCODED_MINUS2_ADDR": 43452,
+    "A_HARDCODED_MINUS103_ADDR": 43460,
+    "A_PENDING_READ_LOAD_ADDR": 43472,
+    "A_PENDING_READ_CBZ_ADDR": 43476,
+    "A_WRITE_1A0_ADDR": 43492,
+    "A_PENDING_REGISTER_ADDR": 40772,
+    "A_PENDING_CLEAR_FINISH_ADDR": 40984,
+    "A_PENDING_WAIT_NEAR_ADDR": 68384,
+    "A_SLICES_WRITE_MINUS2_ADDR": 77256,
+    "A_GENERATION_CMP_ADDR": 67476,
+    "A_GENERATION_BNE_ADDR": 67480,
+    "A_COMMIT_STORE_ADDR": 67720,
+    "PENDING_198_WRITE_COUNT": 6,
+    "HARDCODED_MINUS2_POINT_COUNT": 7,
+    "FIX_ANCHOR_COUNT": 3,
+    "CHECKS_TOTAL": 31,
+    "CHECKS_PASS": 31
+  },
+  "listConstants": {
+    "PENDING_198_WRITES": [
+      "0x9F44",
+      "0xA018",
+      "0x100C8",
+      "0x106C0",
+      "0x1095C",
+      "0x10B20"
+    ],
+    "HARDCODED_MINUS2_POINTS": [
+      "0xA9BC",
+      "0xC728",
+      "0xE720",
+      "0xE780",
+      "0xEBDC",
+      "0x12DC8",
+      "0x1329C"
+    ],
+    "FIX_ANCHORS": [
+      "0x10798 代次比较早退",
+      "0xc728 WaitRequest 读空 -2",
+      "0x12dc8 NMSlicesFile::Write 越界 -2"
+    ],
+    "RODATA_TEXT": "NMBufferSourceImp(%lld)::ReadFromFileNoLock  Local File Read expect len:%u, offset:%lld, readed_len:%u, result:%d"
+  },
+  "specIds": [
+    "R-01",
+    "R-02",
+    "R-03",
+    "R-04",
+    "R-05",
+    "R-06",
+    "R-07",
+    "R-08"
+  ],
+  "derived": [
+    "CHECKS_PASS 由 checks dict 中 True 的项数派生，不硬编码",
+    "ANCHOR_COUNT 由 anchors dict 长度派生",
+    "PENDING_198_WRITE_COUNT / HARDCODED_MINUS2_POINT_COUNT / FIX_ANCHOR_COUNT 均由列表长度派生",
+    "清单类数据全量登记（不节选），但只登记反汇编能证明的地址/立即数/格式串，不推断触发条件"
+  ]
+}

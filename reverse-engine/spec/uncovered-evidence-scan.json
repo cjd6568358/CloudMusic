@@ -1,0 +1,5897 @@
+{
+  "scanVersion": 1,
+  "analysisRoot": "analysis",
+  "totalFiles": 178,
+  "registeredCount": 27,
+  "registered": [
+    "a3-phase-ab-evidence-2026-11-07.md",
+    "a3-stage-c-analysis-2026-11-07.md",
+    "engine-jni-classes.json",
+    "l3-b2-m2-decoder-symbols.json",
+    "l3-f4-disasm-verify-report.md",
+    "l3-f4-disasm-verify.json",
+    "l3-f4-generation-gate-disasm.json",
+    "l3-f4-generation-gate-report.md",
+    "l3-f4-jni-arg-report.md",
+    "l3-f4-jni-arg.json",
+    "l3-f4-level5-gate-semantics-audit.json",
+    "l3-f4-level5-gate-semantics-report.md",
+    "l3-f4-level5-wiring-report.md",
+    "l3-f4-loglevel-gate-probe.json",
+    "l3-f4-minus103-chain-report.md",
+    "l3-f4-minus103-chain.json",
+    "l3-f4-netsource-commit-disasm.json",
+    "l3-f4-netsource-commit-report.md",
+    "l3-f4-online-runbook.md",
+    "l3-f4-play-gate-disasm.json",
+    "l3-f4-play-gate-report.md",
+    "l3-f4-playback-control-report.md",
+    "l3-f4-read-gap-chain-report.md",
+    "l3-f4-read-gap-chain.json",
+    "l3-f4-task-diff-report.md",
+    "l3-f4-task-diff.json",
+    "l3-f4-vfile-commit-report.md"
+  ],
+  "baselineRegisteredCount": 20,
+  "baselineRegistered": [
+    "engine-jni-classes.json",
+    "l3-b2-m2-decoder-symbols.json",
+    "l3-f4-disasm-verify-report.md",
+    "l3-f4-disasm-verify.json",
+    "l3-f4-generation-gate-disasm.json",
+    "l3-f4-generation-gate-report.md",
+    "l3-f4-jni-arg-report.md",
+    "l3-f4-level5-gate-semantics-report.md",
+    "l3-f4-level5-wiring-report.md",
+    "l3-f4-minus103-chain-report.md",
+    "l3-f4-netsource-commit-disasm.json",
+    "l3-f4-netsource-commit-report.md",
+    "l3-f4-online-runbook.md",
+    "l3-f4-play-gate-report.md",
+    "l3-f4-playback-control-report.md",
+    "l3-f4-read-gap-chain-report.md",
+    "l3-f4-read-gap-chain.json",
+    "l3-f4-task-diff-report.md",
+    "l3-f4-task-diff.json",
+    "l3-f4-vfile-commit-report.md"
+  ],
+  "newlyRegisteredByUGroup": [
+    "a3-phase-ab-evidence-2026-11-07.md",
+    "a3-stage-c-analysis-2026-11-07.md",
+    "l3-f4-jni-arg.json",
+    "l3-f4-level5-gate-semantics-audit.json",
+    "l3-f4-loglevel-gate-probe.json",
+    "l3-f4-minus103-chain.json",
+    "l3-f4-play-gate-disasm.json"
+  ],
+  "newlyRegisteredCount": 7,
+  "uncoveredCount": 158,
+  "currentUnregisteredCount": 151,
+  "highRiskThreshold": 12,
+  "highRiskCount": 24,
+  "highRisk": [
+    {
+      "name": "task-backlog-2026-11-07.md",
+      "bytes": 179314,
+      "sha256": "0bf4decf610f70cc540d70d0f91d0832870b09725db46cf0495f718b5f58a05e",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 170,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "add",
+        "adrp",
+        "and",
+        "b.eq",
+        "b.ne",
+        "bl",
+        "blr",
+        "cbnz",
+        "cbz",
+        "cmp",
+        "ldr",
+        "mov",
+        "ret",
+        "str",
+        "strh"
+      ],
+      "addrCount": 89,
+      "addrSample": [
+        "0x100c8",
+        "0x10198",
+        "0x104b0",
+        "0x104b8",
+        "0x104d8",
+        "0x104e8",
+        "0x106c0",
+        "0x10748",
+        "0x10794",
+        "0x10798",
+        "0x1086c",
+        "0x10888"
+      ],
+      "offsetCount": 13,
+      "offsetSample": [
+        "[+0x198]",
+        "[+0x1a0]",
+        "[+0x1e8]",
+        "[+0x20c]",
+        "[+0x70]",
+        "[+0xa8]",
+        "[this+0x1e8]",
+        "[this+0x20c]"
+      ],
+      "branchCount": 9,
+      "branchSample": [
+        "b.ne 0x108e0",
+        "b.ne 0xbfa0",
+        "bl 0x10198",
+        "bl 0x13d80",
+        "bl 0x14500",
+        "bl 0x16468",
+        "bl 0x36c70",
+        "bl 0x36f68"
+      ],
+      "errcodes": [
+        "-102",
+        "-103",
+        "-2",
+        "0x67",
+        "0x6a"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "disasm",
+        "pending_",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".bss",
+        ".init_array",
+        ".rodata",
+        ".text",
+        "GOT",
+        "PLT",
+        "vtable",
+        "vtable+0x"
+      ]
+    },
+    {
+      "name": "l3-f4-minus103-chain.json",
+      "bytes": 5461,
+      "sha256": "5361577f3f7cb075eea905ba9ef0386cdf11305def2458789f30134004f048cc",
+      "registered": false,
+      "newlyRegisteredByUGroup": true,
+      "score": 69,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "add",
+        "bl",
+        "cbz",
+        "ldr",
+        "mov",
+        "ret",
+        "str"
+      ],
+      "addrCount": 39,
+      "addrSample": [
+        "0x16468",
+        "0x3138c",
+        "0x34c74",
+        "0x34c94",
+        "0x37e20",
+        "0x3b8f3",
+        "0x3b927",
+        "0x4cea8",
+        "0x4d630",
+        "0x55b5c",
+        "0x572d4",
+        "0x583bc"
+      ],
+      "offsetCount": 4,
+      "offsetSample": [
+        "[+0x198]",
+        "[+0x1a0]",
+        "[+0x1e8]",
+        "[+0x20c]"
+      ],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103",
+        "-2",
+        "0x67"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "anchors",
+        "checks_total",
+        "disasm",
+        "pending_",
+        "rodata"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-play-gate-disasm.json",
+      "bytes": 4753,
+      "sha256": "86878128b039b6357e5994b30bb16550e6e369e38924bc69cf50a39ff2bd83df",
+      "registered": false,
+      "newlyRegisteredByUGroup": true,
+      "score": 63,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "b.eq",
+        "bl",
+        "cbnz",
+        "cbz",
+        "cmp",
+        "ldr",
+        "ldrb"
+      ],
+      "addrCount": 19,
+      "addrSample": [
+        "0x13d80",
+        "0x66e44",
+        "0x66e70",
+        "0x66e74",
+        "0x66ea8",
+        "0x66eac",
+        "0x66eb0",
+        "0x66eb4",
+        "0x66ec8",
+        "0x66ecc",
+        "0x66eec",
+        "0x66ef4"
+      ],
+      "offsetCount": 3,
+      "offsetSample": [
+        "[this+0x1e8]",
+        "[this+0x20c]",
+        "[this+0x354]"
+      ],
+      "branchCount": 1,
+      "branchSample": [
+        "bl 0x13d80"
+      ],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "anchors",
+        "checks_total",
+        "disasm",
+        "rodata"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-level5-gate-semantics-audit.json",
+      "bytes": 15596,
+      "sha256": "c2d98a60173bb6a75ec0affba83ca55a5effd5ae25e41142cc3fc7c9f33037b2",
+      "registered": false,
+      "newlyRegisteredByUGroup": true,
+      "score": 59,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "adrp",
+        "and",
+        "cmp",
+        "ldr",
+        "mov",
+        "ret",
+        "str",
+        "tbnz",
+        "tbz"
+      ],
+      "addrCount": 25,
+      "addrSample": [
+        "0x10224",
+        "0x10274",
+        "0x102ec",
+        "0x10528",
+        "0x107bc",
+        "0x107f0",
+        "0x10804",
+        "0x1083c",
+        "0x1282c",
+        "0x1285c",
+        "0x12874",
+        "0x12a08"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_pass",
+        "checks_total",
+        "pending_"
+      ],
+      "sectionRefs": [
+        ".bss",
+        "GOT",
+        "PLT"
+      ]
+    },
+    {
+      "name": "l3-f4-loglevel-gate-probe-report.md",
+      "bytes": 9391,
+      "sha256": "b6789408576668e8a402ed7b9da51d616d0827061726fb69caa10a6a64b63b85",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 51,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "bl",
+        "blr",
+        "cbz",
+        "cmp",
+        "ldr",
+        "mov",
+        "str"
+      ],
+      "addrCount": 26,
+      "addrSample": [
+        "0x10798",
+        "0x32d64",
+        "0x32d70",
+        "0x32d74",
+        "0x32d78",
+        "0x32d88",
+        "0x36198",
+        "0x361c8",
+        "0x361ec",
+        "0x36268",
+        "0x37e20",
+        "0x37e24"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 1,
+      "branchSample": [
+        "bl 0x36198"
+      ],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".bss",
+        ".rodata",
+        ".text"
+      ]
+    },
+    {
+      "name": "a3-phase-ab-evidence-2026-11-07.md",
+      "bytes": 29989,
+      "sha256": "035c965200c4f29b05c01b1263e94dfdc13d78bde10e235b5a0f21fe933976c5",
+      "registered": false,
+      "newlyRegisteredByUGroup": true,
+      "score": 46,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "and",
+        "bl",
+        "blr",
+        "ldr",
+        "mov",
+        "ret"
+      ],
+      "addrCount": 16,
+      "addrSample": [
+        "0x16468",
+        "0x347f4",
+        "0x36f68",
+        "0x42350",
+        "0x424fc",
+        "0x42558",
+        "0x425b0",
+        "0x42d9c",
+        "0x4bee8",
+        "0x4bfd8",
+        "0xb400",
+        "0xbcac"
+      ],
+      "offsetCount": 1,
+      "offsetSample": [
+        "[x21+0x28]"
+      ],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [
+        "disasm"
+      ],
+      "sectionRefs": [
+        ".text",
+        "GOT",
+        "vtable"
+      ]
+    },
+    {
+      "name": "a3-stage-c-analysis-2026-11-07.md",
+      "bytes": 7616,
+      "sha256": "0f6970658b9a51c8431858e92929290eb9da8a823083d10d6df68672729c75fb",
+      "registered": false,
+      "newlyRegisteredByUGroup": true,
+      "score": 42,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "add",
+        "cbnz",
+        "cbz",
+        "ldr",
+        "ldrb",
+        "mov",
+        "stp",
+        "strb",
+        "strh",
+        "tbz"
+      ],
+      "addrCount": 19,
+      "addrSample": [
+        "0x347f4",
+        "0x9164",
+        "0x91b8",
+        "0x91e0",
+        "0x91fc",
+        "0x92a0",
+        "0x92c4",
+        "0x941c",
+        "0x9420",
+        "0x9424",
+        "0x9428",
+        "0x942c"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-loglevel-gate-probe.json",
+      "bytes": 5431,
+      "sha256": "19506b2e991669eed187219688057c17bfd1a06580feabd617deae1367fa153c",
+      "registered": false,
+      "newlyRegisteredByUGroup": true,
+      "score": 42,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "adrp",
+        "cmp",
+        "ldr",
+        "mov",
+        "str"
+      ],
+      "addrCount": 21,
+      "addrSample": [
+        "0x10798",
+        "0x32d64",
+        "0x32d70",
+        "0x32d74",
+        "0x32d78",
+        "0x32d80",
+        "0x32d88",
+        "0x36198",
+        "0x361c8",
+        "0x37e20",
+        "0x37e24",
+        "0x37e34"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "anchors",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".bss",
+        ".text"
+      ]
+    },
+    {
+      "name": "l3-f4-jni-arg.json",
+      "bytes": 4124,
+      "sha256": "3e4779ca3738807ca426e6322bb01b1c0162e77b7ae8626d7cf8cbb5d6177249",
+      "registered": false,
+      "newlyRegisteredByUGroup": true,
+      "score": 37,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "b.ne",
+        "bl",
+        "blr",
+        "cmp",
+        "ldr",
+        "mov"
+      ],
+      "addrCount": 35,
+      "addrSample": [
+        "0x347f4",
+        "0x34900",
+        "0x34904",
+        "0x34908",
+        "0x3490c",
+        "0x34914",
+        "0x3495c",
+        "0x34990",
+        "0x34994",
+        "0x349a4",
+        "0x349a8",
+        "0x349b0"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass"
+      ],
+      "sectionRefs": [
+        "vtable",
+        "vtable+0x"
+      ]
+    },
+    {
+      "name": "spike0-java-closure.json",
+      "bytes": 7273313,
+      "sha256": "732f6ddea6492cabd8371d83cc523d15f910c822f710b108346fe01cde0cc870",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 27,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "add",
+        "asr",
+        "bl",
+        "br",
+        "cmp",
+        "sub"
+      ],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-2"
+      ],
+      "disasmFields": [
+        "anchors"
+      ],
+      "sectionRefs": [
+        ".text",
+        "GOT"
+      ]
+    },
+    {
+      "name": "l3-f4-live-cold-verdict.json",
+      "bytes": 32221,
+      "sha256": "91c365b1e83cb603789e5b50b4fe7f2f8b11ad6783547b5e85fb8c2f49faf887",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 25,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 7,
+      "addrSample": [
+        "0x3cc73",
+        "0x3ccc9",
+        "0x3cf90",
+        "0x3cfce",
+        "0x3d017",
+        "0x3d062",
+        "0x3d0ae"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-102",
+        "-98"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_total",
+        "result_minus",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata"
+      ]
+    },
+    {
+      "name": "l3-f4-live-seek-verdict.json",
+      "bytes": 32931,
+      "sha256": "293181fc05dfe5871d9cf36f2a365f21f0705300547fd9c25b48887eb63995a7",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 25,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 7,
+      "addrSample": [
+        "0x3cc73",
+        "0x3ccc9",
+        "0x3cf90",
+        "0x3cfce",
+        "0x3d017",
+        "0x3d062",
+        "0x3d0ae"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-102",
+        "-98"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_total",
+        "result_minus",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata"
+      ]
+    },
+    {
+      "name": "l3-f4-live-warm-verdict.json",
+      "bytes": 32221,
+      "sha256": "2aa09f98e744109044b669c0ece3dca70f1aa02e539bccf41caf2e4011b8dc07",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 25,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 7,
+      "addrSample": [
+        "0x3cc73",
+        "0x3ccc9",
+        "0x3cf90",
+        "0x3cfce",
+        "0x3d017",
+        "0x3d062",
+        "0x3d0ae"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-102",
+        "-98"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_total",
+        "result_minus",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata"
+      ]
+    },
+    {
+      "name": "l3-f4-wbranch-live-verdict.json",
+      "bytes": 32221,
+      "sha256": "2aa09f98e744109044b669c0ece3dca70f1aa02e539bccf41caf2e4011b8dc07",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 25,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 7,
+      "addrSample": [
+        "0x3cc73",
+        "0x3ccc9",
+        "0x3cf90",
+        "0x3cfce",
+        "0x3d017",
+        "0x3d062",
+        "0x3d0ae"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-102",
+        "-98"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_total",
+        "result_minus",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata"
+      ]
+    },
+    {
+      "name": "l3-f4-wbranch-recheck.json",
+      "bytes": 29480,
+      "sha256": "c350b06b7e8531c385cc033cace60a76df2a0e7c7f22aa5dd49095257fbfb12f",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 25,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 7,
+      "addrSample": [
+        "0x3cc73",
+        "0x3ccc9",
+        "0x3cf90",
+        "0x3cfce",
+        "0x3d017",
+        "0x3d062",
+        "0x3d0ae"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-102",
+        "-98"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_total",
+        "result_minus",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata"
+      ]
+    },
+    {
+      "name": "l3-f4-live-rounds-audit.json",
+      "bytes": 11155,
+      "sha256": "056a43512ccd36c0596ae2c51edc43755a5e62950c7634dc5bc56d21a6c15352",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 24,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 7,
+      "addrSample": [
+        "0x3cc73",
+        "0x3ccc9",
+        "0x3cf90",
+        "0x3cfce",
+        "0x3d017",
+        "0x3d062",
+        "0x3d0ae"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_total",
+        "pending_",
+        "result_minus",
+        "rodata"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-generation-gate-live-report.md",
+      "bytes": 10182,
+      "sha256": "aa15fc94aca3017eb46dd7ce29b75da0cbfdf44eebe5e0493e3e2a050f6d5e02",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 23,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "b.ne"
+      ],
+      "addrCount": 9,
+      "addrSample": [
+        "0x104b0",
+        "0x104b8",
+        "0x104d8",
+        "0x104e8",
+        "0x10794",
+        "0x10798",
+        "0x1086c",
+        "0x10888",
+        "0x108e0"
+      ],
+      "offsetCount": 1,
+      "offsetSample": [
+        "[this+0xc0]"
+      ],
+      "branchCount": 1,
+      "branchSample": [
+        "b.ne 0x108e0"
+      ],
+      "errcodes": [
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-level5-wiring-audit.json",
+      "bytes": 4647,
+      "sha256": "c33c8418d1ff1e29ff5b6fb96e65e16ee761741b95d4203eae25b15c2ce89c2f",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 22,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "cmp"
+      ],
+      "addrCount": 3,
+      "addrSample": [
+        "0x32d70",
+        "0x36198",
+        "0x37e20"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-102",
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_pass",
+        "checks_total",
+        "disasm"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-wbranch-recheck-report.md",
+      "bytes": 6422,
+      "sha256": "2c5dc894fa66ed132ddcc7456498c43e311f6b3895d6d339c5cfc06bb2be56b6",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 21,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 7,
+      "addrSample": [
+        "0x3cc73",
+        "0x3ccc9",
+        "0x3cf90",
+        "0x3cfce",
+        "0x3d017",
+        "0x3d062",
+        "0x3d0ae"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-102",
+        "-103",
+        "-98"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata"
+      ]
+    },
+    {
+      "name": "l3-f4-bypass-stream-audit.json",
+      "bytes": 9702,
+      "sha256": "0eaa68dfdb67f06e0fe7edb6f44364b1ef04dd65da6d6b08d48f52edcbf6072c",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 19,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "anchors",
+        "checks_total",
+        "fix_anchors",
+        "result_minus"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-jni-arg-audit.json",
+      "bytes": 1786,
+      "sha256": "7daa7a2faf428101ba6ee7f8b84ab0ba4a2567fa49df9fc0605b0f18d0722eca",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 16,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "bl"
+      ],
+      "addrCount": 4,
+      "addrSample": [
+        "0x34914",
+        "0x34a60",
+        "0x36c70",
+        "0x36f68"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "disasm",
+        "pending_"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-generation-gate-audit.json",
+      "bytes": 2353,
+      "sha256": "fae55ad70d99508884de608c0f001fe049966fd04f01fb9e72d266552129dc3a",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 12,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "anchors",
+        "checks_total",
+        "disasm"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-generation-gate-live-audit.json",
+      "bytes": 7891,
+      "sha256": "617e5b11d2ed088e7e7efe0c222acf0f2a775e88fd7c558ef029cf7319319705",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 12,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 1,
+      "addrSample": [
+        "0x10798"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "disasm",
+        "result_minus"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-online-readiness.json",
+      "bytes": 3412,
+      "sha256": "281d52978ef2ec131d43e765f8973f7e4cf1e240180fb6f5839a7a8e108c4cb9",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 12,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "checks_total",
+        "disasm",
+        "pending_"
+      ],
+      "sectionRefs": []
+    }
+  ],
+  "all": [
+    {
+      "name": "a3-device-acceptance-2026-11-07.md",
+      "bytes": 6214,
+      "sha256": "d4a62c81d1cd3d4aff28aa67c2aeb9ad4e98dbe559b5734121904af634fe24c6",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "a3-native-breakthrough-2026-11-07.md",
+      "bytes": 9024,
+      "sha256": "6a2cac5956db5270835bbb532d1b012a9de2f599505e268c8fe68f8ecc421dc1",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 6,
+      "highRisk": false,
+      "mnemonicKinds": [
+        "and",
+        "ret"
+      ],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "a3-phase-ab-evidence-2026-11-07.md",
+      "bytes": 29989,
+      "sha256": "035c965200c4f29b05c01b1263e94dfdc13d78bde10e235b5a0f21fe933976c5",
+      "registered": false,
+      "newlyRegisteredByUGroup": true,
+      "score": 46,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "and",
+        "bl",
+        "blr",
+        "ldr",
+        "mov",
+        "ret"
+      ],
+      "addrCount": 16,
+      "addrSample": [
+        "0x16468",
+        "0x347f4",
+        "0x36f68",
+        "0x42350",
+        "0x424fc",
+        "0x42558",
+        "0x425b0",
+        "0x42d9c",
+        "0x4bee8",
+        "0x4bfd8",
+        "0xb400",
+        "0xbcac"
+      ],
+      "offsetCount": 1,
+      "offsetSample": [
+        "[x21+0x28]"
+      ],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [
+        "disasm"
+      ],
+      "sectionRefs": [
+        ".text",
+        "GOT",
+        "vtable"
+      ]
+    },
+    {
+      "name": "a3-stage-c-analysis-2026-11-07.md",
+      "bytes": 7616,
+      "sha256": "0f6970658b9a51c8431858e92929290eb9da8a823083d10d6df68672729c75fb",
+      "registered": false,
+      "newlyRegisteredByUGroup": true,
+      "score": 42,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "add",
+        "cbnz",
+        "cbz",
+        "ldr",
+        "ldrb",
+        "mov",
+        "stp",
+        "strb",
+        "strh",
+        "tbz"
+      ],
+      "addrCount": 19,
+      "addrSample": [
+        "0x347f4",
+        "0x9164",
+        "0x91b8",
+        "0x91e0",
+        "0x91fc",
+        "0x92a0",
+        "0x92c4",
+        "0x941c",
+        "0x9420",
+        "0x9424",
+        "0x9428",
+        "0x942c"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "a3-verification-result-2026-11-07.md",
+      "bytes": 11077,
+      "sha256": "6fcdab99874c59beb9d98d6f70fab09b777e6a4f6f58487d5761f8f359e89342",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 6,
+      "highRisk": false,
+      "mnemonicKinds": [
+        "and",
+        "ret"
+      ],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "a3-verification-runbook-2026-11-07.md",
+      "bytes": 10955,
+      "sha256": "65b153ee079f15c99317403d5d83ce92b374e1fff30a385d098f2aed70d43874",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 6,
+      "highRisk": false,
+      "mnemonicKinds": [
+        "and",
+        "ret"
+      ],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "c4-assets-delivery-2026-11-07.md",
+      "bytes": 5151,
+      "sha256": "572b462dccb528a24fa4eea1c8ee093eee6194eb7bb732205cd0e102a7c135df",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "data-request-handler-evidence-2026-11-07.md",
+      "bytes": 18977,
+      "sha256": "6f2688821e2a5bf11ed99a55d550c513ef45b7951a2d86b2682f72d01f389828",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 9,
+      "highRisk": false,
+      "mnemonicKinds": [
+        "add",
+        "and",
+        "sub"
+      ],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "dlna-gap-commit-plan-2026-11-07.md",
+      "bytes": 5517,
+      "sha256": "5866816642b2fcc1eff83266109dbaef0d56791a730e9299841d993890f5633f",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "engine-api-audit.json",
+      "bytes": 69145,
+      "sha256": "149d07b33bab6837b7330874f48d5944e359ffb10049ebea4330131d7597654f",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "engine-jni-classes.json",
+      "bytes": 64946,
+      "sha256": "d9542ef0a3397d2e0102505cacdeb22d9972123dec603f8dcd64798218511671",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "g08-20min-verdict-2026-11-08.md",
+      "bytes": 6604,
+      "sha256": "435554c32a0952550bd2f673821402cbc8db20b8a2f32f3e1823027ceb12a80f",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 2,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "g08-injection-evidence-2026-11-08.md",
+      "bytes": 8611,
+      "sha256": "12f1139daa79a913c5ddccd1fbc3736fa84c1558381c5fb9eb17c4a5f6c28f57",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 2,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "g09-recovery-evidence-2026-11-08.md",
+      "bytes": 10081,
+      "sha256": "5a6cab3fbd3fd6ff56940cde54f75b4a9314974c8bb61236b0956565ca0fa3a5",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "jni-binding-report.json",
+      "bytes": 7051,
+      "sha256": "219c79f66534f3df2dff93971cf995296fa522ca7ab90a9bf02abd06c9cf9f8c",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "jni-verify-report.json",
+      "bytes": 6102,
+      "sha256": "bc7766de96f16f620c61ce94b4a570f0939d01c0fe950448cf2e152c1bb8d6c2",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l2-disconnect-delivery-2026-11-07.md",
+      "bytes": 4774,
+      "sha256": "f214586b25efeb5ffcf8e4f728e75b1b0f14f5e37c1b00317ac07e65b5cc856e",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-audio-decoder-effect-research-2026-11-11.md",
+      "bytes": 18505,
+      "sha256": "b715e6fd0fe8a0726e90c2fd3c7f021053571c6f39e6cfae8ac47f8e7391d980",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 10,
+      "highRisk": false,
+      "mnemonicKinds": [
+        "mov"
+      ],
+      "addrCount": 3,
+      "addrSample": [
+        "0x10798",
+        "0x12dc8",
+        "0xc728"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-audio-format-audit.json",
+      "bytes": 10337,
+      "sha256": "433ad81e0184e10ea4499bbc5ce642e207ba423b03b85cae708d7ef5b32a95e6",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 5,
+      "highRisk": false,
+      "mnemonicKinds": [
+        "mov"
+      ],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-b2-implementation-plan-2026-11-11.md",
+      "bytes": 21621,
+      "sha256": "2e42cd4640e64bc20dfa3b9bcba77611d2ae3070d067cbd0d7b39de39f083a5a",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 4,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-b2-m1-audit-report.md",
+      "bytes": 4176,
+      "sha256": "814e293406268a53bd9e6f2d6dd19cdd9fa9f2359a53cf87705fab61d795f205",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-b2-m1-audit.json",
+      "bytes": 4114,
+      "sha256": "75f08dc84f1bb38be9a32e38bb822ac4030b69c574eb1bb7e641ea4d3392cb85",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 9,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "checks_pass",
+        "checks_total"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-b2-m2-decoder-symbols-crosscheck.json",
+      "bytes": 958,
+      "sha256": "73843b67bb947125c0e63394dbe1fabec92b86e6d0be5b10ba136104e2ac4999",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-b2-m2-decoder-symbols-report.md",
+      "bytes": 12032,
+      "sha256": "111d5d2423f791f0b8233a2bc4202807b4f6b8ab21fd7caa8f7ab90ff39864fd",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 6,
+      "highRisk": false,
+      "mnemonicKinds": [
+        "and",
+        "mov"
+      ],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-b2-m2-decoder-symbols.json",
+      "bytes": 20216,
+      "sha256": "79fadbfcf42833841c75f604f24384fa231d7489539ad37b57e7e1d79050fd1c",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 12,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "mov"
+      ],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "checks_pass",
+        "checks_total"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-b2-m2-preflight-2026-11-11.md",
+      "bytes": 13350,
+      "sha256": "a273a59d8078054ef0249c8c6f7861c9ed46f0caaed6a6369af1da8bf8f7c773",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 2,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-b2-m2-preflight-report.md",
+      "bytes": 4128,
+      "sha256": "6962c8bf54c595175128151124eef9d6c3fd025c9a2d0b89e67941a813355e9b",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-b2-m2-preflight.json",
+      "bytes": 3979,
+      "sha256": "ebe1fa7d6e50c673dd9e1063fb74abffaefb9b165da9acc3b2d9c7010bd8594d",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 9,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "checks_pass",
+        "checks_total"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-b2-media3-probe.json",
+      "bytes": 3128,
+      "sha256": "96ed506d529463db5edcc4d2403658892b8c94e2a307017526c4c7446b68b512",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-b2-route-switch-audit-report.md",
+      "bytes": 3661,
+      "sha256": "b82c9ef723c61485dd1303acf157244371c6a1afff8ebf4a49fe999cf4bd9016",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-b2-route-switch-audit.json",
+      "bytes": 3435,
+      "sha256": "80ba17e05510f910d70fdfd2cfabc709d53fbaefbe935e23b44557ce8b3615a2",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 9,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "checks_pass",
+        "checks_total"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-baseline-probe.json",
+      "bytes": 8085,
+      "sha256": "ede6e02f40ff9f3eab1a11881fe82bed73c3526ed5cbb2658b48a63784e3d13c",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f1-unified.json",
+      "bytes": 4975,
+      "sha256": "218b57d71f18d214537a0b930626bbc3ccbb43d21b3548462f6d079eb89c9080",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f2-device-probe.md",
+      "bytes": 8615,
+      "sha256": "e25316db03477faff3df9983df1b6d5fb7272ca07e1572aff5de2e9fdb0f25ea",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 5,
+      "highRisk": false,
+      "mnemonicKinds": [
+        "ret"
+      ],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-2"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f2-ext-fix.json",
+      "bytes": 5326,
+      "sha256": "ae2b5ab78ed504bb2c0d764e72916b962acc30a6106f6c26420bd0f539290b10",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 11,
+      "highRisk": false,
+      "mnemonicKinds": [
+        "ret"
+      ],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-2"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "anchors"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f2-extension-chain.json",
+      "bytes": 3281,
+      "sha256": "b70db0db6c8b00e57466092e952e715356748064890a85711b775caa55497a5b",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f2-zero-permission.json",
+      "bytes": 3986,
+      "sha256": "b6bc8c754640c618301cddd7da8e8c30d313782e27c945511949f28368a7b9d9",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 8,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-2"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "anchors"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f3-audit.json",
+      "bytes": 2415,
+      "sha256": "61d2f0e02e1a9304fd3605d297a2d78914e6bdaab353d7f5de05d3a64b13ec23",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 6,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "anchors"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f3-fixtures.json",
+      "bytes": 6720,
+      "sha256": "30a3ac12f233d8b498c02fa5391214a63f0a426a95bd17fea0563e16c5ae24a8",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f3-matrix-report.md",
+      "bytes": 7358,
+      "sha256": "b69aea376cc5939e59687edbf8a6b2de8bb607215a0dbf2cb944f30a06ab8b7a",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 5,
+      "highRisk": false,
+      "mnemonicKinds": [
+        "ret"
+      ],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f3-matrix.json",
+      "bytes": 32783,
+      "sha256": "d57db83f8d329590515c4990895af6840bfddfeb1b4b6545597566921bf662fd",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f3-openlist-scan.json",
+      "bytes": 1428,
+      "sha256": "6ff510d8b35185fdd661158aab3560e10ef38b9ee3cfcd27e16f989cd6523ec6",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-a1-bypass-live-initial-v1.json",
+      "bytes": 20781,
+      "sha256": "5560c483c776b5599483230675124af6c4c91c0059f8024f45f862002c5ea497",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 2,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-2"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-a1-bypass-live.json",
+      "bytes": 24147,
+      "sha256": "62ebe67a2721038b233ced4141ba71af36a2e653261a3e8de6aeb2bd0b1fb2fc",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 2,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-2"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-a1-bypass-verdict-report.md",
+      "bytes": 7914,
+      "sha256": "4222f31434dc45d65901775c109cf57d5a37b45a0388f29dd7b1e4affd2afae4",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 7,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [
+        "pending_"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-a1-bypass-verdict.json",
+      "bytes": 8063,
+      "sha256": "c81d88adf80af66c5faa675172bf92dae13fa48c32a38aa895b3b5adccc005d6",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 11,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_total",
+        "pending_"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-ab-a.json",
+      "bytes": 427,
+      "sha256": "911aa44c58b65e64de3314d9686a3c7fd86c23135aa6e1543048bd23975660c2",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-ab-audit.json",
+      "bytes": 1663,
+      "sha256": "8fc5e13a39c52604b6c2e6dc33fbfeab23eba96be88b65b6f53ec09ed685318f",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 5,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-ab-compile-precheck-audit.json",
+      "bytes": 1839,
+      "sha256": "840fa02f3f603b5e6928d89f96406c30e455c96e4c90a6ee92bb84c390ce6619",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 6,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "anchors"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-ab-compile-precheck-report.md",
+      "bytes": 5524,
+      "sha256": "41dfe4a42b3b1c3b2a1c4013a65b5c389df9f3da1d40e8909e0c6983ba3fca0d",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 5,
+      "highRisk": false,
+      "mnemonicKinds": [
+        "str"
+      ],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-ab-compile-precheck.json",
+      "bytes": 3086,
+      "sha256": "85249bed52beea55620e5dc678f0405e3bccc7f8864ea8f22c81de7a91d04f72",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 6,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "anchors"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-ab-control-baseline.json",
+      "bytes": 683,
+      "sha256": "97d277ed37f7fd652ef26b1f6fcf0bb863ce565e61fdb03e810e0e8ef936a528",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-ab-pre-selfconsistent.json",
+      "bytes": 2735,
+      "sha256": "ba5f1091a5f7dde0d680c00f0377fe4197a3290df84bc0f3c16e0e29aa0f5a96",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 3,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-ab-report.md",
+      "bytes": 5911,
+      "sha256": "27f4a1bac41d1c5bba6ecc8454ba994c21ae5a765ae29743e062c2616529bcb8",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 2,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-ab-result-audit.json",
+      "bytes": 2645,
+      "sha256": "80e085a9b6f183b086640bf3b8bde064ed90a90166ad89ca3edb1d78d4733a57",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 3,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-ab-result-report.md",
+      "bytes": 6168,
+      "sha256": "be06aeefe2aa2383a76f0f9f46314844118605b33f781c0947510116a3f1d3f9",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 5,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-ab-run1-25s.json",
+      "bytes": 2734,
+      "sha256": "4dbd56c79a83cb73ef5393d5bbf8f644d12d8794376188537fb706b21975e0b0",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 3,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-ab-run2-45s.json",
+      "bytes": 2735,
+      "sha256": "ba5f1091a5f7dde0d680c00f0377fe4197a3290df84bc0f3c16e0e29aa0f5a96",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 3,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-ab-selfconsistent.json",
+      "bytes": 2806,
+      "sha256": "9832e8fa4e45066a17ae0fc0c1d547188e999263dd13dd9a4c67b29c4d158fb6",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 3,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-acceptance-final-report.md",
+      "bytes": 4456,
+      "sha256": "18e521a41dc957496e69e4e000f85080dd8a4df2adc750f705794252ef14ebb3",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 5,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "disasm"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-acceptance-final.json",
+      "bytes": 4198,
+      "sha256": "2a8470335926d761a62618c5b35be2015b753e30edc919ba9d045dde56bc9adb",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 11,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_total",
+        "disasm"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-baseline-recheck.json",
+      "bytes": 2667,
+      "sha256": "c6cb2b1df936abcb26a9b981a3d72ae92207657d3df13b3192c1c386dd84dd41",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-bypass-stream-audit-report.md",
+      "bytes": 7509,
+      "sha256": "36a531a63470314b10673d820909686301ad895d406701adc10dffe3b473ef71",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 7,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 3,
+      "addrSample": [
+        "0x10798",
+        "0x12dc8",
+        "0xc728"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-bypass-stream-audit.json",
+      "bytes": 9702,
+      "sha256": "0eaa68dfdb67f06e0fe7edb6f44364b1ef04dd65da6d6b08d48f52edcbf6072c",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 19,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "anchors",
+        "checks_total",
+        "fix_anchors",
+        "result_minus"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-cache-reset-probe.json",
+      "bytes": 3632,
+      "sha256": "2eefce671e4e7e8952c49c721862fa9cd0b4b4aa810c022ba6e6ed8b5587b7f2",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-cache-reset-verdict.json",
+      "bytes": 2449,
+      "sha256": "7f89d2e7ea20966b8bff5ffebbd6e50cae5d7a55d0db993db163cb9e202ecbd9",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 2,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-data-kind-ab-index.json",
+      "bytes": 6950,
+      "sha256": "bd4dfa74295fb9d24a2d0c867db17b54887a77315f7607d57e0bdf7b0b94d872",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-data-kind-ab-main.json",
+      "bytes": 4880,
+      "sha256": "324d70fba4cf25dce0e5c02ff462e40fcdd7ece1bfe9ba65cbe5d7deb3c8d683",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-data-kind-ab-mp3.json",
+      "bytes": 1955,
+      "sha256": "ab868dba737af48ea2b31bae3ddb716fe8c098ccc8bb67f7ea616ce9bd40b4df",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-data-kind-ab-run1.json",
+      "bytes": 2203,
+      "sha256": "1f971003bed7f259290a5277610758cbcd6001b275ca688a232a6d32c99b6608",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 5,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-data-kind-ab-run2.json",
+      "bytes": 1969,
+      "sha256": "eeed38f88dd6be44c149dfda1f8aaf854e1e60e92f9483aed2d5ebbf7a004bd1",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-data-kind-ab-run3.json",
+      "bytes": 2684,
+      "sha256": "aeb05c2c177ee929b5fb2eec3c1443b8d10f8af43f475fad117951e7fc7927f0",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 5,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-data-kind-ab-wav.json",
+      "bytes": 2484,
+      "sha256": "2094179bc1b3523c59efb9e5c7365fad3a290662cabade798257e0efa3238aac",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-data-kind-ab.json",
+      "bytes": 2684,
+      "sha256": "aeb05c2c177ee929b5fb2eec3c1443b8d10f8af43f475fad117951e7fc7927f0",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 5,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-data-kind-verdict-audit.json",
+      "bytes": 3083,
+      "sha256": "1941e7c585b59b5234a96cb5c44a920c5773d077c4b3c9bcbb2c53fa7064cf41",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 6,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "checks_total"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-data-kind-verdict-report.md",
+      "bytes": 7159,
+      "sha256": "f9b6dd76ffa810a3fec055739c6111804dba881e3369c3c366c7530967cae897",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 4,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-disasm-verify-audit.json",
+      "bytes": 1591,
+      "sha256": "58c5dcbabad476d51cf82e0a27c07a0d7c07028a135ea1c2e66ff6ef72d75606",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 11,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "disasm",
+        "pending_"
+      ],
+      "sectionRefs": [
+        "GOT"
+      ]
+    },
+    {
+      "name": "l3-f4-disasm-verify-report.md",
+      "bytes": 6337,
+      "sha256": "6646eedb21e80cd84a90db0920a33aa3be87697b24a5fd6d17dce1f7c2b50fcd",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 47,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "adrp",
+        "b.ne",
+        "bl",
+        "blr",
+        "cbz",
+        "cmp",
+        "ldr",
+        "mov"
+      ],
+      "addrCount": 24,
+      "addrSample": [
+        "0x16468",
+        "0x4ad18",
+        "0x4ad50",
+        "0x4ad98",
+        "0x4b000",
+        "0x4bed0",
+        "0x4bee8",
+        "0x8ed0",
+        "0xb86c",
+        "0xbee8",
+        "0xbf08",
+        "0xbf14"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "disasm"
+      ],
+      "sectionRefs": [
+        ".text",
+        "GOT",
+        "vtable"
+      ]
+    },
+    {
+      "name": "l3-f4-disasm-verify.json",
+      "bytes": 3127,
+      "sha256": "d38262f3d01db41d8f3b9e83bc30683dc4abbdd388451cd30d0309582db845c3",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 46,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "b.ne",
+        "bl",
+        "blr",
+        "cmp",
+        "ldr"
+      ],
+      "addrCount": 16,
+      "addrSample": [
+        "0x16468",
+        "0x4bed0",
+        "0x4bee8",
+        "0x8ed0",
+        "0xbee8",
+        "0xbf08",
+        "0xbf14",
+        "0xbf5c",
+        "0xbf7c",
+        "0xbfa0",
+        "0xbfe4",
+        "0xc004"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "disasm",
+        "instructions",
+        "queue_bl_",
+        "symbol_addr"
+      ],
+      "sectionRefs": [
+        ".text",
+        "GOT"
+      ]
+    },
+    {
+      "name": "l3-f4-eof-audit.json",
+      "bytes": 2526,
+      "sha256": "f2bec27c27d60d7a245cd8b7b0bab91346e0d3097e96f56ebe56aaef4a47cc85",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 7,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass"
+      ],
+      "sectionRefs": [
+        "GOT"
+      ]
+    },
+    {
+      "name": "l3-f4-eof-probe.json",
+      "bytes": 2147,
+      "sha256": "ccdb5c0ab3204c11504deea7d2d8a2bd810609cf1870398b4eadbcac6b0f1467",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-faststart-probe.json",
+      "bytes": 619,
+      "sha256": "592ef3d0966bfe318370a13d8a5dbe85104be37f489ee93d1aebac717cd86a61",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-fmp4-structure.json",
+      "bytes": 4349,
+      "sha256": "03cc6f4f7369ed49a95770a2aa469572542245e456bd35b8831c31a210f31598",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 6,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "pending_"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-generation-gate-audit.json",
+      "bytes": 2353,
+      "sha256": "fae55ad70d99508884de608c0f001fe049966fd04f01fb9e72d266552129dc3a",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 12,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "anchors",
+        "checks_total",
+        "disasm"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-generation-gate-disasm.json",
+      "bytes": 21785,
+      "sha256": "5e6b3ca7114ba9b92d41d4d055eeba713f9df74dbc726211b85cbeaea459a987",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 132,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "add",
+        "adrp",
+        "b.le",
+        "b.ne",
+        "bl",
+        "blr",
+        "cbz",
+        "cmp",
+        "ldr",
+        "ldrb",
+        "mov",
+        "ret",
+        "stp",
+        "str",
+        "strb",
+        "tbnz",
+        "uxtw"
+      ],
+      "addrCount": 77,
+      "addrSample": [
+        "0x10304",
+        "0x10458",
+        "0x10470",
+        "0x10498",
+        "0x104a0",
+        "0x104b0",
+        "0x104b8",
+        "0x104d8",
+        "0x104e4",
+        "0x104e8",
+        "0x10510",
+        "0x1053c"
+      ],
+      "offsetCount": 7,
+      "offsetSample": [
+        "[+0x104]",
+        "[+0x38]",
+        "[+0x40]",
+        "[+0x70]",
+        "[+0xc8]",
+        "[+0xd0]",
+        "[this+0xc0]"
+      ],
+      "branchCount": 5,
+      "branchSample": [
+        "b.le 0x12868",
+        "b.ne 0x108e0",
+        "b.ne 0x12884",
+        "bl 0x150e8",
+        "bl 0x8ab0"
+      ],
+      "errcodes": [
+        "-100",
+        "-102",
+        "-103",
+        "-2",
+        "-98"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "anchors",
+        "disasm",
+        "rodata"
+      ],
+      "sectionRefs": [
+        "PLT",
+        "vtable",
+        "vtable+0x"
+      ]
+    },
+    {
+      "name": "l3-f4-generation-gate-live-audit.json",
+      "bytes": 7891,
+      "sha256": "617e5b11d2ed088e7e7efe0c222acf0f2a775e88fd7c558ef029cf7319319705",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 12,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 1,
+      "addrSample": [
+        "0x10798"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "disasm",
+        "result_minus"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-generation-gate-live-lvl5.json",
+      "bytes": 6622,
+      "sha256": "ee675e5419ae85b150302891188c61f6776e249f633fc920fb2efdbc3cc98f92",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-generation-gate-live-report.md",
+      "bytes": 10182,
+      "sha256": "aa15fc94aca3017eb46dd7ce29b75da0cbfdf44eebe5e0493e3e2a050f6d5e02",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 23,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "b.ne"
+      ],
+      "addrCount": 9,
+      "addrSample": [
+        "0x104b0",
+        "0x104b8",
+        "0x104d8",
+        "0x104e8",
+        "0x10794",
+        "0x10798",
+        "0x1086c",
+        "0x10888",
+        "0x108e0"
+      ],
+      "offsetCount": 1,
+      "offsetSample": [
+        "[this+0xc0]"
+      ],
+      "branchCount": 1,
+      "branchSample": [
+        "b.ne 0x108e0"
+      ],
+      "errcodes": [
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-generation-gate-live.json",
+      "bytes": 8155,
+      "sha256": "af999bc639070ddb9b7cb3bbb7ad8b2f32c322978a8a866a75eba7d688fbe80f",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-generation-gate-report.md",
+      "bytes": 11532,
+      "sha256": "058c1d05a31d5af86ac8fe39e32396bee826e08dbc63e1551df809ef4cacc550",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 114,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "add",
+        "b.le",
+        "b.ne",
+        "bl",
+        "blr",
+        "cmp",
+        "ldr",
+        "mov",
+        "ret",
+        "stp",
+        "str"
+      ],
+      "addrCount": 57,
+      "addrSample": [
+        "0x10198",
+        "0x10304",
+        "0x10458",
+        "0x10498",
+        "0x104a0",
+        "0x104b0",
+        "0x104b4",
+        "0x104b8",
+        "0x104d8",
+        "0x104dc",
+        "0x104e0",
+        "0x104e4"
+      ],
+      "offsetCount": 9,
+      "offsetSample": [
+        "[+0x104]",
+        "[+0x38]",
+        "[+0x40]",
+        "[+0x70]",
+        "[+0xc8]",
+        "[+0xd0]",
+        "[this+0x28]",
+        "[this+0x30]"
+      ],
+      "branchCount": 4,
+      "branchSample": [
+        "b.ne  0x108e0",
+        "b.ne 0x108e0",
+        "bl    0x8ab0",
+        "bl 0x150e8"
+      ],
+      "errcodes": [
+        "-100",
+        "-102",
+        "-103",
+        "-2",
+        "-98"
+      ],
+      "disasmFields": [
+        "disasm",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata",
+        ".text",
+        "PLT",
+        "vtable",
+        "vtable+0x"
+      ]
+    },
+    {
+      "name": "l3-f4-jni-arg-audit.json",
+      "bytes": 1786,
+      "sha256": "7daa7a2faf428101ba6ee7f8b84ab0ba4a2567fa49df9fc0605b0f18d0722eca",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 16,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "bl"
+      ],
+      "addrCount": 4,
+      "addrSample": [
+        "0x34914",
+        "0x34a60",
+        "0x36c70",
+        "0x36f68"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "disasm",
+        "pending_"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-jni-arg-report.md",
+      "bytes": 6098,
+      "sha256": "fdbb2fa8114cc3ff49f9bb044c82ba747a593c6d06e5815b38a30de4970299dc",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 39,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "bl",
+        "blr",
+        "cbz",
+        "cmp",
+        "ldr",
+        "mov",
+        "str"
+      ],
+      "addrCount": 23,
+      "addrSample": [
+        "0x347f4",
+        "0x34834",
+        "0x34838",
+        "0x34900",
+        "0x34904",
+        "0x34914",
+        "0x3495c",
+        "0x34988",
+        "0x34990",
+        "0x349a4",
+        "0x34a54",
+        "0x34a58"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [],
+      "sectionRefs": [
+        "vtable",
+        "vtable+0x"
+      ]
+    },
+    {
+      "name": "l3-f4-jni-arg.json",
+      "bytes": 4124,
+      "sha256": "3e4779ca3738807ca426e6322bb01b1c0162e77b7ae8626d7cf8cbb5d6177249",
+      "registered": false,
+      "newlyRegisteredByUGroup": true,
+      "score": 37,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "b.ne",
+        "bl",
+        "blr",
+        "cmp",
+        "ldr",
+        "mov"
+      ],
+      "addrCount": 35,
+      "addrSample": [
+        "0x347f4",
+        "0x34900",
+        "0x34904",
+        "0x34908",
+        "0x3490c",
+        "0x34914",
+        "0x3495c",
+        "0x34990",
+        "0x34994",
+        "0x349a4",
+        "0x349a8",
+        "0x349b0"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass"
+      ],
+      "sectionRefs": [
+        "vtable",
+        "vtable+0x"
+      ]
+    },
+    {
+      "name": "l3-f4-kind-slot-ab-audit.json",
+      "bytes": 1636,
+      "sha256": "5e0ca9cdecbbd16121b3fde667a264f8269fd8fc1c911963ae42eda6f8223699",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 3,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-kind-slot-ab-plan.json",
+      "bytes": 2008,
+      "sha256": "96e619afabbe2ddb8fc9aa4ad0a5d863d333f33d260552ea5f4f9519af118c6c",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-kind-slot-ab.json",
+      "bytes": 2735,
+      "sha256": "ba5f1091a5f7dde0d680c00f0377fe4197a3290df84bc0f3c16e0e29aa0f5a96",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 3,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-kind-slot-audit.json",
+      "bytes": 3460,
+      "sha256": "f9e401bba0b68cea407a332ca057620cb8af51310d5016370dd299156fcf75f3",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 3,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-kind-slot-rootcause.md",
+      "bytes": 7701,
+      "sha256": "fad66a6b25ee02b9fbc8f4e9c45941a875b7a2c124582653a4560b63960caa7d",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 6,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 2,
+      "addrSample": [
+        "0x4bed0",
+        "0x4bee8"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [],
+      "sectionRefs": [
+        "GOT"
+      ]
+    },
+    {
+      "name": "l3-f4-level5-gate-semantics-audit.json",
+      "bytes": 15596,
+      "sha256": "c2d98a60173bb6a75ec0affba83ca55a5effd5ae25e41142cc3fc7c9f33037b2",
+      "registered": false,
+      "newlyRegisteredByUGroup": true,
+      "score": 59,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "adrp",
+        "and",
+        "cmp",
+        "ldr",
+        "mov",
+        "ret",
+        "str",
+        "tbnz",
+        "tbz"
+      ],
+      "addrCount": 25,
+      "addrSample": [
+        "0x10224",
+        "0x10274",
+        "0x102ec",
+        "0x10528",
+        "0x107bc",
+        "0x107f0",
+        "0x10804",
+        "0x1083c",
+        "0x1282c",
+        "0x1285c",
+        "0x12874",
+        "0x12a08"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_pass",
+        "checks_total",
+        "pending_"
+      ],
+      "sectionRefs": [
+        ".bss",
+        "GOT",
+        "PLT"
+      ]
+    },
+    {
+      "name": "l3-f4-level5-gate-semantics-report.md",
+      "bytes": 13996,
+      "sha256": "f361945f66aef2eef1f31bdbbbecccc8cc2b962c8b437b407a25d6437f6f55ca",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 72,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "add",
+        "adrp",
+        "b.le",
+        "bl",
+        "cbz",
+        "cmp",
+        "ldr",
+        "mov",
+        "str",
+        "tbnz",
+        "tbz"
+      ],
+      "addrCount": 42,
+      "addrSample": [
+        "0x10224",
+        "0x10274",
+        "0x102ec",
+        "0x10528",
+        "0x10798",
+        "0x107bc",
+        "0x10804",
+        "0x12810",
+        "0x12814",
+        "0x12818",
+        "0x1281c",
+        "0x12820"
+      ],
+      "offsetCount": 1,
+      "offsetSample": [
+        "[this+0xc0]"
+      ],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-102",
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".bss",
+        ".init_array",
+        ".rodata",
+        ".text",
+        "GOT",
+        "PLT"
+      ]
+    },
+    {
+      "name": "l3-f4-level5-wiring-audit.json",
+      "bytes": 4647,
+      "sha256": "c33c8418d1ff1e29ff5b6fb96e65e16ee761741b95d4203eae25b15c2ce89c2f",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 22,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "cmp"
+      ],
+      "addrCount": 3,
+      "addrSample": [
+        "0x32d70",
+        "0x36198",
+        "0x37e20"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-102",
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_pass",
+        "checks_total",
+        "disasm"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-level5-wiring-report.md",
+      "bytes": 10017,
+      "sha256": "f0c270a7b66ee445a8b6ae2af96c8c648db5524fb7d1e50d21e2387798bf8c5b",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 36,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "cmp",
+        "mov"
+      ],
+      "addrCount": 19,
+      "addrSample": [
+        "0x10798",
+        "0x1086c",
+        "0x1282c",
+        "0x12874",
+        "0x12c48",
+        "0x12c5c",
+        "0x3138c",
+        "0x32d64",
+        "0x32d70",
+        "0x32d88",
+        "0x36198",
+        "0x361c8"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-102",
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".bss",
+        ".rodata",
+        ".text",
+        "PLT"
+      ]
+    },
+    {
+      "name": "l3-f4-live-cold-verdict.json",
+      "bytes": 32221,
+      "sha256": "91c365b1e83cb603789e5b50b4fe7f2f8b11ad6783547b5e85fb8c2f49faf887",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 25,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 7,
+      "addrSample": [
+        "0x3cc73",
+        "0x3ccc9",
+        "0x3cf90",
+        "0x3cfce",
+        "0x3d017",
+        "0x3d062",
+        "0x3d0ae"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-102",
+        "-98"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_total",
+        "result_minus",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata"
+      ]
+    },
+    {
+      "name": "l3-f4-live-online-seek.json",
+      "bytes": 3192,
+      "sha256": "cdf56e8ad135ec40e96f7e24fe85be6d33c4835091656faac3fb2b8ad0aa3e77",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-live-online-warm.json",
+      "bytes": 3480,
+      "sha256": "466438927dbdcb5b77d0f310f176a69808891f127b5cfc6674d513b94838d44d",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-live-online.json",
+      "bytes": 3632,
+      "sha256": "ed31360b81787f86d1156994551603160a961a44ebb07843fa43040f427da4bb",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-live-rounds-audit.json",
+      "bytes": 11155,
+      "sha256": "056a43512ccd36c0596ae2c51edc43755a5e62950c7634dc5bc56d21a6c15352",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 24,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 7,
+      "addrSample": [
+        "0x3cc73",
+        "0x3ccc9",
+        "0x3cf90",
+        "0x3cfce",
+        "0x3d017",
+        "0x3d062",
+        "0x3d0ae"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_total",
+        "pending_",
+        "result_minus",
+        "rodata"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-live-rounds-report.md",
+      "bytes": 5976,
+      "sha256": "33984595fc92a15a3d9e49b8d47548be21b5e323620ac8c1451513bb0ae3b02b",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 9,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata"
+      ]
+    },
+    {
+      "name": "l3-f4-live-seek-verdict.json",
+      "bytes": 32931,
+      "sha256": "293181fc05dfe5871d9cf36f2a365f21f0705300547fd9c25b48887eb63995a7",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 25,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 7,
+      "addrSample": [
+        "0x3cc73",
+        "0x3ccc9",
+        "0x3cf90",
+        "0x3cfce",
+        "0x3d017",
+        "0x3d062",
+        "0x3d0ae"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-102",
+        "-98"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_total",
+        "result_minus",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata"
+      ]
+    },
+    {
+      "name": "l3-f4-live-warm-verdict.json",
+      "bytes": 32221,
+      "sha256": "2aa09f98e744109044b669c0ece3dca70f1aa02e539bccf41caf2e4011b8dc07",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 25,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 7,
+      "addrSample": [
+        "0x3cc73",
+        "0x3ccc9",
+        "0x3cf90",
+        "0x3cfce",
+        "0x3d017",
+        "0x3d062",
+        "0x3d0ae"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-102",
+        "-98"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_total",
+        "result_minus",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata"
+      ]
+    },
+    {
+      "name": "l3-f4-loglevel-gate-probe-report.md",
+      "bytes": 9391,
+      "sha256": "b6789408576668e8a402ed7b9da51d616d0827061726fb69caa10a6a64b63b85",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 51,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "bl",
+        "blr",
+        "cbz",
+        "cmp",
+        "ldr",
+        "mov",
+        "str"
+      ],
+      "addrCount": 26,
+      "addrSample": [
+        "0x10798",
+        "0x32d64",
+        "0x32d70",
+        "0x32d74",
+        "0x32d78",
+        "0x32d88",
+        "0x36198",
+        "0x361c8",
+        "0x361ec",
+        "0x36268",
+        "0x37e20",
+        "0x37e24"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 1,
+      "branchSample": [
+        "bl 0x36198"
+      ],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".bss",
+        ".rodata",
+        ".text"
+      ]
+    },
+    {
+      "name": "l3-f4-loglevel-gate-probe.json",
+      "bytes": 5431,
+      "sha256": "19506b2e991669eed187219688057c17bfd1a06580feabd617deae1367fa153c",
+      "registered": false,
+      "newlyRegisteredByUGroup": true,
+      "score": 42,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "adrp",
+        "cmp",
+        "ldr",
+        "mov",
+        "str"
+      ],
+      "addrCount": 21,
+      "addrSample": [
+        "0x10798",
+        "0x32d64",
+        "0x32d70",
+        "0x32d74",
+        "0x32d78",
+        "0x32d80",
+        "0x32d88",
+        "0x36198",
+        "0x361c8",
+        "0x37e20",
+        "0x37e24",
+        "0x37e34"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "anchors",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".bss",
+        ".text"
+      ]
+    },
+    {
+      "name": "l3-f4-m4a-final.json",
+      "bytes": 752,
+      "sha256": "5dffb0ab51db47014606a814e43dd09253bdb96e787741dd9bb54e3d972deb1f",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-minus103-chain-report.md",
+      "bytes": 4185,
+      "sha256": "8ae2d4a0bb5c5d1b7ef12755ae850ad56c79dc8cce8edeea7bcbc1f444787c3c",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 83,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "bl",
+        "blr",
+        "cbz",
+        "ldr",
+        "mov",
+        "ret",
+        "strb"
+      ],
+      "addrCount": 35,
+      "addrSample": [
+        "0x13d80",
+        "0x14470",
+        "0x16468",
+        "0x3138c",
+        "0x37e20",
+        "0x3b8f3",
+        "0x3b927",
+        "0x4cea8",
+        "0x4d630",
+        "0x55b5c",
+        "0x572d4",
+        "0x583bc"
+      ],
+      "offsetCount": 4,
+      "offsetSample": [
+        "[+0x198]",
+        "[+0x1e8]",
+        "[+0x20c]",
+        "[this+0x1a0]"
+      ],
+      "branchCount": 5,
+      "branchSample": [
+        "bl 0x13d80",
+        "bl 0x14470",
+        "bl 0x16468",
+        "bl 0x3138c",
+        "bl 0x37e20"
+      ],
+      "errcodes": [
+        "-103",
+        "-2",
+        "0x67"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata",
+        "vtable",
+        "vtable+0x"
+      ]
+    },
+    {
+      "name": "l3-f4-minus103-chain.json",
+      "bytes": 5461,
+      "sha256": "5361577f3f7cb075eea905ba9ef0386cdf11305def2458789f30134004f048cc",
+      "registered": false,
+      "newlyRegisteredByUGroup": true,
+      "score": 69,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "add",
+        "bl",
+        "cbz",
+        "ldr",
+        "mov",
+        "ret",
+        "str"
+      ],
+      "addrCount": 39,
+      "addrSample": [
+        "0x16468",
+        "0x3138c",
+        "0x34c74",
+        "0x34c94",
+        "0x37e20",
+        "0x3b8f3",
+        "0x3b927",
+        "0x4cea8",
+        "0x4d630",
+        "0x55b5c",
+        "0x572d4",
+        "0x583bc"
+      ],
+      "offsetCount": 4,
+      "offsetSample": [
+        "[+0x198]",
+        "[+0x1a0]",
+        "[+0x1e8]",
+        "[+0x20c]"
+      ],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103",
+        "-2",
+        "0x67"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "anchors",
+        "checks_total",
+        "disasm",
+        "pending_",
+        "rodata"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-netsource-commit-disasm.json",
+      "bytes": 13178,
+      "sha256": "37cd0c11210b62ad3fda66d2f1f585c5027e4c91c2ae6c4f13ff90b4fabd9bd2",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 103,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "b.eq",
+        "b.le",
+        "b.ne",
+        "bl",
+        "cmp",
+        "ldr",
+        "ldrb",
+        "mov",
+        "str",
+        "strb"
+      ],
+      "addrCount": 54,
+      "addrSample": [
+        "0x10198",
+        "0x101e4",
+        "0x10320",
+        "0x10748",
+        "0x10794",
+        "0x10798",
+        "0x107f8",
+        "0x10884",
+        "0x10888",
+        "0x108d0",
+        "0x108dc",
+        "0x108e0"
+      ],
+      "offsetCount": 4,
+      "offsetSample": [
+        "[+0x30]",
+        "[+0xc0]",
+        "[this+0xa8]",
+        "[this+0xc0]"
+      ],
+      "branchCount": 7,
+      "branchSample": [
+        "b.eq 0xbb34",
+        "b.le 0xbe88",
+        "b.ne 0x108e0",
+        "bl 0x16468",
+        "bl 0x8940",
+        "bl 0x8ab0",
+        "bl 0xfe48"
+      ],
+      "errcodes": [
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "anchors",
+        "disasm",
+        "result_minus",
+        "rodata"
+      ],
+      "sectionRefs": [
+        "PLT"
+      ]
+    },
+    {
+      "name": "l3-f4-netsource-commit-report.md",
+      "bytes": 9510,
+      "sha256": "d2d71dcda14c54f80eade19790a620b11400babde2c78a46fcfa5155e018d876",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 106,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "b.eq",
+        "b.ne",
+        "bl",
+        "blr",
+        "cmp",
+        "ldr",
+        "str",
+        "strb"
+      ],
+      "addrCount": 47,
+      "addrSample": [
+        "0x10198",
+        "0x101e0",
+        "0x101e4",
+        "0x10320",
+        "0x10748",
+        "0x10790",
+        "0x10794",
+        "0x10798",
+        "0x107f4",
+        "0x107f8",
+        "0x107fc",
+        "0x10800"
+      ],
+      "offsetCount": 6,
+      "offsetSample": [
+        "[+0x18]",
+        "[+0x40]",
+        "[+0xb8]",
+        "[+0xc0]",
+        "[this+0xa8]",
+        "[this+0xb8]"
+      ],
+      "branchCount": 8,
+      "branchSample": [
+        "b.eq  0x10840",
+        "b.eq  0xbb34",
+        "b.ne  0x108e0",
+        "b.ne 0x108e0",
+        "bl    0x16468",
+        "bl    0x8ab0",
+        "bl    0xfe48",
+        "bl 0x8940"
+      ],
+      "errcodes": [
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [
+        "disasm",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata",
+        ".text",
+        "PLT",
+        "vtable",
+        "vtable+0x"
+      ]
+    },
+    {
+      "name": "l3-f4-online-readiness-report.md",
+      "bytes": 3697,
+      "sha256": "6992e8e4f8143791905f5c557be955ea046b50565abc01484b211a7d829a9b76",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 10,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata"
+      ]
+    },
+    {
+      "name": "l3-f4-online-readiness.json",
+      "bytes": 3412,
+      "sha256": "281d52978ef2ec131d43e765f8973f7e4cf1e240180fb6f5839a7a8e108c4cb9",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 12,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "checks_total",
+        "disasm",
+        "pending_"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-online-runbook.md",
+      "bytes": 37203,
+      "sha256": "e37d7866eb3076a10aa9e399428cbe7435887b5f73446ef8b42faf881a798cae",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 108,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "b.ne",
+        "bl",
+        "blr",
+        "cbz",
+        "mov",
+        "str"
+      ],
+      "addrCount": 48,
+      "addrSample": [
+        "0x100c8",
+        "0x10198",
+        "0x106c0",
+        "0x10790",
+        "0x10798",
+        "0x10884",
+        "0x10888",
+        "0x108e0",
+        "0x1095c",
+        "0x10b20",
+        "0x12c5c",
+        "0x12dc8"
+      ],
+      "offsetCount": 10,
+      "offsetSample": [
+        "[+0x198]",
+        "[+0x1a0]",
+        "[+0x1e8]",
+        "[+0x20c]",
+        "[this+0x1e8]",
+        "[this+0x20c]",
+        "[this+0x30]",
+        "[this+0x38]"
+      ],
+      "branchCount": 4,
+      "branchSample": [
+        "b.ne 0x108e0",
+        "bl 0x10198",
+        "bl 0x13d80",
+        "bl 0x16468"
+      ],
+      "errcodes": [
+        "-102",
+        "-103",
+        "-2",
+        "-98",
+        "0x67",
+        "0x6a"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "disasm",
+        "pending_",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata",
+        ".text",
+        "vtable",
+        "vtable+0x"
+      ]
+    },
+    {
+      "name": "l3-f4-play-gate-disasm.json",
+      "bytes": 4753,
+      "sha256": "86878128b039b6357e5994b30bb16550e6e369e38924bc69cf50a39ff2bd83df",
+      "registered": false,
+      "newlyRegisteredByUGroup": true,
+      "score": 63,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "b.eq",
+        "bl",
+        "cbnz",
+        "cbz",
+        "cmp",
+        "ldr",
+        "ldrb"
+      ],
+      "addrCount": 19,
+      "addrSample": [
+        "0x13d80",
+        "0x66e44",
+        "0x66e70",
+        "0x66e74",
+        "0x66ea8",
+        "0x66eac",
+        "0x66eb0",
+        "0x66eb4",
+        "0x66ec8",
+        "0x66ecc",
+        "0x66eec",
+        "0x66ef4"
+      ],
+      "offsetCount": 3,
+      "offsetSample": [
+        "[this+0x1e8]",
+        "[this+0x20c]",
+        "[this+0x354]"
+      ],
+      "branchCount": 1,
+      "branchSample": [
+        "bl 0x13d80"
+      ],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "anchors",
+        "checks_total",
+        "disasm",
+        "rodata"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-play-gate-report.md",
+      "bytes": 3895,
+      "sha256": "f86f583cc3220381569809128c9f47cc7d284d4106f5a30b2f701ec15132a9ff",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 61,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "add",
+        "adrp",
+        "bl",
+        "ldr"
+      ],
+      "addrCount": 24,
+      "addrSample": [
+        "0x13d80",
+        "0x14500",
+        "0x5c18c",
+        "0x66e44",
+        "0x66e70",
+        "0x66e74",
+        "0x66ea8",
+        "0x66eac",
+        "0x66eb0",
+        "0x66eb4",
+        "0x66ec8",
+        "0x66ecc"
+      ],
+      "offsetCount": 4,
+      "offsetSample": [
+        "[this+0x1e8]",
+        "[this+0x20c]",
+        "[this+0x354]",
+        "[this+0xd8]"
+      ],
+      "branchCount": 3,
+      "branchSample": [
+        "bl 0x13d80",
+        "bl 0x14500",
+        "bl 0x5c18c"
+      ],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata",
+        ".text",
+        "vtable",
+        "vtable+0x"
+      ]
+    },
+    {
+      "name": "l3-f4-playback-control-report.md",
+      "bytes": 3723,
+      "sha256": "2fd67153c2fddbe3d54d9e0be55ed587fe0665d31673bfc38105e86dc0719350",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 2,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-playback-control.json",
+      "bytes": 6918,
+      "sha256": "41fadd0c21c8e4a0c79aef9e2420af241de9c28d3e5214516d2091e4b638f48d",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 2,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-preflight-audit.json",
+      "bytes": 1602,
+      "sha256": "95bcc9ed37c688b634552fcf34038711cd20ccaf7d21ed187a161793a7a3f5ac",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 3,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-preflight.json",
+      "bytes": 2891,
+      "sha256": "1f7a0ac7e83806d7303ebc1cc02e38ef99479156212db6f766a43d362a7c2629",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 6,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "disasm"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-read-gap-chain-report.md",
+      "bytes": 3792,
+      "sha256": "2be1e39f432233172ce1b8912327e6022e65a9e091dd110b468a7d375da4d4fe",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 83,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "b.eq",
+        "b.ne",
+        "bl",
+        "blr",
+        "cbz",
+        "cmn",
+        "cmp",
+        "ldr",
+        "mov",
+        "ret",
+        "str"
+      ],
+      "addrCount": 29,
+      "addrSample": [
+        "0x100c8",
+        "0x10198",
+        "0x106c0",
+        "0x10794",
+        "0x10798",
+        "0x10888",
+        "0x108e0",
+        "0x1095c",
+        "0x10b20",
+        "0x12dc8",
+        "0x3bee8",
+        "0x9f44"
+      ],
+      "offsetCount": 2,
+      "offsetSample": [
+        "[+0x198]",
+        "[+0x1a0]"
+      ],
+      "branchCount": 3,
+      "branchSample": [
+        "b.eq 0xc4c4",
+        "b.ne 0x108e0",
+        "bl 0x10198"
+      ],
+      "errcodes": [
+        "-103",
+        "-2",
+        "0x67",
+        "0x6a"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata",
+        "vtable",
+        "vtable+0x"
+      ]
+    },
+    {
+      "name": "l3-f4-read-gap-chain.json",
+      "bytes": 7006,
+      "sha256": "d4816ff8a625f95f679db9b82abc57563be5b5553571a962c16bb9a1b852d804",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 105,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "add",
+        "adrp",
+        "b.eq",
+        "b.ne",
+        "bl",
+        "blr",
+        "cbz",
+        "cmn",
+        "cmp",
+        "ldr",
+        "mov",
+        "ret",
+        "str"
+      ],
+      "addrCount": 37,
+      "addrSample": [
+        "0x100c8",
+        "0x10198",
+        "0x106c0",
+        "0x10794",
+        "0x10798",
+        "0x10888",
+        "0x108e0",
+        "0x1095c",
+        "0x10b20",
+        "0x12dc8",
+        "0x1329c",
+        "0x3138c"
+      ],
+      "offsetCount": 2,
+      "offsetSample": [
+        "[+0x198]",
+        "[+0x1a0]"
+      ],
+      "branchCount": 1,
+      "branchSample": [
+        "bl 0x10198"
+      ],
+      "errcodes": [
+        "-103",
+        "-2",
+        "0x67",
+        "0x6a"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "anchors",
+        "checks_total",
+        "commit_store",
+        "disasm",
+        "fix_anchors",
+        "generation_cmp",
+        "hardcoded_minus",
+        "pending_",
+        "result_minus",
+        "rodata",
+        "wait_request_call"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-second-blocker-audit.json",
+      "bytes": 1554,
+      "sha256": "120bf91f4b02b389ce12094adfd4f695fc2c2322819c67981c044a07168503d6",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 6,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "pending_"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-second-blocker-final-audit.json",
+      "bytes": 3505,
+      "sha256": "6e116e0619e318f2de24397131cb832811b4c360d632550a7a8fea97261a5f50",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 8,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-2"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_total"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-second-blocker-final-report.md",
+      "bytes": 8066,
+      "sha256": "f16676f624cdcf4a361c507d226f2baeedb71529f88db9068365b35f67196450",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 10,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "pending_"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-second-blocker-final.json",
+      "bytes": 7779,
+      "sha256": "9ba646b9a3da390921416149576ad0c58a243db5a0ddb018edf9100fceccc18f",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 8,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-2"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "pending_"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-second-blocker-report.md",
+      "bytes": 4948,
+      "sha256": "8515bdba1c6560a86a4fdaa9f36a89d8b7dc6fa64df6760c05620823a67ecc43",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 3,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "pending_"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-selfconsistent-probe.json",
+      "bytes": 1366,
+      "sha256": "4b944df905db0d1e620ffb55d9d1370ecff28aae5ff9f311c434ad270916734f",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-task-diff-audit.json",
+      "bytes": 1997,
+      "sha256": "97df3a5b5b502aa7f7e14c5bece6d7ab03494abc0153f9f63b5d428f75610799",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 9,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "disasm",
+        "pending_"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-task-diff-report.md",
+      "bytes": 6070,
+      "sha256": "0c7e9c4ab7303190f0b2c3a8d9e471b70d4620f48604d7178b2527ba49aa3b33",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 38,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "adrp",
+        "bl",
+        "blr",
+        "ldr",
+        "mov",
+        "strb"
+      ],
+      "addrCount": 16,
+      "addrSample": [
+        "0x16468",
+        "0x4b000",
+        "0x4bed0",
+        "0x4bee8",
+        "0x4bf28",
+        "0xadbc",
+        "0xb86c",
+        "0xb8bc",
+        "0xb8c0",
+        "0xb8d8",
+        "0xb8f0",
+        "0xb900"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [],
+      "sectionRefs": [
+        "GOT",
+        "vtable",
+        "vtable+0x"
+      ]
+    },
+    {
+      "name": "l3-f4-task-diff.json",
+      "bytes": 4932,
+      "sha256": "3da8f26ddaf051dd22670a00faae3966672e668ec69ce5df42999d58195becee",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 69,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "add",
+        "adrp",
+        "bl",
+        "blr",
+        "br",
+        "cbz",
+        "ldp",
+        "ldr",
+        "ldrb",
+        "mov",
+        "ret",
+        "stp",
+        "strb",
+        "tbz"
+      ],
+      "addrCount": 47,
+      "addrSample": [
+        "0x10580",
+        "0x16468",
+        "0x3138c",
+        "0x37e20",
+        "0x3b000",
+        "0x4bf28",
+        "0x8d30",
+        "0xadbc",
+        "0xae08",
+        "0xae14",
+        "0xae3c",
+        "0xaeb4"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "instructions",
+        "symbol_addr"
+      ],
+      "sectionRefs": [
+        "GOT",
+        "vtable",
+        "vtable+0x"
+      ]
+    },
+    {
+      "name": "l3-f4-vfile-commit-audit.json",
+      "bytes": 4425,
+      "sha256": "8e23b657d3dd6f8b8e97526a0009abb247a1f283eed60fe942ab61b5ac0635c4",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 8,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_total"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-vfile-commit-probe.json",
+      "bytes": 4140,
+      "sha256": "20bdb1ed5e5391ba2965d86f9290f98d2df2aa725f9f42b39de58f565b427701",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 2,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-2"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-vfile-commit-report.md",
+      "bytes": 8495,
+      "sha256": "b6ed5db390d77e5c98f31437e94229ba2ec33fbacbe61685307b7cbecd5c9446",
+      "registered": true,
+      "newlyRegisteredByUGroup": false,
+      "score": 7,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [
+        "all_pass"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-vfile-diagnosis-audit.json",
+      "bytes": 3454,
+      "sha256": "adb2342e17959a8e212f411e25778d4d1d9adb36d7ab671a94afddf053c1b9e0",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 8,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_total"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-vfile-diagnosis-report.md",
+      "bytes": 9319,
+      "sha256": "d6a350fec73ad1c172db15f9ac03d800b0e663373b63dc31910c168fd5be4129",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 4,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-vfile-index-after.json",
+      "bytes": 12273,
+      "sha256": "e72b93a5eda36cbf2e5af2d003e6003fc29f012368db7f80d7954d2401bff882",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-vfile-index-before.json",
+      "bytes": 12273,
+      "sha256": "62cd44e44add755efe9a86e75fee1dc547b77931983edd85745208f22a54f6f6",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-wbranch-live-verdict.json",
+      "bytes": 32221,
+      "sha256": "2aa09f98e744109044b669c0ece3dca70f1aa02e539bccf41caf2e4011b8dc07",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 25,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 7,
+      "addrSample": [
+        "0x3cc73",
+        "0x3ccc9",
+        "0x3cf90",
+        "0x3cfce",
+        "0x3d017",
+        "0x3d062",
+        "0x3d0ae"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-102",
+        "-98"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_total",
+        "result_minus",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata"
+      ]
+    },
+    {
+      "name": "l3-f4-wbranch-recheck-report.md",
+      "bytes": 6422,
+      "sha256": "2c5dc894fa66ed132ddcc7456498c43e311f6b3895d6d339c5cfc06bb2be56b6",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 21,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 7,
+      "addrSample": [
+        "0x3cc73",
+        "0x3ccc9",
+        "0x3cf90",
+        "0x3cfce",
+        "0x3d017",
+        "0x3d062",
+        "0x3d0ae"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-102",
+        "-103",
+        "-98"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata"
+      ]
+    },
+    {
+      "name": "l3-f4-wbranch-recheck.json",
+      "bytes": 29480,
+      "sha256": "c350b06b7e8531c385cc033cace60a76df2a0e7c7f22aa5dd49095257fbfb12f",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 25,
+      "highRisk": true,
+      "mnemonicKinds": [],
+      "addrCount": 7,
+      "addrSample": [
+        "0x3cc73",
+        "0x3ccc9",
+        "0x3cf90",
+        "0x3cfce",
+        "0x3d017",
+        "0x3d062",
+        "0x3d0ae"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-102",
+        "-98"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "checks_total",
+        "result_minus",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".rodata"
+      ]
+    },
+    {
+      "name": "l3-f4-wiring-rollback-audit-report.md",
+      "bytes": 3854,
+      "sha256": "0a20465f2c69e6570aa3e17395bd8ee431c63bc036c7c2b61c9e764b76239cec",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 9,
+      "highRisk": false,
+      "mnemonicKinds": [
+        "cmp"
+      ],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "checks_total"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-f4-wiring-rollback-audit.json",
+      "bytes": 3449,
+      "sha256": "e5739977c6f7a8b5732ee00d6fcd54610b900b70bf92038e6851f29f04f3f9ae",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 6,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "all_pass",
+        "checks_total"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-full-replica-audit.json",
+      "bytes": 58258,
+      "sha256": "79ea0edd8d8f0ab867a2854f4a1d19e2c0301ab41064fa2503d981ead849c010",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 2,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": [
+        ".text"
+      ]
+    },
+    {
+      "name": "l3-interaction-spec.json",
+      "bytes": 8949,
+      "sha256": "c73406c0bccf065723b20f439e58155076593e65c8afe5ca9d93e34afe95531b",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 3,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "checks_pass"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-module-inventory.json",
+      "bytes": 85366,
+      "sha256": "3086a7ebebc93516123950445f2c15abef3ddf2c53247f8a35a16a7a74980f59",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 8,
+      "highRisk": false,
+      "mnemonicKinds": [
+        "adr",
+        "and"
+      ],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": [
+        ".text"
+      ]
+    },
+    {
+      "name": "l3-playback-route-evaluation-2026-11-11.md",
+      "bytes": 23141,
+      "sha256": "be9306da5d14b5296859d0c19716d7f11fe576479e61fd8fc2e97bfdbd978af7",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 7,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 3,
+      "addrSample": [
+        "0x10798",
+        "0x12dc8",
+        "0xc728"
+      ],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103",
+        "-2"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "l3-visual-replica-spec.json",
+      "bytes": 8781,
+      "sha256": "fd96b7648837f1cb1261ded526eb0ed84c803768bd87b296fbe85eddc563fd4e",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 3,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [
+        "checks_pass"
+      ],
+      "sectionRefs": []
+    },
+    {
+      "name": "legacy-layout-audit.json",
+      "bytes": 52927,
+      "sha256": "044881aa9b800e0799eda9fbee6ca454d094733ecc528a5d01575b85feca6e56",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "legacy-layout-resolve.json",
+      "bytes": 15184,
+      "sha256": "7514eef99f8607832734671e3a85e77fbd15381718c1a02274e8d000d5dae8f2",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "p3-trim-audit.json",
+      "bytes": 49750,
+      "sha256": "9f4324bf8173fcbb77a3b6eff96e4132c35a4630dea1c6b6b1d068b32734a534",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "player-anim-resolution.json",
+      "bytes": 3667,
+      "sha256": "8dcb38183576ccf0029038c34bd7d2a2b0f26b714a051153c298881fc8f240ab",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "player-assets-export.json",
+      "bytes": 613,
+      "sha256": "5b207ef78f0730265a02dea75e85d2fd81e7e6c8b135b3594a07eb1cd8f423eb",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "player-resource-closure.json",
+      "bytes": 56679,
+      "sha256": "35fe8cf00ce41dfd9d122af5f83fea17fff7fa67aa2e62822539ec4d473f65a2",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "review-and-diagnosis-2026-11-07.md",
+      "bytes": 12152,
+      "sha256": "df3cfd6abf679fb0dc9bde5f1c15c88b51b34bbba368bfaa5b1a6a04daaaf86b",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "rotation-anim-resolution.json",
+      "bytes": 5830,
+      "sha256": "3d16f5fd3187d82ce0f35ff6c3146b50c4dac91b0b3fed41d9b15d2e51480e32",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "spike0-java-closure.json",
+      "bytes": 7273313,
+      "sha256": "732f6ddea6492cabd8371d83cc523d15f910c822f710b108346fe01cde0cc870",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 27,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "add",
+        "asr",
+        "bl",
+        "br",
+        "cmp",
+        "sub"
+      ],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-2"
+      ],
+      "disasmFields": [
+        "anchors"
+      ],
+      "sectionRefs": [
+        ".text",
+        "GOT"
+      ]
+    },
+    {
+      "name": "spike1-engine-audit.json",
+      "bytes": 20470,
+      "sha256": "2440a1648264bce399c426947730f3e2027a17b9ff5512db4442d5c0fb9c798d",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "t1-delivery-2026-11-07.md",
+      "bytes": 5176,
+      "sha256": "be2d015e7fd78eabd8aa90f02cfa423f8647a1dab7fd79411e9c8868f527bcfa",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "t3-delivery-2026-11-07.md",
+      "bytes": 4395,
+      "sha256": "8ba2713b75039b7ed48aaff698b14d76c7bd82911bd5ea18d60ef3f925977b7b",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "t4-delivery-2026-11-07.md",
+      "bytes": 4468,
+      "sha256": "5873beb14c6c5736abe9de9b35b47bbb645de809896fb58b36bd95bdca3781ca",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "task-backlog-2026-11-07.md",
+      "bytes": 179314,
+      "sha256": "0bf4decf610f70cc540d70d0f91d0832870b09725db46cf0495f718b5f58a05e",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 170,
+      "highRisk": true,
+      "mnemonicKinds": [
+        "add",
+        "adrp",
+        "and",
+        "b.eq",
+        "b.ne",
+        "bl",
+        "blr",
+        "cbnz",
+        "cbz",
+        "cmp",
+        "ldr",
+        "mov",
+        "ret",
+        "str",
+        "strh"
+      ],
+      "addrCount": 89,
+      "addrSample": [
+        "0x100c8",
+        "0x10198",
+        "0x104b0",
+        "0x104b8",
+        "0x104d8",
+        "0x104e8",
+        "0x106c0",
+        "0x10748",
+        "0x10794",
+        "0x10798",
+        "0x1086c",
+        "0x10888"
+      ],
+      "offsetCount": 13,
+      "offsetSample": [
+        "[+0x198]",
+        "[+0x1a0]",
+        "[+0x1e8]",
+        "[+0x20c]",
+        "[+0x70]",
+        "[+0xa8]",
+        "[this+0x1e8]",
+        "[this+0x20c]"
+      ],
+      "branchCount": 9,
+      "branchSample": [
+        "b.ne 0x108e0",
+        "b.ne 0xbfa0",
+        "bl 0x10198",
+        "bl 0x13d80",
+        "bl 0x14500",
+        "bl 0x16468",
+        "bl 0x36c70",
+        "bl 0x36f68"
+      ],
+      "errcodes": [
+        "-102",
+        "-103",
+        "-2",
+        "0x67",
+        "0x6a"
+      ],
+      "disasmFields": [
+        "all_pass",
+        "disasm",
+        "pending_",
+        "rodata"
+      ],
+      "sectionRefs": [
+        ".bss",
+        ".init_array",
+        ".rodata",
+        ".text",
+        "GOT",
+        "PLT",
+        "vtable",
+        "vtable+0x"
+      ]
+    },
+    {
+      "name": "tl-l3-assets-compliance-audit-2026-11-08.md",
+      "bytes": 5698,
+      "sha256": "c9cf8b951e37e58f943009be7c0844d79d395da7218e5e1ec61be0bcaa0253fe",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "tl-l3-attr-id-resolution-2026-11-08.md",
+      "bytes": 9291,
+      "sha256": "f2cb58f47ae778f170b604fea4a8302041b3f68585c1e7d4069be2feeb32487e",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "tl-l3-audio-format-plan-2026-11-09.md",
+      "bytes": 10530,
+      "sha256": "cbea40ac91caa8ef3dade69bc7850a0437eea667c823ceaa25220331fc402029",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 5,
+      "highRisk": false,
+      "mnemonicKinds": [
+        "mov"
+      ],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "tl-l3-f3-matrix-plan-2026-11-09.md",
+      "bytes": 7928,
+      "sha256": "335c21d63b1f7ba1269faa9692127c5467fdea27739623b79bbe40c550e904c7",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "tl-l3-f4-eof-plan-2026-11-09.md",
+      "bytes": 9136,
+      "sha256": "aefaef30fd802116246d1acf359c3880117f55012d64ffddab4e7ad79e54f97e",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 4,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [
+        "-103"
+      ],
+      "disasmFields": [],
+      "sectionRefs": [
+        "GOT"
+      ]
+    },
+    {
+      "name": "tl-l3-full-replica-plan-2026-11-09.md",
+      "bytes": 11633,
+      "sha256": "e16979f14b0e05e149331e5bdd3fb7b02a5716cc225cc9257605b98715444ed7",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "tl-l3-interaction-replica-2026-11-08.md",
+      "bytes": 12379,
+      "sha256": "00cddca746bebeda598dcef7c0ab91fae64d24d9cd168fe7ddc139853c74c064",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "tl-l3-substitution-plan.md",
+      "bytes": 6224,
+      "sha256": "662b1c97a9ed8cbb8420ddf1c4f305bb2252ab296d2d5a40ba718c489a6de86e",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "tl-l3-technical-onboarding-2026-11-08.md",
+      "bytes": 10148,
+      "sha256": "e00bfac1962d2a2bcf5d2bf2e446a0603dcd1dbc86a4ffd52de1d66b1aa318b3",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    },
+    {
+      "name": "tl-l3-visual-replica-2026-11-09.md",
+      "bytes": 13681,
+      "sha256": "b082a782e032c6a8ba617820cc7a53412c610a2007ae908ec0e566b0e620d749",
+      "registered": false,
+      "newlyRegisteredByUGroup": false,
+      "score": 0,
+      "highRisk": false,
+      "mnemonicKinds": [],
+      "addrCount": 0,
+      "addrSample": [],
+      "offsetCount": 0,
+      "offsetSample": [],
+      "branchCount": 0,
+      "branchSample": [],
+      "errcodes": [],
+      "disasmFields": [],
+      "sectionRefs": []
+    }
+  ]
+}

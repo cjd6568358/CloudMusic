@@ -1,0 +1,196 @@
+{
+  "scanVersion": 1,
+  "highRiskThreshold": 12,
+  "highRiskCount": 24,
+  "scanFingerprint": "22b9632368f4c9823dae0b15e3c6f825ebfa1ba627d62f8d49c52e93fcfe7629",
+  "fingerprintDefinition": "sha256 of json([[name,score],...] in scan.highRisk order)",
+  "allowedVerdicts": [
+    "A_LOGIC_TRANSLATED",
+    "B_DATA_REGISTERED",
+    "ALREADY_COVERED_VIA_REPORT",
+    "PHENOMENON_LOG",
+    "NOT_NATIVE_LOGIC"
+  ],
+  "verdictCounts": {
+    "ALREADY_COVERED_VIA_REPORT": 6,
+    "A_LOGIC_TRANSLATED": 2,
+    "B_DATA_REGISTERED": 5,
+    "NOT_NATIVE_LOGIC": 4,
+    "PHENOMENON_LOG": 7
+  },
+  "newlyRegistered": {
+    "ALogicAnchors": 2,
+    "BDataSources": 5
+  },
+  "adjudications": [
+    {
+      "name": "task-backlog-2026-11-07.md",
+      "score": 170,
+      "verdict": "NOT_NATIVE_LOGIC",
+      "reason": "1980 行项目任务总账，只是引用已登记的反汇编结论（0x10798 / 0x3BEE8 / -103 / 0xC454），不是新的一手证据。",
+      "specId": "U-09"
+    },
+    {
+      "name": "l3-f4-minus103-chain.json",
+      "score": 69,
+      "verdict": "B_DATA_REGISTERED",
+      "reason": "§61.76 机读反汇编源，含 16 锚点 / 25 checks / 5 处 -103 立即数；控制流 B-23~B-28 已翻译，独有元数据由 U-08 全量登记并受 sha256 守护。",
+      "specId": "U-08"
+    },
+    {
+      "name": "l3-f4-play-gate-disasm.json",
+      "score": 63,
+      "verdict": "B_DATA_REGISTERED",
+      "reason": "§61.74 机读反汇编源，含 4 门控 / 16 checks / rodata 地址；四道门控 A-01~A-11 已翻译，独有元数据由 U-08 登记。",
+      "specId": "U-08"
+    },
+    {
+      "name": "l3-f4-level5-gate-semantics-audit.json",
+      "score": 59,
+      "verdict": "B_DATA_REGISTERED",
+      "reason": "§61.70 机读审计源，含 27 findings / 34 checks；g_level 语义 G-01~G-15 已翻译，独有元数据由 U-08 登记。",
+      "specId": "U-08"
+    },
+    {
+      "name": "l3-f4-loglevel-gate-probe-report.md",
+      "score": 51,
+      "verdict": "ALREADY_COVERED_VIA_REPORT",
+      "reason": "§61.68 level-5 零侵入探查的人类可读版；机读 .json 已由 U-08 登记，Setter/Getter/g_level 结论 G 组已翻译，无需重复登记。",
+      "specId": "U-09"
+    },
+    {
+      "name": "a3-phase-ab-evidence-2026-11-07.md",
+      "score": 46,
+      "verdict": "A_LOGIC_TRANSLATED",
+      "reason": "capstone 反汇编 libncmplayerengine.so 坐实 NMBufferSourceAdapter::Open() 的 onError(1001) 链（10 处 mov #0x3e9 / 4 处在 Open / vtable+0x18）；此前未翻译，本批 U-06/U-07 补上。",
+      "specId": "U-06/U-07"
+    },
+    {
+      "name": "a3-stage-c-analysis-2026-11-07.md",
+      "score": 42,
+      "verdict": "A_LOGIC_TRANSLATED",
+      "reason": "capstone 反汇编 libNMCommonCache.so 坐实构造期 [+0xB8]/[+0xB9] 初值 0x101 与 Memory Mode 双门控（tbz bit0 / cbnz vfile / strb wzr）；此前未翻译，本批 U-01~U-05 补上。",
+      "specId": "U-01~U-05"
+    },
+    {
+      "name": "l3-f4-loglevel-gate-probe.json",
+      "score": 42,
+      "verdict": "B_DATA_REGISTERED",
+      "reason": "§61.68 机读探针源，12 anchors / 19 checks / 6 setconfig rodata 引用；G 组已翻译 level 门控语义，独有元数据由 U-08 登记。",
+      "specId": "U-08"
+    },
+    {
+      "name": "l3-f4-jni-arg.json",
+      "score": 37,
+      "verdict": "B_DATA_REGISTERED",
+      "reason": "§61.56 机读复核源，17 checks / 4 evidence；参数槽透传 P-01~P-13 已翻译，独有元数据由 U-08 登记。",
+      "specId": "U-08"
+    },
+    {
+      "name": "spike0-java-closure.json",
+      "score": 27,
+      "verdict": "NOT_NATIVE_LOGIC",
+      "reason": "Java 侧闭包 / 资源清单探针，addr=0、无反汇编指令，命中 anchors 字段名属同名误报。",
+      "specId": "U-09"
+    },
+    {
+      "name": "l3-f4-live-cold-verdict.json",
+      "score": 25,
+      "verdict": "PHENOMENON_LOG",
+      "reason": "§61.71 单份 logcat 离线判读，36 份归档的 rodata 分支命中统计，属真机现象记录。",
+      "specId": "U-09"
+    },
+    {
+      "name": "l3-f4-live-seek-verdict.json",
+      "score": 25,
+      "verdict": "PHENOMENON_LOG",
+      "reason": "§61.71 seek 轮次 logcat 离线判读，真机现象记录。",
+      "specId": "U-09"
+    },
+    {
+      "name": "l3-f4-live-warm-verdict.json",
+      "score": 25,
+      "verdict": "PHENOMENON_LOG",
+      "reason": "§61.71 warm 轮次 logcat 离线判读，真机现象记录。",
+      "specId": "U-09"
+    },
+    {
+      "name": "l3-f4-wbranch-live-verdict.json",
+      "score": 25,
+      "verdict": "PHENOMENON_LOG",
+      "reason": "§61.71 W 分支上线复跑判读，13 checks 全是离线一致性核验，deviceRun=False。",
+      "specId": "U-09"
+    },
+    {
+      "name": "l3-f4-wbranch-recheck.json",
+      "score": 25,
+      "verdict": "PHENOMENON_LOG",
+      "reason": "§61.71 rodata 分支串命中统计，归档日志扫描结果，非静态控制流。",
+      "specId": "U-09"
+    },
+    {
+      "name": "l3-f4-live-rounds-audit.json",
+      "score": 24,
+      "verdict": "PHENOMENON_LOG",
+      "reason": "真机轮次自洽性审计，属过程记录。",
+      "specId": "U-09"
+    },
+    {
+      "name": "l3-f4-generation-gate-live-report.md",
+      "score": 23,
+      "verdict": "ALREADY_COVERED_VIA_REPORT",
+      "reason": "代次递增 0x104B0/0x104B8/0x104D8/0x104E8 与 0x10798 b.ne 0x108E0，N 组 N-01~N-30 已翻译。",
+      "specId": "U-09"
+    },
+    {
+      "name": "l3-f4-level5-wiring-audit.json",
+      "score": 22,
+      "verdict": "ALREADY_COVERED_VIA_REPORT",
+      "reason": "§61.69 level-5 诊断接线审计，coerceIn(0,5) 与 g_level 结论 G 组 / level5-wiring-report 已登记。",
+      "specId": "U-09"
+    },
+    {
+      "name": "l3-f4-wbranch-recheck-report.md",
+      "score": 21,
+      "verdict": "PHENOMENON_LOG",
+      "reason": "W 分支复核的人类可读报告，归档日志命中统计，真机现象记录。",
+      "specId": "U-09"
+    },
+    {
+      "name": "l3-f4-bypass-stream-audit.json",
+      "score": 19,
+      "verdict": "NOT_NATIVE_LOGIC",
+      "reason": "§61.78 A1「绕过取流」离线可行性论证，61 checks 均为证据自洽性；实验设计 NOT EXECUTED，无 native 控制流。",
+      "specId": "U-09"
+    },
+    {
+      "name": "l3-f4-jni-arg-audit.json",
+      "score": 16,
+      "verdict": "ALREADY_COVERED_VIA_REPORT",
+      "reason": "§61.56 JNI 参数槽透传的自洽性审计，P 组已翻译。",
+      "specId": "U-09"
+    },
+    {
+      "name": "l3-f4-generation-gate-audit.json",
+      "score": 12,
+      "verdict": "ALREADY_COVERED_VIA_REPORT",
+      "reason": "§61.67 代次闸门自洽性审计，N 组已翻译。",
+      "specId": "U-09"
+    },
+    {
+      "name": "l3-f4-generation-gate-live-audit.json",
+      "score": 12,
+      "verdict": "ALREADY_COVERED_VIA_REPORT",
+      "reason": "代次闸门真机观测自洽性审计，N 组已翻译。",
+      "specId": "U-09"
+    },
+    {
+      "name": "l3-f4-online-readiness.json",
+      "score": 12,
+      "verdict": "NOT_NATIVE_LOGIC",
+      "reason": "上线就绪自检清单（判据 / 设备 / runbook），无反汇编控制流。",
+      "specId": "U-09"
+    }
+  ],
+  "note": "24 份 highRisk 已逐份人工判读：2 份 A3 反汇编补翻译（U-01~U-07）、5 份机读 JSON 全量登记（U-08）、其余 17 份为引用已登记证据 / 真机现象 / 项目工程账，明确不翻译。audit.py 第 12 项守护名单指纹，证据集合变化时须重裁定。"
+}

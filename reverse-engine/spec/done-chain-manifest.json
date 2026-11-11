@@ -1,0 +1,68 @@
+{
+  "tool": "reverse-engine/tools/gen_done_chain_manifest.py",
+  "purpose": "§61.54/§61.55 D 组元数据防回潮：源 JSON sha256 + Kotlin 常量期望值",
+  "sources": {
+    "l3-f4-disasm-verify.json": {
+      "sha256": "d38262f3d01db41d8f3b9e83bc30683dc4abbdd388451cd30d0309582db845c3",
+      "bytes": 3127,
+      "checksTotal": 10,
+      "checksPass": 10,
+      "allPass": true,
+      "function": "_ZN17NMBufferSourceImp19OnNetSourceDataDoneEi"
+    },
+    "l3-f4-task-diff.json": {
+      "sha256": "3da8f26ddaf051dd22670a00faae3966672e668ec69ce5df42999d58195becee",
+      "bytes": 4932,
+      "checksTotal": 14,
+      "checksPass": 14,
+      "allPass": true,
+      "functions": {
+        "preload_write": "_ZN17NMBufferSourceImp28PreloadDoneTaskOnWriteThreadEv",
+        "preload_render": "_ZN17NMBufferSourceImp29PreloadDoneTaskOnRenderThreadEb",
+        "flush": "_ZN17NMBufferSourceImp14OnFlushNetDataEv"
+      }
+    }
+  },
+  "kotlinConstants": {
+    "DONE_FUNC_ADDR": 48872,
+    "DONE_FUNC_SIZE": 384,
+    "GOT_KIND2": 310992,
+    "GOT_OTHER": 311016,
+    "DONE_WINDOW_QUEUE_POSTS": 2,
+    "PRELOAD_WRITE_ADDR": 47212,
+    "PRELOAD_WRITE_SIZE": 288,
+    "PRELOAD_WRITE_INSNS": 72,
+    "FLUSH_ADDR": 49256,
+    "FLUSH_SIZE": 88,
+    "FLUSH_INSNS": 22,
+    "PRELOAD_RENDER_ADDR": 44476,
+    "PRELOAD_RENDER_SIZE": 420,
+    "PRELOAD_RENDER_INSNS": 105,
+    "GOT_RENDER": 311080,
+    "QUEUE_POST_ADDR": 91240,
+    "QUEUE_POST_CALL_SITES": 3,
+    "TASK_OBJECT_SIZE": 96,
+    "TASK_DIFF_CHECKS_TOTAL": 14,
+    "TASK_DIFF_CHECKS_PASS": 14
+  },
+  "derived": {
+    "QUEUE_POST_CALL_SITES": "3 = Done 函数窗口内 2 处（verify.evidence.queue_bl_0x16468_count=2，调用点 0xbf7c / 0xc004）+ PreloadDoneTaskOnWriteThread 级联 1 处（0xb924）。源 JSON 的 2 是单函数窗口计数；Kotlin 的 3 是「本批证据涉及的投递点总数」，两者不矛盾。",
+    "DONE_WINDOW_QUEUE_POSTS": "直接取自 verify.evidence.queue_bl_0x16468_count。",
+    "TASK_OBJECT_SIZE": "0x60 来自 analysis/l3-f4-disasm-verify-report.md 的任务对象对照（报告级 L2），不是源 JSON 字段；已在 LOGIC-SPEC D-04 标注等级 L2。",
+    "QUEUE_POST_ADDR": "0x16468；由 verify.evidence 内的指令串交叉核对存在性。"
+  },
+  "specIds": [
+    "D-01",
+    "D-02",
+    "D-03",
+    "D-04",
+    "D-05",
+    "D-06",
+    "D-07",
+    "D-08",
+    "D-09",
+    "D-10",
+    "D-11",
+    "D-12"
+  ]
+}
