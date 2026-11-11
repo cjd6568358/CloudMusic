@@ -1,5 +1,22 @@
 # CloudMusic · 文档 ↔ 代码核对与任务清单（2026-11-07 第三十三轮）
 
+> **★ 2026-11-12 第一百一十二批（`docs/12 §61.87`，用户「继续」×3 + 新端点
+> 38407）：M1 真机缺陷修复 + F3 22 格真机重跑 + **M2 门禁 PASS**。**
+> ① **M1 骨架真机缺陷**：ExoPlayer 单线程违例（verifyApplicationThread 拒跨线程
+> 调用，M1 在 Dispatchers.Default 构建/调用 → 命令静默丢弃 → 永不 READY，首轮
+> 22 格全 FAIL）→ **主线程门面化**（onMain / onMainSync post+latch）修复。
+> ② **F3 22 格真机重跑 PASS 14 / FAIL 8 ≥ 基线 11 → M2 门禁 PASS、解锁 M3**：
+> mp3/flac/wav/m4a/aac/opus/ogg 全格式双路径出声（engines=['media3']）；
+> ogg PASS + `Loaded FfmpegAudioRenderer` 实锤 libffmpegJNI.so 真机解码出力；
+> FAIL 8 全为预登记的容器 Extractor 缺口（aiff/wma/ape/wv，decoder 在位），
+> 零意外零崩溃。③ m4a 排障：自造 fMP4 105 处叶子 box largesize 被
+> FragmentedMp4Extractor 拒收 → 夹具改 ffmpeg 标准容器，旧样本留作 F4 证据。
+> ④ 解析器补丁（logcat pid 段）+ `tools/b2_device_pipeline.py`（4747cc9e）。
+> ⑤ **F4 仍 BLOCKED（历史档案）**、A3 仍 G09 PARTIAL、舱不冻结、指纹不回填。
+> 断点 `§61.86 → §61.87`。下一步：M3 `RangeCacheDataSource`（门禁已过）→
+> M4 播放语义（seek/ENDED/gapless）→ M5 全量回归；aiff/wma/ape/wv
+> extractor 单独立项；G09 复测。
+>
 > **★ 2026-11-12 第一百一十一批（`docs/12 §61.84~§61.85`，用户「拉取最新代码
 > 了解最新进展 继续任务」→「无人值守按既定方案推进」）：M1 门禁补全 + B2 M2
 > 落地 + F3 夹具扩展。**

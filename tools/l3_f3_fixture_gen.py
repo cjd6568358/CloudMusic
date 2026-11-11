@@ -314,18 +314,19 @@ def main() -> int:
     else:
         print("[WARN] 无 ffmpeg 可用（imageio-ffmpeg / PATH），跳过合成")
 
-    # §61.85：m4a 登记已验证样本（F4 调试期产出的自洽 fMP4，§61.61 双路径对照）
-    m4a = OUT_DIR / "f3_m4a_complete.m4a"
+    # §61.85/§61.87：m4a 登记 ffmpeg 合成的标准样本（A 路线 F4 调试期的自造 fMP4
+    # 含 105 处叶子 box largesize，Media3 FragmentedMp4Extractor 拒收——
+    # §61.87 实证；标准容器由 ffmpeg 生成，`-f null` 解码自检 + box 走查零 largesize）。
+    m4a = OUT_DIR / "f3_m4a.m4a"
     if m4a.is_file():
         entries["m4a"] = {
-            "origin": "f4_debug_fixture", "openlist_path": None,
+            "origin": "synthetic_ffmpeg", "openlist_path": None,
             "full_size": m4a.stat().st_size, "truncated": False,
             "bytes": m4a.stat().st_size, "third_party_decoder_verified": True,
-            "note": ("自洽 fMP4（16.5MB / mDuration 155933），§61.61 ISO-BMFF 解析"
-                     "与 LOCAL/REMOTE 对照已验证容器自洽；A 路线 REMOTE 因 F4 "
-                     "阻塞 FAIL 与样本无关"),
+            "note": ("ffmpeg aac-in-mp4 12s 正弦音（faststart，box 走查零 largesize）；"
+                     "旧自造 fMP4（f3_m4a_complete.m4a）保留作 F4 历史证据不入矩阵"),
         }
-        print("[KEEP] m4a   %9d B（§61.61 已验证）" % m4a.stat().st_size)
+        print("[GEN ] m4a   %9d B" % m4a.stat().st_size)
 
     for ext, info in entries.items():
         p = OUT_DIR / ("f3_%s.%s" % (ext, ext))

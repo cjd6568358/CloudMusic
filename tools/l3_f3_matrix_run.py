@@ -125,7 +125,7 @@ def parse_log(text: str, ext: str, path_kind: str) -> dict:
         "engine_prepare_failed": "ENGINE_PREPARE" in text,
         "probe_failed": "probeLength FAILED" in text,
         # §61.86 B2 侧错误信号（engine_error= / onPlayerError 的 error= 行）
-        "media3_error": bool(re.search(r"CM-Media3: (engine_)?error=", text)),
+        "media3_error": bool(re.search(r"CM-Media3[^:]*: (engine_)?error=", text)),
     }
     hard_error = any(errors[k] for k in (
         "source_callback_on_error", "fatal_exception", "anr",
@@ -156,9 +156,9 @@ def parse_log(text: str, ext: str, path_kind: str) -> dict:
     if engine == "media3":
         # §61.86 B2 判据（对齐 §61.74 多信号口径，不依赖 A 路线原生日志）：
         # READY 且 durationMs>0 ≈「解码链打开」；state=PLAYING ≈「真实出声」。
-        ready = re.findall(r"CM-Media3: state=READY durationMs=(-?\d+)", text)
+        ready = re.findall(r"CM-Media3[^:]*: state=READY durationMs=(-?\d+)", text)
         dur_ms = int(ready[-1]) if ready else -1
-        playing = "CM-Media3: state=PLAYING" in text
+        playing = bool(re.search(r"CM-Media3[^:]*: state=PLAYING", text))
         codec_opened = dur_ms > 0
         played = playing
         duration = str(dur_ms) if dur_ms > 0 else None

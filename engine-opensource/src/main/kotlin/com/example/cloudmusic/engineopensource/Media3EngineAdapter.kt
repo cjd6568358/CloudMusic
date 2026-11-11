@@ -2,7 +2,11 @@ package com.example.cloudmusic.engineopensource
 
 import android.content.Context
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
@@ -56,6 +60,34 @@ class Media3EngineAdapter : IMusicEngine {
     @Volatile
     private var error: CloudMusicError? = null
     private var nextRaw = 1L
+
+    /**
+     * §61.87（F3 首轮真机暴露）：ExoPlayer 强制「单线程（application thread）」
+     * 访问——构建线程必须带 Looper，且所有后续调用（含 getter）都在同一线程，
+     * 否则 `ExoPlayerImpl.verifyApplicationThread` 拒绝执行、命令静默丢弃
+     * （prepare 永不 READY，F3 首轮 22 格全 FAIL 的根因）。门面调用来自
+     * PlayerController 的 Dispatchers.Default 协程 → 统一 marshal 到主线程：
+     * 命令 fire-and-forget（[onMain]），读值 post+latch（[onMainSync]）。
+     */
+    private val mainHandler = Handler(Looper.getMainLooper())
+
+    private fun onMain(block: () -> Unit) {
+        if (Looper.myLooper() == Looper.getMainLooper()) block() else mainHandler.post(block)
+    }
+
+    private fun <T> onMainSync(timeoutSec: Long, default: T, block: () -> T): T {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            return runCatching(block).getOrDefault(default)
+        }
+        val latch = CountDownLatch(1)
+        var out = default
+        mainHandler.post {
+            out = runCatching(block).getOrDefault(default)
+            latch.countDown()
+        }
+        latch.await(timeoutSec, TimeUnit.SECONDS)
+        return out
+    }
 
     private val listener = object : Player.Listener {
         override fun onPlaybackStateChanged(playbackState: Int) {
@@ -129,7 +161,6 @@ class Media3EngineAdapter : IMusicEngine {
         // 格式——对齐施工单 §4「硬解优先」与 B2 的「删掉缺陷层、不换解码器」。
         val renderersFactory = DefaultRenderersFactory(ctx)
             .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
-        val p = ExoPlayer.Builder(ctx, renderersFactory).build()
         // §61.86：F3 双引擎判据的 B2 侧一手日志。prepare 行与 A 路线
         // EngineAdapter 的 `prepare trackId=... remote=... url=...` 同格式，
         // 使 tools/l3_f3_matrix_run.py 的正则对两引擎通用。
@@ -144,14 +175,18 @@ class Media3EngineAdapter : IMusicEngine {
                     source.expectedLength,
                 ) + "engine=media3-1.11.1 ffmpeg=EXTENSION_RENDERER_MODE_ON",
         )
-        p.addListener(listener)
-        p.setMediaItem(item)
-        p.prepare()
-        player = p
         val handle = EngineHandle(nextRaw++)
-        activeHandle = handle
-        // 与 EngineAdapter / InMemoryMusicEngine 一致：prepare 后等 play() 才进入 PLAYING。
-        _state.value = EngineState.PAUSED
+        // §61.87：ExoPlayer 的构建 + prepare 必须在 application thread（主 Looper）。
+        onMainSync(10L, Unit) {
+            val p = ExoPlayer.Builder(ctx, renderersFactory).build()
+            p.addListener(listener)
+            p.setMediaItem(item)
+            p.prepare()
+            player = p
+            activeHandle = handle
+            // 与 EngineAdapter / InMemoryMusicEngine 一致：prepare 后等 play() 才进入 PLAYING。
+            _state.value = EngineState.PAUSED
+        }
         return handle
     }
 
@@ -167,13 +202,16 @@ class Media3EngineAdapter : IMusicEngine {
         _state.value = EngineState.ERROR
     }
 
-    private inline fun guard(handle: EngineHandle, block: (ExoPlayer) -> Unit) {
+    private inline fun guard(handle: EngineHandle, crossinline block: (ExoPlayer) -> Unit) {
         requireActive(handle)
-        val p = player ?: return
-        try {
-            block(p)
-        } catch (t: Throwable) {
-            fail(CloudMusicError.DsUpstream("ENGINE_CALL", t.message ?: "Media3 调用失败"))
+        // §61.87：命令统一 marshal 到主线程（fire-and-forget，播放命令无返回值）。
+        onMain {
+            val p = player ?: return@onMain
+            try {
+                block(p)
+            } catch (t: Throwable) {
+                fail(CloudMusicError.DsUpstream("ENGINE_CALL", t.message ?: "Media3 调用失败"))
+            }
         }
     }
 
@@ -218,14 +256,21 @@ class Media3EngineAdapter : IMusicEngine {
 
     override fun positionMs(handle: EngineHandle): Long {
         requireActive(handle)
-        val pos = player?.currentPosition ?: return 0L
-        return if (pos == C.TIME_UNSET) 0L else pos
+        // §61.87：getter 也受单线程约束 → 主线程同步读（1s 超时回退 0）。
+        return onMainSync(1L, 0L) {
+            val p = player ?: return@onMainSync 0L
+            val pos = p.currentPosition
+            if (pos == C.TIME_UNSET) 0L else pos
+        }
     }
 
     override fun durationMs(handle: EngineHandle): Long {
         requireActive(handle)
-        val d = player?.duration ?: return -1L
-        return if (d == C.TIME_UNSET || d < 0) -1L else d
+        return onMainSync(1L, -1L) {
+            val p = player ?: return@onMainSync -1L
+            val d = p.duration
+            if (d == C.TIME_UNSET || d < 0) -1L else d
+        }
     }
 
     override fun state(): Flow<EngineState> = _state.asStateFlow()
@@ -246,20 +291,23 @@ class Media3EngineAdapter : IMusicEngine {
     override fun release(handle: EngineHandle) {
         requireActive(handle)
         Log.i(TAG, "release handle=%d".format(handle.raw))
-        try {
-            player?.removeListener(listener)
-            player?.release()
-        } catch (t: Throwable) {
-            fail(CloudMusicError.DsUpstream("ENGINE_RELEASE", t.message ?: "释放失败"))
-        } finally {
-            player = null
-            // §15 T09：release 同时关闭 IDataSource。
-            dataSource?.close()
-            dataSource = null
-            activeHandle = null
-            error = null
-            _state.value = EngineState.IDLE
+        // §61.87：player.release() 也必须在 application thread（主 Looper）。
+        onMainSync(5L, Unit) {
+            try {
+                player?.removeListener(listener)
+                player?.release()
+            } catch (t: Throwable) {
+                fail(CloudMusicError.DsUpstream("ENGINE_RELEASE", t.message ?: "释放失败"))
+            } finally {
+                player = null
+            }
         }
+        // §15 T09：release 同时关闭 IDataSource（无线程约束，调用线程直接做）。
+        dataSource?.close()
+        dataSource = null
+        activeHandle = null
+        error = null
+        _state.value = EngineState.IDLE
     }
 
     override fun lastError(): CloudMusicError? = error

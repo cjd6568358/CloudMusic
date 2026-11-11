@@ -109,7 +109,7 @@
       "third_party_decoder_verified": true,
       "note": "ffmpeg libopus 编码 12s 正弦音，生成后 -f null 全解码自检通过",
       "file": "analysis/l3-f3-fixtures/f3_opus.opus",
-      "sha256": "c224d3be2da67e45c88e90f3d19e8ab65c6cdd0646fcc934091a9835f25da55a",
+      "sha256": "0a13bc77210cf3f4d8eca4a97fbc93713e32091c8dc5b3ac238b91bb64a588f5",
       "magic": "4f67675300020000"
     },
     "wv": {
@@ -125,16 +125,16 @@
       "magic": "7776706b24020000"
     },
     "m4a": {
-      "origin": "f4_debug_fixture",
+      "origin": "synthetic_ffmpeg",
       "openlist_path": null,
-      "full_size": 16573387,
+      "full_size": 99695,
       "truncated": false,
-      "bytes": 16573387,
+      "bytes": 99695,
       "third_party_decoder_verified": true,
-      "note": "自洽 fMP4（16.5MB / mDuration 155933），§61.61 ISO-BMFF 解析与 LOCAL/REMOTE 对照已验证容器自洽；A 路线 REMOTE 因 F4 阻塞 FAIL 与样本无关",
+      "note": "ffmpeg aac-in-mp4 12s 正弦音（faststart，box 走查零 largesize）；旧自造 fMP4（f3_m4a_complete.m4a）保留作 F4 历史证据不入矩阵",
       "file": "analysis/l3-f3-fixtures/f3_m4a.m4a",
-      "sha256": "742dc5d417eba7f54387078f762619f8dea1b9b9a7b22b5a19ee41d3d5499f91",
-      "magic": "0000000166747970"
+      "sha256": "0a6f6182218de98fa935cde69682d7e8c28cc838d5c206bd7221bc2ee3bd0871",
+      "magic": "0000001c66747970"
     }
   },
   "no_sample_formats": [
