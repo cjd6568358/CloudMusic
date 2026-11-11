@@ -1,6 +1,10 @@
 # CloudMusic · version catalog（docs/03-12 §1.2 的 2.x / 8.x 占位已钉死）
-# 锁定依据：AGP 8.9.2 官方兼容表 —— Gradle 最低/默认 8.11.1、JDK 17、
-# SDK Build Tools 35.0.0、支持的最高 API 35，与本项目 compileSdk/targetSdk=35 一致。
+# 锁定依据：AGP 8.9.2 官方兼容表 —— Gradle 最低/默认 8.11.1、JDK 17。
+# §61.84（B2 M1）：compileSdk 35→36 —— media3 1.11.1 的 AAR metadata 要求
+# 依赖方 compileSdk ≥ 36（§61.80 施工单 §3 预判「要求 35」与实测不符，如实纠错）；
+# targetSdk 保持 35（运行时行为语义不变，M1 无需升级）。AGP 8.9.2 对 36 会
+# 提示 WARN（受测上限 35），非错误；后续升 AGP 前以 android.suppressUnsupportedCompileSdk
+# 抑制为可选。ndk 27.1.12297006 = 本机 SDK 实装版本（M2 交叉编译用）。
 # Kotlin 2.1.0 + KSP 2.1.0-1.0.29 为同一 Kotlin 版本的配对发行。
 # 多人协作：本文件只钉死「版本号」，不含任何 SDK / JDK / 项目绝对路径。
 # 各成员通过 ANDROID_HOME 或本地 local.properties 提供 SDK 位置，见 local.properties.example。
@@ -11,10 +15,10 @@ agp = "8.9.2"
 kotlin = "2.1.0"
 ksp = "2.1.0-1.0.29"
 java = "17"
-compileSdk = "35"
+compileSdk = "36"
 minSdk = "26"
 targetSdk = "35"
-ndk = "27.0.12077973"
+ndk = "27.1.12297006"
 buildTools = "35.0.0"
 
 coroutines = "1.9.0"
