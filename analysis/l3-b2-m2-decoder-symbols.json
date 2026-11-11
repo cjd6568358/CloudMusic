@@ -1,0 +1,727 @@
+{
+  "audit": "l3_b2_m2_decoder_symbols",
+  "batch": "12 §61.83",
+  "mode": "offline_readonly",
+  "method": "pure_stdlib_ELF32_64_LE_dynsym_parser",
+  "device_run": false,
+  "network_used": false,
+  "route": "B2",
+  "stage": "M2_PREFLIGHT",
+  "m2_started": false,
+  "m2_completed": false,
+  "m2_gate_passed": false,
+  "f4_status": "BLOCKED",
+  "evidence_level": "ELF_exported_dynsym_symbol",
+  "prior_evidence_level": "binary_printable_string_scan (12 §61.44)",
+  "symtab_stripped": true,
+  "libraries": {
+    "arm64-v8a": {
+      "path": "engine-legacy/src/main/jniLibs/arm64-v8a/libffmpeg.so",
+      "bytes": 6658592,
+      "sha256": "a527e23288f5281cc899a2e0756fe4843d7b9ec7d81e6f8c2ce8b313f51e83d2",
+      "elf_class": 64,
+      "e_machine": 183,
+      "section_count": 23,
+      "has_symtab": false,
+      "dynsym_count": 3753,
+      "dynsym_nonempty_names": 3750,
+      "decoder_symbol_count": 100,
+      "demuxer_symbol_count": 75
+    },
+    "armeabi-v7a": {
+      "path": "analysis/decoded/lib/armeabi-v7a/libffmpeg.so",
+      "bytes": 5340888,
+      "sha256": "f73dc5adef4aa0e5d39036aefed7547e535c7a9fe956d051b4ff71002e69b388",
+      "elf_class": 32,
+      "e_machine": 40,
+      "section_count": 26,
+      "has_symtab": false,
+      "dynsym_count": 3875,
+      "dynsym_nonempty_names": 3874,
+      "decoder_symbol_count": 100,
+      "demuxer_symbol_count": 75
+    }
+  },
+  "cross_abi_identical": true,
+  "consistent_with_61_44": true,
+  "decoder_symbol_count": 100,
+  "demuxer_symbol_count": 75,
+  "full_decoder_symbols": [
+    "aac",
+    "aac_latm",
+    "ac4_mediacodec",
+    "adpcm_4xm",
+    "adpcm_afc",
+    "adpcm_agm",
+    "adpcm_aica",
+    "adpcm_argo",
+    "adpcm_ct",
+    "adpcm_dtk",
+    "adpcm_ea",
+    "adpcm_ea_maxis_xa",
+    "adpcm_ea_r1",
+    "adpcm_ea_r2",
+    "adpcm_ea_r3",
+    "adpcm_ea_xas",
+    "adpcm_ima_alp",
+    "adpcm_ima_amv",
+    "adpcm_ima_apc",
+    "adpcm_ima_apm",
+    "adpcm_ima_cunning",
+    "adpcm_ima_dat4",
+    "adpcm_ima_dk3",
+    "adpcm_ima_dk4",
+    "adpcm_ima_ea_eacs",
+    "adpcm_ima_ea_sead",
+    "adpcm_ima_iss",
+    "adpcm_ima_mtf",
+    "adpcm_ima_oki",
+    "adpcm_ima_qt",
+    "adpcm_ima_rad",
+    "adpcm_ima_smjpeg",
+    "adpcm_ima_ssi",
+    "adpcm_ima_wav",
+    "adpcm_ima_ws",
+    "adpcm_ms",
+    "adpcm_mtaf",
+    "adpcm_psx",
+    "adpcm_sbpro_2",
+    "adpcm_sbpro_3",
+    "adpcm_sbpro_4",
+    "adpcm_swf",
+    "adpcm_thp",
+    "adpcm_thp_le",
+    "adpcm_xa",
+    "adpcm_yamaha",
+    "adpcm_zork",
+    "alac",
+    "amrnb",
+    "amrwb",
+    "ape",
+    "dca",
+    "dsd_lsbf",
+    "dsd_lsbf_planar",
+    "dsd_msbf",
+    "dsd_msbf_planar",
+    "eac3_mediacodec",
+    "flac",
+    "flv",
+    "h263",
+    "h263i",
+    "h263p",
+    "h264",
+    "h264_mediacodec",
+    "hevc",
+    "hevc_mediacodec",
+    "init_cabac",
+    "mp2",
+    "mp3",
+    "mpeg4",
+    "opus",
+    "pcm_alaw",
+    "pcm_f32le",
+    "pcm_f64le",
+    "pcm_mulaw",
+    "pcm_s16le",
+    "pcm_s24be",
+    "pcm_s24le",
+    "pcm_s32le",
+    "pcm_s8",
+    "pcm_u8",
+    "png",
+    "theora",
+    "vorbis",
+    "vp3",
+    "vp56_init_range",
+    "vp6",
+    "vp6a",
+    "vp6f",
+    "vp7",
+    "vp8_mediacodec",
+    "vp9_mediacodec",
+    "wmalossless",
+    "wmapro",
+    "wmav1",
+    "wmav2",
+    "wmavoice",
+    "xma1",
+    "xma2",
+    "yuv4"
+  ],
+  "full_demuxer_symbols": [
+    "aac",
+    "amr",
+    "ape",
+    "asf",
+    "av3a",
+    "avi",
+    "dsf",
+    "dts",
+    "flac",
+    "flv",
+    "h263",
+    "h264",
+    "hevc",
+    "image2",
+    "image2pipe",
+    "image_bmp_pipe",
+    "image_dds_pipe",
+    "image_dpx_pipe",
+    "image_exr_pipe",
+    "image_gif_pipe",
+    "image_j2k_pipe",
+    "image_jpeg_pipe",
+    "image_jpegls_pipe",
+    "image_pam_pipe",
+    "image_pbm_pipe",
+    "image_pcx_pipe",
+    "image_pgm_pipe",
+    "image_pgmyuv_pipe",
+    "image_pictor_pipe",
+    "image_png_pipe",
+    "image_ppm_pipe",
+    "image_psd_pipe",
+    "image_qdraw_pipe",
+    "image_sgi_pipe",
+    "image_sunrast_pipe",
+    "image_svg_pipe",
+    "image_tiff_pipe",
+    "image_webp_pipe",
+    "image_xpm_pipe",
+    "image_xwd_pipe",
+    "kux",
+    "live_flv",
+    "m4v",
+    "matroska",
+    "mov",
+    "mp3",
+    "mpegps",
+    "mpegts",
+    "mpegtsraw",
+    "mpegvideo",
+    "ogg",
+    "pcm_alaw",
+    "pcm_f32be",
+    "pcm_f32le",
+    "pcm_f64be",
+    "pcm_f64le",
+    "pcm_mulaw",
+    "pcm_s16be",
+    "pcm_s16le",
+    "pcm_s24be",
+    "pcm_s24le",
+    "pcm_s32be",
+    "pcm_s32le",
+    "pcm_s8",
+    "pcm_u16be",
+    "pcm_u16le",
+    "pcm_u24be",
+    "pcm_u24le",
+    "pcm_u32be",
+    "pcm_u32le",
+    "pcm_u8",
+    "pcm_vidc",
+    "sln",
+    "wav",
+    "webm_dash_manifest"
+  ],
+  "unconfirmed_9": [
+    {
+      "query": "tak",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "NO_SYMBOL"
+    },
+    {
+      "query": "tta",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "NO_SYMBOL"
+    },
+    {
+      "query": "wavpack",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "NO_SYMBOL"
+    },
+    {
+      "query": "dsf",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": true,
+      "decoder_family_matches": [],
+      "demuxer_family_matches": [
+        "dsf"
+      ],
+      "symbol_verdict": "DEMUXER_SYMBOL_ONLY"
+    },
+    {
+      "query": "dff",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "NO_SYMBOL"
+    },
+    {
+      "query": "aiff",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "NO_SYMBOL"
+    },
+    {
+      "query": "shorten",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "NO_SYMBOL"
+    },
+    {
+      "query": "truehd",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "NO_SYMBOL"
+    },
+    {
+      "query": "mlp",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "NO_SYMBOL"
+    }
+  ],
+  "candidate_15": [
+    {
+      "query": "mp3",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": true,
+      "decoder_family_matches": [
+        "mp3"
+      ],
+      "demuxer_family_matches": [
+        "mp3"
+      ],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "flac",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": true,
+      "decoder_family_matches": [
+        "flac"
+      ],
+      "demuxer_family_matches": [
+        "flac"
+      ],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "ogg",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": true,
+      "decoder_family_matches": [],
+      "demuxer_family_matches": [
+        "ogg"
+      ],
+      "symbol_verdict": "DEMUXER_SYMBOL_ONLY"
+    },
+    {
+      "query": "m4a",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "NO_SYMBOL"
+    },
+    {
+      "query": "wav",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": true,
+      "decoder_family_matches": [
+        "adpcm_ima_wav"
+      ],
+      "demuxer_family_matches": [
+        "wav"
+      ],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "opus",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [
+        "opus"
+      ],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "wma",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [
+        "wmalossless",
+        "wmapro",
+        "wmav1",
+        "wmav2",
+        "wmavoice"
+      ],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "aac",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": true,
+      "decoder_family_matches": [
+        "aac",
+        "aac_latm"
+      ],
+      "demuxer_family_matches": [
+        "aac"
+      ],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "ape",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": true,
+      "decoder_family_matches": [
+        "ape"
+      ],
+      "demuxer_family_matches": [
+        "ape"
+      ],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "dsf",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": true,
+      "decoder_family_matches": [],
+      "demuxer_family_matches": [
+        "dsf"
+      ],
+      "symbol_verdict": "DEMUXER_SYMBOL_ONLY"
+    },
+    {
+      "query": "dff",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "NO_SYMBOL"
+    },
+    {
+      "query": "aiff",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "NO_SYMBOL"
+    },
+    {
+      "query": "wv",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "NO_SYMBOL"
+    },
+    {
+      "query": "tak",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "NO_SYMBOL"
+    },
+    {
+      "query": "alac",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [
+        "alac"
+      ],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    }
+  ],
+  "codec_queries": [
+    {
+      "query": "vorbis",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [
+        "vorbis"
+      ],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "dsd",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [
+        "dsd_lsbf",
+        "dsd_lsbf_planar",
+        "dsd_msbf",
+        "dsd_msbf_planar"
+      ],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "pcm_s16le",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": true,
+      "decoder_family_matches": [
+        "pcm_s16le"
+      ],
+      "demuxer_family_matches": [
+        "pcm_s16le"
+      ],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "wmav1",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [
+        "wmav1"
+      ],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "wmav2",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [
+        "wmav2"
+      ],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "wmapro",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [
+        "wmapro"
+      ],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "wmalossless",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [
+        "wmalossless"
+      ],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "wmavoice",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [
+        "wmavoice"
+      ],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "adpcm_ima_wav",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [
+        "adpcm_ima_wav"
+      ],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "ac3",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [
+        "eac3_mediacodec"
+      ],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "eac3",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [
+        "eac3_mediacodec"
+      ],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "dts",
+      "decoder_symbol_exact": false,
+      "demuxer_symbol_exact": true,
+      "decoder_family_matches": [],
+      "demuxer_family_matches": [
+        "dts"
+      ],
+      "symbol_verdict": "DEMUXER_SYMBOL_ONLY"
+    },
+    {
+      "query": "mp3",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": true,
+      "decoder_family_matches": [
+        "mp3"
+      ],
+      "demuxer_family_matches": [
+        "mp3"
+      ],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "aac",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": true,
+      "decoder_family_matches": [
+        "aac",
+        "aac_latm"
+      ],
+      "demuxer_family_matches": [
+        "aac"
+      ],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "aac_latm",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [
+        "aac_latm"
+      ],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "alac",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [
+        "alac"
+      ],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "flac",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": true,
+      "decoder_family_matches": [
+        "flac"
+      ],
+      "demuxer_family_matches": [
+        "flac"
+      ],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "ape",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": true,
+      "decoder_family_matches": [
+        "ape"
+      ],
+      "demuxer_family_matches": [
+        "ape"
+      ],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    },
+    {
+      "query": "opus",
+      "decoder_symbol_exact": true,
+      "demuxer_symbol_exact": false,
+      "decoder_family_matches": [
+        "opus"
+      ],
+      "demuxer_family_matches": [],
+      "symbol_verdict": "DECODER_SYMBOL_PRESENT"
+    }
+  ],
+  "verdict": "M2_PREFLIGHT_SYMBOL_EVIDENCE_UPGRADE__M2_GATE_NOT_PASSED__F4_BLOCKED：承接 §61.82 留下的「9 个格式 decoder 编入未确认」缺口，本批纯离线用手写 ELF32/64 解析器读 libffmpeg.so 的 .dynsym 导出符号表，把证据等级从 §61.44 的「二进制可打印字符串扫描」提升到「ELF 导出符号」。arm64-v8a 与 armeabi-v7a 两个 ABI 各自恰好 100 个 ff_*_decoder + 75 个 ff_*_demuxer 导出符号，集合完全一致，且与 §61.44 的 100/75 计数及清单吻合；两份 so 的 .symtab 均已被 strip，但这些 AVCodec 全局变量作为导出符号保留在 .dynsym，故符号表级实证成立。9 个存疑格式与 15 个候选格式已逐项给出精确符号存在性与族匹配的二值结果（见 JSON）。铁律不变：导出符号存在 ≠ decoder 可用 ≠ 真机可播；逐格式可播仍需 F3 REMOTE/LOCAL 双路径真机矩阵（NOT RUN）。本批不产出 B2 扩展产物、不改 P0 源码、不动解码器、不连 adb / 不联网 / 不下载，M2 阶段门禁未通过、M2 未开工、未完成。F4 仍 BLOCKED，§61.75 终局裁决不变。符号表补证 ≠ M2 完成。",
+  "checks": {
+    "two_so_present": true,
+    "both_elf_magic": true,
+    "arm64_is_elf64_aarch64": true,
+    "v7a_is_elf32_arm": true,
+    "symtab_stripped_both": true,
+    "dynsym_present_both": true,
+    "decoder_100_both": true,
+    "demuxer_75_both": true,
+    "cross_abi_identical": true,
+    "consistent_with_61_44": true,
+    "unconfirmed_9_all_queried": true,
+    "candidate_15_all_queried": true,
+    "codec_queries_all_present": true,
+    "no_positive_false_claim": true,
+    "mode_offline_readonly": true,
+    "m2_gate_not_passed": true,
+    "f4_blocked": true,
+    "tool_is_pure_stdlib": true
+  },
+  "checks_total": 18,
+  "checks_pass": 18,
+  "failed_checks": [],
+  "all_pass": true,
+  "boundaries": [
+    "本工具只做 ELF .dynsym 导出符号存在性实证，不实现 M2、不产出 FFmpeg 扩展产物、不联网、不连 adb",
+    "导出符号存在 ≠ decoder 可用 ≠ 真机可播；逐格式可播结论只能由 F3 REMOTE/LOCAL 双路径真机矩阵给出（NOT RUN）",
+    "族匹配（子串包含）只是机械检索辅助，不是「该格式由该 decoder 解码」的能力断言",
+    ".symtab 已被 strip，本证据只覆盖 .dynsym 导出符号；未导出且被 strip 的实现不在本证据范围内，不作「未编入」的绝对断言",
+    "§61.82 第 3 节「有 demuxer 或字符串痕迹但未确认 decoder 编入」按本批符号表结果只追加批注、不改历史正文",
+    "M0/M1/M2 前置历史证据（§61.50~§61.82）冻结不改；本批不重跑历史工具",
+    "R7 / GPL v2+ 边界只登记不作法律结论；不引 media3-session、18 个 so 暂不移除、不动解码器",
+    "符号表补证 ≠ M2 完成，M2 门禁未通过不得进入 M3；F4 仍 BLOCKED、§61.75 终局裁决不变"
+  ],
+  "pyelftools_crosscheck": {
+    "tool": "pyelftools 0.33 (isolated venv) independent crosscheck",
+    "pyelftools_version": "0.33",
+    "method": "ELFFile.get_section_by_name('.dynsym').iter_symbols() -> ff_*_decoder / ff_*_demuxer",
+    "per_abi": {
+      "arm64-v8a": {
+        "decoder": 100,
+        "demuxer": 75,
+        "dynsym_names": 3750,
+        "decoder_set_matches_stdlib": true,
+        "demuxer_set_matches_stdlib": true,
+        "matches_stdlib": true
+      },
+      "armeabi-v7a": {
+        "decoder": 100,
+        "demuxer": 75,
+        "dynsym_names": 3874,
+        "decoder_set_matches_stdlib": true,
+        "demuxer_set_matches_stdlib": true,
+        "matches_stdlib": true
+      }
+    },
+    "all_match": true,
+    "note": "pyelftools 独立复算两 ABI 的 .dynsym 导出符号，与主工具纯 stdlib 手写解析的 100 个 ff_*_decoder / 75 个 ff_*_demuxer 集合逐项完全一致；交叉校验通过。这是独立实现互证，不是同一份代码的重复运行。"
+  }
+}

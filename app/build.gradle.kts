@@ -35,7 +35,9 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     // T-A5（12 §31）：Service 收集 PlaybackRuntime.state 更新通知；
-    // 不引入 Media3 / androidx.media，媒体会话与通知一律用平台 API（minSdk 26 已够）。
+    // 12 §61.81 / B2 M1：媒体会话 / 音频焦点主导方仍不引入 Media3（不引
+    // media3-session），媒体会话与通知一律用平台 API（minSdk 26 已够）；
+    // 播放内核层按 B2 在 :engine-opensource 引入 androidx.media3:media3-exoplayer（C1 范围限定）。
     implementation(libs.kotlinx.coroutines.core)
 
     // T-A6（12 §33 / 03-10 §2）：UI 只经 Repository 与 StateFlow 取数（§11 #4）。

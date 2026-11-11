@@ -1,0 +1,526 @@
+{
+  "probe_run": "v2_fixed",
+  "supersedes": "analysis/l3-f4-a1-bypass-live-initial-v1.json（首轮试跑，仅作缺陷诊断留痕）",
+  "defects_fixed": [
+    "v1：Popen(logcat) 早于 logcat -c，REMOTE 轮读入 LOCAL 轮残留日志，造成跨轮信号污染；v2 先 -c 再启动，并按本轮 app PID 分段统计。",
+    "v1：app_audio_track_started 用 PKG in dumpsys audio 判定，但该行只有 u/pid 不含包名，恒 False（系统性假阴性）；v2 用 app uid 关联，并补 logcat 一手 AudioTrack 状态信号。",
+    "v1：REMOTE 轮前未删除 LOCAL 轮注入的私有样本，播放队列可能复用 LOCAL 源；v2 在 REMOTE 轮前显式清理。",
+    "v1：首快照在注入后 6s，错过 LOCAL 轮 AudioTrack ACTIVE 的约 350ms 窗口；v2 增加 t=2s 早快照，并以 logcat 时序信号为主证据。"
+  ],
+  "app_uid": "10316",
+  "method": "12 §61.79 / F4 · A1「绕过取流」时间盒真机探针（只取证、不裁决）",
+  "generated_by": "tools/l3_f4_a1_bypass_live_probe.py",
+  "mode": "device_live_probe",
+  "device_run": true,
+  "serial": "10.0.0.2:37163",
+  "device_model": "Redmi K60 23013RK75C / mondrian / Android 13 / arm64-v8a",
+  "apk_installed": "package:/data/app/~~hgFKEcusZZYsx_cKQRZdSw==/com.example.cloudmusic-hGmQwq1aJHwIYcWmIFJYQQ==/base.apk",
+  "sample": "f3_m4a_complete.m4a",
+  "sample_bytes": 16573387,
+  "route": "A1_BYPASS_STREAM__LOCAL_VS_REMOTE_SAME_SAMPLE",
+  "verdict_tool": "tools/l3_f4_a1_bypass_verdict.py（纯离线裁决，本工具不下结论）",
+  "push": {
+    "channel": "12 §61.47 / adb push + run-as cat（零权限）",
+    "pushed_bytes": 16573387,
+    "private_path": "/data/data/com.example.cloudmusic/files/music/f3_m4a_complete.m4a",
+    "push_rc": 0,
+    "size_match": true,
+    "ls_raw": "-rw-rw-rw- 1 u0_a316 u0_a316 16573387 2026-11-11 16:42 files/music/f3_m4a_complete.m4a"
+  },
+  "local_round": {
+    "kind": "local",
+    "target": "/data/data/com.example.cloudmusic/files/music/f3_m4a_complete.m4a",
+    "elapsed_s": 67.8,
+    "app_pid": "18560",
+    "app_uid": "10316",
+    "log_file": "analysis/l3-f4-logs/a1-bypass-local-20261111-164027.txt",
+    "log_sha256": "57add4b87fdecf3bb4881ab4920cedb8f82199cc80a5c319578c21846c9b72c6",
+    "injection": {
+      "action": "com.example.cloudmusic.action.PLAY",
+      "extra": "com.example.cloudmusic.extra.LOCAL_PATH",
+      "startservice_rc": 0,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }"
+    },
+    "timeline": [
+      {
+        "t": 4.7,
+        "action": "注入 ACTION_PLAY /data/data/com.example.cloudmusic/files/music/f3_m4a_complete.m4a",
+        "result": "rc=0"
+      },
+      {
+        "t": 5.9,
+        "action": "解析本轮 app PID",
+        "result": "pid=18560 uid=10316"
+      },
+      {
+        "t": 5.9,
+        "action": "snapshot_A0 注入后 2s（早窗口，尽量贴近写日志时刻）",
+        "result": "快照完成 state=2 pos=0 started=False"
+      },
+      {
+        "t": 6.3,
+        "action": "snapshot_A 注入后 6s、dispatch 前",
+        "result": "快照完成 state=2 pos=0 started=False"
+      },
+      {
+        "t": 9.0,
+        "action": "cmd media_session dispatch play",
+        "result": "rc=0 "
+      },
+      {
+        "t": 19.0,
+        "action": "snapshot_B play 后",
+        "result": "快照完成 state=2 pos=0 started=False"
+      },
+      {
+        "t": 23.0,
+        "action": "cmd media_session dispatch fast-forward（seek 前向）",
+        "result": "rc=0 "
+      },
+      {
+        "t": 29.0,
+        "action": "snapshot_C seek 前向",
+        "result": "快照完成 state=2 pos=0 started=False"
+      },
+      {
+        "t": 33.0,
+        "action": "cmd media_session dispatch rewind（seek 回退）",
+        "result": "rc=0 "
+      },
+      {
+        "t": 39.0,
+        "action": "snapshot_D seek 回退",
+        "result": "快照完成 state=2 pos=0 started=False"
+      },
+      {
+        "t": 43.0,
+        "action": "cmd media_session dispatch next（第 1 次切歌）",
+        "result": "rc=0 "
+      },
+      {
+        "t": 49.0,
+        "action": "cmd media_session dispatch next（第 2 次切歌）",
+        "result": "rc=0 "
+      },
+      {
+        "t": 55.0,
+        "action": "cmd media_session dispatch next（第 3 次切歌）",
+        "result": "rc=0 "
+      },
+      {
+        "t": 61.0,
+        "action": "snapshot_E 全部控制动作后",
+        "result": "快照完成 state=2 pos=0 started=False"
+      },
+      {
+        "t": 67.8,
+        "action": "snapshot_F_final",
+        "result": "收尾快照完成"
+      }
+    ],
+    "dispatches": [
+      {
+        "key": "play",
+        "rc": 0,
+        "out": "",
+        "t": 9.0,
+        "label": "cmd media_session dispatch play"
+      },
+      {
+        "key": "fast-forward",
+        "rc": 0,
+        "out": "",
+        "t": 23.0,
+        "label": "cmd media_session dispatch fast-forward（seek 前向）"
+      },
+      {
+        "key": "rewind",
+        "rc": 0,
+        "out": "",
+        "t": 33.0,
+        "label": "cmd media_session dispatch rewind（seek 回退）"
+      },
+      {
+        "key": "next",
+        "rc": 0,
+        "out": "",
+        "t": 43.0,
+        "label": "cmd media_session dispatch next（第 1 次切歌）"
+      },
+      {
+        "key": "next",
+        "rc": 0,
+        "out": "",
+        "t": 49.0,
+        "label": "cmd media_session dispatch next（第 2 次切歌）"
+      },
+      {
+        "key": "next",
+        "rc": 0,
+        "out": "",
+        "t": 55.0,
+        "label": "cmd media_session dispatch next（第 3 次切歌）"
+      }
+    ],
+    "snapshots": {
+      "snapshot_A0": {
+        "tag": "snapshot_A0",
+        "media_session_raw": "metadata: null\r\n      package=com.example.cloudmusic\r\n      state=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=36250104, actions=54, custom actions=[], active item id=-1, error=null}\r\n      metadata: null",
+        "audio_started_raw": "AudioPlaybackConfiguration piid:1967 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2209\r\n  AudioPlaybackConfiguration piid:2111 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2353",
+        "playback_state": 2,
+        "position": 0,
+        "metadata_null": true,
+        "app_uid": "10316",
+        "app_uid_line_present": false,
+        "app_audio_track_started": false
+      },
+      "snapshot_A": {
+        "tag": "snapshot_A",
+        "media_session_raw": "metadata: null\r\n      package=com.example.cloudmusic\r\n      state=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=36250104, actions=54, custom actions=[], active item id=-1, error=null}\r\n      metadata: null",
+        "audio_started_raw": "AudioPlaybackConfiguration piid:1967 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2209\r\n  AudioPlaybackConfiguration piid:2111 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2353",
+        "playback_state": 2,
+        "position": 0,
+        "metadata_null": true,
+        "app_uid": "10316",
+        "app_uid_line_present": false,
+        "app_audio_track_started": false
+      },
+      "snapshot_B": {
+        "tag": "snapshot_B",
+        "media_session_raw": "metadata: null\r\n      package=com.example.cloudmusic\r\n      state=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=36254494, actions=54, custom actions=[], active item id=-1, error=null}\r\n      metadata: null",
+        "audio_started_raw": "AudioPlaybackConfiguration piid:1967 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2209\r\n  AudioPlaybackConfiguration piid:2111 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2353",
+        "playback_state": 2,
+        "position": 0,
+        "metadata_null": true,
+        "app_uid": "10316",
+        "app_uid_line_present": false,
+        "app_audio_track_started": false
+      },
+      "snapshot_C": {
+        "tag": "snapshot_C",
+        "media_session_raw": "metadata: null\r\n      package=com.example.cloudmusic\r\n      state=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=36254494, actions=54, custom actions=[], active item id=-1, error=null}\r\n      metadata: null",
+        "audio_started_raw": "AudioPlaybackConfiguration piid:1967 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2209\r\n  AudioPlaybackConfiguration piid:2111 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2353\r\n  AudioPlaybackConfiguration piid:2327 deviceId:3 type:android.media.AudioTrack u/pid:10326/30423 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0xA00 tags= bundle=null sessionId:2569",
+        "playback_state": 2,
+        "position": 0,
+        "metadata_null": true,
+        "app_uid": "10316",
+        "app_uid_line_present": false,
+        "app_audio_track_started": false
+      },
+      "snapshot_D": {
+        "tag": "snapshot_D",
+        "media_session_raw": "metadata: null\r\n      package=com.example.cloudmusic\r\n      state=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=36254494, actions=54, custom actions=[], active item id=-1, error=null}\r\n      metadata: null",
+        "audio_started_raw": "AudioPlaybackConfiguration piid:1967 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2209\r\n  AudioPlaybackConfiguration piid:2111 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2353",
+        "playback_state": 2,
+        "position": 0,
+        "metadata_null": true,
+        "app_uid": "10316",
+        "app_uid_line_present": false,
+        "app_audio_track_started": false
+      },
+      "snapshot_E": {
+        "tag": "snapshot_E",
+        "media_session_raw": "metadata: null\r\n      package=com.example.cloudmusic\r\n      state=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=36254494, actions=54, custom actions=[], active item id=-1, error=null}\r\n      metadata: null",
+        "audio_started_raw": "AudioPlaybackConfiguration piid:1967 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2209\r\n  AudioPlaybackConfiguration piid:2111 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2353",
+        "playback_state": 2,
+        "position": 0,
+        "metadata_null": true,
+        "app_uid": "10316",
+        "app_uid_line_present": false,
+        "app_audio_track_started": false
+      },
+      "F_final": {
+        "tag": "F_final",
+        "media_session_raw": "metadata: null\r\n      package=com.example.cloudmusic\r\n      state=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=36254494, actions=54, custom actions=[], active item id=-1, error=null}\r\n      metadata: null",
+        "audio_started_raw": "AudioPlaybackConfiguration piid:1967 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2209\r\n  AudioPlaybackConfiguration piid:2111 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2353",
+        "playback_state": 2,
+        "position": 0,
+        "metadata_null": true,
+        "app_uid": "10316",
+        "app_uid_line_present": false,
+        "app_audio_track_started": false
+      }
+    },
+    "states_observed": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "positions_observed": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "distinct_positions": [
+      0
+    ],
+    "app_audio_track_started_any": false,
+    "log_analysis": {
+      "app_pid": "18560",
+      "log_lines": 11634,
+      "scoped_lines": 517,
+      "scope_filter": "logcat 行含 (18560)",
+      "open_codec": [
+        "aac",
+        "aac"
+      ],
+      "write_start_play": [
+        "0",
+        "0"
+      ],
+      "finish_async_103": 0,
+      "minus_103_lines": 0,
+      "play_status": [
+        "4",
+        "4"
+      ],
+      "play_status_4": 2,
+      "play_status_3": 0,
+      "m_duration": [
+        "155933",
+        "155933"
+      ],
+      "do_prepare_async": 8,
+      "prepare_remote_flags": [
+        "false",
+        "false"
+      ],
+      "wiring_level_logs": [],
+      "remote_marker_counts": {
+        "Start id=": 0,
+        "WaitRequest": 0,
+        "MakeRangeRequestAsync": 0,
+        "ReadFromFileNoLock": 0,
+        "NMSliceFile": 0,
+        "commit :": 0,
+        "OnWriteNetData": 0,
+        "result:-2": 0
+      },
+      "local_marker_counts": {
+        "getLocalPath path=": 2,
+        "CreateLocalSource": 2,
+        "XorLocalSource::Open success": 2,
+        "createDataRequestHandler url=null": 2
+      },
+      "audio_track_play_calls": [
+        "1",
+        "1"
+      ],
+      "audio_track_start_calls": 2,
+      "audio_track_active_markers": 2,
+      "frames_delivered": [
+        1,
+        1
+      ],
+      "audio_track_paused": 2,
+      "audio_track_release_end": 2,
+      "msg2_completion": 2,
+      "natural_ended_markers": 2,
+      "seek_markers": 0,
+      "ended_markers": 4,
+      "no_write_start_play": false,
+      "full_log_open_codec_before_scope": [
+        "aac",
+        "aac"
+      ],
+      "full_log_write_start_play_before_scope": [
+        "0",
+        "0"
+      ]
+    }
+  },
+  "remote_round": {
+    "kind": "remote",
+    "target": "http://127.0.0.1:8765/f3_m4a_complete.m4a",
+    "elapsed_s": 85.7,
+    "app_pid": "18565",
+    "app_uid": "10316",
+    "log_file": "analysis/l3-f4-logs/a1-bypass-remote-20261111-164027.txt",
+    "log_sha256": "5fe833c502d3b2cef2e654e63f4b538e7c010df897ea4271c68424f2094050a6",
+    "injection": {
+      "action": "com.example.cloudmusic.action.PLAY",
+      "extra": "com.example.cloudmusic.extra.SOURCE_URL",
+      "startservice_rc": 0,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }"
+    },
+    "timeline": [
+      {
+        "t": 4.7,
+        "action": "注入 ACTION_PLAY http://127.0.0.1:8765/f3_m4a_complete.m4a",
+        "result": "rc=0"
+      },
+      {
+        "t": 36.8,
+        "action": "解析本轮 app PID",
+        "result": "pid=18565 uid=10316"
+      },
+      {
+        "t": 36.8,
+        "action": "snapshot_R1 注入后",
+        "result": "快照完成 state=3 pos=0 started=False"
+      },
+      {
+        "t": 59.6,
+        "action": "cmd media_session dispatch play",
+        "result": "rc=0 "
+      },
+      {
+        "t": 63.1,
+        "action": "snapshot_R2 play 后",
+        "result": "快照完成 state=3 pos=0 started=False"
+      },
+      {
+        "t": 69.9,
+        "action": "snapshot_R3 收尾",
+        "result": "快照完成 state=3 pos=0 started=False"
+      },
+      {
+        "t": 85.7,
+        "action": "snapshot_R_final",
+        "result": "收尾快照完成"
+      }
+    ],
+    "dispatches": [
+      {
+        "key": "play",
+        "rc": 0,
+        "out": "",
+        "t": 59.6,
+        "label": "cmd media_session dispatch play"
+      }
+    ],
+    "snapshots": {
+      "snapshot_R1": {
+        "tag": "snapshot_R1",
+        "media_session_raw": "metadata: null\r\n      package=com.example.cloudmusic\r\n      state=PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=36329012, actions=54, custom actions=[], active item id=-1, error=null}\r\n      metadata: null",
+        "audio_started_raw": "AudioPlaybackConfiguration piid:1967 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2209\r\n  AudioPlaybackConfiguration piid:2111 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2353",
+        "playback_state": 3,
+        "position": 0,
+        "metadata_null": true,
+        "app_uid": "10316",
+        "app_uid_line_present": false,
+        "app_audio_track_started": false
+      },
+      "snapshot_R2": {
+        "tag": "snapshot_R2",
+        "media_session_raw": "metadata: null\r\n      package=com.example.cloudmusic\r\n      state=PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=36377084, actions=54, custom actions=[], active item id=-1, error=null}\r\n      metadata: null",
+        "audio_started_raw": "AudioPlaybackConfiguration piid:1967 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2209\r\n  AudioPlaybackConfiguration piid:2111 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2353",
+        "playback_state": 3,
+        "position": 0,
+        "metadata_null": true,
+        "app_uid": "10316",
+        "app_uid_line_present": false,
+        "app_audio_track_started": false
+      },
+      "snapshot_R3": {
+        "tag": "snapshot_R3",
+        "media_session_raw": "metadata: null\r\n      package=com.example.cloudmusic\r\n      state=PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=36377084, actions=54, custom actions=[], active item id=-1, error=null}\r\n      metadata: null",
+        "audio_started_raw": "AudioPlaybackConfiguration piid:1967 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2209\r\n  AudioPlaybackConfiguration piid:2111 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2353",
+        "playback_state": 3,
+        "position": 0,
+        "metadata_null": true,
+        "app_uid": "10316",
+        "app_uid_line_present": false,
+        "app_audio_track_started": false
+      },
+      "R_final": {
+        "tag": "R_final",
+        "media_session_raw": "metadata: null\r\n      package=com.example.cloudmusic\r\n      state=PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=36377084, actions=54, custom actions=[], active item id=-1, error=null}\r\n      metadata: null",
+        "audio_started_raw": "AudioPlaybackConfiguration piid:1967 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2209\r\n  AudioPlaybackConfiguration piid:2111 deviceId:3 type:android.media.AudioTrack u/pid:10240/30427 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:2353",
+        "playback_state": 3,
+        "position": 0,
+        "metadata_null": true,
+        "app_uid": "10316",
+        "app_uid_line_present": false,
+        "app_audio_track_started": false
+      }
+    },
+    "states_observed": [
+      3,
+      3,
+      3,
+      3
+    ],
+    "positions_observed": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "distinct_positions": [
+      0
+    ],
+    "app_audio_track_started_any": false,
+    "log_analysis": {
+      "app_pid": "18565",
+      "log_lines": 2836,
+      "scoped_lines": 628,
+      "scope_filter": "logcat 行含 (18565)",
+      "open_codec": [],
+      "write_start_play": [],
+      "finish_async_103": 0,
+      "minus_103_lines": 0,
+      "play_status": [
+        "3",
+        "3"
+      ],
+      "play_status_4": 0,
+      "play_status_3": 2,
+      "m_duration": [],
+      "do_prepare_async": 1,
+      "prepare_remote_flags": [
+        "true"
+      ],
+      "wiring_level_logs": [],
+      "remote_marker_counts": {
+        "Start id=": 5,
+        "WaitRequest": 5,
+        "MakeRangeRequestAsync": 9,
+        "ReadFromFileNoLock": 5,
+        "NMSliceFile": 1,
+        "commit :": 1,
+        "OnWriteNetData": 0,
+        "result:-2": 4
+      },
+      "local_marker_counts": {
+        "getLocalPath path=": 0,
+        "CreateLocalSource": 0,
+        "XorLocalSource::Open success": 0,
+        "createDataRequestHandler url=null": 0
+      },
+      "audio_track_play_calls": [],
+      "audio_track_start_calls": 0,
+      "audio_track_active_markers": 0,
+      "frames_delivered": [],
+      "audio_track_paused": 0,
+      "audio_track_release_end": 0,
+      "msg2_completion": 0,
+      "natural_ended_markers": 0,
+      "seek_markers": 0,
+      "ended_markers": 0,
+      "no_write_start_play": true,
+      "full_log_open_codec_before_scope": [],
+      "full_log_write_start_play_before_scope": []
+    }
+  },
+  "remote_round_skipped": false,
+  "restore_errors": [],
+  "honest_notes": [
+    "本工具只取证；PASS/FAIL 裁决由离线工具按 §61.74/§61.75 多信号口径给出。",
+    "「绕行 ≠ 修复」：LOCAL 出声只证明绕过 REMOTE 取流缺陷可播，不修 REMOTE 本身；§61.75 终局裁决不变，F4 仍 BLOCKED。",
+    "真机命令全部带 -s <serial>；未 pm grant、未改设备系统设置、配对码不落盘。",
+    "临时 wifiOnly=false（仅 REMOTE 轮）/ adb reverse / http.server / logcat 子进程 / 注入的私有样本与 /data/local/tmp 残留均在 finally 恢复。",
+    "零 P0 源码改动、未重编译 / 未重装、so 二进制原样、不动解码器。",
+    "wiring_level_logs 为空 ⇔ 现场 APK 不含 §61.69 接线（基线 APK），与 §61.73/§61.75 的现场口径一致；本工具不改 APK。",
+    "v2 为首轮试跑发现 4 处取证缺陷后的修正重跑；首轮证据归档为 l3-f4-a1-bypass-live-initial-v1.json，仅作缺陷诊断留痕，不作裁决依据。",
+    "logcat 按本轮 app PID 分段；AudioTrack 一手状态（Play/ACTIVE/frames delivered/Paused/Release/msg=2）优先于 6s 后的 dumpsys 快照。"
+  ]
+}

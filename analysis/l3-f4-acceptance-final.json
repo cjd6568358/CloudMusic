@@ -1,0 +1,89 @@
+{
+  "method": "12 §61.75 / F4 真机验收终局裁决（纯离线、只读、零生产改动）",
+  "generated_by": "tools/l3_f4_acceptance_final_audit.py",
+  "mode": "offline_readonly",
+  "device_run": false,
+  "criteria": [
+    {
+      "name": "双路径格式矩阵（`17 §8.3` F3 前置）",
+      "evidence": "F3 14 格 = 11 PASS / 3 FAIL / 7 种 NO_SAMPLE，未改写",
+      "verdict": "PARTIAL（非本轮真机范围，需样本）"
+    },
+    {
+      "name": "`Open codec` → `Write start play`",
+      "evidence": "三轮 0/0/0 次 + 控制轮 0 次；codec 仅冷/暖轮 aac",
+      "verdict": "FAIL（全程 0 次；按 §61.74 为非充分证据，需并用其它信号）"
+    },
+    {
+      "name": "完整时长 / UI 进度条",
+      "evidence": "UI 截图两端 00:00；metadata:null；mDuration 2933 未映射到 UI",
+      "verdict": "FAIL（总时长不可用）"
+    },
+    {
+      "name": "MediaSession 进入 PLAYING",
+      "evidence": "控制轮快照 state=[3, 3, 2, 2]（曾出现 3），position=[0, 0, 0, 0]",
+      "verdict": "PARTIAL（state=3 仅状态机上报，无音频输出佐证）"
+    },
+    {
+      "name": "本 app AudioTrack `state:started`",
+      "evidence": "快照 app_audio_track_started=False；dumpsys 无本 app 媒体轨",
+      "verdict": "FAIL（未出现）"
+    },
+    {
+      "name": "自动进曲 3 首（无 -103、无释放后回调）",
+      "evidence": "dispatch next×3 rc=[0, 0, 0]；新 codec=['aac']；-103 三轮 [True, True, False] + 控制轮 1",
+      "verdict": "FAIL（无 3 次新解码，-103 仍在场）"
+    },
+    {
+      "name": "seek / pause→play 位置连续",
+      "evidence": "fast-forward+rewind rc=0，但 position 序列=[0, 0, 0, 0]",
+      "verdict": "FAIL（position 恒 0）"
+    },
+    {
+      "name": "ENDED（自然播完）",
+      "evidence": "受控窗口内未跑到曲末，无 ENDED 日志",
+      "verdict": "NOT RUN（不伪造）"
+    },
+    {
+      "name": "`-103` 判据",
+      "evidence": "三轮 [True, True, False] + 控制轮 1 次",
+      "verdict": "FAIL（-103 仍在场）"
+    }
+  ],
+  "checks": {
+    "three_rounds_evidence_present": true,
+    "control_round_evidence_present": true,
+    "all_dispatch_actions_succeeded": true,
+    "state3_observed_but_no_audio_output": true,
+    "no_write_start_play_in_all_rounds": true,
+    "minus_103_still_present": true,
+    "no_new_codec_after_next_x3": true,
+    "seek_position_unchanged": true,
+    "gate_disasm_evidence_present": true,
+    "ui_and_dumpsys_evidence_present": true,
+    "f4_still_blocked": true,
+    "no_false_claim_in_source": true
+  },
+  "checks_total": 12,
+  "all_pass": true,
+  "failed_checks": [],
+  "main_criteria_all_pass": false,
+  "no_criterion_pass": true,
+  "f4_status": "BLOCKED",
+  "truthfulness": "真机取证已完结：三轮纯观测 + 播放控制轮 + UI/dumpsys 全部落盘；MediaSession state=3 仅状态机上报，无 AudioTrack / position / 写日志佐证，不构成播放成功。F4 主判据全部 FAIL / PARTIAL / NOT RUN，F4 仍 BLOCKED。",
+  "verdict": "F4 验收未通过：所有主判据逐条登记为 FAIL / PARTIAL / NOT RUN，无一项 PASS；真机取证到此完结，后续是 F4 修复与回归验证，不再以「设备上线」作为验证前置。",
+  "next_phase": "离线修复方向：代次错配 → commit 冻结 → 读侧 -103 → 播放链未起；接线回滚待用户拍板（源码决策，非真机验证）。F4 修复后仅需一次回归验证。",
+  "evidence_sources": [
+    "analysis/l3-f4-live-rounds-audit.json",
+    "analysis/l3-f4-playback-control.json",
+    "analysis/l3-f4-play-gate-disasm.json",
+    "analysis/l3-f4-live-playback-state-20261111.txt",
+    "analysis/l3-f4-live-ui-20261111.png"
+  ],
+  "honest_notes": [
+    "不连 adb、不重跑真机、不改写任何历史证据；只读汇总。",
+    "零 P0 源码改动、未重编译 / 未重装、so 二进制原样。",
+    "A3 仍 G09 PARTIAL、舱不冻结、engine_compat_test 与指纹不回填。",
+    "F3 14 格未改写；7 种 NO_SAMPLE 需用户提供样本或换源。"
+  ]
+}

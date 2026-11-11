@@ -1,0 +1,240 @@
+{
+  "method": "12 §61.77 / F4 读侧空白链补齐（纯离线、capstone + pyelftools、零生产改动）",
+  "generated_by": "tools/l3_f4_read_gap_chain_disasm.py",
+  "mode": "offline_disasm",
+  "device_run": false,
+  "so": "engine-legacy/src/main/jniLibs/arm64-v8a/libNMCommonCache.so",
+  "so_sha256": "7a1adc95c255c241c1d5d64060468cefe3961c73c459ba15527ce87e5fde4a6c",
+  "dependencies": [
+    "capstone 5.0.7",
+    "pyelftools"
+  ],
+  "rodata": {
+    "addr": "0x3bee8",
+    "text": "NMBufferSourceImp(%lld)::ReadFromFileNoLock  Local File Read expect len:%u, offset:%lld, readed_len:%u, result:%d",
+    "references": [
+      [
+        "0xc454",
+        "0xc45c",
+        "0x3bee8"
+      ]
+    ],
+    "unique": true
+  },
+  "anchors": {
+    "fmt_ref_adrp": {
+      "addr": "0xc454",
+      "mnemonic": "adrp",
+      "fragment": "0x3b000",
+      "actual": "adrp x2, #0x3b000"
+    },
+    "fmt_ref_add": {
+      "addr": "0xc45c",
+      "mnemonic": "add",
+      "fragment": "0xee8",
+      "actual": "add x2, x2, #0xee8"
+    },
+    "read_result_call": {
+      "addr": "0xc434",
+      "mnemonic": "blr",
+      "fragment": "x8",
+      "actual": "blr x8"
+    },
+    "read_log_call": {
+      "addr": "0xc470",
+      "mnemonic": "bl",
+      "fragment": "0x3138c",
+      "actual": "bl #0x3138c"
+    },
+    "minus2_branch": {
+      "addr": "0xc478",
+      "mnemonic": "cmn",
+      "fragment": "#2",
+      "actual": "cmn w23, #2"
+    },
+    "wait_request_call": {
+      "addr": "0xc6f8",
+      "mnemonic": "bl",
+      "fragment": "0x10198",
+      "actual": "bl #0x10198"
+    },
+    "wait_ret1_cmp": {
+      "addr": "0xc700",
+      "mnemonic": "cmp",
+      "fragment": "#1",
+      "actual": "cmp w0, #1"
+    },
+    "wait_ret1_beq": {
+      "addr": "0xc704",
+      "mnemonic": "b.eq",
+      "fragment": "0xc728",
+      "actual": "b.eq #0xc728"
+    },
+    "result_minus2": {
+      "addr": "0xc728",
+      "mnemonic": "mov",
+      "fragment": "#-2",
+      "actual": "mov w0, #-2"
+    },
+    "result_minus106": {
+      "addr": "0xc710",
+      "mnemonic": "mov",
+      "fragment": "#-0x6a",
+      "actual": "mov w0, #-0x6a"
+    },
+    "result_minus103": {
+      "addr": "0xc730",
+      "mnemonic": "mov",
+      "fragment": "#-0x67",
+      "actual": "mov w0, #-0x67"
+    },
+    "read_ret": {
+      "addr": "0xc73c",
+      "mnemonic": "ret",
+      "fragment": "",
+      "actual": "ret "
+    },
+    "hardcoded_minus2": {
+      "addr": "0xa9bc",
+      "mnemonic": "mov",
+      "fragment": "#-2",
+      "actual": "mov w25, #-2"
+    },
+    "hardcoded_minus103": {
+      "addr": "0xa9c4",
+      "mnemonic": "mov",
+      "fragment": "#-0x67",
+      "actual": "mov w25, #-0x67"
+    },
+    "pending_read_load": {
+      "addr": "0xa9d0",
+      "mnemonic": "ldr",
+      "fragment": "0x198",
+      "actual": "ldr x8, [x19, #0x198]"
+    },
+    "pending_read_cbz": {
+      "addr": "0xa9d4",
+      "mnemonic": "cbz",
+      "fragment": "0xa9f8",
+      "actual": "cbz x8, #0xa9f8"
+    },
+    "write_1a0": {
+      "addr": "0xa9e4",
+      "mnemonic": "str",
+      "fragment": "0x1a0",
+      "actual": "str w25, [x19, #0x1a0]"
+    },
+    "pending_register": {
+      "addr": "0x9f44",
+      "mnemonic": "str",
+      "fragment": "0x198",
+      "actual": "str x20, [x19, #0x198]"
+    },
+    "pending_clear_finish": {
+      "addr": "0xa018",
+      "mnemonic": "str",
+      "fragment": "0x198",
+      "actual": "str xzr, [x19, #0x198]"
+    },
+    "pending_wait_near": {
+      "addr": "0x10b20",
+      "mnemonic": "str",
+      "fragment": "0x198",
+      "actual": "str x21, [x20, #0x198]"
+    },
+    "slices_write_minus2": {
+      "addr": "0x12dc8",
+      "mnemonic": "mov",
+      "fragment": "#-2",
+      "actual": "mov x0, #-2"
+    },
+    "generation_cmp": {
+      "addr": "0x10794",
+      "mnemonic": "cmp",
+      "fragment": "",
+      "actual": "cmp x8, x24"
+    },
+    "generation_bne": {
+      "addr": "0x10798",
+      "mnemonic": "b.ne",
+      "fragment": "0x108e0",
+      "actual": "b.ne #0x108e0"
+    },
+    "commit_store": {
+      "addr": "0x10888",
+      "mnemonic": "str",
+      "fragment": "",
+      "actual": "str x8, [x20, #0x30]"
+    }
+  },
+  "pending_198_writes": [
+    "0x9f44",
+    "0xa018",
+    "0x100c8",
+    "0x106c0",
+    "0x1095c",
+    "0x10b20"
+  ],
+  "hardcoded_minus2_points": [
+    "0xa9bc",
+    "0xc728",
+    "0xe720",
+    "0xe780",
+    "0xebdc",
+    "0x12dc8",
+    "0x1329c"
+  ],
+  "cross": {
+    "minus103_chain": "all_pass=True / F4=BLOCKED",
+    "final_verdict": "no_criterion_pass=True / F4=BLOCKED"
+  },
+  "checks": {
+    "anchor_fmt_ref_adrp": true,
+    "anchor_fmt_ref_add": true,
+    "anchor_read_result_call": true,
+    "anchor_read_log_call": true,
+    "anchor_minus2_branch": true,
+    "anchor_wait_request_call": true,
+    "anchor_wait_ret1_cmp": true,
+    "anchor_wait_ret1_beq": true,
+    "anchor_result_minus2": true,
+    "anchor_result_minus106": true,
+    "anchor_result_minus103": true,
+    "anchor_read_ret": true,
+    "anchor_hardcoded_minus2": true,
+    "anchor_hardcoded_minus103": true,
+    "anchor_pending_read_load": true,
+    "anchor_pending_read_cbz": true,
+    "anchor_write_1a0": true,
+    "anchor_pending_register": true,
+    "anchor_pending_clear_finish": true,
+    "anchor_pending_wait_near": true,
+    "anchor_slices_write_minus2": true,
+    "anchor_generation_cmp": true,
+    "anchor_generation_bne": true,
+    "anchor_commit_store": true,
+    "read_fmt_string_exact": true,
+    "read_fmt_unique_reference": true,
+    "pending_writes_six": true,
+    "hardcoded_minus2_present": true,
+    "minus103_chain_evidence_intact": true,
+    "final_verdict_intact": true,
+    "no_false_claim_in_source": true
+  },
+  "checks_total": 31,
+  "all_pass": true,
+  "failed_checks": [],
+  "f4_status": "BLOCKED",
+  "verdict": "INFERENCE：`result:-2` 由 `0xc6f8 bl 0x10198`(WaitRequest) 返回 1 后于 `0xc728 mov w0,#-2` 产生；-2 与 -103 是 `0xa9bc`/`0xa9c4` 两条硬编码分支，共用 `0xa9e4` 写 `[+0x1a0]`，且仅在挂起异步读 `[+0x198]` 非零时发生。与 §61.65/§61.67/§61.74/§61.76 串成完整静态链。不断定本次命中哪条分支，需动态插桩。",
+  "fix_anchors": [
+    "0x10798 代次比较早退",
+    "0xc728 WaitRequest 读空 -2",
+    "0x12dc8 NMSlicesFile::Write 越界 -2"
+  ],
+  "truthfulness": "静态二进制证据 ≠ 修复 ≠ 验证；未做动态插桩或新真机 A/B；真机取证已于 §61.75 完结，本批不需要设备；接线回滚仍待用户拍板；native 分支的修复路线需用户拍板，本批不擅自改动。F4 仍 BLOCKED。",
+  "honest_notes": [
+    "不连 adb、不改设备现场、零 P0 源码改动、so 二进制原样。",
+    "§61.76 / §61.75 证据只读交叉、零改写。",
+    "A3 仍 G09 PARTIAL、舱不冻结、engine_compat_test 不回填。"
+  ]
+}

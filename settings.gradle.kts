@@ -39,8 +39,10 @@ rootProject.name = "CloudMusic"
 //   :core-di/proxy|scan|playback，PlaybackService 与 Manifest 组件声明落在 :app，仍未新建模块。
 // + 第二十三批（12 §32，T-L L1 步骤 1）：启用第 19 个模块 :engine-legacy（Android library），
 //   18 个 arm64 so 落在 src/main/jniLibs/arm64-v8a/ + ENGINE-FINGERPRINT；仍无 JNI 真类 / slot。
-//   SAF / MediaStore 生产适配落在 :core-di/local。**当前共 19 个模块；前 16 个纯 JVM +
+//   SAF / MediaStore 生产适配落在 :core-di/local。**M0 时共 19 个模块；前 16 个纯 JVM +
 //   :app + :core-di + :engine-legacy**，本机可编译可单测，noAndroid 逃生开关不变。
+// + 12 §61.81（第一百零八批 / B2 M1）：启用第 20 个模块 :engine-opensource
+//   （Media3/ExoPlayer 播放内核骨架，媒体会话仍走平台 API）；18 个私有 so 本批不移除。
 // 任务拆分以 docs/16 §5 的四线任务表为唯一权威（取代 12 §7 滞后行 / 12 §20.5 / 15 §7.5 旧建议）：
 //   T-P 纯 JVM 先行（:engine-bridge / :feature-player / :output-dlna，T-P4 C-05/C-06 已完成）
 //   T-A Android 线（T-A1 Room / T-A2 DataStore / T-A3 本地音源 / T-A4 标签封面与扫描接线 /
@@ -85,6 +87,7 @@ if (skipAndroid) {
     include(":app")
     include(":core-di")         // 第十一批：Hilt 唯一注册点（12 §20）
     include(":engine-legacy")   // 第二十三批：T-L L1 舱体（18 个 arm64 so，12 §10.2 步骤 1）
+    include(":engine-opensource")  // 12 §61.81 / B2 M1：Media3 播放内核骨架（C5 保留 :engine-legacy 回退）
 }
 
 // ---------------------------------------------------------------------------
@@ -98,7 +101,7 @@ if (skipAndroid) {
 //                   :datasource-playlist  (sftp/ftp/nfs 为 V0.2+ 预留)
 // 扫描            : :scanner
 // 引擎            : :engine-api, :engine-legacy, :engine-bridge,
-//                   :engine-opensource (逃生舱，仅在路线 C 拍板后启用)
+//                   :engine-opensource (B2 逃生舱，12 §61.81 / M1 拍板后已启用)
 // 媒体会话        : :media-legacy
 // 输出            : :output-router, :output-dlna, :output-localproxy,
 //                   :output-bluetooth

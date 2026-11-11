@@ -1,0 +1,25 @@
+{
+  "tool": "pyelftools 0.33 (isolated venv) independent crosscheck",
+  "pyelftools_version": "0.33",
+  "method": "ELFFile.get_section_by_name('.dynsym').iter_symbols() -> ff_*_decoder / ff_*_demuxer",
+  "per_abi": {
+    "arm64-v8a": {
+      "decoder": 100,
+      "demuxer": 75,
+      "dynsym_names": 3750,
+      "decoder_set_matches_stdlib": true,
+      "demuxer_set_matches_stdlib": true,
+      "matches_stdlib": true
+    },
+    "armeabi-v7a": {
+      "decoder": 100,
+      "demuxer": 75,
+      "dynsym_names": 3874,
+      "decoder_set_matches_stdlib": true,
+      "demuxer_set_matches_stdlib": true,
+      "matches_stdlib": true
+    }
+  },
+  "all_match": true,
+  "note": "pyelftools 独立复算两 ABI 的 .dynsym 导出符号，与主工具纯 stdlib 手写解析的 100 个 ff_*_decoder / 75 个 ff_*_demuxer 集合逐项完全一致；交叉校验通过。这是独立实现互证，不是同一份代码的重复运行。"
+}

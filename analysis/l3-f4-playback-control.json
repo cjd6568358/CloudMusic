@@ -1,0 +1,193 @@
+{
+  "method": "12 §61.75 / F4 播放控制判据真机终局取证（真机主动控制）",
+  "generated_by": "tools/l3_f4_playback_control_probe.py",
+  "serial": "10.0.0.2:37163",
+  "device_model": "Redmi K60 23013RK75C / mondrian",
+  "apk_installed": "package:/data/app/~~hgFKEcusZZYsx_cKQRZdSw==/com.example.cloudmusic-hGmQwq1aJHwIYcWmIFJYQQ==/base.apk",
+  "sample": "f3_m4a_complete.m4a",
+  "sample_bytes": 16573387,
+  "elapsed_s": 71.2,
+  "log_file": "analysis/l3-f4-logs/playback-control-20261111-135736.txt",
+  "log_analysis": {
+    "open_codec": [
+      "aac"
+    ],
+    "write_start_play": [],
+    "finish_async_103": 1,
+    "play_status": [
+      "3"
+    ],
+    "m_duration": [
+      "2933"
+    ],
+    "do_prepare_async": 4,
+    "java_on_data": 645,
+    "log_lines": 3895
+  },
+  "timeline": [
+    {
+      "t": 4.6,
+      "action": "注入 ACTION_PLAY http://127.0.0.1:8765/f3_m4a_complete.m4a",
+      "result": "rc=0"
+    },
+    {
+      "t": 10.0,
+      "action": "snapshot_A 注入后、dispatch 前",
+      "result": "快照完成"
+    },
+    {
+      "t": 20.2,
+      "action": "cmd media_session dispatch play",
+      "result": "rc=0 "
+    },
+    {
+      "t": 22.6,
+      "action": "snapshot_B play 后",
+      "result": "快照完成"
+    },
+    {
+      "t": 28.7,
+      "action": "cmd media_session dispatch next（第 1 次切歌）",
+      "result": "rc=0 "
+    },
+    {
+      "t": 32.0,
+      "action": "cmd media_session dispatch next（第 2 次切歌）",
+      "result": "rc=0 "
+    },
+    {
+      "t": 42.0,
+      "action": "cmd media_session dispatch next（第 3 次切歌）",
+      "result": "rc=0 "
+    },
+    {
+      "t": 50.0,
+      "action": "cmd media_session dispatch fast-forward（seek 前向）",
+      "result": "rc=0 "
+    },
+    {
+      "t": 56.0,
+      "action": "cmd media_session dispatch rewind（seek 回退）",
+      "result": "rc=0 "
+    },
+    {
+      "t": 64.0,
+      "action": "snapshot_C 全部控制动作后",
+      "result": "快照完成"
+    },
+    {
+      "t": 70.8,
+      "action": "snapshot_C_final",
+      "result": "收尾快照完成"
+    }
+  ],
+  "dispatches": [
+    {
+      "key": "play",
+      "rc": 0,
+      "out": "",
+      "t": 20.2,
+      "label": "cmd media_session dispatch play"
+    },
+    {
+      "key": "next",
+      "rc": 0,
+      "out": "",
+      "t": 28.7,
+      "label": "cmd media_session dispatch next（第 1 次切歌）"
+    },
+    {
+      "key": "next",
+      "rc": 0,
+      "out": "",
+      "t": 32.0,
+      "label": "cmd media_session dispatch next（第 2 次切歌）"
+    },
+    {
+      "key": "next",
+      "rc": 0,
+      "out": "",
+      "t": 42.0,
+      "label": "cmd media_session dispatch next（第 3 次切歌）"
+    },
+    {
+      "key": "fast-forward",
+      "rc": 0,
+      "out": "",
+      "t": 50.0,
+      "label": "cmd media_session dispatch fast-forward（seek 前向）"
+    },
+    {
+      "key": "rewind",
+      "rc": 0,
+      "out": "",
+      "t": 56.0,
+      "label": "cmd media_session dispatch rewind（seek 回退）"
+    }
+  ],
+  "snapshots": {
+    "snapshot_A": {
+      "tag": "snapshot_A",
+      "media_session_raw": "metadata: null\r\n      package=com.example.cloudmusic\r\n      state=PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=26359096, actions=54, custom actions=[], active item id=-1, error=null}\r\n      metadata: null",
+      "audio_started_raw": "",
+      "playback_state": 3,
+      "position": 0,
+      "metadata_null": true,
+      "app_audio_track_started": false
+    },
+    "snapshot_B": {
+      "tag": "snapshot_B",
+      "media_session_raw": "metadata: null\r\n      package=com.example.cloudmusic\r\n      state=PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=26359096, actions=54, custom actions=[], active item id=-1, error=null}\r\n      metadata: null",
+      "audio_started_raw": "",
+      "playback_state": 3,
+      "position": 0,
+      "metadata_null": true,
+      "app_audio_track_started": false
+    },
+    "snapshot_C": {
+      "tag": "snapshot_C",
+      "media_session_raw": "metadata: null\r\n      package=com.example.cloudmusic\r\n      state=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=26390456, actions=54, custom actions=[], active item id=-1, error=null}\r\n      metadata: null",
+      "audio_started_raw": "",
+      "playback_state": 2,
+      "position": 0,
+      "metadata_null": true,
+      "app_audio_track_started": false
+    },
+    "C_final": {
+      "tag": "C_final",
+      "media_session_raw": "metadata: null\r\n      package=com.example.cloudmusic\r\n      state=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=26390456, actions=54, custom actions=[], active item id=-1, error=null}\r\n      metadata: null",
+      "audio_started_raw": "",
+      "playback_state": 2,
+      "position": 0,
+      "metadata_null": true,
+      "app_audio_track_started": false
+    }
+  },
+  "criteria": {
+    "playback_state_evidence": "快照 state=[3, 3, 2, 2]",
+    "playing_verdict": "PASS",
+    "audio_track_evidence": "app AudioTrack started=False",
+    "audio_track_verdict": "FAIL（未出现本 app 的 started AudioTrack）",
+    "write_start_play_evidence": "命中 0 次 []",
+    "write_start_play_verdict": "FAIL（0 次；按 §61.74 口径非充分证据，需与其它信号并用）",
+    "auto_advance_evidence": "dispatch next ×3 均 rc=0；codec=['aac'] / prepare=4",
+    "auto_advance_verdict": "FAIL（未出现 3 次新解码/进曲，或 -103 仍在）",
+    "seek_evidence": "position 序列=[0, 0, 0, 0]",
+    "seek_verdict": "FAIL（position 未变化）",
+    "ended_evidence": "本窗口未观测到自然播完（无 ENDED 日志）",
+    "ended_verdict": "NOT RUN（受控窗口内未跑到曲末，不伪造）",
+    "minus_103_evidence": "1 次",
+    "minus_103_verdict": "FAIL（-103 仍在场）"
+  },
+  "all_main_criteria_pass": false,
+  "f4_status": "BLOCKED",
+  "verdict": "播放控制动作全部执行成功，但主判据未通过（见第 3 节逐条）；F4 仍 BLOCKED，真机取证到此收口，不再把「设备上线」留作下一步。",
+  "honest_notes": [
+    "dispatch 成功 ≠ 播放器响应；判读以 media_session / audio / logcat 实测为准。",
+    "真机命令全部带 -s；未 pm grant、未改用户网络、配对码不落盘。",
+    "临时 wifiOnly / adb reverse / http.server / logcat 进程已在 finally 恢复。",
+    "零 P0 源码改动、未重编译 / 未重装、so 二进制原样。",
+    "§61.67~§61.74 历史正文与证据 JSON 一字未改；固化回放证据未重跑覆盖。",
+    "A3 仍 G09 PARTIAL、舱不冻结、engine_compat_test 与指纹不回填。"
+  ]
+}

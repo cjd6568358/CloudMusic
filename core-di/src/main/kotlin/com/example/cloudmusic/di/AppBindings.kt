@@ -13,7 +13,11 @@ import com.example.cloudmusic.di.settings.DataStoreStorageRepository
 import com.example.cloudmusic.di.settings.SettingsAccess
 import com.example.cloudmusic.di.settings.SettingsStore
 import com.example.cloudmusic.engine.api.IMusicEngine
-import com.example.cloudmusic.enginelegacy.EngineAdapter
+import com.example.cloudmusic.engineopensource.Media3EngineAdapter
+// 12 §61.81 / B2 M1 回退开关：把 provideMusicEngine 的构造改回
+// `EngineAdapter().also { it.appContext = context }` 并恢复 import
+// `com.example.cloudmusic.enginelegacy.EngineAdapter` 即回到 A 路线；
+// :engine-legacy 与 18 个 so 本批保留不移除（C5 默认假设）。
 import com.example.cloudmusic.media.IMediaControl
 import com.example.cloudmusic.media.InMemoryMediaControl
 import com.example.cloudmusic.output.router.InMemoryOutputRouter
@@ -40,6 +44,9 @@ import javax.inject.Singleton
  * - 第十八批（`12 §27`，T-A2）：`StorageRepository` 改绑 `DataStoreStorageRepository`，
  *   `SettingsStore` 成为 `AppSettings` 的唯一持久入口；凭据只在 DataStore、不进 Room（§14 #2）。
  *   每次写入返回 `SettingsUpdate.effects`（08 §7），`remove()` 仍委托 Room 的 `markOrphan()`。
+ * - 第一百零八批（`12 §61.81`，B2 M1）：`IMusicEngine` 单点换绑到
+ *   `Media3EngineAdapter`（`:engine-opensource`），门面 14 方法签名零改动；
+ *   `:engine-legacy` / `EngineAdapter` 保留为回退（C5 暂不移除 18 so）。
  * - 第二十七批（`12 §36`，T-L L1）：`IMusicEngine` 改绑舱内 `EngineAdapter`
  *   （D-08 换绑点，调用方与门面签名零改动）。EngineAdapter 构造不触发 native 加载
  *   （只有 prepare 才实例化 PlaybackEngine），因此 JVM 单测里的 Hilt 图仍可安全注入。
@@ -61,7 +68,7 @@ object EngineModule {
     // 12 §57：注入 ApplicationContext 供照搬舱创建 NMVirtualFileManager（cacheManagerHandle 实验）。
     // 用 `also` 设置属性而非改构造签名，保持 12 §36 的「零参数换绑」守护语义。
     fun provideMusicEngine(@ApplicationContext context: Context): IMusicEngine =
-        EngineAdapter().also { it.appContext = context }
+        Media3EngineAdapter().also { it.appContext = context }
 }
 
 @Module

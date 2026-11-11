@@ -1,0 +1,176 @@
+{
+  "method": "12 §61.76 / F4 -103 产生链与播放侧状态机反汇编（纯离线、capstone + pyelftools、零生产改动）",
+  "generated_by": "tools/l3_f4_minus103_chain_disasm.py",
+  "mode": "offline_disasm",
+  "device_run": false,
+  "cache_so": "engine-legacy/src/main/jniLibs/arm64-v8a/libNMCommonCache.so",
+  "cache_sha256": "7a1adc95c255c241c1d5d64060468cefe3961c73c459ba15527ce87e5fde4a6c",
+  "audio_so": "engine-legacy/src/main/jniLibs/arm64-v8a/libncmaudioplayer.so",
+  "audio_sha256": "5bf085f4020e60c59c59e2ca2f61067dd003708a7a24d6cbaaca602c93f31025",
+  "dependencies": [
+    "capstone 5.0.7",
+    "pyelftools"
+  ],
+  "rodata": {
+    "finish_addr": "0x3b8f3",
+    "finish": "NMBufferSourceImp::Read((%lld-%lld) Finish Async:%d",
+    "paused_addr": "0xe190a",
+    "paused": "AudioTrack(%d): Paused"
+  },
+  "anchors": {
+    "minus103_imm_A": {
+      "addr": "0xa85c",
+      "mnemonic": "mov",
+      "operands": "w25, #-0x67"
+    },
+    "minus103_imm_B": {
+      "addr": "0xa9c4",
+      "mnemonic": "mov",
+      "operands": "w25, #-0x67"
+    },
+    "write_1a0_A": {
+      "addr": "0xa8b4",
+      "mnemonic": "str",
+      "operands": "w25, [x19, #0x1a0]"
+    },
+    "write_1a0_B": {
+      "addr": "0xa9e4",
+      "mnemonic": "str",
+      "operands": "w25, [x19, #0x1a0]"
+    },
+    "pending_read_gate": {
+      "addr": "0xa9d0",
+      "mnemonic": "ldr",
+      "operands": "x8, [x19, #0x198]"
+    },
+    "pending_read_cbz": {
+      "addr": "0xa9d4",
+      "mnemonic": "cbz",
+      "operands": "x8, #0xa9f8"
+    },
+    "queue_dispatch": {
+      "addr": "0x9fc0",
+      "mnemonic": "bl",
+      "operands": "#0x16468"
+    },
+    "read_status": {
+      "addr": "0xa008",
+      "mnemonic": "ldr",
+      "operands": "w20, [x19, #0x1a0]"
+    },
+    "clear_188": {
+      "addr": "0xa010",
+      "mnemonic": "str",
+      "operands": "xzr, [x19, #0x188]"
+    },
+    "clear_190": {
+      "addr": "0xa014",
+      "mnemonic": "str",
+      "operands": "wzr, [x19, #0x190]"
+    },
+    "clear_198": {
+      "addr": "0xa018",
+      "mnemonic": "str",
+      "operands": "xzr, [x19, #0x198]"
+    },
+    "g_level_getter_call": {
+      "addr": "0xa01c",
+      "mnemonic": "bl",
+      "operands": "#0x37e20"
+    },
+    "fmt_ref": {
+      "addr": "0xa034",
+      "mnemonic": "add",
+      "operands": "x2, x2, #0x8f3"
+    },
+    "log_call": {
+      "addr": "0xa040",
+      "mnemonic": "bl",
+      "operands": "#0x3138c"
+    },
+    "return_minus103": {
+      "addr": "0xa064",
+      "mnemonic": "mov",
+      "operands": "w0, w20"
+    },
+    "ret": {
+      "addr": "0xa07c",
+      "mnemonic": "ret",
+      "operands": ""
+    }
+  },
+  "minus103_immediates": [
+    "0xa85c",
+    "0xa9c4",
+    "0xc730",
+    "0x34c74",
+    "0x34c94"
+  ],
+  "writes_1a0": [
+    "0xa8b4",
+    "0xa8c4",
+    "0xa9e4",
+    "0xa9f4"
+  ],
+  "paused_writes": [
+    "0x65198",
+    "0x657d4",
+    "0x67314",
+    "0x67478"
+  ],
+  "audio_track_clears": [
+    "0x4cea8",
+    "0x4d630",
+    "0x55b5c",
+    "0x65cd0",
+    "0x66810"
+  ],
+  "audio_track_sets": [
+    "0x572d4",
+    "0x583bc"
+  ],
+  "cross": {
+    "§61.75 终局裁决": "主判据无一 PASS / F4=BLOCKED",
+    "§61.74 门控": "4 道，all_pass=True"
+  },
+  "checks": {
+    "anchor_minus103_imm_A": true,
+    "anchor_minus103_imm_B": true,
+    "anchor_write_1a0_A": true,
+    "anchor_write_1a0_B": true,
+    "anchor_pending_read_gate": true,
+    "anchor_pending_read_cbz": true,
+    "anchor_queue_dispatch": true,
+    "anchor_read_status": true,
+    "anchor_clear_188": true,
+    "anchor_clear_190": true,
+    "anchor_clear_198": true,
+    "anchor_g_level_getter_call": true,
+    "anchor_fmt_ref": true,
+    "anchor_log_call": true,
+    "anchor_return_minus103": true,
+    "anchor_ret": true,
+    "finish_fmt_string_exact": true,
+    "paused_fmt_string_exact": true,
+    "minus103_imm_count_two": true,
+    "write_1a0_points_present": true,
+    "paused_writes_four": true,
+    "audio_track_clear_and_set": true,
+    "gate_evidence_intact": true,
+    "final_verdict_intact": true,
+    "no_false_claim_in_source": true
+  },
+  "checks_total": 25,
+  "all_pass": true,
+  "failed_checks": [],
+  "f4_status": "BLOCKED",
+  "verdict": "INFERENCE：-103 是硬编码立即数写 [+0x1a0]，由挂起异步读触发、经 0x16468 队列的 Finish Async 回调原样返回播放侧；播放侧 [+0x20c] 为 paused 标志、[+0x1e8] 为 AudioTrack 指针，二者有明确写入点，对应 §61.74 门控 1/2/3 的静默早退。不能断定本次运行命中哪一道，需动态插桩。",
+  "next_fix_anchor": "定位 [+0x198] 挂起异步读的写入点与 result:-2 的传递链，接 §61.65/§61.67 的代次错配 → commit 冻结；这是比日志判据更靠前的 F4 修复点",
+  "truthfulness": "静态二进制证据等级提升 ≠ 修复 ≠ 验证；未做动态插桩或新真机 A/B；真机取证已于 §61.75 完结，本批不需要设备；接线回滚仍待用户拍板；F4 仍 BLOCKED。",
+  "honest_notes": [
+    "不连 adb、不改设备现场、零 P0 源码改动、so 二进制原样。",
+    "§61.74 门控证据与 §61.75 终局裁决证据只读交叉、零改写。",
+    "初扫容差误把 0x3b927(Seek) 当 Finish Async 第二引用，已排除。",
+    "A3 仍 G09 PARTIAL、舱不冻结、engine_compat_test 不回填。"
+  ]
+}

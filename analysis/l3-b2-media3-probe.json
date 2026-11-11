@@ -1,0 +1,92 @@
+{
+  "probe": "l3_b2_media3_maven_probe",
+  "mode": "online_readonly",
+  "source_host": "dl.google.com",
+  "captured_at": "2026-11-11T17:52:00+08:00",
+  "artifacts": {
+    "media3-exoplayer": {
+      "url": "https://dl.google.com/dl/android/maven2/androidx/media3/media3-exoplayer/maven-metadata.xml",
+      "http_ok": true,
+      "total_versions": 77,
+      "metadata_latest": "1.12.0-alpha02",
+      "metadata_release": "1.12.0-alpha02",
+      "latest_stable": "1.11.1",
+      "last5": [
+        "1.11.0-rc01",
+        "1.11.0",
+        "1.11.1",
+        "1.12.0-alpha01",
+        "1.12.0-alpha02"
+      ],
+      "alpha_beta_rc_count": 49
+    },
+    "media3-datasource": {
+      "url": "https://dl.google.com/dl/android/maven2/androidx/media3/media3-datasource/maven-metadata.xml",
+      "http_ok": true,
+      "total_versions": 77,
+      "metadata_latest": "1.12.0-alpha02",
+      "metadata_release": "1.12.0-alpha02",
+      "latest_stable": "1.11.1",
+      "last5": [
+        "1.11.0-rc01",
+        "1.11.0",
+        "1.11.1",
+        "1.12.0-alpha01",
+        "1.12.0-alpha02"
+      ],
+      "alpha_beta_rc_count": 49
+    },
+    "media3-common": {
+      "url": "https://dl.google.com/dl/android/maven2/androidx/media3/media3-common/maven-metadata.xml",
+      "http_ok": true,
+      "total_versions": 77,
+      "metadata_latest": "1.12.0-alpha02",
+      "metadata_release": "1.12.0-alpha02",
+      "latest_stable": "1.11.1",
+      "last5": [
+        "1.11.0-rc01",
+        "1.11.0",
+        "1.11.1",
+        "1.12.0-alpha01",
+        "1.12.0-alpha02"
+      ],
+      "alpha_beta_rc_count": 49
+    },
+    "media3-session": {
+      "url": "https://dl.google.com/dl/android/maven2/androidx/media3/media3-session/maven-metadata.xml",
+      "http_ok": true,
+      "total_versions": 77,
+      "metadata_latest": "1.12.0-alpha02",
+      "metadata_release": "1.12.0-alpha02",
+      "latest_stable": "1.11.1",
+      "last5": [
+        "1.11.0-rc01",
+        "1.11.0",
+        "1.11.1",
+        "1.12.0-alpha01",
+        "1.12.0-alpha02"
+      ],
+      "alpha_beta_rc_count": 49
+    },
+    "media3-decoder": {
+      "url": "https://dl.google.com/dl/android/maven2/androidx/media3/media3-decoder/maven-metadata.xml",
+      "http_ok": true,
+      "total_versions": 77,
+      "metadata_latest": "1.12.0-alpha02",
+      "metadata_release": "1.12.0-alpha02",
+      "latest_stable": "1.11.1",
+      "last5": [
+        "1.11.0-rc01",
+        "1.11.0",
+        "1.11.1",
+        "1.12.0-alpha01",
+        "1.12.0-alpha02"
+      ],
+      "alpha_beta_rc_count": 49
+    }
+  },
+  "errors": [],
+  "selected_version": "1.11.1",
+  "selection_rule": "取 media3-exoplayer 的非预发布（不含 alpha/beta/rc）最新版本；与 AGP 8.9.2 / compileSdk 35 / minSdk 26 / JDK 17 / Kotlin 2.1.0 兼容",
+  "note": "media3 官方未发布 FFmpeg 软解扩展到 Maven；FFmpeg 扩展必须按官方《Media3 supported formats》手动构建并按需裁剪 decoder。本 probe 只证明Media3 核心制品可达与版本，不证明 FFmpeg 扩展可下载。"
+}

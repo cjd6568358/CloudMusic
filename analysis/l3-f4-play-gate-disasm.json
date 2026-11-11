@@ -1,0 +1,143 @@
+{
+  "method": "12 §61.74 / F4 `Write start play` 日志门控反汇编（纯离线、capstone + pyelftools、零生产改动）",
+  "generated_by": "tools/l3_f4_play_gate_disasm.py",
+  "mode": "offline_disasm",
+  "device_run": false,
+  "so": "engine-legacy/src/main/jniLibs/arm64-v8a/libncmaudioplayer.so",
+  "so_sha256": "5bf085f4020e60c59c59e2ca2f61067dd003708a7a24d6cbaaca602c93f31025",
+  "so_bytes": 1171992,
+  "dependencies": [
+    "capstone 5.0.7",
+    "pyelftools"
+  ],
+  "rodata": {
+    "fmt_addr": "0xe180a",
+    "fmt": "AudioTrack(%d): Write start play nErr:%d",
+    "tag_addr": "0xdd1b3",
+    "tag": "NMAudioPlayer"
+  },
+  "references": [
+    [
+      "0x66eec",
+      "0x66ef4",
+      "0xe180a"
+    ]
+  ],
+  "function_window": [
+    "0x66e44",
+    "0x66fa8"
+  ],
+  "log_call": "0x66f00",
+  "gates": {
+    "gate_1_audio_track_ptr_null": {
+      "load_at": "0x66e70",
+      "branch_at": "0x66e74",
+      "branch_target": "0x66f50",
+      "description": "[this+0x1e8] 为空 → 返回 -1，不打印",
+      "load_mnemonic": "ldr",
+      "branch_mnemonic": "cbz",
+      "branch_operand": "x8, #0x66f50"
+    },
+    "gate_2_audio_track_ptr_null_second": {
+      "load_at": "0x66ea8",
+      "branch_at": "0x66eac",
+      "branch_target": "0x66f40",
+      "description": "[this+0x1e8] 二次判空 → 收尾 -1，不打印",
+      "load_mnemonic": "ldr",
+      "branch_mnemonic": "cbz",
+      "branch_operand": "x8, #0x66f40"
+    },
+    "gate_3_state_byte_nonzero": {
+      "load_at": "0x66eb0",
+      "branch_at": "0x66eb4",
+      "branch_target": "0x66f5c",
+      "description": "[this+0x20c] 非零 → 跳过打印，直接进入后续路径",
+      "load_mnemonic": "ldrb",
+      "branch_mnemonic": "cbnz",
+      "branch_operand": "w8, #0x66f5c"
+    },
+    "gate_4_helper_returns_3": {
+      "load_at": "0x66ec8",
+      "branch_at": "0x66ecc",
+      "branch_target": "0x66f5c",
+      "description": "bl 0x13d80 返回 3 → 跳过打印",
+      "load_mnemonic": "cmp",
+      "branch_mnemonic": "b.eq",
+      "branch_operand": "#0x66f5c"
+    }
+  },
+  "log_cross": {
+    "rounds": [
+      {
+        "key": "cold",
+        "write_start_play": 0,
+        "open_codec": [
+          "aac"
+        ],
+        "has_103": true,
+        "commit_values": [
+          253952
+        ]
+      },
+      {
+        "key": "warm",
+        "write_start_play": 0,
+        "open_codec": [
+          "aac"
+        ],
+        "has_103": true,
+        "commit_values": [
+          262144
+        ]
+      },
+      {
+        "key": "seek",
+        "write_start_play": 0,
+        "open_codec": [],
+        "has_103": false,
+        "commit_values": [
+          262144
+        ]
+      }
+    ],
+    "media_session_paused": true,
+    "metadata_null": true,
+    "no_app_audio_track": true
+  },
+  "checks": {
+    "so_present_and_sha_recorded": true,
+    "rodata_write_fmt_exact": true,
+    "rodata_tag_nmaudioplayer": true,
+    "write_fmt_unique_reference": true,
+    "log_call_present_at_0x66f00": true,
+    "gate_1_audio_track_ptr_null": true,
+    "gate_2_audio_track_ptr_null_second": true,
+    "gate_3_state_byte_nonzero": true,
+    "gate_4_helper_returns_3": true,
+    "nerr_from_call_0x14500": true,
+    "retry_counter_and_minus3_callback": true,
+    "three_rounds_zero_write_start_play": true,
+    "cold_warm_have_codec_and_103": true,
+    "media_session_paused_and_no_app_track": true,
+    "f4_still_blocked_in_audit": true,
+    "no_false_claim_in_this_source": true
+  },
+  "checks_total": 16,
+  "all_pass": true,
+  "failed_checks": [],
+  "f4_status": "BLOCKED",
+  "verdict": "INFERENCE：`Write start play` 打印点前有 4 道静默早退门控，0 次不是「没有写 AudioTrack」的充分证据；但结合 MediaSession PAUSED / metadata:null / 无本 app AudioTrack / -103，§61.73「播放未出声」的独立结论仍成立。F4 判据需并用播放态证据。",
+  "next_anchors": [
+    "[this+0x1e8]",
+    "[this+0x20c]",
+    "0x13d80 返回值",
+    "[this+0x354] 重试计数"
+  ],
+  "truthfulness": "静态二进制证据等级提升 ≠ 修复 ≠ 验证；未做动态插桩或新真机 A/B，无法断定本次运行命中哪一道门控；真机复跑 NOT RUN（设备已可下线）；接线回滚仍待用户拍板；F4 仍 BLOCKED。",
+  "honest_notes": [
+    "不连 adb、不改设备现场、零 P0 源码改动、so 二进制原样。",
+    "§61.71 固化回放证据与 §61.73 三轮审计证据只读交叉、零改写。",
+    "A3 仍 G09 PARTIAL、舱不冻结、engine_compat_test 不回填。",
+    "不得把「日志点有门控」偷换成播放成功或 F4 收口结论。"
+  ]
+}

@@ -1,5 +1,314 @@
 # CloudMusic · 文档 ↔ 代码核对与任务清单（2026-11-07 第三十三轮）
 
+> **★ 2026-11-11 第一百一十批（`docs/12 §61.83`，用户「继续」→ M2 前置补证 / 纯离线）**：
+> 承接 §61.82 留下的「9 个格式 decoder 编入未确认」缺口，在用户选定的「保持离线」
+> 框架内做纯离线补证：新增 `tools/l3_b2_m2_decoder_symbol_audit.py`（**纯 stdlib 零依赖**，
+> 手写 ELF32/64 LE 解析器读 `.dynsym`，18 项 checks 全 PASS）→
+> `analysis/l3-b2-m2-decoder-symbols.{json,report.md}`，并用隔离 venv
+> `pyelftools 0.33` 做**独立实现互证** → `...-crosscheck.json`（`all_match=True`）。
+> **证据等级从 §61.44 的「扫二进制可打印字符串」提升到「ELF 导出符号」**：
+> arm64-v8a 与 armeabi-v7a 两 ABI 各自恰好 **100 个 `ff_*_decoder` + 75 个
+> `ff_*_demuxer` 导出符号**，集合逐项完全一致、与 §61.44 的 100/75 吻合；
+> 两份 so 的 `.symtab` 已 strip 但 AVCodec 全局变量保留在 `.dynsym`。
+> **9 项存疑格式逐项收口**：`tak/tta/wavpack/dff/aiff/shorten/truehd/mlp` 8 项
+> `NO_SYMBOL`、唯一 `dsf` = `DEMUXER_SYMBOL_ONLY`（有 `ff_dsf_demuxer`、无 decoder）；
+> 15 项候选集 8 `DECODER_SYMBOL_PRESENT` / 2 `DEMUXER_SYMBOL_ONLY` / 5 `NO_SYMBOL`。
+> 对 §61.82 第 3 节**只追加批注、不改历史正文**（原称「有 demuxer 或字符串痕迹」，
+> 实证仅 dsf 真有 demuxer 导出符号；`aiff` 无 demuxer 与 F3 3 FAIL 相互印证）。
+> **诚实边界**：**符号表补证 ≠ M2 完成**、**导出符号存在 ≠ decoder 可用 ≠ 真机可播**、
+> `.symtab` strip 故不作「未编入」绝对断言；F3 14 格重跑仍 NOT RUN、M2 门禁未通过、
+> **F4 仍 BLOCKED**、`§61.75` 终局裁决不变。零生产代码改动 / 零新增依赖 /
+> so 只读未改 / 不动解码器 / 未联网 / 未连 adb / 未改系统环境变量；
+> 未新增 `docs/` 文件（`09 §3` 仍 **31 个**）。正式断点 `§61.82 → §61.83`
+> （推进的是补证证据等级，**不是 M2 阶段推进、不是 M2 开工**）。
+> **★ 2026-11-11 第一百零九批（`docs/12 §61.82`，用户 21:01 选「保持离线，做 M2 前置」→ 纯离线取证）**：
+> 承接 §61.81 遗留「是否联网完成真实编译验证」，用户选择**保持离线、不偏离 `--offline`**，
+> 只做 M2 纯离线前置取证：产出 `analysis/l3-b2-m2-preflight-2026-11-11.md`（门禁 / 交叉编译
+> 前置清单 / 格式覆盖候选集 / F3 14 格重跑施工单）、`tools/l3_b2_m2_preflight_audit.py`
+> （50 项 checks）→ `analysis/l3-b2-m2-preflight.{json,report.md}`、
+> `check_source_contracts.py §61.82` 守护、全量回写。**本机只读实测 4 项刚性缺口全缺**：
+> Android NDK / CMake / FFmpeg 源码 / Media3 FFmpeg 扩展源码；Google Maven 无
+> `media3-ffmpeg` 制品（§61.80 实证）→ **纯离线条件下 M2 交叉编译不可执行**，
+> 本批未联网 / 未下载 / 未生成扩展产物。7 种 NO_SAMPLE 未补、F3 14 格重跑 **NOT RUN**、
+> `§61.81` 的 Kotlin 编译与 test 回归尚未验证。**诚实边界**：**M2 前置取证 ≠ M2 完成**
+> （`m2_gate_passed=False` / `stage=M2_PREFLIGHT`）、**F4 仍 BLOCKED**、
+> `§61.75` 终局裁决不变；A3 仍 G09 PARTIAL、舱不冻结、F3 14 格未改写。
+> 零生产代码改动 / 零新增依赖 / 未连 adb / 未重编译 / so 原样 / 不动解码器；
+> 未新增 `docs/` 文件（`09 §3` 仍 **31 个**）。正式断点 `§61.81 → §61.82`。
+> **★ 2026-11-11 第一百零八批（`docs/12 §61.81`，用户 18:19「授权开工 M1」→ B2 M1 骨架接入）**：
+> 承接 §61.80 切换 B2 决策，按施工单 M1 定义落地：`gradle/libs.versions.toml` 加 `media3 = "1.11.1"`
+> 与 exoplayer/datasource/common 三制品、`settings.gradle.kts` 启用第 20 个模块 `:engine-opensource`、
+> 新建 `Media3EngineAdapter`（`IMusicEngine` 14 方法骨架）、`core-di/AppBindings.kt` 单点换绑且保留
+> `:engine-legacy` 回退；6 项确认按用户授权的默认假设执行（音效降级留空 / 不引 `media3-session` /
+> 18 个 so 暂不移除 / NO_SAMPLE·R7·「下载后播放」挂账）。新增 `tools/l3_b2_m1_audit.py`（39 项 checks）
+> 与 `check_source_contracts.py §61.81` 守护，`§61.80` 守护演进为 M0/M1 双态。**Gradle 离线实跑**
+> `:engine-opensource:compileDebugKotlin --offline` 得 `BUILD FAILED` / `EXIT 1`——配置阶段与
+> core-common/core-model/engine-api 编译通过，但 3 个 media3 制品无离线缓存，卡在 `debugCompileClasspath`
+> 依赖解析，**Kotlin 源码编译尚未验证、如实标注未编译验证**（原始日志
+> `analysis/l3-b2-m1-gradle-offline-build.log`）；47 套件 / 430 测试零回归未验证，不伪造 `BUILD SUCCESSFUL`。
+> **诚实边界**：**M1 骨架 ≠ B2 完成**（`b2_completed=False` / `M1_SKELETON`），Range / 音效 / FFmpeg
+> 扩展 / gapless·seek·ENDED 均按 M2~M4 挂账、未伪造接线；**F4 仍 BLOCKED**、`§61.75` 终局裁决不变，
+> A3 仍 G09 PARTIAL、舱不冻结、F3 14 格未改写。**不是 F4 修复、不是线路验收**。正式断点
+> `§61.80 → §61.81`。未新增 `docs/` 文件（`09 §3` 仍 **31 个**）。各批均未提交、未 push。
+> **★ 2026-11-11 第一百零七批（见 `docs/12 §61.80`，用户 17:44 拍板「切换 B2」→ 纯离线决策落地）**：
+> **路线拍板已落地，§61.79 的「仍需用户拍板」阻塞解除**。A1 时间盒 `timebox_passed=False` → 按《播放内核两条路线评估》§6.1 **停止 A、不追加 A2 二进制补丁**；**B2 成为现行技术路线**（Media3/ExoPlayer `1.11.1` + 手动构建 FFmpeg 软解扩展 + 自研缓存/Range，落点 `docs/02 §0 A4` 的 `:engine-opensource` 逃生舱、`IMusicEngine` 门面不变）。B1 / B3 不做；**不是改解码器**（F4 与解码器正交）。
+> **7 条架构决策冲突如实登记**：C1「不引入 Media3」范围限定为媒体会话层（不引 `media3-session`）、C2 `#26` 演进、C3 P0 绑定演进（单点换绑 + 门面签名零改动 + `:engine-legacy` 保留回退）、C4 零新增依赖演进（实施批次起、同步 §61.42/§61.43 守护）、C5 18 so 移除延后、C6 `settings.gradle.kts`「路线 C」旧编号演进、C7 音效降级列 P4 挂账。前置实证 `analysis/l3-b2-media3-probe.json`：Google Maven 5 制品全 HTTP 200 / `media3-exoplayer` 77 版本 / 稳定版 `1.11.1` / **无 `media3-ffmpeg` 制品**；AGP 8.9.2 / compileSdk 35 / minSdk 26 兼容。
+> 交付：`analysis/l3-b2-implementation-plan-2026-11-11.md`（M0~M5 施工单 + 14 方法映射 + `RangeCacheDataSource` 设计 + 回归判据 + 回退 + 6 项待确认）、`tools/l3_b2_route_switch_audit.py` → `analysis/l3-b2-route-switch-audit.{json,report.md}`、`check_source_contracts.py §61.80` 守护、全量回写 12 / 09 / 16 / 17（§8.40）/ 本清单 / runbook ⑬ / 路线评估批注 / 当日日志 / 工作记忆。未新增 `docs/` 文件（`09 §3` 仍 **31 个**）。
+> **诚实边界**：**B2 实施尚未开始**（`implementation_started=False` / `completed=False`）——本批零生产代码改动、零新增依赖、零模块启用、未换绑、未重编译 / 未重装、so 二进制原样、不动解码器、未连 adb 改系统设置、未 `pm grant`。**路线切换 ≠ 修复**，REMOTE 缺陷仍在、`§61.75` 终局裁决不变、**F4 仍 BLOCKED**；A3 仍 G09 PARTIAL、舱不冻结、F3 14 格未改写、7 种 NO_SAMPLE 待补。A 路线 `§61.50~§61.79` 证据转历史档案，一字不改。正式断点 `§61.79 → §61.80`。
+>
+> **下一步（§61.80 后）**：① **M1 实施批次**（引入 `androidx.media3 1.11.1`、新建 `:engine-opensource`、`Media3EngineAdapter` 骨架、`EngineModule` 单点换绑、同步演进 `§61.42/§61.43` 基线守护）；② 开工前需用户逐项确认 6 项：音效降级范围 / 7 种 NO_SAMPLE 样本 / R7 LGPL 重编（不作法律结论）/「下载后播放」产品语义 / 是否允许 `media3-session` / 18 个 so 移除时机；③ M2~M5 按施工单阶段门禁推进，每阶段回写断点与记忆；④ F4 验收 `17 §8.3` → F5 → P2/P3/P4；⑤ F3 NO_SAMPLE / T-V USB·DMR / A3 G09 PARTIAL。**不动解码器**。
+>
+> 〔**§61.80 追加批注，历史正文不改**〕上列第一百零六批「下一步（§61.79 后）」之 ① 已于 `12 §61.80`（2026-11-11 17:44）由用户拍板执行完毕；② 仍待确认；③④⑤ 按施工单推进。
+>
+> **★ 2026-11-11 第一百零六批（见 `docs/12 §61.79`，用户明确授权「跑 A1 时间盒，接线回滚一起做」→ 含真机实验）**：
+> **A1 时间盒实验已执行（NOT_RUN → 已裁决）**。真机 `10.0.0.2:37163`（Redmi K60 / Android 13 / arm64-v8a，基线 APK 不含 `§61.69` 接线），样本 `f3_m4a_complete.m4a`（16,573,387 B）经 `§61.47` 零权限通道写入 app 私有 `files/music/`。首轮 `initial_v1__DEFECTIVE` 4 处取证缺陷（跨轮 logcat 污染 / `dumpsys audio` 归属假阴性 / 6s 首快照错过 350ms ACTIVE 窗口 / REMOTE 轮前未清私有样本）仅作留痕**不作裁决依据**；v2 修正（先 `logcat -c` 再启动流式子进程、按本轮 app PID 分段、app uid=`10316` 关联 `dumpsys audio`、REMOTE 轮前清理、t=2s 早快照 + AudioTrack 一手信号）重跑得干净同窗对照（`restore_errors=[]`）。
+> **LOCAL 主轮（pid=18560 / 517 行）**：`remote=false` ×2、REMOTE 取流特征 **0**、LOCAL 装配 8 → 完整避开 `NMCommonCache` 代次门控 / commit / `result:-2` / -103 链；`Open codec for aac` ×2 / `AudioTrack Play(1)` ×2 / `STATE_ACTIVE` ×2 / `Write start play nErr:0` ×2 / `Play status 4` ×2 / **`-103` 0 次** → **解码链点火成立**（相对 `§61.75` 主判据无一 PASS 的实质新进展）。但 `frames delivered=[1,1]` 每次仅 1 帧、约 350ms 后 `msg=2` → `Paused` → `Stop` → `Release End`，MediaSession 恒 `state=2` / position 恒 0、7 次快照无本 app `state:started` 轨 → **无持续播放**；`msg=2` 是过早完成通知 ≠ 自然播完 ENDED，`frames=1` 不计持续出声。**REMOTE 对照轮（pid=18565 / 628 行）**：`remote=true` / `Start id=5` / `WaitRequest=5` / `result:-2=4` / `commit :=1` / codec·write·AudioTrack 全 0 / `Play status 3` / `state=3` 但 position 0，与 `§61.61/§61.75` 一致。
+> **时间盒裁决 `timebox_passed=False`**（`Write start play` ✅ / 本 app AudioTrack `state:started` ❌ / 自动进曲 3 首 ❌）→ `A1_BYPASS_STREAM_LIVE_PARTIAL__IGNITION_ONLY__NO_SUSTAINED_PLAYBACK__TIMEBOX_NOT_PASSED`，建议 **`B2_PENDING_USER_DECISION`**（不追加 A2 二进制补丁、**路线切换仍需用户拍板**；本批不擅自启动 B2 / 不动解码器 / 不重编译重装）。**「绕行 ≠ 修复」**：REMOTE 缺陷仍在、`§61.75` 终局裁决不变、**F4 仍 BLOCKED**；暴露「点火后不能持续」这一播放链下游新的独立问题。
+> 同批按 `§61.70` 勘误**回滚 `§61.69` level-5 诊断接线**（`EngineAdapter.kt` 只删接线；`SetConfig` / VFM / `source.url != null` 分叉 / `remote ? Type.REMOTE : Type.LOCAL` 功能代码零改动；历史 `l3-f4-level5-wiring-audit.json` 冻结不覆盖），`check_source_contracts.py` 8 处旧断言改 `rollback_ok` + 新增 `§61.79` 守护。`tools/l3_f4_a1_bypass_live_probe.py`（v2 真机取证）→ `analysis/l3-f4-a1-bypass-live.json` + `l3-f4-logs/a1-bypass-{local,remote}-20261111-164027.txt`；`tools/l3_f4_a1_bypass_verdict.py`（纯离线裁决）→ `l3-f4-a1-bypass-verdict.{json,report.md}`；`tools/l3_f4_wiring_rollback_audit.py` → `l3-f4-wiring-rollback-audit.{json,report.md}`。全量回写 12 / 09 / 16 / 17 / 本清单 / runbook / 当日日志 / 工作记忆；未新增 `docs/` 文件（`09 §3` 仍 **31 个**）、零 P0 native 改动、未重编译 / 未重装、so 二进制原样、未连 adb 改系统设置、未 `pm grant`、配对码不落盘。**F4 仍 BLOCKED**，A3 仍 G09 PARTIAL、舱不冻结。正式断点由 `§61.78` 推进到 `§61.79`。
+>
+> **下一步（§61.79 后）**：① **用户拍板路线切换 B2**（A1 时间盒已按规则判不通过 → 停止 A、不追加 A2 二进制补丁；B2 = Media3/ExoPlayer + 按需裁剪 FFmpeg 软解扩展 + 自研缓存/Range，**仍需用户拍板**）；② 可选：用户确认「下载后播放」产品语义（正式语义 or 仅验证手段、REMOTE 是否保留）；③ 若继续攻 native，仍是 `§61.77` 三处锚点 `0x10798` / `0xc728` / `0x12dc8`，但按路线评估不追加 A2 二进制补丁；④ F4 验收 `17 §8.3` → F5 → 回 P2→P3→P4；⑤ F3 补齐 7 种 NO_SAMPLE、T-V USB / DMR 项、A3 G09 PARTIAL。**不动解码器**（`§61.77` 根因与解码器正交）。
+>
+> **★ 2026-11-11 第一百零五批（见 `docs/12 §61.78`，用户「了解最新进展，继续开发任务」→ 纯离线）**：
+> 承接 `§61.77` 三处 native 锚点待拍板 + 同日《播放内核两条路线评估》A1 时间盒建议，**不新增真机证据、零 P0 改动、不连 adb**（只读核查 `10.0.0.2:37163` = `device`、`pm path` 有 `base.apk`，不操作设备）。**决定性证据 = `§61.61` 四格矩阵里同一份自洽 fMP4** `f3_m4a_complete.m4a`（16,573,387 B）：LOCAL 格 `url=null` → `XorLocalSource::Open(fd)` → **`Open codec for aac` / `Play status 4` / `Write start play nErr:0` / `mDuration 155933` / 无 `WaitRequest` / 无跳跃读**；REMOTE 格 `Start id=1..4` → **`commit : 368640` 冻结** → `offset:605007 readed_len:0 result:-2` → `Play status 3` / 无 codec。F3 14 格 = LOCAL 6 PASS / REMOTE 5 PASS，7 份 LOCAL logcat 全无 `Start id=` / `WaitRequest` / `MakeRangeRequestAsync` / `ReadFromFileNoLock` / `NMSliceFile` / `commit :`（唯一 `commit` 是系统 `mstatcommitLog`）；**14 格 seek / ENDED 全 false → F4 主判据在 LOCAL 从未跑过**。源码装配 `EngineAdapter.kt` 的 `source.url != null` → `SourceConfig` 的 `remote ? Type.REMOTE : Type.LOCAL`，切 LOCAL **零 P0 / 零 native / 零新增权限 · Manifest action · Gradle 依赖**（`§61.47` 已有 `EXTRA_LOCAL_PATH` 零权限通道）。
+> **裁定 `A1_BYPASS_STREAM_SUPPORTED_BY_EXISTING_DEVICE_EVIDENCE__BYPASS_NOT_FIX__INFERENCE`**：「绕过取流」= 把音源预落为 App 私有本地文件再喂 LOCAL，是 `0x10798`/`0xc728`/`0x12dc8` 的**绕行而非修复**；REMOTE 缺陷仍在、`§61.75` 终局裁决（主判据无一 PASS）不变。**边界**：7 种 NO_SAMPLE 未覆盖、自洽 fMP4 片段 LOCAL 可播 ≠ 完整真实 m4a 已支持、整文件预下载 / 首播延迟 / 存储 / seek 即时性 / gapless / 流式语义代价、产品主音源（OpenList / WebDAV / strm）走 REMOTE 需用户拍板「下载后播放」语义、`§61.69` 接线回滚仍待拍板。
+> `tools/l3_f4_bypass_stream_audit.py`（纯 stdlib 零依赖、`device_run=false`、**61 项 checks 全 PASS**，实扫 4 类证据不硬编码）→ `analysis/l3-f4-bypass-stream-audit.{json,report.md}` + `check_source_contracts.py §61.78` 守护；全量回写 12 / 09 / 16 / 17 / 本清单 / runbook / 当日日志 / 工作记忆。**A1 时间盒实验 NOT_RUN、需用户拍板**（按纪律不把「继续」当路线授权 / 接线回滚授权）：push 样本 → `run-as` 写入 `files/music/` → `ACTION_PLAY + EXTRA_LOCAL_PATH` → 60s logcat + dumpsys 多信号判据 + 自动进曲 3 首 / seek / ENDED → 通过继续 A（F4 验收 `17 §8.3` → F5）、不通过立即转 B2 不追加 A2 二进制补丁。零 P0 源码改动、未连 adb、未重编译 / 未重装、so 二进制原样、`§61.67~§61.77` 历史正文与证据一字未改、未新增 `docs/` 文件（`09 §3` 仍 **31 个**）。**F4 仍 BLOCKED**，A3 仍 G09 PARTIAL、舱不冻结。正式断点由 `§61.77` 推进到 `§61.78`。
+>
+> **下一步**：① **用户拍板 F4 修复技术路线**（A1 绕过取流 / 改 native / 换源；本批已把 A1 的可行性用已有真机证据钉死）→ ② 拍板后按 §8.38 的 A1 时间盒实验执行一次回归验证 → ③ F4 验收 `17 §8.3` → F5 → 回 P2→P3→P4；④ `§61.69` 接线回滚拍板（须同步调整 §61.69/71/72/73/74/75 守护）。**不动解码器**（`§61.77` 根因与解码器正交）。
+>
+> 〔**§61.79 追加批注，历史正文不改**〕上列 ② / ④ 已于 `12 §61.79`（2026-11-11 16:45）执行完毕：用户授权「跑 A1 时间盒，接线回滚一起做」→ A1 时间盒真机实验已跑并裁决 `timebox_passed=False`、`§61.69` 接线已回滚且守护已同步。① 的路线拍板结论见本清单最上方第一百零六批「下一步（§61.79 后）」。
+>
+> **★ 2026-11-11 第一百零四批（见 `docs/12 §61.77`，用户「继续」→ 纯离线）**：
+> 真机取证已于 §61.75 完结、**本批不需要设备**。`libNMCommonCache.so` `.rodata @0x3bee8` = `NMBufferSourceImp(...ReadFromFileNoLock ... result:%d`，**实扫唯一引用** `0xc454/0xc45c`；`0xc434 blr [vtable+0x28]` 返回值即 result。**`0xc6f8 bl 0x10198`（WaitRequest）返回 1 → `0xc728 mov w0,#-2` 就是 `result:-2` 的产生点**（返回 2 → -0x6a、其它 → -0x67、返回 0 成功回读）；另一处 -2 是 `0x12dc8`（§61.67 的 `NMSlicesFile::Write` 越界门控）。`0xa9bc mov w25,#-2` 与 `0xa9c4 mov w25,#-0x67` 是**两条硬编码分支**，共用 `0xa9e4 str w25,[+0x1a0]`，且仅在**挂起异步读 `[+0x198]` 非零**时写入（`0xa9d0/cbz`）；`[+0x198]` 登记/清零共 6 处（`0x9f44`、`0x10b20`、`0xa018`、`0x100c8`、`0x106c0`、`0x1095c`）。完整静态链：代次错配 `0x10798` → commit 冻结 `0x10888` → `result:-2` → 挂起异步读 → -2/-103 写 `+0x1a0` → §61.76 `Finish Async` 返回 -103 → §61.74 门控静默早退 → 无音频输出。**inference**，不断定本次命中哪条分支。三处修复锚点 `0x10798` / `0xc728` / `0x12dc8` 均在 native 内，与 §61.59「Java 侧修不了」一致，**真要修复需用户拍板技术路线**（改 native / 绕过取流 / 换源），本批不擅自改动。
+> `tools/l3_f4_read_gap_chain_disasm.py`（**31 项 checks 全 PASS**）→
+> `analysis/l3-f4-read-gap-chain.{json,report.md}` +
+> `check_source_contracts.py §61.77` 守护；全量回写 12 / 09 / 16 / 17 /
+> 本清单 / runbook / 当日日志 / 工作记忆。零 P0 源码改动、未连 adb、
+> 未重编译 / 未重装、so 二进制原样、接线回滚仍待拍板、§61.67~§61.76
+> 历史正文与证据一字未改。**F4 仍 BLOCKED**（静态证据等级提升 ≠
+> 修复 ≠ 验证），A3 仍 G09 PARTIAL、舱不冻结。正式断点由 `§61.76`
+> 推进到 `§61.77`。
+>
+> **下一步**：**需用户拍板 F4 修复技术路线**（改 native / 绕过取流 /
+> 换源）；三处锚点均在 native 内、Java 侧修不了。拍板后 → 修复 →
+> 修复后一次回归验证 → F4 验收 `17 §8.3` → F5 → 回 P2→P3→P4；
+> 接线回滚拍板属源码决策，真机取证已完结、无需再为验证上线。
+>
+> **★ 2026-11-11 第一百零三批（见 `docs/12 §61.76`，用户「继续」→ 纯离线）**：
+> 真机取证已于 §61.75 完结，**本批不需要设备**。补 §61.74 门控上游链：
+> ① `libNMCommonCache.so` 中 `-103` 是**硬编码立即数** `mov w25, #-0x67`
+> （`0xa85c`/`0xa9c4`），写 `[+0x1a0]`（`0xa8b4`/`0xa9e4`）；写入 B 仅在
+> 挂起异步读 `[+0x198]` 非零时发生（`0xa9d0/cbz`）。`Finish Async` 回调经
+> `0x9fc0 bl 0x16468` 写线程队列投递，`0xa008` 读 `+0x1a0`、清零
+> `+0x188/190/198`、`0xa040` 打印后 **`0xa064 mov w0,w20` + `0xa07c ret`
+> 把 -103 原样返回播放侧**。② `libncmaudioplayer.so` `[+0x20c]` =
+> **paused 标志**（`.rodata @0xe190a` = `AudioTrack(%d): Paused`），
+> `[+0x1e8]` = AudioTrack 对象指针（设置 `0x572d4`/`0x583bc`、释放清零
+> `0x66810` 等 5 处）→ 对应 §61.74 门控 1/2/3。③ 勘误：初扫容差把
+> `0x3b927`（Seek 串）误算成 `Finish Async` 第二引用，已排除。
+> ④ **inference**：不断定本次命中哪道门控，**F4 修复点前移**到
+> 「读侧为何留下挂起异步读并写入 -103」（`+0x198` 写入点 +
+> `result:-2` 传递链），接 §61.65/§61.67 代次错配 → commit 冻结。
+> ⑤ `tools/l3_f4_minus103_chain_disasm.py`（**25 项 checks 全 PASS**）→
+> `analysis/l3-f4-minus103-chain.{json,report.md}` +
+> `check_source_contracts.py §61.76` 守护；全量回写 12 / 09 / 16 / 17 /
+> 本清单 / runbook / 当日日志 / 工作记忆。⑥ 零 P0 源码改动、未连 adb、
+> 未重编译 / 未重装、so 二进制原样、接线回滚仍待拍板、§61.67~§61.75
+> 历史正文与证据一字未改。**F4 仍 BLOCKED**（静态证据等级提升 ≠
+> 修复 ≠ 验证），A3 仍 G09 PARTIAL、舱不冻结。正式断点由 `§61.75`
+> 推进到 `§61.76`。
+>
+> **下一步（离线）**：定位 `[+0x198]` 挂起异步读的写入点与
+> `result:-2` 传递链 → F4 修复 → 修复后一次回归验证 → F4 验收
+> `17 §8.3` → F5 → 回 P2→P3→P4；接线回滚拍板属源码决策。
+>
+> **★ 2026-11-11 第一百零二批（见 `docs/12 §61.75`，用户「早就让你把
+> 真机部分验证完 怎么又要上线？」）**：**用户指正成立、口径纠错** ——
+> 设备自 11:00 起在线，真机验证已完成；此前把「F4 主判据未通过」与
+> 「上线后复跑」并列写成下一步，造成「验证没做完」的错觉。
+> **本清单及 `docs/17 §7` 第 10 条 / §8.34 中的「设备上线后复跑」
+> 表述一律作废**。① `10.0.0.2:39257` 本轮开始时 offline、
+> `reconnect offline` / `disconnect+connect` 均失败；用户给
+> `10.0.0.2:37163` → `connect` 成功、`get-state=device`，app 仍是
+> §61.73 装好的不含 §61.69 接线的基线 APK。② 新增
+> `tools/l3_f4_playback_control_probe.py`：用 `cmd media_session
+> dispatch`（MIUI 拒 `input` 的 `INJECT_EVENTS`，但此通道可用、
+> **无需物理在场**）执行 `play` / `next`×3 / `fast-forward` /
+> `rewind`，6 次 rc=0、3895 行 logcat + 4 次 `dumpsys` 快照，
+> `finally` 恢复 adb reverse / `wifiOnly` / http.server / logcat。
+> ③ **关键纠偏**：MediaSession 曾 `state=3(PLAYING)`，但
+> `position` 恒 0、`metadata:null`、无本 app AudioTrack
+> `state:started`、`Write start play` 0 次、`-103` 1 次 →
+> **状态机上报 ≠ 音频输出**；控制轮证据里单一信号的
+> `playing_verdict=PASS` 标注**不作准**（历史 JSON 原样保留，
+> 勘误另行登记、不改写）。④ `tools/l3_f4_acceptance_final_audit.py`
+> 按 `17 §8.3` 逐条定案：`Write start play` / 完整时长 /
+> AudioTrack / 自动进曲 3 首 / seek / `-103` 均 **FAIL**，
+> F3 矩阵与 MediaSession 为 PARTIAL，ENDED **NOT RUN**，
+> **主判据无一 PASS**（12 项 checks 全 PASS、`no_criterion_pass=true`）、
+> **F4 仍 BLOCKED**。⑤ **真机取证到此完结**：设备在场能做的观测 /
+> 注入 / 播放控制 / UI 截图 / dumpsys 全部完成并落盘，
+> **不再以「设备上线」作为验证前置**；后续是 F4 修复与回归验证，
+> `§61.69` 接线回滚属**源码决策、非真机验证**。⑥
+> `check_source_contracts.py §61.75` 守护 + 全量回写 12 / 09 /
+> 16 / 17 / 本清单 / runbook / 当日日志 / 工作记忆，并**删除工作记忆
+> §3 的「设备在线窗口」条目**。⑦ 零 P0 源码改动、未重编译 /
+> 未重装、so 二进制原样、未改用户网络 / 未 `pm grant` /
+> 配对码不落盘、§61.67~§61.74 历史正文与证据一字未改。
+> A3 仍 G09 PARTIAL、舱不冻结、指纹不回填。正式技术断点由
+> `§61.74` 推进到 `§61.75`（真机验收终局裁决 + 口径纠错）。
+>
+> **下一步（不再需要为验证上线）**：① `§61.69` 接线是否回滚
+> （建议回滚，须同步调整 §61.69/§61.71/§61.72/§61.73/§61.74/
+> §61.75 守护）→ ② 离线定位「代次错配 → `commit` 冻结 →
+> `-103` → 播放链未起」的修复点 → ③ **修复后**做一次回归验证
+> （届时若端点变化才需新配对端点 + 一次性配对码）→ ④ F4 验收
+> `17 §8.3` → F5 → 回 P2→P3→P4。
+>
+> **★ 2026-11-11 第一百零一批（见 `docs/12 §61.74`，用户「继续」→ 离线主线）**：
+> 设备已可下线，承接 §61.73 三轮真机最靠前问题「有 aac codec /
+> `mDuration 2933` 却 `Write start play` 皆 0」。纯离线反汇编
+> `libncmaudioplayer.so`（capstone 5.0.7 + pyelftools，sha `5bf085f4…`）：
+> ① `.rodata @0xe180a` = `AudioTrack(%d): Write start play nErr:%d`、
+> tag `NMAudioPlayer`；全 `.text`（205503 指令）`adrp+(add|ldr)`
+> 扫描确认**唯一引用** `0x66eec/0x66ef4`、打印 `0x66f00 bl 0x5c18c`。
+> ② **决定性发现：打印点前 4 道静默早退门控** —— `[this+0x1e8]`
+> 两次判空（`0x66e74 cbz→0x66f50` / `0x66eac cbz→0x66f40`）、
+> `[this+0x20c]` 非零（`0x66eb4 cbnz→0x66f5c`）、
+> `bl 0x13d80` 返回 3（`0x66ec8 cmp / 0x66ecc b.eq→0x66f5c`）；
+> `nErr` 来自 `bl 0x14500`，重试 >9 经 `[this+0xd8]` vtable+0x20
+> 回调传 -3。③ **inference（判据口径修正）**：`Write start play`
+> 0 次**不是「没有写 AudioTrack」的充分证据**，F4 验收不得单独依赖
+> 它，应并用 `MediaSession state=3(PLAYING)` + 本 app AudioTrack
+> `state:started` + 自动进曲 3 首无 `-103` + seek / ENDED；
+> **绝不反向推断播放成功**（`MediaSession PAUSED` / `metadata:null` /
+> 无 AudioTrack / `-103` 是独立一手证据，§61.73 结论仍成立）。
+> 可验证锚点均需真机或动态插桩，本批未做、不臆断命中哪道门控。
+> ④ `tools/l3_f4_play_gate_disasm.py`（**16 项 checks 全 PASS**）→
+> `analysis/l3-f4-play-gate-{disasm.json,report.md}` +
+> `check_source_contracts.py §61.74` 守护；§61.71 固化回放证据与
+> §61.73 三轮审计证据只读交叉、零改写、不重跑覆盖。
+> ⑤ 全量回写 12 / 09 / 16 / 17 / 本清单 / runbook / 当日日志 /
+> 工作记忆；零 P0 源码改动、未连 adb、未重编译 / 未重装、
+> so 二进制原样、未改用户网络、接线回滚仍待拍板。
+> **F4 仍 BLOCKED**（静态证据等级提升 ≠ 修复 ≠ 验证），A3 仍
+> G09 PARTIAL、舱不冻结、指纹不回填。正式技术断点由 `§61.73`
+> 推进到 `§61.74`。**下一步**：① 接线回滚拍板（须同步调整
+> §61.69 / §61.71 / §61.72 / §61.73 / §61.74 守护）→ ② 设备上线后
+> 按**修正后的多信号判据**复跑 → ③ 让播放进入 PLAYING →
+> ④ F4 验收 `17 §8.3` → F5 → 回 P2→P3→P4。
+>
+> **★ 2026-11-11 第一百批（见 `docs/12 §61.73`，用户给在线端点
+> 「趁着设备在线赶紧做」）**：`40467` 超时 10060，`10.0.0.2:37509` 连上
+> （Redmi K60 `23013RK75C` / `mondrian`）；`pm path` 空 → app 未装
+> （§61.69 冷缓存现场）→ 装 §61.69 接线**之前**的基线 APK
+> （`install -r` Success，**P0 源码未改、接线回滚仍待拍板**）。
+> ① 按 §61.72 现行链完成**三轮 60s 真机纯观测**（冷 / 暖 / 用户拖动），
+> 每轮 probe → 读 `log_file` → `--log` 真实格式串判读，`restore` 全 True。
+> ② `SetLoggerCallback` 三轮 0 次 + 冷/暖轮 W 级 3/1 行 →
+> **`g_level=0` 一手实证**；commit 恒定 253952 / 262144 / 262144、
+> 代次 1→6 / 1→6 / 1→4、7 条真实 `.rodata` W 分支串**全 0 命中
+> （有效负结果）**、`UnExpect New Offsetcommted` 未出现 → 代次错配仍
+> 无直接分支日志。③ aac codec 仅冷/暖轮、`Write start play` 三轮皆 0、
+> `-103` 冷/暖各 1 → **F4 主判据未通过**。④ 用户口述**已执行拖动**
+> 且「进度条也没有时间」：`39257` 重新上线后 `screencap` 得播放页
+> 截图（两端 `00:00`、播放按钮 ▶ 未播放、红色进度条约 1/4 处），
+> 第三轮日志无 `mDuration` / 无 `Open codec` / 仅 `Play status 3`、
+> `onSeek`/`seekTo`/`Slider` 全 0 → **播放未进入可 seek 态，拖动未
+> 转化为有效 seek，seek 判据 NOT RUN**（原因不是用户未配合；用户口述 /
+> UI 截图 / 日志分开登记、不互相冒充）。`input swipe` 实测被 MIUI
+> `SecurityException: INJECT_EVENTS` 拒。⑤ 新增
+> `tools/l3_f4_live_rounds_audit.py`（**19 项 checks 全 PASS**）+
+> `analysis/l3-f4-live-rounds-{audit.json,report.md}` +
+> `analysis/l3-f4-live-ui-20261111.png` + `check_source_contracts.py
+> §61.73` 守护；§61.71 固化回放证据 sha256 `c350b06b…b12f` 零改写、
+> 未重跑覆盖。⑥ 全量回写 12 / 09 / 16 / 17（P1★ 第 9 条 / F4 台账 /
+> 末尾追加块 / §8.33）/ 本清单 / runbook / 当日日志 / 工作记忆。
+> ⑦ **零 P0 源码改动**、未重编译 / 未重装含接线 APK、so 二进制原样、
+> 未改用户网络 / 未 `pm grant` / 配对码不落盘、§61.67~§61.72 历史
+> 正文与证据一字未改。**F4 仍 BLOCKED**，A3 仍 G09 PARTIAL /
+> 舱不冻结、指纹不回填。正式技术断点由 `§61.72` 推进到 `§61.73`
+> （真机一手证据链，不是 F4 修复 / 验收通过）。
+>
+> **下一步**：**更靠前的问题 = 先让播放进入可 seek 态**（总时长
+> `00:00` / 无 `Write start play`），再谈触发 W 分支；之后
+> ① 接线回滚拍板（须同步调整 §61.69 / §61.71 / §61.72 / §61.73 守护）
+> → ② 设备在线窗口（当前 `10.0.0.2:39257`，端口会变）→ ③ F4 验收
+> `17 §8.3` → F5 → 回 P2→P3→P4。
+>
+> **★ 2026-11-11 第九十九批（见 `docs/12 §61.72`，用户「继续」）**：只读
+> `adb devices -l` 仍为空 → 设备完全离线；按纪律**不把「继续」当作接线
+> 回滚授权**。盘点确认本轮可离线推进且不重复的缺口是**上线执行链本身**：
+> ① runbook 顶部 §61.70 补充 / §61.71 ④ 已是「保持 `g_level=0` + 主动
+> seek + probe 抓 logcat + 真实格式串扫 W 级」，但同文档 §1「一键执行
+> （唯一命令）」仍指向 §61.59 已完成并裁决的 A/B `--apply`、§2 仍是旧
+> 三分法，`l3_f4_preflight.py` 的 `one_liner` 亦停留在旧实验 → 设备上线
+> 照 §1 跑会重跑已完成实验、临时改 P0、浪费冷缓存窗口；② 「主动 seek」
+> 无任何可执行命令（探针无 seek 能力）；③ 探针落盘 logcat 路径未传给
+> `--log`。做法：新增 `tools/l3_f4_online_readiness.py`（纯离线只读、
+> 唯一外部动作 `adb devices`、`device_run=false`、`ready_to_run` 恒
+> false、**14 项 checks 全 PASS**）→
+> `analysis/l3-f4-online-readiness.{json,report.md}`；runbook 顶部加
+> 「★ 现行上线执行链（§61.72）」两步一键命令 + `log_file` 路径传递 +
+> 主动 seek 登记为用户**手动拖动（物理在场）**，§0/§1/§2 标为历史剧本
+> 勿执行、§6 的 `HEAD 8c9d79b1` 加当时快照勘误。历史 A/B 正文、
+> `§61.58` preflight 证据（`all_pass=true` / `ready_to_run=false` /
+> 15 项）与 `§61.71` 固化回放证据（`mode=replay`）**零改写、不重跑**。
+> `check_source_contracts.py §61.72` 守护 + 全量回写 12 / 09 / 16 /
+> 17（P1★ §7 / F4 台账 / 末尾追加块 / §8.32）/ 本清单 / runbook /
+> 当日日志 / 工作记忆；定稿核验见 `12 §61.72 ⑧`。**零 P0 源码改动**、
+> 未重编译 / 未重装、未重跑 A/B、so 二进制原样、未切用户网络；
+> 真机复跑 NOT RUN、接线未回滚（待用户拍板）。**F4 仍 BLOCKED**，A3 仍
+> G09 PARTIAL、舱不冻结；`all_pass` 只表示离线执行链口径与资产自洽，
+> 不是设备在线证明、不是 F4 验收通过。
+>
+> **下一步（均需用户）**：① §61.69 接线是否回滚（建议回滚，须同步调整
+> §61.69 / §61.71 / §61.72 守护）；② 重开无线调试 → 新配对端点 +
+> 一次性配对码（不落盘）+ 调试端点 → `adb pair` / `connect` /
+> `get-state=device`；③ 确认 app 已装；④ 保持 `g_level=0` 复跑 +
+> 播放中**手动** seek + 用真实格式串扫 W 级日志；⑤ F4 验收 `17 §8.3`
+> → F5 → 回 P2→P3→P4。
+>
+> **★ 2026-11-11 第九十八批（见 `docs/12 §61.71`，用户「拉取代码 检查最新进展
+> 继续完成任务」）**：`git pull --ff-only origin main` 得远程 `a619d34f`
+> （§61.67~§61.70 四批），本地 = 远程 `0/0`、工作区干净。设备
+> `adb devices -l` 仍为空、§61.69 接线回滚待用户拍板 → 不空等、不擅自
+> 回滚 / 切网络，转做「上线后判据是否正确」的最后一环离线准备。
+> ① **缺口**：runbook ④ 要求用真实 `.rodata` 格式串扫 W 级日志并统计 I 级
+> 代次 / `commit` 序列，但被指定复跑的 `tools/l3_f4_vfile_commit_probe.py`
+> 只有 commit 时序、无 W 分支判读、不统计代次序列（§61.68 用的是已被
+> §61.70 证伪的猜测关键词表）。② 新增 `tools/l3_f4_wbranch_recheck.py`：
+> 纯 stdlib 解析 ELF64 section header 读 7 条原生 `.rodata` 格式串
+> （`0x3CC73`/`0x3CCC9`/`0x3CF90`/`0x3CFCE`/`0x3D062`/`0x3D017`/`0x3D0AE`）
+> 驱动扫描，**零第三方依赖、不连 adb、不采集日志**；`--log` 单份 logcat
+> 判读输出 4 种 `live_verdict`，`device_run` 恒 `false`。③ 回放 **34 份**
+> 归档：6 条错误分支格式串 **0 命中**（§61.68 两轮 0 命中是分支未触发的
+> 有效负结果）、`Write all finish` 仅 `ksab-flac-remote.txt` 1 次（默认
+> `g_level=0` 下 W 级可输出）、§61.68 主日志代次 1→22 / `commit` 恒 16384 /
+> `-103` 在场 / `Write start play` 0，`--log` 模式实跑通过；
+> **13 项 checks 全 PASS**、so sha256 与 §61.70 一致。④ 交付
+> `analysis/l3-f4-wbranch-recheck.json` + 报告 +
+> `check_source_contracts.py §61.71` 守护；全量回写 12 / 09 / 16 / 17 /
+> 本清单 / runbook / 工作记忆；未新增 `docs/` 文件。⑤ **同步本地工作记忆**：
+> 此前停留在 §61.66（含已证伪的「开 level-5」路线），已按 §61.70 现行口径
+> 刷新；工作记忆按 `.gitignore` 不入库。⑥ **零 P0 源码改动**、未重编译 /
+> 未重装 APK、so 二进制原样、未切用户网络；真机复跑 NOT RUN、接线未回滚。
+> **F4 仍 BLOCKED**、A3 仍 G09 PARTIAL、舱不冻结；`all_pass` 只表示离线
+> 一致性核验通过，不是 F4 验收通过。
+> ⑦ **正式批次定稿核验（见 `12 §61.71 ⑧`）**：`--log` 单日志判读默认写到
+> 独立的 `analysis/l3-f4-wbranch-live-verdict.json`，不覆盖固化回放证据；
+> 删去证据 JSON 中已被 §61.70 证伪的「真机 level-5 观测」口径；守护加
+> `mode=replay` / `single_log_verdict=null` 断言。全量回写补齐
+> `17`（P1★ §7 / F4 台账 / 末尾追加块）与当日日志；回放工具、契约自检、
+> `git diff --check` 复跑全 PASS。
+>
+> **下一步（均需用户）**：① §61.69 接线是否回滚（建议回滚，须同步调整
+> §61.69 / §61.71 守护）；② 重开无线调试 → 新配对端点 + 一次性配对码
+> （不落盘）+ 调试端点 → `adb pair` / `connect` / `get-state=device`；
+> ③ 确认 app 已装（未装则手机文件管理手动点
+> `/sdcard/Download/CloudMusic-debug.apk`）；④ 保持 `g_level=0` 复跑 +
+> 播放中主动 seek + 用本工具扫真实格式串；⑤ F4 验收 `17 §8.3` → F5 →
+> 回 P2→P3→P4。
+>
 > **★ 2026-11-11 执行层细化（非新批次，见 `analysis/l3-f4-online-runbook.md`
 > 的 `12 §61.70 补充执行层细化`）**：设备仍完全离线，纯离线反汇编把
 > `§61.70` 留下的「构造触发 W 级分支的输入」落成可执行判据 ——

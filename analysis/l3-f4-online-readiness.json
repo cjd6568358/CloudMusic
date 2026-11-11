@@ -1,0 +1,67 @@
+{
+  "method": "12 §61.72 / F4 现行上线执行链一致性自检（纯离线、只读、零生产改动）",
+  "generated_by": "tools/l3_f4_online_readiness.py",
+  "mode": "offline_readonly",
+  "device_probe": "read_only_adb_devices",
+  "device_online": false,
+  "device_lines": [],
+  "device_run": false,
+  "checks": {
+    "current_probe_present": true,
+    "current_probe_logs_logcat_to_file": true,
+    "current_probe_no_seek_capability": true,
+    "wbranch_tool_present": true,
+    "wbranch_evidence_green": true,
+    "wbranch_report_honest": true,
+    "gate_evidence_chain_green": true,
+    "runbook_current_chain_present": true,
+    "runbook_old_ab_marked_historical": true,
+    "runbook_seek_step_explicit": true,
+    "runbook_g_level_zero": true,
+    "wiring_rollback_pending": true,
+    "legacy_preflight_evidence_preserved": true,
+    "f4_still_blocked": true
+  },
+  "checks_total": 14,
+  "all_pass": true,
+  "failed_checks": [],
+  "ready_to_run": false,
+  "f4_status": "BLOCKED",
+  "blocking_reason": "§61.69 接线回滚待用户拍板；设备离线需用户重开无线调试并给新配对端点 + 一次性配对码；确认 app 已装；主动 seek 需物理在场",
+  "pending_user_decisions": [
+    "§61.69 SetLoggerCallback(INMLogger(), 5) 接线是否回滚（建议回滚）",
+    "重开无线调试 → 新配对端点 + 一次性配对码（不落盘）+ 调试端点",
+    "确认 app 是否已装（未装则手机文件管理手动点 APK）",
+    "播放中主动 seek（用户手动拖动进度条，物理在场）"
+  ],
+  "current_commands": [
+    "python tools/l3_f4_online_readiness.py",
+    "python tools/l3_f4_vfile_commit_probe.py --serial <新端点> --wait 60 --out analysis/l3-f4-live-online.json",
+    "python -c \"import json;print(json.load(open('analysis/l3-f4-live-online.json',encoding='utf-8'))['log_file'])\"",
+    "python tools/l3_f4_wbranch_recheck.py --log <上一步输出的 logcat 路径>"
+  ],
+  "artifacts": {
+    "current_probe": "tools/l3_f4_vfile_commit_probe.py",
+    "wbranch_tool": "tools/l3_f4_wbranch_recheck.py",
+    "wbranch_evidence": "analysis/l3-f4-wbranch-recheck.json",
+    "wbranch_live_output": "analysis/l3-f4-wbranch-live-verdict.json",
+    "gate_evidence": [
+      "l3-f4-netsource-commit-disasm.json",
+      "l3-f4-generation-gate-disasm.json",
+      "l3-f4-generation-gate-audit.json",
+      "l3-f4-generation-gate-live-audit.json",
+      "l3-f4-level5-wiring-audit.json",
+      "l3-f4-level5-gate-semantics-audit.json"
+    ],
+    "legacy_preflight": "analysis/l3-f4-preflight.json",
+    "runbook": "analysis/l3-f4-online-runbook.md"
+  },
+  "truthfulness": "all_pass 只表示离线执行链口径与资产自洽，不是设备在线证明、不是 F4 验收通过；ready_to_run 恒为 False（接线回滚待拍板）；真机复跑 NOT RUN、设备离线、接线未回滚、F4 仍 BLOCKED。",
+  "honest_notes": [
+    "只读 adb devices；不 connect、不改设备现场、不采集日志、不跑格。",
+    "不重跑 §61.59 已完成并已裁决的 kind 槽 A/B，不改 P0 基线。",
+    "§61.65~§61.70 六份证据与 §61.58 preflight 证据一律只读、零改写。",
+    "探针无 seek 能力，runbook 已将主动 seek 登记为用户物理在场操作。",
+    "A3 仍 G09 PARTIAL、舱不冻结、engine_compat_test 不回填。"
+  ]
+}

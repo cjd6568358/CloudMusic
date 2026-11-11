@@ -1,0 +1,309 @@
+{
+  "method": "12 §61.73 / F4 三轮真机纯观测汇总审计（纯离线、只读、零生产改动）",
+  "generated_by": "tools/l3_f4_live_rounds_audit.py",
+  "mode": "offline_readonly",
+  "device_run": false,
+  "serial": "10.0.0.2:37509",
+  "device_model": "Redmi K60 23013RK75C / mondrian",
+  "endpoint_40467": "connect 超时 10060，已 disconnect；不作证据",
+  "port_scan_note": "本机 10.0.0.3 网卡对大范围 TCP 均返回成功，7848 个「开放端口」属代理假象，不作证据",
+  "apk_installed": {
+    "path": "app/build/outputs/apk/debug/app-debug.apk",
+    "reason": "app 未装（§61.69 卸载后冷缓存现场）；选 §61.69 接线之前的基线 APK，使 g_level=0",
+    "install_result": "Success",
+    "contains_level5_wiring": false,
+    "p0_source_modified": false
+  },
+  "rounds": [
+    {
+      "key": "cold",
+      "label": "冷缓存（全新安装后首轮）",
+      "probe_json": "analysis/l3-f4-live-online.json",
+      "verdict_json": "analysis/l3-f4-live-cold-verdict.json",
+      "log_file": "analysis/l3-f4-logs/vfile-commit-20261111-110857.txt",
+      "log_lines": 3892,
+      "probe_verdict": "OBSERVED",
+      "mechanism_verdict": "UNEXPECTED_CODEC_OPENED（需复核样本/环境，不据此收口 F4）",
+      "commit_values": [
+        253952
+      ],
+      "open_codec": [
+        "aac"
+      ],
+      "write_start_play": 0,
+      "has_103": true,
+      "restore": {
+        "reverse_before": "",
+        "reverse_removed": true,
+        "wifi_gate_file_removed": true,
+        "http_server_stopped": true,
+        "logcat_process_stopped": true,
+        "device_settings_unchanged": true
+      },
+      "live_verdict": "NO_W_BRANCH_TRIGGERED_EFFECTIVE_NEGATIVE（有效负结果：分支未触发，不是日志被门控）",
+      "verdict_analysis": {
+        "lines": 3892,
+        "w_level_lines": 3,
+        "w_branch_hits": {
+          "0x3CC73": 0,
+          "0x3CCC9": 0,
+          "0x3CF90": 0,
+          "0x3CFCE": 0,
+          "0x3D062": 0,
+          "0x3D017": 0,
+          "0x3D0AE": 0
+        },
+        "w_error_total": 0,
+        "w_success_finish": 0,
+        "generation_sequence": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "generation_strictly_increasing": true,
+        "instance_sequence_max": 5,
+        "commit_values": [
+          253952
+        ],
+        "commit_frozen": true,
+        "read_result_minus_2": 6,
+        "finish_async_minus_103": 1,
+        "java_on_data": 645,
+        "write_start_play": 0,
+        "open_codec": [
+          "aac"
+        ]
+      },
+      "generation_sequence": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "generation_first": 1,
+      "generation_last": 6,
+      "setlogger_calls": 0,
+      "w_level_lines_in_log": 3,
+      "seek_markers": {
+        "onSeek": 0,
+        "seekTo": 0,
+        "Slider": 0
+      },
+      "duration_lines": 1,
+      "open_codec_lines": 1,
+      "play_status_lines": 1,
+      "cold_cache_index_missing": true
+    },
+    {
+      "key": "warm",
+      "label": "暖缓存（不清缓存第二轮）",
+      "probe_json": "analysis/l3-f4-live-online-warm.json",
+      "verdict_json": "analysis/l3-f4-live-warm-verdict.json",
+      "log_file": "analysis/l3-f4-logs/vfile-commit-20261111-111120.txt",
+      "log_lines": 3680,
+      "probe_verdict": "OBSERVED",
+      "mechanism_verdict": "UNEXPECTED_CODEC_OPENED（需复核样本/环境，不据此收口 F4）",
+      "commit_values": [
+        262144
+      ],
+      "open_codec": [
+        "aac"
+      ],
+      "write_start_play": 0,
+      "has_103": true,
+      "restore": {
+        "reverse_before": "",
+        "reverse_removed": true,
+        "wifi_gate_file_removed": true,
+        "http_server_stopped": true,
+        "logcat_process_stopped": true,
+        "device_settings_unchanged": true
+      },
+      "live_verdict": "NO_W_BRANCH_TRIGGERED_EFFECTIVE_NEGATIVE（有效负结果：分支未触发，不是日志被门控）",
+      "verdict_analysis": {
+        "lines": 3680,
+        "w_level_lines": 1,
+        "w_branch_hits": {
+          "0x3CC73": 0,
+          "0x3CCC9": 0,
+          "0x3CF90": 0,
+          "0x3CFCE": 0,
+          "0x3D062": 0,
+          "0x3D017": 0,
+          "0x3D0AE": 0
+        },
+        "w_error_total": 0,
+        "w_success_finish": 0,
+        "generation_sequence": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "generation_strictly_increasing": true,
+        "instance_sequence_max": 5,
+        "commit_values": [
+          262144
+        ],
+        "commit_frozen": true,
+        "read_result_minus_2": 5,
+        "finish_async_minus_103": 1,
+        "java_on_data": 644,
+        "write_start_play": 0,
+        "open_codec": [
+          "aac"
+        ]
+      },
+      "generation_sequence": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "generation_first": 1,
+      "generation_last": 6,
+      "setlogger_calls": 0,
+      "w_level_lines_in_log": 1,
+      "seek_markers": {
+        "onSeek": 0,
+        "seekTo": 0,
+        "Slider": 0
+      },
+      "duration_lines": 1,
+      "open_codec_lines": 1,
+      "play_status_lines": 1,
+      "cold_cache_index_missing": false
+    },
+    {
+      "key": "seek",
+      "label": "用户口述已拖动 seek 轮（总时长 00:00，拖动未生效）",
+      "probe_json": "analysis/l3-f4-live-online-seek.json",
+      "verdict_json": "analysis/l3-f4-live-seek-verdict.json",
+      "log_file": "analysis/l3-f4-logs/vfile-commit-20261111-111418.txt",
+      "log_lines": 3001,
+      "probe_verdict": "OBSERVED",
+      "mechanism_verdict": "B：commit 在 60s 内恒定不变、force 重试仍拿不到 605007 数据 → 指向 commit / Range 记账语义不允许回填跳跃区间，而非单纯落盘速度不足",
+      "commit_values": [
+        262144
+      ],
+      "open_codec": [],
+      "write_start_play": 0,
+      "has_103": false,
+      "restore": {
+        "reverse_before": "",
+        "reverse_removed": true,
+        "wifi_gate_file_removed": true,
+        "http_server_stopped": true,
+        "logcat_process_stopped": true,
+        "device_settings_unchanged": true
+      },
+      "live_verdict": "NO_W_BRANCH_TRIGGERED_EFFECTIVE_NEGATIVE（有效负结果：分支未触发，不是日志被门控）",
+      "verdict_analysis": {
+        "lines": 3001,
+        "w_level_lines": 0,
+        "w_branch_hits": {
+          "0x3CC73": 0,
+          "0x3CCC9": 0,
+          "0x3CF90": 0,
+          "0x3CFCE": 0,
+          "0x3D062": 0,
+          "0x3D017": 0,
+          "0x3D0AE": 0
+        },
+        "w_error_total": 0,
+        "w_success_finish": 0,
+        "generation_sequence": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "generation_strictly_increasing": true,
+        "instance_sequence_max": 3,
+        "commit_values": [
+          262144
+        ],
+        "commit_frozen": true,
+        "read_result_minus_2": 3,
+        "finish_async_minus_103": 0,
+        "java_on_data": 479,
+        "write_start_play": 0,
+        "open_codec": []
+      },
+      "generation_sequence": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "generation_first": 1,
+      "generation_last": 4,
+      "setlogger_calls": 0,
+      "w_level_lines_in_log": 0,
+      "seek_markers": {
+        "onSeek": 0,
+        "seekTo": 0,
+        "Slider": 0
+      },
+      "duration_lines": 0,
+      "open_codec_lines": 0,
+      "play_status_lines": 1,
+      "cold_cache_index_missing": false
+    }
+  ],
+  "checks": {
+    "three_probe_jsons_observed": true,
+    "three_logcats_present": true,
+    "three_verdicts_offline_judged": true,
+    "all_rounds_restored_clean": true,
+    "g_level_zero_no_setlogger_in_any_round": true,
+    "w_level_output_visible_in_default_config": true,
+    "cold_cache_index_missing_confirmed": true,
+    "seven_rodata_w_branches_zero_in_all_rounds": true,
+    "commit_frozen_in_all_rounds": true,
+    "generation_strictly_increasing_in_all_rounds": true,
+    "no_write_start_play_in_any_round": true,
+    "seek_round_has_no_seek_evidence": true,
+    "seek_round_no_duration_and_no_codec": true,
+    "cold_and_warm_have_duration": true,
+    "ui_screenshot_present": true,
+    "wbranch_replay_evidence_intact": true,
+    "p0_wiring_still_present_pending_decision": true,
+    "f4_still_blocked": true,
+    "device_run_false_for_this_audit": true
+  },
+  "checks_total": 19,
+  "all_pass": true,
+  "failed_checks": [],
+  "f4_status": "BLOCKED",
+  "wbranch_sha256": "c350b06b7e8531c385cc033cace60a76df2a0e7c7f22aa5dd49095257fbfb12f",
+  "seek_status": "NOT RUN —— 用户口述已拖动，但 UI 总时长 00:00、日志无 mDuration / Open codec / onSeek / seekTo / Slider；播放未进入可 seek 态，拖动未转化为有效 seek",
+  "user_reported_seek_attempt": true,
+  "user_reported_progress_bar_no_time": true,
+  "ui_evidence": {
+    "path": "analysis/l3-f4-live-ui-20261111.png",
+    "source": "adb exec-out screencap -p（新端点 10.0.0.2:39257）",
+    "observed": "播放页：曲目 f3_m4a_complete / 回环音源 / 1 首；进度条左右均 00:00（总时长 0）；播放按钮为 ▶ 未播放态；红色进度条约 1/4 处（拖动留下的位置痕迹）；暂无歌词",
+    "note": "用户口述已执行拖动 + 口述进度条无时间；截图为其一手 UI 佐证，与第三轮日志无 mDuration / 无 Open codec 交叉一致；UI 红色进度条不作为 seek 已生效的证据"
+  },
+  "input_swipe_result": "SecurityException: Injecting input events requires INJECT_EVENTS permission（MIUI 无线 adb 拒绝）",
+  "device_state_at_end": "第三轮后曾掉线；用户给新端点 10.0.0.2:39257 重新上线并抓取 UI 截图",
+  "truthfulness": "W 级目标格式串三轮全 0 命中是分支未触发的有效负结果；g_level=0 由 SetLoggerCallback 0 次与 W 级日志可见双重坐实；用户口述已拖动且 UI 截图总时长 00:00，但第三轮日志无 mDuration / Open codec / onSeek / seekTo / Slider → 播放未进入可 seek 态、主动 seek 判据 NOT RUN（原因不是用户未配合）；-103 / Write start play 判据未通过；F4 仍 BLOCKED，证据等级提升 ≠ 修复 ≠ 验证。",
+  "honest_notes": [
+    "零 P0 源码改动；设备上运行不含接线的历史基线 APK，与当前源码不同，如实登记。",
+    "三轮 restore 全 True；未改用户网络 / 未 pm grant / 配对码不落盘。",
+    "用户口述与 UI 截图属一手观察，与日志证据分开登记，不互相冒充。",
+    "§61.71 固化回放证据零改写；新增 3 份 logcat 未触发重跑覆盖。",
+    "A3 仍 G09 PARTIAL、舱不冻结、engine_compat_test 不回填。",
+    "接线回滚仍待用户拍板；本批未执行回滚。"
+  ]
+}

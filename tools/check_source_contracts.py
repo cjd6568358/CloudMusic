@@ -108,6 +108,7 @@ RangeFetcher 连接期失败重试一次 + 5s 连接超时经一次性 RST 注�
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import re
 import sys
@@ -826,6 +827,23 @@ FORBIDDEN_IMPORTS = re.compile(
 
 
 def main() -> int:
+    def _code_only(src: str) -> str:
+        """剥离 Kotlin `//` / TOML `#` 注释，只留真实代码行。
+
+        与 12 §61.80 / §61.81 审计工具同源：C1 决策的否定式历史注释
+        （如「不引 media3-session」）是范围声明、不是依赖坐标，全文子串
+        检查会误判成「已引入依赖」，须基于剥离注释后的代码判断。
+        """
+        out = []
+        for ln in src.splitlines():
+            s = ln.strip()
+            if s.startswith(("//", "#", "*")):
+                continue
+            if "//" in ln:
+                ln = ln.split("//", 1)[0]
+            out.append(ln)
+        return "\n".join(out)
+
     failures: list[str] = []
     warnings: list[str] = []
 
@@ -2270,16 +2288,31 @@ def main() -> int:
                 and not bl["res_dir_exists"]
                 and not bl["ui_legacy_included"]
             )
+            # 12 §61.81 / B2 M1：上列 baseline_ok 读的是 M0 历史视觉证据 JSON，
+            # 冻结在 19 模块 / 零新增依赖，历史文件不改写；M1 起「当前态」为
+            # 20 模块 + media3 1.11.1，由本条与 §61.81 守护校验，避免把历史
+            # 快照误当成现行基线。
+            m1_settings_txt = (ROOT / "settings.gradle.kts").read_text(
+                encoding="utf-8")
+            m1_toml_txt = (ROOT / "gradle" / "libs.versions.toml").read_text(
+                encoding="utf-8")
+            m1_baseline_evolved = (
+                m1_settings_txt.count('include(":') == 20
+                and 'include(":engine-opensource")' in m1_settings_txt
+                and 'media3 = "1.11.1"' in m1_toml_txt
+                and "androidx.media3:media3-exoplayer" in m1_toml_txt
+            )
             if not (all(vj["checks"].values()) and vd["all_checks_pass"]
-                    and honest_1to1 and baseline_ok):
+                    and honest_1to1 and baseline_ok and m1_baseline_evolved):
                 failures.append(
                     "12 §61.42 守护：视觉规格证据漂移、1:1 被伪造成已达成，或发布基线被改动，"
                     "请重跑 tools/l3_visual_replica_spec.py 并回写 12 §61.42"
                 )
             else:
                 print("[PASS] 12 §61.42 守护：竞品色值 14 项 / 尺寸 20 项 / 位图 19 项 / "
-                      "唱片叠层 5 层全部取自一手证据；1:1 未达成如实挂账，19 模块 / "
-                      "11 权限 / 51 素材 / 61 行 csv / 零新增依赖 / res 未建零变化")
+                      "唱片叠层 5 层全部取自一手证据；1:1 未达成如实挂账，"
+                      "M0 历史基线 19 模块 / 11 权限 / 51 素材 / 61 行 csv / "
+                      "零新增依赖 / res 未建；M1 当前态已演进为 20 模块 + media3 1.11.1")
         except (KeyError, ValueError, OSError) as exc:
             failures.append(f"12 §61.42 守护：视觉规格证据 JSON 不可解析（{exc}）")
 
@@ -2316,15 +2349,25 @@ def main() -> int:
             ))
             index_ok = ("31 个文件" in overview_text
                         and "docs/17-竞品模块清单与复刻规划.md" in overview_text)
-            if not (inventory_ok and plan_ok and index_ok):
+            # 12 §61.81 / B2 M1：inventory_ok 的 module_count=19 是 M0 历史快照，
+            # 历史证据 JSON 不改写；当前态由本条校验（20 模块 + 逃生舱启用）。
+            cur_settings = (ROOT / "settings.gradle.kts").read_text(
+                encoding="utf-8")
+            m1_current_ok = (
+                cur_settings.count('include(":') == 20
+                and 'include(":engine-opensource")' in cur_settings
+                and "media3" in (ROOT / "gradle" / "libs.versions.toml")
+                    .read_text(encoding="utf-8").lower()
+            )
+            if not (inventory_ok and plan_ok and index_ok and m1_current_ok):
                 failures.append(
                     "12 §61.43 守护：模块清单证据 / 规划文档 / 09 §3 索引计数漂移，"
                     "请重跑 tools/l3_module_inventory.py 并回写 12 §61.43"
                 )
             else:
                 print("[PASS] 12 §61.43 守护：799 activity / 63 包组 / 17 功能域 / "
-                      "50 中文模块名 / 19 自研模块；P0 二进制基线冻结 + P1~P5 优先级 + "
-                      "代码文档差异复核；09 §3 计数 31")
+                      "50 中文模块名 / 19 自研模块（M0 历史快照，M1 当前 20）；"
+                      "P0 二进制基线冻结 + P1~P5 优先级 + 代码文档差异复核；09 §3 计数 31")
         except (KeyError, ValueError, OSError) as exc:
             failures.append(f"12 §61.43 守护：模块清单证据 JSON 不可解析（{exc}）")
 
@@ -3440,9 +3483,43 @@ def main() -> int:
         except (KeyError, ValueError, OSError, TypeError) as exc:
             failures.append(f"12 §61.68 守护：真机审计 JSON 不可解析（{exc}）")
 
-    # 12 §61.69 守护 / F4 level-5 诊断接线：防 null logger 回退、防 level 上限
-    # 被突破、防「level-5 已开启 / F4 已收口」伪证、防设备离线事实被抹除、
-    # 防 §61.67 / §61.68 历史证据回潮。
+    # 12 §61.79 / 接线回滚审计（用户 2026-11-11 拍板「接线回滚一起做」）：
+    # §61.69 level-5 诊断接线已按 §61.70 勘误回滚。本变量供 §61.71~§61.78
+    # 各守护复用，把「源码里接线仍在」的旧断言统一改为「接线已回滚且回滚
+    # 审计全 PASS」。历史 §61.69 接线审计 JSON 作为历史冻结件一字未改
+    # （不重跑 tools/l3_f4_level5_wiring_audit.py 覆盖它）。
+    rb_tool = ROOT / "tools" / "l3_f4_wiring_rollback_audit.py"
+    rb_json = ROOT / "analysis" / "l3-f4-wiring-rollback-audit.json"
+    rb_report = ROOT / "analysis" / "l3-f4-wiring-rollback-audit-report.md"
+    rollback_ok = False
+    if not all(p.is_file() for p in (rb_tool, rb_json, rb_report)):
+        failures.append("12 §61.79 守护：接线回滚审计工具 / 证据 / 报告缺失")
+    else:
+        try:
+            rbd = json.loads(rb_json.read_text(encoding="utf-8"))
+            rollback_ok = (
+                rbd.get("all_pass") is True
+                and rbd.get("checks_total", 0) >= 20
+                and all(rbd.get("checks", {}).values())
+                and rbd.get("mode") == "offline_readonly"
+                and rbd.get("rollback_state") == "ROLLED_BACK"
+                and rbd.get("f4_status") == "BLOCKED"
+            )
+            if not rollback_ok:
+                failures.append(
+                    "12 §61.79 守护：接线回滚审计未全 PASS，请重跑 "
+                    "tools/l3_f4_wiring_rollback_audit.py 并核对 EngineAdapter.kt")
+            else:
+                print("[PASS] 12 §61.79 接线回滚审计前置：接线已移除、功能代码不变、"
+                      "历史证据冻结、so 原样；诊断清理 ≠ F4 修复")
+        except (KeyError, ValueError, OSError, TypeError) as exc:
+            failures.append(f"12 §61.79 守护：接线回滚审计 JSON 不可解析（{exc}）")
+
+    # 12 §61.69 守护 / F4 level-5 诊断接线（历史冻结证据）：防 null logger 回退、
+    # 防 level 上限被突破、防「level-5 已开启 / F4 已收口」伪证、防设备离线
+    # 事实被抹除、防 §61.67 / §61.68 历史证据回潮。
+    # 注意：接线本体已在 §61.79 回滚；本守护保护的是「§61.69 历史审计 JSON
+    # 与其报告一字未改」，不读当前源码，故不因回滚而失效。
     w_tool = ROOT / "tools" / "l3_f4_level5_wiring_audit.py"
     w_json = ROOT / "analysis" / "l3-f4-level5-wiring-audit.json"
     w_report = ROOT / "analysis" / "l3-f4-level5-wiring-report.md"
@@ -3490,9 +3567,9 @@ def main() -> int:
                     "F4 BLOCKED / 设备离线登记 / 文档 61.69·8.29 漂移，请重跑 "
                     "tools/l3_f4_level5_wiring_audit.py 并回写 12 §61.69")
             else:
-                print("[PASS] 12 §61.69 守护：SetLoggerCallback(INMLogger(), level) "
-                      "落地、coerceIn(0,5) 上限在位、23/23 审计全 PASS；"
-                      "真机 level-5 观测 NOT RUN / 设备完全离线 / F4 仍 BLOCKED")
+                print("[PASS] 12 §61.69 守护：历史接线审计 JSON 23/23 全 PASS 且未改写"
+                      "（当时接线态快照）；接线本体已在 §61.79 回滚、"
+                      "真机 level-5 观测 NOT RUN / F4 仍 BLOCKED")
         except (KeyError, ValueError, OSError, TypeError) as exc:
             failures.append(f"12 §61.69 守护：接线审计 JSON 不可解析（{exc}）")
 
@@ -3546,6 +3623,980 @@ def main() -> int:
                       "F4 仍 BLOCKED")
         except (KeyError, ValueError, OSError, TypeError) as exc:
             failures.append(f"12 §61.70 守护：门控语义审计 JSON 不可解析（{exc}）")
+
+    # 12 §61.71 守护 / 上线复跑 W 分支判读：防真实 .rodata 格式串被猜词替换、
+    # 防工具伪装连设备 / 伪造真机复跑、防 F4 提前收口、防接线回滚未拍板先执行。
+    wr_tool = ROOT / "tools" / "l3_f4_wbranch_recheck.py"
+    wr_json = ROOT / "analysis" / "l3-f4-wbranch-recheck.json"
+    wr_report = ROOT / "analysis" / "l3-f4-wbranch-recheck-report.md"
+    wr_adapter = (ROOT / "engine-legacy" / "src" / "main" / "java" /
+                  "com" / "example" / "cloudmusic" / "enginelegacy" /
+                  "EngineAdapter.kt")
+    if not all(p.is_file() for p in (wr_tool, wr_json, wr_report, wr_adapter)):
+        failures.append("12 §61.71 守护：W 分支判读工具 / 证据 / 报告 / P0 源码缺失")
+    else:
+        try:
+            wr = json.loads(wr_json.read_text(encoding="utf-8"))
+            wr_rep = wr_report.read_text(encoding="utf-8")
+            wr_d12 = delivery12.read_text(encoding="utf-8")
+            wr_ok = (
+                wr["all_pass"] is True
+                and wr["checks_total"] >= 13
+                and all(wr["checks"].values())
+                and wr["f4_status"] == "BLOCKED"
+                and wr["device_run"] is False
+                and wr["mode"] == "replay"
+                and wr["single_log_verdict"] is None
+                and "LIVE_OUT" in wr_tool.read_text(encoding="utf-8")
+                and wr["logs_scanned"] >= 33
+                and len(wr["rodata_branches"]) == 7
+                and all(v["anchor_in_real_string"]
+                        for v in wr["rodata_branches"].values())
+                and "F4 仍 BLOCKED" in wr_rep
+                and "61.71" in wr_d12
+                and rollback_ok
+            )
+            if not wr_ok:
+                failures.append(
+                    "12 §61.71 守护：W 分支判读证据 / 真实 rodata 串 / 接线未回滚 "
+                    "/ 12 断点登记漂移，或固化回放证据被 --log 单日志判读覆盖，"
+                    "请重跑 tools/l3_f4_wbranch_recheck.py（默认回放模式）"
+                    "（若已拍板回滚接线，须同步调整本守护）")
+            else:
+                print("[PASS] 12 §61.71 守护：7 条真实 .rodata W 分支格式串驱动判读，"
+                      "34 份归档 6 条错误分支 0 命中；纯离线不连 adb、"
+                      "接线回滚仍待拍板、F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError, TypeError) as exc:
+            failures.append(f"12 §61.71 守护：W 分支判读证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.72 守护 / 现行上线执行链：防 runbook 被 §61.58 A/B 旧剧本重新
+    # 当作唯一命令、防 readiness 工具伪造设备在线 / F4 收口、防 §61.71 固化
+    # 证据与 §61.58 历史 preflight 证据被覆盖、防接线回滚未拍板先执行。
+    or_tool = ROOT / "tools" / "l3_f4_online_readiness.py"
+    or_json = ROOT / "analysis" / "l3-f4-online-readiness.json"
+    or_report = ROOT / "analysis" / "l3-f4-online-readiness-report.md"
+    or_runbook = ROOT / "analysis" / "l3-f4-online-runbook.md"
+    or_pf = ROOT / "analysis" / "l3-f4-preflight.json"
+    or_wr = ROOT / "analysis" / "l3-f4-wbranch-recheck.json"
+    if not all(p.is_file() for p in (
+            or_tool, or_json, or_report, or_runbook, or_pf, or_wr)):
+        failures.append("12 §61.72 守护：现行上线自检工具 / 证据 / 报告 / runbook 缺失")
+    else:
+        try:
+            ord_ = json.loads(or_json.read_text(encoding="utf-8"))
+            or_rep = or_report.read_text(encoding="utf-8")
+            or_rb = or_runbook.read_text(encoding="utf-8")
+            or_src = or_tool.read_text(encoding="utf-8")
+            or_pf_d = json.loads(or_pf.read_text(encoding="utf-8"))
+            or_wr_d = json.loads(or_wr.read_text(encoding="utf-8"))
+            or_cmds = " ".join(ord_.get("current_commands", []))
+            or_ok = (
+                ord_["all_pass"] is True
+                and ord_["checks_total"] >= 14
+                and all(ord_["checks"].values())
+                and ord_["mode"] == "offline_readonly"
+                and ord_["device_run"] is False
+                and ord_["ready_to_run"] is False
+                and ord_["f4_status"] == "BLOCKED"
+                and "待用户拍板" in ord_["blocking_reason"]
+                and len(ord_["pending_user_decisions"]) >= 4
+                and "l3_f4_vfile_commit_probe.py" in or_cmds
+                and "l3_f4_wbranch_recheck.py" in or_cmds
+                and "F4 仍 BLOCKED" in or_rep
+                and not any(s in or_rep for s in (
+                    "F4 已解决", "m4a 已支持", "全格式已支持", "level-5 已开启"))
+                and 'device_run": False' in or_src
+                and 'ready_to_run": False' in or_src
+                # 现行链必须写在前，A/B 旧剧本必须标成历史。
+                and or_rb.index("现行上线执行链") < or_rb.index(
+                    "## 1. 一键执行")
+                and "历史剧本，勿执行" in or_rb
+                and "不要按 §1" in or_rb
+                and "手动拖动" in or_rb and "物理在场" in or_rb
+                and "保持 `g_level=0`" in or_rb
+                # 固化证据与历史证据零改写。
+                and or_wr_d["mode"] == "replay"
+                and or_wr_d["single_log_verdict"] is None
+                and or_pf_d["all_pass"] is True
+                and or_pf_d["ready_to_run"] is False
+                and len(or_pf_d["checks"]) == 15
+                and rollback_ok
+                and "61.72" in delivery12.read_text(encoding="utf-8")
+            )
+            if not or_ok:
+                failures.append(
+                    "12 §61.72 守护：现行上线执行链 / 固化证据 / 历史 preflight / "
+                    "接线未回滚 / 12 断点登记漂移，请重跑 "
+                    "tools/l3_f4_online_readiness.py"
+                    "（若已拍板回滚接线，须同步调整本守护）")
+            else:
+                print("[PASS] 12 §61.72 守护：runbook 现行链在前 / A/B 旧剧本已标历史，"
+                      "14 项执行链自检全 PASS；纯离线不伪造设备在线、"
+                      "接线回滚仍待拍板、F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError, TypeError) as exc:
+            failures.append(f"12 §61.72 守护：上线自检证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.73 守护 / 三轮真机纯观测：防把有效负结果写成「分支已触发」、
+    # 防把用户口述拖动写成 seek 判据已执行、防把 g_level=0 证据与「接线已回滚」
+    # 混淆、防 §61.71 固化回放证据被覆盖、防 F4 提前收口。
+    lr_tool = ROOT / "tools" / "l3_f4_live_rounds_audit.py"
+    lr_json = ROOT / "analysis" / "l3-f4-live-rounds-audit.json"
+    lr_report = ROOT / "analysis" / "l3-f4-live-rounds-report.md"
+    lr_ui = ROOT / "analysis" / "l3-f4-live-ui-20261111.png"
+    lr_wr = ROOT / "analysis" / "l3-f4-wbranch-recheck.json"
+    lr_probe = tuple(ROOT / "analysis" / n for n in (
+        "l3-f4-live-online.json", "l3-f4-live-online-warm.json",
+        "l3-f4-live-online-seek.json"))
+    if not all(p.is_file() for p in (lr_tool, lr_json, lr_report, lr_ui, lr_wr)
+               + lr_probe):
+        failures.append("12 §61.73 守护：三轮真机汇总 / UI 截图 / probe 证据缺失")
+    else:
+        try:
+            lrd = json.loads(lr_json.read_text(encoding="utf-8"))
+            lr_rep = lr_report.read_text(encoding="utf-8")
+            lr_wrd = json.loads(lr_wr.read_text(encoding="utf-8"))
+            lr_rb = (ROOT / "analysis" / "l3-f4-online-runbook.md").read_text(
+                encoding="utf-8")
+            lr_ok = (
+                lrd["all_pass"] is True
+                and lrd["checks_total"] >= 19
+                and all(lrd["checks"].values())
+                and lrd["mode"] == "offline_readonly"
+                and lrd["device_run"] is False
+                and lrd["f4_status"] == "BLOCKED"
+                and lrd["serial"] == "10.0.0.2:37509"
+                and lrd["apk_installed"]["contains_level5_wiring"] is False
+                and lrd["apk_installed"]["p0_source_modified"] is False
+                and lrd["user_reported_seek_attempt"] is True
+                and lrd["user_reported_progress_bar_no_time"] is True
+                and "NOT RUN" in lrd["seek_status"]
+                and len(lrd["rounds"]) == 3
+                and all(len(r["commit_values"]) == 1 for r in lrd["rounds"])
+                and all(r["setlogger_calls"] == 0 for r in lrd["rounds"])
+                and all(all(v == 0 for v in r["seek_markers"].values())
+                        for r in lrd["rounds"])
+                and lrd["ui_evidence"]["path"] == str(lr_ui.relative_to(ROOT)).replace(
+                    "\\", "/")
+                and lrd["wbranch_sha256"] == hashlib.sha256(
+                    lr_wr.read_bytes()).hexdigest()
+                and lr_wrd["mode"] == "replay"
+                and lr_wrd["single_log_verdict"] is None
+                and "F4 仍 BLOCKED" in lr_rep
+                and not any(s in lr_rep for s in (
+                    "F4 已解决", "m4a 已支持", "全格式已支持", "level-5 已开启",
+                    "seek 已执行", "推断已升级为实证"))
+                and rollback_ok
+                and "61.73" in delivery12.read_text(encoding="utf-8")
+                and "61.73" in lr_rb
+            )
+            if not lr_ok:
+                failures.append(
+                    "12 §61.73 守护：三轮真机证据 / 用户口述与 UI 证据 / "
+                    "g_level=0 结论 / 固化回放证据 / 接线未回滚 / 12 与 runbook "
+                    "断点登记漂移，请重跑 tools/l3_f4_live_rounds_audit.py")
+            else:
+                print("[PASS] 12 §61.73 守护：三轮真机 g_level=0 一手坐实、"
+                      "commit 均冻结、W 分支 0 命中为有效负结果；"
+                      "seek 判据 NOT RUN、接线回滚仍待拍板、F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError, TypeError) as exc:
+            failures.append(f"12 §61.73 守护：真机汇总证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.74 守护 / Write start play 日志门控：防把「0 次」当作播放未写的
+    # 充分证据、防把它反向偷换成「播放其实成功」、防 4 道门控锚点漂移、
+    # 防 F4 判据被单日志点垄断、防 F4 提前收口。
+    pg_tool = ROOT / "tools" / "l3_f4_play_gate_disasm.py"
+    pg_json = ROOT / "analysis" / "l3-f4-play-gate-disasm.json"
+    pg_report = ROOT / "analysis" / "l3-f4-play-gate-report.md"
+    pg_so = (ROOT / "engine-legacy" / "src" / "main" / "jniLibs" /
+             "arm64-v8a" / "libncmaudioplayer.so")
+    if not all(p.is_file() for p in (pg_tool, pg_json, pg_report, pg_so)):
+        failures.append("12 §61.74 守护：播放门控反汇编工具 / 证据 / 报告 / so 缺失")
+    else:
+        try:
+            pgd = json.loads(pg_json.read_text(encoding="utf-8"))
+            pg_rep = pg_report.read_text(encoding="utf-8")
+            pg_rb = (ROOT / "analysis" / "l3-f4-online-runbook.md").read_text(
+                encoding="utf-8")
+            pg_gates = pgd["gates"]
+            pg_ok = (
+                pgd["all_pass"] is True
+                and pgd["checks_total"] >= 16
+                and all(pgd["checks"].values())
+                and pgd["mode"] == "offline_disasm"
+                and pgd["device_run"] is False
+                and pgd["f4_status"] == "BLOCKED"
+                and pgd["so_sha256"] == hashlib.sha256(
+                    pg_so.read_bytes()).hexdigest()
+                and pgd["rodata"]["fmt"] == (
+                    "AudioTrack(%d): Write start play nErr:%d")
+                and len(pgd["references"]) == 1
+                and pgd["references"][0][0] == "0x66eec"
+                and len(pg_gates) == 4
+                and all(v["branch_mnemonic"] in ("cbz", "cbnz", "b.eq")
+                        for v in pg_gates.values())
+                and all(r["write_start_play"] == 0
+                        for r in pgd["log_cross"]["rounds"])
+                and pgd["log_cross"]["media_session_paused"] is True
+                and pgd["log_cross"]["no_app_audio_track"] is True
+                and "INFERENCE" in pgd["verdict"]
+                and "F4 仍 BLOCKED" in pg_rep
+                and not any(s in pg_rep for s in (
+                    "F4 已解决", "m4a 已支持", "全格式已支持", "level-5 已开启",
+                    "播放已成功", "推断已升级为实证"))
+                and rollback_ok
+                and "61.74" in delivery12.read_text(encoding="utf-8")
+                and "61.74" in pg_rb
+            )
+            if not pg_ok:
+                failures.append(
+                    "12 §61.74 守护：播放门控锚点 / 判据口径 / 固化证据 / "
+                    "接线未回滚 / 12 与 runbook 断点登记漂移，请重跑 "
+                    "tools/l3_f4_play_gate_disasm.py")
+            else:
+                print("[PASS] 12 §61.74 守护：Write start play 4 道静默早退门控"
+                      "定位完成，0 次非充分证据、播放未出声独立结论仍成立；"
+                      "F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError, TypeError) as exc:
+            failures.append(f"12 §61.74 守护：播放门控证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.75 守护 / 真机验收终局裁决：防把 MediaSession state=3 当成播放
+    # 成功、防把 dispatch 动作成功当成验收通过、防 F4 提前收口、防
+    # 「仍需设备上线做验证」口径回潮（真机取证已完结）。
+    af_tool = ROOT / "tools" / "l3_f4_acceptance_final_audit.py"
+    af_json = ROOT / "analysis" / "l3-f4-acceptance-final.json"
+    af_report = ROOT / "analysis" / "l3-f4-acceptance-final-report.md"
+    af_ctrl = ROOT / "analysis" / "l3-f4-playback-control.json"
+    af_probe = ROOT / "tools" / "l3_f4_playback_control_probe.py"
+    if not all(p.is_file() for p in (af_tool, af_json, af_report, af_ctrl, af_probe)):
+        failures.append("12 §61.75 守护：终局裁决 / 播放控制证据或工具缺失")
+    else:
+        try:
+            afd = json.loads(af_json.read_text(encoding="utf-8"))
+            af_rep = af_report.read_text(encoding="utf-8")
+            af_cd = json.loads(af_ctrl.read_text(encoding="utf-8"))
+            af_rb = (ROOT / "analysis" / "l3-f4-online-runbook.md").read_text(
+                encoding="utf-8")
+            af_states = [s.get("playback_state")
+                         for s in af_cd.get("snapshots", {}).values()]
+            af_pos = [s.get("position") for s in af_cd.get("snapshots", {}).values()
+                      if s.get("position") is not None]
+            af_dispatches = af_cd.get("dispatches", [])
+            af_ok = (
+                afd["all_pass"] is True
+                and afd["checks_total"] >= 12
+                and all(afd["checks"].values())
+                and afd["no_criterion_pass"] is True
+                and afd["main_criteria_all_pass"] is False
+                and afd["f4_status"] == "BLOCKED"
+                and afd["device_run"] is False
+                and len(afd["criteria"]) >= 9
+                and all(not c["verdict"].startswith("PASS")
+                        for c in afd["criteria"])
+                and "真机取证到此完结" in af_rep
+                and "不再以「设备上线」作为验证前置" in af_rep
+                and not any(s in af_rep for s in (
+                    "F4 已解决", "m4a 已支持", "全格式已支持", "level-5 已开启",
+                    "播放已成功", "推断已升级为实证"))
+                and len(af_dispatches) == 6
+                and all(x.get("rc") == 0 for x in af_dispatches)
+                and 3 in af_states
+                and all(p == 0 for p in af_pos)
+                and af_cd.get("log_analysis", {}).get("finish_async_103", 0) >= 1
+                and af_cd.get("f4_status") == "BLOCKED"
+                and rollback_ok
+                and "61.75" in delivery12.read_text(encoding="utf-8")
+                and "61.75" in af_rb
+            )
+            if not af_ok:
+                failures.append(
+                    "12 §61.75 守护：终局裁决 / state=3 非播放成功 / "
+                    "真机取证完结口径 / 接线未回滚 / 12 与 runbook 断点登记漂移，"
+                    "请重跑 tools/l3_f4_acceptance_final_audit.py")
+            else:
+                print("[PASS] 12 §61.75 守护：F4 主判据无一 PASS、"
+                      "state=3 非播放成功；真机取证完结、无需再上线验证、"
+                      "F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError, TypeError) as exc:
+            failures.append(f"12 §61.75 守护：终局裁决证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.76 守护 / -103 产生链：防把硬编码错误码写成「已修复」、
+    # 防把静态链写成已验证因果、防把 Seek 串误算成 Finish Async 第二引用、
+    # 防真机取证完结口径回潮、防 F4 提前收口。
+    m103_tool = ROOT / "tools" / "l3_f4_minus103_chain_disasm.py"
+    m103_json = ROOT / "analysis" / "l3-f4-minus103-chain.json"
+    m103_report = ROOT / "analysis" / "l3-f4-minus103-chain-report.md"
+    m103_cache = (ROOT / "engine-legacy" / "src" / "main" / "jniLibs" /
+                  "arm64-v8a" / "libNMCommonCache.so")
+    m103_audio = (ROOT / "engine-legacy" / "src" / "main" / "jniLibs" /
+                  "arm64-v8a" / "libncmaudioplayer.so")
+    if not all(p.is_file() for p in (
+            m103_tool, m103_json, m103_report, m103_cache, m103_audio)):
+        failures.append("12 §61.76 守护：-103 链条工具 / 证据 / 报告 / so 缺失")
+    else:
+        try:
+            md_ = json.loads(m103_json.read_text(encoding="utf-8"))
+            m_rep = m103_report.read_text(encoding="utf-8")
+            m_rb = (ROOT / "analysis" / "l3-f4-online-runbook.md").read_text(
+                encoding="utf-8")
+            m_ok = (
+                md_["all_pass"] is True
+                and md_["checks_total"] >= 25
+                and all(md_["checks"].values())
+                and md_["mode"] == "offline_disasm"
+                and md_["device_run"] is False
+                and md_["f4_status"] == "BLOCKED"
+                and md_["cache_sha256"] == hashlib.sha256(
+                    m103_cache.read_bytes()).hexdigest()
+                and md_["audio_sha256"] == hashlib.sha256(
+                    m103_audio.read_bytes()).hexdigest()
+                and md_["rodata"]["finish"] == (
+                    "NMBufferSourceImp::Read((%lld-%lld) Finish Async:%d")
+                and md_["rodata"]["paused"] == "AudioTrack(%d): Paused"
+                and len(md_["anchors"]) >= 16
+                and all(a in md_["minus103_immediates"]
+                        for a in ("0xa85c", "0xa9c4"))
+                and all(a in md_["writes_1a0"]
+                        for a in ("0xa8b4", "0xa9e4"))
+                and len(md_["paused_writes"]) == 4
+                and "0x66810" in md_["audio_track_clears"]
+                and "0x572d4" in md_["audio_track_sets"]
+                and "INFERENCE" in md_["verdict"]
+                and "+0x198" in md_["next_fix_anchor"]
+                and "F4 仍 BLOCKED" in m_rep
+                and "真机取证已于 §61.75 完结" in m_rep
+                and not any(s in m_rep for s in (
+                    "F4 已解决", "m4a 已支持", "全格式已支持", "level-5 已开启",
+                    "播放已成功", "推断已升级为实证"))
+                and rollback_ok
+                and "61.76" in delivery12.read_text(encoding="utf-8")
+                and "61.76" in m_rb
+            )
+            if not m_ok:
+                failures.append(
+                    "12 §61.76 守护：-103 链条锚点 / 硬编码立即数 / 播放侧状态位 / "
+                    "终局完结口径 / 12 与 runbook 断点登记漂移，请重跑 "
+                    "tools/l3_f4_minus103_chain_disasm.py")
+            else:
+                print("[PASS] 12 §61.76 守护：-103 硬编码链与播放侧 paused / "
+                      "AudioTrack 状态位定位完成；静态证据为 inference、"
+                      "真机取证已完结、F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError, TypeError) as exc:
+            failures.append(f"12 §61.76 守护：-103 链条证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.77 守护 / 读侧空白链：防把 result:-2 当成「已修复」、
+    # 防硬编码「唯一引用」结论、防把静态链写成已验证因果、
+    # 防真机取证完结口径回潮、防 F4 提前收口。
+    rg_tool = ROOT / "tools" / "l3_f4_read_gap_chain_disasm.py"
+    rg_json = ROOT / "analysis" / "l3-f4-read-gap-chain.json"
+    rg_report = ROOT / "analysis" / "l3-f4-read-gap-chain-report.md"
+    rg_so = (ROOT / "engine-legacy" / "src" / "main" / "jniLibs" /
+             "arm64-v8a" / "libNMCommonCache.so")
+    if not all(p.is_file() for p in (rg_tool, rg_json, rg_report, rg_so)):
+        failures.append("12 §61.77 守护：读侧空白链工具 / 证据 / 报告 / so 缺失")
+    else:
+        try:
+            rgd = json.loads(rg_json.read_text(encoding="utf-8"))
+            rg_rep = rg_report.read_text(encoding="utf-8")
+            rg_rb = (ROOT / "analysis" / "l3-f4-online-runbook.md").read_text(
+                encoding="utf-8")
+            rg_ok = (
+                rgd["all_pass"] is True
+                and rgd["checks_total"] >= 30
+                and all(rgd["checks"].values())
+                and rgd["mode"] == "offline_disasm"
+                and rgd["device_run"] is False
+                and rgd["f4_status"] == "BLOCKED"
+                and rgd["so_sha256"] == hashlib.sha256(
+                    rg_so.read_bytes()).hexdigest()
+                and rgd["rodata"]["unique"] is True
+                and len(rgd["rodata"]["references"]) == 1
+                and rgd["rodata"]["references"][0][1] == "0xc45c"
+                and len(rgd["pending_198_writes"]) == 6
+                and all(a in rgd["hardcoded_minus2_points"]
+                        for a in ("0xa9bc", "0xc728", "0x12dc8"))
+                and len(rgd["anchors"]) >= 24
+                and len(rgd["fix_anchors"]) == 3
+                and "INFERENCE" in rgd["verdict"]
+                and "F4 仍 BLOCKED" in rg_rep
+                and "真机取证已于 §61.75 完结" in rg_rep
+                and not any(s in rg_rep for s in (
+                    "F4 已解决", "m4a 已支持", "全格式已支持", "level-5 已开启",
+                    "播放已成功", "推断已升级为实证"))
+                and rollback_ok
+                and "61.77" in delivery12.read_text(encoding="utf-8")
+                and "61.77" in rg_rb
+            )
+            if not rg_ok:
+                failures.append(
+                    "12 §61.77 守护：读侧锚点 / 唯一引用实扫 / 挂起请求写入点 / "
+                    "终局完结口径 / 12 与 runbook 断点登记漂移，请重跑 "
+                    "tools/l3_f4_read_gap_chain_disasm.py")
+            else:
+                print("[PASS] 12 §61.77 守护：result:-2 产生点与挂起异步读 6 个"
+                      "写入点定位完成；静态链为 inference、真机取证已完结、"
+                      "F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError, TypeError) as exc:
+            failures.append(f"12 §61.77 守护：读侧空白链证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.78 守护 / A1「绕过取流」离线论证：防把绕行写成 F4 已修复、
+    # 防把 LOCAL 单曲 PASS 外推成全格式已支持 / 主判据已通过、
+    # 防真机取证完结口径回潮、防 F4 提前收口、防擅自执行修复性真机注入。
+    bs_tool = ROOT / "tools" / "l3_f4_bypass_stream_audit.py"
+    bs_json = ROOT / "analysis" / "l3-f4-bypass-stream-audit.json"
+    bs_report = ROOT / "analysis" / "l3-f4-bypass-stream-audit-report.md"
+    bs_adapter = (ROOT / "engine-legacy" / "src" / "main" / "java" /
+                  "com" / "example" / "cloudmusic" / "enginelegacy" /
+                  "EngineAdapter.kt")
+    bs_src_cfg = (ROOT / "engine-legacy" / "src" / "main" / "java" /
+                  "com" / "netease" / "cloudmusic" / "android" / "sdk" /
+                  "playerengine" / "SourceConfig.java")
+    if not all(p.is_file() for p in (bs_tool, bs_json, bs_report,
+                                     bs_adapter, bs_src_cfg)):
+        failures.append("12 §61.78 守护：A1 绕过取流论证工具 / 证据 / 报告 / "
+                        "装配源码缺失")
+    else:
+        try:
+            bsd = json.loads(bs_json.read_text(encoding="utf-8"))
+            bs_rep = bs_report.read_text(encoding="utf-8")
+            bs_rb = (ROOT / "analysis" / "l3-f4-online-runbook.md").read_text(
+                encoding="utf-8")
+            bs_ok = (
+                bsd["all_pass"] is True
+                and bsd["checks_total"] >= 60
+                and all(bsd["checks"].values())
+                and bsd["mode"] == "offline_evidence_audit"
+                and bsd["device_run"] is False
+                and bsd["f4_status"] == "BLOCKED"
+                and "BYPASS_NOT_FIX" in bsd["verdict"]
+                and "INFERENCE" in bsd["verdict"]
+                and bsd["contrast"]["sample_bytes"] == 16573387
+                and bsd["contrast"]["local"]["write_start_play_nerr"] == 0
+                and bsd["contrast"]["remote"]["commit_frozen"] == 368640
+                and bsd["f3_matrix"]["local_pass"] == 6
+                and bsd["f3_matrix"]["remote_pass"] == 5
+                and bsd["f3_matrix"]["total_pass"] == 11
+                and bsd["f3_matrix"]["seek_observed_any"] is False
+                and bsd["f3_matrix"]["ended_observed_any"] is False
+                and len(bsd["f3_matrix"]["no_sample_formats"]) == 7
+                and bsd["a1_experiment_design_not_executed"]["status"].startswith(
+                    "NOT_RUN")
+                and "绕行 ≠ 修复" in bs_rep
+                and "F4 仍 BLOCKED" in bs_rep
+                and "本批 NOT RUN" in bs_rep
+                and "7 种 NO_SAMPLE 未覆盖" in bs_rep
+                and "LOCAL 可播 ≠ 完整真实 m4a 已支持" in bs_rep
+                and not any(s in bs_rep for s in (
+                    "F4 已解决", "全格式已支持", "主判据已通过",
+                    "m4a 已支持（", "已修复完成"))
+                and rollback_ok
+                and "remote ? Type.REMOTE : Type.LOCAL" in bs_src_cfg.read_text(
+                    encoding="utf-8")
+                and "61.78" in delivery12.read_text(encoding="utf-8")
+                and "61.78" in bs_rb
+            )
+            if not bs_ok:
+                failures.append(
+                    "12 §61.78 守护：A1 绕行论证证据 / 边界口径 / 12 与 runbook "
+                    "断点登记漂移，请重跑 tools/l3_f4_bypass_stream_audit.py")
+            else:
+                print("[PASS] 12 §61.78 守护：A1 绕过取流有同一样本 "
+                      "LOCAL/REMOTE 一手对照支撑；绕行 ≠ 修复、主判据 NOT RUN、"
+                      "F4 仍 BLOCKED、真机注入未擅自执行")
+        except (KeyError, ValueError, OSError, TypeError) as exc:
+            failures.append(f"12 §61.78 守护：A1 绕行论证证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.79 守护 / A1 时间盒真机裁决 + §61.69 接线回滚：
+    # 防把「点火」写成 F4 已修复、防把 msg=2 写成自然播完 ENDED、
+    # 防跨轮污染证据回潮、防擅自宣布 A1 通过或 B2 已启动、
+    # 防接线回滚被写成 F4 修复、防历史接线审计 JSON 被覆盖。
+    a1_probe_tool = ROOT / "tools" / "l3_f4_a1_bypass_live_probe.py"
+    a1_verdict_tool = ROOT / "tools" / "l3_f4_a1_bypass_verdict.py"
+    a1_live = ROOT / "analysis" / "l3-f4-a1-bypass-live.json"
+    a1_v1 = ROOT / "analysis" / "l3-f4-a1-bypass-live-initial-v1.json"
+    a1_verdict = ROOT / "analysis" / "l3-f4-a1-bypass-verdict.json"
+    a1_report = ROOT / "analysis" / "l3-f4-a1-bypass-verdict-report.md"
+    a1_hist_wiring = ROOT / "analysis" / "l3-f4-level5-wiring-audit.json"
+    a1_adapter = (ROOT / "engine-legacy" / "src" / "main" / "java" /
+                  "com" / "example" / "cloudmusic" / "enginelegacy" /
+                  "EngineAdapter.kt")
+    a1_d12 = delivery12.read_text(encoding="utf-8")
+    a1_runbook = (ROOT / "analysis" / "l3-f4-online-runbook.md").read_text(
+        encoding="utf-8")
+    a1_docs = [
+        (ROOT / p).read_text(encoding="utf-8")
+        for p in (
+            "docs/09-文档闭环总览.md",
+            "docs/16-架构与任务拆分复核报告.md",
+            "docs/17-竞品模块清单与复刻规划.md",
+            "analysis/task-backlog-2026-11-07.md",
+        )
+    ]
+    a1_forbidden = ("F4 已解决", "F4 已修复", "F4 已收口", "全格式已支持",
+                    "主判据已通过", "播放已成功", "A1 已通过", "B2 已启动")
+    if not all(p.is_file() for p in (a1_probe_tool, a1_verdict_tool, a1_live,
+                                     a1_v1, a1_verdict, a1_report,
+                                     rb_json, rb_report, a1_hist_wiring)):
+        failures.append("12 §61.79 守护：A1 真机取证 / 裁决 / 回滚审计 "
+                        "工具·证据·报告缺失")
+    else:
+        try:
+            a1l = json.loads(a1_live.read_text(encoding="utf-8"))
+            a1v1 = json.loads(a1_v1.read_text(encoding="utf-8"))
+            a1d = json.loads(a1_verdict.read_text(encoding="utf-8"))
+            a1r = a1_report.read_text(encoding="utf-8")
+            a1rbd = json.loads(rb_json.read_text(encoding="utf-8"))
+            a1rbr = rb_report.read_text(encoding="utf-8")
+            a1hist = json.loads(a1_hist_wiring.read_text(encoding="utf-8"))
+            a1_la = a1l.get("local_round", {}).get("log_analysis", {})
+            a1_ra = a1l.get("remote_round", {}).get("log_analysis", {})
+            a1_ended = [c for c in a1d.get("criteria", [])
+                        if "ENDED" in c.get("name", "")]
+            a1_ok = (
+                # 取证链：v2 干净重跑 / 首轮 4 缺陷留痕不作裁决 / 现场恢复干净
+                a1l.get("probe_run") == "v2_fixed"
+                and a1l.get("device_run") is True
+                and a1l.get("restore_errors") == []
+                and a1l.get("remote_round_skipped") is False
+                and a1v1.get("probe_run") == "initial_v1__DEFECTIVE"
+                and len(a1v1.get("defects_found", [])) == 4
+                and len(a1l.get("defects_fixed", [])) == 4
+                # 防跨轮污染证据回潮
+                and sum(a1_ra.get("local_marker_counts", {"x": 1}).values()) == 0
+                and sum(a1_la.get("remote_marker_counts", {"x": 1}).values()) == 0
+                # 裁决：34 项全 PASS / 时间盒未通过 / 仅点火 / F4 仍 BLOCKED
+                and a1d.get("all_pass") is True
+                and a1d.get("checks_total", 0) >= 30
+                and all(a1d.get("checks", {}).values())
+                and a1d.get("mode") == "offline_readonly"
+                and a1d.get("device_run") is False
+                and a1d.get("timebox_passed") is False
+                and a1d.get("ignition_established") is True
+                and a1d.get("sustained_playback_established") is False
+                and a1d.get("f4_status") == "BLOCKED"
+                and a1d.get("route_recommendation") == "B2_PENDING_USER_DECISION"
+                # 防把 msg=2 写成自然播完 ENDED
+                and len(a1_ended) == 1
+                and a1_ended[0]["verdict"].startswith("NOT RUN")
+                and "msg=2" in a1r
+                and "不等于自然播完" in a1r
+                # 防擅自宣布 A1 通过 / B2 已启动
+                and "路线切换仍需用户拍板" in a1r
+                and "不追加 A2" in a1r
+                # 防把点火写成 F4 已修复（报告与裁决文本零虚假完成声明）
+                and "F4 仍 BLOCKED" in a1r
+                and "绕行 ≠ 修复" in a1r
+                and not any(s in a1r for s in a1_forbidden)
+                and not any(s in a1d.get("verdict", "") for s in a1_forbidden)
+                and not any(s in "".join(a1d.get("honest_notes", []))
+                            for s in a1_forbidden)
+                # 防接线回滚被写成 F4 修复 / 历史接线 JSON 被覆盖
+                and a1rbd.get("f4_status") == "BLOCKED"
+                and a1rbd.get("rollback_state") == "ROLLED_BACK"
+                and a1rbd.get("all_pass") is True
+                and "不是 F4 修复" in a1rbr
+                and a1rbd.get("historical_wiring_audit_sha256") == hashlib.sha256(
+                    a1_hist_wiring.read_bytes()).hexdigest()
+                and a1hist.get("checks", {}).get(
+                    "setlogger_called_with_instance") is True
+                # 源码侧接线确实已移除
+                and "SetLoggerCallback(INMLogger()" not in a1_adapter.read_text(
+                    encoding="utf-8")
+                # 断点全量登记（12 / 09 / 16 / 17 / backlog / runbook）
+                and "### 61.79" in a1_d12
+                and "F4 仍 BLOCKED" in a1_d12.split("### 61.79")[-1]
+                and "61.79" in a1_runbook
+                and all("61.79" in t for t in a1_docs)
+                and rollback_ok
+            )
+            if not a1_ok:
+                failures.append(
+                    "12 §61.79 守护：A1 时间盒裁决 / 接线回滚口径漂移，请重跑 "
+                    "tools/l3_f4_a1_bypass_verdict.py 与 "
+                    "tools/l3_f4_wiring_rollback_audit.py")
+            else:
+                print("[PASS] 12 §61.79 守护：A1 时间盒真机裁决未通过（仅点火、"
+                      "无持续播放）、F4 仍 BLOCKED、B2 待用户拍板；点火≠修复、"
+                      "msg=2≠ENDED、跨轮污染已消除、接线回滚≠修复、历史证据冻结")
+        except (KeyError, ValueError, OSError, TypeError) as exc:
+            failures.append(f"12 §61.79 守护：A1 裁决 / 取证证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.80 守护 / B2 路线切换（用户 2026-11-11 17:44 拍板「切换 B2」）：
+    # 防把「路线切换」提升为修复结论、防未实施先写 B2 完成、防擅自引入
+    # Media3 依赖 / 启用 :engine-opensource / 换绑 EngineModule、防 A 路线复活、
+    # 防 §61.75/§61.79 历史证据回潮。
+    b2_tool = ROOT / "tools" / "l3_b2_route_switch_audit.py"
+    b2_json = ROOT / "analysis" / "l3-b2-route-switch-audit.json"
+    b2_report = ROOT / "analysis" / "l3-b2-route-switch-audit-report.md"
+    b2_plan_p = ROOT / "analysis" / "l3-b2-implementation-plan-2026-11-11.md"
+    b2_probe_p = ROOT / "analysis" / "l3-b2-media3-probe.json"
+    if not all(p.is_file() for p in (b2_tool, b2_json, b2_report,
+                                     b2_plan_p, b2_probe_p)):
+        failures.append("12 §61.80 守护：B2 审计工具 / 证据 / 报告 / 施工单 / "
+                        "Maven probe 缺失")
+    else:
+        try:
+            b2d = json.loads(b2_json.read_text(encoding="utf-8"))
+            b2p = json.loads(b2_probe_p.read_text(encoding="utf-8"))
+            b2_plan_txt = b2_plan_p.read_text(encoding="utf-8")
+            b2_settings = (ROOT / "settings.gradle.kts").read_text(encoding="utf-8")
+            b2_toml = (ROOT / "gradle" / "libs.versions.toml").read_text(
+                encoding="utf-8")
+            b2_bindings = (ROOT / "core-di" / "src" / "main" / "kotlin" /
+                           "com" / "example" / "cloudmusic" / "di" /
+                           "AppBindings.kt").read_text(encoding="utf-8")
+            b2_d12 = delivery12.read_text(encoding="utf-8")
+            b2_eval = (ROOT / "analysis" /
+                       "l3-playback-route-evaluation-2026-11-11.md").read_text(
+                           encoding="utf-8")
+            b2_docs = [
+                (ROOT / p).read_text(encoding="utf-8")
+                for p in (
+                    "docs/09-文档闭环总览.md",
+                    "docs/16-架构与任务拆分复核报告.md",
+                    "docs/17-竞品模块清单与复刻规划.md",
+                    "analysis/task-backlog-2026-11-07.md",
+                    "analysis/l3-f4-online-runbook.md",
+                )
+            ]
+            b2_section = b2_d12.split("### 61.80")[-1]
+            b2_forbidden = ("F4 已修复", "F4 已解决", "B2 已实施完成",
+                            "B2 已完成", "A1 已通过", "路线已验收")
+            # 12 §61.81 / B2 M1：M0 历史审计证据 JSON（b2d）冻结不改；下面三条
+            # 「防提前引依赖 / 启用模块 / 换绑」改为按当前态双分支校验：
+            # M0 未 include → 零基线改动；M1 已 include → 依赖/换绑须按 M1 演进。
+            m1_started = 'include(":engine-opensource")' in b2_settings
+            if m1_started:
+                b2_current_ok = (
+                    'media3 = "1.11.1"' in b2_toml
+                    and "androidx.media3:media3-exoplayer" in b2_toml
+                    and "media3-session" not in _code_only(b2_toml)
+                    and "Media3EngineAdapter().also" in b2_bindings
+                    and "EngineAdapter" in b2_bindings
+                )
+            else:
+                b2_current_ok = (
+                    "media3" not in b2_toml.lower()
+                    and 'include(":engine-opensource")' not in b2_settings
+                    and "EngineAdapter().also" in b2_bindings
+                )
+            b2_ok = (
+                b2d.get("all_pass") is True
+                and b2d.get("checks_total", 0) >= 40
+                and all(b2d.get("checks", {}).values())
+                and b2d.get("mode") == "offline_readonly"
+                and b2d.get("device_run") is False
+                and b2d.get("route") == "B2"
+                and b2d.get("route_switched") is True
+                and b2d.get("implementation_started") is False
+                and b2d.get("implementation_completed") is False
+                and b2d.get("f4_status") == "BLOCKED"
+                and not any(s in b2d.get("verdict", "") for s in b2_forbidden)
+                # 用户拍板 / A 路线停止 / 不追加 A2
+                and "切换 B2" in b2_section
+                and "### 61.80" in b2_d12
+                and "不追加 A2 二进制补丁" in b2_plan_txt
+                and "A 路线停止" in b2_plan_txt
+                # 路线切换 ≠ 修复；B2 尚未实施
+                and "不是 F4 修复" in b2_section
+                and "F4 仍 BLOCKED" in b2_section
+                and "B2 实施尚未开始" in b2_plan_txt
+                and "零生产代码改动" in b2_plan_txt
+                # M0 / M1 当前态判据（见上方 b2_current_ok）
+                and b2_current_ok
+                # Media3 前置实证
+                and b2p.get("selected_version") == "1.11.1"
+                and b2p.get("errors") == []
+                and b2p.get("artifacts", {}).get("media3-exoplayer", {}).get(
+                    "http_ok") is True
+                # 断点全量登记（12 / 09 / 16 / 17 / backlog / runbook / 路线评估）
+                and "### 8.40" in b2_docs[2]
+                and "61.80" in b2_eval
+                and all("61.80" in t for t in b2_docs)
+                and "12 §61.80 守护" in (ROOT / "tools" /
+                                        "check_source_contracts.py").read_text(
+                                            encoding="utf-8")
+            )
+            if not b2_ok:
+                failures.append(
+                    "12 §61.80 守护：B2 路线切换口径漂移（决策 / A 停止 / "
+                    "未实施状态 / 零基线改动 / 文档登记），请重跑 "
+                    "tools/l3_b2_route_switch_audit.py")
+            else:
+                print("[PASS] 12 §61.80 守护：用户拍板切换 B2、A 路线停止且"
+                      "不追加 A2、Media3 1.11.1 可达；路线切换≠修复、"
+                      "F4 仍 BLOCKED；当前态="
+                      + ("M1 已开工（依赖 / 模块 / 换绑按 §61.81 演进）"
+                         if m1_started else
+                         "M0 零新增依赖 / 零模块启用 / 未换绑（B2 未实施）"))
+        except (KeyError, ValueError, OSError, TypeError) as exc:
+            failures.append(f"12 §61.80 守护：B2 审计证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.81 守护 / B2 M1 实施（用户 2026-11-11 18:19 授权开工 M1）：
+    # 防把「骨架接入」写成 B2 完成 / F4 修复、防门面签名被改、防引入
+    # media3-session / 移除 18 so / 伪造 Range 与音效接线、防历史证据回潮。
+    m1_adapter = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" /
+                  "com" / "example" / "cloudmusic" / "engineopensource" /
+                  "Media3EngineAdapter.kt")
+    m1_build = ROOT / "engine-opensource" / "build.gradle.kts"
+    m1_json = ROOT / "analysis" / "l3-b2-m1-audit.json"
+    if not all(p.is_file() for p in (m1_adapter, m1_build, m1_json)):
+        failures.append("12 §61.81 守护：M1 骨架 / 模块构建文件 / 审计证据缺失")
+    else:
+        try:
+            m1d = json.loads(m1_json.read_text(encoding="utf-8"))
+            m1_adapter_txt = m1_adapter.read_text(encoding="utf-8")
+            m1_build_txt = m1_build.read_text(encoding="utf-8")
+            m1g_settings = (ROOT / "settings.gradle.kts").read_text(encoding="utf-8")
+            m1g_toml = (ROOT / "gradle" / "libs.versions.toml").read_text(encoding="utf-8")
+            m1g_bindings = (ROOT / "core-di" / "src" / "main" / "kotlin" /
+                            "com" / "example" / "cloudmusic" / "di" /
+                            "AppBindings.kt").read_text(encoding="utf-8")
+            m1g_api = (ROOT / "engine-api" / "src" / "main" / "kotlin" /
+                       "com" / "example" / "cloudmusic" / "engine" / "api" /
+                       "EngineApi.kt").read_text(encoding="utf-8")
+            m1g_app = (ROOT / "app" / "build.gradle.kts").read_text(encoding="utf-8")
+            m1g_coredi = (ROOT / "core-di" / "build.gradle.kts").read_text(encoding="utf-8")
+            m1g_d12 = delivery12.read_text(encoding="utf-8")
+            m1_docs = [
+                (ROOT / p).read_text(encoding="utf-8")
+                for p in (
+                    "docs/09-文档闭环总览.md",
+                    "docs/16-架构与任务拆分复核报告.md",
+                    "docs/17-竞品模块清单与复刻规划.md",
+                    "analysis/task-backlog-2026-11-07.md",
+                    "analysis/l3-f4-online-runbook.md",
+                    "analysis/l3-b2-implementation-plan-2026-11-11.md",
+                    ".workbuddy-ai/memory/2026-11-11.md",
+                    ".workbuddy/memory/2026-11-11.md",
+                )
+            ]
+            m1_methods = (
+                "fun prepare(", "fun attachDataSource(", "fun play(", "fun pause(",
+                "fun stop(", "fun seek(", "fun setVolume(", "fun positionMs(",
+                "fun durationMs(", "fun state(", "fun setQuality(",
+                "fun attachAudioEffect(", "fun release(", "fun lastError(",
+            )
+            m1_forbidden = ("F4 已修复", "F4 已解决", "B2 已实施完成",
+                            "B2 已完成", "A1 已通过", "路线已验收")
+            m1_ok = (
+                m1d.get("all_pass") is True
+                and m1d.get("checks_total", 0) >= 25
+                and all(m1d.get("checks", {}).values())
+                and m1d.get("mode") == "offline_readonly"
+                and m1d.get("device_run") is False
+                and m1d.get("m1_started") is True
+                and m1d.get("b2_completed") is False
+                and m1d.get("f4_status") == "BLOCKED"
+                and not any(s in m1d.get("verdict", "") for s in m1_forbidden)
+                # 门面 14 方法签名零改动
+                and "class Media3EngineAdapter : IMusicEngine" in m1_adapter_txt
+                and all(("override " + m) in m1_adapter_txt for m in m1_methods)
+                and all(m in m1g_api for m in m1_methods)
+                # 构建：20 模块 / media3 1.11.1 / 不引 media3-session / 保留 legacy
+                and m1g_settings.count('include(":') == 20
+                and 'include(":engine-opensource")' in m1g_settings
+                and 'include(":engine-legacy")' in m1g_settings
+                and 'media3 = "1.11.1"' in m1g_toml
+                and "androidx.media3:media3-exoplayer" in m1g_toml
+                and "media3-session" not in _code_only(m1g_toml)
+                and "media3-session" not in _code_only(m1_build_txt)
+                and 'project(":engine-legacy")' in m1g_app
+                and 'project(":engine-opensource")' in m1g_coredi
+                # 单点换绑 + 回退保留
+                and "Media3EngineAdapter().also" in m1g_bindings
+                and "EngineAdapter" in m1g_bindings
+                # 骨架诚实边界：Range / 音效不伪造接线
+                and "RangeCacheDataSource" in m1_adapter_txt
+                and "不伪造接线" in m1_adapter_txt
+                and "C7" in m1_adapter_txt
+                # 断点全量登记
+                and "### 61.81" in m1g_d12
+                and "M1 骨架 ≠ B2 完成" in m1g_d12
+                and "F4 仍 BLOCKED" in m1g_d12
+                and all("61.81" in x for x in m1_docs)
+                and "12 §61.81 守护" in (ROOT / "tools" /
+                                        "check_source_contracts.py").read_text(
+                                            encoding="utf-8")
+            )
+            if not m1_ok:
+                failures.append(
+                    "12 §61.81 守护：M1 骨架 / 构建 / 单点换绑 / 门面签名 / "
+                    "诚实边界 / 文档登记漂移，请重跑 tools/l3_b2_m1_audit.py")
+            else:
+                print("[PASS] 12 §61.81 守护：:engine-opensource 已启用（20 模块）、"
+                      "media3 1.11.1 三制品、EngineModule 单点换绑且回退保留、"
+                      "门面 14 方法零改动、Range/音效未伪造接线、F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError, TypeError) as exc:
+            failures.append(f"12 §61.81 守护：M1 审计证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.82 守护 / B2 M2 前置取证（用户 2026-11-11 21:01 选择「保持离线，做 M2 前置」）：
+    # 防把「前置取证」写成 M2 完成 / F4 修复、防伪造交叉编译产物或 F3 重跑结果、
+    # 防引入 media3-session / 移除 18 so / 联网下载上游、防历史证据回潮。
+    m2_json = ROOT / "analysis" / "l3-b2-m2-preflight.json"
+    m2_report_p = ROOT / "analysis" / "l3-b2-m2-preflight-report.md"
+    m2_plan_p = ROOT / "analysis" / "l3-b2-m2-preflight-2026-11-11.md"
+    m2_tool_p = ROOT / "tools" / "l3_b2_m2_preflight_audit.py"
+    if not all(p.is_file() for p in (m2_json, m2_report_p, m2_plan_p, m2_tool_p)):
+        failures.append("12 §61.82 守护：M2 前置取证报告 / 审计工具 / 证据缺失")
+    else:
+        try:
+            m2d = json.loads(m2_json.read_text(encoding="utf-8"))
+            m2_plan_txt = m2_plan_p.read_text(encoding="utf-8")
+            m2_d12 = delivery12.read_text(encoding="utf-8")
+            m2_forbidden = ("F4 已修复", "F4 已解决", "B2 已实施完成",
+                            "B2 已完成", "A1 已通过", "路线已验收")
+            m2_docs = [
+                (ROOT / p).read_text(encoding="utf-8")
+                for p in (
+                    "docs/09-文档闭环总览.md",
+                    "docs/16-架构与任务拆分复核报告.md",
+                    "docs/17-竞品模块清单与复刻规划.md",
+                    "analysis/task-backlog-2026-11-07.md",
+                    "analysis/l3-f4-online-runbook.md",
+                    "analysis/l3-b2-implementation-plan-2026-11-11.md",
+                    ".workbuddy-ai/memory/2026-11-11.md",
+                    ".workbuddy/memory/2026-11-11.md",
+                    ".workbuddy-ai/memory/MEMORY.md",
+                    ".workbuddy/memory/MEMORY.md",
+                )
+            ]
+            m2_ok = (
+                m2d.get("all_pass") is True
+                and m2d.get("checks_total", 0) >= 40
+                and all(m2d.get("checks", {}).values())
+                and m2d.get("mode") == "offline_readonly"
+                and m2d.get("device_run") is False
+                and m2d.get("network_used") is False
+                and m2d.get("stage") == "M2_PREFLIGHT"
+                and m2d.get("m2_started") is False
+                and m2d.get("m2_completed") is False
+                and m2d.get("m2_gate_passed") is False
+                and m2d.get("f4_status") == "BLOCKED"
+                and len(m2d.get("toolchain_gaps", [])) == 4
+                and m2d.get("f3_14grid_rerun") == "NOT_RUN"
+                and not any(s in m2d.get("verdict", "") for s in m2_forbidden)
+                # 报告诚实边界
+                and "M2 前置取证 ≠ M2 完成" in m2_plan_txt
+                and "F4 仍 BLOCKED" in m2_plan_txt
+                and "4 项刚性缺口" in m2_plan_txt
+                and "纯离线不可执行" in m2_plan_txt
+                and "NOT RUN" in m2_plan_txt
+                # 断点全量登记
+                and "### 61.82" in m2_d12
+                and "M2 前置取证 ≠ M2 完成" in m2_d12
+                and all("61.82" in x for x in m2_docs)
+                and "12 §61.82 守护" in (ROOT / "tools" /
+                                        "check_source_contracts.py").read_text(
+                                            encoding="utf-8")
+            )
+            if not m2_ok:
+                failures.append(
+                    "12 §61.82 守护：M2 前置取证口径漂移（门禁 / 缺口 / 诚实边界 / "
+                    "文档登记），请重跑 tools/l3_b2_m2_preflight_audit.py")
+            else:
+                print("[PASS] 12 §61.82 守护：M2 前置取证（4 项工具链缺口 / "
+                      "F3 NOT_RUN / M2 门禁未通过）；纯离线、F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError, TypeError) as exc:
+            failures.append(f"12 §61.82 守护：M2 前置取证证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.83 守护 / B2 M2 前置补证（libffmpeg.so decoder/demuxer 导出符号表实证）：
+    # 防把「符号表补证」写成 M2 完成 / F4 修复 / 真机可播结论、防伪造交叉校验、
+    # 防改动 §61.44 历史证据、防联网 / 移除 18 so / 引入 media3-session。
+    sym_json = ROOT / "analysis" / "l3-b2-m2-decoder-symbols.json"
+    sym_report_p = ROOT / "analysis" / "l3-b2-m2-decoder-symbols-report.md"
+    sym_cross_p = ROOT / "analysis" / "l3-b2-m2-decoder-symbols-crosscheck.json"
+    sym_tool_p = ROOT / "tools" / "l3_b2_m2_decoder_symbol_audit.py"
+    if not all(p.is_file() for p in (sym_json, sym_report_p, sym_cross_p, sym_tool_p)):
+        failures.append("12 §61.83 守护：decoder 符号表实证工具 / 证据 / 交叉校验缺失")
+    else:
+        try:
+            sd = json.loads(sym_json.read_text(encoding="utf-8"))
+            xd = json.loads(sym_cross_p.read_text(encoding="utf-8"))
+            sym_report_txt = sym_report_p.read_text(encoding="utf-8")
+            sym_d12 = (ROOT / "docs" / "12-编码阶段第一批交付.md").read_text(
+                encoding="utf-8")
+            sym_d09 = (ROOT / "docs" / "09-文档闭环总览.md").read_text(
+                encoding="utf-8")
+            sym_plan = (ROOT / "analysis" /
+                        "l3-b2-m2-preflight-2026-11-11.md").read_text(
+                            encoding="utf-8")
+            sym_forbidden = ("F4 已修复", "F4 已解决", "B2 已实施完成",
+                             "B2 已完成", "A1 已通过", "路线已验收",
+                             "M2 已完成", "M2 已通过", "真机可播已验证")
+            sym_docs = [
+                (ROOT / p).read_text(encoding="utf-8")
+                for p in (
+                    "docs/09-文档闭环总览.md",
+                    "docs/16-架构与任务拆分复核报告.md",
+                    "docs/17-竞品模块清单与复刻规划.md",
+                    "analysis/task-backlog-2026-11-07.md",
+                    "analysis/l3-f4-online-runbook.md",
+                    "analysis/l3-b2-implementation-plan-2026-11-11.md",
+                    ".workbuddy-ai/memory/2026-11-11.md",
+                    ".workbuddy/memory/2026-11-11.md",
+                    ".workbuddy-ai/memory/MEMORY.md",
+                    ".workbuddy/memory/MEMORY.md",
+                )
+            ]
+            rows9 = sd.get("unconfirmed_9", [])
+            n_no = sum(1 for r in rows9 if r.get("symbol_verdict") == "NO_SYMBOL")
+            n_dem = sum(1 for r in rows9
+                        if r.get("symbol_verdict") == "DEMUXER_SYMBOL_ONLY")
+            sym_ok = (
+                sd.get("all_pass") is True
+                and sd.get("checks_total", 0) >= 18
+                and all(sd.get("checks", {}).values())
+                and sd.get("mode") == "offline_readonly"
+                and sd.get("device_run") is False
+                and sd.get("network_used") is False
+                and sd.get("stage") == "M2_PREFLIGHT"
+                and sd.get("m2_started") is False
+                and sd.get("m2_completed") is False
+                and sd.get("m2_gate_passed") is False
+                and sd.get("f4_status") == "BLOCKED"
+                and sd.get("evidence_level") == "ELF_exported_dynsym_symbol"
+                and sd.get("symtab_stripped") is True
+                and sd.get("decoder_symbol_count") == 100
+                and sd.get("demuxer_symbol_count") == 75
+                and sd.get("cross_abi_identical") is True
+                and sd.get("consistent_with_61_44") is True
+                and len(sd.get("full_decoder_symbols", [])) == 100
+                and len(sd.get("full_demuxer_symbols", [])) == 75
+                and len(rows9) == 9 and n_no == 8 and n_dem == 1
+                and len(sd.get("candidate_15", [])) == 15
+                and not any(s in sd.get("verdict", "") for s in sym_forbidden)
+                # 独立交叉校验
+                and xd.get("all_match") is True
+                and "pyelftools" in xd.get("tool", "")
+                and sd.get("pyelftools_crosscheck", {}).get("all_match") is True
+                # 报告诚实边界
+                and "导出符号存在 ≠ decoder 可用 ≠ 真机可播" in sym_report_txt
+                and "独立交叉校验" in sym_report_txt
+                and "NO_SYMBOL" in sym_report_txt
+                # 断点与登记
+                and "### 61.83" in sym_d12
+                and "符号表补证 ≠ M2 完成" in sym_d12
+                and "F4 仍 BLOCKED" in sym_d12
+                and "31 个文件" in sym_d09
+                and "## 9. 补证批注" in sym_plan and "61.83" in sym_plan
+                and all("61.83" in x for x in sym_docs)
+                and "12 §61.83 守护" in (ROOT / "tools" /
+                                        "check_source_contracts.py").read_text(
+                                            encoding="utf-8")
+            )
+            if not sym_ok:
+                failures.append(
+                    "12 §61.83 守护：decoder 符号表实证口径漂移（证据等级 / 100·75 / "
+                    "交叉校验 / 9 项判定 / 诚实边界 / 文档登记），"
+                    "请重跑 tools/l3_b2_m2_decoder_symbol_audit.py")
+            else:
+                print("[PASS] 12 §61.83 守护：ELF .dynsym 符号表实证（100 decoder / "
+                      "75 demuxer / 双 ABI 一致 / pyelftools 互证 / 9 项 8+1 判定）；"
+                      "纯离线、F4 仍 BLOCKED")
+        except (KeyError, ValueError, OSError, TypeError) as exc:
+            failures.append(f"12 §61.83 守护：decoder 符号表证据 JSON 不可解析（{exc}）")
+
+
 
     if (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example" /
             "cloudmusic" / "common" / "PathNormalizer.kt").is_file():

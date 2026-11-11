@@ -1,0 +1,20 @@
+# 设备下线前只读补证（§61.73 补充观测，非新批次）
+# serial=10.0.0.2:39257 time=2026-11-11 11:37 只读 dumpsys，不改设备现场
+--- dumpsys media_session (filtered) ---
+    active=false
+    metadata: null
+      package=com.example.cloudmusic
+      active=true
+      state=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=16809920, actions=54, custom actions=[], active item id=-1, error=null}
+      metadata: null
+--- dumpsys audio (filtered) ---
+  AudioPlaybackConfiguration piid:47 deviceId:0 type:android.media.SoundPool u/pid:1000/2520 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+  AudioPlaybackConfiguration piid:55 deviceId:0 type:android.media.SoundPool u/pid:10128/4390 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+  AudioPlaybackConfiguration piid:63 deviceId:0 type:android.media.SoundPool u/pid:1000/4826 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+  AudioPlaybackConfiguration piid:71 deviceId:0 type:android.media.SoundPool u/pid:1027/7935 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-11 08:18:21:740 player piid:671 state:started DeviceId:0
+11-11 08:18:22:061 player piid:679 state:started DeviceId:0
+11-11 08:18:42:416 player piid:663 state:started DeviceId:0
+11-11 08:19:03:254 player piid:687 state:started DeviceId:0
+11-11 08:19:03:258 player piid:695 state:started DeviceId:0
+11-11 08:19:06:120 player piid:703 state:started DeviceId:0

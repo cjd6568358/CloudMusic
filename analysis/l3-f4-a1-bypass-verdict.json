@@ -1,0 +1,214 @@
+{
+  "method": "12 §61.79 / F4 · A1 绕过取流时间盒纯离线裁决（只读、零生产改动）",
+  "generated_by": "tools/l3_f4_a1_bypass_verdict.py",
+  "mode": "offline_readonly",
+  "device_run": false,
+  "probe_run": "v2_fixed",
+  "initial_probe": "analysis/l3-f4-a1-bypass-live-initial-v1.json",
+  "serial": "10.0.0.2:37163",
+  "device_model": "Redmi K60 23013RK75C / mondrian / Android 13 / arm64-v8a",
+  "apk_installed": "package:/data/app/~~hgFKEcusZZYsx_cKQRZdSw==/com.example.cloudmusic-hGmQwq1aJHwIYcWmIFJYQQ==/base.apk",
+  "app_uid": "10316",
+  "sample": "f3_m4a_complete.m4a",
+  "sample_bytes": 16573387,
+  "restore_errors": [],
+  "local": {
+    "pid": "18560",
+    "scoped_lines": 517,
+    "remote_flags": [
+      "false",
+      "false"
+    ],
+    "remote_markers_sum": 0,
+    "local_markers_sum": 8,
+    "open_codec": [
+      "aac",
+      "aac"
+    ],
+    "write_start_play": [
+      "0",
+      "0"
+    ],
+    "at_play": [
+      "1",
+      "1"
+    ],
+    "active": 2,
+    "frames": [
+      1,
+      1
+    ],
+    "msg2": 2,
+    "released": 2,
+    "play_status": [
+      "4",
+      "4"
+    ],
+    "minus_103": 0,
+    "states": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "positions": [
+      0
+    ],
+    "track_started": false,
+    "log_file": "analysis/l3-f4-logs/a1-bypass-local-20261111-164027.txt",
+    "log_sha256": "57add4b87fdecf3bb4881ab4920cedb8f82199cc80a5c319578c21846c9b72c6"
+  },
+  "remote": {
+    "pid": "18565",
+    "scoped_lines": 628,
+    "remote_flags": [
+      "true"
+    ],
+    "remote_markers_sum": 30,
+    "local_markers_sum": 0,
+    "open_codec": [],
+    "write_start_play": [],
+    "at_play": [],
+    "active": 0,
+    "frames": [],
+    "msg2": 0,
+    "released": 0,
+    "play_status": [
+      "3",
+      "3"
+    ],
+    "minus_103": 0,
+    "states": [
+      3,
+      3,
+      3,
+      3
+    ],
+    "positions": [
+      0
+    ],
+    "track_started": false,
+    "log_file": "analysis/l3-f4-logs/a1-bypass-remote-20261111-164027.txt",
+    "log_sha256": "5fe833c502d3b2cef2e654e63f4b538e7c010df897ea4271c68424f2094050a6"
+  },
+  "criteria": [
+    {
+      "name": "绕过取流成立（LOCAL 无 REMOTE 取流特征）",
+      "evidence": "remote_marker 合计=0（全 0）/ local_marker 合计=8 / prepare remote=['false', 'false']",
+      "verdict": "PASS"
+    },
+    {
+      "name": "`Open codec` → `Write start play nErr:0`（点火）",
+      "evidence": "codec=['aac', 'aac'] / write=['0', '0'] / AT_Play=['1', '1'] / ACTIVE=2",
+      "verdict": "PASS"
+    },
+    {
+      "name": "无 `-103`",
+      "evidence": "Finish Async:-103=0 / 含 -103 行=0",
+      "verdict": "PASS"
+    },
+    {
+      "name": "持续播放 / frames delivered",
+      "evidence": "frames=[1, 1] / msg2=2 / Release=2 / Paused=2",
+      "verdict": "FAIL（每次仅交付 1 帧、紧随 msg=2 / Paused / Release，未持续出声）"
+    },
+    {
+      "name": "本 app AudioTrack `state:started`（app uid 关联）",
+      "evidence": "7 次 dumpsys 快照 app_uid_line_present 全 False / track_started_any=False；logcat 有 ACTIVE 但仅 1 帧即释放",
+      "verdict": "FAIL（未出现本 app 的持续 started AudioTrack）"
+    },
+    {
+      "name": "MediaSession 进入 PLAYING 且 position 递增",
+      "evidence": "states=[2, 2, 2, 2, 2, 2, 2] / distinct_positions=[0]",
+      "verdict": "FAIL（state 恒 2（PAUSED）、position 恒 0）"
+    },
+    {
+      "name": "自动进曲 3 首（无 -103、3 次新解码）",
+      "evidence": "codec 共 2 次 / dispatch next×3 rc=[0, 0, 0] / -103=0",
+      "verdict": "FAIL（仅 2 次短命解码（非 3 首持续进曲））"
+    },
+    {
+      "name": "seek（fast-forward / rewind 后 position 变化）",
+      "evidence": "distinct_positions=[0] / seek_markers=0",
+      "verdict": "FAIL（position 未变化、无 seek 标记）"
+    },
+    {
+      "name": "ENDED（自然播完）",
+      "evidence": "msg2=2（播放完成通知）/ natural_ended_markers=2 / frames=[1, 1]；msg=2 不等于自然播完",
+      "verdict": "NOT RUN（受控窗口内未跑到曲末；`msg=2` 为过早完成通知，不伪造 ENDED）"
+    },
+    {
+      "name": "REMOTE 同窗对照（已知 FAIL）",
+      "evidence": "remote=['true'] / codec=[] / write=[] / Play status=['3', '3'] / remote_marker 合计=30 / local_marker 合计=0",
+      "verdict": "PASS"
+    }
+  ],
+  "checks": {
+    "live_probe_is_v2_fixed": true,
+    "live_probe_device_run_true": true,
+    "live_probe_app_uid_resolved": true,
+    "live_probe_restore_clean": true,
+    "live_probe_remote_round_run": true,
+    "initial_defective_probe_archived": true,
+    "four_defects_fixed_declared": true,
+    "probe_tool_has_pid_scope": true,
+    "local_remote_markers_all_zero": true,
+    "local_assembly_markers_present": true,
+    "local_prepare_all_false": true,
+    "local_no_wiring_logs_baseline_apk": true,
+    "local_codec_opened_twice": true,
+    "local_write_nerr_zero_twice": true,
+    "local_no_minus_103": true,
+    "local_audio_track_started_and_active": true,
+    "local_frames_delivered_only_one": true,
+    "local_msg2_and_release": true,
+    "local_play_status_4_only": true,
+    "local_state_never_playing": true,
+    "local_position_always_zero": true,
+    "local_no_app_started_track": true,
+    "local_six_dispatches_all_rc0": true,
+    "remote_prepare_all_true": true,
+    "remote_no_local_marker_crosstalk": true,
+    "remote_markers_present": true,
+    "remote_no_codec_no_write": true,
+    "remote_play_status_3_and_state3_pos0": true,
+    "bypass_audit_intact": true,
+    "acceptance_final_intact": true,
+    "rollback_audit_present": true,
+    "docs12_has_61_79": true,
+    "no_false_claim_in_tool_source": true,
+    "timebox_not_passed": true
+  },
+  "checks_total": 34,
+  "all_pass": true,
+  "failed_checks": [],
+  "ignition_established": true,
+  "sustained_playback_established": false,
+  "timebox_passed": false,
+  "f4_status": "BLOCKED",
+  "route_recommendation": "B2_PENDING_USER_DECISION",
+  "rollback_audit": "analysis/l3-f4-wiring-rollback-audit.json",
+  "rollback_audit_present": true,
+  "verdict": "A1_BYPASS_STREAM_LIVE_PARTIAL__IGNITION_ONLY__NO_SUSTAINED_PLAYBACK__TIMEBOX_NOT_PASSED：绕过取流在真机上成立且解码链点火（codec / Write start play nErr:0 / AudioTrack ACTIVE / 无 -103），但每次仅交付 1 帧即 msg=2 → Paused → Release，position 恒 0、MediaSession 恒 PAUSED、自动进曲 3 首 / seek / ENDED 全不通过；时间盒判据未通过。按既定规则建议转 B2（不追加 A2 二进制补丁），但路线切换仍需用户拍板。「绕行 ≠ 修复」，REMOTE 缺陷仍在，§61.75 终局裁决不变，F4 仍 BLOCKED。",
+  "honest_notes": [
+    "不连 adb、不重跑真机、不改历史证据；只读 v2 取证与历史证据 JSON。",
+    "首轮试跑 4 处取证缺陷已如实归档（initial_v1__DEFECTIVE），不作裁决依据。",
+    "msg=2 是播放完成通知，不等于自然播完；frames=1 不计持续出声。",
+    "「绕行 ≠ 修复」：LOCAL 出声只证明绕过 REMOTE 取流缺陷，不修 REMOTE 本身。",
+    "零 P0 源码改动（除 §61.79 接线回滚）、未重编译 / 未重装、so 二进制原样。",
+    "A3 仍 G09 PARTIAL、舱不冻结、F3 14 格未改写、指纹不回填。",
+    "路线切换（B2）属用户拍板事项，本批不擅自启动、不动解码器。"
+  ],
+  "evidence_sources": [
+    "analysis/l3-f4-a1-bypass-live.json",
+    "analysis/l3-f4-a1-bypass-live-initial-v1.json",
+    "analysis/l3-f4-bypass-stream-audit.json",
+    "analysis/l3-f4-acceptance-final.json",
+    "analysis/l3-f4-wiring-rollback-audit.json"
+  ],
+  "log_sha256_local": "57add4b87fdecf3bb4881ab4920cedb8f82199cc80a5c319578c21846c9b72c6",
+  "log_sha256_remote": "5fe833c502d3b2cef2e654e63f4b538e7c010df897ea4271c68424f2094050a6"
+}

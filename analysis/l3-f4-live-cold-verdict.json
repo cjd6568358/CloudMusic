@@ -1,0 +1,1260 @@
+{
+  "method": "12 §61.71 / F4 上线复跑 W 分支判读（纯离线、零第三方依赖、不连 adb）",
+  "generated_by": "tools/l3_f4_wbranch_recheck.py",
+  "so": "engine-legacy/src/main/jniLibs/arm64-v8a/libNMCommonCache.so",
+  "so_sha256": "7a1adc95c255c241c1d5d64060468cefe3961c73c459ba15527ce87e5fde4a6c",
+  "rodata_branches": {
+    "0x3CC73": {
+      "raw_format_string": "NMNetSource(%lld-%lld)::OnData() offset:%lld, size:%lld, except offset:%lld, end:%lld",
+      "anchor": "::OnData() offset:",
+      "anchor_in_real_string": true,
+      "trigger": "代次匹配且 except_offset > offset 或 offset+size > end",
+      "native_return": "仅日志",
+      "category": "error"
+    },
+    "0x3CCC9": {
+      "raw_format_string": "NMNetSource(%lld-%lld)::OnData() UnExpect New Offsetcommted:%lld, offset:%lld, size:%lld, cur_req_size:%lld",
+      "anchor": "UnExpect New Offsetcommted",
+      "anchor_in_real_string": true,
+      "trigger": "commit != offset",
+      "native_return": "仅日志",
+      "category": "error"
+    },
+    "0x3CF90": {
+      "raw_format_string": "NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld ",
+      "anchor": "NMSlicesFile Write buffer len:",
+      "anchor_in_real_string": true,
+      "trigger": "len==0 / offset 非 64B 对齐 / offset+len > file_len",
+      "native_return": "-102",
+      "category": "error"
+    },
+    "0x3CFCE": {
+      "raw_format_string": "NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld Finish EOF.",
+      "anchor": "Finish EOF.",
+      "anchor_in_real_string": true,
+      "trigger": "offset == file_len",
+      "native_return": "-1",
+      "category": "error"
+    },
+    "0x3D062": {
+      "raw_format_string": "NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld File Not Exsit",
+      "anchor": "File Not Exsit",
+      "anchor_in_real_string": true,
+      "trigger": "切片文件对象缺失",
+      "native_return": "继续",
+      "category": "error"
+    },
+    "0x3D017": {
+      "raw_format_string": "NMSlicesFile Write buffer len:%u, offset:%lld, file_len:%lld Fail. code:%d",
+      "anchor": "Fail. code:",
+      "anchor_in_real_string": true,
+      "trigger": "底层 slice write 返回负值",
+      "native_return": "-98",
+      "category": "error"
+    },
+    "0x3D0AE": {
+      "raw_format_string": "NMSlicesFile Write all finish",
+      "anchor": "NMSlicesFile Write all finish",
+      "anchor_in_real_string": true,
+      "trigger": "全文件写满 + flush 完成（一次性）",
+      "native_return": "0",
+      "category": "success"
+    }
+  },
+  "mode": "single_log",
+  "evidence_role": "单份 logcat 离线判读（不覆盖固化回放证据）",
+  "logs_scanned": 36,
+  "archive_totals_by_branch": {
+    "0x3CC73": 0,
+    "0x3CCC9": 0,
+    "0x3CF90": 0,
+    "0x3CFCE": 0,
+    "0x3D062": 0,
+    "0x3D017": 0,
+    "0x3D0AE": 1
+  },
+  "per_log": {
+    "ab-a-remote.txt": {
+      "lines": 3059,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2,
+        3
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 2,
+      "commit_values": [
+        147456
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 2,
+      "finish_async_minus_103": 0,
+      "java_on_data": 347,
+      "write_start_play": 0,
+      "open_codec": []
+    },
+    "ab-control-baseline-remote.txt": {
+      "lines": 2448,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 3,
+      "commit_values": [
+        442368
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 3,
+      "finish_async_minus_103": 0,
+      "java_on_data": 387,
+      "write_start_play": 0,
+      "open_codec": []
+    },
+    "ab-run1-m4a-remote.txt": {
+      "lines": 7140,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 1,
+      "commit_values": [
+        147456
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 1,
+      "finish_async_minus_103": 0,
+      "java_on_data": 152,
+      "write_start_play": 0,
+      "open_codec": []
+    },
+    "ab-run2-m4a-remote.txt": {
+      "lines": 3362,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 1,
+      "commit_values": [
+        147456
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 1,
+      "finish_async_minus_103": 0,
+      "java_on_data": 152,
+      "write_start_play": 0,
+      "open_codec": []
+    },
+    "fast-local.txt": {
+      "lines": 6407,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [],
+      "generation_strictly_increasing": false,
+      "instance_sequence_max": 0,
+      "commit_values": [],
+      "commit_frozen": false,
+      "read_result_minus_2": 0,
+      "finish_async_minus_103": 0,
+      "java_on_data": 0,
+      "write_start_play": 1,
+      "open_codec": [
+        "aac"
+      ]
+    },
+    "fast-remote-25s.txt": {
+      "lines": 2597,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2,
+        3
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 2,
+      "commit_values": [
+        147456
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 2,
+      "finish_async_minus_103": 0,
+      "java_on_data": 258,
+      "write_start_play": 0,
+      "open_codec": []
+    },
+    "fast-remote.txt": {
+      "lines": 3074,
+      "w_level_lines": 1,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 1,
+      "commit_values": [
+        147456
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 2,
+      "finish_async_minus_103": 0,
+      "java_on_data": 216,
+      "write_start_play": 0,
+      "open_codec": []
+    },
+    "final-m4a-local.txt": {
+      "lines": 4534,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [],
+      "generation_strictly_increasing": false,
+      "instance_sequence_max": 0,
+      "commit_values": [],
+      "commit_frozen": false,
+      "read_result_minus_2": 0,
+      "finish_async_minus_103": 0,
+      "java_on_data": 0,
+      "write_start_play": 1,
+      "open_codec": [
+        "aac"
+      ]
+    },
+    "final-m4a-remote.txt": {
+      "lines": 5363,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 1,
+      "commit_values": [
+        442368
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 2,
+      "finish_async_minus_103": 0,
+      "java_on_data": 258,
+      "write_start_play": 0,
+      "open_codec": []
+    },
+    "ksab-flac-remote.txt": {
+      "lines": 3226,
+      "w_level_lines": 1,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 1
+      },
+      "w_error_total": 0,
+      "w_success_finish": 1,
+      "generation_sequence": [
+        1
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 0,
+      "commit_values": [],
+      "commit_frozen": false,
+      "read_result_minus_2": 0,
+      "finish_async_minus_103": 0,
+      "java_on_data": 128,
+      "write_start_play": 1,
+      "open_codec": [
+        "flac"
+      ]
+    },
+    "ksab-m4a-remote.txt": {
+      "lines": 2774,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 1,
+      "commit_values": [
+        368640
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 1,
+      "finish_async_minus_103": 0,
+      "java_on_data": 257,
+      "write_start_play": 0,
+      "open_codec": []
+    },
+    "ksab-mp3-local.txt": {
+      "lines": 3586,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [],
+      "generation_strictly_increasing": false,
+      "instance_sequence_max": 0,
+      "commit_values": [],
+      "commit_frozen": false,
+      "read_result_minus_2": 0,
+      "finish_async_minus_103": 0,
+      "java_on_data": 0,
+      "write_start_play": 1,
+      "open_codec": [
+        "mp3"
+      ]
+    },
+    "ksab-mp3-remote.txt": {
+      "lines": 1706,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [],
+      "generation_strictly_increasing": false,
+      "instance_sequence_max": 0,
+      "commit_values": [],
+      "commit_frozen": false,
+      "read_result_minus_2": 0,
+      "finish_async_minus_103": 0,
+      "java_on_data": 0,
+      "write_start_play": 1,
+      "open_codec": [
+        "mp3"
+      ]
+    },
+    "ksab-wav-remote.txt": {
+      "lines": 4518,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 1,
+      "commit_values": [
+        1048576,
+        1114112,
+        1130496,
+        1343488,
+        1351680,
+        1376256,
+        1409024,
+        1433600,
+        1490944,
+        1523712,
+        1540096,
+        1564672,
+        1605632,
+        1638400,
+        2056192,
+        2097152
+      ],
+      "commit_frozen": false,
+      "read_result_minus_2": 16,
+      "finish_async_minus_103": 0,
+      "java_on_data": 128,
+      "write_start_play": 1,
+      "open_codec": [
+        "pcm_s16le"
+      ]
+    },
+    "ksab-wma-remote.txt": {
+      "lines": 1918,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [],
+      "generation_strictly_increasing": false,
+      "instance_sequence_max": 0,
+      "commit_values": [],
+      "commit_frozen": false,
+      "read_result_minus_2": 0,
+      "finish_async_minus_103": 0,
+      "java_on_data": 0,
+      "write_start_play": 1,
+      "open_codec": [
+        "wmav2"
+      ]
+    },
+    "m4a-local.txt": {
+      "lines": 3087,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [],
+      "generation_strictly_increasing": false,
+      "instance_sequence_max": 0,
+      "commit_values": [],
+      "commit_frozen": false,
+      "read_result_minus_2": 0,
+      "finish_async_minus_103": 0,
+      "java_on_data": 0,
+      "write_start_play": 0,
+      "open_codec": []
+    },
+    "m4a-remote.txt": {
+      "lines": 1548,
+      "w_level_lines": 1,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 0,
+      "commit_values": [],
+      "commit_frozen": false,
+      "read_result_minus_2": 1,
+      "finish_async_minus_103": 0,
+      "java_on_data": 25,
+      "write_start_play": 0,
+      "open_codec": []
+    },
+    "recheck-m4a-local.txt": {
+      "lines": 4675,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [],
+      "generation_strictly_increasing": false,
+      "instance_sequence_max": 0,
+      "commit_values": [],
+      "commit_frozen": false,
+      "read_result_minus_2": 0,
+      "finish_async_minus_103": 0,
+      "java_on_data": 0,
+      "write_start_play": 0,
+      "open_codec": []
+    },
+    "recheck-m4a-remote.txt": {
+      "lines": 2078,
+      "w_level_lines": 1,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 6,
+      "commit_values": [
+        147456
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 5,
+      "finish_async_minus_103": 1,
+      "java_on_data": 0,
+      "write_start_play": 0,
+      "open_codec": [
+        "aac"
+      ]
+    },
+    "recheck-mp3-local.txt": {
+      "lines": 3766,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [],
+      "generation_strictly_increasing": false,
+      "instance_sequence_max": 0,
+      "commit_values": [],
+      "commit_frozen": false,
+      "read_result_minus_2": 0,
+      "finish_async_minus_103": 0,
+      "java_on_data": 0,
+      "write_start_play": 1,
+      "open_codec": [
+        "mp3"
+      ]
+    },
+    "recheck-mp3-remote.txt": {
+      "lines": 2862,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [],
+      "generation_strictly_increasing": false,
+      "instance_sequence_max": 0,
+      "commit_values": [],
+      "commit_frozen": false,
+      "read_result_minus_2": 0,
+      "finish_async_minus_103": 0,
+      "java_on_data": 0,
+      "write_start_play": 1,
+      "open_codec": [
+        "mp3"
+      ]
+    },
+    "recheck-wma-remote.txt": {
+      "lines": 1604,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [],
+      "generation_strictly_increasing": false,
+      "instance_sequence_max": 0,
+      "commit_values": [],
+      "commit_frozen": false,
+      "read_result_minus_2": 0,
+      "finish_async_minus_103": 0,
+      "java_on_data": 0,
+      "write_start_play": 1,
+      "open_codec": [
+        "wmav2"
+      ]
+    },
+    "selfconsist-local.txt": {
+      "lines": 6070,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [],
+      "generation_strictly_increasing": false,
+      "instance_sequence_max": 0,
+      "commit_values": [],
+      "commit_frozen": false,
+      "read_result_minus_2": 0,
+      "finish_async_minus_103": 0,
+      "java_on_data": 0,
+      "write_start_play": 1,
+      "open_codec": [
+        "aac"
+      ]
+    },
+    "selfconsist-remote.txt": {
+      "lines": 3498,
+      "w_level_lines": 1,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 3,
+      "commit_values": [
+        368640
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 4,
+      "finish_async_minus_103": 0,
+      "java_on_data": 515,
+      "write_start_play": 0,
+      "open_codec": []
+    },
+    "vfile-commit-20261110-102722.txt": {
+      "lines": 4560,
+      "w_level_lines": 2,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 5,
+      "commit_values": [
+        368640
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 5,
+      "finish_async_minus_103": 1,
+      "java_on_data": 644,
+      "write_start_play": 0,
+      "open_codec": [
+        "aac"
+      ]
+    },
+    "vfile-commit-20261110-114804.txt": {
+      "lines": 2894,
+      "w_level_lines": 3,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 5,
+      "commit_values": [
+        180224
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 6,
+      "finish_async_minus_103": 1,
+      "java_on_data": 644,
+      "write_start_play": 0,
+      "open_codec": [
+        "aac"
+      ]
+    },
+    "vfile-commit-20261110-115354.txt": {
+      "lines": 1610,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [],
+      "generation_strictly_increasing": false,
+      "instance_sequence_max": 0,
+      "commit_values": [],
+      "commit_frozen": false,
+      "read_result_minus_2": 0,
+      "finish_async_minus_103": 0,
+      "java_on_data": 0,
+      "write_start_play": 0,
+      "open_codec": []
+    },
+    "vfile-commit-20261110-115456.txt": {
+      "lines": 1338,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [],
+      "generation_strictly_increasing": false,
+      "instance_sequence_max": 0,
+      "commit_values": [],
+      "commit_frozen": false,
+      "read_result_minus_2": 0,
+      "finish_async_minus_103": 0,
+      "java_on_data": 0,
+      "write_start_play": 0,
+      "open_codec": []
+    },
+    "vfile-commit-20261110-115510.txt": {
+      "lines": 827,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [],
+      "generation_strictly_increasing": false,
+      "instance_sequence_max": 0,
+      "commit_values": [],
+      "commit_frozen": false,
+      "read_result_minus_2": 0,
+      "finish_async_minus_103": 0,
+      "java_on_data": 0,
+      "write_start_play": 0,
+      "open_codec": []
+    },
+    "vfile-commit-20261110-130021.txt": {
+      "lines": 4181,
+      "w_level_lines": 2,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 8,
+      "commit_values": [
+        16384
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 10,
+      "finish_async_minus_103": 1,
+      "java_on_data": 1028,
+      "write_start_play": 0,
+      "open_codec": []
+    },
+    "vfile-commit-20261110-130127.txt": {
+      "lines": 3124,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [],
+      "generation_strictly_increasing": false,
+      "instance_sequence_max": 0,
+      "commit_values": [],
+      "commit_frozen": false,
+      "read_result_minus_2": 0,
+      "finish_async_minus_103": 0,
+      "java_on_data": 0,
+      "write_start_play": 1,
+      "open_codec": [
+        "mp3"
+      ]
+    },
+    "vfile-commit-20261110-130142.txt": {
+      "lines": 3313,
+      "w_level_lines": 0,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 1,
+      "commit_values": [
+        1048576
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 1,
+      "finish_async_minus_103": 0,
+      "java_on_data": 0,
+      "write_start_play": 1,
+      "open_codec": [
+        "pcm_s16le"
+      ]
+    },
+    "vfile-commit-20261111-004310.txt": {
+      "lines": 6725,
+      "w_level_lines": 6,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 21,
+      "commit_values": [
+        16384
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 26,
+      "finish_async_minus_103": 5,
+      "java_on_data": 2706,
+      "write_start_play": 0,
+      "open_codec": [
+        "aac"
+      ]
+    },
+    "vfile-commit-20261111-004603.txt": {
+      "lines": 5404,
+      "w_level_lines": 3,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 15,
+      "commit_values": [
+        16384
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 18,
+      "finish_async_minus_103": 3,
+      "java_on_data": 2061,
+      "write_start_play": 0,
+      "open_codec": []
+    },
+    "vfile-commit-20261111-110857.txt": {
+      "lines": 3892,
+      "w_level_lines": 3,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 5,
+      "commit_values": [
+        253952
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 6,
+      "finish_async_minus_103": 1,
+      "java_on_data": 645,
+      "write_start_play": 0,
+      "open_codec": [
+        "aac"
+      ]
+    },
+    "vfile-commit-20261111-111120.txt": {
+      "lines": 3680,
+      "w_level_lines": 1,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 5,
+      "commit_values": [
+        262144
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 5,
+      "finish_async_minus_103": 1,
+      "java_on_data": 644,
+      "write_start_play": 0,
+      "open_codec": [
+        "aac"
+      ]
+    }
+  },
+  "single_log_verdict": {
+    "file": "analysis/l3-f4-logs/vfile-commit-20261111-110857.txt",
+    "analysis": {
+      "lines": 3892,
+      "w_level_lines": 3,
+      "w_branch_hits": {
+        "0x3CC73": 0,
+        "0x3CCC9": 0,
+        "0x3CF90": 0,
+        "0x3CFCE": 0,
+        "0x3D062": 0,
+        "0x3D017": 0,
+        "0x3D0AE": 0
+      },
+      "w_error_total": 0,
+      "w_success_finish": 0,
+      "generation_sequence": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "generation_strictly_increasing": true,
+      "instance_sequence_max": 5,
+      "commit_values": [
+        253952
+      ],
+      "commit_frozen": true,
+      "read_result_minus_2": 6,
+      "finish_async_minus_103": 1,
+      "java_on_data": 645,
+      "write_start_play": 0,
+      "open_codec": [
+        "aac"
+      ]
+    },
+    "live_verdict": "NO_W_BRANCH_TRIGGERED_EFFECTIVE_NEGATIVE（有效负结果：分支未触发，不是日志被门控）",
+    "device_run": false,
+    "note": "本工具只离线判读已有 logcat；真机采集由 tools/l3_f4_vfile_commit_probe.py 完成，且须用户先让设备上线。"
+  },
+  "checks": {
+    "rodata_7_real_strings_extracted": true,
+    "six_error_branch_strings_zero_in_archives": true,
+    "write_all_finish_seen_in_default_config": true,
+    "w_finish_only_in_flac_archive": true,
+    "run1_generation_1_to_22": true,
+    "run1_commit_frozen_16384": true,
+    "run1_has_minus_103": true,
+    "run1_no_write_start_play": true,
+    "run2_commit_frozen_16384": true,
+    "probe_script_lacks_wbranch_reader": true,
+    "tool_never_connects_adb": true,
+    "report_records_f4_blocked": true,
+    "report_no_false_claim": true
+  },
+  "checks_total": 13,
+  "all_pass": true,
+  "failed_checks": [],
+  "f4_status": "BLOCKED",
+  "device_run": false,
+  "truthfulness": "all_pass 只表示离线一致性核验通过（真实 .rodata 串、归档 0 命中、代次 1→22 / commit 16384 与 §61.68 一致），不是 F4 验收通过；真机复跑（保持 g_level=0 + 主动 seek）仍 NOT RUN；接线回滚待用户拍板；设备仍完全离线。",
+  "usage_online": "设备上线后：python tools/l3_f4_vfile_commit_probe.py --serial <新端点> --wait 60 --out analysis/l3-f4-live-online.json；再 python tools/l3_f4_wbranch_recheck.py --log analysis/l3-f4-logs/<该次 logcat>。保持 g_level=0、播放中主动 seek，不要再用 level-5 关键词或 nmcache_log_level 做 0/4/5 对照。"
+}

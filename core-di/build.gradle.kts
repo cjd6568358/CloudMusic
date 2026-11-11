@@ -30,7 +30,10 @@ dependencies {
     implementation(project(":core-storage"))
     implementation(project(":engine-api"))
     // T-L L1（12 §36）：EngineModule 换绑舱内 EngineAdapter（IMusicEngine 门面不变）。
+    // 12 §61.81 / B2 M1：EngineModule 单点换绑到 Media3EngineAdapter，门面签名零改动；
+    // :engine-legacy 与其 18 个 so 本批保留（回退 + C5 默认假设，暂不移除）。
     implementation(project(":engine-legacy"))
+    implementation(project(":engine-opensource"))
     implementation(project(":core-media"))
     // 第十六批（12 §25）：T-P2 / T-P3 端口的生产实现与唯一组合层
     implementation(project(":engine-bridge"))
