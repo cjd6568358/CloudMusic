@@ -1,8 +1,8 @@
 # reverse-engine —— 竞品播放内核 1:1 Kotlin 逻辑翻译
 
-> **结论先行**：本目录把 `docs/12 §61.54 ~ §61.86` 的反汇编证据逐条翻译成纯 JVM Kotlin，
-> 共 **168 条 `@spec` 逻辑点**（G15 / N30 / S23 / B30 / A12 / P12 / C8 / F8 / D12 / R8 / U10）、
-> **492 条契约断言全绿**（13 个 section）、**14 项审计全 OK**、**F4 阻塞链路可运行复现**；
+> **结论先行**：本目录把 `docs/12 §61.54 ~ §61.88` 的反汇编证据逐条翻译成纯 JVM Kotlin，
+> 共 **174 条 `@spec` 逻辑点**（G15 / N30 / S23 / B30 / A12 / P12 / C8 / F8 / D12 / R8 / U10 / V6）、
+> **534 条契约断言全绿**（14 个 section）、**16 项审计全 OK**、**F4 阻塞链路可运行复现**；
 > 两份一手清单（JNI 19 类 / 162 方法 / 202 符号、libffmpeg 100 decoder / 75 demuxer）
 > 已**全量脱敏登记**，并由源 `sha256` 指纹守护防回潮。
 > 上一版 `OnNetSourceDataDone` 双分支简化错误已按 §61.54 / §61.55 一手反汇编 1:1 纠正（D 组 12 条）；
@@ -11,7 +11,9 @@
 > 本批 U 组对 C 类 158 份证据做 L1 信号再清点，补回 2 份 A3 反汇编里**此前未翻译的控制流**
 > （构造期 Memory Mode 双门控 L1、`Open()` 的 `onError(1001)` 链 L2），
 > 并把 5 份机读反汇编 JSON 的独有元数据全量登记（U 组 10 条）；
-> `spec/COVERAGE.md` 第 8 节给出 `docs/12 §61.x` 全部 82 个有标题章节的逐条处置矩阵，
+> V 组把同一 L1 判据用于章节矩阵与低分证据：补登此前漏登的 16 个章节、
+> 坐实 C 类 74 章 / 134 份低分证据里无遗漏的纯汇编片段（V 组 6 条覆盖守护规格）；
+> `spec/COVERAGE.md` 第 8 节给出 `docs/12 §61.x` 全部 84 个有标题章节（截至 §61.88）的逐条处置矩阵，
 > 第 9 节给出 `analysis/` 178 份证据文件全集处置矩阵与 24 份 highRisk 逐份裁定，不留隐式空白。
 > 交付物是**行为等价的逻辑代码**，不含任何二进制 / dex / so / 资源 / 私有资产；
 > 目的是个人学习与后续按需抽取子集。
@@ -39,15 +41,18 @@ reverse-engine/
 ├── README.md                     # 本文件
 ├── F4-CHAIN-REPORT.md            # 【结果】F4 链路复现报告（build.py 自动生成，勿手改）
 ├── spec/
-│   ├── LOGIC-SPEC.md             # 168 条 @spec 的证据/实现/等级映射表（含 3.9 D / 3.10 R / 3.11 U 组）
+│   ├── LOGIC-SPEC.md             # 174 条 @spec 的证据/实现/等级映射表（含 3.9 D / 3.10 R / 3.11 U / 3.12 V 组）
 │   ├── COVERAGE.md               # 覆盖总账 + 第 8 节章节矩阵 + 第 9 节 evidence 矩阵
 │   ├── catalog-manifest.json     # 源 JSON sha256 + 条目数 + Kotlin 常量值（防回潮，勿手改）
 │   ├── done-chain-manifest.json  # §61.54/55 源 JSON sha256 + 20 项 D 组常量期望值（防回潮）
 │   ├── read-gap-manifest.json    # §61.77 源 JSON sha256 + 33 项 R 组常量期望值（防回潮）
 │   ├── a3-meta-manifest.json     # U 组 7 份源 sha256 + 50 项常量期望值（防回潮）
 │   ├── uncovered-evidence-scan.json          # C 类 158 份 L1 信号扫描结果（24 份 highRisk）
-│   └── uncovered-evidence-adjudications.json # 24 份 highRisk 逐份裁定 + 名单指纹
-├── kt/src/                       # 【核心交付】13 个纯 JVM Kotlin 源文件
+│   ├── uncovered-evidence-adjudications.json # 24 份 highRisk 逐份裁定 + 名单指纹
+│   ├── chapter-matrix-scan.json              # V 组：§61.x 章节矩阵机器自证快照（unmapped=0）
+│   ├── lowscore-asm-scan.json                # V 组：134 份低分证据「纯汇编片段」零漏网快照
+│   └── chapter-matrix-manifest.json          # 2 份快照 sha256 + 39 项 Kotlin 常量（防回潮）
+├── kt/src/                       # 【核心交付】14 个纯 JVM Kotlin 源文件
 │   ├── NmNativeTypes.kt          #   偏移常量 / 错误码 / kind / 日志级别 / 抽象接口
 │   ├── NmLogGate.kt              #   libNMCommonCache.so 全局日志门控（g_level）
 │   ├── NmNetSource.kt            #   请求代次闸门 / commit 记账 / 唤醒链
@@ -60,17 +65,21 @@ reverse-engine/
 │   ├── NmFormatCatalog.kt        #   【全量】100 decoder / 75 demuxer + 查询矩阵（生成，勿手改）
 │   ├── NmReadGapCatalog.kt       #   【全量】§61.77 33 项常量 + 24 锚点 / 6+7+3 清单（生成，勿手改）
 │   ├── NmA3Supplement.kt         #   U 组：构造期 Memory Mode 双门控（L1）+ Open() onError(1001) 链（L2）
-│   └── NmDisasmMetaCatalog.kt    #   【全量】U 组 7 份源 / 50 项 Int 常量元数据（生成，勿手改）
+│   ├── NmDisasmMetaCatalog.kt    #   【全量】U 组 7 份源 / 50 项 Int 常量元数据（生成，勿手改）
+│   └── NmChapterMatrixCatalog.kt #   【全量】V 组 39 项常量 + §61.87/61.88 事实口径（生成，勿手改）
 ├── test/
-│   └── ContractTests.kt          # 492 条纯 JVM 契约断言（13 个 section，零外部依赖）
+│   └── ContractTests.kt          # 534 条纯 JVM 契约断言（14 个 section，零外部依赖）
 ├── tools/
 │   ├── gen_catalog.py            # 从源 JSON 全量生成脱敏 catalog + 指纹 manifest
 │   ├── gen_done_chain_manifest.py # 从 §61.54/55 源 JSON 生成 D 组元数据指纹 manifest
 │   ├── gen_read_gap_manifest.py  # 从 §61.77 源 JSON 全量生成 R 组 catalog + 指纹 manifest
 │   ├── gen_a3_meta_manifest.py   # 从 7 份 A3 / 机读反汇编证据生成 U 组 catalog + 指纹 manifest
 │   ├── scan_uncovered_evidence.py # 对 C 类证据做 L1 指令级信号再清点（输出 scan JSON）
+│   ├── scan_chapter_matrix.py    # V 组：§61.x 章节矩阵机器自证（输出 scan JSON）
+│   ├── scan_lowscore_asm.py      # V 组：低分证据「纯汇编片段」零漏网扫描（输出 scan JSON）
+│   ├── gen_chapter_matrix_manifest.py # V 组：2 份快照 → V 组 catalog + 指纹 manifest
 │   ├── build.py                  # 编译 + 测试 + 生成 F4-CHAIN-REPORT.md
-│   └── audit.py                  # 14 项长效守护（编号 / 禁项 / 产物 / 清单 / D 组 / R 组 / 再清点裁定 / U 组）
+│   └── audit.py                  # 16 项长效守护（编号 / 禁项 / 产物 / 清单 / D / R / 裁定 / U / V 组）
 └── build/                        # 编译产物与报告（可整体清理）
     ├── classes/
     ├── test-report.json
@@ -103,10 +112,15 @@ python tools/gen_a3_meta_manifest.py
 # ①e 对 C 类 158 份做 L1 指令级信号再清点（输出 scan JSON；裁定表由人工判读维护）
 python tools/scan_uncovered_evidence.py
 
-# ② 全量编译 14 个 .kt + 跑 492 条契约测试 + 生成 F4 链路报告
+# ①f~①h V 组：章节矩阵自证 / 低分零漏网扫描 / 生成 catalog + 指纹 manifest
+python tools/scan_chapter_matrix.py
+python tools/scan_lowscore_asm.py
+python tools/gen_chapter_matrix_manifest.py
+
+# ② 全量编译 15 个 .kt + 跑 534 条契约测试 + 生成 F4 链路报告
 python tools/build.py
 
-# ③ 规格/禁项/产物/清单/D 组/R 组/再清点裁定/U 组 14 项审计
+# ③ 规格/禁项/产物/清单/D 组/R 组/再清点裁定/U 组/V 组 16 项审计
 python tools/audit.py
 ```
 
@@ -127,9 +141,9 @@ python tools/audit.py
 [GEN-A3] sanitize assertion: OK (zero com.netease / com/netease)
 [SCAN] analysis root files=178 registered=27 (baseline=20, newlyRegisteredByUGroup=7) uncovered=158 currentUnregistered=151
 [SCAN] highRisk(score>=12)=24 -> spec/uncovered-evidence-scan.json
-[COMPILE] ok=True exit=0 src=14 jars=34
+[COMPILE] ok=True exit=0 src=15 jars=34
 [TEST]    ok=True exit=0
-CONTRACT TESTS: 492/492 passed, 0 failed
+CONTRACT TESTS: 534/534 passed, 0 failed
 [CHAIN]   .../F4-CHAIN-REPORT.md
 [RESULT]  overallOk=True
 
@@ -148,9 +162,12 @@ CONTRACT TESTS: 492/492 passed, 0 failed
   - uncoveredEvidenceAdjudicationsClean: OK
   - a3MetaFingerprintMatches: OK
   - a3MetaConstantsMatch: OK
-  specIds=168 codeIds=168 groups={'A':12,'B':30,'C':8,'D':12,'F':8,'G':15,'N':30,'P':12,'R':8,'S':23,'U':10}
+  - chapterMatrixFingerprintMatches: OK
+  - chapterMatrixConstantsMatch: OK
+  specIds=174 codeIds=174 groups={'A': 12, 'B': 30, 'C': 8, 'D': 12, 'F': 8, 'G': 15, 'N': 30, 'P': 12, 'R': 8, 'S': 23, 'U': 10, 'V': 6}
   adjudications clean=True highRisk=24
   a3Meta fingerprint=True constants=True
+  chapterMatrix fingerprint=True constants=True
 ```
 
 > 注意：①e 的扫描器只做**候选发现**，不代替人工判读。若证据集合变化导致
@@ -185,7 +202,7 @@ CONTRACT TESTS: 492/492 passed, 0 failed
 
 1. **按逻辑点抽**：每条逻辑在源码里都有 `// @spec X-NN` 注释，
    在 `spec/LOGIC-SPEC.md` 里可查到它的证据锚点与证据等级。
-2. **按类抽**：13 个 `.kt` 之间只有构造依赖，无 Android / 第三方依赖；
+2. **按类抽**：14 个 `.kt` 之间只有构造依赖，无 Android / 第三方依赖；
    抽单个类时带上 `NmNativeTypes.kt`（偏移/错误码/接口）即可。
    `NmJniCatalog.kt` / `NmFormatCatalog.kt` / `NmReadGapCatalog.kt` /
    `NmDisasmMetaCatalog.kt` 是纯数据常量表，可整表抽走，也可按需舍弃。
@@ -215,11 +232,11 @@ CONTRACT TESTS: 492/492 passed, 0 failed
 
 - 适用范围：**个人项目 / 学习目的 / 侧载自用**（沿用项目 D-146 定案），不公开发布、不分发 APK。
 - 证据全部来自仓库内已有的反汇编 JSON / Markdown 报告 / 文档，未引入新的二进制素材。
-- 不引用任何竞品包名（`com.netease.*`）：三个 generator 硬断言 + `audit.py` 禁项扫描双重守护。
+- 不引用任何竞品包名（`com.netease.*`）：四个 generator 的禁项硬断言 + `audit.py` 禁项扫描双重守护。
 - 不写死任何 JDK / SDK / 项目绝对路径；`java` 由 `PATH` / `JAVA_HOME` 推断，
   Kotlin jar 由 `GRADLE_USER_HOME`（默认本机缓存）推断。
 - JNI 方法清单、decoder/demuxer 符号清单、§61.77 读侧空白链常量与 A3 / 机读反汇编元数据
-  已**全量登记**（数据层，不是控制逻辑翻译），由四个 generator + 四份 manifest 的 `sha256` 指纹守护；
+  已**全量登记**（数据层，不是控制逻辑翻译），由五个 generator + 五份 manifest 的 `sha256` 指纹守护；
   B2 施工单 / R8 keep 规则等仍属**另一条路线**，仅以统计常量登记，不改变其阶段状态。
 - 共 **12 份源（10 份 JSON + 2 份 A3 Markdown）受 `sha256` 指纹守护**，分布于
   `catalog-manifest.json`（2）/ `done-chain-manifest.json`（2）/
@@ -235,14 +252,14 @@ CONTRACT TESTS: 492/492 passed, 0 failed
 
 | 项 | 值 |
 |----|-----|
-| Kotlin 源文件 | 13（`kt/src`）+ 1 测试文件 = 14 个 `.kt` 全量编译 |
-| 契约断言 | 492 / 492 通过，0 失败（13 个 section；section 8 补 F4 旁路验证 15 条、section 12 补 R 组 54 条、section 13 补 U 组 79 条） |
-| `@spec` 编号 | 168（G15 / N30 / S23 / B30 / A12 / P12 / C8 / F8 / D12 / R8 / U10），代码与规格双向闭环 |
-| 审计检查 | **14 项全 OK**（含 12 份源指纹、Kotlin 常量一致性、24 份 highRisk 裁定名单指纹） |
+| Kotlin 源文件 | 14（`kt/src`）+ 1 测试文件 = 15 个 `.kt` 全量编译 |
+| 契约断言 | 534 / 534 通过，0 失败（14 个 section；section 8 补 F4 旁路验证、section 12 补 R 组、section 13 补 U 组、section 14 补 V 组覆盖守护） |
+| `@spec` 编号 | 174（G15 / N30 / S23 / B30 / A12 / P12 / C8 / F8 / D12 / R8 / U10 / V6），代码与规格双向闭环 |
+| 审计检查 | **16 项全 OK**（含 12 份一手源指纹、V 组 2 份扫描快照指纹、Kotlin 常量一致性、24 份 highRisk 裁定名单指纹） |
 | 禁项命中 | 0（零 `com.netease` / 零 `android.*` / 零绝对路径） |
 | 全量清单 | JNI 19 类 / 162 native 方法 / 202 JNI 符号；libffmpeg 100 decoder / 75 demuxer + 9/15/19 查询矩阵 + 8 边界声明；§61.77 24 锚点 / 6 处 `[+0x198]` / 7 处 -2 / 31 checks；U 组 7 份源 / 50 项 Int 常量 |
-| 章节 / 证据覆盖 | `COVERAGE.md` 第 8 节 §61.x 82 章 + 第 9 节 `analysis/` 178 份证据全集（A 20 / B 7 / C 151）+ 24 份 highRisk 逐份裁定 |
-| 指纹守护 | 12 份源 `sha256` 分布于 4 份 manifest（catalog 2 / done-chain 2 / read-gap 1 / a3-meta 7）+ D/R/U 组 Kotlin 常量一致性 |
+| 章节 / 证据覆盖 | `COVERAGE.md` 第 8 节 §61.x 84 章（截至 §61.88）+ 第 9 节 `analysis/` 178 份证据全集（A 20 / B 7 / C 151）+ 24 份 highRisk 逐份裁定 |
+| 指纹守护 | 12 份一手源 `sha256` 分布于 4 份 manifest（catalog 2 / done-chain 2 / read-gap 1 / a3-meta 7）+ V 组 2 份扫描快照（`chapter-matrix-manifest`）+ D/R/U/V 组 Kotlin 常量一致性 |
 | 编译链 | Kotlin embeddable 2.0.20 + 34 jar 兜底 classpath，JDK 17，约 15s |
 | F4 链路 | 11 步复现（因果链不变）+ 完成通知链旁路验证，`F4-CHAIN-REPORT.md` 自动生成 |
-| 交付文件 | 31 个（根 2 + spec 8 + kt/src 13 + test 1 + tools 7），全部 LF（`CRLF_bad=[]`）；生成链 `write_text` 已统一 `newline="\n"` |
+| 交付文件 | 38 个（根 2 + spec 11 + kt/src 14 + test 1 + tools 10），全部 LF（`CRLF_bad=[]`）；生成链 `write_text` 已统一 `newline="\n"` |

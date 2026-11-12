@@ -108,7 +108,7 @@
 ## 7. 防回潮机制
 
 ```
-源 JSON / MD (只读，共 12 份受守护，分布于 4 份 manifest)
+源 JSON / MD (只读：12 份一手源分布于 4 份 manifest；V 组另有 2 份机读快照受第 5 份 manifest 守护)
    ├─ tools/gen_catalog.py ────→ kt/src/NmJniCatalog.kt / NmFormatCatalog.kt (全量脱敏)
    │                        └─→ spec/catalog-manifest.json (sha256 + 条目数) [2 份源]
    ├─ tools/gen_done_chain_manifest.py
@@ -120,12 +120,18 @@
    ├─ tools/gen_a3_meta_manifest.py
    │                        ├─→ kt/src/NmDisasmMetaCatalog.kt (7 份源 / 50 项 Int 常量)
    │                        └─→ spec/a3-meta-manifest.json (sha256 + 常量期望值) [7 份源]
-   └─ tools/scan_uncovered_evidence.py
-                            ├─→ spec/uncovered-evidence-scan.json (158 份信号 / 24 份 highRisk)
-                            └─→ spec/uncovered-evidence-adjudications.json (逐份裁定 + 名单指纹)
+   ├─ tools/scan_uncovered_evidence.py
+   │                        ├─→ spec/uncovered-evidence-scan.json (158 份信号 / 24 份 highRisk)
+   │                        └─→ spec/uncovered-evidence-adjudications.json (逐份裁定 + 名单指纹)
+   └─ V 组：tools/scan_chapter_matrix.py + tools/scan_lowscore_asm.py
+                            ├─→ spec/chapter-matrix-scan.json (84 章矩阵 / unmapped=0)
+                            ├─→ spec/lowscore-asm-scan.json (134 份低分证据 / 纯汇编候选 0)
+                            └─→ tools/gen_chapter_matrix_manifest.py
+                                  ├─→ kt/src/NmChapterMatrixCatalog.kt (39 项常量)
+                                  └─→ spec/chapter-matrix-manifest.json (sha256 + 常量期望值) [2 份快照]
              │
-             ├─ tools/build.py  → 编译 + 契约测试(492) → build/test-report.json
-             └─ tools/audit.py  → 14 项检查            → build/audit-report.json
+             ├─ tools/build.py  → 编译 + 契约测试(534) → build/test-report.json
+             └─ tools/audit.py  → 16 项检查            → build/audit-report.json
                   ⑥ 清单源 JSON sha256 == catalog-manifest
                   ⑦ Kotlin *_COUNT == catalog-manifest
                   ⑧ D 组源 JSON sha256 == done-chain-manifest
@@ -135,6 +141,8 @@
                   ⑫ highRisk 名单指纹 + 逐份裁定 == adjudications
                   ⑬ U 组 7 份源 sha256 == a3-meta-manifest
                   ⑭ Kotlin U 组常量 == a3-meta-manifest
+                  ⑮ V 组 2 份扫描快照 sha256 == chapter-matrix-manifest
+                  ⑯ Kotlin V 组 39 项常量 == chapter-matrix-manifest
 ```
 
 任何上游证据变更而未重新生成、或任何手改 catalog / D 组常量导致漂移，都会让 `audit.py` fail。

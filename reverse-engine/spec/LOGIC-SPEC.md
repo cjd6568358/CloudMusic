@@ -1,8 +1,8 @@
 # LOGIC-SPEC —— 竞品播放内核 1:1 Kotlin 逻辑翻译规格映射
 
-> **文首结论**：本目录把 `docs/12 §61.54 ~ §61.83` 系列反汇编证据逐条翻译成纯 JVM Kotlin
-> （含 §61.77 R 组全量登记与 A3 反汇编补遗 U 组），
-> 共 **168 条 `@spec` 逻辑点**（G15 / N30 / S23 / B30 / A12 / P12 / C8 / F8 / D12 / R8 / U10），全部有对应 Kotlin 实现
+> **文首结论**：本目录把 `docs/12 §61.54 ~ §61.88` 系列反汇编证据逐条翻译成纯 JVM Kotlin
+> （含 §61.77 R 组全量登记、A3 反汇编补遗 U 组与章节矩阵自证 V 组），
+> 共 **174 条 `@spec` 逻辑点**（G15 / N30 / S23 / B30 / A12 / P12 / C8 / F8 / D12 / R8 / U10 / V6），全部有对应 Kotlin 实现
 > 与契约测试断言；`tools/audit.py` 长效守护「代码编号 ⊆ 规格编号」且零悬空、零禁项。
 > 交付边界是**行为等价的逻辑翻译**，不含任何二进制、dex、so、资源或私有资产。
 
@@ -431,9 +431,11 @@
 11. **R 组常量**：`NmReadGapCatalog.kt` 的 33 项常量必须与 manifest 的 `kotlinConstants` 一致；
 12. **再清点裁定**：`uncovered-evidence-scan.json` 的 highRisk 名单指纹与裁定表一致，且每份候选都有合法裁定与理由；
 13. **U 组指纹**：`a3-meta-manifest.json` 记录的 7 份源 `sha256` 必须与当前磁盘一致；
-14. **U 组常量**：`NmDisasmMetaCatalog.kt` 的 Int / String 常量必须与 manifest 一致。
+14. **U 组常量**：`NmDisasmMetaCatalog.kt` 的 Int / String 常量必须与 manifest 一致；
+15. **V 组指纹**：`chapter-matrix-manifest.json` 记录的 2 份扫描快照 `sha256` / 字节数必须与磁盘一致；
+16. **V 组常量**：`NmChapterMatrixCatalog.kt` 的 39 项 Int / String / Boolean 常量必须与 manifest 一致。
 
-输出：`build/audit-report.json`（含 `pass`、逐项明细、编号总数、禁项命中数、清单 / D 组 / R 组 / U 组指纹结果）。
+输出：`build/audit-report.json`（含 `pass`、逐项明细、编号总数、禁项命中数、清单 / D 组 / R 组 / U 组 / V 组指纹结果）。
 
 ---
 
@@ -455,13 +457,18 @@ python tools/gen_a3_meta_manifest.py
 # 对 C 类 158 份做 L1 指令级信号再清点（输出 scan JSON，裁定表由人工判读维护）
 python tools/scan_uncovered_evidence.py
 
+# V 组：章节矩阵机器自证 / 低分证据零漏网 / 生成 catalog + 指纹 manifest
+python tools/scan_chapter_matrix.py
+python tools/scan_lowscore_asm.py
+python tools/gen_chapter_matrix_manifest.py
+
 # 全量编译 + 契约测试 + 生成 F4 链路报告（含完成通知链旁路验证）
 python tools/build.py
 
-# 规格/禁项/产物/清单/D 组/R 组/再清点裁定/U 组 14 项审计
+# 规格/禁项/产物/清单/D 组/R 组/再清点裁定/U 组/V 组 16 项审计
 python tools/audit.py
 ```
 
-预期：契约测试全绿（`492/492`）、`overallOk=true`、`audit pass=true`（14 项检查全 OK）。
+预期：契约测试全绿（`534/534`）、`overallOk=true`、`audit pass=true`（16 项检查全 OK）。
 `F4-CHAIN-REPORT.md` 由 `NmF4Chain.reproduce()` 真实运行生成，不是手写叙述；
 其中「完成通知链旁路验证」是独立实例跑出的静态分支语义，明确标注非 F4 因果环节。

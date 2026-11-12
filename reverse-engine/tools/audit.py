@@ -17,9 +17,11 @@ reverse-engine 交付链的长效审计守护（纯 Python 标准库）。
   11. R 组常量：NmReadGapCatalog.kt 的 33 项常量与 manifest 的 kotlinConstants 一致；
   12. 再清点裁定：uncovered-evidence-scan.json 的 highRisk 名单指纹与裁定表一致，且逐份裁定完整；
   13. U 组指纹：a3-meta-manifest.json 记录的 7 份源 sha256 与当前磁盘一致；
-  14. U 组常量：NmDisasmMetaCatalog.kt 的 Int/String 常量与 manifest 一致。
+  14. U 组常量：NmDisasmMetaCatalog.kt 的 Int/String 常量与 manifest 一致；
+  15. V 组指纹：chapter-matrix-manifest.json 记录的 2 份扫描快照 sha256 / bytes 与磁盘一致；
+  16. V 组常量：NmChapterMatrixCatalog.kt 的 39 项 Int/String/Boolean 常量与 manifest 一致。
 
-输出：build/audit-report.json（含 14 项检查明细、清单/D 组/R 组/U 组指纹结果）；退出码 0 = 全通过。
+输出：build/audit-report.json（含 16 项检查明细、清单/D 组/R 组/U 组/V 组指纹结果）；退出码 0 = 全通过。
 
 用法：python tools/audit.py
 """
@@ -317,6 +319,55 @@ def a3_meta_check() -> dict:
         "sourceCount": len(m.get("sources") or []),
         "intConstCount": len(m.get("kotlinIntConstants") or {}),
     }
+def chapter_matrix_check() -> dict:
+    """第 15/16 项：V 组 2 份扫描快照 sha256 + NmChapterMatrixCatalog.kt 39 项常量一致性。"""
+    m_path = RE / "spec" / "chapter-matrix-manifest.json"
+    if not m_path.is_file():
+        return {"ok": False, "fingerprintOk": False, "constantsOk": False,
+                "reason": "missing chapter-matrix-manifest.json"}
+    m = json.loads(m_path.read_text(encoding="utf-8"))
+
+    src_results = {}
+    for src in m.get("sources") or []:
+        rel = src.get("path", "")
+        p = RE / rel
+        if not p.is_file():
+            src_results[rel] = {"ok": False, "reason": "source file missing"}
+            continue
+        raw = p.read_bytes()
+        actual = hashlib.sha256(raw).hexdigest()
+        src_results[rel] = {
+            "ok": actual == src.get("sha256") and len(raw) == src.get("bytes"),
+            "expected": src.get("sha256"),
+            "actual": actual,
+            "bytes": len(raw),
+        }
+
+    kt_path = KT_DIR / "NmChapterMatrixCatalog.kt"
+    kt_text = kt_path.read_text(encoding="utf-8") if kt_path.is_file() else ""
+    const_results = {}
+    for name, expected in (m.get("kotlinIntConstants") or {}).items():
+        actual = parse_int_const(kt_text, name)
+        const_results[name] = {"ok": actual is not None and actual == expected,
+                               "expected": expected, "actual": actual}
+    for name, expected in (m.get("kotlinStringConstants") or {}).items():
+        needle = 'const val %s: String = "%s"' % (name, expected)
+        const_results[name] = {"ok": needle in kt_text, "expected": expected}
+    for name, expected in (m.get("kotlinBooleanConstants") or {}).items():
+        needle = "const val %s: Boolean = %s" % (name, "true" if expected else "false")
+        const_results[name] = {"ok": needle in kt_text, "expected": expected}
+
+    fingerprint_ok = bool(src_results) and all(v.get("ok") for v in src_results.values())
+    constants_ok = bool(const_results) and all(v.get("ok") for v in const_results.values())
+    return {
+        "ok": bool(fingerprint_ok and constants_ok),
+        "fingerprintOk": fingerprint_ok,
+        "constantsOk": constants_ok,
+        "sources": src_results,
+        "constants": const_results,
+    }
+
+
 def main() -> int:
     code_ids = code_spec_ids()
     spec_ids = spec_table_ids()
@@ -327,6 +378,7 @@ def main() -> int:
     read_gap = read_gap_check()
     adjudications = adjudication_check()
     a3_meta = a3_meta_check()
+    chapter_matrix = chapter_matrix_check()
 
     missing_in_spec = sorted(set(code_ids) - set(spec_ids))
     orphan_in_spec = sorted(set(spec_ids) - set(code_ids))
@@ -347,6 +399,8 @@ def main() -> int:
         "uncoveredEvidenceAdjudicationsClean": bool(adjudications.get("ok")),
         "a3MetaFingerprintMatches": bool(a3_meta.get("fingerprintOk")),
         "a3MetaConstantsMatch": bool(a3_meta.get("constantsOk")),
+        "chapterMatrixFingerprintMatches": bool(chapter_matrix.get("fingerprintOk")),
+        "chapterMatrixConstantsMatch": bool(chapter_matrix.get("constantsOk")),
     }
     overall = all(checks.values())
 
@@ -372,6 +426,7 @@ def main() -> int:
         "readGap": read_gap,
         "uncoveredEvidence": adjudications,
         "a3Meta": a3_meta,
+        "chapterMatrix": chapter_matrix,
     }
     BUILD_DIR.mkdir(parents=True, exist_ok=True)
     OUT_PATH.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
@@ -394,6 +449,7 @@ def main() -> int:
     print(f"  readGap fingerprint={read_gap.get('fingerprintOk')} constants={read_gap.get('constantsOk')}")
     print(f"  adjudications clean={adjudications.get('ok')} highRisk={adjudications.get('highRiskCount')}")
     print(f"  a3Meta fingerprint={a3_meta.get('fingerprintOk')} constants={a3_meta.get('constantsOk')}")
+    print(f"  chapterMatrix fingerprint={chapter_matrix.get('fingerprintOk')} constants={chapter_matrix.get('constantsOk')}")
     if not catalog.get("ok"):
         print(f"  catalogDetail={catalog}")
     if not done_chain.get("ok"):
@@ -404,6 +460,8 @@ def main() -> int:
         print(f"  adjudicationsDetail={adjudications}")
     if not a3_meta.get("ok"):
         print(f"  a3MetaDetail={a3_meta}")
+    if not chapter_matrix.get("ok"):
+        print(f"  chapterMatrixDetail={chapter_matrix}")
     print(f"[REPORT] {OUT_PATH}")
     return 0 if overall else 1
 
