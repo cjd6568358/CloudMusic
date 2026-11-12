@@ -1,0 +1,112 @@
+{
+  "generatedBy": "reverse-engine/tools/gen_x_catalog.py",
+  "sourceCount": 2,
+  "sources": [
+    {
+      "path": "spec/x-function-inventory.json",
+      "sha256": "f5d46e80d4ccd8a6db91ef827de12b78c58e408fb925f3076490789950e747f1",
+      "bytes": 592984
+    },
+    {
+      "path": "spec/x-semantic-anchors.json",
+      "sha256": "90295ef24884d015db9f5fa6831d7c11d01f96ff541f0dc2737eb4389a670e2b",
+      "bytes": 2675938
+    }
+  ],
+  "kotlinStringConstants": {
+    "INVENTORY_SHA256": "f5d46e80d4ccd8a6db91ef827de12b78c58e408fb925f3076490789950e747f1",
+    "ANCHORS_SHA256": "90295ef24884d015db9f5fa6831d7c11d01f96ff541f0dc2737eb4389a670e2b"
+  },
+  "kotlinIntConstants": {
+    "FUNCTION_COUNT": 1241,
+    "RODATA_STRING_COUNT": 2670,
+    "BRANCH_COUNT": 9611,
+    "RETURN_IMMEDIATE_COUNT": 862,
+    "LOG_REF_COUNT": 1964,
+    "UNHANDLED_COUNT": 0
+  },
+  "errorCodes": [
+    -1002,
+    -1001,
+    -106,
+    -103,
+    -21,
+    -18,
+    -17,
+    -16,
+    -6,
+    -5,
+    -4,
+    -3,
+    -2,
+    -1,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    13,
+    16,
+    24,
+    32,
+    40,
+    48,
+    56,
+    64,
+    80,
+    88,
+    96,
+    104,
+    112,
+    144,
+    176,
+    192,
+    200,
+    240,
+    256,
+    264,
+    280,
+    288,
+    296,
+    336,
+    480,
+    496,
+    584,
+    624,
+    688,
+    728,
+    808,
+    1232,
+    1888,
+    16463,
+    18263,
+    32920,
+    49880,
+    1048576
+  ],
+  "dispositionCounts": {
+    "translated": 129,
+    "mechanical": 298,
+    "registered": 814
+  },
+  "chunkCount": 32,
+  "specIds": [
+    "X-01",
+    "X-02",
+    "X-03",
+    "X-04",
+    "X-05",
+    "X-06",
+    "X-07",
+    "X-08"
+  ],
+  "derived": [
+    "以 .dynsym STT_FUNC 全集为准，不按 docs 章节或证据文件挑拣",
+    "2670 条 .rodata 字符串全量登记在 x-semantic-anchors.json，Kotlin 侧由 sha256 引用",
+    "9611 条条件分支逐条登记在 anchors JSON；Kotlin 侧按助记词位掩码 1:1 求值",
+    "libffmpeg.so 是第三方 FFmpeg，单独由 F 组登记，不计入竞品自研逻辑"
+  ]
+}

@@ -1,7 +1,7 @@
 # COVERAGE —— 1:1 翻译覆盖总账
 
 > **文首结论**：本目录覆盖 `docs/12 §61.54 ~ §61.88` 系列证据中**所有可静态证明的
-> 播放内核控制逻辑**（188 条 `@spec`：168 条 A/B 类逻辑与数据点 + 6 条 V 组覆盖守护 + 14 条 W 组一手反汇编补译）
+> 播放内核控制逻辑**（196 条 `@spec`：168 条 A/B 类逻辑与数据点 + 6 条 V 组覆盖守护 + 14 条 W 组一手反汇编补译 + 8 条 X 组函数全集穷举）
 > 与**七份全量清单 / 元数据数据**（B 类）；
 > 其余域按「非竞品逻辑 / 数据清单 / 合规边界 / 需真机」逐条给出**明确不翻译的理由**，
 > 不留隐式空白。上一版遗留的两处「节选」缺口与 `OnNetSourceDataDone` 双分支简化错误本轮已闭环，
@@ -17,6 +17,11 @@
 > （8 窗口 / 238 指令 / 28 锚点全通过，so sha256 与 §61.77 一致），把 S-16 分片上界、
 > B-20 / B-30 触发条件与日志门控本体从 L2 / L3 升级为 **L1 指令级坐实**，
 > 并**修正分片循环整除时多写一片的真实行为差异**（W-01~W-14）；F4 因果链与 `F4 仍 BLOCKED` 不变。
+> 本批 X 组把「是否漏过竞品逻辑」的判据改为**真实 so 二进制函数全集**：4 个竞品自研 so
+> 共 1241 个函数（cache 127 / engine 966 / audio 139 / audio-legacy 9）逐个反汇编，
+> 全量登记 2670 条 `.rodata` 字符串、9611 条条件分支、862 个返回立即数、1964 处日志引用，
+> 处置为 translated 129 / registered 814 / mechanical 298，**unhandled=0**（X-01~X-08）。
+> `libffmpeg.so` 2659 个函数是第三方 FFmpeg，由 F 组登记，不计入竞品自研逻辑。
 > 同时同步 §61.87 / §61.88 事实口径：B2 引擎 F3 22 格重跑 PASS 14 / FAIL 8、M2 门禁 PASS 解锁 M3、M3 接线完成但门禁未通过
 > 属**另一条路线**，本目录仍不实现 M2、`F4 仍 BLOCKED` 不变。
 
@@ -112,7 +117,7 @@
 ## 7. 防回潮机制
 
 ```
-源 JSON / MD (只读：12 份一手源分布于 4 份 manifest；V 组 2 份 + W 组 1 份机读快照受第 5/6 份 manifest 守护)
+源 JSON / MD (只读：12 份一手源分布于 4 份 manifest；V 组 2 份 + W 组 1 份 + X 组 2 份档案受第 5/6/7 份 manifest 守护)
    ├─ tools/gen_catalog.py ────→ kt/src/NmJniCatalog.kt / NmFormatCatalog.kt (全量脱敏)
    │                        └─→ spec/catalog-manifest.json (sha256 + 条目数) [2 份源]
    ├─ tools/gen_done_chain_manifest.py
@@ -139,8 +144,8 @@
                                   ├─→ kt/src/NmChapterMatrixCatalog.kt (39 项常量)
                                   └─→ spec/chapter-matrix-manifest.json (sha256 + 常量期望值) [2 份快照]
              │
-             ├─ tools/build.py  → 编译 + 契约测试(610) → build/test-report.json
-             └─ tools/audit.py  → 18 项检查            → build/audit-report.json
+             ├─ tools/build.py  → 编译 + 契约测试(651) → build/test-report.json
+             └─ tools/audit.py  → 20 项检查            → build/audit-report.json
                   ⑥ 清单源 JSON sha256 == catalog-manifest
                   ⑦ Kotlin *_COUNT == catalog-manifest
                   ⑧ D 组源 JSON sha256 == done-chain-manifest
@@ -154,6 +159,8 @@
                   ⑯ Kotlin V 组 39 项常量 == chapter-matrix-manifest
                   ⑰ W 组反汇编证据 sha256 == w-disasm-manifest（含锚点 all_pass + so 指纹）
                   ⑱ Kotlin W 组 23 项常量 == w-disasm-manifest
+                  ⑲ X 组函数全集档案 sha256 == x-manifest（含 unhandled=0）
+                  ⑳ Kotlin X 组 8 项常量 == x-manifest
 ```
 
 任何上游证据变更而未重新生成、或任何手改 catalog / D 组常量导致漂移，都会让 `audit.py` fail。
@@ -236,7 +243,7 @@
 
 > 统计：**178 = 已登记证据源 27 + 明确不翻译 151**。
 > 27 份 = A 类逻辑锚点 20 份 + B 类全量清单 / 元数据源 7 份，明细见 `LOGIC-SPEC.md` 第 2 节；
-> 其中 **12 份一手源受 `sha256` 指纹守护**（10 份 JSON + 2 份 A3 Markdown），分布于 4 份 manifest；另有 V 组 2 份 + W 组 1 份机读快照受第 5/6 份 manifest 守护。明细：
+> 其中 **12 份一手源受 `sha256` 指纹守护**（10 份 JSON + 2 份 A3 Markdown），分布于 4 份 manifest；另有 V 组 2 份 + W 组 1 份 + X 组 2 份档案受第 5/6/7 份 manifest 守护。明细：
 > `catalog-manifest.json`（2）、`done-chain-manifest.json`（2）、`read-gap-manifest.json`（1）
 > 与 `a3-meta-manifest.json`（7，含 2 份 A3 md 与 5 份机读 JSON）。
 

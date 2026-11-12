@@ -2,7 +2,7 @@
 
 > **文首结论**：本目录把 `docs/12 §61.54 ~ §61.88` 系列反汇编证据逐条翻译成纯 JVM Kotlin
 > （含 §61.77 R 组全量登记、A3 反汇编补遗 U 组与章节矩阵自证 V 组），
-> 共 **188 条 `@spec` 逻辑点**（G15 / N30 / S23 / B30 / A12 / P12 / C8 / F8 / D12 / R8 / U10 / V6 / W14），全部有对应 Kotlin 实现
+> 共 **196 条 `@spec` 逻辑点**（G15 / N30 / S23 / B30 / A12 / P12 / C8 / F8 / D12 / R8 / U10 / V6 / W14 / X8），全部有对应 Kotlin 实现
 > 与契约测试断言；`tools/audit.py` 长效守护「代码编号 ⊆ 规格编号」且零悬空、零禁项。
 > 交付边界是**行为等价的逻辑翻译**，不含任何二进制、dex、so、资源或私有资产。
 
@@ -461,6 +461,34 @@
 
 ---
 
+### 3.14 X 组 —— 竞品函数全集 1:1 逻辑目录（X-01~X-08）
+
+> X 组把「是否漏过竞品逻辑」的判据从 docs 章节 / 证据文件改为**真实 so 二进制**：
+> `tools/x_function_inventory.py` 枚举 4 个竞品自研 so 的 `.dynsym` STT_FUNC 共 **1241** 个函数；
+> `tools/x_semantic_anchors.py` 全量提取 **2670** 条 `.rodata` 字符串、**9611** 条条件分支、
+> **862** 个返回立即数、**1964** 处日志引用；`tools/gen_x_catalog.py` 把每个函数生成
+> `XFunction` 条目（32 个分块，避免 JVM 64KB 方法上限）。
+> `NmXLogic.kt` 的 `NmXControlFlow.evaluate()` 按函数**真实出现过的分支助记词**做门控求值。
+> `libffmpeg.so` 是第三方 FFmpeg（2659 函数），单独由 F 组登记，不计入竞品自研逻辑。
+
+| 编号 | 证据锚点 | 实现位置 | 等级 |
+|------|----------|----------|------|
+| X-01 | 4 个自研 so 的 .dynsym STT_FUNC 全集 1241 个（cache 127 / engine 966 / audio 139 / audio-legacy 9），按地址可查 | `NmXCatalog.FUNCTIONS` / `NmXControlFlow.lookup()` | L1 |
+| X-02 | 每个函数必须有且仅有 1 个处置：translated 129 / registered 814 / mechanical 298，**unhandled=0** | `XFunction.disposition` / `NmXControlFlow.unhandled()` | L1 |
+| X-03 | 9611 条条件分支逐条登记（addr/mnemonic/op/target）；助记词分布 cbz 3582 / tbnz 1268 / tbz 1129 / b.eq 970 / b.ne 893 / cbnz 795 等，Kotlin 侧按位掩码 1:1 求值 | `x-semantic-anchors.json` / `XBranchKind` / `XFunction.branchMask` | L1 |
+| X-04 | `evaluate(addr, XCondition)` 按判零(cbz/cbnz) → 位测试(tbz/tbnz) → 相等 → 大小比较的真实优先级判定，返回路径返回码与判读依据 | `NmXControlFlow.evaluate()` | L1 |
+| X-05 | 862 个 `mov w0/x0,#N` 返回立即数全量登记，去重 60 值（含 -1002 / -1001 / -106 / -103 / -6 / -2 / -1） | `NmXCatalog.ERROR_CODES` | L1 |
+| X-06 | 按 so / 函数族汇总；814 个 registered 函数（JNI 导出 169、Playback 族等）全部可 lookup 与 evaluate | `NmXControlFlow.bySo()` | L1 |
+| X-07 | 2670 条 .rodata 字符串全量登记（不节选）+ 1964 处函数→字符串引用，Kotlin 侧由 sha256 指纹引用 | `x-semantic-anchors.json` / `NmXCatalog.RODATA_STRING_COUNT` | L1 |
+| X-08 | 2 份源 JSON sha256/bytes 与 6 项 Int / 2 项 String 常量由 `audit.py` 第 19/20 项守护；符号名脱敏零竞品包名 | `x-manifest.json` / `audit.py` | L1 |
+
+> 边界如实登记：X 组是**函数全集的控制流骨架 1:1 机器翻译 + 可执行门控求值**，
+> 不宣称把每个函数的完整 C++ 语义（STL 容器 / 内存管理 / 第三方模板）手写重写；
+> 纯机械函数（thunk / trivial / runtime / data_or_linear 共 298 个）逐条给出机器判据的处置理由。
+> 不改变 `F4 仍 BLOCKED`，本目录不实现 B2 / M2 / M3。
+
+---
+
 ## 4. 审计守护
 
 `tools/audit.py` 每次运行检查：
@@ -482,9 +510,11 @@
 15. **V 组指纹**：`chapter-matrix-manifest.json` 记录的 2 份扫描快照 `sha256` / 字节数必须与磁盘一致；
 16. **V 组常量**：`NmChapterMatrixCatalog.kt` 的 39 项 Int / String / Boolean 常量必须与 manifest 一致；
 17. **W 组指纹**：`w-disasm-manifest.json` 记录的一手反汇编证据 `sha256` / bytes 与磁盘一致，且证据锚点全通过、so 指纹一致；
-18. **W 组常量**：`NmWDisasmCatalog.kt` 的 21 项 Int / 2 项 String 常量必须与 manifest 一致。
+18. **W 组常量**：`NmWDisasmCatalog.kt` 的 21 项 Int / 2 项 String 常量必须与 manifest 一致；
+19. **X 组指纹**：`x-function-inventory.json` / `x-semantic-anchors.json` 的 `sha256` 与 `x-manifest.json` 一致，且函数全集**零未处置**；
+20. **X 组常量**：`NmXCatalog.kt` 的 6 项 Int / 2 项 String 常量必须与 manifest 一致。
 
-输出：`build/audit-report.json`（含 `pass`、逐项明细、编号总数、禁项命中数、清单 / D 组 / R 组 / U 组 / V 组 / W 组指纹结果）。
+输出：`build/audit-report.json`（含 `pass`、逐项明细、编号总数、禁项命中数、清单 / D / R / U / V / W / X 组指纹结果）。
 
 ---
 
@@ -515,13 +545,18 @@ python tools/gen_chapter_matrix_manifest.py
 python tools/w_disasm_evidence.py
 python tools/gen_w_manifest.py
 
+# X 组：函数全集穷举 / 语义锚点全量取证 / 生成 Kotlin 逻辑目录
+python tools/x_function_inventory.py
+python tools/x_semantic_anchors.py
+python tools/gen_x_catalog.py
+
 # 全量编译 + 契约测试 + 生成 F4 链路报告（含完成通知链旁路验证）
 python tools/build.py
 
-# 规格/禁项/产物/清单/D 组/R 组/再清点裁定/U 组/V 组/W 组 18 项审计
+# 规格/禁项/产物/清单/D 组/R 组/再清点裁定/U/V/W/X 组 20 项审计
 python tools/audit.py
 ```
 
-预期：契约测试全绿（`610/610`）、`overallOk=true`、`audit pass=true`（18 项检查全 OK）。
+预期：契约测试全绿（`651/651`）、`overallOk=true`、`audit pass=true`（20 项检查全 OK）。
 `F4-CHAIN-REPORT.md` 由 `NmF4Chain.reproduce()` 真实运行生成，不是手写叙述；
 其中「完成通知链旁路验证」是独立实例跑出的静态分支语义，明确标注非 F4 因果环节。

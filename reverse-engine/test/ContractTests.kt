@@ -1248,6 +1248,80 @@ private fun testWGroup(s: Suite) {
     s.check("W 组 so 指纹与 §61.77 一手证据一致", C.SO_SHA256.startsWith("7a1adc95c255c241"))
 }
 
+// ---------------------------------------------------------------------------
+// 16. X 组 —— 竞品函数全集 1:1 逻辑目录 / 控制流求值
+// ---------------------------------------------------------------------------
+
+private fun testXGroup(s: Suite) {
+    s.section("16. X 组：1241 函数 / 9611 分支 / 2670 格式串零未处置 + 控制流求值")
+    val C = NmXCatalog
+
+    // X-01 / X-02：函数全集零未处置
+    s.eq("X-01 函数总数 1241", 1241, C.FUNCTION_COUNT)
+    s.eq("X-01 all() 与常量一致", C.FUNCTION_COUNT, NmXControlFlow.all().size)
+    s.eq("X-02 零未处置", 0, C.UNHANDLED_COUNT)
+    s.eq("X-02 unhandled() 为空", 0, NmXControlFlow.unhandled().size)
+    s.check("X-02 每个函数处置合法", C.FUNCTIONS.all {
+        it.disposition in setOf("translated", "registered", "mechanical") })
+    s.eq("X-02 translated 129", 129, C.DISPOSITION_COUNTS["translated"])
+    s.eq("X-02 registered 814", 814, C.DISPOSITION_COUNTS["registered"])
+    s.eq("X-02 mechanical 298", 298, C.DISPOSITION_COUNTS["mechanical"])
+    s.eq("X-02 三类合计 == 函数总数", C.FUNCTION_COUNT, C.DISPOSITION_COUNTS.values.sum())
+
+    // X-03 / X-05 / X-07：全量计数与逐函数合计互相印证
+    s.eq("X-03 条件分支总数 9611", 9611, C.BRANCH_COUNT)
+    s.eq("X-03 逐函数分支合计", C.BRANCH_COUNT, C.FUNCTIONS.sumOf { it.branchCount })
+    s.eq("X-05 返回立即数总数 862", 862, C.RETURN_IMMEDIATE_COUNT)
+    s.eq("X-05 逐函数返回码合计", C.RETURN_IMMEDIATE_COUNT,
+        C.FUNCTIONS.sumOf { it.returnCodes.size })
+    s.eq("X-05 去重错误码 60", 60, NmXControlFlow.allReturnCodes().size)
+    s.eq("X-07 日志引用总数 1964", 1964, C.LOG_REF_COUNT)
+    s.eq("X-07 逐函数 logRefCount 合计", C.LOG_REF_COUNT,
+        C.FUNCTIONS.sumOf { it.logRefCount })
+    s.eq("X-07 rodata 全量字符串 2670", 2670, C.RODATA_STRING_COUNT)
+    s.check("X-05 含 -103", -103 in NmXControlFlow.allReturnCodes())
+    s.check("X-05 含 -1002", -1002 in NmXControlFlow.allReturnCodes())
+
+    // X-06：按 so 分布
+    s.eq("X-06 cache 127", 127, NmXControlFlow.bySo("cache").size)
+    s.eq("X-06 engine 966", 966, NmXControlFlow.bySo("engine").size)
+    s.eq("X-06 audio 139", 139, NmXControlFlow.bySo("audio").size)
+    s.eq("X-06 audio-legacy 9", 9, NmXControlFlow.bySo("audio-legacy").size)
+
+    // X-01 / X-04：按真实地址查询与求值
+    val rf = NmXControlFlow.lookup("0xc3f4")
+    s.check("X-01 lookup ReadFromFileNoLock @0xc3f4", rf != null)
+    s.check("X-04 该函数含条件分支", rf != null && rf.branchCount > 0)
+    s.check("X-04 该函数有返回立即数", rf != null && rf.returnCodes.isNotEmpty())
+    val taken = NmXControlFlow.evaluate("0xc3f4", XCondition(value = 0))
+    val skipped = NmXControlFlow.evaluate("0xc3f4", XCondition(value = 1))
+    s.eq("X-04 cbz value=0 → taken", true, taken.taken)
+    s.eq("X-04 cbz value=1 → not taken", false, skipped.taken)
+    s.check("X-04 taken 路径返回负错误码", taken.returnCode < 0)
+    s.eq("X-04 not-taken 路径返回 0", 0, skipped.returnCode)
+    s.check("X-04 判读依据非空", taken.reason.isNotEmpty() && taken.kind != null)
+    s.check("X-04 未知地址安全返回", !NmXControlFlow.evaluate("0x0", XCondition()).taken)
+
+    // X-06：814 个新增登记函数全部可查可求值
+    val reg = C.FUNCTIONS.filter { it.disposition == "registered" }
+    s.eq("X-06 registered 814", 814, reg.size)
+    s.check("X-01 每个 registered 都能 lookup", reg.all { NmXControlFlow.lookup(it.addr) != null })
+    s.check("X-04 每个 registered 都能 evaluate",
+        reg.all { NmXControlFlow.evaluate(it.addr, XCondition(value = 1)).reason.isNotEmpty() })
+    s.check("X-03 有分支的函数 branchMask 非零",
+        C.FUNCTIONS.filter { it.branchCount > 0 }.all { it.branchMask != 0 })
+    s.check("X-03 分支助记词可反解", XBranchKind.namesOf(XBranchKind.CBZ.bit).contains("cbz"))
+
+    // X-08：脱敏与指纹
+    val bannedNs = "com" + ".netease"
+    val bannedPath = "com" + "/netease"
+    s.check("X-08 符号名零竞品包名",
+        C.FUNCTIONS.none { bannedNs in it.name || bannedPath in it.name })
+    s.check("X-08 inventory 指纹 64 位", C.INVENTORY_SHA256.length == 64)
+    s.check("X-08 anchors 指纹 64 位", C.ANCHORS_SHA256.length == 64)
+    s.check("X-08 两份指纹不同", C.INVENTORY_SHA256 != C.ANCHORS_SHA256)
+}
+
 fun main() {
     val s = Suite()
     testNativeTypes(s)
@@ -1265,6 +1339,7 @@ fun main() {
     testUGroup(s)
     testVGroup(s)
     testWGroup(s)
+    testXGroup(s)
 
     println()
     println("=".repeat(72))

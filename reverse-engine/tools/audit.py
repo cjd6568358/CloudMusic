@@ -21,9 +21,11 @@ reverse-engine 交付链的长效审计守护（纯 Python 标准库）。
   15. V 组指纹：chapter-matrix-manifest.json 记录的 2 份扫描快照 sha256 / bytes 与磁盘一致；
   16. V 组常量：NmChapterMatrixCatalog.kt 的 39 项 Int/String/Boolean 常量与 manifest 一致；
   17. W 组指纹：w-disasm-manifest.json 记录的一手反汇编证据 sha256/bytes 与磁盘一致，且证据锚点全通过、so 指纹一致；
-  18. W 组常量：NmWDisasmCatalog.kt 的 21 项 Int / 2 项 String 常量与 manifest 一致。
+  18. W 组常量：NmWDisasmCatalog.kt 的 21 项 Int / 2 项 String 常量与 manifest 一致；
+  19. X 组指纹：x-function-inventory.json / x-semantic-anchors.json 的 sha256 与 x-manifest.json 一致，且函数全集零未处置；
+  20. X 组常量：NmXCatalog.kt 的 6 项 Int / 2 项 String 常量与 manifest 一致。
 
-输出：build/audit-report.json（含 18 项检查明细、清单/D 组/R 组/U 组/V 组/W 组指纹结果）；退出码 0 = 全通过。
+输出：build/audit-report.json（含 20 项检查明细、清单/D/R/U/V/W/X 组指纹结果）；退出码 0 = 全通过。
 
 用法：python tools/audit.py
 """
@@ -431,6 +433,63 @@ def w_disasm_check() -> dict:
     }
 
 
+def x_catalog_check() -> dict:
+    """第 19/20 项：X 组函数全集指纹 + NmXCatalog.kt 常量一致性（零未处置）。"""
+    m_path = RE / "spec" / "x-manifest.json"
+    if not m_path.is_file():
+        return {"ok": False, "fingerprintOk": False, "constantsOk": False,
+                "reason": "missing x-manifest.json"}
+    m = json.loads(m_path.read_text(encoding="utf-8"))
+
+    src_results = {}
+    for src in m.get("sources") or []:
+        rel = src.get("path", "")
+        p = RE / rel
+        if not p.is_file():
+            src_results[rel] = {"ok": False, "reason": "source file missing"}
+            continue
+        raw = p.read_bytes()
+        actual = hashlib.sha256(raw).hexdigest()
+        src_results[rel] = {
+            "ok": actual == src.get("sha256") and len(raw) == src.get("bytes"),
+            "expected": src.get("sha256"), "actual": actual, "bytes": len(raw),
+        }
+
+    # 证据内部自洽：零未处置 + 函数总数与清单一致
+    anch = RE / "spec" / "x-semantic-anchors.json"
+    inv = RE / "spec" / "x-function-inventory.json"
+    internal_ok = False
+    if anch.is_file() and inv.is_file():
+        A = json.loads(anch.read_text(encoding="utf-8"))
+        I = json.loads(inv.read_text(encoding="utf-8"))
+        totals = A.get("totals") or {}
+        valid = {"translated", "registered", "mechanical"}
+        internal_ok = (
+            totals.get("unhandled") == 0
+            and totals.get("ownFunctions") == I.get("ownFunctionTotal")
+            and all(f.get("disposition") in valid for f in A.get("functions") or [])
+        )
+
+    kt_path = KT_DIR / "NmXCatalog.kt"
+    kt_text = kt_path.read_text(encoding="utf-8") if kt_path.is_file() else ""
+    const_results = {}
+    for name, expected in (m.get("kotlinIntConstants") or {}).items():
+        actual = parse_int_const(kt_text, name)
+        const_results[name] = {"ok": actual is not None and actual == expected,
+                               "expected": expected, "actual": actual}
+    for name, expected in (m.get("kotlinStringConstants") or {}).items():
+        needle = 'const val %s: String = "%s"' % (name, expected)
+        const_results[name] = {"ok": needle in kt_text, "expected": expected}
+
+    fingerprint_ok = bool(src_results) and all(v.get("ok") for v in src_results.values()) and internal_ok
+    constants_ok = bool(const_results) and all(v.get("ok") for v in const_results.values())
+    return {
+        "ok": bool(fingerprint_ok and constants_ok),
+        "fingerprintOk": fingerprint_ok, "constantsOk": constants_ok,
+        "internalOk": internal_ok, "sources": src_results, "constants": const_results,
+    }
+
+
 def main() -> int:
     code_ids = code_spec_ids()
     spec_ids = spec_table_ids()
@@ -443,6 +502,7 @@ def main() -> int:
     a3_meta = a3_meta_check()
     chapter_matrix = chapter_matrix_check()
     w_disasm = w_disasm_check()
+    x_catalog = x_catalog_check()
 
     missing_in_spec = sorted(set(code_ids) - set(spec_ids))
     orphan_in_spec = sorted(set(spec_ids) - set(code_ids))
@@ -467,6 +527,8 @@ def main() -> int:
         "chapterMatrixConstantsMatch": bool(chapter_matrix.get("constantsOk")),
         "wDisasmFingerprintMatches": bool(w_disasm.get("fingerprintOk")),
         "wDisasmConstantsMatch": bool(w_disasm.get("constantsOk")),
+        "xCatalogFingerprintMatches": bool(x_catalog.get("fingerprintOk")),
+        "xCatalogConstantsMatch": bool(x_catalog.get("constantsOk")),
     }
     overall = all(checks.values())
 
@@ -494,6 +556,7 @@ def main() -> int:
         "a3Meta": a3_meta,
         "chapterMatrix": chapter_matrix,
         "wDisasm": w_disasm,
+        "xCatalog": x_catalog,
     }
     BUILD_DIR.mkdir(parents=True, exist_ok=True)
     OUT_PATH.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
@@ -518,6 +581,7 @@ def main() -> int:
     print(f"  a3Meta fingerprint={a3_meta.get('fingerprintOk')} constants={a3_meta.get('constantsOk')}")
     print(f"  chapterMatrix fingerprint={chapter_matrix.get('fingerprintOk')} constants={chapter_matrix.get('constantsOk')}")
     print(f"  wDisasm fingerprint={w_disasm.get('fingerprintOk')} constants={w_disasm.get('constantsOk')}")
+    print(f"  xCatalog fingerprint={x_catalog.get('fingerprintOk')} constants={x_catalog.get('constantsOk')}")
     if not catalog.get("ok"):
         print(f"  catalogDetail={catalog}")
     if not done_chain.get("ok"):
@@ -532,6 +596,8 @@ def main() -> int:
         print(f"  chapterMatrixDetail={chapter_matrix}")
     if not w_disasm.get("ok"):
         print(f"  wDisasmDetail={w_disasm}")
+    if not x_catalog.get("ok"):
+        print(f"  xCatalogDetail={x_catalog}")
     print(f"[REPORT] {OUT_PATH}")
     return 0 if overall else 1
 
