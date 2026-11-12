@@ -4591,6 +4591,34 @@ def main() -> int:
         except (KeyError, ValueError, OSError, TypeError) as exc:
             failures.append(f"12 §61.83 守护：decoder 符号表证据 JSON 不可解析（{exc}）")
 
+    # 12 §61.92 守护 / M5 收口：F4-B2 验收单 PASS + A3 终局状态表登记。
+    m92_acc = ROOT / "analysis" / "b2-f4-acceptance.json"
+    m92_d12 = (ROOT / "docs" / "12-编码阶段第一批交付.md").read_text(
+        encoding="utf-8")
+    if m92_acc.is_file():
+        try:
+            m92d = json.loads(m92_acc.read_text(encoding="utf-8"))
+            m92_ok = (
+                m92d.get("f4_verdict") == "PASS"
+                and m92d.get("checks", {}).get("f3_pass_ge_baseline") is True
+                and m92d.get("checks", {}).get("all_cells_media3") is True
+                and m92d.get("checks", {}).get("seek_three_point") is True
+                and m92d.get("counts", {}).get("f3_pass", 0) >= 11
+                and "### 61.92" in m92_d12
+                and "A3 终局状态表" in m92_d12
+                and "G08 20 分钟长稳" in m92_d12
+                and "作废-降级" in m92_d12
+            )
+            if m92_ok:
+                print("[PASS] 12 §61.92 守护：F4-B2 验收 PASS + A3 终局状态表"
+                      "（G01~G07 PASS / G08 降级 / G09 PARTIAL）在位")
+            else:
+                failures.append("12 §61.92 守护：F4-B2 验收判定/计数漂移")
+        except Exception as exc:
+            failures.append(f"12 §61.92 守护：验收 JSON 不可解析（{exc}）")
+    else:
+        failures.append("12 §61.92 守护：b2-f4-acceptance.json 缺失")
+
     # 12 §61.86 守护 / F3 双引擎判据：B2 侧 CM-Media3 一手日志 + 矩阵引擎感知
     # 双分支（A 路线签名不得硬套 B2 运行——§61.74 口径「多信号、不反向推断」）。
     m86_adapter_path = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" /

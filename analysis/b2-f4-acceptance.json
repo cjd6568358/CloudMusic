@@ -1,0 +1,83 @@
+{
+  "method": "17 §8.3 F4 多信号判据 · B2 口径正式验收单（纯离线审计）",
+  "generated_by": "tools/b2_f4_acceptance.py",
+  "f4_verdict": "PASS",
+  "criteria": [
+    {
+      "id": "A+B",
+      "name": "解码链打开 + 真实出声（F3 双路径）",
+      "verdict": "PASS",
+      "evidence": "F3 22 格 PASS 14 / FAIL 8（基线 11）；PASS 格式 ['aac', 'flac', 'm4a', 'mp3', 'ogg', 'opus', 'wav']；engines=['media3']",
+      "source": "analysis/l3-f3-matrix.json (§61.87)"
+    },
+    {
+      "id": "A-ext",
+      "name": "FFmpeg 软解扩展真机出力",
+      "verdict": "PASS",
+      "evidence": "ogg PASS（平台无 Vorbis 解码器必走扩展）+ 日志 'Loaded FfmpegAudioRenderer'（§61.87）",
+      "source": "analysis/l3-f3-logs/ogg-local.txt"
+    },
+    {
+      "id": "C",
+      "name": "完整时长 + ENDED 一手到达",
+      "verdict": "PASS",
+      "evidence": "65s URL 源 playing=True ended=True error=False；缓存落盘 527460 B",
+      "source": "analysis/b2-m34-acceptance.json phase1 (§61.89)"
+    },
+    {
+      "id": "D",
+      "name": "自动进曲（ENDED → 下一条 ≤1s）",
+      "verdict": "PASS",
+      "evidence": "ENDED 后 31ms prepare 下一条 + PLAYING（§61.90 真机日志）",
+      "source": "docs/12 §61.90"
+    },
+    {
+      "id": "E",
+      "name": "seek 三点着陆 <500ms",
+      "verdict": "PASS",
+      "evidence": "30% err=12ms；70% err=4ms；0% err=0ms",
+      "source": "analysis/b2-m34-acceptance.json phase3 (§61.89)"
+    },
+    {
+      "id": "F",
+      "name": "无 -103 类冻结（架构性消除）",
+      "verdict": "PASS",
+      "evidence": "B2 无 NMCommonCache 取流层（CacheDataSource 官方语义）；全日真机会话 0 次 -103（A 路线缺陷层被删，§61.80 §1.1）",
+      "source": "docs/12 §61.80 §1.1 / §61.88"
+    }
+  ],
+  "checks": {
+    "evidence_f3_matrix": true,
+    "evidence_m34_acceptance": true,
+    "all_cells_media3": true,
+    "f3_pass_ge_baseline": true,
+    "m34_phase1_clean": true,
+    "doc_autonext_31ms": true,
+    "seek_three_point": true
+  },
+  "counts": {
+    "f3_pass": 14,
+    "f3_fail": 8,
+    "baseline": 11,
+    "no_sample": 3
+  },
+  "status_extra": [
+    {
+      "id": "G08",
+      "name": "20 分钟长稳（B2）",
+      "verdict": "作废-降级",
+      "evidence": "首轮播放静默未启动（监控缺 t=0 验证）作废；当日 50+ 生命周期循环零异常 + A 路线 §61.31 PASS 历史在档；重跑需 t=0 验证"
+    },
+    {
+      "id": "G09",
+      "name": "crash → 恢复",
+      "verdict": "PARTIAL",
+      "evidence": "A 路线 §61.32 亮屏实证 + B2 未复测（挂账）"
+    }
+  ],
+  "honest_notes": [
+    "判据不通过 ≠ 路线失败（§61.74 纪律）。",
+    "G08/G09 为 A3 层判据，登记状态不并入 F4 结论。",
+    "gapless / ReplayGain / 容器 Extractor 缺口维持挂账登记。"
+  ]
+}
