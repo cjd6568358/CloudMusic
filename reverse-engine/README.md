@@ -1,8 +1,8 @@
 # reverse-engine —— 竞品播放内核 1:1 Kotlin 逻辑翻译
 
 > **结论先行**：本目录把 `docs/12 §61.54 ~ §61.88` 的反汇编证据逐条翻译成纯 JVM Kotlin，
-> 共 **204 条 `@spec` 逻辑点**（G15 / N30 / S23 / B30 / A12 / P12 / C8 / F8 / D12 / R8 / U10 / V6 / W14 / X8 / Z8）、
-> **724 条契约断言全绿**（17 个 section）、**27 项审计全 OK**、**F4 阻塞链路可运行复现**；
+> 共 **207 条 `@spec` 逻辑点**（G15 / N30 / S23 / B30 / A12 / P12 / C8 / F8 / D12 / R8 / U10 / V6 / W14 / X8 / Z11）、
+> **762 条契约断言全绿**（17 个 section）、**27 项审计全 OK**、**F4 阻塞链路可运行复现**；
 > 两份一手清单（JNI 19 类 / 162 方法 / 202 符号、libffmpeg 100 decoder / 75 demuxer）
 > 已**全量脱敏登记**，并由源 `sha256` 指纹守护防回潮。
 > 上一版 `OnNetSourceDataDone` 双分支简化错误已按 §61.54 / §61.55 一手反汇编 1:1 纠正（D 组 12 条）；
@@ -24,12 +24,12 @@
 > （cache 15.7% / engine 58.0% / audio 4.2% / audio-legacy 1.4%，so 已 strip 无 `.symtab`）。
 > Z 组从 dynsym 函数 + `.data.rel.ro`/`.data`/`.got`/`.init_array` 代码指针递归下降，`bl` 目标自动成为
 > 新入口，其余连续区段按 `adr/adrp` 引用与否分判字面量池/补充代码，得到
-> **6326 个代码块 / 7486 个函数入口 / 388064 条指令**，一条指令一行 `i(...)`（159 分块文件 17.4 MiB）；
-> `.text` 字节账闭合：406580 可解码 = 388064 翻译 + 18512 字面量池 + 4 不可解码（覆盖率 90.0/95.7/97.0/92.7%）；
+> **6433 个代码块 / 8348 个函数入口 / 404896 条指令**，一条指令一行 `i(...)`（161 分块文件 18.5 MiB）；
+> `.text` 字节账闭合：406580 可解码 = 404896 翻译 + 1684 字面量池 + 0 不可解码，且**任何直接分支目标都落在已翻译块内**；
 > `NmArm64.kt` 提供语义完备解释器（NZCV 逐位推导 / 16 条件码 / 宽度截断 / pre-post-index 写回 /
-> 浮点 S-D-H / NEON 逐车道），**216 个语义 op 全覆盖**：`when(op)` 无实现分支 = 0、运行期 dropout = 0、
+> 浮点 S-D-H / NEON 逐车道），**218 个语义 op 全覆盖**：`when(op)` 无实现分支 = 0、运行期 dropout = 0、
 > 向量错桶 = 0；**Y 组"PRESERVED 1358 条保真记录、无真实语义"的残留已清零**（Z 组 8 条规格）；
-> 199 个 `.kt` 分 13 趟编译通过（约 8 分钟）；
+> 204 个 `.kt` 分 13 趟编译通过（约 5.6 分钟）；
 > `spec/COVERAGE.md` 第 8 节给出 `docs/12 §61.x` 全部 84 个有标题章节（截至 §61.88）的逐条处置矩阵，
 > 第 9 节给出 `analysis/` 178 份证据文件全集处置矩阵与 24 份 highRisk 逐份裁定，不留隐式空白。
 > 交付物是**行为等价的逻辑代码**，不含任何二进制 / dex / so / 资源 / 私有资产；
@@ -58,7 +58,7 @@ reverse-engine/
 ├── README.md                     # 本文件
 ├── F4-CHAIN-REPORT.md            # 【结果】F4 链路复现报告（build.py 自动生成，勿手改）
 ├── spec/
-│   ├── LOGIC-SPEC.md             # 204 条 @spec 的证据/实现/等级映射表（含 3.9 D / 3.10 R / 3.11 U / 3.12 V / 3.13 W / 3.14 X / 3.15 Z 组）
+│   ├── LOGIC-SPEC.md             # 207 条 @spec 的证据/实现/等级映射表（含 3.9 D / 3.10 R / 3.11 U / 3.12 V / 3.13 W / 3.14 X / 3.15 Z 组）
 │   ├── COVERAGE.md               # 覆盖总账 + 第 8 节章节矩阵 + 第 9 节 evidence 矩阵
 │   ├── catalog-manifest.json     # 源 JSON sha256 + 条目数 + Kotlin 常量值（防回潮，勿手改）
 │   ├── done-chain-manifest.json  # §61.54/55 源 JSON sha256 + 20 项 D 组常量期望值（防回潮）
@@ -100,13 +100,13 @@ reverse-engine/
 │   ├── NmXCatalog.kt             #   【全量】1241 个竞品函数逻辑条目（32 分块，生成，勿手改）
 │   ├── NmArm64.kt                #   Z 组：寄存器/内存/NZCV/浮点/NEON 的语义完备解释器
 │   ├── NmMachine.kt              #   Z 组：按 pc 分派的跨块/跨函数调度器
-│   ├── NmOp.kt                   #   【全量】216 个语义 op 编码（生成，勿手改）
-│   ├── NmBlocks.kt               #   【全量】6326 块 tableswitch 分派（生成，勿手改）
+│   ├── NmOp.kt                   #   【全量】218 个语义 op 编码（生成，勿手改）
+│   ├── NmBlocks.kt               #   【全量】6433 块 tableswitch 分派（生成，勿手改）
 │   ├── NmTranslatedCatalog.kt    #   【全量】块索引 + 7486 入口表（生成，勿手改）
 │   ├── NmFuncs00..14.kt          #   【全量】7486 个入口包装（生成，勿手改）
-│   └── NmCode00..158.kt          #   【逐行】6326 块 / 388064 条指令，每条一行（生成，勿手改）
+│   └── NmCode00..160.kt          #   【逐行】6433 块 / 404896 条指令，每条一行（生成，勿手改）
 ├── test/
-│   └── ContractTests.kt          # 724 条纯 JVM 契约断言（17 个 section，零外部依赖）
+│   └── ContractTests.kt          # 762 条纯 JVM 契约断言（17 个 section，零外部依赖）
 ├── tools/
 │   ├── gen_catalog.py            # 从源 JSON 全量生成脱敏 catalog + 指纹 manifest
 │   ├── gen_done_chain_manifest.py # 从 §61.54/55 源 JSON 生成 D 组元数据指纹 manifest
@@ -121,8 +121,8 @@ reverse-engine/
 │   ├── x_function_inventory.py   # X 组：枚举 .dynsym 函数全集并逐函数反汇编分类
 │   ├── x_semantic_anchors.py     # X 组：全量 rodata 字符串 + 分支/返回码/日志引用取证
 │   ├── gen_x_catalog.py          # X 组：函数全集 → Kotlin 逻辑目录 + 指纹 manifest
-│   ├── z_isa.py                  # Z 组：capstone detail 全字段解码 → 216 个语义 op
-│   ├── z_transpile.py            # Z 组：代码可达性发现 → 6326 块逐行 Kotlin + 守恒 manifest
+│   ├── z_isa.py                  # Z 组：capstone detail 全字段解码 → 218 个语义 op
+│   ├── z_transpile.py            # Z 组：代码可达性发现（含分支目标保护）→ 6433 块逐行 Kotlin + 守恒 manifest
 │   ├── z_audit.py                # Z 组：dropout / vector-leak 语义残留审计
 │   ├── build.py                  # 编译 + 测试 + 生成 F4-CHAIN-REPORT.md
 │   └── audit.py                  # 27 项长效守护（编号 / 禁项 / 产物 / 清单 / D / R / 裁定 / U / V / W / X / Z 组）
@@ -172,12 +172,12 @@ python tools/x_function_inventory.py
 python tools/x_semantic_anchors.py
 python tools/gen_x_catalog.py
 
-# ①n Z 组：代码可达性发现全集 → 6326 块 / 7486 入口 / 388064 指令逐行转译为 Kotlin
+# ①n Z 组：代码可达性发现全集 → 6433 块 / 8348 入口 / 404896 指令逐行转译为 Kotlin
 #     （需 capstone 5.x，用装有 capstone 的解释器执行）
 python tools/z_transpile.py
 python tools/z_audit.py
 
-# ② 分 13 趟编译 199 个 .kt + 跑契约测试 + 生成 F4 链路报告
+# ② 分 13 趟编译 204 个 .kt + 跑契约测试 + 生成 F4 链路报告
 #     （生成物过大，单趟编译必 OOM；每趟独立 JVM 且各自 `-module-name nm<pass>`）
 python tools/build.py
 
@@ -205,9 +205,9 @@ python tools/audit.py
 [W-DISASM] windows=8 anchors=28 checks=28 all_pass=True
 [GEN-W] evidence sha256=... intConsts=21 strConsts=2 specIds=14
 [GEN-W] sanitize assertion: OK (zero com.netease / zero absolute path)
-[COMPILE] ok=True exit=0 src=199 jars=34
+[COMPILE] ok=True exit=0 src=204 jars=34
 [TEST]    ok=True exit=0
-CONTRACT TESTS: 724/724 passed, 0 failed
+CONTRACT TESTS: 762/762 passed, 0 failed
 [CHAIN]   .../F4-CHAIN-REPORT.md
 [RESULT]  overallOk=True
 
@@ -241,7 +241,7 @@ CONTRACT TESTS: 724/724 passed, 0 failed
   chapterMatrix fingerprint=True constants=True
   wDisasm fingerprint=True constants=True
   xCatalog fingerprint=True constants=True
-  zTranslated ins=388064/388064 blocks=6326/6326 entries=7486/7486 dispatch=6326
+  zTranslated ins=404896/404896 blocks=6433/6433 entries=8348/8348 dispatch=6433
   zSemantics ops=213 noBranch=[] dropout=0 vectorLeak=0
 ```
 
@@ -328,15 +328,17 @@ CONTRACT TESTS: 724/724 passed, 0 failed
 
 | 项 | 值 |
 |----|-----|
-| Kotlin 源文件 | 198（`kt/src`）+ 1 测试文件 = 199 个 `.kt` 全量编译（507s，13 趟） |
-| 契约断言 | 712 / 712 通过，0 失败（17 个 section；8 补 F4 旁路验证、12 补 R、13 补 U、14 补 V、15 补 W、16 补 X、17 补 Z 组全量逐行翻译） |
-| `@spec` 编号 | 204（G15 / N30 / S23 / B30 / A12 / P12 / C8 / F8 / D12 / R8 / U10 / V6 / W14 / X8 / Z8），代码与规格双向闭环 |
-| 审计检查 | **26 项全 OK**（含 12 份一手源指纹、V/W/X/Z 组档案指纹、Kotlin 常量一致性、24 份 highRisk 裁定、函数全集零未处置、388064 行逐行守恒、语义零残留） |
+| Kotlin 源文件 | 202（`kt/src`）+ 2 测试文件 = 204 个 `.kt` 全量编译（338s，13 趟） |
+| 契约断言 | 762 / 762 通过，0 失败（17 个 section；8 补 F4 旁路验证、12 补 R、13 补 U、14 补 V、15 补 W、16 补 X、17 补 Z 组全量逐行翻译） |
+| `@spec` 编号 | 207（G15 / N30 / S23 / B30 / A12 / P12 / C8 / F8 / D12 / R8 / U10 / V6 / W14 / X8 / Z11），代码与规格双向闭环 |
+| 审计检查 | **27 项全 OK**（含 12 份一手源指纹、V/W/X/Z 组档案指纹、Kotlin 常量一致性、24 份 highRisk 裁定、函数全集零未处置、404896 行逐行守恒、语义零残留） |
 | 禁项命中 | 0（零 `com.netease` / 零 `android.*` / 零绝对路径） |
 | 全量清单 | JNI 19 类 / 162 native 方法 / 202 JNI 符号；libffmpeg 100 decoder / 75 demuxer + 9/15/19 查询矩阵 + 8 边界声明；§61.77 24 锚点 / 6 处 `[+0x198]` / 7 处 -2 / 31 checks；U 组 7 份源 / 50 项 Int 常量 |
 | 章节 / 证据覆盖 | `COVERAGE.md` 第 8 节 §61.x 84 章（截至 §61.88）+ 第 9 节 `analysis/` 178 份证据全集（A 20 / B 7 / C 151）+ 24 份 highRisk 逐份裁定 |
-| 指纹守护 | 12 份一手源 `sha256` 分布于 4 份 manifest + V/W/X/Z 组档案 + 4 个 so 指纹与 388064 行守恒 + D/R/U/V/W/X/Z 组 Kotlin 常量一致性 |
-| 一手反汇编 | W 组：真实 arm64 so 全 `.text` 8 窗口 / 238 指令 / 28 锚点全通过；S-16 / B-20 / B-30 定案\n| 函数全集 | X 组：4 个竞品自研 so 共 1241 函数 + 2670 条 rodata 字符串 + 9611 分支 + 862 返回码 + 1964 日志引用，零未处置；libffmpeg.so 2659 函数属第三方 FFmpeg，由 F 组登记\n| 逐行翻译 | Z 组：代码可达性全集 6326 个代码块 / 7486 个函数入口 / 388064 条 ARM64 指令各一行，159 个分块文件 17.4 MiB，199 个 .kt 分 13 趟编译通过；212 个语义 op 全覆盖，`when(op)` 无实现分支 = 0、运行期 dropout = 0、向量错桶 = 0（Y 组 1358 条 PRESERVED 残留已清零）；抽样 578 入口 / 880087 步动态执行，动态触达 91 种 op、0 dropout |
-| 编译链 | Kotlin embeddable 2.0.20 + 34 jar 兜底 classpath，JDK 17，13 趟合计约 508s |
+| 指纹守护 | 12 份一手源 `sha256` 分布于 4 份 manifest + V/W/X/Z 组档案 + 4 个 so 指纹与 404896 行守恒 + D/R/U/V/W/X/Z 组 Kotlin 常量一致性 |
+| 一手反汇编 | W 组：真实 arm64 so 全 `.text` 8 窗口 / 238 指令 / 28 锚点全通过；S-16 / B-20 / B-30 定案
+| 函数全集 | X 组：4 个竞品自研 so 共 1241 函数 + 2670 条 rodata 字符串 + 9611 分支 + 862 返回码 + 1964 日志引用，零未处置；libffmpeg.so 2659 函数属第三方 FFmpeg，由 F 组登记
+| 逐行翻译 | Z 组：代码可达性全集 6433 个代码块 / 8348 个函数入口 / 404896 条 ARM64 指令各一行，161 个分块文件 18.5 MiB，204 个 .kt 分 13 趟编译通过；218 个语义 op 全覆盖，`when(op)` 无实现分支 = 0、运行期 dropout = 0、向量错桶 = 0（Y 组 1358 条 PRESERVED 残留已清零）；全量 8348 入口 / 249555 条指令逐拍差分（Unicorn 2.1.4 真值），x/v/sp/nzcv/内存全等、0 不一致，外部停机 5 例已收到共同可执行区间末尾 |
+| 编译链 | Kotlin embeddable 2.0.20 + 34 jar 兜底 classpath，JDK 17，13 趟合计约 338s |
 | F4 链路 | 11 步复现（因果链不变）+ 完成通知链旁路验证，`F4-CHAIN-REPORT.md` 自动生成；W 组修正分片循环后 `sliceWriteCalls` 10→5，代次错配 / `commit` 冻结 16384 / `-103` / `Write start play` 0 次均不变 |
-| 交付文件 | 240 个（根 2 + spec 20 + kt/src 198 + test 1 + tools 19），全部 LF（`CRLF_bad=[]`）；生成链 `write_text` 已统一 `newline="\n"` |
+| 交付文件 | 247 个（根 2 + spec 21 + kt/src 202 + test 2 + tools 20），全部 LF（`CRLF_bad=[]`）；生成链 `write_text` 已统一 `newline="\n"` |

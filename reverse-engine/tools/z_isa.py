@@ -27,6 +27,7 @@ f / c 是打包标志位，布局见下面的 F_* / C_* 常量；两个 Int 足�
 from __future__ import annotations
 
 import re
+import struct
 import sys
 from collections import Counter, OrderedDict
 
@@ -79,6 +80,7 @@ FADD_VEC FSUB_VEC FMUL_VEC FDIV_VEC FMLA_VEC FMLS_VEC FADDP_VEC
 FCMGT_VEC FCMGE_VEC FCMLT_VEC FABS_VEC FNEG_VEC
 FABD_VEC FMAXNM_VEC FMINNM_VEC FNMUL_VEC
 ADD_VEC_I SUB_VEC_I MUL_VEC_I AND_VEC ORR_VEC EOR_VEC BIC_VEC ORN_VEC
+MOV_VEC_INS FSQRT_VEC
 """.split():
     _op(_n)
 
@@ -130,14 +132,46 @@ C_EXT_SHIFT = 12
 C_LANE_SHIFT = 15
 C_LANE_MASK = 0x0F
 C_HASLANE = 1 << 19
+C_EL_SHIFT = 19          # 第三操作数是「按元素」形式（`fmul v0.4s, v1.4s, v2.s[1]`）
 C_RC_SHIFT = 20          # 多寄存器结构访存的寄存器个数
 C_SRCW_SHIFT = 24        # 浮点源操作数宽度（FCVT 等）
+C_ESZ_SHIFT = 26         # 元素宽度覆盖（`ldpsw` 取 4 字节但目标是 64 位寄存器）
 
 # 排列编码（NEON）
 ARR = {
     "": 0, "8b": 1, "16b": 2, "4h": 3, "8h": 4, "2s": 5, "4s": 6, "2d": 7,
     "1d": 8, "1s": 9, "1h": 10, "1b": 11, "8s": 12, "4b": 13, "2h": 14, "16s": 15,
 }
+
+# 排列码 → 单车道字节数（fmov 立即数要按元素宽度打位模式）
+ARR_ELEM = {0: 0, 1: 1, 2: 1, 3: 2, 4: 2, 5: 4, 6: 4, 7: 8, 8: 8,
+            9: 4, 10: 2, 11: 1, 12: 4, 13: 1, 14: 2, 15: 4}
+
+
+def fp_bits(val: float, size: int) -> int:
+    """把一个浮点字面值按 [size] 字节打包成整数位模式（FPCR 全 0，无舍入问题）。"""
+    if size == 4:
+        return int.from_bytes(struct.pack("<f", val), "little")
+    if size == 2:
+        return int.from_bytes(struct.pack("<e", val), "little")
+    if size == 1:
+        return int(val) & 0xFF
+    return int.from_bytes(struct.pack("<d", val), "little")
+
+
+def reg_bytes(reg: "Reg") -> int:
+    """寄存器的**字节数**（注意 `Reg.width` 是 NmF 枚举码，不是字节数）。"""
+    if reg.kind in ("S",):
+        return 4
+    if reg.kind in ("D", "Q", "V", "X"):
+        return 8
+    if reg.kind == "H":
+        return 2
+    if reg.kind == "B":
+        return 1
+    if reg.kind == "W":
+        return 4
+    return reg.w or 8
 
 # 系统寄存器
 SYSREG = {
@@ -198,34 +232,56 @@ def _flags(width=W8, signed=False, wb=False, post=False, rdv=False, rnv=False,
 
 
 def _post_of(ins, ops, imms):
-    """结构访存的 post-index：`#imm` 或 `xN`（寄存器增量）。返回 (imm, regidx)。"""
-    if not ops:
+    """结构访存的 post-index：`#imm` 或 `xN`（寄存器增量）。返回 (imm, regidx)。
+
+    capstone 5 对 `ld1/st1 {..}, [xN], #32` 这类**结构访存**不把后索引立即数放进
+    操作数列表（`mem.disp` 也是 0），只留在 `op_str` 文本里。早期只看操作数列表，
+    写回增量恒为 0：`st1 {v16.4s,v17.4s}, [x1], #32` 之后 x1 不动，后续所有
+    寄存器偏移寻址整体错位（实测 audio @0x78d3c 的 x1）。这里回落到文本解析。@spec Z-11
+    """
+    if not ins.post_index:
         return 0, -1
-    last = ops[-1]
-    if last.type == ARM64_OP_IMM:
+    if ops and ops[-1].type == ARM64_OP_IMM:
         return imms[-1], -1
-    if last.type == ARM64_OP_REG:
-        return 0, reg_of(ins, last.reg).idx
+    if ops and ops[-1].type == ARM64_OP_REG:
+        return 0, reg_of(ins, ops[-1].reg).idx
+    m = re.search(r"\]\s*,\s*#(0x[0-9a-fA-F]+|\d+)\s*$", ins.op_str)
+    if m:
+        return int(m.group(1), 0), -1
+    m = re.search(r"\]\s*,\s*x(\d+)\s*$", ins.op_str)
+    if m:
+        return 0, int(m.group(1))
     return 0, -1
 
 
-def _aux(cond=0, sh=0, sham=0, ext=0, lane=0, rc=0, srcw=0):
+def _aux(cond=0, sh=0, sham=0, ext=0, lane=0, el=0, rc=0, srcw=0, esz=0):
     v = (cond & 0xF) | ((sh & 3) << C_SH_SHIFT) | ((sham & 0x3F) << C_SHAM_SHIFT)
     v |= (ext & 7) << C_EXT_SHIFT
     v |= (lane & C_LANE_MASK) << C_LANE_SHIFT
+    v |= (el & 1) << C_EL_SHIFT
     v |= (rc & 0xF) << C_RC_SHIFT
     v |= (srcw & 3) << C_SRCW_SHIFT
+    v |= (esz & 3) << C_ESZ_SHIFT
     return v
 
 
 class Reg:
-    """寄存器引用：kind ∈ X / W / V / S / D / H / B / Q / SP / ZR。"""
+    """寄存器引用：kind ∈ X / W / V / S / D / H / B / Q / SP / ZR。
 
-    __slots__ = ("kind", "idx")
+    `w` 是**显式宽度**，只给「kind 无法表达宽度」的那几个别名用：
+    `wzr`/`xzr` 都归 kind=ZR（执行端只看 idx==32 当零寄存器），
+    `wsp`/`sp` 都归 kind=SP（执行端靠 kind=="SP" 判栈指针）。
+    早期没有这个字段，`str wzr, [x0, #0x10]` 会走 `kind=ZR` 的兜底宽度 8
+    ——把 4 字节写变成 8 字节写，静默改掉相邻 4 字节（实测 audio-legacy
+    @0x64bc 的 x8 分歧）。@spec Z-11
+    """
 
-    def __init__(self, kind: str, idx: int):
+    __slots__ = ("kind", "idx", "w")
+
+    def __init__(self, kind: str, idx: int, w: int | None = None):
         self.kind = kind
         self.idx = idx
+        self.w = w
 
     @property
     def vec(self) -> bool:
@@ -233,6 +289,8 @@ class Reg:
 
     @property
     def width(self) -> int:
+        if self.w:
+            return self.w
         return {"X": W8, "W": W4_, "S": W4_, "D": W8, "H": W2, "B": W1,
                 "Q": W8, "V": W8}.get(self.kind, W8)
 
@@ -246,12 +304,14 @@ def reg_of(ins, capstone_reg: int) -> Reg:
         return Reg("X", 29)
     if name in ("lr",):
         return Reg("X", 30)
-    if name in ("sp", "wsp"):
-        return Reg("SP", 31)
-    if name in ("xzr", "wzr"):
-        return Reg("ZR", 32)
-    if name in ("xzr",):
-        return Reg("ZR", 32)
+    if name == "sp":
+        return Reg("SP", 31, W8)
+    if name == "wsp":
+        return Reg("SP", 31, W4_)
+    if name == "xzr":
+        return Reg("ZR", 32, W8)
+    if name == "wzr":
+        return Reg("ZR", 32, W4_)
     m = re.fullmatch(r"x(\d+)", name)
     if m:
         return Reg("X", int(m.group(1)))
@@ -438,8 +498,12 @@ def decode(ins) -> tuple | None:
                    arr=arr_of(0), is128=(rd.kind == "Q"))
         imm = base_disp
         imm2 = post if ins.post_index else (base_disp if ins.writeback else 0)
+        # `ldpsw xD, xD2, [...]` 取的是**2 个 32 位字**并符号扩展到 64 位：元素宽度
+        # 必须单独携带，否则按 dest 宽度当 8 字节读，一次读走两个字
+        # （实测 audio @0x6493c / @0xbe054）。@spec Z-11
+        esz = W4_ if m == "ldpsw" else 0
         # rd2 借 rm 槽位传，rd/rm 同为向量时由 f 的 RDV/RMV 位统一解释
-        return (_op(name), rd.idx, base, rd2.idx, imm, imm2, f, _aux())
+        return (_op(name), rd.idx, base, rd2.idx, imm, imm2, f, _aux(esz=esz))
 
     if m in ("ld1", "ld1r", "ld2", "ld3", "ld4"):
         # 结构加载：{v..}, [base], #post | xpost
@@ -573,6 +637,18 @@ def decode(ins) -> tuple | None:
             # 执行侧据此只搬一个元素到低端并把高位清零。早期一律按整寄存器拷贝，
             # d0 拿到的是 lane0、lane1 留在高 64 位，两半正好对调
             # （实测 audio-legacy @0x1bd34）。整寄存器拷贝仍用 imm = 0。@spec Z-10
+            #
+            # 反方向 `mov v0.d[1], x8`（把 GPR/车道**插进**某个 lane）是另一个语义：
+            # 必须保留其它 lane，只改一条。早期落进上面的整寄存器拷贝分支，
+            # 直接拿 v8 的 128 位覆盖 v0（实测 cache @0x9618）。@spec Z-11
+            mdst = re.match(r"v(\d+)\.([bhsd])\[(\d+)\]", ins.op_str)
+            if regs[0].vec and regs[0].kind == "V" and mdst:
+                sz = {"b": 1, "h": 2, "s": 4, "d": 8}[mdst.group(2)]
+                k = int(mdst.group(3))
+                msrc = re.search(r",\s*v(\d+)\.([bhsd])\[(\d+)\]", ins.op_str)
+                slane = int(msrc.group(3)) if msrc else 0
+                return (_op("MOV_VEC_INS"), r(0), r(1), -1, sz, slane,
+                        _flags(rdv=True, rnv=regs[1].vec), _aux(lane=k))
             sz = 0
             if regs[1].vec and regs[0].kind not in ("V", "Q"):
                 mm = re.search(r"v(\d+)\.([bhsd])\[(\d+)\]", ins.op_str)
@@ -698,8 +774,11 @@ def decode(ins) -> tuple | None:
 
     if m in ("sxtb", "sxth", "sxtw", "uxtb", "uxth", "uxtw", "sxtx", "uxtx"):
         name = m.upper()
+        # 宽度取**目的**寄存器：`sxtw x12, w9` 的 dest 是 64 位。早期取 operand 1
+        # （w9 → W4），符号扩展后的 64 位结果又被 `iw(...,W4)` 截回 32 位，
+        # 表现成「只做了零扩展」（实测 audio @0x76514 / @0x8aa00）。@spec Z-11
         return (_op(name), r(0), r(1), -1, 0, 0,
-                width_of(1) | (F_SIGNED if m.startswith("s") else 0), _aux())
+                width_of(0) | (F_SIGNED if m.startswith("s") else 0), _aux())
     if m == "clz":
         return (_op("CLZ"), r(0), r(1), -1, 0, 0, width_of(0), _aux())
     if m == "rbit":
@@ -710,21 +789,47 @@ def decode(ins) -> tuple | None:
 
     # ---------------- 标量浮点 ----------------
     if m == "fmov":
-        if ops[1].type == ARM64_OP_IMM:
-            return (_op("FMOV_IMM"), r(0), -1, -1, imms[0], 0,
-                    _flags(width=regs[0].width, rdv=regs[0].vec), _aux())
-        if ops[1].type == ARM64_OP_FP:
-            # fmov d0, #1.0 —— capstone 给浮点字面值，这里只保留可表示的整数值
-            val = ops[1].fp
-            ival = int(val) if float(val).is_integer() else 0
-            return (_op("FMOV_IMM"), r(0), -1, -1, ival, 0,
-                    _flags(width=regs[0].width, rdv=regs[0].vec), _aux())
+        if ops[1].type in (ARM64_OP_IMM, ARM64_OP_FP):
+            # FP 立即数是**位模式**，不是整数。早期写 `ival = int(val) if
+            # is_integer else 0`，`fmov d0, #0.5` 直接变成 0；而且没有排列码，
+            # `fmov v0.2d, #1.0` 只写 lane0（实测 audio-legacy @0x11428 的
+            # v0.hi 分歧）。这里按元素宽度打位模式，imm2 存元素字节数。@spec Z-11
+            a0 = arr_of(0)
+            esz = ARR_ELEM.get(a0) or reg_bytes(regs[0])
+            val = (ops[1].fp if ops[1].type == ARM64_OP_FP else float(imms[0]))
+            return (_op("FMOV_IMM"), r(0), -1, -1, fp_bits(val, esz), esz,
+                    _flags(width=regs[0].width, rdv=regs[0].vec, arr=a0), _aux())
+        # lane 形式：`fmov v0.d[1], x7`（插入）与 `fmov x5, v1.d[1]`（提取）。
+        # 早期一律当整寄存器低半处理：插入变成「写 lane0 并清高位」，提取永远
+        # 读 lane0（实测 audio @0xd7ef0 的 v0 / @0xd8160 的 x5）。@spec Z-11
+        _ml = re.match(r"v(\d+)\.([bhsd])\[(\d+)\]", ins.op_str)
+        _lane_sz = {"b": 1, "h": 2, "s": 4, "d": 8}
+        if _ml:
+            _sz = _lane_sz[_ml.group(2)]
+            return (_op("FMOV_RR"), r(0), r(1), -1, _sz, 0,
+                    _flags(width=regs[0].width, rdv=True,
+                           rnv=len(regs) > 1 and regs[1].vec),
+                    _aux(lane=int(_ml.group(3))))
+        _ms = re.search(r"v(\d+)\.([bhsd])\[(\d+)\]", ins.op_str)
+        if _ms:
+            _sz = _lane_sz[_ms.group(2)]
+            return (_op("FMOV_RR"), r(0), r(1), -1, _sz, 0,
+                    _flags(width=regs[0].width, rdv=regs[0].vec, rnv=True),
+                    _aux(lane=int(_ms.group(3))))
         return (_op("FMOV_RR"), r(0), r(1), -1, 0, 0,
                 _flags(width=regs[0].width, rdv=regs[0].vec,
                        rnv=len(regs) > 1 and regs[1].vec), _aux())
     SCALAR_FP2 = {"fneg": "FNEG", "fabs": "FABS", "fsqrt": "FSQRT",
                   "frintm": "FRINTM", "frintp": "FRINTM", "frintz": "FRINTM"}
+    FP2_VEC = {"fneg": "FNEG_VEC", "fabs": "FABS_VEC", "fsqrt": "FSQRT_VEC"}
     if m in SCALAR_FP2:
+        a0 = arr_of(0)
+        if a0 != 0 and m in FP2_VEC:
+            # `fneg v22.4s, v20.4s` 是**逐车道**取负。早期无脑走标量 op，
+            # 只把低 64 位当一个 double 取负，其余车道原样不动
+            # （实测 audio @0x78cc4 的 v22）。@spec Z-11
+            return (_op(FP2_VEC[m]), r(0), r(1), -1, 0, 0,
+                    _flags(rdv=True, rnv=True, arr=a0), _aux())
         return (_op(SCALAR_FP2[m]), r(0), r(1), -1, 0, 0,
                 _flags(width=regs[0].width, rdv=regs[0].vec,
                        rnv=regs[1].vec), _aux())
@@ -739,9 +844,15 @@ def decode(ins) -> tuple | None:
             # 向量形式（`fadd v4.2s, v0.2s, v1.2s`）必须走逐车道 op。早期这里只是
             # `pass` 了一下就掉进标量分支：`.2s/.2d` 只算 lane0，而且 width 取的是
             # V 寄存器的 W8，等于把低 64 位当成一个 double 相加。@spec Z-10
+            # 第三操作数可能带 lane（`fmul v25.4s, v25.4s, v23.s[1]`）：这是
+            # **按元素**形式，乘法因子是该 lane 的**广播**，不是逐车道。早期只把
+            # lane 号塞进 aux 而执行端完全忽略，等于拿整个 v23 逐车道相乘
+            # （实测 audio @0x78cb0 的 v25）。lane 号 0 与「没有 lane」同值，
+            # 所以另设 el 位区分。@spec Z-11
+            byel = 1 if re.search(r",\s*v\d+\.[bhsd]\[\d+\]\s*$", ins.op_str) else 0
             return (_op(name + "_VEC"), r(0), r(1), r(2), 0, 0,
                     _flags(rdv=True, rnv=True, rmv=True, arr=a0),
-                    _aux(lane=lane_of(2)))
+                    _aux(lane=lane_of(2), el=byel))
         return (_op(name), r(0), r(1), r(2), 0, 0,
                 _flags(width=regs[0].width, rdv=regs[0].vec,
                        rnv=regs[1].vec, rmv=regs[2].vec if len(regs) > 2 else False),
@@ -752,12 +863,17 @@ def decode(ins) -> tuple | None:
                 r(0), r(1), r(2), 0, r(3) if len(regs) > 3 else 31,
                 _flags(width=regs[0].width, rdv=regs[0].vec), _aux())
     if m in ("fcmp", "fcmpe"):
-        return (_op("FCMP" if m == "fcmp" else "FCMPE"), r(0), -1, r(1),
+        # 比较指令没有目的寄存器：第一个操作数放 **rn**（不是 rd）。
+        # 早期放 rd，执行端却读 `fget(rn, width)`，rn=-1 被当成 0.0
+        # ⇒ `fcmp s0, s1` 实际比的是 `0.0 vs s1`，inf 与 1.0 被算成 "小于"
+        # （实测 audio @0x86d28 的 b.le 走反）。@spec Z-11
+        return (_op("FCMP" if m == "fcmp" else "FCMPE"), -1, r(0), r(1),
                 imms[0] if imms else 0, 0,
                 _flags(width=regs[0].width, rnv=len(regs) > 1 and regs[1].vec),
                 _aux())
     if m == "fccmp":
-        return (_op("FCCMP"), r(0), r(1), -1, imms[0] if imms else 0, 0,
+        # 同 FCMP：操作数在 rn / rm，acc 不是目的寄存器。
+        return (_op("FCCMP"), -1, r(0), r(1), imms[0] if imms else 0, 0,
                 _flags(width=regs[0].width), _aux(cond=cond))
     if m == "fcsel":
         return (_op("FCSEL"), r(0), r(1), r(2), 0, 0,
@@ -774,15 +890,24 @@ def decode(ins) -> tuple | None:
                 _flags(rdv=True, rnv=True, arr=arr_of(0)), _aux(lane=lane_of(0)))
     if m in ("scvtf", "ucvtf"):
         # 带排列码（`scvtf v0.2d, v0.2d` 是逐车道转换）；不带时 arr=NONE 走标量路径。
+        # `scvtf s0, x9`（sf=1）与 `scvtf s0, w9`（sf=0）只差**源**宽度，早期按目的
+        # 宽度猜源，64 位源被截成 32 位（实测 cache @0x2cd6c / engine @0x76610：
+        # x9=0x00010102464c457f 应转出 2.8e14，实际只转了低 32 位的 1.18e9）。@spec Z-11
         return (_op("SCVTF" if m == "scvtf" else "UCVTF"), r(0), r(1), -1, 0, 0,
                 _flags(width=regs[0].width, rdv=regs[0].vec,
-                       rnv=regs[1].vec, arr=arr_of(0)), _aux())
+                       rnv=regs[1].vec, arr=arr_of(0)),
+                _aux(srcw=regs[1].width))
     if m in ("fcvtzs", "fcvtzu", "fcvtpu", "fcvtps", "fcvtms", "fcvtas"):
         op = {"fcvtzs": "FCVTZS", "fcvtzu": "FCVTZU", "fcvtpu": "FCVTPU",
               "fcvtps": "FCVTPS", "fcvtms": "FCVTMS", "fcvtas": "FCVTAS"}[m]
+        # 同 SCVTF：源宽度必须显式携带。`fcvtps w9, s1` 的源是 **S**（4 字节），
+        # 早期 srcw 缺省为 0（=8 字节），fget 把 4 字节 float 当 double 读成
+        # 1e-314 级的次正规数，取整得 1，饱和逻辑永不触发
+        # （实测 audio @0x7e030：应为 0x7fffffff，实际 1）。@spec Z-11
         return (_op(op), r(0), r(1), -1, 0, 0,
                 _flags(width=regs[0].width, rdv=regs[0].vec,
-                       rnv=regs[1].vec, arr=arr_of(0)), _aux())
+                       rnv=regs[1].vec, arr=arr_of(0)),
+                _aux(srcw=regs[1].width))
 
     # ---------------- NEON 逐元素 ----------------
     # fadd/fsub/fmul/fdiv/fmax/fmin 的向量形式已在上面按排列码路由到 *_VEC，
@@ -836,11 +961,18 @@ def decode(ins) -> tuple | None:
         return (_op("DUP_VEC"), r(0), r(1), -1, 0, 0,
                 _flags(rdv=True, rnv=len(regs) > 1 and regs[1].vec,
                        arr=arr_of(0)), _aux(lane=lane_of(0)))
-    if m == "movi":
-        return (_op("MOVI_VEC"), r(0), -1, -1, imms[0], 0,
-                _flags(rdv=regs[0].vec, arr=arr_of(0)), _aux())
-    if m == "mvni":
-        return (_op("MVNI_VEC"), r(0), -1, -1, imms[0], 0,
+    if m in ("movi", "mvni"):
+        # `movi v1.2s, #0x3f, lsl #24` 的移位挂在立即数操作数的 shift 上；早期只取
+        # imms[0]，`lsl #24` 整条丢失：0.5 的位模式 0x3F000000 变成 0x3F
+        # （实测 audio @0x78478 的 v1，进而使 fmul v0.2s 全错）。@spec Z-11
+        val = imms[0]
+        for _o in ops[1:]:
+            if _o.type == ARM64_OP_IMM:
+                _sh, _sham = _shift_of(_o)
+                if _sham:
+                    val = (val << _sham) & 0xFFFF_FFFF_FFFF_FFFF
+                break
+        return (_op("MOVI_VEC" if m == "movi" else "MVNI_VEC"), r(0), -1, -1, val, 0,
                 _flags(rdv=regs[0].vec, arr=arr_of(0)), _aux())
     if m in ("ushr", "sshr", "usra", "ssra", "shl"):
         return (_op(m.upper() + "_VEC"), r(0), r(1), -1, imms[-1], 0,

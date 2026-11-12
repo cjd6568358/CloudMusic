@@ -122,6 +122,11 @@ class NmExternal {
     val sysregReads = HashMap<Int, Int>()
     val syscalls = HashMap<Int, Int>()
 
+    /** 踩到 `BRK` 的地址 → 次数。语料本身有 8 条 BRK（断言/trap 路径），
+     *  抽样跑到它们属于**真实行为**，不是语义残留；这里按地址登记，便于
+     *  契约测试断言「每处 trap 都能对上一条真实 BRK」。 @spec Z-11 */
+    val trapTargets = HashMap<Long, Int>()
+
     /** 落到 `when(op)` 兜底分支的 op → 次数。非空即代表语义有残留，不得放行。 */
     val dropoutOps = HashMap<Int, Int>()
 
@@ -239,6 +244,20 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
         else -> value
     }
 
+    /**
+     * 把低 [bits] 位按二进制补码符号扩展到 64 位。
+     *
+     * 位域指令（`sbfx` / `sbfiz`）的宽度是 1~64 的**任意值**，不是 1/2/4/8 的幂，
+     * 所以不能复用 [signExtend]（size 语义是字节数）。早期写成 `signExtend(x, 1 + bits / 8)`，
+     * `bits = 16` 时算出 size = 3，直接落进 `else -> value` 分支完全不扩展。
+     * @spec Z-11
+     */
+    fun signExtendBits(value: Long, bits: Int): Long {
+        if (bits <= 0 || bits >= 64) return value
+        val sh = 64 - bits
+        return (value shl sh) shr sh
+    }
+
     fun setNZ(result: Long, width: Int) {
         val bits = if (width == NmF.W8) 64 else 32
         val v = if (bits == 64) result else result and 0xFFFF_FFFFL
@@ -307,6 +326,20 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
     private fun laneOf(c: Int): Int = (c ushr 15) and 0xF
     private fun regCount(c: Int): Int = ((c ushr 20) and 0xF).let { if (it <= 0) 1 else it }
     private fun srcWidthOf(c: Int): Int = (c ushr 24) and 3
+
+    /** 元素宽度覆盖（`ldpsw` 取 4 字节但写 64 位寄存器）；0 = 用目的宽度。 */
+    private fun auxEsz(c: Int): Int = (c ushr 26) and 3
+
+    /** 第三操作数是否「按元素」形式（`fmul v0.4s, v1.4s, v2.s[1]` 的 `v2.s[1]`）。 */
+    private fun elOf(c: Int): Int = (c ushr 19) and 1
+
+    /** CCMP/FCCMP 的 `#nzcv` 立即数是 **ARM 的 NZCV 位序**（N=8,Z=4,C=2,V=1），
+     * 与内部 [NmFlag] 编码（N=1,Z=2,C=4,V=8）正好**位序相反**。早期直接
+     * `flags = imm`，`#4`（ARM 的 Z）被读成内部 C（实测 audio-legacy @0x188a4：
+     * 条件为假时落 `flags = 4`，随后 `fcsel ..., gt` 走反）。@spec Z-11
+     */
+    private fun nzcvToFlags(n: Int): Int =
+        ((n and 1) shl 3) or ((n and 2) shl 1) or ((n ushr 1) and 2) or ((n ushr 3) and 1)
 
     private fun extendOperand(value: Long, ext: Int): Long = when (ext) {
         1 -> value and 0xFFL
@@ -457,7 +490,11 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
         val cond = condOf(c)
         when (op) {
             NmOp.NOP, NmOp.PRFM, NmOp.CLREX -> pc = next
-            NmOp.BRK -> { ext.traps++; pc = RET_SENTINEL }
+            NmOp.BRK -> {
+                ext.traps++
+                ext.trapTargets[addr] = (ext.trapTargets[addr] ?: 0) + 1
+                pc = RET_SENTINEL
+            }
 
             NmOp.MRS -> {
                 ext.sysregReads[imm.toInt()] = (ext.sysregReads[imm.toInt()] ?: 0) + 1
@@ -524,6 +561,15 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
                 } else {
                     setV(rd, vlo(rn), vhi(rn))
                 }
+                pc = next
+            }
+            NmOp.MOV_VEC_INS -> {
+                // `mov vD.T[k], xM` / `mov vD.T[k], vN.T[m]`：只改一条 lane，
+                // 其它 lane 原样保留。imm = 元素字节数，imm2 = 源 lane，laneOf(c) = 目标 lane。
+                // @spec Z-11
+                val sz = imm.toInt()
+                val src = if (isRnVec(f)) vgetSz(rn, sz, imm2.toInt()) else ir(rn)
+                vsetSz(rd, sz, laneOf(c), src and maskOfSize(sz))
                 pc = next
             }
             NmOp.MOVK -> {
@@ -595,9 +641,16 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
                 pc = next
             }
             NmOp.SMULH, NmOp.UMULH -> {
-                val hi = Math.multiplyHigh(ir(rn), ir(rm))
-                val r = if (op == NmOp.SMULH) hi
-                else hi + (if ((ir(rn) and ir(rm)) < 0L) 1L else 0L)
+                // UMULH 是**无符号** 64×64 取高半。JVM 只有 signed 的
+                // `Math.multiplyHigh`，无符号要按恒等式补两项：
+                //   umulh(a,b) = mulhi(a,b) + (a<0 ? b : 0) + (b<0 ? a : 0)
+                // 早期写成 `(a and b) < 0` 判一项，符号组合不同就少补/多补
+                // （实测 audio @0xb2b74：0x18 被算成 0xFFFF_FFFF_FFFF_FFF8）。@spec Z-11
+                val a = ir(rn)
+                val b = ir(rm)
+                val r = if (op == NmOp.SMULH) Math.multiplyHigh(a, b)
+                else Math.multiplyHigh(a, b) +
+                    (if (a < 0L) b else 0L) + (if (b < 0L) a else 0L)
                 iw(rd, r, NmF.W8); pc = next
             }
             NmOp.SDIV -> {
@@ -684,15 +737,17 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
             }
 
             NmOp.UBFX, NmOp.SBFX, NmOp.UBFIZ, NmOp.SBFIZ -> {
+                // 提取（*BFX）先右移再取域；插入（*BFIZ）先取域再左移。有符号变体的扩展
+                // 必须按**位宽**做（见 [signExtendBits]），不能按字节数。
+                // 实测锚点：audio @0x88f50 `sbfiz x0, x27, #2, #16`，x27=0xd898 应得
+                // 0xffff_ffff_ffff_6260；早期实现对 bits=16 不扩展，给 0x36260。@spec Z-11
                 val lsb = imm.toInt()
                 val bits = imm2.toInt()
-                var x = (ir(rn) ushr lsb) and ones(bits)
-                if (op == NmOp.SBFX || op == NmOp.SBFIZ) x = signExtend(x, 1 + bits / 8)
-                if (op == NmOp.UBFIZ || op == NmOp.SBFIZ) {
-                    x = (ir(rn) and ones(bits))
-                    if (op == NmOp.SBFIZ) x = signExtend(x, 1 + bits / 8)
-                    x = x shl lsb
-                }
+                val insert = op == NmOp.UBFIZ || op == NmOp.SBFIZ
+                var x = if (insert) ir(rn) and ones(bits)
+                else (ir(rn) ushr lsb) and ones(bits)
+                if (op == NmOp.SBFX || op == NmOp.SBFIZ) x = signExtendBits(x, bits)
+                if (insert) x = x shl lsb
                 iw(rd, x, width); pc = next
             }
             NmOp.BFI, NmOp.BFXIL -> {
@@ -776,7 +831,7 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
                         shiftOperand(imm, shiftOf(c), shamOf(c), NmF.W8) else ir(rm)
                     val a = ir(rd)
                     setAddFlags(a, b, if (isCmn) a + b else a - b, !isCmn, width)
-                } else flags = imm2.toInt() and 0xF
+                } else flags = nzcvToFlags(imm2.toInt() and 0xF)
                 pc = next
             }
 
@@ -816,7 +871,12 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
                 pc = next
             }
             NmOp.LDP, NmOp.STP -> {
-                val size = if (is128(f)) 16 else elemSizeFromWidth(width)
+                // `ldpsw` 的元素是 4 字节、目标是 64 位寄存器：宽度由 aux.esz 覆盖，
+                // 否则按 dest 宽度当 8 字节读，一次读走两个字
+                // （实测 audio @0x6493c / @0xbe054）。@spec Z-11
+                val esz = auxEsz(c)
+                val size = if (is128(f)) 16
+                else elemSizeFromWidth(if (esz != 0) esz else width)
                 val ea = effectiveAddr(rn, -1, imm, f, c)
                 if (op == NmOp.LDP) {
                     if (size == 16) {
@@ -854,12 +914,17 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
                 var ea = ir(rn) + imm2
                 val isLoad = op == NmOp.LD1 || op == NmOp.LD1R || op == NmOp.LD2 ||
                     op == NmOp.LD3 || op == NmOp.LD4
+                // 结构加载**整条 128 位寄存器都会被写**：容器没填满的部分（`ld1 {v0.2s}`
+                // 只填低 64 位）在硬件上是清零，不是保留旧值。早期只写排列码覆盖的
+                // lane，高 64 位留着上一条指令的残留（实测 audio @0x78af8 的 v0.hi）。@spec Z-11
                 if (op == NmOp.LD1R) {
                     val one = load(ea, size)
+                    setV(rd, 0L, 0L)
                     for (e in 0 until count) vset(rd, arr, e, one)
                     ea += size
                 } else if (isLoad) {
                     for (k in 0 until nregs) {
+                        setV(rd + k, 0L, 0L)
                         for (e in 0 until count) {
                             vset(rd + k, arr, e, load(ea + e * size, size))
                         }
@@ -886,21 +951,43 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
                 // 早期写成 `fset(rd, width, ir(rn).toDouble())`：`fmov s18, w8`
                 // （w8 装的是某个 float 的位模式 0x3f3504f3）会把它当整数 1060240627
                 // 转成 float，得到 0x4e7cd414（实测 audio-legacy @0x1c544）。@spec Z-10
+                //
+                // `imm` 非 0 表示带 lane 下标（值是元素字节数），这时**只能改/读那一条**：
+                // `fmov v0.d[1], x7` 是插入（保留 lane0），`fmov x5, v1.d[1]` 是提取。
+                // 早期一律按整寄存器低半处理，插入变成「写 lane0 + 清高位」、
+                // 提取永远读 lane0（实测 audio @0xd7ef0 的 v0、@0xd8160 的 x5）。@spec Z-11
                 val rdv = isRdVec(f)
                 val rnv = isRnVec(f)
+                val esz = imm.toInt()
                 when {
+                    rdv && esz != 0 -> vsetSz(rd, esz, laneOf(c),
+                        (if (rnv) vgetSz(rn, esz, 0) else ir(rn)) and maskOfSize(esz))
                     rdv -> setV(rd, (if (rnv) vlo(rn) else ir(rn)) and maskOfWidth(width), 0L)
+                    rnv && esz != 0 ->
+                        iw(rd, vgetSz(rn, esz, laneOf(c)) and maskOfWidth(width), width)
                     rnv -> iw(rd, vlo(rn) and maskOfWidth(width), width)
                     else -> iw(rd, ir(rn), width)
                 }
                 pc = next
             }
-            NmOp.FMOV_IMM -> { fset(rd, width, imm.toDouble()); pc = next }
+            NmOp.FMOV_IMM -> {
+                // imm 是**元素位模式**（不是数值），imm2 是元素字节数。
+                // 带排列码时必须填满所有车道（`fmov v0.2d, #1.0`），标量写高位清零。
+                // 早期实现 `fset(rd, width, imm.toDouble())`：只写 lane0，而且
+                // 解码侧早把非整数值抹成 0。@spec Z-11
+                val esz = imm2.toInt()
+                if (arr != NmArr.NONE && isRdVec(f)) {
+                    fillVector(rd, arr, imm and maskOfSize(esz))
+                } else {
+                    setV(rd, imm and maskOfWidth(width), 0L)
+                }
+                pc = next
+            }
             NmOp.FADD, NmOp.FSUB, NmOp.FMUL, NmOp.FDIV, NmOp.FMAX, NmOp.FMIN,
             NmOp.FMAXNM, NmOp.FMINNM, NmOp.FABD -> {
                 val a = fget(rn, width)
                 val b = fget(rm, width)
-                val r = when (op) {
+                val r = nanFix(when (op) {
                     NmOp.FADD -> a + b
                     NmOp.FSUB -> a - b
                     NmOp.FMUL -> a * b
@@ -910,15 +997,20 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
                     NmOp.FMAXNM -> if (a.isNaN()) b else if (b.isNaN()) a else maxOf(a, b)
                     NmOp.FMINNM -> if (a.isNaN()) b else if (b.isNaN()) a else minOf(a, b)
                     else -> Math.abs(a - b)
-                }
+                }, a, b)
                 fset(rd, width, r); pc = next
             }
             NmOp.FNEG -> { fset(rd, width, -fget(rn, width)); pc = next }
             NmOp.FABS -> { fset(rd, width, Math.abs(fget(rn, width))); pc = next }
-            NmOp.FSQRT -> { fset(rd, width, Math.sqrt(fget(rn, width))); pc = next }
+            NmOp.FSQRT -> {
+                val a = fget(rn, width)
+                fset(rd, width, nanFix(Math.sqrt(a), a, a)); pc = next
+            }
             NmOp.FRINTM -> { fset(rd, width, Math.floor(fget(rn, width))); pc = next }
             NmOp.FNMUL -> {
-                fset(rd, width, -(fget(rn, width) * fget(rm, width))); pc = next
+                val a = fget(rn, width)
+                val b = fget(rm, width)
+                fset(rd, width, nanFix(-(a * b), a, b)); pc = next
             }
             NmOp.FMADD, NmOp.FMSUB, NmOp.FNMADD, NmOp.FNMSUB -> {
                 val a = fget(rn, width)
@@ -943,7 +1035,7 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
             }
             NmOp.FCCMP -> {
                 if (condTrue(cond)) fcmpFlags(fget(rn, width), fget(rm, width))
-                else flags = imm.toInt() and 0xF
+                else flags = nzcvToFlags(imm.toInt() and 0xF)
                 pc = next
             }
             NmOp.FCSEL -> {
@@ -968,11 +1060,19 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
                         setElemF(rd, arr, e, sw, d)
                     }
                 } else {
-                    val iv = ir(rn)
+                    // 标量形式的源也在**向量寄存器**里（`scvtf d0, d0` 把 d0 当 64 位整数），
+                    // 早期一律读 `ir(rn)`（通用寄存器 x N），x0=0 时结果恒为 0.0
+                    // （实测 cache @0x2cb68）。@spec Z-11
+                    // 源宽度取自**源寄存器**（`scvtf s0, x9` 是 64 位整数、`s0, w9`
+                    // 是 32 位）。早期拿目的宽度 `width` 猜源，64 位源被截成 32 位
+                    // （实测 cache @0x2cd6c / engine @0x76610：x9=0x00010102464c457f
+                    // 应转出 2.8e14，实际只转了低 32 位的 1.18e9）。@spec Z-11
+                    val iv = if (isRnVec(f)) vlo(rn) else ir(rn)
+                    val sw = if (isRnVec(f)) NmF.W8 else srcWidthOf(c)
                     val d = if (signed) {
-                        signExtend(if (width == NmF.W4) iv and 0xFFFF_FFFFL else iv,
-                                   if (width == NmF.W4) 4 else 8).toDouble()
-                    } else if (width == NmF.W4) (iv and 0xFFFF_FFFFL).toDouble()
+                        signExtend(if (sw == NmF.W4) iv and 0xFFFF_FFFFL else iv,
+                                   if (sw == NmF.W4) 4 else 8).toDouble()
+                    } else if (sw == NmF.W4) (iv and 0xFFFF_FFFFL).toDouble()
                     else iv.toULong().toDouble()
                     fset(rd, width, d)
                 }
@@ -1011,6 +1111,8 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
                 val size = elemSize(arr)
                 val src = if (isRnVec(f)) vgetSz(rn, size, laneOf(c)) else ir(rn)
                 val cnt = elemCount(arr)
+                // `dup v2.2s, ...` 是 64 位写，容器外的高 64 位清零（不是保留旧值）
+                setV(rd, 0L, 0L)
                 for (e in 0 until cnt) vset(rd, arr, e, src)
                 pc = next
             }
@@ -1043,11 +1145,15 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
                 val cnt = elemCount(arr)
                 val size = elemSize(arr)
                 val w = if (size == 4) NmF.W4 else NmF.W8
+                // 按元素形式（`fmul v25.4s, v25.4s, v23.s[1]`）的乘数取自 rm 的
+                // **一条 lane** 并广播到所有车道；早期完全忽略 lane 号，退化成
+                // 逐车道相乘（实测 audio @0x78cb0）。@spec Z-11
+                val bel = if (elOf(c) != 0) laneOf(c) else -1
                 for (e in 0 until cnt) {
                     val a = elemF(rn, arr, e, w)
-                    val b = elemF(rm, arr, if (isScalarArr(arr)) e else e, w)
+                    val b = elemF(rm, arr, if (bel >= 0) bel else e, w)
                     val acc = elemF(rd, arr, e, w)
-                    val r = when (op) {
+                    val r = nanFix(when (op) {
                         NmOp.FADD_VEC -> a + b
                         NmOp.FSUB_VEC -> a - b
                         NmOp.FMUL_VEC -> a * b
@@ -1060,7 +1166,7 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
                         NmOp.FNMUL_VEC -> -(a * b)
                         NmOp.FMLA_VEC -> acc + a * b
                         else -> acc - a * b
-                    }
+                    }, a, b)
                     setElemF(rd, arr, e, w, r)
                 }
                 pc = next
@@ -1142,27 +1248,33 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
                 pc = next
             }
             NmOp.REV64_VEC, NmOp.REV32_VEC, NmOp.REV16_VEC -> {
-                val cnt = elemCount(arr)
-                for (e in 0 until cnt) {
-                    val x = vget(rn, arr, e)
-                    val r = when (op) {
-                        NmOp.REV64_VEC -> java.lang.Long.reverseBytes(x)
-                        NmOp.REV32_VEC -> {
-                            var y = 0L
-                            for (k in 0 until 4) {
-                                y = y or (((x ushr (k * 8)) and 0xFFL) shl ((k xor 1) * 8))
-                            }
-                            y
-                        }
-                        else -> {
-                            var y = 0L
-                            for (k in 0 until 8) {
-                                y = y or (((x ushr (k * 8)) and 0xFFL) shl ((k xor 1) * 8))
-                            }
-                            y
+                // ARM 的 REV64/32/16 是「在 64/32/16 位**容器内反转元素顺序**」，
+                // 元素宽度取排列码：`.8b` 才是整段字节反序，`.2s` 只是两条 32 位
+                // 车道对调、元素内部字节不动，`.4s` 干脆是恒等。
+                // 早期写成「按分组逐字节反序」，`.2s` 把元素内部也反转了
+                // （实测 audio @0x78c04 的 v26）。@spec Z-11
+                val esz = elemSize(arr)
+                val csz = when (op) {
+                    NmOp.REV64_VEC -> 8
+                    NmOp.REV32_VEC -> 4
+                    else -> 2
+                }
+                val total = elemCount(arr) * esz
+                if (esz >= csz) {
+                    if (total > 8) setV(rd, vlo(rn), vhi(rn)) else setV(rd, vlo(rn), 0L)
+                } else {
+                    val per = csz / esz
+                    var nlo = 0L
+                    var nhi = 0L
+                    for (c in 0 until total / csz) {
+                        for (e in 0 until per) {
+                            val v = vgetSz(rn, esz, c * per + (per - 1 - e))
+                            val shift = (c * per + e) * esz * 8
+                            if (shift < 64) nlo = nlo or (v shl shift)
+                            else nhi = nhi or (v shl (shift - 64))
                         }
                     }
-                    vset(rd, arr, e, r)
+                    setV(rd, nlo, nhi)
                 }
                 pc = next
             }
@@ -1203,12 +1315,15 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
                 // 只贡献 8 字节、结果也只有 8 字节（高 64 位清零）；早期实现固定按
                 // 16+16 拼接，`.8b` 下把 vM 放到了第 16 字节，取出来整段错位
                 // （实测 audio-legacy @0x1d980 的 v16 分歧）。@spec Z-10
+                // `.16b` 的每个源寄存器贡献 **16** 字节，高 64 位（vhi）必须参与；
+                // 早期只从 vlo 取 n 个字节，`.16b` 的后半段全是 0，拼接整体错位
+                // （实测 audio @0x78c6c `ext v21.16b, v23.16b, v23.16b, #4`）。@spec Z-11
                 val n = if (arr == NmArr.B16) 16 else 8
                 val total = 2 * n
                 val src = ByteArray(total)
                 for (k in 0 until n) {
-                    src[k] = ((vlo(rn) ushr (8 * k)) and 0xFF).toByte()
-                    src[n + k] = ((vlo(rm) ushr (8 * k)) and 0xFF).toByte()
+                    src[k] = nByteAt(rn, k)
+                    src[n + k] = nByteAt(rm, k)
                 }
                 val off = imm.toInt() % total
                 var lo = 0L
@@ -1340,11 +1455,16 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
                 }
                 pc = next
             }
-            NmOp.FABS_VEC, NmOp.FNEG_VEC -> {
+            NmOp.FABS_VEC, NmOp.FNEG_VEC, NmOp.FSQRT_VEC -> {
                 val cnt = elemCount(arr)
                 for (e in 0 until cnt) {
                     val x = elemFAny(rn, arr, e)
-                    setElemFAny(rd, arr, e, if (op == NmOp.FABS_VEC) Math.abs(x) else -x)
+                    val r = when (op) {
+                        NmOp.FABS_VEC -> Math.abs(x)
+                        NmOp.FNEG_VEC -> -x
+                        else -> nanFix(Math.sqrt(x), x, x)
+                    }
+                    setElemFAny(rd, arr, e, r)
                 }
                 pc = next
             }
@@ -1354,6 +1474,18 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
                 ext.dropoutOps[op] = (ext.dropoutOps[op] ?: 0) + 1
                 pc = next
             }
+        }
+
+        // AdvSIMD 的**通用规则**：Q=0 的整寄存器写（`.8b` / `.4h` / `.2s` / `.1d`）
+        // 只写低 64 位，高 64 位清零。逐 op 补必然漏——补了 `ld1`/`dup` 之后仍然
+        // 在 `fadd v20.2s` 上翻车（实测 audio @0x78b1c 的 v20.hi 残留旧值）。
+        // 例外只有两类：lane 插入/提取（`mov|fmov vD.T[k], xN` 保留其它 lane）
+        // 与结构**存储**（`st1 {..}` 的 rd 是源寄存器，不写）。@spec Z-11
+        if (arr != NmArr.NONE && isRdVec(f) && rd in 0 until 32 &&
+            elemCount(arr) * elemSize(arr) <= 8 &&
+            op != NmOp.MOV_VEC_INS && op != NmOp.FMOV_RR &&
+            op != NmOp.ST1 && op != NmOp.ST2 && op != NmOp.ST3 && op != NmOp.ST4) {
+            v[rd * 2 + 1] = 0L
         }
     }
 
@@ -1382,9 +1514,29 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
         if (f and NmF.WB != 0 && rn >= 0) iw(rn, ir(rn) + imm2, NmF.W8)
     }
 
+    /** 取 128 位向量寄存器的第 [k] 个字节（k<8 走 vlo，否则走 vhi）。 */
+    private fun nByteAt(reg: Int, k: Int): Byte =
+        (if (k < 8) (vlo(reg) ushr (8 * k)) and 0xFF else (vhi(reg) ushr (8 * (k - 8))) and 0xFF)
+            .toByte()
+
     private fun fillVector(reg: Int, arr: Int, value: Long) {
         val cnt = elemCount(arr)
         for (e in 0 until cnt) vset(reg, arr, e, value)
+    }
+
+    /** ARM64 的 NaN 结果规则。 @spec Z-11
+     *
+     * 有 NaN 操作数 ⇒ 传播第一个 NaN（ARM 的 NaN 传播顺序，首个操作数优先）；
+     * **没有** NaN 操作数却算出 NaN（`0/0`、`inf-inf`、`0*inf`、`sqrt(负数)`）⇒
+     * 默认 NaN，符号位为 0。JVM 的 IEEE 运算在 `-0.0/0.0` 这类情形会给
+     * `0xFFC00000`（负 NaN），与 ARM 的 `0x7FC00000` 差一个符号位
+     * （实测 audio @0x59328）。
+     */
+    private fun nanFix(r: Double, a: Double, b: Double): Double {
+        if (!r.isNaN()) return r
+        if (a.isNaN()) return a
+        if (b.isNaN()) return b
+        return Double.NaN
     }
 
     /** 浮点→整数各取整模式（标量与逐车道两条路径共用）。 @spec Z-10

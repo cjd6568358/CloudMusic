@@ -495,28 +495,34 @@
 
 ---
 
-### 3.15 Z 组 —— 代码口径全量逐行翻译 + 语义差分实证（Z-01~Z-10）
+### 3.15 Z 组 —— 代码口径全量逐行翻译 + 语义差分实证（Z-01~Z-11）
 
 > 与 Y 组的判据差别：Y 组以 `.dynsym` 的 STT_FUNC 为函数清单（1241 个 / 90525 条指令），
 > 实测只覆盖 4 个 so `.text` 指令的 27%——so 已 strip（无 `.symtab`）。Z 组改用**代码可达性**：
 > 从 dynsym 函数 + `.data.rel.ro`/`.data`/`.got`/`.init_array` 的代码指针出发递归下降，
 > `bl` 目标自动成为新入口，剩余连续区段按 `adr/adrp` 引用与否分为字面量池与补充代码。
-> 最终 `.text` 字节账闭合：**406580 条可解码 = 388068 翻译 + 18512 字面量池 + 0 不可解码**
+> 最终 `.text` 字节账闭合：**406580 条可解码 = 404896 翻译 + 1684 字面量池 + 0 不可解码**
 > （此前 4 条 `decode()==None` 的地址在解码器补全后可正常翻译，`undecodableInReach` 4 → 0；
-> 这 4 条原先充当块分隔，补齐后相邻块合并，块数 6326 → 6324）。
+> 这 4 条原先充当块分隔，补齐后相邻块合并）。
+>
+> **Z-11 修正后的口径（重要）**：早前「字面量池」判据是「非可达区段 + 落在某个 `adrp` 目标后
+> 4KB 窗口内」，窗口太粗——真实函数只要落在常量表后面 4KB 内就被误判成数据。改用
+> **直接分支目标保护**后，恢复 **16828 条**被判错的真实指令（4.3%）与 **862 个**漏掉的函数入口：
+> 388068 → **404896** 条、7486 → **8348** 个入口、6324 → **6433** 个块，字面量池 18512 → **1684**。
 
 | 编号 | 逻辑点 | 实现 / 证据 | 等级 |
 |------|--------|-------------|------|
-| Z-01 | 代码口径函数全集：6324 个代码块 / 7486 个入口 / 388068 条指令，一条指令一行 `i(...)`；`.text` 三者相加等于全节 | `kt/src/NmCode00..158.kt`（159 文件）/ `spec/z-manifest.json` | L1 |
-| Z-02 | 216 个语义 op 编码（`NmOp`）替代「助记词 + 类别」两段式；标量与向量整数运算分别分桶（`ADD_REG` vs `ADD_VEC_I` 等） | `NmOp.kt`（由 `tools/z_isa.py` 生成）/ `tools/z_isa.py` | L1 |
+| Z-01 | 代码口径函数全集：6433 个代码块 / 8348 个入口 / 404896 条指令，一条指令一行 `i(...)`；`.text` 三者相加等于全节（404896 + 1684 字面量 = 406580） | `kt/src/NmCode00..160.kt`（161 文件）/ `spec/z-manifest.json` | L1 |
+| Z-02 | 218 个语义 op 编码（`NmOp`）替代「助记词 + 类别」两段式；标量与向量整数运算分别分桶（`ADD_REG` vs `ADD_VEC_I` 等） | `NmOp.kt`（由 `tools/z_isa.py` 生成）/ `tools/z_isa.py` | L1 |
 | Z-03 | 块索引：每块 (lo, span) 以 base64 字符串常量携带，运行期 `pack()` 成 `LongArray`；`blockIndexOf` 二分定位，lo/hi 双向闭合 | `NmTranslatedCatalog.kt` / `audit.py` 第 23 项 | L1 |
-| Z-04 | 7486 个函数入口地址表（每域升序、落在块内），入口可直接经 `NmMachine.call` 调用；每个入口另有 `nf_*` 包装 | `NmTranslatedCatalog.entryAddrs` / `NmFuncs00..14.kt` | L1 |
+| Z-04 | 8348 个函数入口地址表（每域升序、落在块内），入口可直接经 `NmMachine.call` 调用；每个入口另有 `nf_*` 包装 | `NmTranslatedCatalog.entryAddrs` / `NmFuncs00..16.kt`（17 文件） | L1 |
 | Z-05 | 跨块/跨函数调度：`bl` 写 x30 跳目标、`ret` 跳 x30、尾调用与间接跳转真实执行；块内自循环由 `abortAt` 指令预算兜住 | `NmMachine.kt` / `NmBlocks.kt` | L1 |
 | Z-06 | 指令语义完备：NZCV 逐位推导、16 条件码、宽度截断、pre/post-index 写回、寄存器偏移扩展、浮点 S/D/H、NEON 逐车道；`when(op)` 无实现分支 = 0，dropout = 0，向量错桶 = 0 | `NmArm64.kt` / `spec/z-audit.json` / `audit.py` 第 26 项 | L1 |
 | Z-07 | 外部依赖如实登记：MRS 计数器用确定性桩并计数、SVC 计数、PLT 界外目标记 `unresolvedTargets`、BRK/UDF 记 trap 并停机 | `NmExternal` / 契约测试 Z-08 | L1 |
-| Z-08 | JVM 上限处置：索引不用 `longArrayOf` 字面量（13000 个 Long 常量会让 `<clinit>` 超 64KB，已用最小样例实证 `Method too large`）；块分派用每函数 600 分支 tableswitch；7486 包装按每文件 500 拆分；编译按「状态层 → 块批次 → 调度层 → 测试」13 趟分批，避开单趟 OOM | `tools/build.py` / `NmBlocks.kt` / `spec/z-manifest.json` 的 `jvmLimits` | L1 |
+| Z-08 | JVM 上限处置：索引不用 `longArrayOf` 字面量（13000 个 Long 常量会让 `<clinit>` 超 64KB，已用最小样例实证 `Method too large`）；块分派用每函数 600 分支 tableswitch；8348 包装按每文件 500 拆分；编译按「状态层 → 块批次 → 调度层 → 测试」13 趟分批，避开单趟 OOM | `tools/build.py` / `NmBlocks.kt` / `spec/z-manifest.json` 的 `jvmLimits` | L1 |
 | Z-09 | 语义差分实证（回答「翻译得对不对」，而非「有没有翻译」）：以 Unicorn ARM64 为参照真值，同一初始状态（`x0..x29=0`、`v0..v31=0`、`fpcr/fpsr=0`、内存按 so 的 PT_LOAD 段灌入、`x30=RET_SENTINEL` 落在未映射页）逐拍比对 `x/v/sp/nzcv` 与写过的内存；停机口径三条——离开 `.text`、执行 `mrs/msr/svc/hvc/smc` **之前**（我方是确定性桩值）、`ret` 取指 fault；Kotlin 停在未翻译目标（`kotlinUnresolved > 0`）而 Oracle 继续跑桩时，把 Oracle 预算收到 Kotlin 实际执行条数再比一次，**比到共同可执行区间末尾**全等才改判 `externalStop` | `tools/z_diff.py` / `spec/z-diff.json` / `test/NmDiffDump.kt` / `audit.py` 第 28 项 | L1 |
 | Z-10 | 差分暴露的语义缺陷逐条修正（每条都有「首个分歧拍 + 触发指令」证据）：① 块内分支跳回**块入口**时兜底 `pc = p + 4` 会吞掉入口那条指令 → 加 `steps == s0` 判据；② `ldr/str` 真实宽度由数据寄存器决定（助记符不带宽度后缀），独占写取 `regs[1]`；③ capstone 的 `shift.type` / `ext` 是**整数枚举**（LSL=1…ROR=5、UXTB=1…SXTX=8），此前除 LSL 外全退化为 LSL、扩展全丢；④ `movi dN, #imm` 标量形式（无排列码）；⑤ `ext vN.8b` 按排列码定左右拼接宽度；⑥ `scvtf/ucvtf/fcvtzs` 带排列码时逐车道；⑦ `fmov` 通用↔浮点是**位拷贝**不是数值转换；⑧ `mov dN, vM.d[k]` 是 lane 提取并清高位；⑨ `fadd/fmul/fabd/fmaxnm/...` 带排列码必须走向量桶 | `tools/z_isa.py` / `tools/z_transpile.py` / `kt/src/NmArm64.kt` / `spec/z-diff.json` | L1 |
+| Z-11 | 把差分样本从抽样扩到**全量 8348 个入口**（每例前 200 条指令，合计 249555 条）后逐例定位首分歧拍，收敛出 18 类缺陷（基线 8282 → 8289 → 8311 → **8348/8348**），其中前 8 类连带揪出**漏译**：① 非可达区段的字面量池判据必须加「无直接分支目标」保护，否则真实函数被整段跳过（恢复 16828 条指令 / 862 个入口，见上）；② `wzr`/`xzr` 共用 `ZR` 且丢宽度，`str wzr` 写成 8 字节；③ `fmov` 立即数是**位模式**（`#0.5` 曾被抹成 0）且带排列码要填满所有 lane；④ `fcmp/fccmp` 的首操作数在 `rn` 槽（解码曾放 `rd`，执行读 `rn=-1` ⇒ 与 0.0 比）；⑤ `rev64/32/16` 是按 64/32/16 位分组整体反序，不是按元素；⑥ `mov vD.T[k], xM` 是 lane 插入（曾按整寄存器覆盖，新增 `MOV_VEC_INS`）；⑦ `umulh` 无符号高半要用 `mulhi + (a<0?b:0) + (b<0?a:0)`；⑧ 无 NaN 操作数却产生 NaN 时必须是**默认 NaN**（`-0.0/0.0` 不再给 `0xFFC00000`）；⑨ `sxtb/sxth/sxtw/uxtb/uxth` 的宽度取**目的**寄存器（取源宽度会让扩展结果再被截回 32 位）；⑩ `scvtf/fcvtzs` 必须显式携带**源**宽度（`scvtf s0, x9` 的 64 位源曾被当成 32 位）；⑪ `ldpsw` 取 2 个 4 字节字并符号扩展（宽度不能从 64 位目的寄存器推）；⑫ `movi/mvni` 的 `lsl #n` 修饰符（`#0x3f, lsl #24` 曾丢掉移位，0.5 变成 0x3F）；⑬ `fmov vD.T[k], xM` 是 lane 插入、`fmov xD, vN.T[k]` 是 lane 提取；⑭ `ccmp/fccmp` 的 `#nzcv` 是 **ARM 位序**（N=8/Z=4/C=2/V=1），与内部 `NmFlag` 编码位序相反；⑮ `ld1/st1 {..}, [xN], #imm` 的 post-index 立即数 capstone 只给在 `op_str` 里，必须回落文本解析（否则写回恒 0）；⑯ **Q=0 整寄存器写要把高 64 位清零**（`.8b/.4h/.2s/.1d`；lane 插入与结构存储除外），逐 op 补必漏，现在在执行器统一收口；⑰ `ext vD.16b` 的两个源都要读满 128 位（vhi 参与拼接）；⑱ `fneg/fabs/fsqrt` 的向量形式走逐车道 op，且向量浮点的**按元素**形式（`fmul v0.4s, v1.4s, v2.s[1]`）要把该 lane 广播，不是逐车道相乘 | `tools/z_isa.py` / `tools/z_transpile.py` / `kt/src/NmArm64.kt` / `spec/z-diff.json` / `audit.py` 第 26 项 | L1 |
 
 
 
@@ -525,23 +531,28 @@
 | 项 | 值 |
 |----|----|
 | 参照真值 | Unicorn 2.1.4（QEMU TCG），ARM64 LE |
-| 抽样 | 4 个域各 60 个入口（共 240 例），`maxInsn = 200` |
+| 样本 | **全量 8348 个入口**（4 域全部入口，不再抽样），`maxInsn = 200` |
 | 比对字段 | `x0..x29` / `SP` / `NZCV` / `v0..v31`（含高 64 位）/ 栈区 128 KiB 的 FNV 摘要 |
-| 结果 | **240/240 全等**，逐拍比对的指令合计 **5231** 条，`mismatches = 0` |
-| 停机分布 | `count`(跑满预算) 8 / `left-text`(尾调用进 PLT) 89 / `fault`(ret 取指哨兵) 91 / `boundary`(mrs/svc 之前) 52 |
-| 口径对称化 | `external-stop reconciled = 1`（Oracle 预算收到 Kotlin 实际条数后逐字段全等才改判，且单独记账） |
+| 结果 | **8348/8348 全等**，逐拍比对的指令合计 **249555** 条；cache 967/967、engine 2941/2941、audio 3742/3742、audio-legacy 698/698 |
+| 停机分布 | `count`(跑满预算) 471 / `left-text`(尾调用进 PLT) 3597 / `fault`(ret 取指哨兵) 2724 / `boundary`(mrs/svc 之前) 1556 |
+| 口径对称化 | `external-stop reconciled = 5`（Oracle 预算收到 Kotlin 实际条数后逐字段全等才改判，且单独记账） |
 
-差分在**收敛过程中揪出 9 类语义缺陷**（不是「补了测试让它变绿」，而是每条都定位到
+差分在**收敛过程中**揪出 18 类语义缺陷（不是「补了测试让它变绿」，而是每条都定位到
 「首个分歧拍 + 触发指令」后修实现）：块自循环被兜底跳过、`ldr/str` 宽度取错、
 移位/扩展类型退化成 LSL、`movi dN` 标量形式、`ext .8b` 拼接错位、`scvtf/fcvtzs`
-只算 lane0、`fmov` 当成数值转换、`mov dN,vM.d[k]` 整寄存器拷贝、`fadd/fmul` 走标量桶；
-本轮又补两处：`fnmsub` 的符号零（`-Sa+(Sn*Sm)` ≠ `-(Sa-Sn*Sm)`）与 `fcvtz*` 的
-**位宽饱和**（原实现溢出回绕）。全部固化进 Z-10 与契约断言。
+只算 lane0、`fmov` 当成数值转换、`mov dN,vM.d[k]` 整寄存器拷贝、`fadd/fmul` 走标量桶、
+`fnmsub` 的符号零、`fcvtz*` 位宽饱和（Z-10 九类 + 两类）；Z-11 再补九类：
+`wzr` 宽度、`fmov` 立即数位模式、`fcmp` 槽位、`rev64/32/16` 分组语义、`mov vD.T[k]`
+lane 插入、`umulh` 无符号高半、默认 NaN、`sbfiz` 按位宽符号扩展、位域来源宽度。
 
-> **诚实边界**：5231 / 388068 ≈ 1.35%，是**抽样**差分，不是「全量语义等价」的证明；
-> 52 例 `mrs/svc` 与 89 例 PLT 尾调用停在外部边界，边界之外不可比。它证明的是
-> 「已抽取样本在共同可执行区间内逐条等价」，配合 Z-06 的静态完备性（`when(op)`
-> 零缺分支 / dropout 0 / 向量错桶 0）构成当前最高强度的语义证据。
+> **诚实边界**：8348 个入口全部比对，但每例只跑前 200 条指令
+> （合计 249555 / 404896 条 ≈ 61.6%），
+> 因此它证明的是「所有入口的前 200 条逐条等价 + 覆盖到的全部指令等价」，
+> 不是「每条指令都被执行过」；1556 例 `mrs/svc` 与
+> 3597 例 PLT 尾调用停在外部边界，边界之外不可比。
+> 与 Z-06 的静态完备性（`when(op)` 零缺分支 / dropout 0 / 向量错桶 0）
+> 及 `zBranchTargetsInBlocks`（任何直接分支目标都落在已翻译块内）合起来构成
+> 当前最高强度的语义证据：**差分能证明「跑到的都对」，正交覆盖才能说明「没有漏跑」**。
 
 ---
 
@@ -570,7 +581,7 @@
 19. **X 组指纹**：`x-function-inventory.json` / `x-semantic-anchors.json` 的 `sha256` 与 `x-manifest.json` 一致，且函数全集**零未处置**；
 20. **X 组常量**：`NmXCatalog.kt` 的 6 项 Int / 2 项 String 常量必须与 manifest 一致；
 21. **Z 组指纹**：4 个竞品自研 so 的 `sha256` / 字节数 与 `z-manifest.json` 一致；
-22. **Z 组逐行守恒**：`NmCode*.kt` 里 `i(...)` 行数 == 388068、块函数 == 6324、入口包装 == 7486、分派分支 == 6324；
+22. **Z 组逐行守恒**：`NmCode*.kt` 里 `i(...)` 行数 == 404896、块函数 == 6433、入口包装 == 8348、分派分支 == 6433；且**任何直接分支目标**都落在某个块内（`zBranchTargetsInBlocks`），空洞只允许是被字面量引用的数据；
 23. **Z 组常量**：`NmTranslatedCatalog.kt` 的 `BLOCK_COUNT` / `ENTRY_COUNT` / `INSTRUCTION_COUNT` + 8 项分域常量与 manifest 一致，且 `.text` 字节账三者相加闭合；
 24. **Z 组语义零残留**：`NmArm64.kt` 的 `when(op)` 覆盖全部 op（`UNKNOWN` / `COUNT` 除外）**零缺分支**，且 `z-audit.json` 的 `dropoutTotal == 0`、`vectorLeakTotal == 0`；
 25. **Z 组块兜底判据**：`NmCode*.kt` 的每个块函数必须有且只有一处 `val s0 = steps` 与 `if (steps == s0 && pc == p) pc = p + 4`，锁死「块内分支跳回块入口被兜底当成无人匹配、`+4` 跳过入口指令」这类静默丢指令的回归（§Z-10 ①）；
@@ -628,6 +639,6 @@ python tools/build.py
 python tools/audit.py
 ```
 
-预期：契约测试全绿（`724/724`）、`overallOk=true`、`audit pass=true`（27 项检查全 OK）。
+预期：契约测试全绿（`762/762`）、`overallOk=true`、`audit pass=true`（27 项检查全 OK）。
 `F4-CHAIN-REPORT.md` 由 `NmF4Chain.reproduce()` 真实运行生成，不是手写叙述；
 其中「完成通知链旁路验证」是独立实例跑出的静态分支语义，明确标注非 F4 因果环节。

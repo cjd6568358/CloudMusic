@@ -180,6 +180,21 @@ def discover(so_path: Path, domain: str) -> dict:
     def referenced(addr):
         return any(addr <= t < addr + 4096 for t in adrp_targets)
 
+    # 直接分支目标全集：从**全部** .text 指令收集，不只从可达代码。
+    # 非可达跑段只要被任何一条直接分支指向，就必须当代码降级处理——
+    # `referenced()` 用的是「adrp 目标后 4KB 窗口」这种粗判据，真实函数只要
+    # 落在某个常量表后面 4KB 内就会被误判成字面量池，整段漏译
+    # （实测 audio-legacy 0xea8c 起 404 字节是标准函数序言 `sub sp,sp,#0x30`
+    #  `str x19,[sp,#0x10]` `mrs x19,tpidr_el0`，却因窗口命中被跳过）。@spec Z-11
+    branch_targets = set()
+    for _a, i in ins.items():
+        m = i.mnemonic
+        if (m in ("b", "bl") or m.startswith("b.")
+                or m in ("cbz", "cbnz", "tbz", "tbnz")):
+            for o in i.operands:
+                if o.type == 2 and lo <= o.imm < hi:
+                    branch_targets.add(o.imm)
+
     addrs_all = sorted(ins)
     runs, cur = [], None
     for a in addrs_all:
@@ -199,7 +214,8 @@ def discover(so_path: Path, domain: str) -> dict:
 
     literal, code_gaps = [], []
     for a, b in runs:
-        (literal if referenced(a) else code_gaps).append((a, b))
+        inbound = any(t in branch_targets for t in range(a, b + 4, 4))
+        (code_gaps if inbound or not referenced(a) else literal).append((a, b))
 
     gap_set = set()
     for a, b in code_gaps:
@@ -259,6 +275,12 @@ def emit_block(fn, addrs, dec):
     def lits(x):
         # Kotlin 里 -9223372036854775808L 会被当成「一元负号 + 超范围字面量」而报错，
         # 必须写成 (-9223372036854775807L - 1L)。
+        #
+        # 反过来，**无符号 64 位**取值（浮点立即数的位模式最高位为 1，例如
+        # -2.0 = 0xC000_0000_0000_0000 = 13830554455654793216）也超 Long 范围，
+        # 必须按二进制补码转成有符号再发。@spec Z-11
+        if x >= 2 ** 63:
+            x -= 2 ** 64
         if x == -(2 ** 63):
             return "(-9223372036854775807L - 1L)"
         return "%dL" % x
@@ -657,9 +679,10 @@ def main() -> int:
             "undecodableInReach": sum(v["undecodableInReach"] for v in so_meta.values()),
         },
         "generatedFiles": written + wrap_files + ["NmBlocks.kt", "NmTranslatedCatalog.kt", "NmOp.kt"],
-        # Z-09（Unicorn 语义差分）与 Z-10（差分暴露的语义缺陷修正）不是本脚本
-        # 产出的，但同属 Z 组口径，manifest 一并登记，避免编号集合被读成 Z-01~Z-08。
-        "specIds": ["Z-%02d" % i for i in range(1, 11)],
+        # Z-09（Unicorn 语义差分）与 Z-10（差分暴露的语义缺陷修正）、Z-11（全量 8348
+        # 入口差分收敛出的 18 类缺陷）不是本脚本产出的，但同属 Z 组口径，manifest 一并
+        # 登记，避免编号集合被读成 Z-01~Z-08。
+        "specIds": ["Z-%02d" % i for i in range(1, 12)],
         "jvmLimits": {
             "clinit64k": "索引不用 longArrayOf 字面量：13000 个 Long 常量会让 <clinit> "
                          "超过 JVM 64KB 方法上限（build/zchk 最小样例实证 Method too large）。"

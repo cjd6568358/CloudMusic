@@ -1,7 +1,7 @@
 @file:Suppress("unused")
 package cloudmusic.reverse.kernel
 
-/** 【生成物】Z 组：函数入口可调用包装 第 0 批（共 7486 个入口）。 */
+/** 【生成物】Z 组：函数入口可调用包装 第 0 批（共 8348 个入口）。 */
 
 fun nf_cache_8ed0(st: NmArmState): Long = NmMachine(st).call("cache", 36560L)   // data-ptr
 fun nf_cache_8efc(st: NmArmState): Long = NmMachine(st).call("cache", 36604L)   // data-ptr

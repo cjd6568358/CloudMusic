@@ -43,6 +43,7 @@ import struct
 import subprocess
 import sys
 import tempfile
+import time
 from pathlib import Path
 
 RE = Path(__file__).resolve().parent.parent
@@ -429,17 +430,33 @@ def main() -> int:
         return 2
 
     cases = build_cases(per, maxi)
-    print("[DIFF] cases=%d (perDomain=%d maxInsn=%d)"
-          % (len(cases), per, maxi))
+    total_entries = sum(len(v) for v in load_entries().values())
+    print("[DIFF] cases=%d (perDomain=%d maxInsn=%d, 入口总数 %d)"
+          % (len(cases), per, maxi, total_entries))
+    sys.stdout.flush()
 
+    # Oracle 侧按域串行，每域单独计时并立即刷出：全量跑动辄上千例，
+    # 不给中途反馈就无法判断是「真在算」还是「卡死了」。
+    t0 = time.time()
     exp_all = []
     for fname, dom in SO:
         sub = [c for c in cases if c["domain"] == dom]
         if not sub:
             continue
-        exp_all.extend(run_unicorn(JNI / fname, sub))
+        t_dom = time.time()
+        got_dom = run_unicorn(JNI / fname, sub)
+        exp_all.extend(got_dom)
+        n_insn = sum(e["executed"] for e in got_dom)
+        print("[DIFF] oracle %-12s %4d 例 / %6d 条  %6.1fs (累计 %.1fs)"
+              % (dom, len(sub), n_insn, time.time() - t_dom,
+                 time.time() - t0))
+        sys.stdout.flush()
     eff = [e["executed"] for e in exp_all]
+    t_k = time.time()
     got = run_kotlin(cases, eff, jvm_cp, java)
+    print("[DIFF] kotlin 侧 %d 例 %6.1fs (累计 %.1fs)"
+          % (len(cases), time.time() - t_k, time.time() - t0))
+    sys.stdout.flush()
 
     rep = compare(cases, exp_all, got)
 

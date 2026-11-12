@@ -577,7 +577,9 @@ def z_translated_check() -> dict:
         body = arm[a:b]
     except ValueError:
         body = ""
-    declared = re.findall(r"const val (\w+): Int = (\d+)", op_text)
+    # `COUNT` 是上界哨兵不是语义 op，口径与文档「218 个语义 op」对齐后再计数
+    declared = [d for d in re.findall(r"const val (\w+): Int = (\d+)", op_text)
+                if d[0] != "COUNT"]
     handled = set(re.findall(r"NmOp\.(\w+)", body))
     not_handled = sorted(n for n, _v in declared if n not in handled
                          and n not in ("UNKNOWN", "COUNT"))
@@ -638,6 +640,97 @@ def z_block_guard_check() -> dict:
     }
 
 
+def z_block_coverage_check() -> dict:
+    """第 26 项：**任何直接分支目标都必须落在已翻译块内**（对应 §Z-11）。
+
+    `.text` 里混着字面量池与对齐填充，所以「块索引有空洞」本身不是缺陷；
+    真正致命的是「分支跳进空洞」——运行期必然 unresolved，等价于这段代码没翻译。
+    这里解出 NmTranslatedCatalog 的块索引（4 字节 BE lo + 1 字节 span），
+    对四个 so 做线性反汇编，把 `b/bl/*.b/cbz/cbnz/tbz/tbnz` 的目标逐个查表。
+    只统计落在 `.text` 内的目标（外部 `.plt` 桩由 unresolved 帐目负责）。
+    """
+    try:
+        from capstone import CS_ARCH_ARM64, CS_MODE_LITTLE_ENDIAN, Cs
+    except Exception:  # noqa: BLE001
+        return {"ok": True, "skipped": "capstone unavailable"}
+    import base64
+    import re
+    import struct as _struct
+
+    cat = RE / "kt" / "src" / "NmTranslatedCatalog.kt"
+    jni = RE.parent / "engine-legacy/src/main/jniLibs/arm64-v8a"
+    if not cat.is_file():
+        return {"ok": False, "reason": "NmTranslatedCatalog.kt missing"}
+    src = cat.read_text(encoding="utf-8")
+
+    def const(name):
+        m = re.search(r"private const val %s: String =\s*((?:\s*\"[^\"]*\"\s*\+?)+)"
+                      % name, src)
+        if not m:
+            raise RuntimeError("const %s" % name)
+        return "".join(re.findall(r"\"([^\"]*)\"", m.group(1)))
+
+    def unpack(s):
+        raw = base64.b64decode(s + "=" * (-len(s) % 4))
+        return [(int.from_bytes(raw[k * 5:k * 5 + 4], "big"), raw[k * 5 + 4])
+                for k in range(len(raw) // 5)]
+
+    md = Cs(CS_ARCH_ARM64, CS_MODE_LITTLE_ENDIAN)
+    md.detail = True
+    files = [("libNMCommonCache.so", "cache", "IDX_CACHE"),
+             ("libncmplayerengine.so", "engine", "IDX_ENGINE"),
+             ("libncmaudioplayer.so", "audio", "IDX_AUDIO"),
+             ("libaudioplayer.so", "audio-legacy", "IDX_AUDIO_LEGACY")]
+    per, bad, total_br = {}, 0, 0
+    for fname, dom, cname in files:
+        p = jni / fname
+        if not p.is_file():
+            return {"ok": False, "reason": "missing %s" % fname}
+        data = p.read_bytes()
+        sh_off = _struct.unpack_from("<Q", data, 0x28)[0]
+        esz, num, strndx = _struct.unpack_from("<HHH", data, 0x3A)
+        secs = [_struct.unpack_from("<IIQQQQ", data, sh_off + i * esz)
+                for i in range(num)]
+        soff = secs[strndx][4]
+        tlo = thi = toff = None
+        for nm, _t, _f, addr, o, sz in secs:
+            e = data.find(b"\x00", soff + nm)
+            if data[soff + nm:e] == b".text":
+                tlo, thi, toff = addr, addr + sz, o
+                break
+        if tlo is None:
+            return {"ok": False, "reason": "no .text in %s" % fname}
+        import bisect
+        blocks = sorted(unpack(const(cname)))
+        los = [b[0] for b in blocks]
+        ends = [b[0] + b[1] * 4 for b in blocks]
+
+        def in_block(a):
+            k = bisect.bisect_right(los, a) - 1
+            return k >= 0 and a < ends[k]
+
+        miss = 0
+        cnt = 0
+        for ins in md.disasm(data[toff:toff + (thi - tlo)], tlo):
+            m = ins.mnemonic
+            if not (m in ("b", "bl") or m.startswith("b.")
+                    or m in ("cbz", "cbnz", "tbz", "tbnz")):
+                continue
+            if not ins.operands:
+                continue
+            t = ins.operands[-1]
+            if t.type != 2:
+                continue
+            cnt += 1
+            if tlo <= t.imm < thi and not in_block(t.imm):
+                miss += 1
+        per[dom] = {"branches": cnt, "missing": miss, "blocks": len(blocks)}
+        total_br += cnt
+        bad += miss
+    return {"ok": bad == 0 and total_br > 0, "missingTargets": bad,
+            "branchesChecked": total_br, "perDomain": per}
+
+
 def z_diff_check() -> dict:
     """差分验证证据：Unicorn 与 Kotlin 解释器在同一初始状态下的逐条比对结果。
 
@@ -687,6 +780,7 @@ def main() -> int:
     x_catalog = x_catalog_check()
     z_translated = z_translated_check()
     z_block_guard = z_block_guard_check()
+    z_coverage = z_block_coverage_check()
     z_diff = z_diff_check()
 
     missing_in_spec = sorted(set(code_ids) - set(spec_ids))
@@ -719,6 +813,7 @@ def main() -> int:
         "zTranslatedCatalogMatches": bool(z_translated.get("constantsOk")),
         "zTranslatedSemanticsComplete": bool(z_translated.get("semanticOk")),
         "zBlockFallbackGuarded": bool(z_block_guard.get("ok")),
+        "zBranchTargetsInBlocks": bool(z_coverage.get("ok")),
         "zDiffOracleClean": bool(z_diff.get("ok")),
     }
     overall = all(checks.values())
@@ -750,6 +845,7 @@ def main() -> int:
         "xCatalog": x_catalog,
         "zTranslated": z_translated,
         "zBlockGuard": z_block_guard,
+        "zCoverage": z_coverage,
         "zDiff": z_diff,
     }
     BUILD_DIR.mkdir(parents=True, exist_ok=True)

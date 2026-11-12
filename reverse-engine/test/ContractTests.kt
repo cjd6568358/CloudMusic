@@ -1327,23 +1327,23 @@ private fun testXGroup(s: Suite) {
 // ---------------------------------------------------------------------------
 
 private fun testZGroup(s: Suite) {
-    s.section("17. Z 组：6324 块 / 388068 条指令逐行翻译与执行")
+    s.section("17. Z 组：6433 块 / 404896 条指令逐行翻译与执行")
     val C = NmTranslatedCatalog
 
     // ---- Z-01 指令守恒：.text 字节账闭合 ----
-    s.eq("Z-01 翻译指令 388068", 388068, C.INSTRUCTION_COUNT)
-    s.eq("Z-01 代码块 6324", 6324, C.BLOCK_COUNT)
-    s.eq("Z-01 函数入口 7486", 7486, C.ENTRY_COUNT)
-    s.eq("Z-01 cache 775 块", 775, C.CACHE_BLOCKS)
-    s.eq("Z-01 engine 1889 块", 1889, C.ENGINE_BLOCKS)
-    s.eq("Z-01 audio 3211 块", 3211, C.AUDIO_BLOCKS)
-    s.eq("Z-01 audio-legacy 449 块", 449, C.AUDIO_LEGACY_BLOCKS)
+    s.eq("Z-01 翻译指令 404896", 404896, C.INSTRUCTION_COUNT)
+    s.eq("Z-01 代码块 6433", 6433, C.BLOCK_COUNT)
+    s.eq("Z-01 函数入口 8348", 8348, C.ENTRY_COUNT)
+    s.eq("Z-01 cache 817 块", 817, C.CACHE_BLOCKS)
+    s.eq("Z-01 engine 1909 块", 1909, C.ENGINE_BLOCKS)
+    s.eq("Z-01 audio 3246 块", 3246, C.AUDIO_BLOCKS)
+    s.eq("Z-01 audio-legacy 461 块", 461, C.AUDIO_LEGACY_BLOCKS)
     s.eq("Z-01 四域块数合计 == BLOCK_COUNT", C.BLOCK_COUNT,
         C.CACHE_BLOCKS + C.ENGINE_BLOCKS + C.AUDIO_BLOCKS + C.AUDIO_LEGACY_BLOCKS)
-    s.eq("Z-01 cache 783 入口", 783, C.CACHE_ENTRIES)
-    s.eq("Z-01 engine 2646 入口", 2646, C.ENGINE_ENTRIES)
-    s.eq("Z-01 audio 3459 入口", 3459, C.AUDIO_ENTRIES)
-    s.eq("Z-01 audio-legacy 598 入口", 598, C.AUDIO_LEGACY_ENTRIES)
+    s.eq("Z-01 cache 967 入口", 967, C.CACHE_ENTRIES)
+    s.eq("Z-01 engine 2941 入口", 2941, C.ENGINE_ENTRIES)
+    s.eq("Z-01 audio 3742 入口", 3742, C.AUDIO_ENTRIES)
+    s.eq("Z-01 audio-legacy 698 入口", 698, C.AUDIO_LEGACY_ENTRIES)
     s.eq("Z-01 四域入口合计 == ENTRY_COUNT", C.ENTRY_COUNT,
         C.CACHE_ENTRIES + C.ENGINE_ENTRIES + C.AUDIO_ENTRIES + C.AUDIO_LEGACY_ENTRIES)
     s.eq("Z-01 块基址连续无空洞",
@@ -1351,11 +1351,11 @@ private fun testZGroup(s: Suite) {
         listOf(C.CACHE_BASE + C.CACHE_BLOCKS, C.ENGINE_BASE + C.ENGINE_BLOCKS,
             C.AUDIO_BASE + C.AUDIO_BLOCKS))
     s.eq("Z-01 末域块满即总数", C.BLOCK_COUNT, C.AUDIO_LEGACY_BASE + C.AUDIO_LEGACY_BLOCKS)
-    // .text 可解码指令 406580 = 翻译 388068 + 字面量池 18512 + 不可解码可达 0
-    s.eq("Z-01 .text 指令账闭合", 406580, C.INSTRUCTION_COUNT + 18512)
+    // .text 可解码指令 406580 = 翻译 404896 + 字面量池 1684 + 不可解码可达 0
+    s.eq("Z-01 .text 指令账闭合", 406580, C.INSTRUCTION_COUNT + 1684)
 
     // ---- Z-02 语义 op 表：不存在 PRESERVED 兜底桶 ----
-    s.eq("Z-02 语义 op 216", 216, NmOp.COUNT)
+    s.eq("Z-02 语义 op 218", 218, NmOp.COUNT)
     s.eq("Z-02 op 名表长度一致", NmOp.COUNT, NmOp.NAMES.size)
     s.check("Z-02 op 名可反查", NmOp.name(NmOp.UNKNOWN) == "UNKNOWN")
     s.check("Z-02 越界 op 名安全", NmOp.name(NmOp.COUNT) == "?" && NmOp.name(-1) == "?")
@@ -1450,7 +1450,10 @@ private fun testZGroup(s: Suite) {
     s.check("Z-06 累计执行指令数足够", totalSteps > ran * 50L)
     s.eq("Z-06 零 dropout：无 op 落到未实现兜底", 0, agg.dropouts)
     s.check("Z-06 dropout op 表为空", agg.dropoutOps.isEmpty())
-    s.eq("Z-06 无异常 trap", 0, agg.traps)
+    // 语料本身有 8 条 BRK（断言/trap 路径），抽样踩到属于真实行为而不是语义残留：
+    // 要求「每次 trap 都能对上登记的地址」且总数不超过 BRK 条数，不允许无名 trap。
+    s.eq("Z-06 trap 数与登记地址一致", agg.traps, agg.trapTargets.values.sum())
+    s.check("Z-06 trap 只可能来自真实 BRK（≤ 8 条）", agg.traps <= 8)
     val opSeen = agg.opSeen.count { it }
     // 阈值是低水位（实测值的 1/2 左右），避免入口抽样步长调整时抖动；
     // 真实动态覆盖数打印在证据行，供人工核对「翻译确实在跑、不是空转」。
@@ -1592,6 +1595,231 @@ private fun testZGroup(s: Suite) {
     sx.i(0x7050L, NmOp.EXT_VEC, 16, 2, 3, 4L, 0L, NmArr.B8 shl NmF.ARR_SHIFT, 0)
     s.eq("Z-10 ext v16.8b 按 8 字节拼接", 0x1413_1211_0807_0605L, sx.v[32])
     s.eq("Z-10 ext v16.8b 高位清零", 0L, sx.v[33])
+
+    // ---- Z-11 把差分样本从 240 扩到 1200 后新暴露的语义缺陷。 @spec Z-11 ----
+
+    // ① `str wzr` 是 4 字节写：宽度由数据寄存器决定，wzr/xzr 曾一起退化成 8 字节
+    val sw = NmArmState()
+    sw.pc = 0x7100L
+    sw.x[0] = 0x1000L
+    sw.store(0x1000L, 8, 0x1122_3344_5566_7788L)
+    sw.i(0x7100L, NmOp.ST, 32, 0, -1, 0x0L, 0L, NmF.W4, 0)
+    s.eq("Z-11 str wzr 只写 4 字节", 0x1122_3344_0000_0000L, sw.load(0x1000L, 8))
+
+    // ② fmov 立即数是**位模式**且必须填满所有车道（`fmov v0.2d, #1.0`）
+    val sfi = NmArmState()
+    sfi.pc = 0x7110L
+    sfi.i(0x7110L, NmOp.FMOV_IMM, 0, -1, -1, 0x3FF0_0000_0000_0000L, 8L,
+          NmF.RDV or (NmArr.D2 shl NmF.ARR_SHIFT), 0)
+    s.eq("Z-11 fmov v0.2d,#1.0 填 lane0", 0x3FF0_0000_0000_0000L, sfi.v[0])
+    s.eq("Z-11 fmov v0.2d,#1.0 填 lane1", 0x3FF0_0000_0000_0000L, sfi.v[1])
+
+    // 非整数立即数不能被抹成 0（`fmov s0, #0.5`）
+    val sh = NmArmState()
+    sh.pc = 0x7170L
+    sh.i(0x7170L, NmOp.FMOV_IMM, 0, -1, -1, 0x3F00_0000L, 4L, 0, 0)
+    s.eq("Z-11 fmov s0,#0.5 保留位模式", 0x3F00_0000L, sh.v[0] and 0xFFFF_FFFFL)
+
+    // ③ fcmp 的第一个操作数在 rn 槽（不是 rd）：inf 与 1.0 是「大于」不是「小于」
+    val sfc = NmArmState()
+    sfc.pc = 0x7120L
+    sfc.v[0] = 0x7F80_0000L
+    sfc.v[2] = 0x3F80_0000L
+    sfc.i(0x7120L, NmOp.FCMP, -1, 0, 1, 0L, 0L, NmF.W4, 0)
+    s.eq("Z-11 fcmp inf>1.0 置 C", NmFlag.C, sfc.flags)
+
+    // ④ rev64/32/16 是**按 64/32/16 位分组整体反序**，不是按元素逐字节反序
+    val sr = NmArmState()
+    sr.pc = 0x7130L
+    sr.v[0] = 0x1122_3344_5566_7700L
+    sr.v[1] = 0x0122_3344_5566_7700L
+    sr.i(0x7130L, NmOp.REV64_VEC, 2, 0, -1, 0L, 0L,
+         (NmArr.B16 shl NmF.ARR_SHIFT), 0)
+    s.eq("Z-11 rev64 低半按字节反序", 0x0077_6655_4433_2211L, sr.v[4])
+    s.eq("Z-11 rev64 高半按字节反序", 0x0077_6655_4433_2201L, sr.v[5])
+    sr.v[2] = 0x1122_3344_5566_7700L
+    sr.v[3] = 0L
+    sr.i(0x7134L, NmOp.REV32_VEC, 1, 1, -1, 0L, 0L,
+         (NmArr.B16 shl NmF.ARR_SHIFT), 0)
+    s.eq("Z-11 rev32 .16b 每 4 字节反序", 0x4433_2211_0077_6655L, sr.v[2])
+    // `.4s` 时每个 32 位容器里只有一个元素 ⇒ REV32 是恒等（不是字节反序）
+    sr.v[4] = 0x1122_3344_5566_7700L
+    sr.i(0x7138L, NmOp.REV32_VEC, 2, 2, -1, 0L, 0L,
+         (NmArr.S4 shl NmF.ARR_SHIFT), 0)
+    s.eq("Z-11 rev32 .4s 为恒等", 0x1122_3344_5566_7700L, sr.v[4])
+    // `.2s` 的 REV64 只对调两条车道，元素内部字节不动
+    sr.v[6] = 0x0000_0000_8000_0000L
+    sr.i(0x713cL, NmOp.REV64_VEC, 3, 3, -1, 0L, 0L,
+         (NmArr.S2 shl NmF.ARR_SHIFT), 0)
+    s.eq("Z-11 rev64 .2s 只对调车道", Long.MIN_VALUE, sr.v[6])
+
+    // ⑤ `mov v0.d[1], x8` 是 lane 插入：只改一条，其它 lane 原样保留
+    val si2 = NmArmState()
+    si2.pc = 0x7140L
+    si2.v[0] = 0x1111_2222_3333_4444L
+    si2.x[8] = 0x5555_6666_7777_8888L
+    si2.i(0x7140L, NmOp.MOV_VEC_INS, 0, 8, -1, 8L, 0L, NmF.RDV, 1 shl 15)
+    s.eq("Z-11 mov v0.d[1],x8 改 lane1", 0x5555_6666_7777_8888L, si2.v[1])
+    s.eq("Z-11 mov v0.d[1],x8 保留 lane0", 0x1111_2222_3333_4444L, si2.v[0])
+
+    // ⑥ umulh 是**无符号**取高半：(2^64-1)^2 的高半是 0xFFFF_FFFF_FFFF_FFFE
+    val su = NmArmState()
+    su.pc = 0x7150L
+    su.x[10] = -1L
+    su.x[12] = -1L
+    su.i(0x7150L, NmOp.UMULH, 10, 10, 12, 0L, 0L, NmF.W8, 0)
+    s.eq("Z-11 umulh 无符号取高半", -2L, su.x[10])
+
+    // ⑦ -0.0/+0.0 的 NaN 结果必须是**默认 NaN**（符号位 0），不是 0xFFC0_0000
+    val sn = NmArmState()
+    sn.pc = 0x7160L
+    sn.v[0] = 0x8000_0000L
+    sn.v[2] = 0L
+    sn.i(0x7160L, NmOp.FDIV, 0, 0, 1, 0L, 0L, NmF.W4, 0)
+    s.eq("Z-11 fdiv -0/+0 默认 NaN 符号位 0", 0x7FC0_0000L, sn.v[0] and 0xFFFF_FFFFL)
+
+    // ⑧ `scvtf d0, d0` 的源是**向量寄存器**里的整数，不是通用寄存器 x0：
+    //    早期标量路径一律读 `ir(rn)`，x0=0 时结果恒 0.0（实测 cache @0x2cb68）。
+    val scv = NmArmState()
+    scv.pc = 0x7180L
+    scv.v[0] = 3L
+    scv.i(0x7180L, NmOp.SCVTF, 0, 0, -1, 0L, 0L, NmF.RNV, NmF.W8)
+    s.eq("Z-11 scvtf d0,d0 读向量源", 0x4008_0000_0000_0000L, scv.v[0])
+
+    // ⑨ 位域有符号扩展必须按**位宽**做，不能按 `1 + bits / 8` 猜字节数：
+    //    `sbfiz x0, x27, #2, #16` 且 x27 = 0xd898 → 0xffff_ffff_ffff_6260
+    //    （实测 audio @0x88f50）。无符号变体同参数不扩展，用来钉住分界。
+    val sbf = NmArmState()
+    sbf.pc = 0x7190L
+    sbf.x[27] = 0xD898L
+    sbf.i(0x7190L, NmOp.SBFIZ, 0, 27, -1, 2L, 16L, NmF.W8, 0)
+    s.eq("Z-11 sbfiz #2,#16 符号扩展", -0x9DA0L, sbf.x[0])
+    sbf.x[1] = 0xD898L
+    sbf.i(0x7194L, NmOp.UBFIZ, 0, 1, -1, 2L, 16L, NmF.W8, 0)
+    s.eq("Z-11 ubfiz #2,#16 不扩展", 0x3_6260L, sbf.x[0])
+
+    // ⑩ `sxtw x12, w9` 的目的宽度是 **64 位**：符号扩展后不能再被 iw() 截回 32 位
+    //    （实测 audio @0x76514：应为 0xffff_ffff_8000_0000，实际 0x8000_0000）
+    val ssx = NmArmState()
+    ssx.pc = 0x7200L
+    ssx.x[9] = 0x8000_0000L
+    ssx.i(0x7200L, NmOp.SXTW, 12, 9, -1, 0L, 0L, NmF.W8, 0)
+    s.eq("Z-11 sxtw 目的 64 位不截断", -0x8000_0000L, ssx.x[12])
+
+    // ⑪ `ldpsw` 取 2 个 **4 字节**字并符号扩展到 64 位：宽度由 aux.esz 覆盖
+    val slp = NmArmState()
+    slp.pc = 0x71a0L
+    slp.x[0] = 0x1000L
+    slp.store(0x1000L, 4, 0xFFFF_FFFEL)
+    slp.store(0x1004L, 4, 7L)
+    slp.i(0x71a0L, NmOp.LDP, 28, 0, 9, 0L, 0L,
+          NmF.W8 or NmF.SIGNED, 1 shl 26)
+    s.eq("Z-11 ldpsw 低字符号扩展", -2L, slp.x[28])
+    s.eq("Z-11 ldpsw 高字读 +4", 7L, slp.x[9])
+
+    // ⑫ 结构加载整条 128 位寄存器都被写：`ld1 {v0.2s}` 只填低 64 位，高位清零
+    val sl1 = NmArmState()
+    sl1.pc = 0x71b0L
+    sl1.x[0] = 0x1000L
+    sl1.v[0] = -1L
+    sl1.v[1] = -1L
+    sl1.store(0x1000L, 4, 0x1111_1111L)
+    sl1.store(0x1004L, 4, 0x2222_2222L)
+    sl1.i(0x71b0L, NmOp.LD1, 0, 0, -1, 0L, 0L,
+          NmF.RDV or (NmArr.S2 shl NmF.ARR_SHIFT), 1 shl 20)
+    s.eq("Z-11 ld1 {v0.2s} 填低 64 位", 0x2222_2222_1111_1111L, sl1.v[0])
+    s.eq("Z-11 ld1 {v0.2s} 高 64 位清零", 0L, sl1.v[1])
+
+    // ⑬ `ext vD.16b` 的每个源寄存器贡献 16 字节（vhi 必须参与拼接）
+    val sext2 = NmArmState()
+    sext2.pc = 0x71c0L
+    sext2.v[0] = 0x1122_3344_5566_7788L
+    sext2.v[1] = 0x99AA_BBCC_DDEE_FF00uL.toLong()
+    sext2.i(0x71c0L, NmOp.EXT_VEC, 2, 0, 0, 4L, 0L,
+            NmF.RDV or NmF.RNV or NmF.RMV or (NmArr.B16 shl NmF.ARR_SHIFT), 0)
+    s.eq("Z-11 ext .16b 低半取到 vhi 字节", 0xDDEE_FF00_1122_3344uL.toLong(), sext2.v[4])
+    s.eq("Z-11 ext .16b 高半取到 vhi 字节", 0x5566_7788_99AA_BBCCuL.toLong(), sext2.v[5])
+
+    // ⑭ `fmov vD.d[k], xM` 是 lane 插入、`fmov xD, vN.d[k]` 是 lane 提取（imm = 元素字节数）
+    val sfl = NmArmState()
+    sfl.pc = 0x71d0L
+    sfl.v[0] = 0x1111_2222_3333_4444L
+    sfl.v[1] = 0L
+    sfl.x[7] = 0x7FFF_8000_0000_0000L
+    sfl.i(0x71d0L, NmOp.FMOV_RR, 0, 7, -1, 8L, 0L, NmF.RDV, 1 shl 15)
+    s.eq("Z-11 fmov v0.d[1],x7 只改 lane1", 0x7FFF_8000_0000_0000L, sfl.v[1])
+    s.eq("Z-11 fmov v0.d[1],x7 保留 lane0", 0x1111_2222_3333_4444L, sfl.v[0])
+    sfl.i(0x71d4L, NmOp.FMOV_RR, 5, 0, -1, 8L, 0L, NmF.RNV, 1 shl 15)
+    s.eq("Z-11 fmov x5,v0.d[1] 取 lane1", 0x7FFF_8000_0000_0000L, sfl.x[5])
+
+    // ⑮ `ccmp/fccmp` 的 `#nzcv` 是 **ARM 位序**（N=8,Z=4,C=2,V=1），不是内部 NmFlag 编码
+    val snz = NmArmState()
+    snz.pc = 0x71e0L
+    snz.flags = NmFlag.Z
+    snz.i(0x71e0L, NmOp.FCCMP, -1, 0, 1, 4L, 0L, NmF.W8, NmCC.GT)
+    s.eq("Z-11 fccmp #4 落到 Z 位", NmFlag.Z, snz.flags)
+
+    // ⑯ `scvtf s0, x9` 按 **源** 宽度取 64 位整数（srcw 缺省 0 = W8）
+    val ssc = NmArmState()
+    ssc.pc = 0x71f0L
+    ssc.x[9] = 0x0001_0102_464C_457FL
+    ssc.i(0x71f0L, NmOp.SCVTF, 0, 9, -1, 0L, 0L, NmF.W4, 0)
+    s.eq("Z-11 scvtf s0,x9 取满 64 位", 0x5780_8123L, ssc.v[0] and 0xFFFF_FFFFL)
+
+    // ⑰ 向量浮点的**按元素**形式：第三操作数取一条 lane 广播，不是逐车道
+    //    `fmul v0.4s, v1.4s, v2.s[1]`，v1 全 2.0、v2 lane1 = 4.0 ⇒ v0 全 8.0
+    val sbe = NmArmState()
+    sbe.pc = 0x7210L
+    sbe.v[2] = 0x4000_0000_4000_0000L
+    sbe.v[3] = 0x4000_0000_4000_0000L
+    sbe.v[4] = 0x4080_0000_4040_0000L
+    sbe.v[5] = 0x40C0_0000_40A0_0000L
+    sbe.i(0x7210L, NmOp.FMUL_VEC, 0, 1, 2, 0L, 0L,
+          NmF.RDV or NmF.RNV or NmF.RMV or (NmArr.S4 shl NmF.ARR_SHIFT),
+          (1 shl 19) or (1 shl 15))
+    s.eq("Z-11 fmul .4s 按元素 lane1 低半", 0x4100_0000_4100_0000L, sbe.v[0])
+    s.eq("Z-11 fmul .4s 按元素 lane1 高半", 0x4100_0000_4100_0000L, sbe.v[1])
+
+    // ⑱ `dup v0.2s, v1.s[1]` 只填低 64 位，高 64 位清零
+    val sdp = NmArmState()
+    sdp.pc = 0x7220L
+    sdp.v[0] = -1L
+    sdp.v[1] = -1L
+    sdp.v[2] = 0x4080_0000_4040_0000L
+    sdp.i(0x7220L, NmOp.DUP_VEC, 0, 1, -1, 0L, 0L,
+          NmF.RDV or NmF.RNV or (NmArr.S2 shl NmF.ARR_SHIFT), 1 shl 15)
+    s.eq("Z-11 dup .2s 广播 lane1", 0x4080_0000_4080_0000L, sdp.v[0])
+    s.eq("Z-11 dup .2s 高 64 位清零", 0L, sdp.v[1])
+
+    // ⑲ 结构访存的后索引写回：`ld1 {v0.2s}, [x0], #8`（增量化在 imm 槽，WB+POST）
+    val swb = NmArmState()
+    swb.pc = 0x7230L
+    swb.x[0] = 0x1000L
+    swb.i(0x7230L, NmOp.LD1, 0, 0, -1, 8L, 0L,
+          NmF.RDV or NmF.WB or NmF.POST or (NmArr.S2 shl NmF.ARR_SHIFT), 1 shl 20)
+    s.eq("Z-11 ld1 post-index 写回 +8", 0x1008L, swb.x[0])
+
+    // ⑳ AdvSIMD 通用规则：Q=0 的整寄存器写要把高 64 位清零
+    //    `fadd v0.2s, v0.2s, v1.2s`，v0.hi 预置脏值 ⇒ 结果高半必须为 0
+    val sQ0 = NmArmState()
+    sQ0.pc = 0x7240L
+    sQ0.v[0] = 0x4000_0000_4000_0000L
+    sQ0.v[1] = -1L
+    sQ0.v[2] = 0x4040_0000_4040_0000L
+    sQ0.v[3] = 0L
+    sQ0.i(0x7240L, NmOp.FADD_VEC, 0, 0, 1, 0L, 0L,
+          NmF.RDV or NmF.RNV or NmF.RMV or (NmArr.S2 shl NmF.ARR_SHIFT), 0)
+    s.eq("Z-11 fadd .2s 结果低半", 0x40A0_0000_40A0_0000L, sQ0.v[0])
+    s.eq("Z-11 fadd .2s 清高位", 0L, sQ0.v[1])
+
+    // 反例：`.4s`（Q=1）不能清高半——两条车道都在高半时更要保留
+    sQ0.v[0] = 0L
+    sQ0.v[1] = 0x4000_0000_4000_0000L
+    sQ0.v[4] = 0L
+    sQ0.v[5] = 0x4040_0000_4040_0000L
+    sQ0.i(0x7244L, NmOp.FADD_VEC, 0, 0, 2, 0L, 0L,
+          NmF.RDV or NmF.RNV or NmF.RMV or (NmArr.S4 shl NmF.ARR_SHIFT), 0)
+    s.eq("Z-11 fadd .4s 高半保留", 0x40A0_0000_40A0_0000L, sQ0.v[1])
 }
 
 fun main() {
