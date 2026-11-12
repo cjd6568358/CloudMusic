@@ -200,7 +200,11 @@ class Media3EngineAdapter : IMusicEngine {
             } else {
                 DefaultDataSource.Factory(ctx)
             }
-        val mediaSourceFactory = DefaultMediaSourceFactory(dataSourceFactory)
+        // §61.94：Extractor 清单 = ApeExtractor（容器缺口 ①）+ 官方默认清单。
+        val mediaSourceFactory = DefaultMediaSourceFactory(
+            dataSourceFactory,
+            androidx.media3.extractor.ape.ApeExtractor.factoryWithApe(),
+        )
         // §61.87：ExoPlayer 的构建 + prepare 必须在 application thread（主 Looper）。
         onMainSync(10L, Unit) {
             val p = ExoPlayer.Builder(ctx, renderersFactory, mediaSourceFactory).build()
