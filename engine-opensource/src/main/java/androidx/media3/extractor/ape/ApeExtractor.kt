@@ -45,6 +45,8 @@ class ApeExtractor : Extractor {
 
     private var state = STATE_READ_HEADER
     private var currentFrame = 0
+    private var tagEnd = -1L   // APE tag 起点探测结果（-1 = 未探测/无 tag）
+    private var tagChecked = false
 
     override fun sniff(input: ExtractorInput): Boolean {
         val header = ByteArray(6)
@@ -85,8 +87,40 @@ class ApeExtractor : Extractor {
         when (state) {
             STATE_READ_HEADER -> readHeader(input, seekPosition)
             STATE_READ_FRAMES -> readFrames(input, seekPosition)
+            STATE_TAG_CHECK -> tagCheck(input, seekPosition)
             else -> Extractor.RESULT_END_OF_INPUT
         }
+
+    /** §61.94b：尾部 APE tag（APETAGEX）探测——排除 tag 字节污染末帧。 */
+    private fun tagCheck(input: ExtractorInput, seekPosition: PositionHolder): Int {
+        tagChecked = true
+        val window = ByteArray(128)
+        if (input.readFully(window, 0, window.size, true)) {
+            val marker = "APETAGEX".toByteArray()
+            val idx = indexOf(window, marker)
+            if (idx >= 0) {
+                // APE tag v2 footer：marker(8) + version(4) + tagSize(4，不含 footer 32B)
+                val tagSize = readLeU32(window, idx + 12).toInt() + 32
+                tagEnd = input.length - window.size + idx + tagSize
+            }
+        }
+        // 回到当前帧位置续投（tagEnd 会收紧 frameSize 的 EOF 兜底）。
+        val pos = frames.getOrElse(currentFrame) { firstFrameOffset }
+        seekPosition.position = pos
+        state = STATE_READ_FRAMES
+        return Extractor.RESULT_SEEK
+    }
+
+    private fun indexOf(window: ByteArray, pattern: ByteArray): Int {
+        for (i in 0..window.size - pattern.size) {
+            var matched = true
+            for (j in pattern.indices) {
+                if (window[i + j] != pattern[j]) { matched = false; break }
+            }
+            if (matched) return i
+        }
+        return -1
+    }
 
     /** 解析 Descriptor + Header + Seek 表，就绪帧表并下发 Format。 */
     private fun readHeader(input: ExtractorInput, seekPosition: PositionHolder): Int {
@@ -182,7 +216,13 @@ class ApeExtractor : Extractor {
             }
             val fed = trackOutput?.sampleData(input, size.toInt(), true) ?: 0
             if (fed <= 0) {
-                // EOF：截断样本的可用部分已投递完毕。
+                // EOF：①真实文件 = 最后帧读完或到 tag；②截断样本 = 可用部分投递完毕。
+                if (!tagChecked && input.length >= 0) {
+                    // APE tag 尾部探测：回 seek 到尾窗（128B）读 APETAGEX 标记。
+                    state = STATE_TAG_CHECK
+                    seekPosition.position = (input.length - 128).coerceAtLeast(0)
+                    return Extractor.RESULT_SEEK
+                }
                 return Extractor.RESULT_END_OF_INPUT
             }
             trackOutput?.sampleMetadata(
@@ -197,9 +237,11 @@ class ApeExtractor : Extractor {
 
     private fun frameSize(index: Int, nextPos: Long): Long {
         val pos = frames[index]
+        val end = if (tagEnd >= 0) tagEnd else -1L
         return when {
-            nextPos > pos -> nextPos - pos
-            else -> blocksPerFrame.toLong()   // 末帧/截断：标称块数上界，EOF 兜底
+            nextPos > pos -> if (end >= 0) minOf(nextPos, end) - pos else nextPos - pos
+            end >= 0 && end > pos -> end - pos
+            else -> blocksPerFrame.toLong()   // 末帧/截断：标称块数上界，EOF/tag 兜底
         }
     }
 
@@ -242,6 +284,7 @@ class ApeExtractor : Extractor {
     companion object {
         private const val STATE_READ_HEADER = 0
         private const val STATE_READ_FRAMES = 1
+        private const val STATE_TAG_CHECK = 2
         private const val FLAG_HAS_PEAK_LEVEL = 0x01
         private const val FLAG_HAS_SEEK_ELEMENTS = 0x02
         private const val FLAG_CREATE_WAV_HEADER = 0x8000
