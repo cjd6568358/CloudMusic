@@ -53,6 +53,11 @@ KT = RE / "kt" / "src"
 OUT = RE / "spec" / "z-diff.json"
 CLASSES = RE / "build" / "classes"
 
+# 静态覆盖率对照用的块索引（由 z_transpile 生成，audit.py 第 23/29 项已守护）。
+CATALOG = KT / "NmTranslatedCatalog.kt"
+IDX_CONST = {"cache": "IDX_CACHE", "engine": "IDX_ENGINE",
+             "audio": "IDX_AUDIO", "audio-legacy": "IDX_AUDIO_LEGACY"}
+
 SO = [("libNMCommonCache.so", "cache"), ("libncmplayerengine.so", "engine"),
       ("libncmaudioplayer.so", "audio"), ("libaudioplayer.so", "audio-legacy")]
 
@@ -137,6 +142,58 @@ def load_entries():
     return out
 
 
+def load_blocks():
+    """从 NmTranslatedCatalog.kt 取每域 (块起, 指令数) 列表。
+
+    为什么要读生成物而不是重跑反汇编：`i(...)` 行的地址就是翻译集本身，
+    索引常量与块表由 `zTranspile` 同源产出，audit.py 已用 `BLOCK_COUNT` /
+    `INSTRUCTION_COUNT` 双向闭合。重跑 capstone 只会多一份可漂移的副本。
+    """
+    import base64
+    src = CATALOG.read_text(encoding="utf-8")
+
+    def const(name):
+        m = re.search(r"private const val %s: String =\s*((?:\s*\"[^\"]*\"\s*\+?)+)"
+                      % name, src)
+        if not m:
+            raise RuntimeError("const %s missing" % name)
+        return "".join(re.findall(r'"([^"]*)"', m.group(1)))
+
+    def unpack(text):
+        raw = base64.b64decode(text + "=" * (-len(text) % 4))
+        return [(int.from_bytes(raw[k * 5:k * 5 + 4], "big"), raw[k * 5 + 4])
+                for k in range(len(raw) // 5)]
+
+    return {dom: unpack(const(nm)) for dom, nm in IDX_CONST.items()}
+
+
+def static_coverage(cover: dict, blocks: dict) -> tuple:
+    """逐指令地址比对：翻译集里有多少条地址在 Oracle 上真被执行过。
+
+    「跑到的都对」不等于「没有漏跑」——动态比对只能证明走过的分支；
+    这个度量把「没走过的部分是哪些块、差多少条」摊开，不靠措辞兜。
+    """
+    per, tot_cov, tot_all, misses = {}, 0, 0, []
+    for dom, bl in blocks.items():
+        got = cover.get(dom) or set()
+        cov = tot = 0
+        for lo, span in bl:
+            hit = 0
+            for k in range(span):
+                if lo + 4 * k in got:
+                    hit += 1
+            cov += hit
+            tot += span
+            if hit < span:
+                misses.append({"domain": dom, "lo": lo, "span": span, "hit": hit})
+        per[dom] = {"covered": cov, "total": tot,
+                    "ratio": round(cov / tot, 4) if tot else 0.0}
+        tot_cov += cov
+        tot_all += tot
+    untranslated = [p for p in cover.get("_stray", ())]
+    return per, tot_cov, tot_all, misses, untranslated
+
+
 def build_cases(per_domain: int, max_insn: int, kmax: int = 5000):
     entries = load_entries()
     cases = []
@@ -173,7 +230,7 @@ def unicorn_selftest(uc, consts) -> None:
     uc.reg_write(q0 + 3, 0)
 
 
-def run_unicorn(so_path: Path, cases: list) -> list:
+def run_unicorn(so_path: Path, cases: list, cover=None) -> list:
     from unicorn import (Uc, UC_ARCH_ARM64, UC_MODE_ARM, UC_PROT_ALL, UcError)
     from unicorn.arm64_const import (
         UC_ARM64_REG_X0, UC_ARM64_REG_X29, UC_ARM64_REG_X30, UC_ARM64_REG_SP,
@@ -225,6 +282,8 @@ def run_unicorn(so_path: Path, cases: list) -> list:
             if here is not None and here.mnemonic in BOUNDARY:
                 stop = "boundary:%s" % here.mnemonic
                 break
+            if cover is not None:
+                cover.add(pc)   # 静态覆盖率：记「哪条地址真被执行过」
             try:
                 uc.emu_start(pc, 0xFFFF_FFFF_FFFF_FFFF, 0, 1)
             except UcError as exc:
@@ -413,6 +472,12 @@ def main() -> int:
     ap.add_argument("--per-domain", type=int, default=60)
     ap.add_argument("--max-insn", type=int, default=200)
     ap.add_argument("--out", default=str(OUT))
+    # 探针/补覆盖：从未完全覆盖的块里随机取 N 个块起点当额外用例。
+    # 存在意义：8348 个入口跑的是「函数头 + 30 条」的浅层路径，静态覆盖只有 17%，
+    # 深层块要么从没进过、要么进了也被分支提前带走。@spec Z-11
+    ap.add_argument("--seed-blocks", type=int, default=0)
+    ap.add_argument("--seed-max-insn", type=int, default=96)
+    ap.add_argument("--seed-seed", type=int, default=20261113)
     args = ap.parse_args()
 
     per = 4 if args.pilot else args.per_domain
@@ -439,18 +504,70 @@ def main() -> int:
     # 不给中途反馈就无法判断是「真在算」还是「卡死了」。
     t0 = time.time()
     exp_all = []
+    cover = {}
     for fname, dom in SO:
         sub = [c for c in cases if c["domain"] == dom]
         if not sub:
             continue
         t_dom = time.time()
-        got_dom = run_unicorn(JNI / fname, sub)
+        cov_dom = cover.setdefault(dom, set())
+        got_dom = run_unicorn(JNI / fname, sub, cov_dom)
         exp_all.extend(got_dom)
         n_insn = sum(e["executed"] for e in got_dom)
         print("[DIFF] oracle %-12s %4d 例 / %6d 条  %6.1fs (累计 %.1fs)"
               % (dom, len(sub), n_insn, time.time() - t_dom,
                  time.time() - t0))
         sys.stdout.flush()
+    blocks = load_blocks()
+    cov_per, cov_hit, cov_all, cov_miss, _stray = static_coverage(cover, blocks)
+    for dom in sorted(cov_per):
+        c = cov_per[dom]
+        print("[DIFF] coverage %-12s %6d/%6d = %5.2f%%  (未覆盖块 %d)"
+              % (dom, c["covered"], c["total"], 100.0 * c["ratio"],
+                 sum(1 for m in cov_miss if m["domain"] == dom)))
+    print("[DIFF] coverage TOTAL %d/%d = %.2f%%  (未覆盖块 %d / %d)"
+          % (cov_hit, cov_all, 100.0 * cov_hit / cov_all if cov_all else 0.0,
+             len(cov_miss), len(blocks and [b for v in blocks.values() for b in v])))
+    sys.stdout.flush()
+
+    if args.seed_blocks > 0:
+        import random
+        rng = random.Random(args.seed_seed)
+        miss_by_dom = {}
+        for m in cov_miss:
+            miss_by_dom.setdefault(m["domain"], []).append(m)
+        picked = []
+        for _f, dom in SO:
+            pool = miss_by_dom.get(dom) or []
+            take = min(len(pool), max(1, args.seed_blocks // len(SO)))
+            for m in rng.sample(pool, take):
+                picked.append({"domain": dom, "entry": m["lo"],
+                               "maxInsn": min(m["span"], args.seed_max_insn),
+                               "kmax": 5000, "seed": True})
+        if picked:
+            print("[DIFF] seed cases=%d (从 %d 个未完全覆盖块中随机取)"
+                  % (len(picked), len(cov_miss)))
+            sys.stdout.flush()
+            for fname, dom in SO:
+                sub = [c for c in picked if c["domain"] == dom]
+                if not sub:
+                    continue
+                t_s = time.time()
+                got_s = run_unicorn(JNI / fname, sub, cover.setdefault(dom, set()))
+                exp_all.extend(got_s)
+                cases.extend(sub)
+                print("[DIFF] seed-oracle %-12s %4d 例 / %6d 条  %6.1fs"
+                      % (dom, len(sub), sum(e["executed"] for e in got_s),
+                         time.time() - t_s))
+                sys.stdout.flush()
+
+    if any(c.get("seed") for c in cases):
+        # seed 之后必须重算：否则报告里的覆盖率还是 seed 之前的快照
+        cov_per, cov_hit, cov_all, cov_miss, _stray = static_coverage(cover, blocks)
+        print("[DIFF] coverage(after seeds) %d/%d = %.2f%%  (未覆盖块 %d)"
+              % (cov_hit, cov_all, 100.0 * cov_hit / cov_all, len(cov_miss)))
+        sys.stdout.flush()
+
     eff = [e["executed"] for e in exp_all]
     t_k = time.time()
     got = run_kotlin(cases, eff, jvm_cp, java)
@@ -550,6 +667,18 @@ def main() -> int:
         "perDomain": per_dom,
         "stopBreakdown": _stop_breakdown(rep["details"]),
         "externalStopReconciled": reconciled,
+        # 静态覆盖率：404896 条翻译里有几条地址在 Oracle 上真执行过。
+        # 动态一致性只证明「走过的都对」，这里把「没走过的」量化，避免把
+        # 61.6% 的指令覆盖读成「全量等价」。
+        "staticCoverage": {
+            "perDomain": cov_per,
+            "covered": cov_hit,
+            "total": cov_all,
+            "ratio": round(cov_hit / cov_all, 4) if cov_all else 0.0,
+            "uncoveredBlocks": len(cov_miss),
+            "uncoveredInstructions": cov_all - cov_hit,
+            "uncoveredTop": cov_miss[:200],
+        },
         "mismatches": [d for d in rep["details"] if not d["ok"]],
         "details": rep["details"],
     }

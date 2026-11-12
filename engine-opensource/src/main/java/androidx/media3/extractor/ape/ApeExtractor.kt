@@ -1,5 +1,6 @@
 package androidx.media3.extractor.ape
 
+import android.util.Log
 import androidx.media3.common.C
 import androidx.media3.common.Format
 import androidx.media3.common.util.UnstableApi
@@ -58,19 +59,9 @@ class ApeExtractor : Extractor {
     override fun init(output: ExtractorOutput) {
         this.output = output
         trackOutput = output.track(0, C.TRACK_TYPE_AUDIO)
-        output.seekMap(
-            object : SeekMap {
-                // 帧表在 read 阶段解析完成后才可用——委托到本类字段（Mp4Extractor 同型）。
-                override fun isSeekable(): Boolean = frames.isNotEmpty()
-                override fun getDurationUs(): Long = durationUs()
-                override fun getSeekPoints(timeUs: Long): SeekMap.SeekPoints {
-                    val idx = frameForTimeUs(timeUs)
-                    return SeekMap.SeekPoints(
-                        SeekPoint(frameTimeUs(idx), frames.getOrElse(idx) { firstFrameOffset }),
-                    )
-                }
-            },
-        )
+        // §61.94c：SeekMap 延后到 readHeader（帧表/时长就绪后）下发——Mp4Extractor
+        // 同型：Media3 的 PreparedState 在 seekMap() 时一次性捕获 duration，
+        // init 期时长未知的 SeekMap 会让 period 永不 prepared。
     }
 
     override fun seek(position: Long, timeUs: Long) {
@@ -156,7 +147,7 @@ class ApeExtractor : Extractor {
         val formatFlags = readLeU16(hdr, 2)
         blocksPerFrame = readLeU32(hdr, 4).toInt()
         val finalFrameBlocks = readLeU32(hdr, 8).toInt()
-        val totalFrames = readLeU32(hdr, 12).toInt()
+        totalFrames = readLeU32(hdr, 12).toInt()
         channels = readLeU16(hdr, 18).toInt()
         sampleRate = readLeU32(hdr, 20).toInt()
         val headerLen = headerLength
@@ -164,7 +155,6 @@ class ApeExtractor : Extractor {
         if (totalFrames <= 0 || seekLen < totalFrames * 4) {
             return Extractor.RESULT_END_OF_INPUT   // 无帧 / seek 表截断（ape.c 同判）
         }
-        this.totalFrames = totalFrames
         this.finalFrameBlocks = finalFrameBlocks
 
         val skipWav = formatFlags and FLAG_CREATE_WAV_HEADER == 0
@@ -186,6 +176,15 @@ class ApeExtractor : Extractor {
             if (!input.readFully(entry, 0, 4, true)) return Extractor.RESULT_END_OF_INPUT
             frames[i] = readLeU32(entry, 0) and 0xFFFFFFFFL
         }
+        // §61.94b（Media3 一手栈：Loading finished before preparation is complete）：
+        // 截断文件——SeekMap 声明时长必须与实际可投递数据一致，否则 Media3 在
+        // EOS 时判 MALFORMED。totalFrames 收敛到可用数据内的最后完整帧。
+        if (inputLength >= 0) {
+            val lastValid = frames.indices.lastOrNull { frames[it] < inputLength } ?: -1
+            if (lastValid < 0) return Extractor.RESULT_END_OF_INPUT
+            totalFrames = lastValid + 1
+            frames = frames.copyOf(totalFrames)
+        }
 
         trackOutput?.format(
             Format.Builder()
@@ -195,6 +194,23 @@ class ApeExtractor : Extractor {
                 .setCodecs("ape")
                 .build(),
         )
+        // §61.94c：时长就绪（totalFrames 已按可用数据收敛）→ 下发 SeekMap。
+        val out = output ?: return Extractor.RESULT_END_OF_INPUT
+        out.endTracks()   // §61.94c：单轨也要 endTracks——Media3 的
+        // sampleQueuesBuilt 只在 endTracks 置位，缺它则 prepared 永不完成
+        //（Loader finished before preparation is complete）。
+        out.seekMap(
+            object : SeekMap {
+                override fun isSeekable(): Boolean = frames.isNotEmpty()
+                override fun getDurationUs(): Long = durationUs()
+                override fun getSeekPoints(timeUs: Long): SeekMap.SeekPoints {
+                    val idx = frameForTimeUs(timeUs)
+                    return SeekMap.SeekPoints(
+                        SeekPoint(frameTimeUs(idx), frames.getOrElse(idx) { firstFrameOffset }),
+                    )
+                }
+            },
+        )
         state = STATE_READ_FRAMES
         currentFrame = 0
         return Extractor.RESULT_CONTINUE
@@ -203,20 +219,54 @@ class ApeExtractor : Extractor {
     /** 逐帧投递：pos 不符用 RESULT_SEEK，帧数据整块作为一帧样本（APE 帧内含 3B 对齐残数）。 */
     private fun readFrames(input: ExtractorInput, seekPosition: PositionHolder): Int {
         while (currentFrame < totalFrames) {
+            if (inputLength < 0) inputLength = input.length
             val pos = frames[currentFrame]
+            // §61.94b：截断/边界防护——帧起点超出可用数据长度 = 可用音频已投递完毕。
+            if (input.length >= 0 && pos >= input.length) {
+                Log.i("CM-Ape", "frames beyond data end @%d (frame %d/%d) — EOF".format(
+                    pos, currentFrame, totalFrames))
+                return Extractor.RESULT_END_OF_INPUT
+            }
             val next = frames.getOrNull(currentFrame + 1) ?: C.LENGTH_UNSET.toLong()
             val size = frameSize(currentFrame, next)
             if (size <= 0) {
                 currentFrame++
                 continue
             }
+            // §61.94b：残帧不投递——APE 解码器拒收截断帧（FrameParsing → MALFORMED）。
+            // 完整帧判定：帧数据（含 skip 前缀 8B）必须完全落在可用数据长度内。
+            if (input.length >= 0 && pos + size + 8 > input.length) {
+                Log.i("CM-Ape", "末帧不完整（pos=%d size=%d avail=%d）— EOF".format(
+                    pos, size, input.length - input.position))
+                return Extractor.RESULT_END_OF_INPUT
+            }
             if (input.position != pos) {
                 // §61.94：seek 到当前帧的绝对偏移；游标不推进——下一次 read 时
                 // input.position == pos，直接投递本帧（推进会造成逐帧空转跳过）。
+                Log.i("CM-Ape", "seek to pos=%d frame=%d/%d len=%d".format(
+                    pos, currentFrame, totalFrames, input.length))
                 seekPosition.position = pos
                 return Extractor.RESULT_SEEK
             }
-            val fed = trackOutput?.sampleData(input, size.toInt(), true) ?: 0
+            // §61.94b（ffmpeg ape_read_packet 逐字对齐）：APE 解码器的帧输入 =
+            // [nblocks u32][skip u32][帧数据（含对齐残数）] —— 8B 前缀是解码契约！
+            val nblocks = if (currentFrame == totalFrames - 1) {
+                finalFrameBlocks
+            } else {
+                blocksPerFrame
+            }
+            val skip = ((pos - firstFrameOffset) and 3).toInt()
+            val prefix = ByteArray(8)
+            writeLeU32(prefix, 0, nblocks)
+            writeLeU32(prefix, 4, skip)
+            trackOutput?.sampleData(
+                androidx.media3.common.util.ParsableByteArray(prefix), 8,
+            )
+            // §61.94b：截断文件——喂入长度按可用数据截取（DataSource 越界读会抛
+            // position out of range → Media3 包成 MALFORMED；截断的末帧解码器自行处理）。
+            val avail = if (input.length >= 0) (input.length - input.position).toInt() else size.toInt()
+            val feedLen = minOf(size.toInt(), avail)
+            val fed = trackOutput?.sampleData(input, feedLen, true) ?: 0
             if (fed <= 0) {
                 // EOF：①真实文件 = 最后帧读完或到 tag；②截断样本 = 可用部分投递完毕。
                 if (!tagChecked && input.length >= 0) {
@@ -229,7 +279,7 @@ class ApeExtractor : Extractor {
             }
             trackOutput?.sampleMetadata(
                 frameTimeUs(currentFrame),
-                C.BUFFER_FLAG_KEY_FRAME, fed, 0, null,
+                C.BUFFER_FLAG_KEY_FRAME, 8 + fed, 0, null,
             )
             currentFrame++
             return Extractor.RESULT_CONTINUE
@@ -247,12 +297,19 @@ class ApeExtractor : Extractor {
         }
     }
 
-    private fun durationUs(): Long =
-        if (sampleRate <= 0 || blocksPerFrame <= 0) {
-            C.TIME_UNSET
-        } else {
-            blocksPerFrame.toLong() * totalFrames * 1_000_000L / sampleRate
+    private fun durationUs(): Long {
+        if (sampleRate <= 0 || blocksPerFrame <= 0) return C.TIME_UNSET
+        // §61.94b：截断文件——时长按「可用数据内的最后帧」计算（声明时长若超过
+        // 实际投递，Media3 在 EOS 时报 MALFORMED）。
+        if (inputLength >= 0 && frames.isNotEmpty()) {
+            val lastValid = frames.indices.lastOrNull { frames[it] < inputLength } ?: return 0L
+            val endFrame = (lastValid + 1).coerceAtMost(totalFrames)
+            return frameTimeUs(endFrame)
         }
+        return blocksPerFrame.toLong() * totalFrames * 1_000_000L / sampleRate
+    }
+
+    private var inputLength = -1L
 
     private fun frameTimeUs(idx: Int): Long =
         if (sampleRate <= 0 || blocksPerFrame <= 0) {
@@ -270,6 +327,13 @@ class ApeExtractor : Extractor {
     private fun isApeMagic(b: ByteArray): Boolean =
         b[0] == 'M'.code.toByte() && b[1] == 'A'.code.toByte() &&
             b[2] == 'C'.code.toByte() && b[3] == ' '.code.toByte()
+
+    private fun writeLeU32(b: ByteArray, off: Int, v: Int) {
+        b[off] = (v and 0xFF).toByte()
+        b[off + 1] = ((v shr 8) and 0xFF).toByte()
+        b[off + 2] = ((v shr 16) and 0xFF).toByte()
+        b[off + 3] = ((v shr 24) and 0xFF).toByte()
+    }
 
     private fun readLeU16(b: ByteArray, off: Int): Int =
         (b[off].toInt() and 0xFF) or ((b[off + 1].toInt() and 0xFF) shl 8)
@@ -297,11 +361,14 @@ class ApeExtractor : Extractor {
          */
         @UnstableApi
         fun factoryWithApe(): ExtractorsFactory = ExtractorsFactory {
+            android.util.Log.i("CM-Factory", "createExtractors called")
             val default = androidx.media3.extractor.DefaultExtractorsFactory().createExtractors()
-            arrayOf<Extractor>(
+            val arr = arrayOf<Extractor>(
                 ApeExtractor(),
                 androidx.media3.extractor.asf.AsfExtractor(),   // §61.97：WMA/ASF 容器
             ) + default
+            android.util.Log.i("CM-Factory", "extractors: ${arr.size} (ape/asf + ${default.size} default)")
+            arr
         }
     }
 }

@@ -124,6 +124,7 @@ class Media3EngineAdapter : IMusicEngine {
 
         override fun onPlayerError(e: PlaybackException) {
             Log.i(TAG, "error=%s code=%s".format(e.message ?: "", e.errorCodeName))
+            Log.i(TAG, android.util.Log.getStackTraceString(e))
             fail(CloudMusicError.DsUpstream(
                 "MEDIA3_PLAYBACK", e.message ?: "Media3 播放错误"))
         }
@@ -153,14 +154,13 @@ class Media3EngineAdapter : IMusicEngine {
                 "MEDIA3_SOURCE", "EngineSource 既无 url 也无 localPath，无法构造 MediaItem")
         }
         error = null
+        // §61.99：不透传 mimeType——media3 的 DefaultMediaSourceFactory 对
+        // 未注册 mimeType（audio/x-wma 等）走 mimeType→媒体源映射，绕过自定义
+        // ExtractorsFactory（真机 CM-Factory=0 一手实证）。不设 mimeType = 由
+        // URI 后缀/内容推断 → ProgressiveMediaSource + 自定义 ExtractorsFactory ✓。
         val item = MediaItem.Builder()
             .setUri(uri)
             .setMediaId(source.trackId)
-            .apply {
-                // mimeHint 可能是 MIME（audio/mpeg）或真实扩展名（mp3，F2-b）。
-                // 只在确认为 MIME 时透传，其余交给 Media3 内容探测，不编造。
-                if (source.mimeHint.contains('/')) setMimeType(source.mimeHint)
-            }
             .build()
         // §61.85（B2 M2）：EXTENSION_RENDERER_MODE_ON = 平台 MediaCodec 硬解优先，
         // FFmpeg 软解（FfmpegAudioRenderer，libffmpegJNI）仅补位平台不支持的

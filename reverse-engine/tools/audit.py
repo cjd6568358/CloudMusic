@@ -753,8 +753,30 @@ def z_diff_check() -> dict:
     reconc = d.get("externalStopReconciled")
     flagged = sum(1 for x in (d.get("details") or []) if x.get("externalStop"))
     disclosed = isinstance(reconc, int) and reconc == flagged
+    # 静态覆盖率必须与翻译集**同源闭合**：分母 = 生成物的 404896 条，
+    # 分子 + 未覆盖 = 分母，各域分母之和 = 总量。只校验这层恒等式，
+    # 不把「覆盖率达到多少」写成阈值——覆盖率是边界披露，不是绿指标。@spec Z-11
+    cov = d.get("staticCoverage") or {}
+    cper = cov.get("perDomain") or {}
+    cov_total = cov.get("total") or 0
+    cov_hit = cov.get("covered") or 0
+    cov_miss = cov.get("uncoveredInstructions") or 0
+    cov_sum = sum(v.get("total") or 0 for v in cper.values())
+    cov_hit_sum = sum(v.get("covered") or 0 for v in cper.values())
+    cov_ok = (cov_total > 0 and cov_total == cov_sum and cov_hit == cov_hit_sum
+              and cov_hit + cov_miss == cov_total and 0 < cov_hit <= cov_total)
     return {
-        "ok": cases > 0 and ok_cases == cases and insn > 0 and per_ok and disclosed,
+        "ok": (cases > 0 and ok_cases == cases and insn > 0 and per_ok
+               and disclosed and cov_ok),
+        "staticCoverage": {
+            "covered": cov_hit, "total": cov_total,
+            "ratio": cov.get("ratio"),
+            "uncoveredBlocks": cov.get("uncoveredBlocks"),
+            "uncoveredInstructions": cov_miss,
+            "selfConsistent": cov_ok,
+            "perDomain": {k: {"covered": v.get("covered"), "total": v.get("total")}
+                          for k, v in cper.items()},
+        },
         "oracle": d.get("oracle"),
         "cases": cases, "okCases": ok_cases,
         "instructionsCompared": insn, "perDomain": per,
@@ -881,6 +903,10 @@ def main() -> int:
     print(f"  zSemantics ops={zs.get('opsDeclared')} noBranch={zs.get('opsWithoutBranch')} "
           f"dropout={zs.get('dropoutTotal')} vectorLeak={zs.get('vectorLeakTotal')} "
           f"operandLoss={zs.get('operandLossTotal')}")
+    _sc = (z_diff.get("staticCoverage") or {})
+    print(f"  zStaticCoverage {_sc.get('covered')}/{_sc.get('total')} = "
+          f"{_sc.get('ratio')} (未覆盖 {_sc.get('uncoveredInstructions')} 条 / "
+          f"{_sc.get('uncoveredBlocks')} 块, 自洽={_sc.get('selfConsistent')})")
     print(f"  zDiff oracle={z_diff.get('oracle')} cases={z_diff.get('okCases')}/{z_diff.get('cases')} "
           f"instructionsCompared={z_diff.get('instructionsCompared')} "
           f"mismatches={z_diff.get('mismatches')}")

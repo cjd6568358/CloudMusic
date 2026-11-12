@@ -50,8 +50,15 @@ class AsfExtractor : Extractor {
 
     override fun sniff(input: ExtractorInput): Boolean {
         val guid = ByteArray(16)
-        if (!input.peekFully(guid, 0, 16, true)) return false
-        return guid.contentEquals(ASF_HEADER_GUID)
+        val ok = input.peekFully(guid, 0, 16, true)
+        val hit = ok && guid.contentEquals(ASF_HEADER_GUID)
+        try {
+            android.util.Log.i("CM-Asf", "sniff ok=%s hit=%s head=%s".format(
+                ok, hit, guid.take(8).joinToString("") { "%02x".format(it) }))
+        } catch (t: Throwable) {
+            println("[CM-Asf] sniff ok=$ok hit=$hit")
+        }
+        return hit
     }
 
     override fun init(output: ExtractorOutput) {

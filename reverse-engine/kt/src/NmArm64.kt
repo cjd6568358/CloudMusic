@@ -910,7 +910,6 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
                 val size = elemSize(arr)
                 val count = elemCount(arr)
                 val nregs = regCount(c)
-                val stride = size * count
                 var ea = ir(rn) + imm2
                 val isLoad = op == NmOp.LD1 || op == NmOp.LD1R || op == NmOp.LD2 ||
                     op == NmOp.LD3 || op == NmOp.LD4
@@ -923,19 +922,26 @@ class NmArmState(val ext: NmExternal = NmExternal()) {
                     for (e in 0 until count) vset(rd, arr, e, one)
                     ea += size
                 } else if (isLoad) {
-                    for (k in 0 until nregs) {
-                        setV(rd + k, 0L, 0L)
-                        for (e in 0 until count) {
-                            vset(rd + k, arr, e, load(ea + e * size, size))
+                    for (k in 0 until nregs) setV(rd + k, 0L, 0L)
+                    // 结构访存是**交错**的：内存里先放第 0 次迭代的 nregs 个元素，
+                    // 再放第 1 次迭代的 nregs 个……不是「每个寄存器各占连续的 stride 字节」。
+                    // 早期按寄存器连续搬运，`ld2 {v0.2s, v1.2s}` 得到 v0={w0,w1}、
+                    // v1={w2,w3}，硬件是 v0={w0,w2}、v1={w1,w3}（实测 audio-legacy
+                    // @0x1e210 从地址 0 的 ELF 头读，oracle v0.lo=0x464c457f / v1.lo=0x10102，
+                    // 旧实现 v0.lo=0x10102_464c457f、v1=0）。LD1 的 nregs=1 时两种写法等价，
+                    // 所以只有 LD2/3/4 与 ST2/3/4 会露。@spec Z-11
+                    for (e in 0 until count) {
+                        for (k in 0 until nregs) {
+                            vset(rd + k, arr, e, load(ea, size))
+                            ea += size
                         }
-                        ea += stride
                     }
                 } else {
-                    for (k in 0 until nregs) {
-                        for (e in 0 until count) {
-                            store(ea + e * size, size, vget(rd + k, arr, e))
+                    for (e in 0 until count) {
+                        for (k in 0 until nregs) {
+                            store(ea, size, vget(rd + k, arr, e))
+                            ea += size
                         }
-                        ea += stride
                     }
                 }
                 if (f and NmF.WB != 0) {
