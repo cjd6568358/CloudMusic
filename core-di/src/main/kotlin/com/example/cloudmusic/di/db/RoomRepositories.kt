@@ -228,6 +228,8 @@ class RoomQueueRepository(
         dao.observe(DEFAULT_QUEUE_ID).map { rows -> rows.map { it.toModel() } }
 
     override suspend fun setAll(tracks: List<Track>) {
+        android.util.Log.w("CM-Queue", "setAll size=%d caller=%s".format(
+            tracks.size, Throwable().stackTrace.getOrNull(2)?.methodName ?: "?"))
         db.withTransaction {
             dao.clear(DEFAULT_QUEUE_ID)
             dao.insertAll(tracks.mapIndexed { index, track -> row(index, track) })
@@ -252,6 +254,8 @@ class RoomQueueRepository(
     }
 
     override suspend fun clear() {
+        android.util.Log.w("CM-Queue", "clear caller=%s".format(
+            Throwable().stackTrace.getOrNull(2)?.methodName ?: "?"))
         db.withTransaction {
             dao.clear(DEFAULT_QUEUE_ID)
             dao.clearSnapshot()
@@ -282,11 +286,15 @@ class RoomQueueRepository(
         return snapshot
     }
 
-    private suspend fun rewrite(block: (MutableList<QueueItemRow>) -> Unit) = db.withTransaction {
-        val list = dao.items(DEFAULT_QUEUE_ID).toMutableList()
-        block(list)
-        dao.clear(DEFAULT_QUEUE_ID)
-        dao.insertAll(list.mapIndexed { index, row -> row.copy(position = index) })
+    private suspend fun rewrite(block: (MutableList<QueueItemRow>) -> Unit) {
+        android.util.Log.w("CM-Queue", "rewrite caller=%s".format(
+            Throwable().stackTrace.getOrNull(2)?.methodName ?: "?"))
+        db.withTransaction {
+            val list = dao.items(DEFAULT_QUEUE_ID).toMutableList()
+            block(list)
+            dao.clear(DEFAULT_QUEUE_ID)
+            dao.insertAll(list.mapIndexed { index, row -> row.copy(position = index) })
+        }
     }
 
     private fun row(position: Int, track: Track) = QueueItemRow(

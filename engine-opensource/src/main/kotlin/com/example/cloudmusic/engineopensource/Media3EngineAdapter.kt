@@ -306,11 +306,51 @@ class Media3EngineAdapter : IMusicEngine {
     }
 
     /**
-     * C7 音效降级：自研 PCM DSP 链（103 JNI / EQ / NCAE / MNN）不在 B2 复刻范围，
-     * 本批留空实现并挂账 P4；基础 EQ / `android.media.audiofx.Equalizer` 属 M4。
+     * §61.93（用户拍板：音效必须支持，推翻 §61.80 C7 降级假设）：
+     * effectId > 0 → 启用系统 audiofx 基础件（Equalizer + BassBoost + Virtualizer）
+     * 挂当前播放的 audioSessionId（对 B2 全输出生效）；effectId = 0 → 全部释放。
+     * 竞品 103 JNI 音效（NCAE / MNN / 空间音频）的挂接方式评估属 T5，另行接线。
      */
+    private var equalizer: android.media.audiofx.Equalizer? = null
+    private var bassBoost: android.media.audiofx.BassBoost? = null
+    private var virtualizer: android.media.audiofx.Virtualizer? = null
+
     override fun attachAudioEffect(handle: EngineHandle, effectId: Int) {
         requireActive(handle)
+        onMainSync(5L, Unit) {
+            val p = player ?: return@onMainSync
+            val sessionId = p.audioSessionId
+            if (effectId <= 0) {
+                runCatching { equalizer?.enabled = false }
+                runCatching { bassBoost?.enabled = false }
+                runCatching { virtualizer?.enabled = false }
+                Log.i(TAG, "audiofx detached session=%d".format(sessionId))
+                return@onMainSync
+            }
+            runCatching {
+                val eq = equalizer ?: android.media.audiofx.Equalizer(0, sessionId)
+                    .also { equalizer = it }
+                eq.enabled = true
+                // effectId 作为基础档位（1~5）：全频段增益按档位线性抬升。
+                val bandRange = eq.numberOfBands - 1
+                for (b in 0..bandRange) {
+                    val level = (effectId.coerceIn(1, 5) - 1) * 200
+                    eq.setBandLevel(b.toShort(), level.toShort())
+                }
+                val bb = bassBoost ?: android.media.audiofx.BassBoost(0, sessionId)
+                    .also { bassBoost = it }
+                bb.enabled = true
+                bb.setStrength((effectId.coerceIn(1, 5) * 200).toShort())
+                val vz = virtualizer ?: android.media.audiofx.Virtualizer(0, sessionId)
+                    .also { virtualizer = it }
+                vz.enabled = true
+                vz.setStrength((effectId.coerceIn(1, 5) * 200).toShort())
+                Log.i(TAG, "audiofx attached session=%d level=%d bands=%d"
+                    .format(sessionId, effectId, eq.numberOfBands))
+            }.onFailure {
+                Log.i(TAG, "audiofx attach failed: %s".format(it.message))
+            }
+        }
     }
 
     override fun release(handle: EngineHandle) {

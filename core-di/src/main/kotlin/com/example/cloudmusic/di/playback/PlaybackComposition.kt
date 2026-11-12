@@ -161,8 +161,18 @@ class PlaybackRuntime @Inject constructor(
         // 生产侧从未接线 → Room 里的队列 / 光标永远不会被读，engine.prepare() 也不会触发。
         // 恢复只 prepare + seek，保持 PAUSED（PRD §6.1 不自动开播）。
         scope.launch {
-            val snapshot = queueRepository.restore() ?: return@launch
+            val snapshot = queueRepository.restore() ?: run {
+                Log.w("CloudMusicRuntime", "cold-start restore: playback_state 缺失，跳过恢复")
+                return@launch
+            }
             val items = queueRepository.observe().first()
+            if (items.isEmpty()) {
+                // §61.94（真机排障）：空队列恢复曾静默 no-op（无任何日志），外部触发
+                // play 时表现为「假 PLAYING」（session 态更新但引擎零动作）。此处显式
+                // 留痕，让恢复链的每一条出口都可观测。
+                Log.w("CloudMusicRuntime", "cold-start restore: 队列为空，保持 PAUSED")
+                return@launch
+            }
             runCatching { controller.restore(snapshot, items) }
                 .onFailure { Log.w("CloudMusicRuntime", "cold-start restore failed", it) }
         }
@@ -356,6 +366,9 @@ class PlaybackRuntime @Inject constructor(
 
     /** §61.26（G03 验收）：外部 seek 入口（通知栏进度条 / 验收 intent 共用同一裁决）。 */
     fun seekTo(ms: Long) = scope.launch { controller.seek(ms) }
+
+    /** §61.93（音效必须支持）：外部音效档位入口（0 = 释放基础音效链）。 */
+    fun attachEffect(effectId: Int) = scope.launch { controller.attachEffect(effectId) }
 
     /** T-A6（12 §33）：UI 需要具体类型来显示播放阶段 / 当前曲目 / 进度。 */
     fun playerState(): StateFlow<PlayerState> = controller.state

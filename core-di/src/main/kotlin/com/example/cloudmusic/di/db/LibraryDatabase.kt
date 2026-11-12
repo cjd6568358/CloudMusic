@@ -51,6 +51,26 @@ abstract class LibraryDatabase : RoomDatabase() {
             )
                 .addMigrations(*LibraryMigrations.ALL)
                 .addCallback(FtsRebuildCallback)
+                // §61.94（queue 清空排障）：记录每条写 SQL 与调用方，抓 DELETE 来源。
+                .setQueryCallback(
+                    { sql, args ->
+                        if (sql.contains("queue_items", ignoreCase = true) &&
+                            sql.contains("DELETE", ignoreCase = true)
+                        ) {
+                            android.util.Log.w(
+                                "CM-SQL",
+                                "queue DELETE: $sql args=$args caller=" +
+                                    Throwable().stackTrace
+                                        .drop(2).take(4)
+                                        .joinToString("<") { t ->
+                                            t.className.substringAfterLast('.') + "." +
+                                                t.methodName + ":" + t.lineNumber
+                                        },
+                            )
+                        }
+                    },
+                    java.util.concurrent.Executor { it.run() },
+                )
                 .build()
     }
 }

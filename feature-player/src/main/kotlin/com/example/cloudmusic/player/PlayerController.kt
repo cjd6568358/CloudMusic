@@ -142,6 +142,12 @@ class PlayerController(
         media?.setPlaybackState(EngineState.PLAYING, engine.positionMs(h), engine.durationMs(h))
     }
 
+    /** §61.93（音效必须支持）：effectId>0 启用引擎基础音效（audiofx 档位），0 = 释放。 */
+    fun attachEffect(effectId: Int) {
+        val h = handle ?: return
+        runCatching { engine.attachAudioEffect(h, effectId) }
+    }
+
     /** §61.25：当前队列游标有效则从头重播（resume 空转兜底）。 */
     private suspend fun restartCurrentIfAny() {
         val index = _state.value.currentIndex

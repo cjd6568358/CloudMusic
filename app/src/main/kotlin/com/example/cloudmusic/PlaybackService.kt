@@ -310,6 +310,9 @@ class PlaybackService : Service() {
                 val ms = intent.getLongExtra(EXTRA_SEEK_POSITION_MS, -1L)
                 if (ms >= 0) runtime.seekTo(ms)
             }
+            // §61.93（音效必须支持）：外部音效档位入口，0 = 释放基础音效链。
+            ACTION_EFFECT -> runtime.attachEffect(
+                intent.getIntExtra(EXTRA_EFFECT_LEVEL, 0))
             // §61.29：Activity 侧 SHOW_BLUETOOTH_NAME 申请结果出来后，通知 Service
             // 重读权限并按需注册 / 注销 ACL 广播（同 App 显式 Intent，不需要 exported）。
             ACTION_BLUETOOTH_PERMISSION_CHANGED -> refreshBluetoothPermission()
@@ -542,6 +545,10 @@ class PlaybackService : Service() {
 
         /** §61.26（G03 验收）：外部 seek 入口，`EXTRA_SEEK_POSITION_MS`（Long，毫秒）。 */
         const val ACTION_SEEK = "com.example.cloudmusic.action.SEEK"
+
+        /** §61.93（音效必须支持）：外部音效档位入口，`EXTRA_EFFECT_LEVEL`（Int，0=释放）。 */
+        const val ACTION_EFFECT = "com.example.cloudmusic.action.EFFECT"
+        const val EXTRA_EFFECT_LEVEL = "com.example.cloudmusic.extra.EFFECT_LEVEL"
         const val EXTRA_SEEK_POSITION_MS = "com.example.cloudmusic.extra.SEEK_POSITION_MS"
 
         /** §61.29：输出弹窗按动作申请 BLUETOOTH_CONNECT 后，通知 Service 刷新 ACL 注册。 */

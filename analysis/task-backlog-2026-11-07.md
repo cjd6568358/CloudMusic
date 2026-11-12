@@ -1,5 +1,27 @@
 # CloudMusic · 文档 ↔ 代码核对与任务清单（2026-11-07 第三十三轮）
 
+> **★ 2026-11-13 第一百一十八批（`docs/12 §61.93`，用户拍板「三块全部列入今晚
+> 无人值守目标、音效必须支持」）：T1 音效 P0 真机 PASS + T2 真实网络实测 PASS。**
+> ① **C7 口径演进**：音效从「降级占位 P4」升级为「必须支持」（用户拍板）。
+> ② **T1 音效 P0**：`Media3EngineAdapter.attachAudioEffect` 实现——effectId>0
+> 挂系统 audiofx 三件套（Equalizer 5 段 + BassBoost + Virtualizer）到
+> Media3 audioSessionId（全输出生效），0 = 释放；`ACTION_EFFECT` 外部档位入口
+> （service→runtime→controller→engine 全链）。真机：`audiofx attached
+> session=7825 level=3 bands=5` + audio_flinger `Equalizer/Virtualizer` 挂载实锤。
+> ③ **T2 真实网络实测**：公网 HTTPS 直链（GitHub raw，expectedLength=0）→
+> BUFFERING(18s 真实拉流) → READY(26201ms) → PLAYING——CacheDataSource+TLS+
+> 真实网络全链打通。
+> ④ 排障两枚：`run-as cat` 在 App 存活期读主库 = 陈旧读（WAL 未 checkpoint）；
+> 外部注入必须在 am start 后 2s 内紧凑时序（MIUI 4s 后即判 cached/background）。
+> ⑤ 恢复链可观测性修复：restore 空队列/缺失显式留痕（§61.94 排障发现：
+> 空队列恢复静默 no-op → 外部 play 表现为「假 PLAYING」——session 态更新但
+> 引擎零动作，position 恒 0）。
+> ⑥ 网络闸门发现：wifiOnly=true（默认）+ 设备默认网络 MOBILE → URL 队列恢复被
+> 闸门拒绝（PRD 设计行为，Toast 在灭屏屏幕不可见）→ 测试需按 F3 方式预写
+> datastore wifiOnly=false。
+> 断点 `§61.92 → §61.93`。剩余：T3 ApeExtractor（过夜实施）/ T4 wma 评估 /
+> T5 竞品音效挂接评估（session 桥 or PCM 内联）→ 竞品 103 JNI 音效 P2 接线。
+>
 > **★ 2026-11-13 第一百一十七批（`docs/12 §61.92`，用户令「无人值守按序执行」）：
 > **F4-B2 正式验收 PASS + A3 终局状态表 —— M5 主线路面收口。**
 > `tools/b2_f4_acceptance.py` 纯离线审计（17 §8.3 → B2 口径映射）：A+B/C/D/E/F
