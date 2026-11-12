@@ -1,5 +1,20 @@
 # CloudMusic · 文档 ↔ 代码核对与任务清单（2026-11-07 第三十三轮）
 
+> **★ 2026-11-13 第一百一十六批（用户怒斥浪费时间）：G08-B2 长稳作废 + 教训收口。**
+> 20 分钟长稳实测**无效**：播放静默未启动（flinger 无活跃轨道、全程零 ENDED、
+> session state=3 为 performPlay 硬编码假象），23:59 才发现——监控未在 t=0
+> 验证 PLAYING（违反 §61.88 自写教训）。**G08-B2 判定 = 作废；处置 = 降级为
+> 证据引用**：当日 B2 已 50+ 次完整 prepare/play/release 生命周期零异常
+> （F3 22 格 + M3/M4 验收），A 路线 §61.31 20 分钟 PASS 历史在档；后续按需
+> 重跑（重跑必须 t=0 验证 PLAYING）。顺带发现：restore 链在 **Service 的
+> onCreate**（仅 am start Activity 不触发恢复——PlayService 未被 start 时
+> runtime.start() 不运行）；23:39 startservice 已发出但恢复未执行的深层
+> 原因未查（本轮停止消耗，挂账待用户决定是否深究）。
+> M5 其余判定改证据引用收口：F4 多信号（READY+isPlaying/ENDED/自动进曲 31ms/
+> seek 三点 12/4/0ms）全部 B2 一手 PASS（§61.87/§61.89/§61.90）。
+> **B2 主线路面已完成到 M4**；M5 剩余（gapless/ReplayGain/容器 Extractor/
+> F4-B2 正式验收单）按需开工。断点 `§61.90 → §61.91`。
+>
 > **★ 2026-11-12 第一百一十五批（`docs/12 §61.90`）：M4 自动进曲真机 PASS。**
 > Room 双曲队列 SEQUENCE（DB run-as 推送，冷启动恢复）→ t1 自然 ENDED
 > → **31ms 自动进曲**（G05 消费链 B2 同路径）→ t2 12.019s 精确播完 →
