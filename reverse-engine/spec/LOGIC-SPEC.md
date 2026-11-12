@@ -2,7 +2,7 @@
 
 > **文首结论**：本目录把 `docs/12 §61.54 ~ §61.88` 系列反汇编证据逐条翻译成纯 JVM Kotlin
 > （含 §61.77 R 组全量登记、A3 反汇编补遗 U 组与章节矩阵自证 V 组），
-> 共 **174 条 `@spec` 逻辑点**（G15 / N30 / S23 / B30 / A12 / P12 / C8 / F8 / D12 / R8 / U10 / V6），全部有对应 Kotlin 实现
+> 共 **188 条 `@spec` 逻辑点**（G15 / N30 / S23 / B30 / A12 / P12 / C8 / F8 / D12 / R8 / U10 / V6 / W14），全部有对应 Kotlin 实现
 > 与契约测试断言；`tools/audit.py` 长效守护「代码编号 ⊆ 规格编号」且零悬空、零禁项。
 > 交付边界是**行为等价的逻辑翻译**，不含任何二进制、dex、so、资源或私有资产。
 
@@ -414,6 +414,53 @@
 
 ---
 
+### 3.13 W 组 —— 竞品 so 一手反汇编逐指令补译（W-01~W-14）
+
+> W 组用 `tools/w_disasm_evidence.py` 对仓库内真实 `libNMCommonCache.so`（arm64-v8a）
+> 做全 `.text` capstone 反汇编（8 窗口 / 238 指令 / 28 锚点全通过；so `sha256` 与 §61.77
+> 一手证据一致），把此前 L2 / L3 的挂账升级为 **L1 指令级坐实**，并修正了
+> S-16 分片上界的**真实行为差异**。机读证据 `spec/w-disasm-evidence.json`、
+> 常量表 `kt/src/NmWDisasmCatalog.kt`（生成物）、指纹 `spec/w-disasm-manifest.json`，
+> 由 `audit.py` 第 17/18 项守护。
+
+**S-16 定案**：终止片索引不是 `end/sliceSize` 直除。0x12898 `msub` 求余、
+0x128A0 `cinc` 与 0x128A4 `cset` 使 `upper = end/size + (end%size != 0)`，
+循环为**半开区间 `[qStart, upper)`**，末片 `last = upper-1 == (end-1)/size`。
+旧实现 `qStart..end/size` 闭区间在 `end` 整除 `size` 时**多写一片**；
+`NmSlicesFile.write()` 已按指令修正，F4 链路的 `sliceWriteCalls` 由 10 变为 5，
+但「代次错配 → `commit` 冻结 16384 → `result:-2` → `Finish Async:-103` →
+`Write start play` 0 次」的因果链与 `F4 仍 BLOCKED` 结论**不变**。
+
+**B-20 定案**：`[+0xB8]!=0 && result<0 && result!=-2` 时清 `[+0xB8]` 并返回 -6；
+`[+0xB8]==0` 直接 -6；`result>=0 || result==-2` 走边界判定且不清除标志。
+
+**B-30 口径纠错**：`0x12DC8 mov x0,#-2` 的唯一引用是 `0x12CEC b.lt`，
+触发条件为**读侧请求长度 <1**（窗口 0x12CC0~0x12CF8），不是 §61.77 报告级描述的
+「`NMSlicesFile::Write` 越界门控」。历史 verdict 原样保留，此处以一手指令为准。
+
+| 编号 | 证据锚点 | 实现位置 | 等级 |
+|------|----------|----------|------|
+| W-01 | 0x37E20~0x37E30 `adrp/ldr/cmp/cset gt/ret`：`g_level > level` 才抑制；0x37E34 为唯一写者 | `NmReadGate.isSuppressed()` / `NmLogGate` | L1 |
+| W-02 | 0x1281C `add x28,x21,w23,uxtw` end=offset+len；0x12884 `ldr x10,[+0xD0]` slice_size | `NmSliceWindow.writeWindow()` | L1 |
+| W-03 | 0x12890 `sdiv x9,x28,x10` qEnd；0x12894 `sdiv x27,x21,x10` qStart | `NmSliceWindow.compute()` | L1 |
+| W-04 | 0x12898 `msub` + 0x1289C `cmp` + 0x128A0 `cinc` + 0x128A4 `cset` → upper=ceil(end/size) | `NmSliceWindow.Window.upper` / `NmSlicesFile.write()` | L1 |
+| W-05 | 0x128A8 `cmp x27,x11` + 0x128AC `b.ge 0x12A54` → qStart>=upper 时零分片跳完成 | `NmSliceWindow.Window.empty` | L1 |
+| W-06 | 0x128B0 `sub x8,x11,#1` last；0x128D8 `sub x8,x8,x27` count；半开区间 | `NmSliceWindow.Window.last/count/indices` | L1 |
+| W-07 | 0x128C4 `mov w9,#0xe8` + 0x128DC `mul` + 0x128F8 `add` → 分片对象步长 232B | `NmSliceWindow.OBJECT_STRIDE` | L1 |
+| W-08 | 0xC408 `ldrb [+0xB8]` + 0xC40C `cbz` → 标志为 0 直接返回 -6 | `NmReadGate.readFromFileNoLock()` FLAG_ZERO | L1 |
+| W-09 | 0xC474 `tbz w23,#0x1f` + 0xC478 `cmn w23,#2` + 0xC47C `b.eq` → result>=0 或 ==-2 不清除标志 | `NmReadGate` BOUNDARY | L1 |
+| W-10 | 0xC480 W(5) 门控 + 0xC4B8 `strb wzr,[+0xB8]` + 0xC4BC `mov w0,#-6` | `NmReadGate` CLEAR_FLAG | L1 |
+| W-11 | 0xC4C8 `cbz` → -3；0xC4D4 `add` / 0xC4D8 `csetm w0,ge` → -1 或 0 | `NmReadGate` BOUNDARY | L1 |
+| W-12 | 0x12CE0 `cinc` 读侧同样向上取整；0x12CE4 `cmp x12,#1` + 0x12CEC `b.lt 0x12DC8` → len<1 返回 -2 | `NmReadGate.zeroLengthGate()` / `NmSlicesFile.read()` | L1 |
+| W-13 | 0x12DAC `tbnz w0,#0x1f` → 0x12DE0 `mov x0,#-0x62` -98；成功时 0x12DB4 累加 w26 并写回 | `NmReadGate.sliceReadLoop()` | L1 |
+| W-14 | 0x12810 `cbz w2` + 0x12814 `tbnz x21,#0x3f` → len==0 或未 64B 对齐进入 -102 分支 | `NmSliceWindow.isUnaligned()` | L1 |
+
+> W 组不改变 `F4 仍 BLOCKED`、`M2_GATE_NOT_PASSED`（§61.83 历史 verdict），
+> 本目录仍不实现 B2 / M2 / M3。0x12C44 / 0x12C58 的 EOF 日志分支返回码语义
+> 仍按报告级保留，不推断。
+
+---
+
 ## 4. 审计守护
 
 `tools/audit.py` 每次运行检查：
@@ -433,9 +480,11 @@
 13. **U 组指纹**：`a3-meta-manifest.json` 记录的 7 份源 `sha256` 必须与当前磁盘一致；
 14. **U 组常量**：`NmDisasmMetaCatalog.kt` 的 Int / String 常量必须与 manifest 一致；
 15. **V 组指纹**：`chapter-matrix-manifest.json` 记录的 2 份扫描快照 `sha256` / 字节数必须与磁盘一致；
-16. **V 组常量**：`NmChapterMatrixCatalog.kt` 的 39 项 Int / String / Boolean 常量必须与 manifest 一致。
+16. **V 组常量**：`NmChapterMatrixCatalog.kt` 的 39 项 Int / String / Boolean 常量必须与 manifest 一致；
+17. **W 组指纹**：`w-disasm-manifest.json` 记录的一手反汇编证据 `sha256` / bytes 与磁盘一致，且证据锚点全通过、so 指纹一致；
+18. **W 组常量**：`NmWDisasmCatalog.kt` 的 21 项 Int / 2 项 String 常量必须与 manifest 一致。
 
-输出：`build/audit-report.json`（含 `pass`、逐项明细、编号总数、禁项命中数、清单 / D 组 / R 组 / U 组 / V 组指纹结果）。
+输出：`build/audit-report.json`（含 `pass`、逐项明细、编号总数、禁项命中数、清单 / D 组 / R 组 / U 组 / V 组 / W 组指纹结果）。
 
 ---
 
@@ -462,13 +511,17 @@ python tools/scan_chapter_matrix.py
 python tools/scan_lowscore_asm.py
 python tools/gen_chapter_matrix_manifest.py
 
+# W 组：从真实 so 逐指令反汇编取证 / 生成 catalog + 指纹 manifest
+python tools/w_disasm_evidence.py
+python tools/gen_w_manifest.py
+
 # 全量编译 + 契约测试 + 生成 F4 链路报告（含完成通知链旁路验证）
 python tools/build.py
 
-# 规格/禁项/产物/清单/D 组/R 组/再清点裁定/U 组/V 组 16 项审计
+# 规格/禁项/产物/清单/D 组/R 组/再清点裁定/U 组/V 组/W 组 18 项审计
 python tools/audit.py
 ```
 
-预期：契约测试全绿（`534/534`）、`overallOk=true`、`audit pass=true`（16 项检查全 OK）。
+预期：契约测试全绿（`610/610`）、`overallOk=true`、`audit pass=true`（18 项检查全 OK）。
 `F4-CHAIN-REPORT.md` 由 `NmF4Chain.reproduce()` 真实运行生成，不是手写叙述；
 其中「完成通知链旁路验证」是独立实例跑出的静态分支语义，明确标注非 F4 因果环节。

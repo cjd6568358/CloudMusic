@@ -7,7 +7,7 @@
 |---|------|------|----------|
 | 1 | 日志门控初态 | g_level=0 → I/D/W/E 默认全开；不存在「需要额外开启的 level-5 开关」 | G-03 / G-04 / G-05（§61.70 语义纠错） |
 | 2 | 发起首个 Range 请求 | 代次=1, offset=0, length=16384, signal_size=8192（代次递增点 0x104B8） | N-01 / N-02 / N-05 / N-22（§61.67） |
-| 3 | 正常顺序写入 4×4096 | 4 包全部通过代次校验；commit=16384；OnNetSourceData→写任务队列→OnWriteNetData→NMSlicesFile::Write all finish；落盘返回=[0, 0, 0, 0]，分片写调用=8，NotifyCacheProgress 次数=4；正常顺序写入不打 UnExpect（§61.68 两轮 0 命中是正确行为） | N-15 / N-17 / N-20 / N-21 + B-01~B-15 + S-16~S-21（§61.65） |
+| 3 | 正常顺序写入 4×4096 | 4 包全部通过代次校验；commit=16384；OnNetSourceData→写任务队列→OnWriteNetData→NMSlicesFile::Write all finish；落盘返回=[0, 0, 0, 0]，分片写调用=4，NotifyCacheProgress 次数=4；正常顺序写入不打 UnExpect（§61.68 两轮 0 命中是正确行为） | N-15 / N-17 / N-20 / N-21 + B-01~B-15 + S-16~S-21（§61.65） |
 | 4 | 跳跃 offset 的 W 级告警（只打印、不丢包） | commit(16384) != offset(20480) → 打印 UnExpect New Offsetcommted，命中 1 次；结果=ACCEPTED(commit=24576)，commit 仍更新为 24576（上线复跑的判据格式串） | N-15 / N-16 + G-14（§61.65 / §61.68 runbook） |
 | 5 | PreSeekReadTask 回退连续提交点并重新发请求 | commit 回退到 16384；回退内部再调 MakeRangeRequestAsync 使代次递增为 2（对应真机 §61.62 回退 368640 后 Open codec for aac 随即 -103） | N-30 + §61.62 真机 vfile commit 观察 |
 | 6 | 播放中连续 seek → 请求代次持续递增 | 代次 2 → 22（真机观测 1→22 递增 + 重发） | N-03 / N-04 / N-05（§61.67 代次闸门） |
@@ -30,7 +30,7 @@ finishAsyncCode         = -103
 outcomeWhenPaused       = SKIP_PRINT
 outcomeWhenReleased     = EARLY_RETURN_MINUS_1
 writeStartPlayLogCount  = 0
-sliceWriteCalls         = 10
+sliceWriteCalls         = 5
 cacheProgressCount      = 5
 ```
 

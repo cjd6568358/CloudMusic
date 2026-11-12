@@ -19,9 +19,11 @@ reverse-engine 交付链的长效审计守护（纯 Python 标准库）。
   13. U 组指纹：a3-meta-manifest.json 记录的 7 份源 sha256 与当前磁盘一致；
   14. U 组常量：NmDisasmMetaCatalog.kt 的 Int/String 常量与 manifest 一致；
   15. V 组指纹：chapter-matrix-manifest.json 记录的 2 份扫描快照 sha256 / bytes 与磁盘一致；
-  16. V 组常量：NmChapterMatrixCatalog.kt 的 39 项 Int/String/Boolean 常量与 manifest 一致。
+  16. V 组常量：NmChapterMatrixCatalog.kt 的 39 项 Int/String/Boolean 常量与 manifest 一致；
+  17. W 组指纹：w-disasm-manifest.json 记录的一手反汇编证据 sha256/bytes 与磁盘一致，且证据锚点全通过、so 指纹一致；
+  18. W 组常量：NmWDisasmCatalog.kt 的 21 项 Int / 2 项 String 常量与 manifest 一致。
 
-输出：build/audit-report.json（含 16 项检查明细、清单/D 组/R 组/U 组/V 组指纹结果）；退出码 0 = 全通过。
+输出：build/audit-report.json（含 18 项检查明细、清单/D 组/R 组/U 组/V 组/W 组指纹结果）；退出码 0 = 全通过。
 
 用法：python tools/audit.py
 """
@@ -152,15 +154,22 @@ def catalog_check() -> dict:
 
 
 def parse_int_const(text: str, name: str):
-    """读取 Kotlin `const val NAME: Int = <十进制|0x十六进制>`，返回 int 或 None。"""
+    """读取 Kotlin `const val NAME: Int = <十进制|0x十六进制>`，返回 int 或 None。
+
+    支持负立即数（W 组错误码 -6/-3/-2/-98/-102 等由 mov x0,#-N 直接登记）。
+    """
     m = re.search(
-        r"const val " + re.escape(name) + r": Int = (0[xX][0-9A-Fa-f]+|\d+)",
+        r"const val " + re.escape(name) + r": Int = (-?0[xX][0-9A-Fa-f]+|-?\d+)",
         text,
     )
     if not m:
         return None
     raw = m.group(1)
-    return int(raw, 16) if raw.lower().startswith("0x") else int(raw)
+    neg = raw.startswith("-")
+    if neg:
+        raw = raw[1:]
+    value = int(raw, 16) if raw.lower().startswith("0x") else int(raw)
+    return -value if neg else value
 
 
 def done_chain_check() -> dict:
@@ -368,6 +377,60 @@ def chapter_matrix_check() -> dict:
     }
 
 
+def w_disasm_check() -> dict:
+    """第 17/18 项：W 组一手反汇编证据指纹 + NmWDisasmCatalog.kt 常量一致性。"""
+    m_path = RE / "spec" / "w-disasm-manifest.json"
+    if not m_path.is_file():
+        return {"ok": False, "fingerprintOk": False, "constantsOk": False,
+                "reason": "missing w-disasm-manifest.json"}
+    m = json.loads(m_path.read_text(encoding="utf-8"))
+
+    src_results = {}
+    for src in m.get("sources") or []:
+        rel = src.get("path", "")
+        p = RE / rel
+        if not p.is_file():
+            src_results[rel] = {"ok": False, "reason": "source file missing"}
+            continue
+        raw = p.read_bytes()
+        actual = hashlib.sha256(raw).hexdigest()
+        src_results[rel] = {
+            "ok": actual == src.get("sha256") and len(raw) == src.get("bytes"),
+            "expected": src.get("sha256"),
+            "actual": actual,
+            "bytes": len(raw),
+        }
+
+    # 证据 JSON 内部：锚点全通过 + so 指纹与 manifest 记录一致
+    ev_path = RE / "spec" / "w-disasm-evidence.json"
+    ev_ok = False
+    if ev_path.is_file():
+        ev = json.loads(ev_path.read_text(encoding="utf-8"))
+        ev_ok = bool(ev.get("all_pass")) and ev.get("so", {}).get("sha256") == m.get("so", {}).get("sha256")
+
+    kt_path = KT_DIR / "NmWDisasmCatalog.kt"
+    kt_text = kt_path.read_text(encoding="utf-8") if kt_path.is_file() else ""
+    const_results = {}
+    for name, expected in (m.get("kotlinIntConstants") or {}).items():
+        actual = parse_int_const(kt_text, name)
+        const_results[name] = {"ok": actual is not None and actual == expected,
+                               "expected": expected, "actual": actual}
+    for name, expected in (m.get("kotlinStringConstants") or {}).items():
+        needle = 'const val %s: String = "%s"' % (name, expected)
+        const_results[name] = {"ok": needle in kt_text, "expected": expected}
+
+    fingerprint_ok = bool(src_results) and all(v.get("ok") for v in src_results.values()) and ev_ok
+    constants_ok = bool(const_results) and all(v.get("ok") for v in const_results.values())
+    return {
+        "ok": bool(fingerprint_ok and constants_ok),
+        "fingerprintOk": fingerprint_ok,
+        "constantsOk": constants_ok,
+        "evidenceAllPass": ev_ok,
+        "sources": src_results,
+        "constants": const_results,
+    }
+
+
 def main() -> int:
     code_ids = code_spec_ids()
     spec_ids = spec_table_ids()
@@ -379,6 +442,7 @@ def main() -> int:
     adjudications = adjudication_check()
     a3_meta = a3_meta_check()
     chapter_matrix = chapter_matrix_check()
+    w_disasm = w_disasm_check()
 
     missing_in_spec = sorted(set(code_ids) - set(spec_ids))
     orphan_in_spec = sorted(set(spec_ids) - set(code_ids))
@@ -401,6 +465,8 @@ def main() -> int:
         "a3MetaConstantsMatch": bool(a3_meta.get("constantsOk")),
         "chapterMatrixFingerprintMatches": bool(chapter_matrix.get("fingerprintOk")),
         "chapterMatrixConstantsMatch": bool(chapter_matrix.get("constantsOk")),
+        "wDisasmFingerprintMatches": bool(w_disasm.get("fingerprintOk")),
+        "wDisasmConstantsMatch": bool(w_disasm.get("constantsOk")),
     }
     overall = all(checks.values())
 
@@ -427,6 +493,7 @@ def main() -> int:
         "uncoveredEvidence": adjudications,
         "a3Meta": a3_meta,
         "chapterMatrix": chapter_matrix,
+        "wDisasm": w_disasm,
     }
     BUILD_DIR.mkdir(parents=True, exist_ok=True)
     OUT_PATH.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
@@ -450,6 +517,7 @@ def main() -> int:
     print(f"  adjudications clean={adjudications.get('ok')} highRisk={adjudications.get('highRiskCount')}")
     print(f"  a3Meta fingerprint={a3_meta.get('fingerprintOk')} constants={a3_meta.get('constantsOk')}")
     print(f"  chapterMatrix fingerprint={chapter_matrix.get('fingerprintOk')} constants={chapter_matrix.get('constantsOk')}")
+    print(f"  wDisasm fingerprint={w_disasm.get('fingerprintOk')} constants={w_disasm.get('constantsOk')}")
     if not catalog.get("ok"):
         print(f"  catalogDetail={catalog}")
     if not done_chain.get("ok"):
@@ -462,6 +530,8 @@ def main() -> int:
         print(f"  a3MetaDetail={a3_meta}")
     if not chapter_matrix.get("ok"):
         print(f"  chapterMatrixDetail={chapter_matrix}")
+    if not w_disasm.get("ok"):
+        print(f"  wDisasmDetail={w_disasm}")
     print(f"[REPORT] {OUT_PATH}")
     return 0 if overall else 1
 

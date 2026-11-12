@@ -363,7 +363,9 @@ private fun testSlicesFile(s: Suite) {
     val rc = f.write(ByteArray(8192), 0L, 8192)
     s.eq("S-21 成功返回 0", 0, rc)
     s.check("S-20 writeFinished 置位", f.writeFinished)
-    s.eq("S-16 分片写调用 3 次（0..2）", 3, f.sliceWriteCalls)
+    // @spec W-04 / W-06：真实指令是半开区间 [qStart, upper)，end=8192 整除 4096 时 upper=2
+    // → 只写索引 0/1 共 2 次；旧实现 qStart..end/size 闭区间会多写一片（3 次），已修正。
+    s.eq("S-16 / W-04 分片写调用 2 次（半开区间 [0,2)）", 2, f.sliceWriteCalls)
     s.check("S-19 Write all finish 日志", logs.countOf("Write all finish") >= 1)
 
     // S-18 分片写失败 → -98
@@ -1110,6 +1112,142 @@ private fun testVGroup(s: Suite) {
         NmFormatCatalog.BOUNDARIES.any { "NOT RUN" in it })
 }
 
+// ---------------------------------------------------------------------------
+// 15. W 组 —— libNMCommonCache.so 一手反汇编逐指令补译
+// ---------------------------------------------------------------------------
+
+private fun testWGroup(s: Suite) {
+    s.section("15. W 组：分片索引窗口 1:1 / 读侧门控 / 日志门控本体（capstone 一手反汇编）")
+    val C = NmWDisasmCatalog
+
+    // W-01：0x37E20 `cset w0,gt` —— g_level > level 才抑制（严格大于）
+    val g = NmLogGate()
+    s.check("W-01 g_level=0 时 I(3) 不抑制", !NmReadGate.isSuppressed(g, 3))
+    s.check("W-01 g_level=0 时 W(5) 不抑制", !NmReadGate.isSuppressed(g, 5))
+    g.setLevel(5)
+    s.check("W-01 严格大于：g_level=5 时 W(5) 仍不抑制", !NmReadGate.isSuppressed(g, 5))
+    g.setLevel(6)
+    s.check("W-01 g_level=6 时 I(3) 抑制", NmReadGate.isSuppressed(g, 3))
+    s.check("W-01 g_level=6 时 W(5) 抑制", NmReadGate.isSuppressed(g, 5))
+
+    // W-02~W-07：end=8192 整除 4096 → upper=2，半开区间 [0,2)
+    val w1 = NmSliceWindow.writeWindow(0L, 8192L, 4096L)
+    s.eq("W-02 end=offset+len", 8192L, w1.end)
+    s.eq("W-03 qEnd=end/size", 2L, w1.qEnd)
+    s.eq("W-03 qStart=offset/size", 0L, w1.qStart)
+    s.eq("W-04 rem=0", 0L, w1.remainder)
+    s.eq("W-04 hasRemainder=false", false, w1.hasRemainder)
+    s.eq("W-04 整除时 upper=2 不进位", 2L, w1.upper)
+    s.check("W-05 qStart<upper → 非空", !w1.empty)
+    s.eq("W-06 last=upper-1", 1L, w1.last)
+    s.eq("W-06 count=upper-qStart", 2L, w1.count)
+    s.eq("W-06 半开区间 [0,2)", listOf(0L, 1L), w1.indices.toList())
+    s.eq("W-07 firstObjectOffset=qStart*232", 0L, w1.firstObjectOffset)
+    s.eq("W-07 分片对象步长 232B", 232L, NmSliceWindow.OBJECT_STRIDE)
+
+    // W-04：非整除时 cinc 进位（这正是 S-16 挂账的答案）
+    val w2 = NmSliceWindow.writeWindow(0L, 4097L, 4096L)
+    s.eq("W-04 非整除 rem=1", 1L, w2.remainder)
+    s.check("W-04 非整除 hasRemainder=true", w2.hasRemainder)
+    s.eq("W-04 非整除 upper=2（cinc +1）", 2L, w2.upper)
+    s.eq("W-06 非整除 count=2", 2L, w2.count)
+
+    // W-03 / W-07：起始片不在 0 时的对象偏移
+    val w3 = NmSliceWindow.writeWindow(4096L, 4096L, 4096L)
+    s.eq("W-03 跨片 qStart=1", 1L, w3.qStart)
+    s.eq("W-04 跨片 upper=2", 2L, w3.upper)
+    s.eq("W-06 跨片 count=1", 1L, w3.count)
+    s.eq("W-06 跨片索引 [1,2)", listOf(1L), w3.indices.toList())
+    s.eq("W-07 跨片 firstObjectOffset=232", 232L, w3.firstObjectOffset)
+
+    // W-05：0x128AC b.ge 0x12A54 —— 零分片直接跳完成
+    val w4 = NmSliceWindow.compute(0L, 0L, 4096L)
+    s.eq("W-05 end=0 → upper=0", 0L, w4.upper)
+    s.check("W-05 qStart>=upper → empty", w4.empty)
+    s.eq("W-06 零分片 count=0", 0L, w4.count)
+    s.check("W-05 零分片 indices 为空", w4.indices.toList().isEmpty())
+    s.eq("W-12 读侧窗口同样向上取整 upper=1", 1L,
+        NmSliceWindow.readWindow(100L, 200L, 4096L).upper)
+
+    // W-14：0x12814 tbnz x21,#0x3f
+    s.eq("W-14 对齐掩码 63", 63L, NmSliceWindow.ALIGN_MASK)
+    s.check("W-14 offset=64 已对齐", !NmSliceWindow.isUnaligned(64L))
+    s.check("W-14 offset=63 未对齐", NmSliceWindow.isUnaligned(63L))
+
+    // 关键回归：旧实现 qStart..end/size 闭区间在整除时多写一片
+    val f = NmSlicesFile(1048576L, 4096L, gate = NmLogGate())
+    s.eq("W-04 回归：write(0,8192) 成功", 0, f.write(ByteArray(8192), 0L, 8192))
+    s.eq("W-04 回归：分片写 2 次（旧实现 3 次）", 2, f.sliceWriteCalls)
+
+    // W-08~W-11：ReadFromFileNoLock 完整门控
+    val g3 = NmLogGate()
+    val o1 = NmReadGate.readFromFileNoLock(false, -1, 10, 0L, 100L, g3)
+    s.eq("W-08 [+0xB8]==0 → -6", -6, o1.code)
+    s.check("W-08 短路路径不清除标志", !o1.clearNormalMode)
+    s.check("W-08 短路路径不打 I 日志", !o1.iLogEmitted)
+    s.eq("W-08 path=FLAG_ZERO", "FLAG_ZERO", o1.path)
+
+    val o2 = NmReadGate.readFromFileNoLock(true, 0, 0, 0L, 100L, g3)
+    s.eq("W-11 readed==0 → -3", -3, o2.code)
+    s.check("W-09 result>=0 不清除标志", !o2.clearNormalMode)
+    s.check("W-01 I(3) 日志默认开启", o2.iLogEmitted)
+    s.eq("W-09 path=BOUNDARY", "BOUNDARY", o2.path)
+
+    s.eq("W-11 readed+offset>=[+0x80] → csetm -1", -1,
+        NmReadGate.readFromFileNoLock(true, 0, 200, 0L, 100L, g3).code)
+    s.eq("W-11 未越界 → csetm 0", 0,
+        NmReadGate.readFromFileNoLock(true, 0, 10, 0L, 100L, g3).code)
+
+    val o5 = NmReadGate.readFromFileNoLock(true, -2, 10, 0L, 100L, g3)
+    s.check("W-09 result==-2 不清除标志", !o5.clearNormalMode)
+    s.eq("W-09 result==-2 走边界判定", "BOUNDARY", o5.path)
+
+    val o6 = NmReadGate.readFromFileNoLock(true, -103, 10, 0L, 100L, g3)
+    s.eq("W-10 result<0 且 !=-2 → -6", -6, o6.code)
+    s.check("W-10 清 [+0xB8]", o6.clearNormalMode)
+    s.check("W-10 W(5) 日志默认开启", o6.wLogEmitted)
+    s.eq("W-10 path=CLEAR_FLAG", "CLEAR_FLAG", o6.path)
+
+    val g4 = NmLogGate()
+    g4.setLevel(6)
+    val o7 = NmReadGate.readFromFileNoLock(true, -103, 10, 0L, 100L, g4)
+    s.check("W-01 g_level=6 抑制 I 日志", !o7.iLogEmitted)
+    s.check("W-01 g_level=6 抑制 W 日志", !o7.wLogEmitted)
+    s.eq("W-10 抑制日志返回码不变", -6, o7.code)
+    s.check("W-10 抑制日志仍清标志", o7.clearNormalMode)
+
+    // W-12：0x12CEC b.lt → 长度 <1 返回 -2（B-30 定案）
+    val z = NmReadGate.zeroLengthGate(0L)
+    s.check("W-12 len=0 → -2", z != null && z.code == -2)
+    s.check("W-12 len=1 不拦截", NmReadGate.zeroLengthGate(1L) == null)
+    s.eq("W-12 接入 NmSlicesFile.read(0,0)", -2,
+        NmSlicesFile(1048576L, 4096L, gate = NmLogGate()).read(0L, 0))
+
+    // W-13：分片读循环累计 / 失败 -98
+    s.eq("W-13 累计读长度 300", 300,
+        NmReadGate.sliceReadLoop(listOf(true to 100, true to 200)).code)
+    s.eq("W-13 单片失败 → -98", -98,
+        NmReadGate.sliceReadLoop(listOf(true to 100, false to 200)).code)
+
+    // 生成物常量表与一手证据的一致性
+    s.eq("W-07 catalog 步长 232", 232, C.SLICE_OBJECT_STRIDE)
+    s.eq("W-01 getter 地址 0x37E20", 0x37E20, C.LOG_GATE_FUNC_ADDR)
+    s.eq("W-01 setter 地址 0x37E34", 0x37E34, C.LOG_GATE_SET_ADDR)
+    s.eq("W-03 sdiv 地址 0x12890", 0x12890, C.WRITE_INDEX_SDIV_ADDR)
+    s.eq("W-04 cinc 地址 0x128A0", 0x128A0, C.WRITE_CINC_ADDR)
+    s.eq("W-05 b.ge 地址 0x128AC", 0x128AC, C.WRITE_EMPTY_BRANCH_ADDR)
+    s.eq("W-10 清标志地址 0xC4B8", 0xC4B8, C.READ_CLEAR_FLAG_ADDR)
+    s.eq("W-12 -2 立即数地址 0x12DC8", 0x12DC8, C.READ_MINUS2_ADDR)
+    s.eq("W-12 b.lt 地址 0x12CEC", 0x12CEC, C.READ_MINUS2_BRANCH_ADDR)
+    s.eq("W-13 分片读失败 -98", -98, C.CODE_SLICE_READ_FAILED)
+    s.eq("W-14 掩码 63", 63, C.ALIGN_MASK)
+    s.eq("W 组规格编号 14 条", 14, C.SPEC_IDS.size)
+    s.check("W 组编号连续 W-01..W-14",
+        C.SPEC_IDS == (1..14).map { if (it < 10) "W-0$it" else "W-$it" })
+    s.check("W 组证据指纹 64 位 hex", C.EVIDENCE_SHA256.length == 64)
+    s.check("W 组 so 指纹与 §61.77 一手证据一致", C.SO_SHA256.startsWith("7a1adc95c255c241"))
+}
+
 fun main() {
     val s = Suite()
     testNativeTypes(s)
@@ -1126,6 +1264,7 @@ fun main() {
     testReadGap(s)
     testUGroup(s)
     testVGroup(s)
+    testWGroup(s)
 
     println()
     println("=".repeat(72))

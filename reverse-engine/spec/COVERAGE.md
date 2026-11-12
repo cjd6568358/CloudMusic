@@ -1,7 +1,7 @@
 # COVERAGE —— 1:1 翻译覆盖总账
 
 > **文首结论**：本目录覆盖 `docs/12 §61.54 ~ §61.88` 系列证据中**所有可静态证明的
-> 播放内核控制逻辑**（174 条 `@spec`：168 条 A/B 类逻辑与数据点 + 6 条 V 组覆盖守护规格）
+> 播放内核控制逻辑**（188 条 `@spec`：168 条 A/B 类逻辑与数据点 + 6 条 V 组覆盖守护 + 14 条 W 组一手反汇编补译）
 > 与**七份全量清单 / 元数据数据**（B 类）；
 > 其余域按「非竞品逻辑 / 数据清单 / 合规边界 / 需真机」逐条给出**明确不翻译的理由**，
 > 不留隐式空白。上一版遗留的两处「节选」缺口与 `OnNetSourceDataDone` 双分支简化错误本轮已闭环，
@@ -13,6 +13,10 @@
 > 本批 V 组把同一 L1 判据应用到章节矩阵与低分证据：检出并补登记**此前漏登的 16 个章节**
 > （§61.5~§61.18 共 14 章 + 并行工作流新增 §61.87 / §61.88），坐实 C 类 74 章里无遗漏的指令级反汇编；
 > 134 份 `score<12` 证据里纯汇编片段候选为 **0**（双零漏网，V-01~V-06 守护规格）。
+> 本批 W 组对仓库内真实 `libNMCommonCache.so` 做全 `.text` capstone 反汇编
+> （8 窗口 / 238 指令 / 28 锚点全通过，so sha256 与 §61.77 一致），把 S-16 分片上界、
+> B-20 / B-30 触发条件与日志门控本体从 L2 / L3 升级为 **L1 指令级坐实**，
+> 并**修正分片循环整除时多写一片的真实行为差异**（W-01~W-14）；F4 因果链与 `F4 仍 BLOCKED` 不变。
 > 同时同步 §61.87 / §61.88 事实口径：B2 引擎 F3 22 格重跑 PASS 14 / FAIL 8、M2 门禁 PASS 解锁 M3、M3 接线完成但门禁未通过
 > 属**另一条路线**，本目录仍不实现 M2、`F4 仍 BLOCKED` 不变。
 
@@ -86,7 +90,7 @@
 | P-09/P-10 方法清单是「语义化节选」，清单级完整性未核对 | C 组把 162 个方法全量登记 + 源 JSON 指纹守护 | ✅ **已闭环** |
 | `libffmpeg.so` decoder/demuxer 清单「仅以统计常量登记」 | F 组把 100 + 75 符号与 9/15/19 查询矩阵、8 边界声明全量登记 | ✅ **已闭环** |
 | `NmBufferSourceImp.onNetSourceDataDone()` 把 `kind==2` / `kind!=2` 双分支都简化为 `onFlushNetData()` | D 组按 §61.54 / §61.55 一手反汇编纠正为「两分支不对称 + 共享队列 + 级联完成链」，并同步修正 B-16 / B-17 测试断言 | ✅ **已闭环** |
-| S-16 分片上界 `end/slice_size` 未逐指令坐实 | 保持 L2 标注、如实断言当前实现，**不擅自改成更「合理」的 `(end-1)/slice_size`** | ⏳ 仍挂账（诚实） |
+| S-16 分片上界 `end/slice_size` 未逐指令坐实 | W 组 0x12898 `msub` + 0x128A0 `cinc` 坐实 `upper = end/size + (end%size!=0)`，循环为半开区间 `[qStart, upper)`；旧实现整除时多写一片已修正 | ✅ **已闭环（W-04 / W-06）** |
 
 ---
 
@@ -101,14 +105,14 @@
 | F4 阻塞 | **仍 BLOCKED** | §61.70 / §61.75 真机终局；B2 M2 PASS 不涉及竞品 native 代次门控链，设备完全离线，需用户重开无线调试后按 runbook 复跑 |
 | `§61.69` `EngineAdapter.kt` +20 行 `SetLoggerCallback(...,5)` | 建议回滚，**待用户拍板** | 对 W 级零增益、抑制 I/D、空类缺 `BIInfo` 有 JNI pending exception 风险 |
 | `§50.7 #3` | 待真机复验 | 项目长期挂账 |
-| S-16 分片上界 | L2 待补证 | 见第 5 节 |
+| S-16 分片上界 | ✅ 已由 W 组一手反汇编定案 | 见第 5 节 / LOGIC-SPEC §3.13 |
 
 ---
 
 ## 7. 防回潮机制
 
 ```
-源 JSON / MD (只读：12 份一手源分布于 4 份 manifest；V 组另有 2 份机读快照受第 5 份 manifest 守护)
+源 JSON / MD (只读：12 份一手源分布于 4 份 manifest；V 组 2 份 + W 组 1 份机读快照受第 5/6 份 manifest 守护)
    ├─ tools/gen_catalog.py ────→ kt/src/NmJniCatalog.kt / NmFormatCatalog.kt (全量脱敏)
    │                        └─→ spec/catalog-manifest.json (sha256 + 条目数) [2 份源]
    ├─ tools/gen_done_chain_manifest.py
@@ -123,6 +127,11 @@
    ├─ tools/scan_uncovered_evidence.py
    │                        ├─→ spec/uncovered-evidence-scan.json (158 份信号 / 24 份 highRisk)
    │                        └─→ spec/uncovered-evidence-adjudications.json (逐份裁定 + 名单指纹)
+   ├─ W 组：tools/w_disasm_evidence.py (真实 so 全 .text 反汇编)
+   │                        └─→ spec/w-disasm-evidence.json (8 窗口 / 238 指令 / 28 锚点)
+   │        tools/gen_w_manifest.py
+   │                        ├─→ kt/src/NmWDisasmCatalog.kt (21 项 Int + 2 项 String)
+   │                        └─→ spec/w-disasm-manifest.json (sha256 + 常量期望值) [1 份证据]
    └─ V 组：tools/scan_chapter_matrix.py + tools/scan_lowscore_asm.py
                             ├─→ spec/chapter-matrix-scan.json (84 章矩阵 / unmapped=0)
                             ├─→ spec/lowscore-asm-scan.json (134 份低分证据 / 纯汇编候选 0)
@@ -130,8 +139,8 @@
                                   ├─→ kt/src/NmChapterMatrixCatalog.kt (39 项常量)
                                   └─→ spec/chapter-matrix-manifest.json (sha256 + 常量期望值) [2 份快照]
              │
-             ├─ tools/build.py  → 编译 + 契约测试(534) → build/test-report.json
-             └─ tools/audit.py  → 16 项检查            → build/audit-report.json
+             ├─ tools/build.py  → 编译 + 契约测试(610) → build/test-report.json
+             └─ tools/audit.py  → 18 项检查            → build/audit-report.json
                   ⑥ 清单源 JSON sha256 == catalog-manifest
                   ⑦ Kotlin *_COUNT == catalog-manifest
                   ⑧ D 组源 JSON sha256 == done-chain-manifest
@@ -143,6 +152,8 @@
                   ⑭ Kotlin U 组常量 == a3-meta-manifest
                   ⑮ V 组 2 份扫描快照 sha256 == chapter-matrix-manifest
                   ⑯ Kotlin V 组 39 项常量 == chapter-matrix-manifest
+                  ⑰ W 组反汇编证据 sha256 == w-disasm-manifest（含锚点 all_pass + so 指纹）
+                  ⑱ Kotlin W 组 23 项常量 == w-disasm-manifest
 ```
 
 任何上游证据变更而未重新生成、或任何手改 catalog / D 组常量导致漂移，都会让 `audit.py` fail。
@@ -225,7 +236,7 @@
 
 > 统计：**178 = 已登记证据源 27 + 明确不翻译 151**。
 > 27 份 = A 类逻辑锚点 20 份 + B 类全量清单 / 元数据源 7 份，明细见 `LOGIC-SPEC.md` 第 2 节；
-> 其中 **12 份源受 `sha256` 指纹守护**（10 份 JSON + 2 份 A3 Markdown），分布于 4 份 manifest：
+> 其中 **12 份一手源受 `sha256` 指纹守护**（10 份 JSON + 2 份 A3 Markdown），分布于 4 份 manifest；另有 V 组 2 份 + W 组 1 份机读快照受第 5/6 份 manifest 守护。明细：
 > `catalog-manifest.json`（2）、`done-chain-manifest.json`（2）、`read-gap-manifest.json`（1）
 > 与 `a3-meta-manifest.json`（7，含 2 份 A3 md 与 5 份机读 JSON）。
 

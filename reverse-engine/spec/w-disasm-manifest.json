@@ -1,0 +1,71 @@
+{
+  "generatedBy": "reverse-engine/tools/gen_w_manifest.py",
+  "sourceCount": 1,
+  "sources": [
+    {
+      "path": "spec/w-disasm-evidence.json",
+      "sha256": "d5096bb330eea95f5703bd7aa64f826c0a0c41b6f729758b4ecff73f2daaca70",
+      "bytes": 37256
+    }
+  ],
+  "so": {
+    "path": "engine-legacy/src/main/jniLibs/arm64-v8a/libNMCommonCache.so",
+    "sha256": "7a1adc95c255c241c1d5d64060468cefe3961c73c459ba15527ce87e5fde4a6c",
+    "bytes": 309632
+  },
+  "kotlinIntConstants": {
+    "SLICE_OBJECT_STRIDE": 232,
+    "LOG_GATE_FUNC_ADDR": 228896,
+    "LOG_GATE_SET_ADDR": 228916,
+    "WRITE_INDEX_SDIV_ADDR": 75920,
+    "WRITE_CINC_ADDR": 75936,
+    "WRITE_EMPTY_BRANCH_ADDR": 75948,
+    "READ_CLEAR_FLAG_ADDR": 50360,
+    "READ_MINUS2_ADDR": 77256,
+    "READ_MINUS2_BRANCH_ADDR": 77036,
+    "CODE_GATE_CLEAR_RETURN": -6,
+    "CODE_ZERO_READED": -3,
+    "CODE_ZERO_LENGTH": -2,
+    "CODE_SLICE_READ_FAILED": -98,
+    "CODE_EOF": -1,
+    "CODE_INVALID_RANGE": -102,
+    "CODE_EOF_DIAG": -99,
+    "LEVEL_I_READ": 3,
+    "LEVEL_W_READ": 5,
+    "LEVEL_W_EOF": 5,
+    "LEVEL_I_EOF": 4,
+    "ALIGN_MASK": 63
+  },
+  "kotlinStringConstants": {
+    "EVIDENCE_SHA256": "d5096bb330eea95f5703bd7aa64f826c0a0c41b6f729758b4ecff73f2daaca70",
+    "SO_SHA256": "7a1adc95c255c241c1d5d64060468cefe3961c73c459ba15527ce87e5fde4a6c"
+  },
+  "specIds": [
+    "W-01",
+    "W-02",
+    "W-03",
+    "W-04",
+    "W-05",
+    "W-06",
+    "W-07",
+    "W-08",
+    "W-09",
+    "W-10",
+    "W-11",
+    "W-12",
+    "W-13",
+    "W-14"
+  ],
+  "windowCount": 8,
+  "instructionCount": 238,
+  "anchorCount": 28,
+  "derived": [
+    "S-16 定案：终止片索引 upper = end/size + (end%size!=0)，循环为半开区间 [qStart, upper)",
+    "旧实现 qStart..end/size 在 end 整除 size 时多写一片；NmSlicesFile.write 已按 0x128A0 cinc 修正",
+    "B-20 定案：[+0xB8]!=0 且 result<0 且 result!=-2 → 清标志 + 返回 -6",
+    "B-30 定案：0x12DC8 的 -2 由 0x12CEC b.lt 在请求长度 <1 触发，位于读侧窗口",
+    "日志门控本体 0x37E20 = (g_level > level) ? 1 : 0，bit0=1 表示抑制",
+    "分片对象步长 232B（0x128C4 mov w9,#0xe8 / 0x128DC mul / 0x128F8 add）",
+    "本组不改变 F4 仍 BLOCKED 口径，不实现 B2 / M2 / M3"
+  ]
+}

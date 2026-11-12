@@ -1,0 +1,1594 @@
+{
+  "tool": "reverse-engine/tools/w_disasm_evidence.py",
+  "method": "ELF64 section headers (stdlib struct) + capstone 5 ARM64 full .text disasm",
+  "mode": "offline, read-only, no adb",
+  "so": {
+    "path": "engine-legacy/src/main/jniLibs/arm64-v8a/libNMCommonCache.so",
+    "sha256": "7a1adc95c255c241c1d5d64060468cefe3961c73c459ba15527ce87e5fde4a6c",
+    "bytes": 309632
+  },
+  "text": {
+    "addr": "0x8ed0",
+    "offset": "0x8ed0",
+    "size": "0x3271c",
+    "addressEqualsOffset": true
+  },
+  "windows": [
+    {
+      "id": "W1",
+      "label": "Write 分片索引（S-16 定案）",
+      "start": "0x12884",
+      "end": "0x128d0",
+      "instructionCount": 19,
+      "instructions": [
+        {
+          "addr": "0x12884",
+          "mnemonic": "ldr",
+          "op_str": "x10, [x19, #0xd0]"
+        },
+        {
+          "addr": "0x12888",
+          "mnemonic": "mov",
+          "op_str": "w12, #1"
+        },
+        {
+          "addr": "0x1288c",
+          "mnemonic": "strb",
+          "op_str": "w12, [x19, #0x106]"
+        },
+        {
+          "addr": "0x12890",
+          "mnemonic": "sdiv",
+          "op_str": "x9, x28, x10"
+        },
+        {
+          "addr": "0x12894",
+          "mnemonic": "sdiv",
+          "op_str": "x27, x21, x10"
+        },
+        {
+          "addr": "0x12898",
+          "mnemonic": "msub",
+          "op_str": "x10, x9, x10, x28"
+        },
+        {
+          "addr": "0x1289c",
+          "mnemonic": "cmp",
+          "op_str": "x10, #0"
+        },
+        {
+          "addr": "0x128a0",
+          "mnemonic": "cinc",
+          "op_str": "x11, x9, ne"
+        },
+        {
+          "addr": "0x128a4",
+          "mnemonic": "cset",
+          "op_str": "w10, ne"
+        },
+        {
+          "addr": "0x128a8",
+          "mnemonic": "cmp",
+          "op_str": "x27, x11"
+        },
+        {
+          "addr": "0x128ac",
+          "mnemonic": "b.ge",
+          "op_str": "#0x12a54"
+        },
+        {
+          "addr": "0x128b0",
+          "mnemonic": "sub",
+          "op_str": "x8, x11, #1"
+        },
+        {
+          "addr": "0x128b4",
+          "mnemonic": "stp",
+          "op_str": "x21, x8, [sp, #0x20]"
+        },
+        {
+          "addr": "0x128b8",
+          "mnemonic": "add",
+          "op_str": "x8, x27, #1"
+        },
+        {
+          "addr": "0x128bc",
+          "mnemonic": "str",
+          "op_str": "x8, [sp, #0x18]"
+        },
+        {
+          "addr": "0x128c0",
+          "mnemonic": "add",
+          "op_str": "x8, x9, x10"
+        },
+        {
+          "addr": "0x128c4",
+          "mnemonic": "mov",
+          "op_str": "w9, #0xe8"
+        },
+        {
+          "addr": "0x128c8",
+          "mnemonic": "mov",
+          "op_str": "x20, x1"
+        },
+        {
+          "addr": "0x128cc",
+          "mnemonic": "str",
+          "op_str": "w23, [sp, #0x14]"
+        }
+      ]
+    },
+    {
+      "id": "W2",
+      "label": "Write 分片循环 / 232B 步长",
+      "start": "0x128d0",
+      "end": "0x12940",
+      "instructionCount": 28,
+      "instructions": [
+        {
+          "addr": "0x128d0",
+          "mnemonic": "mov",
+          "op_str": "x25, xzr"
+        },
+        {
+          "addr": "0x128d4",
+          "mnemonic": "mov",
+          "op_str": "w12, wzr"
+        },
+        {
+          "addr": "0x128d8",
+          "mnemonic": "sub",
+          "op_str": "x8, x8, x27"
+        },
+        {
+          "addr": "0x128dc",
+          "mnemonic": "mul",
+          "op_str": "x23, x27, x9"
+        },
+        {
+          "addr": "0x128e0",
+          "mnemonic": "stp",
+          "op_str": "x4, x24, [sp]"
+        },
+        {
+          "addr": "0x128e4",
+          "mnemonic": "str",
+          "op_str": "x8, [sp, #0x30]"
+        },
+        {
+          "addr": "0x128e8",
+          "mnemonic": "b",
+          "op_str": "#0x12904"
+        },
+        {
+          "addr": "0x128ec",
+          "mnemonic": "mov",
+          "op_str": "w12, w21"
+        },
+        {
+          "addr": "0x128f0",
+          "mnemonic": "ldr",
+          "op_str": "x8, [sp, #0x30]"
+        },
+        {
+          "addr": "0x128f4",
+          "mnemonic": "add",
+          "op_str": "x25, x25, #1"
+        },
+        {
+          "addr": "0x128f8",
+          "mnemonic": "add",
+          "op_str": "x23, x23, #0xe8"
+        },
+        {
+          "addr": "0x128fc",
+          "mnemonic": "cmp",
+          "op_str": "x8, x25"
+        },
+        {
+          "addr": "0x12900",
+          "mnemonic": "b.eq",
+          "op_str": "#0x12a48"
+        },
+        {
+          "addr": "0x12904",
+          "mnemonic": "ldr",
+          "op_str": "x8, [x19, #0xd8]"
+        },
+        {
+          "addr": "0x12908",
+          "mnemonic": "ldr",
+          "op_str": "x0, [x19, #0xf8]"
+        },
+        {
+          "addr": "0x1290c",
+          "mnemonic": "add",
+          "op_str": "x9, x8, x23"
+        },
+        {
+          "addr": "0x12910",
+          "mnemonic": "cmp",
+          "op_str": "x9, x0"
+        },
+        {
+          "addr": "0x12914",
+          "mnemonic": "b.eq",
+          "op_str": "#0x12944"
+        },
+        {
+          "addr": "0x12918",
+          "mnemonic": "cbz",
+          "op_str": "x0, #0x1293c"
+        },
+        {
+          "addr": "0x1291c",
+          "mnemonic": "mov",
+          "op_str": "w21, w12"
+        },
+        {
+          "addr": "0x12920",
+          "mnemonic": "bl",
+          "op_str": "#0x15338"
+        },
+        {
+          "addr": "0x12924",
+          "mnemonic": "ldr",
+          "op_str": "x8, [x19]"
+        },
+        {
+          "addr": "0x12928",
+          "mnemonic": "mov",
+          "op_str": "x0, x19"
+        },
+        {
+          "addr": "0x1292c",
+          "mnemonic": "ldr",
+          "op_str": "x8, [x8, #0x40]"
+        },
+        {
+          "addr": "0x12930",
+          "mnemonic": "blr",
+          "op_str": "x8"
+        },
+        {
+          "addr": "0x12934",
+          "mnemonic": "ldr",
+          "op_str": "x8, [x19, #0xd8]"
+        },
+        {
+          "addr": "0x12938",
+          "mnemonic": "mov",
+          "op_str": "w12, w21"
+        },
+        {
+          "addr": "0x1293c",
+          "mnemonic": "add",
+          "op_str": "x0, x8, x23"
+        }
+      ]
+    },
+    {
+      "id": "W3",
+      "label": "ReadFromFileNoLock 门控（B-20 定案）",
+      "start": "0xc3f4",
+      "end": "0xc4f8",
+      "instructionCount": 65,
+      "instructions": [
+        {
+          "addr": "0xc3f4",
+          "mnemonic": "str",
+          "op_str": "x23, [sp, #-0x40]!"
+        },
+        {
+          "addr": "0xc3f8",
+          "mnemonic": "stp",
+          "op_str": "x22, x21, [sp, #0x10]"
+        },
+        {
+          "addr": "0xc3fc",
+          "mnemonic": "stp",
+          "op_str": "x20, x19, [sp, #0x20]"
+        },
+        {
+          "addr": "0xc400",
+          "mnemonic": "stp",
+          "op_str": "x29, x30, [sp, #0x30]"
+        },
+        {
+          "addr": "0xc404",
+          "mnemonic": "add",
+          "op_str": "x29, sp, #0x30"
+        },
+        {
+          "addr": "0xc408",
+          "mnemonic": "ldrb",
+          "op_str": "w8, [x0, #0xb8]"
+        },
+        {
+          "addr": "0xc40c",
+          "mnemonic": "cbz",
+          "op_str": "w8, #0xc4bc"
+        },
+        {
+          "addr": "0xc410",
+          "mnemonic": "mov",
+          "op_str": "x19, x0"
+        },
+        {
+          "addr": "0xc414",
+          "mnemonic": "ldr",
+          "op_str": "x0, [x0, #0xd8]"
+        },
+        {
+          "addr": "0xc418",
+          "mnemonic": "mov",
+          "op_str": "x20, x2"
+        },
+        {
+          "addr": "0xc41c",
+          "mnemonic": "mov",
+          "op_str": "w21, w3"
+        },
+        {
+          "addr": "0xc420",
+          "mnemonic": "mov",
+          "op_str": "w2, w3"
+        },
+        {
+          "addr": "0xc424",
+          "mnemonic": "ldr",
+          "op_str": "x8, [x0]"
+        },
+        {
+          "addr": "0xc428",
+          "mnemonic": "mov",
+          "op_str": "x3, x20"
+        },
+        {
+          "addr": "0xc42c",
+          "mnemonic": "mov",
+          "op_str": "x22, x4"
+        },
+        {
+          "addr": "0xc430",
+          "mnemonic": "ldr",
+          "op_str": "x8, [x8, #0x28]"
+        },
+        {
+          "addr": "0xc434",
+          "mnemonic": "blr",
+          "op_str": "x8"
+        },
+        {
+          "addr": "0xc438",
+          "mnemonic": "mov",
+          "op_str": "x23, x0"
+        },
+        {
+          "addr": "0xc43c",
+          "mnemonic": "mov",
+          "op_str": "w0, #3"
+        },
+        {
+          "addr": "0xc440",
+          "mnemonic": "bl",
+          "op_str": "#0x37e20"
+        },
+        {
+          "addr": "0xc444",
+          "mnemonic": "tbnz",
+          "op_str": "w0, #0, #0xc474"
+        },
+        {
+          "addr": "0xc448",
+          "mnemonic": "ldr",
+          "op_str": "x3, [x19, #0x10]"
+        },
+        {
+          "addr": "0xc44c",
+          "mnemonic": "ldr",
+          "op_str": "w6, [x22]"
+        },
+        {
+          "addr": "0xc450",
+          "mnemonic": "adrp",
+          "op_str": "x1, #0x3b000"
+        },
+        {
+          "addr": "0xc454",
+          "mnemonic": "adrp",
+          "op_str": "x2, #0x3b000"
+        },
+        {
+          "addr": "0xc458",
+          "mnemonic": "add",
+          "op_str": "x1, x1, #0x5f0"
+        },
+        {
+          "addr": "0xc45c",
+          "mnemonic": "add",
+          "op_str": "x2, x2, #0xee8"
+        },
+        {
+          "addr": "0xc460",
+          "mnemonic": "mov",
+          "op_str": "w0, #3"
+        },
+        {
+          "addr": "0xc464",
+          "mnemonic": "mov",
+          "op_str": "w4, w21"
+        },
+        {
+          "addr": "0xc468",
+          "mnemonic": "mov",
+          "op_str": "x5, x20"
+        },
+        {
+          "addr": "0xc46c",
+          "mnemonic": "mov",
+          "op_str": "w7, w23"
+        },
+        {
+          "addr": "0xc470",
+          "mnemonic": "bl",
+          "op_str": "#0x3138c"
+        },
+        {
+          "addr": "0xc474",
+          "mnemonic": "tbz",
+          "op_str": "w23, #0x1f, #0xc4c4"
+        },
+        {
+          "addr": "0xc478",
+          "mnemonic": "cmn",
+          "op_str": "w23, #2"
+        },
+        {
+          "addr": "0xc47c",
+          "mnemonic": "b.eq",
+          "op_str": "#0xc4c4"
+        },
+        {
+          "addr": "0xc480",
+          "mnemonic": "mov",
+          "op_str": "w0, #5"
+        },
+        {
+          "addr": "0xc484",
+          "mnemonic": "bl",
+          "op_str": "#0x37e20"
+        },
+        {
+          "addr": "0xc488",
+          "mnemonic": "tbnz",
+          "op_str": "w0, #0, #0xc4b8"
+        },
+        {
+          "addr": "0xc48c",
+          "mnemonic": "ldr",
+          "op_str": "x3, [x19, #0x10]"
+        },
+        {
+          "addr": "0xc490",
+          "mnemonic": "ldr",
+          "op_str": "w6, [x22]"
+        },
+        {
+          "addr": "0xc494",
+          "mnemonic": "adrp",
+          "op_str": "x1, #0x3b000"
+        },
+        {
+          "addr": "0xc498",
+          "mnemonic": "adrp",
+          "op_str": "x2, #0x3b000"
+        },
+        {
+          "addr": "0xc49c",
+          "mnemonic": "add",
+          "op_str": "x1, x1, #0x5f0"
+        },
+        {
+          "addr": "0xc4a0",
+          "mnemonic": "add",
+          "op_str": "x2, x2, #0xf5a"
+        },
+        {
+          "addr": "0xc4a4",
+          "mnemonic": "mov",
+          "op_str": "w0, #5"
+        },
+        {
+          "addr": "0xc4a8",
+          "mnemonic": "mov",
+          "op_str": "w4, w21"
+        },
+        {
+          "addr": "0xc4ac",
+          "mnemonic": "mov",
+          "op_str": "x5, x20"
+        },
+        {
+          "addr": "0xc4b0",
+          "mnemonic": "mov",
+          "op_str": "w7, w23"
+        },
+        {
+          "addr": "0xc4b4",
+          "mnemonic": "bl",
+          "op_str": "#0x3138c"
+        },
+        {
+          "addr": "0xc4b8",
+          "mnemonic": "strb",
+          "op_str": "wzr, [x19, #0xb8]"
+        },
+        {
+          "addr": "0xc4bc",
+          "mnemonic": "mov",
+          "op_str": "w0, #-6"
+        },
+        {
+          "addr": "0xc4c0",
+          "mnemonic": "b",
+          "op_str": "#0xc4e4"
+        },
+        {
+          "addr": "0xc4c4",
+          "mnemonic": "ldr",
+          "op_str": "w8, [x22]"
+        },
+        {
+          "addr": "0xc4c8",
+          "mnemonic": "cbz",
+          "op_str": "w8, #0xc4e0"
+        },
+        {
+          "addr": "0xc4cc",
+          "mnemonic": "ldr",
+          "op_str": "x9, [x19, #0x80]"
+        },
+        {
+          "addr": "0xc4d0",
+          "mnemonic": "add",
+          "op_str": "x8, x8, x20"
+        },
+        {
+          "addr": "0xc4d4",
+          "mnemonic": "cmp",
+          "op_str": "x8, x9"
+        },
+        {
+          "addr": "0xc4d8",
+          "mnemonic": "csetm",
+          "op_str": "w0, ge"
+        },
+        {
+          "addr": "0xc4dc",
+          "mnemonic": "b",
+          "op_str": "#0xc4e4"
+        },
+        {
+          "addr": "0xc4e0",
+          "mnemonic": "mov",
+          "op_str": "w0, #-3"
+        },
+        {
+          "addr": "0xc4e4",
+          "mnemonic": "ldp",
+          "op_str": "x29, x30, [sp, #0x30]"
+        },
+        {
+          "addr": "0xc4e8",
+          "mnemonic": "ldp",
+          "op_str": "x20, x19, [sp, #0x20]"
+        },
+        {
+          "addr": "0xc4ec",
+          "mnemonic": "ldp",
+          "op_str": "x22, x21, [sp, #0x10]"
+        },
+        {
+          "addr": "0xc4f0",
+          "mnemonic": "ldr",
+          "op_str": "x23, [sp], #0x40"
+        },
+        {
+          "addr": "0xc4f4",
+          "mnemonic": "ret",
+          "op_str": ""
+        }
+      ]
+    },
+    {
+      "id": "W4",
+      "label": "Read 分片窗口 / -2 引用（B-30 定案）",
+      "start": "0x12cc0",
+      "end": "0x12cf8",
+      "instructionCount": 14,
+      "instructions": [
+        {
+          "addr": "0x12cc0",
+          "mnemonic": "b",
+          "op_str": "#0x12de4"
+        },
+        {
+          "addr": "0x12cc4",
+          "mnemonic": "ldr",
+          "op_str": "x12, [sp, #0x28]"
+        },
+        {
+          "addr": "0x12cc8",
+          "mnemonic": "ldr",
+          "op_str": "x10, [x20, #0xd0]"
+        },
+        {
+          "addr": "0x12ccc",
+          "mnemonic": "add",
+          "op_str": "x25, x12, x19"
+        },
+        {
+          "addr": "0x12cd0",
+          "mnemonic": "sdiv",
+          "op_str": "x8, x25, x10"
+        },
+        {
+          "addr": "0x12cd4",
+          "mnemonic": "msub",
+          "op_str": "x9, x8, x10, x25"
+        },
+        {
+          "addr": "0x12cd8",
+          "mnemonic": "cmp",
+          "op_str": "x9, #0"
+        },
+        {
+          "addr": "0x12cdc",
+          "mnemonic": "cset",
+          "op_str": "w9, ne"
+        },
+        {
+          "addr": "0x12ce0",
+          "mnemonic": "cinc",
+          "op_str": "x11, x8, ne"
+        },
+        {
+          "addr": "0x12ce4",
+          "mnemonic": "cmp",
+          "op_str": "x12, #1"
+        },
+        {
+          "addr": "0x12ce8",
+          "mnemonic": "str",
+          "op_str": "x12, [sp, #8]"
+        },
+        {
+          "addr": "0x12cec",
+          "mnemonic": "b.lt",
+          "op_str": "#0x12dc8"
+        },
+        {
+          "addr": "0x12cf0",
+          "mnemonic": "sdiv",
+          "op_str": "x10, x19, x10"
+        },
+        {
+          "addr": "0x12cf4",
+          "mnemonic": "cmp",
+          "op_str": "x10, x11"
+        }
+      ]
+    },
+    {
+      "id": "W5",
+      "label": "Read 分片读循环 / -98",
+      "start": "0x12d00",
+      "end": "0x12df0",
+      "instructionCount": 60,
+      "instructions": [
+        {
+          "addr": "0x12d00",
+          "mnemonic": "add",
+          "op_str": "x8, x8, x9"
+        },
+        {
+          "addr": "0x12d04",
+          "mnemonic": "mov",
+          "op_str": "w9, #0xe8"
+        },
+        {
+          "addr": "0x12d08",
+          "mnemonic": "mov",
+          "op_str": "x28, xzr"
+        },
+        {
+          "addr": "0x12d0c",
+          "mnemonic": "mov",
+          "op_str": "w26, wzr"
+        },
+        {
+          "addr": "0x12d10",
+          "mnemonic": "stp",
+          "op_str": "x11, x10, [sp, #0x10]"
+        },
+        {
+          "addr": "0x12d14",
+          "mnemonic": "add",
+          "op_str": "x11, x10, #1"
+        },
+        {
+          "addr": "0x12d18",
+          "mnemonic": "sub",
+          "op_str": "x24, x8, x10"
+        },
+        {
+          "addr": "0x12d1c",
+          "mnemonic": "mul",
+          "op_str": "x27, x10, x9"
+        },
+        {
+          "addr": "0x12d20",
+          "mnemonic": "str",
+          "op_str": "x11, [sp]"
+        },
+        {
+          "addr": "0x12d24",
+          "mnemonic": "ldr",
+          "op_str": "x8, [x20, #0xd8]"
+        },
+        {
+          "addr": "0x12d28",
+          "mnemonic": "ldr",
+          "op_str": "x0, [x20, #0xf0]"
+        },
+        {
+          "addr": "0x12d2c",
+          "mnemonic": "add",
+          "op_str": "x9, x8, x27"
+        },
+        {
+          "addr": "0x12d30",
+          "mnemonic": "cmp",
+          "op_str": "x9, x0"
+        },
+        {
+          "addr": "0x12d34",
+          "mnemonic": "b.eq",
+          "op_str": "#0x12d4c"
+        },
+        {
+          "addr": "0x12d38",
+          "mnemonic": "cbz",
+          "op_str": "x0, #0x12d44"
+        },
+        {
+          "addr": "0x12d3c",
+          "mnemonic": "bl",
+          "op_str": "#0x15358"
+        },
+        {
+          "addr": "0x12d40",
+          "mnemonic": "ldr",
+          "op_str": "x8, [x20, #0xd8]"
+        },
+        {
+          "addr": "0x12d44",
+          "mnemonic": "add",
+          "op_str": "x0, x8, x27"
+        },
+        {
+          "addr": "0x12d48",
+          "mnemonic": "str",
+          "op_str": "x0, [x20, #0xf0]"
+        },
+        {
+          "addr": "0x12d4c",
+          "mnemonic": "cbz",
+          "op_str": "x28, #0x12d6c"
+        },
+        {
+          "addr": "0x12d50",
+          "mnemonic": "ldp",
+          "op_str": "x9, x8, [sp, #0x10]"
+        },
+        {
+          "addr": "0x12d54",
+          "mnemonic": "ldr",
+          "op_str": "x23, [x20, #0xd0]"
+        },
+        {
+          "addr": "0x12d58",
+          "mnemonic": "add",
+          "op_str": "x8, x8, x28"
+        },
+        {
+          "addr": "0x12d5c",
+          "mnemonic": "cmp",
+          "op_str": "x8, x9"
+        },
+        {
+          "addr": "0x12d60",
+          "mnemonic": "b.ge",
+          "op_str": "#0x12d94"
+        },
+        {
+          "addr": "0x12d64",
+          "mnemonic": "mov",
+          "op_str": "x3, xzr"
+        },
+        {
+          "addr": "0x12d68",
+          "mnemonic": "b",
+          "op_str": "#0x12da0"
+        },
+        {
+          "addr": "0x12d6c",
+          "mnemonic": "ldr",
+          "op_str": "x8, [x20, #0xd0]"
+        },
+        {
+          "addr": "0x12d70",
+          "mnemonic": "ldr",
+          "op_str": "x10, [sp]"
+        },
+        {
+          "addr": "0x12d74",
+          "mnemonic": "sdiv",
+          "op_str": "x9, x19, x8"
+        },
+        {
+          "addr": "0x12d78",
+          "mnemonic": "msub",
+          "op_str": "x3, x9, x8, x19"
+        },
+        {
+          "addr": "0x12d7c",
+          "mnemonic": "ldr",
+          "op_str": "x9, [sp, #8]"
+        },
+        {
+          "addr": "0x12d80",
+          "mnemonic": "mul",
+          "op_str": "x10, x8, x10"
+        },
+        {
+          "addr": "0x12d84",
+          "mnemonic": "sub",
+          "op_str": "x8, x8, x3"
+        },
+        {
+          "addr": "0x12d88",
+          "mnemonic": "cmp",
+          "op_str": "x25, x10"
+        },
+        {
+          "addr": "0x12d8c",
+          "mnemonic": "csel",
+          "op_str": "x23, x8, x9, gt"
+        },
+        {
+          "addr": "0x12d90",
+          "mnemonic": "b",
+          "op_str": "#0x12da0"
+        },
+        {
+          "addr": "0x12d94",
+          "mnemonic": "sdiv",
+          "op_str": "x8, x25, x23"
+        },
+        {
+          "addr": "0x12d98",
+          "mnemonic": "mov",
+          "op_str": "x3, xzr"
+        },
+        {
+          "addr": "0x12d9c",
+          "mnemonic": "msub",
+          "op_str": "x23, x8, x23, x25"
+        },
+        {
+          "addr": "0x12da0",
+          "mnemonic": "add",
+          "op_str": "x1, x22, w26, sxtw"
+        },
+        {
+          "addr": "0x12da4",
+          "mnemonic": "mov",
+          "op_str": "w2, w23"
+        },
+        {
+          "addr": "0x12da8",
+          "mnemonic": "bl",
+          "op_str": "#0x15220"
+        },
+        {
+          "addr": "0x12dac",
+          "mnemonic": "tbnz",
+          "op_str": "w0, #0x1f, #0x12de0"
+        },
+        {
+          "addr": "0x12db0",
+          "mnemonic": "add",
+          "op_str": "x28, x28, #1"
+        },
+        {
+          "addr": "0x12db4",
+          "mnemonic": "add",
+          "op_str": "w26, w26, w23"
+        },
+        {
+          "addr": "0x12db8",
+          "mnemonic": "cmp",
+          "op_str": "x24, x28"
+        },
+        {
+          "addr": "0x12dbc",
+          "mnemonic": "add",
+          "op_str": "x27, x27, #0xe8"
+        },
+        {
+          "addr": "0x12dc0",
+          "mnemonic": "b.ne",
+          "op_str": "#0x12d24"
+        },
+        {
+          "addr": "0x12dc4",
+          "mnemonic": "b",
+          "op_str": "#0x12dd4"
+        },
+        {
+          "addr": "0x12dc8",
+          "mnemonic": "mov",
+          "op_str": "x0, #-2"
+        },
+        {
+          "addr": "0x12dcc",
+          "mnemonic": "b",
+          "op_str": "#0x12de4"
+        },
+        {
+          "addr": "0x12dd0",
+          "mnemonic": "mov",
+          "op_str": "w26, wzr"
+        },
+        {
+          "addr": "0x12dd4",
+          "mnemonic": "mov",
+          "op_str": "w0, w26"
+        },
+        {
+          "addr": "0x12dd8",
+          "mnemonic": "str",
+          "op_str": "w26, [x21]"
+        },
+        {
+          "addr": "0x12ddc",
+          "mnemonic": "b",
+          "op_str": "#0x12de4"
+        },
+        {
+          "addr": "0x12de0",
+          "mnemonic": "mov",
+          "op_str": "x0, #-0x62"
+        },
+        {
+          "addr": "0x12de4",
+          "mnemonic": "ldp",
+          "op_str": "x29, x30, [sp, #0x80]"
+        },
+        {
+          "addr": "0x12de8",
+          "mnemonic": "ldp",
+          "op_str": "x20, x19, [sp, #0x70]"
+        },
+        {
+          "addr": "0x12dec",
+          "mnemonic": "ldp",
+          "op_str": "x22, x21, [sp, #0x60]"
+        }
+      ]
+    },
+    {
+      "id": "W6",
+      "label": "日志门控本体 0x37E20",
+      "start": "0x37e20",
+      "end": "0x37e34",
+      "instructionCount": 5,
+      "instructions": [
+        {
+          "addr": "0x37e20",
+          "mnemonic": "adrp",
+          "op_str": "x8, #0x4c000"
+        },
+        {
+          "addr": "0x37e24",
+          "mnemonic": "ldr",
+          "op_str": "w8, [x8, #0x388]"
+        },
+        {
+          "addr": "0x37e28",
+          "mnemonic": "cmp",
+          "op_str": "w8, w0"
+        },
+        {
+          "addr": "0x37e2c",
+          "mnemonic": "cset",
+          "op_str": "w0, gt"
+        },
+        {
+          "addr": "0x37e30",
+          "mnemonic": "ret",
+          "op_str": ""
+        }
+      ]
+    },
+    {
+      "id": "W7",
+      "label": "Write 入口四门控",
+      "start": "0x12808",
+      "end": "0x12828",
+      "instructionCount": 8,
+      "instructions": [
+        {
+          "addr": "0x12808",
+          "mnemonic": "mov",
+          "op_str": "x21, x3"
+        },
+        {
+          "addr": "0x1280c",
+          "mnemonic": "mov",
+          "op_str": "w23, w2"
+        },
+        {
+          "addr": "0x12810",
+          "mnemonic": "cbz",
+          "op_str": "w2, #0x12828"
+        },
+        {
+          "addr": "0x12814",
+          "mnemonic": "tbnz",
+          "op_str": "x21, #0x3f, #0x12828"
+        },
+        {
+          "addr": "0x12818",
+          "mnemonic": "ldr",
+          "op_str": "x8, [x19, #0x70]"
+        },
+        {
+          "addr": "0x1281c",
+          "mnemonic": "add",
+          "op_str": "x28, x21, w23, uxtw"
+        },
+        {
+          "addr": "0x12820",
+          "mnemonic": "cmp",
+          "op_str": "x28, x8"
+        },
+        {
+          "addr": "0x12824",
+          "mnemonic": "b.le",
+          "op_str": "#0x12868"
+        }
+      ]
+    },
+    {
+      "id": "W8",
+      "label": "Read 侧 EOF / 长度门控",
+      "start": "0x12bd0",
+      "end": "0x12c6c",
+      "instructionCount": 39,
+      "instructions": [
+        {
+          "addr": "0x12bd0",
+          "mnemonic": "tbnz",
+          "op_str": "x19, #0x3f, #0x12c44"
+        },
+        {
+          "addr": "0x12bd4",
+          "mnemonic": "ldr",
+          "op_str": "x8, [x20, #0x70]"
+        },
+        {
+          "addr": "0x12bd8",
+          "mnemonic": "cmp",
+          "op_str": "x8, x19"
+        },
+        {
+          "addr": "0x12bdc",
+          "mnemonic": "b.le",
+          "op_str": "#0x12c58"
+        },
+        {
+          "addr": "0x12be0",
+          "mnemonic": "add",
+          "op_str": "x9, x19, w23, uxtw"
+        },
+        {
+          "addr": "0x12be4",
+          "mnemonic": "mov",
+          "op_str": "x25, x5"
+        },
+        {
+          "addr": "0x12be8",
+          "mnemonic": "sub",
+          "op_str": "w10, w8, w19"
+        },
+        {
+          "addr": "0x12bec",
+          "mnemonic": "cmp",
+          "op_str": "x9, x8"
+        },
+        {
+          "addr": "0x12bf0",
+          "mnemonic": "mov",
+          "op_str": "x21, x4"
+        },
+        {
+          "addr": "0x12bf4",
+          "mnemonic": "mov",
+          "op_str": "x22, x1"
+        },
+        {
+          "addr": "0x12bf8",
+          "mnemonic": "csel",
+          "op_str": "w2, w10, w23, gt"
+        },
+        {
+          "addr": "0x12bfc",
+          "mnemonic": "add",
+          "op_str": "x3, sp, #0x28"
+        },
+        {
+          "addr": "0x12c00",
+          "mnemonic": "add",
+          "op_str": "x5, sp, #0x20"
+        },
+        {
+          "addr": "0x12c04",
+          "mnemonic": "mov",
+          "op_str": "x0, x20"
+        },
+        {
+          "addr": "0x12c08",
+          "mnemonic": "mov",
+          "op_str": "x1, x19"
+        },
+        {
+          "addr": "0x12c0c",
+          "mnemonic": "mov",
+          "op_str": "x4, x25"
+        },
+        {
+          "addr": "0x12c10",
+          "mnemonic": "mov",
+          "op_str": "x24, x6"
+        },
+        {
+          "addr": "0x12c14",
+          "mnemonic": "stp",
+          "op_str": "xzr, xzr, [sp, #0x20]"
+        },
+        {
+          "addr": "0x12c18",
+          "mnemonic": "bl",
+          "op_str": "#0x12e04"
+        },
+        {
+          "addr": "0x12c1c",
+          "mnemonic": "ldr",
+          "op_str": "x8, [x25]"
+        },
+        {
+          "addr": "0x12c20",
+          "mnemonic": "tbnz",
+          "op_str": "x8, #0x3f, #0x12c30"
+        },
+        {
+          "addr": "0x12c24",
+          "mnemonic": "ldr",
+          "op_str": "x9, [sp, #0x20]"
+        },
+        {
+          "addr": "0x12c28",
+          "mnemonic": "add",
+          "op_str": "x8, x9, x8"
+        },
+        {
+          "addr": "0x12c2c",
+          "mnemonic": "str",
+          "op_str": "x8, [x24]"
+        },
+        {
+          "addr": "0x12c30",
+          "mnemonic": "cbz",
+          "op_str": "w0, #0x12cc4"
+        },
+        {
+          "addr": "0x12c34",
+          "mnemonic": "mov",
+          "op_str": "x0, #-0x65"
+        },
+        {
+          "addr": "0x12c38",
+          "mnemonic": "b",
+          "op_str": "#0x12de4"
+        },
+        {
+          "addr": "0x12c3c",
+          "mnemonic": "mov",
+          "op_str": "x0, #-0x69"
+        },
+        {
+          "addr": "0x12c40",
+          "mnemonic": "b",
+          "op_str": "#0x12de4"
+        },
+        {
+          "addr": "0x12c44",
+          "mnemonic": "mov",
+          "op_str": "w0, #5"
+        },
+        {
+          "addr": "0x12c48",
+          "mnemonic": "bl",
+          "op_str": "#0x37e20"
+        },
+        {
+          "addr": "0x12c4c",
+          "mnemonic": "tbz",
+          "op_str": "w0, #0, #0x12c6c"
+        },
+        {
+          "addr": "0x12c50",
+          "mnemonic": "mov",
+          "op_str": "x0, #-0x63"
+        },
+        {
+          "addr": "0x12c54",
+          "mnemonic": "b",
+          "op_str": "#0x12de4"
+        },
+        {
+          "addr": "0x12c58",
+          "mnemonic": "mov",
+          "op_str": "w0, #4"
+        },
+        {
+          "addr": "0x12c5c",
+          "mnemonic": "bl",
+          "op_str": "#0x37e20"
+        },
+        {
+          "addr": "0x12c60",
+          "mnemonic": "tbz",
+          "op_str": "w0, #0, #0x12c98"
+        },
+        {
+          "addr": "0x12c64",
+          "mnemonic": "mov",
+          "op_str": "x0, #-1"
+        },
+        {
+          "addr": "0x12c68",
+          "mnemonic": "b",
+          "op_str": "#0x12de4"
+        }
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "specId": "W-01",
+      "addr": "0x37e2c",
+      "mnemonic": "cset",
+      "fragment": "w0, gt",
+      "note": "g_level > level → 抑制（bit0=1）",
+      "actual": "cset w0, gt",
+      "ok": true
+    },
+    {
+      "specId": "W-02",
+      "addr": "0x1281c",
+      "mnemonic": "add",
+      "fragment": "x28, x21, w23, uxtw",
+      "note": "end = offset + len",
+      "actual": "add x28, x21, w23, uxtw",
+      "ok": true
+    },
+    {
+      "specId": "W-03",
+      "addr": "0x12890",
+      "mnemonic": "sdiv",
+      "fragment": "x9, x28, x10",
+      "note": "q_end = end / slice_size",
+      "actual": "sdiv x9, x28, x10",
+      "ok": true
+    },
+    {
+      "specId": "W-03",
+      "addr": "0x12894",
+      "mnemonic": "sdiv",
+      "fragment": "x27, x21, x10",
+      "note": "q_start = offset / slice_size",
+      "actual": "sdiv x27, x21, x10",
+      "ok": true
+    },
+    {
+      "specId": "W-04",
+      "addr": "0x12898",
+      "mnemonic": "msub",
+      "fragment": "x10, x9, x10, x28",
+      "note": "rem = end - q_end*slice_size",
+      "actual": "msub x10, x9, x10, x28",
+      "ok": true
+    },
+    {
+      "specId": "W-04",
+      "addr": "0x128a0",
+      "mnemonic": "cinc",
+      "fragment": "x11, x9, ne",
+      "note": "upper = q_end + (rem != 0)",
+      "actual": "cinc x11, x9, ne",
+      "ok": true
+    },
+    {
+      "specId": "W-04",
+      "addr": "0x128a4",
+      "mnemonic": "cset",
+      "fragment": "w10, ne",
+      "note": "remFlag = rem != 0",
+      "actual": "cset w10, ne",
+      "ok": true
+    },
+    {
+      "specId": "W-05",
+      "addr": "0x128ac",
+      "mnemonic": "b.ge",
+      "fragment": "0x12a54",
+      "note": "q_start >= upper → 零分片直接完成",
+      "actual": "b.ge #0x12a54",
+      "ok": true
+    },
+    {
+      "specId": "W-06",
+      "addr": "0x128b0",
+      "mnemonic": "sub",
+      "fragment": "x8, x11, #1",
+      "note": "last = upper - 1",
+      "actual": "sub x8, x11, #1",
+      "ok": true
+    },
+    {
+      "specId": "W-06",
+      "addr": "0x128d8",
+      "mnemonic": "sub",
+      "fragment": "x8, x8, x27",
+      "note": "count = upper - q_start",
+      "actual": "sub x8, x8, x27",
+      "ok": true
+    },
+    {
+      "specId": "W-07",
+      "addr": "0x128c4",
+      "mnemonic": "mov",
+      "fragment": "w9, #0xe8",
+      "note": "分片对象步长 232 字节",
+      "actual": "mov w9, #0xe8",
+      "ok": true
+    },
+    {
+      "specId": "W-07",
+      "addr": "0x128dc",
+      "mnemonic": "mul",
+      "fragment": "x23, x27, x9",
+      "note": "首片对象偏移 = q_start * 232",
+      "actual": "mul x23, x27, x9",
+      "ok": true
+    },
+    {
+      "specId": "W-08",
+      "addr": "0xc40c",
+      "mnemonic": "cbz",
+      "fragment": "w8, #0xc4bc",
+      "note": "[+0xB8]==0 → 直接 -6",
+      "actual": "cbz w8, #0xc4bc",
+      "ok": true
+    },
+    {
+      "specId": "W-09",
+      "addr": "0xc474",
+      "mnemonic": "tbz",
+      "fragment": "w23, #0x1f",
+      "note": "result >= 0 → 不清除标志",
+      "actual": "tbz w23, #0x1f, #0xc4c4",
+      "ok": true
+    },
+    {
+      "specId": "W-09",
+      "addr": "0xc478",
+      "mnemonic": "cmn",
+      "fragment": "w23, #2",
+      "note": "result == -2 → 不清除标志",
+      "actual": "cmn w23, #2",
+      "ok": true
+    },
+    {
+      "specId": "W-10",
+      "addr": "0xc480",
+      "mnemonic": "mov",
+      "fragment": "w0, #5",
+      "note": "W(5) 级日志门控",
+      "actual": "mov w0, #5",
+      "ok": true
+    },
+    {
+      "specId": "W-10",
+      "addr": "0xc4b8",
+      "mnemonic": "strb",
+      "fragment": "wzr, [x19, #0xb8]",
+      "note": "★ 清 [+0xB8]",
+      "actual": "strb wzr, [x19, #0xb8]",
+      "ok": true
+    },
+    {
+      "specId": "W-10",
+      "addr": "0xc4bc",
+      "mnemonic": "mov",
+      "fragment": "w0, #-6",
+      "note": "★ 返回 -6",
+      "actual": "mov w0, #-6",
+      "ok": true
+    },
+    {
+      "specId": "W-11",
+      "addr": "0xc4c8",
+      "mnemonic": "cbz",
+      "fragment": "w8, #0xc4e0",
+      "note": "readed==0 → -3",
+      "actual": "cbz w8, #0xc4e0",
+      "ok": true
+    },
+    {
+      "specId": "W-11",
+      "addr": "0xc4d8",
+      "mnemonic": "csetm",
+      "fragment": "w0, ge",
+      "note": "readed+offset >= [+0x80] → 0/-1",
+      "actual": "csetm w0, ge",
+      "ok": true
+    },
+    {
+      "specId": "W-12",
+      "addr": "0x12ce0",
+      "mnemonic": "cinc",
+      "fragment": "x11, x8, ne",
+      "note": "读侧窗口同样向上取整",
+      "actual": "cinc x11, x8, ne",
+      "ok": true
+    },
+    {
+      "specId": "W-12",
+      "addr": "0x12ce4",
+      "mnemonic": "cmp",
+      "fragment": "x12, #1",
+      "note": "★ 请求长度与 1 比较",
+      "actual": "cmp x12, #1",
+      "ok": true
+    },
+    {
+      "specId": "W-12",
+      "addr": "0x12cec",
+      "mnemonic": "b.lt",
+      "fragment": "0x12dc8",
+      "note": "★ len < 1 → 0x12DC8 返回 -2",
+      "actual": "b.lt #0x12dc8",
+      "ok": true
+    },
+    {
+      "specId": "W-12",
+      "addr": "0x12dc8",
+      "mnemonic": "mov",
+      "fragment": "x0, #-2",
+      "note": "★ B-30 的 -2 立即数",
+      "actual": "mov x0, #-2",
+      "ok": true
+    },
+    {
+      "specId": "W-13",
+      "addr": "0x12dac",
+      "mnemonic": "tbnz",
+      "fragment": "w0, #0x1f",
+      "note": "分片读失败 → -98",
+      "actual": "tbnz w0, #0x1f, #0x12de0",
+      "ok": true
+    },
+    {
+      "specId": "W-13",
+      "addr": "0x12de0",
+      "mnemonic": "mov",
+      "fragment": "x0, #-0x62",
+      "note": "★ 返回 -98",
+      "actual": "mov x0, #-0x62",
+      "ok": true
+    },
+    {
+      "specId": "W-14",
+      "addr": "0x12810",
+      "mnemonic": "cbz",
+      "fragment": "w2",
+      "note": "len==0 → -102 分支",
+      "actual": "cbz w2, #0x12828",
+      "ok": true
+    },
+    {
+      "specId": "W-14",
+      "addr": "0x12814",
+      "mnemonic": "tbnz",
+      "fragment": "x21, #0x3f",
+      "note": "offset 低 6 位非 0 → -102 分支",
+      "actual": "tbnz x21, #0x3f, #0x12828",
+      "ok": true
+    }
+  ],
+  "findings": {
+    "SLICE_OBJECT_STRIDE": 232,
+    "LOG_GATE_FUNC_ADDR": 228896,
+    "LOG_GATE_SET_ADDR": 228916,
+    "WRITE_INDEX_SDIV_ADDR": 75920,
+    "WRITE_CINC_ADDR": 75936,
+    "WRITE_EMPTY_BRANCH_ADDR": 75948,
+    "READ_CLEAR_FLAG_ADDR": 50360,
+    "READ_MINUS2_ADDR": 77256,
+    "READ_MINUS2_BRANCH_ADDR": 77036,
+    "CODE_GATE_CLEAR_RETURN": -6,
+    "CODE_ZERO_READED": -3,
+    "CODE_ZERO_LENGTH": -2,
+    "CODE_SLICE_READ_FAILED": -98,
+    "CODE_EOF": -1,
+    "CODE_INVALID_RANGE": -102,
+    "CODE_EOF_DIAG": -99,
+    "LEVEL_I_READ": 3,
+    "LEVEL_W_READ": 5,
+    "LEVEL_W_EOF": 5,
+    "LEVEL_I_EOF": 4,
+    "ALIGN_MASK": 63
+  },
+  "checks": {
+    "W-01@0x37e2c": true,
+    "W-02@0x1281c": true,
+    "W-03@0x12890": true,
+    "W-03@0x12894": true,
+    "W-04@0x12898": true,
+    "W-04@0x128a0": true,
+    "W-04@0x128a4": true,
+    "W-05@0x128ac": true,
+    "W-06@0x128b0": true,
+    "W-06@0x128d8": true,
+    "W-07@0x128c4": true,
+    "W-07@0x128dc": true,
+    "W-08@0xc40c": true,
+    "W-09@0xc474": true,
+    "W-09@0xc478": true,
+    "W-10@0xc480": true,
+    "W-10@0xc4b8": true,
+    "W-10@0xc4bc": true,
+    "W-11@0xc4c8": true,
+    "W-11@0xc4d8": true,
+    "W-12@0x12ce0": true,
+    "W-12@0x12ce4": true,
+    "W-12@0x12cec": true,
+    "W-12@0x12dc8": true,
+    "W-13@0x12dac": true,
+    "W-13@0x12de0": true,
+    "W-14@0x12810": true,
+    "W-14@0x12814": true
+  },
+  "checksTotal": 28,
+  "all_pass": true,
+  "conclusion": "S-16 定案：终止片索引不是 end/slice_size 直除，而是 0x12898 msub + 0x128A0 cinc + 0x128A4 cset 得到的 upper = end/size + (end%size!=0)，循环为半开区间 [offset/size, upper)，分片对象步长 232B。B-20 定案：[+0xB8]!=0 且 result<0 且 result!=-2 时清 [+0xB8] 并返回 -6；[+0xB8]==0 直接 -6；result>=0 或 ==-2 走边界判定。B-30 定案：0x12DC8 的 -2 由 0x12CEC b.lt 在请求长度 <1 时触发，位于读侧窗口，不是写侧越界门控（修正 §61.77 报告级口径）。日志门控本体 0x37E20 = (g_level > level) ? 1 : 0，bit0=1 表示抑制。",
+  "honestNotes": [
+    "只登记可逐指令坐实的控制流 / 门控 / 错误码；0x12C44/0x12C58 的 EOF 日志分支返回码语义仍按报告级保留，不推断。",
+    "不改变 F4 仍 BLOCKED 口径；本目录不实现 B2 / M2 / M3。"
+  ]
+}

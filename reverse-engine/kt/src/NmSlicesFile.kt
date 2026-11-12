@@ -63,12 +63,13 @@ class NmSlicesFile(
             return NmError.EOF
         }
 
-        // @spec S-16：0x12890 / 0x12894 按 slice_size 计算起止片索引
-        val startSlice = offset / sliceSize
-        val endSlice = end / sliceSize
+        // @spec S-16 / W-02 / W-03 / W-04 / W-05 / W-06 / W-07
+        // 1:1 定案：upper = end/size + (end%size != 0)，循环是半开区间 [qStart, upper)。
+        // 旧实现 qStart..end/size 闭区间在 end 整除 size 时会多写一片，按 0x128A0 cinc 修正。
+        val window = NmSliceWindow.writeWindow(offset, len.toLong(), sliceSize)
 
         // @spec S-17：0x12980 bl 0x150E8 实际分片写
-        for (index in startSlice..endSlice) {
+        for (index in window.indices) {
             val code = sliceWriteOverride?.invoke(index) ?: 0
             sliceWriteCalls++
             // @spec S-18：0x12AF4 tbnz w0,#0x1f 写失败分支 / 0x12B30 mov x0,#-0x62
@@ -109,6 +110,8 @@ class NmSlicesFile(
      * EOF 0x12C5C 为 I(4) 级 `tbz → 进日志`（§61.70 §3.1）。
      */
     fun read(offset: Long, len: Int): Int {
+        // @spec W-12：0x12CE4 cmp x12,#1 + 0x12CEC b.lt → 长度 <1 时 0x12DC8 返回 -2
+        NmReadGate.zeroLengthGate(len.toLong())?.let { return it.code }
         if (offset >= fileLen) {
             gate.log(4, "NMSlicesFile::Read buffer len:$len, offset:$offset, file_len:$fileLen Finish EOF.")
             return NmError.EOF
