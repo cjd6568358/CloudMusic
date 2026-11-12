@@ -40,6 +40,7 @@ class ApeExtractor : Extractor {
     private var channels = 0
     private var blocksPerFrame = 0
     private var totalFrames = 0
+    private var finalFrameBlocks = 0
     private var firstFrameOffset = 0L
     private var frames = LongArray(0)          // 每帧绝对偏移
 
@@ -128,10 +129,17 @@ class ApeExtractor : Extractor {
         if (!input.readFully(desc, 0, 52, true)) return Extractor.RESULT_END_OF_INPUT
         if (!isApeMagic(desc)) return Extractor.RESULT_END_OF_INPUT
         val version = readLeU16(desc, 4)
-        val descriptorLength = readLeU32(desc, 6).toInt()
-        val headerLength = readLeU32(desc, 10).toInt()
-        val seekTableLength = readLeU32(desc, 14).toInt()
-        val wavHeaderLength = readLeU32(desc, 18).toInt()
+        // §61.94b（ffmpeg ape.c v3980+ 分支）：version 后有 padding1 u16 @6，
+        // 后续五长度 @8/12/16/20/24 + audiodata/audiodata_high/wavtail @28/32/36
+        // —— 初版实现漏 padding1 导致全部字段错位 2B（合法 APE 被误拒）。
+        val padding1 = readLeU16(desc, 6)
+        val descriptorLength = readLeU32(desc, 8).toInt()
+        val headerLength = readLeU32(desc, 12).toInt()
+        val seekTableLength = readLeU32(desc, 16).toInt()
+        val wavHeaderLength = readLeU32(desc, 20).toInt()
+        val audioDataLength = readLeU32(desc, 24).toInt()
+        val audioDataLengthHigh = readLeU32(desc, 28).toInt()
+        val wavTailLength = readLeU32(desc, 32).toInt()
         if (version < 3960) {
             // v<3960 老头变体（无 descriptor）：真机样本为 3974，本轮如实不支持。
             return Extractor.RESULT_END_OF_INPUT
@@ -139,31 +147,25 @@ class ApeExtractor : Extractor {
         if (descriptorLength > 52) {
             input.skipFully(descriptorLength - 52)
         }
+        // §61.94b（ffmpeg ape.c v3980+ header）：24B = compression u16 + flags u16 +
+        // blocksperframe u32 + finalframeblocks u32 + totalframes u32 + bps u16 +
+        // channels u16 + samplerate u32（字段序与 v<3960 完全不同！）
         val hdr = ByteArray(24)
         if (!input.readFully(hdr, 0, 24, true)) return Extractor.RESULT_END_OF_INPUT
         val compressionType = readLeU16(hdr, 0)
         val formatFlags = readLeU16(hdr, 2)
-        channels = readLeU16(hdr, 4).toInt()
-        sampleRate = readLeU32(hdr, 6).toInt()
-        var headerLen = headerLength
-        var seekLen = seekTableLength
-        var extra = 0
-        if (formatFlags and FLAG_HAS_PEAK_LEVEL != 0) extra += 4
-        if (formatFlags and FLAG_HAS_SEEK_ELEMENTS != 0) {
-            seekLen = readLeU16(hdr, 20).toInt() * 4
-            extra += 4
-        }
-        headerLen += extra
-        blocksPerFrame = when {
-            version >= 3950 -> 73728 * 4
-            version >= 3900 || (version >= 3800 && compressionType >= 4000) -> 73728
-            else -> 9216
-        }
-        val totalFrames = readLeU32(hdr, 16).toInt()
+        blocksPerFrame = readLeU32(hdr, 4).toInt()
+        val finalFrameBlocks = readLeU32(hdr, 8).toInt()
+        val totalFrames = readLeU32(hdr, 12).toInt()
+        channels = readLeU16(hdr, 18).toInt()
+        sampleRate = readLeU32(hdr, 20).toInt()
+        val headerLen = headerLength
+        val seekLen = seekTableLength
         if (totalFrames <= 0 || seekLen < totalFrames * 4) {
             return Extractor.RESULT_END_OF_INPUT   // 无帧 / seek 表截断（ape.c 同判）
         }
         this.totalFrames = totalFrames
+        this.finalFrameBlocks = finalFrameBlocks
 
         val skipWav = formatFlags and FLAG_CREATE_WAV_HEADER == 0
         if (skipWav && wavHeaderLength in 1..0x100000) {
