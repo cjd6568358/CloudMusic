@@ -104,40 +104,95 @@ def resolve_java() -> str:
 
 
 def compile_all(jars: dict, java: str) -> dict:
+    """分趟编译。
+
+    为什么分趟：Z 组生成物共 388064 条指令 / 176 个 .kt / 17.4 MiB。单趟全量编译
+    在 8 GiB 机器上会直接 `java.lang.OutOfMemoryError: Java heap space`（实测
+    exit=137、420s 后崩在 FIR 的 ArgumentCheckingProcessor）。堆上限受物理内存
+    约束（ergonomic MaxHeapSize≈2.1 GiB），而 38.8 万个 `i(...)` 调用的参数
+    约束求解峰值远超该值。因此按「状态层 → 块批次 → 调度层 → 测试」分趟，
+    每趟都是独立 JVM，峰值互不叠加。
+
+    依赖是单向的：
+      base  : NmOp / NmTranslatedCatalog / NmArm64 (NmArmState)   —— 零依赖
+      codeNN: NmCode*.kt 只引用 NmArmState 与 NmOp                  —— 只依赖 base
+      top   : NmBlocks / NmMachine / NmFuncs*                       —— 依赖 base+codeNN
+      test  : ContractTests.kt                                      —— 依赖全部
+    """
     if CLASSES_DIR.exists():
         shutil.rmtree(CLASSES_DIR, ignore_errors=True)
     CLASSES_DIR.mkdir(parents=True, exist_ok=True)
 
     jvm_cp, jar_count = jvm_classpath(jars)
-    compile_cp = sep().join(str(jars[k]) for k in ("stdlib", "coroutines"))
+    lib_cp = sep().join(str(jars[k]) for k in ("stdlib", "coroutines"))
 
-    sources = sorted(SRC_DIR.glob("*.kt")) + sorted(TEST_DIR.glob("*.kt"))
-    if not sources:
-        raise RuntimeError("no Kotlin sources found")
+    src = {p.name: p for p in sorted(SRC_DIR.glob("*.kt"))}
+    generated_top = ("NmBlocks.kt", "NmMachine.kt")
+    base = [p for n, p in src.items()
+            if not n.startswith("NmCode") and not n.startswith("NmFuncs")
+            and n not in generated_top]
+    code = sorted(SRC_DIR.glob("NmCode*.kt"))
+    top = sorted(SRC_DIR.glob("NmBlocks.kt")) + sorted(SRC_DIR.glob("NmMachine.kt")) \
+        + sorted(SRC_DIR.glob("NmFuncs*.kt"))
+    tests = sorted(TEST_DIR.glob("*.kt"))
 
-    cmd = [
-        java,
-        "-cp", jvm_cp,
-        "org.jetbrains.kotlin.cli.jvm.K2JVMCompiler",
-        "-no-stdlib", "-no-reflect",
-        "-jvm-target", "17",
-        "-classpath", compile_cp,
-        "-d", str(CLASSES_DIR),
-    ] + [str(s) for s in sources]
+    heap = os.environ.get("CM_RE_MAX_HEAP", "1500m")
+    batch = int(os.environ.get("CM_RE_BATCH", "16"))
 
+    passes = [("base", base)]
+    for k in range(0, len(code), batch):
+        passes.append(("code%02d" % (k // batch), code[k:k + batch]))
+    passes.append(("top", top))
+    passes.append(("test", tests))
+
+    results = []
     t0 = time.time()
-    proc = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
-    elapsed = round(time.time() - t0, 3)
+    for name, sources in passes:
+        if not sources:
+            continue
+        cmd = [
+            java, "-Xmx" + heap, "-Xss8m",
+            "-cp", jvm_cp,
+            "org.jetbrains.kotlin.cli.jvm.K2JVMCompiler",
+            "-no-stdlib", "-no-reflect",
+            "-jvm-target", "17",
+            # 每趟必须用独立模块名：默认模块名 main 会让每趟覆写
+            # META-INF/main.kotlin_module，导致上一趟的顶层声明（含扩展函数）
+            # 在下一趟的 classpath 上不可见，报一堆 unresolved reference。
+            "-module-name", "nm" + name,
+            "-classpath", lib_cp + sep() + str(CLASSES_DIR),
+            "-d", str(CLASSES_DIR),
+        ] + [str(s) for s in sources]
+        pt = time.time()
+        proc = subprocess.run(cmd, capture_output=True, text=True,
+                              encoding="utf-8", errors="replace")
+        el = round(time.time() - pt, 3)
+        ok = proc.returncode == 0
+        results.append({
+            "pass": name, "files": len(sources), "ok": ok,
+            "exitCode": proc.returncode, "elapsedSec": el,
+            "stdout": proc.stdout.strip()[-4000:], "stderr": proc.stderr.strip()[-4000:],
+        })
+        print(f"[PASS] {name:<8} files={len(sources):<4} ok={ok} exit={proc.returncode} {el}s")
+        if not ok:
+            print(proc.stdout[-4000:])
+            print(proc.stderr[-4000:])
+            break
 
+    elapsed = round(time.time() - t0, 3)
+    ok = all(r["ok"] for r in results) and len(results) == len(passes)
     return {
-        "ok": proc.returncode == 0,
-        "exitCode": proc.returncode,
+        "ok": ok,
+        "exitCode": 0 if ok else next(r["exitCode"] for r in results if not r["ok"]),
         "elapsedSec": elapsed,
-        "sourceCount": len(sources),
-        "sources": [s.name for s in sources],
+        "sourceCount": sum(len(s) for _n, s in passes),
+        "sources": [s.name for _n, ss in passes for s in ss],
         "jvmClasspathJarCount": jar_count,
-        "stdout": proc.stdout.strip(),
-        "stderr": proc.stderr.strip(),
+        "maxHeap": heap,
+        "batchSize": batch,
+        "passes": results,
+        "stdout": "" if ok else "\n".join(r["stdout"] for r in results if not r["ok"]),
+        "stderr": "" if ok else "\n".join(r["stderr"] for r in results if not r["ok"]),
     }
 
 

@@ -1,0 +1,49 @@
+{
+  "libNMCommonCache.so": {
+    "domain": "cache",
+    "reachable": 46514,
+    "dropout": {},
+    "dropoutTotal": 0,
+    "vectorLeakTotal": 0,
+    "vectorLeakByMnemonic": {},
+    "vectorLeakByOp": {},
+    "vectorLeakSamples": {}
+  },
+  "libncmplayerengine.so": {
+    "domain": "engine",
+    "reachable": 115562,
+    "dropout": {},
+    "dropoutTotal": 0,
+    "vectorLeakTotal": 0,
+    "vectorLeakByMnemonic": {},
+    "vectorLeakByOp": {},
+    "vectorLeakSamples": {}
+  },
+  "libncmaudioplayer.so": {
+    "domain": "audio",
+    "reachable": 199357,
+    "dropout": {},
+    "dropoutTotal": 0,
+    "vectorLeakTotal": 0,
+    "vectorLeakByMnemonic": {},
+    "vectorLeakByOp": {},
+    "vectorLeakSamples": {}
+  },
+  "libaudioplayer.so": {
+    "domain": "audio-legacy",
+    "reachable": 26631,
+    "dropout": {},
+    "dropoutTotal": 0,
+    "vectorLeakTotal": 0,
+    "vectorLeakByMnemonic": {},
+    "vectorLeakByOp": {},
+    "vectorLeakSamples": {}
+  },
+  "summary": {
+    "tool": "reverse-engine/tools/z_audit.py",
+    "criterion": "reachable instructions whose decoded op bucket cannot represent the operands",
+    "dropoutTotal": 0,
+    "vectorLeakTotal": 0,
+    "clean": true
+  }
+}

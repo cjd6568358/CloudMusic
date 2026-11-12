@@ -3,6 +3,18 @@
 """
 Y 组 —— 竞品 1241 个函数「逐行」ARM64 → Kotlin 转译器（零函数遗漏）。
 
+⚠️ **已废弃（DEPRECATED），请勿执行**：Y 组已被 Z 组取代（`tools/z_transpile.py`）。
+   ① 判据换代：Y 组以 `.dynsym` STT_FUNC 为函数清单，实测只覆盖 4 个 so `.text`
+      指令的 27%（so 已 strip 无 `.symtab`）；Z 组改按**代码可达性**取全集，
+      拿到 6326 块 / 7486 入口 / 388064 条指令，覆盖率 90.0%/95.7%/97.0%/92.7%。
+   ② 产出冲突：本脚本会生成 `NmOpcodes.kt` / `NmArm64Runtime.kt` /
+      `NmTranslated00..31.kt`，这批文件已从工作区删除，由 `NmOp.kt` /
+      `NmArm64.kt` / `NmMachine.kt` / `NmCode00..158.kt` 取代；重跑会重新造出
+      与被删文件同名的旧产物，与现行编译链冲突。
+   ③ 保留原因：`spec/y-manifest.json` / `spec/y-opcode-coverage.json` 是本脚本的
+      历史产出，作为「Y→Z 判据换代」的对照证据保留；本文件与两个 JSON 一并冻结。
+   现行逐行翻译入口见 `tools/z_transpile.py` + `tools/z_audit.py`。
+
 对 4 个竞品自研 so 的每个 .dynsym STT_FUNC，用 capstone 逐条反汇编，
 把**每条指令**转成一行 Kotlin `st.step(NmIns(...))`；生成物是 1241 个
 可编译、可调用的 Kotlin 函数，函数体逐行对应原指令序列。

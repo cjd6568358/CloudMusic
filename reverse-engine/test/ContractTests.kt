@@ -1323,54 +1323,209 @@ private fun testXGroup(s: Suite) {
 }
 
 // ---------------------------------------------------------------------------
-// 17. Y 组 —— 1241 个函数逐行翻译守恒与可执行性
+// 17. Z 组 —— 代码口径全量逐行翻译：守恒、索引、执行、外部依赖
 // ---------------------------------------------------------------------------
 
-private fun testYGroup(s: Suite) {
-    s.section("17. Y 组：1241 函数 / 90525 行逐指令 Kotlin 翻译与执行")
+private fun testZGroup(s: Suite) {
+    s.section("17. Z 组：6326 块 / 388064 条指令逐行翻译与执行")
     val C = NmTranslatedCatalog
 
-    // Y-01 / Y-04：全量与守恒
-    s.eq("Y-01 函数总数 1241", 1241, C.FUNCTION_COUNT)
-    s.eq("Y-01 注册表 KEYS 数量", 1241, C.KEYS.size)
-    s.eq("Y-04 逐行指令总数 90525", 90525, C.INSTRUCTION_COUNT)
-    s.eq("Y-03 助记词种类 121", 121, C.OPCODE_COUNT)
-    s.eq("Y-03 助记词表与常量一致", C.OPCODE_COUNT, NmOpcodes.COUNT)
-    s.eq("Y-03 语义类别 23", 23, NmOpClass.COUNT)
-    s.eq("Y-03 类别名数量", NmOpClass.COUNT, NmOpClass.NAMES.size)
+    // ---- Z-01 指令守恒：.text 字节账闭合 ----
+    s.eq("Z-01 翻译指令 388064", 388064, C.INSTRUCTION_COUNT)
+    s.eq("Z-01 代码块 6326", 6326, C.BLOCK_COUNT)
+    s.eq("Z-01 函数入口 7486", 7486, C.ENTRY_COUNT)
+    s.eq("Z-01 cache 775 块", 775, C.CACHE_BLOCKS)
+    s.eq("Z-01 engine 1889 块", 1889, C.ENGINE_BLOCKS)
+    s.eq("Z-01 audio 3213 块", 3213, C.AUDIO_BLOCKS)
+    s.eq("Z-01 audio-legacy 449 块", 449, C.AUDIO_LEGACY_BLOCKS)
+    s.eq("Z-01 四域块数合计 == BLOCK_COUNT", C.BLOCK_COUNT,
+        C.CACHE_BLOCKS + C.ENGINE_BLOCKS + C.AUDIO_BLOCKS + C.AUDIO_LEGACY_BLOCKS)
+    s.eq("Z-01 cache 783 入口", 783, C.CACHE_ENTRIES)
+    s.eq("Z-01 engine 2646 入口", 2646, C.ENGINE_ENTRIES)
+    s.eq("Z-01 audio 3459 入口", 3459, C.AUDIO_ENTRIES)
+    s.eq("Z-01 audio-legacy 598 入口", 598, C.AUDIO_LEGACY_ENTRIES)
+    s.eq("Z-01 四域入口合计 == ENTRY_COUNT", C.ENTRY_COUNT,
+        C.CACHE_ENTRIES + C.ENGINE_ENTRIES + C.AUDIO_ENTRIES + C.AUDIO_LEGACY_ENTRIES)
+    s.eq("Z-01 块基址连续无空洞",
+        listOf(C.ENGINE_BASE, C.AUDIO_BASE, C.AUDIO_LEGACY_BASE),
+        listOf(C.CACHE_BASE + C.CACHE_BLOCKS, C.ENGINE_BASE + C.ENGINE_BLOCKS,
+            C.AUDIO_BASE + C.AUDIO_BLOCKS))
+    s.eq("Z-01 末域块满即总数", C.BLOCK_COUNT, C.AUDIO_LEGACY_BASE + C.AUDIO_LEGACY_BLOCKS)
+    // .text 可解码指令 406580 = 翻译 388064 + 字面量池 18512 + 不可解码可达 4
+    s.eq("Z-01 .text 指令账闭合", 406580, C.INSTRUCTION_COUNT + 18512 + 4)
 
-    // Y-05：按地址定位
-    val f = C.resolve("cache", 0xc3f4L)
-    s.check("Y-05 resolve ReadFromFileNoLock @0xc3f4", f != null)
-    s.check("Y-05 未知地址返回 null", C.resolve("cache", 0L) == null)
-    s.check("Y-05 全部 KEYS 均可 resolve", C.KEYS.all { C.resolve(it.first, it.second) != null })
+    // ---- Z-02 语义 op 表：不存在 PRESERVED 兜底桶 ----
+    s.eq("Z-02 语义 op 212", 212, NmOp.COUNT)
+    s.eq("Z-02 op 名表长度一致", NmOp.COUNT, NmOp.NAMES.size)
+    s.check("Z-02 op 名可反查", NmOp.name(NmOp.UNKNOWN) == "UNKNOWN")
+    s.check("Z-02 越界 op 名安全", NmOp.name(NmOp.COUNT) == "?" && NmOp.name(-1) == "?")
+    s.check("Z-02 无 PRESERVED 兜底桶", NmOp.NAMES.none { "PRESERVED" in it })
+    s.check("Z-02 标量与向量整数运算分桶", listOf(
+        "ADD_REG", "ADD_VEC_I", "SUB_REG", "SUB_VEC_I", "MUL", "MUL_VEC_I",
+        "AND_REG", "AND_VEC", "ORR_REG", "ORR_VEC", "EOR_REG", "EOR_VEC",
+        "BIC_REG", "BIC_VEC", "FADD", "FADD_VEC",
+        "LD", "ST", "LD1", "ST1", "BL", "BLR", "BR", "RET", "MRS", "SVC",
+    ).all { it in NmOp.NAMES })
 
-    // Y-02：实际执行一个逐行翻译函数
-    val st = NmArmState(NmOpcodes)
-    val r = f?.invoke(st) ?: -999L
-    s.check("Y-02 函数可调用且非空转", st.steps > 0)
-    s.check("Y-02 执行后 pc 有推进", st.pc != 0xc3f4L || st.done)
-    s.check("Y-02 调用记录可观察", st.callLog.size >= 0)
-    s.check("Y-02 返回 Long", r == st.result)
+    // ---- Z-03 块索引：全部块的 lo / hi 反查闭合 ----
+    val plan = listOf(
+        "cache" to C.CACHE_BASE, "engine" to C.ENGINE_BASE,
+        "audio" to C.AUDIO_BASE, "audio-legacy" to C.AUDIO_LEGACY_BASE,
+    )
+    var hit = 0
+    var spanBad = 0
+    var orderBad = 0
+    for ((so, base) in plan) {
+        var prev = -1L
+        for (k in 0 until C.blocksOf(so)) {
+            val g = base + k
+            val lo = C.blockLo(g)
+            val span = C.blockSpan(g)
+            if (span < 1L || span > 64L) spanBad++
+            if (lo <= prev) orderBad++
+            prev = lo
+            if (C.blockIndexOf(so, lo) == g) hit++
+            if (C.blockIndexOf(so, lo + (span - 1) * 4) == g) hit++
+        }
+    }
+    s.eq("Z-03 块 span 全部落在 1..64", 0, spanBad)
+    s.eq("Z-03 每域块 lo 严格递增", 0, orderBad)
+    s.eq("Z-03 lo/hi 反查全部闭合", C.BLOCK_COUNT * 2, hit)
+    s.eq("Z-03 未知 so 返回 -1", -1, C.blockIndexOf("nope", C.blockLo(0)))
+    s.eq("Z-03 段外地址返回 -1", -1, C.blockIndexOf("cache", 0L))
+    s.eq("Z-03 块内偏移可命中", 0, C.blockIndexOf("cache", C.blockLo(0) + 4L))
+    s.eq("Z-03 越界下标 lo = -1", -1L, C.blockLo(-1))
+    s.eq("Z-03 越界下标 span = 0", 0L, C.blockSpan(C.BLOCK_COUNT))
+    val aliasA = C.blockIndexOf("audio-legacy", C.blockLo(C.AUDIO_LEGACY_BASE))
+    val aliasB = C.blockIndexOf("audio_legacy", C.blockLo(C.AUDIO_LEGACY_BASE))
+    s.check("Z-03 域名连字符/下划线等价", aliasA == aliasB && aliasA == C.AUDIO_LEGACY_BASE)
 
-    // Y-02：直接验证语义原语
-    val st2 = NmArmState(NmOpcodes)
-    st2.begin(0x1000L)
-    st2.step(NmIns(0x1000L, NmOpClass.MOV_IMM, NmOpcodes.idOf("mov"), 0, -1, -1, 4096L))
-    s.eq("Y-02 mov x0,#4096", 4096L, st2.x[0])
-    st2.step(NmIns(0x1004L, NmOpClass.ADD_IMM, NmOpcodes.idOf("add"), 1, 0, -1, 8L))
-    s.eq("Y-02 add x1,x0,#8", 4104L, st2.x[1])
-    st2.step(NmIns(0x1008L, NmOpClass.STORE, NmOpcodes.idOf("str"), 1, 0, -1, 16L))
-    s.eq("Y-02 str x1,[x0,#16]", 4104L, st2.mem[4112L])
-    st2.step(NmIns(0x100cL, NmOpClass.LOAD, NmOpcodes.idOf("ldr"), 2, 0, -1, 16L))
-    s.eq("Y-02 ldr x2,[x0,#16]", 4104L, st2.x[2])
+    // ---- Z-04 入口表 ----
+    s.eq("Z-04 入口表合计 == ENTRY_COUNT", C.ENTRY_COUNT,
+        C.DOMAINS.sumOf { C.entryAddrs(it).size })
+    s.check("Z-04 每域入口升序且落在块内", C.DOMAINS.all { so ->
+        val a = C.entryAddrs(so)
+        a.size == C.entriesOf(so) &&
+            a.all { C.blockIndexOf(so, it) >= 0 } &&
+            (1 until a.size).all { a[it] > a[it - 1] }
+    })
+    s.eq("Z-04 未知 so 入口表为空", 0, C.entryAddrs("nope").size)
 
-    // Y-03 / Y-06：PRESERVED 保真记录，不伪造副作用
-    val st3 = NmArmState(NmOpcodes)
-    st3.begin(0x2000L)
-    st3.step(NmIns(0x2000L, NmOpClass.PRESERVED, NmOpcodes.idOf("nop"), -1, -1, -1, 0L))
-    s.eq("Y-03 PRESERVED 原样记录", 1, st3.preserved.size)
-    s.check("Y-06 助记词可反查", NmOpcodes.name(NmOpcodes.idOf("ldr")) == "ldr")
+    // ---- Z-05 分派：越界安全 + 真实执行 ----
+    NmBlocks.exec(-1, NmArmState())
+    NmBlocks.exec(C.BLOCK_COUNT, NmArmState())
+    val stD = NmArmState()
+    stD.pc = C.blockLo(0)
+    NmBlocks.exec(0, stD)
+    s.check("Z-05 越界分派安全且块分派真实执行", stD.steps > 0)
+
+    // ---- Z-06 抽样逐行执行：7486 入口按固定步长分层抽样，全部可调用 ----
+    // 抽样步长取 13（≈576 个入口 / 四域），目的是让动态 op 覆盖面接近真实分布，
+    // 而不是只跑到某一小段代码。每入口给 12000 次分派预算，超预算的登记不报错。
+    val agg = NmExternal()
+    var ran = 0
+    var progressed = 0
+    var totalSteps = 0L
+    val domainTrace = StringBuilder()
+    for (so in C.DOMAINS) {
+        val addrs = C.entryAddrs(so)
+        var k = 0
+        var dRan = 0
+        var dSteps = 0L
+        while (k < addrs.size) {
+            val st = NmArmState(agg)
+            NmMachine(st).call(so, addrs[k], 12_000)
+            ran++
+            dRan++
+            if (st.steps > 0) progressed++
+            totalSteps += st.steps
+            dSteps += st.steps
+            k += 13
+        }
+        if (domainTrace.isNotEmpty()) domainTrace.append(" / ")
+        domainTrace.append("$so:$dRan 入口,$dSteps 步")
+    }
+    s.check("Z-06 抽样入口数 > 400", ran > 400)
+    s.eq("Z-06 抽样入口全部执行了指令", ran, progressed)
+    s.check("Z-06 累计执行指令数足够", totalSteps > ran * 50L)
+    s.eq("Z-06 零 dropout：无 op 落到未实现兜底", 0, agg.dropouts)
+    s.check("Z-06 dropout op 表为空", agg.dropoutOps.isEmpty())
+    s.eq("Z-06 无异常 trap", 0, agg.traps)
+    val opSeen = agg.opSeen.count { it }
+    // 阈值是低水位（实测值的 1/2 左右），避免入口抽样步长调整时抖动；
+    // 真实动态覆盖数打印在证据行，供人工核对「翻译确实在跑、不是空转」。
+    s.check("Z-06 运行期动态覆盖 op 数 > 40", opSeen > 40)
+    println("  [Z-06] sampledEntries=$ran executedInstructions=$totalSteps " +
+        "dynamicOps=$opSeen/${NmOp.COUNT} externalCalls=${agg.externalCalls} " +
+        "unresolvedTargets=${agg.unresolvedTargets.size} " +
+        "budgetExceeded=${agg.budgetExceeded} dropouts=${agg.dropouts} traps=${agg.traps}")
+    println("  [Z-06] perDomain=$domainTrace")
+
+    // ---- Z-07 语义原语直测：每条指令一行，必须产生真实副作用 ----
+    val st = NmArmState()
+    st.pc = 0x1000L
+    st.i(0x1000L, NmOp.MOV_IMM, 0, -1, -1, 4096L, 0L, NmF.W8, 0)
+    s.eq("Z-07 mov x0,#4096", 4096L, st.x[0])
+    st.i(0x1004L, NmOp.ADD_IMM, 1, 0, -1, 8L, 0L, NmF.W8, 0)
+    s.eq("Z-07 add x1,x0,#8", 4104L, st.x[1])
+    st.i(0x1008L, NmOp.ST, 1, 0, -1, 16L, 0L, NmF.W8, 0)
+    s.eq("Z-07 str x1,[x0,#16]", 4104L, st.load(4112L, 8))
+    st.i(0x100cL, NmOp.LD, 2, 0, -1, 16L, 0L, NmF.W8, 0)
+    s.eq("Z-07 ldr x2,[x0,#16]", 4104L, st.x[2])
+
+    // 标志位与条件选择（not-taken / taken 两路）
+    st.x[3] = 7L
+    st.x[4] = 9L
+    st.pc = 0x2000L
+    st.i(0x2000L, NmOp.CMP_REG, 3, -1, 4, 0L, 0L, NmF.W8, 0)
+    s.check("Z-07 cmp x3,x4 不置 Z", (st.flags and NmFlag.Z) == 0)
+    st.i(0x2004L, NmOp.CSEL, 5, 3, 4, 0L, 0L, NmF.W8, NmCC.EQ)
+    s.eq("Z-07 csel eq 不成立取 rm", 9L, st.x[5])
+    st.x[6] = 9L
+    st.pc = 0x2010L
+    st.i(0x2010L, NmOp.CMP_REG, 6, -1, 4, 0L, 0L, NmF.W8, 0)
+    s.check("Z-07 cmp x6,x4 置 Z", (st.flags and NmFlag.Z) != 0)
+    st.i(0x2014L, NmOp.CSEL, 7, 3, 4, 0L, 0L, NmF.W8, NmCC.EQ)
+    s.eq("Z-07 csel eq 成立取 rn", 7L, st.x[7])
+
+    // 标量浮点
+    st.pc = 0x3000L
+    st.v[0] = 0L
+    st.v[2] = 1.5f.toBits().toLong()
+    st.v[4] = 2.25f.toBits().toLong()
+    st.i(0x3000L, NmOp.FADD, 0, 1, 2, 0L, 0L, NmF.W4, 0)
+    s.eq("Z-07 fadd s0,s1,s2", 3.75f, Float.fromBits(st.v[0].toInt()))
+
+    // NEON：立即数填充 + 向量浮点加 + 向量整数加
+    val stV = NmArmState()
+    stV.pc = 0x4000L
+    stV.i(0x4000L, NmOp.MOVI_VEC, 1, -1, -1, 0x3F800000L, 0L, NmArr.S4 shl NmF.ARR_SHIFT, 0)
+    stV.i(0x4004L, NmOp.MOVI_VEC, 2, -1, -1, 0x40000000L, 0L, NmArr.S4 shl NmF.ARR_SHIFT, 0)
+    stV.i(0x4008L, NmOp.FADD_VEC, 0, 1, 2, 0L, 0L, NmArr.S4 shl NmF.ARR_SHIFT, 0)
+    s.eq("Z-07 fadd v0.4s 首车道 1.0+2.0", 3.0f, Float.fromBits(stV.v[0].toInt()))
+    s.eq("Z-07 fadd v0.4s 末车道 1.0+2.0", 3.0f, Float.fromBits((stV.v[1] ushr 32).toInt()))
+    stV.pc = 0x4010L
+    stV.i(0x4010L, NmOp.MOVI_VEC, 3, -1, -1, 7L, 0L, NmArr.H8 shl NmF.ARR_SHIFT, 0)
+    stV.i(0x4014L, NmOp.MOVI_VEC, 4, -1, -1, 5L, 0L, NmArr.H8 shl NmF.ARR_SHIFT, 0)
+    stV.i(0x4018L, NmOp.ADD_VEC_I, 5, 3, 4, 0L, 0L, NmArr.H8 shl NmF.ARR_SHIFT, 0)
+    s.eq("Z-07 add v5.8h 逐车道 7+5", 12L, stV.vgetSz(5, 2, 0))
+    s.eq("Z-07 add v5.8h 末车道 7+5", 12L, stV.vgetSz(5, 2, 7))
+
+    // ---- Z-08 外部依赖如实登记，不伪造成功 ----
+    val sm = NmArmState()
+    sm.pc = 0x5000L
+    sm.i(0x5000L, NmOp.MRS, 0, -1, -1, 2L, 0L, NmF.W8, 0)
+    s.eq("Z-08 MRS cntvct_el0 登记", 1, sm.ext.sysregReads[2] ?: 0)
+    s.check("Z-08 MRS 返回确定性桩值", sm.x[0] > 0L)
+    val sb = NmArmState()
+    sb.pc = 0x5100L
+    sb.i(0x5100L, NmOp.BRK, -1, -1, -1, 0L, 0L, 0, 0)
+    s.eq("Z-08 BRK 记 trap", 1, sb.ext.traps)
+    s.eq("Z-08 BRK 停机到哨兵", NmArmState.RET_SENTINEL, sb.pc)
+    val so = NmArmState()
+    NmMachine(so).call("cache", 0x10L, 64)
+    s.eq("Z-08 界外入口登记 unresolvedTargets", 1, so.ext.unresolvedTargets.size)
+    s.eq("Z-08 界外入口不加 dropout", 0, so.ext.dropouts)
 }
 
 fun main() {
@@ -1391,7 +1546,7 @@ fun main() {
     testVGroup(s)
     testWGroup(s)
     testXGroup(s)
-    testYGroup(s)
+    testZGroup(s)
 
     println()
     println("=".repeat(72))

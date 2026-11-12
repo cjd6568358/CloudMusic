@@ -24,7 +24,7 @@ reverse-engine 交付链的长效审计守护（纯 Python 标准库）。
   18. W 组常量：NmWDisasmCatalog.kt 的 21 项 Int / 2 项 String 常量与 manifest 一致；
   19. X 组指纹：x-function-inventory.json / x-semantic-anchors.json 的 sha256 与 x-manifest.json 一致，且函数全集零未处置；
   20. X 组常量：NmXCatalog.kt 的 6 项 Int / 2 项 String 常量与 manifest 一致；
-  21. Y 组指纹：4 个竞品 so 的 sha256 与 y-manifest 一致；
+  21. Z 组指纹：4 个竞品 so 的 sha256 / 字节数与 z-manifest 一致；
   22. Y 组逐行守恒：生成物 st.step 行数 == 90525 条真实指令，且 perFunction 合计一致；
   23. Y 组常量：NmTranslatedCatalog.kt 的 3 项常量与 manifest 一致。
 
@@ -493,64 +493,120 @@ def x_catalog_check() -> dict:
     }
 
 
-def y_translated_check() -> dict:
-    """第 21/22 项：Y 组逐行翻译守恒 + 源 so 指纹 + catalog 常量。"""
-    import glob
-    m_path = RE / "spec" / "y-manifest.json"
-    if not m_path.is_file():
-        return {"ok": False, "fingerprintOk": False, "constantsOk": False,
-                "conservationOk": False, "reason": "missing y-manifest.json"}
-    m = json.loads(m_path.read_text(encoding="utf-8"))
+def z_translated_check() -> dict:
+    """第 23~26 项：Z 组代码口径全量逐行翻译的守恒 / 指纹 / 语义零残留。"""
+    man_path = RE / "spec" / "z-manifest.json"
+    aud_path = RE / "spec" / "z-audit.json"
+    if not man_path.is_file():
+        return {"ok": False, "reason": "missing z-manifest.json"}
+    man = json.loads(man_path.read_text(encoding="utf-8"))
+    aud = json.loads(aud_path.read_text(encoding="utf-8")) if aud_path.is_file() else None
 
-    # 4 个竞品自研 so 的 sha256 与磁盘一致
-    src_results = {}
-    for soname, meta in (m.get("soMeta") or {}).items():
-        rel = "engine-legacy/src/main/jniLibs/arm64-v8a/" + soname
-        p = RE.parent / rel
+    # (1) 4 个竞品自研 so 的 sha256 / 字节数与磁盘一致
+    src = {}
+    for soname, meta in (man.get("soMeta") or {}).items():
+        p = RE.parent / ("engine-legacy/src/main/jniLibs/arm64-v8a/" + soname)
         if not p.is_file():
-            src_results[soname] = {"ok": False, "reason": "so missing"}
+            src[soname] = {"ok": False, "reason": "so missing"}
             continue
         raw = p.read_bytes()
-        src_results[soname] = {
-            "ok": hashlib.sha256(raw).hexdigest() == meta.get("sha256")
-                  and len(raw) == meta.get("bytes"),
-            "expected": meta.get("sha256"),
-            "actual": hashlib.sha256(raw).hexdigest(),
-        }
+        h = hashlib.sha256(raw).hexdigest()
+        src[soname] = {"ok": h == meta.get("sha256") and len(raw) == meta.get("bytes"),
+                       "expected": meta.get("sha256"), "actual": h}
+    fingerprint_ok = bool(src) and all(v.get("ok") for v in src.values())
 
-    # 逐行守恒：生成物里 st.step(NmIns(...)) 的行数必须等于真实指令总数
-    generated = sorted((RE / "kt" / "src").glob("NmTranslated[0-9][0-9].kt"))
-    step_lines = 0
-    for p in generated:
-        step_lines += p.read_text(encoding="utf-8").count("st.step(NmIns(")
-    per_function = m.get("perFunction") or []
-    conservation_ok = (
-        step_lines == m.get("instructionCount")
-        and len(per_function) == m.get("functionCount")
-        and sum(f.get("instructions", 0) for f in per_function) == m.get("instructionCount")
-        and len(generated) > 0
-    )
+    # (2) 逐行守恒：NmCode*.kt 里每条 i(...) 一行，行数 == 指令总数
+    code_files = sorted((RE / "kt" / "src").glob("NmCode*.kt"))
+    ins_lines = 0
+    block_fns = 0
+    for p in code_files:
+        for line in p.read_text(encoding="utf-8").splitlines():
+            s = line.strip()
+            if s.startswith("i("):
+                ins_lines += 1
+            elif s.startswith("fun NmArmState.nb_"):
+                block_fns += 1
+    wrap_files = sorted((RE / "kt" / "src").glob("NmFuncs*.kt"))
+    wrap_fns = 0
+    for p in wrap_files:
+        wrap_fns += sum(1 for line in p.read_text(encoding="utf-8").splitlines()
+                        if line.startswith("fun nf_"))
+    blocks_kt = (RE / "kt" / "src" / "NmBlocks.kt")
+    dispatch = blocks_kt.read_text(encoding="utf-8").count("-> st.nb_") if blocks_kt.is_file() else 0
 
-    # catalog 常量
-    kt_text = (KT_DIR / "NmTranslatedCatalog.kt").read_text(encoding="utf-8") \
-        if (KT_DIR / "NmTranslatedCatalog.kt").is_file() else ""
-    const_results = {}
-    for name, expected in (("FUNCTION_COUNT", m.get("functionCount")),
-                           ("INSTRUCTION_COUNT", m.get("instructionCount")),
-                           ("OPCODE_COUNT", m.get("opcodeCount"))):
-        actual = parse_int_const(kt_text, name)
-        const_results[name] = {"ok": actual is not None and actual == expected,
-                               "expected": expected, "actual": actual}
+    conservation = {
+        "instructionLines": ins_lines, "expectedInstructions": man.get("instructionCount"),
+        "insOk": ins_lines == man.get("instructionCount"),
+        "blockFns": block_fns, "expectedBlocks": man.get("blockCount"),
+        "blockOk": block_fns == man.get("blockCount"),
+        "wrapperFns": wrap_fns, "expectedEntries": man.get("entryCount"),
+        "wrapOk": wrap_fns == man.get("entryCount"),
+        "dispatchBranches": dispatch, "dispatchOk": dispatch == man.get("blockCount"),
+        "codeFiles": len(code_files), "wrapFiles": len(wrap_files),
+    }
+    conservation_ok = all(conservation[k] for k in
+                          ("insOk", "blockOk", "wrapOk", "dispatchOk"))
 
-    fingerprint_ok = bool(src_results) and all(v.get("ok") for v in src_results.values())
-    constants_ok = bool(const_results) and all(v.get("ok") for v in const_results.values())
+    # (3) catalog / op 表常量与 .text 字节账
+    cat = (RE / "kt" / "src" / "NmTranslatedCatalog.kt")
+    cat_text = cat.read_text(encoding="utf-8") if cat.is_file() else ""
+    op_text = (RE / "kt" / "src" / "NmOp.kt").read_text(encoding="utf-8") \
+        if (RE / "kt" / "src" / "NmOp.kt").is_file() else ""
+    consts = {}
+    for name, exp in (("BLOCK_COUNT", man.get("blockCount")),
+                      ("ENTRY_COUNT", man.get("entryCount")),
+                      ("INSTRUCTION_COUNT", man.get("instructionCount"))):
+        got = parse_int_const(cat_text, name)
+        consts[name] = {"ok": got == exp, "expected": exp, "actual": got}
+    acc = man.get("textAccounting") or {}
+    closure_ok = (acc.get("textInstructions") ==
+                  (acc.get("translated", 0) + acc.get("literalPool", 0)
+                   + acc.get("undecodableInReach", 0)))
+    consts["textAccounting"] = {"ok": closure_ok, "value": acc}
+    op_count = parse_int_const(op_text, "COUNT")
+    op_names_declared = op_text.count("const val ")
+    consts["NmOpCount"] = {"ok": op_count is not None and op_count == op_names_declared - 1,
+                           "expected": op_names_declared - 1, "actual": op_count}
+    constants_ok = all(v.get("ok") for v in consts.values())
+
+    # (4) 语义零残留：静态（每个 op 都有 when 分支）+ 动态（审计 JSON）
+    arm = (RE / "kt" / "src" / "NmArm64.kt").read_text(encoding="utf-8")
+    try:
+        a = arm.index("fun i(addr")
+        b = arm.index("// ---------------- 辅助", a)
+        body = arm[a:b]
+    except ValueError:
+        body = ""
+    declared = re.findall(r"const val (\w+): Int = (\d+)", op_text)
+    handled = set(re.findall(r"NmOp\.(\w+)", body))
+    not_handled = sorted(n for n, _v in declared if n not in handled
+                         and n not in ("UNKNOWN", "COUNT"))
+    semantic = {
+        "opsDeclared": len(declared),
+        "opsHandled": len(handled),
+        "opsWithoutBranch": not_handled,
+        "staticOk": len(not_handled) == 0,
+        "auditPresent": aud is not None,
+    }
+    if aud is not None:
+        summ = aud.get("summary") or {}
+        semantic["dropoutTotal"] = summ.get("dropoutTotal")
+        semantic["vectorLeakTotal"] = summ.get("vectorLeakTotal")
+        semantic["dynamicOk"] = bool(summ.get("clean"))
+    else:
+        semantic["dynamicOk"] = False
+    semantic_ok = semantic["staticOk"] and semantic["dynamicOk"]
+
     return {
-        "ok": bool(fingerprint_ok and constants_ok and conservation_ok),
+        "ok": bool(fingerprint_ok and conservation_ok and constants_ok and semantic_ok),
         "fingerprintOk": fingerprint_ok,
-        "constantsOk": constants_ok,
         "conservationOk": conservation_ok,
-        "generatedFiles": len(generated), "stepLines": step_lines,
-        "sources": src_results, "constants": const_results,
+        "constantsOk": constants_ok,
+        "semanticOk": semantic_ok,
+        "sources": src,
+        "conservation": conservation,
+        "constants": consts,
+        "semantic": semantic,
     }
 
 
@@ -567,7 +623,7 @@ def main() -> int:
     chapter_matrix = chapter_matrix_check()
     w_disasm = w_disasm_check()
     x_catalog = x_catalog_check()
-    y_translated = y_translated_check()
+    z_translated = z_translated_check()
 
     missing_in_spec = sorted(set(code_ids) - set(spec_ids))
     orphan_in_spec = sorted(set(spec_ids) - set(code_ids))
@@ -594,9 +650,10 @@ def main() -> int:
         "wDisasmConstantsMatch": bool(w_disasm.get("constantsOk")),
         "xCatalogFingerprintMatches": bool(x_catalog.get("fingerprintOk")),
         "xCatalogConstantsMatch": bool(x_catalog.get("constantsOk")),
-        "yTranslatedFingerprintMatches": bool(y_translated.get("fingerprintOk")),
-        "yTranslatedConservationMatches": bool(y_translated.get("conservationOk")),
-        "yTranslatedCatalogMatches": bool(y_translated.get("constantsOk")),
+        "zTranslatedFingerprintMatches": bool(z_translated.get("fingerprintOk")),
+        "zTranslatedConservationMatches": bool(z_translated.get("conservationOk")),
+        "zTranslatedCatalogMatches": bool(z_translated.get("constantsOk")),
+        "zTranslatedSemanticsComplete": bool(z_translated.get("semanticOk")),
     }
     overall = all(checks.values())
 
@@ -625,7 +682,7 @@ def main() -> int:
         "chapterMatrix": chapter_matrix,
         "wDisasm": w_disasm,
         "xCatalog": x_catalog,
-        "yTranslated": y_translated,
+        "zTranslated": z_translated,
     }
     BUILD_DIR.mkdir(parents=True, exist_ok=True)
     OUT_PATH.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
@@ -651,7 +708,14 @@ def main() -> int:
     print(f"  chapterMatrix fingerprint={chapter_matrix.get('fingerprintOk')} constants={chapter_matrix.get('constantsOk')}")
     print(f"  wDisasm fingerprint={w_disasm.get('fingerprintOk')} constants={w_disasm.get('constantsOk')}")
     print(f"  xCatalog fingerprint={x_catalog.get('fingerprintOk')} constants={x_catalog.get('constantsOk')}")
-    print(f"  yTranslated steps={y_translated.get('stepLines')} files={y_translated.get('generatedFiles')} conservation={y_translated.get('conservationOk')}")
+    zc = z_translated.get("conservation") or {}
+    zs = z_translated.get("semantic") or {}
+    print(f"  zTranslated ins={zc.get('instructionLines')}/{zc.get('expectedInstructions')} "
+          f"blocks={zc.get('blockFns')}/{zc.get('expectedBlocks')} "
+          f"entries={zc.get('wrapperFns')}/{zc.get('expectedEntries')} "
+          f"dispatch={zc.get('dispatchBranches')}")
+    print(f"  zSemantics ops={zs.get('opsDeclared')} noBranch={zs.get('opsWithoutBranch')} "
+          f"dropout={zs.get('dropoutTotal')} vectorLeak={zs.get('vectorLeakTotal')}")
     if not catalog.get("ok"):
         print(f"  catalogDetail={catalog}")
     if not done_chain.get("ok"):
@@ -668,8 +732,8 @@ def main() -> int:
         print(f"  wDisasmDetail={w_disasm}")
     if not x_catalog.get("ok"):
         print(f"  xCatalogDetail={x_catalog}")
-    if not y_translated.get("ok"):
-        print(f"  yTranslatedDetail={y_translated}")
+    if not z_translated.get("ok"):
+        print(f"  zTranslatedDetail={z_translated}")
     print(f"[REPORT] {OUT_PATH}")
     return 0 if overall else 1
 

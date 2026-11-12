@@ -2,9 +2,15 @@
 
 > **文首结论**：本目录把 `docs/12 §61.54 ~ §61.88` 系列反汇编证据逐条翻译成纯 JVM Kotlin
 > （含 §61.77 R 组全量登记、A3 反汇编补遗 U 组与章节矩阵自证 V 组），
-> 共 **202 条 `@spec` 逻辑点**（G15 / N30 / S23 / B30 / A12 / P12 / C8 / F8 / D12 / R8 / U10 / V6 / W14 / X8 / Y6），全部有对应 Kotlin 实现
+> 共 **204 条 `@spec` 逻辑点**（G15 / N30 / S23 / B30 / A12 / P12 / C8 / F8 / D12 / R8 / U10 / V6 / W14 / X8 / Z8），全部有对应 Kotlin 实现
 > 与契约测试断言；`tools/audit.py` 长效守护「代码编号 ⊆ 规格编号」且零悬空、零禁项。
 > 交付边界是**行为等价的逻辑翻译**，不含任何二进制、dex、so、资源或私有资产。
+>
+> **Z 组是判据口径的换代**：Y 组按 `.dynsym` 符号表取函数清单，实测只覆盖 4 个 so `.text`
+> 指令的 27%（so 已 strip，无 `.symtab`）；Z 组改按**代码可达性**取全集，覆盖率 90.0% / 95.7% /
+> 97.0% / 92.7%，`6326` 个代码块、`7486` 个函数入口、`388064` 条指令一条一行，
+> `.text` 字节账三者相加闭合。1358 条「PRESERVED 保真记录、无真实语义」的残留已清零：
+> `when(op)` 无实现分支 = 0、运行期 dropout = 0、向量错桶 = 0。
 
 ---
 
@@ -489,28 +495,25 @@
 
 ---
 
-### 3.15 Y 组 —— 1241 个函数逐行翻译（Y-01~Y-06）
+### 3.15 Z 组 —— 代码口径全量逐行翻译（Z-01~Z-08）
 
-> Y 组满足「每个函数逐行翻译」：对 4 个竞品自研 so 的 **1241 个函数**共
-> **90525 条 ARM64 指令**，由 `tools/y_transpile.py` 逐条生成一行 Kotlin
-> `st.step(NmIns(...))`；每个函数一个可编译、可调用的 Kotlin `fun`，
-> 函数体顺序与原指令序列 1:1，函数注册表按 `(so, addr)` 索引。
-> `NmArm64Runtime.kt` 实现寄存器、内存、条件标志、调用与返回的 Kotlin 语义；
-> 分支回跳由 while(round) + pc 匹配实现（上限 64 轮防不收敛）。
+> 与 Y 组的判据差别：Y 组以 `.dynsym` 的 STT_FUNC 为函数清单（1241 个 / 90525 条指令），
+> 实测只覆盖 4 个 so `.text` 指令的 27%——so 已 strip（无 `.symtab`）。Z 组改用**代码可达性**：
+> 从 dynsym 函数 + `.data.rel.ro`/`.data`/`.got`/`.init_array` 的代码指针出发递归下降，
+> `bl` 目标自动成为新入口，剩余连续区段按 `adr/adrp` 引用与否分为字面量池与补充代码。
+> 最终 `.text` 字节账闭合：**406580 条可解码 = 388064 翻译 + 18512 字面量池 + 4 不可解码**。
 
-| 编号 | 证据锚点 | 实现位置 | 等级 |
-|------|----------|----------|------|
-| Y-01 | 1241 个 .dynsym STT_FUNC 各生成一个 Kotlin fun，90525 条指令各一行，零遗漏 | `kt/src/NmTranslatedNN.kt`（32 个分块文件） | L1 |
-| Y-02 | ARM64 寄存器 x0-x31 / 内存 / NZCV / 调用日志 / 返回值的可执行语义 | `NmArm64Runtime.kt` / `NmArmState` | L1 |
-| Y-03 | 121 种助记词映射到 23 个语义类别；PRESERVED 类 1358 条保真记录、不伪造副作用 | `NmOpcodes.kt` / `NmOpClass` / `y-opcode-coverage.json` | L1 |
-| Y-04 | 逐行守恒：生成物 st.step 行数 = manifest instructionCount = perFunction 合计 = 90525 | `audit.py` 第 21 项 | L1 |
-| Y-05 | 注册表 `resolve(so, addr)` 可定位任一函数；同址别名符号唯一化、when 分支去重 | `NmTranslatedCatalog.kt` | L1 |
-| Y-06 | 4 个 so sha256 + 3 项 catalog 常量由 `audit.py` 第 21/22 项守护 | `y-manifest.json` / `audit.py` | L1 |
+| 编号 | 逻辑点 | 实现 / 证据 | 等级 |
+|------|--------|-------------|------|
+| Z-01 | 代码口径函数全集：6326 个代码块 / 7486 个入口 / 388064 条指令，一条指令一行 `i(...)`；`.text` 三者相加等于全节 | `kt/src/NmCode00..158.kt`（159 文件）/ `spec/z-manifest.json` | L1 |
+| Z-02 | 212 个语义 op 编码（`NmOp`）替代「助记词 + 类别」两段式；标量与向量整数运算分别分桶（`ADD_REG` vs `ADD_VEC_I` 等） | `NmOp.kt`（由 `tools/z_isa.py` 生成）/ `tools/z_isa.py` | L1 |
+| Z-03 | 块索引：每块 (lo, span) 以 base64 字符串常量携带，运行期 `pack()` 成 `LongArray`；`blockIndexOf` 二分定位，lo/hi 双向闭合 | `NmTranslatedCatalog.kt` / `audit.py` 第 23 项 | L1 |
+| Z-04 | 7486 个函数入口地址表（每域升序、落在块内），入口可直接经 `NmMachine.call` 调用；每个入口另有 `nf_*` 包装 | `NmTranslatedCatalog.entryAddrs` / `NmFuncs00..14.kt` | L1 |
+| Z-05 | 跨块/跨函数调度：`bl` 写 x30 跳目标、`ret` 跳 x30、尾调用与间接跳转真实执行；块内自循环由 `abortAt` 指令预算兜住 | `NmMachine.kt` / `NmBlocks.kt` | L1 |
+| Z-06 | 指令语义完备：NZCV 逐位推导、16 条件码、宽度截断、pre/post-index 写回、寄存器偏移扩展、浮点 S/D/H、NEON 逐车道；`when(op)` 无实现分支 = 0，dropout = 0，向量错桶 = 0 | `NmArm64.kt` / `spec/z-audit.json` / `audit.py` 第 26 项 | L1 |
+| Z-07 | 外部依赖如实登记：MRS 计数器用确定性桩并计数、SVC 计数、PLT 界外目标记 `unresolvedTargets`、BRK/UDF 记 trap 并停机 | `NmExternal` / 契约测试 Z-08 | L1 |
+| Z-08 | JVM 上限处置：索引不用 `longArrayOf` 字面量（13000 个 Long 常量会让 `<clinit>` 超 64KB，已用最小样例实证 `Method too large`）；块分派用每函数 600 分支 tableswitch；7486 包装按每文件 500 拆分；编译按「状态层 → 块批次 → 调度层 → 测试」13 趟分批，避开单趟 OOM | `tools/build.py` / `NmBlocks.kt` / `spec/z-manifest.json` 的 `jvmLimits` | L1 |
 
-> 边界如实登记：这是**指令级 1:1 的 Kotlin 逐行翻译 + 可执行解释语义**，
-> 不是把每个函数的 C++ 类型系统、堆对象布局与第三方模板重构成惯用 Kotlin；
-> `PRESERVED` 类别的 1358 条指令（浮点/SIMD/原子/系统等）保留原助记词与操作数控槽，
-> 由运行时记录而不编造副作用。`F4 仍 BLOCKED`，本目录不实现 B2 / M2 / M3。
 
 ---
 
@@ -538,11 +541,12 @@
 18. **W 组常量**：`NmWDisasmCatalog.kt` 的 21 项 Int / 2 项 String 常量必须与 manifest 一致；
 19. **X 组指纹**：`x-function-inventory.json` / `x-semantic-anchors.json` 的 `sha256` 与 `x-manifest.json` 一致，且函数全集**零未处置**；
 20. **X 组常量**：`NmXCatalog.kt` 的 6 项 Int / 2 项 String 常量必须与 manifest 一致；
-21. **Y 组指纹**：4 个竞品自研 so 的 `sha256` 与 `y-manifest.json` 一致；
-22. **Y 组逐行守恒**：生成物 `st.step(NmIns(...))` 行数 == 90525 条真实指令，且 `perFunction` 合计一致；
-23. **Y 组常量**：`NmTranslatedCatalog.kt` 的 3 项常量与 manifest 一致。
+21. **Z 组指纹**：4 个竞品自研 so 的 `sha256` / 字节数 与 `z-manifest.json` 一致；
+22. **Z 组逐行守恒**：`NmCode*.kt` 里 `i(...)` 行数 == 388064、块函数 == 6326、入口包装 == 7486、分派分支 == 6326；
+23. **Z 组常量**：`NmTranslatedCatalog.kt` 的 `BLOCK_COUNT` / `ENTRY_COUNT` / `INSTRUCTION_COUNT` + 8 项分域常量与 manifest 一致，且 `.text` 字节账三者相加闭合；
+24. **Z 组语义零残留**：`NmArm64.kt` 的 `when(op)` 覆盖全部 op（`UNKNOWN` / `COUNT` 除外）**零缺分支**，且 `z-audit.json` 的 `dropoutTotal == 0`、`vectorLeakTotal == 0`。
 
-输出：`build/audit-report.json`（含 `pass`、逐项明细、编号总数、禁项命中数、清单 / D / R / U / V / W / X / Y 组指纹结果）。
+输出：`build/audit-report.json`（含 `pass`、逐项明细、编号总数、禁项命中数、清单 / D / R / U / V / W / X / Z 组指纹结果）。
 
 ---
 
@@ -578,16 +582,19 @@ python tools/x_function_inventory.py
 python tools/x_semantic_anchors.py
 python tools/gen_x_catalog.py
 
-# Y 组：1241 函数 / 90525 指令逐行转译为 Kotlin
-python tools/y_transpile.py
+# Z 组：代码可达性发现全集 -> 6326 块 / 7486 入口 / 388064 指令逐行转译为 Kotlin
+python tools/z_transpile.py        # 需 capstone（用装有 capstone 的解释器执行）
+
+# Z 组语义残留审计：decode 失败（dropout）与「向量操作数进了标量桶」（vector-leak）
+python tools/z_audit.py
 
 # 全量编译 + 契约测试 + 生成 F4 链路报告（含完成通知链旁路验证）
 python tools/build.py
 
-# 规格/禁项/产物/清单/D 组/R 组/再清点裁定/U/V/W/X/Y 组 23 项审计
+# 规格/禁项/产物/清单/D 组/R 组/再清点裁定/U/V/W/X/Z 组 26 项审计
 python tools/audit.py
 ```
 
-预期：契约测试全绿（`671/671`）、`overallOk=true`、`audit pass=true`（23 项检查全 OK）。
+预期：契约测试全绿（`712/712`）、`overallOk=true`、`audit pass=true`（26 项检查全 OK）。
 `F4-CHAIN-REPORT.md` 由 `NmF4Chain.reproduce()` 真实运行生成，不是手写叙述；
 其中「完成通知链旁路验证」是独立实例跑出的静态分支语义，明确标注非 F4 因果环节。
