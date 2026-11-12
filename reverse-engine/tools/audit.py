@@ -23,9 +23,12 @@ reverse-engine 交付链的长效审计守护（纯 Python 标准库）。
   17. W 组指纹：w-disasm-manifest.json 记录的一手反汇编证据 sha256/bytes 与磁盘一致，且证据锚点全通过、so 指纹一致；
   18. W 组常量：NmWDisasmCatalog.kt 的 21 项 Int / 2 项 String 常量与 manifest 一致；
   19. X 组指纹：x-function-inventory.json / x-semantic-anchors.json 的 sha256 与 x-manifest.json 一致，且函数全集零未处置；
-  20. X 组常量：NmXCatalog.kt 的 6 项 Int / 2 项 String 常量与 manifest 一致。
+  20. X 组常量：NmXCatalog.kt 的 6 项 Int / 2 项 String 常量与 manifest 一致；
+  21. Y 组指纹：4 个竞品 so 的 sha256 与 y-manifest 一致；
+  22. Y 组逐行守恒：生成物 st.step 行数 == 90525 条真实指令，且 perFunction 合计一致；
+  23. Y 组常量：NmTranslatedCatalog.kt 的 3 项常量与 manifest 一致。
 
-输出：build/audit-report.json（含 20 项检查明细、清单/D/R/U/V/W/X 组指纹结果）；退出码 0 = 全通过。
+输出：build/audit-report.json（含 23 项检查明细、清单/D/R/U/V/W/X/Y 组指纹结果）；退出码 0 = 全通过。
 
 用法：python tools/audit.py
 """
@@ -490,6 +493,67 @@ def x_catalog_check() -> dict:
     }
 
 
+def y_translated_check() -> dict:
+    """第 21/22 项：Y 组逐行翻译守恒 + 源 so 指纹 + catalog 常量。"""
+    import glob
+    m_path = RE / "spec" / "y-manifest.json"
+    if not m_path.is_file():
+        return {"ok": False, "fingerprintOk": False, "constantsOk": False,
+                "conservationOk": False, "reason": "missing y-manifest.json"}
+    m = json.loads(m_path.read_text(encoding="utf-8"))
+
+    # 4 个竞品自研 so 的 sha256 与磁盘一致
+    src_results = {}
+    for soname, meta in (m.get("soMeta") or {}).items():
+        rel = "engine-legacy/src/main/jniLibs/arm64-v8a/" + soname
+        p = RE.parent / rel
+        if not p.is_file():
+            src_results[soname] = {"ok": False, "reason": "so missing"}
+            continue
+        raw = p.read_bytes()
+        src_results[soname] = {
+            "ok": hashlib.sha256(raw).hexdigest() == meta.get("sha256")
+                  and len(raw) == meta.get("bytes"),
+            "expected": meta.get("sha256"),
+            "actual": hashlib.sha256(raw).hexdigest(),
+        }
+
+    # 逐行守恒：生成物里 st.step(NmIns(...)) 的行数必须等于真实指令总数
+    generated = sorted((RE / "kt" / "src").glob("NmTranslated[0-9][0-9].kt"))
+    step_lines = 0
+    for p in generated:
+        step_lines += p.read_text(encoding="utf-8").count("st.step(NmIns(")
+    per_function = m.get("perFunction") or []
+    conservation_ok = (
+        step_lines == m.get("instructionCount")
+        and len(per_function) == m.get("functionCount")
+        and sum(f.get("instructions", 0) for f in per_function) == m.get("instructionCount")
+        and len(generated) > 0
+    )
+
+    # catalog 常量
+    kt_text = (KT_DIR / "NmTranslatedCatalog.kt").read_text(encoding="utf-8") \
+        if (KT_DIR / "NmTranslatedCatalog.kt").is_file() else ""
+    const_results = {}
+    for name, expected in (("FUNCTION_COUNT", m.get("functionCount")),
+                           ("INSTRUCTION_COUNT", m.get("instructionCount")),
+                           ("OPCODE_COUNT", m.get("opcodeCount"))):
+        actual = parse_int_const(kt_text, name)
+        const_results[name] = {"ok": actual is not None and actual == expected,
+                               "expected": expected, "actual": actual}
+
+    fingerprint_ok = bool(src_results) and all(v.get("ok") for v in src_results.values())
+    constants_ok = bool(const_results) and all(v.get("ok") for v in const_results.values())
+    return {
+        "ok": bool(fingerprint_ok and constants_ok and conservation_ok),
+        "fingerprintOk": fingerprint_ok,
+        "constantsOk": constants_ok,
+        "conservationOk": conservation_ok,
+        "generatedFiles": len(generated), "stepLines": step_lines,
+        "sources": src_results, "constants": const_results,
+    }
+
+
 def main() -> int:
     code_ids = code_spec_ids()
     spec_ids = spec_table_ids()
@@ -503,6 +567,7 @@ def main() -> int:
     chapter_matrix = chapter_matrix_check()
     w_disasm = w_disasm_check()
     x_catalog = x_catalog_check()
+    y_translated = y_translated_check()
 
     missing_in_spec = sorted(set(code_ids) - set(spec_ids))
     orphan_in_spec = sorted(set(spec_ids) - set(code_ids))
@@ -529,6 +594,9 @@ def main() -> int:
         "wDisasmConstantsMatch": bool(w_disasm.get("constantsOk")),
         "xCatalogFingerprintMatches": bool(x_catalog.get("fingerprintOk")),
         "xCatalogConstantsMatch": bool(x_catalog.get("constantsOk")),
+        "yTranslatedFingerprintMatches": bool(y_translated.get("fingerprintOk")),
+        "yTranslatedConservationMatches": bool(y_translated.get("conservationOk")),
+        "yTranslatedCatalogMatches": bool(y_translated.get("constantsOk")),
     }
     overall = all(checks.values())
 
@@ -557,6 +625,7 @@ def main() -> int:
         "chapterMatrix": chapter_matrix,
         "wDisasm": w_disasm,
         "xCatalog": x_catalog,
+        "yTranslated": y_translated,
     }
     BUILD_DIR.mkdir(parents=True, exist_ok=True)
     OUT_PATH.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
@@ -582,6 +651,7 @@ def main() -> int:
     print(f"  chapterMatrix fingerprint={chapter_matrix.get('fingerprintOk')} constants={chapter_matrix.get('constantsOk')}")
     print(f"  wDisasm fingerprint={w_disasm.get('fingerprintOk')} constants={w_disasm.get('constantsOk')}")
     print(f"  xCatalog fingerprint={x_catalog.get('fingerprintOk')} constants={x_catalog.get('constantsOk')}")
+    print(f"  yTranslated steps={y_translated.get('stepLines')} files={y_translated.get('generatedFiles')} conservation={y_translated.get('conservationOk')}")
     if not catalog.get("ok"):
         print(f"  catalogDetail={catalog}")
     if not done_chain.get("ok"):
@@ -598,6 +668,8 @@ def main() -> int:
         print(f"  wDisasmDetail={w_disasm}")
     if not x_catalog.get("ok"):
         print(f"  xCatalogDetail={x_catalog}")
+    if not y_translated.get("ok"):
+        print(f"  yTranslatedDetail={y_translated}")
     print(f"[REPORT] {OUT_PATH}")
     return 0 if overall else 1
 

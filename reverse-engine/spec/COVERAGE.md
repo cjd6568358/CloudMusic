@@ -1,7 +1,7 @@
 # COVERAGE —— 1:1 翻译覆盖总账
 
 > **文首结论**：本目录覆盖 `docs/12 §61.54 ~ §61.88` 系列证据中**所有可静态证明的
-> 播放内核控制逻辑**（196 条 `@spec`：168 条 A/B 类逻辑与数据点 + 6 条 V 组覆盖守护 + 14 条 W 组一手反汇编补译 + 8 条 X 组函数全集穷举）
+> 播放内核控制逻辑**（202 条 `@spec`：168 条 A/B 类逻辑与数据点 + 6 条 V 组覆盖守护 + 14 条 W 组一手反汇编补译 + 8 条 X 组函数全集穷举 + 6 条 Y 组逐行翻译）
 > 与**七份全量清单 / 元数据数据**（B 类）；
 > 其余域按「非竞品逻辑 / 数据清单 / 合规边界 / 需真机」逐条给出**明确不翻译的理由**，
 > 不留隐式空白。上一版遗留的两处「节选」缺口与 `OnNetSourceDataDone` 双分支简化错误本轮已闭环，
@@ -22,6 +22,10 @@
 > 全量登记 2670 条 `.rodata` 字符串、9611 条条件分支、862 个返回立即数、1964 处日志引用，
 > 处置为 translated 129 / registered 814 / mechanical 298，**unhandled=0**（X-01~X-08）。
 > `libffmpeg.so` 2659 个函数是第三方 FFmpeg，由 F 组登记，不计入竞品自研逻辑。
+> 本批 Y 组完成**每个函数逐行翻译**：1241 个函数共 90525 条 ARM64 指令，逐条生成一行 Kotlin
+> `st.step(NmIns(...))`，32 个分块文件 5.3 MiB；`NmArm64Runtime.kt` 提供寄存器/内存/条件标志/
+> 调用/返回的可执行语义，121 种助记词映射 23 类，PRESERVED 1358 条保真记录不伪造副作用。
+> 55 个 `.kt` 全量编译通过（96s），671/671 断言全绿。边界：指令级 1:1 翻译，非 C++ 类型系统重构。
 > 同时同步 §61.87 / §61.88 事实口径：B2 引擎 F3 22 格重跑 PASS 14 / FAIL 8、M2 门禁 PASS 解锁 M3、M3 接线完成但门禁未通过
 > 属**另一条路线**，本目录仍不实现 M2、`F4 仍 BLOCKED` 不变。
 
@@ -144,8 +148,8 @@
                                   ├─→ kt/src/NmChapterMatrixCatalog.kt (39 项常量)
                                   └─→ spec/chapter-matrix-manifest.json (sha256 + 常量期望值) [2 份快照]
              │
-             ├─ tools/build.py  → 编译 + 契约测试(651) → build/test-report.json
-             └─ tools/audit.py  → 20 项检查            → build/audit-report.json
+             ├─ tools/build.py  → 编译 + 契约测试(671) → build/test-report.json
+             └─ tools/audit.py  → 23 项检查            → build/audit-report.json
                   ⑥ 清单源 JSON sha256 == catalog-manifest
                   ⑦ Kotlin *_COUNT == catalog-manifest
                   ⑧ D 组源 JSON sha256 == done-chain-manifest
@@ -161,6 +165,9 @@
                   ⑱ Kotlin W 组 23 项常量 == w-disasm-manifest
                   ⑲ X 组函数全集档案 sha256 == x-manifest（含 unhandled=0）
                   ⑳ Kotlin X 组 8 项常量 == x-manifest
+                  ㉑ Y 组 4 个 so sha256 == y-manifest
+                  ㉒ 逐行守恒 st.step 行数 == 90525 条指令
+                  ㉓ Kotlin Y 组 3 项常量 == y-manifest
 ```
 
 任何上游证据变更而未重新生成、或任何手改 catalog / D 组常量导致漂移，都会让 `audit.py` fail。

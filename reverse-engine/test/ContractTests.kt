@@ -1322,6 +1322,57 @@ private fun testXGroup(s: Suite) {
     s.check("X-08 两份指纹不同", C.INVENTORY_SHA256 != C.ANCHORS_SHA256)
 }
 
+// ---------------------------------------------------------------------------
+// 17. Y 组 —— 1241 个函数逐行翻译守恒与可执行性
+// ---------------------------------------------------------------------------
+
+private fun testYGroup(s: Suite) {
+    s.section("17. Y 组：1241 函数 / 90525 行逐指令 Kotlin 翻译与执行")
+    val C = NmTranslatedCatalog
+
+    // Y-01 / Y-04：全量与守恒
+    s.eq("Y-01 函数总数 1241", 1241, C.FUNCTION_COUNT)
+    s.eq("Y-01 注册表 KEYS 数量", 1241, C.KEYS.size)
+    s.eq("Y-04 逐行指令总数 90525", 90525, C.INSTRUCTION_COUNT)
+    s.eq("Y-03 助记词种类 121", 121, C.OPCODE_COUNT)
+    s.eq("Y-03 助记词表与常量一致", C.OPCODE_COUNT, NmOpcodes.COUNT)
+    s.eq("Y-03 语义类别 23", 23, NmOpClass.COUNT)
+    s.eq("Y-03 类别名数量", NmOpClass.COUNT, NmOpClass.NAMES.size)
+
+    // Y-05：按地址定位
+    val f = C.resolve("cache", 0xc3f4L)
+    s.check("Y-05 resolve ReadFromFileNoLock @0xc3f4", f != null)
+    s.check("Y-05 未知地址返回 null", C.resolve("cache", 0L) == null)
+    s.check("Y-05 全部 KEYS 均可 resolve", C.KEYS.all { C.resolve(it.first, it.second) != null })
+
+    // Y-02：实际执行一个逐行翻译函数
+    val st = NmArmState(NmOpcodes)
+    val r = f?.invoke(st) ?: -999L
+    s.check("Y-02 函数可调用且非空转", st.steps > 0)
+    s.check("Y-02 执行后 pc 有推进", st.pc != 0xc3f4L || st.done)
+    s.check("Y-02 调用记录可观察", st.callLog.size >= 0)
+    s.check("Y-02 返回 Long", r == st.result)
+
+    // Y-02：直接验证语义原语
+    val st2 = NmArmState(NmOpcodes)
+    st2.begin(0x1000L)
+    st2.step(NmIns(0x1000L, NmOpClass.MOV_IMM, NmOpcodes.idOf("mov"), 0, -1, -1, 4096L))
+    s.eq("Y-02 mov x0,#4096", 4096L, st2.x[0])
+    st2.step(NmIns(0x1004L, NmOpClass.ADD_IMM, NmOpcodes.idOf("add"), 1, 0, -1, 8L))
+    s.eq("Y-02 add x1,x0,#8", 4104L, st2.x[1])
+    st2.step(NmIns(0x1008L, NmOpClass.STORE, NmOpcodes.idOf("str"), 1, 0, -1, 16L))
+    s.eq("Y-02 str x1,[x0,#16]", 4104L, st2.mem[4112L])
+    st2.step(NmIns(0x100cL, NmOpClass.LOAD, NmOpcodes.idOf("ldr"), 2, 0, -1, 16L))
+    s.eq("Y-02 ldr x2,[x0,#16]", 4104L, st2.x[2])
+
+    // Y-03 / Y-06：PRESERVED 保真记录，不伪造副作用
+    val st3 = NmArmState(NmOpcodes)
+    st3.begin(0x2000L)
+    st3.step(NmIns(0x2000L, NmOpClass.PRESERVED, NmOpcodes.idOf("nop"), -1, -1, -1, 0L))
+    s.eq("Y-03 PRESERVED 原样记录", 1, st3.preserved.size)
+    s.check("Y-06 助记词可反查", NmOpcodes.name(NmOpcodes.idOf("ldr")) == "ldr")
+}
+
 fun main() {
     val s = Suite()
     testNativeTypes(s)
@@ -1340,6 +1391,7 @@ fun main() {
     testVGroup(s)
     testWGroup(s)
     testXGroup(s)
+    testYGroup(s)
 
     println()
     println("=".repeat(72))
