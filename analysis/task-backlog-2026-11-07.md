@@ -1,5 +1,16 @@
 # CloudMusic · 文档 ↔ 代码核对与任务清单（2026-11-07 第三十三轮）
 
+> **★ 2026-11-12 第一百一十五批（`docs/12 §61.90`）：M4 自动进曲真机 PASS。**
+> Room 双曲队列 SEQUENCE（DB run-as 推送，冷启动恢复）→ t1 自然 ENDED
+> → **31ms 自动进曲**（G05 消费链 B2 同路径）→ t2 12.019s 精确播完 →
+> SEQUENCE 末尾收束 + PAUSED 会话回退，零 crash。M4 主体判定完成：
+> seek 三点（12/4/0ms）✓ / ENDED ✓ / 自动进曲 ✓；gapless/ReplayGain 挂账
+> （C7 降级域）。方法教训：source_ref JSON 一律 json.dumps + json.loads
+> 自验（{{ 转义二次踩坑）；DB 模板行硬编码（锚点行可能被前次 DELETE 清除）。
+> M5 启动：20 分钟长稳（LIST_LOOP 双曲）+ F4 多信号验收（B2 口径）+ A3 收口。
+> F4 仍 BLOCKED（历史档案）、A3 仍 G09 PARTIAL、舱不冻结。断点
+> `§61.89 → §61.90`。
+>
 > **★ 2026-11-12 第一百一十四批（`docs/12 §61.89`，用户提供新端点 39565）：
 > **M3 门禁 PASS + M4 seek/ENDED 实锤 —— M3 完结、M4 开工。**
 > `tools/b2_m34_acceptance.py`（61.88b）真机执行全绿：① 65s URL 连续播放
