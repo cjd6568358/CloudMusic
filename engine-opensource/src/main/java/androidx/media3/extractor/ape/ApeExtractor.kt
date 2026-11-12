@@ -253,7 +253,10 @@ class ApeExtractor : Extractor {
         @UnstableApi
         fun factoryWithApe(): ExtractorsFactory = ExtractorsFactory {
             val default = androidx.media3.extractor.DefaultExtractorsFactory().createExtractors()
-            arrayOf<Extractor>(ApeExtractor()) + default
+            arrayOf<Extractor>(
+                ApeExtractor(),
+                androidx.media3.extractor.asf.AsfExtractor(),   // §61.97：WMA/ASF 容器
+            ) + default
         }
     }
 }
