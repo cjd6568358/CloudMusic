@@ -42,7 +42,14 @@ def main() -> int:
     ap.add_argument("--serial", required=True)
     ap.add_argument("--observe", type=int, default=300,
                     help="crash 后观测秒数（默认 300）")
+    ap.add_argument("--i-confirm-injection", action="store_true",
+                    help="§61.93 纪律：crash 注入会打断用户正在使用的手机，"
+                         "必须显式确认（2026-11-13 自动舵在用户用机时注入事故）")
     args = ap.parse_args()
+    if not args.i_confirm_injection:
+        print("[REFUSE] crash 注入为破坏性操作（用户可能在用机）。"
+              "确认无人在用后加 --i-confirm-injection 重新执行。")
+        return 2
     serial = args.serial
     result: dict = {"device": serial, "ts": time.strftime("%Y-%m-%d %H:%M:%S")}
 
