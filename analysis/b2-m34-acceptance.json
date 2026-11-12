@@ -1,0 +1,56 @@
+{
+  "device": "192.168.1.11:39565",
+  "ts": "2026-11-12 23:26:17",
+  "phase1_continuous_play": {
+    "playing_seen": true,
+    "ended_seen": true,
+    "error_seen": false,
+    "last_event": [
+      "PAUSED",
+      65020
+    ],
+    "cache_bytes_after_first": 527460,
+    "gate_60s_continuous": true
+  },
+  "phase2_cache_hit": {
+    "playing_seen": true,
+    "error_seen": false,
+    "last_event": [
+      "PLAYING",
+      0
+    ],
+    "cache_hit": true
+  },
+  "phase3_seek": [
+    {
+      "label": "30%",
+      "target_ms": 19500,
+      "landing_ms": 19512,
+      "error_ms": 12,
+      "verdict": "PASS"
+    },
+    {
+      "label": "70%",
+      "target_ms": 45500,
+      "landing_ms": 45504,
+      "error_ms": 4,
+      "verdict": "PASS"
+    },
+    {
+      "label": "0%",
+      "target_ms": 0,
+      "landing_ms": 0,
+      "error_ms": 0,
+      "verdict": "PASS"
+    }
+  ],
+  "m4_seek_gate": true,
+  "m3_gate": {
+    "continuous_60s": true,
+    "cache_hit": true,
+    "passed": true
+  },
+  "m4_partial": {
+    "seek_gate": true
+  }
+}

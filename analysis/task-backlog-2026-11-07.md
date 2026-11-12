@@ -1,5 +1,17 @@
 # CloudMusic · 文档 ↔ 代码核对与任务清单（2026-11-07 第三十三轮）
 
+> **★ 2026-11-12 第一百一十四批（`docs/12 §61.89`，用户提供新端点 39565）：
+> **M3 门禁 PASS + M4 seek/ENDED 实锤 —— M3 完结、M4 开工。**
+> `tools/b2_m34_acceptance.py`（61.88b）真机执行全绿：① 65s URL 连续播放
+> playing/ended/error=False + 缓存 527KB 落盘；② 移除 reverse 后复播出声 =
+> **SimpleCache 命中实锤**（回落直连必失败）；③ M4 seek 三点 12ms/4ms/0ms
+> 全 PASS（判据 <500ms）+ **ENDED 一手到达**（§61.49 起挂账清零）。
+> M3 门禁 = PASS（连续 60s ✓ + 缓存命中 ✓）→ **M4 开工**。未竟：自动进曲双曲
+> 队列注入、gapless/ReplayGain、aiff/wma/ape/wv Extractor（§61.87 维持）。
+> F4 仍 BLOCKED（历史档案）、A3 仍 G09 PARTIAL、舱不冻结。断点
+> `§61.88 → §61.89`。下一步：M4 收尾（自动进曲双曲验证 / gapless）→
+> M5 全量回归（F4 验收 B2 口径 + A3 收口 + 20 分钟长稳）。
+>
 > **★ 2026-11-12 第一百一十三批（`docs/12 §61.88`，用户「继续」）：B2 M3
 > 缓存/Range 接线落地（官方 CacheDataSource + SimpleCache）。**
 > URL 态 = CacheDataSource 包 DefaultDataSource（HTTP 跨协议重定向），缓存优先
