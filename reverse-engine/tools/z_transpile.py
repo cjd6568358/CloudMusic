@@ -249,6 +249,11 @@ def emit_block(fn, addrs, dec):
         "    var g = 0",
         "    while (pc in B..%dL && g++ < NmArmState.FUNC_STEP_CAP) {" % hi,
         "        val p = pc",
+        # 这一拍有没有真的执行过指令，用 steps 的增量判断：块内分支跳回**块入口**
+        # 时 `pc == p` 同样成立，若只看 `pc == p` 就会把入口那条指令当成「没人匹配」
+        # 而强行 +4 跳过它（实测 audio @0x1dfd4 的 tbz 回跳就这样吃掉了
+        # `subs x22,x22,#0x88`）。@spec Z-10
+        "        val s0 = steps",
         "        if (p in B..%dL) {" % hi,
     ]
     def lits(x):
@@ -269,7 +274,7 @@ def emit_block(fn, addrs, dec):
                     args += ",0x%x" % cc
         lines.append("            i(%s)" % args)
     lines += [
-        "            if (pc == p) pc = p + 4",
+        "            if (steps == s0 && pc == p) pc = p + 4",
         "        } else pc = p + 4",
         "    }",
         "}",
@@ -652,7 +657,9 @@ def main() -> int:
             "undecodableInReach": sum(v["undecodableInReach"] for v in so_meta.values()),
         },
         "generatedFiles": written + wrap_files + ["NmBlocks.kt", "NmTranslatedCatalog.kt", "NmOp.kt"],
-        "specIds": ["Z-%02d" % i for i in range(1, 9)],
+        # Z-09（Unicorn 语义差分）与 Z-10（差分暴露的语义缺陷修正）不是本脚本
+        # 产出的，但同属 Z 组口径，manifest 一并登记，避免编号集合被读成 Z-01~Z-08。
+        "specIds": ["Z-%02d" % i for i in range(1, 11)],
         "jvmLimits": {
             "clinit64k": "索引不用 longArrayOf 字面量：13000 个 Long 常量会让 <clinit> "
                          "超过 JVM 64KB 方法上限（build/zchk 最小样例实证 Method too large）。"

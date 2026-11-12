@@ -1,7 +1,7 @@
 @file:Suppress("unused")
 package cloudmusic.reverse.kernel
 
-/** 【生成物，勿手改】Z 组：212 个语义 op（与 tools/z_isa.py 的 OPS 顺序一致）。 @spec Z-02 */
+/** 【生成物，勿手改】Z 组：216 个语义 op（与 tools/z_isa.py 的 OPS 顺序一致）。 @spec Z-02 */
 object NmOp {
     const val UNKNOWN: Int = 0
     const val NOP: Int = 1
@@ -207,16 +207,20 @@ object NmOp {
     const val FCMLT_VEC: Int = 201
     const val FABS_VEC: Int = 202
     const val FNEG_VEC: Int = 203
-    const val ADD_VEC_I: Int = 204
-    const val SUB_VEC_I: Int = 205
-    const val MUL_VEC_I: Int = 206
-    const val AND_VEC: Int = 207
-    const val ORR_VEC: Int = 208
-    const val EOR_VEC: Int = 209
-    const val BIC_VEC: Int = 210
-    const val ORN_VEC: Int = 211
+    const val FABD_VEC: Int = 204
+    const val FMAXNM_VEC: Int = 205
+    const val FMINNM_VEC: Int = 206
+    const val FNMUL_VEC: Int = 207
+    const val ADD_VEC_I: Int = 208
+    const val SUB_VEC_I: Int = 209
+    const val MUL_VEC_I: Int = 210
+    const val AND_VEC: Int = 211
+    const val ORR_VEC: Int = 212
+    const val EOR_VEC: Int = 213
+    const val BIC_VEC: Int = 214
+    const val ORN_VEC: Int = 215
 
-    const val COUNT: Int = 212
-    val NAMES: List<String> = listOf("UNKNOWN", "NOP", "MOV_IMM", "MOV_RR", "MOVK", "MOV_VEC", "ADD_IMM", "ADD_REG", "ADDS_IMM", "ADDS_REG", "SUB_IMM", "SUB_REG", "SUBS_IMM", "SUBS_REG", "CMP_IMM", "CMP_REG", "CMN_IMM", "CMN_REG", "NEG", "NEGS", "MUL", "MADD", "MSUB", "MNEG", "SMULL", "UMULL", "SMADDL", "UMADDL", "SMULH", "UMULH", "SDIV", "UDIV", "ADR", "ADRP", "FRINTM", "AND_IMM", "AND_REG", "ANDS_IMM", "ANDS_REG", "ORR_IMM", "ORR_REG", "EOR_IMM", "EOR_REG", "ORN_REG", "BIC_REG", "BICS_REG", "MVN", "TST_IMM", "TST_REG", "LSL_IMM", "LSL_REG", "LSR_IMM", "LSR_REG", "ASR_IMM", "ASR_REG", "ROR_IMM", "ROR_REG", "EXTR", "UBFX", "SBFX", "BFI", "BFXIL", "UBFIZ", "SBFIZ", "SXTB", "SXTH", "SXTW", "UXTB", "UXTH", "CLZ", "RBIT", "REV", "REV16", "REV32", "CSEL", "CSINC", "CSINV", "CSNEG", "CSET", "CSETM", "CINC", "CINV", "CNEG", "CCMP_IMM", "CCMP_REG", "CCMN_IMM", "CCMN_REG", "B", "B_COND", "CBZ", "CBNZ", "TBZ", "TBNZ", "BL", "BLR", "BR", "RET", "BRK", "LD", "ST", "LDP", "STP", "LDX", "STX", "LD1", "LD1R", "LD2", "LD3", "LD4", "ST1", "ST2", "ST3", "ST4", "PRFM", "CLREX", "MRS", "MSR", "SVC", "FMOV_RR", "FMOV_IMM", "FADD", "FSUB", "FMUL", "FDIV", "FNEG", "FABS", "FSQRT", "FMAX", "FMIN", "FMAXNM", "FMINNM", "FABD", "FMADD", "FMSUB", "FNMADD", "FNMSUB", "FNMUL", "FCMP", "FCMPE", "FCCMP", "FCVT", "FCVTL", "FCVTL2", "FCVTN", "FCVTN2", "SCVTF", "UCVTF", "FCVTZS", "FCVTZU", "FCVTPU", "FCVTPS", "FCVTMS", "FCVTAS", "FCSEL", "MOVI_VEC", "MVNI_VEC", "DUP_VEC", "EXT_VEC", "TBL_VEC", "CNT_VEC", "ADDV_VEC", "UADDLV_VEC", "SMAXV_VEC", "FMAX_VEC", "FMIN_VEC", "REV64_VEC", "REV32_VEC", "REV16_VEC", "UZP1_VEC", "UZP2_VEC", "ZIP1_VEC", "ZIP2_VEC", "TRN1_VEC", "TRN2_VEC", "SSHLL_VEC", "USHLL_VEC", "XTN_VEC", "XTN2_VEC", "SHRN_VEC", "SHRN2_VEC", "SMAX_VEC", "SMIN_VEC", "CMEQ_VEC", "CMEQ_ZERO_VEC", "BIT_VEC", "BIF_VEC", "BSL_VEC", "USHR_VEC", "SSHR_VEC", "SHL_VEC", "USRA_VEC", "SSRA_VEC", "FADD_VEC", "FSUB_VEC", "FMUL_VEC", "FDIV_VEC", "FMLA_VEC", "FMLS_VEC", "FADDP_VEC", "FCMGT_VEC", "FCMGE_VEC", "FCMLT_VEC", "FABS_VEC", "FNEG_VEC", "ADD_VEC_I", "SUB_VEC_I", "MUL_VEC_I", "AND_VEC", "ORR_VEC", "EOR_VEC", "BIC_VEC", "ORN_VEC")
+    const val COUNT: Int = 216
+    val NAMES: List<String> = listOf("UNKNOWN", "NOP", "MOV_IMM", "MOV_RR", "MOVK", "MOV_VEC", "ADD_IMM", "ADD_REG", "ADDS_IMM", "ADDS_REG", "SUB_IMM", "SUB_REG", "SUBS_IMM", "SUBS_REG", "CMP_IMM", "CMP_REG", "CMN_IMM", "CMN_REG", "NEG", "NEGS", "MUL", "MADD", "MSUB", "MNEG", "SMULL", "UMULL", "SMADDL", "UMADDL", "SMULH", "UMULH", "SDIV", "UDIV", "ADR", "ADRP", "FRINTM", "AND_IMM", "AND_REG", "ANDS_IMM", "ANDS_REG", "ORR_IMM", "ORR_REG", "EOR_IMM", "EOR_REG", "ORN_REG", "BIC_REG", "BICS_REG", "MVN", "TST_IMM", "TST_REG", "LSL_IMM", "LSL_REG", "LSR_IMM", "LSR_REG", "ASR_IMM", "ASR_REG", "ROR_IMM", "ROR_REG", "EXTR", "UBFX", "SBFX", "BFI", "BFXIL", "UBFIZ", "SBFIZ", "SXTB", "SXTH", "SXTW", "UXTB", "UXTH", "CLZ", "RBIT", "REV", "REV16", "REV32", "CSEL", "CSINC", "CSINV", "CSNEG", "CSET", "CSETM", "CINC", "CINV", "CNEG", "CCMP_IMM", "CCMP_REG", "CCMN_IMM", "CCMN_REG", "B", "B_COND", "CBZ", "CBNZ", "TBZ", "TBNZ", "BL", "BLR", "BR", "RET", "BRK", "LD", "ST", "LDP", "STP", "LDX", "STX", "LD1", "LD1R", "LD2", "LD3", "LD4", "ST1", "ST2", "ST3", "ST4", "PRFM", "CLREX", "MRS", "MSR", "SVC", "FMOV_RR", "FMOV_IMM", "FADD", "FSUB", "FMUL", "FDIV", "FNEG", "FABS", "FSQRT", "FMAX", "FMIN", "FMAXNM", "FMINNM", "FABD", "FMADD", "FMSUB", "FNMADD", "FNMSUB", "FNMUL", "FCMP", "FCMPE", "FCCMP", "FCVT", "FCVTL", "FCVTL2", "FCVTN", "FCVTN2", "SCVTF", "UCVTF", "FCVTZS", "FCVTZU", "FCVTPU", "FCVTPS", "FCVTMS", "FCVTAS", "FCSEL", "MOVI_VEC", "MVNI_VEC", "DUP_VEC", "EXT_VEC", "TBL_VEC", "CNT_VEC", "ADDV_VEC", "UADDLV_VEC", "SMAXV_VEC", "FMAX_VEC", "FMIN_VEC", "REV64_VEC", "REV32_VEC", "REV16_VEC", "UZP1_VEC", "UZP2_VEC", "ZIP1_VEC", "ZIP2_VEC", "TRN1_VEC", "TRN2_VEC", "SSHLL_VEC", "USHLL_VEC", "XTN_VEC", "XTN2_VEC", "SHRN_VEC", "SHRN2_VEC", "SMAX_VEC", "SMIN_VEC", "CMEQ_VEC", "CMEQ_ZERO_VEC", "BIT_VEC", "BIF_VEC", "BSL_VEC", "USHR_VEC", "SSHR_VEC", "SHL_VEC", "USRA_VEC", "SSRA_VEC", "FADD_VEC", "FSUB_VEC", "FMUL_VEC", "FDIV_VEC", "FMLA_VEC", "FMLS_VEC", "FADDP_VEC", "FCMGT_VEC", "FCMGE_VEC", "FCMLT_VEC", "FABS_VEC", "FNEG_VEC", "FABD_VEC", "FMAXNM_VEC", "FMINNM_VEC", "FNMUL_VEC", "ADD_VEC_I", "SUB_VEC_I", "MUL_VEC_I", "AND_VEC", "ORR_VEC", "EOR_VEC", "BIC_VEC", "ORN_VEC")
     fun name(op: Int): String = if (op in NAMES.indices) NAMES[op] else "?"
 }

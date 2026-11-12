@@ -1,24 +1,24 @@
 @file:Suppress("unused")
 package cloudmusic.reverse.kernel
 
-/** 【生成物】Z 组：6326 个代码块 / 7486 个函数入口索引。 @spec Z-03 @spec Z-04
+/** 【生成物】Z 组：6324 个代码块 / 7486 个函数入口索引。 @spec Z-03 @spec Z-04
  *
  * 索引以 base64 字符串常量携带（每块 4 字节 lo + 1 字节 span），
  * 不用 longArrayOf 字面量——字面量形式会让 <clinit> 撞上 JVM 64KB 方法上限。
  */
 object NmTranslatedCatalog {
-    const val BLOCK_COUNT: Int = 6326
+    const val BLOCK_COUNT: Int = 6324
     const val ENTRY_COUNT: Int = 7486
-    const val INSTRUCTION_COUNT: Int = 388064
+    const val INSTRUCTION_COUNT: Int = 388068
 
     const val CACHE_BLOCKS: Int = 775
     const val ENGINE_BLOCKS: Int = 1889
-    const val AUDIO_BLOCKS: Int = 3213
+    const val AUDIO_BLOCKS: Int = 3211
     const val AUDIO_LEGACY_BLOCKS: Int = 449
     const val CACHE_BASE: Int = 0
     const val ENGINE_BASE: Int = 775
     const val AUDIO_BASE: Int = 2664
-    const val AUDIO_LEGACY_BASE: Int = 5877
+    const val AUDIO_LEGACY_BASE: Int = 5875
 
     private const val IDX_CACHE: String =
         "AACO0EAAAI/QQAAAkNBAAACR0EAAAJLQQAAAk9BAAACU0EAAAJXQQAAAltBAAACX0EAAAJjQQAAAmdBAAACa0EAAAJvQQAAA" +
@@ -433,8 +433,7 @@ object NmTranslatedCatalog {
         "KEAADZUoEAANlbhAAA2WuEAADZe4QAANmLhAAA2ZuB4ADZqQQAANm5BAAA2ckDwADZ4EAgANnjRAAA2fNBgADaAkBgANoeQI" +
         "AA2jgEAADaSAQAANpYBAAA2mgCEADacUAwANpyRAAA2oJEAADakkQAANqiRAAA2rJDEADawAGgANrRBAAA2uECQADa7UAwAN" +
         "rwAEAA2vREAADbBEQAANsURAAA2yRAoADbNgAQANtdA/AA24uBoADbk8QAANujwrAA26+AMADbsIGgANu9AXAA28jA0ADb1Q" +
-        "QAANvlBAAA2/UBsADcR0QAANxXRAAA3GdEAADcd0QAANyHRAAA3JdEAADcp0QAANy3RAAA3MdAEADc9UQAAN0FQ7AA3RSAMA" +
-        "DdFYBAAN0WwD"
+        "QAANvlBAAA2/UBsADcR0QAANxXRAAA3GdEAADcd0QAANyHRAAA3JdEAADcp0QAANy3RAAA3MdAEADc9UQAAN0FRAAA3RVAk="
 
     private const val IDX_AUDIO_LEGACY: String =
         "AABkAEAAAGUAQAAAZgBAAABnAEAAAGgAQAAAaQBAAABqAEAAAGsAQAAAbABAAABtAEAAAG4AQAAAbwBAAABwAEAAAHEAQAAA" +

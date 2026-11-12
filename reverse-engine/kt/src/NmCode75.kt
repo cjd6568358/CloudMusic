@@ -8,6 +8,7 @@ fun NmArmState.nb_audio_29680() {
     var g = 0
     while (pc in B..169852L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..169852L) {
             i(B+0L,3,19,0,-1,0L)
             i(B+4L,99,20,31,-1,16160L)
@@ -73,7 +74,7 @@ fun NmArmState.nb_audio_29680() {
             i(B+244L,98,8,22,-1,-32L,-32L,0xb)
             i(B+248L,91,8,-1,-1,0L,169832L,0x1)
             i(B+252L,98,0,20,-1,-16L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -83,6 +84,7 @@ fun NmArmState.nb_audio_29780() {
     var g = 0
     while (pc in B..170108L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..170108L) {
             i(B+0L,93,-1,-1,-1,80528L)
             i(B+4L,87,-1,-1,-1,169832L)
@@ -148,7 +150,7 @@ fun NmArmState.nb_audio_29780() {
             i(B+244L,2,20,-1,-1,1L,0L,0x1)
             i(B+248L,99,8,31,-1,208L)
             i(B+252L,98,24,31,-1,208L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -158,6 +160,7 @@ fun NmArmState.nb_audio_29880() {
     var g = 0
     while (pc in B..170364L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..170364L) {
             i(B+0L,98,23,31,-1,480L)
             i(B+4L,6,27,31,-1,1L,0L,0x0,0x300)
@@ -223,7 +226,7 @@ fun NmArmState.nb_audio_29880() {
             i(B+244L,98,24,31,-1,216L)
             i(B+248L,98,23,31,-1,480L)
             i(B+252L,2,26,-1,-1,1L,0L,0x1)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -233,6 +236,7 @@ fun NmArmState.nb_audio_29980() {
     var g = 0
     while (pc in B..170620L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..170620L) {
             i(B+0L,3,21,0,-1,0L)
             i(B+4L,87,-1,-1,-1,195392L)
@@ -298,7 +302,7 @@ fun NmArmState.nb_audio_29980() {
             i(B+244L,15,21,-1,20,0L)
             i(B+248L,88,-1,-1,-1,170672L,0L,0x0,0x1)
             i(B+252L,3,22,20,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -308,6 +312,7 @@ fun NmArmState.nb_audio_29a80() {
     var g = 0
     while (pc in B..170876L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..170876L) {
             i(B+0L,98,8,22,-1,-32L,-32L,0xb)
             i(B+4L,92,8,-1,-1,0L,170652L,0x1)
@@ -373,7 +378,7 @@ fun NmArmState.nb_audio_29a80() {
             i(B+244L,87,-1,-1,-1,170840L)
             i(B+248L,98,0,31,-1,15576L)
             i(B+252L,87,-1,-1,-1,170884L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -383,6 +388,7 @@ fun NmArmState.nb_audio_29b80() {
     var g = 0
     while (pc in B..171132L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..171132L) {
             i(B+0L,3,0,21,-1,0L)
             i(B+4L,99,21,31,-1,15584L)
@@ -448,7 +454,7 @@ fun NmArmState.nb_audio_29b80() {
             i(B+244L,6,27,27,-1,3104L)
             i(B+248L,6,28,28,-1,512L)
             i(B+252L,87,-1,-1,-1,195820L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -458,6 +464,7 @@ fun NmArmState.nb_audio_29c80() {
     var g = 0
     while (pc in B..171388L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..171388L) {
             i(B+0L,3,19,0,-1,0L)
             i(B+4L,3,20,32,-1,0L)
@@ -523,7 +530,7 @@ fun NmArmState.nb_audio_29c80() {
             i(B+244L,3,21,19,-1,0L)
             i(B+248L,2,26,-1,-1,1L,0L,0x1)
             i(B+252L,6,27,27,-1,3104L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -533,6 +540,7 @@ fun NmArmState.nb_audio_29d80() {
     var g = 0
     while (pc in B..171644L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..171644L) {
             i(B+0L,6,28,28,-1,512L)
             i(B+4L,87,-1,-1,-1,196080L)
@@ -598,7 +606,7 @@ fun NmArmState.nb_audio_29d80() {
             i(B+244L,6,27,31,-1,1L,0L,0x0,0x300)
             i(B+248L,6,28,31,-1,1L,0L,0x0,0x300)
             i(B+252L,3,21,19,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -608,6 +616,7 @@ fun NmArmState.nb_audio_29e80() {
     var g = 0
     while (pc in B..171900L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..171900L) {
             i(B+0L,2,26,-1,-1,1L,0L,0x1)
             i(B+4L,6,27,27,-1,3104L)
@@ -673,7 +682,7 @@ fun NmArmState.nb_audio_29e80() {
             i(B+244L,92,8,-1,-1,0L,171916L,0x1)
             i(B+248L,15,21,-1,22,0L)
             i(B+252L,3,20,22,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -683,6 +692,7 @@ fun NmArmState.nb_audio_29f80() {
     var g = 0
     while (pc in B..172156L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..172156L) {
             i(B+0L,88,-1,-1,-1,171928L,0L,0x0,0x1)
             i(B+4L,98,8,22,-1,-32L,-32L,0xb)
@@ -748,7 +758,7 @@ fun NmArmState.nb_audio_29f80() {
             i(B+244L,99,8,31,-1,264L)
             i(B+248L,98,24,31,-1,264L)
             i(B+252L,98,23,31,-1,480L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -758,6 +768,7 @@ fun NmArmState.nb_audio_2a080() {
     var g = 0
     while (pc in B..172412L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..172412L) {
             i(B+0L,6,27,31,-1,1L,0L,0x0,0x300)
             i(B+4L,6,28,31,-1,1L,0L,0x0,0x300)
@@ -823,7 +834,7 @@ fun NmArmState.nb_audio_2a080() {
             i(B+244L,3,20,32,-1,0L)
             i(B+248L,87,-1,-1,-1,172520L)
             i(B+252L,98,21,31,-1,14712L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -833,6 +844,7 @@ fun NmArmState.nb_audio_2a180() {
     var g = 0
     while (pc in B..172668L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..172668L) {
             i(B+0L,3,19,0,-1,0L)
             i(B+4L,99,20,31,-1,14720L)
@@ -898,7 +910,7 @@ fun NmArmState.nb_audio_2a180() {
             i(B+244L,87,-1,-1,-1,172632L)
             i(B+248L,98,0,31,-1,14616L)
             i(B+252L,87,-1,-1,-1,172676L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -908,6 +920,7 @@ fun NmArmState.nb_audio_2a280() {
     var g = 0
     while (pc in B..172924L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..172924L) {
             i(B+0L,3,0,21,-1,0L)
             i(B+4L,99,21,31,-1,14624L)
@@ -973,7 +986,7 @@ fun NmArmState.nb_audio_2a280() {
             i(B+244L,6,28,28,-1,512L)
             i(B+248L,98,8,31,-1,3776L,0L,0x3)
             i(B+252L,91,8,-1,-1,0L,196516L,0x1)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -983,6 +996,7 @@ fun NmArmState.nb_audio_2a380() {
     var g = 0
     while (pc in B..173180L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..173180L) {
             i(B+0L,87,-1,-1,-1,196800L)
             i(B+4L,98,24,31,-1,576L)
@@ -1048,7 +1062,7 @@ fun NmArmState.nb_audio_2a380() {
             i(B+244L,3,22,20,-1,0L)
             i(B+248L,98,8,22,-1,-32L,-32L,0xb)
             i(B+252L,92,8,-1,-1,0L,173204L,0x1)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1058,6 +1072,7 @@ fun NmArmState.nb_audio_2a480() {
     var g = 0
     while (pc in B..173436L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..173436L) {
             i(B+0L,15,21,-1,22,0L)
             i(B+4L,3,20,22,-1,0L)
@@ -1123,7 +1138,7 @@ fun NmArmState.nb_audio_2a480() {
             i(B+244L,98,8,31,-1,584L)
             i(B+248L,2,20,-1,-1,1L,0L,0x1)
             i(B+252L,99,8,31,-1,312L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1133,6 +1148,7 @@ fun NmArmState.nb_audio_2a580() {
     var g = 0
     while (pc in B..173692L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..173692L) {
             i(B+0L,98,24,31,-1,312L)
             i(B+4L,98,23,31,-1,480L)
@@ -1198,7 +1214,7 @@ fun NmArmState.nb_audio_2a580() {
             i(B+244L,98,21,31,-1,13944L)
             i(B+248L,3,19,0,-1,0L)
             i(B+252L,99,20,31,-1,13952L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1208,6 +1224,7 @@ fun NmArmState.nb_audio_2a680() {
     var g = 0
     while (pc in B..173948L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..173948L) {
             i(B+0L,89,21,-1,-1,173772L)
             i(B+4L,15,21,-1,20,0L)
@@ -1273,7 +1290,7 @@ fun NmArmState.nb_audio_2a680() {
             i(B+244L,98,0,31,-1,13848L)
             i(B+248L,87,-1,-1,-1,173952L)
             i(B+252L,3,0,21,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1283,6 +1300,7 @@ fun NmArmState.nb_audio_2a780() {
     var g = 0
     while (pc in B..174204L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..174204L) {
             i(B+0L,99,21,31,-1,13856L)
             i(B+4L,93,-1,-1,-1,80528L)
@@ -1291,7 +1309,7 @@ fun NmArmState.nb_audio_2a780() {
             i(B+16L,98,8,31,-1,336L)
             i(B+20L,2,20,-1,-1,1L,0L,0x1)
             i(B+24L,99,8,31,-1,488L)
-            i(B+28L,100,23,-1,24,480L)
+            i(B+28L,100,23,31,24,480L)
             i(B+32L,6,27,31,-1,1L,0L,0x0,0x300)
             i(B+36L,6,28,31,-1,1L,0L,0x0,0x300)
             i(B+40L,3,21,19,-1,0L)
@@ -1348,7 +1366,7 @@ fun NmArmState.nb_audio_2a780() {
             i(B+244L,98,24,31,-1,344L)
             i(B+248L,98,23,31,-1,480L)
             i(B+252L,2,26,-1,-1,1L,0L,0x1)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1358,6 +1376,7 @@ fun NmArmState.nb_audio_2a880() {
     var g = 0
     while (pc in B..174460L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..174460L) {
             i(B+0L,3,21,0,-1,0L)
             i(B+4L,87,-1,-1,-1,197160L)
@@ -1423,7 +1442,7 @@ fun NmArmState.nb_audio_2a880() {
             i(B+244L,98,8,22,-1,-32L,-32L,0xb)
             i(B+248L,91,8,-1,-1,0L,174440L,0x1)
             i(B+252L,98,0,20,-1,-16L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1433,6 +1452,7 @@ fun NmArmState.nb_audio_2a980() {
     var g = 0
     while (pc in B..174716L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..174716L) {
             i(B+0L,93,-1,-1,-1,80528L)
             i(B+4L,87,-1,-1,-1,174440L)
@@ -1498,7 +1518,7 @@ fun NmArmState.nb_audio_2a980() {
             i(B+244L,2,26,-1,-1,1L,0L,0x1)
             i(B+248L,6,27,27,-1,3104L)
             i(B+252L,6,28,28,-1,512L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1508,6 +1528,7 @@ fun NmArmState.nb_audio_2aa80() {
     var g = 0
     while (pc in B..174972L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..174972L) {
             i(B+0L,87,-1,-1,-1,197280L)
             i(B+4L,98,24,31,-1,360L)
@@ -1573,7 +1594,7 @@ fun NmArmState.nb_audio_2aa80() {
             i(B+244L,87,-1,-1,-1,174972L)
             i(B+248L,3,19,0,-1,0L)
             i(B+252L,98,24,31,-1,376L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1583,6 +1604,7 @@ fun NmArmState.nb_audio_2ab80() {
     var g = 0
     while (pc in B..175228L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..175228L) {
             i(B+0L,98,23,31,-1,480L)
             i(B+4L,6,27,31,-1,1L,0L,0x0,0x300)
@@ -1648,7 +1670,7 @@ fun NmArmState.nb_audio_2ab80() {
             i(B+244L,99,24,31,-1,608L)
             i(B+248L,98,24,31,-1,608L)
             i(B+252L,98,23,31,-1,480L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1658,6 +1680,7 @@ fun NmArmState.nb_audio_2ac80() {
     var g = 0
     while (pc in B..175484L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..175484L) {
             i(B+0L,6,27,31,-1,1L,0L,0x0,0x300)
             i(B+4L,6,28,31,-1,1L,0L,0x0,0x300)
@@ -1723,7 +1746,7 @@ fun NmArmState.nb_audio_2ac80() {
             i(B+244L,91,8,-1,-1,0L,175496L,0x1)
             i(B+248L,98,0,31,-1,4560L)
             i(B+252L,93,-1,-1,-1,80528L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1733,6 +1756,7 @@ fun NmArmState.nb_audio_2ad80() {
     var g = 0
     while (pc in B..175740L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..175740L) {
             i(B+0L,87,-1,-1,-1,175496L)
             i(B+4L,3,19,0,-1,0L)
@@ -1798,7 +1822,7 @@ fun NmArmState.nb_audio_2ad80() {
             i(B+244L,91,8,-1,-1,0L,175752L,0x1)
             i(B+248L,98,0,31,-1,4752L)
             i(B+252L,93,-1,-1,-1,80528L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1808,6 +1832,7 @@ fun NmArmState.nb_audio_2ae80() {
     var g = 0
     while (pc in B..175996L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..175996L) {
             i(B+0L,87,-1,-1,-1,175752L)
             i(B+4L,3,19,0,-1,0L)
@@ -1873,7 +1898,7 @@ fun NmArmState.nb_audio_2ae80() {
             i(B+244L,98,8,28,-1,216L,0L,0x3)
             i(B+248L,3,19,0,-1,0L)
             i(B+252L,91,8,-1,-1,0L,176016L,0x1)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1883,6 +1908,7 @@ fun NmArmState.nb_audio_2af80() {
     var g = 0
     while (pc in B..176252L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..176252L) {
             i(B+0L,98,0,31,-1,4840L)
             i(B+4L,93,-1,-1,-1,80528L)
@@ -1948,7 +1974,7 @@ fun NmArmState.nb_audio_2af80() {
             i(B+244L,3,19,0,-1,0L)
             i(B+248L,87,-1,-1,-1,189044L)
             i(B+252L,98,8,28,-1,304L,0L,0x3)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1958,6 +1984,7 @@ fun NmArmState.nb_audio_2b080() {
     var g = 0
     while (pc in B..176508L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..176508L) {
             i(B+0L,3,19,0,-1,0L)
             i(B+4L,91,8,-1,-1,0L,176280L,0x1)
@@ -2023,7 +2050,7 @@ fun NmArmState.nb_audio_2b080() {
             i(B+244L,87,-1,-1,-1,176620L)
             i(B+248L,98,20,31,-1,12120L)
             i(B+252L,3,22,0,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2033,6 +2060,7 @@ fun NmArmState.nb_audio_2b180() {
     var g = 0
     while (pc in B..176764L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..176764L) {
             i(B+0L,99,19,31,-1,12128L)
             i(B+4L,89,20,-1,-1,176592L)
@@ -2098,7 +2126,7 @@ fun NmArmState.nb_audio_2b180() {
             i(B+244L,87,-1,-1,-1,176728L)
             i(B+248L,98,0,31,-1,12024L)
             i(B+252L,87,-1,-1,-1,176772L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2108,6 +2136,7 @@ fun NmArmState.nb_audio_2b280() {
     var g = 0
     while (pc in B..177020L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..177020L) {
             i(B+0L,3,0,20,-1,0L)
             i(B+4L,99,20,31,-1,12032L)
@@ -2173,7 +2202,7 @@ fun NmArmState.nb_audio_2b280() {
             i(B+244L,6,28,31,-1,1L,0L,0x0,0x300)
             i(B+248L,2,26,-1,-1,1L,0L,0x1)
             i(B+252L,6,27,27,-1,3104L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2183,6 +2212,7 @@ fun NmArmState.nb_audio_2b380() {
     var g = 0
     while (pc in B..177276L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..177276L) {
             i(B+0L,3,21,22,-1,0L)
             i(B+4L,6,28,28,-1,512L)
@@ -2248,7 +2278,7 @@ fun NmArmState.nb_audio_2b380() {
             i(B+244L,89,20,-1,-1,177344L)
             i(B+248L,15,20,-1,19,0L)
             i(B+252L,88,-1,-1,-1,177332L,0L,0x0,0x1)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2258,6 +2288,7 @@ fun NmArmState.nb_audio_2b480() {
     var g = 0
     while (pc in B..177532L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..177532L) {
             i(B+0L,3,21,19,-1,0L)
             i(B+4L,98,8,21,-1,-32L,-32L,0xb)
@@ -2323,7 +2354,7 @@ fun NmArmState.nb_audio_2b480() {
             i(B+244L,99,20,31,-1,11648L)
             i(B+248L,93,-1,-1,-1,80528L)
             i(B+252L,98,8,31,-1,648L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2333,6 +2364,7 @@ fun NmArmState.nb_audio_2b580() {
     var g = 0
     while (pc in B..177788L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..177788L) {
             i(B+0L,2,19,-1,-1,1L,0L,0x1)
             i(B+4L,99,8,31,-1,456L)
@@ -2398,7 +2430,7 @@ fun NmArmState.nb_audio_2b580() {
             i(B+244L,6,28,28,-1,512L)
             i(B+248L,98,8,28,-1,592L,0L,0x3)
             i(B+252L,91,8,-1,-1,0L,198576L,0x1)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2408,6 +2440,7 @@ fun NmArmState.nb_audio_2b680() {
     var g = 0
     while (pc in B..178044L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..178044L) {
             i(B+0L,87,-1,-1,-1,198956L)
             i(B+4L,98,24,31,-1,464L)
@@ -2473,7 +2506,7 @@ fun NmArmState.nb_audio_2b680() {
             i(B+244L,98,8,21,-1,-32L,-32L,0xb)
             i(B+248L,92,8,-1,-1,0L,178064L,0x1)
             i(B+252L,15,20,-1,21,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2483,6 +2516,7 @@ fun NmArmState.nb_audio_2b780() {
     var g = 0
     while (pc in B..178300L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..178300L) {
             i(B+0L,3,19,21,-1,0L)
             i(B+4L,88,-1,-1,-1,178076L,0L,0x0,0x1)
@@ -2503,7 +2537,7 @@ fun NmArmState.nb_audio_2b780() {
             i(B+64L,2,19,-1,-1,1L,0L,0x1)
             i(B+68L,99,23,31,-1,472L)
             i(B+72L,3,22,0,-1,0L)
-            i(B+76L,100,24,-1,23,472L)
+            i(B+76L,100,24,31,23,472L)
             i(B+80L,6,27,31,-1,1L,0L,0x0,0x300)
             i(B+84L,6,28,31,-1,1L,0L,0x0,0x300)
             i(B+88L,2,26,-1,-1,1L,0L,0x1)
@@ -2548,7 +2582,7 @@ fun NmArmState.nb_audio_2b780() {
             i(B+244L,93,-1,-1,-1,80528L)
             i(B+248L,2,19,-1,-1,1L,0L,0x1)
             i(B+252L,87,-1,-1,-1,178312L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2558,6 +2592,7 @@ fun NmArmState.nb_audio_2b880() {
     var g = 0
     while (pc in B..178556L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..178556L) {
             i(B+0L,2,19,-1,-1,1L,0L,0x1)
             i(B+4L,3,22,0,-1,0L)
@@ -2623,7 +2658,7 @@ fun NmArmState.nb_audio_2b880() {
             i(B+244L,87,-1,-1,-1,178660L)
             i(B+248L,98,20,31,-1,11064L)
             i(B+252L,3,22,0,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2633,6 +2668,7 @@ fun NmArmState.nb_audio_2b980() {
     var g = 0
     while (pc in B..178812L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..178812L) {
             i(B+0L,99,19,31,-1,11072L)
             i(B+4L,89,20,-1,-1,178628L)
@@ -2698,7 +2734,7 @@ fun NmArmState.nb_audio_2b980() {
             i(B+244L,2,19,-1,-1,1L,0L,0x1)
             i(B+248L,87,-1,-1,-1,178840L)
             i(B+252L,3,0,20,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2708,6 +2744,7 @@ fun NmArmState.nb_audio_2ba80() {
     var g = 0
     while (pc in B..179068L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..179068L) {
             i(B+0L,99,20,31,-1,10976L)
             i(B+4L,93,-1,-1,-1,80528L)
@@ -2773,7 +2810,7 @@ fun NmArmState.nb_audio_2ba80() {
             i(B+244L,87,-1,-1,-1,179076L)
             i(B+248L,2,19,-1,-1,1L,0L,0x1)
             i(B+252L,87,-1,-1,-1,179100L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2783,6 +2820,7 @@ fun NmArmState.nb_audio_2bb80() {
     var g = 0
     while (pc in B..179324L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..179324L) {
             i(B+0L,3,0,20,-1,0L)
             i(B+4L,99,20,31,-1,10784L)
@@ -2848,7 +2886,7 @@ fun NmArmState.nb_audio_2bb80() {
             i(B+244L,92,8,-1,-1,0L,199340L,0x1)
             i(B+248L,87,-1,-1,-1,199348L)
             i(B+252L,3,19,32,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2858,6 +2896,7 @@ fun NmArmState.nb_audio_2bc80() {
     var g = 0
     while (pc in B..179580L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..179580L) {
             i(B+0L,87,-1,-1,-1,179440L)
             i(B+4L,98,20,31,-1,10488L)
@@ -2923,7 +2962,7 @@ fun NmArmState.nb_audio_2bc80() {
             i(B+244L,98,8,27,-1,3168L,0L,0x3)
             i(B+248L,92,8,-1,-1,0L,199460L,0x1)
             i(B+252L,87,-1,-1,-1,199468L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2933,6 +2972,7 @@ fun NmArmState.nb_audio_2bd80() {
     var g = 0
     while (pc in B..179836L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..179836L) {
             i(B+0L,3,19,32,-1,0L)
             i(B+4L,87,-1,-1,-1,179596L)
@@ -2998,7 +3038,7 @@ fun NmArmState.nb_audio_2bd80() {
             i(B+244L,98,0,31,-1,10104L)
             i(B+248L,87,-1,-1,-1,179848L)
             i(B+252L,2,19,-1,-1,1L,0L,0x1)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }

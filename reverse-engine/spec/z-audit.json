@@ -7,7 +7,10 @@
     "vectorLeakTotal": 0,
     "vectorLeakByMnemonic": {},
     "vectorLeakByOp": {},
-    "vectorLeakSamples": {}
+    "vectorLeakSamples": {},
+    "operandLossTotal": 0,
+    "operandLossByKind": {},
+    "operandLossSamples": {}
   },
   "libncmplayerengine.so": {
     "domain": "engine",
@@ -17,17 +20,23 @@
     "vectorLeakTotal": 0,
     "vectorLeakByMnemonic": {},
     "vectorLeakByOp": {},
-    "vectorLeakSamples": {}
+    "vectorLeakSamples": {},
+    "operandLossTotal": 0,
+    "operandLossByKind": {},
+    "operandLossSamples": {}
   },
   "libncmaudioplayer.so": {
     "domain": "audio",
-    "reachable": 199357,
+    "reachable": 199361,
     "dropout": {},
     "dropoutTotal": 0,
     "vectorLeakTotal": 0,
     "vectorLeakByMnemonic": {},
     "vectorLeakByOp": {},
-    "vectorLeakSamples": {}
+    "vectorLeakSamples": {},
+    "operandLossTotal": 0,
+    "operandLossByKind": {},
+    "operandLossSamples": {}
   },
   "libaudioplayer.so": {
     "domain": "audio-legacy",
@@ -37,13 +46,17 @@
     "vectorLeakTotal": 0,
     "vectorLeakByMnemonic": {},
     "vectorLeakByOp": {},
-    "vectorLeakSamples": {}
+    "vectorLeakSamples": {},
+    "operandLossTotal": 0,
+    "operandLossByKind": {},
+    "operandLossSamples": {}
   },
   "summary": {
     "tool": "reverse-engine/tools/z_audit.py",
-    "criterion": "reachable instructions whose decoded op bucket cannot represent the operands",
+    "criterion": "reachable instructions whose decoded op bucket cannot represent the operands, or whose operand registers have no decode slot",
     "dropoutTotal": 0,
     "vectorLeakTotal": 0,
+    "operandLossTotal": 0,
     "clean": true
   }
 }

@@ -2,7 +2,7 @@
 
 > **结论先行**：本目录把 `docs/12 §61.54 ~ §61.88` 的反汇编证据逐条翻译成纯 JVM Kotlin，
 > 共 **204 条 `@spec` 逻辑点**（G15 / N30 / S23 / B30 / A12 / P12 / C8 / F8 / D12 / R8 / U10 / V6 / W14 / X8 / Z8）、
-> **712 条契约断言全绿**（17 个 section）、**26 项审计全 OK**、**F4 阻塞链路可运行复现**；
+> **724 条契约断言全绿**（17 个 section）、**27 项审计全 OK**、**F4 阻塞链路可运行复现**；
 > 两份一手清单（JNI 19 类 / 162 方法 / 202 符号、libffmpeg 100 decoder / 75 demuxer）
 > 已**全量脱敏登记**，并由源 `sha256` 指纹守护防回潮。
 > 上一版 `OnNetSourceDataDone` 双分支简化错误已按 §61.54 / §61.55 一手反汇编 1:1 纠正（D 组 12 条）；
@@ -27,7 +27,7 @@
 > **6326 个代码块 / 7486 个函数入口 / 388064 条指令**，一条指令一行 `i(...)`（159 分块文件 17.4 MiB）；
 > `.text` 字节账闭合：406580 可解码 = 388064 翻译 + 18512 字面量池 + 4 不可解码（覆盖率 90.0/95.7/97.0/92.7%）；
 > `NmArm64.kt` 提供语义完备解释器（NZCV 逐位推导 / 16 条件码 / 宽度截断 / pre-post-index 写回 /
-> 浮点 S-D-H / NEON 逐车道），**212 个语义 op 全覆盖**：`when(op)` 无实现分支 = 0、运行期 dropout = 0、
+> 浮点 S-D-H / NEON 逐车道），**216 个语义 op 全覆盖**：`when(op)` 无实现分支 = 0、运行期 dropout = 0、
 > 向量错桶 = 0；**Y 组"PRESERVED 1358 条保真记录、无真实语义"的残留已清零**（Z 组 8 条规格）；
 > 199 个 `.kt` 分 13 趟编译通过（约 8 分钟）；
 > `spec/COVERAGE.md` 第 8 节给出 `docs/12 §61.x` 全部 84 个有标题章节（截至 §61.88）的逐条处置矩阵，
@@ -100,13 +100,13 @@ reverse-engine/
 │   ├── NmXCatalog.kt             #   【全量】1241 个竞品函数逻辑条目（32 分块，生成，勿手改）
 │   ├── NmArm64.kt                #   Z 组：寄存器/内存/NZCV/浮点/NEON 的语义完备解释器
 │   ├── NmMachine.kt              #   Z 组：按 pc 分派的跨块/跨函数调度器
-│   ├── NmOp.kt                   #   【全量】212 个语义 op 编码（生成，勿手改）
+│   ├── NmOp.kt                   #   【全量】216 个语义 op 编码（生成，勿手改）
 │   ├── NmBlocks.kt               #   【全量】6326 块 tableswitch 分派（生成，勿手改）
 │   ├── NmTranslatedCatalog.kt    #   【全量】块索引 + 7486 入口表（生成，勿手改）
 │   ├── NmFuncs00..14.kt          #   【全量】7486 个入口包装（生成，勿手改）
 │   └── NmCode00..158.kt          #   【逐行】6326 块 / 388064 条指令，每条一行（生成，勿手改）
 ├── test/
-│   └── ContractTests.kt          # 712 条纯 JVM 契约断言（17 个 section，零外部依赖）
+│   └── ContractTests.kt          # 724 条纯 JVM 契约断言（17 个 section，零外部依赖）
 ├── tools/
 │   ├── gen_catalog.py            # 从源 JSON 全量生成脱敏 catalog + 指纹 manifest
 │   ├── gen_done_chain_manifest.py # 从 §61.54/55 源 JSON 生成 D 组元数据指纹 manifest
@@ -121,11 +121,11 @@ reverse-engine/
 │   ├── x_function_inventory.py   # X 组：枚举 .dynsym 函数全集并逐函数反汇编分类
 │   ├── x_semantic_anchors.py     # X 组：全量 rodata 字符串 + 分支/返回码/日志引用取证
 │   ├── gen_x_catalog.py          # X 组：函数全集 → Kotlin 逻辑目录 + 指纹 manifest
-│   ├── z_isa.py                  # Z 组：capstone detail 全字段解码 → 212 个语义 op
+│   ├── z_isa.py                  # Z 组：capstone detail 全字段解码 → 216 个语义 op
 │   ├── z_transpile.py            # Z 组：代码可达性发现 → 6326 块逐行 Kotlin + 守恒 manifest
 │   ├── z_audit.py                # Z 组：dropout / vector-leak 语义残留审计
 │   ├── build.py                  # 编译 + 测试 + 生成 F4-CHAIN-REPORT.md
-│   └── audit.py                  # 26 项长效守护（编号 / 禁项 / 产物 / 清单 / D / R / 裁定 / U / V / W / X / Z 组）
+│   └── audit.py                  # 27 项长效守护（编号 / 禁项 / 产物 / 清单 / D / R / 裁定 / U / V / W / X / Z 组）
 └── build/                        # 编译产物与报告（可整体清理）
     ├── classes/
     ├── test-report.json
@@ -181,7 +181,7 @@ python tools/z_audit.py
 #     （生成物过大，单趟编译必 OOM；每趟独立 JVM 且各自 `-module-name nm<pass>`）
 python tools/build.py
 
-# ③ 规格/禁项/产物/清单/D 组/R 组/再清点裁定/U/V/W/X/Z 组 26 项审计
+# ③ 规格/禁项/产物/清单/D 组/R 组/再清点裁定/U/V/W/X/Z 组 27 项审计
 python tools/audit.py
 ```
 
@@ -207,7 +207,7 @@ python tools/audit.py
 [GEN-W] sanitize assertion: OK (zero com.netease / zero absolute path)
 [COMPILE] ok=True exit=0 src=199 jars=34
 [TEST]    ok=True exit=0
-CONTRACT TESTS: 712/712 passed, 0 failed
+CONTRACT TESTS: 724/724 passed, 0 failed
 [CHAIN]   .../F4-CHAIN-REPORT.md
 [RESULT]  overallOk=True
 

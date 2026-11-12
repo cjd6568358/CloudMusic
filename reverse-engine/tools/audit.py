@@ -592,6 +592,7 @@ def z_translated_check() -> dict:
         summ = aud.get("summary") or {}
         semantic["dropoutTotal"] = summ.get("dropoutTotal")
         semantic["vectorLeakTotal"] = summ.get("vectorLeakTotal")
+        semantic["operandLossTotal"] = summ.get("operandLossTotal")
         semantic["dynamicOk"] = bool(summ.get("clean"))
     else:
         semantic["dynamicOk"] = False
@@ -610,6 +611,67 @@ def z_translated_check() -> dict:
     }
 
 
+def z_block_guard_check() -> dict:
+    """第 25 项：块循环兜底必须带 `steps` 判据（对应 §Z-10 ①）。
+
+    块内分支跳回**块入口**时 `pc == p` 与原兜底条件重合，若只看 `pc == p`
+    就会把入口那条指令当成「没人匹配」而 `+4` 跳过它——整条指令静默丢失，
+    且不改变任何 op 分桶，静态守恒与 dropout 审计都看不出来（实测 audio
+    @0x1dfd4 的 `subs x22,x22,#0x88` 就这样被吃掉）。因此这里按生成物
+    逐块校验「有一处 `val s0 = steps`、有一处带 `steps == s0` 的兜底」。
+    """
+    files = sorted((RE / "kt" / "src").glob("NmCode*.kt"))
+    fns = s0_marks = guards = 0
+    for p in files:
+        for line in p.read_text(encoding="utf-8").splitlines():
+            t = line.strip()
+            if t.startswith("fun NmArmState.nb_"):
+                fns += 1
+            elif t == "val s0 = steps":
+                s0_marks += 1
+            elif "if (steps == s0 && pc == p) pc = p + 4" in t:
+                guards += 1
+    return {
+        "ok": fns > 0 and s0_marks == fns and guards == fns,
+        "blockFns": fns, "stepMarks": s0_marks, "guards": guards,
+        "codeFiles": len(files),
+    }
+
+
+def z_diff_check() -> dict:
+    """差分验证证据：Unicorn 与 Kotlin 解释器在同一初始状态下的逐条比对结果。
+
+    这里只校验**已提交的证据**自洽（样本数 / 通过数 / 比对的指令数 / 分域全绿），
+    不在审计里重跑 Unicorn —— 重跑需要 capstone+unicorn，会污染纯 JVM 交付链。
+    证据本身的时效由 tools/z_diff.py 重新生成保证。
+    """
+    p = RE / "spec" / "z-diff.json"
+    if not p.is_file():
+        return {"ok": False, "reason": "spec/z-diff.json missing"}
+    d = json.loads(p.read_text(encoding="utf-8"))
+    cases = d.get("cases") or 0
+    ok_cases = d.get("ok") or 0
+    insn = d.get("instructionsCompared") or 0
+    per = d.get("perDomain") or {}
+    per_ok = bool(per) and all(v.get("ok") == v.get("total") and v.get("total")
+                               for v in per.values())
+    # external-stop 改判必须**单独记账**且与明细里的标记数一致：允许「比到共同
+    # 可执行区间末尾」这种口径对称化，但不允许把差异静默吸收掉。@spec Z-09
+    reconc = d.get("externalStopReconciled")
+    flagged = sum(1 for x in (d.get("details") or []) if x.get("externalStop"))
+    disclosed = isinstance(reconc, int) and reconc == flagged
+    return {
+        "ok": cases > 0 and ok_cases == cases and insn > 0 and per_ok and disclosed,
+        "oracle": d.get("oracle"),
+        "cases": cases, "okCases": ok_cases,
+        "instructionsCompared": insn, "perDomain": per,
+        "stopBreakdown": d.get("stopBreakdown"),
+        "externalStopReconciled": reconc, "externalStopFlagged": flagged,
+        "disclosed": disclosed,
+        "mismatches": len(d.get("mismatches") or []),
+    }
+
+
 def main() -> int:
     code_ids = code_spec_ids()
     spec_ids = spec_table_ids()
@@ -624,6 +686,8 @@ def main() -> int:
     w_disasm = w_disasm_check()
     x_catalog = x_catalog_check()
     z_translated = z_translated_check()
+    z_block_guard = z_block_guard_check()
+    z_diff = z_diff_check()
 
     missing_in_spec = sorted(set(code_ids) - set(spec_ids))
     orphan_in_spec = sorted(set(spec_ids) - set(code_ids))
@@ -654,6 +718,8 @@ def main() -> int:
         "zTranslatedConservationMatches": bool(z_translated.get("conservationOk")),
         "zTranslatedCatalogMatches": bool(z_translated.get("constantsOk")),
         "zTranslatedSemanticsComplete": bool(z_translated.get("semanticOk")),
+        "zBlockFallbackGuarded": bool(z_block_guard.get("ok")),
+        "zDiffOracleClean": bool(z_diff.get("ok")),
     }
     overall = all(checks.values())
 
@@ -683,6 +749,8 @@ def main() -> int:
         "wDisasm": w_disasm,
         "xCatalog": x_catalog,
         "zTranslated": z_translated,
+        "zBlockGuard": z_block_guard,
+        "zDiff": z_diff,
     }
     BUILD_DIR.mkdir(parents=True, exist_ok=True)
     OUT_PATH.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
@@ -715,7 +783,11 @@ def main() -> int:
           f"entries={zc.get('wrapperFns')}/{zc.get('expectedEntries')} "
           f"dispatch={zc.get('dispatchBranches')}")
     print(f"  zSemantics ops={zs.get('opsDeclared')} noBranch={zs.get('opsWithoutBranch')} "
-          f"dropout={zs.get('dropoutTotal')} vectorLeak={zs.get('vectorLeakTotal')}")
+          f"dropout={zs.get('dropoutTotal')} vectorLeak={zs.get('vectorLeakTotal')} "
+          f"operandLoss={zs.get('operandLossTotal')}")
+    print(f"  zDiff oracle={z_diff.get('oracle')} cases={z_diff.get('okCases')}/{z_diff.get('cases')} "
+          f"instructionsCompared={z_diff.get('instructionsCompared')} "
+          f"mismatches={z_diff.get('mismatches')}")
     if not catalog.get("ok"):
         print(f"  catalogDetail={catalog}")
     if not done_chain.get("ok"):

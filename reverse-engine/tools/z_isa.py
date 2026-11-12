@@ -77,6 +77,7 @@ SMAX_VEC SMIN_VEC CMEQ_VEC CMEQ_ZERO_VEC BIT_VEC BIF_VEC BSL_VEC
 USHR_VEC SSHR_VEC SHL_VEC USRA_VEC SSRA_VEC
 FADD_VEC FSUB_VEC FMUL_VEC FDIV_VEC FMLA_VEC FMLS_VEC FADDP_VEC
 FCMGT_VEC FCMGE_VEC FCMLT_VEC FABS_VEC FNEG_VEC
+FABD_VEC FMAXNM_VEC FMINNM_VEC FNMUL_VEC
 ADD_VEC_I SUB_VEC_I MUL_VEC_I AND_VEC ORR_VEC EOR_VEC BIC_VEC ORN_VEC
 """.split():
     _op(_n)
@@ -120,6 +121,7 @@ F_INDEX = 1 << 10
 F_ACQ = 1 << 11
 F_ARR_SHIFT = 12
 F_128 = 1 << 16          # Q 寄存器：16 字节访问
+F_POSTREG = 1 << 17      # post-index 的增量来自寄存器（imm 槽位存寄存器号）
 
 C_COND = 0x0F
 C_SH_SHIFT = 4
@@ -147,7 +149,11 @@ SYSREG = {
 EXT = {"uxtb": 1, "uxth": 2, "uxtw": 3, "uxtx": 4, "sxtb": 5, "sxth": 6,
        "sxtw": 7, "sxtx": 8}
 
-SHIFT = {"lsl": 0, "lsr": 1, "asr": 2, "ror": 3}
+# 移位类型：名字键 + capstone 整数枚举键（ARM64_SFT_LSL=1 / MSL=2 / LSR=3 /
+# ASR=4 / ROR=5）。capstone 给的是整数，早期只写了名字键，导致除 LSL 外
+# 全被当成 LSL。MSL 是「左移后插入」，这里按 LSL 处理（语料中未出现）。
+SHIFT = {"lsl": 0, "lsr": 1, "asr": 2, "ror": 3,
+         1: 0, 2: 0, 3: 1, 4: 2, 5: 3}
 
 # 条件码（capstone ARM64_CC_*：1=EQ 2=NE 3=HS 4=LO 5=MI 6=PL 7=VS 8=VC
 # 9=HI 10=LS 11=GE 12=LT 13=GT 14=LE 15=AL）
@@ -161,7 +167,7 @@ SCALAR_V_RE = re.compile(r"\b([bhsdq])(\d+)(?:\[(\d+)\])?")
 
 def _flags(width=W8, signed=False, wb=False, post=False, rdv=False, rnv=False,
            rmv=False, sets=False, rdsp=False, index=False, acq=False, arr=0,
-           is128=False):
+           is128=False, postreg=False):
     v = width
     if signed:
         v |= F_SIGNED
@@ -185,8 +191,22 @@ def _flags(width=W8, signed=False, wb=False, post=False, rdv=False, rnv=False,
         v |= F_ACQ
     if is128:
         v |= F_128
+    if postreg:
+        v |= F_POSTREG
     v |= (arr & 0xF) << F_ARR_SHIFT
     return v
+
+
+def _post_of(ins, ops, imms):
+    """结构访存的 post-index：`#imm` 或 `xN`（寄存器增量）。返回 (imm, regidx)。"""
+    if not ops:
+        return 0, -1
+    last = ops[-1]
+    if last.type == ARM64_OP_IMM:
+        return imms[-1], -1
+    if last.type == ARM64_OP_REG:
+        return 0, reg_of(ins, last.reg).idx
+    return 0, -1
 
 
 def _aux(cond=0, sh=0, sham=0, ext=0, lane=0, rc=0, srcw=0):
@@ -271,8 +291,29 @@ def _mem(ins):
 
 
 def _shift_of(op) -> tuple:
-    return (SHIFT.get(str(op.shift.type).lower(), 0) if op.shift.type else 0,
-            op.shift.value or 0)
+    """返回 (移位类型, 移位量)。
+
+    capstone 5 的 `op.shift.type` 是**整数枚举**（ARM64_SFT_LSL=1 / LSR=3 /
+    ASR=4 / ROR=5），不是名字。早期版本用 `str(op.shift.type).lower()` 查名字表，
+    永远查不到、一律退化成 0（LSL）——`add x8, x8, x9, asr #1` 于是被算成
+    `x9 << 1`（实测 cache @0xd668 的 x8 分歧就是这么来的）。这里先按整数查表，
+    名字表保留给可能的字符串形态。@spec Z-10
+    """
+    st = op.shift.type
+    if not st:
+        return 0, 0
+    sh = SHIFT.get(st, SHIFT.get(str(st).lower(), 0))
+    return sh, (op.shift.value or 0)
+
+
+def _ext_of(op) -> int:
+    """扩展方式：capstone 的 ARM64_EXT_* 数值与我们 NmF 侧的编码一致（1=UXTB … 7=SXTW）。
+
+    同样踩过「用名字查表」的坑：`op.ext` 是整数枚举，`str()` 化后查不到，一律 0
+    （无扩展）——`add x0, x1, w2, uxtw #2` 之类会被当成不扩展。SXTX(=8) 对 64 位
+    源操作数是恒等，被 `_aux` 的 3 位掩码截成 0 恰好正确。@spec Z-10
+    """
+    return op.ext or 0
 
 
 # ---------------------------------------------------------------------------
@@ -380,44 +421,56 @@ def decode(ins) -> tuple | None:
     PAIR_S = {"stp": ("STP", False), "stnp": ("STP", False)}
     if m in PAIR_L or m in PAIR_S:
         name, signed = (PAIR_L[m] if m in PAIR_L else PAIR_S[m])
-        # 操作数：rd, rd2, [mem], #post
+        # 操作数：rd, rd2, [base, #disp], #post
         rd, rd2 = regs[0], regs[1]
         width = rd.width
         post = 0
         if ops[-1].type == ARM64_OP_IMM:
             post = imms[-1]
         base_disp = mem.mem.disp
+        # 基址寄存器必须传下去：早期版本这里写死 rn = -1，导致所有
+        # `stp/ldp ..., [sp, #x]` 都退化成「访问地址 0 + 偏移」，
+        # 而 [x19]/[x0] 等基址直接丢失。写回目标同样是这个寄存器。
+        base = reg_of(ins, mem.mem.base).idx
         f = _flags(width=width, signed=signed,
                    wb=(bool(ins.writeback) or bool(ins.post_index)),
-                   post=bool(ins.post_index), rdv=rd.vec, arr=arr_of(0),
-                   is128=(rd.kind == "Q"))
+                   post=bool(ins.post_index), rdv=rd.vec, rnv=regs[1].vec,
+                   arr=arr_of(0), is128=(rd.kind == "Q"))
         imm = base_disp
         imm2 = post if ins.post_index else (base_disp if ins.writeback else 0)
-        # rd2 借 rm 槽位传，rd/rm 同为向量时由 f 的 RDV 位统一解释
-        return (_op(name), rd.idx, -1, rd2.idx, imm, imm2, f, _aux())
+        # rd2 借 rm 槽位传，rd/rm 同为向量时由 f 的 RDV/RMV 位统一解释
+        return (_op(name), rd.idx, base, rd2.idx, imm, imm2, f, _aux())
 
     if m in ("ld1", "ld1r", "ld2", "ld3", "ld4"):
-        # 结构加载：{v..}, [base], #post
+        # 结构加载：{v..}, [base], #post | xpost
         nregs = len(regs) - 0
         base = mem.mem.base
-        post = imms[-1] if (ops[-1].type == ARM64_OP_IMM) else 0
+        post, postreg = _post_of(ins, ops, imms)
         arr = arr_of(0)
         f = _flags(wb=bool(ins.post_index), post=bool(ins.post_index),
-                   rdv=True, arr=arr)
+                   postreg=postreg >= 0, rdv=True, arr=arr)
         return (_op({"ld1": "LD1", "ld1r": "LD1R", "ld2": "LD2",
                      "ld3": "LD3", "ld4": "LD4"}[m]),
                 regs[0].idx, reg_of(ins, base).idx, -1,
-                post, mem.mem.disp, f, _aux(rc=len(regs)))
+                postreg if postreg >= 0 else post, mem.mem.disp, f,
+                _aux(rc=len(regs)))
     if m in ("st1", "st2", "st3", "st4"):
         base = mem.mem.base
-        post = imms[-1] if (ops[-1].type == ARM64_OP_IMM) else 0
+        post, postreg = _post_of(ins, ops, imms)
         f = _flags(wb=bool(ins.post_index), post=bool(ins.post_index),
-                   rdv=True, arr=arr_of(0))
+                   postreg=postreg >= 0, rdv=True, arr=arr_of(0))
         return (_op({"st1": "ST1", "st2": "ST2", "st3": "ST3",
                      "st4": "ST4"}[m]),
                 regs[0].idx, reg_of(ins, base).idx, -1,
-                post, mem.mem.disp, f, _aux(rc=len(regs)))
+                postreg if postreg >= 0 else post, mem.mem.disp, f,
+                _aux(rc=len(regs)))
 
+    # 这些助记符**不带**宽度后缀，真实宽度由数据寄存器决定：
+    # `ldr w8, [x0]` 是 4 字节，`ldr x8, [x0]` 才是 8 字节。早期版本一律按 W8
+    # 处理，于是 `ldr w8, [x0]` 读了 8 字节（实测 audio-legacy @0xbb10 的
+    # x8 差异：0x464c457f vs 0x10102464c457f 就是多读了 ELF 头的后 4 字节）。@spec Z-10
+    W_FROM_REG = {"ldr", "ldur", "ldar", "ldxr", "ldaxr",
+                  "str", "stur", "stlr", "stxr", "stlxr"}
     LOAD_WIDTH = {
         "ldr": (W8, False), "ldur": (W8, False), "ldar": (W8, False),
         "ldxr": (W8, False), "ldaxr": (W8, False),
@@ -435,11 +488,24 @@ def decode(ins) -> tuple | None:
         "stxr": W8, "stlxr": W8, "stxrb": W1, "stlxrb": W1,
         "stxrh": W2, "stlxrh": W2,
     }
+    if m in ("ldr", "ldur") and mem is None and ops and ops[-1].type == ARM64_OP_IMM:
+        # 字面量加载 `ldr s2, #0xdd17c`（pc 相对取 4/8 字节常量）。
+        # capstone 已经把目标算成绝对地址，这里用 rn = 32（xzr ⇒ 基址 0）
+        # 把绝对地址直接走 imm，执行侧 effectiveAddr 就是 0 + imm。
+        rd = regs[0]
+        target = imms[-1]
+        is128 = rd.kind == "Q"
+        size = 8 if (is128 or rd.width == 8) else 4
+        f = _flags(width=(W8 if size == 8 else W4_), rdv=rd.vec, is128=is128)
+        return (_op("LD"), rd.idx, 32, -1, target, 0, f, _aux())
+
     if m in LOAD_WIDTH:
         if mem is None:
             return None
         width, signed = LOAD_WIDTH[m]
         rd = regs[0]
+        if m in W_FROM_REG:
+            width = rd.width
         exclusive = m.startswith("ldx") or m.startswith("ldax")
         acq = m.startswith("ldar") or m.startswith("ldax")
         imm, imm2, index = mem.mem.disp, 0, False
@@ -464,10 +530,13 @@ def decode(ins) -> tuple | None:
     if m in STORE_WIDTH:
         if mem is None:
             return None
-        width = STORE_WIDTH[m]
-        rs = regs[0]
-        exclusive = m.startswith("stx")
+        exclusive = m.startswith("stx") or m.startswith("stlx")
         rel = m.startswith("stlr") or m.startswith("stlx")
+        width = STORE_WIDTH[m]
+        # 独占写的第一个寄存器是状态回写（W），数据在 regs[1]；宽度必须看数据寄存器。
+        rs = regs[1] if exclusive and len(regs) > 1 else regs[0]
+        if m in W_FROM_REG:
+            width = rs.width
         imm, imm2 = mem.mem.disp, 0
         f = _flags(width=width, rdv=rs.vec, acq=rel,
                    wb=bool(ins.writeback) or bool(ins.post_index),
@@ -500,7 +569,16 @@ def decode(ins) -> tuple | None:
         if ops[1].type == ARM64_OP_IMM:
             return (_op("MOV_IMM"), r(0), -1, -1, imms[0], 0, width_of(0), _aux())
         if regs[0].vec or regs[1].vec:
-            return (_op("MOV_VEC"), r(0), r(1), -1, 0, 0,
+            # 带 lane 的**标量搬移**（`mov d0, v0.d[1]`）：把元素字节数记进 imm，
+            # 执行侧据此只搬一个元素到低端并把高位清零。早期一律按整寄存器拷贝，
+            # d0 拿到的是 lane0、lane1 留在高 64 位，两半正好对调
+            # （实测 audio-legacy @0x1bd34）。整寄存器拷贝仍用 imm = 0。@spec Z-10
+            sz = 0
+            if regs[1].vec and regs[0].kind not in ("V", "Q"):
+                mm = re.search(r"v(\d+)\.([bhsd])\[(\d+)\]", ins.op_str)
+                if mm:
+                    sz = {"b": 1, "h": 2, "s": 4, "d": 8}[mm.group(2)]
+            return (_op("MOV_VEC"), r(0), r(1), -1, sz, 0,
                     _flags(rdv=regs[0].vec, rnv=regs[1].vec, arr=arr_of(0)),
                     _aux(lane=lane_of(0)))
         return (_op("MOV_RR"), r(0), r(1), -1, 0, 0, width_of(1), _aux())
@@ -521,7 +599,7 @@ def decode(ins) -> tuple | None:
                        rdsp=(regs[0].kind == "SP"))
             return (_op(name), r(0), r(1), -1, imms[0], 0, f, _aux(sh=sh, sham=sham))
         sh, sham = _shift_of(ops[2])
-        ext = EXT.get(str(ops[2].ext).lower(), 0) if ops[2].ext else 0
+        ext = _ext_of(ops[2])
         base = "ADD" if m.startswith("add") else "SUB"
         name = base + "_REG" if not m.endswith("s") else base + "S_REG"
         f = _flags(width=width_of(0), sets=m.endswith("s"),
@@ -535,7 +613,7 @@ def decode(ins) -> tuple | None:
             return (_op(base + "_IMM"), r(0), -1, -1, imms[0], 0,
                     width_of(0), _aux(sh=sh, sham=sham))
         sh, sham = _shift_of(ops[1])
-        ext = EXT.get(str(ops[1].ext).lower(), 0) if ops[1].ext else 0
+        ext = _ext_of(ops[1])
         return (_op(base + "_REG"), r(0), -1, r(1), 0, 0, width_of(0),
                 _aux(sh=sh, sham=sham, ext=ext))
     if m in ("neg", "negs"):
@@ -656,9 +734,14 @@ def decode(ins) -> tuple | None:
                   "fnmul": "FNMUL"}
     if m in SCALAR_FP3:
         name = SCALAR_FP3[m]
-        if len(regs) == 2 and ops[1].type != ARM64_OP_REG:
-            # 向量形式交给 SIMD 分支
-            pass
+        a0 = arr_of(0)
+        if a0 != 0:
+            # 向量形式（`fadd v4.2s, v0.2s, v1.2s`）必须走逐车道 op。早期这里只是
+            # `pass` 了一下就掉进标量分支：`.2s/.2d` 只算 lane0，而且 width 取的是
+            # V 寄存器的 W8，等于把低 64 位当成一个 double 相加。@spec Z-10
+            return (_op(name + "_VEC"), r(0), r(1), r(2), 0, 0,
+                    _flags(rdv=True, rnv=True, rmv=True, arr=a0),
+                    _aux(lane=lane_of(2)))
         return (_op(name), r(0), r(1), r(2), 0, 0,
                 _flags(width=regs[0].width, rdv=regs[0].vec,
                        rnv=regs[1].vec, rmv=regs[2].vec if len(regs) > 2 else False),
@@ -690,21 +773,22 @@ def decode(ins) -> tuple | None:
         return (_op(m.upper()), r(0), r(1), -1, 0, 0,
                 _flags(rdv=True, rnv=True, arr=arr_of(0)), _aux(lane=lane_of(0)))
     if m in ("scvtf", "ucvtf"):
+        # 带排列码（`scvtf v0.2d, v0.2d` 是逐车道转换）；不带时 arr=NONE 走标量路径。
         return (_op("SCVTF" if m == "scvtf" else "UCVTF"), r(0), r(1), -1, 0, 0,
                 _flags(width=regs[0].width, rdv=regs[0].vec,
-                       rnv=regs[1].vec), _aux())
+                       rnv=regs[1].vec, arr=arr_of(0)), _aux())
     if m in ("fcvtzs", "fcvtzu", "fcvtpu", "fcvtps", "fcvtms", "fcvtas"):
         op = {"fcvtzs": "FCVTZS", "fcvtzu": "FCVTZU", "fcvtpu": "FCVTPU",
               "fcvtps": "FCVTPS", "fcvtms": "FCVTMS", "fcvtas": "FCVTAS"}[m]
         return (_op(op), r(0), r(1), -1, 0, 0,
                 _flags(width=regs[0].width, rdv=regs[0].vec,
-                       rnv=regs[1].vec), _aux())
+                       rnv=regs[1].vec, arr=arr_of(0)), _aux())
 
     # ---------------- NEON 逐元素 ----------------
-    if m in ("fadd", "fsub", "fmul", "fdiv", "fmla", "fmls", "fmax", "fmin"):
-        return (_op({"fadd": "FADD_VEC", "fsub": "FSUB_VEC", "fmul": "FMUL_VEC",
-                     "fdiv": "FDIV_VEC", "fmla": "FMLA_VEC", "fmls": "FMLS_VEC",
-                     "fmax": "FMAX_VEC", "fmin": "FMIN_VEC"}[m]),
+    # fadd/fsub/fmul/fdiv/fmax/fmin 的向量形式已在上面按排列码路由到 *_VEC，
+    # 这里只剩带 lane 的 fmla/fmls（`fmla v0.2s, v1.2s, v2.s[1]`）。
+    if m in ("fmla", "fmls"):
+        return (_op({"fmla": "FMLA_VEC", "fmls": "FMLS_VEC"}[m]),
                 r(0), r(1), r(2), 0, 0,
                 _flags(rdv=True, rnv=True, rmv=True, arr=arr_of(0)),
                 _aux(lane=lane_of(2)))
@@ -734,9 +818,11 @@ def decode(ins) -> tuple | None:
         return (_op("EXT_VEC"), r(0), r(1), r(2), imms[-1], 0,
                 _flags(rdv=True, rnv=True, rmv=True, arr=arr_of(0)), _aux())
     if m == "tbl":
-        return (_op("TBL_VEC"), r(0), r(1), r(2), 0, 0,
+        # tbl vD, {vN, vN+1, ...}, vM —— 表寄存器是连续的一段，索引在最后一个 regs 里。
+        # 早期版本把 r(2) 当索引，两表及以上时索引寄存器直接丢失（v31 之流）。
+        return (_op("TBL_VEC"), regs[0].idx, regs[1].idx, regs[-1].idx, 0, 0,
                 _flags(rdv=True, rnv=True, rmv=True, arr=arr_of(0)),
-                _aux(rc=len(regs) - 1))
+                _aux(rc=len(regs) - 2))
     if m in ("sshll", "sshll2", "ushll", "ushll2"):
         return (_op("SSHLL_VEC" if m.startswith("s") else "USHLL_VEC"),
                 r(0), r(1), -1, imms[-1], 0,

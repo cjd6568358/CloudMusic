@@ -1327,16 +1327,16 @@ private fun testXGroup(s: Suite) {
 // ---------------------------------------------------------------------------
 
 private fun testZGroup(s: Suite) {
-    s.section("17. Z 组：6326 块 / 388064 条指令逐行翻译与执行")
+    s.section("17. Z 组：6324 块 / 388068 条指令逐行翻译与执行")
     val C = NmTranslatedCatalog
 
     // ---- Z-01 指令守恒：.text 字节账闭合 ----
-    s.eq("Z-01 翻译指令 388064", 388064, C.INSTRUCTION_COUNT)
-    s.eq("Z-01 代码块 6326", 6326, C.BLOCK_COUNT)
+    s.eq("Z-01 翻译指令 388068", 388068, C.INSTRUCTION_COUNT)
+    s.eq("Z-01 代码块 6324", 6324, C.BLOCK_COUNT)
     s.eq("Z-01 函数入口 7486", 7486, C.ENTRY_COUNT)
     s.eq("Z-01 cache 775 块", 775, C.CACHE_BLOCKS)
     s.eq("Z-01 engine 1889 块", 1889, C.ENGINE_BLOCKS)
-    s.eq("Z-01 audio 3213 块", 3213, C.AUDIO_BLOCKS)
+    s.eq("Z-01 audio 3211 块", 3211, C.AUDIO_BLOCKS)
     s.eq("Z-01 audio-legacy 449 块", 449, C.AUDIO_LEGACY_BLOCKS)
     s.eq("Z-01 四域块数合计 == BLOCK_COUNT", C.BLOCK_COUNT,
         C.CACHE_BLOCKS + C.ENGINE_BLOCKS + C.AUDIO_BLOCKS + C.AUDIO_LEGACY_BLOCKS)
@@ -1351,11 +1351,11 @@ private fun testZGroup(s: Suite) {
         listOf(C.CACHE_BASE + C.CACHE_BLOCKS, C.ENGINE_BASE + C.ENGINE_BLOCKS,
             C.AUDIO_BASE + C.AUDIO_BLOCKS))
     s.eq("Z-01 末域块满即总数", C.BLOCK_COUNT, C.AUDIO_LEGACY_BASE + C.AUDIO_LEGACY_BLOCKS)
-    // .text 可解码指令 406580 = 翻译 388064 + 字面量池 18512 + 不可解码可达 4
-    s.eq("Z-01 .text 指令账闭合", 406580, C.INSTRUCTION_COUNT + 18512 + 4)
+    // .text 可解码指令 406580 = 翻译 388068 + 字面量池 18512 + 不可解码可达 0
+    s.eq("Z-01 .text 指令账闭合", 406580, C.INSTRUCTION_COUNT + 18512)
 
     // ---- Z-02 语义 op 表：不存在 PRESERVED 兜底桶 ----
-    s.eq("Z-02 语义 op 212", 212, NmOp.COUNT)
+    s.eq("Z-02 语义 op 216", 216, NmOp.COUNT)
     s.eq("Z-02 op 名表长度一致", NmOp.COUNT, NmOp.NAMES.size)
     s.check("Z-02 op 名可反查", NmOp.name(NmOp.UNKNOWN) == "UNKNOWN")
     s.check("Z-02 越界 op 名安全", NmOp.name(NmOp.COUNT) == "?" && NmOp.name(-1) == "?")
@@ -1526,6 +1526,72 @@ private fun testZGroup(s: Suite) {
     NmMachine(so).call("cache", 0x10L, 64)
     s.eq("Z-08 界外入口登记 unresolvedTargets", 1, so.ext.unresolvedTargets.size)
     s.eq("Z-08 界外入口不加 dropout", 0, so.ext.dropouts)
+
+    // ---- Z-09 差分验证的观测口：pc 轨迹逐条记录真实执行序列 ----
+    // z_diff.py 用它与 Unicorn 的轨迹逐条对齐，定位「第一条走岔的指令」；
+    // 这里只钉住「记录的是真实执行序列、且不影响语义」。
+    val stT = NmArmState()
+    stT.pcTrace = ArrayList()
+    stT.pc = 0x6000L
+    stT.i(0x6000L, NmOp.MOV_IMM, 0, -1, -1, 7L, 0L, NmF.W8, 0)
+    stT.i(0x6004L, NmOp.ADD_IMM, 0, 0, -1, 1L, 0L, NmF.W8, 0)
+    stT.i(0x6008L, NmOp.ADD_IMM, 0, 0, -1, 1L, 0L, NmF.W8, 0)
+    s.eq("Z-09 pc 轨迹长度 == 执行条数", 3, stT.pcTrace?.size)
+    s.eq("Z-09 pc 轨迹逐条地址", listOf(0x6000L, 0x6004L, 0x6008L),
+        stT.pcTrace?.toList())
+    s.eq("Z-09 轨迹不影响语义", 9L, stT.x[0])
+
+    // ---- Z-10 差分暴露的语义缺陷：逐条钉住，防止回归。 @spec Z-10 ----
+    // ① fnmsub 的符号零：ARM 定义是 -Sa + (Sn*Sm)，不是 -(Sa - Sn*Sm)。
+    //    两者实数值等价，但 Sa=-0.0、乘积=-0.0 时前者 +0.0、后者 -0.0。
+    val sf = NmArmState()
+    sf.pc = 0x7000L
+    sf.v[14] = 0x8000_0006L     // s7 = 极小负数（v 数组是每寄存器 2 个 64 位槽）
+    sf.v[18] = 0L               // s9 = +0.0
+    sf.v[38] = 0x8000_0000L     // s19 = -0.0
+    sf.i(0x7000L, NmOp.FNMSUB, 19, 7, 9, 0L, 19L, NmF.W4, 0)
+    s.eq("Z-10 fnmsub 符号零归正 -Sa+(Sn*Sm)", 0L, sf.v[38] and 0xFFFF_FFFFL)
+
+    // ② fcvtzs 按目标位宽饱和：1e20 不能截断回绕成 0xFFFFFFFF
+    val sc = NmArmState()
+    sc.pc = 0x7010L
+    sc.v[2] = 1e20.toFloat().toBits().toLong()
+    sc.i(0x7010L, NmOp.FCVTZS, 0, 1, -1, 0L, 0L, NmF.W4, NmF.W4 shl 24)
+    s.eq("Z-10 fcvtzs 溢出饱和到 INT_MAX", 0x7FFF_FFFFL, sc.x[0] and 0xFFFF_FFFFL)
+    sc.v[2] = (-1.5f).toBits().toLong()
+    sc.i(0x7014L, NmOp.FCVTZU, 2, 1, -1, 0L, 0L, NmF.W4, NmF.W4 shl 24)
+    s.eq("Z-10 fcvtzu 负数夹到 0", 0L, sc.x[2])
+
+    // ③ fmov 通用↔浮点是位拷贝，不是数值转换
+    val smv = NmArmState()
+    smv.pc = 0x7020L
+    smv.x[8] = 0x3F35_04F3L
+    smv.i(0x7020L, NmOp.FMOV_RR, 0, 8, -1, 0L, 0L, NmF.W4 or NmF.RDV, 0)
+    s.eq("Z-10 fmov s0,w8 位拷贝", 0x3F35_04F3L, smv.v[0] and 0xFFFF_FFFFL)
+
+    // ④ mov d0, v1.d[1] 是 lane 提取，且高位清零
+    val sl = NmArmState()
+    sl.pc = 0x7030L
+    sl.v[2] = 0x1111_1111_1111_1111L
+    sl.v[3] = 0x2222_2222_2222_2222L
+    sl.i(0x7030L, NmOp.MOV_VEC, 0, 1, -1, 8L, 0L, NmF.RDV, 1 shl 15)
+    s.eq("Z-10 mov d0,v1.d[1] 取高 lane", 0x2222_2222_2222_2222L, sl.v[0])
+    s.eq("Z-10 mov d0,v1.d[1] 清高 64 位", 0L, sl.v[1])
+
+    // ⑤ movi dN, #imm 标量形式：没有排列码时立即数即整个 64 位
+    val si = NmArmState()
+    si.pc = 0x7040L
+    si.i(0x7040L, NmOp.MOVI_VEC, 0, -1, -1, 0x0000_00FF_FFFF_FFFFL, 0L, 0, 0)
+    s.eq("Z-10 movi d0 标量取整 64 位", 0x0000_00FF_FFFF_FFFFL, si.v[0])
+
+    // ⑥ ext v16.8b：.8b 时每个源寄存器只贡献 8 字节
+    val sx = NmArmState()
+    sx.pc = 0x7050L
+    sx.v[4] = 0x0807_0605_0403_0201L   // v2 lo
+    sx.v[6] = 0x1817_1615_1413_1211L   // v3 lo
+    sx.i(0x7050L, NmOp.EXT_VEC, 16, 2, 3, 4L, 0L, NmArr.B8 shl NmF.ARR_SHIFT, 0)
+    s.eq("Z-10 ext v16.8b 按 8 字节拼接", 0x1413_1211_0807_0605L, sx.v[32])
+    s.eq("Z-10 ext v16.8b 高位清零", 0L, sx.v[33])
 }
 
 fun main() {

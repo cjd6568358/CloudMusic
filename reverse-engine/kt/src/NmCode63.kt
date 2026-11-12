@@ -8,6 +8,7 @@ fun NmArmState.nb_engine_9b950() {
     var g = 0
     while (pc in B..637516L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..637516L) {
             i(B+0L,16,0,-1,-1,2L,0L,0x1)
             i(B+4L,88,-1,-1,-1,637316L,0L,0x0,0x2)
@@ -73,7 +74,7 @@ fun NmArmState.nb_engine_9b950() {
             i(B+244L,94,-1,8,-1,0L)
             i(B+248L,98,8,20,-1,40L)
             i(B+252L,98,9,31,-1,24L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -83,11 +84,12 @@ fun NmArmState.nb_engine_9ba50() {
     var g = 0
     while (pc in B..637772L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..637772L) {
             i(B+0L,15,8,-1,9,0L)
             i(B+4L,88,-1,-1,-1,637548L,0L,0x0,0x2)
-            i(B+8L,100,29,-1,30,64L)
-            i(B+12L,100,20,-1,19,48L)
+            i(B+8L,100,29,31,30,64L)
+            i(B+12L,100,20,31,19,48L)
             i(B+16L,98,21,31,-1,32L)
             i(B+20L,6,31,31,-1,80L,0L,0x200)
             i(B+24L,96,-1,30,-1,0L)
@@ -123,19 +125,19 @@ fun NmArmState.nb_engine_9ba50() {
             i(B+144L,93,-1,-1,-1,199336L)
             i(B+148L,93,-1,-1,-1,199336L)
             i(B+152L,99,19,31,-1,-32L,-32L,0x8)
-            i(B+156L,101,29,-1,30,16L)
+            i(B+156L,101,29,31,30,16L)
             i(B+160L,6,29,31,-1,16L)
             i(B+164L,3,19,0,-1,0L)
             i(B+168L,93,-1,-1,-1,185920L)
-            i(B+172L,100,29,-1,30,16L)
+            i(B+172L,100,29,31,30,16L)
             i(B+176L,3,0,19,-1,0L)
             i(B+180L,98,19,31,-1,0L,32L,0x18)
             i(B+184L,87,-1,-1,-1,186608L)
             i(B+188L,10,31,31,-1,112L,0L,0x200)
             i(B+192L,99,23,31,-1,48L)
-            i(B+196L,101,22,-1,21,64L)
-            i(B+200L,101,20,-1,19,80L)
-            i(B+204L,101,29,-1,30,96L)
+            i(B+196L,101,22,31,21,64L)
+            i(B+200L,101,20,31,19,80L)
+            i(B+204L,101,29,31,30,96L)
             i(B+208L,6,29,31,-1,96L)
             i(B+212L,115,23,-1,-1,1L)
             i(B+216L,3,19,8,-1,0L)
@@ -148,7 +150,7 @@ fun NmArmState.nb_engine_9ba50() {
             i(B+244L,99,32,31,-1,32L,0L,0x3)
             i(B+248L,98,0,22,-1,0L)
             i(B+252L,89,0,-1,-1,638064L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -158,6 +160,7 @@ fun NmArmState.nb_engine_9bb50() {
     var g = 0
     while (pc in B..638028L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..638028L) {
             i(B+0L,98,8,0,-1,0L)
             i(B+4L,2,2,-1,-1,6L,0L,0x1)
@@ -223,7 +226,7 @@ fun NmArmState.nb_engine_9bb50() {
             i(B+244L,98,8,0,-1,0L)
             i(B+248L,98,8,8,-1,184L)
             i(B+252L,3,1,20,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -233,6 +236,7 @@ fun NmArmState.nb_engine_9bc50() {
     var g = 0
     while (pc in B..638284L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..638284L) {
             i(B+0L,94,-1,8,-1,0L)
             i(B+4L,98,8,31,-1,16L)
@@ -242,7 +246,7 @@ fun NmArmState.nb_engine_9bc50() {
             i(B+20L,98,0,31,-1,24L)
             i(B+24L,90,0,-1,-1,638080L)
             i(B+28L,87,-1,-1,-1,638116L)
-            i(B+32L,101,32,-1,32,0L)
+            i(B+32L,101,32,19,32,0L)
             i(B+36L,99,32,19,-1,16L)
             i(B+40L,98,0,31,-1,24L)
             i(B+44L,89,0,-1,-1,638116L)
@@ -266,9 +270,9 @@ fun NmArmState.nb_engine_9bc50() {
             i(B+116L,98,9,31,-1,40L)
             i(B+120L,15,8,-1,9,0L)
             i(B+124L,88,-1,-1,-1,638184L,0L,0x0,0x2)
-            i(B+128L,100,29,-1,30,96L)
-            i(B+132L,100,20,-1,19,80L)
-            i(B+136L,100,22,-1,21,64L)
+            i(B+128L,100,29,31,30,96L)
+            i(B+132L,100,20,31,19,80L)
+            i(B+136L,100,22,31,21,64L)
             i(B+140L,98,23,31,-1,48L)
             i(B+144L,6,31,31,-1,112L,0L,0x200)
             i(B+148L,96,-1,30,-1,0L)
@@ -298,7 +302,7 @@ fun NmArmState.nb_engine_9bc50() {
             i(B+244L,98,8,0,-1,0L)
             i(B+248L,98,8,8,-1,136L)
             i(B+252L,94,-1,8,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -308,6 +312,7 @@ fun NmArmState.nb_engine_9bd50() {
     var g = 0
     while (pc in B..638540L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..638540L) {
             i(B+0L,98,8,31,-1,32L,0L,0x3)
             i(B+4L,89,8,-1,-1,638316L,0L,0x1)
@@ -321,12 +326,12 @@ fun NmArmState.nb_engine_9bd50() {
             i(B+36L,93,-1,-1,-1,199336L)
             i(B+40L,93,-1,-1,-1,199336L)
             i(B+44L,10,31,31,-1,128L,0L,0x200)
-            i(B+48L,101,28,-1,27,32L)
-            i(B+52L,101,26,-1,25,48L)
-            i(B+56L,101,24,-1,23,64L)
-            i(B+60L,101,22,-1,21,80L)
-            i(B+64L,101,20,-1,19,96L)
-            i(B+68L,101,29,-1,30,112L)
+            i(B+48L,101,28,31,27,32L)
+            i(B+52L,101,26,31,25,48L)
+            i(B+56L,101,24,31,23,64L)
+            i(B+60L,101,22,31,21,80L)
+            i(B+64L,101,20,31,19,96L)
+            i(B+68L,101,29,31,30,112L)
             i(B+72L,6,29,31,-1,112L)
             i(B+76L,115,27,-1,-1,1L)
             i(B+80L,3,19,8,-1,0L)
@@ -364,8 +369,8 @@ fun NmArmState.nb_engine_9bd50() {
             i(B+208L,2,9,-1,-1,1L,0L,0x1)
             i(B+212L,2,10,-1,-1,-1L)
             i(B+216L,99,9,19,-1,8L,0L,0x2)
-            i(B+220L,101,32,-1,10,16L)
-            i(B+224L,101,10,-1,10,32L)
+            i(B+220L,101,32,19,10,16L)
+            i(B+224L,101,10,19,10,32L)
             i(B+228L,99,0,19,-1,0L,0L,0x20)
             i(B+232L,99,32,19,-1,48L)
             i(B+236L,89,0,-1,-1,639184L)
@@ -373,7 +378,7 @@ fun NmArmState.nb_engine_9bd50() {
             i(B+244L,89,2,-1,-1,639140L)
             i(B+248L,98,1,20,-1,8L)
             i(B+252L,93,-1,-1,-1,185984L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -383,6 +388,7 @@ fun NmArmState.nb_engine_9be50() {
     var g = 0
     while (pc in B..638796L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..638796L) {
             i(B+0L,3,21,0,-1,0L)
             i(B+4L,98,0,31,-1,8L)
@@ -428,7 +434,7 @@ fun NmArmState.nb_engine_9be50() {
             i(B+164L,3,28,32,-1,0L)
             i(B+168L,3,8,32,-1,0L)
             i(B+172L,41,8,8,-1,1L,0L,0x1)
-            i(B+176L,99,8,19,-1,0L)
+            i(B+176L,99,8,19,-1,0L,0L,0x1)
             i(B+180L,98,2,20,-1,72L)
             i(B+184L,89,2,-1,-1,639016L)
             i(B+188L,98,0,31,-1,8L)
@@ -448,7 +454,7 @@ fun NmArmState.nb_engine_9be50() {
             i(B+244L,89,0,-1,-1,638816L)
             i(B+248L,98,0,31,-1,8L)
             i(B+252L,98,8,0,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -458,6 +464,7 @@ fun NmArmState.nb_engine_9bf50() {
     var g = 0
     while (pc in B..639052L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..639052L) {
             i(B+0L,98,8,8,-1,1824L)
             i(B+4L,94,-1,8,-1,0L)
@@ -503,7 +510,7 @@ fun NmArmState.nb_engine_9bf50() {
             i(B+164L,94,-1,8,-1,0L)
             i(B+168L,3,25,32,-1,0L)
             i(B+172L,98,0,31,-1,8L)
-            i(B+176L,99,25,19,-1,4L)
+            i(B+176L,99,25,19,-1,4L,0L,0x1)
             i(B+180L,98,8,0,-1,0L)
             i(B+184L,98,8,8,-1,184L)
             i(B+188L,3,1,24,-1,0L)
@@ -523,7 +530,7 @@ fun NmArmState.nb_engine_9bf50() {
             i(B+244L,47,0,-1,-1,255L,0L,0x1)
             i(B+248L,78,8,-1,-1,0L,0L,0x1,0x2)
             i(B+252L,99,8,19,-1,8L,0L,0x3)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -533,6 +540,7 @@ fun NmArmState.nb_engine_9c050() {
     var g = 0
     while (pc in B..639308L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..639308L) {
             i(B+0L,98,2,20,-1,88L)
             i(B+4L,89,2,-1,-1,639096L)
@@ -577,12 +585,12 @@ fun NmArmState.nb_engine_9c050() {
             i(B+160L,98,9,31,-1,24L)
             i(B+164L,15,8,-1,9,0L)
             i(B+168L,88,-1,-1,-1,639328L,0L,0x0,0x2)
-            i(B+172L,100,29,-1,30,112L)
-            i(B+176L,100,20,-1,19,96L)
-            i(B+180L,100,22,-1,21,80L)
-            i(B+184L,100,24,-1,23,64L)
-            i(B+188L,100,26,-1,25,48L)
-            i(B+192L,100,28,-1,27,32L)
+            i(B+172L,100,29,31,30,112L)
+            i(B+176L,100,20,31,19,96L)
+            i(B+180L,100,22,31,21,80L)
+            i(B+184L,100,24,31,23,64L)
+            i(B+188L,100,26,31,25,48L)
+            i(B+192L,100,28,31,27,32L)
             i(B+196L,6,31,31,-1,128L,0L,0x200)
             i(B+200L,96,-1,30,-1,0L)
             i(B+204L,89,25,-1,-1,638972L)
@@ -598,7 +606,7 @@ fun NmArmState.nb_engine_9c050() {
             i(B+244L,47,0,-1,-1,255L,0L,0x1)
             i(B+248L,88,-1,-1,-1,638972L,0L,0x0,0x1)
             i(B+252L,98,0,31,-1,8L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -608,6 +616,7 @@ fun NmArmState.nb_engine_9c150() {
     var g = 0
     while (pc in B..639564L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..639564L) {
             i(B+0L,98,8,0,-1,0L)
             i(B+4L,98,8,8,-1,136L)
@@ -643,12 +652,12 @@ fun NmArmState.nb_engine_9c150() {
             i(B+124L,93,-1,-1,-1,667564L)
             i(B+128L,93,-1,-1,-1,199336L)
             i(B+132L,10,31,31,-1,192L,0L,0x200)
-            i(B+136L,101,28,-1,27,96L)
-            i(B+140L,101,26,-1,25,112L)
-            i(B+144L,101,24,-1,23,128L)
-            i(B+148L,101,22,-1,21,144L)
-            i(B+152L,101,20,-1,19,160L)
-            i(B+156L,101,29,-1,30,176L)
+            i(B+136L,101,28,31,27,96L)
+            i(B+140L,101,26,31,25,112L)
+            i(B+144L,101,24,31,23,128L)
+            i(B+148L,101,22,31,21,144L)
+            i(B+152L,101,20,31,19,160L)
+            i(B+156L,101,29,31,30,176L)
             i(B+160L,6,29,31,-1,176L)
             i(B+164L,115,23,-1,-1,1L)
             i(B+168L,3,19,8,-1,0L)
@@ -673,7 +682,7 @@ fun NmArmState.nb_engine_9c150() {
             i(B+244L,6,1,31,-1,56L)
             i(B+248L,3,2,32,-1,0L)
             i(B+252L,98,8,0,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -683,6 +692,7 @@ fun NmArmState.nb_engine_9c250() {
     var g = 0
     while (pc in B..639820L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..639820L) {
             i(B+0L,98,8,8,-1,32L)
             i(B+4L,94,-1,8,-1,0L)
@@ -694,9 +704,9 @@ fun NmArmState.nb_engine_9c250() {
             i(B+28L,98,0,31,-1,56L)
             i(B+32L,2,8,-1,-1,-1L)
             i(B+36L,154,0,-1,-1,0L,0L,0x7020)
-            i(B+40L,101,32,-1,32,0L)
-            i(B+44L,101,32,-1,8,16L)
-            i(B+48L,101,0,-1,0,32L,0L,0x10020)
+            i(B+40L,101,32,19,32,0L)
+            i(B+44L,101,32,19,8,16L)
+            i(B+48L,101,0,19,0,32L,0L,0x10060)
             i(B+52L,99,0,19,-1,64L,0L,0x10020)
             i(B+56L,89,0,-1,-1,640424L)
             i(B+60L,98,2,21,-1,40L)
@@ -748,7 +758,7 @@ fun NmArmState.nb_engine_9c250() {
             i(B+244L,3,25,0,-1,0L)
             i(B+248L,99,26,31,-1,24L)
             i(B+252L,89,26,-1,-1,639948L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -758,6 +768,7 @@ fun NmArmState.nb_engine_9c350() {
     var g = 0
     while (pc in B..640076L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..640076L) {
             i(B+0L,98,0,31,-1,56L)
             i(B+4L,98,8,0,-1,0L)
@@ -776,7 +787,7 @@ fun NmArmState.nb_engine_9c350() {
             i(B+56L,3,2,22,-1,0L)
             i(B+60L,94,-1,8,-1,0L)
             i(B+64L,98,8,31,-1,33L)
-            i(B+68L,100,9,-1,22,40L)
+            i(B+68L,100,9,31,22,40L)
             i(B+72L,98,27,31,-1,32L,0L,0x3)
             i(B+76L,99,8,31,-1,72L)
             i(B+80L,99,9,31,-1,79L)
@@ -798,9 +809,9 @@ fun NmArmState.nb_engine_9c350() {
             i(B+144L,98,9,31,-1,72L)
             i(B+148L,99,27,19,-1,0L,0L,0x3)
             i(B+152L,99,22,31,-1,8L)
-            i(B+156L,101,8,-1,22,8L)
+            i(B+156L,101,8,19,22,8L)
             i(B+160L,99,9,19,-1,1L)
-            i(B+164L,99,27,31,-1,20L)
+            i(B+164L,99,27,31,-1,20L,0L,0x1)
             i(B+168L,89,24,-1,-1,640084L)
             i(B+172L,98,0,31,-1,56L)
             i(B+176L,98,8,0,-1,0L)
@@ -819,11 +830,11 @@ fun NmArmState.nb_engine_9c350() {
             i(B+228L,3,2,26,-1,0L)
             i(B+232L,94,-1,8,-1,0L)
             i(B+236L,98,8,31,-1,33L)
-            i(B+240L,100,9,-1,10,40L)
+            i(B+240L,100,9,31,10,40L)
             i(B+244L,98,22,31,-1,32L,0L,0x3)
             i(B+248L,99,8,31,-1,72L)
             i(B+252L,99,9,31,-1,79L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -833,6 +844,7 @@ fun NmArmState.nb_engine_9c450() {
     var g = 0
     while (pc in B..640332L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..640332L) {
             i(B+0L,87,-1,-1,-1,640100L)
             i(B+4L,3,22,32,-1,0L)
@@ -843,7 +855,7 @@ fun NmArmState.nb_engine_9c450() {
             i(B+24L,98,9,31,-1,72L)
             i(B+28L,99,22,19,-1,32L,0L,0x3)
             i(B+32L,99,10,31,-1,0L)
-            i(B+36L,101,8,-1,10,40L)
+            i(B+36L,101,8,19,10,40L)
             i(B+40L,99,9,19,-1,33L)
             i(B+44L,89,25,-1,-1,640216L)
             i(B+48L,98,0,31,-1,56L)
@@ -863,7 +875,7 @@ fun NmArmState.nb_engine_9c450() {
             i(B+104L,3,2,27,-1,0L)
             i(B+108L,94,-1,8,-1,0L)
             i(B+112L,98,8,31,-1,33L)
-            i(B+116L,100,9,-1,27,40L)
+            i(B+116L,100,9,31,27,40L)
             i(B+120L,98,26,31,-1,32L,0L,0x3)
             i(B+124L,99,8,31,-1,72L)
             i(B+128L,99,9,31,-1,79L)
@@ -876,7 +888,7 @@ fun NmArmState.nb_engine_9c450() {
             i(B+156L,98,2,21,-1,104L)
             i(B+160L,98,9,31,-1,72L)
             i(B+164L,99,26,19,-1,56L,0L,0x3)
-            i(B+168L,101,8,-1,27,64L)
+            i(B+168L,101,8,19,27,64L)
             i(B+172L,99,9,19,-1,57L)
             i(B+176L,89,2,-1,-1,640284L)
             i(B+180L,98,0,31,-1,56L)
@@ -898,7 +910,7 @@ fun NmArmState.nb_engine_9c450() {
             i(B+244L,98,8,8,-1,184L)
             i(B+248L,3,1,24,-1,0L)
             i(B+252L,94,-1,8,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -908,6 +920,7 @@ fun NmArmState.nb_engine_9c550() {
     var g = 0
     while (pc in B..640588L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..640588L) {
             i(B+0L,89,25,-1,-1,640360L)
             i(B+4L,98,0,31,-1,56L)
@@ -942,12 +955,12 @@ fun NmArmState.nb_engine_9c550() {
             i(B+120L,98,9,31,-1,88L)
             i(B+124L,15,8,-1,9,0L)
             i(B+128L,88,-1,-1,-1,640500L,0L,0x0,0x2)
-            i(B+132L,100,29,-1,30,176L)
-            i(B+136L,100,20,-1,19,160L)
-            i(B+140L,100,22,-1,21,144L)
-            i(B+144L,100,24,-1,23,128L)
-            i(B+148L,100,26,-1,25,112L)
-            i(B+152L,100,28,-1,27,96L)
+            i(B+132L,100,29,31,30,176L)
+            i(B+136L,100,20,31,19,160L)
+            i(B+140L,100,22,31,21,144L)
+            i(B+144L,100,24,31,23,128L)
+            i(B+148L,100,26,31,25,112L)
+            i(B+152L,100,28,31,27,96L)
             i(B+156L,6,31,31,-1,192L,0L,0x200)
             i(B+160L,96,-1,30,-1,0L)
             i(B+164L,93,-1,-1,-1,186240L)
@@ -973,7 +986,7 @@ fun NmArmState.nb_engine_9c550() {
             i(B+244L,92,22,-1,-1,0L,640640L,0x1)
             i(B+248L,87,-1,-1,-1,640648L)
             i(B+252L,3,19,0,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -983,8 +996,9 @@ fun NmArmState.nb_engine_9c650() {
     var g = 0
     while (pc in B..640844L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..640844L) {
-            i(B+0L,98,8,31,-1,20L)
+            i(B+0L,98,8,31,-1,20L,0L,0x1)
             i(B+4L,92,8,-1,-1,0L,640656L,0x1)
             i(B+8L,87,-1,-1,-1,640684L)
             i(B+12L,3,19,0,-1,0L)
@@ -998,7 +1012,7 @@ fun NmArmState.nb_engine_9c650() {
             i(B+44L,91,22,-1,-1,0L,640648L,0x1)
             i(B+48L,98,0,31,-1,0L)
             i(B+52L,93,-1,-1,-1,186608L)
-            i(B+56L,98,8,31,-1,20L)
+            i(B+56L,98,8,31,-1,20L,0L,0x1)
             i(B+60L,91,8,-1,-1,0L,640684L,0x1)
             i(B+64L,98,0,31,-1,8L)
             i(B+68L,93,-1,-1,-1,186608L)
@@ -1030,9 +1044,9 @@ fun NmArmState.nb_engine_9c650() {
             i(B+172L,93,-1,-1,-1,199336L)
             i(B+176L,10,31,31,-1,96L,0L,0x200)
             i(B+180L,99,23,31,-1,32L)
-            i(B+184L,101,22,-1,21,48L)
-            i(B+188L,101,20,-1,19,64L)
-            i(B+192L,101,29,-1,30,80L)
+            i(B+184L,101,22,31,21,48L)
+            i(B+188L,101,20,31,19,64L)
+            i(B+192L,101,29,31,30,80L)
             i(B+196L,6,29,31,-1,80L)
             i(B+200L,115,23,-1,-1,1L)
             i(B+204L,98,8,23,-1,40L)
@@ -1048,7 +1062,7 @@ fun NmArmState.nb_engine_9c650() {
             i(B+244L,89,0,-1,-1,641024L)
             i(B+248L,98,8,0,-1,0L)
             i(B+252L,2,2,-1,-1,6L,0L,0x1)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1058,6 +1072,7 @@ fun NmArmState.nb_engine_9c750() {
     var g = 0
     while (pc in B..641100L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..641100L) {
             i(B+0L,6,1,31,-1,8L)
             i(B+4L,4,2,-1,-1,1L,0L,0x1,0x400)
@@ -1123,7 +1138,7 @@ fun NmArmState.nb_engine_9c750() {
             i(B+244L,99,21,19,-1,128L)
             i(B+248L,89,0,-1,-1,641112L)
             i(B+252L,98,8,0,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1133,6 +1148,7 @@ fun NmArmState.nb_engine_9c850() {
     var g = 0
     while (pc in B..641356L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..641356L) {
             i(B+0L,98,8,8,-1,8L)
             i(B+4L,94,-1,8,-1,0L)
@@ -1167,9 +1183,9 @@ fun NmArmState.nb_engine_9c850() {
             i(B+120L,98,9,31,-1,24L)
             i(B+124L,15,8,-1,9,0L)
             i(B+128L,88,-1,-1,-1,641260L,0L,0x0,0x2)
-            i(B+132L,100,29,-1,30,80L)
-            i(B+136L,100,20,-1,19,64L)
-            i(B+140L,100,22,-1,21,48L)
+            i(B+132L,100,29,31,30,80L)
+            i(B+136L,100,20,31,19,64L)
+            i(B+140L,100,22,31,21,48L)
             i(B+144L,98,23,31,-1,32L)
             i(B+148L,6,31,31,-1,96L,0L,0x200)
             i(B+152L,96,-1,30,-1,0L)
@@ -1198,7 +1214,7 @@ fun NmArmState.nb_engine_9c850() {
             i(B+244L,98,0,22,-1,0L)
             i(B+248L,89,0,-1,-1,641368L)
             i(B+252L,98,8,0,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1208,6 +1224,7 @@ fun NmArmState.nb_engine_9c950() {
     var g = 0
     while (pc in B..641612L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..641612L) {
             i(B+0L,98,8,8,-1,40L)
             i(B+4L,94,-1,8,-1,0L)
@@ -1217,9 +1234,9 @@ fun NmArmState.nb_engine_9c950() {
             i(B+20L,93,-1,-1,-1,199336L)
             i(B+24L,10,31,31,-1,96L,0L,0x200)
             i(B+28L,99,23,31,-1,32L)
-            i(B+32L,101,22,-1,21,48L)
-            i(B+36L,101,20,-1,19,64L)
-            i(B+40L,101,29,-1,30,80L)
+            i(B+32L,101,22,31,21,48L)
+            i(B+36L,101,20,31,19,64L)
+            i(B+40L,101,29,31,30,80L)
             i(B+44L,6,29,31,-1,80L)
             i(B+48L,115,23,-1,-1,1L)
             i(B+52L,98,8,23,-1,40L)
@@ -1273,7 +1290,7 @@ fun NmArmState.nb_engine_9c950() {
             i(B+244L,98,0,31,-1,8L)
             i(B+248L,98,8,0,-1,0L)
             i(B+252L,98,8,8,-1,184L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1283,6 +1300,7 @@ fun NmArmState.nb_engine_9ca50() {
     var g = 0
     while (pc in B..641868L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..641868L) {
             i(B+0L,3,1,20,-1,0L)
             i(B+4L,94,-1,8,-1,0L)
@@ -1343,12 +1361,12 @@ fun NmArmState.nb_engine_9ca50() {
             i(B+224L,98,9,31,-1,24L)
             i(B+228L,15,8,-1,9,0L)
             i(B+232L,88,-1,-1,-1,641876L,0L,0x0,0x2)
-            i(B+236L,100,29,-1,30,80L)
-            i(B+240L,100,20,-1,19,64L)
-            i(B+244L,100,22,-1,21,48L)
+            i(B+236L,100,29,31,30,80L)
+            i(B+240L,100,20,31,19,64L)
+            i(B+244L,100,22,31,21,48L)
             i(B+248L,98,23,31,-1,32L)
             i(B+252L,6,31,31,-1,96L,0L,0x200)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1358,6 +1376,7 @@ fun NmArmState.nb_engine_9cb50() {
     var g = 0
     while (pc in B..642124L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..642124L) {
             i(B+0L,96,-1,30,-1,0L)
             i(B+4L,93,-1,-1,-1,186240L)
@@ -1391,10 +1410,10 @@ fun NmArmState.nb_engine_9cb50() {
             i(B+116L,93,-1,-1,-1,667564L)
             i(B+120L,93,-1,-1,-1,199336L)
             i(B+124L,93,-1,-1,-1,199336L)
-            i(B+128L,101,24,-1,23,-64L,-64L,0x8)
-            i(B+132L,101,22,-1,21,16L)
-            i(B+136L,101,20,-1,19,32L)
-            i(B+140L,101,29,-1,30,48L)
+            i(B+128L,101,24,31,23,-64L,-64L,0x8)
+            i(B+132L,101,22,31,21,16L)
+            i(B+136L,101,20,31,19,32L)
+            i(B+140L,101,29,31,30,48L)
             i(B+144L,6,29,31,-1,48L)
             i(B+148L,33,8,-1,-1,831488L)
             i(B+152L,98,8,8,-1,3880L)
@@ -1415,15 +1434,15 @@ fun NmArmState.nb_engine_9cb50() {
             i(B+212L,3,23,22,-1,0L)
             i(B+216L,3,24,22,-1,0L)
             i(B+220L,99,0,22,-1,-8L)
-            i(B+224L,101,0,-1,0,16L,0L,0x10020)
-            i(B+228L,101,0,-1,0,48L,0L,0x10020)
-            i(B+232L,101,0,-1,0,80L,0L,0x10020)
-            i(B+236L,101,0,-1,0,112L,0L,0x10020)
+            i(B+224L,101,0,22,0,16L,0L,0x10060)
+            i(B+228L,101,0,22,0,48L,0L,0x10060)
+            i(B+232L,101,0,22,0,80L,0L,0x10060)
+            i(B+236L,101,0,22,0,112L,0L,0x10060)
             i(B+240L,99,8,22,-1,144L)
             i(B+244L,99,0,23,-1,152L,152L,0x10028)
             i(B+248L,99,32,24,-1,192L,192L,0x8)
-            i(B+252L,101,32,-1,32,200L)
-            if (pc == p) pc = p + 4
+            i(B+252L,101,32,22,32,200L)
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1433,15 +1452,16 @@ fun NmArmState.nb_engine_9cc50() {
     var g = 0
     while (pc in B..642380L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..642380L) {
             i(B+0L,99,0,22,-1,168L,0L,0x10020)
             i(B+4L,99,32,22,-1,184L)
             i(B+8L,2,0,-1,-1,96L,0L,0x1)
             i(B+12L,93,-1,-1,-1,185968L)
             i(B+16L,154,0,-1,-1,0L,0L,0x7020)
-            i(B+20L,101,0,-1,0,64L,0L,0x10020)
-            i(B+24L,101,0,-1,0,32L,0L,0x10020)
-            i(B+28L,101,0,-1,0,0L,0L,0x10020)
+            i(B+20L,101,0,0,0,64L,0L,0x10060)
+            i(B+24L,101,0,0,0,32L,0L,0x10060)
+            i(B+28L,101,0,0,0,0L,0L,0x10060)
             i(B+32L,99,0,19,-1,232L)
             i(B+36L,98,8,20,-1,0L)
             i(B+40L,98,8,8,-1,248L)
@@ -1498,7 +1518,7 @@ fun NmArmState.nb_engine_9cc50() {
             i(B+244L,3,0,20,-1,0L)
             i(B+248L,3,1,21,-1,0L)
             i(B+252L,94,-1,8,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1508,6 +1528,7 @@ fun NmArmState.nb_engine_9cd50() {
     var g = 0
     while (pc in B..642636L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..642636L) {
             i(B+0L,99,0,19,-1,48L)
             i(B+4L,98,8,20,-1,0L)
@@ -1573,7 +1594,7 @@ fun NmArmState.nb_engine_9cd50() {
             i(B+244L,3,0,20,-1,0L)
             i(B+248L,94,-1,8,-1,0L)
             i(B+252L,3,22,32,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1583,6 +1604,7 @@ fun NmArmState.nb_engine_9ce50() {
     var g = 0
     while (pc in B..642892L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..642892L) {
             i(B+0L,99,22,19,-1,72L)
             i(B+4L,98,8,20,-1,0L)
@@ -1648,7 +1670,7 @@ fun NmArmState.nb_engine_9ce50() {
             i(B+244L,33,2,-1,-1,704512L)
             i(B+248L,33,3,-1,-1,704512L)
             i(B+252L,6,2,2,-1,3218L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1658,6 +1680,7 @@ fun NmArmState.nb_engine_9cf50() {
     var g = 0
     while (pc in B..643148L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..643148L) {
             i(B+0L,6,3,3,-1,535L)
             i(B+4L,3,0,20,-1,0L)
@@ -1710,10 +1733,10 @@ fun NmArmState.nb_engine_9cf50() {
             i(B+192L,3,0,20,-1,0L)
             i(B+196L,3,1,21,-1,0L)
             i(B+200L,94,-1,8,-1,0L)
-            i(B+204L,100,29,-1,30,48L)
-            i(B+208L,100,20,-1,19,32L)
-            i(B+212L,100,22,-1,21,16L)
-            i(B+216L,100,24,-1,23,0L,64L,0x18)
+            i(B+204L,100,29,31,30,48L)
+            i(B+208L,100,20,31,19,32L)
+            i(B+212L,100,22,31,21,16L)
+            i(B+216L,100,24,31,23,0L,64L,0x18)
             i(B+220L,96,-1,30,-1,0L)
             i(B+224L,3,20,0,-1,0L)
             i(B+228L,98,8,24,-1,0L,0L,0x3)
@@ -1723,7 +1746,7 @@ fun NmArmState.nb_engine_9cf50() {
             i(B+244L,87,-1,-1,-1,643144L)
             i(B+248L,98,21,19,-1,232L)
             i(B+252L,3,20,0,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1733,6 +1756,7 @@ fun NmArmState.nb_engine_9d050() {
     var g = 0
     while (pc in B..643404L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..643404L) {
             i(B+0L,99,32,19,-1,232L)
             i(B+4L,90,21,-1,-1,643192L)
@@ -1775,9 +1799,9 @@ fun NmArmState.nb_engine_9d050() {
             i(B+152L,93,-1,-1,-1,667564L)
             i(B+156L,10,31,31,-1,144L,0L,0x200)
             i(B+160L,99,23,31,-1,80L)
-            i(B+164L,101,22,-1,21,96L)
-            i(B+168L,101,20,-1,19,112L)
-            i(B+172L,101,29,-1,30,128L)
+            i(B+164L,101,22,31,21,96L)
+            i(B+168L,101,20,31,19,112L)
+            i(B+172L,101,29,31,30,128L)
             i(B+176L,6,29,31,-1,128L)
             i(B+180L,115,23,-1,-1,1L)
             i(B+184L,33,9,-1,-1,831488L)
@@ -1798,7 +1822,7 @@ fun NmArmState.nb_engine_9d050() {
             i(B+244L,99,32,21,-1,80L)
             i(B+248L,15,22,-1,0,0L)
             i(B+252L,88,-1,-1,-1,643424L,0L,0x0,0x1)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1808,6 +1832,7 @@ fun NmArmState.nb_engine_9d150() {
     var g = 0
     while (pc in B..643660L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..643660L) {
             i(B+0L,89,0,-1,-1,643436L)
             i(B+4L,98,8,0,-1,0L)
@@ -1873,7 +1898,7 @@ fun NmArmState.nb_engine_9d150() {
             i(B+244L,89,1,-1,-1,643688L)
             i(B+248L,3,0,19,-1,0L)
             i(B+252L,93,-1,-1,-1,186064L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1883,6 +1908,7 @@ fun NmArmState.nb_engine_9d250() {
     var g = 0
     while (pc in B..643916L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..643916L) {
             i(B+0L,98,1,19,-1,8L)
             i(B+4L,89,1,-1,-1,643688L)
@@ -1944,11 +1970,11 @@ fun NmArmState.nb_engine_9d250() {
             i(B+228L,98,9,29,-1,-56L)
             i(B+232L,15,8,-1,9,0L)
             i(B+236L,88,-1,-1,-1,643964L,0L,0x0,0x2)
-            i(B+240L,100,29,-1,30,128L)
-            i(B+244L,100,20,-1,19,112L)
-            i(B+248L,100,22,-1,21,96L)
+            i(B+240L,100,29,31,30,128L)
+            i(B+244L,100,20,31,19,112L)
+            i(B+248L,100,22,31,21,96L)
             i(B+252L,98,23,31,-1,80L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -1958,6 +1984,7 @@ fun NmArmState.nb_engine_9d350() {
     var g = 0
     while (pc in B..644172L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..644172L) {
             i(B+0L,6,31,31,-1,144L,0L,0x200)
             i(B+4L,96,-1,30,-1,0L)
@@ -2017,13 +2044,13 @@ fun NmArmState.nb_engine_9d350() {
             i(B+220L,93,-1,-1,-1,199336L)
             i(B+224L,93,-1,-1,-1,199336L)
             i(B+228L,99,19,31,-1,-32L,-32L,0x8)
-            i(B+232L,101,29,-1,30,16L)
+            i(B+232L,101,29,31,30,16L)
             i(B+236L,6,29,31,-1,16L)
             i(B+240L,3,19,0,-1,0L)
             i(B+244L,93,-1,-1,-1,188320L)
-            i(B+248L,100,29,-1,30,16L)
+            i(B+248L,100,29,31,30,16L)
             i(B+252L,3,0,19,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2033,14 +2060,15 @@ fun NmArmState.nb_engine_9d450() {
     var g = 0
     while (pc in B..644428L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..644428L) {
             i(B+0L,98,19,31,-1,0L,32L,0x18)
             i(B+4L,87,-1,-1,-1,186608L)
             i(B+8L,10,31,31,-1,96L,0L,0x200)
             i(B+12L,99,23,31,-1,32L)
-            i(B+16L,101,22,-1,21,48L)
-            i(B+20L,101,20,-1,19,64L)
-            i(B+24L,101,29,-1,30,80L)
+            i(B+16L,101,22,31,21,48L)
+            i(B+20L,101,20,31,19,64L)
+            i(B+24L,101,29,31,30,80L)
             i(B+28L,6,29,31,-1,80L)
             i(B+32L,115,23,-1,-1,1L)
             i(B+36L,98,8,23,-1,40L)
@@ -2098,7 +2126,7 @@ fun NmArmState.nb_engine_9d450() {
             i(B+244L,94,-1,8,-1,0L)
             i(B+248L,89,21,-1,-1,644528L)
             i(B+252L,98,0,31,-1,8L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2108,6 +2136,7 @@ fun NmArmState.nb_engine_9d550() {
     var g = 0
     while (pc in B..644684L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..644684L) {
             i(B+0L,98,8,0,-1,0L)
             i(B+4L,98,8,8,-1,184L)
@@ -2152,9 +2181,9 @@ fun NmArmState.nb_engine_9d550() {
             i(B+160L,15,8,-1,9,0L)
             i(B+164L,88,-1,-1,-1,644628L,0L,0x0,0x2)
             i(B+168L,3,0,19,-1,0L)
-            i(B+172L,100,29,-1,30,80L)
-            i(B+176L,100,20,-1,19,64L)
-            i(B+180L,100,22,-1,21,48L)
+            i(B+172L,100,29,31,30,80L)
+            i(B+176L,100,20,31,19,64L)
+            i(B+180L,100,22,31,21,48L)
             i(B+184L,98,23,31,-1,32L)
             i(B+188L,6,31,31,-1,96L,0L,0x200)
             i(B+192L,96,-1,30,-1,0L)
@@ -2173,7 +2202,7 @@ fun NmArmState.nb_engine_9d550() {
             i(B+244L,98,8,8,-1,136L)
             i(B+248L,94,-1,8,-1,0L)
             i(B+252L,98,8,31,-1,16L,0L,0x3)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2183,6 +2212,7 @@ fun NmArmState.nb_engine_9d650() {
     var g = 0
     while (pc in B..644940L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..644940L) {
             i(B+0L,89,8,-1,-1,644712L,0L,0x1)
             i(B+4L,98,0,22,-1,0L)
@@ -2196,9 +2226,9 @@ fun NmArmState.nb_engine_9d650() {
             i(B+36L,93,-1,-1,-1,199336L)
             i(B+40L,10,31,31,-1,112L,0L,0x200)
             i(B+44L,99,23,31,-1,48L)
-            i(B+48L,101,22,-1,21,64L)
-            i(B+52L,101,20,-1,19,80L)
-            i(B+56L,101,29,-1,30,96L)
+            i(B+48L,101,22,31,21,64L)
+            i(B+52L,101,20,31,19,80L)
+            i(B+56L,101,29,31,30,96L)
             i(B+60L,6,29,31,-1,96L)
             i(B+64L,115,23,-1,-1,1L)
             i(B+68L,3,19,8,-1,0L)
@@ -2248,7 +2278,7 @@ fun NmArmState.nb_engine_9d650() {
             i(B+244L,98,8,8,-1,136L)
             i(B+248L,94,-1,8,-1,0L)
             i(B+252L,89,20,-1,-1,645084L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2258,6 +2288,7 @@ fun NmArmState.nb_engine_9d750() {
     var g = 0
     while (pc in B..645196L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..645196L) {
             i(B+0L,98,0,31,-1,24L)
             i(B+4L,98,8,0,-1,0L)
@@ -2294,7 +2325,7 @@ fun NmArmState.nb_engine_9d750() {
             i(B+128L,98,0,31,-1,24L)
             i(B+132L,90,0,-1,-1,645100L)
             i(B+136L,87,-1,-1,-1,645136L)
-            i(B+140L,101,32,-1,32,0L)
+            i(B+140L,101,32,19,32,0L)
             i(B+144L,99,32,19,-1,16L)
             i(B+148L,98,0,31,-1,24L)
             i(B+152L,89,0,-1,-1,645136L)
@@ -2318,12 +2349,12 @@ fun NmArmState.nb_engine_9d750() {
             i(B+224L,98,9,31,-1,40L)
             i(B+228L,15,8,-1,9,0L)
             i(B+232L,88,-1,-1,-1,645204L,0L,0x0,0x2)
-            i(B+236L,100,29,-1,30,96L)
-            i(B+240L,100,20,-1,19,80L)
-            i(B+244L,100,22,-1,21,64L)
+            i(B+236L,100,29,31,30,96L)
+            i(B+240L,100,20,31,19,80L)
+            i(B+244L,100,22,31,21,64L)
             i(B+248L,98,23,31,-1,48L)
             i(B+252L,6,31,31,-1,112L,0L,0x200)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2333,6 +2364,7 @@ fun NmArmState.nb_engine_9d850() {
     var g = 0
     while (pc in B..645452L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..645452L) {
             i(B+0L,96,-1,30,-1,0L)
             i(B+4L,93,-1,-1,-1,186240L)
@@ -2374,9 +2406,9 @@ fun NmArmState.nb_engine_9d850() {
             i(B+148L,93,-1,-1,-1,199336L)
             i(B+152L,10,31,31,-1,96L,0L,0x200)
             i(B+156L,99,23,31,-1,32L)
-            i(B+160L,101,22,-1,21,48L)
-            i(B+164L,101,20,-1,19,64L)
-            i(B+168L,101,29,-1,30,80L)
+            i(B+160L,101,22,31,21,48L)
+            i(B+164L,101,20,31,19,64L)
+            i(B+168L,101,29,31,30,80L)
             i(B+172L,6,29,31,-1,80L)
             i(B+176L,115,23,-1,-1,1L)
             i(B+180L,98,8,23,-1,40L)
@@ -2398,7 +2430,7 @@ fun NmArmState.nb_engine_9d850() {
             i(B+244L,16,0,-1,-1,2L,0L,0x1)
             i(B+248L,88,-1,-1,-1,645528L,0L,0x0,0x2)
             i(B+252L,98,0,22,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2408,6 +2440,7 @@ fun NmArmState.nb_engine_9d950() {
     var g = 0
     while (pc in B..645708L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..645708L) {
             i(B+0L,6,1,31,-1,8L)
             i(B+4L,3,2,32,-1,0L)
@@ -2473,7 +2506,7 @@ fun NmArmState.nb_engine_9d950() {
             i(B+244L,87,-1,-1,-1,645820L)
             i(B+248L,89,21,-1,-1,645764L)
             i(B+252L,98,1,31,-1,8L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2483,6 +2516,7 @@ fun NmArmState.nb_engine_9da50() {
     var g = 0
     while (pc in B..645964L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..645964L) {
             i(B+0L,6,20,19,-1,136L)
             i(B+4L,3,0,19,-1,0L)
@@ -2516,9 +2550,9 @@ fun NmArmState.nb_engine_9da50() {
             i(B+116L,15,8,-1,9,0L)
             i(B+120L,88,-1,-1,-1,645864L,0L,0x0,0x2)
             i(B+124L,3,0,20,-1,0L)
-            i(B+128L,100,29,-1,30,80L)
-            i(B+132L,100,20,-1,19,64L)
-            i(B+136L,100,22,-1,21,48L)
+            i(B+128L,100,29,31,30,80L)
+            i(B+132L,100,20,31,19,64L)
+            i(B+136L,100,22,31,21,48L)
             i(B+140L,98,23,31,-1,32L)
             i(B+144L,6,31,31,-1,96L,0L,0x200)
             i(B+148L,96,-1,30,-1,0L)
@@ -2548,7 +2582,7 @@ fun NmArmState.nb_engine_9da50() {
             i(B+244L,93,-1,-1,-1,199336L)
             i(B+248L,93,-1,-1,-1,199336L)
             i(B+252L,10,31,31,-1,96L,0L,0x200)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2558,11 +2592,12 @@ fun NmArmState.nb_engine_9db50() {
     var g = 0
     while (pc in B..646220L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..646220L) {
             i(B+0L,99,23,31,-1,32L)
-            i(B+4L,101,22,-1,21,48L)
-            i(B+8L,101,20,-1,19,64L)
-            i(B+12L,101,29,-1,30,80L)
+            i(B+4L,101,22,31,21,48L)
+            i(B+8L,101,20,31,19,64L)
+            i(B+12L,101,29,31,30,80L)
             i(B+16L,6,29,31,-1,80L)
             i(B+20L,115,23,-1,-1,1L)
             i(B+24L,98,8,23,-1,40L)
@@ -2623,7 +2658,7 @@ fun NmArmState.nb_engine_9db50() {
             i(B+244L,89,0,-1,-1,646252L)
             i(B+248L,98,8,0,-1,0L)
             i(B+252L,98,8,8,-1,1824L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2633,6 +2668,7 @@ fun NmArmState.nb_engine_9dc50() {
     var g = 0
     while (pc in B..646476L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..646476L) {
             i(B+0L,94,-1,8,-1,0L)
             i(B+4L,47,0,-1,-1,255L,0L,0x1)
@@ -2652,9 +2688,9 @@ fun NmArmState.nb_engine_9dc50() {
             i(B+60L,15,8,-1,9,0L)
             i(B+64L,88,-1,-1,-1,646492L,0L,0x0,0x2)
             i(B+68L,3,0,20,-1,0L)
-            i(B+72L,100,29,-1,30,80L)
-            i(B+76L,100,20,-1,19,64L)
-            i(B+80L,100,22,-1,21,48L)
+            i(B+72L,100,29,31,30,80L)
+            i(B+76L,100,20,31,19,64L)
+            i(B+80L,100,22,31,21,48L)
             i(B+84L,98,23,31,-1,32L)
             i(B+88L,6,31,31,-1,96L,0L,0x200)
             i(B+92L,96,-1,30,-1,0L)
@@ -2698,7 +2734,7 @@ fun NmArmState.nb_engine_9dc50() {
             i(B+244L,98,8,8,-1,136L)
             i(B+248L,94,-1,8,-1,0L)
             i(B+252L,87,-1,-1,-1,646204L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2708,6 +2744,7 @@ fun NmArmState.nb_engine_9dd50() {
     var g = 0
     while (pc in B..646732L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..646732L) {
             i(B+0L,98,8,8,-1,136L)
             i(B+4L,94,-1,8,-1,0L)
@@ -2741,8 +2778,8 @@ fun NmArmState.nb_engine_9dd50() {
             i(B+116L,93,-1,-1,-1,199336L)
             i(B+120L,10,31,31,-1,80L,0L,0x200)
             i(B+124L,99,21,31,-1,32L)
-            i(B+128L,101,20,-1,19,48L)
-            i(B+132L,101,29,-1,30,64L)
+            i(B+128L,101,20,31,19,48L)
+            i(B+132L,101,29,31,30,64L)
             i(B+136L,6,29,31,-1,64L)
             i(B+140L,115,21,-1,-1,1L)
             i(B+144L,98,8,21,-1,40L)
@@ -2773,7 +2810,7 @@ fun NmArmState.nb_engine_9dd50() {
             i(B+244L,3,2,32,-1,0L)
             i(B+248L,98,8,0,-1,0L)
             i(B+252L,98,8,8,-1,32L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2783,6 +2820,7 @@ fun NmArmState.nb_engine_9de50() {
     var g = 0
     while (pc in B..646988L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..646988L) {
             i(B+0L,94,-1,8,-1,0L)
             i(B+4L,89,0,-1,-1,646752L,0L,0x1)
@@ -2829,8 +2867,8 @@ fun NmArmState.nb_engine_9de50() {
             i(B+168L,98,9,31,-1,24L)
             i(B+172L,15,8,-1,9,0L)
             i(B+176L,88,-1,-1,-1,646964L,0L,0x0,0x2)
-            i(B+180L,100,29,-1,30,64L)
-            i(B+184L,100,20,-1,19,48L)
+            i(B+180L,100,29,31,30,64L)
+            i(B+184L,100,20,31,19,48L)
             i(B+188L,98,21,31,-1,32L)
             i(B+192L,6,31,31,-1,80L,0L,0x200)
             i(B+196L,96,-1,30,-1,0L)
@@ -2848,7 +2886,7 @@ fun NmArmState.nb_engine_9de50() {
             i(B+244L,98,9,8,-1,0L)
             i(B+248L,98,9,9,-1,1824L)
             i(B+252L,3,0,8,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2858,6 +2896,7 @@ fun NmArmState.nb_engine_9df50() {
     var g = 0
     while (pc in B..647244L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..647244L) {
             i(B+0L,94,-1,9,-1,0L)
             i(B+4L,47,0,-1,-1,255L,0L,0x1)
@@ -2879,8 +2918,8 @@ fun NmArmState.nb_engine_9df50() {
             i(B+68L,93,-1,-1,-1,199336L)
             i(B+72L,10,31,31,-1,80L,0L,0x200)
             i(B+76L,99,21,31,-1,32L)
-            i(B+80L,101,20,-1,19,48L)
-            i(B+84L,101,29,-1,30,64L)
+            i(B+80L,101,20,31,19,48L)
+            i(B+84L,101,29,31,30,64L)
             i(B+88L,6,29,31,-1,64L)
             i(B+92L,115,21,-1,-1,1L)
             i(B+96L,98,8,21,-1,40L)
@@ -2923,7 +2962,7 @@ fun NmArmState.nb_engine_9df50() {
             i(B+244L,89,1,-1,-1,647400L)
             i(B+248L,98,2,19,-1,56L)
             i(B+252L,89,2,-1,-1,647400L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }
@@ -2933,6 +2972,7 @@ fun NmArmState.nb_engine_9e050() {
     var g = 0
     while (pc in B..647500L && g++ < NmArmState.FUNC_STEP_CAP) {
         val p = pc
+        val s0 = steps
         if (p in B..647500L) {
             i(B+0L,93,-1,-1,-1,189248L)
             i(B+4L,98,0,31,-1,8L)
@@ -2967,8 +3007,8 @@ fun NmArmState.nb_engine_9e050() {
             i(B+120L,98,9,31,-1,24L)
             i(B+124L,15,8,-1,9,0L)
             i(B+128L,88,-1,-1,-1,647428L,0L,0x0,0x2)
-            i(B+132L,100,29,-1,30,64L)
-            i(B+136L,100,20,-1,19,48L)
+            i(B+132L,100,29,31,30,64L)
+            i(B+136L,100,20,31,19,48L)
             i(B+140L,98,21,31,-1,32L)
             i(B+144L,6,31,31,-1,80L,0L,0x200)
             i(B+148L,96,-1,30,-1,0L)
@@ -2998,7 +3038,7 @@ fun NmArmState.nb_engine_9e050() {
             i(B+244L,98,0,20,-1,0L)
             i(B+248L,89,0,-1,-1,647512L)
             i(B+252L,98,8,0,-1,0L)
-            if (pc == p) pc = p + 4
+            if (steps == s0 && pc == p) pc = p + 4
         } else pc = p + 4
     }
 }

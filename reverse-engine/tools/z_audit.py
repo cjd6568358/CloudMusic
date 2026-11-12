@@ -9,6 +9,11 @@ Z 组语义残留审计：找出「解码成功但语义桶不对」的指令。
   2. vector-leak —— 操作数里有向量寄存器，却被映射进**只处理通用寄存器**的标量 op
      （例如 `add v0.4s, v1.4s, v2.4s` 被映射成 ADD_REG，运行期会去读 x1/x2）。
      这类不会触发 dropout，是**静默错**，必须单独统计。
+  3. operand-loss —— capstone 解析出的某个寄存器操作数，在解码元组
+     `(rd, rn, rm, imm, imm2)` 里完全没有落点。`stp x29,x30,[sp,#-0x10]!` 的
+     基址曾被写死成 -1（等价于访问地址 0+偏移），`stlxr` 的值寄存器、`tbl`
+     的索引寄存器同理。这类不报错、不错桶，是**最难发现的一种静默错**——
+     是差分验证（`tools/z_diff.py`，Unicorn 作真值）把它抓出来的。
 
 判据以代码可达性为准（与 z_transpile.py 同一套发现逻辑）。
 
@@ -30,6 +35,14 @@ import z_transpile as ZT  # noqa: E402
 
 RE = Path(__file__).resolve().parent.parent
 OUT = RE / "spec" / "z-audit.json"
+
+# 多寄存器结构访存：寄存器列表是连续的一段，解码只带首号 + 个数
+MULTI_REG = set("ld1 ld1r ld2 ld3 ld4 st1 st2 st3 st4".split())
+# 累加器寄存器借 imm2 槽位传递的族
+IMM2_REG = set("madd msub smaddl umaddl smull umull "
+               "fmadd fmsub fnmadd fnmsub".split())
+# 表查找：表寄存器连续、索引在 rm
+TABLE_REG = set(["tbl", "tbx"])
 
 # 只处理通用寄存器 / 立即数的标量 op —— 见到向量操作数就是错桶。
 SCALAR_ONLY = set("""
@@ -76,11 +89,61 @@ def has_vec_operand(ins) -> bool:
     return any(r.vec for r in z_isa._reg_ops(ins))
 
 
+def reg_index(name: str) -> int:
+    if name in ("sp", "wsp"):
+        return 31
+    if name in ("xzr", "wzr"):
+        return 32
+    if name == "fp":
+        return 29
+    if name == "lr":
+        return 30
+    if name and name[0] in "xwvqsdhb" and name[1:].isdigit():
+        return int(name[1:])
+    return -1
+
+
+def operand_loss(ins, dec) -> list:
+    """返回解码元组没覆盖到的寄存器名；空列表 = 操作数守恒。"""
+    _op, rd, rn, rm, _imm, imm2, _f, _c = dec
+    m = ins.mnemonic
+    if m in ("prfm", "prfum"):
+        return []  # 预取提示，无架构副作用，基址不必进解码元组
+    allowed = {x for x in (rd, rn, rm) if x >= 0}
+    if m in IMM2_REG and 0 <= imm2 <= 31:
+        allowed.add(int(imm2))
+    if m in MULTI_REG:
+        # {v0, v1, ...} 连续；起始号在 rd
+        n = len([r for r in z_isa._reg_ops(ins) if r.vec])
+        allowed |= {rd + k for k in range(max(1, n))}
+        if _f & z_isa.F_POSTREG:
+            allowed.add(int(_imm))  # post-index 寄存器借 imm 槽位
+    if m in TABLE_REG:
+        n = len([r for r in z_isa._reg_ops(ins) if r.vec]) - 1
+        allowed |= {rn + k for k in range(max(1, n))}
+        allowed.add(rm)
+
+    lost = []
+    for o in ins.operands:
+        if o.type == 1:  # ARM64_OP_REG
+            cand = [o.reg]
+        elif o.type == 3:  # ARM64_OP_MEM
+            cand = [x for x in (o.mem.base, o.mem.index) if x not in (-1, 0)]
+        else:
+            continue
+        for r in cand:
+            nm = ins.reg_name(r)
+            if nm and reg_index(nm) not in allowed and nm not in lost:
+                lost.append(nm)
+    return lost
+
+
 def main() -> int:
     opnames = {v: k for k, v in z_isa.OPS.items()}
     report = {}
     total_leak = 0
     total_drop = 0
+    total_loss = 0
 
     for so_name, domain in ZT.SO:
         info = ZT.discover(ZT.JNI / so_name, domain)
@@ -89,6 +152,8 @@ def main() -> int:
         leak_pair = Counter()
         leak_addr = defaultdict(list)
         undec = Counter()
+        loss = Counter()
+        loss_sample = defaultdict(list)
         for a in reach:
             ins = info["ins"][a]
             d = z_isa.decode(ins)
@@ -96,6 +161,12 @@ def main() -> int:
                 undec[ins.mnemonic] += 1
                 total_drop += 1
                 continue
+            lost = operand_loss(ins, d)
+            if lost:
+                loss["%s missing=%s" % (ins.mnemonic, ",".join(lost))] += 1
+                total_loss += 1
+                if len(loss_sample[ins.mnemonic]) < 5:
+                    loss_sample[ins.mnemonic].append("%s  %s" % (hex(a), ins.op_str))
             name = opnames[d[0]]
             if name in VECTOR_AWARE or name in FP_SCALAR:
                 continue
@@ -114,22 +185,29 @@ def main() -> int:
             "vectorLeakByMnemonic": dict(leak.most_common()),
             "vectorLeakByOp": dict(leak_pair.most_common()),
             "vectorLeakSamples": {k: v for k, v in leak_addr.items()},
+            "operandLossTotal": sum(loss.values()),
+            "operandLossByKind": dict(loss.most_common()),
+            "operandLossSamples": {k: v for k, v in loss_sample.items()},
         }
-        print("[AUDIT] %-24s reach=%-7d dropout=%-4d vectorLeak=%-6d %s"
+        print("[AUDIT] %-24s reach=%-7d dropout=%-4d vectorLeak=%-6d operandLoss=%-4d %s"
               % (so_name, len(reach), sum(undec.values()), sum(leak.values()),
-                 ", ".join("%s:%d" % kv for kv in leak.most_common(8))))
+                 sum(loss.values()),
+                 ", ".join("%s:%d" % kv for kv in leak.most_common(6))))
 
     report["summary"] = {
         "tool": "reverse-engine/tools/z_audit.py",
-        "criterion": "reachable instructions whose decoded op bucket cannot represent the operands",
+        "criterion": "reachable instructions whose decoded op bucket cannot represent "
+                     "the operands, or whose operand registers have no decode slot",
         "dropoutTotal": total_drop,
         "vectorLeakTotal": total_leak,
-        "clean": total_drop == 0 and total_leak == 0,
+        "operandLossTotal": total_loss,
+        "clean": total_drop == 0 and total_leak == 0 and total_loss == 0,
     }
     OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2),
                    encoding="utf-8", newline="\n")
-    print("[AUDIT] dropout=%d vectorLeak=%d clean=%s -> %s"
-          % (total_drop, total_leak, report["summary"]["clean"], OUT.name))
+    print("[AUDIT] dropout=%d vectorLeak=%d operandLoss=%d clean=%s -> %s"
+          % (total_drop, total_leak, total_loss,
+             report["summary"]["clean"], OUT.name))
     return 0
 
 
