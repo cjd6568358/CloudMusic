@@ -80,11 +80,15 @@ class LibraryRoomContractTest {
     fun `T-A1-02 database version and migration range`() {
         assertEquals(1, LibrarySchema.VERSION_V1)
         assertEquals(2, LibrarySchema.VERSION_V2)
-        assertEquals(LibrarySchema.VERSION_V2, LibrarySchema.VERSION)
+        // §61.120（T5-2 前置）：v3 增 tracks.replay_gain_db（分析增益落库）。
+        assertEquals(3, LibrarySchema.VERSION_V3)
+        assertEquals(LibrarySchema.VERSION_V3, LibrarySchema.VERSION)
         assertEquals("cloudmusic.db", LibrarySchema.DATABASE_NAME)
         assertEquals(1, LibraryMigrations.MIGRATION_1_2.startVersion)
         assertEquals(2, LibraryMigrations.MIGRATION_1_2.endVersion)
-        assertEquals(1, LibraryMigrations.ALL.size)
+        assertEquals(2, LibraryMigrations.MIGRATION_2_3.startVersion)
+        assertEquals(3, LibraryMigrations.MIGRATION_2_3.endVersion)
+        assertEquals(2, LibraryMigrations.ALL.size)
     }
 
     // ---- 03-05 §10 / T13 / T14 / B10：Migration ------------------------------

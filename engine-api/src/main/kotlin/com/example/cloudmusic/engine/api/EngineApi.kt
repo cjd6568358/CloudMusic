@@ -48,6 +48,11 @@ data class EngineConfig(
     val bufferMs: Int = 2000,
     /** PRD §6.1：解码失败自动跳下一首（可关）。 */
     val autoSkipOnError: Boolean = true,
+    /**
+     * §61.120（T5-2 前置）：曲库落库的曲目增益（dB）——容器标签缺失时的兜底
+     * 增益源（分析管线后续批）。null = 无库值。
+     */
+    val trackGainDb: Float? = null,
 )
 
 interface IMusicEngine {

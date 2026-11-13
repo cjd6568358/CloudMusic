@@ -24,6 +24,8 @@ data class Track(
     val sourceRef: SourceRef,
     val sourceType: SourceType,
     val coverRef: String? = null,
+    /** §61.120（T5-2 前置）：曲库落库的曲目增益（dB，负=衰减）；null = 未分析。 */
+    val replayGainDb: Float? = null,
     /** 0~1，标签缺失时靠文件名兜底。 */
     val tagCompleteness: Float = 0f,
     val availability: Availability = Availability.OK,

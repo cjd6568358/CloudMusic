@@ -37,6 +37,9 @@ internal class ReplayGainController(
     private var userVolume = 1f
     private var gain: ReplayGain? = null
 
+    /** §61.120（T5-2 前置）：曲库分析增益（dB）——容器标签缺失时的兜底源。 */
+    private var libraryGainDb: Float? = null
+
     /** 容器标签就绪（可能多次回调）；解析不到任何增益标签时保持无增益态。 */
     fun onMetadataLines(lines: List<String>) {
         gain = parse(lines)
@@ -57,11 +60,25 @@ internal class ReplayGainController(
         refresh()
     }
 
+    /** §61.120：曲库分析增益注入（prepare 时随 EngineConfig 传入）。 */
+    fun onLibraryGain(db: Float?) {
+        libraryGainDb = db
+        refresh()
+    }
+
     /** 实际下发到 `ExoPlayer.volume` 的值，恒在 `[0f, 1f]`。 */
     fun effectiveVolume(): Float {
         val g = gain
-        if (mode == GainMode.OFF || g == null || !g.hasGain()) return userVolume
-        return (userVolume * g.targetVolume(mode, preampDb)).coerceIn(0f, 1f)
+        if (mode == GainMode.OFF) return userVolume
+        // §61.120：标签增益优先；无标签时用曲库分析增益（T5-2 前置兜底）。
+        val effective = when {
+            g != null && g.hasGain() -> g
+            libraryGainDb != null && libraryGainDb != 0f -> ReplayGain(
+                trackGainDb = libraryGainDb!!)
+            else -> null
+        }
+        if (effective == null) return userVolume
+        return (userVolume * effective.targetVolume(mode, preampDb)).coerceIn(0f, 1f)
     }
 
     /** 当前解析到的标签（供日志，不表示真机已生效）。 */

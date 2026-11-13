@@ -238,8 +238,9 @@ class Media3EngineAdapter : IMusicEngine {
         return if (pos == C.TIME_UNSET) 0L else pos
     }
 
-    @Suppress("UNUSED_PARAMETER")
     override fun prepare(source: EngineSource, config: EngineConfig): EngineHandle {
+        // §61.120（T5-2 前置）：曲库分析增益随 config 注入（标签缺失时的兜底源）。
+        replayGain.onLibraryGain(config.trackGainDb)
         check(activeHandle == null) {
             "single handle invariant: release() before a new prepare() (03-06 §4 / §15 T06)"
         }

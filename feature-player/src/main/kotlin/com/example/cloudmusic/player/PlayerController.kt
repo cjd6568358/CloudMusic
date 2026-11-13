@@ -316,7 +316,11 @@ class PlayerController(
         handle?.let { engine.release(it) }
         handle = engine.prepare(
             source,
-            EngineConfig(autoSkipOnError = config.autoSkipOnError),
+            EngineConfig(
+                autoSkipOnError = config.autoSkipOnError,
+                // §61.120（T5-2 前置）：曲库分析增益兜底（容器标签缺失时生效）。
+                trackGainDb = track.replayGainDb,
+            ),
         )
         val h = requireNotNull(handle)
         if (seekTo > 0) engine.seek(h, seekTo)

@@ -57,6 +57,8 @@ data class TrackRow(
     @ColumnInfo(name = "source_url") val sourceUrl: String?,
     @ColumnInfo(name = "source_type") val sourceType: String,
     @ColumnInfo(name = "cover_ref") val coverRef: String?,
+    /** §61.120（T5-2 前置）：分析落库增益（dB）；null = 未分析。 */
+    @ColumnInfo(name = "replay_gain_db") val replayGainDb: Float?,
     @ColumnInfo(name = "tag_completeness") val tagCompleteness: Float,
     @ColumnInfo(name = "availability") val availability: String,
     @ColumnInfo(name = "added_at") val addedAt: Long,
@@ -79,6 +81,7 @@ data class TrackRow(
         sourceUrl = sourceUrl,
         sourceType = sourceType,
         coverRef = coverRef,
+        replayGainDb = replayGainDb,
         tagCompleteness = tagCompleteness,
         availability = availability,
         addedAt = addedAt,
@@ -108,6 +111,8 @@ data class TrackRow(
             sourceUrl = track.sourceRef.url,
             sourceType = track.sourceType.name,
             coverRef = track.coverRef,
+            // §61.120：分析增益只由 T5-2 分析管线写入，扫描 upsert 保留旧值。
+            replayGainDb = existing?.replayGainDb ?: track.replayGainDb,
             tagCompleteness = track.tagCompleteness,
             availability = existing?.availability ?: track.availability.name,
             addedAt = existing?.addedAt ?: now,

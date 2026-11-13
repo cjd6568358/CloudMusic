@@ -208,9 +208,14 @@ fun CloudMusicApp(
                     onCreate = bridge::onCreatePlaylist,
                     onPlay = bridge::onPlayPlaylist,
                     onDelete = bridge::onDeletePlaylist,
+                    onRename = bridge::onRenamePlaylist,
                 )
                 tab == 2 -> SearchScreen(query, { query = it }, searchResults)
-                tab == 3 -> QueueScreen(queueList, onJump = bridge::onQueueJump)
+                tab == 3 -> QueueScreen(
+                    queueList,
+                    titles = trackList.associate { it.id.value to it },
+                    onJump = bridge::onQueueJump,
+                )
                 else -> SettingsScreen(
                     runtime, appSettings.network.wifiOnly, onRescanAll,
                     { showSources = true },
@@ -730,8 +735,10 @@ private fun PlaylistsScreen(
     onCreate: (String) -> Unit,
     onPlay: (String) -> Unit,
     onDelete: (String) -> Unit,
+    onRename: (String, String) -> Unit,
 ) {
     var newName by remember { mutableStateOf("") }
+    var renameTarget by remember { mutableStateOf<String?>(null) }
     Column(Modifier.fillMaxSize().padding(16.dp)) {
         Text("歌单 · ${playlists.size}", style = MaterialTheme.typography.titleMedium)
         Row(verticalAlignment = Alignment.CenterVertically,
@@ -761,6 +768,9 @@ private fun PlaylistsScreen(
                         trailingContent = {
                             Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                                 Text("▶", modifier = Modifier.clickable { onPlay(playlist.id) })
+                                Text("✏", modifier = Modifier.clickable {
+                                    renameTarget = playlist.id
+                                })
                                 Text("🗑", modifier = Modifier.clickable { onDelete(playlist.id) })
                             }
                         },
@@ -769,6 +779,33 @@ private fun PlaylistsScreen(
                 }
             }
         }
+    }
+    renameTarget?.let { target ->
+        val current = playlists.firstOrNull { it.id == target }
+        var renameText by remember(target) {
+            mutableStateOf(current?.name ?: "")
+        }
+        AlertDialog(
+            onDismissRequest = { renameTarget = null },
+            title = { Text("重命名歌单") },
+            text = {
+                OutlinedTextField(
+                    value = renameText,
+                    onValueChange = { renameText = it },
+                    label = { Text("新名称") },
+                    singleLine = true,
+                )
+            },
+            confirmButton = {
+                TextButton(enabled = renameText.isNotBlank(), onClick = {
+                    onRename(target, renameText.trim())
+                    renameTarget = null
+                }) { Text("保存") }
+            },
+            dismissButton = {
+                TextButton(onClick = { renameTarget = null }) { Text("取消") }
+            },
+        )
     }
 }
 
@@ -800,7 +837,11 @@ private fun SearchScreen(
 }
 
 @Composable
-private fun QueueScreen(queue: List<QueueItem>, onJump: (Int) -> Unit) {
+private fun QueueScreen(
+    queue: List<QueueItem>,
+    titles: Map<String, Track>,
+    onJump: (Int) -> Unit,
+) {
     Column(Modifier.fillMaxSize().padding(16.dp)) {
         Text("队列 · ${queue.size}（点曲目跳播）", style = MaterialTheme.typography.titleMedium)
         if (queue.isEmpty()) {
@@ -810,9 +851,18 @@ private fun QueueScreen(queue: List<QueueItem>, onJump: (Int) -> Unit) {
         } else {
             LazyColumn(Modifier.fillMaxSize()) {
                 items(queue, key = { "${it.queueId}-${it.position}" }) { item ->
+                    val track = titles[item.trackId.value]
                     ListItem(
-                        headlineContent = { Text("#${item.position} · ${item.trackId.value}", maxLines = 1) },
-                        supportingContent = { Text("来源：${item.sourceRef}", maxLines = 1) },
+                        headlineContent = {
+                            Text("#${item.position} · ${track?.title ?: item.trackId.value}", maxLines = 1)
+                        },
+                        supportingContent = {
+                            Text(
+                                listOfNotNull(track?.artist, track?.album)
+                                    .joinToString(" · ").ifBlank { "来源：${item.sourceRef}" },
+                                maxLines = 1,
+                            )
+                        },
                         leadingContent = { Text("☷") },
                         modifier = Modifier.clickable { onJump(item.position) },
                     )

@@ -51,6 +51,8 @@ data class TrackEntity(
     val sourceUrl: String?,
     val sourceType: String,
     val coverRef: String?,
+    /** §61.120（T5-2 前置）：分析落库增益（dB）；null = 未分析。 */
+    val replayGainDb: Float?,
     val tagCompleteness: Float,
     val availability: String,
     val addedAt: Long,
@@ -70,6 +72,7 @@ data class TrackEntity(
         sourceRef = SourceRef(storageId, sourcePath, sourceUrl),
         sourceType = SourceType.valueOf(sourceType),
         coverRef = coverRef,
+        replayGainDb = replayGainDb,
         tagCompleteness = tagCompleteness,
         availability = Availability.valueOf(availability),
     )
@@ -99,6 +102,7 @@ data class TrackEntity(
             sourceUrl = track.sourceRef.url,
             sourceType = track.sourceType.name,
             coverRef = track.coverRef,
+            replayGainDb = track.replayGainDb,
             tagCompleteness = track.tagCompleteness,
             availability = availability,
             addedAt = addedAt,

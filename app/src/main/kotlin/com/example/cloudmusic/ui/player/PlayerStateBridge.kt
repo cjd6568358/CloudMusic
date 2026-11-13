@@ -108,6 +108,11 @@ class PlayerStateBridge(
         runtime.deletePlaylist(id)
     }
 
+    /** §61.120（M3 小账）：重命名歌单。 */
+    fun onRenamePlaylist(id: String, name: String) {
+        runtime.renamePlaylist(id, name)
+    }
+
     /** §61.119（M3）：播放歌单。 */
     fun onPlayPlaylist(id: String) {
         runtime.playPlaylist(id)

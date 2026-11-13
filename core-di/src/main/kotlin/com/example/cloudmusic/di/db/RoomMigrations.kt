@@ -26,5 +26,17 @@ object LibraryMigrations {
             }
         }
 
-    val ALL: Array<Migration> = arrayOf(MIGRATION_1_2)
+    /** §61.120（T5-2 前置）：v2→v3 增 `tracks.replay_gain_db`。 */
+    val MIGRATION_2_3: Migration =
+        object : Migration(LibrarySchema.VERSION_V2, LibrarySchema.VERSION_V3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                MigrationSql.apply(object : SqlExecutor {
+                    override fun exec(sql: String) {
+                        db.execSQL(sql)
+                    }
+                }, MigrationSql.V2_TO_V3)
+            }
+        }
+
+    val ALL: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3)
 }

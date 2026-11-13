@@ -18,7 +18,10 @@ object LibrarySchema {
 
     /** 03-05 §8 / B04 / T05：中文 Collator 排序键，按 §10「新增列一律 ALTER ... DEFAULT」扩展。 */
     const val VERSION_V2 = 2
-    const val VERSION = VERSION_V2
+
+    /** §61.120（T5-2 前置）：v3 增 `tracks.replay_gain_db`（分析增益落库）。 */
+    const val VERSION_V3 = 3
+    const val VERSION = VERSION_V3
 
     const val FTS_TABLE = "tracks_fts"
 
@@ -101,10 +104,20 @@ object MigrationSql {
     const val CREATE_SORT_INDEX =
         "CREATE INDEX IF NOT EXISTS idx_tracks_sort_title ON tracks(sort_title)"
 
+    /** §61.120（T5-2 前置）：分析增益列（可空 REAL，旧行全为 NULL=未分析）。 */
+    const val ADD_REPLAY_GAIN =
+        "ALTER TABLE tracks ADD COLUMN replay_gain_db REAL"
+
     val V1_TO_V2 = listOf(ADD_SORT_TITLE, CREATE_SORT_INDEX)
+    val V2_TO_V3 = listOf(ADD_REPLAY_GAIN)
 
     fun apply(executor: SqlExecutor) {
         V1_TO_V2.forEach(executor::exec)
+    }
+
+    /** §61.120：按指定语句段执行（v2→v3 等新迁移复用同一增量纪律）。 */
+    fun apply(executor: SqlExecutor, statements: List<String>) {
+        statements.forEach(executor::exec)
     }
 
     /** T13 / T14：迁移语句必须是纯增量，任何破坏性语句都判失败。 */

@@ -211,9 +211,13 @@ class PlaybackService : Service() {
     }
 
     override fun onCreate() {
+        super.onCreate()
         // §61.115：位置观测通道——G08 长稳等工具的可靠取数口（MIUI dumpsys
         // media_session 无标准 PlaybackState 明细、会话栈恒 0，不可用作监控）。
+        // §61.120 教训：必须放 super.onCreate()（Hilt inject）之后——Main.immediate
+        // 会让协程同步执行，注入前访问 lateinit runtime 即崩溃（真机一手）。
         scope.launch {
+            if (!::runtime.isInitialized) return@launch
             runtime.playerState().collect { s ->
                 if (s.phase == PlayerPhase.PLAYING) {
                     val now = android.os.SystemClock.elapsedRealtime()
@@ -224,7 +228,6 @@ class PlaybackService : Service() {
                 }
             }
         }
-        super.onCreate()
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         // 12 §46：必须在注册 receiver 之前建好策略，避免 onCreate 前收到广播时无裁决者。
         disconnectPolicy = BluetoothOutputPolicy(

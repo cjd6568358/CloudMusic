@@ -380,6 +380,14 @@ class PlaybackRuntime @Inject constructor(
         }
     }
 
+    /** §61.120（M3 小账）：重命名歌单（契约 rename 收口）。 */
+    fun renamePlaylist(id: String, name: String) {
+        scope.launch {
+            runCatching { playlists.rename(id, name) }
+                .onFailure { Log.w("CloudMusicRuntime", "renamePlaylist 失败", it) }
+        }
+    }
+
     /** §61.119（M3）：删除歌单。 */
     fun deletePlaylist(id: String) {
         scope.launch {
