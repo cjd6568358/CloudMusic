@@ -158,12 +158,21 @@ class PlayerController(
     private fun startPositionTicker() {
         positionTicker?.cancel()
         positionTicker = scope.launch {
+            var tick = 0
             while (isActive && _state.value.phase == PlayerPhase.PLAYING) {
                 handle?.let { h ->
                     runCatching { engine.positionMs(h) }.getOrNull()?.let { pos ->
                         _state.update { it.copy(positionMs = pos) }
+                        // §61.115：每 2s（4 tick）同步一次 MediaSession 位置——
+                        // 此前只在转换点写会话，通知栏进度与 dumpsys 监控通道
+                        // 均冻结在起播值（G08 长稳 20 轮 position=0 的一手后果）。
+                        if (tick % 4 == 0) {
+                            media?.setPlaybackState(
+                                EngineState.PLAYING, pos, engine.durationMs(h))
+                        }
                     }
                 }
+                tick++
                 delay(500)
             }
         }

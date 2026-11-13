@@ -73,8 +73,22 @@ def main() -> int:
     if data[:3] != b"ID3":
         print("[FAIL] 源 MP3 无 ID3v2 tag")
         return 1
-    old_frames = data[10:10 + unsyncsafe(data[6:10])].rstrip(b"\x00")
+    raw_frames = data[10:10 + unsyncsafe(data[6:10])]
     audio = data[10 + unsyncsafe(data[6:10]):]
+    # §61.115 真机实测：f3_mp3.mp3 原帧区自带 APIC（照片），JAudioTagger 的
+    # firstArtwork 取第一个 → 我们注入的渐变 APIC 永不被选中。逐帧剥离旧 APIC。
+    kept = b""
+    pos = 0
+    while pos + 10 <= len(raw_frames):
+        fid = raw_frames[pos:pos + 4]
+        flen = int.from_bytes(raw_frames[pos + 4:pos + 8], "big")
+        if flen <= 0 or pos + 10 + flen > len(raw_frames):
+            break
+        if fid != b"APIC":
+            kept += raw_frames[pos:pos + 10 + flen]
+        pos += 10 + flen
+    kept += raw_frames[pos:].rstrip(b"\x00")
+    old_frames = kept
     png = make_gradient_png(SIZE, SIZE)
     added = apic(png)
     new_tag = (b"ID3" + bytes([data[3], data[4]]) + data[5:6]

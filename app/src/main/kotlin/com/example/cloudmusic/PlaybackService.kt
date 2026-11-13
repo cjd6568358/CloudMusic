@@ -26,6 +26,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.cloudmusic.common.NetworkPlaybackGate
 import com.example.cloudmusic.di.playback.PlaybackRuntime
+import com.example.cloudmusic.player.PlayerPhase
 import com.example.cloudmusic.di.playback.RuntimeState
 import com.example.cloudmusic.di.settings.SettingsAccess
 import com.example.cloudmusic.engine.api.EngineState
@@ -126,6 +127,9 @@ class PlaybackService : Service() {
     private var pendingSourceUrl: String? = null
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+
+    /** §61.115：位置观测通道节流戳（长稳/矩阵工具的可靠取数口）。 */
+    private var lastPositionLogAt = 0L
     private var mediaSession: MediaSession? = null
     private lateinit var audioManager: AudioManager
     private var focusRequest: AudioFocusRequest? = null
@@ -207,6 +211,19 @@ class PlaybackService : Service() {
     }
 
     override fun onCreate() {
+        // §61.115：位置观测通道——G08 长稳等工具的可靠取数口（MIUI dumpsys
+        // media_session 无标准 PlaybackState 明细、会话栈恒 0，不可用作监控）。
+        scope.launch {
+            runtime.playerState().collect { s ->
+                if (s.phase == PlayerPhase.PLAYING) {
+                    val now = android.os.SystemClock.elapsedRealtime()
+                    if (now - lastPositionLogAt >= 10_000L) {
+                        lastPositionLogAt = now
+                        Log.i("CM-Player", "positionMs=%d".format(s.positionMs))
+                    }
+                }
+            }
+        }
         super.onCreate()
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         // 12 §46：必须在注册 receiver 之前建好策略，避免 onCreate 前收到广播时无裁决者。
