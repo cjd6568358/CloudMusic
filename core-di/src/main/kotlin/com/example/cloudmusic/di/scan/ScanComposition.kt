@@ -253,5 +253,6 @@ object ScanModule {
         rootPathFor = { storage -> LocalAddition.parse(storage.addition.raw).rootFolderPath },
         // §61.116：minDurationMs 死旋钮接线——每次扫描读当前设置投影。
         minDurationMsSource = { settings.current().scan.minDurationMs },
+        ignoreDirsSource = { settings.current().scan.ignoreDirs.toSet() },
     )
 }

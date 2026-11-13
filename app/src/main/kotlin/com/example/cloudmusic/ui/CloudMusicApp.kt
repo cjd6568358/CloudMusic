@@ -132,6 +132,9 @@ fun CloudMusicApp(
     /** §61.116（M2-2）：扫描最短时长下限（ms），下次扫描生效。 */
     scanMinDurationMs: Long = 10_000L,
     onScanMinDurationChanged: (Long) -> Unit = {},
+    /** §61.117（M2-2）：扫描忽略目录（小写比对），下次扫描生效。 */
+    scanIgnoreDirs: List<String> = emptyList(),
+    onScanIgnoreDirsChanged: (List<String>) -> Unit = {},
     bridge: PlayerStateBridge,
 ) {
     var tab by rememberSaveable { mutableIntStateOf(0) }
@@ -207,6 +210,8 @@ fun CloudMusicApp(
                     onClearCache,
                     appSettings.scan.minDurationMs,
                     onScanMinDurationChanged,
+                    appSettings.scan.ignoreDirs,
+                    onScanIgnoreDirsChanged,
                 )
             }
         }
@@ -740,6 +745,8 @@ private fun SettingsScreen(
     onClearCache: () -> Unit,
     scanMinDurationMs: Long,
     onScanMinDurationChanged: (Long) -> Unit,
+    scanIgnoreDirs: List<String>,
+    onScanIgnoreDirsChanged: (List<String>) -> Unit,
 ) {
     Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text("V0.1 运行态", style = MaterialTheme.typography.titleMedium)
@@ -800,6 +807,27 @@ private fun SettingsScreen(
                         label = { Text(label) },
                     )
                 }
+        }
+        var ignoreDirsText by remember(scanIgnoreDirs) {
+            mutableStateOf(scanIgnoreDirs.joinToString(", "))
+        }
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            OutlinedTextField(
+                value = ignoreDirsText,
+                onValueChange = { ignoreDirsText = it },
+                label = { Text("忽略目录（逗号分隔）") },
+                singleLine = true,
+                modifier = Modifier.weight(1f),
+            )
+            Button(
+                onClick = {
+                    onScanIgnoreDirsChanged(
+                        ignoreDirsText.split(',')
+                            .map { it.trim() }
+                            .filter { it.isNotBlank() },
+                    )
+                },
+            ) { Text("应用") }
         }
 
         Text(

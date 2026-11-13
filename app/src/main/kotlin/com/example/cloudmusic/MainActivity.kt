@@ -215,6 +215,14 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     },
+                    scanIgnoreDirs = appSettingsState.value.scan.ignoreDirs,
+                    onScanIgnoreDirsChanged = { dirs ->
+                        lifecycleScope.launch {
+                            settingsStore.update {
+                                it.copy(scan = it.scan.copy(ignoreDirs = dirs))
+                            }
+                        }
+                    },
                     bridge = playerBridge,
                 )
             }

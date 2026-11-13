@@ -54,6 +54,8 @@ class ScanCoordinator(
      * null = 用 [ScanRules.minDurationMs] 默认 10s（C-09 settingsSource 同型）。
      */
     private val minDurationMsSource: (() -> Long)? = null,
+    /** §61.117（M2-2）：每扫描读取的忽略目录集合——AppSettings.scan.ignoreDirs 接线。 */
+    private val ignoreDirsSource: (() -> Set<String>)? = null,
     private val trackFactory: TrackFactory = TrackFactory(),
     private val rootPathFor: (Storage) -> String = { "" },
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default),
@@ -85,6 +87,13 @@ class ScanCoordinator(
                 .forEach { it.value.cancel() }
         }
     }
+
+    /**
+     * §61.117：每目录遍历读取的忽略目录集合（设置投影优先，缺省 ScanRules 默认）；
+     * 统一小写比对——目录名大小写在 Windows 侧存储常见不一致。
+     */
+    private fun effectiveIgnoreDirs(): Set<String> =
+        (ignoreDirsSource?.invoke() ?: rules.ignoreDirs).map { it.lowercase() }.toSet()
 
     /** 可测的同步入口：取消按 E_SCAN_CANCELLED 正常结束，返回已完成部分的报告。 */
     suspend fun run(
@@ -215,7 +224,7 @@ class ScanCoordinator(
         for (item in items) {
             currentCoroutineContext().ensureActive()
             when (rules.classify(item.name, item.isDir)) {
-                FileClass.DIRECTORY -> if (!rules.isIgnoredDir(item.name)) childDirs += item
+                FileClass.DIRECTORY -> if (item.name.lowercase() !in effectiveIgnoreDirs()) childDirs += item
                 FileClass.AUDIO -> out += audioCandidate(storage, item, dir)
                 // 03-04 §5 内联展开：直接调用共享解析函数，不实例化 StrmDriver / PlaylistDriver
                 FileClass.STRM -> expandStrm(driver, storage, item, dir, state, out)
