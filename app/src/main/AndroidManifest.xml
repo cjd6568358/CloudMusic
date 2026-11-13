@@ -59,6 +59,12 @@
             android:foregroundServiceType="mediaPlayback">
             <intent-filter>
                 <action android:name="com.example.cloudmusic.action.PLAY" />
+                <!-- §61.111：ACTION_SEEK（§61.26）/ ACTION_EFFECT（§61.93）同为
+                     验收期调试入口，此前不在 filter 内 → am startservice 隐式启动
+                     一直被拒（Unable to start service，真机一手 F3 enhanced 取证）；
+                     补全使其可达。F5 收口时随 PLAY 一并移除。 -->
+                <action android:name="com.example.cloudmusic.action.SEEK" />
+                <action android:name="com.example.cloudmusic.action.EFFECT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>

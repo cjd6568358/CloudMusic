@@ -134,8 +134,10 @@ class Media3EngineAdapter : IMusicEngine {
             when (val entry = metadata.get(i)) {
                 is VorbisComment -> lines.add("${entry.key}=${entry.value}")
                 is TextInformationFrame -> lines.add(
+                    // §61.111：key 用 TXXX 的 description；普通帧（TIT2 等）description
+                    // 为 null → 回退 frame id（"TIT2=…"），避免空键噪声行。
                     // `value` 单值字段已标记 deprecated；`values` 为 ID3 多值列表。
-                    "${entry.description ?: ""}=${entry.values.firstOrNull() ?: ""}")
+                    "${entry.description ?: entry.id}=${entry.values.firstOrNull() ?: ""}")
                 is CommentFrame -> lines.add("${entry.description}=${entry.text}")
                 else -> Unit
             }
@@ -210,12 +212,15 @@ class Media3EngineAdapter : IMusicEngine {
         private fun applyReplayGain(lines: List<String>, source: String) {
             if (lines.isEmpty()) return
             replayGain.onMetadataLines(lines)
-            Log.i(TAG, "replaygain(%s) tags=%d gain=%s volume=%.3f mode=%s".format(
+            // §61.111 真机诊断（照 §61.106 diag 先例）：gain=none 时需要看到
+            // 适配层产出的原始行才能定位解析不命中的原因；保留用于复跑。
+            Log.i(TAG, "replaygain(%s) tags=%d gain=%s volume=%.3f mode=%s diag=%s".format(
                 source,
                 lines.size,
                 replayGain.parsedGain()?.let { "%.2f dB".format(it.trackGainDb) } ?: "none",
                 replayGain.effectiveVolume(),
                 replayGain.mode,
+                lines.joinToString(";").take(360),
             ))
         }
 
