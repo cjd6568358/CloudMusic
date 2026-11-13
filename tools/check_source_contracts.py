@@ -5186,6 +5186,36 @@ def main() -> int:
         except (OSError, UnicodeError, ValueError) as exc:
             failures.append("12 §61.111 守护：证据不可解析（%s）" % exc)
 
+    # 12 §61.115 守护 / 全矩阵首次全绿 + 封面闭环：钉死 22/22 与 enhanced 口径，
+    # 防长稳「无有效数据」被写成稳定、防封面闭环证据缺失。
+    _fm115 = ROOT / "analysis" / "b2-f3-fullmatrix-batch133-2026-11-14.json"
+    _pp115 = ROOT / "analysis" / "b2-replaygain-probe-batch133-2026-11-14.json"
+    _shot115a = ROOT / "analysis" / "l3-player-cover-batch133-2026-11-14.png"
+    _shot115b = ROOT / "analysis" / "l3-player-gradient-batch133-2026-11-14.png"
+    if not (_fm115.is_file() and _pp115.is_file() and _shot115a.is_file()
+            and _shot115b.is_file()):
+        failures.append("12 §61.115 守护：全矩阵 / 探针 / 封面截图证据缺失")
+    else:
+        try:
+            import json as _json115
+            _fmd = _json115.loads(_fm115.read_text(encoding="utf-8"))
+            _ppd = _json115.loads(_pp115.read_text(encoding="utf-8"))
+            _cells115 = _fmd.get("cells", [])
+            _all115 = len(_cells115) == 22 and all(
+                c.get("verdict") == "PASS" for c in _cells115)
+            _enh115 = all(c.get("enhanced", {}).get("enhanced_verdict") == "PASS"
+                          for c in _cells115)
+            _g08tool = (ROOT / "tools" / "b2_g08_longrun.py")
+            if (_fmd.get("device_run") if "device_run" in _fmd else True)                     and _all115 and _enh115                     and _ppd.get("checks_passed") == 5                     and _g08tool.is_file()                     and "t=0 PLAYING" in _g08tool.read_text(encoding="utf-8")                     and "### 61.115" in (ROOT / "docs" /
+                                         "12-编码阶段第一批交付.md").read_text(
+                                             encoding="utf-8"):
+                print("[PASS] 12 §61.115 守护：22/22 全 PASS + enhanced 22/22 / "
+                      "ReplayGain 5/5 / 封面双截图 / G08 工具（t=0 判据）/ 交付日志")
+            else:
+                failures.append("12 §61.115 守护：全矩阵口径 / 探针 / 截图 / 工具漂移")
+        except (OSError, UnicodeError, ValueError) as exc:
+            failures.append("12 §61.115 守护：证据不可解析（%s）" % exc)
+
     if (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example" /
             "cloudmusic" / "common" / "PathNormalizer.kt").is_file():
         warnings.append("实现期修正 C-01：路径规范化下沉至 :core-common（见 PathNormalizer KDoc）")
