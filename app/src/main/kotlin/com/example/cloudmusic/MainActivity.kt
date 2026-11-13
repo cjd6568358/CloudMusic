@@ -10,6 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import com.example.cloudmusic.common.PermissionGate
 import com.example.cloudmusic.di.playback.PlaybackRuntime
 import com.example.cloudmusic.di.settings.SettingsStore
+import com.example.cloudmusic.output.dlna.DlnaCastCoordinator
+import com.example.cloudmusic.output.router.ActiveOutput
 import com.example.cloudmusic.output.router.OutputRouter
 import com.example.cloudmusic.player.QueueRepository
 import com.example.cloudmusic.storage.PlaylistRepository
@@ -89,6 +91,10 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var settingsStore: SettingsStore
 
+    /** §61.110：DLNA 第一个生产调用点——输出弹窗 → 发现 → 推流起播（03-08 §10.1 最小闭环）。 */
+    @Inject
+    lateinit var castCoordinator: DlnaCastCoordinator
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -137,6 +143,53 @@ class MainActivity : ComponentActivity() {
                                 Intent(this@MainActivity, PlaybackService::class.java)
                                     .setAction(PlaybackService.ACTION_BLUETOOTH_PERMISSION_CHANGED),
                             )
+                        }
+                    },
+                    // §61.110：DLNA 第一个生产调用点——发现 → 首台设备推流起播 →
+                    // setActive(DLNA) 仅在 started=true 时写入（03-08 §14 #9 唯一裁决者）；
+                    // 无设备 / 无曲目 / 失败都如实写 routeHint 并保持本机，不伪造投屏态。
+                    // 设备选择列表 / 本机静音 / 断连回落 / 切歌保持 = 会话引擎（挂账）。
+                    onOutputSelected = { target ->
+                        lifecycleScope.launch {
+                            when (target) {
+                                // 03-08 §14 #9：setActive 与 onOutputChanged 必须成对
+                                // （守护脚本钉死计数相等）；回落恢复本机音量与媒体控件。
+                                ActiveOutput.LOCAL -> {
+                                    output.setActive(ActiveOutput.LOCAL)
+                                    runtime.onOutputChanged(false)
+                                }
+                                ActiveOutput.DLNA -> {
+                                    output.updateRouteHint("正在发现局域网 DMR…")
+                                    val devices = runCatching { castCoordinator.discover() }
+                                        .getOrElse { emptyList() }
+                                    if (devices.isEmpty()) {
+                                        output.updateRouteHint("未发现 DLNA 设备（保持本机播放）")
+                                        return@launch
+                                    }
+                                    // 挂账：多设备选择列表（03-08 §4.1）；本批先取第一台并明示设备名。
+                                    val device = devices.first()
+                                    val currentTrackId =
+                                        runtime.playerState().value.currentTrackId
+                                    val current = currentTrackId?.let { tracks.get(it) }
+                                    if (current == null) {
+                                        output.updateRouteHint("无正在播放的曲目，无法投屏")
+                                        return@launch
+                                    }
+                                    runCatching {
+                                        val result = castCoordinator.startCast(current, device)
+                                        if (result.started) {
+                                            // T09：本机静音 + 媒体控件停用（03-08 §10.1 的
+                                            // 本机侧动作——API 已在，随本批接线）。
+                                            output.setActive(ActiveOutput.DLNA)
+                                            runtime.onOutputChanged(true)
+                                        }
+                                    }.onFailure {
+                                        output.updateRouteHint(
+                                            "投屏失败：${it.message ?: "未知错误"}（保持本机播放）",
+                                        )
+                                    }
+                                }
+                            }
                         }
                     },
                     bridge = playerBridge,

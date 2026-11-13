@@ -375,6 +375,13 @@ class PlaybackRuntime @Inject constructor(
     /** §61.93（音效必须支持）：外部音效档位入口（0 = 释放基础音效链）。 */
     fun attachEffect(effectId: Int) = scope.launch { controller.attachEffect(effectId) }
 
+    /**
+     * §61.110：输出切换的另一半契约（03-08 §14 #9 / 03-09 §7 成对联动）——
+     * 切 DLNA 本机内核静音 + 媒体控件停用（T09），回落恢复。与
+     * `OutputRouter.setActive` 必须成对调用（守护脚本钉死计数相等）。
+     */
+    fun onOutputChanged(dlna: Boolean) = controller.onOutputChanged(dlna)
+
     /** T-A6（12 §33）：UI 需要具体类型来显示播放阶段 / 当前曲目 / 进度。 */
     fun playerState(): StateFlow<PlayerState> = controller.state
 

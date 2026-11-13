@@ -12,6 +12,12 @@ interface OutputRouter {
     fun state(): Flow<OutputDeviceState>
     val activeOutput: ActiveOutput
     fun setActive(output: ActiveOutput)
+
+    /**
+     * §61.110：投屏过程提示（发现中 / 设备名 / 失败原因）写入 [OutputDeviceState.routeHint]。
+     * 仍由 OutputRouter 独占输出状态（03-08 §14 #9），调用方只提供文案。
+     */
+    fun updateRouteHint(hint: String)
     fun updateBluetooth(info: BluetoothInfo?)
 
     /** DLNA 回落本机时重新读取当前 A2DP 状态刷新设备信息（§7）。 */
@@ -33,6 +39,10 @@ class InMemoryOutputRouter : OutputRouter {
             activeOutput = output,
             routeHint = if (output == ActiveOutput.DLNA) "DLNA" else hint(_state.value.bluetooth),
         )
+    }
+
+    override fun updateRouteHint(hint: String) {
+        _state.value = _state.value.copy(routeHint = hint)
     }
 
     override fun updateBluetooth(info: BluetoothInfo?) {

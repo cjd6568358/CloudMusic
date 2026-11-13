@@ -121,6 +121,8 @@ fun CloudMusicApp(
     onPrev: () -> Unit,
     onWifiOnlyChanged: (Boolean) -> Unit,
     onOpenOutput: () -> Unit,
+    /** §61.110：输出弹窗选择（本机 / DLNA）——DLNA 走发现 → 推流 → setActive 闭环。 */
+    onOutputSelected: (ActiveOutput) -> Unit = {},
     bridge: PlayerStateBridge,
 ) {
     var tab by rememberSaveable { mutableIntStateOf(0) }
@@ -199,7 +201,7 @@ fun CloudMusicApp(
     }
 
     if (showOutput) {
-        OutputDialog(output) { showOutput = false }
+        OutputDialog(output, onOutputSelected) { showOutput = false }
     }
 
     // 12 §61.40：整页播放页覆盖在 Scaffold 之上（局部混用两套 UI 框架，限制在播放页一屏）。
@@ -652,7 +654,11 @@ private fun SettingsScreen(
 
 /** 03-10 §11 #8：蓝牙只作状态提示，不列为与本机/DLNA 并列的可选输出。 */
 @Composable
-private fun OutputDialog(state: OutputDeviceState, onDismiss: () -> Unit) {
+private fun OutputDialog(
+    state: OutputDeviceState,
+    onOutputSelected: (ActiveOutput) -> Unit,
+    onDismiss: () -> Unit,
+) {
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text("输出设备") },
@@ -665,17 +671,21 @@ private fun OutputDialog(state: OutputDeviceState, onDismiss: () -> Unit) {
                 ListItem(
                     headlineContent = { Text("本机") },
                     supportingContent = { Text("手机扬声器 / 有线输出") },
+                    modifier = Modifier.clickable { onOutputSelected(ActiveOutput.LOCAL) },
                 )
                 ListItem(
                     headlineContent = { Text("DLNA") },
-                    supportingContent = { Text("投屏到局域网设备（03-08）") },
+                    supportingContent = { Text("投屏到局域网设备（发现 → 推流起播，03-08 §10.1）") },
+                    modifier = Modifier.clickable { onOutputSelected(ActiveOutput.DLNA) },
                 )
                 if (state.routeHint.isNotBlank()) {
                     Text("状态提示：${state.routeHint}", style = MaterialTheme.typography.bodySmall)
                 }
                 Text(
-                    "蓝牙仅显示连接状态、不作为并列输出（03-10 §11 #8）；" +
-                        "切换与真机状态上报属 T-L L2，V0.1 只读展示。",
+                    "§61.110：切换 / 推流已接线（第一个生产调用点），本机静音随切换联动" +
+                        "（T09 / 03-08 §14 #9 成对契约）；断连回落、DMR 进度轮询、" +
+                        "切歌保持投屏属 DLNA 会话引擎（挂账）。" +
+                        "蓝牙仅显示连接状态、不作为并列输出（03-10 §11 #8）。",
                     style = MaterialTheme.typography.bodySmall,
                 )
             }

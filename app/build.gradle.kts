@@ -47,6 +47,9 @@ dependencies {
     implementation(project(":feature-player"))
     // 第三十一批（12 §40）：输出设备页读取 OutputDeviceState / ActiveOutput。
     implementation(project(":output-router"))
+    // §61.110：DLNA 第一个生产调用点——MainActivity 持有 DlnaCastCoordinator 引用
+    // （纯 JVM 编排器；网络细节仍隔离在 core-di 组合层，UI 只见类型与结果）。
+    implementation(project(":output-dlna"))
     // 第三十三批（12 §42）：焦点事件映射到 FocusChange，交给 IMediaControl / FocusPolicy 裁决。
     implementation(project(":core-media"))
     implementation(platform(libs.androidx.compose.bom))

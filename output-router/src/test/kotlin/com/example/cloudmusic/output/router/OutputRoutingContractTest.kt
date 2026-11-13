@@ -192,6 +192,17 @@ class OutputRoutingContractTest {
     }
 
     @Test
+    @DisplayName("EA06 §61.110 updateRouteHint：投屏过程提示写入 routeHint，不改 activeOutput")
+    fun ea06() = runTest {
+        val (router, _, _) = fixture()
+        router.updateRouteHint("正在发现局域网 DMR…")
+        assertEquals("正在发现局域网 DMR…", router.state().first().routeHint)
+        assertEquals(ActiveOutput.LOCAL, router.activeOutput, "只写提示，不切输出")
+        router.updateRouteHint("DLNA · 客厅音响")
+        assertEquals("DLNA · 客厅音响", router.state().first().routeHint)
+    }
+
+    @Test
     @DisplayName("EA05 B10 切 DLNA 期间收到蓝牙连接 → 只更新设备信息，不改 activeOutput")
     fun ea05() = runTest {
         val (router, media, policy) = fixture()
