@@ -133,9 +133,11 @@ data class RuntimeState(
  * ③ `ProxyStartPolicy.shouldStart()` 的生产调用方（03-08 §8.4 ①~⑤，含 C-06 ④）；
  * ④ 持有 [PlayerController]，供媒体按键 / 通知动作转发。
  *
- * 边界（第二十七批 `12 §36` 起）：`IMusicEngine` **已换绑舱内 `EngineAdapter`**
- * （D-08 只改 `EngineModule` 的一个 `@Provides`，本类零改动）；真机 G01/G02 与
- * native 回调字段校准仍属 T-L L1，**编译 / DI 接通 ≠ 真机出声**。
+ * 边界（第二十七批 `12 §36` 起）：`IMusicEngine` 换绑舱内实现只改 `EngineModule`
+ * 的一个 `@Provides`，本类零改动——先是 `EngineAdapter`（D-08，A 路线），
+ * 11-11 起为 `Media3EngineAdapter`（B2 开源引擎，`12 §61.65~61.66`，门面 14
+ * 方法签名 0 改动 0 提交）；本类至今仍只引用 `IMusicEngine` 契约。
+ * **编译 / DI 接通 ≠ 真机出声**（现行真机口径见 `12 §61.106`）。
  */
 @Singleton
 class PlaybackRuntime @Inject constructor(
@@ -254,8 +256,11 @@ class PlaybackRuntime @Inject constructor(
      *    `resourceInfo extension=...` 与 `Open codec` 判定 F2 假设。
      *
      * 这是**验收期调试入口**：复用既有 `ACTION_PLAY`，不新增 Manifest action /
-     * 权限 / 依赖 / 模块，P0 引擎舱（20 so / EngineAdapter / EngineModule）零改动；
+     * 权限 / 依赖 / 模块，P0 引擎舱（EngineModule 的 `@Provides` 换绑点）零改动；
      * 生产形态随 `12 §61.33` 的 `ACTION_PLAY` 一并收口。
+     * §61.108 口径注：该批历史表述「20 so / EngineAdapter 零改动」是当时事实；
+     * 当前舱内生产绑定为 `Media3EngineAdapter`（B2，`12 §61.65~61.66`），
+     * 本入口对两种绑定同样生效（只经 `IMusicEngine` 契约）。
      */
     fun playLocal(path: String) = scope.launch {
         val file = File(path)

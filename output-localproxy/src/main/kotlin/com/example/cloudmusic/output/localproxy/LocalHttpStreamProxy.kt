@@ -26,6 +26,14 @@ interface LocalHttpStreamProxy {
  * 保证投屏侧 ①②③⑤ 的既有判定零回归。
  */
 object ProxyStartPolicy {
+    // §61.108 生产实况注（诚实边界，不改行为）：当前唯一生产调用方是
+    // PlaybackRuntime.ensureProxy()，只给 ④ localPlaybackKind + ⑤ settings 两个
+    // 维度传实参（① queueKinds 恒 emptyList、② fallbackNeeded / ③ anyViaProxy
+    // 恒 false）——①②③ 在本机播放判定里**空转但保留**：它们是投屏侧
+    // （03-08 §8.4）的契约维度，待 DLNA 输出弹窗接线（17 §4）后由 Cast 侧
+    // 调用方注入真实值。另注：CastComposition 的 PrePublishedCastProxy.publish()
+    // 走 ensureStarted() **无条件启动**（按需启动语义：publish 即意味着马上
+    // 要推 URL 给 DMR），不经 shouldStart——两者并存是设计事实，不判缺陷。
     fun shouldStart(
         queueKinds: List<Link.Kind>,
         anyViaProxy: Boolean,

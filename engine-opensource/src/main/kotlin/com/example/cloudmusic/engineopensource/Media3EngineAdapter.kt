@@ -170,6 +170,19 @@ class Media3EngineAdapter : IMusicEngine {
                 if (isPlaying) "PLAYING" else "PAUSED", positionNow()))
         }
 
+        // §61.108 F3 补强：seek 后的落点回执——工具侧以
+        // `discontinuity reason=SEEK positionMs=` 验证 seek 真实生效。
+        override fun onPositionDiscontinuity(
+            oldPosition: Player.PositionInfo,
+            newPosition: Player.PositionInfo,
+            reason: Int,
+        ) {
+            if (reason == Player.DISCONTINUITY_REASON_SEEK) {
+                Log.i(TAG, "discontinuity reason=SEEK positionMs=%d".format(
+                    newPosition.positionMs))
+            }
+        }
+
         // §61.105：保留 Player.Listener.onMetadata 兼容通路（本机 ExoPlayer
         // 1.11.1 真机不触发，见 §61.107 探针实证）。
         override fun onMetadata(metadata: Metadata) {
@@ -351,8 +364,11 @@ class Media3EngineAdapter : IMusicEngine {
 
     override fun attachDataSource(handle: EngineHandle, ds: IDataSource) {
         requireActive(handle)
-        // M3 才把 IDataSource 桥接成 RangeCacheDataSource（官方 DataSource 语义）。
-        // 本批只保存引用并在 release 时关闭，不伪造缓存 / Range 接线。
+        // §61.108 语义定稿（03-06 §4）：B2 主路径字节流由 EngineSource（C-05）与
+        // 回环代理解析供给；本方法是**预留通用注入端口**——保存引用并在 release
+        // 时关闭。M3 期「桥接成 RangeCacheDataSource」的旧计划不再挂承诺；
+        // 若未来需要自定义字节流（如自定义缓存），以独立演进批次立项，不在此处
+        // 伪造接线。生产调用方当前为 0（契约位 + 单测覆盖）。
         dataSource = ds
     }
 
@@ -380,6 +396,11 @@ class Media3EngineAdapter : IMusicEngine {
         } else {
             positionMs.coerceAtLeast(0L)
         }
+        // §61.108 F3 补强：seek 落点的可观测性——l3_f3_matrix_run.py --enhanced
+        // 以此日志 + onPositionDiscontinuity 落点行验证 seek 判据（工具侧判据，
+        // 不改变播放行为）。
+        Log.i(TAG, "seek toMs=%d durMs=%s".format(
+            target, if (d == C.TIME_UNSET) "unset" else d.toString()))
         it.seekTo(target)
     }
 

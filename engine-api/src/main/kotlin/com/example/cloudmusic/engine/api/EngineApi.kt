@@ -53,7 +53,13 @@ data class EngineConfig(
 interface IMusicEngine {
     fun prepare(source: EngineSource, config: EngineConfig): EngineHandle
 
-    /** L2.5 注入统一字节流；自研 `IDataSource` 契约不变（03-01 §5）。 */
+    /**
+     * L2.5 通用取流注入端口；自研 `IDataSource` 契约不变（03-01 §5）。
+     * §61.108 语义定稿（03-06 §4）：这是**预留注入端口**——B2 主路径的字节流
+     * 由 `EngineSource`（url/localPath，C-05）与回环代理解析供给，B2 适配器
+     * 对本方法只保存引用并在 `release` 时关闭（不参与播放主路径）；
+     * A 路线 `EngineAdapter` 语义为 proxy 态回源句柄替换。
+     */
     fun attachDataSource(handle: EngineHandle, ds: IDataSource)
 
     fun play(handle: EngineHandle)
@@ -84,7 +90,9 @@ data class EngineSnapshot(
 )
 
 /**
- * 纯 JVM 内存参考实现：供单测、UI 预览与组合层联调，**不替代舱内 EngineAdapter**。
+ * 纯 JVM 内存参考实现：供单测、UI 预览与组合层联调，**不替代引擎舱生产适配器**
+ * （当前为 B2 `Media3EngineAdapter`，`12 §61.65~61.66`；A 路线 `EngineAdapter`
+ * 保留为回退实现）。
  *
  * 落实 03-06 §4 的不变量：`EngineHandle` 同一时刻只允许存在一个有效值，
  * `prepare()` 新曲目必须先 `release()` 旧 handle（§15 T06）；

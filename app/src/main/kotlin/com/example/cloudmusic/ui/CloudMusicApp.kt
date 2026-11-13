@@ -611,7 +611,9 @@ private fun SettingsScreen(
         Text("V0.1 运行态", style = MaterialTheme.typography.titleMedium)
         ListItem(
             headlineContent = { Text("播放内核") },
-            supportingContent = { Text("EngineAdapter（舱内真实内核；真机 G01/G02 待验，12 §36）") },
+            // §61.108 口径修缮：当前生效内核是 B2 开源引擎舱（11-11 换绑，12 §61.65~61.66）；
+            // EngineAdapter 仅是 A 路线回退实现，不再作为生产绑定表述。
+            supportingContent = { Text("Media3EngineAdapter（B2 开源引擎；11-11 换绑，12 §61.65~61.66）") },
         )
         ListItem(
             headlineContent = { Text("本地流代理") },

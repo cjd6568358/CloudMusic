@@ -216,7 +216,8 @@ class PlayerController(
         _state.update { it.copy(phase = PlayerPhase.PAUSED, positionMs = snapshot.positionMs) }
         // §61.27：兑现冷启动期间到达的播放意图。PRD §6.1「不自动开播」约束的是
         // 无用户指令的 restore；只有 ACTION_PLAY / 媒体键才会置位 pendingPlay。
-        // prepareAt 已建立 handle，resume() 会经 EngineAdapter 的 prepareGate 下发 play。
+        // prepareAt 已建立 handle，resume() 经门面实现下发 play（B2 = Media3EngineAdapter，
+        // `12 §61.65~61.66`；`prepareGate` 是 A 路线 EngineAdapter 的内部闸门，非契约概念）。
         if (pendingPlay.compareAndSet(true, false)) resume()
     }
 
