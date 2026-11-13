@@ -439,13 +439,13 @@ class PlaybackRuntime @Inject constructor(
                         done++
                         continue
                     }
-                    val gain = com.example.cloudmusic.di.scan.ReplayGainAnalyzer
+                    val result = com.example.cloudmusic.di.scan.ReplayGainAnalyzer
                         .analyze(path)
-                    if (gain != null) {
-                        tracks.markReplayGain(track.id, gain)
+                    if (result != null) {
+                        tracks.markReplayGain(track.id, result.gainDb)
                         gained++
-                        Log.i("CM-RG", "analyze %s → %.2f dB".format(
-                            track.title.take(20), gain))
+                        Log.i("CM-RG", "analyze %s → %.2f dB (%s)".format(
+                            track.title.take(20), result.gainDb, result.path))
                     } else {
                         Log.i("CM-RG", "analyze %s → NO_SAMPLE（平台不可解或过短）".format(
                             track.title.take(20)))

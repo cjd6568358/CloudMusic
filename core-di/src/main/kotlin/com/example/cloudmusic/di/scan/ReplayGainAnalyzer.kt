@@ -3,25 +3,27 @@ package com.example.cloudmusic.di.scan
 import android.media.MediaCodec
 import android.media.MediaExtractor
 import android.media.MediaFormat
+import com.example.cloudmusic.model.ReplayGainSpecMath
 import kotlin.math.log10
 import kotlin.math.sqrt
 
 /**
- * §61.122（T5-2 分析管线第一版）：**近似响度分析**——平台 MediaExtractor +
- * MediaCodec 解码（LOCAL 可解格式：mp3/aac/flac/wav/ogg/m4a；ape/wma/wv 平台
- * 不可解 → 返回 null = NO_SAMPLE，如实登记不伪造）。
+ * §61.122/§61.123（T5-2 分析管线）：**近似 → 规范**两级响度分析——平台
+ * `MediaExtractor + MediaCodec` 解码（LOCAL 可解格式：mp3/aac/flac/wav/ogg/m4a；
+ * ape/wma/wv 视平台扩展而定；平台不可解 → null = NO_SAMPLE，如实登记）。
  *
- * 算法：解码前 [maxSeconds] 秒 PCM → 均值混音 → 全程 RMS → dBFS →
- * `gain = -14 - dBFS`（对齐 ReplayGain 的 -14 dB 参考响度）。
- * **诚实边界：未用 RG 规范等响 Yule 滤波器，为近似值**（仅作无标签曲目的
- * 兜底增益；规范实现随 T5-2 后续批评估）。
+ * - **规范路径**：采样率 ∈ {44.1k, 48k} 时走 [ReplayGainSpecMath]
+ *   （RG 1.0 等响滤波 + 50ms 分块 + 95 分位 + PINK_REF=64.82，系数逐字取自
+ *   HydrogenAudio 规范表）；
+ * - **近似回退**：其它采样率用全程 RMS → `-14 - dBFS`（§61.122 首版，
+ *   无规范滤波器，边界如实）。
  *
- * 纯解码 + 数值计算，不触碰播放链（§61.109 边界同型：Analysis 不持引擎）。
+ * 纯解码 + 数值计算，不触碰播放链（Analysis 不持引擎）。
  */
 object ReplayGainAnalyzer {
 
-    /** 返回增益 dB（负值=衰减）；不可解 / 无音频轨 / 解码失败 → null。 */
-    fun analyze(path: String, maxSeconds: Int = 90): Float? = runCatching {
+    /** 返回增益 dB（负值=衰减）与所用路径；不可解 / 无音频轨 / 解码失败 → null。 */
+    fun analyze(path: String, maxSeconds: Int = 90): AnalyzedGain? = runCatching {
         val extractor = MediaExtractor()
         try {
             extractor.setDataSource(path)
@@ -39,14 +41,15 @@ object ReplayGainAnalyzer {
             try {
                 codec.configure(format, null, null, 0)
                 codec.start()
-                val maxSamples = sampleRate.toLong() * channels * maxSeconds
-                var sumSquares = 0.0
-                var samples = 0L
+                val maxFrames = sampleRate.toLong() * maxSeconds
+                // 下混后的单声道 PCM（多声道交错求均值；容量按帧数预留）
+                val pcm = ShortArray((maxFrames * channels).toInt().coerceAtLeast(1))
+                var monoCount = 0L
                 var sawInputEos = false
                 var sawOutputEos = false
                 val bufferInfo = MediaCodec.BufferInfo()
                 var guard = 0
-                while (!sawOutputEos && samples < maxSamples && guard++ < 100_000) {
+                while (!sawOutputEos && monoCount < maxFrames && guard++ < 100_000) {
                     if (!sawInputEos) {
                         val inIdx = codec.dequeueInputBuffer(10_000L)
                         if (inIdx >= 0) {
@@ -70,11 +73,18 @@ object ReplayGainAnalyzer {
                             if (out != null && bufferInfo.size > 0) {
                                 out.position(bufferInfo.offset)
                                 out.limit(bufferInfo.offset + bufferInfo.size)
-                                // 16-bit PCM 短整型逐样本平方和（混音 = 多声道求均值）
-                                while (out.remaining() >= 2 && samples < maxSamples) {
-                                    val v = out.short.toFloat() / 32768f
-                                    sumSquares += (v * v).toDouble()
-                                    samples++
+                                while (out.remaining() >= 2 * channels &&
+                                    monoCount < maxFrames
+                                ) {
+                                    var acc = 0.0
+                                    repeat(channels) {
+                                        acc += out.short.toDouble()
+                                    }
+                                    out.position(out.position() + 2 * channels)
+                                    pcm[monoCount.toInt()] =
+                                        (acc / channels).coerceIn(-32768.0, 32767.0)
+                                            .toInt().toShort()
+                                    monoCount++
                                 }
                             }
                             codec.releaseOutputBuffer(outIdx, false)
@@ -87,12 +97,22 @@ object ReplayGainAnalyzer {
                         else -> Unit
                     }
                 }
-                if (samples < sampleRate.toLong() * channels) return null   // <1s 内容不足
-                val rms = sqrt(sumSquares / samples)
+                if (monoCount < sampleRate.toLong()) return null   // <1s 内容不足
+                val mono = pcm.copyOf(monoCount.toInt())
+                // §61.123：规范路径优先（44.1k/48k），近似回退（其它采样率）。
+                val spec = ReplayGainSpecMath.calculateGainDb(mono, sampleRate)
+                if (spec != null) {
+                    return AnalyzedGain(spec, "spec")
+                }
+                var sumSquares = 0.0
+                for (s in mono) {
+                    val v = s.toFloat() / 32768f
+                    sumSquares += (v * v).toDouble()
+                }
+                val rms = sqrt(sumSquares / monoCount)
                 if (rms <= 0.0) return null
                 val dbfs = 20.0 * log10(rms)
-                // RG 参考：校准到 -14 dB 目标响度 → 增益 = 目标 - 实际
-                (-14.0 - dbfs).toFloat().coerceIn(-30f, 30f)
+                AnalyzedGain((-14.0 - dbfs).toFloat().coerceIn(-30f, 30f), "approx")
             } finally {
                 codec.stop()
                 codec.release()
@@ -101,4 +121,7 @@ object ReplayGainAnalyzer {
             extractor.release()
         }
     }.getOrNull()
+
+    /** 分析结果：增益 dB + 所用路径（spec / approx，供日志与诚实边界）。 */
+    data class AnalyzedGain(val gainDb: Float, val path: String)
 }
