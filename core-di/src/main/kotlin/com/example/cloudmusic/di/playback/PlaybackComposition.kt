@@ -408,11 +408,12 @@ class PlaybackRuntime @Inject constructor(
      * 落库 + logcat 进度（CM-RG tag，真机可观测）。耗时随曲库线性增长，
      * 由设置页显式触发（opt-in）。
      */
-    fun analyzeLibraryReplayGain(maxCount: Int = 50) {
+    fun analyzeLibraryReplayGain(maxCount: Int = 50, force: Boolean = false) {
         scope.launch {
             runCatching {
                 val all = tracks.observeAll().first()
-                    .filter { it.sourceType == SourceType.LOCAL && it.replayGainDb == null }
+                    .filter { it.sourceType == SourceType.LOCAL &&
+                        (force || it.replayGainDb == null) }
                     .take(maxCount)
                 if (all.isEmpty()) {
                     Log.i("CM-RG", "analyze: nothing to analyze")

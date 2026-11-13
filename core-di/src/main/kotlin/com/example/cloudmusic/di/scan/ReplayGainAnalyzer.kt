@@ -3,6 +3,7 @@ package com.example.cloudmusic.di.scan
 import android.media.MediaCodec
 import android.media.MediaExtractor
 import android.media.MediaFormat
+import android.util.Log
 import com.example.cloudmusic.model.ReplayGainSpecMath
 import kotlin.math.log10
 import kotlin.math.sqrt
@@ -31,10 +32,17 @@ object ReplayGainAnalyzer {
                 .firstOrNull {
                     extractor.getTrackFormat(it)
                         .getString(MediaFormat.KEY_MIME)?.startsWith("audio/") == true
-                } ?: return null
+                } ?: run {
+                Log.w("CM-RG", "diag: no audio track ($path)")
+                null
+            } ?: return null
             extractor.selectTrack(trackIdx)
             val format = extractor.getTrackFormat(trackIdx)
-            val mime = format.getString(MediaFormat.KEY_MIME) ?: return null
+            val mime = format.getString(MediaFormat.KEY_MIME)
+                ?: run {
+                    Log.w("CM-RG", "diag: mime null ($path)")
+                    null
+                } ?: return null
             val sampleRate = format.getInteger(MediaFormat.KEY_SAMPLE_RATE)
             val channels = format.getInteger(MediaFormat.KEY_CHANNEL_COUNT)
             val codec = MediaCodec.createDecoderByType(mime)
@@ -73,16 +81,32 @@ object ReplayGainAnalyzer {
                             if (out != null && bufferInfo.size > 0) {
                                 out.position(bufferInfo.offset)
                                 out.limit(bufferInfo.offset + bufferInfo.size)
-                                while (out.remaining() >= 2 * channels &&
-                                    monoCount < maxFrames
-                                ) {
-                                    var acc = 0.0
-                                    repeat(channels) {
-                                        acc += out.short.toDouble()
+                                // §61.124：按**实际 remaining shorts** 下混——
+                                // 一手教训：mono MP3 的 format 声明 2 声道但解码器
+                                // 输出单声道，按 format 组帧会 position 越界
+                                //（"Bad position 2120/2116" 一手）。out.short 自推进。
+                                val shorts = out.remaining() / 2
+                                var ch = 0
+                                var acc = 0.0
+                                var chCount = 0
+                                for (i in 0 until shorts) {
+                                    if (monoCount >= maxFrames) break
+                                    acc += out.short.toDouble()
+                                    chCount++
+                                    ch++
+                                    if (ch == channels) {
+                                        pcm[monoCount.toInt()] =
+                                            (acc / channels).coerceIn(-32768.0, 32767.0)
+                                                .toInt().toShort()
+                                        monoCount++
+                                        ch = 0
+                                        acc = 0.0
                                     }
-                                    out.position(out.position() + 2 * channels)
+                                }
+                                // 尾帧不足 channels（声道数错位时）：按已读均值入。
+                                if (ch > 0 && monoCount < maxFrames) {
                                     pcm[monoCount.toInt()] =
-                                        (acc / channels).coerceIn(-32768.0, 32767.0)
+                                        (acc / chCount).coerceIn(-32768.0, 32767.0)
                                             .toInt().toShort()
                                     monoCount++
                                 }
@@ -97,13 +121,20 @@ object ReplayGainAnalyzer {
                         else -> Unit
                     }
                 }
-                if (monoCount < sampleRate.toLong()) return null   // <1s 内容不足
+                if (monoCount < sampleRate.toLong()) {
+                    // §61.124：NO_SAMPLE 诊断——monoCount/mime/rate/channels 一手
+                    Log.w("CM-RG", "diag: mono=%d < rate=%d mime=%s ch=%d (%s)".format(
+                        monoCount, sampleRate, mime, channels, path))
+                    return null   // <1s 内容不足
+                }
                 val mono = pcm.copyOf(monoCount.toInt())
                 // §61.123：规范路径优先（44.1k/48k），近似回退（其它采样率）。
                 val spec = ReplayGainSpecMath.calculateGainDb(mono, sampleRate)
                 if (spec != null) {
                     return AnalyzedGain(spec, "spec")
                 }
+                Log.w("CM-RG", "diag: spec null → approx 回退 (rate=%d mono=%d)".format(
+                    sampleRate, monoCount))
                 var sumSquares = 0.0
                 for (s in mono) {
                     val v = s.toFloat() / 32768f
@@ -120,6 +151,10 @@ object ReplayGainAnalyzer {
         } finally {
             extractor.release()
         }
+    }.onFailure {
+        // §61.124：解码异常一手日志（此前 getOrNull 静默吞掉 → 全显示 NO_SAMPLE）。
+        Log.w("CM-RG", "diag: analyze exception path=%s err=%s".format(
+            path, it.javaClass.simpleName + ": " + it.message))
     }.getOrNull()
 
     /** 分析结果：增益 dB + 所用路径（spec / approx，供日志与诚实边界）。 */
