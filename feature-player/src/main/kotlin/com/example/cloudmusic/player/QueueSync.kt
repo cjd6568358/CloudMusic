@@ -3,6 +3,14 @@ package com.example.cloudmusic.player
 /**
  * docs/03-06 §8 双轨：业务队列变更后**单向全量下发**到 native 队列。
  * 生产实现调 `PlaylistJniBridge` 快照接口；本模块只保留纯 JVM 记录型参考实现。
+ *
+ * §61.112 裁撤评估（复核报告遗留小账）：**接口保留，生产语义当前悬空**——
+ * B2（Media3EngineAdapter）没有 native 播放列表库，`SandboxQueueSync.push()`
+ * 只内存记录、无消费者；该契约是 A 路线（`PlaylistJniBridge` + libnmplaylist.so
+ * 沙箱）回退的必要件（切回时换一个 @Provides 即可，上层零改动），且
+ * `NativeQueueSandbox` 的隔离约束（③ 全量覆盖残留）在 A 路线仍生效。
+ * 裁撤风险 > 收益，如实标注不裁撤；若 A 路线永久弃用（`:engine-legacy` 去留
+ * 拍板后）再评估随舱移除。
  */
 interface QueueSync {
     suspend fun push(items: List<QueueItem>, mode: PlayMode, startAt: Int)
