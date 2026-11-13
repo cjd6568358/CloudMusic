@@ -3,13 +3,17 @@ package com.example.cloudmusic.ui.player
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
+import android.graphics.Paint
+import android.graphics.Path
 import android.view.Gravity
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 
 /**
  * `12 §39` / `12 §61.40` / `12 §61.42`：唱片旋转与唱针起落。
@@ -88,18 +92,13 @@ class VinylDiscView(context: Context) : FrameLayout(context) {
     /** 唱针：竞品闭包内未定位到位图，按竞品形态自绘；pivot 固定在顶部。 */
     private val needle = FrameLayout(context).apply { rotation = NEEDLE_UP_DEGREES }
 
-    private val needleArm = View(context).apply {
-        background = GradientDrawable().apply {
-            shape = GradientDrawable.RECTANGLE
-            setColor(Color.rgb(232, 232, 232))
-            cornerRadius = 6f
-            setStroke(1, Color.argb(90, 0, 0, 0))
-        }
-    }
-
-    private val needleHead = View(context).apply {
-        background = oval(Color.rgb(216, 216, 216), Color.argb(120, 0, 0, 0), 1)
-    }
+    /**
+     * §61.109（P2 ③）：基准图 `competitor-player-baseline.png` 的唱臂是**白色弧形**
+     * （顶部白色 pivot 圆 + 弧形杆 + 末端唱头），旧灰直杆与其不符。按基准形态自绘
+     * （平台 View 体系 `onDraw`，仍非 Compose Canvas）；像素级校准待真机截图比对
+     * （`pixel_level_1to1` 未达成前 False）。
+     */
+    private val needleArm = NeedleArmView(context)
 
     private var rotationAnimator: ValueAnimator? = null
     private var needleAnimator: ObjectAnimator? = null
@@ -122,8 +121,7 @@ class VinylDiscView(context: Context) : FrameLayout(context) {
         discContainer.addView(discFrame, fill(Gravity.CENTER))
         addView(discContainer, fill(Gravity.CENTER))
         needle.addView(needleArm)
-        needle.addView(needleHead)
-        addView(needle, LayoutParams(40, 200, Gravity.TOP or Gravity.END))
+        addView(needle, LayoutParams(60, 260, Gravity.TOP or Gravity.END))
     }
 
     override fun onAttachedToWindow() {
@@ -154,21 +152,18 @@ class VinylDiscView(context: Context) : FrameLayout(context) {
         val labelSize = (discSize * 0.60f).toInt()
         albumLabel.layoutParams = LayoutParams(labelSize, labelSize, Gravity.CENTER)
 
-        val needleW = (discSize * 0.075f).toInt().coerceAtLeast(6)
-        val needleH = (discSize * 0.46f).toInt()
+        // §61.109：唱臂容器加宽以容纳弧形杆（基准形态），pivot 圆心仍在容器顶缘中点。
+        val needleW = (discSize * 0.16f).toInt().coerceAtLeast(10)
+        val needleH = (discSize * 0.50f).toInt()
         needle.layoutParams = LayoutParams(needleW, needleH, Gravity.TOP or Gravity.END).apply {
             topMargin = (h * 0.02f).toInt()
-            rightMargin = (w * 0.20f).toInt()
+            rightMargin = (w * 0.16f).toInt()
         }
         needle.pivotX = needleW / 2f
-        needle.pivotY = 0f
+        // §61.109：起落动画绕基准图 pivot 圆心转（= NeedleArmView 顶缘圆心 y）。
+        needle.pivotY = needleW * 0.42f
         needleArm.layoutParams = LayoutParams(
-            needleW, (needleH - needleW).coerceAtLeast(1),
-            Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL,
-        )
-        needleHead.layoutParams = LayoutParams(
-            needleW * 2, needleW * 2,
-            Gravity.TOP or Gravity.CENTER_HORIZONTAL,
+            LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT,
         )
         invalidate()
     }
@@ -238,10 +233,71 @@ class VinylDiscView(context: Context) : FrameLayout(context) {
         super.onDetachedFromWindow()
     }
 
-    private fun oval(fill: Int, stroke: Int, strokeWidth: Int): GradientDrawable =
-        GradientDrawable().apply {
-            shape = GradientDrawable.OVAL
-            setColor(fill)
-            if (strokeWidth > 0) setStroke(strokeWidth, stroke)
+    /**
+     * §61.109（P2 ②）：圆形真实封面替代红色占位盘（基准图形态）。封面缺失 /
+     * 解码失败时回退竞品 `g9f` 位图，不出现空盘。圆形裁切用平台
+     * `RoundedBitmapDrawable`（非 Compose Canvas），与自绘边界一致。
+     */
+    fun setCover(cover: Bitmap?) {
+        // AndroidView.update 每次 recomposition 都会调；同一位图直接跳过，
+        // 避免 positionMs 每秒 tick 重建 drawable。
+        if (cover === lastCover) return
+        lastCover = cover
+        if (cover == null) {
+            albumLabel.setImageBitmap(loadLegacyBitmap(context, LegacyAsset.DiscRed))
+            return
         }
+        val rounded = RoundedBitmapDrawableFactory.create(context.resources, cover).apply {
+            isCircular = true
+            setAntiAlias(true)
+        }
+        albumLabel.setImageDrawable(rounded)
+    }
+
+    /** 上一次设置的封面引用（去抖用，不持有额外生命周期）。 */
+    private var lastCover: Bitmap? = null
+
+    /** 基准形态白色弧形唱臂（自绘）：pivot 圆 + 二次曲线杆 + 末端唱头。 */
+    private class NeedleArmView(context: Context) : View(context) {
+
+        private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.WHITE
+            style = Paint.Style.STROKE
+            strokeCap = Paint.Cap.ROUND
+        }
+        private val fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.WHITE
+            style = Paint.Style.FILL
+        }
+        private val armPath = Path()
+
+        override fun onDraw(canvas: Canvas) {
+            super.onDraw(canvas)
+            val w = width.toFloat()
+            val h = height.toFloat()
+            if (w <= 0f || h <= 0f) return
+            // pivot：顶部白色圆（基准图唱臂轴心）。
+            val pivotR = w * 0.42f
+            val pivotY = w * 0.42f
+            canvas.drawCircle(w * 0.5f, pivotY, pivotR, fillPaint)
+            // 弧形杆：pivot 下方起笔，控制点右拉形成基准图的弓形，落在唱头处。
+            val startX = w * 0.5f
+            val startY = pivotY + pivotR * 0.6f
+            val endX = w * 0.68f
+            val endY = h - w * 0.9f
+            armPath.reset()
+            armPath.moveTo(startX, startY)
+            armPath.quadTo(w * 0.72f, h * 0.42f, endX, endY)
+            paint.strokeWidth = w * 0.16f
+            canvas.drawPath(armPath, paint)
+            // 唱头：末端白色圆角矩形（沿杆方向的矮块）。
+            val headW = w * 0.5f
+            val headH = w * 0.8f
+            canvas.drawRoundRect(
+                endX - headW / 2f, endY - headH / 2f,
+                endX + headW / 2f, endY + headH / 2f,
+                headW * 0.35f, headW * 0.35f, fillPaint,
+            )
+        }
+    }
 }

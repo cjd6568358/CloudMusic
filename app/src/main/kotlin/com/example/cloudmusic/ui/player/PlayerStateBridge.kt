@@ -72,4 +72,14 @@ class PlayerStateBridge(
     fun onSeek(ms: Long) {
         runtime.seekTo(ms)
     }
+
+    /**
+     * §61.109（复核报告 P2 ③）：音效链路的**第一个生产 UI 入口**——此前只能
+     * adb intent（`ACTION_EFFECT`，§61.93）触发。`level=0` 释放基础音效链，
+     * `>0` 启用 audiofx 档位（语义同 `PlaybackRuntime.attachEffect`）；
+     * 档位枚举 / 音效反馈 UI 仍属 capstone 专项，本入口只透传档位，不伪造反馈。
+     */
+    fun onEffect(level: Int) {
+        runtime.attachEffect(level)
+    }
 }

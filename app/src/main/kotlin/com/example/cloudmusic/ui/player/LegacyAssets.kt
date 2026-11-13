@@ -118,6 +118,10 @@ object LegacyMetrics {
     const val ControlLikeDp = 28f        // legacy_are.xml miLikeBtn 28.0dip
     const val TitleSp = 18f              // legacy_gr.xml tvTitle 18.0sp
     const val TimeSp = 12f               // legacy_gr.xml durationTime/totalTime 12.0sp
+    // §61.109 自定值（基准图目测，竞品未导出该皮肤参数；真机截图比对后校准）：
+    const val PlayerTitleSp = 22f        // 基准图唱片下方大字号标题
+    const val InfoRowIconDp = 24f        // 基准图标题行右侧心形（真实素材 gca）
+    const val SecondaryControlDp = 26f   // 基准图副控制行图标
     const val MarqueeTextSp = 14f        // legacy_e0g.xml slogan 14.0sp
     const val MarqueeMaxWidthDp = 125f   // legacy_e0g.xml maxWidth 125.0dip
     const val MarqueeHeightDp = 38f      // legacy_e0g.xml 38.0dip
