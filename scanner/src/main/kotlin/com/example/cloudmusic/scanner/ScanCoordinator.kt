@@ -48,6 +48,12 @@ class ScanCoordinator(
     private val snapshotStore: ScanSnapshotStore,
     private val tagReader: TagReader = EmptyTagReader,
     private val rules: ScanRules = ScanRules(),
+    /**
+     * §61.116（M6）：每扫描一次读取一次的最短时长下限（ms）——
+     * `AppSettings.scan.minDurationMs` 此前只持久化、从未接线（死旋钮）。
+     * null = 用 [ScanRules.minDurationMs] 默认 10s（C-09 settingsSource 同型）。
+     */
+    private val minDurationMsSource: (() -> Long)? = null,
     private val trackFactory: TrackFactory = TrackFactory(),
     private val rootPathFor: (Storage) -> String = { "" },
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default),
@@ -152,7 +158,11 @@ class ScanCoordinator(
                 !old.matches(c.obj.size, c.obj.modified)
         }
         state.addSkipped(scoped.size - changed.size)
-        val accepted = changed.filter { !rules.tooShort(it.hint?.durationMs) }
+        val minDurationMs = minDurationMsSource?.invoke() ?: rules.minDurationMs
+        val accepted = changed.filter { candidate ->
+            val dur = candidate.hint?.durationMs
+            !(dur != null && dur > 0 && dur < minDurationMs)
+        }
         state.addScanned(scoped.size)
 
         // 阶段 A：批量 upsert 骨架（禁止逐条写库）

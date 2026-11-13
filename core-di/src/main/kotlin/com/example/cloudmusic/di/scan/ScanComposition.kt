@@ -242,6 +242,7 @@ object ScanModule {
         snapshots: ScanSnapshotStore,
         tags: TagReader,
         factory: TrackFactory,
+        settings: com.example.cloudmusic.di.settings.SettingsStore,
     ): ScanCoordinator = ScanCoordinator(
         storageProvider = provider,
         driverRegistry = DriverRegistry,
@@ -250,5 +251,7 @@ object ScanModule {
         tagReader = tags,
         trackFactory = factory,
         rootPathFor = { storage -> LocalAddition.parse(storage.addition.raw).rootFolderPath },
+        // §61.116：minDurationMs 死旋钮接线——每次扫描读当前设置投影。
+        minDurationMsSource = { settings.current().scan.minDurationMs },
     )
 }

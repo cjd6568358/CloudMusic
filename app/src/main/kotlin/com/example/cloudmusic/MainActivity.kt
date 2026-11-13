@@ -3,10 +3,12 @@ package com.example.cloudmusic
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
+import androidx.compose.runtime.collectAsState
 import com.example.cloudmusic.common.PermissionGate
 import com.example.cloudmusic.di.playback.PlaybackRuntime
 import com.example.cloudmusic.di.settings.SettingsStore
@@ -14,6 +16,7 @@ import com.example.cloudmusic.output.dlna.DlnaCastCoordinator
 import com.example.cloudmusic.output.router.ActiveOutput
 import com.example.cloudmusic.output.router.OutputRouter
 import com.example.cloudmusic.player.QueueRepository
+import com.example.cloudmusic.storage.AppSettings
 import com.example.cloudmusic.storage.PlaylistRepository
 import com.example.cloudmusic.storage.StorageRepository
 import com.example.cloudmusic.storage.TrackRepository
@@ -99,6 +102,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CloudMusicTheme {
+                val appSettingsState = settingsStore.settings.collectAsState(
+                    initial = AppSettings())
                 CloudMusicApp(
                     tracks = tracks.observeAll(),
                     storages = storages.observe(),
@@ -189,6 +194,24 @@ class MainActivity : ComponentActivity() {
                                         )
                                     }
                                 }
+                            }
+                        }
+                    },
+                    // §61.116（M6）：维护段——清缓存（播放中由 runtime 拒绝并返回 -1）
+                    // + 扫描最短时长（写入后下次扫描生效）。
+                    onClearCache = {
+                        val freed = runtime.clearMediaCache()
+                        val msg = when {
+                            freed < 0 -> "播放中，暂不能清理缓存"
+                            else -> "已释放 %.1f MB 播放缓存".format(freed / 1024.0 / 1024.0)
+                        }
+                        Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
+                    },
+                    scanMinDurationMs = appSettingsState.value.scan.minDurationMs,
+                    onScanMinDurationChanged = { v ->
+                        lifecycleScope.launch {
+                            settingsStore.update {
+                                it.copy(scan = it.scan.copy(minDurationMs = v))
                             }
                         }
                     },

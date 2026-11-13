@@ -127,6 +127,11 @@ fun CloudMusicApp(
     onOutputSelected: (ActiveOutput) -> Unit = {},
     /** §61.113（M2-1）：曲库分组视角播放入口——分组曲目替换业务队列并从 index 起播。 */
     onPlayTracks: (List<Track>, Int) -> Unit = { _, _ -> },
+    /** §61.116（M6-3）：清理 B2 播放缓存（播放中由 runtime 侧拒绝）。 */
+    onClearCache: () -> Unit = {},
+    /** §61.116（M2-2）：扫描最短时长下限（ms），下次扫描生效。 */
+    scanMinDurationMs: Long = 10_000L,
+    onScanMinDurationChanged: (Long) -> Unit = {},
     bridge: PlayerStateBridge,
 ) {
     var tab by rememberSaveable { mutableIntStateOf(0) }
@@ -199,6 +204,9 @@ fun CloudMusicApp(
                     // 弹窗本身不等待授权结果（B01 拒绝不阻断）。
                     { showOutput = true; onOpenOutput() },
                     onWifiOnlyChanged,
+                    onClearCache,
+                    appSettings.scan.minDurationMs,
+                    onScanMinDurationChanged,
                 )
             }
         }
@@ -729,6 +737,9 @@ private fun SettingsScreen(
     onOpenSources: () -> Unit,
     onOpenOutput: () -> Unit,
     onWifiOnlyChanged: (Boolean) -> Unit,
+    onClearCache: () -> Unit,
+    scanMinDurationMs: Long,
+    onScanMinDurationChanged: (Long) -> Unit,
 ) {
     Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text("V0.1 运行态", style = MaterialTheme.typography.titleMedium)
@@ -765,6 +776,32 @@ private fun SettingsScreen(
             Button(onClick = onOpenOutput) { Text("输出设备") }
         }
         Button(onClick = onRescan) { Text("触发全量重扫（refresh=true）") }
+
+        // ── §61.116 维护段（M6-3 / M2-2）─────────────────────────────────
+        Text("维护", style = MaterialTheme.typography.titleMedium)
+        var cacheMsg by remember { mutableStateOf("") }
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Button(onClick = {
+                onClearCache()
+                cacheMsg = "清理指令已执行（播放中会被拒绝）；结果见 logcat CloudMusicRuntime"
+            }) { Text("清理播放缓存") }
+        }
+        if (cacheMsg.isNotBlank()) {
+            Text(cacheMsg, style = MaterialTheme.typography.bodySmall)
+        }
+        Text("扫描最短时长（下次扫描生效，短于该值的音频不入曲库）",
+             style = MaterialTheme.typography.bodySmall)
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            listOf(5_000L to "5s", 10_000L to "10s", 30_000L to "30s", 60_000L to "60s")
+                .forEach { (ms, label) ->
+                    FilterChip(
+                        selected = scanMinDurationMs == ms,
+                        onClick = { onScanMinDurationChanged(ms) },
+                        label = { Text(label) },
+                    )
+                }
+        }
+
         Text(
             "设置写入由 SettingsStore 返回 effects，PlaybackRuntime 是唯一执行者（08 §7 / 12 §31）。" +
                 "照搬播放页属 T-L L3，真机验收属 T-V，本页不伪造已接通。",

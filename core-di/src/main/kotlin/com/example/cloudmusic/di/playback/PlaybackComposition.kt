@@ -33,6 +33,7 @@ import com.example.cloudmusic.output.localproxy.ProxyStartPolicy
 import com.example.cloudmusic.player.PlayerController
 import com.example.cloudmusic.player.PlayerState
 import com.example.cloudmusic.player.PlayMode
+import com.example.cloudmusic.player.PlayerPhase
 import com.example.cloudmusic.player.QueueItem
 import com.example.cloudmusic.player.QueueRepository
 import com.example.cloudmusic.player.QueueSync
@@ -156,6 +157,9 @@ class PlaybackRuntime @Inject constructor(
     /** §61.112：playLocal 调试注入复用扫描管线的真实标签 / 封面件（03-04 §6）。 */
     private val tagReader: JAudioTaggerPort,
     private val coverWriter: CoverWriterPort,
+    /** §61.116（M6-3）：缓存清理需要 cacheDir 路径。 */
+    @dagger.hilt.android.qualifiers.ApplicationContext
+    private val appContext: android.content.Context,
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private val _state = MutableStateFlow(RuntimeState())
@@ -421,6 +425,27 @@ class PlaybackRuntime @Inject constructor(
 
     /** §61.93（音效必须支持）：外部音效档位入口（0 = 释放基础音效链）。 */
     fun attachEffect(effectId: Int) = scope.launch { controller.attachEffect(effectId) }
+
+    /**
+     * §61.116（M6-3 / 子清单 #6）：清理 B2 播放缓存（`cacheDir/b2_media_cache`，
+     * SimpleCache 256MiB LRU）。播放 / 预备中直接拒绝（SimpleCache 实例在引擎内
+     * 活跃写盘，删一半会造成 CacheDataSource 读错窗口）；返回释放字节数，
+     * -1 = 播放中拒绝，-2 = 目录不存在。索引库（StandaloneDatabaseProvider）
+     * 保留——Media3 对缺失 span 走 FLAG_IGNORE_CACHE_ON_ERROR 直连回落。
+     */
+    fun clearMediaCache(): Long {
+        val phase = controller.state.value.phase
+        if (phase == PlayerPhase.PLAYING || phase == PlayerPhase.PREPARING) return -1L
+        val dir = java.io.File(appContext.cacheDir, "b2_media_cache")
+        if (!dir.isDirectory) return -2L
+        var freed = 0L
+        dir.walkBottomUp().filter { it.isFile }.forEach { f ->
+            freed += f.length()
+            runCatching { f.delete() }
+        }
+        Log.i("CloudMusicRuntime", "clearMediaCache: freed %d bytes".format(freed))
+        return freed
+    }
 
     /**
      * §61.110：输出切换的另一半契约（03-08 §14 #9 / 03-09 §7 成对联动）——
