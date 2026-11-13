@@ -120,6 +120,13 @@ class InMemoryTrackRepository(
         }
     }
 
+    /** §61.122（T5-2）：分析管线落库增益。 */
+    override suspend fun markReplayGain(id: TrackId, gainDb: Float) =
+        store.mutate { s ->
+            val old = s.tracks[id.value] ?: return@mutate s
+            s.copy(tracks = s.tracks + (id.value to old.copy(replayGainDb = gainDb)))
+        }
+
     override suspend fun count(): Int = store.snapshot().tracks.size
 }
 

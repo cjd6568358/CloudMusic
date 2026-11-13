@@ -50,6 +50,8 @@ class SettingsContractTest {
             orphaned += storageId
         }
 
+    override suspend fun markReplayGain(id: TrackId, gainDb: Float) = Unit
+
         override fun observeAll(): Flow<List<Track>> = MutableStateFlow(emptyList())
         override fun search(query: String): Flow<List<Track>> = MutableStateFlow(emptyList())
         override fun byAlbum(album: String): Flow<List<Track>> = MutableStateFlow(emptyList())

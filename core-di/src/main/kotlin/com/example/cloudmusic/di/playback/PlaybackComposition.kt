@@ -57,6 +57,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -400,6 +401,61 @@ class PlaybackRuntime @Inject constructor(
     /** §61.121：歌单曲目流透传（UI 展开视图取数；03-10 §11 #4 经 runtime 通道）。 */
     fun observePlaylistTracks(id: String): Flow<List<Track>> =
         playlists.observeTracks(id)
+
+    /**
+     * §61.122（T5-2 分析管线第一版）：曲库 ReplayGain 近似分析——仅 LOCAL、
+     * 未分析（replayGainDb==null）、上限 [maxCount] 首；逐曲解码（IO 线程）、
+     * 落库 + logcat 进度（CM-RG tag，真机可观测）。耗时随曲库线性增长，
+     * 由设置页显式触发（opt-in）。
+     */
+    fun analyzeLibraryReplayGain(maxCount: Int = 50) {
+        scope.launch {
+            runCatching {
+                val all = tracks.observeAll().first()
+                    .filter { it.sourceType == SourceType.LOCAL && it.replayGainDb == null }
+                    .take(maxCount)
+                if (all.isEmpty()) {
+                    Log.i("CM-RG", "analyze: nothing to analyze")
+                    return@runCatching
+                }
+                Log.i("CM-RG", "analyze start: %d tracks".format(all.size))
+                var done = 0
+                var gained = 0
+                for (track in all) {
+                    ensureActive()
+                    // §61.122 真机一手：playLocal 注入曲目的 sourceRef.path 是文件名
+                    // （非绝对路径）→ 候选 = 原值 + filesDir/music/<name>，取存在的。
+                    val candidates = listOfNotNull(
+                        track.sourceRef.path,
+                        appContext.filesDir.resolve("music/${track.sourceRef.path}")
+                            .absolutePath,
+                    )
+                    val path = candidates.firstOrNull {
+                        java.io.File(it).isFile
+                    }
+                    if (path == null) {
+                        Log.i("CM-RG", "analyze %s → 文件不存在（%s）".format(
+                            track.title.take(20), track.sourceRef.path))
+                        done++
+                        continue
+                    }
+                    val gain = com.example.cloudmusic.di.scan.ReplayGainAnalyzer
+                        .analyze(path)
+                    if (gain != null) {
+                        tracks.markReplayGain(track.id, gain)
+                        gained++
+                        Log.i("CM-RG", "analyze %s → %.2f dB".format(
+                            track.title.take(20), gain))
+                    } else {
+                        Log.i("CM-RG", "analyze %s → NO_SAMPLE（平台不可解或过短）".format(
+                            track.title.take(20)))
+                    }
+                    done++
+                }
+                Log.i("CM-RG", "analyze done: %d/%d gained".format(gained, done))
+            }.onFailure { Log.w("CM-RG", "analyze 失败", it) }
+        }
+    }
 
     /** §61.120（M3 小账）：重命名歌单（契约 rename 收口）。 */
     fun renamePlaylist(id: String, name: String) {

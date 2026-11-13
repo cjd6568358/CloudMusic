@@ -88,6 +88,10 @@ class RoomTrackRepository(
 
     override suspend fun markOrphan(storageId: String) = dao.markOrphan(storageId, clock())
 
+    /** §61.122（T5-2）：分析管线落库增益。 */
+    override suspend fun markReplayGain(id: TrackId, gainDb: Float) =
+        dao.markReplayGain(id.value, gainDb)
+
     override suspend fun count(): Int = dao.count()
 
     /** B06：除启动回调外，也可由扫描完成后显式重建。 */

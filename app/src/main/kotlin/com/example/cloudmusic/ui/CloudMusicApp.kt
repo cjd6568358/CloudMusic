@@ -129,6 +129,8 @@ fun CloudMusicApp(
     onPlayTracks: (List<Track>, Int) -> Unit = { _, _ -> },
     /** §61.116（M6-3）：清理 B2 播放缓存（播放中由 runtime 侧拒绝）。 */
     onClearCache: () -> Unit = {},
+    /** §61.122（T5-2）：ReplayGain 近似分析（LOCAL 未分析曲目，cap 50）。 */
+    onAnalyzeReplayGain: () -> Unit = {},
     /** §61.116（M2-2）：扫描最短时长下限（ms），下次扫描生效。 */
     scanMinDurationMs: Long = 10_000L,
     onScanMinDurationChanged: (Long) -> Unit = {},
@@ -227,6 +229,7 @@ fun CloudMusicApp(
                     { showOutput = true; onOpenOutput() },
                     onWifiOnlyChanged,
                     onClearCache,
+                    onAnalyzeReplayGain,
                     appSettings.scan.minDurationMs,
                     onScanMinDurationChanged,
                     appSettings.scan.ignoreDirs,
@@ -962,6 +965,7 @@ private fun SettingsScreen(
     onOpenOutput: () -> Unit,
     onWifiOnlyChanged: (Boolean) -> Unit,
     onClearCache: () -> Unit,
+    onAnalyzeReplayGain: () -> Unit,
     scanMinDurationMs: Long,
     onScanMinDurationChanged: (Long) -> Unit,
     scanIgnoreDirs: List<String>,
@@ -1011,6 +1015,10 @@ private fun SettingsScreen(
                 onClearCache()
                 cacheMsg = "清理指令已执行（播放中会被拒绝）；结果见 logcat CloudMusicRuntime"
             }) { Text("清理播放缓存") }
+            Button(onClick = {
+                onAnalyzeReplayGain()
+                cacheMsg = "ReplayGain 分析已启动（LOCAL 未分析曲目，上限 50 首）；进度见 logcat CM-RG"
+            }) { Text("分析 ReplayGain") }
         }
         if (cacheMsg.isNotBlank()) {
             Text(cacheMsg, style = MaterialTheme.typography.bodySmall)

@@ -333,6 +333,10 @@ class PlaybackService : Service() {
             // §61.93（音效必须支持）：外部音效档位入口，0 = 释放基础音效链。
             ACTION_EFFECT -> runtime.attachEffect(
                 intent.getIntExtra(EXTRA_EFFECT_LEVEL, 0))
+            // §61.122（T5-2）：ReplayGain 近似分析入口（LOCAL 未分析曲目，cap 50）——
+            // 真机可验证性通道（设置页按钮同源；logcat CM-RG 可观测进度）。
+            ACTION_ANALYZE_RG -> runtime.analyzeLibraryReplayGain(
+                intent.getIntExtra(EXTRA_ANALYZE_MAX, 50))
             // §61.29：Activity 侧 SHOW_BLUETOOTH_NAME 申请结果出来后，通知 Service
             // 重读权限并按需注册 / 注销 ACL 广播（同 App 显式 Intent，不需要 exported）。
             ACTION_BLUETOOTH_PERMISSION_CHANGED -> refreshBluetoothPermission()
@@ -565,6 +569,10 @@ class PlaybackService : Service() {
 
         /** §61.26（G03 验收）：外部 seek 入口，`EXTRA_SEEK_POSITION_MS`（Long，毫秒）。 */
         const val ACTION_SEEK = "com.example.cloudmusic.action.SEEK"
+
+        /** §61.122（T5-2）：ReplayGain 近似分析入口（`EXTRA_ANALYZE_MAX` 上限，默认 50）。 */
+        const val ACTION_ANALYZE_RG = "com.example.cloudmusic.action.ANALYZE_RG"
+        const val EXTRA_ANALYZE_MAX = "com.example.cloudmusic.extra.ANALYZE_MAX"
 
         /** §61.93（音效必须支持）：外部音效档位入口，`EXTRA_EFFECT_LEVEL`（Int，0=释放）。 */
         const val ACTION_EFFECT = "com.example.cloudmusic.action.EFFECT"

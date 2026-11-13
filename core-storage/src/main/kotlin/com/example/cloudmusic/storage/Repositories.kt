@@ -23,6 +23,8 @@ interface TrackRepository {
     suspend fun upsertBatch(tracks: List<Track>)          // ★每 500 条一个事务
     suspend fun markAvailability(id: TrackId, a: Availability)
     suspend fun markOrphan(storageId: String)             // 删除 Storage 时调用
+    /** §61.122（T5-2）：分析管线落库曲目增益（dB，负=衰减）；仅 LOCAL opt-in。 */
+    suspend fun markReplayGain(id: TrackId, gainDb: Float)
     suspend fun count(): Int
 }
 

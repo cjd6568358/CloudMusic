@@ -207,6 +207,7 @@ class MainActivity : ComponentActivity() {
                         }
                         Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
                     },
+                    onAnalyzeReplayGain = { runtime.analyzeLibraryReplayGain(50) },
                     scanMinDurationMs = appSettingsState.value.scan.minDurationMs,
                     onScanMinDurationChanged = { v ->
                         lifecycleScope.launch {
