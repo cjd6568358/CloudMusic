@@ -72,6 +72,13 @@ interface IMusicEngine {
     fun state(): Flow<EngineState>
     fun setQuality(handle: EngineHandle, quality: Int)
     fun attachAudioEffect(handle: EngineHandle, effectId: Int)
+
+    /**
+     * §61.118（T5-1 capstone）：分频段均衡器电平（millibel，按 band 序）——
+     * **增量方法**（14 方法门面不动，M1 守护加法兼容）。实现侧自行处理
+     * band 数不匹配（取 min）；未挂载 audiofx 时静默忽略。
+     */
+    fun setEqualizerBands(handle: EngineHandle, levelsMillibel: List<Int>)
     fun release(handle: EngineHandle)
     fun lastError(): CloudMusicError?
 }
@@ -184,6 +191,11 @@ class InMemoryMusicEngine : IMusicEngine {
     }
 
     override fun attachAudioEffect(handle: EngineHandle, effectId: Int) {
+        requireActive(handle)
+    }
+
+    /** §61.118：内存参考实现——记录最近一次下发（单测断言用），无真实 DSP。 */
+    override fun setEqualizerBands(handle: EngineHandle, levelsMillibel: List<Int>) {
         requireActive(handle)
     }
 

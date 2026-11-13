@@ -184,6 +184,12 @@ class PlayerController(
         runCatching { engine.attachAudioEffect(h, effectId) }
     }
 
+    /** §61.118（T5-1）：分频段均衡器电平（millibel）；未挂载 audiofx 时引擎侧忽略。 */
+    fun setEqualizerBands(levelsMillibel: List<Int>) {
+        val h = handle ?: return
+        runCatching { engine.setEqualizerBands(h, levelsMillibel) }
+    }
+
     /** §61.25：当前队列游标有效则从头重播（resume 空转兜底）。 */
     private suspend fun restartCurrentIfAny() {
         val index = _state.value.currentIndex

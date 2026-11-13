@@ -1,6 +1,7 @@
 package com.example.cloudmusic.di.settings
 
 import com.example.cloudmusic.storage.AppSettings
+import com.example.cloudmusic.storage.AudiofxSettings
 import com.example.cloudmusic.storage.DlnaSettings
 import com.example.cloudmusic.storage.NetworkSettings
 import com.example.cloudmusic.storage.PlayMode
@@ -18,6 +19,7 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.longOrNull
 import kotlinx.serialization.json.put
@@ -68,6 +70,14 @@ object AppSettingsCodec {
             })
             put("preferDirectLink", settings.dlna.preferDirectLink)
         })
+        // §61.118（T5-1）：audiofx 持久化（enabled / effectLevel / 各 band millibel）。
+        put("audiofx", buildJsonObject {
+            put("enabled", settings.audiofx.enabled)
+            put("effectLevel", settings.audiofx.effectLevel)
+            put("bandsMillibel", buildJsonArray {
+                settings.audiofx.bandsMillibel.forEach { add(JsonPrimitive(it)) }
+            })
+        })
     }.toString()
 
     fun decode(raw: String): AppSettings {
@@ -77,6 +87,7 @@ object AppSettingsCodec {
         val playback = root.obj("playback")
         val network = root.obj("network")
         val dlna = root.obj("dlna")
+        val audiofx = root.obj("audiofx")
         return AppSettings(
             storages = (root["storages"] as? JsonArray)
                 ?.map { decodeStorage(it.jsonObject) } ?: emptyList(),
@@ -106,6 +117,11 @@ object AppSettingsCodec {
             dlna = DlnaSettings(
                 manualDmrHistory = dlna.strs("manualDmrHistory", emptyList()),
                 preferDirectLink = dlna.bool("preferDirectLink", true),
+            ),
+            audiofx = AudiofxSettings(
+                enabled = audiofx.bool("enabled", false),
+                effectLevel = audiofx.int("effectLevel", 0),
+                bandsMillibel = audiofx.ints("bandsMillibel", emptyList()),
             ),
         )
     }
@@ -147,6 +163,10 @@ object AppSettingsCodec {
         this[key]?.jsonPrimitive?.booleanOrNull ?: default
     private fun JsonObject.long(key: String, default: Long): Long =
         this[key]?.jsonPrimitive?.longOrNull ?: default
+    private fun JsonObject.int(key: String, default: Int): Int =
+        this[key]?.jsonPrimitive?.intOrNull ?: default
+    private fun JsonObject.ints(key: String, default: List<Int>): List<Int> =
+        (this[key] as? JsonArray)?.mapNotNull { it.jsonPrimitive.intOrNull } ?: default
     private fun JsonObject.strs(key: String, default: List<String>): List<String> =
         (this[key] as? JsonArray)?.mapNotNull {
             it.jsonPrimitive.contentOrNull

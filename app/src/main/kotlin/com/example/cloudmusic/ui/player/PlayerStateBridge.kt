@@ -82,4 +82,9 @@ class PlayerStateBridge(
     fun onEffect(level: Int) {
         runtime.attachEffect(level)
     }
+
+    /** §61.118（T5-1）：均衡器弹窗入口——即时下发 + 持久化（AudiofxSettings）。 */
+    fun onEqualizer(enabled: Boolean, effectLevel: Int, bands: List<Int>) {
+        runtime.applyEqualizer(enabled, effectLevel, bands)
+    }
 }

@@ -163,6 +163,11 @@ class PlaybackRuntime @Inject constructor(
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private val _state = MutableStateFlow(RuntimeState())
+
+    init {
+        // §61.118：换曲后按持久值恢复均衡器（T5-1 持久化的生产执行点）。
+        restoreEqualizerLoop()
+    }
     val state: StateFlow<RuntimeState> = _state.asStateFlow()
 
     @Volatile
@@ -425,6 +430,51 @@ class PlaybackRuntime @Inject constructor(
 
     /** §61.93（音效必须支持）：外部音效档位入口（0 = 释放基础音效链）。 */
     fun attachEffect(effectId: Int) = scope.launch { controller.attachEffect(effectId) }
+
+    /**
+     * §61.118（T5-1）：均衡器即时下发 + 持久化（AudiofxSettings）。
+     * enabled=false 走 attachEffect(0) 释放；换曲恢复由 [restoreEqualizerLoop] 收集器。
+     */
+    fun applyEqualizer(enabled: Boolean, effectLevel: Int, bands: List<Int>) {
+        scope.launch {
+            runCatching {
+                if (enabled) {
+                    if (effectLevel > 0) controller.attachEffect(effectLevel)
+                    if (bands.isNotEmpty()) controller.setEqualizerBands(bands)
+                } else {
+                    controller.attachEffect(0)
+                }
+                settings.update {
+                    it.copy(audiofx = com.example.cloudmusic.storage.AudiofxSettings(
+                        enabled = enabled,
+                        effectLevel = effectLevel,
+                        bandsMillibel = bands,
+                    ))
+                }
+            }.onFailure { Log.w("CloudMusicRuntime", "applyEqualizer 失败", it) }
+        }
+    }
+
+    /** §61.118：换曲后按持久值恢复均衡器（READY 且曲目变化时一次性应用）。 */
+    private fun restoreEqualizerLoop() {
+        scope.launch {
+            var appliedFor: String? = null
+            controller.state.collect { s ->
+                val fx = settings.current().audiofx
+                if (!fx.enabled) return@collect
+                val trackKey = s.currentTrackId?.value
+                if (s.phase == PlayerPhase.PLAYING &&
+                    trackKey != null && trackKey != appliedFor
+                ) {
+                    appliedFor = trackKey
+                    if (fx.effectLevel > 0) controller.attachEffect(fx.effectLevel)
+                    if (fx.bandsMillibel.isNotEmpty()) {
+                        controller.setEqualizerBands(fx.bandsMillibel)
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * §61.116（M6-3 / 子清单 #6）：清理 B2 播放缓存（`cacheDir/b2_media_cache`，

@@ -23,6 +23,8 @@ data class AppSettings(
     val playback: PlaybackSettings = PlaybackSettings(),
     val network: NetworkSettings = NetworkSettings(),
     val dlna: DlnaSettings = DlnaSettings(),
+    /** §61.118（T5-1）：均衡器持久化——enabled + 各 band millibel（band 数设备相关）。 */
+    val audiofx: AudiofxSettings = AudiofxSettings(),
 )
 
 /** 08 §2.1 `theme` 的合法取值；以 String 存储，与 03-05 §4 的签名保持一致。 */
@@ -87,6 +89,15 @@ object PlayMode {
 }
 
 /** 08 §2.5 `dlna.*`；`force_webdav_proxy` 按 §6 只归 [NetworkSettings]。 */
+/** §61.118（T5-1）：audiofx 持久化。bands 为 millibel 数组（长度 = 实际 band 数）。 */
+data class AudiofxSettings(
+    val enabled: Boolean = false,
+    /** 全频段电平（millibel，可为负）；空 = 未自定义（跟随档位默认）。 */
+    val bandsMillibel: List<Int> = emptyList(),
+    /** 档位（1~5，0=关）——与 §61.93 attachAudioEffect 的 effectId 同源。 */
+    val effectLevel: Int = 0,
+)
+
 data class DlnaSettings(
     /** 上限 20，按 lastSeen 淘汰最旧（08 §2.5）。 */
     val manualDmrHistory: List<String> = emptyList(),

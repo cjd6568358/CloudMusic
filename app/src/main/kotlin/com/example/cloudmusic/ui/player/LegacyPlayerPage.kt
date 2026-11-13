@@ -27,6 +27,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -127,8 +132,8 @@ fun LegacyPlayerPage(
     val density = LocalDensity.current
     val swipeThresholdPx = with(density) { LegacyMetrics.SwipeThresholdDp.dp.toPx() }
 
-    // §61.109 ③：音效开合（0 = 释放基础音效链，1 = audiofx 档位 1）。
-    var effectLevel by remember { mutableIntStateOf(0) }
+    // §61.118（T5-1）：均衡器弹窗开关。
+    var showEqualizer by remember { mutableStateOf(false) }
 
     Surface(
         color = Color(bgTop),
@@ -322,17 +327,10 @@ fun LegacyPlayerPage(
             ) {
                 LegacyIconButton(
                     assetPath = LegacyAsset.SoundEffect,
-                    // §61.113：与 audiofx 档位设计（§61.93 effectId 1~5）对齐，
-                    // 0=关 → 1~5 档循环；分频段 UI / 档位持久化仍挂账（capstone）。
-                    description = when (effectLevel) {
-                        0 -> "音效：关"
-                        else -> "音效：$effectLevel 档（均衡器+低音+空间感）"
-                    },
+                    // §61.118（T5-1）：分频段 EQ 弹窗（档位循环升级为完整均衡器）。
+                    description = "音效 / 均衡器",
                     sizeDp = LegacyMetrics.SecondaryControlDp,
-                    onClick = {
-                        effectLevel = (effectLevel + 1) % 6
-                        bridge.onEffect(effectLevel)
-                    },
+                    onClick = { showEqualizer = true },
                 )
                 Box(
                     modifier = Modifier.size(LegacyMetrics.SecondaryControlDp.dp),
@@ -345,6 +343,88 @@ fun LegacyPlayerPage(
             }
         }
     }
+
+    if (showEqualizer) {
+        EqualizerDialog(
+            onDismiss = { showEqualizer = false },
+            onApply = { enabled, level, bands ->
+                bridge.onEqualizer(enabled, level, bands)
+            },
+        )
+    }
+}
+
+/**
+ * §61.118（T5-1）：分频段均衡器弹窗——开关（audiofx 三件套）+ 预设
+ * （平直/低音增强/人声/高音）+ 5 段 slider（millibel，±15dB）。
+ * band 数以设备实际为准（adapter 取 min 应用）；预设表 5 段。
+ */
+@Composable
+private fun EqualizerDialog(
+    onDismiss: () -> Unit,
+    onApply: (enabled: Boolean, effectLevel: Int, bands: List<Int>) -> Unit,
+) {
+    var enabled by remember { mutableStateOf(true) }
+    var level by remember { mutableIntStateOf(2) }
+    var bands by remember { mutableStateOf(listOf(0, 0, 0, 0, 0)) }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("均衡器") },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text(if (enabled) "开（档位 $level）" else "关",
+                         style = MaterialTheme.typography.titleSmall)
+                    Switch(checked = enabled, onCheckedChange = {
+                        enabled = it
+                        onApply(enabled, level, bands)
+                    })
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    val presets = listOf(
+                        "平直" to listOf(0, 0, 0, 0, 0),
+                        "低音" to listOf(500, 300, 0, 0, 0),
+                        "人声" to listOf(-100, 0, 200, 300, 100),
+                        "高音" to listOf(0, 0, 0, 300, 500),
+                    )
+                    presets.forEach { (name, table) ->
+                        FilterChip(
+                            selected = bands == table,
+                            onClick = {
+                                bands = table
+                                onApply(enabled, level, table)
+                            },
+                            label = { Text(name) },
+                        )
+                    }
+                }
+                listOf("60Hz", "230Hz", "910Hz", "3.6kHz", "14kHz").forEachIndexed { i, label ->
+                    Text("$label  ${bands[i] / 100.0} dB", style = MaterialTheme.typography.bodySmall)
+                    Slider(
+                        value = bands[i].toFloat(),
+                        onValueChange = { v ->
+                            val stepped = ((v / 100).toInt() * 100)
+                            bands = bands.toMutableList().also { it[i] = stepped }
+                        },
+                        onValueChangeFinished = { onApply(enabled, level, bands) },
+                        valueRange = -1500f..1500f,
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = {
+                onApply(enabled, level, bands)
+                onDismiss()
+            }) { Text("完成") }
+        },
+        dismissButton = { TextButton(onClick = onDismiss) { Text("关闭") } },
+    )
 }
 
 /** 竞品真实位图按钮；无 onClick 时即只读占位，不接伪造交互。 */

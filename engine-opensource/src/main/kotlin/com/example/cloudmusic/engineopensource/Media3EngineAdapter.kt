@@ -492,6 +492,28 @@ class Media3EngineAdapter : IMusicEngine {
         }
     }
 
+    /**
+     * §61.118（T5-1 capstone）：分频段均衡器电平。equalizer 实例未挂载时静默
+     * 忽略（attachAudioEffect 先行）；band 数不匹配取 min；millibel 钳制
+     * [-1500, 1500]（系统 Equalizer 合法范围 ±15dB）。
+     */
+    override fun setEqualizerBands(handle: EngineHandle, levelsMillibel: List<Int>) {
+        requireActive(handle)
+        onMainSync(5L, Unit) {
+            val eq = equalizer ?: return@onMainSync
+            runCatching {
+                val n = eq.numberOfBands.toInt()
+                levelsMillibel.take(n).forEachIndexed { i, level ->
+                    eq.setBandLevel(i.toShort(), level.coerceIn(-1500, 1500).toShort())
+                }
+                Log.i(TAG, "eq bands applied=%d/%d".format(
+                    minOf(levelsMillibel.size, n), n))
+            }.onFailure {
+                Log.i(TAG, "eq bands failed: %s".format(it.message))
+            }
+        }
+    }
+
     override fun release(handle: EngineHandle) {
         requireActive(handle)
         Log.i(TAG, "release handle=%d".format(handle.raw))
