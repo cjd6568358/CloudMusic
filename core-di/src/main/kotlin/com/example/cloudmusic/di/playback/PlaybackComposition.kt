@@ -328,6 +328,23 @@ class PlaybackRuntime @Inject constructor(
      * 与 LOCAL 路径同源的结果。曲库 / 队列仍经 `upsertBatch` / `setAll` 真实落库，
      * 与 `playLocal` 完全对称。生产形态随 `12 §61.33` 收口。
      */
+    /**
+     * §61.113（M2-1）：曲库分组视角的播放入口——把分组曲目设为业务队列并从
+     * [startAt] 起播（正常音乐应用语义：点专辑内曲目 = 队列替换为该专辑）。
+     * 曲目已由扫描落库（不再 upsert）；网络闸门在 controller/Service 层照常生效。
+     */
+    fun playTracks(items: List<Track>, startAt: Int) {
+        if (items.isEmpty()) return
+        scope.launch {
+            runCatching {
+                queueRepository.setAll(items)
+                val queueItems = queueRepository.observe().first()
+                controller.setQueue(queueItems, PlayMode.SEQUENCE, startAt)
+                controller.playAt(startAt)
+            }.onFailure { Log.w("CloudMusicRuntime", "playTracks: 分组播放失败", it) }
+        }
+    }
+
     fun playUrl(url: String) = scope.launch {
         val name = url.substringBefore('?').substringAfterLast('/')
         val track = Track(

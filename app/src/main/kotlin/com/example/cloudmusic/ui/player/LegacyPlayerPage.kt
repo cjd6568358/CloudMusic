@@ -322,10 +322,15 @@ fun LegacyPlayerPage(
             ) {
                 LegacyIconButton(
                     assetPath = LegacyAsset.SoundEffect,
-                    description = "音效：${if (effectLevel == 0) "关" else "开（档位 $effectLevel）"}",
+                    // §61.113：与 audiofx 档位设计（§61.93 effectId 1~5）对齐，
+                    // 0=关 → 1~5 档循环；分频段 UI / 档位持久化仍挂账（capstone）。
+                    description = when (effectLevel) {
+                        0 -> "音效：关"
+                        else -> "音效：$effectLevel 档（均衡器+低音+空间感）"
+                    },
                     sizeDp = LegacyMetrics.SecondaryControlDp,
                     onClick = {
-                        effectLevel = if (effectLevel == 0) 1 else 0
+                        effectLevel = (effectLevel + 1) % 6
                         bridge.onEffect(effectLevel)
                     },
                 )

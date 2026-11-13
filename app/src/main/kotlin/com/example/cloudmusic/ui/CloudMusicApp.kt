@@ -42,6 +42,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -68,6 +69,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.cloudmusic.di.playback.RuntimeState
+import com.example.cloudmusic.model.Availability
 import com.example.cloudmusic.model.Storage
 import com.example.cloudmusic.model.Track
 import com.example.cloudmusic.output.router.ActiveOutput
@@ -123,6 +125,8 @@ fun CloudMusicApp(
     onOpenOutput: () -> Unit,
     /** §61.110：输出弹窗选择（本机 / DLNA）——DLNA 走发现 → 推流 → setActive 闭环。 */
     onOutputSelected: (ActiveOutput) -> Unit = {},
+    /** §61.113（M2-1）：曲库分组视角播放入口——分组曲目替换业务队列并从 index 起播。 */
+    onPlayTracks: (List<Track>, Int) -> Unit = { _, _ -> },
     bridge: PlayerStateBridge,
 ) {
     var tab by rememberSaveable { mutableIntStateOf(0) }
@@ -184,7 +188,7 @@ fun CloudMusicApp(
                 showSources -> SourcesScreen(
                     storageList, onRescanAll, onRetryUnavailable, onAddSaf, onAddMediaStore,
                 )
-                tab == 0 -> LibraryScreen(trackList, onRescanAll)
+                tab == 0 -> LibraryScreen(trackList, onRescanAll, onRetryUnavailable, onPlayTracks)
                 tab == 1 -> PlaylistsScreen(playlistList)
                 tab == 2 -> SearchScreen(query, { query = it }, searchResults)
                 tab == 3 -> QueueScreen(queueList)
@@ -446,26 +450,143 @@ private fun MiniPauseBar() {
     )
 }
 
+/** §61.113（M2-1）：曲库分组视角——全部 / 专辑 / 艺人 / 不可用（analysis/m2-sublist）。 */
+private enum class LibraryView { ALL, ALBUM, ARTIST, UNAVAILABLE }
+
+private fun LibraryView.label(): String = when (this) {
+    LibraryView.ALL -> "全部"
+    LibraryView.ALBUM -> "专辑"
+    LibraryView.ARTIST -> "艺人"
+    LibraryView.UNAVAILABLE -> "不可用"
+}
+
 @Composable
-private fun LibraryScreen(tracks: List<Track>, onRescan: () -> Unit) {
+private fun LibraryScreen(
+    tracks: List<Track>,
+    onRescan: () -> Unit,
+    onRetry: () -> Unit,
+    onPlayTracks: (List<Track>, Int) -> Unit,
+) {
+    var view by rememberSaveable { mutableIntStateOf(0) }
+    var expanded by remember { mutableStateOf(setOf<String>()) }
     Column(Modifier.fillMaxSize()) {
         Row(
             modifier = Modifier.fillMaxWidth().padding(16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text("全部歌曲 · ${tracks.size}", style = MaterialTheme.typography.titleMedium)
+            Text("曲库 · ${tracks.size} 首", style = MaterialTheme.typography.titleMedium)
             Button(onClick = onRescan) { Text("重新扫描") }
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            LibraryView.entries.forEachIndexed { index, v ->
+                FilterChip(
+                    selected = view == index,
+                    onClick = { view = index },
+                    label = {
+                        val count = when (v) {
+                            LibraryView.ALBUM -> tracks.map { it.album }.distinct().size
+                            LibraryView.ARTIST -> tracks.map { it.artist }.distinct().size
+                            LibraryView.UNAVAILABLE ->
+                                tracks.count { it.availability != Availability.OK }
+                            else -> tracks.size
+                        }
+                        Text("${v.label()} $count")
+                    },
+                )
+            }
         }
         if (tracks.isEmpty()) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text("曲库为空：添加数据源后执行扫描", textAlign = TextAlign.Center)
             }
-        } else {
-            LazyColumn(Modifier.fillMaxSize()) {
+            return
+        }
+        when (LibraryView.entries[view]) {
+            LibraryView.ALL -> LazyColumn(Modifier.fillMaxSize()) {
                 items(tracks, key = { it.id.value }) { track ->
-                    TrackRow(track)
+                    ListItem(
+                        headlineContent = { Text(track.title, maxLines = 1) },
+                        supportingContent = {
+                            Text("${track.artist} · ${track.album}", maxLines = 1)
+                        },
+                        leadingContent = { Text("♪") },
+                        modifier = Modifier.clickable {
+                            val idx = tracks.indexOfFirst { it.id == track.id }
+                            onPlayTracks(tracks, idx)
+                        },
+                    )
                     HorizontalDivider()
+                }
+            }
+            LibraryView.ALBUM, LibraryView.ARTIST -> {
+                val groups = when (LibraryView.entries[view]) {
+                    LibraryView.ALBUM -> tracks.groupBy { it.album.ifBlank { "未知专辑" } }
+                    else -> tracks.groupBy { it.artist.ifBlank { "未知艺人" } }
+                }
+                LazyColumn(Modifier.fillMaxSize()) {
+                    groups.forEach { (key, groupTracks) ->
+                        item(key = "group-" + key) {
+                            val open = key in expanded
+                            ListItem(
+                                headlineContent = { Text(key, maxLines = 1) },
+                                supportingContent = { Text("${groupTracks.size} 首") },
+                                trailingContent = { Text(if (open) "▾" else "▸") },
+                                modifier = Modifier.clickable {
+                                    expanded = if (open) expanded - key else expanded + key
+                                },
+                            )
+                            HorizontalDivider()
+                        }
+                        if (key in expanded) {
+                            items(groupTracks, key = { it.id.value + "-" + key }) { track ->
+                                ListItem(
+                                    headlineContent = { Text(track.title, maxLines = 1) },
+                                    supportingContent = { Text(track.artist, maxLines = 1) },
+                                    leadingContent = { Text("♪") },
+                                    modifier = Modifier.clickable {
+                                        val idx = groupTracks.indexOfFirst { it.id == track.id }
+                                        onPlayTracks(groupTracks, idx)
+                                    },
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+            LibraryView.UNAVAILABLE -> {
+                val bad = tracks.filter { it.availability != Availability.OK }
+                LazyColumn(Modifier.fillMaxSize()) {
+                    if (bad.isEmpty()) {
+                        item {
+                            Box(
+                                Modifier.fillMaxWidth().padding(32.dp),
+                                contentAlignment = Alignment.Center,
+                            ) { Text("没有不可用曲目") }
+                        }
+                    } else {
+                        item {
+                            Button(onClick = onRetry, modifier = Modifier.padding(16.dp)) {
+                                Text("重试不可用曲目")
+                            }
+                        }
+                        items(bad, key = { it.id.value }) { track ->
+                            ListItem(
+                                headlineContent = { Text(track.title, maxLines = 1) },
+                                supportingContent = {
+                                    Text(
+                                        "${track.availability} · "
+                                            + (track.sourceRef.path ?: track.sourceRef.url ?: ""),
+                                        maxLines = 1,
+                                    )
+                                },
+                            )
+                            HorizontalDivider()
+                        }
+                    }
                 }
             }
         }
