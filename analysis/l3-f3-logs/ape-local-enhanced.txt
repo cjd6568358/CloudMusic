@@ -1,0 +1,351 @@
+--------- beginning of system
+11-14 01:21:39.842 I/SmartPower.com.miui.systemAdSolution/10151(13334)( 2484): background->idle(3002ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=100.
+11-14 01:21:39.842 I/SmartPower.com.xiaomi.market:guard/10149(19193)( 2484): background->idle(3001ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=935.
+11-14 01:21:39.842 I/SmartPower.com.xiaomi.market/10149(20311)( 2484): background->idle(3001ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=905.
+11-14 01:21:39.842 I/SmartPower( 2484): com.miui.systemAdSolution/10151 state=inactive adj=100 proc size=1 move to idle broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-14 01:21:39.842 I/SmartPower( 2484): com.xiaomi.market/10149 state=inactive adj=905 proc size=3 move to idle broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-14 01:21:39.908 W/ProcessStats( 2484): Tracking association SourceState{8bcc2f8 com.xiaomi.aiasst.vision/1000 BTopFgs #101321} whose proc state 2 is better than process ProcessState{51c4ce1 com.miui.analytics/10130 pkg=com.miui.analytics} proc state 3 (91 skipped)
+--------- beginning of main
+11-14 01:21:39.918 I/CM-Media3(11188): seek toMs=1197871 durMs=2395742
+11-14 01:21:39.920 I/CM-Media3(11188): discontinuity reason=SEEK positionMs=1197871
+11-14 01:21:39.921 I/CM-Media3(11188): state=BUFFERING
+11-14 01:21:39.921 I/CM-Media3(11188): state=PAUSED positionMs=1197871
+11-14 01:21:39.925 D/MediaCodec(11188): keep callback message for reclaim
+11-14 01:21:39.926 E/QC2AudioCompInterface( 1355): Failed to query parameters
+11-14 01:21:39.926 I/CCodecConfig(11188): query failed after returning 8 values (BAD_INDEX)
+11-14 01:21:39.926 E/QC2AudioCompInterface( 1355): Failed to query parameters
+11-14 01:21:39.926 W/Codec2Client(11188): query -- param skipped: index = 1342179345.
+11-14 01:21:39.926 W/Codec2Client(11188): query -- param skipped: index = 2415921170.
+11-14 01:21:39.926 W/Codec2Client(11188): query -- param skipped: index = 1610614798.
+11-14 01:21:39.926 D/CCodecBufferChannel(11188): [c2.qti.ape.sw.decoder#477] start: updating output delay 0
+11-14 01:21:39.926 D/BufferPoolAccessor2.0(11188): bufferpool2 0xb400007de653f828 : 3(1769472 size) total buffers - 1(589824 size) used buffers - 28/33 (recycle/alloc) - 5/22 (fetch/transfer)
+11-14 01:21:39.929 I/QC2CompStore( 1354): Setting heap usage to system
+11-14 01:21:39.929 E/QC2AudioCompInterface( 1355): Failed to query parameters
+11-14 01:21:39.929 E/QC2AudioComp( 1355): [apeSwD_33] Returning work with no/empty input buffer and not marked EOS
+11-14 01:21:39.930 D/CCodecBufferChannel(11188): [c2.qti.ape.sw.decoder#477] flushed work; ignored.
+11-14 01:21:39.932 D/BufferPoolAccessor2.0( 1355): bufferpool2 0xb40000770e51f028 : 0(0 size) total buffers - 0(0 size) used buffers - 19/22 (recycle/alloc) - 3/22 (fetch/transfer)
+11-14 01:21:39.933 E/ApeDecWrapper( 1355): Bad input arguments to ape_dec_process
+11-14 01:21:39.933 E/QC2AudioSwApeDec( 1355): updatePointers: Erroneous decode!
+11-14 01:21:39.933 W/QC2AudioSwApeDec( 1355): process: decoder returned error 3, substituting silence
+11-14 01:21:39.935 I/QC2AudioComp( 1355): [apeSwD_33] Registered an empty EOS buffer
+11-14 01:21:39.951 D/AudioTrack(11188): stop(sessionID=13081)
+11-14 01:21:39.951 D/AudioTrack(11188): stop(1692): prior state:STATE_FLUSHED
+11-14 01:21:39.951 D/AudioTrack(11188): ~AudioTrack(sessionID=13081)
+11-14 01:21:39.951 D/AudioTrack(11188): stop(sessionID=13081)
+11-14 01:21:39.951 D/AudioTrack(11188): stop(1692): prior state:STATE_FLUSHED
+11-14 01:21:39.953 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_1D uids:
+11-14 01:21:39.953 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:55 deviceId:0 type:android.media.SoundPool u/pid:10128/3902 state:started attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-14 01:21:39.954 D/APM_AudioPolicyManager( 1459): releaseOutput portId 1692
+11-14 01:21:39.954 D/APM_AudioPolicyManager( 1459): releaseOutput() output 29, stream 3, session 13081 [uid=10318]
+11-14 01:21:39.954 D/Avrcp_ext( 4581): AudioManager Player in started state: com.miui.home
+11-14 01:21:39.954 D/Avrcp_ext( 4581): AudioManager Active Player: com.miui.home
+11-14 01:21:39.954 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:71 deviceId:0 type:android.media.SoundPool u/pid:1027/8203 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-14 01:21:39.954 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:11959 deviceId:3 type:android.media.AudioTrack u/pid:10240/32028 state:paused attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:12777
+11-14 01:21:39.955 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:12103 deviceId:3 type:android.media.AudioTrack u/pid:10240/32028 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:12921
+11-14 01:21:39.955 I/CM-Media3(11188): state=READY durationMs=2395742
+11-14 01:21:39.955 I/CM-Media3(11188): state=PLAYING positionMs=1197885
+11-14 01:21:39.955 D/Avrcp_ext( 4581): AudioManager Player in started state: com.ss.android.ugc.aweme.lite
+11-14 01:21:39.955 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:12119 deviceId:3 type:android.media.AudioTrack u/pid:10240/32028 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:12937
+11-14 01:21:39.955 D/Avrcp_ext( 4581): AudioManager Player in started state: com.ss.android.ugc.aweme.lite
+11-14 01:21:39.956 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:47 deviceId:0 type:android.media.SoundPool u/pid:1000/2484 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-14 01:21:39.956 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:63 deviceId:0 type:android.media.SoundPool u/pid:1000/4806 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-14 01:21:39.956 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:12111 deviceId:3 type:android.media.AudioTrack u/pid:10240/32028 state:paused attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:12929
+11-14 01:21:39.956 D/Avrcp_ext( 4581): AudioManager isPlaying: true, mAudioPlaybackIsActive: true, isMusiActive: false
+11-14 01:21:40.117 W/DevicePolicyManager( 2484): Unknown user type: UserInfo{999:XSpace:801010}
+11-14 01:21:40.117 W/DevicePolicyManager( 2484): Unknown user type: UserInfo{999:XSpace:801010}
+11-14 01:21:40.125 I/NotificationController( 5753): onNotificationPosted: mSmartTravelNotificationMap 0
+11-14 01:21:40.126 D/MiBarrage( 8139): The sbn packageName is :com.example.cloudmusic
+11-14 01:21:40.126 D/MiBarrage( 8139): No barrage: not in game scene or in video scene
+11-14 01:21:40.152 I/MediaCarouselController( 4806): media_data_arrive: addOrUpdatePlayer
+11-14 01:21:40.153 W/ConstraintSet( 4806): id unknown center_vertical_guideline
+11-14 01:21:40.153 W/ConstraintSet( 4806): id unknown action_button_guideline
+11-14 01:21:40.153 W/ConstraintSet( 4806): id unknown media_action_barrier
+11-14 01:21:40.153 W/ConstraintSet( 4806): id unknown media_action_barrier_end
+11-14 01:21:40.153 W/ConstraintSet( 4806): id unknown media_action_barrier_top
+11-14 01:21:40.153 W/ConstraintSet( 4806): id unknown remove_text
+11-14 01:21:40.153 W/ConstraintSet( 4806): id unknown settings
+11-14 01:21:40.153 W/ConstraintSet( 4806): id unknown dismiss
+11-14 01:21:40.153 W/ConstraintSet( 4806): id unknown cancel
+11-14 01:21:40.163 I/MiuiMediaControlPanel( 4806): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 播放服务运行中
+11-14 01:21:40.228 I/ndroid.systemui( 4806): This is sticky GC, maxfree is 33554432 minfree is 8388608
+11-14 01:21:40.233 W/System  ( 4806): A resource failed to call release. 
+11-14 01:21:40.350 D/UiModeManager( 2484): updateConfigurationLocked: mDockState=0; mCarMode=false; mCar=false; mPowerSave=false; mComputedNightMode=false; mNightMode=1; uiMode=17
+11-14 01:21:40.352 D/DynamicService( 4780):  ACTION_BATTERY_CHANGED change,USB plug = 1
+11-14 01:21:40.355 D/PowerCheckerService(10039): onBatteryChanged, mBatteryLevel = 33, status = 2, level = 33, plug = 1, scale = 100
+11-14 01:21:40.356 D/PowerKeeper.FrozenApp(10039): onBatteryChanged plug=true mBatteryPlugged=1
+11-14 01:21:40.356 D/PowerKeeper.Thermal(10039): mBatteryTemperature: 34
+11-14 01:21:40.356 V/DeviceStatisticsService( 4754): chargerType=1 batteryLevel=33 totalBatteryCapacity=3600
+11-14 01:21:40.356 I/PowerSaveService( 8602): onReceive: android.intent.action.BATTERY_CHANGED
+11-14 01:21:40.357 I/PowerNoticeUI( 8602): handleBatteryChanged oldPlugType 1 mPlugType 1 oldBatteryLevel 33 mBatteryLevel 33 temperature 344
+11-14 01:21:40.357 I/ChargerBatteryIntelligenceReceiver( 8602): onBatteryChanged temperature：34,plugType:1
+11-14 01:21:40.357 I/PowerFeatureUtils( 8602): getVendorName:qcom
+11-14 01:21:40.361 I/android_os_HwBinder( 8602): HwBinder: Starting thread pool for getting: vendor.xiaomi.hardware.micharge@1.0::IMiCharge/default
+11-14 01:21:40.363 I/vendor.xiaomi.hardware.micharge@1.0-service( 1373): ReadFilePathValue path = /sys/class/qcom-battery/night_charging value = 0
+11-14 01:21:40.363 I/ChargeProtectionUtils( 8602): getNightChargingState: 0
+11-14 01:21:40.363 D/TrafficManageService( 8602): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-14 01:21:40.373 I/PredyPreloaderService(30679): LooperThread: timeout.
+11-14 01:21:40.559 I/NetworkAccelerateSwitchService( 8387): EVENT_RSSI_POLL
+11-14 01:21:40.561 I/NetworkAccelerateSwitchService( 8387): getAverageWifiRssi:57
+11-14 01:21:40.679 E/QTagParser(30679): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
+11-14 01:21:40.816 I/MiuiNetworkPolicy( 2484): bandwidth: 4 KB/s, Max bandwidth: 625 KB/s
+11-14 01:21:41.140 D/MemorySizeMonitor( 4398): Current memory: 76446KB, ratio: 0%, total: 11444340KB
+11-14 01:21:41.141 W/MemorySizeMonitor( 4398): Memory threshold exceeded continuously! duration=10299007ms
+11-14 01:21:41.141 D/MemorySizeMonitor( 4398): Skip report due to report interval (29999ms < 60000ms)
+11-14 01:21:41.455 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-14 01:21:41.455 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-14 01:21:41.456 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-14 01:21:41.456 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-14 01:21:41.457 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-14 01:21:41.457 W/AOSP-MdnsDiscoveryManag( 3925): Error while decoding multicast packet (1716): 1 [CONTEXT service_id=168 ]
+11-14 01:21:41.459 W/AOSP-MdnsDiscoveryManag( 3925): Error while decoding multicast packet (1717): 1 [CONTEXT service_id=168 ]
+11-14 01:21:41.644 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=14}
+11-14 01:21:41.682 E/QTagParser(30679): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
+11-14 01:21:41.843 I/SmartPower( 2484): com.miui.systemAdSolution/10151 state=idle adj=100 proc size=1 move to hibernation broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-14 01:21:41.843 I/SmartPower( 2484): com.xiaomi.market/10149 state=idle adj=905 proc size=3 move to hibernation broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-14 01:21:42.561 I/NetworkAccelerateSwitchService( 8387): EVENT_RSSI_POLL
+11-14 01:21:42.562 I/NetworkAccelerateSwitchService( 8387): getAverageWifiRssi:57
+
+== ENDED 轮询窗口 ==
+--------- beginning of system
+11-14 01:21:39.842 I/SmartPower.com.miui.systemAdSolution/10151(13334)( 2484): background->idle(3002ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=100.
+11-14 01:21:39.842 I/SmartPower.com.xiaomi.market:guard/10149(19193)( 2484): background->idle(3001ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=935.
+11-14 01:21:39.842 I/SmartPower.com.xiaomi.market/10149(20311)( 2484): background->idle(3001ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=905.
+11-14 01:21:39.842 I/SmartPower( 2484): com.miui.systemAdSolution/10151 state=inactive adj=100 proc size=1 move to idle broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-14 01:21:39.842 I/SmartPower( 2484): com.xiaomi.market/10149 state=inactive adj=905 proc size=3 move to idle broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-14 01:21:39.908 W/ProcessStats( 2484): Tracking association SourceState{8bcc2f8 com.xiaomi.aiasst.vision/1000 BTopFgs #101321} whose proc state 2 is better than process ProcessState{51c4ce1 com.miui.analytics/10130 pkg=com.miui.analytics} proc state 3 (91 skipped)
+--------- beginning of main
+11-14 01:21:39.918 I/CM-Media3(11188): seek toMs=1197871 durMs=2395742
+11-14 01:21:39.920 I/CM-Media3(11188): discontinuity reason=SEEK positionMs=1197871
+11-14 01:21:39.921 I/CM-Media3(11188): state=BUFFERING
+11-14 01:21:39.921 I/CM-Media3(11188): state=PAUSED positionMs=1197871
+11-14 01:21:39.925 D/MediaCodec(11188): keep callback message for reclaim
+11-14 01:21:39.926 E/QC2AudioCompInterface( 1355): Failed to query parameters
+11-14 01:21:39.926 I/CCodecConfig(11188): query failed after returning 8 values (BAD_INDEX)
+11-14 01:21:39.926 E/QC2AudioCompInterface( 1355): Failed to query parameters
+11-14 01:21:39.926 W/Codec2Client(11188): query -- param skipped: index = 1342179345.
+11-14 01:21:39.926 W/Codec2Client(11188): query -- param skipped: index = 2415921170.
+11-14 01:21:39.926 W/Codec2Client(11188): query -- param skipped: index = 1610614798.
+11-14 01:21:39.926 D/CCodecBufferChannel(11188): [c2.qti.ape.sw.decoder#477] start: updating output delay 0
+11-14 01:21:39.926 D/BufferPoolAccessor2.0(11188): bufferpool2 0xb400007de653f828 : 3(1769472 size) total buffers - 1(589824 size) used buffers - 28/33 (recycle/alloc) - 5/22 (fetch/transfer)
+11-14 01:21:39.929 I/QC2CompStore( 1354): Setting heap usage to system
+11-14 01:21:39.929 E/QC2AudioCompInterface( 1355): Failed to query parameters
+11-14 01:21:39.929 E/QC2AudioComp( 1355): [apeSwD_33] Returning work with no/empty input buffer and not marked EOS
+11-14 01:21:39.930 D/CCodecBufferChannel(11188): [c2.qti.ape.sw.decoder#477] flushed work; ignored.
+11-14 01:21:39.932 D/BufferPoolAccessor2.0( 1355): bufferpool2 0xb40000770e51f028 : 0(0 size) total buffers - 0(0 size) used buffers - 19/22 (recycle/alloc) - 3/22 (fetch/transfer)
+11-14 01:21:39.933 E/ApeDecWrapper( 1355): Bad input arguments to ape_dec_process
+11-14 01:21:39.933 E/QC2AudioSwApeDec( 1355): updatePointers: Erroneous decode!
+11-14 01:21:39.933 W/QC2AudioSwApeDec( 1355): process: decoder returned error 3, substituting silence
+11-14 01:21:39.935 I/QC2AudioComp( 1355): [apeSwD_33] Registered an empty EOS buffer
+11-14 01:21:39.951 D/AudioTrack(11188): stop(sessionID=13081)
+11-14 01:21:39.951 D/AudioTrack(11188): stop(1692): prior state:STATE_FLUSHED
+11-14 01:21:39.951 D/AudioTrack(11188): ~AudioTrack(sessionID=13081)
+11-14 01:21:39.951 D/AudioTrack(11188): stop(sessionID=13081)
+11-14 01:21:39.951 D/AudioTrack(11188): stop(1692): prior state:STATE_FLUSHED
+11-14 01:21:39.953 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_1D uids:
+11-14 01:21:39.953 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:55 deviceId:0 type:android.media.SoundPool u/pid:10128/3902 state:started attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-14 01:21:39.954 D/APM_AudioPolicyManager( 1459): releaseOutput portId 1692
+11-14 01:21:39.954 D/APM_AudioPolicyManager( 1459): releaseOutput() output 29, stream 3, session 13081 [uid=10318]
+11-14 01:21:39.954 D/Avrcp_ext( 4581): AudioManager Player in started state: com.miui.home
+11-14 01:21:39.954 D/Avrcp_ext( 4581): AudioManager Active Player: com.miui.home
+11-14 01:21:39.954 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:71 deviceId:0 type:android.media.SoundPool u/pid:1027/8203 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-14 01:21:39.954 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:11959 deviceId:3 type:android.media.AudioTrack u/pid:10240/32028 state:paused attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:12777
+11-14 01:21:39.955 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:12103 deviceId:3 type:android.media.AudioTrack u/pid:10240/32028 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:12921
+11-14 01:21:39.955 I/CM-Media3(11188): state=READY durationMs=2395742
+11-14 01:21:39.955 I/CM-Media3(11188): state=PLAYING positionMs=1197885
+11-14 01:21:39.955 D/Avrcp_ext( 4581): AudioManager Player in started state: com.ss.android.ugc.aweme.lite
+11-14 01:21:39.955 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:12119 deviceId:3 type:android.media.AudioTrack u/pid:10240/32028 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:12937
+11-14 01:21:39.955 D/Avrcp_ext( 4581): AudioManager Player in started state: com.ss.android.ugc.aweme.lite
+11-14 01:21:39.956 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:47 deviceId:0 type:android.media.SoundPool u/pid:1000/2484 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-14 01:21:39.956 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:63 deviceId:0 type:android.media.SoundPool u/pid:1000/4806 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-14 01:21:39.956 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:12111 deviceId:3 type:android.media.AudioTrack u/pid:10240/32028 state:paused attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:12929
+11-14 01:21:39.956 D/Avrcp_ext( 4581): AudioManager isPlaying: true, mAudioPlaybackIsActive: true, isMusiActive: false
+11-14 01:21:40.117 W/DevicePolicyManager( 2484): Unknown user type: UserInfo{999:XSpace:801010}
+11-14 01:21:40.117 W/DevicePolicyManager( 2484): Unknown user type: UserInfo{999:XSpace:801010}
+11-14 01:21:40.125 I/NotificationController( 5753): onNotificationPosted: mSmartTravelNotificationMap 0
+11-14 01:21:40.126 D/MiBarrage( 8139): The sbn packageName is :com.example.cloudmusic
+11-14 01:21:40.126 D/MiBarrage( 8139): No barrage: not in game scene or in video scene
+11-14 01:21:40.152 I/MediaCarouselController( 4806): media_data_arrive: addOrUpdatePlayer
+11-14 01:21:40.153 W/ConstraintSet( 4806): id unknown center_vertical_guideline
+11-14 01:21:40.153 W/ConstraintSet( 4806): id unknown action_button_guideline
+11-14 01:21:40.153 W/ConstraintSet( 4806): id unknown media_action_barrier
+11-14 01:21:40.153 W/ConstraintSet( 4806): id unknown media_action_barrier_end
+11-14 01:21:40.153 W/ConstraintSet( 4806): id unknown media_action_barrier_top
+11-14 01:21:40.153 W/ConstraintSet( 4806): id unknown remove_text
+11-14 01:21:40.153 W/ConstraintSet( 4806): id unknown settings
+11-14 01:21:40.153 W/ConstraintSet( 4806): id unknown dismiss
+11-14 01:21:40.153 W/ConstraintSet( 4806): id unknown cancel
+11-14 01:21:40.163 I/MiuiMediaControlPanel( 4806): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 播放服务运行中
+11-14 01:21:40.228 I/ndroid.systemui( 4806): This is sticky GC, maxfree is 33554432 minfree is 8388608
+11-14 01:21:40.233 W/System  ( 4806): A resource failed to call release. 
+11-14 01:21:40.350 D/UiModeManager( 2484): updateConfigurationLocked: mDockState=0; mCarMode=false; mCar=false; mPowerSave=false; mComputedNightMode=false; mNightMode=1; uiMode=17
+11-14 01:21:40.352 D/DynamicService( 4780):  ACTION_BATTERY_CHANGED change,USB plug = 1
+11-14 01:21:40.355 D/PowerCheckerService(10039): onBatteryChanged, mBatteryLevel = 33, status = 2, level = 33, plug = 1, scale = 100
+11-14 01:21:40.356 D/PowerKeeper.FrozenApp(10039): onBatteryChanged plug=true mBatteryPlugged=1
+11-14 01:21:40.356 D/PowerKeeper.Thermal(10039): mBatteryTemperature: 34
+11-14 01:21:40.356 V/DeviceStatisticsService( 4754): chargerType=1 batteryLevel=33 totalBatteryCapacity=3600
+11-14 01:21:40.356 I/PowerSaveService( 8602): onReceive: android.intent.action.BATTERY_CHANGED
+11-14 01:21:40.357 I/PowerNoticeUI( 8602): handleBatteryChanged oldPlugType 1 mPlugType 1 oldBatteryLevel 33 mBatteryLevel 33 temperature 344
+11-14 01:21:40.357 I/ChargerBatteryIntelligenceReceiver( 8602): onBatteryChanged temperature：34,plugType:1
+11-14 01:21:40.357 I/PowerFeatureUtils( 8602): getVendorName:qcom
+11-14 01:21:40.361 I/android_os_HwBinder( 8602): HwBinder: Starting thread pool for getting: vendor.xiaomi.hardware.micharge@1.0::IMiCharge/default
+11-14 01:21:40.363 I/vendor.xiaomi.hardware.micharge@1.0-service( 1373): ReadFilePathValue path = /sys/class/qcom-battery/night_charging value = 0
+11-14 01:21:40.363 I/ChargeProtectionUtils( 8602): getNightChargingState: 0
+11-14 01:21:40.363 D/TrafficManageService( 8602): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-14 01:21:40.373 I/PredyPreloaderService(30679): LooperThread: timeout.
+11-14 01:21:40.559 I/NetworkAccelerateSwitchService( 8387): EVENT_RSSI_POLL
+11-14 01:21:40.561 I/NetworkAccelerateSwitchService( 8387): getAverageWifiRssi:57
+11-14 01:21:40.679 E/QTagParser(30679): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
+11-14 01:21:40.816 I/MiuiNetworkPolicy( 2484): bandwidth: 4 KB/s, Max bandwidth: 625 KB/s
+11-14 01:21:41.140 D/MemorySizeMonitor( 4398): Current memory: 76446KB, ratio: 0%, total: 11444340KB
+11-14 01:21:41.141 W/MemorySizeMonitor( 4398): Memory threshold exceeded continuously! duration=10299007ms
+11-14 01:21:41.141 D/MemorySizeMonitor( 4398): Skip report due to report interval (29999ms < 60000ms)
+11-14 01:21:41.455 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-14 01:21:41.455 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-14 01:21:41.456 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-14 01:21:41.456 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-14 01:21:41.457 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-14 01:21:41.457 W/AOSP-MdnsDiscoveryManag( 3925): Error while decoding multicast packet (1716): 1 [CONTEXT service_id=168 ]
+11-14 01:21:41.459 W/AOSP-MdnsDiscoveryManag( 3925): Error while decoding multicast packet (1717): 1 [CONTEXT service_id=168 ]
+11-14 01:21:41.644 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=14}
+11-14 01:21:41.682 E/QTagParser(30679): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
+11-14 01:21:41.843 I/SmartPower( 2484): com.miui.systemAdSolution/10151 state=idle adj=100 proc size=1 move to hibernation broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-14 01:21:41.843 I/SmartPower( 2484): com.xiaomi.market/10149 state=idle adj=905 proc size=3 move to hibernation broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-14 01:21:42.561 I/NetworkAccelerateSwitchService( 8387): EVENT_RSSI_POLL
+11-14 01:21:42.562 I/NetworkAccelerateSwitchService( 8387): getAverageWifiRssi:57
+11-14 01:21:42.684 E/QTagParser(30679): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
+11-14 01:21:42.855 I/CM-Media3(11188): seek toMs=2394242 durMs=2395742
+11-14 01:21:42.857 I/CM-Media3(11188): discontinuity reason=SEEK positionMs=2394242
+11-14 01:21:42.857 I/CM-Media3(11188): state=BUFFERING
+11-14 01:21:42.857 I/CM-Media3(11188): state=PAUSED positionMs=2394242
+11-14 01:21:42.858 D/MediaCodec(11188): keep callback message for reclaim
+11-14 01:21:42.859 E/QC2AudioCompInterface( 1355): Failed to query parameters
+11-14 01:21:42.859 I/CCodecConfig(11188): query failed after returning 8 values (BAD_INDEX)
+11-14 01:21:42.859 E/QC2AudioCompInterface( 1355): Failed to query parameters
+11-14 01:21:42.859 W/Codec2Client(11188): query -- param skipped: index = 1342179345.
+11-14 01:21:42.859 W/Codec2Client(11188): query -- param skipped: index = 2415921170.
+11-14 01:21:42.859 W/Codec2Client(11188): query -- param skipped: index = 1610614798.
+11-14 01:21:42.859 D/CCodecBufferChannel(11188): [c2.qti.ape.sw.decoder#477] start: updating output delay 0
+11-14 01:21:42.860 E/QC2AudioCompInterface( 1355): Failed to query parameters
+11-14 01:21:42.860 E/QC2AudioComp( 1355): [apeSwD_33] Returning work with no/empty input buffer and not marked EOS
+11-14 01:21:42.860 D/CCodecBufferChannel(11188): [c2.qti.ape.sw.decoder#477] flushed work; ignored.
+11-14 01:21:42.863 E/ApeDecWrapper( 1355): Bad input arguments to ape_dec_process
+11-14 01:21:42.863 E/QC2AudioSwApeDec( 1355): updatePointers: Erroneous decode!
+11-14 01:21:42.863 W/QC2AudioSwApeDec( 1355): process: decoder returned error 3, substituting silence
+11-14 01:21:42.866 I/QC2AudioComp( 1355): [apeSwD_33] Registered an empty EOS buffer
+11-14 01:21:42.876 I/CM-Media3(11188): state=READY durationMs=2395742
+11-14 01:21:42.877 I/CM-Media3(11188): state=PLAYING positionMs=2394247
+11-14 01:21:42.913 I/mple.cloudmusic(11188): Compiler allocated 6226KB to compile void com.example.cloudmusic.ui.player.LegacyPlayerPageKt$LegacyPlayerPage$3.invoke(androidx.compose.runtime.Composer, int)
+11-14 01:21:43.044 I/QC2Comp ( 1354): [avcD_553] Stats: Pending(3) i/p-done(3) Works: Q: 14/Done 12|Work-Rate: Q(0.0/s Avg=0.0/s) Done(0.000/s Avg=0.015/s)| Stream: 30.30fps 1.4Mbps
+11-14 01:21:43.044 I/QC2Comp ( 1354): [avcD_553] Mem-usage:  [In-1D: 4 bufs 14.062 MB] [1D-1026: 4 bufs 0.062 MB] [2D-1027: 18 bufs 19.688 MB] [1D-1026: 9 bufs 0.141 MB] | Total: 33.953 MB
+11-14 01:21:43.054 W/DevicePolicyManager( 2484): Unknown user type: UserInfo{999:XSpace:801010}
+11-14 01:21:43.054 W/DevicePolicyManager( 2484): Unknown user type: UserInfo{999:XSpace:801010}
+11-14 01:21:43.061 I/NotificationController( 5753): onNotificationPosted: mSmartTravelNotificationMap 0
+11-14 01:21:43.066 D/MiBarrage( 8139): The sbn packageName is :com.example.cloudmusic
+11-14 01:21:43.066 D/MiBarrage( 8139): No barrage: not in game scene or in video scene
+11-14 01:21:43.091 I/MediaCarouselController( 4806): media_data_arrive: addOrUpdatePlayer
+11-14 01:21:43.092 W/ConstraintSet( 4806): id unknown center_vertical_guideline
+11-14 01:21:43.092 W/ConstraintSet( 4806): id unknown action_button_guideline
+11-14 01:21:43.092 W/ConstraintSet( 4806): id unknown media_action_barrier
+11-14 01:21:43.092 W/ConstraintSet( 4806): id unknown media_action_barrier_end
+11-14 01:21:43.092 W/ConstraintSet( 4806): id unknown media_action_barrier_top
+11-14 01:21:43.093 W/ConstraintSet( 4806): id unknown remove_text
+11-14 01:21:43.093 W/ConstraintSet( 4806): id unknown settings
+11-14 01:21:43.093 W/ConstraintSet( 4806): id unknown dismiss
+11-14 01:21:43.093 W/ConstraintSet( 4806): id unknown cancel
+11-14 01:21:43.104 I/MiuiMediaControlPanel( 4806): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 播放服务运行中
+11-14 01:21:43.359 I/QC2Comp ( 1354): [hevcD_554] Stats: Pending(4) i/p-done(4) Works: Q: 2520/Done 2517|Work-Rate: Q(0.0/s Avg=3.2/s) Done(0.000/s Avg=3.204/s)| Stream: 30.30fps 1.8Kbps
+11-14 01:21:43.359 I/QC2Comp ( 1354): [hevcD_554] Mem-usage:  [In-1D: 4 bufs 17.578 MB] [1D-1028: 4 bufs 0.062 MB] [2D-1029: 65 bufs 77.695 MB] [1D-1028: 15 bufs 0.234 MB] | Total: 95.570 MB
+11-14 01:21:43.438 W/chromium( 4398): [WARNING:cookie_manager.cc(548)] SetCanonicalCookie for incognitoMojoCookieManager
+11-14 01:21:43.686 E/QTagParser(30679): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
+11-14 01:21:43.805 D/TrafficStats( 8719): tagSocket(82) with statsTag=0xffffffff, statsUid=-1
+11-14 01:21:43.820 I/MiuiNetworkPolicy( 2484): bandwidth: 0 KB/s, Max bandwidth: 625 KB/s
+11-14 01:21:44.101 W/ThreadPoolForeg(12965): type=1400 audit(0.0:105649): avc: denied { write } for name="traced_producer" dev="tmpfs" ino=1593 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 app=com.google.android.gms
+11-14 01:21:44.173 W/ThreadPoolForeg( 3925): type=1400 audit(0.0:105650): avc: denied { write } for name="traced_producer" dev="tmpfs" ino=1593 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 app=com.google.android.gms
+11-14 01:21:44.315 E/PlayCommon(23422): [4889] akra.j(143): Failed to connect to server for server timestamp: java.net.SocketTimeoutException: failed to connect to play.googleapis.com/172.217.118.4 (port 443) from /192.168.1.15 (port 49110) after 40000ms: isConnected failed: ETIMEDOUT (Connection timed out)
+11-14 01:21:44.320 I/QC2AudioComp( 1355): [apeSwD_33] Stats: Works: Q: 31/Done 31|Work-Rate: Q(1.2/s Avg=0.9/s) Done(1.200/s Avg=0.885/s)| Stream: 30.00fps 0.0Kbps| Pending(0) i/p-done(0)
+11-14 01:21:44.325 D/CompatibilityInfo( 2484): mCompatibilityFlags - 0
+11-14 01:21:44.325 D/CompatibilityInfo( 2484): applicationDensity - 560
+11-14 01:21:44.325 D/CompatibilityInfo( 2484): applicationScale - 1.0
+11-14 01:21:44.344 I/QC2Comp ( 1354): [hevcD_555] Stats: Pending(4) i/p-done(4) Works: Q: 22/Done 19|Work-Rate: Q(0.0/s Avg=0.0/s) Done(0.000/s Avg=0.024/s)| Stream: 30.30fps 110.0Kbps
+11-14 01:21:44.344 I/QC2Comp ( 1354): [hevcD_555] Mem-usage:  [In-1D: 4 bufs 17.578 MB] [1D-1030: 4 bufs 0.062 MB] [2D-1031: 23 bufs 21.922 MB] [1D-1030: 13 bufs 0.203 MB] | Total: 39.766 MB
+11-14 01:21:44.372 I/CM-Media3(11188): state=ENDED positionMs=2395750
+11-14 01:21:44.374 I/CM-Media3(11188): state=PAUSED positionMs=2395750
+11-14 01:21:44.375 V/Avrcp_ext( 4581): onPlaybackStateChanged: state PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=67389376, actions=54, custom actions=[], active item id=-1, error=null}
+11-14 01:21:44.376 V/Avrcp_ext( 4581): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@e9aacf4) null
+11-14 01:21:44.376 V/Avrcp_ext( 4581): updateCurrentMediaState: isPlaying = false
+11-14 01:21:44.376 W/Avrcp_ext( 4581): isMusicActive: false getBluetoothPlayState: 1 A2dp State: 11 mAudioPlaybackIsActive: true
+11-14 01:21:44.376 D/Avrcp_ext( 4581): isMusicActive = false mAudioPlaybackIsActive = true player state = PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=67389376, actions=54, custom actions=[], active item id=-1, error=null}
+11-14 01:21:44.376 V/Avrcp_ext( 4581): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-14 01:21:44.376 D/Avrcp_ext( 4581): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-14 01:21:44.376 V/Avrcp_ext( 4581): isBrowseSupported for com.example.cloudmusic: false
+11-14 01:21:44.376 V/Avrcp_ext( 4581): updatePlaybackState, state: PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=67389376, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-14 01:21:44.376 V/Avrcp_ext( 4581): Device: no name: 
+11-14 01:21:44.376 V/Avrcp_ext( 4581): Device: no name: 
+11-14 01:21:44.376 V/Avrcp_ext( 4581): Device: no name: 
+11-14 01:21:44.376 V/Avrcp_ext( 4581): Device: no name: 
+11-14 01:21:44.376 V/Avrcp_ext( 4581): Device: no name: 
+11-14 01:21:44.376 V/Avrcp_ext( 4581): updatePlayerStateAndPosition, old=PlaybackState {state=3, position=168, buffered position=0, speed=1.0, updated=67354377, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=67389376, actions=54, custom actions=[], active item id=-1, error=null}
+11-14 01:21:44.376 V/Avrcp_ext( 4581): old state = PlaybackState {state=3, position=168, buffered position=0, speed=1.0, updated=67354377, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=67389376, actions=54, custom actions=[], active item id=-1, error=null}
+11-14 01:21:44.376 D/HeadsetService( 4581): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@7586bc
+11-14 01:21:44.376 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-14 01:21:44.376 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-14 01:21:44.376 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-14 01:21:44.376 I/Avrcp_ext( 4581): updatePlayStatusForDevice: device: null
+11-14 01:21:44.376 V/Avrcp_ext( 4581): updatePlaybackState (1): old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=67344137, actions=54, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=67389376, actions=54, custom actions=[], active item id=-1, error=null}(2)
+11-14 01:21:44.376 I/Avrcp_ext( 4581): Exit updatePlayStatusForDevice
+11-14 01:21:44.376 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-14 01:21:44.376 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-14 01:21:44.376 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-14 01:21:44.376 I/Avrcp_ext( 4581): updatePlayStatusForDevice: device: null
+11-14 01:21:44.376 V/Avrcp_ext( 4581): updatePlaybackState (1): old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=67344137, actions=54, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=67389376, actions=54, custom actions=[], active item id=-1, error=null}(2)
+11-14 01:21:44.376 I/Avrcp_ext( 4581): Exit updatePlayStatusForDevice
+11-14 01:21:44.376 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-14 01:21:44.376 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-14 01:21:44.376 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-14 01:21:44.376 I/Avrcp_ext( 4581): updatePlayStatusForDevice: device: null
+11-14 01:21:44.376 V/Avrcp_ext( 4581): updatePlaybackState (1): old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=67344137, actions=54, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=67389376, actions=54, custom actions=[], active item id=-1, error=null}(2)
+11-14 01:21:44.377 I/Avrcp_ext( 4581): Exit updatePlayStatusForDevice
+11-14 01:21:44.377 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-14 01:21:44.377 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-14 01:21:44.377 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-14 01:21:44.377 I/Avrcp_ext( 4581): updatePlayStatusForDevice: device: null
+11-14 01:21:44.377 V/Avrcp_ext( 4581): updatePlaybackState (1): old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=67344137, actions=54, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=67389376, actions=54, custom actions=[], active item id=-1, error=null}(2)
+11-14 01:21:44.377 I/Avrcp_ext( 4581): Exit updatePlayStatusForDevice
+11-14 01:21:44.377 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-14 01:21:44.377 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-14 01:21:44.377 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-14 01:21:44.377 I/Avrcp_ext( 4581): updatePlayStatusForDevice: device: null
+11-14 01:21:44.377 V/Avrcp_ext( 4581): updatePlaybackState (1): old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=67344137, actions=54, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=67389376, actions=54, custom actions=[], active item id=-1, error=null}(2)
+11-14 01:21:44.377 I/Avrcp_ext( 4581): Exit updatePlayStatusForDevice
+11-14 01:21:44.377 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-14 01:21:44.377 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-14 01:21:44.377 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-14 01:21:44.377 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-14 01:21:44.377 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-14 01:21:44.377 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-14 01:21:44.377 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-14 01:21:44.377 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-14 01:21:44.377 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-14 01:21:44.377 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-14 01:21:44.377 V/Avrcp_ext( 4581): Exit updatePlayerStateAndPosition
+11-14 01:21:44.377 V/Avrcp_ext( 4581):  Exit onPlaybackStateChanged
+11-14 01:21:44.378 D/MediaDataManager( 4806): State updated outside of notification
+11-14 01:21:44.380 I/MediaCarouselController( 4806): media_data_arrive: addOrUpdatePlayer
+11-14 01:21:44.384 W/ConstraintSet( 4806): id unknown center_vertical_guideline
+11-14 01:21:44.384 W/ConstraintSet( 4806): id unknown action_button_guideline
+11-14 01:21:44.384 W/ConstraintSet( 4806): id unknown media_action_barrier
+11-14 01:21:44.384 W/ConstraintSet( 4806): id unknown media_action_barrier_end
+11-14 01:21:44.384 W/ConstraintSet( 4806): id unknown media_action_barrier_top
+11-14 01:21:44.384 W/ConstraintSet( 4806): id unknown remove_text
+11-14 01:21:44.384 W/ConstraintSet( 4806): id unknown settings
+11-14 01:21:44.384 W/ConstraintSet( 4806): id unknown dismiss
+11-14 01:21:44.384 I/PlayCommon(23422): [4889] akra.j(178): Connecting to server: https://play.googleapis.com/play/log?format=raw&proto_v2=true
+11-14 01:21:44.384 W/ConstraintSet( 4806): id unknown cancel
+11-14 01:21:44.393 D/TrafficStats(23422): tagSocket(91) with statsTag=0x6900, statsUid=-1
+11-14 01:21:44.396 I/MiuiMediaControlPanel( 4806): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 播放服务运行中
+11-14 01:21:44.565 I/NetworkAccelerateSwitchService( 8387): EVENT_RSSI_POLL
+11-14 01:21:44.567 I/NetworkAccelerateSwitchService( 8387): getAverageWifiRssi:56
+11-14 01:21:44.665 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=14}
+11-14 01:21:44.688 E/QTagParser(30679): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
+11-14 01:21:44.724 D/MiuiNetworkPolicy( 2484): updateLimit mLimitEnabled=false,enabled=true,mNetworkPriorityMode=1
+11-14 01:21:44.801 I/WM-WorkerWrapper(18166): Worker result SUCCESS for Work [ id=97ae613a-3b07-4849-820e-f5a67545311c, tags={ EmailSyncWorker, com.wps.mail.work.EmailSyncWorker } ]

@@ -1,0 +1,181 @@
+{
+  "method": "12 §61.49 / F3：逐格式 × REMOTE/LOCAL 双路径真机矩阵",
+  "generated_by": "tools/l3_f3_matrix_run.py",
+  "serial": "192.168.1.15:39497",
+  "device": "Redmi K60 23013RK75C / Android 13 / arm64-v8a",
+  "local_channel": "ACTION_PLAY + EXTRA_LOCAL_PATH → app 私有 files/music/（零权限）",
+  "remote_channel": "ACTION_PLAY + EXTRA_SOURCE_URL → http://127.0.0.1:8765/ + adb reverse + PC http.server",
+  "cells": [
+    {
+      "path": "local",
+      "engine": "media3",
+      "verdict": "PASS",
+      "reason": "STATE_READY(duration>0) 且 isPlaying（软/硬解渲染出声）",
+      "prepare_seen": true,
+      "prepare_remote": "false",
+      "prepare_url": "-",
+      "extension": null,
+      "extension_ok": false,
+      "codec": null,
+      "mDuration_raw": 2395742,
+      "write_start_play": true,
+      "write_nerr_values": [],
+      "probe_length": null,
+      "path_evidence": {
+        "get_local_path": false,
+        "create_local_source": false,
+        "xor_open": false,
+        "media3_local": true
+      },
+      "errors": {
+        "source_callback_on_error": false,
+        "fatal_exception": false,
+        "anr": false,
+        "write_nerr_nonzero": false,
+        "open_source_failed": false,
+        "engine_prepare_failed": false,
+        "probe_failed": false,
+        "media3_error": false
+      },
+      "seek_observed": false,
+      "ended_observed": false,
+      "diag_line_count": 59,
+      "format": "ape",
+      "truncated_sample": false,
+      "sample_bytes": 4194304,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "startservice_stderr": "",
+      "log_file": "analysis/l3-f3-logs/ape-local.txt",
+      "enhanced": {
+        "applied": true,
+        "seek_target_ms": 1197871,
+        "seek2_target_ms": 2394242,
+        "seek_cmd_seen": true,
+        "landing_ms": 1197871,
+        "seek_ok": true,
+        "ended_ok": true,
+        "duration_ok_ms": 2395742,
+        "enhanced_verdict": "PASS",
+        "log_file": "analysis/l3-f3-logs/ape-local-enhanced.txt"
+      }
+    },
+    {
+      "path": "remote",
+      "engine": "media3",
+      "verdict": "PASS",
+      "reason": "STATE_READY(duration>0) 且 isPlaying（软/硬解渲染出声）",
+      "prepare_seen": true,
+      "prepare_remote": "true",
+      "prepare_url": "http://127.0.0.1:8765/f3_ape.ape",
+      "extension": null,
+      "extension_ok": false,
+      "codec": null,
+      "mDuration_raw": 2395742,
+      "write_start_play": true,
+      "write_nerr_values": [],
+      "probe_length": null,
+      "path_evidence": {
+        "get_url": false,
+        "data_request_handler": false,
+        "start_range": false,
+        "media3_remote": true
+      },
+      "errors": {
+        "source_callback_on_error": false,
+        "fatal_exception": false,
+        "anr": false,
+        "write_nerr_nonzero": false,
+        "open_source_failed": false,
+        "engine_prepare_failed": false,
+        "probe_failed": false,
+        "media3_error": false
+      },
+      "seek_observed": false,
+      "ended_observed": false,
+      "diag_line_count": 60,
+      "format": "ape",
+      "truncated_sample": false,
+      "sample_bytes": 4194304,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "startservice_stderr": "",
+      "log_file": "analysis/l3-f3-logs/ape-remote.txt",
+      "enhanced": {
+        "applied": true,
+        "seek_target_ms": 1197871,
+        "seek2_target_ms": 2394242,
+        "seek_cmd_seen": true,
+        "landing_ms": 1197871,
+        "seek_ok": true,
+        "ended_ok": true,
+        "duration_ok_ms": 2395742,
+        "enhanced_verdict": "PASS",
+        "log_file": "analysis/l3-f3-logs/ape-remote-enhanced.txt"
+      }
+    }
+  ],
+  "counts": {
+    "PASS": 2
+  },
+  "enhanced_summary": {
+    "enabled": true,
+    "applied": 2,
+    "enhanced_pass": 2,
+    "enhanced_partial": 0,
+    "enhanced_fail": 0,
+    "not_applicable": 0,
+    "boundary": "enhanced 只覆盖当轮 PASS 且非截断格；seek 落点容差 ±1500ms；ENDED 以近端 seek 后窗口内 state=ENDED 为准；不宣称全格式支持"
+  },
+  "no_sample_formats": [
+    "tak",
+    "dsf",
+    "dff"
+  ],
+  "no_sample_cells": [
+    {
+      "format": "tak",
+      "path": "local",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "tak",
+      "path": "remote",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "dsf",
+      "path": "local",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "dsf",
+      "path": "remote",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "dff",
+      "path": "local",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "dff",
+      "path": "remote",
+      "verdict": "NO_SAMPLE"
+    }
+  ],
+  "elapsed_s": 86.6,
+  "test_precondition": {
+    "network_wifi_only": "false（仅 REMOTE 跑批期间）",
+    "reason": "设备默认网络实测 MOBILE[NR]，AppSettings 默认 wifiOnly=true 会由 PlayerController.blockedByNetworkPolicy() 拒绝 URL 源；等价于用户在设置页开启「移动数据播放」",
+    "mechanism": "写入 app 私有 files/datastore/cloudmusic_settings.pb（显式 JSON codec）",
+    "restored": "跑完删除该文件恢复默认",
+    "device_settings_unchanged": true
+  },
+  "overall_verdict": "PARTIAL",
+  "overall_reason": "7 种格式无真实样本（NO_SAMPLE）；大文件为前 4 MiB 片段，只验证 demuxer/codec 打开与播放链；未逐格验证 seek / 完整时长 / ENDED；不得据此写「全格式已支持」",
+  "honest_notes": [
+    "每格均 force-stop + 前台拉起 + 清空 logcat 后单独注入，避免上一格残留。",
+    "截断样本（flac/wav/ape）不计完整时长 / ENDED 通过；WAV 片段已修正 RIFF/data 长度。",
+    "aiff 为纯标准库合成容器、未经第三方解码器校验；mp3/wma/ogg 为真实完整音频。",
+    "本工具不申请权限、不改设备设置；真机命令全部带 -s <serial>。"
+  ]
+}

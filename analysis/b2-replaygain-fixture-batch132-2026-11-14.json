@@ -1,0 +1,31 @@
+{
+  "method": "12 §61.107 / ReplayGain 带标签 MP3 夹具",
+  "generated_by": "tools/b2_replaygain_fixture.py",
+  "source": "analysis\\l3-f3-fixtures\\f3_mp3.mp3",
+  "output": "analysis\\l3-f3-fixtures\\f3_mp3_rg.mp3",
+  "source_bytes": 1129442,
+  "output_bytes": 1128516,
+  "id3_version": "2.3.0",
+  "original_tag_size": 78138,
+  "appended_txxx": [
+    {
+      "description": "REPLAYGAIN_TRACK_GAIN",
+      "value": "-6.54 dB"
+    },
+    {
+      "description": "REPLAYGAIN_ALBUM_GAIN",
+      "value": "-3.20 dB"
+    },
+    {
+      "description": "REPLAYGAIN_TRACK_PEAK",
+      "value": "0.98765"
+    },
+    {
+      "description": "REPLAYGAIN_ALBUM_PEAK",
+      "value": "0.91234"
+    }
+  ],
+  "expected_track_volume": 0.471,
+  "sha256": "a9b1665b6276486200d5de8c494148ce4e8caecaa1fc15ba090f630eee20812a",
+  "boundary": "夹具只用于真机验证 ReplayGain 标签链路；不改写 manifest / 历史矩阵，不宣称 ReplayGain 全格式生效。"
+}

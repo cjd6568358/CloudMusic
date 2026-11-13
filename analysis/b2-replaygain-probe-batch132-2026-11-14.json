@@ -1,0 +1,77 @@
+{
+  "method": "12 §61.107 / ReplayGain B2 接线真机两格对照",
+  "generated_by": "tools/b2_replaygain_probe.py",
+  "generated_at": "2026-11-14T00:53:58",
+  "device_run": true,
+  "serial": "192.168.1.15:39497",
+  "wait_s": 8.0,
+  "expected_track_volume": 0.471,
+  "cells": [
+    {
+      "label": "tagged",
+      "source": "f3_mp3_rg.mp3",
+      "sample_bytes": 1128516,
+      "pushed_ok": true,
+      "startservice": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "replaygain_lines": [
+        "11-14 00:53:39.369 I/CM-Media3(28535): replaygain(tracks) tags=11 gain=-6.54 dB volume=0.471 mode=TRACK diag=TSSE=Lavf57.83.100;TALB=官方回答片段;TIT2=官方回答（翻自 O.WEN）;TPE1=Dollyy;TPOS=01;TRCK=1;=163 key(Don't modify):L64FU3W4YxX3ZFTmbZ+8/TMEUPuhU9L4c74O3lmoa4WcdIsvVqjuMJVYHH1qPmat9U+X16UbQ2xkHSoPLgmuR7438AGhpaEQ45jGKqd4SbsMv5+u1J2RXV64fhRgdkNRK+SSqd3YUFHAPuGdkgYVbIiHGbdcjrvIfDxQR13rmhWFCcO9aHi2Nhgdf+2vdpfufBPOVpmIXlyAtOnEqGpIrzMqf2085MJY0AXAN/wByRgS6azO/ZoahiFil7BrgL4kz5w"
+      ],
+      "replaygain_seen": true,
+      "gain": "present",
+      "volume": 0.471,
+      "ready_seen": true,
+      "playing_seen": true,
+      "ready_line": "11-14 00:53:39.513 I/CM-Media3(28535): state=READY durationMs=26201",
+      "error_lines": [],
+      "log_file": "analysis/l3-f3-logs/replaygain-tagged-2026-11-13.txt"
+    },
+    {
+      "label": "plain",
+      "source": "f3_mp3.mp3",
+      "sample_bytes": 1129442,
+      "pushed_ok": true,
+      "startservice": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "replaygain_lines": [
+        "11-14 00:53:51.906 I/CM-Media3(27712): replaygain(tracks) tags=7 gain=none volume=1.000 mode=TRACK diag=TSSE=Lavf57.83.100;TALB=官方回答片段;TIT2=官方回答（翻自 O.WEN）;TPE1=Dollyy;TPOS=01;TRCK=1;=163 key(Don't modify):L64FU3W4YxX3ZFTmbZ+8/TMEUPuhU9L4c74O3lmoa4WcdIsvVqjuMJVYHH1qPmat9U+X16UbQ2xkHSoPLgmuR7438AGhpaEQ45jGKqd4SbsMv5+u1J2RXV64fhRgdkNRK+SSqd3YUFHAPuGdkgYVbIiHGbdcjrvIfDxQR13rmhWFCcO9aHi2Nhgdf+2vdpfufBPOVpmIXlyAtOnEqGpIrzMqf2085MJY0AXAN/wByRgS6azO/ZoahiFil7BrgL4kz5w"
+      ],
+      "replaygain_seen": true,
+      "gain": "none",
+      "volume": 1.0,
+      "ready_seen": true,
+      "playing_seen": true,
+      "ready_line": "11-14 00:53:52.102 I/CM-Media3(27712): state=READY durationMs=26201",
+      "error_lines": [],
+      "log_file": "analysis/l3-f3-logs/replaygain-plain-2026-11-13.txt"
+    }
+  ],
+  "checks": [
+    {
+      "name": "两格均 READY(duration>0) + PLAYING",
+      "pass": true,
+      "evidence": "tagged=True/True plain=True/True"
+    },
+    {
+      "name": "带标签格出现 replaygain 日志且增益非 none",
+      "pass": true,
+      "evidence": "[\"11-14 00:53:39.369 I/CM-Media3(28535): replaygain(tracks) tags=11 gain=-6.54 dB volume=0.471 mode=TRACK diag=TSSE=Lavf57.83.100;TALB=官方回答片段;TIT2=官方回答（翻自 O.WEN）;TPE1=Dollyy;TPOS=01;TRCK=1;=163 key(Do"
+    },
+    {
+      "name": "带标签格音量 ≈ 0.4710（10^(-6.54/20)）",
+      "pass": true,
+      "evidence": "volume=0.471"
+    },
+    {
+      "name": "无标签对照格保持 volume=1.000（不误施增益）",
+      "pass": true,
+      "evidence": "gain=none volume=1.0"
+    },
+    {
+      "name": "两格均无播放错误回调",
+      "pass": true,
+      "evidence": "tagged=0 plain=0"
+    }
+  ],
+  "checks_passed": 5,
+  "checks_total": 5,
+  "boundary": "只验证含 ID3 TXXX REPLAYGAIN_* 标签的 MP3 LOCAL 通道；不验证其它容器 / REMOTE / 扫描式 ReplayGain，不宣称全格式生效；未改 Manifest / CMake / 生产构建配置，未做破坏性注入。"
+}
