@@ -56,6 +56,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -379,6 +380,26 @@ class PlaybackRuntime @Inject constructor(
                 .onFailure { Log.w("CloudMusicRuntime", "addToPlaylist 失败", it) }
         }
     }
+
+    /** §61.121（M3 小账）：歌单内曲目移动（契约 move 收口，removeAt/add 语义）。 */
+    fun moveInPlaylist(id: String, from: Int, to: Int) {
+        scope.launch {
+            runCatching { playlists.move(id, from, to) }
+                .onFailure { Log.w("CloudMusicRuntime", "moveInPlaylist 失败", it) }
+        }
+    }
+
+    /** §61.121（M3 小账）：歌单内移除单曲（契约 remove 收口）。 */
+    fun removeFromPlaylist(id: String, position: Int) {
+        scope.launch {
+            runCatching { playlists.remove(id, position) }
+                .onFailure { Log.w("CloudMusicRuntime", "removeFromPlaylist 失败", it) }
+        }
+    }
+
+    /** §61.121：歌单曲目流透传（UI 展开视图取数；03-10 §11 #4 经 runtime 通道）。 */
+    fun observePlaylistTracks(id: String): Flow<List<Track>> =
+        playlists.observeTracks(id)
 
     /** §61.120（M3 小账）：重命名歌单（契约 rename 收口）。 */
     fun renamePlaylist(id: String, name: String) {

@@ -113,6 +113,20 @@ class PlayerStateBridge(
         runtime.renamePlaylist(id, name)
     }
 
+    /** §61.121（M3 小账）：歌单内曲目移动。 */
+    fun onMovePlaylistItem(id: String, from: Int, to: Int) {
+        runtime.moveInPlaylist(id, from, to)
+    }
+
+    /** §61.121（M3 小账）：歌单内移除单曲。 */
+    fun onRemovePlaylistItem(id: String, position: Int) {
+        runtime.removeFromPlaylist(id, position)
+    }
+
+    /** §61.121：歌单曲目流（展开视图取数；runtime 透传 Repository）。 */
+    fun observePlaylistTracks(playlistId: String): Flow<List<Track>> =
+        runtime.observePlaylistTracks(playlistId)
+
     /** §61.119（M3）：播放歌单。 */
     fun onPlayPlaylist(id: String) {
         runtime.playPlaylist(id)

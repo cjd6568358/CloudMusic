@@ -209,6 +209,9 @@ fun CloudMusicApp(
                     onPlay = bridge::onPlayPlaylist,
                     onDelete = bridge::onDeletePlaylist,
                     onRename = bridge::onRenamePlaylist,
+                    onMoveItem = bridge::onMovePlaylistItem,
+                    onRemoveItem = bridge::onRemovePlaylistItem,
+                    observeTracks = bridge::observePlaylistTracks,
                 )
                 tab == 2 -> SearchScreen(query, { query = it }, searchResults)
                 tab == 3 -> QueueScreen(
@@ -736,9 +739,14 @@ private fun PlaylistsScreen(
     onPlay: (String) -> Unit,
     onDelete: (String) -> Unit,
     onRename: (String, String) -> Unit,
+    onMoveItem: (String, Int, Int) -> Unit,
+    onRemoveItem: (String, Int) -> Unit,
+    observeTracks: (String) -> Flow<List<Track>>,
 ) {
     var newName by remember { mutableStateOf("") }
     var renameTarget by remember { mutableStateOf<String?>(null) }
+    var expandedId by remember { mutableStateOf<String?>(null) }
+    var deleteTarget by remember { mutableStateOf<Playlist?>(null) }
     Column(Modifier.fillMaxSize().padding(16.dp)) {
         Text("歌单 · ${playlists.size}", style = MaterialTheme.typography.titleMedium)
         Row(verticalAlignment = Alignment.CenterVertically,
@@ -755,6 +763,7 @@ private fun PlaylistsScreen(
                 newName = ""
             }) { Text("创建") }
         }
+        // §61.121：展开查看歌单曲目 + ↑↓ 移动 + ✕ 移除；删除加确认。
         if (playlists.isEmpty()) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text("还没有歌单；在曲库行点「＋」加入曲目时会自动创建", textAlign = TextAlign.Center)
@@ -764,6 +773,9 @@ private fun PlaylistsScreen(
                 items(playlists, key = { it.id }) { playlist ->
                     ListItem(
                         headlineContent = { Text(playlist.name, maxLines = 1) },
+                        supportingContent = {
+                            Text(if (expandedId == playlist.id) "收起" else "展开查看曲目")
+                        },
                         leadingContent = { Text("☰") },
                         trailingContent = {
                             Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -771,14 +783,82 @@ private fun PlaylistsScreen(
                                 Text("✏", modifier = Modifier.clickable {
                                     renameTarget = playlist.id
                                 })
-                                Text("🗑", modifier = Modifier.clickable { onDelete(playlist.id) })
+                                Text("🗑", modifier = Modifier.clickable {
+                                    deleteTarget = playlist
+                                })
                             }
+                        },
+                        modifier = Modifier.clickable {
+                            expandedId =
+                                if (expandedId == playlist.id) null else playlist.id
                         },
                     )
                     HorizontalDivider()
+                    if (expandedId == playlist.id) {
+                        val tracks by observeTracks(playlist.id)
+                            .collectAsState(initial = emptyList())
+                        if (tracks.isEmpty()) {
+                            Text(
+                                "（空歌单——在曲库行点「＋」加入）",
+                                style = MaterialTheme.typography.bodySmall,
+                                modifier = Modifier.padding(horizontal = 32.dp, vertical = 4.dp),
+                            )
+                        }
+                        tracks.forEachIndexed { index, track ->
+                            ListItem(
+                                headlineContent = {
+                                    Text("${index + 1}. ${track.title}", maxLines = 1)
+                                },
+                                supportingContent = { Text(track.artist, maxLines = 1) },
+                                trailingContent = {
+                                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                        Text(
+                                            "↑",
+                                            modifier = Modifier.clickable {
+                                                if (index > 0) onMoveItem(
+                                                    playlist.id, index, index - 1,
+                                                )
+                                            },
+                                        )
+                                        Text(
+                                            "↓",
+                                            modifier = Modifier.clickable {
+                                                if (index < tracks.size - 1) onMoveItem(
+                                                    playlist.id, index, index + 1,
+                                                )
+                                            },
+                                        )
+                                        Text(
+                                            "✕",
+                                            modifier = Modifier.clickable {
+                                                onRemoveItem(playlist.id, index)
+                                            },
+                                        )
+                                    }
+                                },
+                            )
+                        }
+                    }
                 }
             }
         }
+    }
+    // §61.121：删除确认（此前误删无确认，M3 挂账 UX 收口）。
+    deleteTarget?.let { target ->
+        AlertDialog(
+            onDismissRequest = { deleteTarget = null },
+            title = { Text("删除歌单「${target.name}」？") },
+            text = { Text("歌单曲目引用将一并移除；该操作不可撤销。") },
+            confirmButton = {
+                TextButton(onClick = {
+                    onDelete(target.id)
+                    deleteTarget = null
+                }) { Text("删除") }
+            },
+            dismissButton = {
+                TextButton(onClick = { deleteTarget = null }) { Text("取消") }
+            },
+        )
     }
     renameTarget?.let { target ->
         val current = playlists.firstOrNull { it.id == target }
