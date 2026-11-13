@@ -54,6 +54,11 @@ def main() -> int:
     version = (data[3], data[4])
     old_size = unsyncsafe(data[6:10])
     old_frames = data[10:10 + old_size]
+    # §61.111 真机一手根因：原标签尾部是全零 padding（实测 77059~78138 共 1089B），
+    # ID3 解析器顺序读帧遇到零填充即判帧区结束 → 追加在其后的 TXXX 帧永不被读
+    # （首轮探针 diag==... 空 key 7 行、REPLAYGAIN_* 0 命中）。追加前剥离 padding，
+    # size 字段由下方 syncsafe(len(old_frames)+len(added)) 同步更新。
+    old_frames = old_frames.rstrip(b"\x00")
     audio = data[10 + old_size:]
     added = b"".join(txxx(k, v) for k, v in TAGS)
     new_tag = b"ID3" + bytes(version) + data[5:6] + syncsafe(len(old_frames) + len(added))

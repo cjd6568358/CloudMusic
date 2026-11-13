@@ -5117,6 +5117,75 @@ def main() -> int:
         failures.append("12 §61.108 守护：B2 口径文案回漂 / attachDataSource 语义"
                         " / enhanced 判据 / SDK 持久路径候选 漂移")
 
+    # 12 §61.111 守护 / 真机闭环批次：钉死 8 格全绿 + enhanced 8/8 +
+    # ReplayGain 5/5 的证据口径，防「wma 已修复」「ReplayGain 已生效」被回撤或夸大；
+    # 钉死 Manifest 三调试入口在位与夹具 padding 修复。
+    # 证据口径（§61.111⑦ 补记）：终态单文件合并跑因设备中途掉线作废，
+    # 真机结论按分片证据钉死：初轮 7/8 + ape-remote 30s PASS（合计 8/8 legacy）+
+    # ape enhanced json + 6 份 enhanced 日志（seek 落点 + ENDED 一手行）+ 探针 5/5。
+    _init132 = ROOT / "analysis" / "b2-f3-batch132-2026-11-14.json"
+    _ape132 = ROOT / "analysis" / "b2-f3-ape-remote-longwait-batch132-2026-11-14.json"
+    _apeenh132 = ROOT / "analysis" / "b2-f3-enhanced-ape-batch132-2026-11-14.json"
+    _probe111 = ROOT / "analysis" / "b2-replaygain-probe-batch132-2026-11-14.json"
+    _enh_logs = ["aiff-local-enhanced.txt", "aiff-remote-enhanced.txt",
+                 "wma-local-enhanced.txt", "wma-remote-enhanced.txt",
+                 "wv-local-enhanced.txt", "wv-remote-enhanced.txt"]
+    _paths111 = [_init132, _ape132, _apeenh132, _probe111] + [
+        ROOT / "analysis" / "l3-f3-logs" / x for x in _enh_logs]
+    if not all(x.is_file() for x in _paths111):
+        failures.append("12 §61.111 守护：真机分片证据缺失（初轮/ape 30s/ape 增强/"
+                        "探针/6 份 enhanced 日志）")
+    else:
+        try:
+            import json as _json111
+            _im = _json111.loads(_init132.read_text(encoding="utf-8"))
+            _am = _json111.loads(_ape132.read_text(encoding="utf-8"))
+            _ae = _json111.loads(_apeenh132.read_text(encoding="utf-8"))
+            _pp = _json111.loads(_probe111.read_text(encoding="utf-8"))
+            _c = {(x.get("format"), x.get("path")): x.get("verdict")
+                  for x in _im.get("cells", [])}
+            _manifest111 = (ROOT / "app" / "src" / "main" /
+                            "AndroidManifest.xml").read_text(encoding="utf-8")
+            _fixtool = (ROOT / "tools" / "b2_replaygain_fixture.py").read_text(
+                encoding="utf-8")
+            _logs_ok = all(
+                "seek toMs=" in (ROOT / "analysis" / "l3-f3-logs" / x).read_text(
+                    encoding="utf-8", errors="replace")
+                and "discontinuity reason=SEEK" in (ROOT / "analysis" /
+                                                    "l3-f3-logs" / x).read_text(
+                                                        encoding="utf-8",
+                                                        errors="replace")
+                for x in _enh_logs)
+            _init_ok = (_c.get(("aiff", "local")) == "PASS"
+                        and _c.get(("aiff", "remote")) == "PASS"
+                        and _c.get(("wma", "local")) == "PASS"
+                        and _c.get(("wma", "remote")) == "PASS"
+                        and _c.get(("ape", "local")) == "PASS"
+                        and _c.get(("wv", "local")) == "PASS"
+                        and _c.get(("wv", "remote")) == "PASS"
+                        and _c.get(("ape", "remote")) == "FAIL")
+            _ape_ok = any(x.get("verdict") == "PASS" for x in _am.get("cells", []))
+            _apeenh_ok = all(x.get("verdict") == "PASS"
+                             and x.get("enhanced", {}).get("enhanced_verdict") == "PASS"
+                             for x in _ae.get("cells", [])) and len(_ae.get("cells", [])) == 2
+            if (_im.get("serial") and _init_ok and _ape_ok and _apeenh_ok and _logs_ok
+                    and _pp.get("device_run") is True
+                    and _pp.get("checks_passed") == 5
+                    and "action.SEEK" in _manifest111
+                    and "action.EFFECT" in _manifest111
+                    and "old_frames = old_frames.rstrip(" in _fixtool
+                    and "### 61.111" in (ROOT / "docs" /
+                                         "12-编码阶段第一批交付.md").read_text(
+                                             encoding="utf-8")):
+                print("[PASS] 12 §61.111 守护：初轮 7/8 + ape-remote 30s PASS（合计 "
+                      "8/8）+ ape enhanced 2/2 + 6 格 enhanced 日志（seek 落点+回执）/ "
+                      "ReplayGain 5/5 / Manifest 三入口 / 夹具 padding 修复 / 日志在位")
+            else:
+                failures.append("12 §61.111 守护：真机终态口径漂移（矩阵/增强/探针/"
+                                "Manifest/夹具）")
+        except (OSError, UnicodeError, ValueError) as exc:
+            failures.append("12 §61.111 守护：证据不可解析（%s）" % exc)
+
     if (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example" /
             "cloudmusic" / "common" / "PathNormalizer.kt").is_file():
         warnings.append("实现期修正 C-01：路径规范化下沉至 :core-common（见 PathNormalizer KDoc）")

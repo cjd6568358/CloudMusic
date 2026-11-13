@@ -26,6 +26,8 @@ import time
 from datetime import datetime
 from pathlib import Path
 
+# 嵌入式 Python（python312._pth 隔离模式）不自动加脚本目录，显式自举：
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 import l3_f3_matrix_run as m
 
 ROOT = Path(__file__).resolve().parent.parent
