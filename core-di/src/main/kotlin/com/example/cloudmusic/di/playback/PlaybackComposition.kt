@@ -16,6 +16,9 @@ import com.example.cloudmusic.model.SourceType
 import com.example.cloudmusic.model.Storage
 import java.io.File
 import com.example.cloudmusic.di.adapters.PrePublishedCastProxy
+import com.example.cloudmusic.di.scan.CoverPolicy
+import com.example.cloudmusic.di.scan.CoverWriterPort
+import com.example.cloudmusic.di.scan.JAudioTaggerPort
 import com.example.cloudmusic.di.scan.SettingsEffectsRunner
 import com.example.cloudmusic.di.settings.SettingsEffectsBus
 import com.example.cloudmusic.di.settings.SettingsProjection
@@ -150,6 +153,9 @@ class PlaybackRuntime @Inject constructor(
     private val tracks: TrackRepository,
     private val proxy: PrePublishedCastProxy,
     private val settings: SettingsStore,
+    /** §61.112：playLocal 调试注入复用扫描管线的真实标签 / 封面件（03-04 §6）。 */
+    private val tagReader: JAudioTaggerPort,
+    private val coverWriter: CoverWriterPort,
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private val _state = MutableStateFlow(RuntimeState())
@@ -272,15 +278,39 @@ class PlaybackRuntime @Inject constructor(
         runCatching { ensureLocalFixtureDriver(root) }
             .onFailure { Log.w("CloudMusicRuntime", "playLocal: driver 注册失败", it) }
         val name = file.name
-        val track = Track(
-            id = TrackId.of(LOCAL_FIXTURE_STORAGE_ID, name),
-            title = name.substringBeforeLast('.', name),
-            artist = "本地音源",
-            album = "零权限注入",
-            durationMs = 0L,
-            sourceRef = SourceRef(storageId = LOCAL_FIXTURE_STORAGE_ID, path = name, url = null),
-            sourceType = SourceType.LOCAL,
-        )
+        // §61.112：此前手工构造 Track（durationMs=0 / 无 coverRef），真机一手证据
+        // 是播放页进度条 00:00/00:00 与唱片永远回退红盘。改为复用扫描管线同一套
+        // 真实标签链（JAudioTaggerFilePort 读 durationMs/封面，AndroidCoverWriter
+        // 落盘 512×512 WebP 回 coverRef）；任一失败回落原最小构造，零回归。
+        val trackId = TrackId.of(LOCAL_FIXTURE_STORAGE_ID, name)
+        val track = runCatching {
+            val tags = tagReader.read(file.absolutePath)
+            val coverRef = tags.embeddedCover
+                ?.takeIf { CoverPolicy.accepts(it) }
+                ?.let { coverWriter.write(trackId.value, it) }
+            Track(
+                id = trackId,
+                title = tags.title?.takeIf { it.isNotBlank() }
+                    ?: name.substringBeforeLast('.', name),
+                artist = tags.artist?.takeIf { it.isNotBlank() } ?: "本地音源",
+                album = tags.album?.takeIf { it.isNotBlank() } ?: "零权限注入",
+                durationMs = tags.durationMs ?: 0L,
+                sourceRef = SourceRef(storageId = LOCAL_FIXTURE_STORAGE_ID, path = name, url = null),
+                sourceType = SourceType.LOCAL,
+                coverRef = coverRef,
+            )
+        }.getOrElse {
+            Log.w("CloudMusicRuntime", "playLocal: 标签读取失败，回落最小构造", it)
+            Track(
+                id = trackId,
+                title = name.substringBeforeLast('.', name),
+                artist = "本地音源",
+                album = "零权限注入",
+                durationMs = 0L,
+                sourceRef = SourceRef(storageId = LOCAL_FIXTURE_STORAGE_ID, path = name, url = null),
+                sourceType = SourceType.LOCAL,
+            )
+        }
         runCatching {
             tracks.upsertBatch(listOf(track))
             queueRepository.setAll(listOf(track))

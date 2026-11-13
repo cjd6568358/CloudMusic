@@ -315,7 +315,14 @@ class AsfExtractor : Extractor {
         if (fed <= 0) return Extractor.RESULT_END_OF_INPUT
         val padding = packetSize - 27 - blockAlign
         if (padding > 0) runCatching { input.skipFully(padding) }
-        val timeUs = (sendMs + deltaMs) * 1000
+        // §61.112 真机一手根因（f3_wma.wma 离线逐包解析钉死）：包头 @6 的
+        // sendMs 逐包增量 = 371ms（= send_dur/packetCount = 每包音频时长），
+        // 而 @23 的 deltaMs 是**载荷头的逐包递增字段（~+326/包），不是呈现时间**。
+        // 旧实现 (sendMs+deltaMs)*1000 使时间戳每包多走 ~326ms，与解码器输出
+        // 连续性持续错位 → AudioSink 反复抛 UnexpectedDiscontinuityException
+        //（真机 §61.111④ 一手串）。修为纯 sendMs（ASF 呈现时间本就相对 preroll，
+        // 本文件 preroll≈0.16ms 可忽略）；deltaMs 保留读取用于诊断，不参与时间戳。
+        val timeUs = sendMs * 1000
         trackOutput?.sampleMetadata(timeUs, C.BUFFER_FLAG_KEY_FRAME, fed, 0, null)
         currentPacket++
         return Extractor.RESULT_CONTINUE

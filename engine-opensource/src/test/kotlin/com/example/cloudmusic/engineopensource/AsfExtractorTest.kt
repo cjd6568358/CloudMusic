@@ -188,6 +188,36 @@ class AsfExtractorTest {
     }
 
     @Test
+    fun `逐包时间戳 = 纯 sendMs（真机 61112 回归）`() {
+        // §61.112 真机一手根因：旧实现 (sendMs+deltaMs)*1000 里 deltaMs 是载荷头
+        // 逐包递增字段（~+326/包），不是呈现时间 → 时间戳每包多走 ~326ms，
+        // 与解码器输出连续性错位 → AudioSink 反复 UnexpectedDiscontinuityException。
+        // 夹具实测：sendMs 逐包增量 371ms（= send_dur/packetCount），
+        // 首包 sendMs=0 / deltaMs=1579。
+        val data = fixture()
+        val extractor = AsfExtractor()
+        val input = BytesInput(data)
+        val rec = Recorder()
+        extractor.init(rec)
+        val holder = PositionHolder()
+        var result = extractor.read(input, holder)
+        var guard = 0
+        while (result == Extractor.RESULT_CONTINUE && guard++ < 500) {
+            result = extractor.read(input, holder)
+        }
+        val times = rec.sampleTimesUs
+        assertEquals(120, times.size)
+        assertEquals(0L, times.first(), "首包 sendMs=0 → 时间戳从 0 起")
+        val step = times[1] - times[0]
+        assertTrue(step in 350_000L..400_000L,
+            "逐包增量 ≈371ms（sendMs 步进），实际 %d µs".format(step))
+        // 若仍把 deltaMs 加进时间戳，第 2 包会多出 ~1579+326 ≈ 1900µs 以上，
+        // 且后续每包多 ~326µs —— 末包累计 ~38ms 级漂移，这里一并钉死：
+        assertTrue(times.last() < 45_000_000L,
+            "末包时间戳应 ≈ send_dur 44.58s 内，实际 %d".format(times.last()))
+    }
+
+    @Test
     fun `init 期不下发 SeekMap 与 endTracks（Ape 同型回归）`() {
         val rec = Recorder()
         val extractor = AsfExtractor()

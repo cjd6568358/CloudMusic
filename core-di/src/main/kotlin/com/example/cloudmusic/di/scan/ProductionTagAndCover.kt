@@ -69,16 +69,31 @@ class JAudioTaggerFilePort : JAudioTaggerPort {
         val file = File(filePath)
         if (!file.isFile) return@runCatching MediaTags.EMPTY
         val audio = AudioFileIO.read(file)
-        val tag = audio.tag ?: return@runCatching MediaTags.EMPTY
-        MediaTags(
-            title = tag.getFirst(FieldKey.TITLE),
-            artist = tag.getFirst(FieldKey.ARTIST),
-            album = tag.getFirst(FieldKey.ALBUM),
-            trackNo = tag.getFirst(FieldKey.TRACK)?.substringBefore('/')?.toIntOrNull(),
-            year = tag.getFirst(FieldKey.YEAR)?.take(4)?.toIntOrNull(),
-            genre = tag.getFirst(FieldKey.GENRE),
-            embeddedCover = tag.firstArtwork?.binaryData,
-        )
+        val header = audio.audioHeader
+        val tags = audio.tag
+        // §61.112：补时长 / 采样率（audioHeader），此前只取文本帧与封面——
+        // 曲库 durationMs 缺失会让播放页进度条落 00:00（真机 §61.111④ 一手）。
+        val durationMs = header?.trackLength?.toLong()?.times(1000L)
+            ?.takeIf { it > 0L }
+        val sampleRate = header?.sampleRate?.toIntOrNull()?.takeIf { it > 0 }
+        if (tags == null) {
+            MediaTags(
+                durationMs = durationMs,
+                sampleRate = sampleRate,
+            )
+        } else {
+            MediaTags(
+                title = tags.getFirst(FieldKey.TITLE),
+                artist = tags.getFirst(FieldKey.ARTIST),
+                album = tags.getFirst(FieldKey.ALBUM),
+                trackNo = tags.getFirst(FieldKey.TRACK)?.substringBefore('/')?.toIntOrNull(),
+                year = tags.getFirst(FieldKey.YEAR)?.take(4)?.toIntOrNull(),
+                genre = tags.getFirst(FieldKey.GENRE),
+                durationMs = durationMs,
+                sampleRate = sampleRate,
+                embeddedCover = tags.firstArtwork?.binaryData,
+            )
+        }
     }.getOrDefault(MediaTags.EMPTY)
 }
 

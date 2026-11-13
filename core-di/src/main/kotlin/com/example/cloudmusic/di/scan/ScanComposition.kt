@@ -174,6 +174,11 @@ object ScanModule {
     @Singleton
     fun provideTrackSink(tracks: TrackRepository): TrackSink = RoomTrackSink(tracks)
 
+    /** §61.112：标签端口提为单例 @Provides——playLocal 调试注入路径复用同一条真实标签链。 */
+    @Provides
+    @Singleton
+    fun provideJAudioTaggerPort(): JAudioTaggerPort = JAudioTaggerFilePort()
+
     @Provides
     @Singleton
     fun provideCoverWriter(@ApplicationContext context: Context): CoverWriterPort =
