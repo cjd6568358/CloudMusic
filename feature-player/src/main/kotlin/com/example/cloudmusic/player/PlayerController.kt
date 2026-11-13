@@ -14,6 +14,9 @@ import com.example.cloudmusic.model.Link
 import com.example.cloudmusic.model.Track
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -139,7 +142,31 @@ class PlayerController(
             return
         }
         _state.update { it.copy(phase = PlayerPhase.PLAYING) }
+        startPositionTicker()
         media?.setPlaybackState(EngineState.PLAYING, engine.positionMs(h), engine.durationMs(h))
+    }
+
+    /** §61.114：位置节拍器句柄。 */
+    private var positionTicker: Job? = null
+
+    /**
+     * §61.114（真机一手：播放中进度时间冻结在 00:00）——B2 引擎没有逐帧回调，
+     * [positionMs] 此前只在暂停 / seek / 恢复时更新一次，PLAYING 期间 UI 进度
+     * 与时间显示不走。PLAYING 期每 500ms 轮询引擎位置；相位离开 PLAYING 自行
+     * 终止。MediaSession 通知栏位置刷新仍只在转换点（挂账，非本批）。
+     */
+    private fun startPositionTicker() {
+        positionTicker?.cancel()
+        positionTicker = scope.launch {
+            while (isActive && _state.value.phase == PlayerPhase.PLAYING) {
+                handle?.let { h ->
+                    runCatching { engine.positionMs(h) }.getOrNull()?.let { pos ->
+                        _state.update { it.copy(positionMs = pos) }
+                    }
+                }
+                delay(500)
+            }
+        }
     }
 
     /** §61.93（音效必须支持）：effectId>0 启用引擎基础音效（audiofx 档位），0 = 释放。 */
@@ -286,6 +313,7 @@ class PlayerController(
                 positionMs = seekTo,
             )
         }
+        if (autoPlay) startPositionTicker()
         media?.publishMetadata(track, track.coverRef)
         media?.setPlaybackState(
             if (autoPlay) EngineState.PLAYING else EngineState.PAUSED,
