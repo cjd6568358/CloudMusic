@@ -1372,10 +1372,12 @@ def main() -> int:
     else:
         print("[PASS] T-L L2：BECOMING_NOISY 经 BluetoothOutputPolicy 裁决（零新增权限）")
 
-    # ---- 12 §48（DLNA 输出切换：联动契约守护，缺口见 §48.2）-----------------
+    # ---- 12 §48（DLNA 输出切换：联动契约守护，§61.110 起接线）----------------
     # 03-08 §14 #9 / 03-09 §7：切 DLNA 必须同时改 OutputRouter 与 PlayerController
     # （后者内部再联动 IMediaControl.setEnabled，T09），禁止只切一半状态。
-    # 当前两者生产调用方均为 0 → DLNA 豁免暂未触发；缺口如实挂账，不伪造投屏状态。
+    # §61.110 演进：切换决策点在 :app（MainActivity.onOutputSelected）——
+    # 成对计数只在决策层做；:core-di 的 PlaybackRuntime.onOutputChanged 是
+    # 委托透传（非切换点），单独锚定其存在，不并入计数。
     active_calls = output_changed_calls = 0
     for root_rel in ("app/src/main", "core-di/src/main"):
         base = ROOT / root_rel
@@ -1386,16 +1388,22 @@ def main() -> int:
                 continue
             body = prod.read_text(encoding="utf-8", errors="replace")
             active_calls += len(re.findall(r"\.setActive\(", body))
-            output_changed_calls += len(re.findall(r"\.onOutputChanged\(", body))
-    if active_calls != output_changed_calls:
+            if root_rel == "app/src/main":
+                output_changed_calls += len(re.findall(r"\.onOutputChanged\(", body))
+    _runtime_pth = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" /
+                    "example" / "cloudmusic" / "di" / "playback" /
+                    "PlaybackComposition.kt").read_text(encoding="utf-8")
+    _passthrough = "fun onOutputChanged(dlna: Boolean) = controller.onOutputChanged(dlna)" in _runtime_pth
+    if active_calls != output_changed_calls or not _passthrough:
         failures.append(
-            f"03-08 §14 #9 / 03-09 §7：OutputRouter.setActive({active_calls}) 与 "
-            f"PlayerController.onOutputChanged({output_changed_calls}) 必须成对联动"
+            f"03-08 §14 #9 / 03-09 §7：切换点 setActive({active_calls}) 与 "
+            f"onOutputChanged({output_changed_calls}) 必须成对联动（§61.110 计数口径："
+            f"决策层 :app；core-di 委托透传在位={_passthrough}）"
         )
     else:
         print(
-            f"[PASS] 03-09 §7：输出切换联动成对（生产调用方 {active_calls} 处）；"
-            "当前无触发点 → DLNA 豁免未激活，缺口见 12 §48"
+            f"[PASS] 03-09 §7：输出切换联动成对（决策层 {active_calls} 处成对；"
+            "core-di 委托透传在位）——§61.110 DLNA 第一调用点已接线"
         )
 
     # ---- 12 §50 / §51（第四十二批 / 真机 A3 平台层改动的回归守护）--------------
