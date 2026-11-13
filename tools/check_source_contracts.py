@@ -5018,6 +5018,97 @@ def main() -> int:
         except (OSError, UnicodeError, ValueError) as exc:
             failures.append("12 §61.106 守护：证据不可解析（%s）" % exc)
 
+    # 12 §61.107 守护 / 补账批次：防「WMA 三层链已落码」被写成「wma 已修复」，
+    # 防 ReplayGain 探针 3/5 被美化成已生效，防 onTracksChanged / 顺序跳过被回删。
+    _probe107 = ROOT / "analysis" / "b2-replaygain-probe-2026-11-13.json"
+    _fix107 = ROOT / "analysis" / "b2-replaygain-fixture-2026-11-13.json"
+    if not (_probe107.is_file() and _fix107.is_file()):
+        failures.append("12 §61.107 守护：ReplayGain 探针 / 夹具证据缺失")
+    else:
+        try:
+            import json as _json107
+            _pr = _json107.loads(_probe107.read_text(encoding="utf-8"))
+            _fx = _json107.loads(_fix107.read_text(encoding="utf-8"))
+            _asf107 = (ROOT / "engine-opensource" / "src" / "main" / "java" /
+                       "androidx" / "media3" / "extractor" / "asf" /
+                       "AsfExtractor.kt").read_text(encoding="utf-8")
+            _dec107 = (ROOT / "engine-opensource" / "src" / "main" / "java" /
+                       "androidx" / "media3" / "decoder" / "ffmpeg" /
+                       "FfmpegAudioDecoder.java").read_text(encoding="utf-8")
+            _jni107 = (ROOT / "engine-opensource" / "src" / "main" / "jni" /
+                       "ffmpeg_jni.cc").read_text(encoding="utf-8")
+            _ape107 = (ROOT / "engine-opensource" / "src" / "main" / "java" /
+                       "androidx" / "media3" / "extractor" / "ape" /
+                       "ApeExtractor.kt").read_text(encoding="utf-8")
+            _adp107 = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" /
+                       "com" / "example" / "cloudmusic" / "engineopensource" /
+                       "Media3EngineAdapter.kt").read_text(encoding="utf-8")
+            if (_pr.get("device_run") is True
+                    and _pr.get("checks_passed") == 3
+                    and _pr.get("checks_total") == 5
+                    and _fx.get("output") and "f3_mp3_rg.mp3" in str(_fx.get("output"))
+                    and "setInitializationData(listOf(waveformatex))" in _asf107
+                    and 'case "audio/x-wma":' in _dec107
+                    and "isWma && extraLen >= 18" in _jni107
+                    and "wfxBlockAlign" in _jni107
+                    and "MAX_SEQUENTIAL_SKIP" in _ape107
+                    and "onTracksChanged" in _adp107
+                    and "### 61.107" in (ROOT / "docs" /
+                                         "12-编码阶段第一批交付.md").read_text(
+                                             encoding="utf-8")):
+                print("[PASS] 12 §61.107 守护：WMA 三层链锚点 / 探针 3/5 口径"
+                      "（=修复前证据，不得美化）/ onTracksChanged / 顺序跳过 / 补账日志在位")
+            else:
+                failures.append("12 §61.107 守护：WMA 链锚点 / 探针口径 / "
+                                "onTracksChanged / 顺序跳过 / 补账日志漂移")
+        except (OSError, UnicodeError, ValueError) as exc:
+            failures.append("12 §61.107 守护：证据不可解析（%s）" % exc)
+
+    # 12 §61.108 守护 / B2 口径修缮 + F3 增强 + SDK 固化：防陈旧文案回漂，
+    # 防 attachDataSource 语义被重新挂上 M3 期承诺，防 enhanced 判据被拆。
+    _adp108 = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" / "com" /
+               "example" / "cloudmusic" / "engineopensource" /
+               "Media3EngineAdapter.kt").read_text(encoding="utf-8")
+    _app108 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" /
+               "cloudmusic" / "ui" / "CloudMusicApp.kt").read_text(encoding="utf-8")
+    _di108 = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" /
+              "cloudmusic" / "di" / "playback" /
+              "PlaybackComposition.kt").read_text(encoding="utf-8")
+    _api108 = (ROOT / "engine-api" / "src" / "main" / "kotlin" / "com" /
+               "example" / "cloudmusic" / "engine" / "api" /
+               "EngineApi.kt").read_text(encoding="utf-8")
+    _pc108 = (ROOT / "feature-player" / "src" / "main" / "kotlin" / "com" /
+              "example" / "cloudmusic" / "player" /
+              "PlayerController.kt").read_text(encoding="utf-8")
+    _proxy108 = (ROOT / "output-localproxy" / "src" / "main" / "kotlin" / "com" /
+                 "example" / "cloudmusic" / "output" / "localproxy" /
+                 "LocalHttpStreamProxy.kt").read_text(encoding="utf-8")
+    _d0606 = (ROOT / "docs" / "03-模块开发文档" /
+              "03-06 播放内核与队列.md").read_text(encoding="utf-8")
+    _tool108 = (ROOT / "tools" / "l3_f3_matrix_run.py").read_text(encoding="utf-8")
+    _sdk108a = (ROOT / "tools" / "l3_f4_kind_slot_ab.py").read_text(encoding="utf-8")
+    _sdk108b = (ROOT / "tools" / "l3_f4_data_kind_ab.py").read_text(encoding="utf-8")
+    _b2ok = ("Media3EngineAdapter（B2 开源引擎" in _app108
+             and "EngineAdapter（舱内真实内核" not in _app108
+             and "11-11 起为 `Media3EngineAdapter`" in _di108
+             and "不替代引擎舱生产适配器" in _api108
+             and "`prepareGate` 是 A 路线 EngineAdapter 的内部闸门" in _pc108
+             and "§61.108 语义定稿" in _adp108
+             and "§61.108 生产实况注" in _proxy108
+             and "§61.108 语义定稿" in _d0606)
+    _enhok = ("discontinuity reason=SEEK positionMs=" in _adp108
+              and "--enhanced" in _tool108
+              and "run_enhanced" in _tool108
+              and "enhanced_summary" in _tool108)
+    _sdkok = ("C:/Users/Administrator/cloudmusic-ta1-sdk" in _sdk108a
+              and "C:/Users/Administrator/cloudmusic-ta1-sdk" in _sdk108b)
+    if _b2ok and _enhok and _sdkok:
+        print("[PASS] 12 §61.108 守护：B2 口径文案 / attachDataSource 语义定稿 / "
+              "ProxyStartPolicy 实况注 / F3 enhanced 判据 / SDK 持久路径候选")
+    else:
+        failures.append("12 §61.108 守护：B2 口径文案回漂 / attachDataSource 语义"
+                        " / enhanced 判据 / SDK 持久路径候选 漂移")
+
     if (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example" /
             "cloudmusic" / "common" / "PathNormalizer.kt").is_file():
         warnings.append("实现期修正 C-01：路径规范化下沉至 :core-common（见 PathNormalizer KDoc）")

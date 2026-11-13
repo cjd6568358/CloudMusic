@@ -17,6 +17,16 @@ REMOTE : `ACTION_PLAY` + `EXTRA_SOURCE_URL`，PC 侧 `http.server 8765` +
 每格抓全量 logcat 存 analysis/l3-f3-logs/，解析 extension / codec / 播放链 /
 错误回调，产出 analysis/l3-f3-matrix.json。**判据不补全、不伪造**：
 `NO_SAMPLE` 不计 PASS 也不计 FAIL；截断样本不声称完整时长 / ENDED 通过。
+
+§61.108 增强判据（`--enhanced`，默认关闭、不改动上述 PASS 语义）：
+对「verdict=PASS 且非截断样本」的格，追加三段取证——
+  1. seek 中点：ACTION_SEEK(duration/2) → 观测 `seek toMs=` +
+     `discontinuity reason=SEEK positionMs=`（落点 ±1500ms）；
+  2. seek 近端：ACTION_SEEK(duration-1500) → 快速抵达自然结束；
+  3. ENDED：窗口内观测 `state=ENDED`。
+产出 cell["enhanced"] = {seek_ok, landed_ms, ended_ok, duration_ok_ms,
+enhanced_verdict} 与独立日志 `<ext>-<path>-enhanced.txt`；汇总进顶层
+`enhanced_summary`。**仍不宣称全格式支持**：enhanced 只覆盖当轮 PASS 格。
 """
 from __future__ import annotations
 
@@ -40,8 +50,10 @@ OUT = ROOT / "analysis" / "l3-f3-matrix.json"
 
 PKG = "com.example.cloudmusic"
 ACTION_PLAY = "com.example.cloudmusic.action.PLAY"
+ACTION_SEEK = "com.example.cloudmusic.action.SEEK"
 EXTRA_LOCAL = "com.example.cloudmusic.extra.LOCAL_PATH"
 EXTRA_URL = "com.example.cloudmusic.extra.SOURCE_URL"
+EXTRA_SEEK_MS = "com.example.cloudmusic.extra.SEEK_POSITION_MS"
 PORT = 8765
 PRIVATE_DIR = "/data/data/%s/files/music" % PKG
 
@@ -207,6 +219,74 @@ def parse_log(text: str, ext: str, path_kind: str) -> dict:
     }
 
 
+def run_enhanced(serial: str, cell: dict, path_kind: str,
+                 seek_wait_s: float, ended_wait_s: float) -> dict | None:
+    """§61.108：对 PASS 且非截断的格追加 seek 落点 + ENDED 取证。
+
+    返回 None = 不适用（缺 READY 时长 / 非 PASS / 截断样本），调用方如实登记。
+    """
+    if cell["verdict"] != "PASS" or cell.get("truncated_sample"):
+        return None
+    # media3 分支的 mDuration_raw 即 READY durationMs（§61.86 判据）；legacy 不适用。
+    dur_ms = (cell.get("mDuration_raw") or -1) if cell["engine"] == "media3" else -1
+    if dur_ms <= 0:
+        return None
+
+    adb(serial, "logcat", "-c")
+    target_a = dur_ms // 2
+    adb(serial, "shell", "am", "startservice", "-a", ACTION_SEEK,
+        "-c", "android.intent.category.DEFAULT",
+        "--el", EXTRA_SEEK_MS, str(target_a))
+    time.sleep(seek_wait_s)
+    dump_a = adb(serial, "logcat", "-d", "-v", "time").stdout.decode(
+        "utf-8", "replace")
+
+    target_b = max(0, dur_ms - 1500)
+    adb(serial, "shell", "am", "startservice", "-a", ACTION_SEEK,
+        "-c", "android.intent.category.DEFAULT",
+        "--el", EXTRA_SEEK_MS, str(target_b))
+    ended = False
+    deadline = time.time() + ended_wait_s
+    while time.time() < deadline:
+        time.sleep(2.0)
+        tail = adb(serial, "logcat", "-d", "-v", "time").stdout.decode(
+            "utf-8", "replace")
+        if re.search(r"CM-Media3[^:]*: state=ENDED", tail):
+            ended = True
+            dump_a += "\n== ENDED 轮询窗口 ==\n" + tail
+            break
+    if not ended:
+        dump_a += "\n== ENDED 轮询窗口（未观测到）==\n" + adb(
+            serial, "logcat", "-d", "-v", "time").stdout.decode(
+                "utf-8", "replace")
+
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    (LOG_DIR / ("%s-%s-enhanced.txt" % (cell["format"], path_kind))).write_text(
+        dump_a, encoding="utf-8")
+
+    seek_cmds = re.findall(r"CM-Media3[^:]*: seek toMs=(\d+)", dump_a)
+    landings = re.findall(
+        r"CM-Media3[^:]*: discontinuity reason=SEEK positionMs=(\d+)", dump_a)
+    landed_a = int(landings[0]) if landings else None
+    seek_a_ok = (landed_a is not None and
+                 abs(landed_a - target_a) <= 1500 and
+                 str(target_a) in seek_cmds)
+    return {
+        "applied": True,
+        "seek_target_ms": target_a,
+        "seek2_target_ms": target_b,
+        "seek_cmd_seen": str(target_a) in seek_cmds,
+        "landing_ms": landed_a,
+        "seek_ok": seek_a_ok,
+        "ended_ok": ended,
+        "duration_ok_ms": dur_ms,
+        "enhanced_verdict": ("PASS" if (seek_a_ok and ended) else
+                             "PARTIAL" if seek_a_ok else "FAIL"),
+        "log_file": "analysis/l3-f3-logs/%s-%s-enhanced.txt" % (
+            cell["format"], path_kind),
+    }
+
+
 def run_cell(serial: str, ext: str, path_kind: str, wait_s: float,
              truncated: bool) -> dict:
     src = FIXTURES / ("f3_%s.%s" % (ext, ext))
@@ -249,6 +329,12 @@ def main() -> int:
     ap.add_argument("--wait", type=float, default=6.0, help="每格注入后等待秒数")
     ap.add_argument("--formats", default="", help="逗号分隔，缺省=清单里全部")
     ap.add_argument("--paths", default="local,remote")
+    ap.add_argument("--enhanced", action="store_true",
+                    help="§61.108：对 PASS 且非截断格追加 seek 落点 + ENDED 判据")
+    ap.add_argument("--seek-wait", type=float, default=2.5,
+                    help="增强：seek 指令后等待秒数")
+    ap.add_argument("--ended-wait", type=float, default=25.0,
+                    help="增强：近端 seek 后等待 ENDED 的最长秒数")
     args = ap.parse_args()
 
     if not MANIFEST.is_file():
@@ -291,6 +377,19 @@ def main() -> int:
             for path_kind in paths:
                 print("[RUN ] %-5s × %-6s ..." % (ext, path_kind), flush=True)
                 cell = run_cell(args.serial, ext, path_kind, args.wait, truncated)
+                if args.enhanced:
+                    enh = run_enhanced(args.serial, cell, path_kind,
+                                       args.seek_wait, args.ended_wait)
+                    cell["enhanced"] = enh if enh is not None else {
+                        "applied": False,
+                        "reason": ("截断样本不计 seek/ENDED" if truncated
+                                   else "非 PASS 格或缺 READY 时长，不适用"),
+                    }
+                    if enh:
+                        print("       [ENH ] seek=%s landed=%s ended=%s → %s"
+                              % (enh["seek_ok"], enh["landing_ms"],
+                                 enh["ended_ok"], enh["enhanced_verdict"]),
+                              flush=True)
                 cells.append(cell)
                 print("       → %-7s ext=%-10s codec=%-10s write=%s reason=%s"
                       % (cell["verdict"], cell["extension"], cell["codec"],
@@ -306,6 +405,22 @@ def main() -> int:
     for c in cells:
         counts[c["verdict"]] = counts.get(c["verdict"], 0) + 1
     no_sample = manifest["no_sample_formats"]
+    # §61.108：增强判据汇总（--enhanced 才有内容；不改 legacy counts 语义）。
+    enhanced_cells = [c for c in cells if "enhanced" in c]
+    enhanced_summary = {
+        "enabled": args.enhanced,
+        "applied": sum(1 for c in enhanced_cells if c["enhanced"].get("applied")),
+        "enhanced_pass": sum(1 for c in enhanced_cells
+                             if c["enhanced"].get("enhanced_verdict") == "PASS"),
+        "enhanced_partial": sum(1 for c in enhanced_cells
+                                if c["enhanced"].get("enhanced_verdict") == "PARTIAL"),
+        "enhanced_fail": sum(1 for c in enhanced_cells
+                             if c["enhanced"].get("enhanced_verdict") == "FAIL"),
+        "not_applicable": sum(1 for c in enhanced_cells
+                              if not c["enhanced"].get("applied")),
+        "boundary": "enhanced 只覆盖当轮 PASS 且非截断格；seek 落点容差 ±1500ms；"
+                    "ENDED 以近端 seek 后窗口内 state=ENDED 为准；不宣称全格式支持",
+    } if args.enhanced else {"enabled": False}
     result = {
         "method": "12 §61.49 / F3：逐格式 × REMOTE/LOCAL 双路径真机矩阵",
         "generated_by": "tools/l3_f3_matrix_run.py",
@@ -316,6 +431,7 @@ def main() -> int:
                            "+ adb reverse + PC http.server"),
         "cells": cells,
         "counts": counts,
+        "enhanced_summary": enhanced_summary,
         "no_sample_formats": no_sample,
         "no_sample_cells": [{"format": e, "path": p, "verdict": "NO_SAMPLE"}
                             for e in no_sample for p in ("local", "remote")],

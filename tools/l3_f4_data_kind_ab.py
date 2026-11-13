@@ -71,11 +71,14 @@ def adb(serial: str, *args: str, timeout: int = 90) -> subprocess.CompletedProce
 
 def gradle(*tasks: str) -> subprocess.CompletedProcess:
     env = dict(os.environ)
-    # 与 §61.58~§61.62 同口径：仓库外临时目录，不改系统环境变量。
+    # 与 §61.58~§61.62 同口径：仓库外目录，不改系统环境变量。
+    # §61.108 SDK 固化：持久目录为首选，TEMP 副本保留为历史候选。
     env.setdefault("GRADLE_USER_HOME",
                    "C:/Users/Administrator/AppData/Local/Temp/cloudmusic-build/gradle-home")
-    env.setdefault("ANDROID_HOME",
-                   "C:/Users/Administrator/AppData/Local/Temp/cloudmusic-ta1-sdk")
+    _sdk_persistent = Path("C:/Users/Administrator/cloudmusic-ta1-sdk")
+    env.setdefault("ANDROID_HOME", str(
+        _sdk_persistent if _sdk_persistent.is_dir()
+        else "C:/Users/Administrator/AppData/Local/Temp/cloudmusic-ta1-sdk"))
     launcher = ROOT / ("gradlew.bat" if os.name == "nt" else "gradlew")
     return subprocess.run([str(launcher), *tasks, "--offline"],
                           cwd=str(ROOT), env=env, capture_output=True,

@@ -88,10 +88,14 @@ def load_runner():
 def gradle(*tasks: str) -> subprocess.CompletedProcess:
     env = dict(os.environ)
     if "ANDROID_HOME" not in env:
-        local = os.environ.get("LOCALAPPDATA", "")
-        candidate = Path(local) / "Temp" / "cloudmusic-ta1-sdk" if local else None
-        if candidate and candidate.is_dir():
-            env["ANDROID_HOME"] = str(candidate)
+        # §61.108 SDK 固化：持久目录为首选（TEMP 目录随磁盘清理即断链），
+        # TEMP 副本保留为历史候选，二者都不在时交由 local.properties / AGP 自解析。
+        for candidate in (Path("C:/Users/Administrator/cloudmusic-ta1-sdk"),
+                          Path(os.environ.get("LOCALAPPDATA", "") or "/nonexistent")
+                          / "Temp" / "cloudmusic-ta1-sdk"):
+            if candidate.is_dir():
+                env["ANDROID_HOME"] = str(candidate)
+                break
     # 12 §61.57 编译期预检实证：Windows 上 ./gradlew 是无扩展名的 bash 脚本，
     # CreateProcess 会抛 OSError [WinError 193]；必须改用 gradlew.bat。
     launcher = GRADLE.with_name("gradlew.bat") if os.name == "nt" else GRADLE
