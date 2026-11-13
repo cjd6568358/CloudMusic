@@ -1,39 +1,75 @@
 == t=0 ==
-( 2484): background->idle(3007ms) R(service unbind com.google.android.gms/.chimera.PersistentDirectBootAwareApiService) adj=100.
-11-14 03:45:07.558 I/SmartPower( 2484): com.google.android.gms/10115 state=inactive adj=100 proc size=4 move to idle service unbind com.google.android.gms/.chimera.PersistentDirectBootAwareApiService
-11-14 03:45:07.693 E/QTagParser(30679): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
-11-14 03:45:07.759 D/vendor.qti.bluetooth@1.0-ibs_handler( 1223): SerialClockVote: vote for UART CLK ON
-11-14 03:45:07.760 D/vendor.qti.bluetooth@1.0-wake_lock( 1223): Acquire wakelock is acquired 
-11-14 03:45:07.760 I/vendor.qti.bluetooth@1.0-ibs_handler( 1223): DeviceWakeUp: Writing IBS_WAKE_IND
-11-14 03:45:07.766 I/vendor.qti.bluetooth@1.0-ibs_handler( 1223): ProcessIbsCmd: Received IBS_WAKE_ACK: 0xFC
-11-14 03:45:07.766 I/vendor.qti.bluetooth@1.0-ibs_handler( 1223): ProcessIbsCmd: Signal wack_cond_
-11-14 03:45:07.766 D/vendor.qti.bluetooth@1.0-ibs_handler( 1223): DeviceWakeUp: Unblocked from waiting for FC, pthread_cond_timedwait ret = 0
-11-14 03:45:07.767 I/vendor.qti.bluetooth@1.0-ibs_handler( 1223): ProcessIbsCmd: Received IBS_WAKE_IND: 0xFD
-11-14 03:45:07.767 I/vendor.qti.bluetooth@1.0-ibs_handler( 1223): ProcessIbsCmd: Writing IBS_WAKE_ACK
-11-14 03:45:07.807 I/vendor.qti.bluetooth@1.0-ibs_handler( 1223): ProcessIbsCmd: Received IBS_SLEEP_IND: 0xFE
-11-14 03:45:07.990 D/TrafficStats(16893): tagSocket(108) with statsTag=0xffffffff, statsUid=-1
-11-14 03:45:08.474 I/PlayCommon( 7099): [5278] akra.j(24): Preparing logs for uploading
-11-14 03:45:08.480 I/PlayCommon( 7099): [5278] akra.j(178): Connecting to server: https://play.googleapis.com/play/log?format=raw&proto_v2=true
-11-14 03:45:08.507 D/TrafficStats( 7099): tagSocket(140) with statsTag=0x6900, statsUid=-1
-11-14 03:45:08.696 E/QTagParser(30679): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
-11-14 03:45:08.698 I/ThermalObserver( 2484): Temperature control has been released.
-11-14 03:45:08.698 D/SLM-SRV-SLAService( 8387): checktemp temperature = 29158 temperature_average = 29041 isPerformanceMode = false thermal_enable_slm = true
-11-14 03:45:08.700 I/mstatdaemon( 2071): Entering time loop
-11-14 03:45:08.700 I/mstatdaemon( 2071): t = 1794599108
-11-14 03:45:08.700 I/mstatdaemon( 2071): translated_t = 1478609108
-11-14 03:45:08.700 I/mstat_log( 2071): mstatcommitLog log_alloc() failed
-11-14 03:45:08.766 I/vendor.qti.bluetooth@1.0-ibs_handler( 1223): DeviceSleep: TX Awake, Sending SLEEP_IND
-11-14 03:45:08.767 D/vendor.qti.bluetooth@1.0-ibs_handler( 1223): SerialClockVote: vote for UART CLK OFF
-11-14 03:45:08.917 D/vendor.qti.bluetooth@1.0-wake_lock( 1223): Release wakelock is released 
-11-14 03:45:09.036 I/MiuiNetworkPolicy( 2484): bandwidth: 0 KB/s, Max bandwidth: 721 KB/s
-11-14 03:45:09.559 I/SmartPower( 2484): com.google.android.gms/10115 state=idle adj=100 proc size=4 move to hibernation service unbind com.google.android.gms/.chimera.PersistentDirectBootAwareApiService
-11-14 03:45:09.601 D/TrafficStats( 3925): tagSocket(228) with statsTag=0xc004901, statsUid=-1
-11-14 03:45:09.660 E/SELinux (  478): avc:  denied  { find } for pid=30679 uid=10326 name=service_mock_location scontext=u:r:untrusted_app:s0:c70,c257,c512,c768 tcontext=u:object_r:default_android_service:s0 tclass=service_manager permissive=0
-11-14 03:45:09.660 E/SELinux (  478): avc:  denied  { find } for pid=30679 uid=10326 name=service_fl_ml scontext=u:r:untrusted_app:s0:c70,c257,c512,c768 tcontext=u:object_r:default_android_service:s0 tclass=service_manager permissive=0
-11-14 03:45:09.697 E/QTagParser(30679): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
-11-14 03:45:09.857 D/TrafficStats( 3925): tagSocket(238) with statsTag=0xc004901, statsUid=-1
-11-14 03:45:10.697 E/QTagParser(30679): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
+tion = com.android.server.action.NETWORK_STATS_UPDATED
+11-14 03:52:55.527 I/BatteryStatsService( 2484): In wakeup_callback: resumed from suspend
+11-14 03:52:55.774 I/PredyPreloaderService(30679): LooperThread: timeout.
+11-14 03:52:55.780 D/MiuiNetworkPolicy( 2484): updateLimit mLimitEnabled=true,enabled=false,mNetworkPriorityMode=1
+11-14 03:52:55.801 I/BatteryStatsService( 2484): In wakeup_callback: suspend aborted
+11-14 03:52:55.990 I/BatteryStatsService( 2484): In wakeup_callback: suspend aborted
+11-14 03:52:56.129 E/QTagParser(30679): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
+11-14 03:52:56.161 I/BatteryStatsService( 2484): In wakeup_callback: suspend aborted
+11-14 03:52:56.376 E/ANDR-PERF-OPTSHANDLER( 1328): Unable to find the correct node storage pointers for                   resource index=68, node path=/proc/sys/walt/sched_downmigrate
+11-14 03:52:56.376 E/ANDR-PERF-OPTSHANDLER( 1328): Unable to find the correct node storage pointers for                   resource index=68, node path=/proc/sys/walt/sched_upmigrate
+11-14 03:52:56.376 E/ANDR-PERF-RESOURCEQS( 1328): Failed to reset optimization [3, 56]
+11-14 03:52:56.376 E/ANDR-PERF-OPTSHANDLER( 1328): Unable to find the correct node storage pointers for                   resource index=68, node path=/proc/sys/walt/sched_upmigrate
+11-14 03:52:56.376 E/ANDR-PERF-OPTSHANDLER( 1328): Unable to find the correct node storage pointers for                   resource index=68, node path=/proc/sys/walt/sched_downmigrate
+11-14 03:52:56.376 E/ANDR-PERF-RESOURCEQS( 1328): Failed to reset optimization [3, 56]
+11-14 03:52:56.376 E/ANDR-PERF-RESOURCEQS( 1328): Failed to reset optimization [3, 61]
+11-14 03:52:56.460 W/ActivityManager( 2484): Background start not allowed: service Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) } to com.example.cloudmusic/.PlaybackService from pid=21231 uid=2000 pkg=com.android.shell startFg?=false
+11-14 03:52:56.530 I/MiuiNetworkPolicy( 2484): bandwidth: 161 KB/s, Max bandwidth: 651 KB/s
+11-14 03:52:57.883 I/BatteryStatsService( 2484): In wakeup_callback: resumed from suspend
+11-14 03:52:59.179 W/ProcessStats( 2484): Tracking association SourceState{8bcc2f8 com.xiaomi.aiasst.vision/1000 BTopFgs #138156} whose proc state 2 is better than process ProcessState{51c4ce1 com.miui.analytics/10130 pkg=com.miui.analytics} proc state 3 (362 skipped)
+11-14 03:52:59.184 I/VA_AliveCore:AssistInteractionService( 8072): onProcessChanged: processName=com.miui.voiceassist;isRunning=false
+11-14 03:52:59.213 I/BatteryStatsService( 2484): In wakeup_callback: resumed from suspend
+11-14 03:52:59.228 E/QTagParser(30679): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
+11-14 03:53:00.540 E/android.system.suspend@1.0-service(  957): failed to read wakeup reasons: Device or resource busy
+11-14 03:53:00.540 I/android.system.suspend@1.0-service(  957): Unknown/empty wakeup reason. Re-opening wakeup_reason file.
+11-14 03:53:00.540 I/BatteryStatsService( 2484): In wakeup_callback: resumed from suspend
+11-14 03:53:01.905 I/BatteryStatsService( 2484): In wakeup_callback: resumed from suspend
+11-14 03:53:03.192 I/BatteryStatsService( 2484): In wakeup_callback: resumed from suspend
+11-14 03:53:03.470 E/QTagParser(30679): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
+11-14 03:53:03.501 I/BatteryStatsService( 2484): In wakeup_callback: resumed from suspend
+11-14 03:53:03.619 D/TrafficStats(16893): tagSocket(108) with statsTag=0xffffffff, statsUid=-1
+11-14 03:53:03.648 I/BatteryStatsService( 2484): In wakeup_callback: suspend aborted
+11-14 03:53:04.483 I/BatteryStatsService( 2484): In wakeup_callback: resumed from suspend
+11-14 03:53:04.830 D/TrafficStats(30679): tagSocket(269) with statsTag=0xffffffff, statsUid=-1
+11-14 03:53:04.835 I/BatteryStatsService( 2484): In wakeup_callback: resumed from suspend
 
 == round 1 ==
 
 == round 2 ==
+
+== round 3 ==
+
+== round 4 ==
+
+== round 5 ==
+
+== round 6 ==
+
+== round 7 ==
+
+== round 8 ==
+
+== round 9 ==
+
+== round 10 ==
+
+== round 11 ==
+
+== round 12 ==
+
+== round 13 ==
+
+== round 14 ==
+
+== round 15 ==
+
+== round 16 ==
+
+== round 17 ==
+
+== round 18 ==
+
+== round 19 ==
+
+== round 20 ==
