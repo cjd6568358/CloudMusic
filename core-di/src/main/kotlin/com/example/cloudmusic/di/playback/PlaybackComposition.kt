@@ -42,6 +42,7 @@ import com.example.cloudmusic.player.TrackSourceResolver
 import com.example.cloudmusic.scanner.ScanCoordinator
 import com.example.cloudmusic.scanner.ScanProgress
 import com.example.cloudmusic.scanner.ScanRequest
+import com.example.cloudmusic.storage.PlaylistRepository
 import com.example.cloudmusic.storage.TrackRepository
 import dagger.Module
 import dagger.Provides
@@ -152,6 +153,8 @@ class PlaybackRuntime @Inject constructor(
     private val queueRepository: QueueRepository,
     /** 12 §61.47：F2 零权限本地曲库注入时把曲目写进 Room，使曲库 / 队列真实可见。 */
     private val tracks: TrackRepository,
+    /** §61.119（M3）：歌单闭环的落库口。 */
+    private val playlists: PlaylistRepository,
     private val proxy: PrePublishedCastProxy,
     private val settings: SettingsStore,
     /** §61.112：playLocal 调试注入复用扫描管线的真实标签 / 封面件（03-04 §6）。 */
@@ -351,6 +354,51 @@ class PlaybackRuntime @Inject constructor(
                 controller.setQueue(queueItems, PlayMode.SEQUENCE, startAt)
                 controller.playAt(startAt)
             }.onFailure { Log.w("CloudMusicRuntime", "playTracks: 分组播放失败", it) }
+        }
+    }
+
+    /** §61.119（M8）：队列点击跳播——当前队列第 [index] 项起播。 */
+    fun jumpTo(index: Int) = scope.launch {
+        runCatching { controller.playAt(index) }
+            .onFailure { Log.w("CloudMusicRuntime", "jumpTo 失败", it) }
+    }
+
+    /** §61.119（M3）：创建歌单，返回 id（经回调交付 UI）。 */
+    fun createPlaylist(name: String, onCreated: (String) -> Unit = {}) {
+        scope.launch {
+            runCatching { playlists.create(name) }
+                .onSuccess { id -> onCreated(id) }
+                .onFailure { Log.w("CloudMusicRuntime", "createPlaylist 失败", it) }
+        }
+    }
+
+    /** §61.119（M3）：加入歌单（跨来源混合，契约不变）。 */
+    fun addToPlaylist(playlistId: String, trackId: TrackId) {
+        scope.launch {
+            runCatching { playlists.addTracks(playlistId, listOf(trackId)) }
+                .onFailure { Log.w("CloudMusicRuntime", "addToPlaylist 失败", it) }
+        }
+    }
+
+    /** §61.119（M3）：删除歌单。 */
+    fun deletePlaylist(id: String) {
+        scope.launch {
+            runCatching { playlists.delete(id) }
+                .onFailure { Log.w("CloudMusicRuntime", "deletePlaylist 失败", it) }
+        }
+    }
+
+    /** §61.119（M3）：播放歌单——歌单曲目替换业务队列并从头起播。 */
+    fun playPlaylist(id: String) {
+        scope.launch {
+            runCatching {
+                val list = playlists.observeTracks(id).first()
+                if (list.isEmpty()) return@runCatching
+                queueRepository.setAll(list)
+                val queueItems = queueRepository.observe().first()
+                controller.setQueue(queueItems, PlayMode.SEQUENCE, 0)
+                controller.playAt(0)
+            }.onFailure { Log.w("CloudMusicRuntime", "playPlaylist 失败", it) }
         }
     }
 

@@ -135,6 +135,7 @@ fun CloudMusicApp(
     /** §61.117（M2-2）：扫描忽略目录（小写比对），下次扫描生效。 */
     scanIgnoreDirs: List<String> = emptyList(),
     onScanIgnoreDirsChanged: (List<String>) -> Unit = {},
+    /** §61.119（M3/M8）：歌单与队列交互（bridge 直达）。 */
     bridge: PlayerStateBridge,
 ) {
     var tab by rememberSaveable { mutableIntStateOf(0) }
@@ -145,6 +146,9 @@ fun CloudMusicApp(
     // 播放页返回才回到功能页，避免把自研导航误当成竞品播放页组件。
     var showPlayer by rememberSaveable { mutableStateOf(true) }
     var query by rememberSaveable { mutableStateOf("") }
+    // §61.119（M3）：加入歌单弹窗目标曲目。
+    var addToPlaylistTrack by remember { mutableStateOf<Track?>(null) }
+
 
     val trackList by tracks.collectAsState(initial = emptyList())
     val storageList by storages.collectAsState(initial = emptyList())
@@ -196,10 +200,17 @@ fun CloudMusicApp(
                 showSources -> SourcesScreen(
                     storageList, onRescanAll, onRetryUnavailable, onAddSaf, onAddMediaStore,
                 )
-                tab == 0 -> LibraryScreen(trackList, onRescanAll, onRetryUnavailable, onPlayTracks)
-                tab == 1 -> PlaylistsScreen(playlistList)
+                tab == 0 -> LibraryScreen(
+                    trackList, onRescanAll, onRetryUnavailable, onPlayTracks,
+                ) { track -> addToPlaylistTrack = track }
+                tab == 1 -> PlaylistsScreen(
+                    playlistList,
+                    onCreate = bridge::onCreatePlaylist,
+                    onPlay = bridge::onPlayPlaylist,
+                    onDelete = bridge::onDeletePlaylist,
+                )
                 tab == 2 -> SearchScreen(query, { query = it }, searchResults)
-                tab == 3 -> QueueScreen(queueList)
+                tab == 3 -> QueueScreen(queueList, onJump = bridge::onQueueJump)
                 else -> SettingsScreen(
                     runtime, appSettings.network.wifiOnly, onRescanAll,
                     { showSources = true },
@@ -219,6 +230,51 @@ fun CloudMusicApp(
 
     if (showOutput) {
         OutputDialog(output, onOutputSelected) { showOutput = false }
+    }
+
+    // §61.119（M3）：加入歌单弹窗——曲库行 "+" 触发；支持新建内联。
+    if (addToPlaylistTrack != null) {
+        AlertDialog(
+            onDismissRequest = { addToPlaylistTrack = null },
+            title = { Text("加入歌单：${addToPlaylistTrack?.title ?: ""}") },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    if (playlistList.isEmpty()) {
+                        Text("还没有歌单，先新建一个", style = MaterialTheme.typography.bodySmall)
+                    }
+                    playlistList.forEach { pl ->
+                        ListItem(
+                            headlineContent = { Text(pl.name) },
+                            modifier = Modifier.clickable {
+                                bridge.onAddToPlaylist(pl.id, addToPlaylistTrack!!.id)
+                                addToPlaylistTrack = null
+                            },
+                        )
+                    }
+                    var newName by remember { mutableStateOf("") }
+                    Row(verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        OutlinedTextField(
+                            value = newName,
+                            onValueChange = { newName = it },
+                            label = { Text("新歌单名") },
+                            singleLine = true,
+                            modifier = Modifier.weight(1f),
+                        )
+                        Button(enabled = newName.isNotBlank(), onClick = {
+                            val track = addToPlaylistTrack
+                            bridge.onCreatePlaylist(newName.trim()) { id ->
+                                if (track != null) bridge.onAddToPlaylist(id, track.id)
+                            }
+                            addToPlaylistTrack = null
+                        }) { Text("建并加入") }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { addToPlaylistTrack = null }) { Text("关闭") }
+            },
+        )
     }
 
     // 12 §61.40：整页播放页覆盖在 Scaffold 之上（局部混用两套 UI 框架，限制在播放页一屏）。
@@ -479,6 +535,7 @@ private fun LibraryScreen(
     onRescan: () -> Unit,
     onRetry: () -> Unit,
     onPlayTracks: (List<Track>, Int) -> Unit,
+    onAddToPlaylist: (Track) -> Unit,
 ) {
     var view by rememberSaveable { mutableIntStateOf(0) }
     var expanded by remember { mutableStateOf(setOf<String>()) }
@@ -527,6 +584,11 @@ private fun LibraryScreen(
                             Text("${track.artist} · ${track.album}", maxLines = 1)
                         },
                         leadingContent = { Text("♪") },
+                        trailingContent = {
+                            Text("＋", modifier = Modifier.clickable {
+                                onAddToPlaylist(track)
+                            })
+                        },
                         modifier = Modifier.clickable {
                             val idx = tracks.indexOfFirst { it.id == track.id }
                             onPlayTracks(tracks, idx)
@@ -661,21 +723,47 @@ private fun SourcesScreen(
     }
 }
 
+/** §61.119（M3）：歌单页——创建 / 播放 / 删除闭环（PlaylistRepository 契约不变）。 */
 @Composable
-private fun PlaylistsScreen(playlists: List<Playlist>) {
+private fun PlaylistsScreen(
+    playlists: List<Playlist>,
+    onCreate: (String) -> Unit,
+    onPlay: (String) -> Unit,
+    onDelete: (String) -> Unit,
+) {
+    var newName by remember { mutableStateOf("") }
     Column(Modifier.fillMaxSize().padding(16.dp)) {
         Text("歌单 · ${playlists.size}", style = MaterialTheme.typography.titleMedium)
+        Row(verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            OutlinedTextField(
+                value = newName,
+                onValueChange = { newName = it },
+                label = { Text("新歌单名") },
+                singleLine = true,
+                modifier = Modifier.weight(1f),
+            )
+            Button(enabled = newName.isNotBlank(), onClick = {
+                onCreate(newName.trim())
+                newName = ""
+            }) { Text("创建") }
+        }
         if (playlists.isEmpty()) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("还没有歌单（V0.1 通过 PlaylistRepository 写入）", textAlign = TextAlign.Center)
+                Text("还没有歌单；在曲库行点「＋」加入曲目时会自动创建", textAlign = TextAlign.Center)
             }
         } else {
             LazyColumn(Modifier.fillMaxSize()) {
                 items(playlists, key = { it.id }) { playlist ->
                     ListItem(
                         headlineContent = { Text(playlist.name, maxLines = 1) },
-                        supportingContent = { Text("id=${playlist.id} · 更新于 ${playlist.updatedAt}") },
                         leadingContent = { Text("☰") },
+                        trailingContent = {
+                            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                                Text("▶", modifier = Modifier.clickable { onPlay(playlist.id) })
+                                Text("🗑", modifier = Modifier.clickable { onDelete(playlist.id) })
+                            }
+                        },
                     )
                     HorizontalDivider()
                 }
@@ -712,20 +800,21 @@ private fun SearchScreen(
 }
 
 @Composable
-private fun QueueScreen(queue: List<QueueItem>) {
+private fun QueueScreen(queue: List<QueueItem>, onJump: (Int) -> Unit) {
     Column(Modifier.fillMaxSize().padding(16.dp)) {
-        Text("播放队列 · ${queue.size}", style = MaterialTheme.typography.titleMedium)
+        Text("队列 · ${queue.size}（点曲目跳播）", style = MaterialTheme.typography.titleMedium)
         if (queue.isEmpty()) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("队列为空（V0.1 由 QueueRepository.observe() 提供）", textAlign = TextAlign.Center)
+                Text("队列为空（播放后由 QueueRepository.observe() 提供）", textAlign = TextAlign.Center)
             }
         } else {
             LazyColumn(Modifier.fillMaxSize()) {
                 items(queue, key = { "${it.queueId}-${it.position}" }) { item ->
                     ListItem(
                         headlineContent = { Text("#${item.position} · ${item.trackId.value}", maxLines = 1) },
-                        supportingContent = { Text("来源：${item.sourceRef}") },
+                        supportingContent = { Text("来源：${item.sourceRef}", maxLines = 1) },
                         leadingContent = { Text("☷") },
+                        modifier = Modifier.clickable { onJump(item.position) },
                     )
                     HorizontalDivider()
                 }

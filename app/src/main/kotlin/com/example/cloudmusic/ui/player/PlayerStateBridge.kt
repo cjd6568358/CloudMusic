@@ -87,4 +87,29 @@ class PlayerStateBridge(
     fun onEqualizer(enabled: Boolean, effectLevel: Int, bands: List<Int>) {
         runtime.applyEqualizer(enabled, effectLevel, bands)
     }
+
+    /** §61.119（M8）：队列点击跳播。 */
+    fun onQueueJump(index: Int) {
+        runtime.jumpTo(index)
+    }
+
+    /** §61.119（M3）：歌单创建（id 经回调交付，供「加入歌单」级联）。 */
+    fun onCreatePlaylist(name: String, onCreated: (String) -> Unit = {}) {
+        runtime.createPlaylist(name, onCreated)
+    }
+
+    /** §61.119（M3）：加入歌单。 */
+    fun onAddToPlaylist(playlistId: String, trackId: com.example.cloudmusic.model.TrackId) {
+        runtime.addToPlaylist(playlistId, trackId)
+    }
+
+    /** §61.119（M3）：删除歌单。 */
+    fun onDeletePlaylist(id: String) {
+        runtime.deletePlaylist(id)
+    }
+
+    /** §61.119（M3）：播放歌单。 */
+    fun onPlayPlaylist(id: String) {
+        runtime.playPlaylist(id)
+    }
 }
