@@ -150,6 +150,21 @@ public final class FfmpegLibrary {
         return "pcm_mulaw";
       case MimeTypes.AUDIO_ALAW:
         return "pcm_alaw";
+      // §61.102：自研容器 Extractor 使用的自定义 MIME → FFmpeg decoder 名。
+      // 上游 decoder_ffmpeg 只映射标准 MimeTypes，导致 ApeExtractor / AsfExtractor
+      // 即使成功解析，FfmpegAudioRenderer.supportsFormatInternal 也会因
+      // getCodecName()==null 返回 FORMAT_UNSUPPORTED_SUBTYPE（拿不到解码器）。
+      // 注意：supportsFormat() 仍会调 ffmpegHasDecoder(codecName) 检查静态库是否
+      // 真的启用了该 decoder（build_ffmpeg.sh 的 ENABLED_DECODERS 参数）；
+      // 映射存在 ≠ 解码器已编入 ≠ 真机可播。
+      case "audio/x-ape":
+        return "ape";
+      case "audio/x-wma":
+        return "wmav2";
+      case "audio/x-wavpack":
+        return "wavpack";
+      case "audio/x-aiff":
+        return "pcm_s16be";
       case MimeTypes.VIDEO_H264:
         return "h264";
       case MimeTypes.VIDEO_H265:

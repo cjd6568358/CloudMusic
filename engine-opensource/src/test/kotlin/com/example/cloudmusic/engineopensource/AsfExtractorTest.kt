@@ -53,12 +53,15 @@ class AsfExtractorTest {
         }
 
         override fun readFully(target: ByteArray, offset: Int, length: Int, allowEndOfInput: Boolean): Boolean {
-            ensurePeeked(length)
-            if (peek.size < length) {
+            // §61.107：read / readFully / skipFully 必须共用同一游标。
+            // 旧夹具的 readFully 走 peek 队列、read 直接按 pos 取，两者混用会让
+            // 包对齐修复后的逐包投递错位（真机 DefaultExtractorInput 不会）。
+            // peek 队列仅保留给 sniff 用的 peekFully（独立实例，不影响主读取）。
+            if (pos + length > data.size) {
                 if (allowEndOfInput) return false
                 throw IOException("EOF")
             }
-            for (i in 0 until length) target[offset + i] = peek.removeFirst()
+            for (i in 0 until length) target[offset + i] = data[pos.toInt() + i]
             pos += length
             return true
         }
@@ -68,12 +71,11 @@ class AsfExtractorTest {
         }
 
         override fun skipFully(length: Int, allowEndOfInput: Boolean): Boolean {
-            ensurePeeked(length)
-            if (peek.size < length) {
+            // §61.107：与 read / readFully 共用 pos（见上）。
+            if (pos + length > data.size) {
                 if (allowEndOfInput) return false
                 throw IOException("EOF")
             }
-            repeat(length) { peek.removeFirst() }
             pos += length
             return true
         }
@@ -177,5 +179,75 @@ class AsfExtractorTest {
         assertEquals(120, rec.samples, "120 包全投递（FileProps.data_packets_count）")
         assertTrue(rec.sampleBytes > 700_000, "样本字节量 ≈ 数据区")
         assertTrue(rec.sampleTimesUs.last() > rec.sampleTimesUs.first(), "时间戳单调递增")
+
+        // §61.105 回归：单轨也必须 endTracks（缺它 → sampleQueuesBuilt 不置位 →
+        // 真机 "Loading finished before preparation is complete"），且
+        // SeekMap 只能在 header 就绪后下发一次。
+        assertEquals(1, rec.endTracksCalls, "readHeader 就绪后 endTracks 恰好一次")
+        assertEquals(1, rec.seekMapCalls, "SeekMap 恰好下发一次")
+    }
+
+    @Test
+    fun `init 期不下发 SeekMap 与 endTracks（Ape 同型回归）`() {
+        val rec = Recorder()
+        val extractor = AsfExtractor()
+        extractor.init(rec)
+        assertEquals(0, rec.seekMapCalls, "init 期参数未就绪，不得下发 SeekMap")
+        assertEquals(0, rec.endTracksCalls, "init 期不得 endTracks")
+        assertEquals(null, rec.seekMap)
+
+        val input = BytesInput(fixture())
+        val holder = PositionHolder()
+        val result = extractor.read(input, holder)   // 只跑 readHeader
+        assertEquals(Extractor.RESULT_CONTINUE, result)
+        assertEquals(1, rec.endTracksCalls, "readHeader 就绪后立刻 endTracks")
+        assertEquals(1, rec.seekMapCalls, "readHeader 就绪后立刻下发 SeekMap")
+        assertTrue(rec.seekMap!!.isSeekable)
+        assertTrue(rec.seekMap!!.durationUs > 0)
+    }
+
+    @Test
+    fun `Media3 init 后先 seek(0,0) 仍重走 readHeader 并下发 endTracks`() {
+        // §61.106 真机一手根因（`diag read enter state=1 pos=0`）：Media3 在
+        // init() 之后、首次 read() 之前调用 seek(0, 0)。旧实现无条件把 state
+        // 推到 STATE_READ_PACKETS，header 永不解析 → endTracks/seekMap 永不下发
+        // → "Loading finished before preparation is complete"（wma ×2）。
+        // 本例把该调用序列钉死为 JVM 回归，防止再次只测「init → read」路径。
+        val rec = Recorder()
+        val extractor = AsfExtractor()
+        assertTrue(extractor.sniff(BytesInput(fixture())), "sniff 应命中 ASF 头")
+        extractor.init(rec)
+        extractor.seek(0L, 0L)
+        val result = extractor.read(BytesInput(fixture()), PositionHolder())
+        assertEquals(Extractor.RESULT_CONTINUE, result)
+        assertEquals(1, rec.endTracksCalls, "seek 抢跑后仍须重走 header 并 endTracks")
+        assertEquals(1, rec.seekMapCalls, "SeekMap 仍恰好下发一次")
+        assertTrue(rec.seekMap!!.isSeekable)
+        assertTrue(rec.seekMap!!.durationUs > 0)
+        assertTrue(rec.formats.isNotEmpty(), "Format 已下发")
+    }
+
+    @Test
+    fun `WAVEFORMATEX 作为 initializationData 下发（wmav2 解码器参数前置）`() {
+        // §61.107：wmadec.c 要求 WAVEFORMATEX 尾部 codec-specific 字节作
+        // extradata，且 wma.c ff_wma_init 要求 block_align / bit_rate /
+        // sample_rate / ch_layout 全部有效。AsfExtractor 必须把完整
+        // WAVEFORMATEX 交给 ffmpeg_jni.cc 适配，否则真机 wma 初始化失败。
+        val rec = Recorder()
+        val extractor = AsfExtractor()
+        extractor.init(rec)
+        extractor.read(BytesInput(fixture()), PositionHolder())
+        val init = rec.formats.single().initializationData
+        assertTrue(init.isNotEmpty(), "WAVEFORMATEX 必须作为 initializationData 下发")
+        val wfx = init[0]
+        assertTrue(wfx.size > 18, "含 18B WAVEFORMATEX 头 + cbSize 尾部字节")
+        val le16 = { i: Int -> (wfx[i].toInt() and 0xFF) or ((wfx[i + 1].toInt() and 0xFF) shl 8) }
+        val le32 = { i: Int -> (0..3).fold(0L) { acc, k ->
+            acc or ((wfx[i + k].toLong() and 0xFF) shl (8 * k)) } }
+        assertEquals(0x161, le16(0), "wFormatTag = WMAv2")
+        assertEquals(2, le16(2), "nChannels = 2")
+        assertEquals(44100L, le32(4), "nSamplesPerSec = 44100")
+        assertEquals(5945, le16(12), "nBlockAlign = 5945")
+        assertEquals(10, le16(16), "cbSize = 10（尾部 codec-specific 字节）")
     }
 }

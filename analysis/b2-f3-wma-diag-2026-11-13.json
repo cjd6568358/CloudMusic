@@ -1,0 +1,107 @@
+{
+  "method": "12 §61.49 / F3：逐格式 × REMOTE/LOCAL 双路径真机矩阵",
+  "generated_by": "tools/l3_f3_matrix_run.py",
+  "serial": "10.0.0.2:41971",
+  "device": "Redmi K60 23013RK75C / Android 13 / arm64-v8a",
+  "local_channel": "ACTION_PLAY + EXTRA_LOCAL_PATH → app 私有 files/music/（零权限）",
+  "remote_channel": "ACTION_PLAY + EXTRA_SOURCE_URL → http://127.0.0.1:8765/ + adb reverse + PC http.server",
+  "cells": [
+    {
+      "path": "local",
+      "engine": "media3",
+      "verdict": "FAIL",
+      "reason": "存在明确错误回调 / 崩溃 / 打开失败",
+      "prepare_seen": true,
+      "prepare_remote": "false",
+      "prepare_url": "-",
+      "extension": null,
+      "extension_ok": false,
+      "codec": null,
+      "mDuration_raw": null,
+      "write_start_play": false,
+      "write_nerr_values": [],
+      "probe_length": null,
+      "path_evidence": {
+        "get_local_path": false,
+        "create_local_source": false,
+        "xor_open": false,
+        "media3_local": true
+      },
+      "errors": {
+        "source_callback_on_error": false,
+        "fatal_exception": false,
+        "anr": false,
+        "write_nerr_nonzero": false,
+        "open_source_failed": false,
+        "engine_prepare_failed": false,
+        "probe_failed": false,
+        "media3_error": true
+      },
+      "seek_observed": false,
+      "ended_observed": false,
+      "diag_line_count": 20,
+      "format": "wma",
+      "truncated_sample": false,
+      "sample_bytes": 722095,
+      "startservice_stdout": "Starting service: Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) }",
+      "startservice_stderr": "",
+      "log_file": "analysis/l3-f3-logs/wma-local.txt"
+    }
+  ],
+  "counts": {
+    "FAIL": 1
+  },
+  "no_sample_formats": [
+    "tak",
+    "dsf",
+    "dff"
+  ],
+  "no_sample_cells": [
+    {
+      "format": "tak",
+      "path": "local",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "tak",
+      "path": "remote",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "dsf",
+      "path": "local",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "dsf",
+      "path": "remote",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "dff",
+      "path": "local",
+      "verdict": "NO_SAMPLE"
+    },
+    {
+      "format": "dff",
+      "path": "remote",
+      "verdict": "NO_SAMPLE"
+    }
+  ],
+  "elapsed_s": 13.8,
+  "test_precondition": {
+    "network_wifi_only": "false（仅 REMOTE 跑批期间）",
+    "reason": "设备默认网络实测 MOBILE[NR]，AppSettings 默认 wifiOnly=true 会由 PlayerController.blockedByNetworkPolicy() 拒绝 URL 源；等价于用户在设置页开启「移动数据播放」",
+    "mechanism": "写入 app 私有 files/datastore/cloudmusic_settings.pb（显式 JSON codec）",
+    "restored": "跑完删除该文件恢复默认",
+    "device_settings_unchanged": true
+  },
+  "overall_verdict": "PARTIAL",
+  "overall_reason": "7 种格式无真实样本（NO_SAMPLE）；大文件为前 4 MiB 片段，只验证 demuxer/codec 打开与播放链；未逐格验证 seek / 完整时长 / ENDED；不得据此写「全格式已支持」",
+  "honest_notes": [
+    "每格均 force-stop + 前台拉起 + 清空 logcat 后单独注入，避免上一格残留。",
+    "截断样本（flac/wav/ape）不计完整时长 / ENDED 通过；WAV 片段已修正 RIFF/data 长度。",
+    "aiff 为纯标准库合成容器、未经第三方解码器校验；mp3/wma/ogg 为真实完整音频。",
+    "本工具不申请权限、不改设备设置；真机命令全部带 -s <serial>。"
+  ]
+}

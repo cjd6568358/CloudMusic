@@ -1,0 +1,170 @@
+{
+  "batch": "12 §61.101（第 1 项离线切片）",
+  "method": "F3 8 FAIL 逐格一手 logcat 归因（纯离线只读）",
+  "generated_by": "tools/b2_f3_fail_attribution.py",
+  "device_run": false,
+  "matrix_counts": {
+    "PASS": 14,
+    "FAIL": 8
+  },
+  "cells": [
+    {
+      "format": "aiff",
+      "path": "local",
+      "log_file": "analysis/l3-f3-logs/aiff-local.txt",
+      "prepare_seen": true,
+      "error": "UnrecognizedInputFormatException",
+      "available_extractors": 21,
+      "custom_extractor_in_list": false,
+      "custom_factory_log_hits": 0,
+      "media3_error_flag": true,
+      "sample_bytes": 1146934
+    },
+    {
+      "format": "aiff",
+      "path": "remote",
+      "log_file": "analysis/l3-f3-logs/aiff-remote.txt",
+      "prepare_seen": true,
+      "error": "UnrecognizedInputFormatException",
+      "available_extractors": 21,
+      "custom_extractor_in_list": false,
+      "custom_factory_log_hits": 0,
+      "media3_error_flag": true,
+      "sample_bytes": 1146934
+    },
+    {
+      "format": "wma",
+      "path": "local",
+      "log_file": "analysis/l3-f3-logs/wma-local.txt",
+      "prepare_seen": true,
+      "error": "UnrecognizedInputFormatException",
+      "available_extractors": 21,
+      "custom_extractor_in_list": false,
+      "custom_factory_log_hits": 0,
+      "media3_error_flag": true,
+      "sample_bytes": 722095
+    },
+    {
+      "format": "wma",
+      "path": "remote",
+      "log_file": "analysis/l3-f3-logs/wma-remote.txt",
+      "prepare_seen": true,
+      "error": "UnrecognizedInputFormatException",
+      "available_extractors": 21,
+      "custom_extractor_in_list": false,
+      "custom_factory_log_hits": 0,
+      "media3_error_flag": true,
+      "sample_bytes": 722095
+    },
+    {
+      "format": "ape",
+      "path": "local",
+      "log_file": "analysis/l3-f3-logs/ape-local.txt",
+      "prepare_seen": true,
+      "error": "UnrecognizedInputFormatException",
+      "available_extractors": 21,
+      "custom_extractor_in_list": false,
+      "custom_factory_log_hits": 0,
+      "media3_error_flag": true,
+      "sample_bytes": 4194304
+    },
+    {
+      "format": "ape",
+      "path": "remote",
+      "log_file": "analysis/l3-f3-logs/ape-remote.txt",
+      "prepare_seen": true,
+      "error": "UnrecognizedInputFormatException",
+      "available_extractors": 21,
+      "custom_extractor_in_list": false,
+      "custom_factory_log_hits": 0,
+      "media3_error_flag": true,
+      "sample_bytes": 4194304
+    },
+    {
+      "format": "wv",
+      "path": "local",
+      "log_file": "analysis/l3-f3-logs/wv-local.txt",
+      "prepare_seen": true,
+      "error": "UnrecognizedInputFormatException",
+      "available_extractors": 21,
+      "custom_extractor_in_list": false,
+      "custom_factory_log_hits": 0,
+      "media3_error_flag": true,
+      "sample_bytes": 313458
+    },
+    {
+      "format": "wv",
+      "path": "remote",
+      "log_file": "analysis/l3-f3-logs/wv-remote.txt",
+      "prepare_seen": true,
+      "error": "UnrecognizedInputFormatException",
+      "available_extractors": 21,
+      "custom_extractor_in_list": false,
+      "custom_factory_log_hits": 0,
+      "media3_error_flag": true,
+      "sample_bytes": 313458
+    }
+  ],
+  "checks": [
+    {
+      "name": "F3 矩阵 FAIL 格数为 8",
+      "ok": true,
+      "detail": "实读 8 格"
+    },
+    {
+      "name": "8 格全部为 REMOTE/LOCAL 成对",
+      "ok": true,
+      "detail": "4 格式 × 2 路径"
+    },
+    {
+      "name": "8/8 一手日志含 UnrecognizedInputFormatException",
+      "ok": true,
+      "detail": "非崩溃 / 非解码器 / 非取流错误"
+    },
+    {
+      "name": "8/8 可用 Extractor 清单仅官方默认",
+      "ok": true,
+      "detail": "清单实扫，Ape/Asf 均不在内"
+    },
+    {
+      "name": "自定义 ExtractorsFactory 日志 0 命中",
+      "ok": true,
+      "detail": "CM-Factory/CM-Ape/CM-Asf 全 0 → 跑批时自定义工厂未被调用"
+    },
+    {
+      "name": "8/8 均记录 media3_error 判据",
+      "ok": true,
+      "detail": "矩阵 errors.media3_error=True"
+    },
+    {
+      "name": "8/8 均已完成 prepare",
+      "ok": true,
+      "detail": "失败点在 prepare 之后的容器嗅探，不在注入通道"
+    },
+    {
+      "name": "ape/wma 已有自研 Extractor（待复测）",
+      "ok": true,
+      "detail": "§61.94/§61.97 已入库，F3 跑批时点早于其提交"
+    },
+    {
+      "name": "aiff/wv 仍无自研 Extractor",
+      "ok": true,
+      "detail": "容器缺口 ③④，属待实现，非回归"
+    },
+    {
+      "name": "结论不写成播放器/解码器缺陷",
+      "ok": true,
+      "detail": "UnrecognizedInputFormatException = 容器嗅探未识别，与解码器正交"
+    }
+  ],
+  "checks_total": 10,
+  "checks_pass": 10,
+  "verdict": "PASS",
+  "attribution": "8/8 = UnrecognizedInputFormatException（容器嗅探未识别）；可用 Extractor 仅官方默认清单，自定义工厂 0 命中。F3 跑批时点 2026-11-12 07:21~07:24 早于 §61.94/§61.97 Extractor 提交（11-13 01:04/01:54）与 1485ce0f 的 mimeType 修正。ape/wma 已具备解析条件但真机复测 NOT RUN；aiff/wv 容器 Extractor 仍待实现。结论：容器解析缺口，不是解码器缺陷、不是取流缺陷。",
+  "honest_notes": [
+    "本工具不重跑 F3、不连接设备、不改写 l3-f3-matrix.json 与 22 份 logcat。",
+    "真机复测 NOT RUN：端点 10.0.0.2:37077 adb 握手失败、5555 offline，需设备端确认无线调试授权或提供新配对端点 + 配对码。",
+    "不得把「归因明确」写成「8 格已修复 / 格式已支持」。",
+    "零生产代码改动、零新增依赖、不动解码器。"
+  ]
+}

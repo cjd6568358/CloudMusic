@@ -17,6 +17,11 @@
 #include <jni.h>
 #include <stdlib.h>
 
+// §61.107：WMA(WAVEFORMATEX) 适配需要本地缓冲与 LE 读取宏。
+#include <algorithm>
+#include <cstring>
+#include <vector>
+
 extern "C" {
 #ifdef __cplusplus
 #define __STDC_CONSTANT_MACROS
@@ -28,6 +33,7 @@ extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavutil/channel_layout.h>
 #include <libavutil/error.h>
+#include <libavutil/intreadwrite.h>
 #include <libavutil/opt.h>
 #include <libswresample/swresample.h>
 }
@@ -239,20 +245,75 @@ AVCodecContext* createContext(JNIEnv* env, const AVCodec* codec,
   }
   context->request_sample_fmt =
       outputFloat ? OUTPUT_FORMAT_PCM_FLOAT : OUTPUT_FORMAT_PCM_16BIT;
-  if (extraData) {
-    jsize size = env->GetArrayLength(extraData);
-    context->extradata_size = size;
+  // §61.107 / 12 §61.106 真机 wma ×2 的 FfmpegDecoderException 根因：
+  // FFmpeg 6.0 libavcodec/wmadec.c 文件头明确要求 extradata 是
+  // 「WAVEFORMATEX 结构末尾的 codec-specific 字节」（v1 4B / v2 6B），
+  // wma_decode_init 还要求 avctx->block_align != 0；libavcodec/wma.c 的
+  // ff_wma_init 再检查 sample_rate / ch_layout / bit_rate 均 > 0。
+  // AsfExtractor 下发的是容器原生完整 WAVEFORMATEX（18B 头 + cbSize 尾部），
+  // 本层把它适配成 FFmpeg 形态：解析字段预置 avctx，只把尾部字节作 extradata。
+  // 其它 codec 走原路径（整块 extraData 就是 FFmpeg 期望的 extradata），零影响。
+  jsize extraSize = extraData ? env->GetArrayLength(extraData) : 0;
+  std::vector<uint8_t> extraBytes(extraSize > 0 ? extraSize : 0);
+  if (extraSize > 0) {
+    env->GetByteArrayRegion(extraData, 0, extraSize,
+                            (jbyte*)extraBytes.data());
+  }
+  const uint8_t* extraPtr = extraBytes.data();
+  int extraLen = (int)extraSize;
+  const bool isWma = codec->id == AV_CODEC_ID_WMAV1 ||
+                     codec->id == AV_CODEC_ID_WMAV2;
+  if (isWma && extraLen >= 18) {
+    int wfxChannels = AV_RL16(extraPtr + 2);
+    int wfxRate = (int)AV_RL32(extraPtr + 4);
+    int wfxAvgBytesPerSec = (int)AV_RL32(extraPtr + 8);
+    int wfxBlockAlign = AV_RL16(extraPtr + 12);
+    int wfxCbSize = AV_RL16(extraPtr + 16);
+    if (wfxChannels > 0 && wfxRate > 0 && wfxBlockAlign > 0) {
+      context->sample_rate = wfxRate;
+      av_channel_layout_default(&context->ch_layout, wfxChannels);
+      context->block_align = wfxBlockAlign;
+      context->bit_rate = (int64_t)wfxAvgBytesPerSec * 8;
+      int tail = std::min(wfxCbSize, extraLen - 18);
+      if (tail > 0) {
+        extraPtr += 18;
+        extraLen = tail;
+      }
+      LOGD("wma wfx: rate=%d ch=%d align=%d bitrate=%lld extradata=%d",
+           wfxRate, wfxChannels, wfxBlockAlign,
+           (long long)context->bit_rate, extraLen);
+    }
+  }
+  if (extraLen > 0) {
+    context->extradata_size = extraLen;
     context->extradata =
-        (uint8_t*)av_malloc(size + AV_INPUT_BUFFER_PADDING_SIZE);
+        (uint8_t*)av_malloc(extraLen + AV_INPUT_BUFFER_PADDING_SIZE);
     if (!context->extradata) {
       LOGE("Failed to allocate extradata.");
       releaseContext(context);
       return NULL;
     }
-    env->GetByteArrayRegion(extraData, 0, size, (jbyte*)context->extradata);
+    memcpy(context->extradata, extraPtr, extraLen);
+    memset(context->extradata + extraLen, 0, AV_INPUT_BUFFER_PADDING_SIZE);
   }
-  if (context->codec_id == AV_CODEC_ID_PCM_MULAW ||
-      context->codec_id == AV_CODEC_ID_PCM_ALAW) {
+  // §61.105 / 12 §61.104 真机 aiff ×2 的 DECODER_INIT_FAILED 静态根因：
+  // FFmpeg 6.0 libavcodec/avcodec.c 的 avcodec_open2 对「audio decoder 且
+  // 未声明 AV_CODEC_CAP_CHANNEL_CONF」强制要求 ch_layout.nb_channels != 0，
+  // 否则直接 AVERROR(EINVAL)（日志 "Decoder requires channel layout to be
+  // set"）。libavcodec/pcm.c 的 PCM_DECODER_* 只声明 AV_CODEC_CAP_DR1，
+  // 没有 CHANNEL_CONF → pcm_s16be 恰好命中；同时 time_base.den 取
+  // sample_rate，未预置时同样为 0。上游只对 mulaw/alaw 预置这两个字段，
+  // 因此 AIFF 的 pcm_s16be 在 createContext 返回 NULL → Java 侧抛
+  // FfmpegDecoderException("Initialization failed.")。
+  //
+  // 修法：按官方 API av_get_bits_per_sample(codec->id) > 0 精确判定 PCM
+  // 家族（声明于 libavcodec/codec_id.h，已由 avcodec.h 引入），仅对它们
+  // 在 avcodec_open2 之前预置 sample_rate / ch_layout；压缩解码器
+  // （aac/mp3/ape/wmav2/wavpack）零影响，保留上游从码流自解析的行为。
+  // Format.NO_VALUE(-1) 用 > 0 守卫，避免构造非法 ch_layout。
+  // 证据见 tools/b2_pcm_init_audit.py；真机回归 NOT RUN（设备离线，§61.105）。
+  if (av_get_bits_per_sample(codec->id) > 0 && rawSampleRate > 0 &&
+      rawChannelCount > 0) {
     context->sample_rate = rawSampleRate;
     av_channel_layout_default(&context->ch_layout, rawChannelCount);
   }

@@ -40,10 +40,14 @@ android {
     }
 }
 
-// 12 §61.81 / M1 骨架边界：
+// 12 §61.81 M1 起 / 现行状态以 §61.92、§61.100 为准（§61.100 对齐勘误）：
 // - 只引 Media3 核心制品（exoplayer / datasource / common / decoder），不引 media3-session；
-// - RangeCacheDataSource（自研缓存 / Range）属 M3，不伪造接线；
-// - 音效降级（C7）：attachAudioEffect 留空实现，基础 EQ / 自研 DSP 属 M4 / P4。
+// - 缓存/Range 已于 §61.88 / M3 落地为**官方** CacheDataSource + SimpleCache，
+//   不再是「自研 RangeCacheDataSource 属 M3、不伪造接线」的 M1 挂账；
+// - 音效（§61.100 对齐勘误）：C7 的「降级占位」口径已由用户 2026-11-13 拍板升级
+//   为「必须支持」；§61.93 已在 Media3EngineAdapter.attachAudioEffect 挂系统
+//   audiofx（Equalizer/BassBoost/Virtualizer）到 audioSessionId 并真机 PASS。
+//   高级音效（竞品 native PCM 引擎）仍按 §61.98/§61.99 走 P2 专项，非本模块占位。
 dependencies {
     implementation(project(":engine-api"))
     implementation(project(":core-common"))

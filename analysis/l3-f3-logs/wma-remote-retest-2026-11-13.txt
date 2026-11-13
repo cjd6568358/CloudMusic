@@ -1,0 +1,581 @@
+--------- beginning of main
+11-13 13:50:28.735 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:28.742 I/SDM     ( 1313): HWCDisplay::SetActiveConfigWithConstraints: config: 0, WxH 1440x3200, fps 60
+11-13 13:50:28.742 W/SDM     ( 1313): HWDeviceDRM::GetSupportedBitClkRate: Requested rate not supported: 1200000000
+11-13 13:50:28.742 I/SDM     ( 1313): HWDeviceDRM::UpdateMixerAttributes: Mixer WxH 1440x3200-1 for Peripheral
+11-13 13:50:28.743 I/SDM     ( 1313): HWCDisplay::SubmitDisplayConfig: Active configuration changed from config 1 to 0
+11-13 13:50:28.743 I/SDM     ( 1313): HWCDisplay::SubmitDisplayConfig: Active WxH 1440x3200, timing_fps: 60, sf_fps: 60, ddic_idle_mode:0, ddic_auto_mode: 0, ddic_min_fps: 0
+11-13 13:50:28.743 I/SDM     ( 1313): HWDeviceDRM::SetupAtomic: Setting mode: WxH: 1440x3200, vrefresh: 60, hskew: 0
+11-13 13:50:28.745 D/FPSMonitor( 1370): threadFuncFpsMonitor display 0, fps 60
+11-13 13:50:28.766 D/A11yRuleEngine( 8493): startQueryJob end 31 ms
+11-13 13:50:28.816 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 13:50:28.816 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 13:50:28.817 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 13:50:28.817 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 13:50:28.817 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 13:50:28.817 W/AOSP-MdnsDiscoveryManag( 3925): Error while decoding multicast packet (47): 1 [CONTEXT service_id=168 ]
+11-13 13:50:28.817 W/AOSP-MdnsDiscoveryManag( 3925): Error while decoding multicast packet (48): 1 [CONTEXT service_id=168 ]
+11-13 13:50:28.824 I/MediaFocusControl( 2484): requestAudioFocus() from uid/pid 10318/26330 AA=USAGE_MEDIA/CONTENT_TYPE_MUSIC clientId=android.media.AudioManager@b52a891com.example.cloudmusic.PlaybackService$$ExternalSyntheticLambda0@2b423f6 callingPack=com.example.cloudmusic req=1 flags=0x0 sdk=35
+11-13 13:50:28.824 I/AudioService.FadeOutManager( 2484): unfadeOutUid() uid:10318
+11-13 13:50:28.825 D/ThermalScenarioManager(10039): additional: 1000000000000000000000000000000000000000000000000000
+11-13 13:50:28.825 V/Avrcp_ext( 4581): onPlaybackStateChanged: state PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=25913827, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 13:50:28.825 D/ThermalScenarioManager(10039): handleMessage 12
+11-13 13:50:28.825 D/ThermalScenarioManager(10039): current: ScenarioName: 0
+11-13 13:50:28.825 D/ThermalScenarioManager(10039): Element list : 97	97	98	98	99	99	99	99	99	99	99	99	99	99	99	99	99	99	99	
+11-13 13:50:28.825 D/ThermalScenarioManager(10039): match scenario 0
+11-13 13:50:28.825 V/Avrcp_ext( 4581): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@498f612) null
+11-13 13:50:28.825 V/Avrcp_ext( 4581): updateCurrentMediaState: isPlaying = false
+11-13 13:50:28.825 W/Avrcp_ext( 4581): isMusicActive: false getBluetoothPlayState: 2 A2dp State: 11 mAudioPlaybackIsActive: false
+11-13 13:50:28.825 D/Avrcp_ext( 4581): isMusicActive = false mAudioPlaybackIsActive = false player state = PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=25913828, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 13:50:28.825 V/Avrcp_ext( 4581): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-13 13:50:28.826 D/Avrcp_ext( 4581): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-13 13:50:28.826 V/Avrcp_ext( 4581): isBrowseSupported for com.example.cloudmusic: false
+11-13 13:50:28.826 V/Avrcp_ext( 4581): updatePlaybackState, state: PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=25913828, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-13 13:50:28.826 V/Avrcp_ext( 4581): Device: no name: 
+11-13 13:50:28.826 V/Avrcp_ext( 4581): Device: no name: 
+11-13 13:50:28.826 V/Avrcp_ext( 4581): Device: no name: 
+11-13 13:50:28.826 V/Avrcp_ext( 4581): Device: no name: 
+11-13 13:50:28.826 V/Avrcp_ext( 4581): Device: no name: 
+11-13 13:50:28.826 V/Avrcp_ext( 4581): updatePlayerStateAndPosition, old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=25912497, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=25913828, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 13:50:28.826 V/Avrcp_ext( 4581): old state = PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=25912497, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=25913828, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 13:50:28.826 D/HeadsetService( 4581): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@7586bc
+11-13 13:50:28.826 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.826 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 13:50:28.826 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.826 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 13:50:28.826 V/Avrcp_ext( 4581): Single connection exists
+11-13 13:50:28.826 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.826 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 13:50:28.826 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.826 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 13:50:28.826 V/Avrcp_ext( 4581): Single connection exists
+11-13 13:50:28.826 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.826 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 13:50:28.826 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.826 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 13:50:28.826 V/Avrcp_ext( 4581): Single connection exists
+11-13 13:50:28.826 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.826 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 13:50:28.826 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.826 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 13:50:28.826 V/Avrcp_ext( 4581): Single connection exists
+11-13 13:50:28.826 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.826 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 13:50:28.826 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.826 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 13:50:28.826 V/Avrcp_ext( 4581): Single connection exists
+11-13 13:50:28.826 I/Avrcp_ext( 4581): No active device found, update playstate to stack
+11-13 13:50:28.826 E/BluetoothAvrcpServiceJni( 4581): updatePlayStatusToStack
+11-13 13:50:28.826 E/bt_btif ( 4581): update_play_status_to_stack:invalid index,remote suspend not set
+11-13 13:50:28.826 E/BluetoothAvrcpServiceJni( 4581): updatePlayStatusToStack: status: 1
+11-13 13:50:28.826 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 13:50:28.826 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 13:50:28.826 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 13:50:28.826 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 13:50:28.826 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 13:50:28.826 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 13:50:28.826 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 13:50:28.826 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 13:50:28.826 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 13:50:28.826 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 13:50:28.826 V/Avrcp_ext( 4581): Exit updatePlayerStateAndPosition
+11-13 13:50:28.826 V/Avrcp_ext( 4581):  Exit onPlaybackStateChanged
+11-13 13:50:28.826 D/MediaDataManager( 4806): State updated outside of notification
+11-13 13:50:28.827 I/MediaCarouselController( 4806): media_data_arrive: addOrUpdatePlayer
+11-13 13:50:28.827 W/ConstraintSet( 4806): id unknown center_vertical_guideline
+11-13 13:50:28.827 W/ConstraintSet( 4806): id unknown action_button_guideline
+11-13 13:50:28.827 W/ConstraintSet( 4806): id unknown media_action_barrier
+11-13 13:50:28.827 W/ConstraintSet( 4806): id unknown media_action_barrier_end
+11-13 13:50:28.827 W/ConstraintSet( 4806): id unknown media_action_barrier_top
+11-13 13:50:28.827 W/ConstraintSet( 4806): id unknown remove_text
+11-13 13:50:28.827 W/ConstraintSet( 4806): id unknown settings
+11-13 13:50:28.827 W/ConstraintSet( 4806): id unknown dismiss
+11-13 13:50:28.827 W/ConstraintSet( 4806): id unknown cancel
+11-13 13:50:28.832 W/CM-Queue(26330): setAll size=1 caller=resumeWith
+11-13 13:50:28.833 I/MiuiMediaControlPanel( 4806): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 曲库就绪
+11-13 13:50:28.834 W/CM-SQL  (26330): queue DELETE: DELETE FROM queue_items WHERE queue_id = ? args=[default] caller=LibraryDatabase$Companion$$ExternalSyntheticLambda1.onQuery:0<QueryInterceptorStatement$execute$1.invokeSuspend:36<BaseContinuationImpl.resumeWith:33<DispatchedTask.run:101
+11-13 13:50:28.845 I/CM-Media3(26330): prepare trackId=12c1fbba435fc31469401bfaa70d5eca remote=true url=http://127.0.0.1:8765/f3_wma.wma localPath=- expectedLength=0 engine=media3-1.11.1 ffmpeg=EXTENSION_RENDERER_MODE_ON
+11-13 13:50:28.846 I/CM-Media3(26330): media cache ready dir=/data/user/0/com.example.cloudmusic/cache/b2_media_cache cap=256MiB
+11-13 13:50:28.864 I/ExoPlayerImpl(26330): Init 8065c48 [AndroidXMedia3/1.11.1] [mondrian, 23013RK75C, Xiaomi, 33]
+11-13 13:50:28.865 D/RefreshRateConfigs( 1465): TouchBoost - choose Fps: 120.00 Hz
+11-13 13:50:28.866 I/DefaultRenderersFactory(26330): Loaded FfmpegVideoRenderer.
+11-13 13:50:28.866 I/SDM     ( 1313): HWCDisplay::SetActiveConfigWithConstraints: config: 1, WxH 1440x3200, fps 120
+11-13 13:50:28.866 W/SDM     ( 1313): HWDeviceDRM::GetSupportedBitClkRate: Requested rate not supported: 1200000000
+11-13 13:50:28.866 I/SDM     ( 1313): HWDeviceDRM::UpdateMixerAttributes: Mixer WxH 1440x3200-1 for Peripheral
+11-13 13:50:28.866 I/SDM     ( 1313): HWCDisplay::SubmitDisplayConfig: Active configuration changed from config 0 to 1
+11-13 13:50:28.867 I/SDM     ( 1313): HWCDisplay::SubmitDisplayConfig: Active WxH 1440x3200, timing_fps: 120, sf_fps: 120, ddic_idle_mode:0, ddic_auto_mode: 0, ddic_min_fps: 0
+11-13 13:50:28.867 I/DefaultRenderersFactory(26330): Loaded FfmpegAudioRenderer.
+11-13 13:50:28.867 I/SDM     ( 1313): HWDeviceDRM::SetupAtomic: Setting mode: WxH: 1440x3200, vrefresh: 120, hskew: 0
+11-13 13:50:28.869 D/FPSMonitor( 1370): threadFuncFpsMonitor display 0, fps 120
+11-13 13:50:28.871 I/CM-Media3(26330): state=BUFFERING
+11-13 13:50:28.872 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_D uids:
+11-13 13:50:28.872 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_15 uids:
+11-13 13:50:28.872 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077cb928540, event 0
+11-13 13:50:28.872 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abbc4200, event 0
+11-13 13:50:28.873 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_1D uids:
+11-13 13:50:28.873 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abc71b80, event 0
+11-13 13:50:28.874 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_3D uids:
+11-13 13:50:28.874 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abcf9b80, event 0
+11-13 13:50:28.874 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_4D uids:
+11-13 13:50:28.874 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abd5c280, event 0
+11-13 13:50:28.877 W/HWComposer( 1465): Ignoring duplicate VSYNC event from HWC for display 4630946545580055170 (t=21160951503000)
+11-13 13:50:28.881 D/TrafficStats(26330): tagSocket(152) with statsTag=0x77b, statsUid=-1
+11-13 13:50:28.890 V/Avrcp_ext( 4581): onPlaybackStateChanged: state PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=25913892, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 13:50:28.891 V/Avrcp_ext( 4581): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@498f612) null
+11-13 13:50:28.891 V/Avrcp_ext( 4581): updateCurrentMediaState: isPlaying = false
+11-13 13:50:28.891 W/Avrcp_ext( 4581): isMusicActive: false getBluetoothPlayState: 1 A2dp State: 11 mAudioPlaybackIsActive: false
+11-13 13:50:28.892 D/Avrcp_ext( 4581): isMusicActive = false mAudioPlaybackIsActive = false player state = PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=25913895, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 13:50:28.892 V/Avrcp_ext( 4581): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-13 13:50:28.892 D/Avrcp_ext( 4581): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-13 13:50:28.892 V/Avrcp_ext( 4581): isBrowseSupported for com.example.cloudmusic: false
+11-13 13:50:28.892 V/Avrcp_ext( 4581): updatePlaybackState, state: PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=25913895, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-13 13:50:28.892 V/Avrcp_ext( 4581): Device: no name: 
+11-13 13:50:28.892 V/Avrcp_ext( 4581): Device: no name: 
+11-13 13:50:28.892 V/Avrcp_ext( 4581): Device: no name: 
+11-13 13:50:28.892 V/Avrcp_ext( 4581): Device: no name: 
+11-13 13:50:28.892 V/Avrcp_ext( 4581): Device: no name: 
+11-13 13:50:28.892 V/Avrcp_ext( 4581): updatePlayerStateAndPosition, old=PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=25913828, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=25913895, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 13:50:28.892 V/Avrcp_ext( 4581): old state = PlaybackState {state=3, position=1, buffered position=0, speed=1.0, updated=25913828, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=25913895, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 13:50:28.892 D/HeadsetService( 4581): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@7586bc
+11-13 13:50:28.892 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.892 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 13:50:28.892 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.892 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 13:50:28.892 V/Avrcp_ext( 4581): Single connection exists
+11-13 13:50:28.892 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.892 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 13:50:28.892 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.892 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 13:50:28.892 V/Avrcp_ext( 4581): Single connection exists
+11-13 13:50:28.892 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.892 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 13:50:28.892 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.892 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 13:50:28.892 V/Avrcp_ext( 4581): Single connection exists
+11-13 13:50:28.892 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.892 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 13:50:28.892 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.892 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 13:50:28.892 V/Avrcp_ext( 4581): Single connection exists
+11-13 13:50:28.892 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.892 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 13:50:28.892 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:28.892 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 13:50:28.892 V/Avrcp_ext( 4581): Single connection exists
+11-13 13:50:28.892 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 13:50:28.892 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 13:50:28.892 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 13:50:28.892 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 13:50:28.892 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 13:50:28.892 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 13:50:28.892 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 13:50:28.892 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 13:50:28.892 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 13:50:28.892 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 13:50:28.892 V/Avrcp_ext( 4581): Exit updatePlayerStateAndPosition
+11-13 13:50:28.892 V/Avrcp_ext( 4581):  Exit onPlaybackStateChanged
+11-13 13:50:28.893 W/HWComposer( 1465): Ignoring duplicate VSYNC event from HWC for display 4630946545580055170 (t=21160968050000)
+11-13 13:50:28.900 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:28.903 W/HWComposer( 1465): Ignoring duplicate VSYNC event from HWC for display 4630946545580055170 (t=21160976326000)
+11-13 13:50:28.911 W/HWComposer( 1465): Ignoring duplicate VSYNC event from HWC for display 4630946545580055170 (t=21160984601000)
+11-13 13:50:28.918 D/A11yRuleEngine( 8493): startQueryJob end 18 ms
+11-13 13:50:28.919 W/HWComposer( 1465): Ignoring duplicate VSYNC event from HWC for display 4630946545580055170 (t=21160992876000)
+11-13 13:50:28.927 W/HWComposer( 1465): Ignoring duplicate VSYNC event from HWC for display 4630946545580055170 (t=21161001150000)
+11-13 13:50:28.932 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:28.935 W/HWComposer( 1465): Ignoring duplicate VSYNC event from HWC for display 4630946545580055170 (t=21161009424000)
+11-13 13:50:28.942 D/A11yRuleEngine( 8493): startQueryJob end 10 ms
+11-13 13:50:28.966 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:28.980 D/A11yRuleEngine( 8493): startQueryJob end 14 ms
+11-13 13:50:29.015 I/CM-Factory(26330): createExtractors called
+11-13 13:50:29.018 I/CM-Factory(26330): extractors: 25 (ape/asf + 21 default)
+--------- beginning of system
+11-13 13:50:29.022 W/DevicePolicyManager( 2484): Unknown user type: UserInfo{999:XSpace:801010}
+11-13 13:50:29.023 W/DevicePolicyManager( 2484): Unknown user type: UserInfo{999:XSpace:801010}
+11-13 13:50:29.025 D/MiBarrage( 8139): The sbn packageName is :com.example.cloudmusic
+11-13 13:50:29.025 D/MiBarrage( 8139): No barrage: not in game scene or in video scene
+11-13 13:50:29.025 I/NotificationController( 5753): onNotificationPosted: mSmartTravelNotificationMap 0
+11-13 13:50:29.028 D/NotificationFilterController( 4806): filter group summary suppressed key=0|com.hexin.plat.android|2147483647|ranker_group|10312|ranker_group
+11-13 13:50:29.034 D/NotificationFilterController( 4806): filter group summary suppressed key=0|com.hexin.plat.android|2147483647|ranker_group|10312|ranker_group
+11-13 13:50:29.037 I/MediaCarouselController( 4806): media_data_arrive: addOrUpdatePlayer
+11-13 13:50:29.038 I/MiuiMediaControlPanel( 4806): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 播放服务运行中
+11-13 13:50:29.042 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:29.057 D/NotificationFilterController( 4806): filter group summary suppressed key=0|com.hexin.plat.android|2147483647|ranker_group|10312|ranker_group
+11-13 13:50:29.076 D/A11yRuleEngine( 8493): startQueryJob end 34 ms
+11-13 13:50:29.080 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:29.081 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:29.082 D/A11yRuleEngine( 8493): startQueryJob end 1 ms
+11-13 13:50:29.110 D/A11yRuleEngine( 8493): startQueryJob end 30 ms
+11-13 13:50:29.143 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:29.209 D/A11yRuleEngine( 8493): startQueryJob end 66 ms
+11-13 13:50:29.219 W/ConstraintSet( 4806): id unknown center_vertical_guideline
+11-13 13:50:29.219 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:29.219 W/ConstraintSet( 4806): id unknown action_button_guideline
+11-13 13:50:29.219 W/ConstraintSet( 4806): id unknown media_action_barrier
+11-13 13:50:29.220 W/ConstraintSet( 4806): id unknown media_action_barrier_end
+11-13 13:50:29.220 W/ConstraintSet( 4806): id unknown media_action_barrier_top
+11-13 13:50:29.220 W/ConstraintSet( 4806): id unknown remove_text
+11-13 13:50:29.220 W/ConstraintSet( 4806): id unknown settings
+11-13 13:50:29.220 W/ConstraintSet( 4806): id unknown dismiss
+11-13 13:50:29.220 W/ConstraintSet( 4806): id unknown cancel
+11-13 13:50:29.270 D/A11yRuleEngine( 8493): startQueryJob end 51 ms
+11-13 13:50:29.344 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:29.416 D/A11yRuleEngine( 8493): startQueryJob end 72 ms
+11-13 13:50:29.444 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:29.522 D/A11yRuleEngine( 8493): startQueryJob end 78 ms
+11-13 13:50:29.544 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:29.605 I/li.songe.gkd( 8493): This is sticky GC, maxfree is 33554432 minfree is 8388608
+11-13 13:50:29.617 D/A11yRuleEngine( 8493): startQueryJob end 73 ms
+11-13 13:50:29.646 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:29.710 D/A11yRuleEngine( 8493): startQueryJob end 64 ms
+11-13 13:50:29.716 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:29.749 D/A11yRuleEngine( 8493): startQueryJob end 33 ms
+11-13 13:50:29.819 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 13:50:29.819 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 13:50:29.819 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 13:50:29.820 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 13:50:29.820 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 13:50:29.820 W/AOSP-MdnsDiscoveryManag( 3925): Error while decoding multicast packet (49): 1 [CONTEXT service_id=168 ]
+11-13 13:50:29.821 W/AOSP-MdnsDiscoveryManag( 3925): Error while decoding multicast packet (50): 1 [CONTEXT service_id=168 ]
+11-13 13:50:29.823 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:29.852 D/A11yRuleEngine( 8493): startQueryJob end 29 ms
+11-13 13:50:29.855 W/ConstraintSet( 4806): id unknown center_vertical_guideline
+11-13 13:50:29.855 W/ConstraintSet( 4806): id unknown action_button_guideline
+11-13 13:50:29.855 W/ConstraintSet( 4806): id unknown media_action_barrier
+11-13 13:50:29.855 W/ConstraintSet( 4806): id unknown media_action_barrier_end
+11-13 13:50:29.855 W/ConstraintSet( 4806): id unknown media_action_barrier_top
+11-13 13:50:29.855 W/ConstraintSet( 4806): id unknown remove_text
+11-13 13:50:29.855 W/ConstraintSet( 4806): id unknown settings
+11-13 13:50:29.855 W/ConstraintSet( 4806): id unknown dismiss
+11-13 13:50:29.855 W/ConstraintSet( 4806): id unknown cancel
+11-13 13:50:29.897 W/ThreadPoolForeg( 3925): type=1400 audit(0.0:43662): avc: denied { write } for name="traced_producer" dev="tmpfs" ino=1593 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 app=com.google.android.gms
+11-13 13:50:29.919 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:29.949 D/A11yRuleEngine( 8493): startQueryJob end 30 ms
+11-13 13:50:29.966 I/SmartPower.com.miui.home/10128(3902)( 2484): background->idle(3001ms) R(broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }) adj=100.
+11-13 13:50:29.967 I/SmartPower( 2484): com.miui.home/10128 state=inactive adj=100 proc size=1 move to idle broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }
+11-13 13:50:30.011 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:30.049 D/A11yRuleEngine( 8493): startQueryJob end 38 ms
+11-13 13:50:30.148 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:30.170 D/TrafficManageService( 8602): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-13 13:50:30.171 D/TrafficManageService-TrafficSimManager( 8602): notifyByNetChange_time: return
+11-13 13:50:30.191 D/AppPredictService( 8602): start doPredict com.example.cloudmusic
+11-13 13:50:30.191 I/AppPredictManager( 8602): predict: recentApps size = 5
+11-13 13:50:30.202 I/AppPredictPrivacyLaunchManager( 8602): getLauncherHomeAppList size: 120
+11-13 13:50:30.202 I/AppPredictResultHelper( 8602): updatePreferenceStore: size = 23
+11-13 13:50:30.207 D/A11yRuleEngine( 8493): startQueryJob end 59 ms
+11-13 13:50:30.246 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:30.305 D/A11yRuleEngine( 8493): startQueryJob end 59 ms
+11-13 13:50:30.348 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:30.381 W/android.fg( 2484): type=1400 audit(0.0:43663): avc: denied { read } for name="u:object_r:wifi_hal_prop:s0" dev="tmpfs" ino=505 scontext=u:r:system_server:s0 tcontext=u:object_r:wifi_hal_prop:s0 tclass=file permissive=0
+11-13 13:50:30.389 W/libc    ( 2484): Access denied finding property "wifi.interface"
+11-13 13:50:30.389 D/NetworkManagement( 2484): wlan0 <====> 1
+11-13 13:50:30.389 I/MiuiNetworkPolicy( 2484): label wlan0, uid -1, active false, tsNanos 25915388668187
+11-13 13:50:30.389 D/MiuiNetworkPolicy( 2484): updateLimit mLimitEnabled=true,enabled=false,mNetworkPriorityMode=1
+11-13 13:50:30.418 D/A11yRuleEngine( 8493): startQueryJob end 70 ms
+11-13 13:50:30.450 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:30.496 D/A11yRuleEngine( 8493): startQueryJob end 46 ms
+11-13 13:50:30.509 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:30.550 D/A11yRuleEngine( 8493): startQueryJob end 41 ms
+11-13 13:50:30.606 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:30.655 D/A11yRuleEngine( 8493): startQueryJob end 49 ms
+11-13 13:50:30.678 I/MiuiNetworkPolicy( 2484): bandwidth: 0 KB/s, Max bandwidth: 200 KB/s
+11-13 13:50:30.719 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:30.750 D/A11yRuleEngine( 8493): startQueryJob end 31 ms
+11-13 13:50:30.798 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:30.849 D/A11yRuleEngine( 8493): startQueryJob end 51 ms
+11-13 13:50:30.945 E/TaskPersister( 2484): File error accessing recents directory (directory doesn't exist?).
+11-13 13:50:30.949 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:31.018 D/A11yRuleEngine( 8493): startQueryJob end 69 ms
+11-13 13:50:31.039 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-13 13:50:31.039 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=15}
+11-13 13:50:31.039 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=94}
+11-13 13:50:31.039 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 13:50:31.039 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=1, sent=2}
+11-13 13:50:31.039 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=51}
+11-13 13:50:31.039 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=4}
+11-13 13:50:31.039 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=14}
+11-13 13:50:31.039 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=10}
+11-13 13:50:31.039 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=24}
+11-13 13:50:31.039 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-13 13:50:31.041 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=82}
+11-13 13:50:31.041 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 13:50:31.041 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-13 13:50:31.041 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=54}
+11-13 13:50:31.041 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=18209}
+11-13 13:50:31.041 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=130}
+11-13 13:50:31.041 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=1, sent=2}
+11-13 13:50:31.041 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-13 13:50:31.041 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=7124}
+11-13 13:50:31.041 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=13637}
+11-13 13:50:31.050 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:31.100 D/A11yRuleEngine( 8493): startQueryJob end 51 ms
+11-13 13:50:31.153 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:31.255 D/A11yRuleEngine( 8493): startQueryJob end 102 ms
+11-13 13:50:31.319 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:31.357 D/A11yRuleEngine( 8493): startQueryJob end 38 ms
+11-13 13:50:31.401 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:31.416 D/TrafficManageService( 8602): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-13 13:50:31.417 D/TrafficManageService-TrafficSimManager( 8602): notifyByNetChange_time: return
+11-13 13:50:31.434 D/A11yRuleEngine( 8493): startQueryJob end 33 ms
+11-13 13:50:31.453 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:31.490 D/A11yRuleEngine( 8493): startQueryJob end 37 ms
+11-13 13:50:31.553 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:31.614 D/A11yRuleEngine( 8493): startQueryJob end 61 ms
+11-13 13:50:31.653 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:31.715 D/A11yRuleEngine( 8493): startQueryJob end 62 ms
+11-13 13:50:31.735 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:31.787 D/A11yRuleEngine( 8493): startQueryJob end 52 ms
+11-13 13:50:31.791 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:31.798 I/VA_AliveCore:AssistInteractionService( 8072): onProcessChanged: processName=com.miui.voiceassist;isRunning=false
+11-13 13:50:31.854 D/A11yRuleEngine( 8493): startQueryJob end 63 ms
+11-13 13:50:31.915 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:31.956 D/A11yRuleEngine( 8493): startQueryJob end 41 ms
+11-13 13:50:31.967 I/SmartPower( 2484): com.miui.home/10128 state=idle adj=100 proc size=1 move to hibernation broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }
+11-13 13:50:31.980 D/MilletPolicy(10039): HasForegroundService or audio pkgName=com.kkrainbow.easytier
+11-13 13:50:32.016 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:32.029 I/CM-Asf  (26330): sniff ok=true hit=true head=3026b2758e66cf11
+11-13 13:50:32.043 E/ExoPlayerImplInternal(26330): Playback error
+11-13 13:50:32.043 E/ExoPlayerImplInternal(26330):   androidx.media3.exoplayer.ExoPlaybackException: Source error
+11-13 13:50:32.043 E/ExoPlayerImplInternal(26330):       at androidx.media3.exoplayer.ExoPlayerImplInternal.handleIoException(ExoPlayerImplInternal.java:1021)
+11-13 13:50:32.043 E/ExoPlayerImplInternal(26330):       at androidx.media3.exoplayer.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:991)
+11-13 13:50:32.043 E/ExoPlayerImplInternal(26330):       at android.os.Handler.dispatchMessage(Handler.java:102)
+11-13 13:50:32.043 E/ExoPlayerImplInternal(26330):       at android.os.Looper.loopOnce(Looper.java:210)
+11-13 13:50:32.043 E/ExoPlayerImplInternal(26330):       at android.os.Looper.loop(Looper.java:299)
+11-13 13:50:32.043 E/ExoPlayerImplInternal(26330):       at android.os.HandlerThread.run(HandlerThread.java:67)
+11-13 13:50:32.043 E/ExoPlayerImplInternal(26330):   Caused by: androidx.media3.common.ParserException: Loading finished before preparation is complete. {contentIsMalformed=true, dataType=1}
+11-13 13:50:32.043 E/ExoPlayerImplInternal(26330):       at androidx.media3.exoplayer.source.ProgressiveMediaPeriod.maybeThrowPrepareError(ProgressiveMediaPeriod.java:309)
+11-13 13:50:32.043 E/ExoPlayerImplInternal(26330):       at androidx.media3.exoplayer.source.MaskingMediaPeriod.maybeThrowPrepareError(MaskingMediaPeriod.java:163)
+11-13 13:50:32.043 E/ExoPlayerImplInternal(26330):       at androidx.media3.exoplayer.ExoPlayerImplInternal.doSomeWork(ExoPlayerImplInternal.java:1511)
+11-13 13:50:32.043 E/ExoPlayerImplInternal(26330):       at androidx.media3.exoplayer.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:765)
+11-13 13:50:32.043 E/ExoPlayerImplInternal(26330):       ... 4 more
+11-13 13:50:32.045 I/CM-Media3(26330): error=Source error code=ERROR_CODE_PARSING_CONTAINER_MALFORMED
+11-13 13:50:32.046 I/CM-Media3(26330): androidx.media3.exoplayer.ExoPlaybackException: Source error
+11-13 13:50:32.046 I/CM-Media3(26330): 	at androidx.media3.exoplayer.ExoPlayerImplInternal.handleIoException(ExoPlayerImplInternal.java:1021)
+11-13 13:50:32.046 I/CM-Media3(26330): 	at androidx.media3.exoplayer.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:991)
+11-13 13:50:32.046 I/CM-Media3(26330): 	at android.os.Handler.dispatchMessage(Handler.java:102)
+11-13 13:50:32.046 I/CM-Media3(26330): 	at android.os.Looper.loopOnce(Looper.java:210)
+11-13 13:50:32.046 I/CM-Media3(26330): 	at android.os.Looper.loop(Looper.java:299)
+11-13 13:50:32.046 I/CM-Media3(26330): 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-13 13:50:32.046 I/CM-Media3(26330): Caused by: androidx.media3.common.ParserException: Loading finished before preparation is complete. {contentIsMalformed=true, dataType=1}
+11-13 13:50:32.046 I/CM-Media3(26330): 	at androidx.media3.exoplayer.source.ProgressiveMediaPeriod.maybeThrowPrepareError(ProgressiveMediaPeriod.java:309)
+11-13 13:50:32.046 I/CM-Media3(26330): 	at androidx.media3.exoplayer.source.MaskingMediaPeriod.maybeThrowPrepareError(MaskingMediaPeriod.java:163)
+11-13 13:50:32.046 I/CM-Media3(26330): 	at androidx.media3.exoplayer.ExoPlayerImplInternal.doSomeWork(ExoPlayerImplInternal.java:1511)
+11-13 13:50:32.046 I/CM-Media3(26330): 	at androidx.media3.exoplayer.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:765)
+11-13 13:50:32.046 I/CM-Media3(26330): 	... 4 more
+11-13 13:50:32.046 I/CM-Media3(26330): engine_error=Source error code=E_DS_UPSTREAM_MEDIA3_PLAYBACK
+11-13 13:50:32.047 I/CM-Media3(26330): state=IDLE
+11-13 13:50:32.047 D/ThermalScenarioManager(10039): additional: 0
+11-13 13:50:32.048 V/Avrcp_ext( 4581): onPlaybackStateChanged: state PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=25917049, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 13:50:32.048 W/Binder  (10039): Caught a RuntimeException from the binder stub implementation.
+11-13 13:50:32.048 W/Binder  (10039): java.lang.StringIndexOutOfBoundsException: length=1; index=-2
+11-13 13:50:32.048 W/Binder  (10039): 	at java.lang.String.charAt(Native Method)
+11-13 13:50:32.048 W/Binder  (10039): 	at c1.a$a.onCurrentScenarioChanged(Unknown Source:63)
+11-13 13:50:32.048 W/Binder  (10039): 	at miui.smartpower.IScenarioCallback$Stub.onTransact(IScenarioCallback.java:72)
+11-13 13:50:32.048 W/Binder  (10039): 	at android.os.Binder.execTransactInternal(Binder.java:1290)
+11-13 13:50:32.048 W/Binder  (10039): 	at android.os.Binder.execTransact(Binder.java:1249)
+11-13 13:50:32.048 D/MediaDataManager( 4806): State updated outside of notification
+11-13 13:50:32.050 I/MediaCarouselController( 4806): media_data_arrive: addOrUpdatePlayer
+11-13 13:50:32.051 W/ConstraintSet( 4806): id unknown center_vertical_guideline
+11-13 13:50:32.051 W/ConstraintSet( 4806): id unknown action_button_guideline
+11-13 13:50:32.051 W/ConstraintSet( 4806): id unknown media_action_barrier
+11-13 13:50:32.051 W/ConstraintSet( 4806): id unknown media_action_barrier_end
+11-13 13:50:32.051 W/ConstraintSet( 4806): id unknown media_action_barrier_top
+11-13 13:50:32.051 W/ConstraintSet( 4806): id unknown remove_text
+11-13 13:50:32.051 W/ConstraintSet( 4806): id unknown settings
+11-13 13:50:32.051 W/ConstraintSet( 4806): id unknown dismiss
+11-13 13:50:32.051 W/ConstraintSet( 4806): id unknown cancel
+11-13 13:50:32.052 V/Avrcp_ext( 4581): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@498f612) null
+11-13 13:50:32.052 V/Avrcp_ext( 4581): updateCurrentMediaState: isPlaying = false
+11-13 13:50:32.052 W/Avrcp_ext( 4581): isMusicActive: false getBluetoothPlayState: 1 A2dp State: 11 mAudioPlaybackIsActive: false
+11-13 13:50:32.053 D/Avrcp_ext( 4581): isMusicActive = false mAudioPlaybackIsActive = false player state = PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=25917049, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 13:50:32.053 V/Avrcp_ext( 4581): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-13 13:50:32.053 D/Avrcp_ext( 4581): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-13 13:50:32.053 V/Avrcp_ext( 4581): isBrowseSupported for com.example.cloudmusic: false
+11-13 13:50:32.053 V/Avrcp_ext( 4581): updatePlaybackState, state: PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=25917049, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-13 13:50:32.053 V/Avrcp_ext( 4581): Device: no name: 
+11-13 13:50:32.053 V/Avrcp_ext( 4581): Device: no name: 
+11-13 13:50:32.053 V/Avrcp_ext( 4581): Device: no name: 
+11-13 13:50:32.053 V/Avrcp_ext( 4581): Device: no name: 
+11-13 13:50:32.053 V/Avrcp_ext( 4581): Device: no name: 
+11-13 13:50:32.053 V/Avrcp_ext( 4581): updatePlayerStateAndPosition, old=PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=25913895, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=25917049, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 13:50:32.053 V/Avrcp_ext( 4581): old state = PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=25913895, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=25917049, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 13:50:32.053 D/HeadsetService( 4581): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@7586bc
+11-13 13:50:32.053 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:32.053 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 13:50:32.053 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:32.053 I/Avrcp_ext( 4581): updatePlayStatusForDevice: device: null
+11-13 13:50:32.053 V/Avrcp_ext( 4581): updatePlaybackState (1): old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=25912497, actions=54, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=25917049, actions=54, custom actions=[], active item id=-1, error=null}(2)
+11-13 13:50:32.053 I/Avrcp_ext( 4581): Exit updatePlayStatusForDevice
+11-13 13:50:32.053 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:32.053 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 13:50:32.053 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:32.053 I/Avrcp_ext( 4581): updatePlayStatusForDevice: device: null
+11-13 13:50:32.053 V/Avrcp_ext( 4581): updatePlaybackState (1): old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=25912497, actions=54, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=25917049, actions=54, custom actions=[], active item id=-1, error=null}(2)
+11-13 13:50:32.053 I/Avrcp_ext( 4581): Exit updatePlayStatusForDevice
+11-13 13:50:32.053 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:32.053 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 13:50:32.053 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:32.053 I/Avrcp_ext( 4581): updatePlayStatusForDevice: device: null
+11-13 13:50:32.053 V/Avrcp_ext( 4581): updatePlaybackState (1): old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=25912497, actions=54, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=25917049, actions=54, custom actions=[], active item id=-1, error=null}(2)
+11-13 13:50:32.053 I/Avrcp_ext( 4581): Exit updatePlayStatusForDevice
+11-13 13:50:32.053 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:32.053 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 13:50:32.053 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:32.053 I/Avrcp_ext( 4581): updatePlayStatusForDevice: device: null
+11-13 13:50:32.053 V/Avrcp_ext( 4581): updatePlaybackState (1): old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=25912497, actions=54, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=25917049, actions=54, custom actions=[], active item id=-1, error=null}(2)
+11-13 13:50:32.053 I/Avrcp_ext( 4581): Exit updatePlayStatusForDevice
+11-13 13:50:32.053 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:32.053 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 13:50:32.053 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 13:50:32.053 I/Avrcp_ext( 4581): updatePlayStatusForDevice: device: null
+11-13 13:50:32.053 V/Avrcp_ext( 4581): updatePlaybackState (1): old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=25912497, actions=54, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=25917049, actions=54, custom actions=[], active item id=-1, error=null}(2)
+11-13 13:50:32.053 I/Avrcp_ext( 4581): Exit updatePlayStatusForDevice
+11-13 13:50:32.053 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 13:50:32.053 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 13:50:32.053 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 13:50:32.053 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 13:50:32.053 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 13:50:32.053 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 13:50:32.053 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 13:50:32.053 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 13:50:32.053 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 13:50:32.053 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 13:50:32.053 V/Avrcp_ext( 4581): Exit updatePlayerStateAndPosition
+11-13 13:50:32.053 V/Avrcp_ext( 4581):  Exit onPlaybackStateChanged
+11-13 13:50:32.059 I/MiuiMediaControlPanel( 4806): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 播放服务运行中
+11-13 13:50:32.067 D/A11yRuleEngine( 8493): startQueryJob end 51 ms
+11-13 13:50:32.088 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:32.135 D/A11yRuleEngine( 8493): startQueryJob end 47 ms
+11-13 13:50:32.155 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:32.189 D/MilletPolicy(10039): HasForegroundService or audio pkgName=com.kkrainbow.easytier
+11-13 13:50:32.206 D/A11yRuleEngine( 8493): startQueryJob end 52 ms
+11-13 13:50:32.272 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:32.345 D/A11yRuleEngine( 8493): startQueryJob end 74 ms
+11-13 13:50:32.371 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 13:50:32.408 D/A11yRuleEngine( 8493): startQueryJob end 37 ms
+11-13 13:50:32.436 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:32.468 W/ActivityManager( 2484): Sending non-protected broadcast miui.intent.action.TELEPHONY_RESOURCE_ACCESS from system 4780:com.android.phone/1001 pkg com.android.phone. Callers=
+11-13 13:50:32.468 W/ActivityManager( 2484): Sending non-protected broadcast miui.intent.action.TELEPHONY_RESOURCE_ACCESS from system 4780:com.android.phone/1001 pkg com.android.phone. Callers=
+11-13 13:50:32.474 D/A11yRuleEngine( 8493): startQueryJob end 39 ms
+11-13 13:50:32.474 D/TelephonyManager( 4780): requestModemActivityInfo: Sending result to app: ModemActivityInfo{ mTimestamp=25912478 mSleepTimeMs=4405105 mIdleTimeMs=129474 mActivityStatsTechSpecificInfo=[{mRat=UNKNOWN,mFrequencyRange=UNKNOWN,mTxTimeMs[]=[52824, 43079, 35691, 41934, 133935],mRxTimeMs=16738211}]}
+11-13 13:50:32.507 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:32.547 D/A11yRuleEngine( 8493): startQueryJob end 40 ms
+11-13 13:50:32.570 D/TrafficStats( 4238): tagSocket(122) with statsTag=0xffffffff, statsUid=-1
+11-13 13:50:32.635 D/TrafficManageService( 8602): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-13 13:50:32.638 D/TrafficManageService-TrafficSimManager( 8602): notifyByNetChange: gooooo
+11-13 13:50:32.642 D/TrafficManageService-TrafficSimManager( 8602): getMonthDataUsageUsed: new_get = 2333148233
+11-13 13:50:32.646 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:32.691 D/TrafficStats( 2695): tagSocket(117) with statsTag=0x6900, statsUid=-1
+11-13 13:50:32.701 D/A11yRuleEngine( 8493): startQueryJob end 55 ms
+11-13 13:50:32.708 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:32.763 D/A11yRuleEngine( 8493): startQueryJob end 55 ms
+11-13 13:50:32.801 D/ProfileInstaller(26330): Installing profile for com.example.cloudmusic
+11-13 13:50:32.847 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 13:50:32.894 D/A11yRuleEngine( 8493): startQueryJob end 47 ms
+11-13 13:50:33.001 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:33.022 D/A11yRuleEngine( 8493): startQueryJob end 21 ms
+11-13 13:50:33.030 W/adbd    ( 1900): timeout expired while flushing socket, closing
+11-13 13:50:33.055 D/TrafficStats( 4238): tagSocket(123) with statsTag=0xffffffff, statsUid=-1
+11-13 13:50:33.064 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:33.085 D/A11yRuleEngine( 8493): startQueryJob end 20 ms
+11-13 13:50:33.194 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:33.219 D/A11yRuleEngine( 8493): startQueryJob end 25 ms
+11-13 13:50:33.323 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:33.350 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 13:50:33.385 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:33.413 D/A11yRuleEngine( 8493): startQueryJob end 28 ms
+11-13 13:50:33.521 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:33.551 D/A11yRuleEngine( 8493): startQueryJob end 30 ms
+11-13 13:50:33.651 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:33.675 D/A11yRuleEngine( 8493): startQueryJob end 24 ms
+11-13 13:50:33.681 I/MiuiNetworkPolicy( 2484): bandwidth: 0 KB/s, Max bandwidth: 200 KB/s
+11-13 13:50:33.714 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:33.731 D/A11yRuleEngine( 8493): startQueryJob end 17 ms
+11-13 13:50:33.816 I/MiuiNetworkPolicy( 2484): updateUidState uid = 10115, uidState = 5
+11-13 13:50:33.852 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:33.873 I/i.xmsf:services( 9715): This is non sticky GC, maxfree is 33554432 minfree is 8388608
+11-13 13:50:33.875 D/A11yRuleEngine( 8493): startQueryJob end 23 ms
+11-13 13:50:33.976 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:34.003 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 13:50:34.032 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:34.052 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 13:50:34.052 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=15}
+11-13 13:50:34.054 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=94}
+11-13 13:50:34.055 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=2, sent=3}
+11-13 13:50:34.055 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=51}
+11-13 13:50:34.055 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=14}
+11-13 13:50:34.055 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=10}
+11-13 13:50:34.055 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=24}
+11-13 13:50:34.055 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 13:50:34.057 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=82}
+11-13 13:50:34.057 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-13 13:50:34.057 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=54}
+11-13 13:50:34.057 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=18272}
+11-13 13:50:34.057 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=130}
+11-13 13:50:34.057 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=2, sent=3}
+11-13 13:50:34.057 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 13:50:34.057 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=7200}
+11-13 13:50:34.057 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=13703}
+11-13 13:50:34.066 D/A11yRuleEngine( 8493): startQueryJob end 34 ms
+11-13 13:50:34.176 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:34.200 D/A11yRuleEngine( 8493): startQueryJob end 24 ms
+11-13 13:50:34.304 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:34.333 D/A11yRuleEngine( 8493): startQueryJob end 29 ms
+11-13 13:50:34.367 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:34.408 D/A11yRuleEngine( 8493): startQueryJob end 41 ms
+11-13 13:50:34.501 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:34.524 D/A11yRuleEngine( 8493): startQueryJob end 23 ms
+11-13 13:50:34.634 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:34.664 D/A11yRuleEngine( 8493): startQueryJob end 30 ms
+11-13 13:50:34.709 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:34.734 D/A11yRuleEngine( 8493): startQueryJob end 25 ms
+11-13 13:50:34.824 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:34.848 D/A11yRuleEngine( 8493): startQueryJob end 24 ms
+11-13 13:50:34.965 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:34.993 D/A11yRuleEngine( 8493): startQueryJob end 28 ms
+11-13 13:50:35.035 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:35.063 D/A11yRuleEngine( 8493): startQueryJob end 28 ms
+11-13 13:50:35.149 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:35.179 D/A11yRuleEngine( 8493): startQueryJob end 30 ms
+11-13 13:50:35.219 I/mple.cloudmusic(26330): ProcessProfilingInfo new_methods=10 is saved saved_to_disk=1 resolve_classes_delay=8000
+11-13 13:50:35.294 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:35.327 D/A11yRuleEngine( 8493): startQueryJob end 33 ms
+11-13 13:50:35.364 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:35.385 D/A11yRuleEngine( 8493): startQueryJob end 21 ms
+11-13 13:50:35.480 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:35.503 D/A11yRuleEngine( 8493): startQueryJob end 23 ms
+11-13 13:50:35.627 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:35.653 D/A11yRuleEngine( 8493): startQueryJob end 26 ms
+11-13 13:50:35.686 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:35.713 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 13:50:35.804 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:35.831 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 13:50:35.954 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:35.981 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 13:50:36.014 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:36.040 D/A11yRuleEngine( 8493): startQueryJob end 26 ms
+11-13 13:50:36.132 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:36.159 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 13:50:36.284 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:36.312 D/A11yRuleEngine( 8493): startQueryJob end 28 ms
+11-13 13:50:36.341 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:36.367 D/A11yRuleEngine( 8493): startQueryJob end 26 ms
+11-13 13:50:36.460 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:36.497 D/A11yRuleEngine( 8493): startQueryJob end 37 ms
+11-13 13:50:36.612 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:36.632 D/A11yRuleEngine( 8493): startQueryJob end 20 ms
+11-13 13:50:36.668 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:36.685 I/MiuiNetworkPolicy( 2484): bandwidth: 0 KB/s, Max bandwidth: 200 KB/s
+11-13 13:50:36.690 D/A11yRuleEngine( 8493): startQueryJob end 22 ms
+11-13 13:50:36.742 W/ActivityManager( 2484): Unable to start service Intent { cmp=com.miui.powerkeeper/.perfshielder.PerfShielderStatisticsService } U=0: not found
+11-13 13:50:36.798 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:36.825 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 13:50:36.933 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:36.962 D/SLM-SRV-SLAService( 8387): checktemp temperature = 35303 temperature_average = 35076 isPerformanceMode = false thermal_enable_slm = true
+11-13 13:50:36.962 I/mstatdaemon( 2071): Entering time loop
+11-13 13:50:36.963 I/mstatdaemon( 2071): t = 1794549036
+11-13 13:50:36.963 I/mstatdaemon( 2071): translated_t = 1478559036
+11-13 13:50:36.963 I/mstat_log( 2071): mstatcommitLog log_alloc() failed
+11-13 13:50:36.976 D/A11yRuleEngine( 8493): startQueryJob end 44 ms
+11-13 13:50:36.986 D/MilletPolicy(10039): HasForegroundService or audio pkgName=com.kkrainbow.easytier
+11-13 13:50:36.991 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 13:50:37.027 D/A11yRuleEngine( 8493): startQueryJob end 36 ms

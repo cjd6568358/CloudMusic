@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>具身智能全流程管理系统</title>
+<style>
+:root{
+  --ink:#0e1c30; --ink2:#15294a; --rail-text:#c3d0e4; --rail-dim:#7188ab;
+  --paper:#ffffff; --mist:#f2f5fa; --line:#dbe4ef;
+  --blue:#2f6bf0; --blue-deep:#1f4fc4; --blue-soft:#e8effc;
+  --text:#1f2d3d; --text2:#5b6b80;
+  --green:#1f9d55; --green-soft:#e5f5ec;
+  --amber:#b96f0e; --amber-soft:#fdf3e3;
+  --red:#d64545; --red-soft:#fcebea;
+  --gray-soft:#eef1f6;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Segoe UI","Noto Sans SC",sans-serif;background:var(--mist);color:var(--text);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none;font-size:inherit;color:inherit}
+input,select,textarea{font-family:inherit;font-size:13px;color:var(--text)}
+a{color:var(--blue);text-decoration:none}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px}
+
+/* ===== 布局骨架 ===== */
+#app{display:flex;min-height:100vh}
+#rail{width:216px;flex-shrink:0;background:linear-gradient(180deg,var(--ink) 0%,var(--ink2) 100%);color:var(--rail-text);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+.brand .mark{display:inline-flex;align-items:center;gap:8px}
+.brand .sq{width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,#2f6bf0,#4f8ef7);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:800;letter-spacing:.5px}
+.brand b{display:block;color:#fff;font-size:14px;letter-spacing:.5px;margin-top:10px;font-weight:700}
+.brand span{display:block;font-size:11px;color:var(--rail-dim);letter-spacing:2px;margin-top:2px}
+nav#nav{flex:1;padding:10px 0}
+.nav-item{display:flex;align-items:center;width:100%;padding:9px 18px 9px 14px;color:var(--rail-text);font-size:13px;gap:8px;border-left:3px solid transparent;transition:background .15s,color .15s;text-align:left}
+.nav-item .no{font-size:10px;color:var(--rail-dim);width:20px;flex-shrink:0;font-variant-numeric:tabular-nums;letter-spacing:.5px}
+.nav-item .lb{flex:1}
+.nav-item .ct{font-size:10px;background:rgba(255,255,255,.09);border-radius:999px;padding:1px 7px;color:#a8b8d0;font-variant-numeric:tabular-nums}
+.nav-item:hover{background:rgba(255,255,255,.05);color:#fff}
+.nav-item.active{background:rgba(47,107,240,.22);border-left-color:var(--blue);color:#fff}
+.nav-item.active .no{color:#9db7f5}
+.nav-sep{margin:8px 18px;border-top:1px solid rgba(255,255,255,.08)}
+.rail-foot{padding:12px 18px;font-size:10px;color:var(--rail-dim);border-top:1px solid rgba(255,255,255,.08);line-height:1.7}
+
+#main{flex:1;min-width:0;display:flex;flex-direction:column}
+#topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;padding:20px 26px 14px;background:var(--mist);flex-wrap:wrap}
+#topbar h1{font-size:19px;font-weight:700;color:var(--ink);letter-spacing:.3px}
+#topbar .sub{font-size:12px;color:var(--text2);margin-top:2px}
+#view-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#content{padding:0 26px 34px;flex:1}
+
+/* ===== 通用元件 ===== */
+.btn{padding:7px 14px;border-radius:8px;border:1px solid var(--line);background:var(--paper);font-size:13px;color:var(--text);transition:all .15s}
+.btn:hover{border-color:var(--blue);color:var(--blue)}
+.btn-primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue-deep);color:#fff;border-color:var(--blue-deep)}
+.btn-danger{background:var(--paper);border:1px solid var(--line);color:var(--red)}
+.btn-danger:hover{border-color:var(--red)}
+.btn-sm{padding:4px 10px;font-size:12px;border-radius:7px}
+.search{padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--paper);width:220px;transition:border .15s}
+.search:focus{border-color:var(--blue);outline:none}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+.card h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:12px;letter-spacing:.3px;display:flex;align-items:center;justify-content:space-between}
+.card h3 .hint{font-size:11px;font-weight:400;color:var(--text2)}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
+.kpi{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden}
+.kpi::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--blue)}
+.kpi .num{font-size:24px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:.3px}
+.kpi .num small{font-size:12px;font-weight:600;color:var(--text2);margin-left:2px}
+.kpi .lab{font-size:11px;color:var(--text2);margin-top:3px}
+.kpi.warn::after{background:var(--amber)} .kpi.danger::after{background:var(--red)} .kpi.good::after{background:var(--green)}
+
+/* 漏斗 */
+.funnel-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.funnel-row .fl{width:72px;font-size:12px;color:var(--text2);flex-shrink:0;text-align:right}
+.funnel-row .fbar{flex:1;height:20px;background:var(--gray-soft);border-radius:5px;overflow:hidden}
+.funnel-row .fbar i{display:block;height:100%;background:linear-gradient(90deg,#2f6bf0,#4f8ef7);border-radius:5px;min-width:2px}
+.funnel-row .fv{width:34px;font-size:12px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* 表格 */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;font-size:11px;font-weight:600;color:var(--text2);padding:9px 10px;border-bottom:1px solid var(--line);letter-spacing:.4px;white-space:nowrap}
+.tbl td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tbody tr:hover{background:var(--mist)}
+.tbl td.ta{white-space:nowrap;text-align:right}
+.tbl .lnk{font-size:12px;color:var(--blue);padding:2px 6px;border-radius:6px}
+.tbl .lnk:hover{background:var(--blue-soft)}
+.tbl .lnk.danger{color:var(--red)}
+.tbl .lnk.danger:hover{background:var(--red-soft)}
+.tbl td .dim{color:var(--text2);font-size:12px}
+
+/* 状态胶囊 */
+.chip{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.c-blue{background:var(--blue-soft);color:var(--blue-deep)}
+.c-green{background:var(--green-soft);color:var(--green)}
+.c-amber{background:var(--amber-soft);color:var(--amber)}
+.c-red{background:var(--red-soft);color:var(--red)}
+.c-gray{background:var(--gray-soft);color:var(--text2)}
+
+/* 标签页 */
+.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tab{padding:6px 14px;border-radius:999px;font-size:13px;color:var(--text2);border:1px solid transparent}
+.tab.on{background:var(--paper);border-color:var(--line);color:var(--ink);font-weight:600;box-shadow:0 1px 3px rgba(14,28,48,.06)}
+.tab:hover{color:var(--ink)}
+
+/* 提示横幅/空状态/列表 */
+.banner{background:var(--blue-soft);border:1px solid #bfd2f4;border-radius:10px;padding:10px 14px;font-size:13px;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}
+.banner button{color:var(--blue-deep);font-weight:600;font-size:12px}
+.empty{padding:34px 20px;text-align:center;color:var(--text2);font-size:13px;background:var(--paper);border:1px dashed var(--line);border-radius:12px}
+.plain-list{list-style:none}
+.plain-list li{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px;align-items:baseline}
+.plain-list li:last-child{border-bottom:none}
+.plain-list .d{color:var(--text2);font-size:12px;flex-shrink:0;font-variant-numeric:tabular-nums}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* 模态框 */
+#modal-root .overlay{position:fixed;inset:0;background:rgba(14,28,48,.48);z-index:50;display:flex;align-items:flex-start;justify-content:center;padding:6vh 16px 16px;overflow-y:auto;animation:fade .15s ease}
+.dialog{background:var(--paper);border-radius:14px;width:min(600px,94vw);max-height:82vh;overflow-y:auto;box-shadow:0 12px 40px rgba(14,28,48,.25);animation:pop .18s ease}
+.dlg-head{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;border-bottom:1px solid var(--line);font-size:15px;font-weight:700;color:var(--ink)}
+.dlg-head .x{color:var(--text2);font-size:15px;padding:2px 8px;border-radius:6px}
+.dlg-head .x:hover{background:var(--gray-soft);color:var(--ink)}
+.dlg-body{padding:18px 20px}
+.dlg-foot{display:flex;justify-content:flex-end;gap:10px;padding:14px 20px;border-top:1px solid var(--line);background:var(--mist);border-radius:0 0 14px 14px}
+.fld{display:block;margin-bottom:13px}
+.fld>span{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:5px}
+.fld input,.fld select,.fld textarea{width:100%;padding:8px 11px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--blue);outline:none;box-shadow:0 0 0 3px rgba(47,107,240,.12)}
+.fld textarea{min-height:72px;resize:vertical;line-height:1.6}
+.fld .dl-hint{font-size:11px;color:var(--text2);font-weight:400;margin-top:3px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.fgrid .full{grid-column:1/-1}
+.note{font-size:12px;color:var(--text2);line-height:1.8;padding:10px 14px;background:var(--gray-soft);border-radius:8px}
+.warn-note{background:var(--amber-soft);color:#7c4a06;border-radius:8px;padding:10px 14px;font-size:12px;line-height:1.8}
+
+/* Toast */
+#toast-root{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:80;display:flex;flex-direction:column;gap:8px;align-items:center}
+.toast{background:var(--ink);color:#fff;font-size:13px;padding:9px 18px;border-radius:9px;box-shadow:0 6px 24px rgba(14,28,48,.35);animation:pop .2s ease}
+
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+
+/* 响应式 */
+@media (max-width:900px){
+  #app{flex-direction:column}
+  #rail{width:100%;height:auto;position:static}
+  nav#nav{display:flex;overflow-x:auto;padding:6px 8px}
+  .nav-item{border-left:none;border-bottom:3px solid transparent;border-radius:6px;white-space:nowrap;padding:7px 10px}
+  .nav-item.active{border-bottom-color:var(--blue)}
+  .nav-sep{display:none}
+  .brand{display:none}
+  .rail-foot{display:none}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .grid2{grid-template-columns:1fr}
+  .fgrid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <aside id="rail">
+    <div class="brand">
+      <div class="mark"><span class="sq">EI</span><span style="font-size:11px;color:#8ea3c6;letter-spacing:1px">EMBODIED&nbsp;INTELLIGENCE</span></div>
+      <b>具身智能</b><span>全流程管理系统</span>
+    </div>
+    <nav id="nav"></nav>
+    <div class="rail-foot">01 情报 → 08 复盘<br>全流程闭环 · 数据存于本机</div>
+  </aside>
+  <main id="main">
+    <header id="topbar">
+      <div><h1 id="view-title"></h1><div class="sub" id="view-sub"></div></div>
+      <div id="view-actions"></div>
+    </header>
+    <div id="content"><div id="banner"></div><section id="view"></section></div>
+  </main>
+</div>
+<div id="modal-root"></div>
+<div id="toast-root"></div>
+<script>
+'use strict';
+/* ================= 核心工具 ================= */
+var DB_KEY='eiflow_v1';
+function $(s){return document.querySelector(s);}
+function $$(s){return Array.prototype.slice.call(document.querySelectorAll(s));}
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function uid(){return 'r'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
+function pad2(n){return String(n).padStart(2,'0');}
+function todayStr(){var d=new Date();return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
+function daysUntil(ds){if(!ds)return null;try{return Math.ceil((new Date(ds+'T00:00:00')-new Date())/86400000);}catch(e){return null;}}
+function fmtNum(n){if(n==null||n==='')return '—';var x=Number(n);return isNaN(x)?esc(n):x.toLocaleString('zh-CN');}
+var CHIP_MAP={'线索':'gray','立项评审':'amber','选型中':'amber','已部署':'green','运营中':'green','复盘归档':'blue','搁置':'red','在库':'gray','维修中':'red','退役':'gray','待执行':'gray','执行中':'amber','已完成':'green','异常':'red','待处理':'red','处理中':'amber','已闭环':'green','待验收':'amber','已验收':'green','整改中':'amber','在售':'green','预订':'blue','研发中':'gray','已停产':'gray','高':'red','中':'amber','低':'gray'};
+function chip(s){if(!s)return '<span class="dim">—</span>';return '<span class="chip c-'+(CHIP_MAP[s]||'gray')+'">'+esc(s)+'</span>';}
+function chipCat(s){var m={'新品':'blue','订单':'green','融资':'amber','政策':'blue','招投标':'green','风险':'red','案例':'gray','数据':'gray'};return '<span class="chip c-'+(m[s]||'gray')+'">'+esc(s)+'</span>';}
+
+/* ================= 状态与存储 ================= */
+var db=null,view='dashboard',intelTab='competitors',q={},pendingConfirm=null,formCtx=null,lastSummary='';
+function save(){try{localStorage.setItem(DB_KEY,JSON.stringify(db));}catch(e){toast('保存失败：浏览器存储不可用');}}
+function emptyDb(){return {competitors:[],events:[],projects:[],selections:[],assets:[],deployments:[],tasks:[],tickets:[],reviews:[],settings:{orgName:'',seeded:false,seenIntro:false}};}
+function seedDb(){
+  function R(o){o.id=uid();o.created=o.created||'2026-10-28T09:00:00.000Z';return o;}
+  return {
+    settings:{orgName:'',seeded:true,seenIntro:false},
+    competitors:[
+      R({company:'宇树科技',product:'G1',type:'人形',price:'8.5万元起',specs:'132cm/约35kg；23—43关节；小跑>2m/s',positioning:'科研教育/开发者',status:'在售',source:'官网/招股书',note:'全球最畅销人形，累计生产约1—2万台'}),
+      R({company:'宇树科技',product:'H2-X 功夫传奇',type:'人形',price:'未定价',specs:'170cm/65kg；站立续航约8小时；4米高台跃落站稳',positioning:'安保/应急救援',status:'预订',source:'央广网 2026-10-21',note:'10-24现场演示侧空翻失误断腿，成熟度待观察'}),
+      R({company:'优必选',product:'Walker S2',type:'人形',price:'B端未公开',specs:'176cm/52自由度；自主换电<3分钟；24小时连续作业',positioning:'工业制造（汽车/3C/航空）',status:'在售',source:'沙利文 2026-10',note:'2026H1人形收入全球第一（16.5%）'}),
+      R({company:'智元机器人',product:'远征A3',type:'人形',price:'未公开',specs:'173cm/56kg/31自由度；空翻；支持百台集群协同',positioning:'商用交互/展演',status:'在售',source:'多方 2026-10',note:'百台群舞创吉尼斯纪录'}),
+      R({company:'银河通用',product:'Galbot S1',type:'人形',price:'未公开',specs:'贴装产线上料；全自主网球对打',positioning:'工业贴装/药房/文旅',status:'在售',source:'综合报道',note:'2026中网指定人形机器人'}),
+      R({company:'小鹏汽车',product:'IRON',type:'人形',price:'未公布',specs:'全固态电池；VLA端侧0.2秒/次推理',positioning:'家庭/商业服务',status:'研发中',source:'证券时报 2026-10-28',note:'固态电池已小批量下线，年底规模化量产'}),
+      R({company:'宇树科技',product:'Go2',type:'四足',price:'9,997元起',specs:'4D超广角激光雷达；消费级',positioning:'消费/科研/展演',status:'在售',source:'官网',note:'IDC 1H26四足收入份额全球第一（13.8%）'}),
+      R({company:'云深处科技',product:'绝影 X30',type:'四足',price:'约22.8万元',specs:'IP67；攀爬45°楼梯；极限负载85kg',positioning:'电力巡检（行业级）',status:'在售',source:'招股书 2026-10',note:'2026H1均价22.82万元，服务100+变电站'}),
+      R({company:'云深处科技',product:'山猫 M20',type:'轮足',price:'未公开',specs:'轮足复合形态；复杂地形通过性强',positioning:'巡检/应急救援',status:'在售',source:'招股书',note:'云深处毛利率最高产品线（60.04%）'}),
+      R({company:'蔚蓝科技',product:'BabyAlpha A3',type:'四足',price:'未公布',specs:'端侧运行70亿参数大模型；六芯片异构',positioning:'家庭陪伴',status:'在售',source:'综合报道',note:'累计销量约2万—2.5万台'})
+    ],
+    events:[
+      R({date:'2026-10-28',category:'政策',company:'市场监管总局',title:'首批6项人形机器人国标发布',detail:'2027年4月1日实施，覆盖感知/决策/运动控制/作业操作',source:'新浪财经'}),
+      R({date:'2026-10-28',category:'新品',company:'小鹏汽车',title:'IRON固态电池小批量量产下线',detail:'行业首发机器人专用固态电池，整机处SOP前，年底规模化量产',source:'证券时报网'}),
+      R({date:'2026-10-24',category:'风险',company:'宇树科技',title:'H2-X现场演示侧空翻失误、机械腿脱落',detail:'发布3天后翻车，产品成熟度引发审视',source:'多方信源'}),
+      R({date:'2026-10-24',category:'风险',company:'无境动力',title:'明星机器狗公司被曝欠薪近800万元',detail:'成立8个月估值曾达10亿元，实控人失联',source:'腾讯新闻'}),
+      R({date:'2026-10-23',category:'订单',company:'乐聚智能',title:'15台机器人进兆丰股份产线常态化上料',detail:'成功率98%、连续无故障超1000小时',source:'新浪热点小时报'}),
+      R({date:'2026-10-22',category:'招投标',company:'长江电力',title:'四足机器狗智能机器人框架协议成交',detail:'供应商成都灵溯智能，落地湖北',source:'证券之星'}),
+      R({date:'2026-10-21',category:'新品',company:'宇树科技',title:'发布H2-X"功夫传奇"',detail:'170cm/65kg，站立续航约8小时，定位安保应急',source:'央广网'}),
+      R({date:'2026-10-20',category:'数据',company:'工信部',title:'上半年人形机器人产量超4万台',detail:'整机超400款，全年预计突破10万台',source:'国新办发布会'}),
+      R({date:'2026-10-19',category:'案例',company:'云深处科技',title:'山猫M20S完成哀牢山野外科考',detail:'国内具身智能机器狗首次野外科考实践',source:'新浪财经'}),
+      R({date:'2026-10-17',category:'融资',company:'智元机器人',title:'新融资10亿—15亿元，估值约500亿元',detail:'港股IPO或延后至明年',source:'红星资本局'}),
+      R({date:'2026-10-13',category:'风险',company:'行业',title:'机器人租赁价格一年跌超七成',detail:'机器狗日租约160元，展演租赁红利退潮',source:'央广网'})
+    ],
+    projects:[
+      R({name:'城南商圈导购机器人试点',scenario:'导购零售',client:'城南商业运营公司',budget:45,stage:'选型中',milestones:'Q4完成选型比价；12月上线2周试点；1月出效果复盘',note:'客户要求巡场+迎宾+引流互动，关注续航与安全合规'}),
+      R({name:'滨湖景区机器人展演项目',scenario:'展演文旅',client:'滨湖文旅集团',budget:120,stage:'运营中',milestones:'10-01部署完成；国庆展演12场；11月洽谈续约',note:'展演+导览组合，租金下行需转订阅模式',created:'2026-09-15T09:00:00.000Z'}),
+      R({name:'自有园区夜间巡检项目',scenario:'安防巡逻',client:'自有园区',budget:80,stage:'线索',milestones:'待评估四足+挂轨组合方案',note:'参考云深处变电站案例与国网采购模式'})
+    ],
+    selections:[
+      R({projectName:'城南商圈导购机器人试点',requirement:'导购+短租展演两用；预算≤50万/台；需本地部署话术库',candidates:'宇树Go2｜9,997元｜生态成熟、配件便宜｜8.5分\n云深处绝影X30｜22.8万｜工业级防护、负载强｜8分\n优必选Walker C1｜未公开｜商用服务定位、有渠道｜6.5分',chosen:'',decisionDate:'',rationale:'Go2性价比与开发生态领先，拟先租后买；等待国标实施后的采购规范再定',created:'2026-10-22T09:00:00.000Z'})
+    ],
+    assets:[
+      R({sn:'EI-GO2-0001',model:'宇树 Go2',vendor:'宇树科技',type:'四足',status:'在库',project:'',site:'仓库A',battery:96,warrantyEnd:'2027-08-01',purchasePrice:12000,purchaseDate:'2026-08-05',note:'备用机',created:'2026-08-05T09:00:00.000Z'}),
+      R({sn:'EI-GO2-0002',model:'宇树 Go2',vendor:'宇树科技',type:'四足',status:'已部署',project:'滨湖景区机器人展演项目',site:'滨湖景区北门广场',battery:88,warrantyEnd:'2027-08-01',purchasePrice:12000,purchaseDate:'2026-08-05',note:'展演主力机',created:'2026-08-05T09:00:00.000Z'}),
+      R({sn:'EI-X30-0003',model:'云深处 绝影X30',vendor:'云深处科技',type:'四足',status:'在库',project:'',site:'仓库A',battery:100,warrantyEnd:'2027-10-12',purchasePrice:228000,purchaseDate:'2026-10-12',note:'巡检试点待部署',created:'2026-10-12T09:00:00.000Z'}),
+      R({sn:'EI-G1-0004',model:'宇树 G1',vendor:'宇树科技',type:'人形',status:'维修中',project:'城南商圈导购机器人试点',site:'返厂维修',battery:62,warrantyEnd:'2026-11-20',purchasePrice:99000,purchaseDate:'2025-11-20',note:'左膝关节异响，工单处理中',created:'2025-11-20T09:00:00.000Z'})
+    ],
+    deployments:[
+      R({projectName:'滨湖景区机器人展演项目',assetSn:'EI-GO2-0002',site:'滨湖景区北门广场',scenario:'展演文旅',deployDate:'2026-10-01',acceptance:'已验收',config:'每日10:00/15:00两场；动作组：迎宾舞+合影位定点'})
+    ],
+    tasks:[
+      R({name:'国庆展演（12场）',type:'展演',assetSn:'EI-GO2-0002',date:'2026-10-06',period:'10:00-16:00',status:'已完成',record:'客流高峰，单日合影约200次，机台过热1次（停机10分钟）'}),
+      R({name:'北门定点导览',type:'导览',assetSn:'EI-GO2-0002',date:'2026-10-30',period:'14:00-17:00',status:'待执行',record:''}),
+      R({name:'商圈客流拍摄支持',type:'拍摄',assetSn:'EI-GO2-0001',date:'2026-10-27',period:'09:00-12:00',status:'已完成',record:'配合营销部拍摄国庆素材'})
+    ],
+    tickets:[
+      R({no:'WO-20261021-01',assetSn:'EI-G1-0004',type:'故障',priority:'高',status:'处理中',desc:'左膝关节异响，行动中偶发顿挫',handle:'已返厂检测，等待官方维修报价',createdDate:'2026-10-21',closedDate:''}),
+      R({no:'WO-20261026-01',assetSn:'EI-GO2-0002',type:'保养',priority:'中',status:'待处理',desc:'电池衰减提醒（88%），建议检查充放电策略',handle:'',createdDate:'2026-10-26',closedDate:''})
+    ],
+    reviews:[
+      R({projectName:'滨湖景区机器人展演项目',period:'2026年10月（国庆档）',tasks:12,revenue:96000,cost:62000,incidents:1,conclusion:'展演引流效果达预期，但租金下行趋势明显；下一步与景区谈"展演+导览"订阅制组合，提高单点收入稳定性',date:'2026-10-26'})
+    ]
+  };
+}
+function load(){try{var raw=localStorage.getItem(DB_KEY);if(raw){db=JSON.parse(raw);if(db&&db.settings)return;}}catch(e){}db=seedDb();save();}
+
+/* ================= 通用UI基建 ================= */
+function toast(msg){var t=document.createElement('div');t.className='toast';t.textContent=msg;$('#toast-root').appendChild(t);setTimeout(function(){t.remove();},2200);}
+function closeModal(){$('#modal-root').innerHTML='';}
+function confirmBox(msg,cb,danger){
+  pendingConfirm=cb;
+  $('#modal-root').innerHTML='<div class="overlay" data-action="confirm-no"><div class="dialog" style="width:min(420px,94vw)"><div class="dlg-head"><span>请确认</span><button class="x" data-action="confirm-no">✕</button></div><div class="dlg-body" style="font-size:13px;line-height:1.8">'+esc(msg)+'</div><div class="dlg-foot"><button class="btn" data-action="confirm-no">取消</button><button class="btn '+(danger?'btn-danger':'btn-primary')+'" data-action="confirm-yes">确定</button></div></div></div>';
+}
+function tableHTML(cols,rows,acts){
+  var h='<table class="tbl"><thead><tr>'+cols.map(function(c){return '<th'+(c.w?' style="width:'+c.w+'"':'')+'>'+c.label+'</th>';}).join('')+(acts?'<th></th>':'')+'</tr></thead><tbody>';
+  rows.forEach(function(r){
+    h+='<tr>'+cols.map(function(c){return '<td>'+(c.render?c.render(r):((r[c.key]!=null&&r[c.key]!=='')?esc(r[c.key]):'<span class="dim">—</span>'))+'</td>';}).join('')+(acts?'<td class="ta">'+acts(r)+'</td>':'')+'</tr>';
+  });
+  return h+'</tbody></table>';
+}
+function emptyHTML(text){return '<div class="empty">'+esc(text)+'</div>';}
+function rowActs(r){return '<button class="lnk" data-action="edit" data-id="'+r.id+'">编辑</button> <button class="lnk danger" data-action="del" data-id="'+r.id+'">删除</button>';}
+function datalistsHTML(fields){
+  var names=fields.filter(function(f){return f.type==='datalist';}).map(function(f){return f.list;});
+  if(!names.length)return '';
+  return names.map(function(list){
+    var opts=[];
+    if(list==='dl-projects')opts=db.projects.map(function(p){return p.name;});
+    if(list==='dl-assets')opts=db.assets.map(function(a){return a.sn?a.sn+'｜'+a.model:'';}).filter(Boolean);
+    return '<datalist id="'+list+'">'+opts.map(function(o){return '<option value="'+esc(o)+'">';}).join('')+'</datalist>';
+  }).join('');
+}
+function openForm(fields,row,opts){
+  opts=opts||{};
+  formCtx={fields:fields,editId:row?row.id:null,opts:opts};
+  var v=function(k){return row?(row[k]==null?'':row[k]):'';};
+  var f='';
+  fields.forEach(function(fd){
+    var val=v(fd.key),input='';
+    if(fd.type==='select'){
+      input='<select name="'+fd.key+'">'+fd.options.map(function(o,i){var sel=(val?String(val)===o:i===0);return '<option value="'+esc(o)+'"'+(sel?' selected':'')+'>'+esc(o)+'</option>';}).join('')+'</select>';
+    }else if(fd.type==='textarea'){
+      input='<textarea name="'+fd.key+'" placeholder="'+esc(fd.placeholder||'')+'"'+(fd.rows?' rows="'+fd.rows+'"':'')+'>'+esc(val)+'</textarea>';
+    }else if(fd.type==='datalist'){
+      input='<input name="'+fd.key+'" list="'+fd.list+'" value="'+esc(val)+'" placeholder="'+esc(fd.placeholder||'')+'" autocomplete="off">';
+    }else{
+      input='<input name="'+fd.key+'" type="'+(fd.type||'text')+'" value="'+esc(val)+'" placeholder="'+esc(fd.placeholder||'')+'"'+(fd.type==='number'?' step="any"':'')+'>';
+    }
+    var wide=fd.wide||fd.type==='textarea';
+    f+='<label class="fld'+(wide?' full':'')+'"><span>'+esc(fd.label)+(fd.required?' *':'')+(fd.hint?'<i class="dl-hint" style="font-style:normal">'+esc(fd.hint)+'</i>':'')+'</span>'+input+'</label>';
+  });
+  $('#modal-root').innerHTML='<div class="overlay" data-action="close"><div class="dialog"><div class="dlg-head"><span>'+esc(opts.title||(row?'编辑记录':'新增记录'))+'</span><button class="x" data-action="close">✕</button></div><div class="dlg-body"><form id="mform" class="fgrid" onsubmit="return false">'+f+'</form>'+datalistsHTML(fields)+'</div><div class="dlg-foot"><button class="btn" data-action="close">取消</button><button class="btn btn-primary" data-action="save">保存</button></div></div></div>';
+  var first=$('#mform').querySelector('input,select,textarea');if(first)first.focus();
+}
+function saveForm(){
+  var m=currentModule(),col=modColKey(m);
+  if(!col||!formCtx){closeModal();return;}
+  var obj={},els=$$('#mform [name]');
+  els.forEach(function(el){obj[el.name]=typeof el.value==='string'?el.value.trim():el.value;});
+  formCtx.fields.forEach(function(fd){if(fd.type==='number')obj[fd.key]=obj[fd.key]===''?'':Number(obj[fd.key]);});
+  if(formCtx.opts.beforeSave)formCtx.opts.beforeSave(obj);
+  if(formCtx.editId){
+    var i=db[col].findIndex(function(x){return x.id===formCtx.editId;});
+    if(i>-1){db[col][i]=Object.assign({},db[col][i],obj);}
+  }else{
+    obj.id=uid();obj.created=new Date().toISOString();
+    if(formCtx.opts.defaults)Object.assign(obj,formCtx.opts.defaults);
+    db[col].unshift(obj);
+  }
+  save();closeModal();refresh();toast(formCtx.editId?'已保存修改':'已新增');
+}
+
+/* ================= 路由与渲染骨架 ================= */
+function currentModule(){return MODULES.filter(function(m){return m.key===view;})[0];}
+function modColKey(m){return typeof m.collection==='function'?m.collection():(m.collection||null);}
+function modFields(m){return typeof m.fields==='function'?m.fields():m.fields;}
+function curCollection(){var k=modColKey(currentModule());return k?db[k]:[];}
+function searchKey(){return view==='intel'?('intel:'+intelTab):view;}
+function onSearch(v){q[searchKey()]=v;renderView();var s=$('#view .search');if(s){s.focus();var len=s.value.length;s.setSelectionRange(len,len);}}
+function go(key){view=key;renderNav();renderView();}
+function refresh(){renderNav();renderView();}
+function renderNav(){
+  var h='';
+  MODULES.forEach(function(m){
+    if(m.key==='settings')h+='<div class="nav-sep"></div>';
+    var ct=m.count?m.count():null;
+    h+='<button class="nav-item'+(view===m.key?' active':'')+'" data-action="nav" data-nav="'+m.key+'"><span class="no">'+(m.no||'')+'</span><span class="lb">'+esc(m.nav)+'</span>'+(ct!=null?'<span class="ct">'+ct+'</span>':'')+'</button>';
+  });
+  $('#nav').innerHTML=h;
+}
+function renderTopbar(){
+  var m=currentModule();
+  $('#view-title').textContent=m.title;
+  $('#view-sub').textContent=m.sub;
+  var acts='';
+  var addLabel=typeof m.addLabel==='function'?m.addLabel():m.addLabel;
+  if(addLabel)acts+='<button class="btn btn-primary" data-action="add">＋ '+esc(addLabel)+'</button>';
+  if(m.topActions)acts+=m.topActions();
+  $('#view-actions').innerHTML=acts;
+}
+function renderBanner(){
+  var b=$('#banner');
+  if(!db.settings.seeded||db.settings.seenIntro){b.innerHTML='';return;}
+  b.innerHTML='<div class="banner"><span>已预置示例数据（基于 2026-10-28 调研成果），方便快速了解各模块——熟悉后可在「数据管理」中一键清空或重置。</span><button data-action="banner-ok">知道了</button></div>';
+}
+function renderView(){renderTopbar();renderBanner();currentModule().render();}
+
+/* ================= 事件分发 ================= */
+document.addEventListener('click',function(e){
+  var el=e.target.closest('[data-action]');if(!el)return;if(el.classList.contains('overlay')&&e.target!==el)return;
+  var a=el.getAttribute('data-action');
+  if(a==='nav'){go(el.getAttribute('data-nav'));}
+  else if(a==='tab'){intelTab=el.getAttribute('data-tab');renderView();}
+  else if(a==='add'){var m=currentModule();openForm(modFields(m),null,m.formOpts||{});}
+  else if(a==='edit'){var row=curCollection().filter(function(x){return x.id===el.getAttribute('data-id');})[0];if(row)openForm(modFields(currentModule()),row,currentModule().formOpts||{});}
+  else if(a==='del'){var r2=curCollection().filter(function(x){return x.id===el.getAttribute('data-id');})[0];if(r2)confirmBox('删除这条记录？删除后不可恢复。',function(){var k=modColKey(currentModule());db[k]=db[k].filter(function(x){return x.id!==r2.id;});save();refresh();toast('已删除');},true);}
+  else if(a==='close'){closeModal();}
+  else if(a==='confirm-yes'){var cb=pendingConfirm;pendingConfirm=null;closeModal();if(cb)cb();}
+  else if(a==='confirm-no'){pendingConfirm=null;closeModal();}
+  else if(a==='save'){saveForm();}
+  else if(a==='banner-ok'){db.settings.seenIntro=true;save();renderBanner();}
+  else if(CUSTOM_ACTIONS[a]){CUSTOM_ACTIONS[a](el);}
+});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+var CUSTOM_ACTIONS={};
+/* ================= 字典常量 ================= */
+var STAGES=['线索','立项评审','选型中','已部署','运营中','复盘归档'];
+var SCENARIOS=['工业制造','电力巡检','安防巡逻','展演文旅','导购零售','物流仓储','科研教育','家庭服务','其他'];
+var ROBOT_TYPES=['人形','四足','轮足','其他'];
+var ASSET_STATUS=['在库','已部署','维修中','退役'];
+
+var FIELDS_COMPETITOR=[
+  {key:'company',label:'公司',required:true},
+  {key:'product',label:'产品型号',required:true},
+  {key:'type',label:'形态',type:'select',options:ROBOT_TYPES,required:true},
+  {key:'price',label:'价格',placeholder:'如：9,997元起 / 未公开'},
+  {key:'status',label:'状态',type:'select',options:['在售','预订','研发中','已停产']},
+  {key:'positioning',label:'产品定位',wide:true},
+  {key:'specs',label:'关键参数',type:'textarea',placeholder:'身高/自由度/续航/负载等',wide:true},
+  {key:'note',label:'备注',type:'textarea',placeholder:'最新动态、订单、亮点等',wide:true},
+  {key:'source',label:'信息来源',wide:true,placeholder:'如：官网 / 招股书 2026-10'}
+];
+var COLS_COMPETITOR=[
+  {key:'product',label:'产品',w:'16%',render:function(r){return '<strong>'+esc(r.product)+'</strong><div class="dim">'+esc(r.company)+'</div>';}},
+  {key:'type',label:'形态',w:'7%'},
+  {key:'price',label:'价格',w:'13%'},
+  {key:'specs',label:'关键参数',w:'34%',render:function(r){return '<span class="dim" style="font-size:12px">'+esc(r.specs||'—')+'</span>';}},
+  {key:'positioning',label:'定位',w:'15%'},
+  {key:'status',label:'状态',w:'8%',render:function(r){return chip(r.status);}}
+];
+var FIELDS_EVENT=[
+  {key:'date',label:'日期',type:'date',required:true},
+  {key:'category',label:'分类',type:'select',options:['新品','订单','融资','政策','招投标','风险','案例','数据'],required:true},
+  {key:'company',label:'主体',placeholder:'公司/机构'},
+  {key:'source',label:'来源'},
+  {key:'title',label:'动态标题',wide:true,required:true},
+  {key:'detail',label:'详情',type:'textarea',wide:true}
+];
+var COLS_EVENT=[
+  {key:'date',label:'日期',w:'9%'},
+  {key:'category',label:'分类',w:'8%',render:function(r){return chipCat(r.category);}},
+  {key:'company',label:'主体',w:'12%'},
+  {key:'title',label:'动态',render:function(r){return '<strong>'+esc(r.title)+'</strong>'+(r.detail?'<div class="dim" style="font-size:12px">'+esc(r.detail)+'</div>':'');}},
+  {key:'source',label:'来源',w:'13%',render:function(r){return '<span class="dim">'+esc(r.source||'—')+'</span>';}}
+];
+var FIELDS_PROJECT=[
+  {key:'name',label:'项目名称',required:true,wide:true},
+  {key:'scenario',label:'场景类型',type:'select',options:SCENARIOS,required:true},
+  {key:'stage',label:'阶段',type:'select',options:STAGES.concat(['搁置']),required:true},
+  {key:'client',label:'客户/需求方'},
+  {key:'budget',label:'预算（万元）',type:'number'},
+  {key:'milestones',label:'关键里程碑',type:'textarea',wide:true,placeholder:'如：Q4完成选型；12月上线试点；1月复盘'},
+  {key:'note',label:'备注',type:'textarea',wide:true}
+];
+var COLS_PROJECT=[
+  {key:'name',label:'项目',w:'24%',render:function(r){return '<strong>'+esc(r.name)+'</strong>'+(r.client?'<div class="dim">'+esc(r.client)+'</div>':'');}},
+  {key:'scenario',label:'场景',w:'11%'},
+  {key:'budget',label:'预算(万)',w:'9%',render:function(r){return (r.budget!==''&&r.budget!=null)?fmtNum(r.budget):'<span class="dim">—</span>';}},
+  {key:'stage',label:'阶段',w:'9%',render:function(r){return chip(r.stage);}},
+  {key:'milestones',label:'里程碑 / 备注',render:function(r){var s=r.milestones||r.note||'';return s?esc(s):'<span class="dim">—</span>';}}
+];
+var FIELDS_SELECTION=[
+  {key:'projectName',label:'关联项目',type:'datalist',list:'dl-projects',required:true,wide:true,placeholder:'输入项目名称（可从商机立项中选择）'},
+  {key:'requirement',label:'需求要点',type:'textarea',wide:true,placeholder:'预算上限、作业要求、部署约束等'},
+  {key:'candidates',label:'候选机型对比',type:'textarea',wide:true,rows:4,placeholder:'每行一条：机型｜价格｜亮点｜评分\n例：宇树Go2｜9,997元｜生态成熟｜8.5分'},
+  {key:'chosen',label:'选定机型',placeholder:'暂未定可留空'},
+  {key:'decisionDate',label:'决策日期',type:'date'},
+  {key:'rationale',label:'决策依据',type:'textarea',wide:true,placeholder:'为什么选它/还差什么信息'}
+];
+var COLS_SELECTION=[
+  {key:'projectName',label:'项目',w:'18%',render:function(r){return '<strong>'+esc(r.projectName)+'</strong>'+(r.requirement?'<div class="dim" style="font-size:12px">'+esc(String(r.requirement).slice(0,40))+'</div>':'');}},
+  {key:'candidates',label:'候选对比',w:'40%',render:function(r){return r.candidates?'<span class="dim" style="font-size:12px;white-space:pre-line;display:block">'+esc(r.candidates)+'</span>':'<span class="dim">—</span>';}},
+  {key:'chosen',label:'结论',w:'12%',render:function(r){return r.chosen?'<strong>'+esc(r.chosen)+'</strong><div class="dim" style="font-size:12px">'+esc(r.decisionDate||'')+'</div>':'<span class="chip c-amber">待定</span>';}},
+  {key:'rationale',label:'决策依据',render:function(r){return r.rationale?esc(String(r.rationale).slice(0,60)):'<span class="dim">—</span>';}}
+];
+var FIELDS_ASSET=[
+  {key:'sn',label:'SN编号',required:true,placeholder:'如：EI-GO2-0001'},
+  {key:'model',label:'型号',required:true,placeholder:'如：宇树 Go2'},
+  {key:'vendor',label:'厂商'},
+  {key:'type',label:'形态',type:'select',options:ROBOT_TYPES,required:true},
+  {key:'status',label:'状态',type:'select',options:ASSET_STATUS,required:true},
+  {key:'project',label:'关联项目',type:'datalist',list:'dl-projects'},
+  {key:'site',label:'当前位置'},
+  {key:'battery',label:'电池健康（%）',type:'number'},
+  {key:'warrantyEnd',label:'维保到期',type:'date'},
+  {key:'purchasePrice',label:'采购价（元）',type:'number'},
+  {key:'purchaseDate',label:'采购日期',type:'date'},
+  {key:'note',label:'备注',type:'textarea',wide:true}
+];
+var COLS_ASSET=[
+  {key:'sn',label:'SN / 型号',w:'20%',render:function(r){return '<strong>'+esc(r.sn)+'</strong><div class="dim">'+esc(r.model)+'</div>';}},
+  {key:'type',label:'形态',w:'7%'},
+  {key:'status',label:'状态',w:'9%',render:function(r){return chip(r.status);}},
+  {key:'project',label:'关联项目 / 位置',w:'22%',render:function(r){var s=r.project||r.site||'';return s?esc(s)+(r.project&&r.site?'<div class="dim" style="font-size:12px">'+esc(r.site)+'</div>':''):'<span class="dim">—</span>';}},
+  {key:'battery',label:'电池',w:'8%',render:function(r){if(r.battery===''||r.battery==null)return '<span class="dim">—</span>';var v=Number(r.battery);return '<span'+(v<70?' style="color:var(--red);font-weight:700"':'')+'>'+v+'%</span>';}},
+  {key:'warrantyEnd',label:'维保到期',w:'11%',render:function(r){if(!r.warrantyEnd)return '<span class="dim">—</span>';var d=daysUntil(r.warrantyEnd);return esc(r.warrantyEnd)+(d!=null&&d<=30?'<span class="chip c-red" style="margin-left:6px">'+(d<0?'已过期':'剩'+d+'天')+'</span>':'');}}
+];
+var FIELDS_DEPLOYMENT=[
+  {key:'projectName',label:'关联项目',type:'datalist',list:'dl-projects'},
+  {key:'assetSn',label:'资产SN',type:'datalist',list:'dl-assets'},
+  {key:'site',label:'部署点位',required:true},
+  {key:'scenario',label:'场景类型',type:'select',options:SCENARIOS},
+  {key:'deployDate',label:'部署日期',type:'date'},
+  {key:'acceptance',label:'验收状态',type:'select',options:['待验收','已验收','整改中']},
+  {key:'config',label:'配置说明',type:'textarea',wide:true,placeholder:'运行时段、动作组、话术库等'}
+];
+var COLS_DEPLOYMENT=[
+  {key:'site',label:'点位 / 场景',w:'22%',render:function(r){return '<strong>'+esc(r.site)+'</strong><div class="dim">'+esc(r.scenario||'')+'</div>';}},
+  {key:'projectName',label:'项目',w:'20%'},
+  {key:'assetSn',label:'资产',w:'14%'},
+  {key:'deployDate',label:'部署日期',w:'11%'},
+  {key:'acceptance',label:'验收',w:'9%',render:function(r){return chip(r.acceptance);}},
+  {key:'config',label:'配置',render:function(r){return r.config?'<span class="dim" style="font-size:12px">'+esc(r.config)+'</span>':'<span class="dim">—</span>';}}
+];
+var FIELDS_TASK=[
+  {key:'name',label:'任务名称',required:true,wide:true},
+  {key:'type',label:'类型',type:'select',options:['展演','导览','巡检','拍摄','科考','接待','其他']},
+  {key:'status',label:'状态',type:'select',options:['待执行','执行中','已完成','异常'],required:true},
+  {key:'assetSn',label:'执行资产',type:'datalist',list:'dl-assets'},
+  {key:'date',label:'日期',type:'date',required:true},
+  {key:'period',label:'时段',placeholder:'如 14:00-17:00'},
+  {key:'record',label:'执行记录',type:'textarea',wide:true,placeholder:'完成情况、异常、现场反馈'}
+];
+var COLS_TASK=[
+  {key:'name',label:'任务 / 类型',w:'24%',render:function(r){return '<strong>'+esc(r.name)+'</strong><div class="dim">'+esc(r.type||'')+'</div>';}},
+  {key:'assetSn',label:'资产',w:'14%'},
+  {key:'date',label:'日期 / 时段',w:'17%',render:function(r){return esc(r.date)+(r.period?'<div class="dim" style="font-size:12px">'+esc(r.period)+'</div>':'');}},
+  {key:'status',label:'状态',w:'9%',render:function(r){return chip(r.status);}},
+  {key:'record',label:'执行记录',render:function(r){return r.record?esc(String(r.record).slice(0,50)):'<span class="dim">—</span>';}}
+];
+var FIELDS_TICKET=[
+  {key:'assetSn',label:'资产SN',type:'datalist',list:'dl-assets'},
+  {key:'type',label:'类型',type:'select',options:['故障','保养','备件'],required:true},
+  {key:'priority',label:'优先级',type:'select',options:['高','中','低']},
+  {key:'status',label:'状态',type:'select',options:['待处理','处理中','已闭环'],required:true},
+  {key:'desc',label:'问题描述',type:'textarea',required:true,wide:true},
+  {key:'handle',label:'处理记录',type:'textarea',wide:true},
+  {key:'closedDate',label:'闭环日期',type:'date'}
+];
+var COLS_TICKET=[
+  {key:'no',label:'工单号',w:'15%',render:function(r){return '<strong>'+esc(r.no)+'</strong>';}},
+  {key:'assetSn',label:'资产',w:'14%'},
+  {key:'type',label:'类型',w:'8%'},
+  {key:'priority',label:'优先级',w:'8%',render:function(r){return chip(r.priority);}},
+  {key:'status',label:'状态',w:'9%',render:function(r){return chip(r.status);}},
+  {key:'desc',label:'问题 / 处理',render:function(r){return esc(String(r.desc||'').slice(0,36))+(r.handle?'<div class="dim" style="font-size:12px">'+esc(String(r.handle).slice(0,36))+'</div>':'');}}
+];
+var FIELDS_REVIEW=[
+  {key:'projectName',label:'关联项目',type:'datalist',list:'dl-projects',required:true,wide:true},
+  {key:'period',label:'复盘周期',required:true,placeholder:'如：2026年10月（国庆档）'},
+  {key:'date',label:'记录日期',type:'date'},
+  {key:'tasks',label:'任务/场次（次）',type:'number'},
+  {key:'revenue',label:'收入（元）',type:'number'},
+  {key:'cost',label:'成本（元）',type:'number'},
+  {key:'incidents',label:'故障次数',type:'number'},
+  {key:'conclusion',label:'结论与经验',type:'textarea',wide:true}
+];
+var COLS_REVIEW=[
+  {key:'projectName',label:'项目 / 周期',w:'24%',render:function(r){return '<strong>'+esc(r.projectName)+'</strong><div class="dim">'+esc(r.period)+'</div>';}},
+  {key:'tasks',label:'场次',w:'8%'},
+  {key:'revenue',label:'收入(元)',w:'12%',render:function(r){return fmtNum(r.revenue);}},
+  {key:'cost',label:'成本(元)',w:'12%',render:function(r){return fmtNum(r.cost);}},
+  {key:'roi',label:'ROI',w:'9%',render:function(r){if(!r.revenue||!r.cost)return '<span class="dim">—</span>';var x=Math.round((Number(r.revenue)-Number(r.cost))/Number(r.cost)*100);return '<span style="color:'+(x>=0?'var(--green)':'var(--red)')+';font-weight:700">'+(x>=0?'+':'')+x+'%</span>';}},
+  {key:'conclusion',label:'结论与经验',render:function(r){return r.conclusion?esc(String(r.conclusion).slice(0,50)):'<span class="dim">—</span>';}}
+];
+function reviewRowActs(r){return '<button class="lnk" data-action="summary" data-id="'+r.id+'">小结</button> '+rowActs(r);}
+/* ================= 辅助 ================= */
+function sortDesc(field){return function(rs){return rs.slice().sort(function(a,b){return String(b[field]||'').localeCompare(String(a[field]||''));});};}
+function ticketBeforeSave(o){
+  if(!formCtx.editId){
+    if(!o.no)o.no='WO-'+todayStr().replace(/-/g,'')+'-'+pad2(db.tickets.length+1);
+    if(!o.createdDate)o.createdDate=todayStr();
+  }
+}
+
+/* ================= 模块注册表（侧栏即流程） ================= */
+var MODULES=[
+  {key:'dashboard',nav:'经营看板',title:'经营看板',sub:'项目漏斗 · 资产利用率 · 待办提醒 · 最近情报',render:renderDashboard},
+  {key:'intel',nav:'情报中心',no:'01',title:'情报中心',sub:'竞品库与行业动态 · 支撑立项与选型判断',
+   count:function(){return db.competitors.length+db.events.length;},
+   collection:function(){return intelTab==='competitors'?'competitors':'events';},
+   fields:function(){return intelTab==='competitors'?FIELDS_COMPETITOR:FIELDS_EVENT;},
+   addLabel:function(){return intelTab==='competitors'?'竞品':'动态';},
+   render:renderIntel},
+  {key:'projects',nav:'商机立项',no:'02',title:'商机与立项',sub:'从线索到复盘归档的项目主线',count:function(){return db.projects.length;},collection:'projects',fields:FIELDS_PROJECT,cols:COLS_PROJECT,addLabel:'项目',render:renderGeneric,sortRows:sortDesc('created'),empty:'还没有项目。点击右上角「＋ 项目」登记第一条商机。'},
+  {key:'selection',nav:'选型决策',no:'03',title:'选型决策',sub:'候选机型对比 · 决策留痕',count:function(){return db.selections.length;},collection:'selections',fields:FIELDS_SELECTION,cols:COLS_SELECTION,addLabel:'选型记录',render:renderGeneric,sortRows:sortDesc('created'),empty:'还没有选型记录。立项之后，把候选机型对比沉淀到这里。'},
+  {key:'assets',nav:'资产台账',no:'04',title:'资产台账',sub:'每台机器人从入库到退役',count:function(){return db.assets.length;},collection:'assets',fields:FIELDS_ASSET,cols:COLS_ASSET,addLabel:'资产',render:renderGeneric,sortRows:function(rs){return rs.slice().sort(function(a,b){return String(a.sn||'').localeCompare(String(b.sn||''));});},empty:'还没有资产。采购到货后，点击「＋ 资产」建立台账。'},
+  {key:'deployments',nav:'部署管理',no:'05',title:'部署管理',sub:'点位、验收与运行配置',count:function(){return db.deployments.length;},collection:'deployments',fields:FIELDS_DEPLOYMENT,cols:COLS_DEPLOYMENT,addLabel:'部署记录',render:renderGeneric,sortRows:sortDesc('deployDate'),empty:'还没有部署记录。设备进场后，登记点位与验收状态。'},
+  {key:'tasks',nav:'运营任务',no:'06',title:'运营任务',sub:'排期与执行记录',count:function(){return db.tasks.filter(function(t){return t.status==='待执行'||t.status==='执行中';}).length;},collection:'tasks',fields:FIELDS_TASK,cols:COLS_TASK,addLabel:'任务',render:renderGeneric,sortRows:function(rs){return rs.slice().sort(function(a,b){return String(b.date||'').localeCompare(String(a.date||''));});},empty:'还没有任务。为已部署资产排一期活动或巡检试试。'},
+  {key:'tickets',nav:'运维工单',no:'07',title:'运维工单',sub:'故障、保养与备件处理',count:function(){return db.tickets.filter(function(t){return t.status!=='已闭环';}).length;},collection:'tickets',fields:FIELDS_TICKET,cols:COLS_TICKET,addLabel:'工单',render:renderGeneric,sortRows:sortDesc('createdDate'),formOpts:{beforeSave:ticketBeforeSave},empty:'没有待处理工单。设备出状况时，建一张工单跟踪到闭环。'},
+  {key:'reviews',nav:'数据复盘',no:'08',title:'数据复盘',sub:'KPI记录 · 一键生成小结',count:function(){return db.reviews.length;},collection:'reviews',fields:FIELDS_REVIEW,cols:COLS_REVIEW,addLabel:'复盘记录',render:renderGeneric,sortRows:sortDesc('date'),rowActs:reviewRowActs,empty:'还没有复盘记录。一个周期结束，把收入成本和经验沉淀下来。'},
+  {key:'settings',nav:'数据管理',title:'数据管理',sub:'备份导入 · 示例数据 · 清空重置',render:renderSettings}
+];
+
+/* ================= 视图：通用列表 ================= */
+function renderGeneric(){
+  var m=currentModule(),key=searchKey(),kw=(q[key]||'').toLowerCase();
+  var rows=curCollection().slice();
+  if(kw)rows=rows.filter(function(r){return JSON.stringify(r).toLowerCase().indexOf(kw)>-1;});
+  if(m.sortRows)rows=m.sortRows(rows);
+  var h='<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap"><input class="search" placeholder="搜索本模块…" value="'+esc(q[key]||'')+'" oninput="onSearch(this.value)">'+(m.headHint?'<span class="dim" style="font-size:12px">'+esc(m.headHint)+'</span>':'')+'</div>';
+  h+=(rows.length?tableHTML(m.cols,rows,m.rowActs||rowActs):emptyHTML(m.empty||'还没有记录。'));
+  h+='</div>';
+  $('#view').innerHTML=h;
+}
+
+/* ================= 视图：情报中心 ================= */
+function renderIntel(){
+  var isC=intelTab==='competitors',key='intel:'+intelTab,kw=(q[key]||'').toLowerCase();
+  var rows=(isC?db.competitors:db.events).slice();
+  if(kw)rows=rows.filter(function(r){return JSON.stringify(r).toLowerCase().indexOf(kw)>-1;});
+  if(isC){rows.sort(function(a,b){return String(a.company||'').localeCompare(String(b.company||''));});}
+  else{rows.sort(function(a,b){return String(b.date||'').localeCompare(String(a.date||''));});}
+  var h='<div class="tabs"><button class="tab'+(isC?' on':'')+'" data-action="tab" data-tab="competitors">竞品库（'+db.competitors.length+'）</button><button class="tab'+(!isC?' on':'')+'" data-action="tab" data-tab="events">行业动态（'+db.events.length+'）</button></div>';
+  h+='<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap"><input class="search" placeholder="搜索'+(isC?'竞品':'动态')+'…" value="'+esc(q[key]||'')+'" oninput="onSearch(this.value)"><span class="dim" style="font-size:12px">'+(isC?'价格、参数与定位对比，可从调研数据持续维护':'新品 / 订单 / 融资 / 政策 / 招投标 / 风险 / 案例')+'</span></div>';
+  h+=(rows.length?tableHTML(isC?COLS_COMPETITOR:COLS_EVENT,rows,rowActs):emptyHTML(isC?'竞品库为空。点击右上角「＋ 竞品」录入第一条。':'暂无动态。点击右上角「＋ 动态」记录行业事件。'));
+  h+='</div>';
+  $('#view').innerHTML=h;
+}
+
+/* ================= 视图：经营看板 ================= */
+function kpi(num,label,cls){return '<div class="kpi '+(cls||'')+'"><div class="num">'+num+'</div><div class="lab">'+esc(label)+'</div></div>';}
+function renderDashboard(){
+  var ops=db.projects.filter(function(p){return p.stage==='已部署'||p.stage==='运营中';}).length;
+  var totalA=db.assets.length,depA=db.assets.filter(function(a){return a.status==='已部署';}).length;
+  var openT=db.tickets.filter(function(t){return t.status!=='已闭环';}).length;
+  var mp=todayStr().slice(0,7);
+  var monthTasks=db.tasks.filter(function(t){return String(t.date||'').slice(0,7)===mp;}).length;
+  var util=totalA?Math.round(depA/totalA*100):0;
+  var h='<div class="kpi-grid">'
+    +kpi(ops,'运营中项目（已部署+运营中）','good')
+    +kpi(util+'<small>%</small>','资产利用率（'+depA+'/'+totalA+'台部署中）',util>=50?'good':'warn')
+    +kpi(monthTasks,'本月任务数','')
+    +kpi(openT,'未闭环工单',openT?'danger':'good')
+    +'</div>';
+  var counts=STAGES.map(function(s){return db.projects.filter(function(p){return p.stage===s;}).length;});
+  var max=Math.max.apply(null,counts.concat([1]));
+  var shelved=db.projects.filter(function(p){return p.stage==='搁置';}).length;
+  h+='<div class="grid2"><div class="card"><h3>项目漏斗 <span class="hint">商机立项按阶段统计</span></h3>';
+  h+=STAGES.map(function(s,i){return '<div class="funnel-row"><span class="fl">'+s+'</span><div class="fbar"><i style="width:'+Math.round(counts[i]/max*100)+'%"></i></div><span class="fv">'+counts[i]+'</span></div>';}).join('');
+  h+='<div style="font-size:11px;color:var(--text2);margin-top:8px">另有搁置项目 '+shelved+' 个，未计入漏斗</div></div>';
+  var warns=[];
+  db.assets.forEach(function(a){var d=daysUntil(a.warrantyEnd);if(d!=null&&d<=30)warns.push({c:'amber',t:'维保',x:a.sn+'（'+a.model+'）'+(d<0?'已过期 '+(-d)+' 天':'还剩 '+d+' 天')});});
+  db.tickets.forEach(function(t){if(t.status!=='已闭环')warns.push({c:'red',t:'工单',x:t.no+'｜'+t.type+'·'+(t.priority||'中')+'｜'+String(t.desc||'').slice(0,22)});});
+  h+='<div class="card"><h3>待办提醒 <span class="hint">30天内维保到期 + 未闭环工单</span></h3>';
+  h+=(warns.length?'<ul class="plain-list">'+warns.slice(0,8).map(function(w){return '<li><span class="chip c-'+w.c+'">'+w.t+'</span><span style="flex:1">'+esc(w.x)+'</span></li>';}).join('')+'</ul>':'<div class="empty" style="padding:20px">一切正常：无到期维保、无未闭环工单</div>');
+  h+='</div></div>';
+  var ev=db.events.slice().sort(function(a,b){return String(b.date||'').localeCompare(String(a.date||''));});
+  h+='<div class="grid2"><div class="card"><h3>最近情报 <span class="hint">来自情报中心</span></h3><ul class="plain-list">'+ev.map(function(e2){return '<li><span class="d">'+esc(e2.date)+'</span><span style="flex:1">'+esc(e2.company)+'：'+esc(e2.title)+'</span>'+chipCat(e2.category)+'</li>';}).join('')+'</ul></div>';
+  var ac={};db.assets.forEach(function(a){ac[a.status]=(ac[a.status]||0)+1;});
+  h+='<div class="card"><h3>资产状态</h3><ul class="plain-list">'+ASSET_STATUS.map(function(s){return '<li><span style="flex:1">'+chip(s)+'</span><strong style="font-variant-numeric:tabular-nums">'+(ac[s]||0)+'</strong><span class="dim">台</span></li>';}).join('')+'</ul></div></div>';
+  $('#view').innerHTML=h;
+}
+
+/* ================= 视图：数据管理 ================= */
+function renderSettings(){
+  var h='<div class="grid2">';
+  h+='<div class="card"><h3>基本信息</h3><label class="fld"><span>团队/组织名称（用于备份与报告抬头）</span><input id="org-input" value="'+esc(db.settings.orgName)+'" placeholder="如：机器人业务组"></label><button class="btn btn-primary btn-sm" data-action="do-save-org">保存</button></div>';
+  h+='<div class="card"><h3>数据备份</h3><p class="note" style="margin-bottom:12px">所有数据仅保存在本机浏览器（localStorage），不会上传。更换电脑或清理浏览器缓存前，请先导出 JSON 备份。</p><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" data-action="do-export">导出备份（JSON）</button><button class="btn" data-action="do-import">导入备份</button><input type="file" id="impfile" accept=".json,application/json" style="display:none"></div></div>';
+  h+='</div>';
+  h+='<div class="card"><h3>数据重置</h3><p class="warn-note" style="margin-bottom:12px">清空操作不可恢复。示例数据基于 2026-10-28 行业调研生成，可随时恢复用于参考。</p><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" data-action="do-reseed">恢复为示例数据</button><button class="btn btn-danger" data-action="do-wipe">清空全部数据</button></div></div>';
+  h+='<div class="note">使用提示：① 侧栏编号 01—08 即业务流程顺序，建议按序推进；② 情报中心可随时补充调研结果，也可让我定期调研后帮你更新；③ 复盘记录点击「小结」可生成文本，直接粘贴进周报。</div>';
+  $('#view').innerHTML=h;
+  var imp=$('#impfile');
+  imp.addEventListener('change',function(){importFile(imp);});
+}
+function exportData(){
+  try{
+    var blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);
+    a.download='具身智能系统备份-'+todayStr()+'.json';
+    document.body.appendChild(a);a.click();a.remove();
+    setTimeout(function(){URL.revokeObjectURL(a.href);},2000);
+    toast('已导出备份文件');
+  }catch(e){toast('导出失败：'+e.message);}
+}
+function importFile(input){
+  var f=input.files&&input.files[0];if(!f)return;
+  var fr=new FileReader();
+  fr.onload=function(){
+    try{
+      var d=JSON.parse(fr.result);
+      if(!d||typeof d!=='object'||!d.settings)throw new Error('format');
+      ['competitors','events','projects','selections','assets','deployments','tasks','tickets','reviews'].forEach(function(k){if(!Array.isArray(d[k]))d[k]=[];});
+      db=d;save();refresh();toast('导入成功');
+    }catch(e){toast('导入失败：不是有效的备份文件');}
+    input.value='';
+  };
+  fr.readAsText(f);
+}
+
+/* ================= 复盘小结 ================= */
+function actSummary(el){
+  var r=db.reviews.filter(function(x){return x.id===el.getAttribute('data-id');})[0];if(!r)return;
+  var roi=(r.revenue&&r.cost)?Math.round((Number(r.revenue)-Number(r.cost))/Number(r.cost)*100)+'%':'—';
+  var txt='【复盘小结】'+r.projectName+' · '+r.period+'\n任务/场次：'+(r.tasks!=null&&r.tasks!==''?r.tasks:'—')+' 次\n收入：¥'+fmtNum(r.revenue)+' ｜ 成本：¥'+fmtNum(r.cost)+' ｜ ROI：'+roi+'\n故障：'+(r.incidents!=null&&r.incidents!==''?r.incidents:'—')+' 次\n结论与经验：'+(r.conclusion||'待补充');
+  lastSummary=txt;
+  $('#modal-root').innerHTML='<div class="overlay" data-action="close"><div class="dialog" style="width:min(520px,94vw)"><div class="dlg-head"><span>复盘小结 · 可直接复制</span><button class="x" data-action="close">✕</button></div><div class="dlg-body"><textarea id="sumtxt" style="width:100%;min-height:180px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:13px;line-height:1.8" readonly>'+esc(txt)+'</textarea></div><div class="dlg-foot"><button class="btn" data-action="close">关闭</button><button class="btn btn-primary" data-action="do-copy">复制</button></div></div></div>';
+}
+function actCopy(){
+  var ok=false,ta=$('#sumtxt');
+  if(ta){ta.focus();ta.select();try{ok=document.execCommand('copy');}catch(e){}}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(lastSummary);ok=true;}
+  toast(ok?'已复制到剪贴板':'请手动选中文本复制（Ctrl/Cmd+C）');
+}
+
+/* ================= 自定义动作注册 ================= */
+CUSTOM_ACTIONS['do-export']=exportData;
+CUSTOM_ACTIONS['do-import']=function(){$('#impfile').click();};
+CUSTOM_ACTIONS['do-reseed']=function(){confirmBox('将清空当前全部数据并恢复为示例数据，确定？',function(){db=seedDb();save();refresh();toast('已恢复示例数据');},true);};
+CUSTOM_ACTIONS['do-wipe']=function(){confirmBox('将清空全部数据（不可恢复）。建议先导出备份。确定继续？',function(){db=emptyDb();db.settings.seenIntro=true;save();refresh();toast('已清空全部数据');},true);};
+CUSTOM_ACTIONS['do-save-org']=function(){db.settings.orgName=$('#org-input').value.trim();save();toast('已保存');};
+CUSTOM_ACTIONS['summary']=actSummary;
+CUSTOM_ACTIONS['do-copy']=actCopy;
+/* ================= 启动 ================= */
+load();
+renderNav();
+go('dashboard');
+</script>
+</body>
+</html>

@@ -1,0 +1,1498 @@
+--------- beginning of main
+11-13 16:45:30.384 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:30.406 D/A11yRuleEngine( 8493): startQueryJob end 22 ms
+11-13 16:45:30.415 D/SLM-SRV-SLAService( 8387): checktemp temperature = 42082 temperature_average = 41707 isPerformanceMode = false thermal_enable_slm = true
+--------- beginning of system
+11-13 16:45:30.415 I/ThermalObserver( 2484): Gallery hdr is disable by thermal.
+11-13 16:45:30.416 I/mstatdaemon( 2071): Entering time loop
+11-13 16:45:30.416 I/mstatdaemon( 2071): t = 1794559530
+11-13 16:45:30.416 I/mstatdaemon( 2071): translated_t = 1478569530
+11-13 16:45:30.416 I/mstat_log( 2071): mstatcommitLog log_alloc() failed
+11-13 16:45:30.507 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:30.525 D/A11yRuleEngine( 8493): startQueryJob end 18 ms
+11-13 16:45:30.617 W/ConstraintSet( 4806): id unknown center_vertical_guideline
+11-13 16:45:30.617 W/ConstraintSet( 4806): id unknown action_button_guideline
+11-13 16:45:30.617 W/ConstraintSet( 4806): id unknown media_action_barrier
+11-13 16:45:30.617 W/ConstraintSet( 4806): id unknown media_action_barrier_end
+11-13 16:45:30.617 W/ConstraintSet( 4806): id unknown media_action_barrier_top
+11-13 16:45:30.617 W/ConstraintSet( 4806): id unknown remove_text
+11-13 16:45:30.618 W/ConstraintSet( 4806): id unknown settings
+11-13 16:45:30.618 W/ConstraintSet( 4806): id unknown dismiss
+11-13 16:45:30.618 W/ConstraintSet( 4806): id unknown cancel
+11-13 16:45:30.707 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:30.720 D/A11yRuleEngine( 8493): startQueryJob end 13 ms
+11-13 16:45:30.786 I/SmartPower.com.taobao.idlefish:channel/10297(24160)( 2484): idle->background(56964ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=945.
+11-13 16:45:30.789 D/UiModeManager( 2484): updateConfigurationLocked: mDockState=0; mCarMode=false; mCar=false; mPowerSave=false; mComputedNightMode=false; mNightMode=1; uiMode=17
+11-13 16:45:30.790 D/DynamicService( 4780):  ACTION_BATTERY_CHANGED change,USB plug = 1
+11-13 16:45:30.792 I/PowerSaveService( 8602): onReceive: android.intent.action.BATTERY_CHANGED
+11-13 16:45:30.793 I/SmartPower.com.miui.systemAdSolution/10151(13334)( 2484): idle->background(16693ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=100.
+11-13 16:45:30.794 I/PowerNoticeUI( 8602): handleBatteryChanged oldPlugType 1 mPlugType 1 oldBatteryLevel 94 mBatteryLevel 94 temperature 405
+11-13 16:45:30.794 I/ChargerBatteryIntelligenceReceiver( 8602): onBatteryChanged temperature：40,plugType:1
+11-13 16:45:30.794 I/PowerFeatureUtils( 8602): getVendorName:qcom
+11-13 16:45:30.794 I/android_os_HwBinder( 2484): HwBinder: Starting thread pool for getting: vendor.xiaomi.hardware.micharge@1.0::IMiCharge/default
+11-13 16:45:30.794 I/SmartPower.com.taobao.idlefish:windowChannel/10297(29428)( 2484): idle->background(56972ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=935.
+11-13 16:45:30.795 I/android_os_HwBinder( 8602): HwBinder: Starting thread pool for getting: vendor.xiaomi.hardware.micharge@1.0::IMiCharge/default
+11-13 16:45:30.795 D/PowerKeeper.Thermal(10039): mBatteryTemperature: 40
+11-13 16:45:30.795 D/PowerKeeper.FrozenApp(10039): onBatteryChanged plug=true mBatteryPlugged=1
+11-13 16:45:30.795 I/SmartPower.com.xiaomi.market/10149(20311)( 2484): idle->background(16570ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=915.
+11-13 16:45:30.795 I/SmartPower( 2484): com.taobao.idlefish/10297 state=inactive adj=900 proc size=4 move to background broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-13 16:45:30.795 V/DeviceStatisticsService( 4754): chargerType=1 batteryLevel=94 totalBatteryCapacity=3700
+11-13 16:45:30.796 I/SmartPower( 2484): com.miui.systemAdSolution/10151 state=hibernation adj=100 proc size=1 move to background broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-13 16:45:30.796 I/SmartPower( 2484): com.xiaomi.market/10149 state=hibernation adj=915 proc size=3 move to background broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-13 16:45:30.796 I/SmartPower( 2484): com.miui.systemAdSolution/10151 state=background adj=100 proc size=1 move to inactive broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-13 16:45:30.796 I/vendor.xiaomi.hardware.micharge@1.0-service( 1373): ReadFilePathValue path = /sys/class/qcom-battery/night_charging value = 0
+11-13 16:45:30.796 I/SmartPower( 2484): com.xiaomi.market/10149 state=background adj=915 proc size=3 move to inactive broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-13 16:45:30.796 I/SmartPower( 2484): com.taobao.idlefish/10297 state=background adj=900 proc size=4 move to inactive broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-13 16:45:30.796 E/vendor.xiaomi.hardware.micharge@1.0-service( 1373): Failed to open node /sys/class/qcom-battery/reverse_chg_mode
+11-13 16:45:30.796 I/vendor.xiaomi.hardware.micharge@1.0-service( 1373): ReadFilePathValue path = /sys/class/qcom-battery/reverse_chg_mode value = 
+11-13 16:45:30.796 D/PowerCheckerService(10039): onBatteryChanged, mBatteryLevel = 94, status = 2, level = 94, plug = 1, scale = 100
+11-13 16:45:30.796 I/ChargeProtectionUtils( 8602): getNightChargingState: 0
+11-13 16:45:30.797 I/SmartPower.com.ss.android.ugc.aweme.lite:sandboxed_process0/10240(11874)( 2484): idle->background(54276ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=905.
+11-13 16:45:30.798 I/android_os_HwBinder( 2484): HwBinder: Starting thread pool for getting: vendor.xiaomi.hardware.micharge@1.0::IMiCharge/default
+11-13 16:45:30.799 I/vendor.xiaomi.hardware.micharge@1.0-service( 1373): ReadFilePathValue path = /sys/class/qcom-battery/fastchg_mode value = 0
+11-13 16:45:30.820 E/u4native(24396): [InfoLevelMessage] [INFO:not_a_file.cc(0)] GpuMainThread heartbeat, pid/tid: 24396/24483, interval/index: 30s/61, ucCoreSoImplVersion: 5.18.9.0_250804171926
+11-13 16:45:30.826 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:30.827 E/u4native(24396): [InfoLevelMessage] [INFO:not_a_file.cc(0)] RenderMainThread heartbeat, pid/tid: 24396/24465, interval/index: 30s/61, ucCoreSoImplVersion: 5.18.9.0_250804171926
+11-13 16:45:30.856 D/A11yRuleEngine( 8493): startQueryJob end 30 ms
+11-13 16:45:30.868 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 16:45:30.868 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 16:45:30.868 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 16:45:30.868 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 16:45:30.868 W/AOSP-MdnsDiscoveryManag( 3925): Error while decoding multicast packet (997): 1 [CONTEXT service_id=168 ]
+11-13 16:45:30.869 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 16:45:30.869 W/AOSP-MdnsDiscoveryManag( 3925): Error while decoding multicast packet (998): 1 [CONTEXT service_id=168 ]
+11-13 16:45:30.919 I/SDM     ( 1313): HWCDisplay::SetActiveConfigWithConstraints: config: 0, WxH 1440x3200, fps 60
+11-13 16:45:30.920 W/SDM     ( 1313): HWDeviceDRM::GetSupportedBitClkRate: Requested rate not supported: 1200000000
+11-13 16:45:30.920 I/SDM     ( 1313): HWDeviceDRM::UpdateMixerAttributes: Mixer WxH 1440x3200-1 for Peripheral
+11-13 16:45:30.920 I/SDM     ( 1313): HWCDisplay::SubmitDisplayConfig: Active configuration changed from config 1 to 0
+11-13 16:45:30.920 I/SDM     ( 1313): HWCDisplay::SubmitDisplayConfig: Active WxH 1440x3200, timing_fps: 60, sf_fps: 60, ddic_idle_mode:0, ddic_auto_mode: 0, ddic_min_fps: 0
+11-13 16:45:30.921 I/SDM     ( 1313): HWDeviceDRM::SetupAtomic: Setting mode: WxH: 1440x3200, vrefresh: 60, hskew: 0
+11-13 16:45:30.924 D/FPSMonitor( 1370): threadFuncFpsMonitor display 0, fps 60
+11-13 16:45:31.020 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:31.067 D/A11yRuleEngine( 8493): startQueryJob end 47 ms
+11-13 16:45:31.157 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:31.203 D/A11yRuleEngine( 8493): startQueryJob end 46 ms
+11-13 16:45:31.262 E/SensorService( 2484): com.taobao.idlefish Tried enabling a sensor (lsm6dso Accelerometer Non-wakeup) without holding 
+11-13 16:45:31.265 E/SensorService( 2484): com.taobao.idlefish Tried enabling a sensor (lsm6dso Gyroscope Non-wakeup) without holding 
+11-13 16:45:31.296 W/ActivityManager( 2484): Sending non-protected broadcast miui.intent.action.TELEPHONY_RESOURCE_ACCESS from system 4780:com.android.phone/1001 pkg com.android.phone. Callers=
+11-13 16:45:31.296 W/ActivityManager( 2484): Sending non-protected broadcast miui.intent.action.TELEPHONY_RESOURCE_ACCESS from system 4780:com.android.phone/1001 pkg com.android.phone. Callers=
+11-13 16:45:31.305 D/TelephonyManager( 4780): requestModemActivityInfo: Sending result to app: ModemActivityInfo{ mTimestamp=36416307 mSleepTimeMs=4413910 mIdleTimeMs=130094 mActivityStatsTechSpecificInfo=[{mRat=UNKNOWN,mFrequencyRange=UNKNOWN,mTxTimeMs[]=[57109, 46606, 39466, 44025, 158924],mRxTimeMs=24692586}]}
+11-13 16:45:31.332 E/u4native(13880): [InfoLevelMessage] [INFO:not_a_file.cc(0)] NetworkServiceThread heartbeat, pid/tid: 13880/29353, interval/index: 30s/156
+11-13 16:45:31.341 D/CompatibilityChangeReporter( 2484): Compat change id reported: 218533173; UID 10240; state: ENABLED
+11-13 16:45:31.346 E/u4native(13880): [InfoLevelMessage] [INFO:not_a_file.cc(0)] BrowserIOThread heartbeat, pid/tid: 13880/29334, interval/index: 30s/156, ucCoreSoImplVersion: 5.18.9.0_250804171926
+11-13 16:45:31.368 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:31.402 D/A11yRuleEngine( 8493): startQueryJob end 34 ms
+11-13 16:45:31.505 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:31.543 D/A11yRuleEngine( 8493): startQueryJob end 38 ms
+11-13 16:45:31.606 W/Thread_3(25762): type=1400 audit(0.0:78354): avc: denied { read } for name="unix" dev="proc" ino=4026532043 scontext=u:r:untrusted_app:s0:c13,c257,c512,c768 tcontext=u:object_r:proc_net:s0 tclass=file permissive=0 app=com.tencent.mobileqq
+11-13 16:45:31.651 E/u4native(24396): [InfoLevelMessage] [INFO:not_a_file.cc(0)] RenderIOThread heartbeat, pid/tid: 24396/24472, interval/index: 30s/61
+11-13 16:45:31.703 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:31.732 D/TrafficManageService( 8602): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-13 16:45:31.733 D/TrafficManageService-TrafficSimManager( 8602): notifyByNetChange: gooooo
+11-13 16:45:31.734 D/TrafficManageService-TrafficSimManager( 8602): getMonthDataUsageUsed: new_get = 3230397957
+11-13 16:45:31.742 D/A11yRuleEngine( 8493): startQueryJob end 39 ms
+11-13 16:45:31.798 I/SmartPower.com.miui.personalassistant/10121(8630)( 2484): background->idle(3188ms) R(adj below visible) adj=100.
+11-13 16:45:31.798 I/SmartPower( 2484): com.miui.personalassistant/10121 state=inactive adj=100 proc size=1 move to idle adj below visible
+11-13 16:45:31.831 I/SmartPower.com.miui.home/10128(3902)( 2484): background->idle(3000ms) R(become invisible) adj=100.
+11-13 16:45:31.832 I/SmartPower( 2484): com.miui.home/10128 state=inactive adj=100 proc size=1 move to idle become invisible
+11-13 16:45:31.845 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:31.847 D/AppPredictService( 8602): start doPredict com.example.cloudmusic
+11-13 16:45:31.847 I/AppPredictManager( 8602): predict: recentApps size = 5
+11-13 16:45:31.852 I/AppPredictPrivacyLaunchManager( 8602): getLauncherHomeAppList size: 120
+11-13 16:45:31.852 I/AppPredictResultHelper( 8602): updatePreferenceStore: size = 25
+11-13 16:45:31.870 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 16:45:31.870 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 16:45:31.870 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 16:45:31.870 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 16:45:31.870 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 16:45:31.871 W/AOSP-MdnsDiscoveryManag( 3925): Error while decoding multicast packet (999): 1 [CONTEXT service_id=168 ]
+11-13 16:45:31.871 W/AOSP-MdnsDiscoveryManag( 3925): Error while decoding multicast packet (1000): 1 [CONTEXT service_id=168 ]
+11-13 16:45:31.887 D/A11yRuleEngine( 8493): startQueryJob end 42 ms
+11-13 16:45:32.043 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:32.093 D/A11yRuleEngine( 8493): startQueryJob end 50 ms
+11-13 16:45:32.116 E/TaskPersister( 2484): File error accessing recents directory (directory doesn't exist?).
+11-13 16:45:32.188 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:32.250 D/A11yRuleEngine( 8493): startQueryJob end 62 ms
+11-13 16:45:32.393 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:32.466 D/A11yRuleEngine( 8493): startQueryJob end 73 ms
+11-13 16:45:32.500 D/SecurityCenter( 4073): ImageLoader clear memory info
+11-13 16:45:32.551 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:32.609 D/A11yRuleEngine( 8493): startQueryJob end 58 ms
+11-13 16:45:32.682 I/MiuiNetworkPolicy( 2484): bandwidth: 0 KB/s, Max bandwidth: 200 KB/s
+11-13 16:45:32.766 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:32.807 I/SmartPower.com.ss.android.ugc.aweme.lite:sandboxed_process0/10240(11874)( 2484): background->idle(2010ms) R(broadcast start Intent { act=android.net.wifi.RSSI_CHANGED flg=0x4000010 (has extras) }) adj=905.
+11-13 16:45:32.807 I/SmartPower.com.ss.android.ugc.aweme.lite:miniappX/10240(13066)( 2484): background->idle(3001ms) R(broadcast start Intent { act=android.net.wifi.RSSI_CHANGED flg=0x4000010 (has extras) }) adj=0.
+11-13 16:45:32.808 I/SmartPower( 2484): com.ss.android.ugc.aweme.lite/10240 state=inactive adj=0 proc size=5 move to idle broadcast start Intent { act=android.net.wifi.RSSI_CHANGED flg=0x4000010 (has extras) }
+11-13 16:45:32.812 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=16}
+11-13 16:45:32.812 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=210}
+11-13 16:45:32.812 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=97}
+11-13 16:45:32.812 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 16:45:32.812 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-13 16:45:32.812 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-13 16:45:32.814 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=10354}
+11-13 16:45:32.814 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=16349}
+11-13 16:45:32.814 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=10975}
+11-13 16:45:32.814 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=115}
+11-13 16:45:32.814 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=13927}
+11-13 16:45:32.814 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-13 16:45:32.814 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-13 16:45:32.814 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=8716}
+11-13 16:45:32.814 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=721}
+11-13 16:45:32.814 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=99824}
+11-13 16:45:32.826 W/android.fg( 2484): type=1400 audit(0.0:78355): avc: denied { read } for name="u:object_r:wifi_hal_prop:s0" dev="tmpfs" ino=505 scontext=u:r:system_server:s0 tcontext=u:object_r:wifi_hal_prop:s0 tclass=file permissive=0
+11-13 16:45:32.829 W/libc    ( 2484): Access denied finding property "wifi.interface"
+11-13 16:45:32.830 D/NetworkManagement( 2484): wlan0 <====> 1
+11-13 16:45:32.830 I/MiuiNetworkPolicy( 2484): label wlan0, uid -1, active false, tsNanos 36417829277710
+11-13 16:45:32.831 D/MiuiNetworkPolicy( 2484): updateLimit mLimitEnabled=true,enabled=false,mNetworkPriorityMode=1
+11-13 16:45:32.849 D/A11yRuleEngine( 8493): startQueryJob end 83 ms
+11-13 16:45:32.860 D/TrafficManageService( 8602): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-13 16:45:32.862 D/TrafficManageService-TrafficSimManager( 8602): notifyByNetChange_time: return
+11-13 16:45:32.910 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:32.971 D/A11yRuleEngine( 8493): startQueryJob end 62 ms
+11-13 16:45:33.152 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:33.232 D/A11yRuleEngine( 8493): startQueryJob end 80 ms
+11-13 16:45:33.271 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:33.272 W/ContextImpl( 2484): Calling a method in the system process without a qualified user: android.app.ContextImpl.sendBroadcast:1199 android.content.ContextWrapper.sendBroadcast:510 android.telephony.MiuiResourceAccessUtilsImpl.sendResourceAccessBroadcast:33 android.telephony.MiuiResourceAccessUtilsStub.sendResourceAccessBroadcast:37 android.telephony.TelephonyManager.requestModemActivityInfo:12252 
+11-13 16:45:33.273 W/ActivityManager( 2484): Sending non-protected broadcast miui.intent.action.TELEPHONY_RESOURCE_ACCESS from system 2484:system/1000 pkg android. Callers=com.android.server.am.ActivityManagerService.broadcastIntentLocked:14754 com.android.server.am.ActivityManagerService.broadcastIntentLocked:14139 com.android.server.am.ActivityManagerService.broadcastIntentWithFeature:15013 android.app.ContextImpl.sendBroadcast:1203 android.content.ContextWrapper.sendBroadcast:510 
+11-13 16:45:33.273 W/ActivityManager( 2484): Sending non-protected broadcast miui.intent.action.TELEPHONY_RESOURCE_ACCESS from system 2484:system/1000 pkg android. Callers=com.android.server.am.ActivityManagerService.broadcastIntentLocked:14853 com.android.server.am.ActivityManagerService.broadcastIntentLocked:14139 com.android.server.am.ActivityManagerService.broadcastIntentWithFeature:15013 android.app.ContextImpl.sendBroadcast:1203 android.content.ContextWrapper.sendBroadcast:510 
+11-13 16:45:33.276 D/vendor.qti.bluetooth@1.0-ibs_handler( 1223): SerialClockVote: vote for UART CLK ON
+11-13 16:45:33.277 D/vendor.qti.bluetooth@1.0-wake_lock( 1223): Acquire wakelock is acquired 
+11-13 16:45:33.277 I/vendor.qti.bluetooth@1.0-ibs_handler( 1223): DeviceWakeUp: Writing IBS_WAKE_IND
+11-13 16:45:33.283 I/vendor.qti.bluetooth@1.0-ibs_handler( 1223): ProcessIbsCmd: Received IBS_WAKE_ACK: 0xFC
+11-13 16:45:33.283 I/vendor.qti.bluetooth@1.0-ibs_handler( 1223): ProcessIbsCmd: Signal wack_cond_
+11-13 16:45:33.283 D/vendor.qti.bluetooth@1.0-ibs_handler( 1223): DeviceWakeUp: Unblocked from waiting for FC, pthread_cond_timedwait ret = 0
+11-13 16:45:33.284 I/vendor.qti.bluetooth@1.0-ibs_handler( 1223): ProcessIbsCmd: Received IBS_WAKE_IND: 0xFD
+11-13 16:45:33.284 I/vendor.qti.bluetooth@1.0-ibs_handler( 1223): ProcessIbsCmd: Writing IBS_WAKE_ACK
+11-13 16:45:33.288 D/TelephonyManager( 2484): requestModemActivityInfo: Sending result to app: ModemActivityInfo{ mTimestamp=36416307 mSleepTimeMs=4413910 mIdleTimeMs=130094 mActivityStatsTechSpecificInfo=[{mRat=UNKNOWN,mFrequencyRange=UNKNOWN,mTxTimeMs[]=[57109, 46606, 39466, 44025, 158924],mRxTimeMs=24692586}]}
+11-13 16:45:33.325 I/vendor.qti.bluetooth@1.0-ibs_handler( 1223): ProcessIbsCmd: Received IBS_SLEEP_IND: 0xFE
+11-13 16:45:33.339 D/A11yRuleEngine( 8493): startQueryJob end 68 ms
+11-13 16:45:33.525 D/UidObserver(10039): onUidIdle uid=10318 uidstate=100
+11-13 16:45:33.533 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:33.607 D/A11yRuleEngine( 8493): startQueryJob end 74 ms
+11-13 16:45:33.630 W/ActivityManager( 2484): Sending non-protected broadcast com.miui.action.UPDATE_PREDICT_LIST from system 8602:com.miui.securitycenter.remote/1000 pkg com.miui.securitycenter. Callers=
+11-13 16:45:33.640 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:33.645 D/CompatibilityInfo( 2484): mCompatibilityFlags - 0
+11-13 16:45:33.645 D/CompatibilityInfo( 2484): applicationDensity - 560
+11-13 16:45:33.645 D/CompatibilityInfo( 2484): applicationScale - 1.0
+11-13 16:45:33.647 W/ActivityManager( 2484): Sending non-protected broadcast com.miui.action.UPDATE_PREDICT_LIST_EXTERNAL from system 8602:com.miui.securitycenter.remote/1000 pkg com.miui.securitycenter. Callers=
+11-13 16:45:33.649 D/AppPredictWidget( 8602): start update widget
+11-13 16:45:33.651 D/AppPredictWidget( 8602): AppPredictWidgetUtils::updateWidget::appWidgetIds = []
+11-13 16:45:33.700 D/A11yRuleEngine( 8493): startQueryJob end 60 ms
+11-13 16:45:33.796 I/SmartPower.com.miui.systemAdSolution/10151(13334)( 2484): background->idle(3002ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=100.
+11-13 16:45:33.797 I/SmartPower.com.xiaomi.market/10149(20311)( 2484): background->idle(3001ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=905.
+11-13 16:45:33.797 I/SmartPower.com.taobao.idlefish:channel/10297(24160)( 2484): background->idle(3011ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=915.
+11-13 16:45:33.797 I/SmartPower.com.taobao.idlefish:windowChannel/10297(29428)( 2484): background->idle(3004ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=915.
+11-13 16:45:33.798 I/SmartPower.com.taobao.idlefish/10297(13880)( 2484): background->idle(3992ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=900.
+11-13 16:45:33.798 I/SmartPower( 2484): com.miui.systemAdSolution/10151 state=inactive adj=100 proc size=1 move to idle broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-13 16:45:33.798 I/SmartPower( 2484): com.xiaomi.market/10149 state=inactive adj=905 proc size=3 move to idle broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-13 16:45:33.798 I/SmartPower( 2484): com.taobao.idlefish/10297 state=inactive adj=900 proc size=4 move to idle broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-13 16:45:33.800 I/SmartPower( 2484): com.miui.personalassistant/10121 state=idle adj=100 proc size=1 move to hibernation adj below visible
+11-13 16:45:33.832 I/SmartPower( 2484): com.miui.home/10128 state=idle adj=100 proc size=1 move to hibernation become invisible
+11-13 16:45:33.840 I/AICall_MemoryTrim$a(20619): Timer-160 trimMemory on background
+11-13 16:45:33.841 I/AICall_m0(20619): main invoke : null|80
+11-13 16:45:33.909 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:33.980 D/A11yRuleEngine( 8493): startQueryJob end 72 ms
+11-13 16:45:33.984 D/TrafficManageService( 8602): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-13 16:45:33.987 D/TrafficManageService-TrafficSimManager( 8602): notifyByNetChange_time: return
+11-13 16:45:34.001 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:34.042 D/A11yRuleEngine( 8493): startQueryJob end 41 ms
+11-13 16:45:34.282 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:34.285 I/vendor.qti.bluetooth@1.0-ibs_handler( 1223): DeviceSleep: TX Awake, Sending SLEEP_IND
+11-13 16:45:34.285 D/vendor.qti.bluetooth@1.0-ibs_handler( 1223): SerialClockVote: vote for UART CLK OFF
+11-13 16:45:34.335 D/A11yRuleEngine( 8493): startQueryJob end 54 ms
+11-13 16:45:34.342 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:34.376 D/ProfileInstaller(11245): Installing profile for com.example.cloudmusic
+11-13 16:45:34.388 D/A11yRuleEngine( 8493): startQueryJob end 46 ms
+11-13 16:45:34.394 D/Badger/JNI(21336): eventDispatch start
+11-13 16:45:34.397 I/Badger/NativeMain(21336): nativeSetServerTS start
+11-13 16:45:34.435 D/vendor.qti.bluetooth@1.0-wake_lock( 1223): Release wakelock is released 
+11-13 16:45:34.446 E/KeymasterUtils(  894): rsp_header->status: -28
+11-13 16:45:34.446 E/KeyMasterHalDevice(  894): abort_operation
+11-13 16:45:34.446 E/KeyMasterHalDevice(  894): ret: -28
+11-13 16:45:34.446 E/KeymasterUtils(  894): rsp_header->status: -28
+11-13 16:45:34.447 E/KeyMasterHalDevice(  894): abort_operation
+11-13 16:45:34.447 E/KeyMasterHalDevice(  894): ret: -28
+11-13 16:45:34.508 D/CompatibilityChangeReporter( 2484): Compat change id reported: 168419799; UID 10159; state: DISABLED
+11-13 16:45:34.508 D/CompatibilityInfo( 2484): mCompatibilityFlags - 0
+11-13 16:45:34.508 D/CompatibilityInfo( 2484): applicationDensity - 560
+11-13 16:45:34.508 D/CompatibilityInfo( 2484): applicationScale - 1.0
+11-13 16:45:34.511 V/TileLifecycleManager( 4806): Bind service: ComponentInfo{com.milink.service/com.milink.ui.service.MiLinkTileService}, true
+11-13 16:45:34.524 I/ML::MiLinkTileService(23470): onCreate
+11-13 16:45:34.529 D/CompatibilityInfo( 2484): mCompatibilityFlags - 0
+11-13 16:45:34.529 D/CompatibilityInfo( 2484): applicationDensity - 560
+11-13 16:45:34.529 D/CompatibilityInfo( 2484): applicationScale - 1.0
+11-13 16:45:34.536 I/ML::MiLinkServerService(23470): MiLinkServerService remove all scan
+11-13 16:45:34.536 I/ML::ProtocolManager(23470): support miplay: true
+11-13 16:45:34.537 I/ML::MiLinkServerService(23470): updateSystemProjectionBlackList
+11-13 16:45:34.538 D/ML::MiLinkServerService(23470): MiLinkServerService onBind
+11-13 16:45:34.538 D/SurfaceControl( 2484): nativeSetScreenProjection ===> setScreenProjection
+11-13 16:45:34.539 D/SurfaceControl( 2484): nativeSetScreenProjection ===> setScreenProjection
+11-13 16:45:34.539 D/SurfaceControl( 2484): nativeSetScreenProjection ===> setScreenProjection
+11-13 16:45:34.540 D/SurfaceControl( 2484): nativeSetScreenProjection ===> setScreenProjection
+11-13 16:45:34.540 D/SurfaceControl( 2484): nativeSetScreenProjection ===> setScreenProjection
+11-13 16:45:34.541 D/SurfaceControl( 2484): nativeSetScreenProjection ===> setScreenProjection
+11-13 16:45:34.541 D/WindowManager( 2484): Update screen project privacy blacklist
+11-13 16:45:34.543 I/ML::MiLinkTileService(23470): onServiceConnected
+11-13 16:45:34.546 I/ML::MiLinkServerService(23470): WIFI Connected
+11-13 16:45:34.546 I/ML::ProtocolManager(23470): wifi connected
+11-13 16:45:34.602 W/ActivityManager( 2484): Stopping service due to app idle: u0a240 -7m42s273ms com.ss.android.ugc.aweme.lite/com.ss.android.socialbase.downloader.downloader.SqlDownloadCacheService
+11-13 16:45:34.602 W/ActivityManager( 2484): Stopping service due to app idle: u0a240 -8m13s534ms com.ss.android.ugc.aweme.lite/com.bytedance.bdp.bdpbase.ipc.extention.MainDefaultIpcService
+11-13 16:45:34.602 W/ActivityManager( 2484): Stopping service due to app idle: u0a240 -8m13s518ms com.ss.android.ugc.aweme.lite/com.tt.miniapphost.placeholder.MiniAppChildProcessMultiInsService
+11-13 16:45:34.604 I/MiuiNetworkPolicy( 2484): updateUidState uid = 10240, uidState = 10
+11-13 16:45:34.638 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:34.679 D/A11yRuleEngine( 8493): startQueryJob end 41 ms
+11-13 16:45:34.688 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 16:45:34.725 D/A11yRuleEngine( 8493): startQueryJob end 37 ms
+11-13 16:45:34.808 I/SmartPower( 2484): com.ss.android.ugc.aweme.lite/10240 state=idle adj=500 proc size=5 move to hibernation broadcast start Intent { act=android.net.wifi.RSSI_CHANGED flg=0x4000010 (has extras) }
+11-13 16:45:34.847 I/MediaFocusControl( 2484): requestAudioFocus() from uid/pid 10318/11245 AA=USAGE_MEDIA/CONTENT_TYPE_MUSIC clientId=android.media.AudioManager@c6b45acom.example.cloudmusic.PlaybackService$$ExternalSyntheticLambda0@72a668b callingPack=com.example.cloudmusic req=1 flags=0x0 sdk=35
+11-13 16:45:34.849 D/PlaybackActivityMonitorStubImpl( 2484): interruptMusicPlayback uid=10240 hasUid=false
+11-13 16:45:34.849 D/PlaybackActivityMonitorStubImpl( 2484):  mRouteCast: -1 uid: 10240
+11-13 16:45:34.849 D/MediaFocusControl( 2484): skip handle audio focus change for user setting ...
+11-13 16:45:34.850 D/PlaybackActivityMonitorStubImpl( 2484): interruptMusicPlayback uid=10240 hasUid=false
+11-13 16:45:34.851 D/PlaybackActivityMonitorStubImpl( 2484):  mRouteCast: -1 uid: 10240
+11-13 16:45:34.851 I/AudioService.FadeOutManager( 2484): unfadeOutUid() uid:10318
+11-13 16:45:34.855 V/Avrcp_ext( 4581): onPlaybackStateChanged: state PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=36419855, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 16:45:34.856 V/Avrcp_ext( 4581): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@6ad3df8) null
+11-13 16:45:34.856 V/Avrcp_ext( 4581): updateCurrentMediaState: isPlaying = false
+11-13 16:45:34.856 W/Avrcp_ext( 4581): isMusicActive: false getBluetoothPlayState: 2 A2dp State: 11 mAudioPlaybackIsActive: true
+11-13 16:45:34.856 D/Avrcp_ext( 4581): isMusicActive = false mAudioPlaybackIsActive = true player state = PlaybackState {state=3, position=4, buffered position=0, speed=1.0, updated=36419859, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 16:45:34.856 V/Avrcp_ext( 4581): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-13 16:45:34.856 D/Avrcp_ext( 4581): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-13 16:45:34.856 V/Avrcp_ext( 4581): isBrowseSupported for com.example.cloudmusic: false
+11-13 16:45:34.856 V/Avrcp_ext( 4581): updatePlaybackState, state: PlaybackState {state=3, position=4, buffered position=0, speed=1.0, updated=36419859, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-13 16:45:34.856 V/Avrcp_ext( 4581): Device: no name: 
+11-13 16:45:34.856 V/Avrcp_ext( 4581): Device: no name: 
+11-13 16:45:34.856 V/Avrcp_ext( 4581): Device: no name: 
+11-13 16:45:34.856 V/Avrcp_ext( 4581): Device: no name: 
+11-13 16:45:34.856 V/Avrcp_ext( 4581): Device: no name: 
+11-13 16:45:34.856 V/Avrcp_ext( 4581): updatePlayerStateAndPosition, old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=36414568, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=4, buffered position=0, speed=1.0, updated=36419859, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 16:45:34.856 V/Avrcp_ext( 4581): old state = PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=36414568, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=4, buffered position=0, speed=1.0, updated=36419859, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 16:45:34.856 D/HeadsetService( 4581): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@7586bc
+11-13 16:45:34.856 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:34.856 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 16:45:34.856 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:34.856 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 16:45:34.856 V/Avrcp_ext( 4581): Single connection exists
+11-13 16:45:34.856 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:34.856 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 16:45:34.856 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:34.856 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 16:45:34.856 V/Avrcp_ext( 4581): Single connection exists
+11-13 16:45:34.856 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:34.856 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 16:45:34.856 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:34.856 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 16:45:34.856 V/Avrcp_ext( 4581): Single connection exists
+11-13 16:45:34.856 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:34.856 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 16:45:34.856 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:34.856 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 16:45:34.856 V/Avrcp_ext( 4581): Single connection exists
+11-13 16:45:34.856 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:34.857 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 16:45:34.857 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:34.857 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 16:45:34.857 V/Avrcp_ext( 4581): Single connection exists
+11-13 16:45:34.857 I/Avrcp_ext( 4581): No active device found, update playstate to stack
+11-13 16:45:34.857 E/BluetoothAvrcpServiceJni( 4581): updatePlayStatusToStack
+11-13 16:45:34.857 E/bt_btif ( 4581): update_play_status_to_stack:invalid index,remote suspend not set
+11-13 16:45:34.857 E/BluetoothAvrcpServiceJni( 4581): updatePlayStatusToStack: status: 1
+11-13 16:45:34.857 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 16:45:34.857 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 16:45:34.857 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 16:45:34.857 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 16:45:34.857 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 16:45:34.857 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 16:45:34.857 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 16:45:34.857 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 16:45:34.857 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 16:45:34.857 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 16:45:34.857 V/Avrcp_ext( 4581): Exit updatePlayerStateAndPosition
+11-13 16:45:34.857 V/Avrcp_ext( 4581):  Exit onPlaybackStateChanged
+11-13 16:45:34.857 D/MediaDataManager( 4806): State updated outside of notification
+11-13 16:45:34.857 I/MediaCarouselController( 4806): media_data_arrive: addOrUpdatePlayer
+11-13 16:45:34.859 W/ConstraintSet( 4806): id unknown center_vertical_guideline
+11-13 16:45:34.859 W/ConstraintSet( 4806): id unknown action_button_guideline
+11-13 16:45:34.859 W/ConstraintSet( 4806): id unknown media_action_barrier
+11-13 16:45:34.859 W/ConstraintSet( 4806): id unknown media_action_barrier_end
+11-13 16:45:34.859 W/ConstraintSet( 4806): id unknown media_action_barrier_top
+11-13 16:45:34.859 W/ConstraintSet( 4806): id unknown remove_text
+11-13 16:45:34.859 W/ConstraintSet( 4806): id unknown settings
+11-13 16:45:34.859 W/ConstraintSet( 4806): id unknown dismiss
+11-13 16:45:34.859 W/ConstraintSet( 4806): id unknown cancel
+11-13 16:45:34.867 W/CM-Queue(11245): setAll size=1 caller=resumeWith
+11-13 16:45:34.870 W/CM-SQL  (11245): queue DELETE: DELETE FROM queue_items WHERE queue_id = ? args=[default] caller=LibraryDatabase$Companion$$ExternalSyntheticLambda1.onQuery:0<QueryInterceptorStatement$execute$1.invokeSuspend:36<BaseContinuationImpl.resumeWith:33<DispatchedTask.run:101
+11-13 16:45:34.871 I/MiuiMediaControlPanel( 4806): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 播放服务运行中
+11-13 16:45:34.889 I/CM-Media3(11245): prepare trackId=70d2448621ac26d250c63cf71d71bc51 remote=false url=- localPath=/data/data/com.example.cloudmusic/files/music/f3_mp3_rg.mp3 expectedLength=0 engine=media3-1.11.1 ffmpeg=EXTENSION_RENDERER_MODE_ON
+11-13 16:45:34.933 I/SDM     ( 1313): HWCDisplay::SetActiveConfigWithConstraints: config: 1, WxH 1440x3200, fps 120
+11-13 16:45:34.934 W/SDM     ( 1313): HWDeviceDRM::GetSupportedBitClkRate: Requested rate not supported: 1200000000
+11-13 16:45:34.935 I/SDM     ( 1313): HWDeviceDRM::UpdateMixerAttributes: Mixer WxH 1440x3200-1 for Peripheral
+11-13 16:45:34.935 I/SDM     ( 1313): HWCDisplay::SubmitDisplayConfig: Active configuration changed from config 0 to 1
+11-13 16:45:34.935 I/SDM     ( 1313): HWCDisplay::SubmitDisplayConfig: Active WxH 1440x3200, timing_fps: 120, sf_fps: 120, ddic_idle_mode:0, ddic_auto_mode: 0, ddic_min_fps: 0
+11-13 16:45:34.936 I/SDM     ( 1313): HWDeviceDRM::SetupAtomic: Setting mode: WxH: 1440x3200, vrefresh: 120, hskew: 0
+11-13 16:45:34.940 I/ExoPlayerImpl(11245): Init 9d9605b [AndroidXMedia3/1.11.1] [mondrian, 23013RK75C, Xiaomi, 33]
+11-13 16:45:34.943 D/FPSMonitor( 1370): threadFuncFpsMonitor display 0, fps 120
+11-13 16:45:34.956 I/DefaultRenderersFactory(11245): Loaded FfmpegVideoRenderer.
+11-13 16:45:34.967 I/DefaultRenderersFactory(11245): Loaded FfmpegAudioRenderer.
+11-13 16:45:34.980 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:35.002 I/CM-Media3(11245): gapless in_file=true cross_track=false blocker=single-handle 契约：prepare 前 release → ExoPlayer 重建；需门面队列化 + player 复用
+11-13 16:45:35.003 I/CM-Media3(11245): state=BUFFERING
+11-13 16:45:35.005 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_D uids:
+11-13 16:45:35.006 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077cb928540, event 0
+11-13 16:45:35.006 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_15 uids:
+11-13 16:45:35.006 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abbc4200, event 0
+11-13 16:45:35.008 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_3D uids:
+11-13 16:45:35.009 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_4D uids:
+11-13 16:45:35.009 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abcf9b80, event 0
+11-13 16:45:35.009 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abd5c280, event 0
+11-13 16:45:35.009 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_1D uids:
+11-13 16:45:35.009 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abc71b80, event 0
+11-13 16:45:35.027 I/CM-Factory(11245): createExtractors called
+11-13 16:45:35.048 V/Avrcp_ext( 4581): onPlaybackStateChanged: state PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=36420049, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 16:45:35.049 W/DevicePolicyManager( 2484): Unknown user type: UserInfo{999:XSpace:801010}
+11-13 16:45:35.049 W/DevicePolicyManager( 2484): Unknown user type: UserInfo{999:XSpace:801010}
+11-13 16:45:35.049 V/Avrcp_ext( 4581): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@6ad3df8) null
+11-13 16:45:35.049 V/Avrcp_ext( 4581): updateCurrentMediaState: isPlaying = false
+11-13 16:45:35.049 W/Avrcp_ext( 4581): isMusicActive: false getBluetoothPlayState: 1 A2dp State: 11 mAudioPlaybackIsActive: true
+11-13 16:45:35.050 D/Avrcp_ext( 4581): isMusicActive = false mAudioPlaybackIsActive = true player state = PlaybackState {state=3, position=4, buffered position=0, speed=1.0, updated=36420053, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 16:45:35.050 V/Avrcp_ext( 4581): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-13 16:45:35.050 D/Avrcp_ext( 4581): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-13 16:45:35.050 V/Avrcp_ext( 4581): isBrowseSupported for com.example.cloudmusic: false
+11-13 16:45:35.050 V/Avrcp_ext( 4581): updatePlaybackState, state: PlaybackState {state=3, position=4, buffered position=0, speed=1.0, updated=36420053, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-13 16:45:35.050 V/Avrcp_ext( 4581): Device: no name: 
+11-13 16:45:35.050 V/Avrcp_ext( 4581): Device: no name: 
+11-13 16:45:35.050 V/Avrcp_ext( 4581): Device: no name: 
+11-13 16:45:35.050 V/Avrcp_ext( 4581): Device: no name: 
+11-13 16:45:35.050 V/Avrcp_ext( 4581): Device: no name: 
+11-13 16:45:35.050 V/Avrcp_ext( 4581): updatePlayerStateAndPosition, old=PlaybackState {state=3, position=4, buffered position=0, speed=1.0, updated=36419859, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=4, buffered position=0, speed=1.0, updated=36420053, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 16:45:35.050 V/Avrcp_ext( 4581): old state = PlaybackState {state=3, position=4, buffered position=0, speed=1.0, updated=36419859, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=4, buffered position=0, speed=1.0, updated=36420053, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 16:45:35.050 D/HeadsetService( 4581): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@7586bc
+11-13 16:45:35.050 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:35.050 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 16:45:35.050 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:35.050 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 16:45:35.050 V/Avrcp_ext( 4581): Single connection exists
+11-13 16:45:35.050 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:35.050 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 16:45:35.050 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:35.050 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 16:45:35.050 V/Avrcp_ext( 4581): Single connection exists
+11-13 16:45:35.050 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:35.050 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 16:45:35.050 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:35.050 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 16:45:35.050 V/Avrcp_ext( 4581): Single connection exists
+11-13 16:45:35.050 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:35.050 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 16:45:35.050 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:35.050 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 16:45:35.050 V/Avrcp_ext( 4581): Single connection exists
+11-13 16:45:35.050 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:35.050 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 16:45:35.050 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 16:45:35.050 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 16:45:35.050 V/Avrcp_ext( 4581): Single connection exists
+11-13 16:45:35.050 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 16:45:35.050 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 16:45:35.050 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 16:45:35.050 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 16:45:35.050 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 16:45:35.050 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 16:45:35.050 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 16:45:35.050 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 16:45:35.050 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 16:45:35.050 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 16:45:35.050 V/Avrcp_ext( 4581): Exit updatePlayerStateAndPosition
+11-13 16:45:35.050 V/Avrcp_ext( 4581):  Exit onPlaybackStateChanged
+11-13 16:45:35.056 I/NotificationController( 5753): onNotificationPosted: mSmartTravelNotificationMap 0
+11-13 16:45:35.057 I/CM-Factory(11245): extractors: 25 (ape/asf + 21 default)
+11-13 16:45:35.057 I/CM-Asf  (11245): sniff ok=true hit=false head=4944330300000004
+11-13 16:45:35.060 D/MiBarrage( 8139): The sbn packageName is :com.example.cloudmusic
+11-13 16:45:35.060 D/MiBarrage( 8139): No barrage: not in game scene or in video scene
+11-13 16:45:35.068 D/A11yRuleEngine( 8493): startQueryJob end 88 ms
+11-13 16:45:35.080 I/MediaCarouselController( 4806): media_data_arrive: addOrUpdatePlayer
+11-13 16:45:35.081 W/ConstraintSet( 4806): id unknown center_vertical_guideline
+11-13 16:45:35.081 W/ConstraintSet( 4806): id unknown action_button_guideline
+11-13 16:45:35.081 W/ConstraintSet( 4806): id unknown media_action_barrier
+11-13 16:45:35.081 W/ConstraintSet( 4806): id unknown media_action_barrier_end
+11-13 16:45:35.081 W/ConstraintSet( 4806): id unknown media_action_barrier_top
+11-13 16:45:35.081 W/ConstraintSet( 4806): id unknown remove_text
+11-13 16:45:35.081 W/ConstraintSet( 4806): id unknown settings
+11-13 16:45:35.081 W/ConstraintSet( 4806): id unknown dismiss
+11-13 16:45:35.081 W/ConstraintSet( 4806): id unknown cancel
+11-13 16:45:35.094 I/MiuiMediaControlPanel( 4806): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 播放服务运行中
+11-13 16:45:35.114 D/TrafficManageService( 8602): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-13 16:45:35.115 D/TrafficManageService-TrafficSimManager( 8602): notifyByNetChange_time: return
+11-13 16:45:35.119 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:35.121 W/SpeakerLayoutUtil(11245): Built-in speaker's getSpeakerLayoutChannelMask not usable, defaulting to stereo.
+11-13 16:45:35.126 D/AHAL: FM( 1222): fm_get_parameters: 232: enter
+11-13 16:45:35.128 D/AHAL: FM( 1222): fm_get_parameters: 239: exit
+11-13 16:45:35.128 D/AHAL: Loopback_karaoke( 1222): karaoke_get_parameters: Enter
+11-13 16:45:35.128 D/AHAL: Loopback_karaoke( 1222): karaoke_get_parameters: Exit
+11-13 16:45:35.147 I/ndroid.systemui( 4806): This is sticky GC, maxfree is 33554432 minfree is 8388608
+11-13 16:45:35.152 W/System  ( 4806): A resource failed to call release. 
+11-13 16:45:35.160 W/AudioCapabilities(11245): Unsupported mime audio/alac
+11-13 16:45:35.160 W/AudioCapabilities(11245): Unsupported mime audio/x-ape
+11-13 16:45:35.160 W/AudioCapabilities(11245): Unsupported mime audio/evrc
+11-13 16:45:35.160 W/AudioCapabilities(11245): Unsupported mime audio/qcelp
+11-13 16:45:35.160 W/AudioCapabilities(11245): Unsupported mime audio/dsd
+11-13 16:45:35.160 W/AudioCapabilities(11245): Unsupported mime audio/amr-wb-plus
+11-13 16:45:35.161 W/AudioCapabilities(11245): Unsupported mime audio/x-ms-wma
+11-13 16:45:35.161 W/AudioCapabilities(11245): Unsupported mime audio/evrc
+11-13 16:45:35.161 W/AudioCapabilities(11245): Unsupported mime audio/qcelp
+11-13 16:45:35.161 W/AudioCapabilities(11245): Unsupported mime audio/alac
+11-13 16:45:35.161 W/AudioCapabilities(11245): Unsupported mime audio/x-ape
+11-13 16:45:35.174 W/VideoCapabilities(11245): Unsupported mime image/vnd.android.heic
+11-13 16:45:35.174 W/VideoCapabilities(11245): Unsupported mime image/vnd.android.heic
+11-13 16:45:35.175 W/VideoCapabilities(11245): Unsupported mime video/dolby-vision
+11-13 16:45:35.175 W/VideoCapabilities(11245): Unsupported mime video/dolby-vision
+11-13 16:45:35.212 I/DMCodecAdapterFactory(11245): Creating an asynchronous MediaCodec adapter for track type audio
+11-13 16:45:35.215 I/MediaCodec(11245): init video box disabled for codec not supported
+11-13 16:45:35.215 D/CCodec  (11245): allocate(c2.android.mp3.decoder)
+11-13 16:45:35.217 I/Codec2Client(11245): Available Codec2 services: "default" "default2" "dolby" "software"
+11-13 16:45:35.219 I/CCodec  (11245): setting up 'default' as default (vendor) store
+11-13 16:45:35.223 D/A11yRuleEngine( 8493): startQueryJob end 104 ms
+11-13 16:45:35.234 V/C2Store ( 2095): in init
+11-13 16:45:35.234 V/C2Store ( 2095): loading dll
+11-13 16:45:35.237 I/CCodec  (11245): Created component [c2.android.mp3.decoder]
+11-13 16:45:35.238 D/CCodecConfig(11245): read media type: audio/mpeg
+11-13 16:45:35.240 D/ReflectedParamUpdater(11245): extent() != 1 for single value type: algo.buffers.max-count.values
+11-13 16:45:35.241 D/ReflectedParamUpdater(11245): extent() != 1 for single value type: output.subscribed-indices.values
+11-13 16:45:35.241 D/ReflectedParamUpdater(11245): extent() != 1 for single value type: input.buffers.allocator-ids.values
+11-13 16:45:35.241 D/ReflectedParamUpdater(11245): extent() != 1 for single value type: output.buffers.allocator-ids.values
+11-13 16:45:35.241 D/ReflectedParamUpdater(11245): extent() != 1 for single value type: algo.buffers.allocator-ids.values
+11-13 16:45:35.241 D/ReflectedParamUpdater(11245): extent() != 1 for single value type: output.buffers.pool-ids.values
+11-13 16:45:35.242 D/ReflectedParamUpdater(11245): extent() != 1 for single value type: algo.buffers.pool-ids.values
+11-13 16:45:35.243 I/CCodecConfig(11245): query failed after returning 7 values (BAD_INDEX)
+11-13 16:45:35.243 D/CCodecConfig(11245): c2 config diff is Dict {
+11-13 16:45:35.243 D/CCodecConfig(11245):   c2::u32 coded.bitrate.value = 64000
+11-13 16:45:35.243 D/CCodecConfig(11245):   c2::u32 input.buffers.max-size.value = 8192
+11-13 16:45:35.243 D/CCodecConfig(11245):   c2::u32 input.delay.value = 0
+11-13 16:45:35.243 D/CCodecConfig(11245):   string input.media-type.value = "audio/mpeg"
+11-13 16:45:35.243 D/CCodecConfig(11245):   string output.media-type.value = "audio/raw"
+11-13 16:45:35.243 D/CCodecConfig(11245):   c2::u32 raw.channel-count.value = 2
+11-13 16:45:35.243 D/CCodecConfig(11245):   c2::u32 raw.sample-rate.value = 44100
+11-13 16:45:35.243 D/CCodecConfig(11245): }
+11-13 16:45:35.245 I/MediaCodec(11245): MediaCodec will operate in async mode
+11-13 16:45:35.245 I/MediaCodec(11245): fps video to display disabled
+11-13 16:45:35.246 I/MediaCodec(11245): MediaStub sendMine
+11-13 16:45:35.264 V/MediaStub(11245): MediaStub::GetImplInstance for debug create,0x7d797996b8
+11-13 16:45:35.264 D/MediaImpl(11245): MediaImpl::sendMine: audio/mpeg
+11-13 16:45:35.264 D/MediaStub(11245): MediaStub::sendMine audio/mpeg
+11-13 16:45:35.264 D/MediaCodec(11245): currery video type audio/mpeg
+11-13 16:45:35.264 I/MediaCodec(11245): MediaStub sendDolbyVision
+11-13 16:45:35.264 I/MediaCodec(11245): MediaStub sendPackageName
+11-13 16:45:35.264 D/MediaImpl(11245): MediaImpl::sendPackageName: com.example.cloudmusic
+11-13 16:45:35.264 D/MediaStub(11245): MediaStub::sendPackageName com.example.cloudmusic
+11-13 16:45:35.264 D/MediaCodec(11245): flushMediametrics
+11-13 16:45:35.265 D/CCodec  (11245): [c2.android.mp3.decoder] buffers are bound to CCodec for this session
+11-13 16:45:35.265 D/CCodecConfig(11245): no c2 equivalents for log-session-id
+11-13 16:45:35.265 D/CCodecConfig(11245): no c2 equivalents for flags
+11-13 16:45:35.265 D/CCodecConfig(11245): config failed => CORRUPTED
+11-13 16:45:35.266 W/Codec2Client(11245): query -- param skipped: index = 1107298332.
+11-13 16:45:35.266 D/CCodec  (11245): client requested max input size 4096, which is smaller than what component recommended (8192); overriding with component recommendation.
+11-13 16:45:35.266 W/CCodec  (11245): This behavior is subject to change. It is recommended that app developers double check whether the requested max input size is in reasonable range.
+11-13 16:45:35.266 D/CCodec  (11245): encoding statistics level = 0
+11-13 16:45:35.266 D/CCodec  (11245): setup formats input: AMessage(what = 0x00000000) = {
+11-13 16:45:35.266 D/CCodec  (11245):   int32_t bitrate = 64000
+11-13 16:45:35.266 D/CCodec  (11245):   int32_t channel-count = 2
+11-13 16:45:35.266 D/CCodec  (11245):   int32_t max-input-size = 8192
+11-13 16:45:35.266 D/CCodec  (11245):   string mime = "audio/mpeg"
+11-13 16:45:35.266 D/CCodec  (11245):   int32_t sample-rate = 44100
+11-13 16:45:35.266 D/CCodec  (11245): }
+11-13 16:45:35.266 D/CCodec  (11245): setup formats output: AMessage(what = 0x00000000) = {
+11-13 16:45:35.266 D/CCodec  (11245):   int32_t channel-count = 2
+11-13 16:45:35.266 D/CCodec  (11245):   string mime = "audio/raw"
+11-13 16:45:35.266 D/CCodec  (11245):   int32_t sample-rate = 44100
+11-13 16:45:35.266 D/CCodec  (11245):   int32_t android._config-pcm-encoding = 2
+11-13 16:45:35.266 D/CCodec  (11245): }
+11-13 16:45:35.266 I/CCodecConfig(11245): query failed after returning 7 values (BAD_INDEX)
+11-13 16:45:35.267 D/MediaCodec(11245): keep callback message for reclaim
+11-13 16:45:35.267 W/Codec2Client(11245): query -- param skipped: index = 1342179345.
+11-13 16:45:35.267 W/Codec2Client(11245): query -- param skipped: index = 2415921170.
+11-13 16:45:35.268 D/C2Store (11245): debug.c2.use_dmabufheaps set, forcing DMABUF Heaps
+11-13 16:45:35.268 D/C2Store (11245): Using DMABUF Heaps
+11-13 16:45:35.269 D/CCodecBufferChannel(11245): [c2.android.mp3.decoder#333] Created input block pool with allocatorID 16 => poolID 17 - OK (0)
+11-13 16:45:35.270 D/BufferPoolAccessor2.0( 2020): bufferpool2 0xb40000775a6a8c28 : 0(0 size) total buffers - 0(0 size) used buffers - 1/5 (recycle/alloc) - 2/4 (fetch/transfer)
+11-13 16:45:35.270 D/BufferPoolAccessor2.0( 2020): Destruction - bufferpool2 0xb40000775a6a8c28 cached: 0/0M, 0/0% in use; allocs: 5, 20% recycled; transfers: 4, 50% unfetched
+11-13 16:45:35.270 D/BufferPoolAccessor2.0( 2020): bufferpool2 0xb40000775a616c28 : 0(0 size) total buffers - 0(0 size) used buffers - 0/4 (recycle/alloc) - 2/4 (fetch/transfer)
+11-13 16:45:35.270 D/BufferPoolAccessor2.0( 2020): Destruction - bufferpool2 0xb40000775a616c28 cached: 0/0M, 0/0% in use; allocs: 4, 0% recycled; transfers: 4, 50% unfetched
+11-13 16:45:35.273 I/CCodecBufferChannel(11245): [c2.android.mp3.decoder#333] Created output block pool with allocatorID 16 => poolID 79 - OK
+11-13 16:45:35.274 D/CCodecBufferChannel(11245): [c2.android.mp3.decoder#333] Configured output block pool ids 79 => OK
+11-13 16:45:35.274 D/CCodecBufferChannel(11245): [c2.android.mp3.decoder#333] start: updating output delay 0
+11-13 16:45:35.274 I/QC2CompStore( 1354): Setting heap usage to system
+11-13 16:45:35.274 I/DMABUFHEAPS(11245): Using DMA-BUF heap named: system
+11-13 16:45:35.276 D/SimpleC2Component( 2095): Using output block pool with poolID 79 => got 79 - 0
+11-13 16:45:35.278 W/SpeakerLayoutUtil(11245): Built-in speaker's getSpeakerLayoutChannelMask not usable, defaulting to stereo.
+11-13 16:45:35.278 I/QC2CompStore( 1354): Setting heap usage to system
+11-13 16:45:35.281 I/C2SoftMp3Dec( 2095): Reconfiguring decoder: 0->44100 Hz, 0->2 channels
+11-13 16:45:35.286 D/AudioTrack(11245): set(sessionId=8457)
+11-13 16:45:35.286 D/AudioTrack(11245): set(): streamType -1, sampleRate 44100, format 0x1, channelMask 0x3, frameCount 22050, flags #0, notificationFrames 0, sessionId 8457, transferType 3, uid -1, pid -1
+11-13 16:45:35.290 D/APM_AudioPolicyManager( 1459): getOutputForAttrInt()+ attributes={ Content type: AUDIO_CONTENT_TYPE_UNKNOWN Usage: AUDIO_USAGE_MEDIA Source: AUDIO_SOURCE_INVALID Flags: 0xa00 Tags:  } stream=AUDIO_STREAM_MUSIC session 8457 output 0 selectedDeviceId 0 device AUDIO_DEVICE_NONE sampling rate 44100 format 0x1channel mask 0x3 flags 0x8 stream AUDIO_STREAM_MUSIC uid 10318
+11-13 16:45:35.291 D/APM_AudioPolicyManager( 1459): getOutputForAttrInt() device {AUDIO_DEVICE_OUT_SPEAKER, @:}, sampling rate 44100, format 0x1, channel mask 0x3, flags 0x8 stream AUDIO_STREAM_MUSIC
+11-13 16:45:35.291 D/MiAudioPolicyManager( 1459): getPackageName: com.example.cloudmusic  uid 10318
+11-13 16:45:35.291 D/AHAL: FM( 1222): fm_get_parameters: 232: enter
+11-13 16:45:35.291 D/AHAL: FM( 1222): fm_get_parameters: 239: exit
+11-13 16:45:35.291 D/AHAL: Loopback_karaoke( 1222): karaoke_get_parameters: Enter
+11-13 16:45:35.291 D/AHAL: Loopback_karaoke( 1222): karaoke_get_parameters: Exit
+11-13 16:45:35.292 D/AHAL: FM( 1222): fm_get_parameters: 232: enter
+11-13 16:45:35.292 D/AHAL: FM( 1222): fm_get_parameters: 239: exit
+11-13 16:45:35.292 D/AHAL: Loopback_karaoke( 1222): karaoke_get_parameters: Enter
+11-13 16:45:35.292 D/AHAL: Loopback_karaoke( 1222): karaoke_get_parameters: Exit
+11-13 16:45:35.293 D/APM_AudioPolicyManager( 1459): getOutputForAttrInt()- attributes={ Content type: AUDIO_CONTENT_TYPE_UNKNOWN Usage: AUDIO_USAGE_MEDIA Source: AUDIO_SOURCE_INVALID Flags: 0xa00 Tags:  } stream=AUDIO_STREAM_MUSIC session 8457 output 29 selectedDeviceId 0 device {AUDIO_DEVICE_OUT_SPEAKER, @:} sampling rate 44100 format 0x1channel mask 0x3 flags 0x8 stream AUDIO_STREAM_MUSIC uid 10318
+11-13 16:45:35.293 D/APM_AudioPolicyManager( 1459): getOutputForAttr() returns output 29 requestedPortId 0 selectedDeviceId 3 for port ID 1071
+11-13 16:45:35.294 I/AudioFlinger( 1459): create audiotrack for com.example.cloudmusic  uid 10318
+11-13 16:45:35.294 D/AudioFlinger( 1459): Client defaulted notificationFrames to 11025 for frameCount 22050
+11-13 16:45:35.295 D/AF::TrackHandle( 1459): OpPlayAudio: track:1023 usage:1 not muted
+11-13 16:45:35.297 I/AF::Track( 1459): isInWhiteList curPkgName com.example.cloudmusic  uid 10318
+11-13 16:45:35.297 D/AF::Track( 1459): Track(1023): usage = 1 mbIsAttrNeedFade = 0
+11-13 16:45:35.298 D/AHAL: AudioStream( 1222): astream_out_get_parameters: 839: enter
+11-13 16:45:35.298 D/AHAL: AudioStream( 1222): astream_out_get_parameters: 861: keys: is_direct_pcm_track
+11-13 16:45:35.298 D/AHAL: AudioStream( 1222): astream_out_get_parameters: 898: exit: returns - is_direct_pcm_track=false
+11-13 16:45:35.302 I/AudioTrack(11245): AudioTrack::setVolume L:1.000000 R:1.000000 and the pakage is com.example.cloudmusic
+11-13 16:45:35.302 I/AudioTrack(11245): AudioTrack::setVolume L:1.000000 R:1.000000
+11-13 16:45:35.302 W/mple.cloudmusic(11245): Accessing hidden method Landroid/media/AudioTrack;->getLatency()I (unsupported, reflection, allowed)
+11-13 16:45:35.303 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abbc4200, event 0
+11-13 16:45:35.304 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077cb928540, event 0
+11-13 16:45:35.304 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abc71b80, event 0
+11-13 16:45:35.304 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abd5c280, event 0
+11-13 16:45:35.304 I/AudioTrack(11245): AudioTrack::setVolume L:1.000000 R:1.000000 and the pakage is com.example.cloudmusic
+11-13 16:45:35.304 I/AudioTrack(11245): AudioTrack::setVolume L:1.000000 R:1.000000
+11-13 16:45:35.304 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abcf9b80, event 0
+11-13 16:45:35.309 D/AudioTrack(11245): start(1071): prior state:STATE_STOPPED
+11-13 16:45:35.309 D/AF::Track( 1459): setFadeIn isFadeNeeded = 0
+11-13 16:45:35.311 W/AudioFlinger( 1459): The package name(android) provided does not correspond to the uid 1041
+11-13 16:45:35.312 I/AudioTrack(11245): AudioTrack::setVolume L:1.000000 R:1.000000 and the pakage is com.example.cloudmusic
+11-13 16:45:35.312 I/AudioTrack(11245): AudioTrack::setVolume L:1.000000 R:1.000000
+11-13 16:45:35.313 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:55 deviceId:0 type:android.media.SoundPool u/pid:10128/3902 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-13 16:45:35.313 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:71 deviceId:0 type:android.media.SoundPool u/pid:1027/8203 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-13 16:45:35.313 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:8023 deviceId:3 type:android.media.AudioTrack u/pid:10240/21336 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:8385
+11-13 16:45:35.314 D/Avrcp_ext( 4581): AudioManager Player in started state: com.ss.android.ugc.aweme.lite
+11-13 16:45:35.314 D/Avrcp_ext( 4581): AudioManager Active Player: com.ss.android.ugc.aweme.lite
+11-13 16:45:35.314 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:8087 deviceId:0 type:android.media.AudioTrack u/pid:10318/11245 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_UNKNOWN flags=0xA00 tags= bundle=null sessionId:8457
+11-13 16:45:35.314 D/Avrcp_ext( 4581): AudioManager Player in started state: com.example.cloudmusic
+11-13 16:45:35.314 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:47 deviceId:0 type:android.media.SoundPool u/pid:1000/2484 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-13 16:45:35.314 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:63 deviceId:0 type:android.media.SoundPool u/pid:1000/4806 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-13 16:45:35.314 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:7647 deviceId:3 type:android.media.AudioTrack u/pid:10240/21336 state:paused attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:8009
+11-13 16:45:35.314 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:8015 deviceId:3 type:android.media.AudioTrack u/pid:10240/21336 state:paused attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:8377
+11-13 16:45:35.314 D/Avrcp_ext( 4581): AudioManager isPlaying: true, mAudioPlaybackIsActive: true, isMusiActive: false
+11-13 16:45:35.316 I/EffectsFactory( 1222): EffectCreate() create_effect
+11-13 16:45:35.319 V/APM::EffectDescriptor( 1459): registerEffect() effect Volume listener for Music, io 29, session 8457 id 11547
+11-13 16:45:35.319 V/APM::EffectDescriptor( 1459): registerEffect() memory 1, total memory 2
+11-13 16:45:35.319 V/APM::EffectDescriptor( 1459): setEffectEnabled(true) total CPU 0
+11-13 16:45:35.319 D/PAL: API( 1222): pal_set_param: 838: Enter: param id 27 (PAL_PARAM_ID_GAIN_LVL_CAL)
+11-13 16:45:35.320 I/PAL: ResourceManager( 1222): setParameter: 7780: Enter param id: 27 (PAL_PARAM_ID_GAIN_LVL_CAL)
+11-13 16:45:35.320 D/PAL: ResourceManager( 1222): setParameter: 8539: Exit status: 0
+11-13 16:45:35.320 D/PAL: API( 1222): pal_set_param: 853: Exit, status 0
+11-13 16:45:35.320 V/AudioPolicyManagerImpl( 1459): notification filter: setNotificationFilter notificationFilterFeature=1
+11-13 16:45:35.320 D/AudioPolicyManagerImpl( 1459): notification filter: setNotificationFilter muteMaskInt=0
+11-13 16:45:35.321 D/AHAL: AudioStream( 1222): astream_out_set_parameters: 808: enter: usecase(0: deep-buffer-playback) kvpairs: appname=+com.example.cloudmusic
+11-13 16:45:35.321 D/AHAL: AudioStreamCustom( 1222): SetParameters: 208: SetParameters(): set app name +com.example.cloudmusic
+11-13 16:45:35.321 D/AHAL: AudioStreamCustom( 1222): platform_set_out_scenario: 20: platform_set_out_scenario
+11-13 16:45:35.321 D/AHAL: AudioStreamCustom( 1222): get_scenario: 107: app_name com.example.cloudmusic, scenario is 4
+11-13 16:45:35.321 D/AHAL: AudioStreamCustom( 1222): isSupportMisoundAsc mode is0
+11-13 16:45:35.321 D/AHAL: AudioStream( 1222): SetParameters: 2204: enter 
+11-13 16:45:35.321 I/AHAL: AudioStream( 1222): SetParameters: 2213: ret 0, plugin device cont -1 stream -1
+11-13 16:45:35.321 D/AHAL: AudioStream( 1222): SetParameters: 2252: exit 0
+11-13 16:45:35.321 D/AHAL: AudioStream( 1222): astream_out_set_parameters: 825: Exit ret: 0
+11-13 16:45:35.321 D/APM_AudioPolicyManager( 1459): startOutput() output 29, stream 3, session 8457, appname com.example.cloudmusic, uid 10318
+11-13 16:45:35.322 D/DlbDlbEffect( 1222): effectCommand(handle=0xb400007c1a00c090, cmdCode=1, cmdSize=112, pCmdData=0x7bf2b200a0, replySize=4, pReplyData=0x7bf2b2011c)
+11-13 16:45:35.322 D/DlbDlbEffect( 1222): handle_EFFECT_CMD_SET_CONFIG()
+11-13 16:45:35.325 V/EffectMiSound( 1222): MiSound_command() start, cmdCode=20
+11-13 16:45:35.325 V/EffectMiSound( 1222): MiSound_Command EFFECT_CMD_OFFLOAD
+11-13 16:45:35.325 V/EffectMiSound( 1222): MiSound_command() start, cmdCode=1
+11-13 16:45:35.325 V/EffectMiSound( 1222): MiSound_setConfig start
+11-13 16:45:35.325 V/EffectMiSound( 1222): MiSound_command() start, cmdCode=1
+11-13 16:45:35.325 V/EffectMiSound( 1222): MiSound_setConfig start
+11-13 16:45:35.326 V/EffectMiSound( 1222): MiSound_command() start, cmdCode=9
+11-13 16:45:35.326 V/EffectMiSound( 1222): MiSound_Command EFFECT_CMD_SET_DEVICE: 0x00000002
+11-13 16:45:35.326 D/MiSoundQdspGefDriver( 1222): setDevice(device=0x00000002): old device 0x00000002
+11-13 16:45:35.326 V/EffectMiSound( 1222): MiSound_command() start, cmdCode=11
+11-13 16:45:35.326 V/EffectMiSound( 1222): MiSound_Command EFFECT_CMD_SET_AUDIO_MODE: 0
+11-13 16:45:35.326 D/DlbDlbEffect( 1222): effectCommand(handle=0xb400007c1a00c090, cmdCode=5, cmdSize=20, pCmdData=0xb400007c06e99340, replySize=4, pReplyData=0xb400007c1bd97800)
+11-13 16:45:35.326 D/DlbDlbEffect( 1222): handle_EFFECT_CMD_SET_PARAM()
+11-13 16:45:35.326 V/DlbDapEffectContext( 1222): setParam() received parameter EFFECT_PARAM_SKIP_HARD_BYPASS
+11-13 16:45:35.326 V/DlbEffectQdspDap( 1222): setPreferredOffType()
+11-13 16:45:35.326 D/DlbQdspGefDriver( 1222): setPreferredOffType(type=2)
+11-13 16:45:35.327 D/DlbDlbEffect( 1222): effectCommand(handle=0xb400007c1a00c090, cmdCode=4, cmdSize=0, pCmdData=0x0, replySize=4, pReplyData=0xb400007c1bd979f0)
+11-13 16:45:35.327 D/DlbDlbEffect( 1222): handle_EFFECT_CMD_DISABLE()
+11-13 16:45:35.327 V/DlbEffectQdspDap( 1222): setEnabled()
+11-13 16:45:35.327 V/DlbEffectQdspDap( 1222): updateEnabled(enabled=0, bypassed=0)
+11-13 16:45:35.327 D/DlbQdspGefDriver( 1222): setEnabled(enable=0)
+11-13 16:45:35.327 D/DlbQdspGefDriver( 1222): setEnabled(): Skip the transient enabled state 0
+11-13 16:45:35.327 D/DlbDlbEffect( 1222): effectCommand(handle=0xb400007c1a00c090, cmdCode=20, cmdSize=8, pCmdData=0xb400007c1bd97800, replySize=4, pReplyData=0xb400007c1bc090b0)
+11-13 16:45:35.327 D/DlbDlbEffect( 1222): handle_EFFECT_CMD_OFFLOAD(offload=0, ioHandle=29)
+11-13 16:45:35.327 D/DlbDlbEffect( 1222): effectCommand(handle=0xb400007c1a00c090, cmdCode=1, cmdSize=112, pCmdData=0x7c008ed0a0, replySize=4, pReplyData=0x7c008ed11c)
+11-13 16:45:35.327 D/DlbDlbEffect( 1222): handle_EFFECT_CMD_SET_CONFIG()
+11-13 16:45:35.328 V/EffectMiSound( 1222): MiSound_command() start, cmdCode=1
+11-13 16:45:35.328 V/EffectMiSound( 1222): MiSound_setConfig start
+11-13 16:45:35.328 D/DlbDlbEffect( 1222): effectCommand(handle=0xb400007c1a00c090, cmdCode=1, cmdSize=112, pCmdData=0x7bfe6f30a0, replySize=4, pReplyData=0x7bfe6f311c)
+11-13 16:45:35.328 D/DlbDlbEffect( 1222): handle_EFFECT_CMD_SET_CONFIG()
+11-13 16:45:35.328 D/DlbDlbEffect( 1222): effectCommand(handle=0xb400007c1a00c090, cmdCode=9, cmdSize=4, pCmdData=0xb400007c1bd97918, replySize=4, pReplyData=0xb400007c1a0123d8)
+11-13 16:45:35.328 D/DlbDlbEffect( 1222): handle_EFFECT_CMD_SET_DEVICE(device=0x00000002)
+11-13 16:45:35.328 V/DlbDapEffectContext( 1222): setDevice(00000002)
+11-13 16:45:35.328 V/DlbEffectQdspDap( 1222): setBypass(bypass = 0)
+11-13 16:45:35.328 V/DlbEffectQdspDap( 1222): setDevice()
+11-13 16:45:35.328 D/DlbQdspGefDriver( 1222): setDevice(device=0x00000002): old device 0x00000002
+11-13 16:45:35.329 D/DMSService( 1294): setActiveDevice called with device = 0x2 (original 0x2)
+11-13 16:45:35.329 D/DlbDlbEffect( 1222): effectCommand(handle=0xb400007c1a00c090, cmdCode=11, cmdSize=4, pCmdData=0xb400007c1bd97918, replySize=4, pReplyData=0xb400007c1a0123d8)
+11-13 16:45:35.329 V/DlbDlbEffect( 1222): handle_EFFECT_CMD_SET_AUDIO_MODE(mode=0x00000000)
+11-13 16:45:35.329 D/DlbDlbEffect( 1222): effectCommand(handle=0xb400007c1a00c090, cmdCode=5, cmdSize=20, pCmdData=0xb400007c06e96b80, replySize=4, pReplyData=0xb400007c1bd97918)
+11-13 16:45:35.329 D/DlbDlbEffect( 1222): handle_EFFECT_CMD_SET_PARAM()
+11-13 16:45:35.329 E/DlbEffectContext( 1222): setParam() received unknown parameter 20
+11-13 16:45:35.330 D/DlbDlbEffect( 1222): effectCommand(handle=0xb400007c1a00c090, cmdCode=20, cmdSize=8, pCmdData=0xb400007c1bd97918, replySize=4, pReplyData=0xb400007c1a0123d8)
+11-13 16:45:35.330 D/DlbDlbEffect( 1222): handle_EFFECT_CMD_OFFLOAD(offload=1, ioHandle=29)
+11-13 16:45:35.330 D/DlbDlbEffect( 1222): effectCommand(handle=0xb400007c1a00c090, cmdCode=3, cmdSize=0, pCmdData=0x0, replySize=4, pReplyData=0xb400007c1bc090b0)
+11-13 16:45:35.330 D/DlbDlbEffect( 1222): handle_EFFECT_CMD_ENABLE()
+11-13 16:45:35.330 V/DlbEffectQdspDap( 1222): setEnabled()
+11-13 16:45:35.330 V/DlbEffectQdspDap( 1222): updateEnabled(enabled=1, bypassed=0)
+11-13 16:45:35.330 D/DlbQdspGefDriver( 1222): setEnabled(enable=1)
+11-13 16:45:35.330 D/DlbQdspGefDriver( 1222): setEnabled(): the enabled state is already 1
+11-13 16:45:35.330 D/AudioFlinger( 1459): moveEffectChain_l: successful move of session 0 from srcThread 0xb4000077cb928540 to dstThread 0xb4000077abc71b80 (2 effects moved, 1 effects started)
+11-13 16:45:35.330 V/APM::EffectDescriptor( 1459): moveEffects session 0 srcOutput 13 dstOutput 29
+11-13 16:45:35.331 D/APM_AudioPolicyManager( 1459): setOutputDevices output 29 device {AUDIO_DEVICE_OUT_SPEAKER, @:} delayMs 0 force 0 requiresMuteCheck 0
+11-13 16:45:35.331 D/APM_AudioPolicyManager( 1459): setOutputDevices() prevDevice {AUDIO_DEVICE_OUT_SPEAKER, @:}
+11-13 16:45:35.331 D/APM_AudioPolicyManager( 1459): checkAndSetVolume: set volumeSource 4 volume index 0 for device 0x2, volumeDb = -758.000000
+11-13 16:45:35.333 E/AudioFlingerImpl( 1459): open /proc/11245/cmdline error
+11-13 16:45:35.333 I/AudioFlingerImpl( 1459): setAppName(), name=[], active=[1]
+11-13 16:45:35.334 V/EffectMiSound( 1222): MiSound_command() start, cmdCode=24
+11-13 16:45:35.334 V/EffectMiSound( 1222): MiSound_Command EFFECT_CMD_SET_APP_NAME: stream=3, name=+
+11-13 16:45:35.334 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abc71b80, event 8
+11-13 16:45:35.334 I/PowerCheckerService(10039): uid:10318 change to active
+11-13 16:45:35.334 I/AppActiveChecker(10039): uid:10318 change to active
+11-13 16:45:35.334 D/DlbDlbEffect( 1222): effectCommand(handle=0xb400007c1a00c090, cmdCode=10, cmdSize=8, pCmdData=0xb400007c1bd97800, replySize=0, pReplyData=0x0)
+11-13 16:45:35.335 V/DlbDlbEffect( 1222): handle_EFFECT_CMD_SET_VOLUME(vl=16777216, vr=16777216)
+11-13 16:45:35.335 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_1D uids:10318 
+11-13 16:45:35.335 I/CM-Media3(11245): state=READY durationMs=26201
+11-13 16:45:35.336 I/CM-Media3(11245): state=PLAYING positionMs=0
+11-13 16:45:35.337 D/ProcessManager( 2484): add audio active uid : 10318
+11-13 16:45:35.339 D/AHAL: AudioStream( 1222): AutoPerfLock: 141: (Acquired) perf_lock_handle: 0xcd30, count: 1
+11-13 16:45:35.339 D/AHAL: AudioDevice( 1222): GetPalDeviceIds: 2606: haldeviceIds: 1
+11-13 16:45:35.339 D/AHAL: AudioDevice( 1222): GetPalDeviceIds: 2613: Found haldeviceId: 2 and PAL Device ID 3
+11-13 16:45:35.339 D/AHAL: AudioDevice( 1222): GetPalDeviceIds: 2632: devices allocated 1, pal device ids before returning 1
+11-13 16:45:35.340 D/AHAL: AudioStreamCustom( 1222): prepareCustomDevice: 275: uses custom key for pal stream 2, device 3, key 
+11-13 16:45:35.340 V/android.hardware.audio.service_64( 1222): getCurrentDate
+11-13 16:45:35.340 V/android.hardware.audio.service_64( 1222): current time is : 2026 year, 11 month, 13 daty
+11-13 16:45:35.340 D/android.hardware.audio.service_64( 1222): do not need to seed data to xlog
+11-13 16:45:35.340 D/android.hardware.audio.service_64( 1222): send_EarsCompensation_dailyuse_to_xlog
+11-13 16:45:35.340 E/android.hardware.audio.service_64( 1222): get_int_by_key: unable to get property persist.vendor.audio.scenario
+11-13 16:45:35.340 I/android.hardware.audio.service_64( 1222): get property key: persist.vendor.audio.ears.compensation.state, value: 0 
+11-13 16:45:35.340 E/android.hardware.audio.service_64( 1222): the EarsCompensation is closed
+11-13 16:45:35.340 D/android.hardware.audio.service_64( 1222): get_headset_type the type is speaker
+11-13 16:45:35.340 D/android.hardware.audio.service_64( 1222): send_misound_dailyuse_to_xlog, the headset type is speaker
+11-13 16:45:35.340 D/android.hardware.audio.service_64( 1222):  send_misound_dailyuse_to_xlog: misound without usb
+11-13 16:45:35.340 D/AHAL: AudioStream( 1222): Open: 2540: Enter OutPrimary 
+11-13 16:45:35.340 D/AHAL: AudioStream( 1222): Open: 2546: no_of_devices 1
+11-13 16:45:35.340 D/AHAL: AudioStream( 1222): Open: 2602: halInputFormat 6 halOutputFormat 6 palformat 21
+11-13 16:45:35.340 D/PAL: API( 1222): pal_get_param: 865: Enter:
+11-13 16:45:35.340 D/PAL: ResourceManager( 1222): getParameter: 7592: param_id=52 (PAL_PARAM_ID_HIFI_PCM_FILTER)
+11-13 16:45:35.340 I/PAL: ResourceManager( 1222): getParameter: 7727: get parameter for HIFI PCM Filter
+11-13 16:45:35.340 D/PAL: API( 1222): pal_get_param: 877: Exit, status 0
+11-13 16:45:35.340 D/AHAL: AudioStream( 1222): Open: 2662: channels 2 samplerate 48000 format id 21, stream type 2  stream bitwidth 24
+11-13 16:45:35.340 D/AHAL: AudioStream( 1222): Open: 2663: msample_rate 0 mchannels 0
+11-13 16:45:35.340 D/AHAL: AudioStream( 1222): Open: 2664: mNoOfOutDevices 1
+11-13 16:45:35.340 D/AHAL: AudioStream( 1222): Open: 2665: (0:ret)    adevice->spk_num =0 
+11-13 16:45:35.340 I/PAL: API( 1222): pal_stream_open: 165: Enter, stream type:2 (PAL_STREAM_DEEP_BUFFER)
+11-13 16:45:35.340 D/PAL: Stream( 1222): create: 110: Enter.
+11-13 16:45:35.340 D/PAL: Stream( 1222): create: 154: dattr sound card is = 0x0
+11-13 16:45:35.340 D/PAL: Stream( 1222): create: 171: no custom key found
+11-13 16:45:35.340 D/PAL: ResourceManager( 1222): getDeviceInfo: 1652: enter
+11-13 16:45:35.340 D/PAL: ResourceManager( 1222): getDeviceConfig: 2285: device id 0x3 (PAL_DEVICE_OUT_SPEAKER) channels 2 samplerate 48000, bitwidth 24 format 22 SndDev speaker priority 0xffffffff
+11-13 16:45:35.340 D/PAL: ResourceManager( 1222): checkAndUpdateGroupDevConfig: 5139: virtual port enabled for device 3
+11-13 16:45:35.340 D/PAL: ResourceManager( 1222): checkAndUpdateGroupDevConfig: 5225: stream on device:3 is coming, update group config
+11-13 16:45:35.340 I/PAL: ResourceManager( 1222): getActiveStream_l: 4896: no active streams found for device 20 ret -2
+11-13 16:45:35.340 D/PAL: ResourceManager( 1222): checkAndUpdateGroupDevConfig: 5278: upd is not active, stream type 2 on device:3 is coming
+11-13 16:45:35.340 E/PAL: Device( 1222): getInstance: 195: Unsupported device id 0
+11-13 16:45:35.340 D/PAL: Stream( 1222): create: 194: stream type 0x2 (PAL_STREAM_DEEP_BUFFER)
+11-13 16:45:35.341 D/PAL: ResourceManager( 1222): isStreamSupported: 2308: Enter. type 2
+11-13 16:45:35.341 D/PAL: StreamPCM( 1222): isBitWidthSupported: 1711: bitWidth 24
+11-13 16:45:35.341 D/PAL: StreamPCM( 1222): isSampleRateSupported: 1666: sampleRate 48000
+11-13 16:45:35.341 D/PAL: StreamPCM( 1222): isChannelSupported: 1689: numChannels 2
+11-13 16:45:35.341 I/PAL: ResourceManager( 1222): isStreamSupported: 2429: config suppported
+11-13 16:45:35.341 D/PAL: ResourceManager( 1222): isStreamSupported: 2520: Exit. result 1
+11-13 16:45:35.341 D/PAL: StreamPCM( 1222): StreamPCM: 78: Enter
+11-13 16:45:35.341 D/PAL: ResourceManager( 1222): updateDeviceConfig: 6474: Enter
+11-13 16:45:35.341 D/PAL: ResourceManager( 1222): getDeviceInfo: 1652: enter
+11-13 16:45:35.341 D/PAL: ResourceManager( 1222): checkAndUpdateGroupDevConfig: 5139: virtual port enabled for device 3
+11-13 16:45:35.341 D/PAL: ResourceManager( 1222): checkAndUpdateGroupDevConfig: 5225: stream on device:3 is coming, update group config
+11-13 16:45:35.341 I/PAL: ResourceManager( 1222): getActiveStream_l: 4896: no active streams found for device 20 ret -2
+11-13 16:45:35.341 D/PAL: ResourceManager( 1222): checkAndUpdateGroupDevConfig: 5278: upd is not active, stream type 2 on device:3 is coming
+11-13 16:45:35.341 E/PAL: Device( 1222): getInstance: 195: Unsupported device id 0
+11-13 16:45:35.341 I/PAL: ResourceManager( 1222): getActiveStream_l: 4896: no active streams found for device 2 ret -2
+11-13 16:45:35.341 D/PAL: ResourceManager( 1222): getSharedBEActiveStreamDevs: 6010: got dev 2 (PAL_DEVICE_OUT_HANDSET) active streams on dev is 0
+11-13 16:45:35.341 I/PAL: ResourceManager( 1222): getActiveStream_l: 4896: no active streams found for device 3 ret -2
+11-13 16:45:35.341 D/PAL: ResourceManager( 1222): getSharedBEActiveStreamDevs: 6010: got dev 3 (PAL_DEVICE_OUT_SPEAKER) active streams on dev is 0
+11-13 16:45:35.341 D/PAL: ResourceManager( 1222): updateSndName: 7099: Updated snd device to speaker for device PAL_DEVICE_OUT_SPEAKER
+11-13 16:45:35.341 I/PAL: Device( 1222): setDeviceAttributes: 339: DeviceAttributes for Device Id 3 (PAL_DEVICE_OUT_SPEAKER) updated
+11-13 16:45:35.341 D/PAL: ResourceManager( 1222): updateDeviceConfig: 6599: Exit
+11-13 16:45:35.341 D/PAL: ResourceManager( 1222): registerStream: 2536: Enter. stream 0xb400007c1bc1cf40K
+11-13 16:45:35.341 D/PAL: Stream( 1222): getStreamType: 400: streamType - 2 (PAL_STREAM_DEEP_BUFFER)
+11-13 16:45:35.341 D/PAL: ResourceManager( 1222): registerStream: 2542: stream type 2 (PAL_STREAM_DEEP_BUFFER)
+11-13 16:45:35.341 D/PAL: ResourceManager( 1222): registerStream: 2684: Exit. ret 0
+11-13 16:45:35.341 D/PAL: StreamPCM( 1222): StreamPCM: 173: Exit. state 0
+11-13 16:45:35.341 D/PAL: Stream( 1222): create: 300: Exit stream 0xb400007c1bc1cf40K create successful
+11-13 16:45:35.341 D/PAL: StreamPCM( 1222): open: 183: Enter. session handle - 0xb400007c1bd9ee00K device count - 1
+11-13 16:45:35.341 D/PAL: SessionAlsaPcm( 1222): open: 98: Enter
+11-13 16:45:35.341 D/PAL: Stream( 1222): getAssociatedDevices: 492: no. of devices 1
+11-13 16:45:35.341 D/PAL: ResourceManager( 1222): getBackEndNames: 6084: getBackEndNames (RX): TDM-LPAIF-RX-TERTIARY-VIRT-0
+11-13 16:45:35.341 D/PAL: ResourceManager( 1222): getVirtualAudioMixer: 3409: ar 0xb400007c1bd9ee48K audio_virt_mixer 0xb400007c1bd261c0K
+11-13 16:45:35.341 I/PAL: ResourceManager( 1222): allocateFrontEndIds: 5645: allocateFrontEndIds: front end 117
+11-13 16:45:35.341 D/PAL: SessionAlsaUtils( 1222): open: 352: Entry 
+11-13 16:45:35.341 D/PAL: Stream( 1222): getAssociatedDevices: 492: no. of devices 1
+11-13 16:45:35.341 D/PAL: PayloadBuilder( 1222): populateStreamKV: 2574: enter
+11-13 16:45:35.341 I/PAL: PayloadBuilder( 1222): populateStreamKV: 2588: stream type 2 (PAL_STREAM_DEEP_BUFFER)
+11-13 16:45:35.341 D/PAL: PayloadBuilder( 1222): retrieveSelectors: 2543: Enter: size_of_all :21 type:2
+11-13 16:45:35.341 D/PAL: PayloadBuilder( 1222): isIdTypeAvailable: 2533: idtype :2 passed type :2
+11-13 16:45:35.341 D/PAL: PayloadBuilder( 1222): retrieveSelectors: 2548: KeysAndValues_size: 5
+11-13 16:45:35.341 D/PAL: PayloadBuilder( 1222): retrieveSelectors: 2561: gkv_selectors: Direction
+11-13 16:45:35.341 D/PAL: PayloadBuilder( 1222): retrieveSelectors: 2561: gkv_selectors: Instance
+11-13 16:45:35.341 D/PAL: PayloadBuilder( 1222): getSelectorValues: 2383: Enter
+11-13 16:45:35.341 D/PAL: PayloadBuilder( 1222): getSelectorValues: 2404: selectors_strings :Direction
+11-13 16:45:35.341 I/PAL: PayloadBuilder( 1222): getSelectorValues: 2416: Direction: 1
+11-13 16:45:35.341 D/PAL: PayloadBuilder( 1222): getSelectorValues: 2404: selectors_strings :Instance
+11-13 16:45:35.341 I/PAL: PayloadBuilder( 1222): getSelectorValues: 2432: Instance: 1
+11-13 16:45:35.341 D/PAL: PayloadBuilder( 1222): getSelectorValues: 2516: Exit
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): retrieveKVs: 2338: Enter
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): isIdTypeAvailable: 2533: idtype :2 passed type :2
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): compareSelectorPairs: 2258: Enter: selector size: 2 filled_sel size: 2
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): compareSelectorPairs: 2265: Return True
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): compareSelectorPairs: 2284: Exit result: 1
+11-13 16:45:35.342 I/PAL: PayloadBuilder( 1222): findKVs: 2306: key: 0xa1000000 value: 0xa1000001
+11-13 16:45:35.342 I/PAL: PayloadBuilder( 1222): findKVs: 2306: key: 0xab000000 value: 0x1
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): retrieveKVs: 2342: KVs found for the stream type/dev id: 2
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): retrieveKVs: 2368: Exit, status 0
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): populateStreamCkv: 2891: Enter
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): populateStreamCkv: 2922: Entered default a4000000 f
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): populateStreamCkv: 2927: Exit, status 0
+11-13 16:45:35.342 D/PAL: ResourceManager( 1222): getVirtualAudioMixer: 3409: ar 0x7bfc4895b0K audio_virt_mixer 0xb400007c1bd261c0K
+11-13 16:45:35.342 D/PAL: SessionAlsaUtils( 1222): getFeMixerControl: 309: mixer control PCM117 control
+11-13 16:45:35.342 D/PAL: SessionAlsaUtils( 1222): getFeMixerControl: 309: mixer control PCM117 metadata
+11-13 16:45:35.342 D/PAL: SessionAlsaUtils( 1222): getFeMixerControl: 309: mixer control PCM117 connect
+11-13 16:45:35.342 E/PLUGIN: mixer( 1222): amp_pcm_mtd_control_put: 1089 pcm id 117, idx 8, value 0
+11-13 16:45:35.342 D/PAL: Stream( 1222): getSoundCardId: 545: sound card id = 0x0
+11-13 16:45:35.342 I/PAL: PayloadBuilder( 1222): populateDeviceKV: 2702: Enter device id:3 (PAL_DEVICE_OUT_SPEAKER)
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): retrieveSelectors: 2543: Enter: size_of_all :25 type:3
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): isIdTypeAvailable: 2533: idtype :3 passed type :3
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): retrieveSelectors: 2548: KeysAndValues_size: 1
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): retrieveKVs: 2338: Enter
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): isIdTypeAvailable: 2533: idtype :3 passed type :3
+11-13 16:45:35.342 I/PAL: PayloadBuilder( 1222): findKVs: 2319: key: 0xa2000000 value: 0xa2000001
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): retrieveKVs: 2342: KVs found for the stream type/dev id: 3
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): retrieveKVs: 2368: Exit, status 0
+11-13 16:45:35.342 I/PAL: PayloadBuilder( 1222): populateDeviceKV: 2730: Exit device id:3 (PAL_DEVICE_OUT_SPEAKER), status 0
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): populateDevicePPKV: 2841: Enter
+11-13 16:45:35.342 I/PAL: PayloadBuilder( 1222): populateDevicePPKV: 2845: Rx device id:3 (PAL_DEVICE_OUT_SPEAKER)
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): retrieveSelectors: 2543: Enter: size_of_all :18 type:3
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): isIdTypeAvailable: 2533: idtype :3 passed type :3
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): retrieveSelectors: 2548: KeysAndValues_size: 6
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): retrieveSelectors: 2561: gkv_selectors: StreamType
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): retrieveSelectors: 2561: gkv_selectors: CustomConfig
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): retrieveSelectors: 2561: gkv_selectors: SubType
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): getSelectorValues: 2383: Enter
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): getSelectorValues: 2404: selectors_strings :StreamType
+11-13 16:45:35.342 I/PAL: PayloadBuilder( 1222): getSelectorValues: 2486: stream type: 2
+11-13 16:45:35.342 D/PAL: PayloadBuilder( 1222): getSelectorValues: 2404: selectors_strings :CustomConfig
+11-13 16:45:35.343 D/PAL: PayloadBuilder( 1222): getSelectorValues: 2404: selectors_strings :SubType
+11-13 16:45:35.343 D/PAL: PayloadBuilder( 1222): getSelectorValues: 2516: Exit
+11-13 16:45:35.343 D/PAL: PayloadBuilder( 1222): retrieveKVs: 2338: Enter
+11-13 16:45:35.343 D/PAL: PayloadBuilder( 1222): isIdTypeAvailable: 2533: idtype :3 passed type :3
+11-13 16:45:35.343 D/PAL: PayloadBuilder( 1222): compareSelectorPairs: 2258: Enter: selector size: 5 filled_sel size: 1
+11-13 16:45:35.343 D/PAL: PayloadBuilder( 1222): compareSelectorPairs: 2273: Inside the find loop count=1
+11-13 16:45:35.343 D/PAL: PayloadBuilder( 1222): compareSelectorPairs: 2276: After find count:1
+11-13 16:45:35.343 D/PAL: PayloadBuilder( 1222): compareSelectorPairs: 2279: Return True
+11-13 16:45:35.343 D/PAL: PayloadBuilder( 1222): compareSelectorPairs: 2284: Exit result: 1
+11-13 16:45:35.343 I/PAL: PayloadBuilder( 1222): findKVs: 2306: key: 0xa2000000 value: 0xa2000001
+11-13 16:45:35.343 I/PAL: PayloadBuilder( 1222): findKVs: 2306: key: 0xac000000 value: 0xac000002
+11-13 16:45:35.343 D/PAL: PayloadBuilder( 1222): retrieveKVs: 2342: KVs found for the stream type/dev id: 3
+11-13 16:45:35.343 D/PAL: PayloadBuilder( 1222): retrieveKVs: 2368: Exit, status 0
+11-13 16:45:35.343 D/PAL: PayloadBuilder( 1222): populateDevicePPKV: 2877: Exit, status: 0
+11-13 16:45:35.343 D/PAL: PayloadBuilder( 1222): populateDevicePPCkv: 2939: Enter
+11-13 16:45:35.343 D/PAL: Stream( 1222): getAssociatedDevices: 492: no. of devices 1
+11-13 16:45:35.343 I/PAL: PayloadBuilder( 1222): populateDevicePPCkv: 2986: SpeakerProt Status[1], RAS Status[0]
+11-13 16:45:35.343 D/PAL: PayloadBuilder( 1222): populateDevicePPCkv: 3005: Entered default d2000000 0
+11-13 16:45:35.343 D/PAL: PayloadBuilder( 1222): populateDevicePPCkv: 3021: Exit, status 0
+11-13 16:45:35.343 D/PAL: SessionAlsaUtils( 1222): open: 462: Speaker protection enabled
+11-13 16:45:35.344 D/PAL: Stream( 1222): getVolumeData: 583: num config 1
+11-13 16:45:35.344 D/PAL: Stream( 1222): getAssociatedDevices: 492: no. of devices 1
+11-13 16:45:35.344 D/PAL: PayloadBuilder( 1222): populateCalKeyVector: 3133: Multi channel speaker
+11-13 16:45:35.344 D/PAL: Stream( 1222): getVolumeData: 583: num config 1
+11-13 16:45:35.344 D/PAL: Stream( 1222): getStreamType: 400: streamType - 2 (PAL_STREAM_DEEP_BUFFER)
+11-13 16:45:35.344 D/PAL: Stream( 1222): getAssociatedDevices: 492: no. of devices 1
+11-13 16:45:35.344 D/PAL: PayloadBuilder( 1222): populateCalKeyVector: 3203: speaker ckv: SP_Profile Normal
+11-13 16:45:35.344 D/PAL: SessionAlsaUtils( 1222): getBeMixerControl: 319: mixer control TDM-LPAIF-RX-TERTIARY-VIRT-0 metadata
+11-13 16:45:35.345 E/PLUGIN: mixer( 1222): amp_pcm_mtd_control_put: 1089 pcm id 117, idx 8, value 19
+11-13 16:45:35.345 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:55 deviceId:0 type:android.media.SoundPool u/pid:10128/3902 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-13 16:45:35.345 D/agm_server_wrapper( 1306): Aif id 33 already added to session list of 117
+11-13 16:45:35.345 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:71 deviceId:0 type:android.media.SoundPool u/pid:1027/8203 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-13 16:45:35.345 D/PAL: SessionAlsaUtils( 1222): open: 543: Exit, status 0
+11-13 16:45:35.345 D/PAL: SessionAlsaPcm( 1222): open: 230: Exit status: 0
+11-13 16:45:35.345 D/PAL: ResourceManager( 1222): getPALDeviceName: 6654: id 3 (PAL_DEVICE_OUT_SPEAKER)
+11-13 16:45:35.345 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:8023 deviceId:3 type:android.media.AudioTrack u/pid:10240/21336 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:8385
+11-13 16:45:35.345 I/PAL: Device( 1222): open: 414: Enter. deviceCount 0 for device id 3 (PAL_DEVICE_OUT_SPEAKER)
+11-13 16:45:35.345 D/PAL: ResourceManager( 1222): getVirtualAudioMixer: 3409: ar 0x7bfc48a1b8K audio_virt_mixer 0xb400007c1bd261c0K
+11-13 16:45:35.345 D/PAL: SessionAlsaUtils( 1222): getBeMixerControl: 319: mixer control TDM-LPAIF-RX-TERTIARY grp config
+11-13 16:45:35.345 I/PAL: SessionAlsaUtils( 1222): setDeviceMediaConfig: 949: TDM-LPAIF-RX-TERTIARY rate ch fmt data_fmt slot_mask 48000 3 10 1 7
+11-13 16:45:35.345 D/PAL: SessionAlsaUtils( 1222): getBeMixerControl: 319: mixer control TDM-LPAIF-RX-TERTIARY-VIRT-0 rate ch fmt
+11-13 16:45:35.345 I/PAL: SessionAlsaUtils( 1222): setDeviceMediaConfig: 961: TDM-LPAIF-RX-TERTIARY-VIRT-0 rate ch fmt data_fmt 48000 2 6 1
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): getAudioRoute: 3398: ar 0xb400007c1bd90150K audio_route 0xb400007c1bd58850K
+11-13 16:45:35.346 D/PAL: Device( 1222): open: 438: audio_route 0xb400007c1bd58850K SND device name speaker
+11-13 16:45:35.346 D/audio_route( 1222): Apply path: speaker
+11-13 16:45:35.346 I/PAL: Device( 1222): open: 458: Exit. deviceCount 1 for device id 3 (PAL_DEVICE_OUT_SPEAKER), exit status: 0
+11-13 16:45:35.346 D/PAL: StreamPCM( 1222): open: 267: streamLL opened. state 1
+11-13 16:45:35.346 D/PAL: StreamPCM( 1222): open: 280: Exit ret 0
+11-13 16:45:35.346 D/PAL: API( 1222): notify_concurrent_stream: 71: Notify concurrent stream type 2, direction 1, active 1
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleConcurrencyForSoundTriggerStreams: 4426: Enter, stream type 2 (PAL_STREAM_DEEP_BUFFER), direction 1, active 1
+11-13 16:45:35.346 I/PAL: ResourceManager( 1222): GetConcurrencyInfo: 4281: stream type 2 (PAL_STREAM_DEEP_BUFFER) Tx conc 0, Rx conc 1, concurrency allowed
+11-13 16:45:35.346 I/PAL: ResourceManager( 1222): GetConcurrencyInfo: 4281: stream type 2 (PAL_STREAM_DEEP_BUFFER) Tx conc 0, Rx conc 1, concurrency allowed
+11-13 16:45:35.346 I/PAL: ResourceManager( 1222): GetConcurrencyInfo: 4281: stream type 2 (PAL_STREAM_DEEP_BUFFER) Tx conc 0, Rx conc 1, concurrency allowed
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleDetectionStreamAction: 4154: Enter
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): isStreamActive: 2861: Enter.
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): isStreamActive: 2868: Exit, ret 1
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleDetectionStreamAction: 4212: Exit, status 0
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleDetectionStreamAction: 4154: Enter
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): isStreamActive: 2861: Enter.
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): isStreamActive: 2868: Exit, ret 1
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleDetectionStreamAction: 4212: Exit, status 0
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleDetectionStreamAction: 4154: Enter
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): isStreamActive: 2861: Enter.
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): isStreamActive: 2868: Exit, ret 1
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleDetectionStreamAction: 4212: Exit, status 0
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): handleConcurrentStreamSwitch: 4345: No ST session active, reset capture profile
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): handleConcurrentStreamSwitch: 4356: stop/unload stream type 17 (PAL_STREAM_VOICE_UI)
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleDetectionStreamAction: 4154: Enter
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): isStreamActive: 2861: Enter.
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): isStreamActive: 2868: Exit, ret 1
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleDetectionStreamAction: 4212: Exit, status 0
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): handleConcurrentStreamSwitch: 4356: stop/unload stream type 23 (PAL_STREAM_ACD)
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleDetectionStreamAction: 4154: Enter
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): isStreamActive: 2861: Enter.
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): isStreamActive: 2868: Exit, ret 1
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleDetectionStreamAction: 4212: Exit, status 0
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): handleConcurrentStreamSwitch: 4356: stop/unload stream type 25 (PAL_STREAM_SENSOR_PCM_DATA)
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleDetectionStreamAction: 4154: Enter
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): isStreamActive: 2861: Enter.
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): isStreamActive: 2868: Exit, ret 1
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleDetectionStreamAction: 4212: Exit, status 0
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): handleConcurrentStreamSwitch: 4364: load/start stream type 17 (PAL_STREAM_VOICE_UI)
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleDetectionStreamAction: 4154: Enter
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): isStreamActive: 2861: Enter.
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): isStreamActive: 2868: Exit, ret 1
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleDetectionStreamAction: 4212: Exit, status 0
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): handleConcurrentStreamSwitch: 4364: load/start stream type 23 (PAL_STREAM_ACD)
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleDetectionStreamAction: 4154: Enter
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): isStreamActive: 2861: Enter.
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): isStreamActive: 2868: Exit, ret 1
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleDetectionStreamAction: 4212: Exit, status 0
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): handleConcurrentStreamSwitch: 4364: load/start stream type 25 (PAL_STREAM_SENSOR_PCM_DATA)
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleDetectionStreamAction: 4154: Enter
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): isStreamActive: 2861: Enter.
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): isStreamActive: 2868: Exit, ret 1
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleDetectionStreamAction: 4212: Exit, status 0
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): HandleConcurrencyForSoundTriggerStreams: 4482: Exit
+11-13 16:45:35.346 I/PAL: API( 1222): pal_stream_open: 204: Initialization lastTimeOfBTDisconnected
+11-13 16:45:35.346 I/PAL: API( 1222): pal_stream_open: 207: Exit. Value of stream_handle 0xb400007c1bc1cf40K, status 0
+11-13 16:45:35.346 D/AHAL: AudioStream( 1222): Open: 2676: (0:ret)
+11-13 16:45:35.346 D/AHAL: AudioStream( 1222): GetBufferSize: 2496: type 2
+11-13 16:45:35.346 D/AHAL: AudioStream( 1222): Open: 2794: fragment_size_ 11520 fragments_ 2
+11-13 16:45:35.346 D/PAL: API( 1222): pal_stream_set_buffer_size: 613: Enter. Stream handle :0xb400007c1bc1cf40K
+11-13 16:45:35.346 D/PAL: Stream( 1222): setBufInfo: 625: Out Buffer size 11520 and Out Buffer count 2 metaData sz 0
+11-13 16:45:35.346 D/PAL: Stream( 1222): setBufInfo: 639: no of buf 2 and send buf 11520
+11-13 16:45:35.346 D/PAL: API( 1222): pal_stream_set_buffer_size: 621: Exit. status 0
+11-13 16:45:35.346 D/AHAL: AudioStream( 1222): Open: 2824: Exit ret: 0
+11-13 16:45:35.346 D/AHAL: AudioStream( 1222): ~AutoPerfLock: 151: (release) perf_lock_handle: 0xcd30, count: 1
+11-13 16:45:35.346 D/AHAL: AudioStream( 1222): ~AutoPerfLock: 155: Releasing perf_lock_handle: 0xcd30
+11-13 16:45:35.346 D/AHAL: AudioStream( 1222): AutoPerfLock: 141: (Acquired) perf_lock_handle: 0xcd31, count: 1
+11-13 16:45:35.346 I/PAL: API( 1222): pal_stream_start: 267: Enter. Stream handle 0xb400007c1bc1cf40K
+11-13 16:45:35.346 D/PAL: StreamPCM( 1222): start: 369: Enter. session handle - 0xb400007c1bd9ee00K mStreamAttr->direction - 1 state 1 (STREAM_INIT)
+11-13 16:45:35.346 E/PAL: StreamPCM( 1222): start: 397: Rx device id is 3 (PAL_DEVICE_OUT_SPEAKER)
+11-13 16:45:35.346 D/PAL: SpeakerProtection( 1222): start: 2212: Enter
+11-13 16:45:35.346 D/PAL: SpeakerProtection( 1222): spkrProtProcessingMode: 1354: Flag 1
+11-13 16:45:35.346 D/PAL: SpeakerProtection( 1222): spkrProtProcessingMode: 1382: Custom payload size 0, Payload 0x0
+11-13 16:45:35.346 D/PAL: SpeakerProtection( 1222): spkrProtSetSpkrStatus: 154: Enter
+11-13 16:45:35.346 D/PAL: SpeakerProtection( 1222): spkrProtSetSpkrStatus: 164: Exit
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): getAudioRoute: 3398: ar 0x7bfc489dd8K audio_route 0xb400007c1bd58850K
+11-13 16:45:35.346 D/PAL: SpeakerProtection( 1222): spkrProtProcessingMode: 1461: get the audio route vi-feedback
+11-13 16:45:35.346 D/PAL: PayloadBuilder( 1222): getDeviceKV: 2007: Enter: device ID: 38 (PAL_DEVICE_IN_VI_FEEDBACK)
+11-13 16:45:35.346 D/PAL: PayloadBuilder( 1222): retrieveKVs: 2338: Enter
+11-13 16:45:35.346 D/PAL: PayloadBuilder( 1222): isIdTypeAvailable: 2533: idtype :38 passed type :38
+11-13 16:45:35.346 I/PAL: PayloadBuilder( 1222): findKVs: 2319: key: 0xa3000000 value: 0xa3000009
+11-13 16:45:35.346 D/PAL: PayloadBuilder( 1222): retrieveKVs: 2342: KVs found for the stream type/dev id: 38
+11-13 16:45:35.346 D/PAL: PayloadBuilder( 1222): retrieveKVs: 2368: Exit, status 0
+11-13 16:45:35.346 D/PAL: ResourceManager( 1222): getVirtualAudioMixer: 3409: ar 0x7bfc489af8K audio_virt_mixer 0xb400007c1bd261c0K
+11-13 16:45:35.346 D/PAL: SessionAlsaUtils( 1222): getBeMixerControl: 319: mixer control TDM-LPAIF-TX-TERTIARY rate ch fmt
+11-13 16:45:35.346 I/PAL: SessionAlsaUtils( 1222): setDeviceMediaConfig: 961: TDM-LPAIF-TX-TERTIARY rate ch fmt data_fmt 48000 2 10 1
+11-13 16:45:35.346 I/PAL: ResourceManager( 1222): allocateFrontEndIds: 5677: allocateFrontEndIds: front end 121
+11-13 16:45:35.347 D/agm_client_wrapper( 1222): agm_session_open called with handle = fc4895e0 , *handle = 0
+11-13 16:45:35.350 D/Avrcp_ext( 4581): AudioManager Player in started state: com.ss.android.ugc.aweme.lite
+11-13 16:45:35.350 D/Avrcp_ext( 4581): AudioManager Active Player: com.ss.android.ugc.aweme.lite
+11-13 16:45:35.350 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:8087 deviceId:3 type:android.media.AudioTrack u/pid:10318/11245 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_UNKNOWN flags=0xA00 tags= bundle=null sessionId:8457
+11-13 16:45:35.350 D/AGM: graph( 1306): graph_open: 543 entry
+11-13 16:45:35.350 D/AGM: metadata( 1306): metadata_print: 78 *************************Metadata*************************
+11-13 16:45:35.350 D/AGM: metadata( 1306): metadata_print: 79 GKV size:1
+11-13 16:45:35.350 D/AGM: metadata( 1306): metadata_print: 82 key:0xa3000000, value:0xa3000009 
+11-13 16:45:35.350 D/kv_xml_parser( 1306): metadata_print:    key[DeviceTX] value[VI_TX]
+11-13 16:45:35.350 D/AGM: metadata( 1306): metadata_print: 87 
+11-13 16:45:35.350 D/AGM: metadata( 1306): CKV count:1
+11-13 16:45:35.350 D/AGM: metadata( 1306): metadata_print: 90 key:0xbf000000, value:0x2 
+11-13 16:45:35.350 D/kv_xml_parser( 1306): metadata_print:    key[SP_VI_Map] value[StereoSpeaker]
+11-13 16:45:35.350 D/AGM: metadata( 1306): metadata_print: 93 
+11-13 16:45:35.350 D/AGM: metadata( 1306): metadata_print: 95 Property ID:134217744 (0x00000010)
+11-13 16:45:35.350 D/AGM: metadata( 1306): metadata_print: 96 property count:1
+11-13 16:45:35.350 D/AGM: metadata( 1306): metadata_print: 99 Property Values: 
+11-13 16:45:35.350 D/AGM: metadata( 1306): metadata_print: 101 0x2 
+11-13 16:45:35.350 D/AGM: metadata( 1306): metadata_print: 103 
+11-13 16:45:35.350 D/AGM: metadata( 1306): metadata_print: 104 ****************Metadata Done***************************
+11-13 16:45:35.350 D/AGM: metadata( 1306): 
+11-13 16:45:35.350 E/ACDB    ( 1306): AcdbCmdGetGraphAlias:4153 Error[19]: Graph Alias chunk data does not exist. Is it enabled?.
+11-13 16:45:35.350 E/gsl     ( 1306): gsl_get_graph_alias:2182 acdb get graph alias failed 19, len 255
+11-13 16:45:35.350 D/AGM: graph( 1306): print_graph_alias: 2201 gsl_get_graph_alias failed: ret = 19
+11-13 16:45:35.350 D/AGM: graph( 1306): graph_open: 660 miid 4308 mid 700100f tag c0000005
+11-13 16:45:35.350 D/kv_xml_parser( 1306): graph_open:                        tag device_hw_ep_tx
+11-13 16:45:35.350 I/GPR:    ( 1306): __gpr_cmd_register_v2:902 GPR Register: Source Port is 8208 heap_index: 0
+11-13 16:45:35.350 I/gsl     ( 1306): gsl_graph_open_sgids_and_connections:2717 num_sgid= 1
+11-13 16:45:35.350 I/gsl     ( 1306): gsl_graph_open_sgids_and_connections:2718 sg list:
+11-13 16:45:35.350 I/gsl     ( 1306): gsl_graph_open_sgids_and_connections:2720 b00000d5
+11-13 16:45:35.350 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfc5
+11-13 16:45:35.351 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:35.352 D/Avrcp_ext( 4581): AudioManager Player in started state: com.example.cloudmusic
+11-13 16:45:35.352 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:47 deviceId:0 type:android.media.SoundPool u/pid:1000/2484 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-13 16:45:35.352 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:63 deviceId:0 type:android.media.SoundPool u/pid:1000/4806 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null sessionId:0
+11-13 16:45:35.352 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfc5
+11-13 16:45:35.352 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:7647 deviceId:3 type:android.media.AudioTrack u/pid:10240/21336 state:paused attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:8009
+11-13 16:45:35.352 D/Avrcp_ext( 4581): AudioManager Player: AudioPlaybackConfiguration piid:8015 deviceId:3 type:android.media.AudioTrack u/pid:10240/21336 state:paused attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null sessionId:8377
+11-13 16:45:35.352 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfc6
+11-13 16:45:35.353 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfc6
+11-13 16:45:35.353 D/Avrcp_ext( 4581): AudioManager isPlaying: true, mAudioPlaybackIsActive: true, isMusiActive: true
+11-13 16:45:35.353 E/ACDB    ( 1306): AcdbCmdGetProcSubgraphCalDataPersist:8408 Error[19]: No calibration found
+11-13 16:45:35.353 D/AGM: graph( 1306): graph_open: 693 graph_handle 0x47534c
+11-13 16:45:35.353 D/AGM: graph( 1306): graph_open: 728 exit, ret 0
+11-13 16:45:35.353 D/agm_client_wrapper( 1222): agm_session_open Received handle = 0x7bfc4895e0 , *handle = b40000723085b100
+11-13 16:45:35.353 D/PLUGIN: pcm( 1222): agm_pcm_hw_params: 465 agm_pcm_hw_params: mode: 268435456
+11-13 16:45:35.353 W/SpeakerLayoutUtil(11245): Built-in speaker's getSpeakerLayoutChannelMask not usable, defaulting to stereo.
+11-13 16:45:35.354 D/audio_route( 1222): Apply path: vi-feedback
+11-13 16:45:35.354 D/PAL: SpeakerProtection( 1222): spkrProtProcessingMode: 2043: pcm start for TX
+11-13 16:45:35.354 D/AGM: graph( 1306): graph_prepare: 789 entry graph_handle 0x47534c
+11-13 16:45:35.354 D/AGM: graph_module( 1306): configure_hw_ep_media_config: 630 entry mod tag c0000005 miid 4308 mid 700100f
+11-13 16:45:35.354 D/AGM: graph_module( 1306): configure_hw_ep_media_config: 665 rate 48000 bw 32 ch 2, data_fmt 1
+11-13 16:45:35.354 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfc7
+11-13 16:45:35.354 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfc7
+11-13 16:45:35.354 D/AGM: graph_module( 1306): configure_hw_ep_media_config: 675 exit, ret 0
+11-13 16:45:35.354 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfc8
+11-13 16:45:35.355 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfc8
+11-13 16:45:35.355 D/AGM: graph_module( 1306): configure_tdm_ep: 446 exit, ret 0
+11-13 16:45:35.355 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfc9
+11-13 16:45:35.355 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfc9
+11-13 16:45:35.355 D/AGM: graph( 1306): graph_prepare: 867 exit, ret 0
+11-13 16:45:35.356 D/AGM: graph( 1306): graph_start: 881 entry graph_handle 0x47534c
+11-13 16:45:35.356 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfca
+11-13 16:45:35.358 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfca
+11-13 16:45:35.358 D/AGM: graph( 1306): graph_start: 893 exit, ret 0
+11-13 16:45:35.359 D/PAL: SpeakerProtection( 1222): start: 2229: Calling Device start
+11-13 16:45:35.359 D/PAL: Device( 1222): start_l: 526: Enter. deviceCount 1 deviceStartStopCount 0 for device id 3 (PAL_DEVICE_OUT_SPEAKER)
+11-13 16:45:35.359 D/PAL: ResourceManager( 1222): getVirtualAudioMixer: 3409: ar 0x7bfc48a6c8K audio_virt_mixer 0xb400007c1bd261c0K
+11-13 16:45:35.359 D/PAL: SessionAlsaUtils( 1222): getBeMixerControl: 319: mixer control TDM-LPAIF-RX-TERTIARY grp config
+11-13 16:45:35.359 I/PAL: SessionAlsaUtils( 1222): setDeviceMediaConfig: 949: TDM-LPAIF-RX-TERTIARY rate ch fmt data_fmt slot_mask 48000 3 10 1 7
+11-13 16:45:35.359 D/PAL: SessionAlsaUtils( 1222): getBeMixerControl: 319: mixer control TDM-LPAIF-RX-TERTIARY-VIRT-0 rate ch fmt
+11-13 16:45:35.359 I/PAL: SessionAlsaUtils( 1222): setDeviceMediaConfig: 961: TDM-LPAIF-RX-TERTIARY-VIRT-0 rate ch fmt data_fmt 48000 2 6 1
+11-13 16:45:35.360 I/PAL: Device( 1222): start_l: 549: enabling awinic smartpa for device 3
+11-13 16:45:35.360 D/PAL: ResourceManager( 1222): getHwAudioMixer: 3420: ar 0x7bfc48a720K audio_hw_mixer 0xb400007c1bd26000K
+11-13 16:45:35.361 D/PAL: Device( 1222): start_l: 556: Exit, status 0
+11-13 16:45:35.361 D/PAL: SessionAlsaPcm( 1222): start: 764: Enter
+11-13 16:45:35.361 D/PAL: Stream( 1222): getStreamType: 400: streamType - 2 (PAL_STREAM_DEEP_BUFFER)
+11-13 16:45:35.361 I/PAL: ResourceManager( 1222): voteSleepMonitor: 1419: Enter for stream type 2
+11-13 16:45:35.361 I/PAL: ResourceManager( 1222): voteSleepMonitor: 1471: Voting done for nlpi use case, lpi votes 0, nlpi votes : 1
+11-13 16:45:35.361 D/PAL: Stream( 1222): getBufInfo: 733: In Buffer size 960, In Buffer count 4
+11-13 16:45:35.361 D/PAL: Stream( 1222): getBufInfo: 737: Out Buffer size 11520 and Out Buffer count 2
+11-13 16:45:35.362 D/agm_client_wrapper( 1222): agm_session_open called with handle = fc489dd0 , *handle = 0
+11-13 16:45:35.362 D/AGM: graph( 1306): graph_open: 543 entry
+11-13 16:45:35.362 D/AGM: metadata( 1306): metadata_print: 78 *************************Metadata*************************
+11-13 16:45:35.362 D/AGM: metadata( 1306): metadata_print: 79 GKV size:4
+11-13 16:45:35.362 D/AGM: metadata( 1306): metadata_print: 82 key:0xa1000000, value:0xa1000001 
+11-13 16:45:35.362 D/kv_xml_parser( 1306): metadata_print:    key[StreamRX] value[PCM_Deep_Buffer]
+11-13 16:45:35.362 D/AGM: metadata( 1306): metadata_print: 82 key:0xab000000, value:0x1 
+11-13 16:45:35.362 D/kv_xml_parser( 1306): metadata_print:    key[Instance] value[Instance_1]
+11-13 16:45:35.362 D/AGM: metadata( 1306): metadata_print: 82 key:0xa2000000, value:0xa2000001 
+11-13 16:45:35.362 D/kv_xml_parser( 1306): metadata_print:    key[DeviceRX] value[Speaker]
+11-13 16:45:35.362 D/AGM: metadata( 1306): metadata_print: 82 key:0xac000000, value:0xac000002 
+11-13 16:45:35.362 D/kv_xml_parser( 1306): metadata_print:    key[DevicePP_Rx] value[Audio_MBDRC]
+11-13 16:45:35.362 D/AGM: metadata( 1306): metadata_print: 87 
+11-13 16:45:35.362 D/AGM: metadata( 1306): CKV count:4
+11-13 16:45:35.362 D/AGM: metadata( 1306): metadata_print: 90 key:0xa4000000, value:0xf 
+11-13 16:45:35.362 D/kv_xml_parser( 1306): metadata_print:    key[Volume] value[Level_15]
+11-13 16:45:35.362 D/AGM: metadata( 1306): metadata_print: 90 key:0xd2000000, value:0x0 
+11-13 16:45:35.362 D/AGM: metadata( 1306): metadata_print: 90 key:0xbe000000, value:0x3 
+11-13 16:45:35.362 D/kv_xml_parser( 1306): metadata_print:    key[SP_Dev_Map] value[Left_Right]
+11-13 16:45:35.363 D/AGM: metadata( 1306): metadata_print: 90 key:0xfa000007, value:0x0 
+11-13 16:45:35.363 D/kv_xml_parser( 1306): metadata_print:    key[SP_Profile] value[Normal]
+11-13 16:45:35.363 D/AGM: metadata( 1306): metadata_print: 93 
+11-13 16:45:35.363 D/AGM: metadata( 1306): metadata_print: 95 Property ID:134217744 (0x00000010)
+11-13 16:45:35.363 D/AGM: metadata( 1306): metadata_print: 96 property count:4
+11-13 16:45:35.363 D/AGM: metadata( 1306): metadata_print: 99 Property Values: 
+11-13 16:45:35.363 D/AGM: metadata( 1306): metadata_print: 101 0x1 
+11-13 16:45:35.363 D/AGM: metadata( 1306): metadata_print: 101 0x3 
+11-13 16:45:35.363 D/AGM: metadata( 1306): metadata_print: 101 0x2 
+11-13 16:45:35.363 D/AGM: metadata( 1306): metadata_print: 101 0x5 
+11-13 16:45:35.363 D/AGM: metadata( 1306): metadata_print: 103 
+11-13 16:45:35.363 D/AGM: metadata( 1306): metadata_print: 104 ****************Metadata Done***************************
+11-13 16:45:35.363 D/AGM: metadata( 1306): 
+11-13 16:45:35.363 E/ACDB    ( 1306): AcdbCmdGetGraphAlias:4153 Error[19]: Graph Alias chunk data does not exist. Is it enabled?.
+11-13 16:45:35.363 E/gsl     ( 1306): gsl_get_graph_alias:2182 acdb get graph alias failed 19, len 255
+11-13 16:45:35.363 D/AGM: graph( 1306): print_graph_alias: 2201 gsl_get_graph_alias failed: ret = 19
+11-13 16:45:35.363 D/AGM: graph( 1306): graph_open: 616 miid 4001 mid 7001000 tag c0000002
+11-13 16:45:35.363 D/kv_xml_parser( 1306): graph_open:                        tag stream_input_media_format
+11-13 16:45:35.363 D/AGM: graph( 1306): graph_open: 660 miid 428f mid 700100e tag c0000004
+11-13 16:45:35.363 D/kv_xml_parser( 1306): graph_open:                        tag device_hw_ep_rx
+11-13 16:45:35.363 D/AGM: graph( 1306): graph_open: 616 miid 4019 mid 7001019 tag c0000006
+11-13 16:45:35.363 D/kv_xml_parser( 1306): graph_open:                        tag stream_pause
+11-13 16:45:35.363 D/AGM: graph( 1306): graph_open: 616 miid 4003 mid 7001005 tag c000000e
+11-13 16:45:35.363 D/kv_xml_parser( 1306): graph_open:                        tag stream_pcm_decoder
+11-13 16:45:35.363 D/AGM: graph( 1306): graph_open: 616 miid 4004 mid 7001003 tag c0000010
+11-13 16:45:35.363 D/kv_xml_parser( 1306): graph_open:                        tag stream_pcm_converter
+11-13 16:45:35.363 D/AGM: graph( 1306): graph_open: 616 miid 4163 mid 7001032 tag c0000013
+11-13 16:45:35.363 D/kv_xml_parser( 1306): graph_open:                        tag stream_spr
+11-13 16:45:35.363 I/GPR:    ( 1306): __gpr_cmd_register_v2:902 GPR Register: Source Port is 8209 heap_index: 0
+11-13 16:45:35.363 I/gsl     ( 1306): gsl_graph_open_sgids_and_connections:2717 num_sgid= 4
+11-13 16:45:35.363 I/gsl     ( 1306): gsl_graph_open_sgids_and_connections:2718 sg list:
+11-13 16:45:35.363 I/gsl     ( 1306): gsl_graph_open_sgids_and_connections:2720 b0000002
+11-13 16:45:35.363 I/gsl     ( 1306): gsl_graph_open_sgids_and_connections:2720 b0000008
+11-13 16:45:35.363 I/gsl     ( 1306): gsl_graph_open_sgids_and_connections:2720 b000001c
+11-13 16:45:35.363 I/gsl     ( 1306): gsl_graph_open_sgids_and_connections:2720 b0000001
+11-13 16:45:35.363 I/gsl     ( 1306): gsl_print_sg_conn_info:187 num_sg_conn = 3
+11-13 16:45:35.363 I/gsl     ( 1306): gsl_print_sg_conn_info:189 sg b0000008 has 1 children:
+11-13 16:45:35.363 I/gsl     ( 1306): gsl_print_sg_conn_info:192 b0000002, 
+11-13 16:45:35.363 I/gsl     ( 1306): gsl_print_sg_conn_info:189 sg b000001c has 1 children:
+11-13 16:45:35.363 I/gsl     ( 1306): gsl_print_sg_conn_info:192 b0000008, 
+11-13 16:45:35.363 I/gsl     ( 1306): gsl_print_sg_conn_info:189 sg b0000001 has 1 children:
+11-13 16:45:35.363 I/gsl     ( 1306): gsl_print_sg_conn_info:192 b000001c, 
+11-13 16:45:35.363 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfcb
+11-13 16:45:35.367 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfcb
+11-13 16:45:35.368 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfcc
+11-13 16:45:35.368 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfcc
+11-13 16:45:35.368 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfcd
+11-13 16:45:35.370 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfcd
+11-13 16:45:35.370 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfce
+11-13 16:45:35.371 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfce
+11-13 16:45:35.371 E/ACDB    ( 1306): AcdbCmdGetProcSubgraphCalDataPersist:8408 Error[19]: No calibration found
+11-13 16:45:35.371 E/ACDB    ( 1306): AcdbCmdGetProcSubgraphCalDataPersist:8408 Error[19]: No calibration found
+11-13 16:45:35.371 E/ACDB    ( 1306): AcdbCmdGetProcSubgraphCalDataPersist:8408 Error[19]: No calibration found
+11-13 16:45:35.371 E/ACDB    ( 1306): AcdbCmdGetProcSubgraphCalDataPersist:8408 Error[19]: No calibration found
+11-13 16:45:35.371 D/AGM: graph( 1306): graph_open: 693 graph_handle 0x147534c
+11-13 16:45:35.371 D/AGM: graph( 1306): graph_open: 728 exit, ret 0
+11-13 16:45:35.371 D/agm_client_wrapper( 1222): agm_session_open Received handle = 0x7bfc489dd0 , *handle = b400007230859a80
+11-13 16:45:35.371 D/PLUGIN: pcm( 1222): agm_pcm_hw_params: 465 agm_pcm_hw_params: mode: 0
+11-13 16:45:35.371 D/PAL: Stream( 1222): getAssociatedDevices: 492: no. of devices 1
+11-13 16:45:35.371 D/PAL: ResourceManager( 1222): getDeviceNameFromID: 1174: pcm id name is PCM117 
+11-13 16:45:35.371 D/PAL: ResourceManager( 1222): getDeviceNameFromID: 1174: pcm id name is PCM117 
+11-13 16:45:35.371 D/PAL: SessionAlsaUtils( 1222): setStreamMetadataType: 1235: - mixer -PCM117 control-
+11-13 16:45:35.371 E/PLUGIN: mixer( 1222): amp_pcm_mtd_control_put: 1089 pcm id 117, idx 8, value 19
+11-13 16:45:35.371 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1064: - mixer -PCM117 getTaggedInfo-
+11-13 16:45:35.371 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1086: num of tags associated with stream 117 is 21
+11-13 16:45:35.371 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[0] = 0xc0000001, num_modules = 0x1
+11-13 16:45:35.371 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[1] = 0xc0000002, num_modules = 0x1
+11-13 16:45:35.371 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[2] = 0xc0000003, num_modules = 0x2
+11-13 16:45:35.371 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[3] = 0xc0000004, num_modules = 0x1
+11-13 16:45:35.371 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[4] = 0xc0000006, num_modules = 0x1
+11-13 16:45:35.371 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[5] = 0xc0000007, num_modules = 0x1
+11-13 16:45:35.371 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[6] = 0xc000000d, num_modules = 0x1
+11-13 16:45:35.371 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[7] = 0xc000000e, num_modules = 0x1
+11-13 16:45:35.371 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[8] = 0xc0000010, num_modules = 0x1
+11-13 16:45:35.371 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[9] = 0xc0000011, num_modules = 0x1
+11-13 16:45:35.371 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1100: MIID is 0x401d
+11-13 16:45:35.371 D/PAL: Session( 1222): configureMFC: 645: miid : 401d id = 117, data TDM-LPAIF-RX-TERTIARY-VIRT-0, dev id = 3
+11-13 16:45:35.371 D/PAL: PayloadBuilder( 1222): payloadMFCConfig: 374: header params 
+11-13 16:45:35.371 D/PAL: PayloadBuilder( 1222):  IID:401d param_id:8001024 error_code:0 param_size:12
+11-13 16:45:35.371 D/PAL: PayloadBuilder( 1222): payloadMFCConfig: 398: sample_rate:48000 bit_width:24 num_channels:2 Miid:16413
+11-13 16:45:35.371 D/PAL: PayloadBuilder( 1222): payloadMFCConfig: 400: customPayload address 0xb400007c06e96340K and size 32
+11-13 16:45:35.371 I/PAL: Session( 1222): updateCustomPayload: 401: customPayloadSize = 32
+11-13 16:45:35.371 E/PLUGIN: mixer( 1222): amp_pcm_mtd_control_put: 1089 pcm id 117, idx 8, value 19
+11-13 16:45:35.371 E/PLUGIN: mixer( 1222): amp_pcm_set_param_put: 1345 be idx 33, pcm idx 117, pcm_control 19
+11-13 16:45:35.371 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfcf
+11-13 16:45:35.372 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfcf
+11-13 16:45:35.372 D/PAL: ResourceManager( 1222): getDeviceNameFromID: 1174: pcm id name is PCM117 
+11-13 16:45:35.372 D/PAL: ResourceManager( 1222): getDeviceNameFromID: 1174: pcm id name is PCM117 
+11-13 16:45:35.372 D/PAL: SessionAlsaUtils( 1222): setStreamMetadataType: 1235: - mixer -PCM117 control-
+11-13 16:45:35.372 E/PLUGIN: mixer( 1222): amp_pcm_mtd_control_put: 1089 pcm id 117, idx 8, value 19
+11-13 16:45:35.372 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1064: - mixer -PCM117 getTaggedInfo-
+11-13 16:45:35.372 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1086: num of tags associated with stream 117 is 21
+11-13 16:45:35.372 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[0] = 0xc0000001, num_modules = 0x1
+11-13 16:45:35.372 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[1] = 0xc0000002, num_modules = 0x1
+11-13 16:45:35.372 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[2] = 0xc0000003, num_modules = 0x2
+11-13 16:45:35.372 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[3] = 0xc0000004, num_modules = 0x1
+11-13 16:45:35.372 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[4] = 0xc0000006, num_modules = 0x1
+11-13 16:45:35.372 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[5] = 0xc0000007, num_modules = 0x1
+11-13 16:45:35.372 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[6] = 0xc000000d, num_modules = 0x1
+11-13 16:45:35.372 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[7] = 0xc000000e, num_modules = 0x1
+11-13 16:45:35.372 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[8] = 0xc0000010, num_modules = 0x1
+11-13 16:45:35.372 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[9] = 0xc0000011, num_modules = 0x1
+11-13 16:45:35.372 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[10] = 0xc0000013, num_modules = 0x1
+11-13 16:45:35.372 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[11] = 0xc0000019, num_modules = 0x1
+11-13 16:45:35.372 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1100: MIID is 0x40b6
+11-13 16:45:35.372 D/PAL: Session( 1222): configureMFC: 690: miid : 40b6 id = 117, data TDM-LPAIF-RX-TERTIARY-VIRT-0, dev id = 3
+11-13 16:45:35.372 D/PAL: PayloadBuilder( 1222): payloadMFCConfig: 374: header params 
+11-13 16:45:35.372 D/PAL: PayloadBuilder( 1222):  IID:40b6 param_id:8001024 error_code:0 param_size:12
+11-13 16:45:35.372 D/PAL: PayloadBuilder( 1222): payloadMFCConfig: 398: sample_rate:48000 bit_width:24 num_channels:2 Miid:16566
+11-13 16:45:35.372 D/PAL: PayloadBuilder( 1222): payloadMFCConfig: 400: customPayload address 0xb400007c06e96340K and size 32
+11-13 16:45:35.372 I/PAL: Session( 1222): updateCustomPayload: 401: customPayloadSize = 64
+11-13 16:45:35.372 D/PAL: ResourceManager( 1222): getDeviceNameFromID: 1174: pcm id name is PCM117 
+11-13 16:45:35.372 D/PAL: SessionAlsaUtils( 1222): setMixerParameter: 1191: - mixer -PCM117-
+11-13 16:45:35.372 D/PAL: SessionAlsaUtils( 1222): setMixerParameter: 1199: - mixer -PCM117 setParam-
+11-13 16:45:35.372 E/PLUGIN: mixer( 1222): amp_pcm_set_param_put: 1345 be idx 33, pcm idx 117, pcm_control 19
+11-13 16:45:35.372 D/AGM: graph( 1306): graph_set_config: 1087 entry graph_handle 0x147534c
+11-13 16:45:35.372 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfd0
+11-13 16:45:35.373 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfd0
+11-13 16:45:35.373 D/AGM: graph( 1306): graph_set_config: 1095 exit, graph handle 0x147534c, ret 0
+11-13 16:45:35.373 D/PAL: SessionAlsaUtils( 1222): setMixerParameter: 1208: ret = 0, cnt = 64
+11-13 16:45:35.373 D/PAL: SpeakerProtection( 1222): setParameter: 2250: Inside Speaker Protection Set parameters
+11-13 16:45:35.373 D/PAL: ResourceManager( 1222): getDeviceNameFromID: 1174: pcm id name is PCM117 
+11-13 16:45:35.373 D/PAL: SpeakerProtection( 1222): setAwReValue: 2562: set re value number 0, value 6563 for PCM117
+11-13 16:45:35.373 D/PAL: ResourceManager( 1222): getDeviceNameFromID: 1174: pcm id name is PCM117 
+11-13 16:45:35.373 D/PAL: SessionAlsaUtils( 1222): setMixerParameter: 1191: - mixer -PCM117-
+11-13 16:45:35.373 D/PAL: SessionAlsaUtils( 1222): setMixerParameter: 1199: - mixer -PCM117 setParam-
+11-13 16:45:35.373 E/PLUGIN: mixer( 1222): amp_pcm_set_param_put: 1345 be idx 33, pcm idx 117, pcm_control 19
+11-13 16:45:35.373 D/AGM: graph( 1306): graph_set_config: 1087 entry graph_handle 0x147534c
+11-13 16:45:35.373 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfd1
+11-13 16:45:35.373 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfd1
+11-13 16:45:35.373 D/AGM: graph( 1306): graph_set_config: 1095 exit, graph handle 0x147534c, ret 0
+11-13 16:45:35.373 D/PAL: SessionAlsaUtils( 1222): setMixerParameter: 1208: ret = 0, cnt = 48
+11-13 16:45:35.373 D/PAL: ResourceManager( 1222): getDeviceNameFromID: 1174: pcm id name is PCM117 
+11-13 16:45:35.373 D/PAL: SpeakerProtection( 1222): setAwReValue: 2562: set re value number 1, value 7488 for PCM117
+11-13 16:45:35.373 D/PAL: ResourceManager( 1222): getDeviceNameFromID: 1174: pcm id name is PCM117 
+11-13 16:45:35.373 D/PAL: SessionAlsaUtils( 1222): setMixerParameter: 1191: - mixer -PCM117-
+11-13 16:45:35.373 D/PAL: SessionAlsaUtils( 1222): setMixerParameter: 1199: - mixer -PCM117 setParam-
+11-13 16:45:35.373 E/PLUGIN: mixer( 1222): amp_pcm_set_param_put: 1345 be idx 33, pcm idx 117, pcm_control 19
+11-13 16:45:35.373 D/AGM: graph( 1306): graph_set_config: 1087 entry graph_handle 0x147534c
+11-13 16:45:35.374 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfd2
+11-13 16:45:35.374 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfd2
+11-13 16:45:35.374 D/AGM: graph( 1306): graph_set_config: 1095 exit, graph handle 0x147534c, ret 0
+11-13 16:45:35.374 D/PAL: SessionAlsaUtils( 1222): setMixerParameter: 1208: ret = 0, cnt = 48
+11-13 16:45:35.374 D/AGM: graph( 1306): graph_prepare: 789 entry graph_handle 0x147534c
+11-13 16:45:35.374 D/AGM: graph_module( 1306): configure_pcm_shared_mem_ep: 1447 entry mod tag c0000002 miid 4001 mid 7001000
+11-13 16:45:35.374 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfd3
+11-13 16:45:35.374 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfd3
+11-13 16:45:35.374 D/AGM: graph_module( 1306): configure_pcm_shared_mem_ep: 1523 exit, ret 0
+11-13 16:45:35.374 D/AGM: graph_module( 1306): configure_hw_ep_media_config: 630 entry mod tag c0000004 miid 428f mid 700100e
+11-13 16:45:35.374 D/AGM: graph_module( 1306): configure_hw_ep_media_config: 665 rate 48000 bw 32 ch 3, data_fmt 1
+11-13 16:45:35.374 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfd4
+11-13 16:45:35.375 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfd4
+11-13 16:45:35.375 D/AGM: graph_module( 1306): configure_hw_ep_media_config: 675 exit, ret 0
+11-13 16:45:35.375 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfd5
+11-13 16:45:35.375 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfd5
+11-13 16:45:35.375 D/AGM: graph_module( 1306): configure_tdm_ep: 446 exit, ret 0
+11-13 16:45:35.375 D/AGM: graph_module( 1306): configure_output_media_format: 758 entry mod tag c000000e miid 4003 mid 7001005
+11-13 16:45:35.375 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfd6
+11-13 16:45:35.375 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfd6
+11-13 16:45:35.375 D/AGM: graph_module( 1306): configure_output_media_format: 889 exit, ret 0
+11-13 16:45:35.375 D/AGM: graph_module( 1306): configure_output_media_format: 758 entry mod tag c0000010 miid 4004 mid 7001003
+11-13 16:45:35.375 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfd7
+11-13 16:45:35.376 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfd7
+11-13 16:45:35.376 D/AGM: graph_module( 1306): configure_output_media_format: 889 exit, ret 0
+11-13 16:45:35.376 D/AGM: graph_module( 1306): configure_spr: 1638 SPR module IID 4163
+11-13 16:45:35.376 D/AGM: graph_module( 1306): configure_spr: 1661 HW EP module IID 428f
+11-13 16:45:35.376 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfd8
+11-13 16:45:35.376 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfd8
+11-13 16:45:35.376 D/AGM: graph( 1306): configure_buffer_params: 162 Enter
+11-13 16:45:35.376 D/AGM: graph( 1306): configure_buffer_params: 225 Playback sess buf_sz 11520 num_bufs 2
+11-13 16:45:35.376 E/AGM: graph( 1306): configure_buffer_params: 255 Unsupported buffer mode : 0, Default to Blocking
+11-13 16:45:35.376 D/AGM: graph( 1306): configure_buffer_params: 275 exit, ret 0
+11-13 16:45:35.376 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfd9
+11-13 16:45:35.394 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfd9
+11-13 16:45:35.394 D/AGM: graph( 1306): graph_prepare: 867 exit, ret 0
+11-13 16:45:35.394 D/AGM: graph( 1306): graph_start: 881 entry graph_handle 0x147534c
+11-13 16:45:35.394 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfda
+11-13 16:45:35.398 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfda
+11-13 16:45:35.398 D/AGM: graph( 1306): graph_start: 893 exit, ret 0
+11-13 16:45:35.430 D/A11yRuleEngine( 8493): startQueryJob end 79 ms
+11-13 16:45:35.450 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:35.480 D/PAL: ResourceManager( 1222): getDeviceNameFromID: 1174: pcm id name is PCM117 
+11-13 16:45:35.480 D/PAL: ResourceManager( 1222): getDeviceNameFromID: 1174: pcm id name is PCM117 
+11-13 16:45:35.480 D/PAL: SessionAlsaUtils( 1222): setStreamMetadataType: 1235: - mixer -PCM117 control-
+11-13 16:45:35.480 E/PLUGIN: mixer( 1222): amp_pcm_mtd_control_put: 1089 pcm id 117, idx 8, value 19
+11-13 16:45:35.480 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1064: - mixer -PCM117 getTaggedInfo-
+11-13 16:45:35.480 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1086: num of tags associated with stream 117 is 21
+11-13 16:45:35.480 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[0] = 0xc0000001, num_modules = 0x1
+11-13 16:45:35.480 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[1] = 0xc0000002, num_modules = 0x1
+11-13 16:45:35.480 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[2] = 0xc0000003, num_modules = 0x2
+11-13 16:45:35.480 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[3] = 0xc0000004, num_modules = 0x1
+11-13 16:45:35.480 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1092: tag id[4] = 0xc0000006, num_modules = 0x1
+11-13 16:45:35.480 D/PAL: SessionAlsaUtils( 1222): getModuleInstanceId: 1100: MIID is 0x4019
+11-13 16:45:35.480 D/PAL: ResourceManager( 1222): getDeviceNameFromID: 1174: pcm id name is PCM117 
+11-13 16:45:35.480 D/PAL: SessionAlsaUtils( 1222): registerMixerEvent: 1289: - mixer -PCM117 event-
+11-13 16:45:35.480 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfdb
+11-13 16:45:35.481 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfdb
+11-13 16:45:35.481 D/PAL: SessionAlsaPcm( 1222): setConfig: 436: Enter tag: -1073741811
+11-13 16:45:35.481 D/PAL: Stream( 1222): getVolumeData: 583: num config 1
+11-13 16:45:35.481 I/gsl     ( 1306): gsl_send_spf_cmd:156 sending pkt with token 0xfdc
+11-13 16:45:35.482 I/gsl     ( 1306): gsl_send_spf_cmd:183 rcvd pkt token : 0xfdc
+11-13 16:45:35.482 I/gsl     ( 1306): gsl_graph_send_persist_cal:857 Skipping persist cal for SG_ID -1342177278: already started
+11-13 16:45:35.482 I/gsl     ( 1306): gsl_graph_send_persist_cal:857 Skipping persist cal for SG_ID -1342177272: already started
+11-13 16:45:35.482 I/gsl     ( 1306): gsl_graph_send_persist_cal:857 Skipping persist cal for SG_ID -1342177252: already started
+11-13 16:45:35.482 I/gsl     ( 1306): gsl_graph_send_persist_cal:857 Skipping persist cal for SG_ID -1342177279: already started
+11-13 16:45:35.482 D/PAL: SessionAlsaPcm( 1222): setConfig: 561: exit status: 0 
+11-13 16:45:35.482 D/PAL: SessionAlsaPcm( 1222): start: 1319: Exit status: 0
+11-13 16:45:35.482 D/PAL: ResourceManager( 1222): isDeviceActive_l: 3330: Enter.
+11-13 16:45:35.482 D/PAL: ResourceManager( 1222): isDeviceActive_l: 3337: Exit. device 3 (PAL_DEVICE_OUT_SPEAKER) is active 0
+11-13 16:45:35.482 D/PAL: ResourceManager( 1222): registerDevice: 2995: Enter. dev id: 3
+11-13 16:45:35.482 D/PAL: ResourceManager( 1222): registerDevice_l: 2976: Enter.
+11-13 16:45:35.482 D/PAL: ResourceManager( 1222): registerDevice_l: 2978: Exit.
+11-13 16:45:35.482 D/PAL: ResourceManager( 1222): registerDevice: 3155: Exit. status: 0
+11-13 16:45:35.482 D/PAL: StreamPCM( 1222): start: 669: Exit. state 3 (STREAM_STARTED), status 0
+11-13 16:45:35.482 I/PAL: API( 1222): pal_stream_start: 284: Exit. status 0
+11-13 16:45:35.482 I/AHAL: AudioStream( 1222): configurePalOutputStream: 3030: notify GEF client of device config
+11-13 16:45:35.482 D/generic_effect_ar( 1222): gef_device_config_cb: stream type=8 sample_rate=48000 device=2
+11-13 16:45:35.482 D/MiSoundQdspGefDriver( 1222): eventCallback
+11-13 16:45:35.482 D/MiSoundQdspGefDriver( 1222): eventCallback(): audio device 0x00000002 (sample rate 48000, channelMask 0x00000003, stream_type 0x8, scenario 0) becomes active!
+11-13 16:45:35.482 D/MiSoundQdspGefDriver( 1222): eventCallback(): no need update
+11-13 16:45:35.482 D/DlbQdspGefDriver( 1222): eventCallback(): audio device 0x00000002 (sample rate 48000, channelMask 0x00000003, stream type 0x8,  data 0) becomes active!
+11-13 16:45:35.482 D/DlbQdspGefDriver( 1222): setDevice(device=0x00000002): old device 0x00000002
+11-13 16:45:35.482 D/generic_effect_ar( 1222): gef_device_config_cb: stream type=8 sample_rate=48000 device=2
+11-13 16:45:35.482 D/MiSoundQdspGefDriver( 1222): eventCallback
+11-13 16:45:35.482 D/MiSoundQdspGefDriver( 1222): eventCallback(): audio device 0x00000002 (sample rate 48000, channelMask 0x00000003, stream_type 0x8, scenario 0) becomes active!
+11-13 16:45:35.482 D/MiSoundQdspGefDriver( 1222): eventCallback(): no need update
+11-13 16:45:35.482 D/DlbQdspGefDriver( 1222): eventCallback(): audio device 0x00000002 (sample rate 48000, channelMask 0x00000003, stream type 0x8,  data 0) becomes active!
+11-13 16:45:35.482 D/DlbQdspGefDriver( 1222): setDevice(device=0x00000002): old device 0x00000002
+11-13 16:45:35.482 D/AHAL: AudioStream( 1222): ~AutoPerfLock: 151: (release) perf_lock_handle: 0xcd31, count: 1
+11-13 16:45:35.482 D/AHAL: AudioStream( 1222): ~AutoPerfLock: 155: Releasing perf_lock_handle: 0xcd31
+11-13 16:45:35.490 D/AudioTrack(11245): getTimestamp_l(1071): device stall time corrected using current time 31644751342874
+11-13 16:45:35.513 W/AudioTrack(11245): getTimestamp_l(1071): retrograde timestamp time corrected, 31644746501311 < 31644763770634
+11-13 16:45:35.515 D/A11yRuleEngine( 8493): startQueryJob end 65 ms
+11-13 16:45:35.603 D/AudioFlinger( 1459): mixer(0xb4000077abc71b80) throttle end: throttle time(57)
+11-13 16:45:35.650 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:35.685 I/MiuiNetworkPolicy( 2484): bandwidth: 0 KB/s, Max bandwidth: 200 KB/s
+11-13 16:45:35.730 D/A11yRuleEngine( 8493): startQueryJob end 80 ms
+11-13 16:45:35.731 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:35.754 D/A11yRuleEngine( 8493): startQueryJob end 23 ms
+11-13 16:45:35.769 I/MiuiNetworkPolicy( 2484): updateUidState uid = 10115, uidState = 5
+11-13 16:45:35.797 I/SmartPower( 2484): com.miui.systemAdSolution/10151 state=idle adj=100 proc size=1 move to hibernation broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-13 16:45:35.797 I/SmartPower( 2484): com.xiaomi.market/10149 state=idle adj=905 proc size=3 move to hibernation broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-13 16:45:35.797 I/SmartPower( 2484): com.taobao.idlefish/10297 state=idle adj=900 proc size=4 move to hibernation broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-13 16:45:35.798 D/ProcessMemoryCleaner( 2484): Compact memory: com.taobao.idlefish/10297(13880) state=hibernation adj=900 pri=311 usage=5 isKilled=false pss:605569 swap:455879
+11-13 16:45:35.816 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:35.843 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 16:45:35.844 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=16}
+11-13 16:45:35.844 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=210}
+11-13 16:45:35.844 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=97}
+11-13 16:45:35.845 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 16:45:35.845 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-13 16:45:35.845 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-13 16:45:35.848 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=10607}
+11-13 16:45:35.848 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=16349}
+11-13 16:45:35.848 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=10977}
+11-13 16:45:35.848 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=115}
+11-13 16:45:35.848 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=13927}
+11-13 16:45:35.848 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-13 16:45:35.848 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-13 16:45:35.848 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=8719}
+11-13 16:45:35.848 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=723}
+11-13 16:45:35.848 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=100019}
+11-13 16:45:35.850 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:35.904 D/A11yRuleEngine( 8493): startQueryJob end 54 ms
+11-13 16:45:35.950 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:36.022 D/A11yRuleEngine( 8493): startQueryJob end 72 ms
+11-13 16:45:36.028 D/PerfShielderService( 2484): com.example.cloudmusic|com.example.cloudmusic/com.example.cloudmusic.MainActivity|172|31644313951884|110|0|3
+11-13 16:45:36.029 W/MiuiPerfServiceClient( 8175): interceptAndQueuing:11245|com.example.cloudmusic|172|110|31644313951884|Slow main thread|3
+11-13 16:45:36.031 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:36.054 D/A11yRuleEngine( 8493): startQueryJob end 23 ms
+11-13 16:45:36.055 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:36.077 D/A11yRuleEngine( 8493): startQueryJob end 22 ms
+11-13 16:45:36.144 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:36.146 D/LocalBluetoothAdapter( 4806): isSupportBluetoothRestrict = 1
+11-13 16:45:36.146 D/LocalBluetoothAdapter( 4806): getBluetoothRestrictState enable = 0
+11-13 16:45:36.147 D/LocalBluetoothAdapter( 4806): isSupportBluetoothRestrict = 1
+11-13 16:45:36.147 D/LocalBluetoothAdapter( 4806): getBluetoothRestrictState enable = 0
+11-13 16:45:36.164 D/A11yRuleEngine( 8493): startQueryJob end 20 ms
+11-13 16:45:36.205 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:36.221 D/A11yRuleEngine( 8493): startQueryJob end 16 ms
+11-13 16:45:36.256 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:36.300 D/A11yRuleEngine( 8493): startQueryJob end 44 ms
+11-13 16:45:36.318 W/ActivityManager( 2484): Sending non-protected broadcast miui.intent.action.TELEPHONY_RESOURCE_ACCESS from system 4780:com.android.phone/1001 pkg com.android.phone. Callers=
+11-13 16:45:36.319 W/ActivityManager( 2484): Sending non-protected broadcast miui.intent.action.TELEPHONY_RESOURCE_ACCESS from system 4780:com.android.phone/1001 pkg com.android.phone. Callers=
+11-13 16:45:36.323 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:36.326 D/TelephonyManager( 4780): requestModemActivityInfo: Sending result to app: ModemActivityInfo{ mTimestamp=36421328 mSleepTimeMs=4413910 mIdleTimeMs=130094 mActivityStatsTechSpecificInfo=[{mRat=UNKNOWN,mFrequencyRange=UNKNOWN,mTxTimeMs[]=[57109, 46606, 39466, 44025, 158924],mRxTimeMs=24697606}]}
+11-13 16:45:36.348 D/A11yRuleEngine( 8493): startQueryJob end 25 ms
+11-13 16:45:36.355 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:36.373 D/A11yRuleEngine( 8493): startQueryJob end 18 ms
+11-13 16:45:36.377 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:36.409 D/A11yRuleEngine( 8493): startQueryJob end 32 ms
+11-13 16:45:36.457 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:36.524 D/A11yRuleEngine( 8493): startQueryJob end 67 ms
+11-13 16:45:36.601 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:36.634 D/A11yRuleEngine( 8493): startQueryJob end 33 ms
+11-13 16:45:36.648 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:36.681 D/A11yRuleEngine( 8493): startQueryJob end 33 ms
+11-13 16:45:36.711 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:36.731 D/A11yRuleEngine( 8493): startQueryJob end 20 ms
+11-13 16:45:36.761 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:36.816 D/A11yRuleEngine( 8493): startQueryJob end 55 ms
+11-13 16:45:36.825 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:36.843 D/A11yRuleEngine( 8493): startQueryJob end 18 ms
+11-13 16:45:36.935 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:36.963 D/A11yRuleEngine( 8493): startQueryJob end 28 ms
+11-13 16:45:36.982 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:37.004 D/A11yRuleEngine( 8493): startQueryJob end 22 ms
+11-13 16:45:37.032 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:37.053 D/A11yRuleEngine( 8493): startQueryJob end 21 ms
+11-13 16:45:37.079 I/mple.cloudmusic(11245): ProcessProfilingInfo new_methods=320 is saved saved_to_disk=1 resolve_classes_delay=8000
+11-13 16:45:37.117 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:37.140 D/A11yRuleEngine( 8493): startQueryJob end 23 ms
+11-13 16:45:37.144 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:37.168 D/A11yRuleEngine( 8493): startQueryJob end 24 ms
+11-13 16:45:37.263 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:37.343 D/A11yRuleEngine( 8493): startQueryJob end 80 ms
+11-13 16:45:37.354 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:37.377 D/A11yRuleEngine( 8493): startQueryJob end 23 ms
+11-13 16:45:37.439 D/AlarmManager( 2484): mBroadcastRefCount -> 1
+11-13 16:45:37.445 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:37.453 I/MiuiNetworkPolicy( 2484): updateUidState uid = 10240, uidState = 16
+11-13 16:45:37.464 D/AlarmManager( 2484): mBroadcastRefCount -> 0
+11-13 16:45:37.464 D/AlarmManager( 2484): mPendingIntent -> PendingIntent{f80aefa: PendingIntentRecord{e76dcab com.eg.android.AlipayGphone broadcastIntent}}
+11-13 16:45:37.470 D/A11yRuleEngine( 8493): startQueryJob end 25 ms
+11-13 16:45:37.644 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:37.669 D/A11yRuleEngine( 8493): startQueryJob end 25 ms
+11-13 16:45:37.677 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:37.693 D/TrafficManageService( 8602): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-13 16:45:37.695 D/TrafficManageService-TrafficSimManager( 8602): notifyByNetChange: gooooo
+11-13 16:45:37.701 D/A11yRuleEngine( 8493): startQueryJob end 24 ms
+11-13 16:45:37.771 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:37.786 D/A11yRuleEngine( 8493): startQueryJob end 15 ms
+11-13 16:45:37.807 D/TrafficManageService-TrafficSimManager( 8602): getMonthDataUsageUsed: new_get = 3231367847
+11-13 16:45:37.865 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:37.926 D/A11yRuleEngine( 8493): startQueryJob end 61 ms
+11-13 16:45:37.966 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:37.971 I/.ugc.aweme.lite(21336): This is sticky GC, maxfree is 33554432 minfree is 50331648
+11-13 16:45:38.017 D/A11yRuleEngine( 8493): startQueryJob end 50 ms
+11-13 16:45:38.027 I/li.songe.gkd( 8493): This is sticky GC, maxfree is 33554432 minfree is 8388608
+11-13 16:45:38.067 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:38.149 D/A11yRuleEngine( 8493): startQueryJob end 82 ms
+11-13 16:45:38.227 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:38.249 D/A11yRuleEngine( 8493): startQueryJob end 22 ms
+11-13 16:45:38.266 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:38.305 D/A11yRuleEngine( 8493): startQueryJob end 39 ms
+11-13 16:45:38.317 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:38.331 D/A11yRuleEngine( 8493): startQueryJob end 13 ms
+11-13 16:45:38.349 I/SmartPower.com.tencent.mm:xweb_privileged_process_0/10257(19775)( 2484): idle->died(23931ms) R(process died ) adj=0.
+11-13 16:45:38.349 I/ActivityManager( 2484): Process com.tencent.mm:xweb_privileged_process_0 (pid 19775) has died: fg  SVC 
+11-13 16:45:38.350 I/libprocessgroup( 2484): Successfully killed process cgroup uid 10257 pid 19775 in 0ms
+11-13 16:45:38.351 D/MyLog   ( 9071): -->log(1): [T483] [KeepAliveManager] -->onProcessDied(), pid=19775, uid=10257
+11-13 16:45:38.352 I/Zygote  ( 1160): Process 19775 exited cleanly (0)
+11-13 16:45:38.366 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:38.419 D/A11yRuleEngine( 8493): startQueryJob end 53 ms
+11-13 16:45:38.450 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:38.473 D/A11yRuleEngine( 8493): startQueryJob end 23 ms
+11-13 16:45:38.515 D/CCodecBufferChannel(11245): [c2.android.mp3.decoder#333] DEBUG: elapsed: n=4 [in=0 pipeline=0 out=0]
+11-13 16:45:38.515 D/PipelineWatcher(11245): DEBUG: elapsed 0 / 4
+11-13 16:45:38.550 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:38.568 D/A11yRuleEngine( 8493): startQueryJob end 18 ms
+11-13 16:45:38.606 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:38.625 D/A11yRuleEngine( 8493): startQueryJob end 19 ms
+11-13 16:45:38.632 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:38.659 D/A11yRuleEngine( 8493): startQueryJob end 28 ms
+11-13 16:45:38.666 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:38.688 I/MiuiNetworkPolicy( 2484): bandwidth: 0 KB/s, Max bandwidth: 200 KB/s
+11-13 16:45:38.739 D/A11yRuleEngine( 8493): startQueryJob end 73 ms
+11-13 16:45:38.769 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:38.844 D/A11yRuleEngine( 8493): startQueryJob end 75 ms
+11-13 16:45:38.869 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:38.883 I/mple.cloudmusic(11245): This is non sticky GC, maxfree is 33554432 minfree is 8388608
+11-13 16:45:38.886 W/FinalizerDaemon(11245): type=1400 audit(0.0:78356): avc: denied { getopt } for path="/dev/socket/usap_pool_primary" scontext=u:r:untrusted_app:s0:c62,c257,c512,c768 tcontext=u:r:zygote:s0 tclass=unix_stream_socket permissive=0 app=com.example.cloudmusic
+11-13 16:45:38.888 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=16}
+11-13 16:45:38.888 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=210}
+11-13 16:45:38.888 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=97}
+11-13 16:45:38.888 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 16:45:38.888 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-13 16:45:38.888 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-13 16:45:38.889 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=10625}
+11-13 16:45:38.889 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=16351}
+11-13 16:45:38.889 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=10977}
+11-13 16:45:38.889 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=115}
+11-13 16:45:38.889 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=13927}
+11-13 16:45:38.889 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-13 16:45:38.889 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=3, sent=4}
+11-13 16:45:38.889 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=8719}
+11-13 16:45:38.889 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=723}
+11-13 16:45:38.889 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=100019}
+11-13 16:45:38.891 D/A11yRuleEngine( 8493): startQueryJob end 22 ms
+11-13 16:45:38.926 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:38.948 D/A11yRuleEngine( 8493): startQueryJob end 22 ms
+11-13 16:45:38.960 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:38.978 D/A11yRuleEngine( 8493): startQueryJob end 18 ms
+11-13 16:45:39.040 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:39.065 D/A11yRuleEngine( 8493): startQueryJob end 25 ms
+11-13 16:45:39.070 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:39.116 D/A11yRuleEngine( 8493): startQueryJob end 46 ms
+11-13 16:45:39.145 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:39.163 D/A11yRuleEngine( 8493): startQueryJob end 18 ms
+11-13 16:45:39.170 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:39.215 D/A11yRuleEngine( 8493): startQueryJob end 45 ms
+11-13 16:45:39.249 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:39.274 D/A11yRuleEngine( 8493): startQueryJob end 25 ms
+11-13 16:45:39.279 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:39.300 D/A11yRuleEngine( 8493): startQueryJob end 22 ms
+11-13 16:45:39.367 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:39.391 D/A11yRuleEngine( 8493): startQueryJob end 24 ms
+11-13 16:45:39.417 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:39.440 D/A11yRuleEngine( 8493): startQueryJob end 23 ms
+11-13 16:45:39.463 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:39.498 D/A11yRuleEngine( 8493): startQueryJob end 35 ms
+11-13 16:45:39.515 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:39.532 D/A11yRuleEngine( 8493): startQueryJob end 17 ms
+11-13 16:45:39.575 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 16:45:39.581 D/CompatibilityChangeReporter( 2484): Compat change id reported: 197654537; UID 10318; state: ENABLED
+11-13 16:45:39.626 D/A11yRuleEngine( 8493): startQueryJob end 51 ms
+11-13 16:45:39.692 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:39.693 D/A11yRuleEngine( 8493): startQueryJob end 1 ms
+11-13 16:45:39.740 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:39.741 D/A11yRuleEngine( 8493): startQueryJob end 1 ms
+11-13 16:45:39.799 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:39.800 D/A11yRuleEngine( 8493): startQueryJob end 1 ms
+11-13 16:45:39.833 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:39.833 D/A11yRuleEngine( 8493): startQueryJob end 0 ms
+11-13 16:45:39.927 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 16:45:39.927 D/A11yRuleEngine( 8493): startQueryJob end 0 ms
+11-13 16:45:40.172 I/VA_AliveCore:AssistInteractionService( 8072): onProcessChanged: processName=com.miui.voiceassist;isRunning=false
+11-13 16:45:40.266 I/AudioManager(21336): In isBluetoothScoOn() calling application: com.ss.android.ugc.aweme.lite
+11-13 16:45:40.266 V/AS.AudioDeviceBroker( 2484): requestedCommunicationDevice, device: nullmAudioModeOwner: AudioModeInfo: mMode=MODE_NORMAL, mPid=0, mUid=0
+11-13 16:45:40.271 D/BufferPoolAccessor2.0( 2020): evictor expired: 2, evicted: 0
+11-13 16:45:40.309 D/TrafficStats(13534): tagSocket(78) with statsTag=0x6900, statsUid=-1
+11-13 16:45:40.382 D/AudioTrack(11245): [audioTrackData][fine] 5s(f:5074 m:0 s:0 k:0) : pid 11245 uid 10318 sessionId 8457 sr 44100 ch 2 fmt 1
+11-13 16:45:40.416 D/SystemPressureControl( 2484): thermal temperature 41
+11-13 16:45:40.416 I/ThermalObserver( 2484): Gallery hdr is disable by thermal.
+11-13 16:45:40.417 I/mstatdaemon( 2071): Entering time loop
+11-13 16:45:40.417 I/mstatdaemon( 2071): t = 1794559540
+11-13 16:45:40.417 I/mstatdaemon( 2071): translated_t = 1478569540
+11-13 16:45:40.417 I/mstat_log( 2071): mstatcommitLog log_alloc() failed
+11-13 16:45:40.416 D/SLM-SRV-SLAService( 8387): checktemp temperature = 41732 temperature_average = 41928 isPerformanceMode = false thermal_enable_slm = true
+11-13 16:45:40.650 D/BufferPoolAccessor2.0(11245): bufferpool2 0xb400007d7d2bd828 : 5(40960 size) total buffers - 1(8192 size) used buffers - 217/222 (recycle/alloc) - 8/440 (fetch/transfer)
+11-13 16:45:40.655 D/BufferPoolAccessor2.0( 2095): bufferpool2 0xb400006f45c56e28 : 4(18432 size) total buffers - 1(4608 size) used buffers - 217/221 (recycle/alloc) - 4/220 (fetch/transfer)
+11-13 16:45:40.990 I/ActivityManager( 2484): Waited long enough for: ServiceRecord{4dc3349 u0 com.eg.android.AlipayGphone/com.alipay.mobile.healthcommon.stepcounter.APExtStepService}
+11-13 16:45:41.223 I/MiuiNetworkPolicy( 2484): updateUidState uid = 10269, uidState = 10
+11-13 16:45:41.524 D/TrafficStats( 3925): tagSocket(122) with statsTag=0x1f04, statsUid=-1
+11-13 16:45:41.690 I/MiuiNetworkPolicy( 2484): bandwidth: 0 KB/s, Max bandwidth: 200 KB/s
+11-13 16:45:41.824 D/CCodecBufferChannel(11245): [c2.android.mp3.decoder#333] DEBUG: elapsed: n=4 [in=0 pipeline=0 out=0]
+11-13 16:45:41.824 D/PipelineWatcher(11245): DEBUG: elapsed 0 / 4
+11-13 16:45:41.931 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=16}
+11-13 16:45:41.931 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=210}
+11-13 16:45:41.931 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=97}
+11-13 16:45:41.931 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 16:45:41.931 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=1}
+11-13 16:45:41.931 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 16:45:41.932 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=10651}
+11-13 16:45:41.932 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=16351}
+11-13 16:45:41.933 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=10977}
+11-13 16:45:41.933 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=115}
+11-13 16:45:41.933 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=13927}
+11-13 16:45:41.933 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 16:45:41.933 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 16:45:41.933 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=8719}
+11-13 16:45:41.933 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=723}
+11-13 16:45:41.933 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=100020}
+11-13 16:45:42.033 D/TrafficStats(10844): tagSocket(82) with statsTag=0xffffffff, statsUid=-1
+11-13 16:45:42.839 I/tencent.mm:push(15423): This is non sticky GC, maxfree is 33554432 minfree is 8388608
+11-13 16:45:42.840 I/tencent.mm:push(15423): Explicit concurrent copying GC freed 242170(9455KB) AllocSpace objects, 14(348KB) LOS objects, 49% free, 12MB/24MB, paused 98us,110us total 148.222ms
+11-13 16:45:42.840 W/JavaBinder(15423): BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.tencent.mm.ipcinvoker.c$$a
+11-13 16:45:42.840 I/BpBinder(15423): onLastStrongRef automatically unlinking death recipients: <uncached descriptor>
+11-13 16:45:42.840 W/JavaBinder(15423): BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.tencent.mm.ipcinvoker.c$$a
+11-13 16:45:42.841 I/BpBinder(15423): onLastStrongRef automatically unlinking death recipients: <uncached descriptor>
+11-13 16:45:42.841 W/JavaBinder(15423): BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.tencent.mm.ipcinvoker.c$$a
+11-13 16:45:42.841 I/BpBinder(15423): onLastStrongRef automatically unlinking death recipients: <uncached descriptor>
+11-13 16:45:42.841 W/JavaBinder(15423): BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.tencent.mm.ipcinvoker.c$$a
+11-13 16:45:42.841 I/BpBinder(15423): onLastStrongRef automatically unlinking death recipients: <uncached descriptor>

@@ -1,5 +1,150 @@
 # CloudMusic · 文档 ↔ 代码核对与任务清单（2026-11-07 第三十三轮）
 
+> **★ 2026-11-13 第一百二十七批（`docs/12 §61.106`，新端点 `10.0.0.2:41971` 真机复测）：**
+> 不卸载直接 `install -r` 新 APK（15:47:15），历史 9 份证据每轮备份 +
+> `git restore` 零改写。初轮 8 格 **5 PASS / 3 FAIL**（§61.104 为 3/5）：
+> `aiff ×2` 转 PASS → §61.105② PCM 预置**真机闭环**；`wv ×2` / `ape-local`
+> 保持 PASS。`wma` 两轮诊断日志给出决定性根因：Media3 在 `init()` 后、
+> 首次 `read()` 前调用 `seek(0,0)`，旧 `AsfExtractor.seek()` 无条件跳过
+> `readHeader` → `endTracks`/`SeekMap` 永不下发；已修（参数未就绪回头部态）
+> + 1 例 JVM 回归。修复后复测仍 **5 PASS / 3 FAIL**，但真机见
+> `diag publish endTracks+seekMap`（容器层打通）、容器错误串消失，
+> 下游换成 wmav2 `Initialization failed`（`wmadec.c:80 block_align`）→
+> **解码器层待专项，wma 仍 FAIL**；`ape-remote` 8s→30s 仍 NOT READY，
+> 逐帧 seek 停在第 2 帧/1435 → 排除单纯时序不足。
+> 裁决 12/12（`device_run=true`）、全量 **60 套件 493 测试 0 失败**、
+> `check_source_contracts.py` 新增 §61.106 守护。
+> **不宣称 8 格已修复 / 全格式覆盖**；PASS 仅 READY(duration>0)+isPlaying。
+> 断点 `§61.105 → §61.106`；下一步：wmav2 参数专项 / ape-remote 逐帧 seek /
+> 带标签样本 ReplayGain 真机 / 跨曲 gapless 门面队列化。
+>
+
+> **★ 2026-11-13 第一百二十六批（`docs/12 §61.105`，用户四项计划表）：**
+> 「不要每次都问、按计划连续做完」→ 连续完成 ①→④ 的**纯离线批次**。
+> ① `AsfExtractor` 照 §61.94c 在 `readHeader` 就绪后下发
+> `endTracks()` + `SeekMap`（+1 例 JVM 回归）；② `pcm_s16be` 根因 =
+> `avcodec_open2` 对无 `AV_CODEC_CAP_CHANNEL_CONF` 的 audio decoder 强制
+> `ch_layout`（`PCM_DECODER_*` 只有 `DR1`），按 `av_get_bits_per_sample`
+> 收窄预置采样率/声道、压缩解码器零影响（静态判据 8/8）；
+> ③ 设备端点全部 offline → `ape-remote` 加长等待单格 **NOT RUN**
+> （8s→30s 复跑剧本已登记），15:00 两份 22 格旧矩阵副本不采信；
+> ④ ReplayGain 真接线（官方 metadata → 值对象 → `ExoPlayer.volume`，
+> 13 用例）/ gapless 跨曲 **BLOCKED**（single-handle 契约，
+> `GaplessPolicy` 钉可达性判据，不伪造队列接线）。
+> `test --offline` = **60 套件 / 491 测试 / 0 失败 0 错误 0 跳过**；
+> `assembleDebug` BUILD SUCCESSFUL / APK 49,649,741 B（两 ABI native 重编译）；
+> `check_source_contracts.py` 新增 §61.105 守护。
+> **真机回归全部 NOT RUN，不宣称 8 格已修复 / 全格式覆盖**。
+> 断点 `§61.104 → §61.105`；下一步：设备上线后装机 + 8 格复测
+> （wma / aiff / ape-remote）+ ReplayGain 真机音量验证。
+>
+
+> **★ 2026-11-13 第一百二十五批（`docs/12 §61.104`，用户「装机」授权）：**
+> 卸载旧 app → 装新 APK 成功（`lastUpdateTime 13:49:46`）。用户指正
+> 「43355 没掉线」属实：此前是本机 adb daemon 状态，重启 server 重连即 `device`。
+> 真机重跑 F3 `aiff/wma/ape/wv × 双路径` = **3 PASS / 5 FAIL**（历史 8 FAIL）：
+> `wv` 双路径 + `ape-local` PASS；`aiff ×2` = `FfmpegDecoderException /
+> DECODER_INIT_FAILED`（`pcm_s16be` 初始化，`format_supported=YES` 证明
+> MIME 映射生效）；`wma ×2` = `Loading finished before preparation is complete`
+> （AsfExtractor 未下发 `endTracks`/`SeekMap` 即 EOF）；`ape-remote` =
+> 无错误但窗口内未 READY。8 格均见 `CM-Factory extractors: 25`（4 自定义 +
+> 21 官方）。三层闭环第 ③ 层细化为**逐 decoder 运行时差异**：wavpack/ape
+> 可用、pcm_s16be 初始化失败、wmav2 未走到解码器。
+> 复测前备份 9 份历史证据、跑完 `git restore` 全部恢复，新结果另存独立文件；
+> `tools/b2_f3_retest_verdict.py` 10/10 PASS（`device_run=true`）。
+> **符号存在 ≠ 运行时可用；不宣称 8 格已修复**。断点 `§61.103 → §61.104`。
+> 下一步（需拍板）：① AsfExtractor 补 `endTracks`+`SeekMap`（JVM 单测先行）；
+> ② 查 `pcm_s16be` 的 `avcodec_open2` 是否需预置采样率/声道；
+> ③ `ape-remote` 加长等待重跑单格；④ ReplayGain / gapless 接线。
+>
+
+> **★ 2026-11-13 第一百二十四批（`docs/12 §61.103`，用户「继续」+ 新端点
+> `10.0.0.2:43355`）：Windows 宿主 FFmpeg 交叉编译与首个可构建 APK。**
+> ① FFmpeg 6.0 源码 10,234,012 B / 8117 entries 解压到 gitignore 目录；
+> NDK r27b 的 clang 是 bash 包装、GNU Make 4.3 可用。两处宿主适配：
+> PATH 须 MSYS `/c/...`（`C:/...` 被冒号拆开）；
+> `VERSION` 在 NTFS 上遮蔽 C++ `<version>` → 本地重命名 `VERSION.txt`。
+> 两 ABI configure+make+install 全 PASS，28 个 decoder 显式启用，六件 `.a` 齐备。
+> ② **`:app:assembleDebug --offline` 首次 BUILD SUCCESSFUL / 149 tasks /
+> APK 41,845,775 B**；`llvm-nm` 实扫 `libffmpegJNI.so` 命中 ape/wmav2/
+> wavpack/pcm_s16be 四个 decoder 符号（共 30 个），`§61.102` 三层闭环第 ③ 层
+> 在符号级成立。③ 装机被 `INSTALL_FAILED_UPDATE_INCOMPATIBLE`（旧 APK 签名
+> 不匹配）挡住；卸载会清 app 私有数据，按 `§61.92` 纪律**未卸载 / 未强装**，
+> **真机 F3 复测 NOT RUN**。符号存在 ≠ 运行时可用 ≠ 真机可播。
+> ④ 下一步**需用户明确授权卸载重装** → 备份 8 份历史 logcat 与
+> `l3-f3-matrix.json` → 跑 `--formats aiff,wma,ape,wv --paths local,remote`
+> → `git restore` 恢复历史并另存新证据 → 随后 ReplayGain / gapless 接线。
+> 断点 `§61.102 → §61.103`。
+>
+
+> **★ 2026-11-13 第一百二十三批（`docs/12 §61.102`，用户「继续」→ 容器缺口闭环）：**
+> **决定性发现**：`FfmpegLibrary.getCodecName()` 只映射标准 MimeTypes，
+> `audio/x-ape` / `audio/x-wma` 拿不到解码器（`FORMAT_UNSUPPORTED_SUBTYPE`），
+> 即 §61.94/97 的 Extractor 只解决容器解析一半。本批补 4 条 MIME→decoder 映射
+> （ape / wmav2 / wavpack / pcm_s16be），新增 `AiffExtractor`（FORM·COMM·SSND、
+> 80-bit 采样率 **48000Hz 勘误**）与 `WavpackExtractor`（563 变长块、诚实
+> `Unseekable`），四者全挂 `factoryWithApe()`；新增 7 用例（debug+release 14）全绿。
+> **`./gradlew test --offline` BUILD SUCCESSFUL / 58 套件 463 测试 / 0 失败 0 错误 0 跳过**，
+> `tools/b2_container_gap_audit.py` 14/14 PASS。FFmpeg 6.0 源码已备
+> （10,234,012 B / 8117 entries 完整），Windows 宿主交叉编译未执行 →
+> 三层闭环第 ③ 层（静态库启用 `ape/wmav2/wavpack/pcm_s16be` decoder）未完成，
+> **真机复测 NOT RUN / APK 仍不可构建 / 未装机未注入**。
+> 双轨口径、A3 G09 PARTIAL、舱不冻结不变。断点 `§61.101 → §61.102`。
+> 下一步：`build_ffmpeg.sh` Windows 宿主适配 → 两 ABI 静态库 → `assembleDebug`
+> → 装机重跑 F3 8 格；随后 ReplayGain / gapless 接线。
+>
+
+> **★ 2026-11-13 第一百二十二批（`docs/12 §61.101`，用户「按顺序继续」→ 1→4 推进）：**
+> ① **F3 8 FAIL 归因定案**：8/8 `UnrecognizedInputFormatException`、官方 21 个
+> Extractor、自定义工厂 0 命中 → **容器解析缺口**（非解码器 / 非取流）；
+> `tools/b2_f3_fail_attribution.py` 10/10 PASS、`device_run=false`、历史矩阵零改写。
+> 真机复测 **NOT RUN**：设备经 `adb pair` 重新上线，但重编 APK 需 FFmpeg 静态库
+> （`assembleDebug` 失败于 `libswresample.a`）。`aiff/wv` 容器规格已离线登记。
+> ② **本机全量基线首次跑通**：补 NDK `r27b/27.1.12297006`、CMake `3.22.1`、
+> `platforms;android-36` 官方基础版、media3 五制品缓存 →
+> `./gradlew test --offline` **BUILD SUCCESSFUL / 264 tasks / 52 套件 449 测试 /
+> 0 失败 0 错误 0 跳过**（历史 47/430 + 新增 5/19）。
+> ③ `core-model/PlaybackGain.kt` C-18 纯 JVM 值对象 + 9 用例全绿，
+> **无生产消费方 / 门面零改动 / 不宣称接回已完成**；gapless 与 P2 未实施。
+> ④ G09-B2 复测**不执行**（破坏性注入须显式指令 + `--i-confirm-injection`）。
+> 另修复 `1485ce0f` 的 `ApeExtractor.Log.i` JVM stub 回归（5 处改 `logI`）。
+> 双轨口径 / A3 G09 PARTIAL / 舱不冻结不变；**全量测试绿 ≠ APK 可构建 ≠ 真机可播**。
+> 断点 `§61.100 → §61.101`。下一步需拍板：FFmpeg 两 ABI 静态库交叉编译 →
+> 重编 APK → `ape/wma` 4 格复测；`aiff/wv` Extractor；ReplayGain / gapless 接线；
+> G09-B2 显式注入复测。
+>
+
+> **★ 2026-11-13 第一百二十一批（`docs/12 §61.100`，用户「拉取最新代码 /
+> 查看最近改动 / 了解进展 / 重新对齐文档和代码差异 / 继续开发任务」→ 纯离线）：**
+> `git pull --ff-only` `9375a247 → 1485ce0f`（35 提交 / 310 文件 /
+> +794047 −22270）。还原两条线：B2 播放内核 M1~M5 已于 `§61.92`
+> **F4-B2 正式验收 = PASS**（A3 终局 G01~G07 PASS / G08 作废降级 /
+> G09 PARTIAL）；reverse-engine Z 组 8348 入口 / 404896 指令全量翻译、
+> Z-11 覆盖率自洽、0 不一致。**双轨口径**：B2 现行 PASS，A 路线
+> （`§61.75` 终局）为历史档案 BLOCKED，互不覆盖。
+> 差异 D1~D10：`09/16/17` 自 `9375a247` 起回写链断裂、backlog 顶部停在
+> `§61.93`、章节编号 `61.84/61.91/61.93/61.94/61.97` 断链（只登记不补写
+> 历史正文）、`1485ce0f`（提交信息 `1`，ApeExtractor +113 行 / Asf sniff /
+> 移除 mimeType 透传 / Z-11 覆盖率）无文档批次、`§61.99` 注释错挂、
+> M1 过期注释（音效留空）、双轨口径、逆向线未入主文档、本机 NDK 缺失、
+> 本地记忆滞后。处置 = 全量回写 7 处 + 3 处注释口径修正（零行为改动）+
+> `tools/b2_realign_audit.py` + `check_source_contracts.py §61.100` 守护。
+> 验证：契约守护 PASS；`./gradlew test --offline` 因 `NDK not configured`
+> **BUILD FAILED**（47 套件 / 430 测试未验证、不伪造 SUCCESSFUL）；
+> `noAndroid=true` 纯 JVM 29 套件 / 260 测试 / 0 失败 0 错误 0 跳过。
+> **对齐 ≠ 验收**、零生产行为改动、历史证据零改写、未连 adb / 未联网 /
+> 不动解码器。正式断点 `§61.99 → §61.100`（补账，不是功能推进）。
+>
+> **★ 补记第一百一十九~一百二十批（`§61.94~§61.99`，此前仅代码 / 未入顶部）：**
+> `§61.94/94b/94c` ApeExtractor（尾部 tag、截断帧、SeekMap 延后至
+> readHeader + `endTracks`、8B APE 解码前缀）+ JVM 测试全 PASS；
+> `§61.97` AsfExtractor（WMA/ASF StreamProps / Data Packet）JVM 验证 PASS；
+> `§61.95/96/98/98b/99` 竞品音效挂接实证（自研 native PCM 引擎，
+> 零公开 PCM 入口 → 高级音效 P2 = capstone 专项）、WMA/ASF 容器布局、
+> `LoudnessEvaluator` 现成 ReplayGain 实现。F3 补 4 份样本后
+> **14 PASS / 8 FAIL / 3 NO_SAMPLE**，`§61.49` 旧矩阵为当时快照。
+>
+
 > **★ 2026-11-13 第一百一十八批（`docs/12 §61.93`，用户拍板「三块全部列入今晚
 > 无人值守目标、音效必须支持」）：T1 音效 P0 真机 PASS + T2 真实网络实测 PASS。**
 > ① **C7 口径演进**：音效从「降级占位 P4」升级为「必须支持」（用户拍板）。

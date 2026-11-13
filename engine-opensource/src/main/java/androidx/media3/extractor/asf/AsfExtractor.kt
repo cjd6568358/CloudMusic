@@ -44,6 +44,8 @@ class AsfExtractor : Extractor {
     private var blockAlign = 0
     private var wmaCodecTag = 0
     private var dataStart = 0L
+    /** §61.107：完整 WAVEFORMATEX（18B 头 + cbSize 尾部 codec-specific 数据）。 */
+    private var waveformatex = ByteArray(0)
 
     private var state = STATE_READ_HEADER
     private var currentPacket = 0L
@@ -62,9 +64,24 @@ class AsfExtractor : Extractor {
     }
 
     override fun init(output: ExtractorOutput) {
+        logW("§61.106 diag init called")
         this.output = output
         trackOutput = output.track(0, C.TRACK_TYPE_AUDIO)
-        output.seekMap(
+        // §61.105（照 §61.94c Ape 修法）：SeekMap 延后到 readHeader
+        // （packetSize / packetCount / playDuration / dataStart 全部就绪）后下发。
+        // init 期参数恒为 0 → isSeekable=false 且 duration=TIME_UNSET，
+        // Media3 的 PreparedState 在 seekMap() 时一次性捕获 duration，
+        // 会让 period 永不 prepared → "Loading finished before preparation is
+        // complete"（§61.104 真机 wma ×2 一手失败）。
+    }
+
+    /** §61.105：参数就绪后统一下发 endTracks + SeekMap（单轨也必须 endTracks）。 */
+    private fun publishTracksAndSeekMap() {
+        val out = output ?: return
+        logW("§61.106 diag publish endTracks+seekMap ps=%d count=%d durMs=%d start=%d"
+            .format(packetSize, packetCount, playDurationMs, dataStart))
+        out.endTracks()   // Media3 的 sampleQueuesBuilt 只在 endTracks 置位
+        out.seekMap(
             object : SeekMap {
                 override fun isSeekable(): Boolean =
                     packetSize > 0 && packetCount > 0
@@ -83,6 +100,18 @@ class AsfExtractor : Extractor {
     }
 
     override fun seek(position: Long, timeUs: Long) {
+        // §61.106 真机根因（一手 logcat `diag read enter state=1 pos=0`）：
+        // Media3 在 `init()` 之后、首次 `read()` 之前会调用 `seek(0, 0)`。
+        // 旧实现无条件把 state 推到 STATE_READ_PACKETS，此时 packetSize /
+        // packetCount / blockAlign 全为 0 → readPackets 立即 RESULT_END_OF_INPUT，
+        // readHeader 永不执行 → endTracks/seekMap 永不下发 →
+        // "Loading finished before preparation is complete"（§61.104/§61.106 wma×2）。
+        // 与 ApeExtractor.seek 同型：参数未就绪时回到头部解析态重走。
+        if (packetCount <= 0 || packetSize <= 0 || blockAlign <= 0 || dataStart <= 0) {
+            state = STATE_READ_HEADER
+            currentPacket = 0
+            return
+        }
         currentPacket = packetForTimeUs(timeUs)
         state = STATE_READ_PACKETS
     }
@@ -100,19 +129,37 @@ class AsfExtractor : Extractor {
             0L
         }
 
-    override fun read(input: ExtractorInput, seekPosition: PositionHolder): Int =
-        when (state) {
+    override fun read(input: ExtractorInput, seekPosition: PositionHolder): Int {
+        logW("§61.106 diag read enter state=%d pos=%d len=%d".format(
+            state, input.position, input.length))
+        return when (state) {
             STATE_READ_HEADER -> readHeader(input)
             STATE_READ_PACKETS -> readPackets(input)
             else -> Extractor.RESULT_END_OF_INPUT
         }
+    }
 
     /** Header Object children 遍历：FileProps / StreamProps 解析，其余跳过；随后进 Data Object。 */
     private fun readHeader(input: ExtractorInput): Int {
+        // §61.106 真机诊断：定位 readHeader 在何处提前 EOF（§61.105 修法在
+        // wma×2 真机未按预期生效，日志只有 sniff hit=true，故逐返回点留痕）。
+        logW("§61.106 diag readHeader enter pos=%d len=%d".format(
+            input.position, input.length))
         val guid = ByteArray(16)
-        if (!input.readFully(guid, 0, 16, true)) return Extractor.RESULT_END_OF_INPUT
-        if (!guid.contentEquals(ASF_HEADER_GUID)) return Extractor.RESULT_END_OF_INPUT
-        val hdrSize = readLeU64(input) ?: return Extractor.RESULT_END_OF_INPUT
+        if (!input.readFully(guid, 0, 16, true)) {
+            logW("§61.106 diag EOF @guid16 pos=%d".format(input.position))
+            return Extractor.RESULT_END_OF_INPUT
+        }
+        if (!guid.contentEquals(ASF_HEADER_GUID)) {
+            logW("§61.106 diag header GUID mismatch pos=%d head=%s".format(
+                input.position, guid.take(8).joinToString("") { "%02x".format(it) }))
+            return Extractor.RESULT_END_OF_INPUT
+        }
+        val hdrSize = readLeU64(input) ?: run {
+            logW("§61.106 diag EOF @hdrSize pos=%d".format(input.position))
+            return Extractor.RESULT_END_OF_INPUT
+        }
+        logW("§61.106 diag hdrSize=%d pos=%d".format(hdrSize, input.position))
         var pos = 30L
         var sawStreamProps = false
 
@@ -122,15 +169,23 @@ class AsfExtractor : Extractor {
         val inputLen = input.length
         while (pos < hdrSize) {
             val childGuid = ByteArray(16)
-            if (!input.readFully(childGuid, 0, 16, true)) return Extractor.RESULT_END_OF_INPUT
-            val childSize = readLeU64(input) ?: return Extractor.RESULT_END_OF_INPUT
+            if (!input.readFully(childGuid, 0, 16, true)) {
+                logW("§61.106 diag EOF @childGuid pos=%d cur=%d".format(pos, input.position))
+                return Extractor.RESULT_END_OF_INPUT
+            }
+            val childSize = readLeU64(input) ?: run {
+                logW("§61.106 diag EOF @childSize pos=%d cur=%d".format(pos, input.position))
+                return Extractor.RESULT_END_OF_INPUT
+            }
             if (childSize < 24 || (inputLen > 0 && childSize > inputLen)) {
-                logW("非法 child size=$childSize @pos=$pos inputLen=$inputLen")
+                logW("§61.106 diag 非法 child size=$childSize @pos=$pos inputLen=$inputLen")
                 return Extractor.RESULT_END_OF_INPUT
             }
             val bodyLen = (childSize - 24).toInt()
             val body = ByteArray(bodyLen.coerceAtLeast(0))
             if (bodyLen > 0 && !input.readFully(body, 0, bodyLen, true)) {
+                logW("§61.106 diag EOF @childBody size=%d pos=%d cur=%d".format(
+                    childSize, pos, input.position))
                 return Extractor.RESULT_END_OF_INPUT
             }
             when {
@@ -155,6 +210,11 @@ class AsfExtractor : Extractor {
                                 .setSampleRate(sampleRate)
                                 .setChannelCount(channels)
                                 .setCodecs("wmav2")
+                                // §61.107：wmav1/wmav2 需要 WAVEFORMATEX 尾部
+                                // codec-specific 字节作 extradata + block_align/
+                                // bit_rate 预置（wmadec.c 文件头 / wma.c ff_wma_init）。
+                                // 这里传容器原生结构，由 ffmpeg_jni.cc 适配到 FFmpeg。
+                                .setInitializationData(listOf(waveformatex))
                                 .build(),
                         )
                     }
@@ -170,15 +230,20 @@ class AsfExtractor : Extractor {
 
         // Data Object：GUID 75B22636… + size(8) + file_id(16) + packets(8) + reserved(2) = 50B
         val g = ByteArray(16)
-        if (!input.readFully(g, 0, 16, true)) return Extractor.RESULT_END_OF_INPUT
+        if (!input.readFully(g, 0, 16, true)) {
+            logW("§61.106 diag EOF @dataGuid cur=%d".format(input.position))
+            return Extractor.RESULT_END_OF_INPUT
+        }
         if (!g.contentEquals(DATA_GUID)) {
-            logW("Data Object GUID 不符：%s".format(g.contentToString()))
+            logW("§61.106 diag Data Object GUID 不符：%s".format(g.contentToString()))
             return Extractor.RESULT_END_OF_INPUT
         }
         input.skipFully(34)   // size(8) + file_id(16) + total_packets(8) + reserved(2)
         dataStart = input.position
         logW("data object ready start=%d packets=%d ps=%d align=%d rate=%d"
             .format(dataStart, packetCount, packetSize, blockAlign, sampleRate))
+        // §61.105：此刻 Format 已下发、包参数与 dataStart 全部就绪。
+        publishTracksAndSeekMap()
         state = STATE_READ_PACKETS
         currentPacket = 0
         return Extractor.RESULT_CONTINUE
@@ -214,7 +279,13 @@ class AsfExtractor : Extractor {
         sampleRate = readLeU32At(body, tagIdx + 4).toInt()
         // WAVEFORMATEX: wftag(2) ch(2) rate(4) avg(4) → blockAlign(2) @ tagIdx+12
         blockAlign = readLeU16At(body, tagIdx + 12).toInt()
-        return blockAlign > 0 && sampleRate > 0
+        // §61.107：cbSize @ WAVEFORMATEX+16 是尾部 codec-specific 字节数；
+        // 保留完整结构（≥18B）交给 JNI，供 wmav2 取前 6B 作 extradata 并解析
+        // nAvgBytesPerSec / nBlockAlign / nChannels / nSamplesPerSec。
+        val cbSize = if (tagIdx + 18 <= body.size) readLeU16At(body, tagIdx + 16) else 0
+        val wfxLen = (18 + cbSize).coerceIn(18, body.size - tagIdx)
+        waveformatex = body.copyOfRange(tagIdx, tagIdx + wfxLen)
+        return blockAlign > 0 && sampleRate > 0 && waveformatex.size >= 18
     }
 
     /** 逐包：读包头 27B（send/delta），投递包尾 block_align 字节的 WMA 帧。 */
@@ -227,8 +298,23 @@ class AsfExtractor : Extractor {
         val sendMs = (readLeU32At(head, 6) and 0xFFFFFFFFL)
         val deltaMs = readLeU32At(head, 23) and 0xFFFFFFFFL
 
-        val fed = trackOutput?.sampleData(input, blockAlign, true) ?: 0
+        // §61.107：包长 packetSize(5976) ≠ 包头 27B + blockAlign(5945) = 5972，
+        // 余下 4B 是 ASF 包尾 padding；旧实现不跳 → 逐包漂移（真机日志
+        // pos=4975→10947→… 每包少 4B），并可能把截断帧交给 wmav2。
+        // 改为循环读满 blockAlign + 显式跳过 padding，保证包边界对齐。
+        var fed = 0
+        var remaining = blockAlign
+        while (remaining > 0) {
+            val n = runCatching {
+                trackOutput?.sampleData(input, remaining, false) ?: -1
+            }.getOrDefault(-1)
+            if (n <= 0) break
+            fed += n
+            remaining -= n
+        }
         if (fed <= 0) return Extractor.RESULT_END_OF_INPUT
+        val padding = packetSize - 27 - blockAlign
+        if (padding > 0) runCatching { input.skipFully(padding) }
         val timeUs = (sendMs + deltaMs) * 1000
         trackOutput?.sampleMetadata(timeUs, C.BUFFER_FLAG_KEY_FRAME, fed, 0, null)
         currentPacket++

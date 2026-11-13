@@ -1,0 +1,316 @@
+--------- beginning of main
+11-12 07:21:22.523 I/MediaFocusControl( 2428): requestAudioFocus() from uid/pid 10316/26688 AA=USAGE_MEDIA/CONTENT_TYPE_MUSIC clientId=android.media.AudioManager@a8114efcom.example.cloudmusic.PlaybackService$$ExternalSyntheticLambda0@d30ebfc callingPack=com.example.cloudmusic req=1 flags=0x0 sdk=35
+11-12 07:21:22.523 I/AudioService.FadeOutManager( 2428): unfadeOutUid() uid:10316
+11-12 07:21:22.524 D/ThermalScenarioManager( 9022): additional: 1000000000000000000000000000000000000000000000000000
+11-12 07:21:22.524 V/Avrcp_ext( 4602): onPlaybackStateChanged: state PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=2568002, actions=54, custom actions=[], active item id=-1, error=null}
+11-12 07:21:22.524 D/ThermalScenarioManager( 9022): handleMessage 12
+11-12 07:21:22.524 D/ThermalScenarioManager( 9022): current: ScenarioName: 0
+11-12 07:21:22.524 D/ThermalScenarioManager( 9022): Element list : 97	97	98	98	99	99	99	99	99	99	99	99	99	99	99	99	99	99	99	
+11-12 07:21:22.524 D/ThermalScenarioManager( 9022): match scenario 0
+11-12 07:21:22.525 V/Avrcp_ext( 4602): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@fee2bbe) null
+11-12 07:21:22.525 V/Avrcp_ext( 4602): updateCurrentMediaState: isPlaying = false
+11-12 07:21:22.525 W/Avrcp_ext( 4602): isMusicActive: false getBluetoothPlayState: 2 A2dp State: 11 mAudioPlaybackIsActive: false
+11-12 07:21:22.525 D/Avrcp_ext( 4602): isMusicActive = false mAudioPlaybackIsActive = false player state = PlaybackState {state=3, position=2, buffered position=0, speed=1.0, updated=2568004, actions=54, custom actions=[], active item id=-1, error=null}
+11-12 07:21:22.525 V/Avrcp_ext( 4602): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-12 07:21:22.525 D/Avrcp_ext( 4602): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-12 07:21:22.525 V/Avrcp_ext( 4602): isBrowseSupported for com.example.cloudmusic: false
+11-12 07:21:22.525 V/Avrcp_ext( 4602): updatePlaybackState, state: PlaybackState {state=3, position=2, buffered position=0, speed=1.0, updated=2568004, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-12 07:21:22.525 V/Avrcp_ext( 4602): Device: no name: 
+11-12 07:21:22.525 V/Avrcp_ext( 4602): Device: no name: 
+11-12 07:21:22.525 V/Avrcp_ext( 4602): Device: no name: 
+11-12 07:21:22.525 V/Avrcp_ext( 4602): Device: no name: 
+11-12 07:21:22.525 V/Avrcp_ext( 4602): Device: no name: 
+11-12 07:21:22.525 V/Avrcp_ext( 4602): updatePlayerStateAndPosition, old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=2567289, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=2, buffered position=0, speed=1.0, updated=2568004, actions=54, custom actions=[], active item id=-1, error=null}
+11-12 07:21:22.525 V/Avrcp_ext( 4602): old state = PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=2567289, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=2, buffered position=0, speed=1.0, updated=2568004, actions=54, custom actions=[], active item id=-1, error=null}
+11-12 07:21:22.525 D/HeadsetService( 4602): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@4db5cc5
+11-12 07:21:22.525 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.525 D/HeadsetService( 4602): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-12 07:21:22.525 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.525 V/Avrcp_ext( 4602): isPlayStateTobeUpdated: device: null
+11-12 07:21:22.525 V/Avrcp_ext( 4602): Single connection exists
+11-12 07:21:22.525 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.525 D/HeadsetService( 4602): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-12 07:21:22.525 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.525 V/Avrcp_ext( 4602): isPlayStateTobeUpdated: device: null
+11-12 07:21:22.525 V/Avrcp_ext( 4602): Single connection exists
+11-12 07:21:22.525 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.525 D/HeadsetService( 4602): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-12 07:21:22.525 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.525 V/Avrcp_ext( 4602): isPlayStateTobeUpdated: device: null
+11-12 07:21:22.525 V/Avrcp_ext( 4602): Single connection exists
+11-12 07:21:22.525 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.525 D/HeadsetService( 4602): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-12 07:21:22.525 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.525 V/Avrcp_ext( 4602): isPlayStateTobeUpdated: device: null
+11-12 07:21:22.525 V/Avrcp_ext( 4602): Single connection exists
+11-12 07:21:22.525 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.525 D/HeadsetService( 4602): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-12 07:21:22.525 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.525 V/Avrcp_ext( 4602): isPlayStateTobeUpdated: device: null
+11-12 07:21:22.525 V/Avrcp_ext( 4602): Single connection exists
+11-12 07:21:22.525 I/Avrcp_ext( 4602): No active device found, update playstate to stack
+11-12 07:21:22.525 E/BluetoothAvrcpServiceJni( 4602): updatePlayStatusToStack
+11-12 07:21:22.525 E/bt_btif ( 4602): update_play_status_to_stack:invalid index,remote suspend not set
+11-12 07:21:22.525 E/BluetoothAvrcpServiceJni( 4602): updatePlayStatusToStack: status: 1
+11-12 07:21:22.525 D/Avrcp_ext( 4602): Enter sendPlayPosNotificationRsp
+11-12 07:21:22.525 D/Avrcp_ext( 4602): sendPlayPosNotificationRsp: Not registered or requesting.
+11-12 07:21:22.525 D/Avrcp_ext( 4602): Enter sendPlayPosNotificationRsp
+11-12 07:21:22.525 D/Avrcp_ext( 4602): sendPlayPosNotificationRsp: Not registered or requesting.
+11-12 07:21:22.525 D/Avrcp_ext( 4602): Enter sendPlayPosNotificationRsp
+11-12 07:21:22.525 D/Avrcp_ext( 4602): sendPlayPosNotificationRsp: Not registered or requesting.
+11-12 07:21:22.525 D/Avrcp_ext( 4602): Enter sendPlayPosNotificationRsp
+11-12 07:21:22.525 D/Avrcp_ext( 4602): sendPlayPosNotificationRsp: Not registered or requesting.
+11-12 07:21:22.525 D/Avrcp_ext( 4602): Enter sendPlayPosNotificationRsp
+11-12 07:21:22.525 D/Avrcp_ext( 4602): sendPlayPosNotificationRsp: Not registered or requesting.
+11-12 07:21:22.525 V/Avrcp_ext( 4602): Exit updatePlayerStateAndPosition
+11-12 07:21:22.525 V/Avrcp_ext( 4602):  Exit onPlaybackStateChanged
+11-12 07:21:22.526 D/MediaDataManager( 4817): State updated outside of notification
+11-12 07:21:22.526 I/MediaCarouselController( 4817): media_data_arrive: addOrUpdatePlayer
+11-12 07:21:22.527 I/MiuiMediaControlPanel( 4817): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 曲库就绪
+11-12 07:21:22.550 I/CM-Media3(26688): prepare trackId=0fdbe94332c6cf5a863682ac843b4ccb remote=true url=http://127.0.0.1:8765/f3_aiff.aiff localPath=- expectedLength=0 engine=media3-1.11.1 ffmpeg=EXTENSION_RENDERER_MODE_ON
+11-12 07:21:22.563 I/ExoPlayerImpl(26688): Init 22db201 [AndroidXMedia3/1.11.1] [mondrian, 23013RK75C, Xiaomi, 33]
+11-12 07:21:22.570 I/DefaultRenderersFactory(26688): Loaded FfmpegVideoRenderer.
+11-12 07:21:22.575 I/DefaultRenderersFactory(26688): Loaded FfmpegAudioRenderer.
+11-12 07:21:22.594 I/CM-Media3(26688): state=BUFFERING
+11-12 07:21:22.594 D/AudioFlinger( 1481): updateWakeLockUids_l AudioOut_D uids:
+11-12 07:21:22.594 D/AudioFlinger( 1481): updateWakeLockUids_l AudioOut_15 uids:
+11-12 07:21:22.594 D/AudioFlinger( 1481): PlaybackThread::ioConfigChanged, thread 0xb400007a3d728680, event 0
+11-12 07:21:22.594 D/AudioFlinger( 1481): PlaybackThread::ioConfigChanged, thread 0xb400007a21cd0540, event 0
+11-12 07:21:22.595 D/AudioFlinger( 1481): updateWakeLockUids_l AudioOut_1D uids:
+11-12 07:21:22.595 D/AudioFlinger( 1481): PlaybackThread::ioConfigChanged, thread 0xb400007a21d7dec0, event 0
+11-12 07:21:22.595 D/AudioFlinger( 1481): updateWakeLockUids_l AudioOut_4D uids:
+11-12 07:21:22.595 D/AudioFlinger( 1481): PlaybackThread::ioConfigChanged, thread 0xb400007a21e6d080, event 0
+11-12 07:21:22.595 D/AudioFlinger( 1481): updateWakeLockUids_l AudioOut_3D uids:
+11-12 07:21:22.595 D/AudioFlinger( 1481): PlaybackThread::ioConfigChanged, thread 0xb400007a21e1cdc0, event 0
+11-12 07:21:22.604 D/TrafficStats(26688): tagSocket(154) with statsTag=0x33a, statsUid=-1
+11-12 07:21:22.606 V/Avrcp_ext( 4602): onPlaybackStateChanged: state PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=2568084, actions=54, custom actions=[], active item id=-1, error=null}
+11-12 07:21:22.608 V/Avrcp_ext( 4602): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@fee2bbe) null
+11-12 07:21:22.608 V/Avrcp_ext( 4602): updateCurrentMediaState: isPlaying = false
+11-12 07:21:22.608 W/Avrcp_ext( 4602): isMusicActive: false getBluetoothPlayState: 1 A2dp State: 11 mAudioPlaybackIsActive: false
+11-12 07:21:22.608 D/Avrcp_ext( 4602): isMusicActive = false mAudioPlaybackIsActive = false player state = PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=2568087, actions=54, custom actions=[], active item id=-1, error=null}
+11-12 07:21:22.609 V/Avrcp_ext( 4602): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-12 07:21:22.609 D/Avrcp_ext( 4602): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-12 07:21:22.609 V/Avrcp_ext( 4602): isBrowseSupported for com.example.cloudmusic: false
+11-12 07:21:22.609 V/Avrcp_ext( 4602): updatePlaybackState, state: PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=2568087, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-12 07:21:22.609 V/Avrcp_ext( 4602): Device: no name: 
+11-12 07:21:22.609 V/Avrcp_ext( 4602): Device: no name: 
+11-12 07:21:22.609 V/Avrcp_ext( 4602): Device: no name: 
+11-12 07:21:22.609 V/Avrcp_ext( 4602): Device: no name: 
+11-12 07:21:22.609 V/Avrcp_ext( 4602): Device: no name: 
+11-12 07:21:22.609 V/Avrcp_ext( 4602): updatePlayerStateAndPosition, old=PlaybackState {state=3, position=2, buffered position=0, speed=1.0, updated=2568004, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=2568087, actions=54, custom actions=[], active item id=-1, error=null}
+11-12 07:21:22.609 V/Avrcp_ext( 4602): old state = PlaybackState {state=3, position=2, buffered position=0, speed=1.0, updated=2568004, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=2568087, actions=54, custom actions=[], active item id=-1, error=null}
+11-12 07:21:22.609 D/HeadsetService( 4602): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@4db5cc5
+11-12 07:21:22.609 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.609 D/HeadsetService( 4602): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-12 07:21:22.609 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.609 V/Avrcp_ext( 4602): isPlayStateTobeUpdated: device: null
+11-12 07:21:22.609 V/Avrcp_ext( 4602): Single connection exists
+11-12 07:21:22.609 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.609 D/HeadsetService( 4602): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-12 07:21:22.609 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.609 V/Avrcp_ext( 4602): isPlayStateTobeUpdated: device: null
+11-12 07:21:22.609 V/Avrcp_ext( 4602): Single connection exists
+11-12 07:21:22.609 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.609 D/HeadsetService( 4602): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-12 07:21:22.609 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.609 V/Avrcp_ext( 4602): isPlayStateTobeUpdated: device: null
+11-12 07:21:22.609 V/Avrcp_ext( 4602): Single connection exists
+11-12 07:21:22.609 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.609 D/HeadsetService( 4602): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-12 07:21:22.609 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.609 V/Avrcp_ext( 4602): isPlayStateTobeUpdated: device: null
+11-12 07:21:22.609 V/Avrcp_ext( 4602): Single connection exists
+11-12 07:21:22.609 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.609 D/HeadsetService( 4602): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-12 07:21:22.609 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.609 V/Avrcp_ext( 4602): isPlayStateTobeUpdated: device: null
+11-12 07:21:22.609 V/Avrcp_ext( 4602): Single connection exists
+11-12 07:21:22.609 D/Avrcp_ext( 4602): Enter sendPlayPosNotificationRsp
+11-12 07:21:22.609 D/Avrcp_ext( 4602): sendPlayPosNotificationRsp: Not registered or requesting.
+11-12 07:21:22.609 D/Avrcp_ext( 4602): Enter sendPlayPosNotificationRsp
+11-12 07:21:22.609 D/Avrcp_ext( 4602): sendPlayPosNotificationRsp: Not registered or requesting.
+11-12 07:21:22.609 D/Avrcp_ext( 4602): Enter sendPlayPosNotificationRsp
+11-12 07:21:22.609 D/Avrcp_ext( 4602): sendPlayPosNotificationRsp: Not registered or requesting.
+11-12 07:21:22.609 D/Avrcp_ext( 4602): Enter sendPlayPosNotificationRsp
+11-12 07:21:22.609 D/Avrcp_ext( 4602): sendPlayPosNotificationRsp: Not registered or requesting.
+11-12 07:21:22.609 D/Avrcp_ext( 4602): Enter sendPlayPosNotificationRsp
+11-12 07:21:22.609 D/Avrcp_ext( 4602): sendPlayPosNotificationRsp: Not registered or requesting.
+11-12 07:21:22.609 V/Avrcp_ext( 4602): Exit updatePlayerStateAndPosition
+11-12 07:21:22.609 V/Avrcp_ext( 4602):  Exit onPlaybackStateChanged
+--------- beginning of system
+11-12 07:21:22.723 W/DevicePolicyManager( 2428): Unknown user type: UserInfo{999:XSpace:801010}
+11-12 07:21:22.723 W/DevicePolicyManager( 2428): Unknown user type: UserInfo{999:XSpace:801010}
+11-12 07:21:22.727 D/MiBarrage( 7396): The sbn packageName is :com.example.cloudmusic
+11-12 07:21:22.727 D/MiBarrage( 7396): No barrage: not in game scene or in video scene
+11-12 07:21:22.727 I/NotificationController( 5656): onNotificationPosted: mSmartTravelNotificationMap 0
+11-12 07:21:22.736 I/MediaCarouselController( 4817): media_data_arrive: addOrUpdatePlayer
+11-12 07:21:22.737 I/MiuiMediaControlPanel( 4817): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 播放服务运行中
+11-12 07:21:22.822 E/ExoPlayerImplInternal(26688): Playback error
+11-12 07:21:22.822 E/ExoPlayerImplInternal(26688):   androidx.media3.exoplayer.ExoPlaybackException: Source error
+11-12 07:21:22.822 E/ExoPlayerImplInternal(26688):       at androidx.media3.exoplayer.ExoPlayerImplInternal.handleIoException(ExoPlayerImplInternal.java:1021)
+11-12 07:21:22.822 E/ExoPlayerImplInternal(26688):       at androidx.media3.exoplayer.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:991)
+11-12 07:21:22.822 E/ExoPlayerImplInternal(26688):       at android.os.Handler.dispatchMessage(Handler.java:102)
+11-12 07:21:22.822 E/ExoPlayerImplInternal(26688):       at android.os.Looper.loopOnce(Looper.java:210)
+11-12 07:21:22.822 E/ExoPlayerImplInternal(26688):       at android.os.Looper.loop(Looper.java:299)
+11-12 07:21:22.822 E/ExoPlayerImplInternal(26688):       at android.os.HandlerThread.run(HandlerThread.java:67)
+11-12 07:21:22.822 E/ExoPlayerImplInternal(26688):   Caused by: androidx.media3.exoplayer.source.UnrecognizedInputFormatException: None of the available extractors (FlvExtractor, FlacExtractor, WavExtractor, FragmentedMp4Extractor, Mp4Extractor, AmrExtractor, PsExtractor, OggExtractor, TsExtractor, MatroskaExtractor, AdtsExtractor, Ac3Extractor, Ac4Extractor, Mp3Extractor, AviExtractor, JpegExtractor, PngExtractor, WebpExtractor, BmpExtractor, HeifExtractor, AvifExtractor) could read the stream. {contentIsMalformed=false, dataType=1}
+11-12 07:21:22.822 E/ExoPlayerImplInternal(26688):   sniff failures: [NoDeclaredBrand, NoDeclaredBrand]
+11-12 07:21:22.822 E/ExoPlayerImplInternal(26688):       at androidx.media3.exoplayer.source.BundledExtractorsAdapter.init(BundledExtractorsAdapter.java:110)
+11-12 07:21:22.822 E/ExoPlayerImplInternal(26688):       at androidx.media3.exoplayer.source.ProgressiveMediaPeriod$ExtractingLoadable.load(ProgressiveMediaPeriod.java:1315)
+11-12 07:21:22.822 E/ExoPlayerImplInternal(26688):       at androidx.media3.exoplayer.upstream.Loader$LoadTask.run(Loader.java:453)
+11-12 07:21:22.822 E/ExoPlayerImplInternal(26688):       at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
+11-12 07:21:22.822 E/ExoPlayerImplInternal(26688):       at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+11-12 07:21:22.822 E/ExoPlayerImplInternal(26688):       at java.lang.Thread.run(Thread.java:1012)
+11-12 07:21:22.824 I/CM-Media3(26688): error=Source error code=ERROR_CODE_PARSING_CONTAINER_UNSUPPORTED
+11-12 07:21:22.824 I/CM-Media3(26688): engine_error=Source error code=E_DS_UPSTREAM_MEDIA3_PLAYBACK
+11-12 07:21:22.824 D/ThermalScenarioManager( 9022): additional: 0
+11-12 07:21:22.824 I/CM-Media3(26688): state=IDLE
+11-12 07:21:22.825 V/Avrcp_ext( 4602): onPlaybackStateChanged: state PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=2568303, actions=54, custom actions=[], active item id=-1, error=null}
+11-12 07:21:22.825 W/Binder  ( 9022): Caught a RuntimeException from the binder stub implementation.
+11-12 07:21:22.825 W/Binder  ( 9022): java.lang.StringIndexOutOfBoundsException: length=1; index=-2
+11-12 07:21:22.825 W/Binder  ( 9022): 	at java.lang.String.charAt(Native Method)
+11-12 07:21:22.825 W/Binder  ( 9022): 	at c1.a$a.onCurrentScenarioChanged(Unknown Source:63)
+11-12 07:21:22.825 W/Binder  ( 9022): 	at miui.smartpower.IScenarioCallback$Stub.onTransact(IScenarioCallback.java:72)
+11-12 07:21:22.825 W/Binder  ( 9022): 	at android.os.Binder.execTransactInternal(Binder.java:1290)
+11-12 07:21:22.825 W/Binder  ( 9022): 	at android.os.Binder.execTransact(Binder.java:1249)
+11-12 07:21:22.825 V/Avrcp_ext( 4602): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@fee2bbe) null
+11-12 07:21:22.825 V/Avrcp_ext( 4602): updateCurrentMediaState: isPlaying = false
+11-12 07:21:22.825 W/Avrcp_ext( 4602): isMusicActive: false getBluetoothPlayState: 1 A2dp State: 11 mAudioPlaybackIsActive: false
+11-12 07:21:22.825 D/Avrcp_ext( 4602): isMusicActive = false mAudioPlaybackIsActive = false player state = PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=2568303, actions=54, custom actions=[], active item id=-1, error=null}
+11-12 07:21:22.825 V/Avrcp_ext( 4602): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-12 07:21:22.825 D/Avrcp_ext( 4602): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-12 07:21:22.825 V/Avrcp_ext( 4602): isBrowseSupported for com.example.cloudmusic: false
+11-12 07:21:22.825 V/Avrcp_ext( 4602): updatePlaybackState, state: PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=2568303, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-12 07:21:22.825 V/Avrcp_ext( 4602): Device: no name: 
+11-12 07:21:22.825 V/Avrcp_ext( 4602): Device: no name: 
+11-12 07:21:22.825 V/Avrcp_ext( 4602): Device: no name: 
+11-12 07:21:22.826 V/Avrcp_ext( 4602): Device: no name: 
+11-12 07:21:22.826 V/Avrcp_ext( 4602): Device: no name: 
+11-12 07:21:22.826 V/Avrcp_ext( 4602): updatePlayerStateAndPosition, old=PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=2568087, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=2568303, actions=54, custom actions=[], active item id=-1, error=null}
+11-12 07:21:22.826 V/Avrcp_ext( 4602): old state = PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=2568087, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=2568303, actions=54, custom actions=[], active item id=-1, error=null}
+11-12 07:21:22.826 D/HeadsetService( 4602): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@4db5cc5
+11-12 07:21:22.826 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.826 D/HeadsetService( 4602): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-12 07:21:22.826 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.826 D/MediaDataManager( 4817): State updated outside of notification
+11-12 07:21:22.826 I/Avrcp_ext( 4602): updatePlayStatusForDevice: device: null
+11-12 07:21:22.826 V/Avrcp_ext( 4602): updatePlaybackState (1): old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=2567289, actions=54, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=2568303, actions=54, custom actions=[], active item id=-1, error=null}(2)
+11-12 07:21:22.826 I/Avrcp_ext( 4602): Exit updatePlayStatusForDevice
+11-12 07:21:22.826 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.826 D/HeadsetService( 4602): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-12 07:21:22.826 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.826 I/Avrcp_ext( 4602): updatePlayStatusForDevice: device: null
+11-12 07:21:22.826 V/Avrcp_ext( 4602): updatePlaybackState (1): old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=2567289, actions=54, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=2568303, actions=54, custom actions=[], active item id=-1, error=null}(2)
+11-12 07:21:22.826 I/Avrcp_ext( 4602): Exit updatePlayStatusForDevice
+11-12 07:21:22.826 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.826 D/HeadsetService( 4602): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-12 07:21:22.826 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.826 I/Avrcp_ext( 4602): updatePlayStatusForDevice: device: null
+11-12 07:21:22.826 V/Avrcp_ext( 4602): updatePlaybackState (1): old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=2567289, actions=54, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=2568303, actions=54, custom actions=[], active item id=-1, error=null}(2)
+11-12 07:21:22.826 I/Avrcp_ext( 4602): Exit updatePlayStatusForDevice
+11-12 07:21:22.826 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.826 D/HeadsetService( 4602): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-12 07:21:22.826 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.826 I/Avrcp_ext( 4602): updatePlayStatusForDevice: device: null
+11-12 07:21:22.826 V/Avrcp_ext( 4602): updatePlaybackState (1): old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=2567289, actions=54, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=2568303, actions=54, custom actions=[], active item id=-1, error=null}(2)
+11-12 07:21:22.826 I/Avrcp_ext( 4602): Exit updatePlayStatusForDevice
+11-12 07:21:22.826 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.826 D/HeadsetService( 4602): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-12 07:21:22.826 D/HeadsetService( 4602):  isAudioOn: The number of audio connected devices 0
+11-12 07:21:22.826 I/Avrcp_ext( 4602): updatePlayStatusForDevice: device: null
+11-12 07:21:22.826 V/Avrcp_ext( 4602): updatePlaybackState (1): old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=2567289, actions=54, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=2568303, actions=54, custom actions=[], active item id=-1, error=null}(2)
+11-12 07:21:22.826 I/Avrcp_ext( 4602): Exit updatePlayStatusForDevice
+11-12 07:21:22.826 D/Avrcp_ext( 4602): Enter sendPlayPosNotificationRsp
+11-12 07:21:22.826 D/Avrcp_ext( 4602): sendPlayPosNotificationRsp: Not registered or requesting.
+11-12 07:21:22.826 D/Avrcp_ext( 4602): Enter sendPlayPosNotificationRsp
+11-12 07:21:22.826 D/Avrcp_ext( 4602): sendPlayPosNotificationRsp: Not registered or requesting.
+11-12 07:21:22.826 D/Avrcp_ext( 4602): Enter sendPlayPosNotificationRsp
+11-12 07:21:22.826 D/Avrcp_ext( 4602): sendPlayPosNotificationRsp: Not registered or requesting.
+11-12 07:21:22.826 D/Avrcp_ext( 4602): Enter sendPlayPosNotificationRsp
+11-12 07:21:22.826 D/Avrcp_ext( 4602): sendPlayPosNotificationRsp: Not registered or requesting.
+11-12 07:21:22.826 D/Avrcp_ext( 4602): Enter sendPlayPosNotificationRsp
+11-12 07:21:22.826 D/Avrcp_ext( 4602): sendPlayPosNotificationRsp: Not registered or requesting.
+11-12 07:21:22.826 V/Avrcp_ext( 4602): Exit updatePlayerStateAndPosition
+11-12 07:21:22.826 V/Avrcp_ext( 4602):  Exit onPlaybackStateChanged
+11-12 07:21:22.827 I/MediaCarouselController( 4817): media_data_arrive: addOrUpdatePlayer
+11-12 07:21:22.827 I/MiuiMediaControlPanel( 4817): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 播放服务运行中
+11-12 07:21:23.064 W/ConstraintSet( 4817): id unknown center_vertical_guideline
+11-12 07:21:23.064 W/ConstraintSet( 4817): id unknown action_button_guideline
+11-12 07:21:23.065 W/ConstraintSet( 4817): id unknown media_action_barrier
+11-12 07:21:23.065 W/ConstraintSet( 4817): id unknown media_action_barrier_end
+11-12 07:21:23.065 W/ConstraintSet( 4817): id unknown media_action_barrier_top
+11-12 07:21:23.065 W/ConstraintSet( 4817): id unknown remove_text
+11-12 07:21:23.065 W/ConstraintSet( 4817): id unknown settings
+11-12 07:21:23.065 W/ConstraintSet( 4817): id unknown dismiss
+11-12 07:21:23.065 W/ConstraintSet( 4817): id unknown cancel
+11-12 07:21:23.106 I/AOSP-MdnsDiscoveryManag( 4413): (REDACTED) %s
+11-12 07:21:23.106 I/AOSP-MdnsDiscoveryManag( 4413): (REDACTED) %s
+11-12 07:21:23.106 I/AOSP-MdnsDiscoveryManag( 4413): (REDACTED) %s
+11-12 07:21:23.107 I/AOSP-MdnsDiscoveryManag( 4413): (REDACTED) %s
+11-12 07:21:23.107 W/AOSP-MdnsDiscoveryManag( 4413): Error while decoding multicast packet (971): 1 [CONTEXT service_id=168 ]
+11-12 07:21:23.107 I/AOSP-MdnsDiscoveryManag( 4413): (REDACTED) %s
+11-12 07:21:23.107 W/AOSP-MdnsDiscoveryManag( 4413): Error while decoding multicast packet (972): 1 [CONTEXT service_id=168 ]
+11-12 07:21:23.502 D/TrafficManageService( 7829): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-12 07:21:23.670 I/NetworkAccelerateSwitchService( 7618): EVENT_RSSI_POLL
+11-12 07:21:23.672 I/NetworkAccelerateSwitchService( 7618): getAverageWifiRssi:44
+11-12 07:21:23.678 W/adbd    ( 1921): timeout expired while flushing socket, closing
+11-12 07:21:23.686 W/ConstraintSet( 4817): id unknown center_vertical_guideline
+11-12 07:21:23.686 W/ConstraintSet( 4817): id unknown action_button_guideline
+11-12 07:21:23.686 W/ConstraintSet( 4817): id unknown media_action_barrier
+11-12 07:21:23.687 W/ConstraintSet( 4817): id unknown media_action_barrier_end
+11-12 07:21:23.687 W/ConstraintSet( 4817): id unknown media_action_barrier_top
+11-12 07:21:23.687 W/ConstraintSet( 4817): id unknown remove_text
+11-12 07:21:23.687 W/ConstraintSet( 4817): id unknown settings
+11-12 07:21:23.688 W/ConstraintSet( 4817): id unknown dismiss
+11-12 07:21:23.688 W/ConstraintSet( 4817): id unknown cancel
+11-12 07:21:23.967 I/SmartPower.com.miui.home/10128(4410)( 2428): background->idle(3001ms) R(broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }) adj=100.
+11-12 07:21:23.968 I/SmartPower( 2428): com.miui.home/10128 state=inactive adj=100 proc size=1 move to idle broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }
+11-12 07:21:24.097 D/AppPredictService( 7829): start doPredict com.example.cloudmusic
+11-12 07:21:24.097 I/AppPredictManager( 7829): predict: recentApps size = 5
+11-12 07:21:24.105 I/AppPredictPrivacyLaunchManager( 7829): getLauncherHomeAppList size: 120
+11-12 07:21:24.106 I/AppPredictResultHelper( 7829): updatePreferenceStore: size = 50
+11-12 07:21:24.107 I/AOSP-MdnsDiscoveryManag( 4413): (REDACTED) %s
+11-12 07:21:24.108 I/AOSP-MdnsDiscoveryManag( 4413): (REDACTED) %s
+11-12 07:21:24.108 I/AOSP-MdnsDiscoveryManag( 4413): (REDACTED) %s
+11-12 07:21:24.108 W/AOSP-MdnsDiscoveryManag( 4413): Error while decoding multicast packet (973): 1 [CONTEXT service_id=168 ]
+11-12 07:21:24.108 I/AOSP-MdnsDiscoveryManag( 4413): (REDACTED) %s
+11-12 07:21:24.109 W/AOSP-MdnsDiscoveryManag( 4413): Error while decoding multicast packet (974): 1 [CONTEXT service_id=168 ]
+11-12 07:21:24.109 I/AOSP-MdnsDiscoveryManag( 4413): (REDACTED) %s
+11-12 07:21:24.953 E/TaskPersister( 2428): File error accessing recents directory (directory doesn't exist?).
+11-12 07:21:25.237 D/TrafficManageService( 7829): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-12 07:21:25.392 I/MiuiNetworkPolicy( 2428): bandwidth: 578 KB/s, Max bandwidth: 593 KB/s
+11-12 07:21:25.514 W/AOSP-MdnsDiscoveryManag( 4413): Error while decoding multicast packet (975): 1 [CONTEXT service_id=168 ]
+11-12 07:21:25.673 I/NetworkAccelerateSwitchService( 7618): EVENT_RSSI_POLL
+11-12 07:21:25.675 I/NetworkAccelerateSwitchService( 7618): getAverageWifiRssi:44
+11-12 07:21:25.730 D/GreezeManager( 2428): FZ uid = 10252 reason =dl change success !
+11-12 07:21:25.731 D/GreezeManager( 2428): call socket destroy!
+11-12 07:21:25.735 D/MilletBrightHandler( 9022): frozen uids:[10252] reason = dl change
+11-12 07:21:25.735 D/MilletBrightHandler( 9022): frozen fail result:[10316] freeze fail:[]
+11-12 07:21:25.968 I/SmartPower( 2428): com.miui.home/10128 state=idle adj=100 proc size=1 move to hibernation broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }
+11-12 07:21:26.086 I/AICall_MemoryTrim$a(20990): Timer-64 trimMemory on background
+11-12 07:21:26.088 I/AICall_m0(20990): main invoke : null|80
+11-12 07:21:26.098 D/GreezeManager( 2428): call socket destroy!
+11-12 07:21:26.103 D/MilletBrightHandler( 9022): frozen uids:[10252] reason = tobg
+11-12 07:21:26.103 D/MilletBrightHandler( 9022): frozen fail result:[10316] freeze fail:[]
+11-12 07:21:27.042 D/MiuiNetworkPolicy( 2428): updateLimit mLimitEnabled=false,enabled=true,mNetworkPriorityMode=1
+11-12 07:21:27.360 D/ProfileInstaller(26688): Installing profile for com.example.cloudmusic
+11-12 07:21:27.676 I/NetworkAccelerateSwitchService( 7618): EVENT_RSSI_POLL
+11-12 07:21:27.679 I/NetworkAccelerateSwitchService( 7618): getAverageWifiRssi:44
+11-12 07:21:28.007 I/MiuiNetworkPolicy( 2428): updateUidState uid = 10115, uidState = 5
+11-12 07:21:28.335 I/ThermalObserver( 2428): Temperature control has been released.
+11-12 07:21:28.336 D/SLM-SRV-SLAService( 7618): checktemp temperature = 29981 temperature_average = 29576 isPerformanceMode = false thermal_enable_slm = true
+11-12 07:21:28.394 I/MiuiNetworkPolicy( 2428): bandwidth: 3 KB/s, Max bandwidth: 593 KB/s
+11-12 07:21:28.650 W/ThreadPoolForeg( 4413): type=1400 audit(0.0:2065): avc: denied { write } for name="traced_producer" dev="tmpfs" ino=1593 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 app=com.google.android.gms
+11-12 07:21:28.966 I/mstatdaemon( 2070): Entering time loop
+11-12 07:21:28.967 I/mstatdaemon( 2070): t = 1794439288
+11-12 07:21:28.967 I/mstatdaemon( 2070): translated_t = 1478449288
+11-12 07:21:28.967 I/mstat_log( 2070): mstatcommitLog log_alloc() failed
+11-12 07:21:29.336 I/mple.cloudmusic(26688): ProcessProfilingInfo new_methods=0 is saved saved_to_disk=0 resolve_classes_delay=8000
+11-12 07:21:29.646 D/FreezeBinder( 9022): isUidFrozen true uid=10252
+11-12 07:21:29.646 D/MilletUtils( 9022): changeFrozenStat change uid =10252 state=0
+11-12 07:21:29.682 I/NetworkAccelerateSwitchService( 7618): EVENT_RSSI_POLL
+11-12 07:21:29.685 I/NetworkAccelerateSwitchService( 7618): getAverageWifiRssi:44
+11-12 07:21:29.829 I/Finsky  ( 8896): [393] ksw.run(17): Stats for Executor: BlockingExecutor nfs@8f5aaf7[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 49]
+11-12 07:21:29.830 I/Finsky  ( 8896): [393] ksw.run(17): Stats for Executor: LightweightExecutor nfs@cbb3d64[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 179]
+11-12 07:21:29.989 I/Finsky  ( 8896): [393] ksw.run(17): Stats for Executor: bgExecutor nfs@7c5cbcd[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 826]
+11-12 07:21:30.238 W/ThreadPoolForeg(12456): type=1400 audit(0.0:2066): avc: denied { write } for name="traced_producer" dev="tmpfs" ino=1593 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 app=com.google.android.gms

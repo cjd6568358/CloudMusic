@@ -7,6 +7,8 @@ import android.os.Looper
 import android.util.Log
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
+import androidx.media3.common.Metadata
+import androidx.media3.common.Tracks
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.datasource.DefaultDataSource
@@ -17,6 +19,9 @@ import androidx.media3.datasource.cache.SimpleCache
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
+import androidx.media3.extractor.metadata.id3.CommentFrame
+import androidx.media3.extractor.metadata.id3.TextInformationFrame
+import androidx.media3.extractor.metadata.vorbis.VorbisComment
 import com.example.cloudmusic.common.CloudMusicError
 import com.example.cloudmusic.engine.api.EngineConfig
 import java.io.File
@@ -32,26 +37,42 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 /**
- * docs/12 §61.81 / B2 M1 · `IMusicEngine` 的 Media3/ExoPlayer 实现骨架。
+ * docs/12 §61.81（M1 起）· `IMusicEngine` 的 Media3/ExoPlayer 实现。
  *
- * 边界（**M1 骨架 ≠ B2 完成**）：
- * - 门面 [IMusicEngine] 14 方法签名逐字不变（03-06 §4），只新增实现；
- *   单点换绑在 `EngineModule.provideMusicEngine`，`:engine-legacy` /
- *   `EngineAdapter` 与 18 个私有 so 保留为回退（C5 本批不移除）。
- * - 本批只接 `url` / `localPath` 的官方 `MediaItem` + `ExoPlayer` 基础播放；
- *   `RangeCacheDataSource`（自研缓存 / Range / 代理回落）属 M3，此处只保存
- *   [IDataSource] 引用，**不伪造接线**。
- * - `setQuality` 与 `attachAudioEffect` 按 C7 默认假设留空实现并挂账
- *   （自研 DSP / 103 JNI 音效链不在 B2 复刻范围，基础 EQ 属 M4 / P4）。
- * - [EngineConfig] 的 `sampleRateHz` / `preferHardwareDecoder` / `bufferMs` /
- *   `autoSkipOnError` 本批不消费：平台 MediaCodec 硬解优先、缓冲由 ExoPlayer
- *   管理；精确语义属 M2 / M4，不写成「已支持」。
+ * 现行边界（B2 M1~M5 已收口，见 `12 §61.92`；本 KDoc 于 `12 §61.100`
+ * 做过期口径对齐勘误，只改注释、零行为改动）：
+ * - 门面 [IMusicEngine] 14 方法签名逐字不变（03-06 §4）；单点换绑在
+ *   `EngineModule.provideMusicEngine`，`:engine-legacy` / `EngineAdapter`
+ *   与 18 个私有 so 保留为回退（C5 暂不移除）。
+ * - `url` / `localPath` 经官方 `MediaItem` 装配；URL 态用 `CacheDataSource`
+ *   + `SimpleCache`（`§61.88` M3），LOCAL 态 `DefaultDataSource` 直读；
+ *   自定义 `ExtractorsFactory` 挂 Ape / Asf（`§61.94 / §61.97`）。
+ *   **不透传 mimeType**（`1485ce0f`）：未注册 MIME 会让
+ *   `DefaultMediaSourceFactory` 绕过自定义 ExtractorsFactory。
+ * - FFmpeg 软解经 `EXTENSION_RENDERER_MODE_ON` 补位平台解码器（`§61.85` M2）。
+ * - 音效：`attachAudioEffect` 已于 `§61.93` 挂系统 audiofx 三件套并真机 PASS；
+ *   竞品 103 JNI 高级音效链按 `§61.98 / §61.99` 留 P2 专项，不在本类伪造接线。
+ * - `§61.105` ReplayGain：官方 metadata（VorbisComment / ID3）→
+ *   [ReplayGainController] → `ExoPlayer.volume`；不做音频扫描 / 不持久化，
+ *   真机音量效果 NOT RUN。gapless：文件内 trimming 由官方 Extractor 具备，
+ *   跨曲队列因 single-handle 契约（prepare 前 release → player 重建）判 BLOCKED，
+ *   详见 [GaplessPolicy]，不在本类伪造队列接线。
+ * - `setQuality` 仍为门面轻量实现；[EngineConfig] 的 `sampleRateHz` /
+ *   `preferHardwareDecoder` / `bufferMs` / `autoSkipOnError` 不由本类逐项消费
+ *   （平台 MediaCodec 优先、缓冲由 ExoPlayer 管理），不写成「已支持」。
  * - 媒体会话 / 音频焦点 / 媒体按键**不**由 Media3 主导（C1），仍走
  *   `:core-media` + `:media-legacy` + 平台 API；本模块不引 `media3-session`。
  *
+ * M1 原始边界（`12 §61.81` **当时快照**，不作现行判据）：当时把
+ * `RangeCacheDataSource`（自研缓存 / Range）列为 M3 待办、**不伪造接线**，
+ * 音效按 C7 默认假设留空挂账，并强调「M1 骨架 ≠ B2 完成」。上述三项已分别由
+ * `§61.88`（官方 CacheDataSource）、`§61.93`（audiofx 真机 PASS）、
+ * `§61.92`（F4-B2 验收 PASS）演进；保留此段仅为满足历史守护的锚点可追溯。
+ *
  * 状态机：PREPARING / PLAYING / PAUSED / IDLE 由门面调用即时驱动（与
  * `InMemoryMusicEngine` / `EngineAdapter` 一致），ENDED / ERROR 由
- * [Player.Listener] 驱动；M4 再按 §61.74 / §61.75 多信号口径收紧。
+ * [Player.Listener] 驱动；B2 回归按 `§61.92` 多信号口径（READY + isPlaying /
+ * ENDED / 自动进曲 / seek，不单看状态机上报）判定。
  */
 class Media3EngineAdapter : IMusicEngine {
 
@@ -95,6 +116,33 @@ class Media3EngineAdapter : IMusicEngine {
         return out
     }
 
+    /**
+     * `12 §61.105` / ReplayGain 接线的**生产消费点**：容器标签 →
+     * [ReplayGainController] → `ExoPlayer.volume`。门面 14 方法签名零改动，
+     * 无标签时退化为原始用户音量；真机音量效果 NOT RUN（设备离线）。
+     */
+    private val replayGain = ReplayGainController { volume ->
+        // §61.87：ExoPlayer 单线程约束。listener 已在 application thread；
+        // setVolume 走 guard → onMain；两处都收敛到主线程后再写 volume。
+        onMain { player?.volume = volume }
+    }
+
+    /** §61.105：官方 metadata Entry → `KEY=VALUE` 行（纯 JVM 解析层不依赖 Android）。 */
+    private fun metadataLines(metadata: Metadata): List<String> {
+        val lines = ArrayList<String>(metadata.length())
+        for (i in 0 until metadata.length()) {
+            when (val entry = metadata.get(i)) {
+                is VorbisComment -> lines.add("${entry.key}=${entry.value}")
+                is TextInformationFrame -> lines.add(
+                    // `value` 单值字段已标记 deprecated；`values` 为 ID3 多值列表。
+                    "${entry.description ?: ""}=${entry.values.firstOrNull() ?: ""}")
+                is CommentFrame -> lines.add("${entry.description}=${entry.text}")
+                else -> Unit
+            }
+        }
+        return lines
+    }
+
     private val listener = object : Player.Listener {
         override fun onPlaybackStateChanged(playbackState: Int) {
             when (playbackState) {
@@ -120,6 +168,42 @@ class Media3EngineAdapter : IMusicEngine {
         override fun onIsPlayingChanged(isPlaying: Boolean) {
             Log.i(TAG, "state=%s positionMs=%d".format(
                 if (isPlaying) "PLAYING" else "PAUSED", positionNow()))
+        }
+
+        // §61.105：保留 Player.Listener.onMetadata 兼容通路（本机 ExoPlayer
+        // 1.11.1 真机不触发，见 §61.107 探针实证）。
+        override fun onMetadata(metadata: Metadata) {
+            applyReplayGain(metadataLines(metadata), "metadata")
+        }
+
+        /**
+         * §61.107：官方 Extractor 把 ID3 / VorbisComment 挂在
+         * `Format.metadata`，经 `onTracksChanged(Tracks)` 才是 ExoPlayer 的
+         * 可靠通路。§61.106/§61.107 首轮真机探针显示 `onMetadata` 0 命中，
+         * 故补此通路（同一解析层，不改变音量换算语义）。
+         */
+        override fun onTracksChanged(tracks: Tracks) {
+            val lines = ArrayList<String>()
+            for (g in 0 until tracks.groups.size) {
+                val group = tracks.groups[g]
+                for (i in 0 until group.length) {
+                    val meta: Metadata? = group.getTrackFormat(i).metadata
+                    if (meta != null) lines.addAll(metadataLines(meta))
+                }
+            }
+            applyReplayGain(lines, "tracks")
+        }
+
+        private fun applyReplayGain(lines: List<String>, source: String) {
+            if (lines.isEmpty()) return
+            replayGain.onMetadataLines(lines)
+            Log.i(TAG, "replaygain(%s) tags=%d gain=%s volume=%.3f mode=%s".format(
+                source,
+                lines.size,
+                replayGain.parsedGain()?.let { "%.2f dB".format(it.trackGainDb) } ?: "none",
+                replayGain.effectiveVolume(),
+                replayGain.mode,
+            ))
         }
 
         override fun onPlayerError(e: PlaybackException) {
@@ -154,7 +238,9 @@ class Media3EngineAdapter : IMusicEngine {
                 "MEDIA3_SOURCE", "EngineSource 既无 url 也无 localPath，无法构造 MediaItem")
         }
         error = null
-        // §61.99：不透传 mimeType——media3 的 DefaultMediaSourceFactory 对
+        // §61.100 对齐勘误（原注释错挂 §61.99；文档 §61.99 实为 LoudnessEvaluator
+        // / ReplayGain 实证，本改动来自 2026-11-13 07:11 提交 1485ce0f）：
+        // 不透传 mimeType——media3 的 DefaultMediaSourceFactory 对
         // 未注册 mimeType（audio/x-wma 等）走 mimeType→媒体源映射，绕过自定义
         // ExtractorsFactory（真机 CM-Factory=0 一手实证）。不设 mimeType = 由
         // URI 后缀/内容推断 → ProgressiveMediaSource + 自定义 ExtractorsFactory ✓。
@@ -208,11 +294,30 @@ class Media3EngineAdapter : IMusicEngine {
         // §61.87：ExoPlayer 的构建 + prepare 必须在 application thread（主 Looper）。
         onMainSync(10L, Unit) {
             val p = ExoPlayer.Builder(ctx, renderersFactory, mediaSourceFactory).build()
+            // §61.105：先赋值，保证 metadata 回调（主线程消息队列，本块结束后才到达）
+            // 里 ReplayGainController 能立刻写到 player.volume。
+            player = p
             p.addListener(listener)
             p.setMediaItem(item)
+            // §61.105 / gapless：显式关闭「曲目结束暂停」，避免 B2 侧额外插入间隙。
+            // 文件内 encoder delay/padding 裁剪由官方 Extractor + AudioSink 负责；
+            // 跨曲队列 gapless 由 GaplessPolicy 判定当前 single-handle 架构可达性
+            // （判 BLOCKED，不伪造队列接线；真机逐格式验证 NOT RUN）。
+            p.setPauseAtEndOfMediaItems(false)
+            val gapless = GaplessPolicy.assess(
+                playerReused = false,
+                queuedItemCount = 1,
+                pauseAtEndOfMediaItems = false,
+            )
+            Log.i(TAG, "gapless in_file=%s cross_track=%s blocker=%s".format(
+                gapless.inFileTrimmingAvailable,
+                gapless.crossTrackAvailable,
+                gapless.blocker ?: "none",
+            ))
             p.prepare()
-            player = p
             activeHandle = handle
+            // §61.105：切歌先清上一曲标签（写回 volume=用户音量）。
+            replayGain.reset()
             // 与 EngineAdapter / InMemoryMusicEngine 一致：prepare 后等 play() 才进入 PLAYING。
             _state.value = EngineState.PAUSED
         }
@@ -278,9 +383,13 @@ class Media3EngineAdapter : IMusicEngine {
         it.seekTo(target)
     }
 
+    /**
+     * §61.105：用户音量作为 ReplayGain 的基准幅度，实际下发值由
+     * [ReplayGainController] 计算（无标签 / OFF 时等价于原实现）。
+     */
     override fun setVolume(handle: EngineHandle, volume: Float) {
         require(volume in 0f..1f) { "volume must be 0f..1f (03-06 §4)" }
-        guard(handle) { it.volume = volume }
+        guard(handle) { replayGain.onUserVolume(volume) }
     }
 
     override fun positionMs(handle: EngineHandle): Long {

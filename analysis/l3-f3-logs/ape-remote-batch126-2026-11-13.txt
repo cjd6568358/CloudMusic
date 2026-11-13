@@ -1,0 +1,1517 @@
+--------- beginning of main
+11-13 15:48:41.574 W/[GT]HotPool#6(12499): type=1400 audit(0.0:54978): avc: granted { execute } for path="/data/data/com.tencent.mm/MicroMsg/AFFUDRPath/resource/udr/biz/ilinkres_55e88e46/libmmwcwss_v8_14/ca9c5fafc3635be4fcb22b5194e6b89a.udr" dev="dm-44" ino=3725546 scontext=u:r:untrusted_app:s0:c1,c257,c512,c768 tcontext=u:object_r:app_data_file:s0:c1,c257,c512,c768 tclass=file app=com.tencent.mm
+11-13 15:48:41.601 W/ConstraintSet( 4806): id unknown center_vertical_guideline
+11-13 15:48:41.601 W/ConstraintSet( 4806): id unknown action_button_guideline
+11-13 15:48:41.601 W/ConstraintSet( 4806): id unknown media_action_barrier
+11-13 15:48:41.601 W/ConstraintSet( 4806): id unknown media_action_barrier_end
+11-13 15:48:41.601 W/ConstraintSet( 4806): id unknown media_action_barrier_top
+11-13 15:48:41.601 W/ConstraintSet( 4806): id unknown remove_text
+11-13 15:48:41.601 W/ConstraintSet( 4806): id unknown settings
+11-13 15:48:41.601 W/ConstraintSet( 4806): id unknown dismiss
+11-13 15:48:41.601 W/ConstraintSet( 4806): id unknown cancel
+11-13 15:48:41.657 I/sensors-hal( 1251): batch:207, android.sensor.accelerometer/11, period=200000000, max_latency=0
+11-13 15:48:41.657 I/sensors-hal( 1251): set_config:57, sample_period_ns is adjusted to 200000000 based on min/max delay_ns
+11-13 15:48:41.657 I/sensors-hal( 1251): batch:216, android.sensor.accelerometer/11, period=200000000, max_latency=0 request completed
+11-13 15:48:41.657 I/sensors-hal( 1251): activate:174, android.sensor.accelerometer/11 en=1
+11-13 15:48:41.658 I/sensors-hal( 1251): get_qmi_debug_flag:240, support_qmi_debug : false
+11-13 15:48:41.658 E/minksocket( 1211): MinkIPC_QRTR_Service: client with node 1 port 6643 went down
+11-13 15:48:41.658 E/minksocket( 1211): MinkIPC_QRTR_Service: client with node 1 port 6644 went down
+11-13 15:48:41.659 E/minksocket( 1211): MinkIPC_QRTR_Service: client with node 1 port 6645 went down
+11-13 15:48:41.659 E/minksocket( 1211): MinkIPC_QRTR_Service: client with node 1 port 6646 went down
+11-13 15:48:41.659 I/sensors-hal( 1251): send_sensor_config_request:409, resampler is used, set resampler config
+11-13 15:48:41.659 I/sensors-hal( 1251): send_sync_sensor_request:340, send sync request
+11-13 15:48:41.659 I/sensors-hal( 1251): send_sync_sensor_request:366, wait for notification of response
+11-13 15:48:41.661 I/sensors-hal( 1251): ssc_conn_resp_cb:651, resp_value = 0
+11-13 15:48:41.661 I/sensors-hal( 1251): send_sync_sensor_request:372, takes 2 ms to receive the response with 0
+11-13 15:48:41.661 I/sensors-hal( 1251): activate:185, android.sensor.accelerometer/11 en=1 completed
+11-13 15:48:41.662 I/sensors-hal( 1251): handle_indication_realtime:467,  SCHED_FIFO(10) for qmi_cbk
+11-13 15:48:41.750 W/[GT]HotPool#7(12480): type=1400 audit(0.0:54979): avc: granted { execute } for path="/data/data/com.tencent.mm/app_xweb_data/xweb_1500213/apk/oat/arm64/base.odex" dev="dm-44" ino=3784770 scontext=u:r:untrusted_app:s0:c1,c257,c512,c768 tcontext=u:object_r:app_data_file:s0:c1,c257,c512,c768 tclass=file app=com.tencent.mm
+11-13 15:48:41.764 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:41.777 I/nt.mm:appbrand0(12480): Waiting for a blocking GC AddRemoveAppImageSpace
+11-13 15:48:41.779 D/A11yRuleEngine( 8493): startQueryJob end 15 ms
+11-13 15:48:41.791 I/NativeImage(12499): [WxImageLoader] construct
+11-13 15:48:41.842 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:41.864 D/A11yRuleEngine( 8493): startQueryJob end 22 ms
+11-13 15:48:41.867 I/MediaFocusControl( 2484): requestAudioFocus() from uid/pid 10318/17988 AA=USAGE_MEDIA/CONTENT_TYPE_MUSIC clientId=android.media.AudioManager@6176a50com.example.cloudmusic.PlaybackService$$ExternalSyntheticLambda0@43cd449 callingPack=com.example.cloudmusic req=1 flags=0x0 sdk=35
+11-13 15:48:41.867 I/AudioService.FadeOutManager( 2484): unfadeOutUid() uid:10318
+11-13 15:48:41.868 I/AudioManager(30429): In isSpeakerphoneOn() calling application: com.tencent.mm
+11-13 15:48:41.868 V/AS.AudioDeviceBroker( 2484): requestedCommunicationDevice, device: nullmAudioModeOwner: AudioModeInfo: mMode=MODE_NORMAL, mPid=0, mUid=0
+11-13 15:48:41.869 D/ThermalScenarioManager(10039): additional: 1000000000000000000000000000000000000000000000000000
+11-13 15:48:41.869 D/ThermalScenarioManager(10039): handleMessage 12
+11-13 15:48:41.869 D/ThermalScenarioManager(10039): current: ScenarioName: 0
+11-13 15:48:41.869 D/ThermalScenarioManager(10039): Element list : 97	97	98	98	99	99	99	99	99	99	99	99	99	99	99	99	99	99	99	
+11-13 15:48:41.869 D/ThermalScenarioManager(10039): match scenario 0
+11-13 15:48:41.869 V/Avrcp_ext( 4581): onPlaybackStateChanged: state PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=33006871, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 15:48:41.870 V/Avrcp_ext( 4581): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@b562897) null
+11-13 15:48:41.870 V/Avrcp_ext( 4581): updateCurrentMediaState: isPlaying = false
+11-13 15:48:41.870 W/Avrcp_ext( 4581): isMusicActive: false getBluetoothPlayState: 2 A2dp State: 11 mAudioPlaybackIsActive: false
+11-13 15:48:41.871 D/Avrcp_ext( 4581): isMusicActive = false mAudioPlaybackIsActive = false player state = PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=33006874, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 15:48:41.871 V/Avrcp_ext( 4581): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-13 15:48:41.871 D/Avrcp_ext( 4581): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-13 15:48:41.871 V/Avrcp_ext( 4581): isBrowseSupported for com.example.cloudmusic: false
+11-13 15:48:41.871 V/Avrcp_ext( 4581): updatePlaybackState, state: PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=33006874, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-13 15:48:41.871 V/Avrcp_ext( 4581): Device: no name: 
+11-13 15:48:41.871 V/Avrcp_ext( 4581): Device: no name: 
+11-13 15:48:41.871 V/Avrcp_ext( 4581): Device: no name: 
+11-13 15:48:41.871 V/Avrcp_ext( 4581): Device: no name: 
+11-13 15:48:41.871 V/Avrcp_ext( 4581): Device: no name: 
+11-13 15:48:41.871 V/Avrcp_ext( 4581): updatePlayerStateAndPosition, old=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=33006144, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=33006874, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 15:48:41.871 V/Avrcp_ext( 4581): old state = PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=33006144, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=33006874, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 15:48:41.871 D/HeadsetService( 4581): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@7586bc
+11-13 15:48:41.871 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.871 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 15:48:41.871 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.871 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 15:48:41.871 V/Avrcp_ext( 4581): Single connection exists
+11-13 15:48:41.871 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.871 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 15:48:41.871 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.871 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 15:48:41.871 V/Avrcp_ext( 4581): Single connection exists
+11-13 15:48:41.871 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.871 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 15:48:41.871 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.871 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 15:48:41.871 V/Avrcp_ext( 4581): Single connection exists
+11-13 15:48:41.871 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.871 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 15:48:41.871 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.871 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 15:48:41.871 V/Avrcp_ext( 4581): Single connection exists
+11-13 15:48:41.871 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.871 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 15:48:41.871 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.871 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 15:48:41.871 V/Avrcp_ext( 4581): Single connection exists
+11-13 15:48:41.871 I/Avrcp_ext( 4581): No active device found, update playstate to stack
+11-13 15:48:41.871 E/BluetoothAvrcpServiceJni( 4581): updatePlayStatusToStack
+11-13 15:48:41.871 E/bt_btif ( 4581): update_play_status_to_stack:invalid index,remote suspend not set
+11-13 15:48:41.871 E/BluetoothAvrcpServiceJni( 4581): updatePlayStatusToStack: status: 1
+11-13 15:48:41.871 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 15:48:41.871 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 15:48:41.871 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 15:48:41.871 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 15:48:41.871 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 15:48:41.871 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 15:48:41.871 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 15:48:41.871 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 15:48:41.871 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 15:48:41.871 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 15:48:41.871 V/Avrcp_ext( 4581): Exit updatePlayerStateAndPosition
+11-13 15:48:41.871 V/Avrcp_ext( 4581):  Exit onPlaybackStateChanged
+11-13 15:48:41.871 D/MediaDataManager( 4806): State updated outside of notification
+11-13 15:48:41.872 I/MediaCarouselController( 4806): media_data_arrive: addOrUpdatePlayer
+11-13 15:48:41.872 I/MiuiMediaControlPanel( 4806): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 曲库就绪
+11-13 15:48:41.881 W/CM-Queue(17988): setAll size=1 caller=resumeWith
+11-13 15:48:41.883 W/CM-SQL  (17988): queue DELETE: DELETE FROM queue_items WHERE queue_id = ? args=[default] caller=LibraryDatabase$Companion$$ExternalSyntheticLambda1.onQuery:0<QueryInterceptorStatement$execute$1.invokeSuspend:36<BaseContinuationImpl.resumeWith:33<DispatchedTask.run:101
+11-13 15:48:41.899 I/CM-Media3(17988): prepare trackId=ed1356ebc449ff2d8007a8b86abf41a3 remote=true url=http://127.0.0.1:8765/f3_ape.ape localPath=- expectedLength=0 engine=media3-1.11.1 ffmpeg=EXTENSION_RENDERER_MODE_ON
+11-13 15:48:41.902 I/CM-Media3(17988): media cache ready dir=/data/user/0/com.example.cloudmusic/cache/b2_media_cache cap=256MiB
+11-13 15:48:41.906 I/mars::stn(30398): [longlink_connect_monitor.cc:551, OnHeartbeatAlarmSet]:longlink_progress on_heartbeat_set, time: 33006909, time interval:210000
+11-13 15:48:41.911 I/BeautyService( 8602): task Running...
+11-13 15:48:41.912 I/BeautyService( 8602): updateForegroundInfo new = ComponentInfo{com.example.cloudmusic/com.example.cloudmusic.MainActivity}, old Pkg = com.example.cloudmusic, old ClsName = com.example.cloudmusic.MainActivity
+11-13 15:48:41.913 I/BeautyService( 8602): inSplitScreenMode = false, isFrontCameraOpen = false, mCurPkgName = com.example.cloudmusic, mCurClsName = com.example.cloudmusic.MainActivity
+11-13 15:48:41.913 I/BeautyUtils( 8602): splitMode: onfalse
+11-13 15:48:41.913 D/z1      ( 8602): myUserId = 0	currentUserId0
+11-13 15:48:41.913 I/BeautyService( 8602): onDockSwitchChange : 	currentUser = true	 isBound = false, curState = NON_CONVERSATION_MODE, isSceneSupport = false, isAllowSplit = false
+11-13 15:48:41.913 I/BeautyService( 8602): already at target mode!
+11-13 15:48:41.921 I/ExoPlayerImpl(17988): Init 72a668b [AndroidXMedia3/1.11.1] [mondrian, 23013RK75C, Xiaomi, 33]
+11-13 15:48:41.931 I/DefaultRenderersFactory(17988): Loaded FfmpegVideoRenderer.
+11-13 15:48:41.937 I/DefaultRenderersFactory(17988): Loaded FfmpegAudioRenderer.
+11-13 15:48:41.959 I/CM-Media3(17988): gapless in_file=true cross_track=false blocker=single-handle 契约：prepare 前 release → ExoPlayer 重建；需门面队列化 + player 复用
+11-13 15:48:41.960 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_D uids:
+11-13 15:48:41.960 I/CM-Media3(17988): state=BUFFERING
+11-13 15:48:41.960 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_15 uids:
+11-13 15:48:41.960 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abbc4200, event 0
+11-13 15:48:41.960 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077cb928540, event 0
+11-13 15:48:41.960 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_3D uids:
+11-13 15:48:41.960 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abcf9b80, event 0
+11-13 15:48:41.960 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_4D uids:
+11-13 15:48:41.960 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abd5c280, event 0
+11-13 15:48:41.962 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_1D uids:
+11-13 15:48:41.962 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abc71b80, event 0
+11-13 15:48:41.967 V/Avrcp_ext( 4581): onPlaybackStateChanged: state PlaybackState {state=3, position=0, buffered position=0, speed=1.0, updated=33006967, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 15:48:41.968 V/Avrcp_ext( 4581): updateCurrentMediaState: mMediaController: MediaController (com.example.cloudmusic@b562897) null
+11-13 15:48:41.968 V/Avrcp_ext( 4581): updateCurrentMediaState: isPlaying = false
+11-13 15:48:41.968 W/Avrcp_ext( 4581): isMusicActive: false getBluetoothPlayState: 1 A2dp State: 11 mAudioPlaybackIsActive: false
+11-13 15:48:41.968 D/Avrcp_ext( 4581): isMusicActive = false mAudioPlaybackIsActive = false player state = PlaybackState {state=3, position=4, buffered position=0, speed=1.0, updated=33006971, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 15:48:41.968 V/Avrcp_ext( 4581): Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+11-13 15:48:41.969 D/Avrcp_ext( 4581): isPackageNameValid: browsedPackage = com.example.cloudmusicisValid = true
+11-13 15:48:41.969 V/Avrcp_ext( 4581): isBrowseSupported for com.example.cloudmusic: false
+11-13 15:48:41.969 V/Avrcp_ext( 4581): updatePlaybackState, state: PlaybackState {state=3, position=4, buffered position=0, speed=1.0, updated=33006971, actions=54, custom actions=[], active item id=-1, error=null} device: null
+11-13 15:48:41.969 V/Avrcp_ext( 4581): Device: no name: 
+11-13 15:48:41.969 V/Avrcp_ext( 4581): Device: no name: 
+11-13 15:48:41.969 V/Avrcp_ext( 4581): Device: no name: 
+11-13 15:48:41.969 V/Avrcp_ext( 4581): Device: no name: 
+11-13 15:48:41.969 V/Avrcp_ext( 4581): Device: no name: 
+11-13 15:48:41.969 V/Avrcp_ext( 4581): updatePlayerStateAndPosition, old=PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=33006874, actions=54, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=3, position=4, buffered position=0, speed=1.0, updated=33006971, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 15:48:41.969 V/Avrcp_ext( 4581): old state = PlaybackState {state=3, position=3, buffered position=0, speed=1.0, updated=33006874, actions=54, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=3, position=4, buffered position=0, speed=1.0, updated=33006971, actions=54, custom actions=[], active item id=-1, error=null}
+11-13 15:48:41.969 D/HeadsetService( 4581): getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@7586bc
+11-13 15:48:41.969 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.969 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 15:48:41.969 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.969 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 15:48:41.969 V/Avrcp_ext( 4581): Single connection exists
+11-13 15:48:41.969 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.969 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 15:48:41.969 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.969 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 15:48:41.969 V/Avrcp_ext( 4581): Single connection exists
+11-13 15:48:41.969 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.969 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 15:48:41.969 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.969 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 15:48:41.969 V/Avrcp_ext( 4581): Single connection exists
+11-13 15:48:41.969 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.969 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 15:48:41.969 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.969 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 15:48:41.969 V/Avrcp_ext( 4581): Single connection exists
+11-13 15:48:41.969 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.969 D/HeadsetService( 4581): isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+11-13 15:48:41.969 D/HeadsetService( 4581):  isAudioOn: The number of audio connected devices 0
+11-13 15:48:41.969 V/Avrcp_ext( 4581): isPlayStateTobeUpdated: device: null
+11-13 15:48:41.969 V/Avrcp_ext( 4581): Single connection exists
+11-13 15:48:41.969 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 15:48:41.969 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 15:48:41.969 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 15:48:41.969 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 15:48:41.969 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 15:48:41.969 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 15:48:41.969 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 15:48:41.969 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 15:48:41.969 D/Avrcp_ext( 4581): Enter sendPlayPosNotificationRsp
+11-13 15:48:41.969 D/Avrcp_ext( 4581): sendPlayPosNotificationRsp: Not registered or requesting.
+11-13 15:48:41.969 V/Avrcp_ext( 4581): Exit updatePlayerStateAndPosition
+11-13 15:48:41.969 V/Avrcp_ext( 4581):  Exit onPlaybackStateChanged
+11-13 15:48:41.973 D/TrafficStats(17988): tagSocket(106) with statsTag=0xc03, statsUid=-1
+11-13 15:48:41.994 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:42.013 D/A11yRuleEngine( 8493): startQueryJob end 19 ms
+--------- beginning of system
+11-13 15:48:42.066 W/DevicePolicyManager( 2484): Unknown user type: UserInfo{999:XSpace:801010}
+11-13 15:48:42.066 W/DevicePolicyManager( 2484): Unknown user type: UserInfo{999:XSpace:801010}
+11-13 15:48:42.070 D/MiBarrage( 8139): The sbn packageName is :com.example.cloudmusic
+11-13 15:48:42.070 D/MiBarrage( 8139): No barrage: not in game scene or in video scene
+11-13 15:48:42.072 I/NotificationController( 5753): onNotificationPosted: mSmartTravelNotificationMap 0
+11-13 15:48:42.079 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:42.079 I/MediaCarouselController( 4806): media_data_arrive: addOrUpdatePlayer
+11-13 15:48:42.080 I/MiuiMediaControlPanel( 4806): media_data_arrive: bindPlayer: com.example.cloudmusic.CloudMusicApplication, CloudMusic, 播放服务运行中
+11-13 15:48:42.113 D/A11yRuleEngine( 8493): startQueryJob end 34 ms
+11-13 15:48:42.121 I/CM-Factory(17988): createExtractors called
+11-13 15:48:42.139 I/CM-Factory(17988): extractors: 25 (ape/asf + 21 default)
+11-13 15:48:42.164 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:42.190 D/A11yRuleEngine( 8493): startQueryJob end 26 ms
+11-13 15:48:42.194 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:42.214 W/binder:30429_10(30429): type=1400 audit(0.0:54980): avc: denied { read write } for name="mi_exception_log" dev="tmpfs" ino=1393 scontext=u:r:untrusted_app:s0:c1,c257,c512,c768 tcontext=u:object_r:device:s0 tclass=chr_file permissive=0 app=com.tencent.mm
+11-13 15:48:42.214 W/com.tencent.mm(30429): Long monitor contention with owner binder:30429_D (3625) at java.lang.Object com.tencent.mm.plugin.appbrand.appcache.ma.b(com.tencent.mm.ipcinvoker.type.IPCVoid)(SourceFile:-1) waiters=0 in java.lang.Object com.tencent.mm.plugin.appbrand.appcache.ma.b(com.tencent.mm.ipcinvoker.type.IPCVoid) for 650ms
+11-13 15:48:42.230 W/BpBinder(12499): PerfMonitor binderTransact :  time=1047ms interface=com.tencent.mm.ipcinvoker.aidl.AIDL_IPCInvokeBridge code=2
+11-13 15:48:42.232 D/A11yRuleEngine( 8493): startQueryJob end 38 ms
+11-13 15:48:42.293 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:42.334 D/A11yRuleEngine( 8493): startQueryJob end 41 ms
+11-13 15:48:42.343 I/NativeImage(12499): [WxImageLoader] loadAsync path[magicadbrandservice-]
+11-13 15:48:42.380 I/nt.mm:appbrand0(12480): This is non sticky GC, maxfree is 33554432 minfree is 8388608
+11-13 15:48:42.380 I/nt.mm:appbrand0(12480): Explicit concurrent copying GC freed 742034(31MB) AllocSpace objects, 58(9036KB) LOS objects, 50% free, 20MB/41MB, paused 3.288ms,3.945ms total 1.303s
+11-13 15:48:42.380 I/nt.mm:appbrand0(12480): WaitForGcToComplete blocked AddRemoveAppImageSpace on Explicit for 603.571ms
+11-13 15:48:42.394 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:42.396 W/ConstraintSet( 4806): id unknown center_vertical_guideline
+11-13 15:48:42.396 W/ConstraintSet( 4806): id unknown action_button_guideline
+11-13 15:48:42.396 W/ConstraintSet( 4806): id unknown media_action_barrier
+11-13 15:48:42.396 W/ConstraintSet( 4806): id unknown media_action_barrier_end
+11-13 15:48:42.396 W/ConstraintSet( 4806): id unknown media_action_barrier_top
+11-13 15:48:42.396 W/ConstraintSet( 4806): id unknown remove_text
+11-13 15:48:42.396 W/ConstraintSet( 4806): id unknown settings
+11-13 15:48:42.396 W/ConstraintSet( 4806): id unknown dismiss
+11-13 15:48:42.396 W/ConstraintSet( 4806): id unknown cancel
+11-13 15:48:42.406 I/PSCoreBridge(12480): setStandAloneMode:false
+11-13 15:48:42.406 W/[GT]HotPool#7(12480): type=1400 audit(0.0:54981): avc: granted { execute } for path="/data/data/com.tencent.mm/app_xweb_data/xweb_1500213/extracted_xwalkcore/libWXAMSDK.so" dev="dm-44" ino=3755538 scontext=u:r:untrusted_app:s0:c1,c257,c512,c768 tcontext=u:object_r:app_data_file:s0:c1,c257,c512,c768 tclass=file app=com.tencent.mm
+11-13 15:48:42.410 W/[GT]HotPool#7(12480): type=1400 audit(0.0:54982): avc: granted { execute } for path="/data/data/com.tencent.mm/app_xweb_data/xweb_1500213/extracted_xwalkcore/libffmpeg.so" dev="dm-44" ino=1730795 scontext=u:r:untrusted_app:s0:c1,c257,c512,c768 tcontext=u:object_r:app_data_file:s0:c1,c257,c512,c768 tclass=file app=com.tencent.mm
+11-13 15:48:42.407 I/PSViewDelegate(12480): [XWEB_COMMON][PSVIEW_DELEGATE_LOAD_LIBRARY][INSTANT] timestamp=28231668231 pid=12480 tid=12874 library_path=/data/user/0/com.tencent.mm/app_xweb_data/xweb_1500213/extracted_xwalkcore/libWXAMSDK.so
+11-13 15:48:42.413 I/PSViewDelegate(12480): [XWEB_COMMON][PSVIEW_DELEGATE_LOAD_LIBRARY][INSTANT] timestamp=28231674249 pid=12480 tid=12874 library_path=/data/user/0/com.tencent.mm/app_xweb_data/xweb_1500213/extracted_xwalkcore/libffmpeg.so
+11-13 15:48:42.415 I/PSViewDelegate(12480): [XWEB_COMMON][PSVIEW_DELEGATE_LOAD_LIBRARY][INSTANT] timestamp=28231675900 pid=12480 tid=12874 library_path=/data/user/0/com.tencent.mm/app_xweb_data/xweb_1500213/extracted_xwalkcore/libxwebcore.so
+11-13 15:48:42.415 I/NativeImage(12499): [WxImageLoader] file is loaded [magicadbrandservice-30429.28228944://resources/feedback_medium_2_LM.png] bitmap(not null)
+11-13 15:48:42.416 I/NativeImage(12499): [WxImageLoader] listenerList->size() [1]
+11-13 15:48:42.416 I/NativeImage(12499): [WxImageLoader] config listener removed, count[1]
+11-13 15:48:42.420 I/NativeImage(12499): [WxImageLoader] Invoke Listener finished, done.
+11-13 15:48:42.422 I/NativeImage(12499): [WxImageLoader] loadAsync path[magicadbrandservice-]
+11-13 15:48:42.423 I/NativeImage(12499): [WxImageLoader] loadAsync path[magicadbrandservice-]
+11-13 15:48:42.428 I/NativeImage(12499): [WxImageLoader] loadAsync path[wxfile://usr/downloa]
+11-13 15:48:42.434 D/A11yRuleEngine( 8493): startQueryJob end 40 ms
+11-13 15:48:42.456 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 15:48:42.456 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 15:48:42.456 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 15:48:42.456 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 15:48:42.457 W/AOSP-MdnsDiscoveryManag( 3925): Error while decoding multicast packet (443): 1 [CONTEXT service_id=168 ]
+11-13 15:48:42.457 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 15:48:42.457 W/AOSP-MdnsDiscoveryManag( 3925): Error while decoding multicast packet (444): 1 [CONTEXT service_id=168 ]
+11-13 15:48:42.473 I/XWeb.Core(12480): [1113/154842.472977:INFO:xweb/xweb_pinus/lib/webview_entry_point.cc:38] JNI_OnLoad start register jni
+11-13 15:48:42.474 I/XWeb.Core(12480): [1113/154842.474018:INFO:xweb/xweb_pinus/lib/webview_entry_point.cc:44] JNI_OnLoad end
+11-13 15:48:42.474 I/PSViewDelegate(12480): [XWEB_COMMON][PSVIEW_DELEGATE_LOAD_LIBRARY_ARCH][INSTANT] timestamp=28231734833 pid=12480 tid=12874 library_arch=arm
+11-13 15:48:42.474 I/PSViewDelegate(12480): [XWEB_COMMON][PSVIEW_DELEGATE_GET_DEVICE_ABI][INSTANT] timestamp=28231734901 pid=12480 tid=12874 device_abi=arm64-v8a
+11-13 15:48:42.477 E/HeifDecoderImpl(12499): getSize: not supported!
+11-13 15:48:42.478 E/HeifDecoderImpl(12499): getSize: not supported!
+11-13 15:48:42.478 E/zlog    (12480): ::JNI_OnLoad of libzlog BEGIN
+11-13 15:48:42.479 D/MediaExtractorFactory( 2018): Created an extractor 'MPEG4Extractor' with confidence 0.40
+11-13 15:48:42.479 W/ItemTable( 2018): Unrecognized property
+11-13 15:48:42.479 W/ItemTable( 2018): Unrecognized property
+11-13 15:48:42.479 W/MPEG4Extractor( 2018): Extracting still images only
+11-13 15:48:42.479 D/MediaExtractorService( 2018): extractor service created 0xb4000077c8e16780 (MPEG4Extractor)
+11-13 15:48:42.480 E/zlog    (12480): ::JNI_OnLoad of libzlog.so
+11-13 15:48:42.481 I/PSViewDelegate(12480): [XWEB_COMMON][PSVIEW_DELEGATE_SET_NOTIFY_CALLBACK_CHANNEL][INSTANT] timestamp=28231741526 pid=12480 tid=12874 callback_class=a96.i callback_interfaces=[interface_com.tencent.xweb.pinus.sdk.PSNotifyChannelListener]
+11-13 15:48:42.481 I/XWebCallBackChannel(12480): SetNotifyCallBackChannel, callback:a96.i@ce395cc
+11-13 15:48:42.482 I/PSViewDelegate(12480): [XWEB_COMMON][PSVIEW_DELEGATE_SET_LOG_CALLBACK][INSTANT] timestamp=28231742738 pid=12480 tid=12874 callback_class=a96.j callback_interfaces=[interface_com.tencent.xweb.pinus.sdk.PSLogChannelListener]
+11-13 15:48:42.491 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:42.502 E/HeifDecoderImpl(12499): getSize: not supported!
+11-13 15:48:42.510 E/HeifDecoderImpl(12499): getSize: not supported!
+11-13 15:48:42.514 E/HeifDecoderImpl(12499): getSize: not supported!
+11-13 15:48:42.515 D/MediaExtractorFactory( 2018): Created an extractor 'MPEG4Extractor' with confidence 0.40
+11-13 15:48:42.515 W/ItemTable( 2018): Unrecognized property
+11-13 15:48:42.515 W/ItemTable( 2018): Unrecognized property
+11-13 15:48:42.515 W/MPEG4Extractor( 2018): Extracting still images only
+11-13 15:48:42.515 D/A11yRuleEngine( 8493): startQueryJob end 24 ms
+11-13 15:48:42.515 D/MediaExtractorService( 2018): extractor service created 0xb4000077c8e16aa0 (MPEG4Extractor)
+11-13 15:48:42.516 E/HeifDecoderImpl(12499): getSize: not supported!
+11-13 15:48:42.533 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:42.546 E/HeifDecoderImpl(12499): getSize: not supported!
+11-13 15:48:42.547 E/HeifDecoderImpl(12499): getSize: not supported!
+11-13 15:48:42.548 E/HeifDecoderImpl(12499): getSize: not supported!
+11-13 15:48:42.549 D/MediaExtractorFactory( 2018): Created an extractor 'MPEG4Extractor' with confidence 0.40
+11-13 15:48:42.549 W/ItemTable( 2018): Unrecognized property
+11-13 15:48:42.549 W/ItemTable( 2018): Unrecognized property
+11-13 15:48:42.549 W/MPEG4Extractor( 2018): Extracting still images only
+11-13 15:48:42.549 D/MediaExtractorService( 2018): extractor service created 0xb4000077c8e16c80 (MPEG4Extractor)
+11-13 15:48:42.550 E/HeifDecoderImpl(12499): getSize: not supported!
+11-13 15:48:42.551 E/HeifDecoderImpl(12499): getSize: not supported!
+11-13 15:48:42.552 D/MediaExtractorFactory( 2018): Created an extractor 'MPEG4Extractor' with confidence 0.40
+11-13 15:48:42.552 W/ItemTable( 2018): Unrecognized property
+11-13 15:48:42.552 W/ItemTable( 2018): Unrecognized property
+11-13 15:48:42.552 W/MPEG4Extractor( 2018): Extracting still images only
+11-13 15:48:42.553 D/MediaExtractorService( 2018): extractor service created 0xb4000077c8e171d0 (MPEG4Extractor)
+11-13 15:48:42.554 E/HeifDecoderImpl(12499): getSize: not supported!
+11-13 15:48:42.554 D/FrameDecoder( 2020): FrameDecoder created
+11-13 15:48:42.555 I/MediaCodec( 2020): init video box disabled for codec not supported
+11-13 15:48:42.555 D/CCodec  ( 2020): allocate(c2.android.av1.decoder)
+11-13 15:48:42.556 I/NativeImage(12499): [WxImageLoader] file is loaded [wxfile://usr/download_fba04936705e66aa_1794023424250] bitmap(not null)
+11-13 15:48:42.558 I/CCodec  ( 2020): setting up 'default' as default (vendor) store
+11-13 15:48:42.559 V/C2Store ( 2095): in init
+11-13 15:48:42.559 V/C2Store ( 2095): loading dll
+11-13 15:48:42.560 I/CCodec  ( 2020): Created component [c2.android.av1.decoder]
+11-13 15:48:42.560 D/CCodecConfig( 2020): read media type: video/av01
+11-13 15:48:42.560 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 15:48:42.561 D/ReflectedParamUpdater( 2020): extent() != 1 for single value type: algo.buffers.max-count.values
+11-13 15:48:42.561 D/ReflectedParamUpdater( 2020): extent() != 1 for single value type: output.subscribed-indices.values
+11-13 15:48:42.561 D/ReflectedParamUpdater( 2020): extent() != 1 for single value type: input.buffers.allocator-ids.values
+11-13 15:48:42.561 D/ReflectedParamUpdater( 2020): extent() != 1 for single value type: output.buffers.allocator-ids.values
+11-13 15:48:42.561 D/ReflectedParamUpdater( 2020): extent() != 1 for single value type: algo.buffers.allocator-ids.values
+11-13 15:48:42.561 D/ReflectedParamUpdater( 2020): extent() != 1 for single value type: output.buffers.pool-ids.values
+11-13 15:48:42.561 D/ReflectedParamUpdater( 2020): extent() != 1 for single value type: algo.buffers.pool-ids.values
+11-13 15:48:42.562 D/ReflectedParamUpdater( 2020): ignored struct field coded.color-format.locations
+11-13 15:48:42.562 D/CCodecConfig( 2020): ignoring local param raw.size (0xd2001800) as it is already supported
+11-13 15:48:42.562 D/CCodecConfig( 2020): ignoring local param default.color (0x5200180b) as it is already supported
+11-13 15:48:42.562 D/ReflectedParamUpdater( 2020): ignored struct field raw.hdr-static-info.mastering
+11-13 15:48:42.562 I/CCodecConfig( 2020): query failed after returning 13 values (BAD_INDEX)
+11-13 15:48:42.562 D/CCodecConfig( 2020): c2 config diff is Dict {
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 coded.pl.level = 36865
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 coded.pl.profile = 36864
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 coded.vui.color.matrix = 0
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 coded.vui.color.primaries = 0
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 coded.vui.color.range = 2
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 coded.vui.color.transfer = 0
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 default.color.matrix = 0
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 default.color.primaries = 0
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 default.color.range = 0
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 default.color.transfer = 0
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 input.buffers.max-size.value = 2097152
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 input.delay.value = 0
+11-13 15:48:42.562 D/CCodecConfig( 2020):   Buffer input.hdr10-plus-info.value = {
+11-13 15:48:42.562 D/CCodecConfig( 2020):   }
+11-13 15:48:42.562 D/CCodecConfig( 2020):   string input.media-type.value = "video/av01"
+11-13 15:48:42.562 D/CCodecConfig( 2020):   Buffer output.hdr10-plus-info.value = {
+11-13 15:48:42.562 D/CCodecConfig( 2020):   }
+11-13 15:48:42.562 D/CCodecConfig( 2020):   string output.media-type.value = "video/raw"
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 raw.color.matrix = 0
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 raw.color.primaries = 0
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 raw.color.range = 2
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 raw.color.transfer = 0
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 raw.max-size.height = 240
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 raw.max-size.width = 320
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 raw.pixel-format.value = 35
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::i32 raw.rotation.flip = 0
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::i32 raw.rotation.value = 0
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 raw.sar.height = 1
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32 raw.sar.width = 1
+11-13 15:48:42.562 D/CCodecConfig( 2020):   c2::u32
+11-13 15:48:42.562 W/ColorUtils( 2020): expected specified color aspects (2:0:0:0)
+11-13 15:48:42.562 D/VideoInfo( 2020): com.tencent.mm create c2.android.av1.decoder in MediaCodec
+11-13 15:48:42.563 I/MediaCodec( 2020): fps video to display disabled
+11-13 15:48:42.563 I/MediaCodec( 2020): MediaStub sendMine
+11-13 15:48:42.563 D/MediaImpl( 2020): MediaImpl::sendMine: video/av01
+11-13 15:48:42.563 D/MediaStub( 2020): MediaStub::sendMine video/av01
+11-13 15:48:42.563 D/MediaCodec( 2020): currery video type video/av01
+11-13 15:48:42.563 I/MediaCodec( 2020): MediaStub sendDolbyVision
+11-13 15:48:42.563 I/MediaCodec( 2020): MediaStub sendPackageName
+11-13 15:48:42.563 D/MediaImpl( 2020): MediaImpl::sendPackageName: com.tencent.mm
+11-13 15:48:42.563 D/MediaStub( 2020): MediaStub::sendPackageName com.tencent.mm
+11-13 15:48:42.563 I/MediaCodec( 2020): MediaStub sendWidth/sendHeight
+11-13 15:48:42.563 I/MediaCodec( 2020): configure : init video box disabled
+11-13 15:48:42.563 D/MediaCodec( 2020): flushMediametrics
+11-13 15:48:42.563 D/CCodec  ( 2020): [c2.android.av1.decoder] buffers are bound to CCodec for this session
+11-13 15:48:42.564 D/CCodecConfig( 2020): no c2 equivalents for track-id
+11-13 15:48:42.564 D/CCodecConfig( 2020): no c2 equivalents for color-format
+11-13 15:48:42.564 D/CCodecConfig( 2020): no c2 equivalents for android._num-input-buffers
+11-13 15:48:42.564 D/CCodecConfig( 2020): no c2 equivalents for android._num-output-buffers
+11-13 15:48:42.564 D/CCodecConfig( 2020): no c2 equivalents for thumbnail-mode
+11-13 15:48:42.564 D/CCodecConfig( 2020): no c2 equivalents for flags
+11-13 15:48:42.564 D/CCodecConfig( 2020): c2 config diff is   c2::u32 coded.pl.level = 36869
+11-13 15:48:42.564 D/CCodecConfig( 2020):   c2::u32 raw.size.height = 720
+11-13 15:48:42.564 D/CCodecConfig( 2020):   c2::u32 raw.size.width = 1280
+11-13 15:48:42.564 W/ColorUtils( 2020): expected specified color aspects (2:0:0:0)
+11-13 15:48:42.564 W/Codec2Client( 2020): query -- param skipped: index = 1107298332.
+11-13 15:48:42.564 D/CCodec  ( 2020): client requested max input size 1382400, which is smaller than what component recommended (2097152); overriding with component recommendation.
+11-13 15:48:42.564 W/CCodec  ( 2020): This behavior is subject to change. It is recommended that app developers double check whether the requested max input size is in reasonable range.
+11-13 15:48:42.564 D/CCodec  ( 2020): encoding statistics level = 0
+11-13 15:48:42.564 D/CCodec  ( 2020): setup formats input: AMessage(what = 0x00000000) = {
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t height = 720
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t level = 32
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t max-input-size = 2097152
+11-13 15:48:42.564 D/CCodec  ( 2020):   string mime = "video/av01"
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t profile = 1
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t width = 1280
+11-13 15:48:42.564 D/CCodec  ( 2020):   Rect crop(0, 0, 1279, 719)
+11-13 15:48:42.564 D/CCodec  ( 2020): }
+11-13 15:48:42.564 D/CCodec  ( 2020): setup formats output: AMessage(what = 0x00000000) = {
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t android._color-format = 2135033992
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t android._video-scaling = 1
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t rotation-degrees = 0
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t color-standard = 0
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t color-range = 2
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t color-transfer = 0
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t sar-height = 1
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t sar-width = 1
+11-13 15:48:42.564 D/CCodec  ( 2020):   Rect crop(0, 0, 1279, 719)
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t width = 1280
+11-13 15:48:42.564 D/CCodec  ( 2020):   Buffer hdr10-plus-info = {
+11-13 15:48:42.564 D/CCodec  ( 2020):   }
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t height = 720
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t max-height = 240
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t max-width = 320
+11-13 15:48:42.564 D/CCodec  ( 2020):   string mime = "video/raw"
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t android._dataspace = 268435456
+11-13 15:48:42.564 D/CCodec  ( 2020):   int32_t color-format = 19
+11-13 15:48:42.564 D/CCodec  ( 2020): }
+11-13 15:48:42.564 I/CCodecConfig( 2020): query failed after returning 13 values (BAD_INDEX)
+11-13 15:48:42.564 D/CCodecConfig( 2020): c2 config diff is   c2::u32 raw.max-size.height = 720
+11-13 15:48:42.564 D/CCodecConfig( 2020):   c2::u32 raw.max-size.width = 1280
+11-13 15:48:42.564 W/ColorUtils( 2020): expected specified color aspects (2:0:0:0)
+11-13 15:48:42.565 W/Codec2Client( 2020): query -- param skipped: index = 1342179345.
+11-13 15:48:42.565 W/Codec2Client( 2020): query -- param skipped: index = 2415921170.
+11-13 15:48:42.566 D/CCodecBufferChannel( 2020): [c2.android.av1.decoder#55] Created input block pool with allocatorID 16 => poolID 121 - OK (0)
+11-13 15:48:42.566 D/CCodecBufferChannel( 2020): [c2.android.av1.decoder#55] Configured output block pool ids 1 => OK
+11-13 15:48:42.566 D/CCodecBufferChannel( 2020): [c2.android.av1.decoder#55] start: updating output delay 0
+11-13 15:48:42.566 I/QC2CompStore( 1354): Setting heap usage to system
+11-13 15:48:42.566 W/ResourceManagerService( 2020): Ignoring request to add new resource entry with value <= 0
+11-13 15:48:42.567 D/MediaBufferGroup( 2018): creating MemoryDealer
+11-13 15:48:42.567 D/BufferPoolAccessor2.0( 2020): bufferpool2 0xb40000775a616628 : 0(0 size) total buffers - 0(0 size) used buffers - 1/5 (recycle/alloc) - 2/4 (fetch/transfer)
+11-13 15:48:42.567 D/BufferPoolAccessor2.0( 2020): Destruction - bufferpool2 0xb40000775a616628 cached: 0/0M, 0/0% in use; allocs: 5, 20% recycled; transfers: 4, 50% unfetched
+11-13 15:48:42.567 D/BufferPoolAccessor2.0( 2020): bufferpool2 0xb40000775a616828 : 0(0 size) total buffers - 0(0 size) used buffers - 1/5 (recycle/alloc) - 2/4 (fetch/transfer)
+11-13 15:48:42.567 D/BufferPoolAccessor2.0( 2020): Destruction - bufferpool2 0xb40000775a616828 cached: 0/0M, 0/0% in use; allocs: 5, 20% recycled; transfers: 4, 50% unfetched
+11-13 15:48:42.568 D/SimpleC2Component( 2095): Using output block pool with poolID 1 => got 1 - 0
+11-13 15:48:42.573 I/SmartPower.com.miui.home/10128(3902)( 2484): background->idle(3001ms) R(broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }) adj=100.
+11-13 15:48:42.573 I/SmartPower( 2484): com.miui.home/10128 state=inactive adj=100 proc size=1 move to idle broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }
+11-13 15:48:42.581 E/libEGL  (12499): pre_cache appList: ,,
+11-13 15:48:42.586 D/CCodecConfig( 2020): c2 config diff is   c2::u32 raw.crop.height = 720
+11-13 15:48:42.586 D/CCodecConfig( 2020):   c2::u32 raw.crop.left = 0
+11-13 15:48:42.586 D/CCodecConfig( 2020):   c2::u32 raw.crop.top = 0
+11-13 15:48:42.586 D/CCodecConfig( 2020):   c2::u32 raw.crop.width = 1280
+11-13 15:48:42.586 W/ColorUtils( 2020): expected specified color aspects (2:0:0:0)
+11-13 15:48:42.590 D/CCodecBuffers( 2020): [c2.android.av1.decoder#55:2D-BB-Output] updating image-data
+11-13 15:48:42.590 D/CCodecBuffers( 2020): [c2.android.av1.decoder#55:2D-BB-Output] updating stride = 1280, width: 1280, height: 720
+11-13 15:48:42.590 D/CCodecBuffers( 2020): [c2.android.av1.decoder#55:2D-BB-Output] updating vstride = 720
+11-13 15:48:42.595 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:42.607 I/XWeb.Core(12480): [1113/154842.607212:INFO:xweb/xweb_comm/modules/hevc_hls_support/xweb_hevc_and_hls_switcher.cc:21] [XWEB_HEVC_HLS_SUPPORT] enable hevc and hls
+11-13 15:48:42.626 D/A11yRuleEngine( 8493): startQueryJob end 31 ms
+11-13 15:48:42.626 I/NativeImage(12499): [WxImageLoader] listenerList->size() [1]
+11-13 15:48:42.626 I/NativeImage(12499): [WxImageLoader] config listener removed, count[1]
+11-13 15:48:42.627 D/CCodecBufferChannel( 2020): [c2.android.av1.decoder#55] MediaCodec discarded an unknown buffer
+11-13 15:48:42.627 D/CCodecBufferChannel( 2020): [c2.android.av1.decoder#55] MediaCodec discarded an unknown buffer
+11-13 15:48:42.627 D/CCodecBufferChannel( 2020): [c2.android.av1.decoder#55] MediaCodec discarded an unknown buffer
+11-13 15:48:42.627 I/hw-BpHwBinder( 2020): onLastStrongRef automatically unlinking death recipients
+11-13 15:48:42.627 I/hw-BpHwBinder( 2095): onLastStrongRef automatically unlinking death recipients
+11-13 15:48:42.627 V/C2Store ( 2095): in ~ComponentModule
+11-13 15:48:42.627 V/C2Store ( 2095): unloading dll
+11-13 15:48:42.628 I/MediaCodec( 2020): MediaStub sendHdrInfo/sendFrameRateFloatCal/updateFrcAieAisState
+11-13 15:48:42.628 D/MediaImpl( 2020): FRC switch off: valueSupport : true, valueOn : false
+11-13 15:48:42.628 D/MediaImpl( 2020): AIE switch off: valueSupport : true, valueOn : false
+11-13 15:48:42.628 D/MediaImpl( 2020): AIS switch off: valueSupport : true, valueOn : false
+11-13 15:48:42.628 I/MediaCodec( 2020): MediaStub sendVideoPlayData
+11-13 15:48:42.628 D/MediaImpl( 2020): sendVideoPlayData, start
+11-13 15:48:42.628 D/MediaImpl( 2020): MediaImpl::sendVideoPlayData::mediacodec_mime : video/av01
+11-13 15:48:42.628 D/MediaImpl( 2020): MediaImpl::sendVideoPlayData::mediacodec_packgeName : com.tencent.mm
+11-13 15:48:42.628 D/MediaImpl( 2020): MediaImpl::sendVideoPlayData::mine : video/av01
+11-13 15:48:42.628 D/MediaImpl( 2020): MediaImpl::sendVideoPlayData::packgeName : com.tencent.mm
+11-13 15:48:42.628 E/send_data_to_xlog( 2020): send_video_play_to_xlog, start
+11-13 15:48:42.628 D/send_data_to_xlog( 2020): send_video_play_to_xlog::mine : video/av01
+11-13 15:48:42.628 D/send_data_to_xlog( 2020): send_video_play_to_xlog::packgeName : com.tencent.mm
+11-13 15:48:42.628 V/xlog_client( 2020):  xlog_send  msg_id: 13
+11-13 15:48:42.628 V/xlog_client( 2020):  xlog_send 
+11-13 15:48:42.628 V/xlog_client( 2020): xlog_open fd = 9
+11-13 15:48:42.628 D/xlog_client( 2020): xlog_format_msg: send msg 13
+11-13 15:48:42.628 D/xlog_client( 2020): _xlog_write_flat_msg: send msg {"name":"video_play","audio_event":{"video_play_framerate":"0","video_play_hdr":"0","video_play_width_height":"1280_720","video_play_framratecal":"-1","video_play_frc":"0","video_play_aie":"0","video_play_ais":"0","video_play_dolbyvision":"0","video_play_codec":"video/av01", "video_play_app":"com.tencent.mm"},"dgt":"null","audio_ext":"null" }
+11-13 15:48:42.628 V/xlog_client( 2020): xlog_close 9
+11-13 15:48:42.628 I/MQSserver( 2484): getData len: 512 content: {"name":"video_play","audio_event":{"video_play_framerate":"0","video_play_hdr":"0","video_play_width_height":"1280_720","video_play_framratecal":"-1","video_play_frc":"0","video_play_aie":"0","video_play_ais":"0","video_play_dolbyvision":"0","video_play_codec":"video/av01", "video_play_app":"com.tencent.mm"},"dgt":"null","audio_ext":"null" }������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������
+11-13 15:48:42.628 D/MQSserver( 2484): enter updateCountvideo_play
+11-13 15:48:42.628 D/MQSserver( 2484): read count frome file: 66
+11-13 15:48:42.628 D/FrameDecoder( 2020): FrameDecoder destroyed
+11-13 15:48:42.628 D/MQSserver( 2484): update RBI json: {"name":"video_play","audio_event":{"video_play_framerate":"0","video_play_hdr":"0","video_play_width_height":"1280_720","video_play_framratecal":"-1","video_play_frc":"0","video_play_aie":"0","video_play_ais":"0","video_play_dolbyvision":"0","video_play_codec":"video\/av01","video_play_app":"com.tencent.mm"},"dgt":"null","audio_ext":"null","onetrack_count":"67"}
+11-13 15:48:42.628 D/MQSserver( 2484): updateCount: name: video_play/audio_event : {"video_play_framerate":"0","video_play_hdr":"0","video_play_width_height":"1280_720","video_play_framratecal":"-1","video_play_frc":"0","video_play_aie":"0","video_play_ais":"0","video_play_dolbyvision":"0","video_play_codec":"video\/av01","video_play_app":"com.tencent.mm"}
+11-13 15:48:42.628 D/MediaCodec( 2020): flushMediametrics
+11-13 15:48:42.628 D/VideoInfo( 2020): com.tencent.mm destroy c2.android.av1.decoder in MediaCodec, input num 2 output num 1 render num 0
+11-13 15:48:42.628 D/VideoInfo( 2020): max input intervel 0ms max output intervel 0ms max render interval 0ms
+11-13 15:48:42.633 D/FrameDecoder( 2020): FrameDecoder created
+11-13 15:48:42.634 I/MediaCodec( 2020): init video box disabled for codec not supported
+11-13 15:48:42.634 D/CCodec  ( 2020): allocate(c2.android.av1.decoder)
+11-13 15:48:42.634 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:42.637 I/CCodec  ( 2020): setting up 'default' as default (vendor) store
+11-13 15:48:42.637 V/C2Store ( 2095): in init
+11-13 15:48:42.637 V/C2Store ( 2095): loading dll
+11-13 15:48:42.638 I/CCodec  ( 2020): Created component [c2.android.av1.decoder]
+11-13 15:48:42.639 D/CCodecConfig( 2020): read media type: video/av01
+11-13 15:48:42.640 D/ReflectedParamUpdater( 2020): extent() != 1 for single value type: algo.buffers.max-count.values
+11-13 15:48:42.640 D/ReflectedParamUpdater( 2020): extent() != 1 for single value type: output.subscribed-indices.values
+11-13 15:48:42.640 D/ReflectedParamUpdater( 2020): extent() != 1 for single value type: input.buffers.allocator-ids.values
+11-13 15:48:42.640 D/ReflectedParamUpdater( 2020): extent() != 1 for single value type: output.buffers.allocator-ids.values
+11-13 15:48:42.641 D/ReflectedParamUpdater( 2020): extent() != 1 for single value type: algo.buffers.allocator-ids.values
+11-13 15:48:42.641 D/ReflectedParamUpdater( 2020): extent() != 1 for single value type: output.buffers.pool-ids.values
+11-13 15:48:42.641 D/ReflectedParamUpdater( 2020): extent() != 1 for single value type: algo.buffers.pool-ids.values
+11-13 15:48:42.641 D/ReflectedParamUpdater( 2020): ignored struct field coded.color-format.locations
+11-13 15:48:42.642 D/CCodecConfig( 2020): ignoring local param raw.size (0xd2001800) as it is already supported
+11-13 15:48:42.642 D/CCodecConfig( 2020): ignoring local param default.color (0x5200180b) as it is already supported
+11-13 15:48:42.642 D/ReflectedParamUpdater( 2020): ignored struct field raw.hdr-static-info.mastering
+11-13 15:48:42.643 I/CCodecConfig( 2020): query failed after returning 13 values (BAD_INDEX)
+11-13 15:48:42.643 D/CCodecConfig( 2020): c2 config diff is Dict {
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 coded.pl.level = 36865
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 coded.pl.profile = 36864
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 coded.vui.color.matrix = 0
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 coded.vui.color.primaries = 0
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 coded.vui.color.range = 2
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 coded.vui.color.transfer = 0
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 default.color.matrix = 0
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 default.color.primaries = 0
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 default.color.range = 0
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 default.color.transfer = 0
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 input.buffers.max-size.value = 2097152
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 input.delay.value = 0
+11-13 15:48:42.643 D/CCodecConfig( 2020):   Buffer input.hdr10-plus-info.value = {
+11-13 15:48:42.643 D/CCodecConfig( 2020):   }
+11-13 15:48:42.643 D/CCodecConfig( 2020):   string input.media-type.value = "video/av01"
+11-13 15:48:42.643 D/CCodecConfig( 2020):   Buffer output.hdr10-plus-info.value = {
+11-13 15:48:42.643 D/CCodecConfig( 2020):   }
+11-13 15:48:42.643 D/CCodecConfig( 2020):   string output.media-type.value = "video/raw"
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 raw.color.matrix = 0
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 raw.color.primaries = 0
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 raw.color.range = 2
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 raw.color.transfer = 0
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 raw.max-size.height = 240
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 raw.max-size.width = 320
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 raw.pixel-format.value = 35
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::i32 raw.rotation.flip = 0
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::i32 raw.rotation.value = 0
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 raw.sar.height = 1
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32 raw.sar.width = 1
+11-13 15:48:42.643 D/CCodecConfig( 2020):   c2::u32
+11-13 15:48:42.643 W/ColorUtils( 2020): expected specified color aspects (2:0:0:0)
+11-13 15:48:42.643 D/VideoInfo( 2020): com.tencent.mm create c2.android.av1.decoder in MediaCodec
+11-13 15:48:42.643 I/MediaCodec( 2020): fps video to display disabled
+11-13 15:48:42.644 I/MediaCodec( 2020): MediaStub sendMine
+11-13 15:48:42.644 D/MediaImpl( 2020): MediaImpl::sendMine: video/av01
+11-13 15:48:42.644 D/MediaStub( 2020): MediaStub::sendMine video/av01
+11-13 15:48:42.644 D/MediaCodec( 2020): currery video type video/av01
+11-13 15:48:42.644 I/MediaCodec( 2020): MediaStub sendDolbyVision
+11-13 15:48:42.644 I/MediaCodec( 2020): MediaStub sendPackageName
+11-13 15:48:42.644 D/MediaImpl( 2020): MediaImpl::sendPackageName: com.tencent.mm
+11-13 15:48:42.644 D/MediaStub( 2020): MediaStub::sendPackageName com.tencent.mm
+11-13 15:48:42.644 I/MediaCodec( 2020): MediaStub sendWidth/sendHeight
+11-13 15:48:42.644 I/MediaCodec( 2020): configure : init video box disabled
+11-13 15:48:42.644 D/MediaCodec( 2020): flushMediametrics
+11-13 15:48:42.644 D/CCodec  ( 2020): [c2.android.av1.decoder] buffers are bound to CCodec for this session
+11-13 15:48:42.645 D/CCodecConfig( 2020): no c2 equivalents for track-id
+11-13 15:48:42.645 D/CCodecConfig( 2020): no c2 equivalents for color-format
+11-13 15:48:42.645 D/CCodecConfig( 2020): no c2 equivalents for android._num-input-buffers
+11-13 15:48:42.645 D/CCodecConfig( 2020): no c2 equivalents for android._num-output-buffers
+11-13 15:48:42.645 D/CCodecConfig( 2020): no c2 equivalents for thumbnail-mode
+11-13 15:48:42.645 D/CCodecConfig( 2020): no c2 equivalents for flags
+11-13 15:48:42.645 D/CCodecConfig( 2020): c2 config diff is   c2::u32 coded.pl.level = 36869
+11-13 15:48:42.645 D/CCodecConfig( 2020):   c2::u32 raw.size.height = 720
+11-13 15:48:42.645 D/CCodecConfig( 2020):   c2::u32 raw.size.width = 1280
+11-13 15:48:42.645 W/ColorUtils( 2020): expected specified color aspects (2:0:0:0)
+11-13 15:48:42.645 W/Codec2Client( 2020): query -- param skipped: index = 1107298332.
+11-13 15:48:42.645 D/CCodec  ( 2020): client requested max input size 1382400, which is smaller than what component recommended (2097152); overriding with component recommendation.
+11-13 15:48:42.645 W/CCodec  ( 2020): This behavior is subject to change. It is recommended that app developers double check whether the requested max input size is in reasonable range.
+11-13 15:48:42.645 D/CCodec  ( 2020): encoding statistics level = 0
+11-13 15:48:42.645 D/CCodec  ( 2020): setup formats input: AMessage(what = 0x00000000) = {
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t height = 720
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t level = 32
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t max-input-size = 2097152
+11-13 15:48:42.645 D/CCodec  ( 2020):   string mime = "video/av01"
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t profile = 1
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t width = 1280
+11-13 15:48:42.645 D/CCodec  ( 2020):   Rect crop(0, 0, 1279, 719)
+11-13 15:48:42.645 D/CCodec  ( 2020): }
+11-13 15:48:42.645 D/CCodec  ( 2020): setup formats output: AMessage(what = 0x00000000) = {
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t android._color-format = 2135033992
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t android._video-scaling = 1
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t rotation-degrees = 0
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t color-standard = 0
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t color-range = 2
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t color-transfer = 0
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t sar-height = 1
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t sar-width = 1
+11-13 15:48:42.645 D/CCodec  ( 2020):   Rect crop(0, 0, 1279, 719)
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t width = 1280
+11-13 15:48:42.645 D/CCodec  ( 2020):   Buffer hdr10-plus-info = {
+11-13 15:48:42.645 D/CCodec  ( 2020):   }
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t height = 720
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t max-height = 240
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t max-width = 320
+11-13 15:48:42.645 D/CCodec  ( 2020):   string mime = "video/raw"
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t android._dataspace = 268435456
+11-13 15:48:42.645 D/CCodec  ( 2020):   int32_t color-format = 19
+11-13 15:48:42.645 D/CCodec  ( 2020): }
+11-13 15:48:42.645 I/CCodecConfig( 2020): query failed after returning 13 values (BAD_INDEX)
+11-13 15:48:42.646 D/CCodecConfig( 2020): c2 config diff is   c2::u32 raw.max-size.height = 720
+11-13 15:48:42.646 D/CCodecConfig( 2020):   c2::u32 raw.max-size.width = 1280
+11-13 15:48:42.646 W/ColorUtils( 2020): expected specified color aspects (2:0:0:0)
+11-13 15:48:42.646 W/Codec2Client( 2020): query -- param skipped: index = 1342179345.
+11-13 15:48:42.646 W/Codec2Client( 2020): query -- param skipped: index = 2415921170.
+11-13 15:48:42.647 D/CCodecBufferChannel( 2020): [c2.android.av1.decoder#867] Created input block pool with allocatorID 16 => poolID 122 - OK (0)
+11-13 15:48:42.647 D/CCodecBufferChannel( 2020): [c2.android.av1.decoder#867] Configured output block pool ids 1 => OK
+11-13 15:48:42.647 D/CCodecBufferChannel( 2020): [c2.android.av1.decoder#867] start: updating output delay 0
+11-13 15:48:42.647 I/QC2CompStore( 1354): Setting heap usage to system
+11-13 15:48:42.648 W/ResourceManagerService( 2020): Ignoring request to add new resource entry with value <= 0
+11-13 15:48:42.649 D/MediaBufferGroup( 2018): creating MemoryDealer
+11-13 15:48:42.650 D/SimpleC2Component( 2095): Using output block pool with poolID 1 => got 1 - 0
+11-13 15:48:42.670 D/CCodecConfig( 2020): c2 config diff is   c2::u32 raw.crop.height = 720
+11-13 15:48:42.670 D/CCodecConfig( 2020):   c2::u32 raw.crop.left = 0
+11-13 15:48:42.670 D/CCodecConfig( 2020):   c2::u32 raw.crop.top = 0
+11-13 15:48:42.670 D/CCodecConfig( 2020):   c2::u32 raw.crop.width = 1280
+11-13 15:48:42.670 W/ColorUtils( 2020): expected specified color aspects (2:0:0:0)
+11-13 15:48:42.674 D/CCodecBuffers( 2020): [c2.android.av1.decoder#867:2D-BB-Output] updating image-data
+11-13 15:48:42.674 D/CCodecBuffers( 2020): [c2.android.av1.decoder#867:2D-BB-Output] updating stride = 1280, width: 1280, height: 720
+11-13 15:48:42.674 D/CCodecBuffers( 2020): [c2.android.av1.decoder#867:2D-BB-Output] updating vstride = 720
+11-13 15:48:42.675 D/A11yRuleEngine( 8493): startQueryJob end 41 ms
+11-13 15:48:42.698 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:42.705 D/CCodecBufferChannel( 2020): [c2.android.av1.decoder#867] MediaCodec discarded an unknown buffer
+11-13 15:48:42.705 D/CCodecBufferChannel( 2020): [c2.android.av1.decoder#867] MediaCodec discarded an unknown buffer
+11-13 15:48:42.705 D/CCodecBufferChannel( 2020): [c2.android.av1.decoder#867] MediaCodec discarded an unknown buffer
+11-13 15:48:42.705 I/MediaCodec( 2020): MediaStub sendHdrInfo/sendFrameRateFloatCal/updateFrcAieAisState
+11-13 15:48:42.705 D/MediaImpl( 2020): FRC switch off: valueSupport : true, valueOn : false
+11-13 15:48:42.705 D/MediaImpl( 2020): AIE switch off: valueSupport : true, valueOn : false
+11-13 15:48:42.706 D/MediaImpl( 2020): AIS switch off: valueSupport : true, valueOn : false
+11-13 15:48:42.706 I/MediaCodec( 2020): MediaStub sendVideoPlayData
+11-13 15:48:42.706 D/MediaImpl( 2020): sendVideoPlayData, start
+11-13 15:48:42.706 D/MediaImpl( 2020): MediaImpl::sendVideoPlayData::mediacodec_mime : video/av01
+11-13 15:48:42.706 D/MediaImpl( 2020): MediaImpl::sendVideoPlayData::mediacodec_packgeName : com.tencent.mm
+11-13 15:48:42.706 D/MediaImpl( 2020): MediaImpl::sendVideoPlayData::mine : video/av01
+11-13 15:48:42.706 D/MediaImpl( 2020): MediaImpl::sendVideoPlayData::packgeName : com.tencent.mm
+11-13 15:48:42.706 E/send_data_to_xlog( 2020): send_video_play_to_xlog, start
+11-13 15:48:42.706 D/send_data_to_xlog( 2020): send_video_play_to_xlog::mine : video/av01
+11-13 15:48:42.706 D/send_data_to_xlog( 2020): send_video_play_to_xlog::packgeName : com.tencent.mm
+11-13 15:48:42.706 V/xlog_client( 2020):  xlog_send  msg_id: 13
+11-13 15:48:42.706 V/xlog_client( 2020):  xlog_send 
+11-13 15:48:42.706 V/xlog_client( 2020): xlog_open fd = 12
+11-13 15:48:42.706 D/xlog_client( 2020): xlog_format_msg: send msg 13
+11-13 15:48:42.706 D/xlog_client( 2020): _xlog_write_flat_msg: send msg {"name":"video_play","audio_event":{"video_play_framerate":"0","video_play_hdr":"0","video_play_width_height":"1280_720","video_play_framratecal":"-1","video_play_frc":"0","video_play_aie":"0","video_play_ais":"0","video_play_dolbyvision":"0","video_play_codec":"video/av01", "video_play_app":"com.tencent.mm"},"dgt":"null","audio_ext":"null" }
+11-13 15:48:42.706 V/xlog_client( 2020): xlog_close 12
+11-13 15:48:42.706 I/MQSserver( 2484): getData len: 512 content: {"name":"video_play","audio_event":{"video_play_framerate":"0","video_play_hdr":"0","video_play_width_height":"1280_720","video_play_framratecal":"-1","video_play_frc":"0","video_play_aie":"0","video_play_ais":"0","video_play_dolbyvision":"0","video_play_codec":"video/av01", "video_play_app":"com.tencent.mm"},"dgt":"null","audio_ext":"null" }������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������
+11-13 15:48:42.706 D/MQSserver( 2484): enter updateCountvideo_play
+11-13 15:48:42.706 D/FrameDecoder( 2020): FrameDecoder destroyed
+11-13 15:48:42.706 D/MQSserver( 2484): read count frome file: 67
+11-13 15:48:42.706 D/MediaCodec( 2020): flushMediametrics
+11-13 15:48:42.706 D/MQSserver( 2484): update RBI json: {"name":"video_play","audio_event":{"video_play_framerate":"0","video_play_hdr":"0","video_play_width_height":"1280_720","video_play_framratecal":"-1","video_play_frc":"0","video_play_aie":"0","video_play_ais":"0","video_play_dolbyvision":"0","video_play_codec":"video\/av01","video_play_app":"com.tencent.mm"},"dgt":"null","audio_ext":"null","onetrack_count":"68"}
+11-13 15:48:42.706 D/MQSserver( 2484): updateCount: name: video_play/audio_event : {"video_play_framerate":"0","video_play_hdr":"0","video_play_width_height":"1280_720","video_play_framratecal":"-1","video_play_frc":"0","video_play_aie":"0","video_play_ais":"0","video_play_dolbyvision":"0","video_play_codec":"video\/av01","video_play_app":"com.tencent.mm"}
+11-13 15:48:42.706 D/VideoInfo( 2020): com.tencent.mm destroy c2.android.av1.decoder in MediaCodec, input num 2 output num 1 render num 0
+11-13 15:48:42.706 D/VideoInfo( 2020): max input intervel 1ms max output intervel 0ms max render interval 0ms
+11-13 15:48:42.706 I/hw-BpHwBinder( 2095): onLastStrongRef automatically unlinking death recipients
+11-13 15:48:42.706 V/C2Store ( 2095): in ~ComponentModule
+11-13 15:48:42.706 V/C2Store ( 2095): unloading dll
+11-13 15:48:42.707 I/hw-BpHwBinder( 2020): onLastStrongRef automatically unlinking death recipients
+11-13 15:48:42.741 D/A11yRuleEngine( 8493): startQueryJob end 43 ms
+11-13 15:48:42.745 I/NativeImage(12499): [WxImageLoader] Invoke Listener finished, done.
+11-13 15:48:42.753 I/XWeb.Core(12480): [1113/154842.753493:INFO:xweb/xweb_pinus/lib/webview_jni_onload.cc:20] OnJNIOnLoadInit
+11-13 15:48:42.754 I/XWeb.Core(12480): [1113/154842.754327:INFO:xweb/xweb_comm/xweb_common_logic.cc:74] [XWEB_COMMON][NATIVE_XLOG_INIT][BEGIN] timestamp=28232014905 pid=12480 tid=12480 span_id=1 libname=libwechatxlog.so
+11-13 15:48:42.765 I/XWeb.Core.fake_dlfcn(12480): 7d63242000-7d632cc000 r-xp 00000000 fe:2c 3775072                        /data/app/~~hkQzC7bDEgQbtGBj01kZXQ==/com.tencent.mm-dn-kMP4lQ3zQzSrg4WycgQ==/lib/arm64/libwechatxlog.so
+11-13 15:48:42.765 I/XWeb.Core.fake_dlfcn(12480): /data/app/~~hkQzC7bDEgQbtGBj01kZXQ==/com.tencent.mm-dn-kMP4lQ3zQzSrg4WycgQ==/lib/arm64/libwechatxlog.so loaded in Android at 0x7d63242000
+11-13 15:48:42.765 I/XWeb.Core.fake_dlfcn(12480): xlogger_IsEnabledFor found at 0x7d632782b0
+11-13 15:48:42.765 I/XWeb.Core.fake_dlfcn(12480): xlogger_VPrint found at 0x7d632783b0
+11-13 15:48:42.765 I/XWeb.Core(12480): [1113/154842.765650:INFO:xweb/xweb_comm/xweb_common_logic.cc:108] [XWEB_COMMON][NATIVE_XLOG_INIT][END] timestamp=28232026270 pid=12480 tid=12480 span_id=1 success=true
+11-13 15:48:42.765 I/XWeb.Core(12480): [1113/154842.765746:INFO:xweb/xweb_comm/xweb_common_logic.cc:249] [XWEB_COMMON][PROCESS_TYPE_DETERMINED][INSTANT] timestamp=28232026363 pid=12480 tid=12480 process_type=PROCESS_BROWSER
+11-13 15:48:42.783 I/NativeImage(12499): [WxImageLoader] file is loaded [magicadbrandservice-30429.28228944://resources/avif_detection.avif] bitmap(not null)
+11-13 15:48:42.784 I/NativeImage(12499): [WxImageLoader] listenerList->size() [1]
+11-13 15:48:42.784 I/NativeImage(12499): [WxImageLoader] config listener removed, count[1]
+11-13 15:48:42.798 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:42.799 I/NativeImage(12499): [WxImageLoader] Invoke Listener finished, done.
+11-13 15:48:42.800 I/NativeImage(12499): [WxImageLoader] file is loaded [magicadbrandservice-30429.28228944://wxfile%3A%2F%2Fusr%2Fad%2F4031112715115510%2F157364533578_c5bfd] bitmap(not null)
+11-13 15:48:42.800 I/NativeImage(12499): [WxImageLoader] listenerList->size() [1]
+11-13 15:48:42.800 I/NativeImage(12499): [WxImageLoader] config listener removed, count[1]
+11-13 15:48:42.807 I/NativeImage(12499): [WxImageLoader] Invoke Listener finished, done.
+11-13 15:48:42.831 D/A11yRuleEngine( 8493): startQueryJob end 33 ms
+11-13 15:48:42.860 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:42.862 I/SmartPower.com.tencent.mm/10257(30429)( 2484): background->idle(3001ms) R(become background) adj=0.
+11-13 15:48:42.862 I/SmartPower.com.tencent.mm:xweb_privileged_process_0/10257(12546)( 2484): background->idle(3001ms) R(become background) adj=700.
+11-13 15:48:42.862 I/SmartPower.com.tencent.mm:appbrand0/10257(12480)( 2484): background->idle(3001ms) R(become background) adj=0.
+11-13 15:48:42.862 I/SmartPower.com.tencent.mm:appbrand1/10257(12499)( 2484): background->idle(3001ms) R(become background) adj=0.
+11-13 15:48:42.863 I/SmartPower.com.tencent.mm:xweb_sandboxed_process_0:com.tencent.xweb.pinus.sdk.process.SandboxedProcessServbackground->idle(3159ms) R(remove from whitelist) adj=700.
+11-13 15:48:42.863 I/SmartPower( 2484): com.tencent.mm/99082 state=inactive adj=700 proc size=1 move to idle remove from whitelist
+11-13 15:48:42.867 W/BpBinder(12480): PerfMonitor binderTransact :  time=1343ms interface=com.tencent.mm.ipcinvoker.aidl.AIDL_IPCInvokeBridge code=2
+11-13 15:48:42.876 D/CompatibilityChangeReporter(12499): Compat change id reported: 210923482; UID 10257; state: ENABLED
+11-13 15:48:42.886 D/A11yRuleEngine( 8493): startQueryJob end 26 ms
+11-13 15:48:42.898 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:42.918 D/AppPredictService( 8602): start doPredict com.example.cloudmusic
+11-13 15:48:42.918 I/AppPredictManager( 8602): predict: recentApps size = 5
+11-13 15:48:42.921 I/AppPredictPrivacyLaunchManager( 8602): getLauncherHomeAppList size: 120
+11-13 15:48:42.921 I/AppPredictResultHelper( 8602): updatePreferenceStore: size = 24
+11-13 15:48:42.941 D/A11yRuleEngine( 8493): startQueryJob end 43 ms
+11-13 15:48:42.970 I/nt.mm:appbrand1(12499): This is sticky GC, maxfree is 33554432 minfree is 8388608
+11-13 15:48:42.978 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:42.999 D/A11yRuleEngine( 8493): startQueryJob end 21 ms
+11-13 15:48:43.008 W/ConstraintSet( 4806): id unknown center_vertical_guideline
+11-13 15:48:43.008 W/ConstraintSet( 4806): id unknown action_button_guideline
+11-13 15:48:43.008 W/ConstraintSet( 4806): id unknown media_action_barrier
+11-13 15:48:43.008 W/ConstraintSet( 4806): id unknown media_action_barrier_end
+11-13 15:48:43.008 W/ConstraintSet( 4806): id unknown media_action_barrier_top
+11-13 15:48:43.008 W/ConstraintSet( 4806): id unknown remove_text
+11-13 15:48:43.008 W/ConstraintSet( 4806): id unknown settings
+11-13 15:48:43.008 W/ConstraintSet( 4806): id unknown dismiss
+11-13 15:48:43.008 W/ConstraintSet( 4806): id unknown cancel
+11-13 15:48:43.040 I/XWebSysUtils(12480): setLocalStoragePatthSuffix = com.tencent.mm.appbrand0.7155
+11-13 15:48:43.042 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:43.043 D/PerfShielderService( 2484): com.android.systemui|StatusBar|86|28230517715426|50|2|3
+11-13 15:48:43.044 W/MiuiPerfServiceClient( 8175): interceptAndQueuing:4806|com.android.systemui|86|50|28230517715426|Slow handle animation|3
+11-13 15:48:43.046 D/PerfShielderService( 2484): com.android.systemui|com.android.systemui-Nav-831445295|91|28230515048499|68|2|3
+11-13 15:48:43.046 W/MiuiPerfServiceClient( 8175): interceptAndQueuing:4806|com.android.systemui|91|68|28230515048499|Slow handle animation|3
+11-13 15:48:43.060 I/CameraManagerGlobal(12480): Connecting to camera service
+11-13 15:48:43.066 D/A11yRuleEngine( 8493): startQueryJob end 24 ms
+11-13 15:48:43.090 D/CameraExtStub(12480): init android.hardware.camera2.impl.CameraExtImplXiaoMi
+11-13 15:48:43.091 D/CameraInjector(12480): updateCloudCameraControllerInfoAsync: E
+11-13 15:48:43.096 I/MiuiNetworkPolicy( 2484): updateUidState uid = 10129, uidState = 10
+11-13 15:48:43.099 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:43.101 D/CAM_MiviInfoContentProvider( 8808): METHOD_CAMERA_CONTROLLER_INFO: E
+11-13 15:48:43.101 D/CAM_MIVIHelper( 8808): getStringFromLocalFile E >> /data/user/0/com.android.camera/cache/mivi_info.json
+11-13 15:48:43.102 D/CAM_MIVIHelper( 8808): getStringFromLocalFile: X return null
+11-13 15:48:43.102 D/CAM_ConfMIVIRequest( 8808): getCloudDataObject: START >>
+11-13 15:48:43.106 I/MiuiNetworkPolicy( 2484): updateUidState uid = 10091, uidState = 10
+11-13 15:48:43.108 I/htmlviewercloudcontrol( 4041): isStagingEnv:false param =  camera_framework  uriMatch = 1
+11-13 15:48:43.123 I/htmlviewercloudcontrol( 4041): isStagingEnv:false param =  camera_v4  uriMatch = 2
+11-13 15:48:43.128 D/CAM_MiviInfoContentProvider( 8808): getCameraControllerInfo: null
+11-13 15:48:43.128 D/CAM_MiviInfoContentProvider( 8808): METHOD_CAMERA_CONTROLLER_INFO: X
+11-13 15:48:43.128 D/CameraInjector(12480): updateCloudCameraControllerInfoAsync: X
+11-13 15:48:43.129 W/libc    (12480): Access denied finding property "vendor.camera.aux.packagelist"
+11-13 15:48:43.129 W/CameraManagerGlobal(12480): [soar.cts] ignore the status update of camera: 2
+11-13 15:48:43.129 W/libc    (12480): Access denied finding property "vendor.camera.aux.packagelist"
+11-13 15:48:43.129 W/CameraManagerGlobal(12480): [soar.cts] ignore the status update of camera: 3
+11-13 15:48:43.129 W/libc    (12480): Access denied finding property "vendor.camera.aux.packagelist"
+11-13 15:48:43.129 W/CameraManagerGlobal(12480): [soar.cts] ignore the status update of camera: 4
+11-13 15:48:43.129 W/libc    (12480): Access denied finding property "vendor.camera.aux.packagelist"
+11-13 15:48:43.129 W/CameraManagerGlobal(12480): [soar.cts] ignore the status update of camera: 5
+11-13 15:48:43.129 W/libc    (12480): Access denied finding property "vendor.camera.aux.packagelist"
+11-13 15:48:43.129 W/CameraManagerGlobal(12480): [soar.cts] ignore the status update of camera: 6
+11-13 15:48:43.130 D/A11yRuleEngine( 8493): startQueryJob end 31 ms
+11-13 15:48:43.131 W/libc    (12480): Access denied finding property "vendor.camera.aux.packagelist"
+11-13 15:48:43.131 W/CameraManagerGlobal(12480): ignore the torch status update of camera: 2
+11-13 15:48:43.131 W/libc    (12480): Access denied finding property "vendor.camera.aux.packagelist"
+11-13 15:48:43.131 W/CameraManagerGlobal(12480): ignore the torch status update of camera: 3
+11-13 15:48:43.131 W/libc    (12480): Access denied finding property "vendor.camera.aux.packagelist"
+11-13 15:48:43.132 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:43.132 W/CameraManagerGlobal(12480): ignore the torch status update of camera: 4
+11-13 15:48:43.132 W/libc    (12480): Access denied finding property "vendor.camera.aux.packagelist"
+11-13 15:48:43.132 W/CameraManagerGlobal(12480): ignore the torch status update of camera: 5
+11-13 15:48:43.153 D/A11yRuleEngine( 8493): startQueryJob end 22 ms
+11-13 15:48:43.176 D/CompatibilityChangeReporter(12480): Compat change id reported: 171228096; UID 10257; state: ENABLED
+11-13 15:48:43.186 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:43.192 D/ConnectivityService( 2484): requestNetwork for uid/pid:10257/12480 activeRequest: null callbackRequest: 4289 [NetworkRequest [ REQUEST id=4290, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10257 RequestorUid: 10257 RequestorPkg: com.tencent.mm UnderlyingNetworks: Null] ]] callback flags: 0 order: 2147483647
+11-13 15:48:43.193 D/ConnectivityService( 2484): NetReassign [4290 : null → 104]
+11-13 15:48:43.194 D/WifiNetworkFactory( 2484): got request NetworkRequest [ REQUEST id=4290, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10257 RequestorUid: 10257 RequestorPkg: com.tencent.mm UnderlyingNetworks: Null] ]
+11-13 15:48:43.194 D/UntrustedWifiNetworkFactory( 2484): got request NetworkRequest [ REQUEST id=4290, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10257 RequestorUid: 10257 RequestorPkg: com.tencent.mm UnderlyingNetworks: Null] ]
+11-13 15:48:43.194 D/OemPaidWifiNetworkFactory( 2484): got request NetworkRequest [ REQUEST id=4290, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10257 RequestorUid: 10257 RequestorPkg: com.tencent.mm UnderlyingNetworks: Null] ]
+11-13 15:48:43.194 D/MultiInternetWifiNetworkFactory( 2484): got request NetworkRequest [ REQUEST id=4290, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10257 RequestorUid: 10257 RequestorPkg: com.tencent.mm UnderlyingNetworks: Null] ]
+11-13 15:48:43.203 D/ConnectivityService( 2484): NetReassign [no changes]
+11-13 15:48:43.226 D/A11yRuleEngine( 8493): startQueryJob end 40 ms
+11-13 15:48:43.237 D/TrafficManageService( 8602): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-13 15:48:43.237 D/TrafficManageService-TrafficSimManager( 8602): notifyByNetChange: gooooo
+11-13 15:48:43.240 D/TrafficManageService-TrafficSimManager( 8602): getMonthDataUsageUsed: new_get = 2781339888
+11-13 15:48:43.241 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:43.238 W/JSRuntimeLooper(12480): type=1400 audit(0.0:54986): avc: granted { execute } for path="/data/data/com.tencent.mm/tinker/patch-42a62138/lib/lib/arm64-v8a/libmmv8.so" dev="dm-44" ino=1698138 scontext=u:r:untrusted_app:s0:c1,c257,c512,c768 tcontext=u:object_r:app_data_file:s0:c1,c257,c512,c768 tclass=file app=com.tencent.mm
+11-13 15:48:43.267 D/A11yRuleEngine( 8493): startQueryJob end 26 ms
+11-13 15:48:43.297 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:43.328 E/XWeb.Core.NTransXweb(12480): XWEB_NATIVE_TRANS NTransManager_Bind xweb78 bind to 0x0x7d02305d08
+11-13 15:48:43.328 E/XWeb.Core.NTrans(12480): xweb bind native manager 0x2305d08
+11-13 15:48:43.332 D/A11yRuleEngine( 8493): startQueryJob end 35 ms
+11-13 15:48:43.366 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:43.393 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 15:48:43.397 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:43.420 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=11}
+11-13 15:48:43.420 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=42}
+11-13 15:48:43.420 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 15:48:43.420 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=19}
+11-13 15:48:43.420 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 15:48:43.420 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=4}
+11-13 15:48:43.421 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 15:48:43.421 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=17954}
+11-13 15:48:43.421 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=202}
+11-13 15:48:43.421 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=190}
+11-13 15:48:43.421 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 15:48:43.421 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=22223}
+11-13 15:48:43.421 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=194}
+11-13 15:48:43.421 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=18162}
+11-13 15:48:43.433 D/A11yRuleEngine( 8493): startQueryJob end 36 ms
+11-13 15:48:43.453 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:43.463 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 15:48:43.463 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 15:48:43.464 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 15:48:43.464 W/AOSP-MdnsDiscoveryManag( 3925): Error while decoding multicast packet (445): 1 [CONTEXT service_id=168 ]
+11-13 15:48:43.464 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 15:48:43.465 I/AOSP-MdnsDiscoveryManag( 3925): (REDACTED) %s
+11-13 15:48:43.466 W/AOSP-MdnsDiscoveryManag( 3925): Error while decoding multicast packet (446): 1 [CONTEXT service_id=168 ]
+11-13 15:48:43.474 D/ConnectivityService( 2484): NetReassign [no changes]
+11-13 15:48:43.476 I/NearbyMediums( 3925): Wifi changed new SSID: "midea_fa_0670"
+11-13 15:48:43.476 I/NearbyMediums( 3925): WifiLanConnectivityInfo is not changed, skip notify.
+11-13 15:48:43.489 W/libc    (12480): Access denied finding property "vendor.migl.debug"
+11-13 15:48:43.490 W/[GT]ColdPool#1(12480): type=1400 audit(0.0:54987): avc: granted { execute } for path="/data/data/com.tencent.mm/MicroMsg/AFFUDRPath/resource/udr/biz/ilinkres_55e88e46/libwcwss/d0775caed341bb6a5e7290900d62f134.udr" dev="dm-44" ino=3404871 scontext=u:r:untrusted_app:s0:c1,c257,c512,c768 tcontext=u:object_r:app_data_file:s0:c1,c257,c512,c768 tclass=file app=com.tencent.mm
+11-13 15:48:43.494 D/A11yRuleEngine( 8493): startQueryJob end 41 ms
+11-13 15:48:43.497 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:43.498 I/v8      (12480): SetInvokeRenderCallbackInner
+11-13 15:48:43.520 I/v8      (12480): v8_flags.code_range_fix: false
+11-13 15:48:43.521 E/TaskPersister( 2484): File error accessing recents directory (directory doesn't exist?).
+11-13 15:48:43.518 W/Chrome_InProcRe(12480): type=1400 audit(0.0:54988): avc: granted { execute } for path="/data/data/com.tencent.mm/app_xweb_data/xweb_1500213/extracted_xwalkcore/libxwebcore.so" dev="dm-44" ino=3703608 scontext=u:r:untrusted_app:s0:c1,c257,c512,c768 tcontext=u:object_r:app_data_file:s0:c1,c257,c512,c768 tclass=file app=com.tencent.mm
+11-13 15:48:43.523 D/A11yRuleEngine( 8493): startQueryJob end 26 ms
+11-13 15:48:43.527 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:43.538 W/[GT]ColdPool#1(12480): type=1400 audit(0.0:54989): avc: granted { execute } for path="/data/data/com.tencent.mm/MicroMsg/AFFUDRPath/resource/udr/biz/ilinkres_55e88e46/libmmwcwss_v8_14/ca9c5fafc3635be4fcb22b5194e6b89a.udr" dev="dm-44" ino=3725546 scontext=u:r:untrusted_app:s0:c1,c257,c512,c768 tcontext=u:object_r:app_data_file:s0:c1,c257,c512,c768 tclass=file app=com.tencent.mm
+11-13 15:48:43.544 D/A11yRuleEngine( 8493): startQueryJob end 17 ms
+11-13 15:48:43.567 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:43.570 I/NativeTurboSchedManager(12480): Load libmiui_runtime
+11-13 15:48:43.592 D/A11yRuleEngine( 8493): startQueryJob end 25 ms
+11-13 15:48:43.597 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:43.624 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 15:48:43.632 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:43.659 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 15:48:43.661 D/CompatibilityChangeReporter(12499): Compat change id reported: 147600208; UID 10257; state: ENABLED
+11-13 15:48:43.694 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:43.718 D/A11yRuleEngine( 8493): startQueryJob end 23 ms
+11-13 15:48:43.733 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:43.758 D/A11yRuleEngine( 8493): startQueryJob end 25 ms
+11-13 15:48:43.795 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:43.796 E/XWeb.Core.NTransXweb(12480): XWEB_NATIVE_TRANS XWebNTransModule inject ntrans success 
+11-13 15:48:43.822 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 15:48:43.824 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:43.838 D/A11yRuleEngine( 8493): startQueryJob end 14 ms
+11-13 15:48:43.844 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:43.850 W/AudioCapabilities(12480): Unsupported mime audio/alac
+11-13 15:48:43.850 W/AudioCapabilities(12480): Unsupported mime audio/x-ape
+11-13 15:48:43.850 W/AudioCapabilities(12480): Unsupported mime audio/evrc
+11-13 15:48:43.850 W/AudioCapabilities(12480): Unsupported mime audio/qcelp
+11-13 15:48:43.851 W/AudioCapabilities(12480): Unsupported mime audio/dsd
+11-13 15:48:43.851 W/AudioCapabilities(12480): Unsupported mime audio/amr-wb-plus
+11-13 15:48:43.851 W/AudioCapabilities(12480): Unsupported mime audio/x-ms-wma
+11-13 15:48:43.851 W/AudioCapabilities(12480): Unsupported mime audio/evrc
+11-13 15:48:43.851 W/AudioCapabilities(12480): Unsupported mime audio/qcelp
+11-13 15:48:43.852 W/AudioCapabilities(12480): Unsupported mime audio/alac
+11-13 15:48:43.852 W/AudioCapabilities(12480): Unsupported mime audio/x-ape
+11-13 15:48:43.853 W/ActivityManager( 2484): Sending non-protected broadcast miui.intent.action.TELEPHONY_RESOURCE_ACCESS from system 4780:com.android.phone/1001 pkg com.android.phone. Callers=
+11-13 15:48:43.853 W/ActivityManager( 2484): Sending non-protected broadcast miui.intent.action.TELEPHONY_RESOURCE_ACCESS from system 4780:com.android.phone/1001 pkg com.android.phone. Callers=
+11-13 15:48:43.862 D/TelephonyManager( 4780): requestModemActivityInfo: Sending result to app: ModemActivityInfo{ mTimestamp=33008865 mSleepTimeMs=4412653 mIdleTimeMs=130004 mActivityStatsTechSpecificInfo=[{mRat=UNKNOWN,mFrequencyRange=UNKNOWN,mTxTimeMs[]=[57109, 46606, 39466, 44025, 158924],mRxTimeMs=22203561}]}
+11-13 15:48:43.873 D/A11yRuleEngine( 8493): startQueryJob end 29 ms
+11-13 15:48:43.893 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:43.904 W/VideoCapabilities(12480): Unsupported mime image/vnd.android.heic
+11-13 15:48:43.904 W/VideoCapabilities(12480): Unsupported mime image/vnd.android.heic
+11-13 15:48:43.906 W/VideoCapabilities(12480): Unsupported mime video/dolby-vision
+11-13 15:48:43.906 W/VideoCapabilities(12480): Unsupported mime video/dolby-vision
+11-13 15:48:43.924 D/A11yRuleEngine( 8493): startQueryJob end 31 ms
+11-13 15:48:43.959 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:43.983 D/A11yRuleEngine( 8493): startQueryJob end 24 ms
+11-13 15:48:44.002 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:44.034 D/A11yRuleEngine( 8493): startQueryJob end 32 ms
+11-13 15:48:44.058 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:44.065 D/UidObserver(10039): onUidIdle uid=10318 uidstate=100
+11-13 15:48:44.098 D/A11yRuleEngine( 8493): startQueryJob end 40 ms
+11-13 15:48:44.100 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:44.102 W/ThreadPoolForeg(12965): type=1400 audit(0.0:54990): avc: denied { write } for name="traced_producer" dev="tmpfs" ino=1593 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 app=com.google.android.gms
+11-13 15:48:44.125 D/A11yRuleEngine( 8493): startQueryJob end 25 ms
+11-13 15:48:44.139 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:44.164 D/A11yRuleEngine( 8493): startQueryJob end 25 ms
+11-13 15:48:44.174 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:44.199 D/A11yRuleEngine( 8493): startQueryJob end 25 ms
+11-13 15:48:44.202 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:44.221 W/nt.mm:appbrand0(12480): Suspending all threads took: 13.454ms, retry remains: 119/120
+11-13 15:48:44.229 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 15:48:44.284 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:44.303 D/A11yRuleEngine( 8493): startQueryJob end 19 ms
+11-13 15:48:44.333 D/UidObserver(10039): onUidIdle uid=10318 uidstate=100
+11-13 15:48:44.334 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:44.357 D/A11yRuleEngine( 8493): startQueryJob end 23 ms
+11-13 15:48:44.398 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:44.399 I/nt.mm:appbrand0(12480): This is sticky GC, maxfree is 33554432 minfree is 8388608
+11-13 15:48:44.428 D/A11yRuleEngine( 8493): startQueryJob end 30 ms
+11-13 15:48:44.434 W/android.fg( 2484): type=1400 audit(0.0:54992): avc: denied { read } for name="u:object_r:wifi_hal_prop:s0" dev="tmpfs" ino=505 scontext=u:r:system_server:s0 tcontext=u:object_r:wifi_hal_prop:s0 tclass=file permissive=0
+11-13 15:48:44.437 W/libc    ( 2484): Access denied finding property "wifi.interface"
+11-13 15:48:44.437 D/NetworkManagement( 2484): wlan0 <====> 1
+11-13 15:48:44.437 I/MiuiNetworkPolicy( 2484): label wlan0, uid -1, active false, tsNanos 33009438471874
+11-13 15:48:44.437 D/MiuiNetworkPolicy( 2484): updateLimit mLimitEnabled=true,enabled=false,mNetworkPriorityMode=1
+11-13 15:48:44.444 I/nt.mm:appbrand1(12499): This is non sticky GC, maxfree is 33554432 minfree is 8388608
+11-13 15:48:44.444 W/JavaBinder(12499): BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.tencent.mm.ipcinvoker.c$$a
+11-13 15:48:44.444 I/BpBinder(12499): onLastStrongRef automatically unlinking death recipients: <uncached descriptor>
+11-13 15:48:44.465 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:44.486 D/A11yRuleEngine( 8493): startQueryJob end 21 ms
+11-13 15:48:44.500 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:44.527 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 15:48:44.529 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:44.545 D/A11yRuleEngine( 8493): startQueryJob end 15 ms
+11-13 15:48:44.547 D/MilletPolicy(10039): HasForegroundService or audio pkgName=com.kkrainbow.easytier
+11-13 15:48:44.554 I/MiuiNetworkPolicy( 2484): bandwidth: 0 KB/s, Max bandwidth: 200 KB/s
+11-13 15:48:44.565 D/MilletPolicy(10039): HasForegroundService or audio pkgName=com.kkrainbow.easytier
+11-13 15:48:44.569 D/GreezeManager( 2484): FZ uid = 10298 reason =from system success !
+11-13 15:48:44.569 D/GreezeManager( 2484): call socket destroy!
+11-13 15:48:44.572 I/SmartPower( 2484): com.miui.home/10128 state=idle adj=100 proc size=1 move to hibernation broadcast start Intent { act=android.intent.action.APPLICATION_MESSAGE_UPDATE flg=0x10 pkg=com.miui.home (has extras) }
+11-13 15:48:44.572 D/MilletBrightHandler(10039): frozen uids:[10298] reason = from system
+11-13 15:48:44.573 D/MilletBrightHandler(10039): frozen fail result:[10289, 10318] freeze fail:[]
+11-13 15:48:44.578 D/BufferPoolAccessor2.0( 1355): evictor expired: 1, evicted: 0
+11-13 15:48:44.607 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:44.641 D/A11yRuleEngine( 8493): startQueryJob end 34 ms
+11-13 15:48:44.657 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:44.685 D/A11yRuleEngine( 8493): startQueryJob end 28 ms
+11-13 15:48:44.706 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:44.739 D/A11yRuleEngine( 8493): startQueryJob end 33 ms
+11-13 15:48:44.750 I/nt.mm:appbrand0(12480): This is non sticky GC, maxfree is 33554432 minfree is 8388608
+11-13 15:48:44.751 W/JavaBinder(12480): BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.tencent.mm.ipcinvoker.c$$a
+11-13 15:48:44.751 I/BpBinder(12480): onLastStrongRef automatically unlinking death recipients: <uncached descriptor>
+11-13 15:48:44.774 W/[GT]ColdPool#1(12480): type=1400 audit(0.0:54993): avc: granted { execute } for path="/data/data/com.tencent.mm/tinker/patch-42a62138/lib/lib/arm64-v8a/libskyline.so" dev="dm-44" ino=1697845 scontext=u:r:untrusted_app:s0:c1,c257,c512,c768 tcontext=u:object_r:app_data_file:s0:c1,c257,c512,c768 tclass=file app=com.tencent.mm
+11-13 15:48:44.786 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:44.789 I/skyline (12480): [0;36m[INFO:jni.cc(258)] JNI_OnLoad start
+11-13 15:48:44.789 I/skyline (12480): [0m
+11-13 15:48:44.789 I/skyline (12480): setLogHandler
+11-13 15:48:44.809 D/A11yRuleEngine( 8493): startQueryJob end 23 ms
+11-13 15:48:44.822 E/zidl2   (12480): ::JNI_OnLoad of libzidl2 BEGIN
+11-13 15:48:44.823 E/zidl2   (12480): ::JNI_OnLoad of libzidl2.so
+11-13 15:48:44.827 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:44.857 D/A11yRuleEngine( 8493): startQueryJob end 30 ms
+11-13 15:48:44.863 I/SmartPower( 2484): com.tencent.mm/99082 state=idle adj=700 proc size=1 move to hibernation remove from whitelist
+11-13 15:48:44.866 I/flutter (12480): [IMPORTANT:flutter/shell/platform/android/vsync_waiter_android.cc(378)] [VsyncPeriod] declared refresh rate changed: 60 -> 120
+11-13 15:48:44.867 E/flutter (12480): [ERROR:flutter/txt/src/txt/fontmgr_default_android.cc(504)] value Redmi
+11-13 15:48:44.868 E/flutter (12480): [ERROR:flutter/txt/src/txt/fontmgr_default_android.cc(520)] fontXmlName /data/user/0/com.tencent.mm/code_cache/flutter_23013RK75C/com.tencent.mm:appbrand0/flutter_custom_fonts2.xml
+11-13 15:48:44.868 E/flutter (12480): [ERROR:flutter/txt/src/txt/fontmgr_default_android.cc(688)] use default font mgr
+11-13 15:48:44.909 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:44.912 I/AICall_MemoryTrim$a(20619): Timer-50 trimMemory on background
+11-13 15:48:44.913 I/AICall_m0(20619): main invoke : null|80
+11-13 15:48:44.924 D/TrafficManageService( 8602): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-13 15:48:44.925 D/TrafficManageService-TrafficSimManager( 8602): notifyByNetChange_time: return
+11-13 15:48:44.925 D/MilletPolicy(10039): checkIntervalThawTime uid=10257
+11-13 15:48:44.930 W/[GT]ColdPool#1(12480): type=1400 audit(0.0:54994): avc: granted { execute } for path="/data/data/com.tencent.mm/tinker/patch-42a62138/lib/lib/arm64-v8a/libvoiceopus.so" dev="dm-44" ino=1698270 scontext=u:r:untrusted_app:s0:c1,c257,c512,c768 tcontext=u:object_r:app_data_file:s0:c1,c257,c512,c768 tclass=file app=com.tencent.mm
+11-13 15:48:44.934 W/[GT]ColdPool#1(12480): type=1400 audit(0.0:54995): avc: granted { execute } for path="/data/data/com.tencent.mm/tinker/patch-42a62138/lib/lib/arm64-v8a/libvoipChannel.so" dev="dm-44" ino=1698227 scontext=u:r:untrusted_app:s0:c1,c257,c512,c768 tcontext=u:object_r:app_data_file:s0:c1,c257,c512,c768 tclass=file app=com.tencent.mm
+11-13 15:48:44.946 D/A11yRuleEngine( 8493): startQueryJob end 37 ms
+11-13 15:48:44.970 E/zidl2   (12480): ::JNI_OnLoad of libzidl2 BEGIN
+11-13 15:48:44.970 E/zidl2   (12480): ::JNI_OnLoad of libzidl2.so
+11-13 15:48:44.986 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:45.009 D/A11yRuleEngine( 8493): startQueryJob end 23 ms
+11-13 15:48:45.009 D/jnicat  (12480): cacheitem("java/lang/Throwable", "toString", "()Ljava/lang/String;", 1)
+11-13 15:48:45.009 D/jnicat  (12480): cacheitem("android/util/Log", "getStackTraceString", "(Ljava/lang/Throwable;)Ljava/lang/String;", 2)
+11-13 15:48:45.009 D/jnicat  (12480): cacheitem("com/tencent/mars/mm/MMStnManager$CallBack", "receiveWeakNetNotify", "(ZI)V", 1)
+11-13 15:48:45.010 D/jnicat  (12480): cacheitem("com/tencent/mars/sdt/SdtManager$CallBack", "reportSignalDetectResults", "(Ljava/lang/String;)V", 1)
+11-13 15:48:45.027 I/ilink2  (12480): ::JNI_OnLoad of ilink2 AFF_ALL_IN_ONE_SO_MODE=false
+11-13 15:48:45.028 I/ilink2  (12480): ilink2_jni_register default entry
+11-13 15:48:45.030 W/[GT]ColdPool#1(12480): type=1400 audit(0.0:54996): avc: granted { execute } for path="/data/data/com.tencent.mm/tinker/patch-42a62138/lib/lib/arm64-v8a/libconfService.so" dev="dm-44" ino=1698194 scontext=u:r:untrusted_app:s0:c1,c257,c512,c768 tcontext=u:object_r:app_data_file:s0:c1,c257,c512,c768 tclass=file app=com.tencent.mm
+11-13 15:48:45.034 I/AudioOboeManager(12480): JNI_OnLoad called
+11-13 15:48:45.034 I/AudioOboeManager(12480): OboeAudioPlayer JNI methods registered successfully
+11-13 15:48:45.034 I/AudioOboeManager(12480): OboeAudioRecorder JNI methods registered successfully
+11-13 15:48:45.034 I/AudioOboeManager(12480): JNI_OnLoad completed successfully
+11-13 15:48:45.040 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:45.041 V/WCDB.JNIHelp(12480): Registering com/tencent/wcdb/CursorWindow natives
+11-13 15:48:45.041 V/WCDB.JNIHelp(12480): Registering com/tencent/wcdb/database/ChunkedCursorWindow natives
+11-13 15:48:45.042 V/WCDB.JNIHelp(12480): Registering com/tencent/wcdb/database/SQLiteAsyncQuery natives
+11-13 15:48:45.042 V/WCDB.JNIHelp(12480): Registering com/tencent/wcdb/database/SQLiteDebug natives
+11-13 15:48:45.043 V/WCDB.JNIHelp(12480): Registering com/tencent/wcdb/database/SQLiteDirectQuery natives
+11-13 15:48:45.043 V/WCDB.JNIHelp(12480): Registering com/tencent/wcdb/extension/fts/MMFtsTokenizer natives
+11-13 15:48:45.043 V/WCDB.JNIHelp(12480): Registering com/tencent/wcdb/FileUtils natives
+11-13 15:48:45.043 V/WCDB.JNIHelp(12480): Registering com/tencent/wcdb/repair/BackupKit natives
+11-13 15:48:45.043 V/WCDB.JNIHelp(12480): Registering com/tencent/wcdb/repair/RecoverKit natives
+11-13 15:48:45.043 V/WCDB.JNIHelp(12480): Registering com/tencent/wcdb/repair/DBDumpUtil natives
+11-13 15:48:45.043 V/WCDB.JNIHelp(12480): Registering com/tencent/wcdb/repair/RepairKit$RepairCursor natives
+11-13 15:48:45.044 V/WCDB.JNIHelp(12480): Registering com/tencent/wcdb/support/Log natives
+11-13 15:48:45.044 V/WCDB.JNIHelp(12480): Registering com/tencent/wcdb/database/SQLiteGlobal natives
+11-13 15:48:45.052 I/aff_feat_udr(12480): ::JNI_OnLoad of aff_feat_udr AFF_ALL_IN_ONE_SO_MODE=false
+11-13 15:48:45.054 I/aff_feat_udr(12480): aff_feat_udr_jni_register default entry
+11-13 15:48:45.059 I/ilink_stream(12480): ::JNI_OnLoad of ilink_stream AFF_ALL_IN_ONE_SO_MODE=false
+11-13 15:48:45.060 I/ilink_stream(12480): ilink_stream_jni_register default entry
+11-13 15:48:45.062 I/ilink_asr(12480): ::JNI_OnLoad of ilink_asr AFF_ALL_IN_ONE_SO_MODE=false
+11-13 15:48:45.063 I/ilink_asr(12480): ilink_asr_jni_register default entry
+11-13 15:48:45.072 D/A11yRuleEngine( 8493): startQueryJob end 32 ms
+11-13 15:48:45.084 D/jnicat  (12480): cacheitem("java/lang/Throwable", "toString", "()Ljava/lang/String;", 1)
+11-13 15:48:45.084 D/jnicat  (12480): cacheitem("android/util/Log", "getStackTraceString", "(Ljava/lang/Throwable;)Ljava/lang/String;", 2)
+11-13 15:48:45.084 D/jnicat  (12480): cacheitem("com/tencent/mars/mm/MMStnManager$CallBack", "receiveWeakNetNotify", "(ZI)V", 1)
+11-13 15:48:45.084 D/jnicat  (12480): cacheitem("com/tencent/mars/sdt/SdtManager$CallBack", "reportSignalDetectResults", "(Ljava/lang/String;)V", 1)
+11-13 15:48:45.092 I/ur.unit_rc(12480): ::JNI_OnLoad start
+11-13 15:48:45.093 I/UnitRC.jni(12480): <UnitRCJniRegister.cpp:175> load classes count: 33
+11-13 15:48:45.093 I/UnitRC.jni(12480): load classes count: 33
+11-13 15:48:45.093 I/ur.unit_rc(12480): ::JNI_OnLoad end
+11-13 15:48:45.096 E/zidl2   (12480): ::JNI_OnLoad of libzidl2 BEGIN
+11-13 15:48:45.097 E/zidl2   (12480): ::JNI_OnLoad of libzidl2.so
+11-13 15:48:45.104 I/MagicBrush(12480): JNIClass init with className [com/tencent/magicbrush/utils/NativeTaskHelper]
+11-13 15:48:45.110 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:45.143 I/wemagic_common(12480): ::JNI_OnLoad of wemagic_common AFF_ALL_IN_ONE_SO_MODE=false
+11-13 15:48:45.144 I/wemagic_common(12480): wemagic_common_jni_register default entry
+11-13 15:48:45.149 I/adframework(12480): ::JNI_OnLoad of adframework AFF_ALL_IN_ONE_SO_MODE=false
+11-13 15:48:45.150 I/adframework(12480): adframework_jni_register default entry
+11-13 15:48:45.165 D/A11yRuleEngine( 8493): startQueryJob end 55 ms
+11-13 15:48:45.210 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:45.263 D/A11yRuleEngine( 8493): startQueryJob end 53 ms
+11-13 15:48:45.310 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:45.350 D/A11yRuleEngine( 8493): startQueryJob end 40 ms
+11-13 15:48:45.372 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:45.398 D/A11yRuleEngine( 8493): startQueryJob end 26 ms
+11-13 15:48:45.410 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:45.453 D/A11yRuleEngine( 8493): startQueryJob end 43 ms
+11-13 15:48:45.466 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:45.493 D/SRE     ( 1370): sensorCallback mDisplayId = 0 dataCallback value=< 361.1925, 361.2038, 938.0000>,time=33010493611428, sensor=5, temperature(K)= 361.2038
+11-13 15:48:45.493 D/SRE     ( 1370): setSREStrength mDisplayId = 0, mLastLux = 327, lux = 361, mSREEnabled = 1, mLastFreezeStatus = 0, freeze = 0
+11-13 15:48:45.494 D/A11yRuleEngine( 8493): startQueryJob end 28 ms
+11-13 15:48:45.509 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:45.530 I/UnitRC.jni(12480): <UnitRCJniRegister.cpp:175> load classes count: 290
+11-13 15:48:45.531 I/UnitRC.jni(12480): load classes count: 290
+11-13 15:48:45.531 I/iam_feat_wcrte_api(12480): ::JNI_OnLoad of iam_feat_wcrte_api AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.531 I/iam_feat_wcrte_api(12480): iam_feat_wcrte_api_jni_register default entry
+11-13 15:48:45.531 I/iam_feat_roam(12480): ::JNI_OnLoad of iam_feat_roam AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.531 I/iam_feat_roam(12480): iam_feat_roam_jni_register default entry
+11-13 15:48:45.531 I/iam_feat_magicbrush(12480): ::JNI_OnLoad of iam_feat_magicbrush AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.531 I/iam_feat_magicbrush(12480): iam_feat_magicbrush_jni_register default entry
+11-13 15:48:45.531 I/iam_feat_ext_device(12480): ::JNI_OnLoad of iam_feat_ext_device AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.531 I/iam_feat_ext_device(12480): iam_feat_ext_device_jni_register default entry
+11-13 15:48:45.531 I/iam_feat_weapp_agent_runtime(12480): ::JNI_OnLoad of iam_feat_weapp_agent_runtime AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.531 I/iam_feat_weapp_agent_runtime(12480): iam_feat_weapp_agent_runtime_jni_register default entry
+11-13 15:48:45.531 I/iam_feat_emoticon(12480): ::JNI_OnLoad of iam_feat_emoticon AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.531 I/iam_feat_emoticon(12480): iam_feat_emoticon_jni_register default entry
+11-13 15:48:45.531 I/iam_feat_data_report(12480): ::JNI_OnLoad of iam_feat_data_report AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.531 I/iam_feat_data_report(12480): iam_feat_data_report_jni_register default entry
+11-13 15:48:45.531 I/iam_feat_game(12480): ::JNI_OnLoad of iam_feat_game AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.531 I/iam_feat_game(12480): iam_feat_game_jni_register default entry
+11-13 15:48:45.531 I/iam_feat_scan(12480): ::JNI_OnLoad of iam_feat_scan AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.531 I/iam_feat_scan(12480): iam_feat_scan_jni_register default entry
+11-13 15:48:45.531 I/iam_feat_vqm(12480): ::JNI_OnLoad of iam_feat_vqm AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.531 I/iam_feat_vqm(12480): iam_feat_vqm_jni_register default entry
+11-13 15:48:45.531 I/iam_feat_biz(12480): ::JNI_OnLoad of iam_feat_biz AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.531 I/iam_feat_biz(12480): iam_feat_biz_jni_register default entry
+11-13 15:48:45.532 I/iam_feat_sns(12480): ::JNI_OnLoad of iam_feat_sns AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.532 I/iam_feat_sns(12480): iam_feat_sns_jni_register default entry
+11-13 15:48:45.532 I/iam_infra(12480): ::JNI_OnLoad of iam_infra AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.532 I/iam_infra(12480): iam_infra_jni_register default entry
+11-13 15:48:45.532 I/iam_feat_function_call(12480): ::JNI_OnLoad of iam_feat_function_call AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.532 I/iam_feat_function_call(12480): iam_feat_function_call_jni_register default entry
+11-13 15:48:45.532 I/iam_common(12480): ::JNI_OnLoad of iam_common AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.532 I/iam_common(12480): iam_common_jni_register default entry
+11-13 15:48:45.532 I/iam_feat_weapp(12480): ::JNI_OnLoad of iam_feat_weapp AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.532 I/iam_feat_same_net_verify(12480): ::JNI_OnLoad of iam_feat_same_net_verify AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.532 I/iam_feat_same_net_verify(12480): iam_feat_same_net_verify_jni_register default entry
+11-13 15:48:45.532 I/iam_feat_ecs_fitting_room(12480): ::JNI_OnLoad of iam_feat_ecs_fitting_room AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.532 I/iam_feat_ecs_fitting_room(12480): iam_feat_ecs_fitting_room_jni_register default entry
+11-13 15:48:45.532 I/iam_feat_wenote(12480): ::JNI_OnLoad of iam_feat_wenote AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.532 I/iam_feat_wenote(12480): iam_feat_wenote_jni_register default entry
+11-13 15:48:45.532 I/iam_feat_local_connection(12480): ::JNI_OnLoad of iam_feat_local_connection AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.532 I/iam_feat_local_connection(12480): iam_feat_local_connection_jni_register default entry
+11-13 15:48:45.532 I/iam_feat_ecs(12480): ::JNI_OnLoad of iam_feat_ecs AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.532 I/iam_feat_ecs(12480): iam_feat_ecs_jni_register default entry
+11-13 15:48:45.532 I/iam_feat_chatbot(12480): ::JNI_OnLoad of iam_feat_chatbot AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.532 I/iam_feat_chatbot(12480): iam_feat_chatbot_jni_register default entry
+11-13 15:48:45.532 I/iam_feat_websearch(12480): ::JNI_OnLoad of iam_feat_websearch AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.532 I/iam_feat_websearch(12480): iam_feat_websearch_jni_register default entry
+11-13 15:48:45.532 I/iam_feat_star_api(12480): ::JNI_OnLoad of iam_feat_star_api AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.532 I/iam_feat_star_api(12480): iam_feat_star_api_jni_register default entry
+11-13 15:48:45.533 I/iam_feat_biz_mp_editor_core(12480): ::JNI_OnLoad of iam_feat_biz_mp_editor_core AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.533 I/iam_feat_biz_mp_editor_core(12480): iam_feat_biz_mp_editor_core_jni_register default entry
+11-13 15:48:45.533 I/feat_flutter_common(12480): ::JNI_OnLoad of feat_flutter_common AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.533 I/feat_flutter_common(12480): feat_flutter_common_jni_register default entry
+11-13 15:48:45.533 I/iam_feat_brand_service(12480): ::JNI_OnLoad of iam_feat_brand_service AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.533 I/iam_feat_brand_service(12480): iam_feat_brand_service_jni_register default entry
+11-13 15:48:45.533 I/iam_feat_emoticon_native_cpp(12480): ::JNI_OnLoad of iam_feat_emoticon_native_cpp AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.533 I/iam_feat_emoticon_native_cpp(12480): iam_feat_emoticon_native_cpp_jni_register default entry
+11-13 15:48:45.533 I/iam_feat_mm_foundation(12480): ::JNI_OnLoad of iam_feat_mm_foundation AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.533 I/iam_feat_mm_foundation(12480): iam_feat_mm_foundation_jni_register default entry
+11-13 15:48:45.533 I/iam_file_transport(12480): ::JNI_OnLoad of iam_file_transport AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.533 I/iam_file_transport(12480): iam_file_transport_jni_register default entry
+11-13 15:48:45.533 I/iam_feat_ovc(12480): ::JNI_OnLoad of iam_feat_ovc AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.533 I/iam_feat_ovc(12480): iam_feat_ovc_jni_register default entry
+11-13 15:48:45.533 I/iam_feat_status(12480): ::JNI_OnLoad of iam_feat_status AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.533 I/iam_feat_status(12480): iam_feat_status_jni_register default entry
+11-13 15:48:45.533 I/iam_feat_sns_ad(12480): ::JNI_OnLoad of iam_feat_sns_ad AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.533 I/iam_feat_sns_ad(12480): iam_feat_sns_ad_jni_register default entry
+11-13 15:48:45.534 I/iam_lib_zrpc_ext_channel(12480): ::JNI_OnLoad of iam_lib_zrpc_ext_channel AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.534 I/iam_lib_zrpc_ext_channel(12480): iam_lib_zrpc_ext_channel_jni_register default entry
+11-13 15:48:45.534 I/iam_feat_finder_box(12480): ::JNI_OnLoad of iam_feat_finder_box AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.534 I/iam_feat_finder_box(12480): iam_feat_finder_box_jni_register default entry
+11-13 15:48:45.534 I/iam_feat_favorites_api(12480): ::JNI_OnLoad of iam_feat_favorites_api AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.534 I/iam_feat_favorites_api(12480): iam_feat_favorites_api_jni_register default entry
+11-13 15:48:45.534 I/iam_flutter_container(12480): ::JNI_OnLoad of iam_flutter_container AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.534 I/iam_flutter_container(12480): iam_flutter_container_jni_register default entry
+11-13 15:48:45.534 I/iam_feat_voipmp(12480): ::JNI_OnLoad of iam_feat_voipmp AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.534 I/iam_feat_voipmp(12480): iam_feat_voipmp_jni_register default entry
+11-13 15:48:45.534 I/iam_feat_star(12480): ::JNI_OnLoad of iam_feat_star AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.534 I/iam_feat_star(12480): iam_feat_star_jni_register default entry
+11-13 15:48:45.534 I/zidl_reg(12480): ::JNI_OnLoad of zidl_reg AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.534 I/iam_feat_face_recog(12480): ::JNI_OnLoad of iam_feat_face_recog AFF_ALL_IN_ONE_SO_MODE=true
+11-13 15:48:45.534 I/iam_feat_face_recog(12480): iam_feat_face_recog_jni_register default entry
+11-13 15:48:45.534 E/aff-module(12480): ::JNI_OnLoad of aff-biz
+11-13 15:48:45.538 D/A11yRuleEngine( 8493): startQueryJob end 29 ms
+11-13 15:48:45.560 I/UnitRC.aff-biz(12480): <JNI_OnLoad.cpp:22> initUnitRC
+11-13 15:48:45.560 I/UnitRC.jni(12480): load classes count: 0
+11-13 15:48:45.563 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:45.564 I/flutter (12480): [INFO:flutter/shell/common/switches.cc(672)] settings.enable_surface_control:0, settings.surface_control_max_buffer_num:3,settings.create_join_raster_group_name:
+11-13 15:48:45.564 I/flutter (12480): [INFO:flutter/shell/common/switches.cc(700)] settings.enable_impeller_raster_cache:0, settings.enable_font_prerender:0, settings.share_glyph_atlas:0, settings.enable_vsync_period_fix:0, settings.enable_ios_gpu_glyph_atlas_purge_on_destroy:0
+11-13 15:48:45.565 I/flutter (12480): [INFO:flutter/shell/common/switches.cc(797)] settings.enable_vulkan_partial_repaint:0, settings.enable_vulkan_vma_pool:0, settings.enable_vulkan_set_present_time:0, settings.vulkan_swapchain_extra_image_count:1, settings.enable_occlusion_culling:0, settings.impeller_use_sdfs:0, settings.impeller_use_skia_raster_snapshot:0
+11-13 15:48:45.569 I/flutter (12480): [INFO:flutter/shell/platform/android/flutter_main.cc(259)] set slow runner report callback
+11-13 15:48:45.569 I/flutter (12480): [INFO:flutter/fml/platform/android/message_loop_android.cc(22)] prepare main_looper: 1
+11-13 15:48:45.569 I/flutter (12480): [INFO:flutter/fml/message_loop.cc(117)] start create platform thread message loop
+11-13 15:48:45.570 I/flutter (12480): [INFO:flutter/fml/platform/android/message_loop_android.cc(49)] AcquireLooperForMainThread success
+11-13 15:48:45.570 I/flutter (12480): [INFO:flutter/fml/message_loop.cc(119)] create platform thread message loop end
+11-13 15:48:45.570 I/flutter (12480): [INFO:flutter/fml/message_loop.cc(124)] start AttachLoopToPlatformThread
+11-13 15:48:45.570 I/flutter (12480): [INFO:flutter/fml/message_loop.cc(126)] AttachLoopToPlatformThread reset tls_message_loop. g_platform_thread_loop:0x7d097d9540 tls_message_loop:0x0
+11-13 15:48:45.590 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 15:48:45.594 I/flutter (12480): [INFO:flutter/fml/message_loop.cc(32)] create MessageLoop for current thread
+11-13 15:48:45.610 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:45.651 D/A11yRuleEngine( 8493): startQueryJob end 41 ms
+11-13 15:48:45.699 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:45.726 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 15:48:45.726 D/TrafficStats( 2695): tagSocket(121) with statsTag=0xffffffff, statsUid=-1
+11-13 15:48:45.754 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:45.780 D/A11yRuleEngine( 8493): startQueryJob end 26 ms
+11-13 15:48:45.795 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:45.812 D/A11yRuleEngine( 8493): startQueryJob end 17 ms
+11-13 15:48:45.838 D/CompatibilityChangeReporter(12480): Compat change id reported: 210923482; UID 10257; state: ENABLED
+11-13 15:48:45.839 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:45.864 D/A11yRuleEngine( 8493): startQueryJob end 25 ms
+11-13 15:48:45.890 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:45.910 D/A11yRuleEngine( 8493): startQueryJob end 20 ms
+11-13 15:48:45.951 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:45.965 D/OpenGLRenderer(12480): --- Failed to create image decoder with message 'unimplemented'
+11-13 15:48:45.977 D/A11yRuleEngine( 8493): startQueryJob end 26 ms
+11-13 15:48:46.012 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:46.047 D/A11yRuleEngine( 8493): startQueryJob end 35 ms
+11-13 15:48:46.081 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:46.106 D/A11yRuleEngine( 8493): startQueryJob end 25 ms
+11-13 15:48:46.112 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:46.122 D/CompatibilityChangeReporter(12480): Compat change id reported: 147600208; UID 10257; state: ENABLED
+11-13 15:48:46.139 D/A11yRuleEngine( 8493): startQueryJob end 26 ms
+11-13 15:48:46.151 D/SecurityCenter( 4073): ImageLoader clear memory info
+11-13 15:48:46.164 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:46.191 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 15:48:46.213 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:46.234 D/TrafficManageService( 8602): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-13 15:48:46.234 D/TrafficManageService-TrafficSimManager( 8602): notifyByNetChange_time: return
+11-13 15:48:46.248 D/A11yRuleEngine( 8493): startQueryJob end 35 ms
+11-13 15:48:46.277 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:46.280 I/NativeImage(12480): [WxImageLoader] construct
+11-13 15:48:46.281 I/nt.mm:appbrand0(12480): This is sticky GC, maxfree is 33554432 minfree is 8388608
+11-13 15:48:46.307 D/A11yRuleEngine( 8493): startQueryJob end 30 ms
+11-13 15:48:46.312 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:46.339 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 15:48:46.348 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:46.356 I/ProcessService0(12525): This is non sticky GC, maxfree is 33554432 minfree is 8388608
+11-13 15:48:46.367 D/A11yRuleEngine( 8493): startQueryJob end 19 ms
+11-13 15:48:46.384 D/ProfileInstaller(17988): Installing profile for com.example.cloudmusic
+11-13 15:48:46.406 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:46.429 D/A11yRuleEngine( 8493): startQueryJob end 23 ms
+11-13 15:48:46.439 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:46.463 D/A11yRuleEngine( 8493): startQueryJob end 24 ms
+11-13 15:48:46.464 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=11}
+11-13 15:48:46.464 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=42}
+11-13 15:48:46.464 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 15:48:46.464 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=19}
+11-13 15:48:46.464 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 15:48:46.464 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=4}
+11-13 15:48:46.465 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 15:48:46.465 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=18042}
+11-13 15:48:46.465 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=202}
+11-13 15:48:46.465 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=190}
+11-13 15:48:46.465 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 15:48:46.465 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=22336}
+11-13 15:48:46.465 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=194}
+11-13 15:48:46.465 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=18272}
+11-13 15:48:46.491 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=false, byDelayRule=false
+11-13 15:48:46.515 D/A11yRuleEngine( 8493): startQueryJob end 24 ms
+11-13 15:48:46.549 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:46.559 D/A11yRuleEngine( 8493): startQueryJob end 10 ms
+11-13 15:48:46.608 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:46.630 D/A11yRuleEngine( 8493): startQueryJob end 22 ms
+11-13 15:48:46.639 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:46.650 D/A11yRuleEngine( 8493): startQueryJob end 11 ms
+11-13 15:48:46.668 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:46.688 D/A11yRuleEngine( 8493): startQueryJob end 20 ms
+11-13 15:48:46.699 I/li.songe.gkd( 8493): This is sticky GC, maxfree is 33554432 minfree is 8388608
+11-13 15:48:46.719 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:46.753 D/A11yRuleEngine( 8493): startQueryJob end 34 ms
+11-13 15:48:46.764 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:46.778 D/A11yRuleEngine( 8493): startQueryJob end 14 ms
+11-13 15:48:46.819 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:46.819 I/flutter (30429): [INFO:/data/landun/workspace/wxa_lite_app/wxa_lite_app/third_party/luggage/fml/thread.cc(194)] destroy thread, thread name = wxajs.13.store
+11-13 15:48:46.861 D/A11yRuleEngine( 8493): startQueryJob end 42 ms
+11-13 15:48:46.922 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:46.969 D/A11yRuleEngine( 8493): startQueryJob end 47 ms
+11-13 15:48:46.989 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:47.005 D/A11yRuleEngine( 8493): startQueryJob end 16 ms
+11-13 15:48:47.022 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:47.059 D/A11yRuleEngine( 8493): startQueryJob end 37 ms
+11-13 15:48:47.079 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:47.095 D/A11yRuleEngine( 8493): startQueryJob end 16 ms
+11-13 15:48:47.113 I/com.tencent.mm(30429): This is non sticky GC, maxfree is 33554432 minfree is 8388608
+11-13 15:48:47.123 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:47.186 D/A11yRuleEngine( 8493): startQueryJob end 63 ms
+11-13 15:48:47.223 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:47.245 I/MiuiNetworkPolicy( 2484): updateUidState uid = 10115, uidState = 5
+11-13 15:48:47.273 D/A11yRuleEngine( 8493): startQueryJob end 50 ms
+11-13 15:48:47.306 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:47.328 D/A11yRuleEngine( 8493): startQueryJob end 22 ms
+11-13 15:48:47.360 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:47.387 D/A11yRuleEngine( 8493): startQueryJob end 26 ms
+11-13 15:48:47.396 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:47.425 D/TrafficManageService( 8602): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-13 15:48:47.425 D/A11yRuleEngine( 8493): startQueryJob end 29 ms
+11-13 15:48:47.426 D/TrafficManageService-TrafficSimManager( 8602): notifyByNetChange_time: return
+11-13 15:48:47.487 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:47.512 D/A11yRuleEngine( 8493): startQueryJob end 26 ms
+11-13 15:48:47.522 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:47.555 I/MiuiNetworkPolicy( 2484): bandwidth: 0 KB/s, Max bandwidth: 200 KB/s
+11-13 15:48:47.567 D/BufferPoolAccessor2.0( 2020): bufferpool2 0xb40000775a6a7428 : 0(0 size) total buffers - 0(0 size) used buffers - 1/5 (recycle/alloc) - 2/4 (fetch/transfer)
+11-13 15:48:47.567 D/BufferPoolAccessor2.0( 2020): evictor expired: 1, evicted: 1
+11-13 15:48:47.627 D/A11yRuleEngine( 8493): startQueryJob end 105 ms
+11-13 15:48:47.629 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:47.650 D/A11yRuleEngine( 8493): startQueryJob end 21 ms
+11-13 15:48:47.687 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:47.724 D/A11yRuleEngine( 8493): startQueryJob end 37 ms
+11-13 15:48:47.725 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:47.749 D/A11yRuleEngine( 8493): startQueryJob end 24 ms
+11-13 15:48:47.813 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:47.840 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 15:48:47.932 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:47.950 W/SpeakerLayoutUtil(17988): Built-in speaker's getSpeakerLayoutChannelMask not usable, defaulting to stereo.
+11-13 15:48:47.953 D/AHAL: FM( 1222): fm_get_parameters: 232: enter
+11-13 15:48:47.953 D/AHAL: FM( 1222): fm_get_parameters: 239: exit
+11-13 15:48:47.953 D/AHAL: Loopback_karaoke( 1222): karaoke_get_parameters: Enter
+11-13 15:48:47.953 D/AHAL: Loopback_karaoke( 1222): karaoke_get_parameters: Exit
+11-13 15:48:47.965 W/AudioCapabilities(17988): Unsupported mime audio/alac
+11-13 15:48:47.965 W/AudioCapabilities(17988): Unsupported mime audio/x-ape
+11-13 15:48:47.965 W/AudioCapabilities(17988): Unsupported mime audio/evrc
+11-13 15:48:47.965 W/AudioCapabilities(17988): Unsupported mime audio/qcelp
+11-13 15:48:47.966 W/AudioCapabilities(17988): Unsupported mime audio/dsd
+11-13 15:48:47.966 W/AudioCapabilities(17988): Unsupported mime audio/amr-wb-plus
+11-13 15:48:47.966 W/AudioCapabilities(17988): Unsupported mime audio/x-ms-wma
+11-13 15:48:47.966 W/AudioCapabilities(17988): Unsupported mime audio/evrc
+11-13 15:48:47.966 W/AudioCapabilities(17988): Unsupported mime audio/qcelp
+11-13 15:48:47.967 W/AudioCapabilities(17988): Unsupported mime audio/alac
+11-13 15:48:47.967 W/AudioCapabilities(17988): Unsupported mime audio/x-ape
+11-13 15:48:47.979 W/VideoCapabilities(17988): Unsupported mime image/vnd.android.heic
+11-13 15:48:47.979 W/VideoCapabilities(17988): Unsupported mime image/vnd.android.heic
+11-13 15:48:47.980 W/VideoCapabilities(17988): Unsupported mime video/dolby-vision
+11-13 15:48:47.981 W/VideoCapabilities(17988): Unsupported mime video/dolby-vision
+11-13 15:48:47.992 D/A11yRuleEngine( 8493): startQueryJob end 60 ms
+11-13 15:48:48.016 I/CM-Ape  (17988): seek to pos=1294673 frame=1/1435 len=4194304
+11-13 15:48:48.017 I/DMCodecAdapterFactory(17988): Creating an asynchronous MediaCodec adapter for track type audio
+11-13 15:48:48.020 I/MediaCodec(17988): init video box disabled for codec not supported
+11-13 15:48:48.020 D/CCodec  (17988): allocate(c2.qti.ape.sw.decoder)
+11-13 15:48:48.022 I/Codec2Client(17988): Available Codec2 services: "default" "default2" "dolby" "software"
+11-13 15:48:48.024 I/CCodec  (17988): setting up 'default' as default (vendor) store
+11-13 15:48:48.025 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:48.028 I/QC2AudioComp( 1355): Create: Allocated component[20] for name c2.qti.ape.sw.decoder : [64 bit]
+11-13 15:48:48.028 I/QC2AudioCompStore( 1355): Created component(c2.qti.ape.sw.decoder) id(20)
+11-13 15:48:48.029 I/CCodec  (17988): Created component [c2.qti.ape.sw.decoder]
+11-13 15:48:48.030 E/QC2AudioCompInterface( 1355): Failed to query parameters
+11-13 15:48:48.030 D/CCodecConfig(17988): read media type: audio/x-ape
+11-13 15:48:48.030 D/ReflectedParamUpdater(17988): extent() != 1 for single value type: output.buffers.pool-ids.values
+11-13 15:48:48.032 D/ReflectedParamUpdater(17988): extent() != 1 for single value type: output.buffers.allocator-ids.values
+11-13 15:48:48.032 D/ReflectedParamUpdater(17988): extent() != 1 for single value type: input.buffers.allocator-ids.values
+11-13 15:48:48.033 E/QC2AudioCompInterface( 1355): Failed to query parameters
+11-13 15:48:48.033 I/CCodecConfig(17988): query failed after returning 8 values (BAD_INDEX)
+11-13 15:48:48.033 D/CCodecConfig(17988): c2 config diff is Dict {
+11-13 15:48:48.033 D/CCodecConfig(17988):   c2::u32 input.buffers.max-size.value = 589824
+11-13 15:48:48.033 D/CCodecConfig(17988):   c2::u32 input.delay.value = 0
+11-13 15:48:48.033 D/CCodecConfig(17988):   string input.media-type.value = "audio/x-ape"
+11-13 15:48:48.033 D/CCodecConfig(17988):   c2::u32 output.delay.value = 0
+11-13 15:48:48.033 D/CCodecConfig(17988):   string output.media-type.value = "audio/raw"
+11-13 15:48:48.033 D/CCodecConfig(17988):   c2::u32 raw.channel-count.value = 2
+11-13 15:48:48.033 D/CCodecConfig(17988):   c2::u32 raw.pcm-encoding.value = 0
+11-13 15:48:48.033 D/CCodecConfig(17988):   c2::u32 raw.sample-rate.value = 48000
+11-13 15:48:48.033 D/CCodecConfig(17988): }
+11-13 15:48:48.037 I/MediaCodec(17988): MediaCodec will operate in async mode
+11-13 15:48:48.037 I/MediaCodec(17988): fps video to display disabled
+11-13 15:48:48.038 I/MediaCodec(17988): MediaStub sendMine
+11-13 15:48:48.043 D/A11yRuleEngine( 8493): startQueryJob end 18 ms
+11-13 15:48:48.044 V/MediaStub(17988): MediaStub::GetImplInstance for debug create,0x7d69e786b8
+11-13 15:48:48.044 D/MediaImpl(17988): MediaImpl::sendMine: audio/x-ape
+11-13 15:48:48.044 D/MediaStub(17988): MediaStub::sendMine audio/x-ape
+11-13 15:48:48.044 D/MediaCodec(17988): currery video type audio/x-ape
+11-13 15:48:48.044 I/MediaCodec(17988): MediaStub sendDolbyVision
+11-13 15:48:48.044 I/MediaCodec(17988): MediaStub sendPackageName
+11-13 15:48:48.044 D/MediaImpl(17988): MediaImpl::sendPackageName: com.example.cloudmusic
+11-13 15:48:48.044 D/MediaStub(17988): MediaStub::sendPackageName com.example.cloudmusic
+11-13 15:48:48.044 D/MediaCodec(17988): flushMediametrics
+11-13 15:48:48.044 D/CCodec  (17988): [c2.qti.ape.sw.decoder] buffers are bound to CCodec for this session
+11-13 15:48:48.044 D/CCodecConfig(17988): no c2 equivalents for log-session-id
+11-13 15:48:48.044 D/CCodecConfig(17988): no c2 equivalents for flags
+11-13 15:48:48.045 D/CCodecConfig(17988): c2 config diff is   c2::u32 raw.sample-rate.value = 44100
+11-13 15:48:48.045 E/QC2AudioCompInterface( 1355): Failed to query parameters
+11-13 15:48:48.045 W/Codec2Client(17988): query -- param skipped: index = 1107298332.
+11-13 15:48:48.045 D/CCodec  (17988): encoding statistics level = 0
+11-13 15:48:48.045 D/CCodec  (17988): setup formats input: AMessage(what = 0x00000000) = {
+11-13 15:48:48.045 D/CCodec  (17988):   int32_t android._codec-pcm-encoding = 2
+11-13 15:48:48.045 D/CCodec  (17988):   int32_t channel-count = 2
+11-13 15:48:48.045 D/CCodec  (17988):   int32_t max-input-size = 589824
+11-13 15:48:48.045 D/CCodec  (17988):   string mime = "audio/x-ape"
+11-13 15:48:48.045 D/CCodec  (17988):   int32_t pcm-encoding = 2
+11-13 15:48:48.045 D/CCodec  (17988):   int32_t sample-rate = 44100
+11-13 15:48:48.045 D/CCodec  (17988): }
+11-13 15:48:48.045 D/CCodec  (17988): setup formats output: AMessage(what = 0x00000000) = {
+11-13 15:48:48.045 D/CCodec  (17988):   int32_t android._codec-pcm-encoding = 2
+11-13 15:48:48.045 D/CCodec  (17988):   int32_t channel-count = 2
+11-13 15:48:48.045 D/CCodec  (17988):   string mime = "audio/raw"
+11-13 15:48:48.045 D/CCodec  (17988):   int32_t pcm-encoding = 2
+11-13 15:48:48.045 D/CCodec  (17988):   int32_t sample-rate = 44100
+11-13 15:48:48.045 D/CCodec  (17988):   int32_t android._config-pcm-encoding = 2
+11-13 15:48:48.045 D/CCodec  (17988): }
+11-13 15:48:48.045 E/QC2AudioCompInterface( 1355): Failed to query parameters
+11-13 15:48:48.045 I/CCodecConfig(17988): query failed after returning 8 values (BAD_INDEX)
+11-13 15:48:48.046 D/MediaCodec(17988): keep callback message for reclaim
+11-13 15:48:48.047 E/QC2AudioCompInterface( 1355): Failed to query parameters
+11-13 15:48:48.047 W/Codec2Client(17988): query -- param skipped: index = 1342179345.
+11-13 15:48:48.047 W/Codec2Client(17988): query -- param skipped: index = 2415921170.
+11-13 15:48:48.047 W/Codec2Client(17988): query -- param skipped: index = 1610614798.
+11-13 15:48:48.047 E/QC2AudioCompInterface( 1355): Failed to query parameters
+11-13 15:48:48.047 W/Codec2Client(17988): query -- param skipped: index = 2684356609.
+11-13 15:48:48.047 D/C2Store (17988): debug.c2.use_dmabufheaps set, forcing DMABUF Heaps
+11-13 15:48:48.047 D/C2Store (17988): Using DMABUF Heaps
+11-13 15:48:48.048 D/CCodecBufferChannel(17988): [c2.qti.ape.sw.decoder#407] Created input block pool with allocatorID 16 => poolID 17 - OK (0)
+11-13 15:48:48.049 I/CCodecBufferChannel(17988): [c2.qti.ape.sw.decoder#407] Created output block pool with allocatorID 16 => poolID 19 - OK
+11-13 15:48:48.049 D/CCodecBufferChannel(17988): [c2.qti.ape.sw.decoder#407] Configured output block pool ids 19 => OK
+11-13 15:48:48.049 E/QC2AudioCompInterface( 1355): Few parameters failed to configure
+11-13 15:48:48.049 D/CCodecBufferChannel(17988): [c2.qti.ape.sw.decoder#407] start: updating output delay 0
+11-13 15:48:48.049 I/QC2CompStore( 1354): Setting heap usage to system
+11-13 15:48:48.050 I/DMABUFHEAPS(17988): Using DMA-BUF heap named: system
+11-13 15:48:48.050 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:48.050 E/QC2AudioCompInterface( 1355): Failed to query parameters
+11-13 15:48:48.050 E/QC2AudioComp( 1355): [apeSwD_20] Returning work with no/empty input buffer and not marked EOS
+11-13 15:48:48.050 D/CCodecBufferChannel(17988): [c2.qti.ape.sw.decoder#407] flushed work; ignored.
+11-13 15:48:48.052 E/ApeDecWrapper( 1355): Bad input arguments to ape_dec_process
+11-13 15:48:48.052 E/QC2AudioSwApeDec( 1355): updatePointers: Erroneous decode!
+11-13 15:48:48.052 W/QC2AudioSwApeDec( 1355): process: decoder returned error 3, substituting silence
+11-13 15:48:48.053 W/SpeakerLayoutUtil(17988): Built-in speaker's getSpeakerLayoutChannelMask not usable, defaulting to stereo.
+11-13 15:48:48.056 D/AudioTrack(17988): set(sessionId=7705)
+11-13 15:48:48.056 D/AudioTrack(17988): set(): streamType -1, sampleRate 44100, format 0x1, channelMask 0x3, frameCount 22050, flags #0, notificationFrames 0, sessionId 7705, transferType 3, uid -1, pid -1
+11-13 15:48:48.061 D/APM_AudioPolicyManager( 1459): getOutputForAttrInt()+ attributes={ Content type: AUDIO_CONTENT_TYPE_UNKNOWN Usage: AUDIO_USAGE_MEDIA Source: AUDIO_SOURCE_INVALID Flags: 0xa00 Tags:  } stream=AUDIO_STREAM_MUSIC session 7705 output 0 selectedDeviceId 0 device AUDIO_DEVICE_NONE sampling rate 44100 format 0x1channel mask 0x3 flags 0x8 stream AUDIO_STREAM_MUSIC uid 10318
+11-13 15:48:48.061 D/APM_AudioPolicyManager( 1459): getOutputForAttrInt() device {AUDIO_DEVICE_OUT_SPEAKER, @:}, sampling rate 44100, format 0x1, channel mask 0x3, flags 0x8 stream AUDIO_STREAM_MUSIC
+11-13 15:48:48.061 D/MiAudioPolicyManager( 1459): getPackageName: com.example.cloudmusic  uid 10318
+11-13 15:48:48.061 D/A11yRuleEngine( 8493): startQueryJob end 11 ms
+11-13 15:48:48.061 D/AHAL: FM( 1222): fm_get_parameters: 232: enter
+11-13 15:48:48.062 D/AHAL: FM( 1222): fm_get_parameters: 239: exit
+11-13 15:48:48.062 D/AHAL: Loopback_karaoke( 1222): karaoke_get_parameters: Enter
+11-13 15:48:48.062 D/AHAL: Loopback_karaoke( 1222): karaoke_get_parameters: Exit
+11-13 15:48:48.062 D/AHAL: FM( 1222): fm_get_parameters: 232: enter
+11-13 15:48:48.062 D/AHAL: FM( 1222): fm_get_parameters: 239: exit
+11-13 15:48:48.062 D/AHAL: Loopback_karaoke( 1222): karaoke_get_parameters: Enter
+11-13 15:48:48.062 D/AHAL: Loopback_karaoke( 1222): karaoke_get_parameters: Exit
+11-13 15:48:48.063 D/APM_AudioPolicyManager( 1459): getOutputForAttrInt()- attributes={ Content type: AUDIO_CONTENT_TYPE_UNKNOWN Usage: AUDIO_USAGE_MEDIA Source: AUDIO_SOURCE_INVALID Flags: 0xa00 Tags:  } stream=AUDIO_STREAM_MUSIC session 7705 output 29 selectedDeviceId 0 device {AUDIO_DEVICE_OUT_SPEAKER, @:} sampling rate 44100 format 0x1channel mask 0x3 flags 0x8 stream AUDIO_STREAM_MUSIC uid 10318
+11-13 15:48:48.063 D/APM_AudioPolicyManager( 1459): getOutputForAttr() returns output 29 requestedPortId 0 selectedDeviceId 3 for port ID 985
+11-13 15:48:48.063 I/AudioFlinger( 1459): create audiotrack for com.example.cloudmusic  uid 10318
+11-13 15:48:48.063 D/AudioFlinger( 1459): Client defaulted notificationFrames to 11025 for frameCount 22050
+11-13 15:48:48.064 D/AF::TrackHandle( 1459): OpPlayAudio: track:955 usage:1 not muted
+11-13 15:48:48.066 I/AF::Track( 1459): isInWhiteList curPkgName com.example.cloudmusic  uid 10318
+11-13 15:48:48.066 D/AF::Track( 1459): Track(955): usage = 1 mbIsAttrNeedFade = 0
+11-13 15:48:48.067 D/AHAL: AudioStream( 1222): astream_out_get_parameters: 839: enter
+11-13 15:48:48.067 D/AHAL: AudioStream( 1222): astream_out_get_parameters: 861: keys: is_direct_pcm_track
+11-13 15:48:48.067 D/AHAL: AudioStream( 1222): astream_out_get_parameters: 898: exit: returns - is_direct_pcm_track=false
+11-13 15:48:48.070 I/AudioTrack(17988): AudioTrack::setVolume L:1.000000 R:1.000000 and the pakage is com.example.cloudmusic
+11-13 15:48:48.070 I/AudioTrack(17988): AudioTrack::setVolume L:1.000000 R:1.000000
+11-13 15:48:48.071 W/mple.cloudmusic(17988): Accessing hidden method Landroid/media/AudioTrack;->getLatency()I (unsupported, reflection, allowed)
+11-13 15:48:48.074 I/AudioTrack(17988): AudioTrack::setVolume L:1.000000 R:1.000000 and the pakage is com.example.cloudmusic
+11-13 15:48:48.074 I/AudioTrack(17988): AudioTrack::setVolume L:1.000000 R:1.000000
+11-13 15:48:48.075 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_1D uids:
+11-13 15:48:48.075 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_3D uids:
+11-13 15:48:48.076 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_4D uids:
+11-13 15:48:48.076 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abcf9b80, event 0
+11-13 15:48:48.076 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abc71b80, event 0
+11-13 15:48:48.076 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_D uids:
+11-13 15:48:48.077 D/AudioFlinger( 1459): updateWakeLockUids_l AudioOut_15 uids:
+11-13 15:48:48.077 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077cb928540, event 0
+11-13 15:48:48.077 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abbc4200, event 0
+11-13 15:48:48.078 D/AudioFlinger( 1459): PlaybackThread::ioConfigChanged, thread 0xb4000077abd5c280, event 0
+11-13 15:48:48.126 D/TrafficStats(17988): tagSocket(106) with statsTag=0xc03, statsUid=-1
+11-13 15:48:48.134 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:48.172 D/A11yRuleEngine( 8493): startQueryJob end 38 ms
+11-13 15:48:48.293 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:48.307 D/A11yRuleEngine( 8493): startQueryJob end 14 ms
+11-13 15:48:48.311 I/mple.cloudmusic(17988): ProcessProfilingInfo new_methods=288 is saved saved_to_disk=1 resolve_classes_delay=8000
+11-13 15:48:48.332 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:48.383 I/VA_AliveCore:AssistInteractionService( 8072): onProcessChanged: processName=com.miui.voiceassist;isRunning=false
+11-13 15:48:48.393 D/A11yRuleEngine( 8493): startQueryJob end 61 ms
+11-13 15:48:48.475 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:48.512 D/A11yRuleEngine( 8493): startQueryJob end 37 ms
+11-13 15:48:48.532 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:48.568 D/BufferPoolAccessor2.0( 2020): bufferpool2 0xb40000775a6c4e28 : 0(0 size) total buffers - 0(0 size) used buffers - 1/5 (recycle/alloc) - 2/4 (fetch/transfer)
+11-13 15:48:48.568 D/BufferPoolAccessor2.0( 2020): evictor expired: 3, evicted: 1
+11-13 15:48:48.574 D/TrafficManageService( 8602): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-13 15:48:48.576 D/TrafficManageService-TrafficSimManager( 8602): notifyByNetChange: gooooo
+11-13 15:48:48.580 D/TrafficManageService-TrafficSimManager( 8602): getMonthDataUsageUsed: new_get = 2782493155
+11-13 15:48:48.595 D/A11yRuleEngine( 8493): startQueryJob end 63 ms
+11-13 15:48:48.608 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:48.634 D/A11yRuleEngine( 8493): startQueryJob end 25 ms
+11-13 15:48:48.694 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:48.728 D/A11yRuleEngine( 8493): startQueryJob end 34 ms
+11-13 15:48:48.734 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:48.790 D/A11yRuleEngine( 8493): startQueryJob end 57 ms
+11-13 15:48:48.813 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:48.850 D/A11yRuleEngine( 8493): startQueryJob end 38 ms
+11-13 15:48:48.870 W/ActivityManager( 2484): Sending non-protected broadcast miui.intent.action.TELEPHONY_RESOURCE_ACCESS from system 4780:com.android.phone/1001 pkg com.android.phone. Callers=
+11-13 15:48:48.870 W/ActivityManager( 2484): Sending non-protected broadcast miui.intent.action.TELEPHONY_RESOURCE_ACCESS from system 4780:com.android.phone/1001 pkg com.android.phone. Callers=
+11-13 15:48:48.876 D/TelephonyManager( 4780): requestModemActivityInfo: Sending result to app: ModemActivityInfo{ mTimestamp=33013879 mSleepTimeMs=4412653 mIdleTimeMs=130004 mActivityStatsTechSpecificInfo=[{mRat=UNKNOWN,mFrequencyRange=UNKNOWN,mTxTimeMs[]=[57109, 46606, 39466, 44025, 158924],mRxTimeMs=22208575}]}
+11-13 15:48:48.896 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:48.913 D/A11yRuleEngine( 8493): startQueryJob end 18 ms
+11-13 15:48:48.934 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:49.000 D/A11yRuleEngine( 8493): startQueryJob end 66 ms
+11-13 15:48:49.028 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:49.055 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 15:48:49.091 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:49.109 D/A11yRuleEngine( 8493): startQueryJob end 18 ms
+11-13 15:48:49.134 I/MiuiNetworkPolicy( 2484): updateUidState uid = 10091, uidState = 15
+11-13 15:48:49.135 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:49.177 I/MiuiNetworkPolicy( 2484): updateUidState uid = 10129, uidState = 15
+11-13 15:48:49.191 D/A11yRuleEngine( 8493): startQueryJob end 56 ms
+11-13 15:48:49.214 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:49.239 D/A11yRuleEngine( 8493): startQueryJob end 25 ms
+11-13 15:48:49.301 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:49.325 D/A11yRuleEngine( 8493): startQueryJob end 24 ms
+11-13 15:48:49.334 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:49.417 D/A11yRuleEngine( 8493): startQueryJob end 83 ms
+11-13 15:48:49.492 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:49.506 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=11}
+11-13 15:48:49.506 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=42}
+11-13 15:48:49.506 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 15:48:49.506 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=3}
+11-13 15:48:49.507 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=19}
+11-13 15:48:49.507 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 15:48:49.509 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 15:48:49.509 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=18232}
+11-13 15:48:49.509 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=206}
+11-13 15:48:49.509 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=192}
+11-13 15:48:49.509 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=1, retransmit=4, sent=5}
+11-13 15:48:49.509 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=22538}
+11-13 15:48:49.509 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=194}
+11-13 15:48:49.509 D/MiuiTcpSocketTracker( 2484): skip mismatch tcpInfo:TcpInfo{lost=0, retransmit=0, sent=18501}
+11-13 15:48:49.527 D/A11yRuleEngine( 8493): startQueryJob end 35 ms
+11-13 15:48:49.533 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:49.550 D/MilletPolicy(10039): HasForegroundService or audio pkgName=com.kkrainbow.easytier
+11-13 15:48:49.580 D/A11yRuleEngine( 8493): startQueryJob end 47 ms
+11-13 15:48:49.626 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:49.653 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 15:48:49.717 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:49.735 D/A11yRuleEngine( 8493): startQueryJob end 18 ms
+11-13 15:48:49.736 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:49.769 D/TrafficManageService( 8602): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-13 15:48:49.771 D/TrafficManageService-TrafficSimManager( 8602): notifyByNetChange_time: return
+11-13 15:48:49.792 D/A11yRuleEngine( 8493): startQueryJob end 56 ms
+11-13 15:48:49.828 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:49.852 D/A11yRuleEngine( 8493): startQueryJob end 24 ms
+11-13 15:48:49.880 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:49.886 D/DynamicService( 4780):  ACTION_BATTERY_CHANGED change,USB plug = 0
+11-13 15:48:49.886 I/BatteryController(12253): notifyBatteryStatusChanged:  status: 3 isPlugged: 0 level: 64 wireState: -1 chargeSpeed: 0 mWiredChargeType: 1 mWirelessChargeType: 0 chargeDeviceType: -1 SUPPORT_BROADCAST_QUICK_CHARGE: true
+11-13 15:48:49.886 I/BatteryController( 5753): notifyBatteryStatusChanged:  status: 3 isPlugged: 0 level: 64 wireState: -1 chargeSpeed: 0 mWiredChargeType: 1 mWirelessChargeType: 0 chargeDeviceType: -1 SUPPORT_BROADCAST_QUICK_CHARGE: true
+11-13 15:48:49.889 I/SmartPower.com.miui.systemAdSolution/10151(13334)( 2484): idle->background(27685ms) R(broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }) adj=100.
+11-13 15:48:49.892 I/MiuiChargeManager( 4806): notifyBatteryStatusChanged:  status: 3 isPlugged: 0 level: 64 wireState: -1 chargeSpeed: 0 mChargeType: 1 chargeDeviceType: -1 maxChargingWattage: 33 isCarCharge: 0 SUPPORT_BROADCAST_QUICK_CHARGE: true
+11-13 15:48:49.893 I/PowerSaveService( 8602): onReceive: android.intent.action.BATTERY_CHANGED
+11-13 15:48:49.894 I/SmartPower( 2484): com.miui.systemAdSolution/10151 state=hibernation adj=100 proc size=1 move to background broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-13 15:48:49.894 I/SmartPower( 2484): com.miui.systemAdSolution/10151 state=background adj=100 proc size=1 move to inactive broadcast start Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000010 (has extras) }
+11-13 15:48:49.895 I/PowerNoticeUI( 8602): handleBatteryChanged oldPlugType 0 mPlugType 0 oldBatteryLevel 65 mBatteryLevel 64 temperature 370
+11-13 15:48:49.895 W/libc    ( 8602): Access denied finding property "persist.vendor.extreme.mode"
+11-13 15:48:49.895 W/libc    ( 8602): Access denied finding property "persist.vendor.extreme.mode.V2"
+11-13 15:48:49.896 I/ChargerBatteryIntelligenceReceiver( 8602): onBatteryChanged temperature：37,plugType:0
+11-13 15:48:49.896 I/PowerFeatureUtils( 8602): getVendorName:qcom
+11-13 15:48:49.897 D/UiModeManager( 2484): updateConfigurationLocked: mDockState=0; mCarMode=false; mCar=false; mPowerSave=false; mComputedNightMode=false; mNightMode=1; uiMode=17
+11-13 15:48:49.898 D/PowerCheckerService(10039): onBatteryChanged, mBatteryLevel = 65, status = 3, level = 64, plug = 0, scale = 100
+11-13 15:48:49.900 V/DeviceStatisticsService( 4754): chargerType=0 batteryLevel=64 totalBatteryCapacity=3800
+11-13 15:48:49.901 D/PowerKeeper.Thermal(10039): mBatteryTemperature: 37
+11-13 15:48:49.902 D/KeyguardUpdateMonitor( 4806): handleBatteryUpdate
+11-13 15:48:49.902 D/PowerKeeper.FrozenApp(10039): onBatteryChanged plug=false mBatteryPlugged=0
+11-13 15:48:49.902 I/MiuiChargeController( 4806): checkBatteryStatus: wireState -1 status 3 plugged 0 chargeSpeed 0 maxChargingWattage 33 isRapidCharge false isSuperCharge false isStrongSuperCharge false isCarMode false mChargeDeviceType -1 mChargeDeviceForAnalytic -1 isChargeAnimationDisabled false
+11-13 15:48:49.902 I/MiuiChargeController( 4806): dealWithAnimationShow mWireState=-1,wireState=-1,mFastChargeChanged=false,mIsFastCharge=false,hasShowdChargeAnim=false
+11-13 15:48:49.902 I/MiuiChargeController( 4806):  dealWithAnimationShow 相同 
+11-13 15:48:49.914 D/A11yRuleEngine( 8493): startQueryJob end 34 ms
+11-13 15:48:49.939 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:49.954 I/mple.cloudmusic(17988): This is non sticky GC, maxfree is 33554432 minfree is 8388608
+11-13 15:48:49.954 W/FinalizerDaemon(17988): type=1400 audit(0.0:54998): avc: denied { getopt } for path="/dev/socket/usap_pool_primary" scontext=u:r:untrusted_app:s0:c62,c257,c512,c768 tcontext=u:r:zygote:s0 tclass=unix_stream_socket permissive=0 app=com.example.cloudmusic
+11-13 15:48:49.976 D/A11yRuleEngine( 8493): startQueryJob end 37 ms
+11-13 15:48:50.033 D/CompatibilityChangeReporter( 2484): Compat change id reported: 197654537; UID 10318; state: ENABLED
+11-13 15:48:50.035 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:50.049 D/A11yRuleEngine( 8493): startQueryJob end 14 ms
+11-13 15:48:50.092 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:50.106 D/A11yRuleEngine( 8493): startQueryJob end 14 ms
+11-13 15:48:50.143 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:50.160 W/ProcessStats( 2484): Tracking association SourceState{355fc4c com.android.systemui/1000 BTopFgs #55054} whose proc state 2 is better than process ProcessState{ae733 com.miui.securitycenter.remote/1000 pkg=com.miui.securitycenter} proc state 3 (482 skipped)
+11-13 15:48:50.161 D/CompatibilityChangeReporter( 2484): Compat change id reported: 168419799; UID 10257; state: DISABLED
+11-13 15:48:50.161 D/CompatibilityInfo( 2484): mCompatibilityFlags - 0
+11-13 15:48:50.161 D/CompatibilityInfo( 2484): applicationDensity - 560
+11-13 15:48:50.161 D/CompatibilityInfo( 2484): applicationScale - 1.0
+11-13 15:48:50.179 W/PowerCheckerService(10039): Time interval is too short since last check
+11-13 15:48:50.201 I/mstatdaemon( 2071): Entering time loop
+11-13 15:48:50.202 I/mstatdaemon( 2071): t = 1794556130
+11-13 15:48:50.202 I/mstatdaemon( 2071): translated_t = 1478566130
+11-13 15:48:50.202 I/mstat_log( 2071): mstatcommitLog log_alloc() failed
+11-13 15:48:50.205 I/ThermalObserver( 2484): Gallery hdr is disable by thermal.
+11-13 15:48:50.206 D/SLM-SRV-SLAService( 8387): checktemp temperature = 39386 temperature_average = 38647 isPerformanceMode = false thermal_enable_slm = true
+11-13 15:48:50.207 D/A11yRuleEngine( 8493): startQueryJob end 64 ms
+11-13 15:48:50.207 I/leged_process_0(12546): This is non sticky GC, maxfree is 33554432 minfree is 8388608
+11-13 15:48:50.215 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:50.231 D/A11yRuleEngine( 8493): startQueryJob end 15 ms
+11-13 15:48:50.244 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:50.293 D/A11yRuleEngine( 8493): startQueryJob end 49 ms
+11-13 15:48:50.350 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:50.377 D/A11yRuleEngine( 8493): startQueryJob end 27 ms
+11-13 15:48:50.406 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:50.449 D/A11yRuleEngine( 8493): startQueryJob end 43 ms
+11-13 15:48:50.508 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:50.529 D/A11yRuleEngine( 8493): startQueryJob end 21 ms
+11-13 15:48:50.531 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:50.546 D/A11yRuleEngine( 8493): startQueryJob end 15 ms
+11-13 15:48:50.557 I/MiuiNetworkPolicy( 2484): bandwidth: 0 KB/s, Max bandwidth: 200 KB/s
+11-13 15:48:50.594 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:50.613 D/CompatibilityInfo( 2484): mCompatibilityFlags - 0
+11-13 15:48:50.613 D/CompatibilityInfo( 2484): applicationDensity - 560
+11-13 15:48:50.613 D/CompatibilityInfo( 2484): applicationScale - 1.0
+11-13 15:48:50.621 D/CompatibilityInfo( 2484): mCompatibilityFlags - 0
+11-13 15:48:50.621 D/CompatibilityInfo( 2484): applicationDensity - 560
+11-13 15:48:50.621 D/CompatibilityInfo( 2484): applicationScale - 1.0
+11-13 15:48:50.629 D/A11yRuleEngine( 8493): startQueryJob end 35 ms
+11-13 15:48:50.642 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:50.680 D/A11yRuleEngine( 8493): startQueryJob end 38 ms
+11-13 15:48:50.747 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:50.804 D/A11yRuleEngine( 8493): startQueryJob end 57 ms
+11-13 15:48:50.830 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:50.838 D/TrafficStats( 3925): tagSocket(94) with statsTag=0xc004901, statsUid=-1
+11-13 15:48:50.853 D/A11yRuleEngine( 8493): startQueryJob end 23 ms
+11-13 15:48:50.931 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:50.954 D/A11yRuleEngine( 8493): startQueryJob end 23 ms
+11-13 15:48:50.965 D/TrafficManageService( 8602): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-13 15:48:50.967 D/TrafficManageService-TrafficSimManager( 8602): notifyByNetChange_time: return
+11-13 15:48:50.981 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:50.994 D/A11yRuleEngine( 8493): startQueryJob end 13 ms
+11-13 15:48:51.046 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:51.087 D/TrafficStats( 3925): tagSocket(190) with statsTag=0xc004901, statsUid=-1
+11-13 15:48:51.089 D/TrafficStats( 3925): tagSocket(180) with statsTag=0xc004901, statsUid=-1
+11-13 15:48:51.108 D/A11yRuleEngine( 8493): startQueryJob end 62 ms
+11-13 15:48:51.146 D/A11yRuleEngine( 8493): startQueryJob start byEvent=true, byForced=false, byDelayRule=false
+11-13 15:48:51.183 D/A11yRuleEngine( 8493): startQueryJob end 37 ms
+11-13 15:48:51.255 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:51.255 D/A11yRuleEngine( 8493): startQueryJob end 0 ms
+11-13 15:48:51.296 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:51.296 D/A11yRuleEngine( 8493): startQueryJob end 0 ms
+11-13 15:48:51.344 D/TrafficStats( 3925): tagSocket(227) with statsTag=0xc004901, statsUid=-1
+11-13 15:48:51.408 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:51.408 D/A11yRuleEngine( 8493): startQueryJob end 0 ms
+11-13 15:48:51.483 D/A11yRuleEngine( 8493): startQueryJob start byEvent=false, byForced=true, byDelayRule=false
+11-13 15:48:51.483 D/A11yRuleEngine( 8493): startQueryJob end 0 ms
+11-13 15:48:51.832 D/HeapUsage Monitor( 2484): HeapAllocSize : 164MB; monitorSize : 500MB
+11-13 15:48:52.040 D/MilletPolicy(10039): HasForegroundService or audio pkgName=com.kkrainbow.easytier
+11-13 15:48:52.078 D/GreezeManager( 2484): FZ uid = 10257 reason =receiver pkg success !
+11-13 15:48:52.078 D/MilletBrightHandler(10039): frozen uids:[10257] reason = receiver pkg
+11-13 15:48:52.078 D/MilletBrightHandler(10039): frozen fail result:[10289] freeze fail:[]
+11-13 15:48:52.080 D/GreezeManager( 2484): iso uid:10257 p:[12525] :true
+11-13 15:48:52.116 D/TrafficManageService( 8602): onReceive: intent.action = com.android.server.action.NETWORK_STATS_UPDATED
+11-13 15:48:52.118 D/TrafficManageService-TrafficSimManager( 8602): notifyByNetChange_time: return

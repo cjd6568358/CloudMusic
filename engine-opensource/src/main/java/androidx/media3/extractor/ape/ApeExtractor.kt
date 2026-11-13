@@ -223,7 +223,7 @@ class ApeExtractor : Extractor {
             val pos = frames[currentFrame]
             // §61.94b：截断/边界防护——帧起点超出可用数据长度 = 可用音频已投递完毕。
             if (input.length >= 0 && pos >= input.length) {
-                Log.i("CM-Ape", "frames beyond data end @%d (frame %d/%d) — EOF".format(
+                logI("CM-Ape", "frames beyond data end @%d (frame %d/%d) — EOF".format(
                     pos, currentFrame, totalFrames))
                 return Extractor.RESULT_END_OF_INPUT
             }
@@ -236,17 +236,28 @@ class ApeExtractor : Extractor {
             // §61.94b：残帧不投递——APE 解码器拒收截断帧（FrameParsing → MALFORMED）。
             // 完整帧判定：帧数据（含 skip 前缀 8B）必须完全落在可用数据长度内。
             if (input.length >= 0 && pos + size + 8 > input.length) {
-                Log.i("CM-Ape", "末帧不完整（pos=%d size=%d avail=%d）— EOF".format(
+                logI("CM-Ape", "末帧不完整（pos=%d size=%d avail=%d）— EOF".format(
                     pos, size, input.length - input.position))
                 return Extractor.RESULT_END_OF_INPUT
             }
             if (input.position != pos) {
-                // §61.94：seek 到当前帧的绝对偏移；游标不推进——下一次 read 时
-                // input.position == pos，直接投递本帧（推进会造成逐帧空转跳过）。
-                Log.i("CM-Ape", "seek to pos=%d frame=%d/%d len=%d".format(
-                    pos, currentFrame, totalFrames, input.length))
-                seekPosition.position = pos
-                return Extractor.RESULT_SEEK
+                val delta = pos - input.position
+                // §61.107：REMOTE 真机一手证据 —— 每次 RESULT_SEEK 会让
+                // ProgressiveMediaPeriod 重开 CacheDataSource（ape-remote 30s
+                // 只推进到第 2 帧、每次 9~17s；同一帧序列 LOCAL 22 次仅 8ms）。
+                // 顺序前进改为 skipFully 顺序读，避免取流请求反复重开；
+                // 回退 / 超大跨度仍用 RESULT_SEEK（保持 seek 语义）。
+                if (delta in 1..MAX_SEQUENTIAL_SKIP &&
+                    (input.length < 0 || pos < input.length)) {
+                    if (!runCatching { input.skipFully(delta.toInt()) }.isSuccess) {
+                        return Extractor.RESULT_END_OF_INPUT
+                    }
+                } else {
+                    logI("CM-Ape", "seek to pos=%d frame=%d/%d len=%d".format(
+                        pos, currentFrame, totalFrames, input.length))
+                    seekPosition.position = pos
+                    return Extractor.RESULT_SEEK
+                }
             }
             // §61.94b（ffmpeg ape_read_packet 逐字对齐）：APE 解码器的帧输入 =
             // [nblocks u32][skip u32][帧数据（含对齐残数）] —— 8B 前缀是解码契约！
@@ -266,7 +277,20 @@ class ApeExtractor : Extractor {
             // position out of range → Media3 包成 MALFORMED；截断的末帧解码器自行处理）。
             val avail = if (input.length >= 0) (input.length - input.position).toInt() else size.toInt()
             val feedLen = minOf(size.toInt(), avail)
-            val fed = trackOutput?.sampleData(input, feedLen, true) ?: 0
+            // §61.107：REMOTE 下 DataSource 可能一次只给部分数据；旧实现单次
+            // sampleData(..., true) 会把截断帧投给解码器（真机
+            // `ApeDecWrapper: Bad input arguments to ape_dec_process`）。
+            // 循环读满 feedLen（前缀 8B 已单独写入），仍以 fed 为实际投递长度。
+            var fed = 0
+            var remaining = feedLen
+            while (remaining > 0) {
+                val n = runCatching {
+                    trackOutput?.sampleData(input, remaining, false) ?: -1
+                }.getOrDefault(-1)
+                if (n <= 0) break
+                fed += n
+                remaining -= n
+            }
             if (fed <= 0) {
                 // EOF：①真实文件 = 最后帧读完或到 tag；②截断样本 = 可用部分投递完毕。
                 if (!tagChecked && input.length >= 0) {
@@ -349,6 +373,22 @@ class ApeExtractor : Extractor {
 
     companion object {
         private const val STATE_READ_HEADER = 0
+        /** §61.107：顺序跳过的上限（2MiB）；超过则退回 RESULT_SEEK。 */
+        private const val MAX_SEQUENTIAL_SKIP = 2L * 1024 * 1024
+        /**
+         * `12 §61.101`：纯 JVM 单测里 `android.util.Log` 是未 mock 的 stub，
+         * 直接调 `Log.i` 会抛 `RuntimeException: Method i ... not mocked`
+         * （1485ce0f 引入的排障日志导致 ApeExtractorTest 2 例回归）。
+         * 与 `AsfExtractor.logW` 同型：生产仍走 Log，无 Android 运行时退化为 println。
+         */
+        private fun logI(tag: String, msg: String) {
+            try {
+                Log.i(tag, msg)
+            } catch (t: Throwable) {
+                println("[$tag] $msg")
+            }
+        }
+
         private const val STATE_READ_FRAMES = 1
         private const val STATE_TAG_CHECK = 2
         private const val FLAG_HAS_PEAK_LEVEL = 0x01
@@ -361,13 +401,15 @@ class ApeExtractor : Extractor {
          */
         @UnstableApi
         fun factoryWithApe(): ExtractorsFactory = ExtractorsFactory {
-            android.util.Log.i("CM-Factory", "createExtractors called")
+            logI("CM-Factory", "createExtractors called")
             val default = androidx.media3.extractor.DefaultExtractorsFactory().createExtractors()
             val arr = arrayOf<Extractor>(
                 ApeExtractor(),
                 androidx.media3.extractor.asf.AsfExtractor(),   // §61.97：WMA/ASF 容器
+                androidx.media3.extractor.aiff.AiffExtractor(),       // §61.102：AIFF PCM
+                androidx.media3.extractor.wavpack.WavpackExtractor(), // §61.102：WavPack
             ) + default
-            android.util.Log.i("CM-Factory", "extractors: ${arr.size} (ape/asf + ${default.size} default)")
+            logI("CM-Factory", "extractors: ${arr.size} (ape/asf + ${default.size} default)")
             arr
         }
     }

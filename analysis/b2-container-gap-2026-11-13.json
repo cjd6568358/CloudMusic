@@ -1,0 +1,93 @@
+{
+  "batch": "12 §61.102",
+  "method": "容器解析 + 解码器 MIME 映射闭环（纯离线只读）",
+  "generated_by": "tools/b2_container_gap_audit.py",
+  "device_run": false,
+  "mime_map": {
+    "audio/x-ape": "ape",
+    "audio/x-wma": "wmav2",
+    "audio/x-wavpack": "wavpack",
+    "audio/x-aiff": "pcm_s16be"
+  },
+  "checks": [
+    {
+      "name": "MIME 映射 audio/x-ape → ape",
+      "ok": true,
+      "detail": "FfmpegLibrary.getCodecName 实扫"
+    },
+    {
+      "name": "MIME 映射 audio/x-wma → wmav2",
+      "ok": true,
+      "detail": "FfmpegLibrary.getCodecName 实扫"
+    },
+    {
+      "name": "MIME 映射 audio/x-wavpack → wavpack",
+      "ok": true,
+      "detail": "FfmpegLibrary.getCodecName 实扫"
+    },
+    {
+      "name": "MIME 映射 audio/x-aiff → pcm_s16be",
+      "ok": true,
+      "detail": "FfmpegLibrary.getCodecName 实扫"
+    },
+    {
+      "name": "上游标准 MIME 映射未回退",
+      "ok": true,
+      "detail": "mp3/aac/flac/opus 原样"
+    },
+    {
+      "name": "未知 MIME 仍返回 null",
+      "ok": true,
+      "detail": "不静默兜底"
+    },
+    {
+      "name": "AiffExtractor 已实现",
+      "ok": true,
+      "detail": "FORM/COMM/SSND + 80-bit 采样率"
+    },
+    {
+      "name": "WavpackExtractor 已实现",
+      "ok": true,
+      "detail": "wvpk 变长块"
+    },
+    {
+      "name": "四个 Extractor 全挂进 factoryWithApe",
+      "ok": true,
+      "detail": "自定义工厂清单实扫"
+    },
+    {
+      "name": "新增三个 JVM 测试文件在位",
+      "ok": true,
+      "detail": "Aiff/Wavpack/MIME 映射"
+    },
+    {
+      "name": "AIFF 采样率勘误登记（48000 非 44100）",
+      "ok": true,
+      "detail": "§61.101 曾误记 44100，本批只追加勘误、不改历史正文"
+    },
+    {
+      "name": "历史 F3 矩阵零改写",
+      "ok": true,
+      "detail": "14 PASS / 8 FAIL 当时快照"
+    },
+    {
+      "name": "真机复测 NOT RUN 边界在位",
+      "ok": true,
+      "detail": "静态库 decoder 未编入，不推断可播"
+    },
+    {
+      "name": "反伪证：不宣称已可播",
+      "ok": true,
+      "detail": "KDoc 明示映射存在 ≠ 解码器编入 ≠ 真机可播"
+    }
+  ],
+  "checks_total": 14,
+  "checks_pass": 14,
+  "verdict": "PASS",
+  "honest_notes": [
+    "本工具只校验 Java/Kotlin 侧接线与 JVM 单测，不加载 native 库。",
+    "ffmpegHasDecoder(codecName) 是否为真取决于 build_ffmpeg.sh 的 ENABLED_DECODERS（需 ape / wmav2 / wavpack / pcm_s16be），本批未交叉编译。",
+    "F3 8 FAIL 真机复测 NOT RUN：本机仍无法产出含 FFmpeg 静态库的 APK。",
+    "历史正文与证据 JSON 零改写；零设备操作、零联网、不动解码器。"
+  ]
+}

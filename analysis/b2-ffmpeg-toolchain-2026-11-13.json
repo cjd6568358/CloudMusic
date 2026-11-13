@@ -1,0 +1,99 @@
+{
+  "batch": "12 §61.103",
+  "method": "FFmpeg 工具链 / APK 构建本机一次性实测快照（纯离线）",
+  "generated_by": "tools/b2_ffmpeg_toolchain_audit.py",
+  "snapshot": {
+    "ffmpeg_version": "6.0",
+    "source_archive_bytes": 10234012,
+    "source_entries": 8117,
+    "abi_static_libs": {
+      "arm64-v8a": {
+        "libavcodec.a": 12452932,
+        "libavutil.a": 3849284,
+        "libswresample.a": 572606
+      },
+      "armeabi-v7a": {
+        "libavcodec.a": 8484818,
+        "libavutil.a": 3063012,
+        "libswresample.a": 397994
+      }
+    },
+    "enabled_decoders": 28,
+    "apk_bytes": 41845775,
+    "ffmpeg_jni_so_bytes": 7794496,
+    "decoder_symbols": [
+      "ff_ape_decoder",
+      "ff_wmav2_decoder",
+      "ff_wavpack_decoder",
+      "ff_pcm_s16be_decoder"
+    ],
+    "decoder_symbol_count": 30,
+    "configure": "PASS (arm64 + armeabi-v7a)",
+    "make": "PASS (两 ABI make + make install-libs)",
+    "assemble_debug": "BUILD SUCCESSFUL / 149 tasks",
+    "install": "BLOCKED: INSTALL_FAILED_UPDATE_INCOMPATIBLE (签名不匹配)",
+    "device_run": false,
+    "f3_retest": "NOT RUN"
+  },
+  "checks": [
+    {
+      "name": "两 ABI 静态库三件齐备",
+      "ok": true,
+      "detail": "arm64-v8a / armeabi-v7a 各 avcodec+avutil+swresample"
+    },
+    {
+      "name": "四个目标 decoder 在 libffmpegJNI.so 中实测存在",
+      "ok": true,
+      "detail": "llvm-nm 实扫；共 30 个 ff_*_decoder"
+    },
+    {
+      "name": "APK 首次构建成功",
+      "ok": true,
+      "detail": "41,845,775 B / 149 tasks"
+    },
+    {
+      "name": "装机阻塞如实登记",
+      "ok": true,
+      "detail": "旧 APK 与本机 debug keystore 签名不匹配"
+    },
+    {
+      "name": "真机复测 NOT RUN",
+      "ok": true,
+      "detail": "未强行卸载 / 未改设备现场"
+    },
+    {
+      "name": "Windows 宿主适配登记（VERSION 遮蔽）",
+      "ok": true,
+      "detail": "FFmpeg VERSION 遮蔽 C++ <version>，本地构建树重命名为 VERSION.txt"
+    },
+    {
+      "name": "§61.103 正式批次在位",
+      "ok": true,
+      "detail": "docs/12"
+    },
+    {
+      "name": "全量回写锚点齐备",
+      "ok": true,
+      "detail": "12 / 09 / 16 / 17 / backlog"
+    },
+    {
+      "name": "反伪证：符号存在不写成可播",
+      "ok": true,
+      "detail": "历史禁语命中=['真机可播']"
+    },
+    {
+      "name": "历史 F3 矩阵零改写",
+      "ok": true,
+      "detail": "复测未执行，l3-f3-matrix.json 与 8 份 logcat 未触碰"
+    }
+  ],
+  "checks_total": 10,
+  "checks_pass": 10,
+  "verdict": "PASS",
+  "honest_notes": [
+    "静态库与源码目录被 .gitignore 排除，跨检出不可复跑本编译；本快照只记录本机实测，不代表 CI 可复现。",
+    "decoder 符号存在 ≠ ffmpegHasDecoder 运行时为真 ≠ 真机可播；真机 F3 复测 NOT RUN。",
+    "装机因签名不匹配被拒，未擅自卸载旧 app（会清设备私有数据）。",
+    "历史正文与证据 JSON 零改写；未连 adb 注入、未改 Manifest / CMake。"
+  ]
+}

@@ -20,9 +20,13 @@ internal class Recorder : ExtractorOutput, TrackOutput {
     var sampleBytes = 0L
     val sampleTimesUs = mutableListOf<Long>()
 
+    /** §61.105：endTracks 调用次数（Media3 的 sampleQueuesBuilt 依赖它）。 */
+    var endTracksCalls = 0
+    var seekMapCalls = 0
+
     override fun track(id: Int, type: Int): TrackOutput = this
-    override fun seekMap(map: SeekMap) { seekMap = map }
-    override fun endTracks() {}
+    override fun seekMap(map: SeekMap) { seekMap = map; seekMapCalls++ }
+    override fun endTracks() { endTracksCalls++ }
 
     override fun format(format: Format) { formats += format }
 

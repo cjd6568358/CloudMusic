@@ -1,0 +1,172 @@
+{
+  "batch": "12 §61.104",
+  "method": "F3 8 格真机复测裁决（读已落盘一手 logcat，纯离线）",
+  "generated_by": "tools/b2_f3_retest_verdict.py",
+  "device_run": true,
+  "serial": "10.0.0.2:43355",
+  "apk_installed": "lastUpdateTime=2026-11-13 13:49:46",
+  "counts": {
+    "FAIL": 5,
+    "PASS": 3
+  },
+  "cells": [
+    {
+      "format": "aiff",
+      "path": "local",
+      "verdict": "FAIL",
+      "root_cause": "DECODER_INIT_FAILED",
+      "explain": "MIME 映射与 renderer 接管成功（format_supported=YES），但 ffmpeg pcm_s16be decoder avcodec_open2 初始化失败",
+      "has_log": true,
+      "log_file": "analysis\\l3-f3-logs\\aiff-local-retest-2026-11-13.txt",
+      "ready_seen": false,
+      "playing_seen": false,
+      "custom_factory_hits": 2
+    },
+    {
+      "format": "aiff",
+      "path": "remote",
+      "verdict": "FAIL",
+      "root_cause": "DECODER_INIT_FAILED",
+      "explain": "MIME 映射与 renderer 接管成功（format_supported=YES），但 ffmpeg pcm_s16be decoder avcodec_open2 初始化失败",
+      "has_log": true,
+      "log_file": "analysis\\l3-f3-logs\\aiff-remote-retest-2026-11-13.txt",
+      "ready_seen": false,
+      "playing_seen": false,
+      "custom_factory_hits": 2
+    },
+    {
+      "format": "wma",
+      "path": "local",
+      "verdict": "FAIL",
+      "root_cause": "EXTRACTOR_PREPARATION_INCOMPLETE",
+      "explain": "AsfExtractor sniff 命中，但 seekMap/endTracks 未完成即 EOF，Media3 判容器 malformed",
+      "has_log": true,
+      "log_file": "analysis\\l3-f3-logs\\wma-local-retest-2026-11-13.txt",
+      "ready_seen": false,
+      "playing_seen": false,
+      "custom_factory_hits": 2
+    },
+    {
+      "format": "wma",
+      "path": "remote",
+      "verdict": "FAIL",
+      "root_cause": "EXTRACTOR_PREPARATION_INCOMPLETE",
+      "explain": "AsfExtractor sniff 命中，但 seekMap/endTracks 未完成即 EOF，Media3 判容器 malformed",
+      "has_log": true,
+      "log_file": "analysis\\l3-f3-logs\\wma-remote-retest-2026-11-13.txt",
+      "ready_seen": false,
+      "playing_seen": false,
+      "custom_factory_hits": 2
+    },
+    {
+      "format": "ape",
+      "path": "local",
+      "verdict": "PASS",
+      "root_cause": "READY_AND_PLAYING",
+      "explain": "STATE_READY + isPlaying（软/硬解渲染出声）",
+      "has_log": true,
+      "log_file": "analysis\\l3-f3-logs\\ape-local-retest-2026-11-13.txt",
+      "ready_seen": true,
+      "playing_seen": true,
+      "custom_factory_hits": 2
+    },
+    {
+      "format": "ape",
+      "path": "remote",
+      "verdict": "FAIL",
+      "root_cause": "NO_READY_IN_WINDOW",
+      "explain": "无明确错误回调，但等待窗口内未见 STATE_READY（疑似拉流/缓存时序）",
+      "has_log": true,
+      "log_file": "analysis\\l3-f3-logs\\ape-remote-retest-2026-11-13.txt",
+      "ready_seen": false,
+      "playing_seen": false,
+      "custom_factory_hits": 2
+    },
+    {
+      "format": "wv",
+      "path": "local",
+      "verdict": "PASS",
+      "root_cause": "READY_AND_PLAYING",
+      "explain": "STATE_READY + isPlaying（软/硬解渲染出声）",
+      "has_log": true,
+      "log_file": "analysis\\l3-f3-logs\\wv-local-retest-2026-11-13.txt",
+      "ready_seen": true,
+      "playing_seen": true,
+      "custom_factory_hits": 2
+    },
+    {
+      "format": "wv",
+      "path": "remote",
+      "verdict": "PASS",
+      "root_cause": "READY_AND_PLAYING",
+      "explain": "STATE_READY + isPlaying（软/硬解渲染出声）",
+      "has_log": true,
+      "log_file": "analysis\\l3-f3-logs\\wv-remote-retest-2026-11-13.txt",
+      "ready_seen": true,
+      "playing_seen": true,
+      "custom_factory_hits": 2
+    }
+  ],
+  "checks": [
+    {
+      "name": "8 格全部有一手 logcat",
+      "ok": true,
+      "detail": "*-retest-2026-11-13.txt"
+    },
+    {
+      "name": "复测计数 3 PASS / 5 FAIL",
+      "ok": true,
+      "detail": "{'FAIL': 5, 'PASS': 3}"
+    },
+    {
+      "name": "wv local+remote 均 PASS 且有 READY/PLAYING",
+      "ok": true,
+      "detail": "WavpackExtractor 真机闭环"
+    },
+    {
+      "name": "ape-local PASS（§61.94c 修正有效）",
+      "ok": true,
+      "detail": "ApeExtractor 逐帧 seek 日志在场"
+    },
+    {
+      "name": "aiff ×2 同一根因 DECODER_INIT_FAILED",
+      "ok": true,
+      "detail": "pcm_s16be 初始化失败，非容器解析缺陷"
+    },
+    {
+      "name": "wma ×2 同一根因 EXTRACTOR_PREPARATION_INCOMPLETE",
+      "ok": true,
+      "detail": "AsfExtractor 未下发 seekMap/endTracks 即 EOF"
+    },
+    {
+      "name": "ape-remote 无错误但窗口内未 READY",
+      "ok": true,
+      "detail": "需更长等待或排查 CacheDataSource 时序"
+    },
+    {
+      "name": "8 格自定义工厂均被调用",
+      "ok": true,
+      "detail": "CM-Factory createExtractors + extractors: 25"
+    },
+    {
+      "name": "历史 F3 矩阵零改写（git restore 生效）",
+      "ok": true,
+      "detail": "14 PASS / 8 FAIL 当时快照不变"
+    },
+    {
+      "name": "反伪证：不宣称 8 格已修复",
+      "ok": true,
+      "detail": "5 格仍 FAIL，如实登记"
+    }
+  ],
+  "checks_total": 10,
+  "checks_pass": 10,
+  "verdict": "PASS",
+  "honest_notes": [
+    "历史 8 格 FAIL → 本轮 3 PASS / 5 FAIL；不得写成「容器缺口已修复」。",
+    "PASS 判据为 STATE_READY(duration>0) + isPlaying，未逐格验证 seek / 完整时长 / ENDED。",
+    "aiff 的 format_supported=YES 说明 MIME 映射生效，失败点在 FFmpeg decoder 初始化。",
+    "ape-remote 无明确错误，不能判定为代码缺陷，也不能判定为通过。",
+    "历史 logcat 与 l3-f3-matrix.json 已 git restore 恢复；新结果另存独立文件。"
+  ]
+}

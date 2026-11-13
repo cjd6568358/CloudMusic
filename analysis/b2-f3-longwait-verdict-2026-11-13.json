@@ -1,0 +1,67 @@
+{
+  "method": "12 §61.105 / ape-remote 加长等待单格：可达性与证据有效性裁决",
+  "generated_by": "tools/b2_f3_longwait_audit.py",
+  "generated_at": "2026-11-13T15:23:34",
+  "device_run": false,
+  "status": "NOT_RUN",
+  "reason": "设备端点全部 offline（无线调试未上线）；不执行真机命令、不用旧矩阵 / 缓存 / 推断代替一手 logcat。§61.104 的 ape-remote NO_READY_IN_WINDOW 仍不判缺陷也不判通过。",
+  "adb_devices_raw": "List of devices attached\n10.0.0.2:39853         offline transport_id:2\n10.0.0.2:43355         offline transport_id:1",
+  "online_endpoints": [],
+  "copies": [
+    {
+      "file": "b2-f3-ape-remote-longwait-2026-11-13.json",
+      "present": true,
+      "serial": "192.168.1.11:38407",
+      "cells": 22,
+      "counts": {
+        "PASS": 14,
+        "FAIL": 8
+      },
+      "elapsed_s": 219.0
+    },
+    {
+      "file": "b2-f3-retest2-2026-11-13.json",
+      "present": true,
+      "serial": "192.168.1.11:38407",
+      "cells": 22,
+      "counts": {
+        "PASS": 14,
+        "FAIL": 8
+      },
+      "elapsed_s": 219.0
+    }
+  ],
+  "invalid_copies_not_used_as_evidence": true,
+  "rerun_command": "python tools/l3_f3_matrix_run.py --serial <endpoint> --formats ape --paths remote --wait 30",
+  "rerun_precondition": "设备上线后先 adb -s <endpoint> get-state=device；运行前备份 analysis/l3-f3-matrix.json 与 l3-f3-logs/（脚本会覆盖），跑完 git restore 恢复历史证据，新结果另存 -longwait 文件；真机命令全部带 -s <serial>；不擅自 pm grant / 不改设备设置。",
+  "boundary": "不宣称 8 格已修复 / 全格式覆盖；PASS 判据仅 READY(duration>0) + isPlaying，未逐格验证 seek / 完整时长 / ENDED；未做破坏性注入，未改 Manifest / CMake / 生产构建配置。",
+  "checks": [
+    {
+      "name": "adb 存在可复跑的 device 端点",
+      "pass": false,
+      "evidence": "adb devices -l → 10.0.0.2:39853=offline, 10.0.0.2:43355=offline"
+    },
+    {
+      "name": "两份 15:00 副本经判据识别为 11-12 历史 22 格快照（不采信）",
+      "pass": true,
+      "evidence": "serial=192.168.1.11:38407 / 22 格 / 14 PASS 8 FAIL / elapsed 219.0s"
+    },
+    {
+      "name": "随附 *-retest2 日志为 11-12 旧 logcat（非 11-13 一手）",
+      "pass": true,
+      "evidence": "analysis\\l3-f3-logs\\ape-remote-retest2-2026-11-13.txt"
+    },
+    {
+      "name": "§61.104 装机端点与副本端点不一致",
+      "pass": true,
+      "evidence": "§61.104 真机 serial=10.0.0.2:43355；副本 serial=['192.168.1.11:38407', '192.168.1.11:38407']"
+    },
+    {
+      "name": "已登记加长等待单格复跑命令（设备上线后可执行）",
+      "pass": true,
+      "evidence": "python tools/l3_f3_matrix_run.py --serial <endpoint> --formats ape --paths remote --wait 30"
+    }
+  ],
+  "checks_passed": 4,
+  "checks_total": 5
+}

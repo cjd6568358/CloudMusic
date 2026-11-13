@@ -1,0 +1,152 @@
+{
+  "batch": "12 §61.100",
+  "method": "仓库同步后的文档 ↔ 代码差异对齐（纯离线只读审计）",
+  "generated_by": "tools/b2_realign_audit.py",
+  "head": "1485ce0f",
+  "checks": [
+    {
+      "name": "docs/12 §61.100 正式批次在位",
+      "ok": true,
+      "detail": "### 61.100 章节存在"
+    },
+    {
+      "name": "docs/12 §61.100 登记同步区间",
+      "ok": true,
+      "detail": "拉取前后 HEAD 双端点登记"
+    },
+    {
+      "name": "09 §2 现行口径速查已回写",
+      "ok": true,
+      "detail": "§2 速查表含本批"
+    },
+    {
+      "name": "09 §7 结论已回写",
+      "ok": true,
+      "detail": "§7 结论含本批"
+    },
+    {
+      "name": "16 §5.3 四线任务表已回写",
+      "ok": true,
+      "detail": "§5.3 含本批状态注"
+    },
+    {
+      "name": "16 §8 验证记录已回写",
+      "ok": true,
+      "detail": "§8 含本批命令与结果"
+    },
+    {
+      "name": "17 §8.x 播放内核线已回写",
+      "ok": true,
+      "detail": "§8.44 与 §61.100 引用在位"
+    },
+    {
+      "name": "17 末尾现行断点已回写",
+      "ok": true,
+      "detail": "末尾现行断点指向 §61.100"
+    },
+    {
+      "name": "backlog 顶部已回写",
+      "ok": true,
+      "detail": "前 45 行含第一百二十一批"
+    },
+    {
+      "name": "当日工作日志已回写",
+      "ok": true,
+      "detail": ".workbuddy-ai/memory/2026-11-13.md"
+    },
+    {
+      "name": "长期记忆现行断点已回写",
+      "ok": true,
+      "detail": "MEMORY.md §0 现行断点"
+    },
+    {
+      "name": "build.gradle.kts 旧 M1 口径已清除",
+      "ok": true,
+      "detail": "不得再声称 attachAudioEffect 留空（§61.93 已实现音效 P0）"
+    },
+    {
+      "name": "Media3EngineAdapter KDoc 旧 C7 口径已清除",
+      "ok": true,
+      "detail": "不得再声称音效/质量接口留空"
+    },
+    {
+      "name": "§61.99 错挂引用已清除",
+      "ok": true,
+      "detail": "§61.99 文档讲 LoudnessEvaluator，非 mimeType 修正"
+    },
+    {
+      "name": "三处修正均带 §61.100 对齐标记",
+      "ok": true,
+      "detail": "对齐标记可追溯"
+    },
+    {
+      "name": "B2 线 F4 验收 PASS 在位",
+      "ok": true,
+      "detail": "docs/12 §61.92 判据不回退"
+    },
+    {
+      "name": "A 路线历史档案 BLOCKED 在位",
+      "ok": true,
+      "detail": "reverse-engine 复现的是 A 路线阻塞链，口径不冲突"
+    },
+    {
+      "name": "§61.100 明示双轨口径",
+      "ok": true,
+      "detail": "B2 PASS ≠ A 路线已修复"
+    },
+    {
+      "name": "反伪证禁语未回潮",
+      "ok": true,
+      "detail": "禁语命中=[]"
+    },
+    {
+      "name": "章节编号断链登记 61.84",
+      "ok": true,
+      "detail": "被引用但无独立章节，历史正文零改写"
+    },
+    {
+      "name": "章节编号断链登记 61.91",
+      "ok": true,
+      "detail": "被引用但无独立章节，历史正文零改写"
+    },
+    {
+      "name": "章节编号断链登记 61.93",
+      "ok": true,
+      "detail": "被引用但无独立章节，历史正文零改写"
+    },
+    {
+      "name": "章节编号断链登记 61.94",
+      "ok": true,
+      "detail": "被引用但无独立章节，历史正文零改写"
+    },
+    {
+      "name": "章节编号断链登记 61.97",
+      "ok": true,
+      "detail": "被引用但无独立章节，历史正文零改写"
+    },
+    {
+      "name": "NDK 构建环境差异如实登记",
+      "ok": true,
+      "detail": "全量 test 在本机 BUILD FAILED，纯 JVM 基线另记"
+    },
+    {
+      "name": "reverse-engine Z 组交叉引用登记",
+      "ok": true,
+      "detail": "逆向线与 B2 线并列登记，不并入 F4 判据"
+    },
+    {
+      "name": "最新未登记提交已补记",
+      "ok": true,
+      "detail": "提交信息仅为 '1'，含 Extractor 修正与 Z-11 覆盖率"
+    }
+  ],
+  "checks_total": 27,
+  "checks_pass": 27,
+  "verdict": "PASS",
+  "honest_notes": [
+    "本工具只校验「回写链与口径」在位，不校验真机可播、不校验编译。",
+    "docs/12 §61.84/91/93/94/97 的编号断链为历史事实，只登记、不补写历史正文。",
+    "本机 SDK 缺 NDK，全量 ./gradlew test --offline 配置阶段 BUILD FAILED；-Pcloudmusic.noAndroid=true 的纯 JVM 结果另记，均不伪造 BUILD SUCCESSFUL。",
+    "零生产行为改动；源码侧只改注释口径，不动解码器 / 不动依赖 / 不连 adb / 未联网。"
+  ]
+}

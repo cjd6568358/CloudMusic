@@ -1,0 +1,249 @@
+{
+  "method": "12 §61.106 / 第一百二十六批真机复测逐格对照裁决（证据判读）",
+  "generated_by": "tools/b2_f3_batch126_verdict.py",
+  "generated_at": "2026-11-13T16:17:29",
+  "device_run": true,
+  "verdict": "RECORDED",
+  "serial": "10.0.0.2:41971",
+  "stage_a_counts": {
+    "PASS": 5,
+    "FAIL": 3
+  },
+  "pre_fix_counts": {
+    "PASS": 5,
+    "FAIL": 3
+  },
+  "stage_b_counts": {
+    "FAIL": 1
+  },
+  "before_61_104_counts": {
+    "FAIL": 5,
+    "PASS": 3
+  },
+  "ape_remote_longwait": {
+    "wait_s": 30.0,
+    "verdict": "FAIL",
+    "reason": "未见 STATE_READY(duration>0)",
+    "duration_raw": null
+  },
+  "wma_downstream": {
+    "wma-local": {
+      "container_error_absent": true,
+      "wmav2_init_failed": true,
+      "publish_log": true
+    },
+    "wma-remote": {
+      "container_error_absent": true,
+      "wmav2_init_failed": true,
+      "publish_log": true
+    }
+  },
+  "ape_remote_seek": {
+    "seek_log_lines": 3,
+    "sample": [
+      "11-13 15:49:31.518 I/CM-Ape  (17994): seek to pos=1294673 frame=1/1435 len=4194304",
+      "11-13 15:49:40.545 I/CM-Ape  (17994): seek to pos=1425928 frame=2/1435 len=4194304",
+      "11-13 15:49:57.705 I/CM-Ape  (17994): seek to pos=1425928 frame=2/1435 len=4194304"
+    ],
+    "note": "30s 窗口内仍在逐帧 RESULT_SEEK（1435 帧），排除「单纯等待不足」"
+  },
+  "cells": [
+    {
+      "format": "aiff",
+      "path": "local",
+      "before_61_104": "FAIL",
+      "pre_fix_61_106": "PASS",
+      "after_61_106": "PASS",
+      "changed": true,
+      "changed_vs_pre_fix": false,
+      "duration_raw": 11946,
+      "reason": "STATE_READY(duration>0) 且 isPlaying（软/硬解渲染出声）",
+      "container_error_absent": true,
+      "factory_25": true
+    },
+    {
+      "format": "aiff",
+      "path": "remote",
+      "before_61_104": "FAIL",
+      "pre_fix_61_106": "PASS",
+      "after_61_106": "PASS",
+      "changed": true,
+      "changed_vs_pre_fix": false,
+      "duration_raw": 11946,
+      "reason": "STATE_READY(duration>0) 且 isPlaying（软/硬解渲染出声）",
+      "container_error_absent": true,
+      "factory_25": true
+    },
+    {
+      "format": "wma",
+      "path": "local",
+      "before_61_104": "FAIL",
+      "pre_fix_61_106": "FAIL",
+      "after_61_106": "FAIL",
+      "changed": false,
+      "changed_vs_pre_fix": false,
+      "duration_raw": null,
+      "reason": "存在明确错误回调 / 崩溃 / 打开失败",
+      "container_error_absent": true,
+      "factory_25": true
+    },
+    {
+      "format": "wma",
+      "path": "remote",
+      "before_61_104": "FAIL",
+      "pre_fix_61_106": "FAIL",
+      "after_61_106": "FAIL",
+      "changed": false,
+      "changed_vs_pre_fix": false,
+      "duration_raw": null,
+      "reason": "存在明确错误回调 / 崩溃 / 打开失败",
+      "container_error_absent": true,
+      "factory_25": true
+    },
+    {
+      "format": "ape",
+      "path": "local",
+      "before_61_104": "PASS",
+      "pre_fix_61_106": "PASS",
+      "after_61_106": "PASS",
+      "changed": false,
+      "changed_vs_pre_fix": false,
+      "duration_raw": 2395742,
+      "reason": "STATE_READY(duration>0) 且 isPlaying（软/硬解渲染出声）",
+      "container_error_absent": null,
+      "factory_25": true
+    },
+    {
+      "format": "ape",
+      "path": "remote",
+      "before_61_104": "FAIL",
+      "pre_fix_61_106": "FAIL",
+      "after_61_106": "FAIL",
+      "changed": false,
+      "changed_vs_pre_fix": false,
+      "duration_raw": null,
+      "reason": "未见 STATE_READY(duration>0)",
+      "container_error_absent": null,
+      "factory_25": true
+    },
+    {
+      "format": "wv",
+      "path": "local",
+      "before_61_104": "PASS",
+      "pre_fix_61_106": "PASS",
+      "after_61_106": "PASS",
+      "changed": false,
+      "changed_vs_pre_fix": false,
+      "duration_raw": 12000,
+      "reason": "STATE_READY(duration>0) 且 isPlaying（软/硬解渲染出声）",
+      "container_error_absent": null,
+      "factory_25": true
+    },
+    {
+      "format": "wv",
+      "path": "remote",
+      "before_61_104": "PASS",
+      "pre_fix_61_106": "PASS",
+      "after_61_106": "PASS",
+      "changed": false,
+      "changed_vs_pre_fix": false,
+      "duration_raw": 12000,
+      "reason": "STATE_READY(duration>0) 且 isPlaying（软/硬解渲染出声）",
+      "container_error_absent": null,
+      "factory_25": true
+    }
+  ],
+  "cells_changed": [
+    {
+      "format": "aiff",
+      "path": "local",
+      "before_61_104": "FAIL",
+      "pre_fix_61_106": "PASS",
+      "after_61_106": "PASS",
+      "changed": true,
+      "changed_vs_pre_fix": false,
+      "duration_raw": 11946,
+      "reason": "STATE_READY(duration>0) 且 isPlaying（软/硬解渲染出声）",
+      "container_error_absent": true,
+      "factory_25": true
+    },
+    {
+      "format": "aiff",
+      "path": "remote",
+      "before_61_104": "FAIL",
+      "pre_fix_61_106": "PASS",
+      "after_61_106": "PASS",
+      "changed": true,
+      "changed_vs_pre_fix": false,
+      "duration_raw": 11946,
+      "reason": "STATE_READY(duration>0) 且 isPlaying（软/硬解渲染出声）",
+      "container_error_absent": true,
+      "factory_25": true
+    }
+  ],
+  "boundary": "PASS 判据仅 STATE_READY(duration>0) + isPlaying；未逐格验证 seek / 完整时长 / ENDED；不宣称 8 格已修复 / 全格式覆盖；未做破坏性注入；F4 双轨口径、A3 G09 PARTIAL、舱不冻结不变；不动解码器。APK 可构建 ≠ 已装机 ≠ 真机可播；本批已装机，但播放验收仍以逐格判据为准。",
+  "checks": [
+    {
+      "name": "运行摘要存在且 device_run=true / 不卸载装机 / 历史已恢复",
+      "pass": true,
+      "evidence": "b2-f3-batch126-run-2026-11-13.json"
+    },
+    {
+      "name": "阶段 A 8 格证据齐全",
+      "pass": true,
+      "evidence": "counts={'PASS': 5, 'FAIL': 3}"
+    },
+    {
+      "name": "阶段 B ape×remote 加长等待单格证据齐全",
+      "pass": true,
+      "evidence": "wait=30.0 / counts={'FAIL': 1}"
+    },
+    {
+      "name": "最终 8 格 logcat 一手文件均存在且非空",
+      "pass": true,
+      "evidence": "analysis/l3-f3-logs/*-batch126b-2026-11-13.txt"
+    },
+    {
+      "name": "同批初轮（修复前）8 格证据并存，可作逐格对照",
+      "pass": true,
+      "evidence": "b2-f3-batch126-2026-11-13.json"
+    },
+    {
+      "name": "加长等待单格 logcat 存在且非空",
+      "pass": true,
+      "evidence": "analysis/l3-f3-logs/ape-remote-longwait-device-2026-11-13.txt"
+    },
+    {
+      "name": "历史 l3-f3-matrix.json 已恢复（14 PASS / 8 FAIL 快照）",
+      "pass": true,
+      "evidence": "counts={'PASS': 14, 'FAIL': 8}"
+    },
+    {
+      "name": "§61.104 对照矩阵可读",
+      "pass": true,
+      "evidence": "b2-f3-retest-2026-11-13.json"
+    },
+    {
+      "name": "真机命令带 -s <serial> 且端点记录在案",
+      "pass": true,
+      "evidence": "serial=10.0.0.2:41971"
+    },
+    {
+      "name": "PASS 判据口径未提升（不逐格验证 seek / 时长 / ENDED）",
+      "pass": true,
+      "evidence": "沿用 tools/l3_f3_matrix_run.py 的 STATE_READY(duration>0)+isPlaying"
+    },
+    {
+      "name": "裁决本身不写「8 格已修复 / 全格式覆盖」",
+      "pass": true,
+      "evidence": "verdict=RECORDED；计数只作如实登记"
+    },
+    {
+      "name": "wma 容器层错误已消失、但解码器层出现新根因（如实登记，不判修复）",
+      "pass": true,
+      "evidence": "endTracks/seekMap 已下发；wmav2 的 avcodec_open2 仍失败（wmadec.c:80 block_align）"
+    }
+  ],
+  "checks_passed": 12,
+  "checks_total": 12
+}

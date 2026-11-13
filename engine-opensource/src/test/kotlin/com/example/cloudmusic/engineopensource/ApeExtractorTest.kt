@@ -2,6 +2,7 @@ package com.example.cloudmusic.engineopensource
 
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.extractor.Extractor
+import androidx.media3.extractor.ExtractorInput
 import androidx.media3.extractor.PositionHolder
 import androidx.media3.extractor.asf.AsfExtractor
 import androidx.media3.extractor.ape.ApeExtractor
@@ -90,5 +91,41 @@ class ApeExtractorTest {
         // 判据：EOF 闭环（STATE_TAG_CHECK 一次探测后 END），无死循环。
         assertTrue(guard < 2000, "读循环有界终止")
         assertTrue(rec.formats.isNotEmpty(), "解析完成")
+    }
+
+    /** §61.107：记录顺序 skip 次数（REMOTE 下每次 RESULT_SEEK 会重开取流）。 */
+    private class CountingInput(private val base: BytesInput) : ExtractorInput by base {
+        var skipCalls = 0
+        override fun skipFully(length: Int) {
+            skipCalls++
+            base.skipFully(length)
+        }
+        fun seekTo(position: Long) = base.seekTo(position)
+    }
+
+    @Test
+    fun `顺序帧推进走 skipFully 而非逐帧 RESULT_SEEK（REMOTE 取流回归）`() {
+        // §61.106 真机：ape-remote 30s 只推进到第 2 帧（每次 RESULT_SEEK
+        // 重开 CacheDataSource 9~17s），同一帧序列 LOCAL 22 次仅 8ms。
+        // 本例把「顺序前进走 skipFully」钉成回归，防止改回逐帧 seek。
+        val rec = Recorder()
+        val input = CountingInput(BytesInput(fixture()))
+        val extractor = ApeExtractor()
+        extractor.init(rec)
+        val holder = PositionHolder()
+        var result = extractor.read(input, holder)
+        var seeks = 0
+        var guard = 0
+        while (result != Extractor.RESULT_END_OF_INPUT && guard++ < 2000) {
+            if (result == Extractor.RESULT_SEEK) {
+                seeks++
+                input.seekTo(holder.position)
+            }
+            result = extractor.read(input, holder)
+        }
+        assertTrue(rec.samples > 0, "仍有帧投递")
+        assertTrue(input.skipCalls > 0, "顺序推进应走 skipFully")
+        assertTrue(seeks < 10, "顺序推进不应产生大量 RESULT_SEEK（实际 $seeks）")
+        assertTrue(guard < 2000, "无 seek 死循环")
     }
 }

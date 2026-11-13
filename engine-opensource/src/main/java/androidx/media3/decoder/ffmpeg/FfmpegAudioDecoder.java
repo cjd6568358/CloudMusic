@@ -200,6 +200,12 @@ public final class FfmpegAudioDecoder
         return getVorbisExtraData(initializationData);
       case MimeTypes.AUDIO_FLAC:
         return getFlacExtraData(initializationData);
+      // 12 §61.107: AsfExtractor 下发完整 WAVEFORMATEX（audio/x-wma 非标准
+      // MimeTypes 常量）。ffmpeg_jni.cc 的 createContext 会把它拆成 wmav1/wmav2
+      // 所需的尾部 extradata 并预置 block_align / sample_rate / ch_layout /
+      // bit_rate；其它分支的语义不变。
+      case "audio/x-wma":
+        return initializationData.isEmpty() ? null : initializationData.get(0);
       default:
         // Other codecs do not require extra data.
         return null;

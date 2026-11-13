@@ -1,0 +1,54 @@
+{
+  "method": "12 §61.105 / pcm_s16be avcodec_open2 初始化根因（静态源码审计）",
+  "generated_by": "tools/b2_pcm_init_audit.py",
+  "generated_at": "2026-11-13T15:23:33",
+  "device_run": false,
+  "verdict": "STATIC_ROOT_CAUSE_CONFIRMED",
+  "root_cause": "FFmpeg 6.0 avcodec_open2 对未声明 AV_CODEC_CAP_CHANNEL_CONF 的 audio decoder 要求 ch_layout.nb_channels != 0；pcm_s16be 属于 PCM_DECODER_* （只有 AV_CODEC_CAP_DR1）。上游 JNI 只对 mulaw/alaw 预置 sample_rate / ch_layout，故 pcm_s16be 的 createContext 返回 NULL → Java 抛 FfmpegDecoderException('Initialization failed')。",
+  "fix": "ffmpeg_jni.cc createContext：按 av_get_bits_per_sample(codec->id) > 0 精确判定 PCM 家族，在 avcodec_open2 之前预置 sample_rate 与 av_channel_layout_default(ch_layout, rawChannelCount)；压缩解码器零影响。",
+  "boundary": "符号存在 ≠ 运行时可用 ≠ 真机可播；本机只完成静态证据 + native 编译，aiff 真机单格回归 NOT RUN，不写成「aiff 已修复 / 全格式已支持」。",
+  "checks": [
+    {
+      "name": "avcodec_open2 无 CHANNEL_CONF 的 audio decoder 强制要求 ch_layout",
+      "pass": true,
+      "evidence": "libavcodec/avcodec.c:251-257 `Decoder requires channel layout to be set`"
+    },
+    {
+      "name": "PCM_DECODER_* 未声明 AV_CODEC_CAP_CHANNEL_CONF",
+      "pass": true,
+      "evidence": "libavcodec/pcm.c PCM_DECODER_1 .p.capabilities = AV_CODEC_CAP_DR1"
+    },
+    {
+      "name": "未预置 sample_rate 时 time_base.den 取 0",
+      "pass": true,
+      "evidence": "libavcodec/avcodec.c:293-297"
+    },
+    {
+      "name": "JNI 在 avcodec_open2 前仅对 PCM 家族预置 sample_rate/ch_layout",
+      "pass": true,
+      "evidence": "ffmpeg_jni.cc createContext / §61.105"
+    },
+    {
+      "name": "压缩解码器不受影响（预置被 PCM 判定收窄）",
+      "pass": true,
+      "evidence": "原「所有 codec 都预置」写法已收敛，aac/mp3/ape/wmav2/wavpack 保持上游行为"
+    },
+    {
+      "name": "audio/x-aiff → pcm_s16be 映射在位",
+      "pass": true,
+      "evidence": "FfmpegLibrary.getCodecName"
+    },
+    {
+      "name": "rawSampleRate/rawChannelCount 来自 Format 且有效",
+      "pass": true,
+      "evidence": "FfmpegAudioDecoder.java:78（真机 Format=1ch 48000Hz → 两个值均 > 0）"
+    },
+    {
+      "name": "真机回归 NOT RUN（静态证据不提升为运行时结论）",
+      "pass": true,
+      "evidence": "§61.105：adb devices 两个历史端点均 offline；aiff 单格复测未执行"
+    }
+  ],
+  "checks_passed": 8,
+  "checks_total": 8
+}

@@ -4686,6 +4686,338 @@ def main() -> int:
 
 
 
+    # 12 §61.100 守护 / 仓库同步后的文档↔代码差异对齐与全量回写补账
+    # （2026-11-13，纯离线）：校验正式批次、回写锚点、审计工具与证据在位，
+    # 防「09/16/17 回写链再次断掉」与「M1 过期注释回潮」。
+    realign_tool = ROOT / "tools" / "b2_realign_audit.py"
+    realign_json = ROOT / "analysis" / "b2-realign-2026-11-13.json"
+    realign_report = ROOT / "analysis" / "b2-realign-2026-11-13.report.md"
+    if not (realign_tool.is_file() and realign_json.is_file()
+            and realign_report.is_file()):
+        failures.append(
+            "12 §61.100 守护：对齐审计工具 / JSON / report 缺失")
+    else:
+        try:
+            import json as _json
+            _r = _json.loads(realign_json.read_text(encoding="utf-8"))
+            _d12 = (ROOT / "docs" / "12-编码阶段第一批交付.md").read_text(
+                encoding="utf-8")
+            _d09 = (ROOT / "docs" / "09-文档闭环总览.md").read_text(
+                encoding="utf-8")
+            _d16 = (ROOT / "docs" / "16-架构与任务拆分复核报告.md").read_text(
+                encoding="utf-8")
+            _d17 = (ROOT / "docs" / "17-竞品模块清单与复刻规划.md").read_text(
+                encoding="utf-8")
+            _bl = (ROOT / "analysis" / "task-backlog-2026-11-07.md").read_text(
+                encoding="utf-8")
+            _adapter = (ROOT / "engine-opensource" / "src" / "main" /
+                        "kotlin" / "com" / "example" / "cloudmusic" /
+                        "engineopensource" / "Media3EngineAdapter.kt"
+                        ).read_text(encoding="utf-8")
+            _build = (ROOT / "engine-opensource" / "build.gradle.kts"
+                      ).read_text(encoding="utf-8")
+            if (_r.get("verdict") == "PASS"
+                    and _r.get("checks_pass") == _r.get("checks_total")
+                    and "### 61.100" in _d12
+                    and "9375a247" in _d12 and "1485ce0f" in _d12
+                    and all("61.100" in x for x in (_d09, _d16, _d17, _bl))
+                    and "61.100" in _adapter and "61.100" in _build
+                    and "// §61.99：不透传 mimeType" not in _adapter
+                    and "61.100" in realign_tool.read_text(encoding="utf-8")):
+                print("[PASS] 12 §61.100 守护：文档↔代码差异对齐批次、全量回写"
+                      "锚点与三处注释口径修正均在位（纯离线、零行为改动）")
+            else:
+                failures.append(
+                    "12 §61.100 守护：对齐判定/回写锚点/注释勘误口径漂移")
+        except (OSError, UnicodeError, ValueError) as exc:
+            failures.append(f"12 §61.100 守护：对齐证据 JSON 不可解析（{exc}）")
+
+    # 12 §61.101 守护 / 第 1~3 项按序推进：F3 8 FAIL 归因、ReplayGain 值对象、
+    # 反伪证边界（纯离线，不依赖本机 SDK / 设备）。
+    attr_json = ROOT / "analysis" / "b2-f3-fail-attribution-2026-11-13.json"
+    gain_src = (ROOT / "core-model" / "src" / "main" / "kotlin" / "com" /
+                "example" / "cloudmusic" / "model" / "PlaybackGain.kt")
+    gain_test = (ROOT / "core-model" / "src" / "test" / "kotlin" / "com" /
+                 "example" / "cloudmusic" / "model" / "PlaybackGainTest.kt")
+    if not (attr_json.is_file() and gain_src.is_file() and gain_test.is_file()):
+        failures.append("12 §61.101 守护：F3 归因证据 / ReplayGain 值对象与测试缺失")
+    else:
+        try:
+            import json as _json
+            _a = _json.loads(attr_json.read_text(encoding="utf-8"))
+            _g = gain_src.read_text(encoding="utf-8")
+            _d12b = (ROOT / "docs" / "12-编码阶段第一批交付.md").read_text(
+                encoding="utf-8")
+            _docs101 = [
+                (ROOT / "docs" / "09-文档闭环总览.md").read_text(encoding="utf-8"),
+                (ROOT / "docs" / "16-架构与任务拆分复核报告.md").read_text(encoding="utf-8"),
+                (ROOT / "docs" / "17-竞品模块清单与复刻规划.md").read_text(encoding="utf-8"),
+                (ROOT / "analysis" / "task-backlog-2026-11-07.md").read_text(encoding="utf-8"),
+            ]
+            _mx = _json.loads((ROOT / "analysis" / "l3-f3-matrix.json"
+                               ).read_text(encoding="utf-8"))
+            if (_a.get("verdict") == "PASS"
+                    and _a.get("device_run") is False
+                    and _a.get("checks_pass") == _a.get("checks_total")
+                    and _a.get("attribution", "").find("容器解析缺口") >= 0
+                    and "无生产消费方" in _g
+                    and "不宣称" in _g
+                    and "### 61.101" in _d12b
+                    and all("61.101" in x for x in _docs101)
+                    and _mx.get("counts", {}).get("PASS") == 14
+                    and _mx.get("counts", {}).get("FAIL") == 8
+                    and "ReplayGain 已接回" not in "".join(_docs101)):
+                print("[PASS] 12 §61.101 守护：F3 8 FAIL 归因（容器解析缺口、"
+                      "device_run=false）/ ReplayGain 纯 JVM 值对象与诚实边界 / "
+                      "全量回写锚点 / 历史矩阵零改写")
+            else:
+                failures.append(
+                    "12 §61.101 守护：归因判定 / 值对象边界 / 回写锚点 / 矩阵口径漂移")
+        except (OSError, UnicodeError, ValueError) as exc:
+            failures.append(f"12 §61.101 守护：证据不可解析（{exc}）")
+
+    # 12 §61.102 守护 / 容器缺口闭环：4 条自定义 MIME 映射 + 4 个 Extractor 挂接
+    # + AIFF/WavPack 实现 + 反伪证边界（纯离线，不依赖设备 / native 库）。
+    gap_json = ROOT / "analysis" / "b2-container-gap-2026-11-13.json"
+    ff_lib = (ROOT / "engine-opensource" / "src" / "main" / "java" /
+              "androidx" / "media3" / "decoder" / "ffmpeg" / "FfmpegLibrary.java")
+    if not (gap_json.is_file() and ff_lib.is_file()):
+        failures.append("12 §61.102 守护：容器闭环证据 / FfmpegLibrary 缺失")
+    else:
+        try:
+            import json as _json
+            _cg = _json.loads(gap_json.read_text(encoding="utf-8"))
+            _lib = ff_lib.read_text(encoding="utf-8")
+            _ape = (ROOT / "engine-opensource" / "src" / "main" / "java" /
+                    "androidx" / "media3" / "extractor" / "ape" /
+                    "ApeExtractor.kt").read_text(encoding="utf-8")
+            _d12c = (ROOT / "docs" / "12-编码阶段第一批交付.md").read_text(
+                encoding="utf-8")
+            _docs102 = [
+                (ROOT / "docs" / "09-文档闭环总览.md").read_text(encoding="utf-8"),
+                (ROOT / "docs" / "16-架构与任务拆分复核报告.md").read_text(encoding="utf-8"),
+                (ROOT / "docs" / "17-竞品模块清单与复刻规划.md").read_text(encoding="utf-8"),
+                (ROOT / "analysis" / "task-backlog-2026-11-07.md").read_text(encoding="utf-8"),
+            ]
+            if (_cg.get("verdict") == "PASS"
+                    and _cg.get("device_run") is False
+                    and _cg.get("checks_pass") == _cg.get("checks_total")
+                    and all(('case "%s":' % m) in _lib for m in
+                            ("audio/x-ape", "audio/x-wma", "audio/x-wavpack",
+                             "audio/x-aiff"))
+                    and all(x in _ape for x in
+                            ("AiffExtractor()", "WavpackExtractor()"))
+                    and "### 61.102" in _d12c
+                    and "48000" in _d12c and "勘误" in _d12c
+                    and all("61.102" in x for x in _docs102)
+                    and "Unseekable" in (ROOT / "engine-opensource" / "src" /
+                                        "main" / "java" / "androidx" / "media3" /
+                                        "extractor" / "wavpack" /
+                                        "WavpackExtractor.kt").read_text(
+                                            encoding="utf-8")):
+                print("[PASS] 12 §61.102 守护：4 条 MIME→decoder 映射 / "
+                      "Aiff+Wavpack Extractor 挂接 / AIFF 48000Hz 勘误 / "
+                      "全量回写锚点 / 变长块诚实 Unseekable")
+            else:
+                failures.append(
+                    "12 §61.102 守护：MIME 映射 / Extractor 挂接 / 勘误 / 回写锚点漂移")
+        except (OSError, UnicodeError, ValueError) as exc:
+            failures.append(f"12 §61.102 守护：证据不可解析（{exc}）")
+
+    # 12 §61.103 守护 / FFmpeg 工具链快照：证据 JSON 固化本机一次性实测，
+    # 不依赖 SDK/NDK/设备（静态库为 gitignore 本地工件，跨检出不存在）。
+    tool_json = ROOT / "analysis" / "b2-ffmpeg-toolchain-2026-11-13.json"
+    if not tool_json.is_file():
+        failures.append("12 §61.103 守护：工具链快照证据缺失")
+    else:
+        try:
+            import json as _json
+            _t = _json.loads(tool_json.read_text(encoding="utf-8"))
+            _snap = _t.get("snapshot", {})
+            _d12d = (ROOT / "docs" / "12-编码阶段第一批交付.md").read_text(
+                encoding="utf-8")
+            _docs103 = [
+                _d12d,
+                (ROOT / "docs" / "09-文档闭环总览.md").read_text(encoding="utf-8"),
+                (ROOT / "docs" / "16-架构与任务拆分复核报告.md").read_text(encoding="utf-8"),
+                (ROOT / "docs" / "17-竞品模块清单与复刻规划.md").read_text(encoding="utf-8"),
+                (ROOT / "analysis" / "task-backlog-2026-11-07.md").read_text(encoding="utf-8"),
+            ]
+            _mx103 = _json.loads((ROOT / "analysis" / "l3-f3-matrix.json"
+                                  ).read_text(encoding="utf-8"))
+            if (_t.get("verdict") == "PASS"
+                    and _snap.get("device_run") is False
+                    and _snap.get("f3_retest") == "NOT RUN"
+                    and _snap.get("assemble_debug", "").startswith(
+                        "BUILD SUCCESSFUL")
+                    and "INSTALL_FAILED_UPDATE_INCOMPATIBLE" in _snap.get(
+                        "install", "")
+                    and len(_snap.get("decoder_symbols", [])) == 4
+                    and "ff_wavpack_decoder" in _snap.get("decoder_symbols", [])
+                    and len(_snap.get("abi_static_libs", {})) == 2
+                    and "### 61.103" in _d12d
+                    and all("61.103" in x for x in _docs103)
+                    and _mx103.get("counts", {}).get("PASS") == 14
+                    and _mx103.get("counts", {}).get("FAIL") == 8):
+                print("[PASS] 12 §61.103 守护：两 ABI 静态库 / APK 首次构建成功 / "
+                      "4 个 decoder 符号实证 / 装机阻塞与真机 NOT RUN 如实登记 / "
+                      "全量回写锚点 / 历史矩阵零改写")
+            else:
+                failures.append(
+                    "12 §61.103 守护：工具链快照 / 回写锚点 / 诚实边界口径漂移")
+        except (OSError, UnicodeError, ValueError) as exc:
+            failures.append(f"12 §61.103 守护：证据不可解析（{exc}）")
+
+    # 12 §61.104 守护 / 装机与 F3 8 格真机复测：证据只读裁决，防「3 PASS」
+    # 被写成「8 格已修复」，并守护历史证据零改写口径。
+    ret_verdict = ROOT / "analysis" / "b2-f3-retest-verdict-2026-11-13.json"
+    ret_matrix = ROOT / "analysis" / "b2-f3-retest-2026-11-13.json"
+    if not (ret_verdict.is_file() and ret_matrix.is_file()):
+        failures.append("12 §61.104 守护：复测裁决 / 新矩阵证据缺失")
+    else:
+        try:
+            import json as _json
+            _v = _json.loads(ret_verdict.read_text(encoding="utf-8"))
+            _rm = _json.loads(ret_matrix.read_text(encoding="utf-8"))
+            _hist = _json.loads((ROOT / "analysis" / "l3-f3-matrix.json"
+                                 ).read_text(encoding="utf-8"))
+            _d12e = (ROOT / "docs" / "12-编码阶段第一批交付.md").read_text(
+                encoding="utf-8")
+            _docs104 = [
+                _d12e,
+                (ROOT / "docs" / "09-文档闭环总览.md").read_text(encoding="utf-8"),
+                (ROOT / "docs" / "16-架构与任务拆分复核报告.md").read_text(encoding="utf-8"),
+                (ROOT / "docs" / "17-竞品模块清单与复刻规划.md").read_text(encoding="utf-8"),
+                (ROOT / "analysis" / "task-backlog-2026-11-07.md").read_text(encoding="utf-8"),
+            ]
+            causes = {c["root_cause"] for c in _v.get("cells", [])}
+            if (_v.get("verdict") == "PASS"
+                    and _v.get("device_run") is True
+                    and _v.get("counts", {}).get("PASS") == 3
+                    and _v.get("counts", {}).get("FAIL") == 5
+                    and len(_rm.get("cells", [])) == 8
+                    and {"DECODER_INIT_FAILED",
+                         "EXTRACTOR_PREPARATION_INCOMPLETE",
+                         "NO_READY_IN_WINDOW",
+                         "READY_AND_PLAYING"} <= causes
+                    and _hist.get("counts", {}).get("PASS") == 14
+                    and _hist.get("counts", {}).get("FAIL") == 8
+                    and "### 61.104" in _d12e
+                    and all("61.104" in x for x in _docs104)
+                    and "不宣称 8 格已修复" in _d12e):
+                print("[PASS] 12 §61.104 守护：装机 + 真机 8 格复测 3 PASS / "
+                      "5 FAIL / 四类根因 / 历史证据零改写 / 反伪证边界 / "
+                      "全量回写锚点")
+            else:
+                failures.append(
+                    "12 §61.104 守护：复测计数 / 根因 / 历史矩阵 / 回写锚点漂移")
+        except (OSError, UnicodeError, ValueError) as exc:
+            failures.append(f"12 §61.104 守护：证据不可解析（{exc}）")
+
+    # 12 §61.105 守护 / ①~④ 施工：静态证据等级不得被写成真机结论，
+    # 且 ReplayGain 接线 / gapless BLOCKED / 失效副本不采信三条口径必须在位。
+    _pcm_file = ROOT / "analysis" / "b2-pcm-init-audit-2026-11-13.json"
+    _lw_file = ROOT / "analysis" / "b2-f3-longwait-verdict-2026-11-13.json"
+    if not (_pcm_file.is_file() and _lw_file.is_file()):
+        failures.append("12 §61.105 守护：PCM 根因 / 加长等待裁决证据缺失")
+    else:
+        try:
+            import json as _json
+            _pcm = _json.loads(_pcm_file.read_text(encoding="utf-8"))
+            _lw = _json.loads(_lw_file.read_text(encoding="utf-8"))
+            _asf105 = (ROOT / "engine-opensource" / "src" / "main" / "java" /
+                       "androidx" / "media3" / "extractor" / "asf" /
+                       "AsfExtractor.kt").read_text(encoding="utf-8")
+            _jni105 = (ROOT / "engine-opensource" / "src" / "main" / "jni" /
+                       "ffmpeg_jni.cc").read_text(encoding="utf-8")
+            _eo = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" /
+                   "com" / "example" / "cloudmusic" / "engineopensource")
+            _adapter105 = (_eo / "Media3EngineAdapter.kt").read_text(encoding="utf-8")
+            _ctrl105 = _eo / "ReplayGainController.kt"
+            _d105 = [
+                (ROOT / "docs" / "12-编码阶段第一批交付.md").read_text(encoding="utf-8"),
+                (ROOT / "docs" / "09-文档闭环总览.md").read_text(encoding="utf-8"),
+                (ROOT / "docs" / "16-架构与任务拆分复核报告.md").read_text(encoding="utf-8"),
+                (ROOT / "docs" / "17-竞品模块清单与复刻规划.md").read_text(encoding="utf-8"),
+                (ROOT / "analysis" / "task-backlog-2026-11-07.md").read_text(encoding="utf-8"),
+            ]
+            if (_pcm.get("verdict") == "STATIC_ROOT_CAUSE_CONFIRMED"
+                    and _pcm.get("device_run") is False
+                    and _pcm.get("checks_passed") == 8
+                    and _pcm.get("checks_total") == 8
+                    and _lw.get("status") == "NOT_RUN"
+                    and _lw.get("device_run") is False
+                    and _lw.get("invalid_copies_not_used_as_evidence") is True
+                    and "publishTracksAndSeekMap" in _asf105
+                    and "out.endTracks()" in _asf105
+                    and "av_get_bits_per_sample(codec->id) > 0" in _jni105
+                    and _ctrl105.is_file()
+                    and "ReplayGainController {" in _adapter105
+                    and "onMetadata(metadata: Metadata)" in _adapter105
+                    and "GaplessPolicy.assess(" in _adapter105
+                    and "### 61.105" in _d105[0]
+                    and all("61.105" in x for x in _d105)
+                    and "NOT RUN" in _d105[0]
+                    and "不宣称 8 格已修复" in _d105[0]):
+                print("[PASS] 12 §61.105 守护：Asf endTracks / PCM 预置 / "
+                      "ape-remote NOT RUN / ReplayGain 接线 / gapless BLOCKED / "
+                      "失效副本不采信 / 全量回写锚点")
+            else:
+                failures.append("12 §61.105 守护：四项施工锚点 / 证据等级 / "
+                                "回写链漂移")
+        except (OSError, UnicodeError, ValueError) as exc:
+            failures.append("12 §61.105 守护：证据不可解析（%s）" % exc)
+
+    # 12 §61.106 守护 / 真机复测：防「5 PASS」被写成「8 格已修复」，
+    # 防 seek(0,0) 抢跑回归，防 wma 容器层修好后被误判为 wma 已可播。
+    _v106 = ROOT / "analysis" / "b2-f3-batch126-verdict-2026-11-13.json"
+    _m106 = ROOT / "analysis" / "b2-f3-batch126b-2026-11-13.json"
+    if not (_v106.is_file() and _m106.is_file()):
+        failures.append("12 §61.106 守护：真机裁决 / 最终 8 格矩阵证据缺失")
+    else:
+        try:
+            import json as _json
+            _vd = _json.loads(_v106.read_text(encoding="utf-8"))
+            _mm = _json.loads(_m106.read_text(encoding="utf-8"))
+            _asf106 = (ROOT / "engine-opensource" / "src" / "main" / "java" /
+                       "androidx" / "media3" / "extractor" / "asf" /
+                       "AsfExtractor.kt").read_text(encoding="utf-8")
+            _asftest = (ROOT / "engine-opensource" / "src" / "test" / "kotlin" /
+                        "com" / "example" / "cloudmusic" / "engineopensource" /
+                        "AsfExtractorTest.kt").read_text(encoding="utf-8")
+            _d106 = [
+                (ROOT / "docs" / "12-编码阶段第一批交付.md").read_text(encoding="utf-8"),
+                (ROOT / "docs" / "09-文档闭环总览.md").read_text(encoding="utf-8"),
+                (ROOT / "docs" / "16-架构与任务拆分复核报告.md").read_text(encoding="utf-8"),
+                (ROOT / "docs" / "17-竞品模块清单与复刻规划.md").read_text(encoding="utf-8"),
+                (ROOT / "analysis" / "task-backlog-2026-11-07.md").read_text(encoding="utf-8"),
+            ]
+            _cells106 = {(c.get("format"), c.get("path")): c.get("verdict")
+                         for c in _mm.get("cells", [])}
+            if (_vd.get("verdict") == "RECORDED"
+                    and _vd.get("device_run") is True
+                    and _vd.get("stage_a_counts") == {"PASS": 5, "FAIL": 3}
+                    and _vd.get("ape_remote_longwait", {}).get("wait_s") == 30.0
+                    and len(_mm.get("cells", [])) == 8
+                    and _cells106.get(("wma", "local")) == "FAIL"
+                    and _cells106.get(("wma", "remote")) == "FAIL"
+                    and _cells106.get(("aiff", "local")) == "PASS"
+                    and _cells106.get(("aiff", "remote")) == "PASS"
+                    and "packetCount <= 0 || packetSize <= 0" in _asf106
+                    and "publishTracksAndSeekMap" in _asf106
+                    and "init 后先 seek(0,0)" in _asftest
+                    and "### 61.106" in _d106[0]
+                    and all("61.106" in x for x in _d106)
+                    and "不宣称 8 格已修复" in _d106[0]):
+                print("[PASS] 12 §61.106 守护：aiff 双路径转 PASS / wma 仍 FAIL "
+                      "/ seek(0,0) 抢跑回归 / ape-remote 30s NOT READY / "
+                      "device_run=true / 全量回写锚点")
+            else:
+                failures.append("12 §61.106 守护：逐格计数 / 根因结构 / "
+                                "seek 回归 / 回写链漂移")
+        except (OSError, UnicodeError, ValueError) as exc:
+            failures.append("12 §61.106 守护：证据不可解析（%s）" % exc)
+
     if (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example" /
             "cloudmusic" / "common" / "PathNormalizer.kt").is_file():
         warnings.append("实现期修正 C-01：路径规范化下沉至 :core-common（见 PathNormalizer KDoc）")
