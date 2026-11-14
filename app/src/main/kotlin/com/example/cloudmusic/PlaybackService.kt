@@ -339,6 +339,8 @@ class PlaybackService : Service() {
                 intent.getIntExtra(EXTRA_ANALYZE_MAX, 50),
                 intent.getBooleanExtra(EXTRA_ANALYZE_FORCE, false),
             )
+            // §61.129（T-V #9）：重扫触发入口（refresh=true 冷扫口径；性能基线实测用）。
+            ACTION_RESCAN -> runtime.rescanAll()
             // §61.29：Activity 侧 SHOW_BLUETOOTH_NAME 申请结果出来后，通知 Service
             // 重读权限并按需注册 / 注销 ACL 广播（同 App 显式 Intent，不需要 exported）。
             ACTION_BLUETOOTH_PERMISSION_CHANGED -> refreshBluetoothPermission()
@@ -575,6 +577,9 @@ class PlaybackService : Service() {
         /** §61.122（T5-2）：ReplayGain 近似分析入口（`EXTRA_ANALYZE_MAX` 上限，默认 50）。 */
         const val ACTION_ANALYZE_RG = "com.example.cloudmusic.action.ANALYZE_RG"
         const val EXTRA_ANALYZE_MAX = "com.example.cloudmusic.extra.ANALYZE_MAX"
+
+        /** §61.129（T-V #9）：重扫触发入口（refresh=true 冷扫口径）。 */
+        const val ACTION_RESCAN = "com.example.cloudmusic.action.RESCAN"
         const val EXTRA_ANALYZE_FORCE = "com.example.cloudmusic.extra.ANALYZE_FORCE"
 
         /** §61.93（音效必须支持）：外部音效档位入口，`EXTRA_EFFECT_LEVEL`（Int，0=释放）。 */

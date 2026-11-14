@@ -219,6 +219,8 @@ class PlaybackRuntime @Inject constructor(
     private fun runScan(request: ScanRequest) {
         scanJob?.cancel()
         scanJob = scope.launch {
+            // §61.129（T-V #9）：扫描时长观测（冷扫 ≤60s / 增量 ≤10s 基线判据）。
+            val scanStart = android.os.SystemClock.elapsedRealtime()
             _state.update { it.copy(scanning = true, scanned = 0, total = 0, errors = 0) }
             try {
                 coordinator.scan(request).collect { progress: ScanProgress ->
@@ -230,6 +232,9 @@ class PlaybackRuntime @Inject constructor(
                         )
                     }
                 }
+                Log.i("CM-Scan", "scan done: %d ms (refresh=%s files≈%d)".format(
+                    android.os.SystemClock.elapsedRealtime() - scanStart,
+                    request.refresh, _state.value.scanned))
             } catch (e: Exception) {
                 _state.update { it.copy(lastEffect = "SCAN_FAILED") }
             } finally {
