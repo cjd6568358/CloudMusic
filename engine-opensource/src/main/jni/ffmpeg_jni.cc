@@ -272,6 +272,10 @@ AVCodecContext* createContext(JNIEnv* env, const AVCodec* codec,
     //    apedec 不走 PCM 家族预置分支，须在此单独预置（rawChannelCount 已传）。
     context->bits_per_coded_sample = 16;
     av_channel_layout_default(&context->ch_layout, rawChannelCount);
+    // §61.126：sample_rate 预置——ape 非 PCM 家族不命中既有预置分支，
+    // avctx->sample_rate=0 → 输出 frame 的 sample_rate=0 → decode.c
+    // frame_validate（sample_rate<=0）→ AVERROR_BUG（"Internal bug" 一手）。
+    context->sample_rate = rawSampleRate;
   }
   if (isWma && extraLen >= 18) {
     int wfxChannels = AV_RL16(extraPtr + 2);
