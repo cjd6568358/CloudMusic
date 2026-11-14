@@ -463,12 +463,23 @@ void releaseContext(AVCodecContext* context) {
   avcodec_free_context(&context);
 }
 
+// §61.128：FFmpeg av_log → logcat 路由（native 侧错误可观测——ape decode
+// 层 "Internal bug" 的真实原因此前走 stderr，logcat 不可见）。
+static void avlog_to_logcat(void* ptr, int level, const char* fmt, va_list vl) {
+  if (level > AV_LOG_WARNING) return;   // ERROR/WARNING 才进 logcat
+  char line[1024];
+  int prefix = 1;
+  av_log_format_line2(ptr, level, fmt, vl, line, sizeof(line), &prefix);
+  __android_log_print(ANDROID_LOG_WARN, "CM-FFmpeg", "%s", line);
+}
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
   JNIEnv* env;
   if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION_1_6) != JNI_OK) {
     LOGE("JNI_OnLoad: GetEnv failed");
     return -1;
   }
+  av_log_set_callback(avlog_to_logcat);
   jclass clazz =
       env->FindClass("androidx/media3/decoder/ffmpeg/FfmpegAudioDecoder");
   if (!clazz) {

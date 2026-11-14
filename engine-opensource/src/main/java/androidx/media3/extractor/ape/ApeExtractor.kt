@@ -204,12 +204,10 @@ class ApeExtractor : Extractor {
                 .setSampleMimeType("audio/x-ape")
                 .setSampleRate(sampleRate)
                 .setChannelCount(channels)
-                // §61.126：APE extradata 下发**暂缓**——真机一手：MIUI 平台 ape
-                // 解码器收到合成 6B csd 后启动即失败（此前无 csd 可播 20 分钟）；
-                // ffmpeg 软解路径又需该 csd（ape_decode_init 恰好 6B）——两条路径
-                // 对 initializationData 语义相反。平台路径已验证稳定（G08 20min
-                // PASS），故本批不下发；ffmpeg ape decode 层深水区修复后重评估。
-                // 打包逻辑保留（apeExtradata），供 ffmpeg 链路重接时启用。
+                // §61.128：恢复 extradata 下发——强制软解（§61.127 selector 排除
+                // 平台）下平台不参与 ape，ff_ape_decode_init 需要恰好 6B
+                //（fileversion/compression/flags）。恢复后 spec 路径真机验证。
+                .setInitializationData(listOf(apeExtradata ?: ByteArray(0)))
                 .setCodecs("ape")
                 .build(),
         )
