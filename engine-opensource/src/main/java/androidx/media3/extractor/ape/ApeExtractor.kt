@@ -39,6 +39,8 @@ class ApeExtractor : Extractor {
 
     private var sampleRate = 0
     private var channels = 0
+    /** §61.126：ff_ape_decode_init 布局的 extradata（随 Format 下发）。 */
+    private var apeExtradata: ByteArray? = null
     private var blocksPerFrame = 0
     private var totalFrames = 0
     private var finalFrameBlocks = 0
@@ -157,6 +159,17 @@ class ApeExtractor : Extractor {
         }
         this.finalFrameBlocks = finalFrameBlocks
 
+        // §61.126：ff_ape_decode_init 的 extradata = **恰好 6 字节 LE**
+        //（FFmpeg 6.0 apedec.c：fileversion u16 @0 / compression_level u16 @2 /
+        // flags u16 @4，extradata_size != 6 直接 "Incorrect extradata" EINVAL；
+        // 规范系数取自 GitHub n6.0 源码互证）。fileversion<3930 且 level=5000
+        // 组合被 ffmpeg 拒绝——本链路样本 fileversion 由 descriptor 读取。
+        val extradata = ByteArray(6)
+        writeLeU16(extradata, 0, version)
+        writeLeU16(extradata, 2, compressionType)
+        writeLeU16(extradata, 4, formatFlags)
+        apeExtradata = extradata
+
         val skipWav = formatFlags and FLAG_CREATE_WAV_HEADER == 0
         if (skipWav && wavHeaderLength in 1..0x100000) {
             input.skipFully(wavHeaderLength.toInt())
@@ -191,6 +204,12 @@ class ApeExtractor : Extractor {
                 .setSampleMimeType("audio/x-ape")
                 .setSampleRate(sampleRate)
                 .setChannelCount(channels)
+                // §61.126：APE extradata 下发**暂缓**——真机一手：MIUI 平台 ape
+                // 解码器收到合成 6B csd 后启动即失败（此前无 csd 可播 20 分钟）；
+                // ffmpeg 软解路径又需该 csd（ape_decode_init 恰好 6B）——两条路径
+                // 对 initializationData 语义相反。平台路径已验证稳定（G08 20min
+                // PASS），故本批不下发；ffmpeg ape decode 层深水区修复后重评估。
+                // 打包逻辑保留（apeExtradata），供 ffmpeg 链路重接时启用。
                 .setCodecs("ape")
                 .build(),
         )
@@ -259,17 +278,23 @@ class ApeExtractor : Extractor {
                     return Extractor.RESULT_SEEK
                 }
             }
-            // §61.94b（ffmpeg ape_read_packet 逐字对齐）：APE 解码器的帧输入 =
-            // [nblocks u32][skip u32][帧数据（含对齐残数）] —— 8B 前缀是解码契约！
+            // §61.126（FFmpeg 6.0 apedec.c ape_decode_frame 逐字对齐，GitHub n6.0
+            // 源码互证）：ff_ape_decoder 的 packet 前缀 = [nblocks u32 BE][offset
+            // u32 BE]（bytestream_get_be32；offset ∈ [0,3]，>3 判 "Incorrect
+            // offset passed"）——**大端**。§61.94b 的小端前缀是 A 路线
+            // ApeDecWrapper（ape_dec_process）的契约，两套解码器字节序不同；
+            // B2 强制软解（§61.126）后 ff_ape_decoder 按大端读小端前缀 → 值错乱
+            // → 播放数秒后 AVERROR_BUG（真机一手 "Internal bug"）。
+            // §61.94b 的逐帧投递/EOF 防护等其余语义不变。
             val nblocks = if (currentFrame == totalFrames - 1) {
                 finalFrameBlocks
             } else {
                 blocksPerFrame
             }
-            val skip = ((pos - firstFrameOffset) and 3).toInt()
+            val offset4 = ((pos - firstFrameOffset) and 3).toInt()
             val prefix = ByteArray(8)
-            writeLeU32(prefix, 0, nblocks)
-            writeLeU32(prefix, 4, skip)
+            writeBeU32(prefix, 0, nblocks)
+            writeBeU32(prefix, 4, offset4)
             trackOutput?.sampleData(
                 androidx.media3.common.util.ParsableByteArray(prefix), 8,
             )
@@ -351,6 +376,18 @@ class ApeExtractor : Extractor {
     private fun isApeMagic(b: ByteArray): Boolean =
         b[0] == 'M'.code.toByte() && b[1] == 'A'.code.toByte() &&
             b[2] == 'C'.code.toByte() && b[3] == ' '.code.toByte()
+
+    private fun writeBeU32(buf: ByteArray, off: Int, v: Int) {
+        buf[off] = ((v shr 24) and 0xFF).toByte()
+        buf[off + 1] = ((v shr 16) and 0xFF).toByte()
+        buf[off + 2] = ((v shr 8) and 0xFF).toByte()
+        buf[off + 3] = (v and 0xFF).toByte()
+    }
+
+    private fun writeLeU16(buf: ByteArray, off: Int, v: Int) {
+        buf[off] = (v and 0xFF).toByte()
+        buf[off + 1] = ((v shr 8) and 0xFF).toByte()
+    }
 
     private fun writeLeU32(b: ByteArray, off: Int, v: Int) {
         b[off] = (v and 0xFF).toByte()

@@ -270,8 +270,18 @@ class Media3EngineAdapter : IMusicEngine {
         // §61.85（B2 M2）：EXTENSION_RENDERER_MODE_ON = 平台 MediaCodec 硬解优先，
         // FFmpeg 软解（FfmpegAudioRenderer，libffmpegJNI）仅补位平台不支持的
         // 格式——对齐施工单 §4「硬解优先」与 B2 的「删掉缺陷层、不换解码器」。
+        // §61.126（G08 一手观察）：ape 走平台硬解长播 ~13.9min 处 codec error
+        //（MediaCodecAudioRenderer 自动恢复，进程未断）→ 平台选择器对
+        // audio/x-ape 返回空，ape **强制走 FFmpeg 软解**（F3 22 格已验证
+        // ffmpeg ape 链路；平台 ape 支持随厂商参差，软解行为确定性优先）。
+        // 例外记录：MIUI/高通平台可解 ape（§61.122 分析管线实测）。
         val renderersFactory = DefaultRenderersFactory(ctx)
             .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
+        // §61.126 回退：ape 强制软解实验（MediaCodecSelector 排除 audio/x-ape）
+        // 暴露 ffmpeg ape 链路三缺口（extradata 6B / 前缀 BE / 下混——已修）后，
+        // decode 层仍 AVERROR_BUG（ape_decode_frame 内部状态错乱）——深水区挂账。
+        // 回退平台硬解（G08 20min 实测 codec error 自动恢复、进程稳定）；
+        // MediaCodecSelector import 留待未来重接。
         // §61.86：F3 双引擎判据的 B2 侧一手日志。prepare 行与 A 路线
         // EngineAdapter 的 `prepare trackId=... remote=... url=...` 同格式，
         // 使 tools/l3_f3_matrix_run.py 的正则对两引擎通用。

@@ -206,6 +206,11 @@ public final class FfmpegAudioDecoder
       // bit_rate；其它分支的语义不变。
       case "audio/x-wma":
         return initializationData.isEmpty() ? null : initializationData.get(0);
+      // §61.126：ape 强制软解（G08 平台硬解长播不稳）→ ApeExtractor 下发
+      // ff_ape_decode_init 要求的恰好 6B extradata（fileversion/compression/
+      // flags，FFmpeg 6.0 apedec.c）；无头部（非本链路）返回 null。
+      case "audio/x-ape":
+        return initializationData.isEmpty() ? null : initializationData.get(0);
       default:
         // Other codecs do not require extra data.
         return null;

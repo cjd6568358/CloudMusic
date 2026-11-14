@@ -263,6 +263,16 @@ AVCodecContext* createContext(JNIEnv* env, const AVCodec* codec,
   int extraLen = (int)extraSize;
   const bool isWma = codec->id == AV_CODEC_ID_WMAV1 ||
                      codec->id == AV_CODEC_ID_WMAV2;
+  if (codec->id == AV_CODEC_ID_APE) {
+    // §61.126：FFmpeg 6.0 apedec 双校验（真机一手 EINVAL）：
+    // ① avctx->bits_per_coded_sample 只接受 8/16/24——不预置（=0）则
+    //    avpriv_request_sample → AVERROR_PATCHWELCOME；
+    // ② ff_ape_decoder 未声明 AV_CODEC_CAP_CHANNEL_CONF → avcodec_open2
+    //    强制 ch_layout.nb_channels != 0（§61.105② PCM 教训同款）——
+    //    apedec 不走 PCM 家族预置分支，须在此单独预置（rawChannelCount 已传）。
+    context->bits_per_coded_sample = 16;
+    av_channel_layout_default(&context->ch_layout, rawChannelCount);
+  }
   if (isWma && extraLen >= 18) {
     int wfxChannels = AV_RL16(extraPtr + 2);
     int wfxRate = (int)AV_RL32(extraPtr + 4);
