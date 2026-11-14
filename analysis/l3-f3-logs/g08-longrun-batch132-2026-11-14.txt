@@ -1,38 +1,34 @@
 == t=0 ==
-tion = com.android.server.action.NETWORK_STATS_UPDATED
-11-14 03:52:55.527 I/BatteryStatsService( 2484): In wakeup_callback: resumed from suspend
-11-14 03:52:55.774 I/PredyPreloaderService(30679): LooperThread: timeout.
-11-14 03:52:55.780 D/MiuiNetworkPolicy( 2484): updateLimit mLimitEnabled=true,enabled=false,mNetworkPriorityMode=1
-11-14 03:52:55.801 I/BatteryStatsService( 2484): In wakeup_callback: suspend aborted
-11-14 03:52:55.990 I/BatteryStatsService( 2484): In wakeup_callback: suspend aborted
-11-14 03:52:56.129 E/QTagParser(30679): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
-11-14 03:52:56.161 I/BatteryStatsService( 2484): In wakeup_callback: suspend aborted
-11-14 03:52:56.376 E/ANDR-PERF-OPTSHANDLER( 1328): Unable to find the correct node storage pointers for                   resource index=68, node path=/proc/sys/walt/sched_downmigrate
-11-14 03:52:56.376 E/ANDR-PERF-OPTSHANDLER( 1328): Unable to find the correct node storage pointers for                   resource index=68, node path=/proc/sys/walt/sched_upmigrate
-11-14 03:52:56.376 E/ANDR-PERF-RESOURCEQS( 1328): Failed to reset optimization [3, 56]
-11-14 03:52:56.376 E/ANDR-PERF-OPTSHANDLER( 1328): Unable to find the correct node storage pointers for                   resource index=68, node path=/proc/sys/walt/sched_upmigrate
-11-14 03:52:56.376 E/ANDR-PERF-OPTSHANDLER( 1328): Unable to find the correct node storage pointers for                   resource index=68, node path=/proc/sys/walt/sched_downmigrate
-11-14 03:52:56.376 E/ANDR-PERF-RESOURCEQS( 1328): Failed to reset optimization [3, 56]
-11-14 03:52:56.376 E/ANDR-PERF-RESOURCEQS( 1328): Failed to reset optimization [3, 61]
-11-14 03:52:56.460 W/ActivityManager( 2484): Background start not allowed: service Intent { act=com.example.cloudmusic.action.PLAY cat=[android.intent.category.DEFAULT] (has extras) } to com.example.cloudmusic/.PlaybackService from pid=21231 uid=2000 pkg=com.android.shell startFg?=false
-11-14 03:52:56.530 I/MiuiNetworkPolicy( 2484): bandwidth: 161 KB/s, Max bandwidth: 651 KB/s
-11-14 03:52:57.883 I/BatteryStatsService( 2484): In wakeup_callback: resumed from suspend
-11-14 03:52:59.179 W/ProcessStats( 2484): Tracking association SourceState{8bcc2f8 com.xiaomi.aiasst.vision/1000 BTopFgs #138156} whose proc state 2 is better than process ProcessState{51c4ce1 com.miui.analytics/10130 pkg=com.miui.analytics} proc state 3 (362 skipped)
-11-14 03:52:59.184 I/VA_AliveCore:AssistInteractionService( 8072): onProcessChanged: processName=com.miui.voiceassist;isRunning=false
-11-14 03:52:59.213 I/BatteryStatsService( 2484): In wakeup_callback: resumed from suspend
-11-14 03:52:59.228 E/QTagParser(30679): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
-11-14 03:53:00.540 E/android.system.suspend@1.0-service(  957): failed to read wakeup reasons: Device or resource busy
-11-14 03:53:00.540 I/android.system.suspend@1.0-service(  957): Unknown/empty wakeup reason. Re-opening wakeup_reason file.
-11-14 03:53:00.540 I/BatteryStatsService( 2484): In wakeup_callback: resumed from suspend
-11-14 03:53:01.905 I/BatteryStatsService( 2484): In wakeup_callback: resumed from suspend
-11-14 03:53:03.192 I/BatteryStatsService( 2484): In wakeup_callback: resumed from suspend
-11-14 03:53:03.470 E/QTagParser(30679): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
-11-14 03:53:03.501 I/BatteryStatsService( 2484): In wakeup_callback: resumed from suspend
-11-14 03:53:03.619 D/TrafficStats(16893): tagSocket(108) with statsTag=0xffffffff, statsUid=-1
-11-14 03:53:03.648 I/BatteryStatsService( 2484): In wakeup_callback: suspend aborted
-11-14 03:53:04.483 I/BatteryStatsService( 2484): In wakeup_callback: resumed from suspend
-11-14 03:53:04.830 D/TrafficStats(30679): tagSocket(269) with statsTag=0xffffffff, statsUid=-1
-11-14 03:53:04.835 I/BatteryStatsService( 2484): In wakeup_callback: resumed from suspend
+s
+11-14 22:43:31.143 W/AOSP-MdnsDiscoveryManag( 4418): Error while decoding multicast packet (18): 1 [CONTEXT service_id=168 ]
+11-14 22:43:31.181 I/l:widgetProcess(23562): This is non sticky GC, maxfree is 33554432 minfree is 8388608
+11-14 22:43:31.307 W/ThreadPoolForeg(13261): type=1400 audit(0.0:52736): avc: denied { write } for name="traced_producer" dev="tmpfs" ino=1594 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 app=com.google.android.gms
+11-14 22:43:31.335 W/ThreadPoolForeg( 4418): type=1400 audit(0.0:52737): avc: denied { write } for name="traced_producer" dev="tmpfs" ino=1594 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 app=com.google.android.gms
+11-14 22:43:31.604 E/QTagParser( 1163): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
+11-14 22:43:31.954 E/u4native(20533): [InfoLevelMessage] [INFO:not_a_file.cc(0)] GpuMainThread heartbeat, pid/tid: 20533/20786, interval/index: 30s/11, ucCoreSoImplVersion: 5.18.9.0_250804171926
+11-14 22:43:31.991 I/NetworkAccelerateSwitchService( 8142): EVENT_RSSI_POLL
+11-14 22:43:31.996 I/NetworkAccelerateSwitchService( 8142): getAverageWifiRssi:38
+11-14 22:43:32.018 E/u4native(20533): [InfoLevelMessage] [INFO:not_a_file.cc(0)] RenderMainThread heartbeat, pid/tid: 20533/20718, interval/index: 30s/11, ucCoreSoImplVersion: 5.18.9.0_250804171926
+11-14 22:43:32.095 D/MiuiGxzwFrameAnimation( 4792): clearRecognizingAnim
+11-14 22:43:32.106 W/nt.mm:appbrand1(19089): Profile data size exceeds 500000 bytes. It has 514332 bytes.
+11-14 22:43:32.161 E/u4native(12689): [InfoLevelMessage] [INFO:not_a_file.cc(0)] BrowserIOThread heartbeat, pid/tid: 12689/14044, interval/index: 30s/50, ucCoreSoImplVersion: 5.18.9.0_250804171926
+11-14 22:43:32.230 E/u4native(12689): [InfoLevelMessage] [INFO:not_a_file.cc(0)] NetworkServiceThread heartbeat, pid/tid: 12689/14071, interval/index: 30s/50
+11-14 22:43:32.239 E/u4native(20533): [InfoLevelMessage] [INFO:not_a_file.cc(0)] RenderIOThread heartbeat, pid/tid: 20533/20755, interval/index: 30s/11
+11-14 22:43:32.299 E/SensorService( 2515): com.taobao.idlefish Tried enabling a sensor (lsm6dso Accelerometer Non-wakeup) without holding 
+11-14 22:43:32.303 E/SensorService( 2515): com.taobao.idlefish Tried enabling a sensor (lsm6dso Gyroscope Non-wakeup) without holding 
+11-14 22:43:32.493 I/mstatdaemon( 2062): Entering time loop
+11-14 22:43:32.493 I/mstatdaemon( 2062): t = 1794667412
+11-14 22:43:32.493 I/mstatdaemon( 2062): translated_t = 1478677412
+11-14 22:43:32.493 I/mstat_log( 2062): mstatcommitLog log_alloc() failed
+11-14 22:43:32.606 E/QTagParser( 1163): Error reading from /proc/net/xt_qtaguid/stats. Please check if this file exists.
+11-14 22:43:32.679 W/CrashSDKBkgdHan(15289): type=1400 audit(0.0:52738): avc: denied { read } for name="loadavg" dev="proc" ino=4026532012 scontext=u:r:untrusted_app:s0:c41,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.taobao.idlefish
+11-14 22:43:32.946 I/MiuiNetworkPolicy( 2515): bandwidth: 0 KB/s, Max bandwidth: 528 KB/s
+11-14 22:43:33.006 W/AOSP-MdnsDiscoveryManag( 4418): Error while decoding multicast packet (19): 1 [CONTEXT service_id=168 ]
+11-14 22:43:33.108 W/AOSP-MdnsDiscoveryManag( 4418): Error while decoding multicast packet (20): 1 [CONTEXT service_id=168 ]
+11-14 22:43:33.520 I/AudioManager(14590): In isBluetoothScoOn() calling application: com.ss.android.ugc.aweme.lite
+11-14 22:43:33.520 V/AS.AudioDeviceBroker( 2515): requestedCommunicationDevice, device: nullmAudioModeOwner: AudioModeInfo: mMode=MODE_NORMAL, mPid=0, mUid=0
+11-14 22:43:33.575 I/AudioManager(14590): In isBluetoothScoOn() calling application: com.ss.android.ugc.aweme.lite
+11-14 22:43:33.576 V/AS.AudioDeviceBroker( 2515): requestedCommunicationDevice, device: nullmAudioModeOwner: AudioModeInfo: mMode=MODE_NORMAL, mPid=0, mUid=0
 
 == round 1 ==
 

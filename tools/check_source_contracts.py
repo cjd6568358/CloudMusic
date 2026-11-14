@@ -5206,11 +5206,20 @@ def main() -> int:
             _enh115 = all(c.get("enhanced", {}).get("enhanced_verdict") == "PASS"
                           for c in _cells115)
             _g08tool = (ROOT / "tools" / "b2_g08_longrun.py")
-            if (_fmd.get("device_run") if "device_run" in _fmd else True)                     and _all115 and _enh115                     and _ppd.get("checks_passed") == 5                     and _g08tool.is_file()                     and "t=0 PLAYING" in _g08tool.read_text(encoding="utf-8")                     and "### 61.115" in (ROOT / "docs" /
+            _g08pass = ROOT / "analysis" / "b2-g08-longrun-batch133-2026-11-14.json"
+            _g08ok = False
+            if _g08pass.is_file():
+                import json as _jsong08
+                _g08d = _jsong08.loads(_g08pass.read_text(encoding="utf-8"))
+                _g08ok = (_g08d.get("verdict") == "PASS"
+                          and _g08d.get("checks_passed") == 5
+                          and _g08d.get("t0_playing") is True)
+            if (_fmd.get("device_run") if "device_run" in _fmd else True)                     and _all115 and _enh115                     and _ppd.get("checks_passed") == 5                     and _g08tool.is_file()                     and _g08ok                     and "t=0 PLAYING" in _g08tool.read_text(encoding="utf-8")                     and "### 61.115" in (ROOT / "docs" /
                                          "12-编码阶段第一批交付.md").read_text(
                                              encoding="utf-8"):
                 print("[PASS] 12 §61.115 守护：22/22 全 PASS + enhanced 22/22 / "
-                      "ReplayGain 5/5 / 封面双截图 / G08 工具（t=0 判据）/ 交付日志")
+                      "ReplayGain 5/5 / 封面双截图 / G08 工具 + 长稳 PASS（t=0 判据）/ "
+                      "交付日志")
             else:
                 failures.append("12 §61.115 守护：全矩阵口径 / 探针 / 截图 / 工具漂移")
         except (OSError, UnicodeError, ValueError) as exc:
