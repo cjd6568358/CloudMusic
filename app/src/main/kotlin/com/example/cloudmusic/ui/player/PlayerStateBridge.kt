@@ -131,4 +131,16 @@ class PlayerStateBridge(
     fun onPlayPlaylist(id: String) {
         runtime.playPlaylist(id)
     }
+
+    /** §61.130（M5）：收藏集合流。 */
+    fun observeFavorites(): Flow<Set<com.example.cloudmusic.model.TrackId>> =
+        runtime.observeFavorites()
+
+    /** §61.130（M5）：最近播放流。 */
+    fun observeHistory(): Flow<List<Track>> = runtime.observeHistory()
+
+    /** §61.130（M5）：收藏切换（播放页 ♡ 唯一生产入口）。 */
+    fun onToggleFavorite(trackId: com.example.cloudmusic.model.TrackId) {
+        runtime.toggleFavorite(trackId)
+    }
 }

@@ -134,6 +134,8 @@ fun LegacyPlayerPage(
 
     // §61.118（T5-1）：均衡器弹窗开关。
     var showEqualizer by remember { mutableStateOf(false) }
+    // §61.130（M5）：收藏集合（♡ 可交互——FavoriteRepository.toggle 生产入口）。
+    val favoriteIds by bridge.observeFavorites().collectAsState(initial = emptySet())
 
     Surface(
         color = Color(bgTop),
@@ -238,10 +240,13 @@ fun LegacyPlayerPage(
                     update = { it.text = track?.title ?: "未在播放" },
                     modifier = Modifier.weight(1f),
                 )
+                // §61.130（M5）：收藏切换——FavoriteRepository.toggle 的生产入口。
+                val isFav = track?.id in favoriteIds
                 LegacyIconButton(
                     assetPath = LegacyAsset.Favorite,
-                    description = "收藏（只读）",
+                    description = if (isFav) "取消收藏" else "收藏",
                     sizeDp = LegacyMetrics.InfoRowIconDp,
+                    onClick = { track?.id?.let { bridge.onToggleFavorite(it) } },
                 )
             }
             Text(

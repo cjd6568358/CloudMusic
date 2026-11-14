@@ -42,6 +42,8 @@ import com.example.cloudmusic.player.TrackSourceResolver
 import com.example.cloudmusic.scanner.ScanCoordinator
 import com.example.cloudmusic.scanner.ScanProgress
 import com.example.cloudmusic.scanner.ScanRequest
+import com.example.cloudmusic.storage.FavoriteRepository
+import com.example.cloudmusic.storage.HistoryRepository
 import com.example.cloudmusic.storage.PlaylistRepository
 import com.example.cloudmusic.storage.TrackRepository
 import dagger.Module
@@ -157,6 +159,9 @@ class PlaybackRuntime @Inject constructor(
     private val tracks: TrackRepository,
     /** §61.119（M3）：歌单闭环的落库口。 */
     private val playlists: PlaylistRepository,
+    /** §61.130（M5）：收藏 / 最近播放的落库口。 */
+    private val favorites: FavoriteRepository,
+    private val history: HistoryRepository,
     private val proxy: PrePublishedCastProxy,
     private val settings: SettingsStore,
     /** §61.112：playLocal 调试注入复用扫描管线的真实标签 / 封面件（03-04 §6）。 */
@@ -172,6 +177,8 @@ class PlaybackRuntime @Inject constructor(
     init {
         // §61.118：换曲后按持久值恢复均衡器（T5-1 持久化的生产执行点）。
         restoreEqualizerLoop()
+        // §61.130（M5）：播放历史记录（每曲一次）。
+        historyLoop()
     }
     val state: StateFlow<RuntimeState> = _state.asStateFlow()
 
@@ -361,6 +368,28 @@ class PlaybackRuntime @Inject constructor(
                 controller.setQueue(queueItems, PlayMode.SEQUENCE, startAt)
                 controller.playAt(startAt)
             }.onFailure { Log.w("CloudMusicRuntime", "playTracks: 分组播放失败", it) }
+        }
+    }
+
+    /** §61.130（M5）：收藏集合流（播放页 ♡ 状态 + 我的音乐页取数）。 */
+    fun observeFavorites(): Flow<Set<TrackId>> = favorites.observe()
+
+    /** §61.130（M5）：最近播放流（HistoryDao JOIN tracks，按 last_played DESC）。 */
+    fun observeHistory(): Flow<List<Track>> = history.observe()
+
+    /** §61.130（M5）：收藏切换（播放页 ♡ 按钮的唯一生产入口）。 */
+    fun toggleFavorite(trackId: TrackId) {
+        scope.launch {
+            runCatching { favorites.toggle(trackId) }
+                .onFailure { Log.w("CloudMusicRuntime", "toggleFavorite 失败", it) }
+        }
+    }
+
+    /** §61.130（M5）：播放历史记录（PLAYING 时每曲一次，HistoryDao playCount 递增）。 */
+    fun recordHistory(trackId: TrackId) {
+        scope.launch {
+            runCatching { history.record(trackId) }
+                .onFailure { Log.w("CloudMusicRuntime", "recordHistory 失败", it) }
         }
     }
 
@@ -610,6 +639,22 @@ class PlaybackRuntime @Inject constructor(
                     if (fx.bandsMillibel.isNotEmpty()) {
                         controller.setEqualizerBands(fx.bandsMillibel)
                     }
+                }
+            }
+        }
+    }
+
+    /** §61.130（M5）：PLAYING 且曲目变化时记录播放历史（每曲一次）。 */
+    private fun historyLoop() {
+        scope.launch {
+            var recordedFor: String? = null
+            controller.state.collect { s ->
+                val trackKey = s.currentTrackId?.value
+                if (s.phase == PlayerPhase.PLAYING &&
+                    trackKey != null && trackKey != recordedFor
+                ) {
+                    recordedFor = trackKey
+                    recordHistory(TrackId(trackKey))
                 }
             }
         }

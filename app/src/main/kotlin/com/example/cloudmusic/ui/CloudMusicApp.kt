@@ -183,7 +183,7 @@ fun CloudMusicApp(
                 MiniPlayer(player, onPlay, onPause, onNext, onPrev) { showPlayer = true }
                 NavigationBar {
                     listOf(
-                        "曲库" to "♫", "歌单" to "☰", "搜索" to "⌕", "队列" to "☷", "设置" to "⚙",
+                        "曲库" to "♫", "歌单" to "☰", "搜索" to "⌕", "队列" to "☷", "我的" to "❤", "设置" to "⚙",
                     ).forEachIndexed { index, (label, glyph) ->
                         NavigationBarItem(
                             selected = !showSources && tab == index,
@@ -221,6 +221,7 @@ fun CloudMusicApp(
                     titles = trackList.associate { it.id.value to it },
                     onJump = bridge::onQueueJump,
                 )
+                tab == 4 -> MyMusicScreen(bridge, trackList)
                 else -> SettingsScreen(
                     runtime, appSettings.network.wifiOnly, onRescanAll,
                     { showSources = true },
@@ -950,6 +951,57 @@ private fun QueueScreen(
                         modifier = Modifier.clickable { onJump(item.position) },
                     )
                     HorizontalDivider()
+                }
+            }
+        }
+    }
+}
+
+/** §61.130（M5 我的音乐）：收藏 + 最近播放两段（FavoriteRepo/HistoryRepo 全收口）。 */
+@Composable
+private fun MyMusicScreen(bridge: PlayerStateBridge, allTracks: List<Track>) {
+    val favorites by bridge.observeFavorites().collectAsState(initial = emptySet())
+    val history by bridge.observeHistory().collectAsState(initial = emptyList())
+    Column(Modifier.fillMaxSize().padding(16.dp)) {
+        Text("我的音乐", style = MaterialTheme.typography.titleMedium)
+        Text(
+            "收藏 ${favorites.size} · 最近播放 ${history.size}",
+            style = MaterialTheme.typography.bodySmall,
+        )
+        LazyColumn(Modifier.fillMaxSize()) {
+            if (favorites.isNotEmpty()) {
+                item(key = "fav-header") {
+                    Text("❤ 收藏", style = MaterialTheme.typography.titleSmall,
+                         modifier = Modifier.padding(top = 8.dp, bottom = 4.dp))
+                }
+                items(allTracks.filter { it.id in favorites }, key = { "fav-" + it.id.value }) { track ->
+                    ListItem(
+                        headlineContent = { Text(track.title, maxLines = 1) },
+                        supportingContent = { Text(track.artist, maxLines = 1) },
+                        leadingContent = { Text("❤") },
+                    )
+                    HorizontalDivider()
+                }
+            }
+            if (history.isNotEmpty()) {
+                item(key = "hist-header") {
+                    Text("🕘 最近播放", style = MaterialTheme.typography.titleSmall,
+                         modifier = Modifier.padding(top = 8.dp, bottom = 4.dp))
+                }
+                items(history, key = { "hist-" + it.id.value }) { track ->
+                    ListItem(
+                        headlineContent = { Text(track.title, maxLines = 1) },
+                        supportingContent = { Text(track.artist, maxLines = 1) },
+                        leadingContent = { Text("🕘") },
+                    )
+                    HorizontalDivider()
+                }
+            }
+            if (favorites.isEmpty() && history.isEmpty()) {
+                item {
+                    Box(Modifier.fillMaxWidth().padding(32.dp), contentAlignment = Alignment.Center) {
+                        Text("收藏曲目或播放曲目后在此显示", textAlign = TextAlign.Center)
+                    }
                 }
             }
         }
