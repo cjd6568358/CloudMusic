@@ -81,8 +81,9 @@
 1. **不导出任何竞品素材**（C4）：图标一律用系统 Icon/文本字形占位（放大镜 ♫ ⋮ 等），
    竞品 `bfe/bfh/c_i/f28` 等 drawable 不复制；1:1 图标需 D-145 式拍板后走
    assets-mapping.csv 流程，挂账。
-2. **封面**：Track 模型无封面字段，48/50dip 封面位用 `#26FFFFFF` 圆角占位盒 + ♪ 字形；
-   接真封面走 PlayerStateBridge 既有链路，挂账。
+2. **封面**：~~Track 模型无封面字段~~ **§61.138 更正**——`Track.coverRef`（扫描期落盘的
+   本地封面文件路径）已存在，播放页 §61.109 ② 同源；§61.138 已接全部列表行
+   （CompCover：LruCache 64 张 + 256px 降采样 + 缺失缓存），占位盒/字形仅作回退。
 3. **底栏**：竞品主 Tab 栏无原生 layout（代码绘制），按 §61.136 h7 #FF262626 +
    10sp label + 选中品牌红近似；挂账待真机对照。
 4. **cvg CustomButton 属性名混淆**（pl/pp/aer/aey/aiv/aj0），「使用」钮按网易云曲库

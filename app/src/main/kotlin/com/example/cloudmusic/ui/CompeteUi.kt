@@ -1,5 +1,9 @@
 package com.example.cloudmusic.ui
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.LruCache
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,11 +29,18 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -37,6 +48,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.util.Collections
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * §61.137 全页面竞品 UI 重建（`12 §61.137` / `analysis/ui-replica/page-spec-61-137.md`）：
@@ -57,7 +72,7 @@ object Comp {
     val RowSelected = Color(0x12FFFFFF)
     /** `b1y` —— 历史词 chip 背景（bfi）。 */
     val ChipBg = Color(0x14FFFFFF)
-    /** 封面占位（Track 无封面字段，挂账接 PlayerStateBridge 链路）。 */
+    /** 封面占位底色（`Track.coverRef` 缺失/解码失败时回退，§61.138 真实封面已接）。 */
     val CoverPlaceholder = Color(0x26FFFFFF)
     /** `b12` —— 主文本（白）。 */
     val TextPrimary = Color(0xFFFFFFFF)
@@ -286,9 +301,82 @@ fun CompSwitchRow(
 }
 
 /**
+ * §61.138 封面缓存：`Track.coverRef`（扫描期落盘的本地封面文件路径）→ 降采样 Bitmap。
+ * 命中缓存/确认缺失（misses）直接返回；LruCache 容量 64 张（列表行 48dip 用，
+ * 256px 级降采样后单张 ≈ 256KB，峰值 ≈ 16MB 上限内）。解码失败计入 misses 不重试。
+ * 与播放页（LegacyPlayerPage §61.109 ②）同源同策略，IO + runCatching。
+ */
+private val coverCache = LruCache<String, Bitmap>(64)
+private val coverMisses = Collections.newSetFromMap(ConcurrentHashMap<String, Boolean>())
+
+@Composable
+fun rememberCompCover(path: String?, maxPx: Int = 256): Bitmap? {
+    var bitmap by remember(path) { mutableStateOf(path?.let { coverCache.get(it) }) }
+    LaunchedEffect(path) {
+        if (path.isNullOrBlank() || bitmap != null || path in coverMisses) return@LaunchedEffect
+        val decoded = withContext(Dispatchers.IO) {
+            runCatching {
+                val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+                BitmapFactory.decodeFile(path, bounds)
+                var sample = 1
+                while (bounds.outWidth / (sample * 2) >= maxPx &&
+                    bounds.outHeight / (sample * 2) >= maxPx
+                ) {
+                    sample *= 2
+                }
+                BitmapFactory.decodeFile(
+                    path,
+                    BitmapFactory.Options().apply {
+                        inJustDecodeBounds = false
+                        inSampleSize = sample
+                    },
+                )
+            }.getOrNull()
+        }
+        if (decoded != null) coverCache.put(path, decoded) else coverMisses.add(path)
+        bitmap = decoded
+    }
+    return bitmap
+}
+
+/**
+ * 封面格（§61.138）：真实封面（crop）→ 缺失回退占位底 + 字形。
+ * 圆角/尺寸由调用方 modifier 给定（曲目行 48dip r4 / 歌单行 50dip r8）。
+ */
+@Composable
+fun CompCover(
+    path: String?,
+    modifier: Modifier = Modifier,
+    cornerDp: Int = 4,
+    glyph: String = "♪",
+    glyphSizeSp: Int = 18,
+) {
+    val bitmap = rememberCompCover(path)
+    Box(
+        modifier
+            .clip(RoundedCornerShape(cornerDp.dp))
+            .background(Comp.CoverPlaceholder),
+        contentAlignment = Alignment.Center,
+    ) {
+        if (bitmap != null) {
+            val imageBitmap = remember(bitmap) { bitmap.asImageBitmap() }
+            Image(
+                bitmap = imageBitmap,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize(),
+            )
+        } else {
+            Text(glyph, color = Comp.TextSecondary, fontSize = glyphSizeSp.sp)
+        }
+    }
+}
+
+/**
  * 曲目行（`music_library_music_item`/cvi + `music_library_music_info_layout`/cvg）：
  * 容器 bg aer、上下 margin 5、尾 margin 16；封面 48×48 marginStart 16 上下 10
  * （行高 68）、歌名 16sp b12、副行 marginTop 6：副文本 12sp b17。
+ * §61.138：coverRef 接真实封面（`Track.coverRef`），缺失回退占位字形。
  */
 @Composable
 fun CompTrackRow(
@@ -298,6 +386,7 @@ fun CompTrackRow(
     modifier: Modifier = Modifier,
     trailing: (@Composable () -> Unit)? = null,
     coverGlyph: String = "♪",
+    coverRef: String? = null,
 ) {
     Row(
         modifier = modifier
@@ -307,16 +396,14 @@ fun CompTrackRow(
             .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box(
-            Modifier
+        CompCover(
+            path = coverRef,
+            modifier = Modifier
                 .padding(start = 16.dp, top = 10.dp, bottom = 10.dp)
-                .size(48.dp)
-                .clip(RoundedCornerShape(4.dp))
-                .background(Comp.CoverPlaceholder),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(coverGlyph, color = Comp.TextSecondary, fontSize = 18.sp)
-        }
+                .size(48.dp),
+            cornerDp = 4,
+            glyph = coverGlyph,
+        )
         Column(
             Modifier
                 .weight(1f)
@@ -347,6 +434,7 @@ fun CompTrackRow(
 /**
  * 歌单行（`music_library_playlist_item`/cvm）：高 60dip、封面 50×50 圆角 8
  * marginStart 16、名 16sp b12 marginStart 10、副 12sp b1n marginStart 10。
+ * §61.138：coverRef 可传首曲封面（调用方自取）；缺省 ☰ 占位。
  */
 @Composable
 fun CompPlaylistRow(
@@ -354,6 +442,7 @@ fun CompPlaylistRow(
     subtitle: String,
     onClick: () -> Unit,
     trailing: (@Composable () -> Unit)? = null,
+    coverRef: String? = null,
 ) {
     Row(
         modifier = Modifier
@@ -362,16 +451,14 @@ fun CompPlaylistRow(
             .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box(
-            Modifier
+        CompCover(
+            path = coverRef,
+            modifier = Modifier
                 .padding(start = 16.dp)
-                .size(50.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(Comp.CoverPlaceholder),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text("☰", color = Comp.TextSecondary, fontSize = 18.sp)
-        }
+                .size(50.dp),
+            cornerDp = 8,
+            glyph = "☰",
+        )
         Column(
             Modifier
                 .weight(1f)

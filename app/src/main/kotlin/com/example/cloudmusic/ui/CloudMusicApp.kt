@@ -2,6 +2,7 @@ package com.example.cloudmusic.ui
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.graphics.Bitmap
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
@@ -157,11 +158,15 @@ fun CloudMusicApp(
 
     // §61.137：去掉全局 TopAppBar（竞品无全局标题栏，页头归各页：设置 52dip 行 /
     // 歌单·我的音乐 44dip 标题栏）；底栏竞品化（h7 底 + 10sp label + 品牌红选中）。
+    // §61.138：迷你条旋转封面接 `Track.coverRef` 真实封面（回退竞品 g9f 占位盘）。
+    val miniCoverRef = player.currentTrackId?.let { id ->
+        trackList.firstOrNull { it.id.value == id.value }?.coverRef
+    }
     Scaffold(
         containerColor = Comp.PageBg,
         bottomBar = {
             Column {
-                MiniPlayer(player, onPlay, onPause, onNext, onPrev) { showPlayer = true }
+                MiniPlayer(player, onPlay, onPause, onNext, onPrev, miniCoverRef) { showPlayer = true }
                 CompBottomBar(
                     tabs = listOf(
                         "曲库" to "♫", "歌单" to "☰", "搜索" to "⌕",
@@ -278,9 +283,12 @@ private fun MiniPlayer(
     onPause: () -> Unit,
     onNext: () -> Unit,
     onPrev: () -> Unit,
+    coverRef: String?,
     onOpen: () -> Unit,
 ) {
     val playing = player.phase == PlayerPhase.PLAYING
+    // §61.138：真实封面（缓存 + 降采样，与列表行同源）。
+    val coverBitmap = rememberCompCover(coverRef)
     val barShape = RoundedCornerShape(LegacyMetrics.MiniBarCornerDp.dp)
     Row(
         modifier = Modifier
@@ -302,7 +310,7 @@ private fun MiniPlayer(
             .padding(horizontal = 8.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        MiniCoverCluster(playing)
+        MiniCoverCluster(playing, coverBitmap)
 
         // `legacy_e0g.xml` slogan：14sp / b1e / 38dip 高 / maxWidth 125dip /
         // drawableStart=@drawable/f6m / MARQUEE 无限循环。
@@ -349,7 +357,7 @@ private fun MiniPlayer(
 
 /** `legacy_e0g.xml`：37dip `CircleProgressView` 包住 36dip `RotateFrameLayout` + 9dip 红点。 */
 @Composable
-private fun MiniCoverCluster(playing: Boolean) {
+private fun MiniCoverCluster(playing: Boolean, cover: Bitmap?) {
     Box(
         modifier = Modifier.size(LegacyMetrics.MiniProgressDp.dp),
         contentAlignment = Alignment.Center,
@@ -361,7 +369,7 @@ private fun MiniCoverCluster(playing: Boolean) {
                 .clip(CircleShape)
                 .border(1.5.dp, Color(LegacyPalette.TrackBuffer), CircleShape),
         )
-        RotatingMiniCover(playing, Modifier.size(LegacyMetrics.MiniCoverDp.dp))
+        RotatingMiniCover(playing, Modifier.size(LegacyMetrics.MiniCoverDp.dp), cover)
         Box(
             Modifier
                 .size(LegacyMetrics.RedDotDp.dp)
@@ -372,36 +380,56 @@ private fun MiniCoverCluster(playing: Boolean) {
     }
 }
 
-/** 平台属性动画驱动的旋转封面（`RotateFrameLayout` 等价），不加载任何 `res/anim/` XML。 */
+/**
+ * 平台属性动画驱动的旋转封面（`RotateFrameLayout` 等价），不加载任何 `res/anim/` XML。
+ * §61.138：`cover` 为当前曲真实封面（null 回退竞品 `g9f` 占位盘）；位图替换按
+ * 身份比对，避免每秒位置 recomposition 重复 setImageBitmap。
+ */
 @Composable
-private fun RotatingMiniCover(playing: Boolean, modifier: Modifier = Modifier) {
+private fun RotatingMiniCover(
+    playing: Boolean,
+    modifier: Modifier = Modifier,
+    cover: Bitmap? = null,
+) {
     AndroidView(
         factory = { ctx ->
             ImageView(ctx).apply {
                 scaleType = ImageView.ScaleType.FIT_CENTER
-                setImageBitmap(loadLegacyBitmap(ctx, LegacyAsset.CoverPlaceholder))
+                val placeholder = loadLegacyBitmap(ctx, LegacyAsset.CoverPlaceholder)
+                setImageBitmap(cover ?: placeholder)
                 val animator = ObjectAnimator.ofFloat(this, View.ROTATION, 0f, 360f).apply {
                     duration = LegacyMetrics.MiniCoverSpinMs
                     repeatCount = ValueAnimator.INFINITE
                     interpolator = LinearInterpolator()
                 }
-                tag = animator
+                tag = SpinState(animator, placeholder, cover)
             }
         },
         update = { view ->
-            val animator = view.tag as? ObjectAnimator ?: return@AndroidView
+            val state = view.tag as? SpinState ?: return@AndroidView
             if (playing) {
                 when {
-                    !animator.isStarted -> animator.start()
-                    animator.isPaused -> animator.resume()
+                    !state.animator.isStarted -> state.animator.start()
+                    state.animator.isPaused -> state.animator.resume()
                 }
-            } else if (animator.isStarted && !animator.isPaused) {
-                animator.pause()
+            } else if (state.animator.isStarted && !state.animator.isPaused) {
+                state.animator.pause()
+            }
+            if (state.lastCover !== cover) {
+                state.lastCover = cover
+                view.setImageBitmap(cover ?: state.placeholder)
             }
         },
         modifier = modifier.clip(CircleShape),
     )
 }
+
+/** RotatingMiniCover 的 View 级持态（旋转动画 + 占位盘 + 上次封面，随 View 存活）。 */
+private class SpinState(
+    val animator: ObjectAnimator,
+    val placeholder: Bitmap?,
+    var lastCover: Bitmap?,
+)
 
 @Composable
 private fun MiniControlButton(
@@ -526,6 +554,7 @@ private fun LibraryScreen(
                         CompTrackRow(
                             title = track.title,
                             subtitle = "${track.artist} · ${track.album}",
+                            coverRef = track.coverRef,
                             onClick = {
                                 val idx = tracks.indexOfFirst { it.id == track.id }
                                 onPlayTracks(tracks, idx)
@@ -570,6 +599,7 @@ private fun LibraryScreen(
                                     CompTrackRow(
                                         title = track.title,
                                         subtitle = track.artist,
+                                        coverRef = track.coverRef,
                                         onClick = {
                                             val idx = groupTracks.indexOfFirst { it.id == track.id }
                                             onPlayTracks(groupTracks, idx)
@@ -599,6 +629,7 @@ private fun LibraryScreen(
                                     title = track.title,
                                     subtitle = "${track.availability} · "
                                         + (track.sourceRef.path ?: track.sourceRef.url ?: ""),
+                                    coverRef = track.coverRef,
                                     onClick = {},
                                 )
                             }
@@ -952,6 +983,7 @@ private fun SearchScreen(
                         CompTrackRow(
                             title = track.title,
                             subtitle = "${track.artist} · ${track.album}",
+                            coverRef = track.coverRef,
                             onClick = {},
                         )
                     }
@@ -981,6 +1013,7 @@ private fun QueueScreen(
                             title = track?.title ?: item.trackId.value,
                             subtitle = listOfNotNull(track?.artist, track?.album)
                                 .joinToString(" · ").ifBlank { "来源：${item.sourceRef}" },
+                            coverRef = track?.coverRef,
                             onClick = { onJump(item.position) },
                             coverGlyph = "${item.position + 1}",
                         )
@@ -1009,6 +1042,7 @@ private fun MyMusicScreen(bridge: PlayerStateBridge, allTracks: List<Track>) {
                         CompTrackRow(
                             title = track.title,
                             subtitle = track.artist,
+                            coverRef = track.coverRef,
                             onClick = {},
                             coverGlyph = "♥",
                         )
@@ -1020,6 +1054,7 @@ private fun MyMusicScreen(bridge: PlayerStateBridge, allTracks: List<Track>) {
                         CompTrackRow(
                             title = track.title,
                             subtitle = track.artist,
+                            coverRef = track.coverRef,
                             onClick = {},
                             coverGlyph = "↺",
                         )
