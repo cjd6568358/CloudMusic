@@ -86,7 +86,8 @@ if (skipAndroid) {
 } else {
     include(":app")
     include(":core-di")         // 第十一批：Hilt 唯一注册点（12 §20）
-    include(":engine-legacy")   // 第二十三批：T-L L1 舱体（18 个 arm64 so，12 §10.2 步骤 1）
+    // §61.131：:engine-legacy 移出打包链（拍板：粒度 A）——git 历史完整保留，需要回退时恢复此行即可
+// include(":engine-legacy")   // 第二十三批：T-L L1 舱体（18 个 arm64 so，12 §10.2 步骤 1）
     include(":engine-opensource")  // 12 §61.81 / B2 M1：Media3 播放内核骨架（C5 保留 :engine-legacy 回退）
 }
 

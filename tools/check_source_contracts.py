@@ -1057,12 +1057,16 @@ def main() -> int:
 
     settings_text = (ROOT / "settings.gradle.kts").read_text(encoding="utf-8")
     app_build_text = (ROOT / "app" / "build.gradle.kts").read_text(encoding="utf-8")
-    if 'include(":engine-legacy")' not in settings_text:
-        failures.append("12 §32：:engine-legacy 舱模块未 include")
-    if 'project(":engine-legacy")' not in app_build_text:
-        failures.append("12 §32：:app 未依赖 :engine-legacy，18 个 so 不会进 APK")
+    # §61.131（拍板：粒度 A）：:engine-legacy 移出打包链——反转断言：
+    # ① settings 不再 include ② :app 不再依赖 ③ legacy 目录文件仍存在（git 历史保留）
+    if '// include(":engine-legacy")' not in settings_text:
+        failures.append("12 §32/§61.131：settings 应注释 :engine-legacy include（移出打包链）")
+    if 'project(":engine-legacy")' in app_build_text:
+        failures.append("12 §32/§61.131：:app 仍依赖 :engine-legacy（应已移除）")
+    if not (ROOT / "engine-legacy" / "src" / "main").is_dir():
+        failures.append("12 §61.131：:engine-legacy 源码目录应保留（git 历史不删文件）")
     else:
-        print("[PASS] T-L L1：舱模块已 include 且 :app 已依赖（so 进 APK）")
+        print("[PASS] §61.131：:engine-legacy 已移出打包链（源码目录保留，git 历史不删）")
 
     jni_index = ROOT / "analysis" / "engine-jni-classes.json"
     if not jni_index.is_file():
@@ -4404,12 +4408,14 @@ def main() -> int:
                 # 构建：20 模块 / media3 1.11.1 / 不引 media3-session / 保留 legacy
                 and m1g_settings.count('include(":') == 20
                 and 'include(":engine-opensource")' in m1g_settings
-                and 'include(":engine-legacy")' in m1g_settings
+                # §61.131：:engine-legacy 移出打包链（反转：原检查 include 在位→现检查注释在位）
+        and '// include(":engine-legacy")' in m1g_settings
                 and 'media3 = "1.11.1"' in m1g_toml
                 and "androidx.media3:media3-exoplayer" in m1g_toml
                 and "media3-session" not in _code_only(m1g_toml)
                 and "media3-session" not in _code_only(m1_build_txt)
-                and 'project(":engine-legacy")' in m1g_app
+                # §61.131 反转：:app 不再依赖 :engine-legacy
+        and 'project(":engine-legacy")' not in m1g_app
                 and 'project(":engine-opensource")' in m1g_coredi
                 # 单点换绑 + 回退保留
                 and "Media3EngineAdapter().also" in m1g_bindings

@@ -31,7 +31,7 @@ dependencies {
     implementation(project(":core-di"))
     // T-L L1（12 §32）：让 :engine-legacy 的 18 个 arm64 so 经 manifest/资源合并进 APK。
     // 舱内当前只有 jniLibs + R8 keep 规则，无 Java 源码；JNI 真类按 12 §10.2 后期按需补。
-    implementation(project(":engine-legacy"))
+    // §61.131：:engine-legacy 移出打包链（拍板：粒度 A）——B2 全格式真机闭环后 legacy so 无播放职能
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     // T-A5（12 §31）：Service 收集 PlaybackRuntime.state 更新通知；
