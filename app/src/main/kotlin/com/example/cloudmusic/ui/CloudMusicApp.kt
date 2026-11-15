@@ -66,6 +66,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.cloudmusic.di.playback.RuntimeState
@@ -117,6 +118,8 @@ fun CloudMusicApp(
     onRetryUnavailable: () -> Unit,
     onAddSaf: () -> Unit,
     onAddMediaStore: () -> Unit,
+    /** §61.132：添加 WebDAV 源（url / username / password / rootPath）。 */
+    onAddWebDav: (String, String, String, String) -> Unit = { _, _, _, _ -> },
     onPlay: () -> Unit,
     onPause: () -> Unit,
     onNext: () -> Unit,
@@ -201,6 +204,7 @@ fun CloudMusicApp(
             when {
                 showSources -> SourcesScreen(
                     storageList, onRescanAll, onRetryUnavailable, onAddSaf, onAddMediaStore,
+                    onAddWebDav,
                 )
                 tab == 0 -> LibraryScreen(
                     trackList, onRescanAll, onRetryUnavailable, onPlayTracks,
@@ -696,6 +700,7 @@ private fun SourcesScreen(
     onRetry: () -> Unit,
     onAddSaf: () -> Unit,
     onAddMediaStore: () -> Unit,
+    onAddWebDav: (String, String, String, String) -> Unit,
 ) {
     Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text("数据源 · ${storages.size}", style = MaterialTheme.typography.titleMedium)
@@ -704,6 +709,18 @@ private fun SourcesScreen(
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Button(onClick = onAddSaf) { Text("添加本地目录 (SAF)") }
             Button(onClick = onAddMediaStore) { Text("从媒体库导入") }
+        }
+        // §61.132：WebDAV 源添加（PRD §5.1 核心成功标准）
+        var showWebDav by remember { mutableStateOf(false) }
+        Button(onClick = { showWebDav = true }) { Text("添加 WebDAV 源") }
+        if (showWebDav) {
+            WebDavDialog(
+                onDismiss = { showWebDav = false },
+                onAdd = { url, user, pass, path ->
+                    onAddWebDav(url, user, pass, path)
+                    showWebDav = false
+                },
+            )
         }
         Text(
             "SAF 目录无需读取权限；媒体库导入会按动作申请读媒体权限（03-11 §2）",
@@ -736,6 +753,43 @@ private fun SourcesScreen(
 }
 
 /** §61.119（M3）：歌单页——创建 / 播放 / 删除闭环（PlaylistRepository 契约不变）。 */
+/** §61.132：WebDAV 源添加对话框（PRD §5.1：地址 + 认证 + 远程路径）。 */
+@Composable
+private fun WebDavDialog(
+    onDismiss: () -> Unit,
+    onAdd: (url: String, username: String, password: String, rootPath: String) -> Unit,
+) {
+    var url by remember { mutableStateOf("") }
+    var username by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var rootPath by remember { mutableStateOf("/music") }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("添加 WebDAV 源") },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                OutlinedTextField(value = url, onValueChange = { url = it },
+                    label = { Text("服务器地址（含端口）") },
+                    placeholder = { Text("https://nas.local:5006") },
+                    singleLine = true)
+                OutlinedTextField(value = username, onValueChange = { username = it },
+                    label = { Text("用户名（可空=匿名）") }, singleLine = true)
+                OutlinedTextField(value = password, onValueChange = { password = it },
+                    label = { Text("密码（可空）") }, singleLine = true,
+                    visualTransformation = PasswordVisualTransformation())
+                OutlinedTextField(value = rootPath, onValueChange = { rootPath = it },
+                    label = { Text("远程路径") }, singleLine = true)
+            }
+        },
+        confirmButton = {
+            TextButton(enabled = url.isNotBlank(), onClick = {
+                onAdd(url.trim().trimEnd('/'), username.trim(), password, rootPath.trim())
+            }) { Text("添加") }
+        },
+        dismissButton = { TextButton(onClick = onDismiss) { Text("取消") } },
+    )
+}
+
 @Composable
 private fun PlaylistsScreen(
     playlists: List<Playlist>,

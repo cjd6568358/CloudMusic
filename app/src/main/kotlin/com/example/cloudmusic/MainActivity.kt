@@ -118,6 +118,24 @@ class MainActivity : ComponentActivity() {
                     onRetryUnavailable = runtime::retryUnavailable,
                     onAddSaf = { treeLauncher.launch(null) },
                     onAddMediaStore = { localSourceAdder.addMediaStore() },
+                    // §61.132：WebDAV 源添加——StorageRepository.add 落库 + rescanAll 触发扫描。
+                    onAddWebDav = { url, username, password, rootPath ->
+                        lifecycleScope.launch {
+                            runCatching {
+                                val addition = org.json.JSONObject().apply {
+                                    put("address", url)
+                                    put("root_folder_path", rootPath)
+                                    if (username.isNotBlank()) put("username", username)
+                                    if (password.isNotBlank()) put("password", password)
+                                }.toString()
+                                storages.add("webdav", addition)
+                            }.onSuccess {
+                                runtime.rescanAll()
+                            }.onFailure { e ->
+                                Toast.makeText(this@MainActivity, "WebDAV 添加失败: ${e.message}", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    },
                     onPlay = {
                         // 03-11 §2：首次播放前按动作申请通知权限。B03：被拒仍照常播放，
                         // 只少了通知卡片；核心能力不受权限拒绝影响。
