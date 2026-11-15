@@ -32,6 +32,8 @@ data class EngineSource(
      * 默认 null 向后兼容；`IMusicEngine` 的 14 方法签名不变。
      */
     val url: String? = null,
+    /** §61.162：Link.headers 透传（WebDAV Authorization 等），供引擎 HTTP 栈附加。 */
+    val headers: List<Pair<String, String>> = emptyList(),
     /** C-05：`LOCAL` 态的本机路径，供 `DataProvider.getLocalPath()` / `openLocalFd()` 直接读取。 */
     val localPath: String? = null,
 ) {
