@@ -2684,8 +2684,12 @@ def main() -> int:
         "AudioEffectsBus.widenAmount", "widen16Stereo",
     )):
         failures.append("12 §61.160：SpatialWidenProcessor / AudioEffectsBus 缺失")
-    elif "setAudioProcessors(arrayOf(SpatialWidenProcessor()))" not in adapter160:
-        failures.append("12 §61.160：buildAudioSink 处理器注入缺失")
+    elif "buildAudioSink" in adapter160:
+        # §61.160 补记：注入已还原（真机 BUFFERING→IDLE）——处理器文件保留，
+        # 注入点待调通后重新接入。当前不应有 buildAudioSink 覆写。
+        failures.append("12 §61.160：buildAudioSink 覆写仍存在（应已还原）")
+    elif "class SpatialWidenProcessor : BaseAudioProcessor()" not in wid_txt:
+        failures.append("12 §61.160：SpatialWidenProcessor 类缺失")
     elif not all(x in doc139_txt for x in (
         "SpatialWidenProcessor", "92 条 STRM 曲目", "AudioEffectsBus",
     )):
