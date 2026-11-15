@@ -257,12 +257,21 @@ class WebDavDriver(
         val path = if (href.startsWith("http", ignoreCase = true)) {
             runCatching { URI(href).path }.getOrDefault(href)
         } else href
+        // §61.158：href 为服务器绝对路径（/dav/strm_test_probe/x.strm）——剥掉
+        // 挂载基路径（address 的 URL path 部分）得到驱动命名空间内的相对路径
+        // （Obj.path 相对语义，03-01 §7）；否则 readText/link 的 sandbox 会拼出
+        // address + /dav/... 双重路径 → 404（真机一手：5 个 .strm 全部读取失败）。
+        val basePath = runCatching { java.net.URI(address.trimEnd('/')).path.orEmpty() }
+            .getOrDefault("")
+        val rel = if (basePath.isNotEmpty() && path.startsWith(basePath)) {
+            path.removePrefix(basePath).ifBlank { "/" }
+        } else path
         return Obj(
             name = name,
             size = size,
             isDir = isDir,
             modified = modified,
-            path = path,
+            path = rel,
             priv = contentType,
         )
     }

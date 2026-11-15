@@ -42,7 +42,15 @@ object PropfindParser {
                 "http://xml.org/sax/features/external-parameter-entities",
             ).forEach { feature -> runCatching { setFeature(feature, true) } }
         }
-        val doc = factory.newDocumentBuilder().parse(InputSource(StringReader(xml)))
+        // §61.158：OpenList 等 DAV 服务器的 PROPFIND 响应含**未转义的裸 &**
+        // （文件名带 &，如「小娟&山谷里的居民」）——严格 XML 解析器报
+        // "unterminated entity ref" → 整目录 E_SCAN。预转义：仅替换不构成
+        // 合法实体的 &（&amp;/&lt;/&gt;/&quot;/&apos;/数字引用不动）。
+        val safe = xml.replace(
+            Regex("&(?!(?:amp|lt|gt|quot|apos|#\\d+|#x[0-9a-fA-F]+);)"),
+            "&amp;",
+        )
+        val doc = factory.newDocumentBuilder().parse(InputSource(StringReader(safe)))
         doc.documentElement.normalize()
 
         val responses = mutableListOf<Node>()
