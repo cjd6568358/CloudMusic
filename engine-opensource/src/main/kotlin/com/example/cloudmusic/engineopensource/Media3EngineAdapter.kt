@@ -17,6 +17,8 @@ import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
 import androidx.media3.datasource.cache.SimpleCache
 import androidx.media3.exoplayer.DefaultRenderersFactory
+import androidx.media3.exoplayer.audio.AudioSink
+import androidx.media3.exoplayer.audio.DefaultAudioSink
 import androidx.media3.exoplayer.mediacodec.MediaCodecSelector
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
@@ -294,8 +296,23 @@ class Media3EngineAdapter : IMusicEngine {
         // audio/x-ape 返回空，ape **强制走 FFmpeg 软解**（F3 22 格已验证
         // ffmpeg ape 链路；平台 ape 支持随厂商参差，软解行为确定性优先）。
         // 例外记录：MIUI/高通平台可解 ape（§61.122 分析管线实测）。
-        val renderersFactory = DefaultRenderersFactory(ctx)
-            .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
+        // §61.160（T5-3 路径 B）：DefaultRenderersFactory 子类覆写 buildAudioSink，
+        // 经 DefaultAudioSink.Builder.setAudioProcessors 注入声场展宽处理器
+        // （Media3 官方 PCM 链插入点，E6；AudioEffectsBus.widenAmount=0 时直通，
+        // 零行为变化基线）。
+        val renderersFactory = object : DefaultRenderersFactory(ctx) {
+            override fun buildAudioSink(
+                context: android.content.Context,
+                enableFloatOutput: Boolean,
+                enableAudioTrackPlaybackParams: Boolean,
+            ): AudioSink {
+                return DefaultAudioSink.Builder(context)
+                    .setAudioProcessors(arrayOf(SpatialWidenProcessor()))
+                    .setEnableFloatOutput(enableFloatOutput)
+                    .setEnableAudioTrackPlaybackParams(enableAudioTrackPlaybackParams)
+                    .build()
+            }
+        }.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
             // §61.127：ape **强制 FFmpeg 软解**（恢复强制选择器）——深水区第四缺
             //（sample_rate 预置缺失）修复后，ape local/remote 双路径真机 PASS
             //（§61.127），G08 观察的平台硬解长播 codec error（13.9min，§61.125）
@@ -592,8 +609,23 @@ class Media3EngineAdapter : IMusicEngine {
             gapless.crossTrackAvailable,
             gapless.blocker ?: "none",
         ))
-        val renderersFactory = DefaultRenderersFactory(ctx)
-            .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
+        // §61.160（T5-3 路径 B）：DefaultRenderersFactory 子类覆写 buildAudioSink，
+        // 经 DefaultAudioSink.Builder.setAudioProcessors 注入声场展宽处理器
+        // （Media3 官方 PCM 链插入点，E6；AudioEffectsBus.widenAmount=0 时直通，
+        // 零行为变化基线）。
+        val renderersFactory = object : DefaultRenderersFactory(ctx) {
+            override fun buildAudioSink(
+                context: android.content.Context,
+                enableFloatOutput: Boolean,
+                enableAudioTrackPlaybackParams: Boolean,
+            ): AudioSink {
+                return DefaultAudioSink.Builder(context)
+                    .setAudioProcessors(arrayOf(SpatialWidenProcessor()))
+                    .setEnableFloatOutput(enableFloatOutput)
+                    .setEnableAudioTrackPlaybackParams(enableAudioTrackPlaybackParams)
+                    .build()
+            }
+        }.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
             .setMediaCodecSelector { mimeType, secure, tunneling ->
                 if (mimeType == "audio/x-ape") emptyList()
                 else MediaCodecSelector.DEFAULT.getDecoderInfos(mimeType, secure, tunneling)

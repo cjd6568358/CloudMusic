@@ -2673,6 +2673,28 @@ def main() -> int:
     else:
         print("[PASS] 12 §61.153：TextReadCapability 双实现 + XXE runCatching + 登记在位")
 
+    # ---- 12 §61.160~161（T5-3 路径 B 桥 + STRM 多行路径）长效守护 ---------
+    wid = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" / "com"
+           / "example" / "cloudmusic" / "engineopensource" / "SpatialWidenProcessor.kt")
+    wid_txt = wid.read_text(encoding="utf-8") if wid.is_file() else ""
+    adapter160 = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" / "com"
+                  / "example" / "cloudmusic" / "engineopensource" / "Media3EngineAdapter.kt").read_text(encoding="utf-8")
+    if not all(x in wid_txt for x in (
+        "class SpatialWidenProcessor : BaseAudioProcessor()",
+        "AudioEffectsBus.widenAmount", "widen16Stereo",
+    )):
+        failures.append("12 §61.160：SpatialWidenProcessor / AudioEffectsBus 缺失")
+    elif "setAudioProcessors(arrayOf(SpatialWidenProcessor()))" not in adapter160:
+        failures.append("12 §61.160：buildAudioSink 处理器注入缺失")
+    elif not all(x in doc139_txt for x in (
+        "SpatialWidenProcessor", "92 条 STRM 曲目", "AudioEffectsBus",
+    )):
+        failures.append("12 §61.160~161：T5-3 桥 / STRM 多行 / 92 曲目未登记")
+    elif "### 61.160" not in doc139_txt:
+        failures.append("12 §61.160：断点章节未登记")
+    else:
+        print("[PASS] 12 §61.160~161：声场展宽桥 + STRM 多行 + 92 曲目登记在位")
+
     # 12 §61.42 守护：用户把口径升级为「1:1 像素级复刻」后，按竞品可观测证据
     # 自研重画播放页（竞品真实位图 / 色值 / 尺寸 / 控件层级），并如实挂账
     # pixel_level_1to1=False。任一证据漂移、基线被改动，或把 1:1 伪造成已达成即 FAIL。

@@ -636,6 +636,16 @@ class PlaybackRuntime @Inject constructor(
 
     /** §61.118：换曲后按持久值恢复均衡器（READY 且曲目变化时一次性应用）。 */
     private fun restoreEqualizerLoop() {
+        // §61.160：音效档位同步到声场展宽总线（audiofx enabled 且 effectLevel>0 时
+        // 按 0~5 档映射 0~0.8 展宽量；0/off 直通）。AudioEffectsBus 进程级单例。
+        scope.launch {
+            settings.settings.collect { fx ->
+                val widen = if (fx.audiofx.enabled && fx.audiofx.effectLevel > 0) {
+                    (fx.audiofx.effectLevel.coerceAtMost(5) / 5f) * 0.8f
+                } else 0f
+                com.example.cloudmusic.engineopensource.AudioEffectsBus.widenAmount = widen
+            }
+        }
         scope.launch {
             var appliedFor: String? = null
             controller.state.collect { s ->

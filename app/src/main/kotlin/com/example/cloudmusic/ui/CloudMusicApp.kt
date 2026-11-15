@@ -840,7 +840,31 @@ private fun StrmDialog(
                         }
                     }
                 }
-                CompDialogInput(paths, { paths = it }, hint = "挂载路径（可空=委托根目录；每行 目录 或 名:目录）")
+                // §61.161：多行路径编辑（parsePaths 每行 `目录` 或 `名:目录`）。
+                androidx.compose.foundation.text.BasicTextField(
+                    value = paths,
+                    onValueChange = { paths = it },
+                    minLines = 3,
+                    textStyle = androidx.compose.ui.text.TextStyle(
+                        color = Comp.TextPrimary,
+                        fontSize = 14.sp,
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .background(Comp.RowBg)
+                        .padding(12.dp),
+                    decorationBox = { inner ->
+                        if (paths.isBlank()) {
+                            Text(
+                                "挂载路径（可空=委托根目录；每行 目录 或 名:目录）",
+                                color = Comp.TextHint,
+                                fontSize = 14.sp,
+                            )
+                        }
+                        inner()
+                    },
+                )
             }
         },
         actions = listOf("添加" to {
