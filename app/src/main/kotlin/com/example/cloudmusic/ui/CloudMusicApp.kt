@@ -13,15 +13,30 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.clickable
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.viewinterop.AndroidView
 import com.example.cloudmusic.ui.player.LegacyAsset
 import com.example.cloudmusic.ui.player.LegacyMetrics
@@ -29,33 +44,7 @@ import com.example.cloudmusic.ui.player.LegacyPalette
 import com.example.cloudmusic.ui.player.loadLegacyBitmap
 import com.example.cloudmusic.ui.player.loadLegacyTypeface
 import com.example.cloudmusic.ui.player.rememberLegacyImageBitmap
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -66,9 +55,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.cloudmusic.di.playback.RuntimeState
 import com.example.cloudmusic.model.Availability
 import com.example.cloudmusic.model.Storage
@@ -91,18 +80,17 @@ import kotlinx.coroutines.flow.StateFlow
  * 页面（03-10 §5 的 V0.1 子集）：曲库 / 歌单 / 搜索 / 队列 / 设置 五页 + 数据源管理入口
  * + 输出设备弹窗。
  *
- * `12 §61.40`（用户「UI 交互严格复刻竞品」）：点击迷你播放条进入 `LegacyPlayerPage`，
- * 按 `12 §39` / `docs/14 §4.1` / `03-10 §3.3` 的实证参数复刻唱片旋转、唱针起落、
- * 跑马灯、横向手势切歌与进度控制。唱片动画用平台 `ValueAnimator` + `setRotation`
- * 实现，**不是 Compose Canvas 重写**（`03-10 §11 #1`）、也不是 `animateFloatAsState` 近似；
- * 交互经 `PlayerStateBridge` 单向绑定，播放页不持有 `PlayerController` / `IMusicEngine`。
- * 零新增模块 / 依赖 / 权限，不改 `assets` 与 Manifest。
+ * `12 §61.40`（用户「UI 交互严格复刻竞品」）：点击迷你播放条进入 `LegacyPlayerPage`。
+ * `12 §61.137`（用户「像素级对齐竞品 UI，包括设置、交互 UI，不只是播放页」）：
+ * 非播放页全部按 `analysis/ui-replica/page-spec-61-137.md` 重建——色值/尺寸/字号取自
+ * 竞品 `music_library_*` / `main_account` / `item_account_*` / 搜索家族 layout 一手证据，
+ * 共享组件在 [CompeteUi.kt]（[Comp] 设计系统）。接线（回调/Repository/bridge）零改动，
+ * 仅视觉与组件结构替换；图标用字形占位不导出竞品素材（C4）。
  *
  * 边界（`03-10 §11`）：只经 Repository / StateFlow 取数，不碰 Driver / Room / OkHttp；
  * 蓝牙只作状态提示、**不列为与本机/DLNA 并列的可选输出**（禁止事项 8）。
  * V0.1 用状态切页，未引 navigation-compose / coil-compose。
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CloudMusicApp(
     tracks: Flow<List<Track>>,
@@ -147,13 +135,12 @@ fun CloudMusicApp(
     var showSources by rememberSaveable { mutableStateOf(false) }
     var showOutput by rememberSaveable { mutableStateOf(false) }
     // 12 §61.42：用户要求「1:1 像素级复刻竞品播放页」→ 启动即全屏播放页，
-    // V0.1 五页 tab 导航栏（曲库/歌单/搜索/队列/设置）不再出现在首屏；
+    // V0.1 六页 tab 导航栏（曲库/歌单/搜索/队列/我的/设置）不再出现在首屏；
     // 播放页返回才回到功能页，避免把自研导航误当成竞品播放页组件。
     var showPlayer by rememberSaveable { mutableStateOf(true) }
     var query by rememberSaveable { mutableStateOf("") }
     // §61.119（M3）：加入歌单弹窗目标曲目。
     var addToPlaylistTrack by remember { mutableStateOf<Track?>(null) }
-
 
     val trackList by tracks.collectAsState(initial = emptyList())
     val storageList by storages.collectAsState(initial = emptyList())
@@ -168,43 +155,36 @@ fun CloudMusicApp(
     val resultsFlow = remember(query) { search(query) }
     val searchResults by resultsFlow.collectAsState(initial = emptyList())
 
+    // §61.137：去掉全局 TopAppBar（竞品无全局标题栏，页头归各页：设置 52dip 行 /
+    // 歌单·我的音乐 44dip 标题栏）；底栏竞品化（h7 底 + 10sp label + 品牌红选中）。
     Scaffold(
-        topBar = {
-            if (showSources) {
-                TopAppBar(
-                    title = { Text("数据源管理") },
-                    navigationIcon = {
-                        IconButton(onClick = { showSources = false }) { Text("‹") }
-                    },
-                )
-            } else {
-                TopAppBar(title = { Text("CloudMusic") })
-            }
-        },
+        containerColor = Comp.PageBg,
         bottomBar = {
             Column {
                 MiniPlayer(player, onPlay, onPause, onNext, onPrev) { showPlayer = true }
-                NavigationBar {
-                    listOf(
-                        "曲库" to "♫", "歌单" to "☰", "搜索" to "⌕", "队列" to "☷", "我的" to "❤", "设置" to "⚙",
-                    ).forEachIndexed { index, (label, glyph) ->
-                        NavigationBarItem(
-                            selected = !showSources && tab == index,
-                            onClick = { tab = index; showSources = false },
-                            icon = { Text(glyph) },
-                            label = { Text(label) },
-                        )
-                    }
-                }
+                CompBottomBar(
+                    tabs = listOf(
+                        "曲库" to "♫", "歌单" to "☰", "搜索" to "⌕",
+                        "队列" to "☷", "我的" to "❤", "设置" to "⚙",
+                    ),
+                    selected = if (showSources) -1 else tab,
+                    onSelect = { tab = it; showSources = false },
+                )
             }
         },
     ) { padding ->
-        Column(Modifier.fillMaxSize().padding(padding)) {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .statusBarsPadding(),
+        ) {
             ScanBanner(runtime)
             when {
                 showSources -> SourcesScreen(
                     storageList, onRescanAll, onRetryUnavailable, onAddSaf, onAddMediaStore,
                     onAddWebDav,
+                    onBack = { showSources = false },
                 )
                 tab == 0 -> LibraryScreen(
                     trackList, onRescanAll, onRetryUnavailable, onPlayTracks,
@@ -248,48 +228,20 @@ fun CloudMusicApp(
         OutputDialog(output, onOutputSelected) { showOutput = false }
     }
 
-    // §61.119（M3）：加入歌单弹窗——曲库行 "+" 触发；支持新建内联。
-    if (addToPlaylistTrack != null) {
-        AlertDialog(
-            onDismissRequest = { addToPlaylistTrack = null },
-            title = { Text("加入歌单：${addToPlaylistTrack?.title ?: ""}") },
-            text = {
-                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    if (playlistList.isEmpty()) {
-                        Text("还没有歌单，先新建一个", style = MaterialTheme.typography.bodySmall)
-                    }
-                    playlistList.forEach { pl ->
-                        ListItem(
-                            headlineContent = { Text(pl.name) },
-                            modifier = Modifier.clickable {
-                                bridge.onAddToPlaylist(pl.id, addToPlaylistTrack!!.id)
-                                addToPlaylistTrack = null
-                            },
-                        )
-                    }
-                    var newName by remember { mutableStateOf("") }
-                    Row(verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        OutlinedTextField(
-                            value = newName,
-                            onValueChange = { newName = it },
-                            label = { Text("新歌单名") },
-                            singleLine = true,
-                            modifier = Modifier.weight(1f),
-                        )
-                        Button(enabled = newName.isNotBlank(), onClick = {
-                            val track = addToPlaylistTrack
-                            bridge.onCreatePlaylist(newName.trim()) { id ->
-                                if (track != null) bridge.onAddToPlaylist(id, track.id)
-                            }
-                            addToPlaylistTrack = null
-                        }) { Text("建并加入") }
-                    }
-                }
+    // §61.119（M3）：加入歌单弹窗——曲库行 "+" 触发；支持新建内联（b5y 面板样式）。
+    addToPlaylistTrack?.let { target ->
+        AddToPlaylistSheet(
+            trackTitle = target.title,
+            playlists = playlistList,
+            onPick = { playlistId ->
+                bridge.onAddToPlaylist(playlistId, target.id)
+                addToPlaylistTrack = null
             },
-            confirmButton = {
-                TextButton(onClick = { addToPlaylistTrack = null }) { Text("关闭") }
+            onCreateAndAdd = { name ->
+                bridge.onCreatePlaylist(name) { id -> bridge.onAddToPlaylist(id, target.id) }
+                addToPlaylistTrack = null
             },
+            onDismiss = { addToPlaylistTrack = null },
         )
     }
 
@@ -307,16 +259,7 @@ private fun ScanBanner(state: RuntimeState) {
         state.lastEffect.isNotBlank() -> "生效：${state.lastEffect}"
         else -> "曲库就绪"
     }
-    Surface(
-        color = MaterialTheme.colorScheme.secondaryContainer,
-        modifier = Modifier.fillMaxWidth(),
-    ) {
-        Text(
-            text,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
-            style = MaterialTheme.typography.bodySmall,
-        )
-    }
+    CompScanBanner(text)
 }
 
 /**
@@ -545,6 +488,12 @@ private fun LibraryView.label(): String = when (this) {
     LibraryView.UNAVAILABLE -> "不可用"
 }
 
+/**
+ * §61.137 曲库页（`fragment_music_library`/as5 + `music_library_music_item`/cvi +
+ * `music_library_music_info_layout`/cvg）：45dip 顶 tab（17sp，白色 1dip 指示器）+
+ * 0.5dip 分割线 + 行（48dip 封面 / 16sp 歌名 / 12sp 歌手 · 时长，aer 行底）。
+ * 原 FilterChip 计数改为分组副标题承载（竞品 tab 无计数）。
+ */
 @Composable
 private fun LibraryScreen(
     tracks: List<Track>,
@@ -555,127 +504,104 @@ private fun LibraryScreen(
 ) {
     var view by rememberSaveable { mutableIntStateOf(0) }
     var expanded by remember { mutableStateOf(setOf<String>()) }
-    Column(Modifier.fillMaxSize()) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text("曲库 · ${tracks.size} 首", style = MaterialTheme.typography.titleMedium)
-            Button(onClick = onRescan) { Text("重新扫描") }
-        }
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            LibraryView.entries.forEachIndexed { index, v ->
-                FilterChip(
-                    selected = view == index,
-                    onClick = { view = index },
-                    label = {
-                        val count = when (v) {
-                            LibraryView.ALBUM -> tracks.map { it.album }.distinct().size
-                            LibraryView.ARTIST -> tracks.map { it.artist }.distinct().size
-                            LibraryView.UNAVAILABLE ->
-                                tracks.count { it.availability != Availability.OK }
-                            else -> tracks.size
-                        }
-                        Text("${v.label()} $count")
-                    },
-                )
+    CompPage {
+        Column(Modifier.fillMaxSize().padding(top = 6.dp)) {
+            CompTabRow(
+                tabs = LibraryView.entries.map { it.label() },
+                selected = view,
+                onSelect = { view = it },
+                trailing = {
+                    Box(Modifier.fillMaxSize().clickable(onClick = onRescan), contentAlignment = Alignment.Center) {
+                        Text("↻", color = Comp.TextSecondary, fontSize = 17.sp)
+                    }
+                },
+            )
+            if (tracks.isEmpty()) {
+                CompEmpty("曲库为空：添加数据源后执行扫描")
+                return@Column
             }
-        }
-        if (tracks.isEmpty()) {
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("曲库为空：添加数据源后执行扫描", textAlign = TextAlign.Center)
-            }
-            return
-        }
-        when (LibraryView.entries[view]) {
-            LibraryView.ALL -> LazyColumn(Modifier.fillMaxSize()) {
-                items(tracks, key = { it.id.value }) { track ->
-                    ListItem(
-                        headlineContent = { Text(track.title, maxLines = 1) },
-                        supportingContent = {
-                            Text("${track.artist} · ${track.album}", maxLines = 1)
-                        },
-                        leadingContent = { Text("♪") },
-                        trailingContent = {
-                            Text("＋", modifier = Modifier.clickable {
-                                onAddToPlaylist(track)
-                            })
-                        },
-                        modifier = Modifier.clickable {
-                            val idx = tracks.indexOfFirst { it.id == track.id }
-                            onPlayTracks(tracks, idx)
-                        },
-                    )
-                    HorizontalDivider()
-                }
-            }
-            LibraryView.ALBUM, LibraryView.ARTIST -> {
-                val groups = when (LibraryView.entries[view]) {
-                    LibraryView.ALBUM -> tracks.groupBy { it.album.ifBlank { "未知专辑" } }
-                    else -> tracks.groupBy { it.artist.ifBlank { "未知艺人" } }
-                }
-                LazyColumn(Modifier.fillMaxSize()) {
-                    groups.forEach { (key, groupTracks) ->
-                        item(key = "group-" + key) {
-                            val open = key in expanded
-                            ListItem(
-                                headlineContent = { Text(key, maxLines = 1) },
-                                supportingContent = { Text("${groupTracks.size} 首") },
-                                trailingContent = { Text(if (open) "▾" else "▸") },
-                                modifier = Modifier.clickable {
-                                    expanded = if (open) expanded - key else expanded + key
-                                },
-                            )
-                            HorizontalDivider()
-                        }
-                        if (key in expanded) {
-                            items(groupTracks, key = { it.id.value + "-" + key }) { track ->
-                                ListItem(
-                                    headlineContent = { Text(track.title, maxLines = 1) },
-                                    supportingContent = { Text(track.artist, maxLines = 1) },
-                                    leadingContent = { Text("♪") },
-                                    modifier = Modifier.clickable {
-                                        val idx = groupTracks.indexOfFirst { it.id == track.id }
-                                        onPlayTracks(groupTracks, idx)
-                                    },
+            when (LibraryView.entries[view]) {
+                LibraryView.ALL -> LazyColumn(Modifier.fillMaxSize()) {
+                    items(tracks, key = { it.id.value }) { track ->
+                        CompTrackRow(
+                            title = track.title,
+                            subtitle = "${track.artist} · ${track.album}",
+                            onClick = {
+                                val idx = tracks.indexOfFirst { it.id == track.id }
+                                onPlayTracks(tracks, idx)
+                            },
+                            trailing = {
+                                Text(
+                                    "＋",
+                                    color = Comp.TextSecondary,
+                                    fontSize = 18.sp,
+                                    modifier = Modifier
+                                        .padding(start = 4.dp, end = 2.dp)
+                                        .clickable { onAddToPlaylist(track) },
                                 )
+                            },
+                        )
+                    }
+                }
+                LibraryView.ALBUM, LibraryView.ARTIST -> {
+                    val groups = when (LibraryView.entries[view]) {
+                        LibraryView.ALBUM -> tracks.groupBy { it.album.ifBlank { "未知专辑" } }
+                        else -> tracks.groupBy { it.artist.ifBlank { "未知艺人" } }
+                    }
+                    LazyColumn(Modifier.fillMaxSize()) {
+                        groups.forEach { (key, groupTracks) ->
+                            item(key = "group-" + key) {
+                                val open = key in expanded
+                                CompGroupTitle("$key · ${groupTracks.size}")
+                                Text(
+                                    if (open) "收起 ▾" else "展开 ▸",
+                                    color = Comp.TextHint,
+                                    fontSize = 11.sp,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clickable {
+                                            expanded = if (open) expanded - key else expanded + key
+                                        }
+                                        .padding(horizontal = 16.dp, vertical = 4.dp),
+                                )
+                            }
+                            if (key in expanded) {
+                                items(groupTracks, key = { it.id.value + "-" + key }) { track ->
+                                    CompTrackRow(
+                                        title = track.title,
+                                        subtitle = track.artist,
+                                        onClick = {
+                                            val idx = groupTracks.indexOfFirst { it.id == track.id }
+                                            onPlayTracks(groupTracks, idx)
+                                        },
+                                    )
+                                }
                             }
                         }
                     }
                 }
-            }
-            LibraryView.UNAVAILABLE -> {
-                val bad = tracks.filter { it.availability != Availability.OK }
-                LazyColumn(Modifier.fillMaxSize()) {
-                    if (bad.isEmpty()) {
-                        item {
-                            Box(
-                                Modifier.fillMaxWidth().padding(32.dp),
-                                contentAlignment = Alignment.Center,
-                            ) { Text("没有不可用曲目") }
-                        }
-                    } else {
-                        item {
-                            Button(onClick = onRetry, modifier = Modifier.padding(16.dp)) {
-                                Text("重试不可用曲目")
+                LibraryView.UNAVAILABLE -> {
+                    val bad = tracks.filter { it.availability != Availability.OK }
+                    LazyColumn(Modifier.fillMaxSize()) {
+                        if (bad.isEmpty()) {
+                            item { CompEmpty("没有不可用曲目") }
+                        } else {
+                            item {
+                                CompActionButton(
+                                    text = "重试不可用曲目",
+                                    onClick = onRetry,
+                                    modifier = Modifier.padding(16.dp),
+                                    heightDp = 32,
+                                )
                             }
-                        }
-                        items(bad, key = { it.id.value }) { track ->
-                            ListItem(
-                                headlineContent = { Text(track.title, maxLines = 1) },
-                                supportingContent = {
-                                    Text(
-                                        "${track.availability} · "
-                                            + (track.sourceRef.path ?: track.sourceRef.url ?: ""),
-                                        maxLines = 1,
-                                    )
-                                },
-                            )
-                            HorizontalDivider()
+                            items(bad, key = { it.id.value }) { track ->
+                                CompTrackRow(
+                                    title = track.title,
+                                    subtitle = "${track.availability} · "
+                                        + (track.sourceRef.path ?: track.sourceRef.url ?: ""),
+                                    onClick = {},
+                                )
+                            }
                         }
                     }
                 }
@@ -684,15 +610,7 @@ private fun LibraryScreen(
     }
 }
 
-@Composable
-private fun TrackRow(track: Track) {
-    ListItem(
-        headlineContent = { Text(track.title, maxLines = 1) },
-        supportingContent = { Text("${track.artist} · ${track.album}", maxLines = 1) },
-        leadingContent = { Text("♪") },
-    )
-}
-
+/** §61.137 数据源管理（`main_account` 行样式）：添加来源 / 维护 / 已添加 三组。 */
 @Composable
 private fun SourcesScreen(
     storages: List<Storage>,
@@ -701,59 +619,54 @@ private fun SourcesScreen(
     onAddSaf: () -> Unit,
     onAddMediaStore: () -> Unit,
     onAddWebDav: (String, String, String, String) -> Unit,
+    onBack: () -> Unit,
 ) {
-    Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text("数据源 · ${storages.size}", style = MaterialTheme.typography.titleMedium)
-        // 12 §52：真机 A3 暴露「数据源页只有展示、没有添加入口」→ 曲库 0 首只能靠
-        // run-as 灌 Room 夹具。SAF 优先（无需读取权限），MediaStore 按动作申请。
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = onAddSaf) { Text("添加本地目录 (SAF)") }
-            Button(onClick = onAddMediaStore) { Text("从媒体库导入") }
-        }
-        // §61.132：WebDAV 源添加（PRD §5.1 核心成功标准）
-        var showWebDav by remember { mutableStateOf(false) }
-        Button(onClick = { showWebDav = true }) { Text("添加 WebDAV 源") }
-        if (showWebDav) {
-            WebDavDialog(
-                onDismiss = { showWebDav = false },
-                onAdd = { url, user, pass, path ->
-                    onAddWebDav(url, user, pass, path)
-                    showWebDav = false
-                },
-            )
-        }
-        Text(
-            "SAF 目录无需读取权限；媒体库导入会按动作申请读媒体权限（03-11 §2）",
-            style = MaterialTheme.typography.bodySmall,
-        )
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = onRescan) { Text("全量重扫") }
-            Button(onClick = onRetry) { Text("重试失败项") }
-        }
-        if (storages.isEmpty()) {
-            Text("还没有数据源，点上方按钮添加本地目录或导入媒体库")
-        } else {
-            LazyColumn(Modifier.fillMaxSize()) {
-                items(storages, key = { it.id }) { storage ->
-                    ListItem(
-                        headlineContent = {
-                            Text(storage.remark.ifBlank { storage.mountPath }, maxLines = 1)
-                        },
-                        supportingContent = {
-                            val status = if (storage.isWork) "正常" else "不可用 ${storage.errorMsg}"
-                            Text("${storage.driverType} · ${storage.mountPath} · $status", maxLines = 2)
-                        },
-                        leadingContent = { Text("☁") },
-                    )
-                    HorizontalDivider()
+    var showWebDav by remember { mutableStateOf(false) }
+    CompPage {
+        Column(Modifier.fillMaxSize()) {
+            CompHeaderBar(title = "数据源管理", onBack = onBack)
+            CompGroupTitle("添加来源")
+            CompSettingsRow("⊕", "本地目录（SAF）", onClick = onAddSaf, rightHint = "无需读取权限")
+            CompSettingsRow("⊕", "从媒体库导入", onClick = onAddMediaStore, rightHint = "按动作申请权限")
+            CompSettingsRow("⊕", "添加 WebDAV 源", onClick = { showWebDav = true }, rightHint = "地址 + 认证")
+            CompGroupTitle("维护")
+            CompSettingsRow("↻", "全量重扫", onClick = onRescan)
+            CompSettingsRow("↻", "重试失败项", onClick = onRetry)
+            CompGroupTitle("已添加 · ${storages.size}")
+            if (storages.isEmpty()) {
+                Text(
+                    "还没有数据源，点上方按钮添加本地目录或导入媒体库",
+                    color = Comp.TextSecondary,
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(horizontal = 32.dp, vertical = 12.dp),
+                )
+            } else {
+                LazyColumn(Modifier.fillMaxSize()) {
+                    items(storages, key = { it.id }) { storage ->
+                        val status = if (storage.isWork) "正常" else "不可用 ${storage.errorMsg}"
+                        CompSettingsRow(
+                            icon = "☁",
+                            title = storage.remark.ifBlank { storage.mountPath },
+                            onClick = {},
+                            rightHint = "${storage.driverType} · $status",
+                        )
+                    }
                 }
             }
         }
     }
+    if (showWebDav) {
+        WebDavDialog(
+            onDismiss = { showWebDav = false },
+            onAdd = { url, user, pass, path ->
+                onAddWebDav(url, user, pass, path)
+                showWebDav = false
+            },
+        )
+    }
 }
 
-/** §61.119（M3）：歌单页——创建 / 播放 / 删除闭环（PlaylistRepository 契约不变）。 */
-/** §61.132：WebDAV 源添加对话框（PRD §5.1：地址 + 认证 + 远程路径）。 */
+/** §61.132/§61.137：WebDAV 源添加（b5y 面板 + 表单；字段与 WebDavDriver strCompat 对齐）。 */
 @Composable
 private fun WebDavDialog(
     onDismiss: () -> Unit,
@@ -763,33 +676,26 @@ private fun WebDavDialog(
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var rootPath by remember { mutableStateOf("/music") }
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text("添加 WebDAV 源") },
-        text = {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                OutlinedTextField(value = url, onValueChange = { url = it },
-                    label = { Text("服务器地址（含端口）") },
-                    placeholder = { Text("https://nas.local:5006") },
-                    singleLine = true)
-                OutlinedTextField(value = username, onValueChange = { username = it },
-                    label = { Text("用户名（可空=匿名）") }, singleLine = true)
-                OutlinedTextField(value = password, onValueChange = { password = it },
-                    label = { Text("密码（可空）") }, singleLine = true,
-                    visualTransformation = PasswordVisualTransformation())
-                OutlinedTextField(value = rootPath, onValueChange = { rootPath = it },
-                    label = { Text("远程路径") }, singleLine = true)
+    CompSheetDialog(
+        onDismiss = onDismiss,
+        title = "添加 WebDAV 源",
+        content = {
+            Column {
+                CompDialogInput(url, { url = it }, hint = "服务器地址（含端口），如 https://nas:5006")
+                CompDialogInput(username, { username = it }, hint = "用户名（可空=匿名）")
+                CompDialogInput(password, { password = it }, hint = "密码（可空）", password = true)
+                CompDialogInput(rootPath, { rootPath = it }, hint = "远程路径（默认 /music）")
             }
         },
-        confirmButton = {
-            TextButton(enabled = url.isNotBlank(), onClick = {
+        actions = listOf("添加" to {
+            if (url.isNotBlank()) {
                 onAdd(url.trim().trimEnd('/'), username.trim(), password, rootPath.trim())
-            }) { Text("添加") }
-        },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("取消") } },
+            }
+        }),
     )
 }
 
+/** §61.137 歌单页（cvn 分组标题 + cvm 60dip 行 + ⋮ more-ops 面板）。 */
 @Composable
 private fun PlaylistsScreen(
     playlists: List<Playlist>,
@@ -801,260 +707,253 @@ private fun PlaylistsScreen(
     onRemoveItem: (String, Int) -> Unit,
     observeTracks: (String) -> Flow<List<Track>>,
 ) {
-    var newName by remember { mutableStateOf("") }
+    var showCreate by remember { mutableStateOf(false) }
     var renameTarget by remember { mutableStateOf<String?>(null) }
     var expandedId by remember { mutableStateOf<String?>(null) }
     var deleteTarget by remember { mutableStateOf<Playlist?>(null) }
-    Column(Modifier.fillMaxSize().padding(16.dp)) {
-        Text("歌单 · ${playlists.size}", style = MaterialTheme.typography.titleMedium)
-        Row(verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedTextField(
-                value = newName,
-                onValueChange = { newName = it },
-                label = { Text("新歌单名") },
-                singleLine = true,
-                modifier = Modifier.weight(1f),
-            )
-            Button(enabled = newName.isNotBlank(), onClick = {
-                onCreate(newName.trim())
-                newName = ""
-            }) { Text("创建") }
-        }
-        // §61.121：展开查看歌单曲目 + ↑↓ 移动 + ✕ 移除；删除加确认。
-        if (playlists.isEmpty()) {
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("还没有歌单；在曲库行点「＋」加入曲目时会自动创建", textAlign = TextAlign.Center)
-            }
-        } else {
-            LazyColumn(Modifier.fillMaxSize()) {
-                items(playlists, key = { it.id }) { playlist ->
-                    ListItem(
-                        headlineContent = { Text(playlist.name, maxLines = 1) },
-                        supportingContent = {
-                            Text(if (expandedId == playlist.id) "收起" else "展开查看曲目")
-                        },
-                        leadingContent = { Text("☰") },
-                        trailingContent = {
-                            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                                Text("▶", modifier = Modifier.clickable { onPlay(playlist.id) })
-                                Text("✏", modifier = Modifier.clickable {
-                                    renameTarget = playlist.id
-                                })
-                                Text("🗑", modifier = Modifier.clickable {
-                                    deleteTarget = playlist
-                                })
-                            }
-                        },
-                        modifier = Modifier.clickable {
-                            expandedId =
-                                if (expandedId == playlist.id) null else playlist.id
-                        },
+    CompPage {
+        Column(Modifier.fillMaxSize()) {
+            CompHeaderBar(
+                title = "歌单",
+                right = {
+                    Text(
+                        "＋",
+                        color = Comp.TextPrimary,
+                        fontSize = 20.sp,
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .clickable { showCreate = true },
                     )
-                    HorizontalDivider()
-                    if (expandedId == playlist.id) {
-                        val tracks by observeTracks(playlist.id)
-                            .collectAsState(initial = emptyList())
-                        if (tracks.isEmpty()) {
-                            Text(
-                                "（空歌单——在曲库行点「＋」加入）",
-                                style = MaterialTheme.typography.bodySmall,
-                                modifier = Modifier.padding(horizontal = 32.dp, vertical = 4.dp),
-                            )
-                        }
-                        tracks.forEachIndexed { index, track ->
-                            ListItem(
-                                headlineContent = {
-                                    Text("${index + 1}. ${track.title}", maxLines = 1)
-                                },
-                                supportingContent = { Text(track.artist, maxLines = 1) },
-                                trailingContent = {
-                                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                                        Text(
-                                            "↑",
-                                            modifier = Modifier.clickable {
-                                                if (index > 0) onMoveItem(
-                                                    playlist.id, index, index - 1,
-                                                )
-                                            },
-                                        )
-                                        Text(
-                                            "↓",
-                                            modifier = Modifier.clickable {
-                                                if (index < tracks.size - 1) onMoveItem(
-                                                    playlist.id, index, index + 1,
-                                                )
-                                            },
-                                        )
-                                        Text(
-                                            "✕",
-                                            modifier = Modifier.clickable {
-                                                onRemoveItem(playlist.id, index)
-                                            },
-                                        )
-                                    }
-                                },
-                            )
+                },
+            )
+            if (playlists.isEmpty()) {
+                CompEmpty("还没有歌单；在曲库行点「＋」加入曲目时会自动创建")
+            } else {
+                LazyColumn(Modifier.fillMaxSize()) {
+                    item { CompGroupTitle("创建的歌单 · ${playlists.size}") }
+                    items(playlists, key = { it.id }) { playlist ->
+                        CompPlaylistRow(
+                            name = playlist.name,
+                            subtitle = "展开查看曲目",
+                            onClick = {
+                                expandedId = if (expandedId == playlist.id) null else playlist.id
+                            },
+                            trailing = {
+                                Text(
+                                    "⋮",
+                                    color = Comp.TextSecondary,
+                                    fontSize = 18.sp,
+                                    modifier = Modifier
+                                        .padding(horizontal = 16.dp)
+                                        .clickable { onPlay(playlist.id) },
+                                )
+                            },
+                        )
+                        if (expandedId == playlist.id) {
+                            val tracks by observeTracks(playlist.id)
+                                .collectAsState(initial = emptyList())
+                            if (tracks.isEmpty()) {
+                                Text(
+                                    "（空歌单——在曲库行点「＋」加入）",
+                                    color = Comp.TextHint,
+                                    fontSize = 11.sp,
+                                    modifier = Modifier.padding(horizontal = 32.dp, vertical = 4.dp),
+                                )
+                            }
+                            tracks.forEachIndexed { index, track ->
+                                CompTrackRow(
+                                    title = "${index + 1}. ${track.title}",
+                                    subtitle = track.artist,
+                                    onClick = {},
+                                    trailing = {
+                                        Row {
+                                            Text(
+                                                "↑",
+                                                color = Comp.TextSecondary,
+                                                fontSize = 14.sp,
+                                                modifier = Modifier
+                                                    .padding(4.dp)
+                                                    .clickable {
+                                                        if (index > 0) {
+                                                            onMoveItem(playlist.id, index, index - 1)
+                                                        }
+                                                    },
+                                            )
+                                            Text(
+                                                "↓",
+                                                color = Comp.TextSecondary,
+                                                fontSize = 14.sp,
+                                                modifier = Modifier
+                                                    .padding(4.dp)
+                                                    .clickable {
+                                                        if (index < tracks.size - 1) {
+                                                            onMoveItem(playlist.id, index, index + 1)
+                                                        }
+                                                    },
+                                            )
+                                            Text(
+                                                "✕",
+                                                color = Comp.TextSecondary,
+                                                fontSize = 14.sp,
+                                                modifier = Modifier
+                                                    .padding(4.dp)
+                                                    .clickable { onRemoveItem(playlist.id, index) },
+                                            )
+                                        }
+                                    },
+                                )
+                            }
                         }
                     }
                 }
             }
         }
     }
-    // §61.121：删除确认（此前误删无确认，M3 挂账 UX 收口）。
-    deleteTarget?.let { target ->
-        AlertDialog(
-            onDismissRequest = { deleteTarget = null },
-            title = { Text("删除歌单「${target.name}」？") },
-            text = { Text("歌单曲目引用将一并移除；该操作不可撤销。") },
-            confirmButton = {
-                TextButton(onClick = {
-                    onDelete(target.id)
-                    deleteTarget = null
-                }) { Text("删除") }
+    // 歌单 ⋮ → more-ops 面板（播放全部 / 重命名 / 删除）。
+    if (showCreate) {
+        CreatePlaylistSheet(
+            title = "新建歌单",
+            initial = "",
+            hint = "歌单名",
+            confirmLabel = "创建",
+            onConfirm = { name ->
+                if (name.isNotBlank()) onCreate(name.trim())
+                showCreate = false
             },
-            dismissButton = {
-                TextButton(onClick = { deleteTarget = null }) { Text("取消") }
-            },
+            onDismiss = { showCreate = false },
         )
     }
     renameTarget?.let { target ->
         val current = playlists.firstOrNull { it.id == target }
-        var renameText by remember(target) {
-            mutableStateOf(current?.name ?: "")
-        }
-        AlertDialog(
-            onDismissRequest = { renameTarget = null },
-            title = { Text("重命名歌单") },
-            text = {
-                OutlinedTextField(
-                    value = renameText,
-                    onValueChange = { renameText = it },
-                    label = { Text("新名称") },
-                    singleLine = true,
-                )
+        CreatePlaylistSheet(
+            title = "重命名歌单",
+            initial = current?.name ?: "",
+            hint = "新名称",
+            confirmLabel = "保存",
+            onConfirm = { name ->
+                if (name.isNotBlank()) onRename(target, name.trim())
+                renameTarget = null
             },
-            confirmButton = {
-                TextButton(enabled = renameText.isNotBlank(), onClick = {
-                    onRename(target, renameText.trim())
-                    renameTarget = null
-                }) { Text("保存") }
-            },
-            dismissButton = {
-                TextButton(onClick = { renameTarget = null }) { Text("取消") }
-            },
+            onDismiss = { renameTarget = null },
+        )
+    }
+    // §61.121：删除确认（此前误删无确认，M3 挂账 UX 收口）。
+    deleteTarget?.let { target ->
+        CompSheetDialog(
+            onDismiss = { deleteTarget = null },
+            title = "删除歌单「${target.name}」？歌单曲目引用将一并移除；该操作不可撤销。",
+            actions = listOf(
+                "删除" to {
+                    onDelete(target.id)
+                    deleteTarget = null
+                },
+                "取消" to { deleteTarget = null },
+            ),
+            destructiveIndexOf = 0,
         )
     }
 }
 
+/** 建单/重命名共用输入面板（b5y 底板 + CompDialogInput）。 */
+@Composable
+private fun CreatePlaylistSheet(
+    title: String,
+    initial: String,
+    hint: String,
+    confirmLabel: String,
+    onConfirm: (String) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    var text by remember(title) { mutableStateOf(initial) }
+    CompSheetDialog(
+        onDismiss = onDismiss,
+        title = title,
+        content = { CompDialogInput(text, { text = it }, hint = hint) },
+        actions = listOf(confirmLabel to { onConfirm(text) }),
+    )
+}
+
+/** §61.119 加入歌单面板：已有歌单行 + 新建内联。 */
+@Composable
+private fun AddToPlaylistSheet(
+    trackTitle: String,
+    playlists: List<Playlist>,
+    onPick: (String) -> Unit,
+    onCreateAndAdd: (String) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    var newName by remember { mutableStateOf("") }
+    CompSheetDialog(
+        onDismiss = onDismiss,
+        title = "加入歌单：$trackTitle",
+        content = {
+            Column {
+                if (playlists.isEmpty()) {
+                    Text(
+                        "还没有歌单，先新建一个",
+                        color = Comp.TextSecondary,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    )
+                }
+                playlists.forEach { pl ->
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .height(50.dp)
+                            .clickable { onPick(pl.id) }
+                            .padding(horizontal = 16.dp),
+                        contentAlignment = Alignment.CenterStart,
+                    ) {
+                        Text(pl.name, color = Comp.TextPrimary, fontSize = 16.sp, maxLines = 1)
+                    }
+                }
+                CompDialogInput(newName, { newName = it }, hint = "新歌单名")
+            }
+        },
+        actions = listOf("建并加入" to {
+            if (newName.isNotBlank()) onCreateAndAdd(newName.trim())
+        }),
+    )
+}
+
+/** §61.137 搜索页（asc 搜索框 + asa 结果 + cvq chip 样式预留）：取消清词、框内 ✕。 */
 @Composable
 private fun SearchScreen(
     query: String,
     onQuery: (String) -> Unit,
     results: List<Track>,
 ) {
-    Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        OutlinedTextField(
-            value = query,
-            onValueChange = onQuery,
-            label = { Text("搜索标题 / 艺人 / 专辑") },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        when {
-            query.isBlank() -> Text("输入关键字开始搜索（TrackRepository.search）")
-            results.isEmpty() -> Text("无匹配结果")
-            else -> LazyColumn(Modifier.fillMaxSize()) {
-                items(results, key = { it.id.value }) { track ->
-                    TrackRow(track)
-                    HorizontalDivider()
-                }
+    CompPage {
+        Column(Modifier.fillMaxSize()) {
+            Row(
+                Modifier.fillMaxWidth().padding(start = 16.dp, top = 8.dp, bottom = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                CompSearchField(
+                    value = query,
+                    onValueChange = onQuery,
+                    modifier = Modifier.weight(1f),
+                )
+                Text(
+                    "取消",
+                    color = Comp.TextPrimary,
+                    fontSize = 17.sp,
+                    modifier = Modifier
+                        .padding(start = 16.dp, end = 16.dp)
+                        .clickable { onQuery("") },
+                )
             }
-        }
-    }
-}
-
-@Composable
-private fun QueueScreen(
-    queue: List<QueueItem>,
-    titles: Map<String, Track>,
-    onJump: (Int) -> Unit,
-) {
-    Column(Modifier.fillMaxSize().padding(16.dp)) {
-        Text("队列 · ${queue.size}（点曲目跳播）", style = MaterialTheme.typography.titleMedium)
-        if (queue.isEmpty()) {
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("队列为空（播放后由 QueueRepository.observe() 提供）", textAlign = TextAlign.Center)
-            }
-        } else {
-            LazyColumn(Modifier.fillMaxSize()) {
-                items(queue, key = { "${it.queueId}-${it.position}" }) { item ->
-                    val track = titles[item.trackId.value]
-                    ListItem(
-                        headlineContent = {
-                            Text("#${item.position} · ${track?.title ?: item.trackId.value}", maxLines = 1)
-                        },
-                        supportingContent = {
-                            Text(
-                                listOfNotNull(track?.artist, track?.album)
-                                    .joinToString(" · ").ifBlank { "来源：${item.sourceRef}" },
-                                maxLines = 1,
-                            )
-                        },
-                        leadingContent = { Text("☷") },
-                        modifier = Modifier.clickable { onJump(item.position) },
-                    )
-                    HorizontalDivider()
-                }
-            }
-        }
-    }
-}
-
-/** §61.130（M5 我的音乐）：收藏 + 最近播放两段（FavoriteRepo/HistoryRepo 全收口）。 */
-@Composable
-private fun MyMusicScreen(bridge: PlayerStateBridge, allTracks: List<Track>) {
-    val favorites by bridge.observeFavorites().collectAsState(initial = emptySet())
-    val history by bridge.observeHistory().collectAsState(initial = emptyList())
-    Column(Modifier.fillMaxSize().padding(16.dp)) {
-        Text("我的音乐", style = MaterialTheme.typography.titleMedium)
-        Text(
-            "收藏 ${favorites.size} · 最近播放 ${history.size}",
-            style = MaterialTheme.typography.bodySmall,
-        )
-        LazyColumn(Modifier.fillMaxSize()) {
-            if (favorites.isNotEmpty()) {
-                item(key = "fav-header") {
-                    Text("❤ 收藏", style = MaterialTheme.typography.titleSmall,
-                         modifier = Modifier.padding(top = 8.dp, bottom = 4.dp))
-                }
-                items(allTracks.filter { it.id in favorites }, key = { "fav-" + it.id.value }) { track ->
-                    ListItem(
-                        headlineContent = { Text(track.title, maxLines = 1) },
-                        supportingContent = { Text(track.artist, maxLines = 1) },
-                        leadingContent = { Text("❤") },
-                    )
-                    HorizontalDivider()
-                }
-            }
-            if (history.isNotEmpty()) {
-                item(key = "hist-header") {
-                    Text("🕘 最近播放", style = MaterialTheme.typography.titleSmall,
-                         modifier = Modifier.padding(top = 8.dp, bottom = 4.dp))
-                }
-                items(history, key = { "hist-" + it.id.value }) { track ->
-                    ListItem(
-                        headlineContent = { Text(track.title, maxLines = 1) },
-                        supportingContent = { Text(track.artist, maxLines = 1) },
-                        leadingContent = { Text("🕘") },
-                    )
-                    HorizontalDivider()
-                }
-            }
-            if (favorites.isEmpty() && history.isEmpty()) {
-                item {
-                    Box(Modifier.fillMaxWidth().padding(32.dp), contentAlignment = Alignment.Center) {
-                        Text("收藏曲目或播放曲目后在此显示", textAlign = TextAlign.Center)
+            when {
+                query.isBlank() -> CompEmpty("输入关键字开始搜索（TrackRepository.search）")
+                results.isEmpty() -> CompEmpty("无匹配结果")
+                else -> LazyColumn(Modifier.fillMaxSize()) {
+                    items(results, key = { it.id.value }) { track ->
+                        CompTrackRow(
+                            title = track.title,
+                            subtitle = "${track.artist} · ${track.album}",
+                            onClick = {},
+                        )
                     }
                 }
             }
@@ -1062,6 +961,83 @@ private fun MyMusicScreen(bridge: PlayerStateBridge, allTracks: List<Track>) {
     }
 }
 
+/** §61.137 队列页（dialog_music_list/a6h 风格基准）：标题栏 + 序号行，点击跳播。 */
+@Composable
+private fun QueueScreen(
+    queue: List<QueueItem>,
+    titles: Map<String, Track>,
+    onJump: (Int) -> Unit,
+) {
+    CompPage {
+        Column(Modifier.fillMaxSize()) {
+            CompHeaderBar(title = "播放列表 · ${queue.size}")
+            if (queue.isEmpty()) {
+                CompEmpty("队列为空（播放后由 QueueRepository.observe() 提供）")
+            } else {
+                LazyColumn(Modifier.fillMaxSize()) {
+                    items(queue, key = { "${it.queueId}-${it.position}" }) { item ->
+                        val track = titles[item.trackId.value]
+                        CompTrackRow(
+                            title = track?.title ?: item.trackId.value,
+                            subtitle = listOfNotNull(track?.artist, track?.album)
+                                .joinToString(" · ").ifBlank { "来源：${item.sourceRef}" },
+                            onClick = { onJump(item.position) },
+                            coverGlyph = "${item.position + 1}",
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * §61.130（M5 我的音乐）：收藏 + 最近播放两段（FavoriteRepo/HistoryRepo 全收口）。
+ * §61.137 视觉：44dip 页头 + cvn 分组标题 + cvg 曲目行。
+ */
+@Composable
+private fun MyMusicScreen(bridge: PlayerStateBridge, allTracks: List<Track>) {
+    val favorites by bridge.observeFavorites().collectAsState(initial = emptySet())
+    val history by bridge.observeHistory().collectAsState(initial = emptyList())
+    CompPage {
+        Column(Modifier.fillMaxSize()) {
+            CompHeaderBar(title = "我的音乐")
+            LazyColumn(Modifier.fillMaxSize()) {
+                if (favorites.isNotEmpty()) {
+                    item(key = "fav-header") { CompGroupTitle("收藏 · ${favorites.size}") }
+                    items(allTracks.filter { it.id in favorites }, key = { "fav-" + it.id.value }) { track ->
+                        CompTrackRow(
+                            title = track.title,
+                            subtitle = track.artist,
+                            onClick = {},
+                            coverGlyph = "♥",
+                        )
+                    }
+                }
+                if (history.isNotEmpty()) {
+                    item(key = "hist-header") { CompGroupTitle("最近播放 · ${history.size}") }
+                    items(history, key = { "hist-" + it.id.value }) { track ->
+                        CompTrackRow(
+                            title = track.title,
+                            subtitle = track.artist,
+                            onClick = {},
+                            coverGlyph = "↺",
+                        )
+                    }
+                }
+                if (favorites.isEmpty() && history.isEmpty()) {
+                    item { CompEmpty("收藏曲目或播放曲目后在此显示") }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * §61.137 设置页（`main_account`/cky + `item_account_*` 行家族）：52dip 页头 +
+ * 40dip 分组标题（b19）+ 50dip 行（bzv 左区 20dip 图标 + 16sp 标题 + 右侧 11sp 提示
+ * + 箭头；b1a 开关行）。交互契约不变（SettingsStore effects）。
+ */
 @Composable
 private fun SettingsScreen(
     runtime: RuntimeState,
@@ -1077,138 +1053,193 @@ private fun SettingsScreen(
     scanIgnoreDirs: List<String>,
     onScanIgnoreDirsChanged: (List<String>) -> Unit,
 ) {
-    Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text("V0.1 运行态", style = MaterialTheme.typography.titleMedium)
-        ListItem(
-            headlineContent = { Text("播放内核") },
-            // §61.108 口径修缮：当前生效内核是 B2 开源引擎舱（11-11 换绑，12 §61.65~61.66）；
-            // EngineAdapter 仅是 A 路线回退实现，不再作为生产绑定表述。
-            supportingContent = { Text("Media3EngineAdapter（B2 开源引擎；11-11 换绑，12 §61.65~61.66）") },
-        )
-        ListItem(
-            headlineContent = { Text("本地流代理") },
-            supportingContent = { Text(if (runtime.proxyRunning) "运行中" else "按需启动") },
-        )
-        ListItem(
-            headlineContent = { Text("最近生效副作用") },
-            supportingContent = { Text(runtime.lastEffect.ifBlank { "无" }) },
-        )
-        // 01 §6.1 / 03-11 §4：默认仅 WiFi 播放网络音源；打开开关即允许移动数据播放。
-        // 写入 SettingsStore 后由 Flow 即时生效，下一次播放就按新值裁决（不重启）。
-        ListItem(
-            headlineContent = { Text("允许移动数据播放") },
-            supportingContent = {
-                Text(
-                    if (wifiOnly) "默认仅 WiFi 播放网络音源（01 §6.1）；本地曲目不受影响"
-                    else "移动网络下也可播放网络音源",
+    // 操作结果反馈走行右侧 11sp 提示位（b1c drawerItemMsg 语义）。
+    var cacheMsg by remember { mutableStateOf("") }
+    var showScanDuration by remember { mutableStateOf(false) }
+    var showIgnoreDirs by remember { mutableStateOf(false) }
+    CompPage {
+        Column(Modifier.fillMaxSize()) {
+            CompSettingsHeader("设置")
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+            ) {
+                CompGroupTitle("播放")
+                CompSwitchRow(
+                    icon = "⇅",
+                    title = "允许移动数据播放",
+                    checked = !wifiOnly,
+                    onChange = { onWifiOnlyChanged(!it) },
+                    rightHint = if (wifiOnly) {
+                        "默认仅 WiFi 播放网络音源（01 §6.1）；本地曲目不受影响"
+                    } else {
+                        "移动网络下也可播放网络音源"
+                    },
                 )
-            },
-            trailingContent = {
-                Switch(checked = !wifiOnly, onCheckedChange = { onWifiOnlyChanged(!it) })
-            },
-        )
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = onOpenSources) { Text("数据源管理") }
-            Button(onClick = onOpenOutput) { Text("输出设备") }
+                CompGroupTitle("维护")
+                CompSettingsRow(
+                    icon = "☁",
+                    title = "数据源管理",
+                    onClick = onOpenSources,
+                    rightHint = "SAF / 媒体库 / WebDAV",
+                )
+                CompSettingsRow(
+                    icon = "⌾",
+                    title = "输出设备",
+                    onClick = onOpenOutput,
+                    rightHint = "本机 / DLNA",
+                )
+                CompSettingsRow(
+                    icon = "↻",
+                    title = "触发全量重扫",
+                    onClick = onRescan,
+                    rightHint = "refresh=true",
+                )
+                CompSettingsRow(
+                    icon = "✕",
+                    title = "清理播放缓存",
+                    onClick = {
+                        onClearCache()
+                        cacheMsg = "清理指令已执行（播放中会被拒绝）；结果见 logcat CloudMusicRuntime"
+                    },
+                    rightHint = cacheMsg,
+                )
+                CompSettingsRow(
+                    icon = "⚖",
+                    title = "分析 ReplayGain",
+                    onClick = {
+                        onAnalyzeReplayGain()
+                        cacheMsg = "ReplayGain 分析已启动（LOCAL 未分析曲目，上限 50 首）；进度见 logcat CM-RG"
+                    },
+                    rightHint = cacheMsg,
+                )
+                CompGroupTitle("扫描设置")
+                CompSettingsRow(
+                    icon = "◎",
+                    title = "扫描最短时长",
+                    onClick = { showScanDuration = true },
+                    rightHint = "短于该值的音频不入曲库 · ${scanMinDurationMs / 1000} 秒",
+                )
+                CompSettingsRow(
+                    icon = "◎",
+                    title = "忽略目录",
+                    onClick = { showIgnoreDirs = true },
+                    rightHint = if (scanIgnoreDirs.isEmpty()) "逗号分隔" else "${scanIgnoreDirs.size} 项",
+                )
+                CompGroupTitle("运行态")
+                CompSettingsRow(
+                    icon = "⚙",
+                    title = "播放内核",
+                    onClick = {},
+                    // §61.108 口径修缮：当前生效内核是 B2 开源引擎舱（11-11 换绑，12 §61.65~61.66）；
+                    // EngineAdapter 仅是 A 路线回退实现，不再作为生产绑定表述。
+                    rightHint = "Media3EngineAdapter（B2 开源引擎；11-11 换绑，12 §61.65~61.66）",
+                )
+                CompSettingsRow(
+                    icon = "⇄",
+                    title = "本地流代理",
+                    onClick = {},
+                    rightHint = if (runtime.proxyRunning) "运行中" else "按需启动",
+                )
+                CompSettingsRow(
+                    icon = "✎",
+                    title = "最近生效副作用",
+                    onClick = {},
+                    rightHint = runtime.lastEffect.ifBlank { "无" },
+                )
+                Text(
+                    "设置写入由 SettingsStore 返回 effects，PlaybackRuntime 是唯一执行者（08 §7 / 12 §31）。" +
+                        "照搬播放页属 T-L L3，真机验收属 T-V，本页不伪造已接通。",
+                    color = Comp.TextHint,
+                    fontSize = 10.sp,
+                    modifier = Modifier.padding(horizontal = 32.dp, vertical = 12.dp),
+                )
+            }
         }
-        Button(onClick = onRescan) { Text("触发全量重扫（refresh=true）") }
-
-        // ── §61.116 维护段（M6-3 / M2-2）─────────────────────────────────
-        Text("维护", style = MaterialTheme.typography.titleMedium)
-        var cacheMsg by remember { mutableStateOf("") }
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = {
-                onClearCache()
-                cacheMsg = "清理指令已执行（播放中会被拒绝）；结果见 logcat CloudMusicRuntime"
-            }) { Text("清理播放缓存") }
-            Button(onClick = {
-                onAnalyzeReplayGain()
-                cacheMsg = "ReplayGain 分析已启动（LOCAL 未分析曲目，上限 50 首）；进度见 logcat CM-RG"
-            }) { Text("分析 ReplayGain") }
-        }
-        if (cacheMsg.isNotBlank()) {
-            Text(cacheMsg, style = MaterialTheme.typography.bodySmall)
-        }
-        Text("扫描最短时长（下次扫描生效，短于该值的音频不入曲库）",
-             style = MaterialTheme.typography.bodySmall)
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            listOf(5_000L to "5s", 10_000L to "10s", 30_000L to "30s", 60_000L to "60s")
-                .forEach { (ms, label) ->
-                    FilterChip(
-                        selected = scanMinDurationMs == ms,
-                        onClick = { onScanMinDurationChanged(ms) },
-                        label = { Text(label) },
-                    )
-                }
-        }
-        var ignoreDirsText by remember(scanIgnoreDirs) {
-            mutableStateOf(scanIgnoreDirs.joinToString(", "))
-        }
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedTextField(
-                value = ignoreDirsText,
-                onValueChange = { ignoreDirsText = it },
-                label = { Text("忽略目录（逗号分隔）") },
-                singleLine = true,
-                modifier = Modifier.weight(1f),
-            )
-            Button(
-                onClick = {
-                    onScanIgnoreDirsChanged(
-                        ignoreDirsText.split(',')
-                            .map { it.trim() }
-                            .filter { it.isNotBlank() },
-                    )
+    }
+    if (showScanDuration) {
+        CompSheetDialog(
+            onDismiss = { showScanDuration = false },
+            title = "扫描最短时长（下次扫描生效）",
+            actions = listOf(5_000L to "5 秒", 10_000L to "10 秒", 30_000L to "30 秒", 60_000L to "60 秒")
+                .map { (ms, label) ->
+                    label to {
+                        onScanMinDurationChanged(ms)
+                        showScanDuration = false
+                    }
                 },
-            ) { Text("应用") }
-        }
-
-        Text(
-            "设置写入由 SettingsStore 返回 effects，PlaybackRuntime 是唯一执行者（08 §7 / 12 §31）。" +
-                "照搬播放页属 T-L L3，真机验收属 T-V，本页不伪造已接通。",
-            style = MaterialTheme.typography.bodySmall,
+        )
+    }
+    if (showIgnoreDirs) {
+        IgnoreDirsSheet(
+            current = scanIgnoreDirs,
+            onApply = {
+                onScanIgnoreDirsChanged(it)
+                showIgnoreDirs = false
+            },
+            onDismiss = { showIgnoreDirs = false },
         )
     }
 }
 
-/** 03-10 §11 #8：蓝牙只作状态提示，不列为与本机/DLNA 并列的可选输出。 */
+/** 忽略目录编辑面板（逗号分隔 → 小写比对，契约不变）。 */
+@Composable
+private fun IgnoreDirsSheet(
+    current: List<String>,
+    onApply: (List<String>) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    var text by remember { mutableStateOf(current.joinToString(", ")) }
+    CompSheetDialog(
+        onDismiss = onDismiss,
+        title = "忽略目录（逗号分隔，下次扫描生效）",
+        content = { CompDialogInput(text, { text = it }, hint = "如：System Volume Information, .Trash") },
+        actions = listOf(
+            "应用" to {
+                onApply(
+                    text.split(',').map { it.trim() }.filter { it.isNotBlank() },
+                )
+            },
+        ),
+    )
+}
+
+/** 03-10 §11 #8：蓝牙只作状态提示，不列为与本机/DLNA 并列的可选输出（b5y 面板）。 */
 @Composable
 private fun OutputDialog(
     state: OutputDeviceState,
     onOutputSelected: (ActiveOutput) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text("输出设备") },
-        text = {
-            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text(
-                    "当前：${if (state.activeOutput == ActiveOutput.LOCAL) "本机" else "DLNA"}",
-                    style = MaterialTheme.typography.titleSmall,
-                )
-                ListItem(
-                    headlineContent = { Text("本机") },
-                    supportingContent = { Text("手机扬声器 / 有线输出") },
-                    modifier = Modifier.clickable { onOutputSelected(ActiveOutput.LOCAL) },
-                )
-                ListItem(
-                    headlineContent = { Text("DLNA") },
-                    supportingContent = { Text("投屏到局域网设备（发现 → 推流起播，03-08 §10.1）") },
-                    modifier = Modifier.clickable { onOutputSelected(ActiveOutput.DLNA) },
-                )
-                if (state.routeHint.isNotBlank()) {
-                    Text("状态提示：${state.routeHint}", style = MaterialTheme.typography.bodySmall)
-                }
+    CompSheetDialog(
+        onDismiss = onDismiss,
+        title = "输出设备 · 当前：${if (state.activeOutput == ActiveOutput.LOCAL) "本机" else "DLNA"}",
+        content = {
+            Column {
                 Text(
                     "§61.110：切换 / 推流已接线（第一个生产调用点），本机静音随切换联动" +
                         "（T09 / 03-08 §14 #9 成对契约）；断连回落、DMR 进度轮询、" +
                         "切歌保持投屏属 DLNA 会话引擎（挂账）。" +
                         "蓝牙仅显示连接状态、不作为并列输出（03-10 §11 #8）。",
-                    style = MaterialTheme.typography.bodySmall,
+                    color = Comp.TextHint,
+                    fontSize = 10.sp,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                 )
+                if (state.routeHint.isNotBlank()) {
+                    Text(
+                        "状态提示：${state.routeHint}",
+                        color = Comp.TextSecondary,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    )
+                }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("关闭") } },
+        actions = listOf(
+            "本机（手机扬声器 / 有线输出）" to { onOutputSelected(ActiveOutput.LOCAL) },
+            "DLNA（投屏到局域网设备，03-08 §10.1）" to { onOutputSelected(ActiveOutput.DLNA) },
+            "关闭" to onDismiss,
+        ),
     )
 }
