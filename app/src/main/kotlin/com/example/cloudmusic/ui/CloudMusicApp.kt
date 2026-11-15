@@ -74,6 +74,7 @@ import com.example.cloudmusic.storage.AppSettings
 import com.example.cloudmusic.storage.Playlist
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 
 /**
  * T-A6（`12 §33`）/ 第三十一批（`12 §40`）：V0.1 最小自研 UI。
@@ -763,9 +764,17 @@ private fun PlaylistsScreen(
                 LazyColumn(Modifier.fillMaxSize()) {
                     item { CompGroupTitle("创建的歌单 · ${playlists.size}") }
                     items(playlists, key = { it.id }) { playlist ->
+                        // §61.140 首曲封面：每行一条 observeTracks 流取 firstOrNull() 的
+                        // coverRef（复用 §61.138 LruCache；行离开组合即取消收集）。
+                        val firstCoverRef by remember(playlist.id) {
+                            observeTracks(playlist.id).map { tracks ->
+                                tracks.firstOrNull()?.coverRef
+                            }
+                        }.collectAsState(initial = null)
                         CompPlaylistRow(
                             name = playlist.name,
                             subtitle = "展开查看曲目",
+                            coverRef = firstCoverRef,
                             onClick = {
                                 expandedId = if (expandedId == playlist.id) null else playlist.id
                             },
@@ -795,6 +804,7 @@ private fun PlaylistsScreen(
                                 CompTrackRow(
                                     title = "${index + 1}. ${track.title}",
                                     subtitle = track.artist,
+                                    coverRef = track.coverRef,
                                     onClick = {},
                                     trailing = {
                                         Row {

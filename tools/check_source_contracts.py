@@ -107,7 +107,11 @@ RangeFetcher 连接期失败重试一次 + 5s 连接超时经一次性 RST 注�
 （§52 文案 / §61.28 组件 / §61.41 res 基线），并把 §61.131 的门面 prepareQueue
 接进播放链（队列索引 + 跳播两个增量方法、三实现、PlayerController 分支）；
 新增 3 个 JVM 用例与一组 §61.139 守护；模块数 / 依赖 / 打包集零变化。
-详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.139。
+第一百五十六批（12 §61.140，2026-11-15）：§61.138 挂账收口——歌单行首曲封面
+（PlaylistsScreen 每行一条 observeTracks 流取 firstOrNull()?.coverRef →
+CompPlaylistRow）+ 歌单展开曲目行补 coverRef；零契约变更、零新增依赖，
+新增一组 §61.140 守护（真机像素比对仍 NOT RUN）。
+详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.140。
 """
 from __future__ import annotations
 
@@ -2329,6 +2333,25 @@ def main() -> int:
     else:
         print("[PASS] 12 §61.139：门面队列索引 + 播放链分支 + B2 playlist "
               "+ 3 用例 + NOT RUN 边界在位")
+
+    # ---- 12 §61.140（歌单行首曲封面）长效守护 ---------------------------
+    # 防 §61.138 挂账回潮：CompPlaylistRow 支持 coverRef 但调用方不接 =
+    # 歌单行永远 ☰ 占位；防展开曲目行再次漏传 coverRef。
+    app140 = (ROOT / "app" / "src" / "main" / "kotlin" / "com"
+              / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt")
+    app140_txt = app140.read_text(encoding="utf-8") if app140.is_file() else ""
+    if not all(x in app140_txt for x in (
+        "observeTracks(playlist.id).map { tracks ->",
+        "tracks.firstOrNull()?.coverRef",
+        "coverRef = firstCoverRef",
+    )):
+        failures.append("12 §61.140：歌单行首曲封面流 / coverRef 接线缺失")
+    elif "coverRef = track.coverRef" not in app140_txt:
+        failures.append("12 §61.140：歌单展开曲目行 coverRef 缺失")
+    elif "### 61.140" not in doc139_txt:
+        failures.append("12 §61.140：断点章节未登记")
+    else:
+        print("[PASS] 12 §61.140：歌单行首曲封面 + 展开行 coverRef + 断点登记在位")
 
     # 12 §61.42 守护：用户把口径升级为「1:1 像素级复刻」后，按竞品可观测证据
     # 自研重画播放页（竞品真实位图 / 色值 / 尺寸 / 控件层级），并如实挂账
