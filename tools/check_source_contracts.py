@@ -111,7 +111,12 @@ RangeFetcher 连接期失败重试一次 + 5s 连接超时经一次性 RST 注�
 （PlaylistsScreen 每行一条 observeTracks 流取 firstOrNull()?.coverRef →
 CompPlaylistRow）+ 歌单展开曲目行补 coverRef；零契约变更、零新增依赖，
 新增一组 §61.140 守护（真机像素比对仍 NOT RUN）。
-详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.140。
+第一百五十七批（12 §61.141，2026-11-15）：设备上线真机批（零源码改动）——
+gapless 施工单步骤 3 真机 PASS（prepareQueue + cross_track + 零间隙 +
+AudioTrack 同 session 跨曲）与 §61.140 歌单首曲封面真机 PASS；
+裁决 evidence = analysis/gapless-61-141-verdict.json + screenshots；
+新增一组 §61.141 守护（防裁决证据被删/被改写）。
+详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.141。
 """
 from __future__ import annotations
 
@@ -2352,6 +2357,24 @@ def main() -> int:
         failures.append("12 §61.140：断点章节未登记")
     else:
         print("[PASS] 12 §61.140：歌单行首曲封面 + 展开行 coverRef + 断点登记在位")
+
+    # ---- 12 §61.141（gapless 真机收口）长效守护 -------------------------
+    # 防「真机已 PASS 的裁决证据被删/被改写」与「把步骤 3 重新伪造成未验」：
+    # verdict JSON 关键字段 + docs 断点登记必须同时在位。
+    verdict141 = ROOT / "analysis" / "gapless-61-141-verdict.json"
+    shot141 = ROOT / "analysis" / "screenshots" / "61-141-playlist-first-cover-device.png"
+    verdict141_txt = verdict141.read_text(encoding="utf-8") if verdict141.is_file() else ""
+    if not all(x in verdict141_txt for x in (
+        '"gapless_verdict": "PASS"', '"playlist_cover_verdict": "PASS"',
+        "cross_track=true", "session 4577",
+    )):
+        failures.append("12 §61.141：gapless 真机裁决 JSON 关键字段缺失或被改写")
+    elif not shot141.is_file():
+        failures.append("12 §61.141：歌单首曲封面真机截图证据缺失")
+    elif "### 61.141" not in doc139_txt or "gapless 真机收口" not in doc139_txt:
+        failures.append("12 §61.141：断点章节未登记")
+    else:
+        print("[PASS] 12 §61.141：gapless 真机 PASS 裁决 + 截图证据 + 断点登记在位")
 
     # 12 §61.42 守护：用户把口径升级为「1:1 像素级复刻」后，按竞品可观测证据
     # 自研重画播放页（竞品真实位图 / 色值 / 尺寸 / 控件层级），并如实挂账

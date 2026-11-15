@@ -128,3 +128,19 @@ fun prepareQueue(handle: EngineHandle, sources: List<EngineSource>,
 - 真机项（九页像素校准 / 封面实测 / gapless 听感 / 7,500 首冷扫）均待设备在场。
 
 > AI生成
+
+---
+
+## 四、施工单状态补记（§61.141，2026-11-15 第一百五十七批）
+
+- **一.1 gapless 施工单**：**步骤 3（真机 2+ 曲目无间隙听感）真机 PASS** ——
+  设备 mDNS 上线后经用户手动触发（歌单 ⋮ 播放全部，MIUI 禁注入维持），
+  `prepareQueue count=2 + cross_track=true`、自动进曲 reason=1、两曲间零
+  ENDED/BUFFERING、AudioTrack 同 session 4577 跨曲连续。**步骤 1/2/3/4 全部
+  完成，本施工单收口**。
+- 裁决与证据：`analysis/gapless-61-141-verdict.json`、
+  `analysis/screenshots/61-141-*`（截图 + logcat）。
+- 重装口径：设备原 APK 签名不同源，用户拍板备份→卸载→装回→回灌
+  （cache/ 未随备份，2 条 cover_ref 仍悬空待重扫再生）。
+
+> AI生成

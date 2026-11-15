@@ -1,0 +1,47 @@
+{
+  "batch": "§61.141",
+  "date": "2026-11-15",
+  "scope": "gapless 施工单步骤 3（真机 2+ 曲目无间隙听感）+ §61.140 歌单行首曲封面真机实测",
+  "device": {
+    "model": "Redmi 23013RK75C",
+    "android": "13",
+    "endpoint": "mDNS 自动发现 adb-2a81a46c-yCAQTs._adb-tls-connect._tcp（历史 IP 已失效）"
+  },
+  "precondition": {
+    "apk": "bbb5446b (§61.140) app-debug.apk，本机签名",
+    "install_note": "设备原 APK（2026-11-15 11:05）签名不同源 → 用户拍板备份→卸载→装回→回灌（run-as tar databases+files，54.8MB/7524 项；cache/ 未含 → 4 条 cover_ref 指向 cache/covers 的旧引用悬空，其中 2 条经 playLocal 再生恢复）",
+    "playlist_fixture": "pl_gapless61『gapless 测试』= [f3_mp3_cover.mp3(26s, cover 再生), f3_mp3.mp3(26s)]，均为 debug-local-fixture LOCAL mp3（同格式同编码 44.1kHz/2ch）",
+    "trigger": "用户手动：歌单 tab → 点歌单行 ⋮（播放全部）——MIUI 禁注入（INJECT_EVENTS SecurityException），模拟点击不可用"
+  },
+  "gapless_verdict": "PASS",
+  "gapless_evidence": {
+    "logcat": "analysis/screenshots/61-141-gapless-logcat.log",
+    "prepareQueue": "16:57:34.181 CM-Media3: prepareQueue count=2 startIndex=0 first=eca93ac8…",
+    "gapless_policy": "16:57:34.181 CM-Media3: gapless queue in_file=true cross_track=true blocker=none",
+    "state_sequence": [
+      "16:57:34.191 queue transition index=0 reason=3 (PLAYLIST_CHANGED)",
+      "16:57:34.192 state=BUFFERING",
+      "16:57:34.340 state=READY durationMs=26201",
+      "16:57:34.341 state=PLAYING positionMs=0 （第 1 首）",
+      "16:58:00.737 queue transition index=1 reason=1 (AUTO) —— 原生自动进曲",
+      "16:58:26.947 state=ENDED positionMs=26231 （第 2 首末尾，全段唯一 ENDED）",
+      "16:58:26.948 state=PAUSED （完成回退同步，队列尾正常停）"
+    ],
+    "no_gap": "两曲之间零 state=ENDED、零 state=BUFFERING（BUFFERING 仅起播 1 次、ENDED 仅队列尾 1 次）；第 2 首由 ExoPlayer playlist 在第 1 首播放期预缓冲",
+    "audiotrack_continuity": "同一 AudioTrack session 4577 连续帧计数 20s→25.1s→30.2s 扫过 26.2s 曲界（16:57:54.300 → 16:57:59.402 → 16:58:04.488，pid 22686），无 audioSession 重建 = 无音频中断客观实锤",
+    "cursor_sync": "自动进曲后业务游标同步（MiniPlayer 显示第 2 首 trackId c9b466d8…；applyQueueIndex 生效）",
+    "position_sync": "两曲 positionMs 各自 1:1 推进（9553→19790 / 3788→13679→23863）"
+  },
+  "playlist_cover_verdict": "PASS",
+  "playlist_cover_evidence": {
+    "screenshot": "analysis/screenshots/61-141-playlist-first-cover-device.png",
+    "observed": "『gapless 测试』歌单行显示蓝色渐变真封面（f3_mp3_cover.mp3 经 playLocal 注入再生 cache/covers/eca93ac8….webp，§61.140 首曲封面流生效），非 ☰ 占位",
+    "player_page": "analysis/screenshots/61-141-player-real-cover-device.png —— 播放页同一封面源（§61.112 标签链），00:05/00:26 进度正常"
+  },
+  "observations": [
+    "MiniPlayer 标题恒显示 raw trackId（currentTrackId.value）——V0.1 既有口径，非 §61.139 回归；竞品 MiniPlayer 显示曲名，属 UI 债（P2 挂账）",
+    "cache/ 不随备份迁移：cover_ref 指向 cache/covers 的引用在卸载后悬空（f3_mp3_cover/f3_mp3 已由 playLocal 再生，其余 2 条仍是悬空引用 → 占位字形，重扫/playLocal 可再生）",
+    "MIUI 禁注入维持挂账口径：所有 UI 导航类真机比对（九页像素校准）仍需用户手动切页"
+  ],
+  "construction_menu": "§61.130 拍板施工单一.1 步骤 1/2/3/4 全部完成——gapless 接线真机收口"
+}
