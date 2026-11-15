@@ -184,12 +184,20 @@ class DirectoryCoverLookup(
     private val cache: CoverLookupCache,
     private val rangeFor: (Candidate) -> ByteRangeCapability? = { null },
 ) {
+    /** §61.147：按 (storage, 目录) 缓存目录枚举——同目录 N 候选只 list 一次，
+     *  消灭平铺大目录下每候选全量 list+sort 的 O(n²)（trace_34 一手：list0 单线程
+     *  59s CPU）。列表含目录条目，size/modified 与快照无关，缓存会话级即可。 */
+    private val siblingsCache = java.util.concurrent.ConcurrentHashMap<String, List<Obj>?>()
+
     suspend operator fun invoke(candidate: Candidate, ref: String) {
         val driver = DriverRegistry.get(candidate.storage.id) ?: return
         val parentPath = candidate.obj.path.substringBeforeLast('/', "")
-        val siblings = runCatching {
-            driver.list(Obj(name = "", isDir = true, path = parentPath))
-        }.getOrNull() ?: return
+        val cacheKey = "${candidate.storage.id}:$parentPath"
+        val siblings = siblingsCache.getOrPut(cacheKey) {
+            runCatching {
+                driver.list(Obj(name = "", isDir = true, path = parentPath))
+            }.getOrNull()
+        } ?: return
         val coverName = CoverPolicy.pickDirectoryCover(siblings.map { it.name }) ?: return
         val coverObj = siblings.firstOrNull { it.name == coverName } ?: return
         val trackId = TrackId.of(candidate.storage.id, candidate.obj.path).value
@@ -212,6 +220,10 @@ class DirectoryCoverLookup(
     }
 }
 
+/** §61.147：`MediaMetadataRetriever` 兜底白名单——其可靠支持的容器扩展（真机一手：
+ *  APE/WV 等异构容器 native 级挂死，见 trace_31 / `12 §61.147`）。 */
+private val RETRIEVER_FALLBACK_EXTS = setOf("mp3", "m4a", "aac", "flac", "wav", "ogg", "oga", "opus")
+
 class AndroidTagReader(
     private val media: MediaMetadataPort,
     private val jaudio: JAudioTaggerPort,
@@ -219,6 +231,9 @@ class AndroidTagReader(
     private val head: TagReader,
     private val directoryCover: suspend (Candidate, String) -> Unit = { _, _ -> },
 ) : TagReader {
+
+    /** §61.147：JAudio 缺项计数（限频观测用）。 */
+    private val jaudioInsufficient = java.util.concurrent.atomic.AtomicLong()
 
     override suspend fun read(candidate: Candidate): RawTags {
         val ref = runCatching { locator.locate(candidate) }.getOrNull()
@@ -230,10 +245,25 @@ class AndroidTagReader(
         // 覆盖除音质外全部字段且成本毫秒级；MediaMetadataRetriever（§61.144 真机一手：
         // MIUI 上百 ms 级/文件，7,514 文件 = 分钟级）降为**缺项兜底**：JAudio 未给出
         // title 或 duration 时才调用。content:// 不受影响（JAudio 不接受流）。
+        val ext = ref.substringAfterLast('.', "").lowercase()
         val fromJAudio = if (ref.startsWith("content://")) MediaTags.EMPTY
         else runCatching { jaudio.read(ref.removePrefix("file://")) }.getOrDefault(MediaTags.EMPTY)
         val jaudioSufficient = fromJAudio.title != null && fromJAudio.durationMs != null
-        val fromMedia = if (ref.startsWith("content://") || !jaudioSufficient)
+        if (!jaudioSufficient) {
+            // §61.147：缺项观测（限频）——JAudio 为何对某批文件给不出 title/duration
+            // 直接决定 metadata 阶段成本（走检索器/骨架降级），logcat CM-Tag 可审计。
+            // runCatching：JVM 单测无 android.util.Log（not mocked），真机正常输出。
+            val n = jaudioInsufficient.incrementAndGet()
+            if (n <= 3L || n % 500L == 0L) {
+                runCatching { android.util.Log.w("CM-Tag", "jaudio insufficient #$n ext=$ext") }
+            }
+        }
+        // §61.147：检索器兜底只对**其可靠支持的容器扩展**启用——APE/WV 等异构容器上
+        // MediaMetadataRetriever 会 native 级挂死（trace_31 一手：native_setup S 状态
+        // 占住信号量 → 整个 metadata chunk awaitAll 永久阻塞 = 此前三轮扫描冻结根因）。
+        // JAudio 读不了的异构容器按 B01 骨架降级（RawTags.EMPTY），不再进检索器。
+        val retrieverSafe = ext in RETRIEVER_FALLBACK_EXTS
+        val fromMedia = if (ref.startsWith("content://") || (!jaudioSufficient && retrieverSafe))
             runCatching { media.read(ref) }.getOrDefault(MediaTags.EMPTY)
         else MediaTags.EMPTY
         val fromHead = TagMerger.fromRaw(head.read(candidate))

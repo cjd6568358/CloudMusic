@@ -53,5 +53,17 @@
       "增量扫描 CPU 异常定位（需 USB+亮屏可抓栈环境）"
     ],
     "measurement_env": "MIUI 后台冻结使 T-V #9 无人值守测量不可靠——完整判据实测必须 USB + 亮屏前台会话"
+  },
+  "followup_61_147": {
+    "date": "2026-11-15",
+    "code": "三线修复+加固：①检索器兜底白名单（mp3/m4a/aac/flac/wav/ogg/oga/opus——APE/WV 等 MIUI 检索器 native 挂死容器排除，trace_31/34 一手）②DirectoryCoverLookup 按 (storage,目录) 缓存枚举（O(n²) 消除）③CM-Tag 限频观测日志（JAudio 缺项审计）",
+    "measurement": {
+      "cold_rescan_7514": "scan done: 216494 ms ≈ 3.6min（21:25 发起 21:28 完成，全程无冻结）——判据 ≤60s FAIL（3.6×），但自 §61.143 的 30+min/冻结 → 216s 稳定完成",
+      "incremental": "1,051 ms ≤ 10s PASS（§61.146 一手）",
+      "jaudio_smoking_gun": "CM-Tag: jaudio insufficient #2500 ext=mp3——perf 夹具 = 4KB 合成文件（ID3v2.3 头无有效音频帧），JAudioTagger 解析失败 → 检索器兜底亦无元数据 → B01 骨架降级（titled=0 为正确语义）。真实音乐库 JAudio 应成功，夹具集放大了兜底路径成本",
+      "residual_costs": "每文件 jaudio 尝试+检索器兜底尝试（合成夹具 ~20-30ms）+ 阶段 A walk/upsert ~50s + 快照写"
+    },
+    "verdict_now": "冷扫 ≤60s @ 7,514 = FAIL（216s 稳定完成）；增量 ≤10s = PASS；优化链（聚合+白名单+去重+目录缓存+守卫）全部生效且无回退",
+    "tv9_recommendation": "正式判据实测建议换真实音乐数据集（夹具为退化文件放大兜底成本），或如实以本口径登记 FAIL+增量 PASS"
   }
 }

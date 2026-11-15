@@ -345,6 +345,17 @@ class ScanContractsTest {
             assertEquals(1L, r.durationMs)
             assertEquals(1, mediaCalls)          // 兜底恰好一次
         }
+        runBlocking {
+            // §61.147：异构容器（JAudio 读不了 → EMPTY）不得进检索器——白名单外扩展
+            // 直接按 B01 骨架降级（此前 APE/WV 上检索器 native 挂死 = 三轮扫描冻结根因）
+            val broken = object : JAudioTaggerPort {
+                override fun read(filePath: String) = MediaTags.EMPTY
+            }
+            val exotic = AndroidTagReader(media, broken, FakeLocator("/files/x.ape"), EmptyTagReader)
+                .read(candidate())
+            assertEquals(1, mediaCalls)          // 白名单外不再调用（仍是 1 次）
+            assertEquals(0, exotic.embeddedCover?.size ?: 0)
+        }
     }
 
     @Test

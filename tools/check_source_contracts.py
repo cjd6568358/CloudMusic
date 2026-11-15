@@ -135,7 +135,10 @@ AudioTrack 同 session 跨曲）与 §61.140 歌单首曲封面真机 PASS；
 第一百六十二批（12 §61.146，2026-11-15）：增量判据真机 PASS（1,051ms）+
 directoryCover O(n²) 守卫修复（embeddedCover==null 才查）；
 新增一组 §61.146 守护。
-详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.146。
+第一百六十三批（12 §61.147，2026-11-15）：冻结根因链钉死（检索器容器白名单 +
+目录缓存 + CM-Tag 观测）+ 冷扫 216s 收口（判据 FAIL 8× 改善）+ 增量 PASS；
+新增一组 §61.147 守护。
+详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.147。
 """
 from __future__ import annotations
 
@@ -2515,6 +2518,23 @@ def main() -> int:
         failures.append("12 §61.146：断点章节未登记")
     else:
         print("[PASS] 12 §61.146：directoryCover 守卫 + 增量 PASS 裁决在位")
+
+    # ---- 12 §61.147（冻结根因链 + 冷扫收口）长效守护 ---------------------
+    # 防①检索器白名单被删（APE/WV native 挂死回潮）/ ②目录缓存被删（O(n²) 回潮）/
+    # ③冷扫 216s 判据 FAIL 被伪造成 PASS。
+    if not all(x in tag_cover_txt for x in (
+        "RETRIEVER_FALLBACK_EXTS", "检索器兜底只对**其可靠支持的容器扩展**启用",
+        "siblingsCache.getOrPut(cacheKey)",
+    )):
+        failures.append("12 §61.147：检索器白名单 / 目录缓存缺失（挂死回潮）")
+    elif not all(x in doc139_txt for x in (
+        "216494 ms", "冷扫 ≤60s @ 7,514 = FAIL",
+    )):
+        failures.append("12 §61.147：冷扫 216s FAIL 裁决未登记或被改写")
+    elif "### 61.147" not in doc139_txt:
+        failures.append("12 §61.147：断点章节未登记")
+    else:
+        print("[PASS] 12 §61.147：检索器白名单 + 目录缓存 + 冷扫 FAIL 裁决在位")
 
     # 12 §61.42 守护：用户把口径升级为「1:1 像素级复刻」后，按竞品可观测证据
     # 自研重画播放页（竞品真实位图 / 色值 / 尺寸 / 控件层级），并如实挂账
