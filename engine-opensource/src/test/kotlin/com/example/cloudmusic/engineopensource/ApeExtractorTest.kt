@@ -30,7 +30,7 @@ class ApeExtractorTest {
         return p.readBytes()
     }
 
-    private fun parseAll(): Triple<Recorder, Int, Int> {
+    private fun parseAll(): Quad<Recorder, Int, Int, ApeExtractor> {
         val data = fixture()
         val extractor = ApeExtractor()
         val input = BytesInput(data)
@@ -48,8 +48,11 @@ class ApeExtractorTest {
             }
             result = extractor.read(input, holder)
         }
-        return Triple(rec, guard, seeks)
+        return Quad(rec, guard, seeks, extractor)
     }
+
+    /** §61.149：四元组（Kotlin 无内建 Quad）。 */
+    private data class Quad<A, B, C, D>(val first: A, val second: B, val third: C, val fourth: D)
 
     @Test
     fun `sniff 识别 APE 头`() {
@@ -61,7 +64,7 @@ class ApeExtractorTest {
 
     @Test
     fun `解析 Descriptor+Seek 表并逐帧投递至 EOF`() {
-        val (rec, guard, seeks) = parseAll()
+        val (rec, guard, seeks, extractor) = parseAll()
 
         val f = rec.formats.single()
         assertTrue(f.sampleRate!! > 0, "采样率 > 0（Header 实测解析）")
@@ -82,11 +85,24 @@ class ApeExtractorTest {
             rec.sampleTimesUs.zipWithNext().all { (a, b) -> b >= a },
             "时间戳单调不减",
         )
+
+        // §61.149：packet 前缀字节序回归锚点——FFmpeg demuxer 契约 = LE 写
+        // （AV_WL32 nblocks + AV_WL32 skip）；解码器 bswap_buf + BE 读 = 恒等。
+        // §61.126 的 BE 写经 bswap 后 offset 倒序 → "Incorrect offset passed"
+        // 全包拒绝（§61.148 真机一手静音）。skip=0（首帧）判据：prefix[4..7] 全 0
+        // 无法区分字节序，故用 nblocks：LE 下低字节在 prefix[0]，≥256 的
+        // blocksPerFrame 使 prefix[1]（或 [2]）非零且高字节 [3]=0。
+        val prefix = extractor.firstPacketPrefix
+        assertTrue(prefix != null, "首样本前 8 字节前缀已被捕获")
+        assertTrue(prefix!![3] == 0.toByte() && (prefix[1] != 0.toByte() || prefix[2] != 0.toByte()),
+            "nblocks 前缀为小端（LE）写入：prefix=%s".format(prefix.joinToString("") { "%02x".format(it) }))
+        assertTrue(prefix[4] == 0.toByte() && prefix[5] == 0.toByte() && prefix[6] == 0.toByte()
+            && prefix[7] == 0.toByte(), "首帧 skip = 0")
     }
 
     @Test
     fun `tag 探测不误触发（截断样本无 APE tag）`() {
-        val (rec, guard, _) = parseAll()
+        val (rec, guard, _, _) = parseAll()
         // f3_ape.ape 是 4MiB 截断片段——尾部无 APETAGEX，tagEnd 保持未探测。
         // 判据：EOF 闭环（STATE_TAG_CHECK 一次探测后 END），无死循环。
         assertTrue(guard < 2000, "读循环有界终止")

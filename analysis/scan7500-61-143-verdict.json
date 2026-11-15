@@ -65,5 +65,16 @@
     },
     "verdict_now": "冷扫 ≤60s @ 7,514 = FAIL（216s 稳定完成）；增量 ≤10s = PASS；优化链（聚合+白名单+去重+目录缓存+守卫）全部生效且无回退",
     "tv9_recommendation": "正式判据实测建议换真实音乐数据集（夹具为退化文件放大兜底成本），或如实以本口径登记 FAIL+增量 PASS"
+  },
+  "ape_attribution_61_149": {
+    "date": "2026-11-15",
+    "root_cause_chain": [
+      "ape.c demuxer 契约：packet = AV_WL32(nblocks) + AV_WL32(skip) + 帧数据（LE 写）",
+      "apedec.c 解码器：整 packet bdsp.bswap_buf 后 bytestream_get_be32 读前缀（LE 写 → bswap → BE 读 = 恒等）",
+      "§61.126 把前缀改为 BE 写（writeBeU32）= 漏看 bswap_buf → BE 写经 bswap+BE 读 = 字节倒序 → offset ≫ 3 → 全包 \"Incorrect offset passed\" → 零 PCM 静音（§61.148 真机一手）"
+    ],
+    "fix": "ApeExtractor 前缀改 LE 写（writeLeU32 nblocks + offset=0）；skip 对齐回退由「seek 表逻辑起点投递」等价替代（帧起点单调，§61.107 顺序读保留）；internal firstPacketPrefix + ApeExtractorTest LE 断言",
+    "sample_forensics": "设备 f3_ape.ape 与 repo 夹具逐字节同源（4,194,304B / v3990 / 描述符字段垃圾：desc=0x340000 seek=376MB——FFmpeg 自身 demuxer firstframe=381MB 远超文件，任何实现无法播放）；52B 音频头有效（1435 帧/44.1kHz/2395s）→ 时长算术正确但帧定位不可能",
+    "verdict": "LE 字节序修复 = 源码互证实锤真 bug（对真实 APE 生效）；ape 真机出声验证必须换真实 APE 样本（当前样本任何实现无法播放）；JVM samples>0 断言过弱如实登记"
   }
 }

@@ -45,7 +45,9 @@ class ApeExtractor : Extractor {
     private var totalFrames = 0
     private var finalFrameBlocks = 0
     private var firstFrameOffset = 0L
-    private var frames = LongArray(0)          // 每帧绝对偏移
+    private var frames = LongArray(0)          // 每帧绝对偏移（§61.149 起为对齐回退后的 packet 起点）
+    /** §61.149：首包前 8 字节（internal 供 JVM 回归断言 LE 字节序）。 */
+    internal var firstPacketPrefix: ByteArray? = null
 
     private var state = STATE_READ_HEADER
     private var currentFrame = 0
@@ -198,6 +200,11 @@ class ApeExtractor : Extractor {
             totalFrames = lastValid + 1
             frames = frames.copyOf(totalFrames)
         }
+        // §61.149（FFmpeg 6.0 ape.c/apedec.c 双侧互证后的定案）：帧起点保持 seek 表
+        // 逻辑位置（单调 → 顺序读友好），解码器前缀 offset 恒 0——ape.c 的 skip 对齐
+        // 回退（pos -= skip）由「packet 从逻辑起点起投递」天然等价替代：解码器从
+        // 逻辑起点解码，无需消费编码器填充字节。真正致命的是前缀字节序（见前缀处
+        // 注释）：BE 写（§61.126）错误 → 全包 "Incorrect offset passed"（§61.148 一手）。
 
         trackOutput?.format(
             Format.Builder()
@@ -276,23 +283,24 @@ class ApeExtractor : Extractor {
                     return Extractor.RESULT_SEEK
                 }
             }
-            // §61.126（FFmpeg 6.0 apedec.c ape_decode_frame 逐字对齐，GitHub n6.0
-            // 源码互证）：ff_ape_decoder 的 packet 前缀 = [nblocks u32 BE][offset
-            // u32 BE]（bytestream_get_be32；offset ∈ [0,3]，>3 判 "Incorrect
-            // offset passed"）——**大端**。§61.94b 的小端前缀是 A 路线
-            // ApeDecWrapper（ape_dec_process）的契约，两套解码器字节序不同；
-            // B2 强制软解（§61.126）后 ff_ape_decoder 按大端读小端前缀 → 值错乱
-            // → 播放数秒后 AVERROR_BUG（真机一手 "Internal bug"）。
-            // §61.94b 的逐帧投递/EOF 防护等其余语义不变。
+            // §61.149（FFmpeg 6.0 apedec.c + ape.c 双侧逐字互证，修正 §61.126 的
+            // 字节序误判）：解码器 ape_decode_frame 开头对**整个 packet 做
+            // bdsp.bswap_buf（4 字节字交换）后 bytestream_get_be32 读前缀**——
+            // 因此 demuxer 侧必须 **AV_WL32 小端写入**（LE 存储 → bswap → BE 读 =
+            // 恒等）；§61.126 的 BE 写经 bswap+BE 读 = 字节倒序 → offset ≫ 3 →
+            // 全包 "Incorrect offset passed"（§61.148 真机一手：每 packet 解码
+            // 失败静音）。demuxer 组包契约 = [nblocks LE32][skip LE32] + 帧数据；
+            // nblocks = blocksperframe（末帧 finalframeblocks），skip = 该帧对齐
+            // 回退字节数 ∈ [0,3]。§61.94b 的逐帧投递/EOF 防护等其余语义不变。
             val nblocks = if (currentFrame == totalFrames - 1) {
                 finalFrameBlocks
             } else {
                 blocksPerFrame
             }
-            val offset4 = ((pos - firstFrameOffset) and 3).toInt()
             val prefix = ByteArray(8)
-            writeBeU32(prefix, 0, nblocks)
-            writeBeU32(prefix, 4, offset4)
+            writeLeU32(prefix, 0, nblocks)
+            writeLeU32(prefix, 4, 0)   // §61.149：offset 恒 0（逻辑起点投递）
+            if (firstPacketPrefix == null) firstPacketPrefix = prefix.copyOf()
             trackOutput?.sampleData(
                 androidx.media3.common.util.ParsableByteArray(prefix), 8,
             )

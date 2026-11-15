@@ -141,7 +141,11 @@ directoryCover O(n²) 守卫修复（embeddedCover==null 才查）；
 第一百六十四批（12 §61.148，2026-11-15）：ape 静音归因 + §61.127 PASS 勘误
 （v3974 packet 帧边界与 FFmpeg apedec 期望不匹配 = 最优假说，互证施工单挂账；
 位置-only 证据不再单独采信）；零代码改动；新增一组 §61.148 守护。
-详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.148。
+第一百六十五批（12 §61.149，2026-11-15）：ape packet 前缀 BE→LE 字节序修复
+（FFmpeg 双侧源码互证：demuxer AV_WL32 + 解码器 bswap_buf+BE 读 = 恒等）+
+skip 对齐等价替代 + 样本终审（描述符垃圾，真机验证须真实 APE 样本）；
+新增一组 §61.149 守护。
+详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.149。
 """
 from __future__ import annotations
 
@@ -2551,6 +2555,23 @@ def main() -> int:
         failures.append("12 §61.148：断点章节未登记")
     else:
         print("[PASS] 12 §61.148：ape PASS 勘误 + 位置-only 证据降级登记在位")
+
+    # ---- 12 §61.149（ape LE 字节序修复 + 样本终审）长效守护 ---------------
+    # 防 §61.126 的 BE 前缀回潮（bswap_buf+BE 读 = 字节倒序 = 静音真机制）；
+    # LE 契约（FFmpeg demuxer AV_WL32）受守护；样本终审口径在位。
+    ape = (ROOT / "engine-opensource" / "src" / "main" / "java" / "androidx"
+           / "media3" / "extractor" / "ape" / "ApeExtractor.kt")
+    ape_txt = ape.read_text(encoding="utf-8") if ape.is_file() else ""
+    if "writeBeU32(prefix" in ape_txt or "writeLeU32(prefix, 4, 0)" not in ape_txt:
+        failures.append("12 §61.149：ape packet 前缀字节序回潮（必须 LE 写 offset=0）")
+    elif not all(x in doc139_txt for x in (
+        "§61.126 字节序误判修正", "描述符字段垃圾",
+    )):
+        failures.append("12 §61.149：字节序修正 / 样本终审未登记")
+    elif "### 61.149" not in doc139_txt:
+        failures.append("12 §61.149：断点章节未登记")
+    else:
+        print("[PASS] 12 §61.149：ape LE 前缀契约 + 样本终审登记在位")
 
     # 12 §61.42 守护：用户把口径升级为「1:1 像素级复刻」后，按竞品可观测证据
     # 自研重画播放页（竞品真实位图 / 色值 / 尺寸 / 控件层级），并如实挂账
