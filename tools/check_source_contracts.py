@@ -138,7 +138,10 @@ directoryCover O(n²) 守卫修复（embeddedCover==null 才查）；
 第一百六十三批（12 §61.147，2026-11-15）：冻结根因链钉死（检索器容器白名单 +
 目录缓存 + CM-Tag 观测）+ 冷扫 216s 收口（判据 FAIL 8× 改善）+ 增量 PASS；
 新增一组 §61.147 守护。
-详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.147。
+第一百六十四批（12 §61.148，2026-11-15）：ape 静音归因 + §61.127 PASS 勘误
+（v3974 packet 帧边界与 FFmpeg apedec 期望不匹配 = 最优假说，互证施工单挂账；
+位置-only 证据不再单独采信）；零代码改动；新增一组 §61.148 守护。
+详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.148。
 """
 from __future__ import annotations
 
@@ -2535,6 +2538,19 @@ def main() -> int:
         failures.append("12 §61.147：断点章节未登记")
     else:
         print("[PASS] 12 §61.147：检索器白名单 + 目录缓存 + 冷扫 FAIL 裁决在位")
+
+    # ---- 12 §61.148（ape PASS 勘误）长效守护 ------------------------------
+    # 防静音假阳性 PASS 被重新采信：ape 单元真机出声验证必须含 AudioTrack/flinger
+    # 证据；位置-only（seek 命中/ENDED）不再可单独采信。
+    if not all(x in doc139_txt for x in (
+        "§61.127 ape PASS 勘误为静音假阳性",
+        "每 packet 解码失败",
+    )):
+        failures.append("12 §61.148：ape PASS 勘误未登记")
+    elif "### 61.148" not in doc139_txt:
+        failures.append("12 §61.148：断点章节未登记")
+    else:
+        print("[PASS] 12 §61.148：ape PASS 勘误 + 位置-only 证据降级登记在位")
 
     # 12 §61.42 守护：用户把口径升级为「1:1 像素级复刻」后，按竞品可观测证据
     # 自研重画播放页（竞品真实位图 / 色值 / 尺寸 / 控件层级），并如实挂账
