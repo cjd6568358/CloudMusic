@@ -73,3 +73,14 @@
 回归排查（UnexpectedDiscontinuityException）+ 每效果独立开关默认全关。
 
 > AI生成
+
+## 五、选项 C 前置取证结果（2026-11-16 追补，analysis/t5-3-ncabi-forensics-2026-11-16.md）
+
+capstone 反汇编 libneaudioeffects.so（arm64）：**Create @0x49db0 导出可调**、
+对象 44,368 B、**vtable @0x1c3358 共 24 槽**（全内部函数）、效果链子对象定偏移
+（this+0xa8 / this+0x170 等）——**库已随 T5-2 在进程内加载**（LoudnessEvaluator
+JNI 同库），C 路径无「库加载」障碍；剩余工作量收敛为「24 槽语义映射的数天级
+capstone」（锚点齐：Create/ctor/vtable/子对象偏移族）。选项 4（混合）的成本
+不确定性显著降低。
+
+> AI生成
