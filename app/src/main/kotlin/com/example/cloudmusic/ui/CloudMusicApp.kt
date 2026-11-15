@@ -163,11 +163,16 @@ fun CloudMusicApp(
     val miniCoverRef = player.currentTrackId?.let { id ->
         trackList.firstOrNull { it.id.value == id.value }?.coverRef
     }
+    // §61.150：迷你条标题接 Track.title 真曲名（§61.141 观察项——此前恒显示
+    // raw currentTrackId.value，竞品显示曲名）；曲库缺失时回退 trackId（行为不变）。
+    val miniTitle = player.currentTrackId?.let { id ->
+        trackList.firstOrNull { it.id.value == id.value }?.title
+    }
     Scaffold(
         containerColor = Comp.PageBg,
         bottomBar = {
             Column {
-                MiniPlayer(player, onPlay, onPause, onNext, onPrev, miniCoverRef) { showPlayer = true }
+                MiniPlayer(player, onPlay, onPause, onNext, onPrev, miniCoverRef, miniTitle) { showPlayer = true }
                 CompBottomBar(
                     tabs = listOf(
                         "曲库" to "♫", "歌单" to "☰", "搜索" to "⌕",
@@ -285,6 +290,7 @@ private fun MiniPlayer(
     onNext: () -> Unit,
     onPrev: () -> Unit,
     coverRef: String?,
+    title: String?,
     onOpen: () -> Unit,
 ) {
     val playing = player.phase == PlayerPhase.PLAYING
@@ -343,7 +349,11 @@ private fun MiniPlayer(
                         loadLegacyTypeface(ctx)?.let { typeface = it }
                     }
                 },
-                update = { it.text = player.currentTrackId?.value ?: "未在播放" },
+                update = {
+                    // §61.150：真曲名优先（§61.141 观察项收口）；曲库缺失回退 raw
+                    // trackId（原行为），未在播放回退占位文案。
+                    it.text = title ?: player.currentTrackId?.value ?: "未在播放"
+                },
                 modifier = Modifier
                     .weight(1f)
                     .widthIn(max = LegacyMetrics.MarqueeMaxWidthDp.dp),

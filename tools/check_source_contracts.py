@@ -145,7 +145,10 @@ directoryCover O(n²) 守卫修复（embeddedCover==null 才查）；
 （FFmpeg 双侧源码互证：demuxer AV_WL32 + 解码器 bswap_buf+BE 读 = 恒等）+
 skip 对齐等价替代 + 样本终审（描述符垃圾，真机验证须真实 APE 样本）；
 新增一组 §61.149 守护。
-详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.149。
+第一百六十六批（12 §61.150，2026-11-15）：MiniPlayer 真曲名（§61.141 观察项
+收口）+ ReplayGain 真机验证收口（29 日志/21 落库/spec 一致实锤）；
+新增一组 §61.150 守护。
+详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.150。
 """
 from __future__ import annotations
 
@@ -2572,6 +2575,25 @@ def main() -> int:
         failures.append("12 §61.149：断点章节未登记")
     else:
         print("[PASS] 12 §61.149：ape LE 前缀契约 + 样本终审登记在位")
+
+    # ---- 12 §61.150（MiniPlayer 真曲名 + RG 真机收口）长效守护 -----------
+    # 防 MiniPlayer 回退 raw trackId 主渲染（§61.141 观察项回潮）；
+    # RG 真机验证收口（29 日志/21 落库）在位。
+    app_txt = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+               / "cloudmusic" / "ui" / "CloudMusicApp.kt").read_text(encoding="utf-8")
+    if not all(x in app_txt for x in (
+        "val miniTitle = player.currentTrackId?.let { id ->",
+        "it.text = title ?: player.currentTrackId?.value",
+    )):
+        failures.append("12 §61.150：MiniPlayer 真曲名接线缺失或回潮")
+    elif not all(x in doc139_txt for x in (
+        "29 条 CM-RG", "21 首", "replay_gain_db",
+    )):
+        failures.append("12 §61.150：ReplayGain 真机验证收口未登记")
+    elif "### 61.150" not in doc139_txt:
+        failures.append("12 §61.150：断点章节未登记")
+    else:
+        print("[PASS] 12 §61.150：MiniPlayer 真曲名 + RG 真机收口在位")
 
     # 12 §61.42 守护：用户把口径升级为「1:1 像素级复刻」后，按竞品可观测证据
     # 自研重画播放页（竞品真实位图 / 色值 / 尺寸 / 控件层级），并如实挂账
