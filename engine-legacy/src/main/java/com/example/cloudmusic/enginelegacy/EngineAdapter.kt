@@ -19,6 +19,7 @@ import com.netease.cloudmusic.android.sdk.playerengine.UrlResult
 import com.netease.cloudmusic.sdk.NMCommonCache.NMVirtualFileManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.net.HttpURLConnection
 import java.net.URL
@@ -532,6 +533,13 @@ class EngineAdapter : IMusicEngine {
     override fun prepareQueue(sources: List<com.example.cloudmusic.engine.api.EngineSource>, startIndex: Int, config: com.example.cloudmusic.engine.api.EngineConfig): EngineHandle {
         return prepare(sources.first(), config)
     }
+
+    /** §61.139：A 路线无 playlist 索引语义，恒 -1（PlayerController 不会进队列分支）。 */
+    private val _queueIndex = MutableStateFlow(-1)
+    override fun queueIndex(): StateFlow<Int> = _queueIndex.asStateFlow()
+
+    /** §61.139：A 路线退化——只校验句柄，队列切换仍由业务层逐曲 prepare。 */
+    override fun seekToQueueIndex(handle: EngineHandle, index: Int) { slot(handle) }
 
     override fun release(handle: EngineHandle) {
         // §61.26：与 prepare / releaseAllInternal 互斥；VFM 随 slot 释放（G05 实证

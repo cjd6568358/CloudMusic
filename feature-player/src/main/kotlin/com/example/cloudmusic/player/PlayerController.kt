@@ -51,6 +51,11 @@ class PlayerController(
     private var shuffle: List<Int> = emptyList()
     private var handle: EngineHandle? = null
 
+    /** §61.139：本次 prepare 是否走 ExoPlayer 原生 playlist（gapless）路径。 */
+    private var queueMode = false
+    /** §61.139：与 queue 下标一一对应的 EngineSource（切曲时同步网络态 / 元数据）。 */
+    private var preparedSources: List<EngineSource> = emptyList()
+
     /** 最近一次 prepare 的曲目是否为网络音源；供 PlaybackService 同步判定避免会话假报 PLAYING。 */
     @Volatile
     private var currentNetworkSource = false
@@ -90,10 +95,23 @@ class PlayerController(
                 }
             }
         }
+        // §61.139：playlist 自动切曲 → 同步业务游标（整队列播完的 ENDED 仍由上面的状态流裁决）。
+        scope.launch {
+            engine.queueIndex().collect { idx ->
+                // collect 的 lambda 是 suspend；用 try/catch 而非 runCatching
+                // （后者 block 非 suspend，不能调 applyQueueIndex）。
+                try {
+                    applyQueueIndex(idx)
+                } catch (e: Exception) {
+                    Unit
+                }
+            }
+        }
     }
 
     /** 队列全量替换：重算 SHUFFLE 顺序并单向全量下发 native（§8）。 */
     suspend fun setQueue(items: List<QueueItem>, mode: PlayMode, startAt: Int = 0) {
+        queueMode = false
         queue = items.toList()
         shuffle = if (mode == PlayMode.SHUFFLE) ShuffleOrder.generate(config.shuffleSeed, items.size) else emptyList()
         val index = if (items.isEmpty()) -1 else startAt.coerceIn(0, items.size - 1)
@@ -215,11 +233,28 @@ class PlayerController(
             _state.update { it.copy(phase = PlayerPhase.ENDED) }
             return
         }
+        // §61.139：队列模式用原生 playlist 跳播，不 release / 重建 player（保持 gapless）。
+        val h = handle
+        if (queueMode && h != null) {
+            engine.seekToQueueIndex(h, target)
+            applyQueueIndex(target)
+            // 单曲路径由 playAt 置 PREPARING→PLAYING 并清 lastError；队列跳播
+            // 不重建 handle，这里显式同步，保证 ERROR 自动跳曲后相位一致。
+            _state.update { it.copy(phase = PlayerPhase.PLAYING, lastError = null) }
+            return
+        }
         playAt(target)
     }
 
     suspend fun prev() {
         val target = PlayModeOrdering.prevIndex(_state.value.currentIndex, queue.size) ?: return
+        val h = handle
+        if (queueMode && h != null) {
+            engine.seekToQueueIndex(h, target)
+            applyQueueIndex(target)
+            _state.update { it.copy(phase = PlayerPhase.PLAYING, lastError = null) }
+            return
+        }
         playAt(target)
     }
 
@@ -313,15 +348,32 @@ class PlayerController(
             return
         }
 
+        // §61.139（施工单步骤 2）：队列 ≥2、顺序播放、立即起播、整队列均为本地音源
+        // 时走 B2 ExoPlayer 原生 playlist → 同格式相邻曲目无缝衔接。其余一律保持
+        // 单曲 prepare 路径（零回归）：SHUFFLE / SINGLE_LOOP / LIST_LOOP 的业务顺序
+        // 由 PlayModeOrdering 决定，线性 playlist 无法表达；restore（autoPlay=false /
+        // seekTo>0）须保持 PAUSED + 位置恢复；含网络音源须逐曲过「默认仅 WiFi」闸门，
+        // 不得被队列绕过。
+        val gaplessEligible = autoPlay && seekTo == 0L && queue.size >= 2 &&
+            _state.value.mode == PlayMode.SEQUENCE &&
+            source.url == null && source.localPath != null
+        val queuedSources = if (gaplessEligible) buildQueueSources(index, source) else null
+
         handle?.let { engine.release(it) }
-        handle = engine.prepare(
-            source,
-            EngineConfig(
-                autoSkipOnError = config.autoSkipOnError,
-                // §61.120（T5-2 前置）：曲库分析增益兜底（容器标签缺失时生效）。
-                trackGainDb = track.replayGainDb,
-            ),
+        val engineConfig = EngineConfig(
+            autoSkipOnError = config.autoSkipOnError,
+            // §61.120（T5-2 前置）：曲库分析增益兜底（容器标签缺失时生效）。
+            trackGainDb = track.replayGainDb,
         )
+        if (queuedSources != null) {
+            handle = engine.prepareQueue(queuedSources, index, engineConfig)
+            queueMode = true
+            preparedSources = queuedSources
+        } else {
+            handle = engine.prepare(source, engineConfig)
+            queueMode = false
+            preparedSources = emptyList()
+        }
         val h = requireNotNull(handle)
         if (seekTo > 0) engine.seek(h, seekTo)
         // 冷启动恢复只 prepare + seek，引擎必须停在 PAUSED（§8.2 / PRD §6.1 不自动开播）。
@@ -339,6 +391,47 @@ class PlayerController(
             seekTo,
             track.durationMs,
         )
+    }
+
+    /**
+     * §61.139：把整条业务队列解析为与 queue 下标一一对应的 EngineSource。
+     * 起播曲沿用已解析结果；任一后续曲目解析失败或为网络音源即返回 null
+     * → 退回单曲路径（不把整队列标失败，也不伪造音源）。
+     */
+    private suspend fun buildQueueSources(
+        index: Int,
+        first: EngineSource,
+    ): List<EngineSource>? = try {
+        // 显式 for 循环：lookup / resolver 是 suspend，不能放进非 suspend 的 mapIndexed lambda。
+        val out = ArrayList<EngineSource>(queue.size)
+        for (i in queue.indices) {
+            if (i == index) {
+                out.add(first)
+                continue
+            }
+            val t = lookup.get(queue[i].trackId) ?: throw IllegalStateException("曲目不存在")
+            val s = engineSourceOf(t, resolver.resolve(t))
+            // 网络 / 代理音源必须逐曲过闸门，队列模式不接管。
+            if (s.url != null) throw IllegalStateException("队列含网络音源")
+            out.add(s)
+        }
+        out
+    } catch (e: Exception) {
+        null
+    }
+
+    /** §61.139：playlist 自动切曲 / 手动跳播后同步业务游标与媒体会话元数据。 */
+    private suspend fun applyQueueIndex(index: Int) {
+        if (!queueMode || index !in queue.indices) return
+        if (_state.value.currentIndex == index) return
+        val item = queue[index]
+        _state.update {
+            it.copy(currentIndex = index, currentTrackId = item.trackId, positionMs = 0L)
+        }
+        currentNetworkSource = preparedSources.getOrNull(index)?.url != null
+        val track = lookup.get(item.trackId) ?: return
+        media?.publishMetadata(track, track.coverRef)
+        media?.setPlaybackState(EngineState.PLAYING, 0L, track.durationMs)
     }
 
     /** C-05：四态 → EngineSource 的唯一映射（16 §3.2 决策表）。 */

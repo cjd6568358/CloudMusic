@@ -103,7 +103,11 @@ RangeFetcher 连接期失败重试一次 + 5s 连接超时经一次性 RST 注�
 第五十六批（12 §61.29，T-L L2 收口）：按 03-11 §2 已定义的 SHOW_BLUETOOTH_NAME
 动作在输出弹窗申请 BLUETOOTH_CONNECT，permissionGranted 改运行时真值，已授权才
 动态注册 ACL 广播并翻译成 BluetoothEvent；未授权仍按 03-09 §8 B01 降级。新增 4 组守护。
-详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61。
+第一百五十五批（12 §61.139，2026-11-15）：拉取 74 个提交后修复三项守护口径漂移
+（§52 文案 / §61.28 组件 / §61.41 res 基线），并把 §61.131 的门面 prepareQueue
+接进播放链（队列索引 + 跳播两个增量方法、三实现、PlayerController 分支）；
+新增 3 个 JVM 用例与一组 §61.139 守护；模块数 / 依赖 / 打包集零变化。
+详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.139。
 """
 from __future__ import annotations
 
@@ -1575,7 +1579,9 @@ def main() -> int:
         "PermissionDecision.mediaStoreImportAvailable",
     )
     missing_adder = [n for n in adder_needles if n not in adder52]
-    missing_ui = [n for n in ("onAddSaf", "onAddMediaStore", "添加本地目录 (SAF)", "从媒体库导入")
+    # §61.139：§61.137 竞品风格重建把按钮文案改为「本地目录（SAF）」，
+    # 并新增 WebDAV 入口（§61.132）；守护按现行实现核对，不按旧文案误判功能缺失。
+    missing_ui = [n for n in ("onAddSaf", "onAddMediaStore", "本地目录（SAF）", "从媒体库导入", "添加 WebDAV 源")
                   if n not in ui52]
     if missing_adder or missing_ui:
         failures.append(
@@ -1838,7 +1844,7 @@ def main() -> int:
     ui_body = ui61c.read_text(encoding="utf-8") if ui61c.is_file() else ""
     if "networkGate.rejectReason(runtime.currentNetworkSource())" not in service_body:
         failures.append("12 §61.28：Service 缺同步判定，拒绝后会假报 PLAYING（§61.27 同类问题）")
-    elif not all(n in ui_body for n in ("允许移动数据播放", "onWifiOnlyChanged", "Switch(")):
+    elif not all(n in ui_body for n in ("允许移动数据播放", "onWifiOnlyChanged", "CompSwitchRow(", "checked = !wifiOnly")):
         failures.append("12 §61.28：设置页缺移动数据播放开关（01 §6.1）")
     else:
         print("[PASS] 12 §61.28：Service 同步判定 + 设置页开关在位")
@@ -2238,10 +2244,20 @@ def main() -> int:
             copies = sorted(full_layout_dir.glob("*.xml")) if full_layout_dir.is_dir() else []
             settings_text = (ROOT / "settings.gradle.kts").read_text(encoding="utf-8")
             agg = fj["remaining_aggregate"]
+            # 12 §61.139：主题批（6501a367）起 res/values/ 是自研主题与字符串，
+            # 不是 B 路线的竞品 layout 照搬。守护由「res 目录不存在」收窄为
+            # 「res 下只允许 values/ 资源」——仍禁止照搬播放页 XML，同时保留
+            # :ui-legacy 门禁；48/39/53/81/282/163 证据口径逐项不变。
+            res_dir = ROOT / "app" / "src" / "main" / "res"
+            res_files = sorted(
+                f.relative_to(res_dir).as_posix() for f in res_dir.rglob("*")
+                if f.is_file()
+            ) if res_dir.is_dir() else []
             baseline_untouched = (
                 'include(":ui-legacy")' not in settings_text
-                and not (ROOT / "app" / "src" / "main" / "res").exists()
                 and not (ROOT / "ui-legacy").exists()
+                and all(f.startswith("values/") for f in res_files)
+                and not any(f.startswith("layout") for f in res_files)
             )
             ok = (
                 all(fj["verdict"].values())
@@ -2267,9 +2283,52 @@ def main() -> int:
                 )
             else:
                 print("[PASS] 12 §61.41 守护：48 tag / 39 副本 / 53 类 / 81 attr / 282 id / "
-                      "无标准竖屏主页、attr 语义不可逆；本批未建模块、未加依赖、res/ 未建")
+                      "无标准竖屏主页、attr 语义不可逆；未建模块/未加依赖/res 仅 values/")
         except (KeyError, ValueError, OSError) as exc:
             failures.append(f"12 §61.41 守护：B 路线前置实证证据 JSON 不可解析（{exc}）")
+
+    # ---- 12 §61.139（gapless 播放链接线）长效守护 -----------------------
+    # 防「门面 prepareQueue 已就绪但播放链未接线」的悬空状态回潮；防把跨曲
+    # gapless 伪造成真机已验证（设备离线时无缝听感 NOT RUN）。
+    api139 = (ROOT / "engine-api" / "src" / "main" / "kotlin" / "com"
+              / "example" / "cloudmusic" / "engine" / "api" / "EngineApi.kt")
+    pc139 = (ROOT / "feature-player" / "src" / "main" / "kotlin" / "com"
+             / "example" / "cloudmusic" / "player" / "PlayerController.kt")
+    b2_139 = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" / "com"
+              / "example" / "cloudmusic" / "engineopensource" / "Media3EngineAdapter.kt")
+    test139 = (ROOT / "feature-player" / "src" / "test" / "kotlin" / "com"
+               / "example" / "cloudmusic" / "player" / "PlayerControllerTest.kt")
+    doc139 = ROOT / "docs" / "12-编码阶段第一批交付.md"
+    api139_txt = api139.read_text(encoding="utf-8") if api139.is_file() else ""
+    pc139_txt = pc139.read_text(encoding="utf-8") if pc139.is_file() else ""
+    b2_139_txt = b2_139.read_text(encoding="utf-8") if b2_139.is_file() else ""
+    test139_txt = test139.read_text(encoding="utf-8") if test139.is_file() else ""
+    doc139_txt = doc139.read_text(encoding="utf-8") if doc139.is_file() else ""
+    if not all(x in api139_txt for x in (
+        "fun queueIndex(): StateFlow<Int>",
+        "fun seekToQueueIndex(handle: EngineHandle, index: Int)",
+    )):
+        failures.append("12 §61.139：门面队列索引 / 跳播增量方法缺失")
+    elif not all(x in pc139_txt for x in (
+        "engine.queueIndex().collect", "engine.prepareQueue(queuedSources, index, engineConfig)",
+        "engine.seekToQueueIndex(h, target)", "applyQueueIndex(target)",
+        "_state.value.mode == PlayMode.SEQUENCE", "source.url == null && source.localPath != null",
+    )):
+        failures.append("12 §61.139：PlayerController 的 gapless 队列分支缺失或条件被放宽")
+    elif not all(x in b2_139_txt for x in (
+        "onMediaItemTransition", "playerReused = true", "seekToQueueIndex",
+        "setPauseAtEndOfMediaItems(false)",
+    )):
+        failures.append("12 §61.139：B2 playlist 索引上报 / 可达性判定缺失")
+    elif not all(x in test139_txt for x in (
+        "gaplessQueueUsesPlaylist", "gaplessKeepsSingleTrackPath", "gaplessQueueIndexSync",
+    )):
+        failures.append("12 §61.139：gapless 接线 JVM 用例缺失")
+    elif "### 61.139" not in doc139_txt or "真机无缝听感 NOT RUN" not in doc139_txt:
+        failures.append("12 §61.139：断点章节 / 真机 NOT RUN 诚实边界未登记")
+    else:
+        print("[PASS] 12 §61.139：门面队列索引 + 播放链分支 + B2 playlist "
+              "+ 3 用例 + NOT RUN 边界在位")
 
     # 12 §61.42 守护：用户把口径升级为「1:1 像素级复刻」后，按竞品可观测证据
     # 自研重画播放页（竞品真实位图 / 色值 / 尺寸 / 控件层级），并如实挂账

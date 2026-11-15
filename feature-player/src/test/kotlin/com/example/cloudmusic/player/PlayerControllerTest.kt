@@ -2,6 +2,7 @@ package com.example.cloudmusic.player
 
 import com.example.cloudmusic.common.NetworkPlaybackGate
 import com.example.cloudmusic.common.NetworkPlaybackPolicy
+import com.example.cloudmusic.engine.api.EngineHandle
 import com.example.cloudmusic.engine.api.EngineState
 import com.example.cloudmusic.engine.api.InMemoryMusicEngine
 import com.example.cloudmusic.media.InMemoryMediaControl
@@ -10,6 +11,7 @@ import com.example.cloudmusic.model.SourceRef
 import com.example.cloudmusic.model.SourceType
 import com.example.cloudmusic.model.Track
 import com.example.cloudmusic.model.TrackId
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -342,5 +344,67 @@ class PlayerControllerTest {
         f.controller.onOutputChanged(dlna = false)
         assertFalse(f.controller.state.value.remoteOutput)
         assertEquals(1f, f.engine.snapshot().volume)
+    }
+
+    // ------------------------------------------------------------------
+    // §61.139 · gapless 播放链接线（门面 prepareQueue → PlayerController）
+    // ------------------------------------------------------------------
+
+    @Test
+    @DisplayName("§61.139 · 顺序本地队列 ≥2 走 prepareQueue，next 不重建 handle")
+    fun gaplessQueueUsesPlaylist() = runTest {
+        val f = fixture(scope = backgroundScope)
+        f.queue()
+        f.controller.playAt(1)
+        assertEquals(5, f.engine.queuedSources?.size, "整队列一次性下发")
+        assertEquals(1, f.engine.queuedStartIndex)
+        assertEquals(1, f.engine.queueIndex().value)
+        assertEquals("id-2", f.controller.state.value.currentTrackId?.value)
+
+        val handleBefore = f.engine.snapshot().handleRaw
+        f.controller.next()
+        assertEquals("id-3", f.controller.state.value.currentTrackId?.value)
+        assertEquals("id-3", f.engine.snapshot().source?.trackId, "队列内跳播同步引擎当前曲目")
+        assertEquals(2, f.engine.queueIndex().value)
+        assertEquals(handleBefore, f.engine.snapshot().handleRaw, "不得 release + 重新 prepare")
+        assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase)
+    }
+
+    @Test
+    @DisplayName("§61.139 · 网络音源 / 随机模式 / 带位置恢复均保持单曲路径")
+    fun gaplessKeepsSingleTrackPath() = runTest {
+        val remote = fixture(resolver = urlResolver, scope = backgroundScope)
+        remote.queue()
+        remote.controller.playAt(0)
+        assertEquals(-1, remote.engine.queueIndex().value, "网络队列逐曲过网络闸门")
+
+        val shuffled = fixture(scope = backgroundScope)
+        shuffled.queue(PlayMode.SHUFFLE)
+        shuffled.controller.playAt(0)
+        assertEquals(-1, shuffled.engine.queueIndex().value, "业务 SHUFFLE 顺序不能交给线性 playlist")
+
+        val restoring = fixture(scope = backgroundScope)
+        restoring.repo.setAll(tracks)
+        restoring.repo.setMode(PlayMode.SEQUENCE)
+        restoring.repo.saveCursor("id-2", 30_000L)
+        val snapshot = restoring.repo.restore()
+        assertNotNull(snapshot)
+        restoring.controller.restore(snapshot, restoring.repo.snapshotItems())
+        assertEquals(-1, restoring.engine.queueIndex().value, "恢复带位置且保持 PAUSED")
+    }
+
+    @Test
+    @DisplayName("§61.139 · 引擎侧自动切曲（queueIndex 变化）同步业务游标")
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+    fun gaplessQueueIndexSync() = runTest {
+        val f = fixture(scope = backgroundScope)
+        f.queue()
+        f.controller.playAt(0)
+        val h = EngineHandle(requireNotNull(f.engine.snapshot().handleRaw))
+        f.engine.seekToQueueIndex(h, 3)
+        runCurrent()
+        assertEquals(3, f.controller.state.value.currentIndex)
+        assertEquals("id-4", f.controller.state.value.currentTrackId?.value)
+        assertEquals(0L, f.controller.state.value.positionMs)
     }
 }

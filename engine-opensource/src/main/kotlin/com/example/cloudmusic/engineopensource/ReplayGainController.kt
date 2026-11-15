@@ -154,11 +154,11 @@ internal class ReplayGainController(
  *   由 Media3 官方 Extractor + AudioSink 自动裁剪，B2 无需额外代码即具备；
  *   是否真机生效仍需逐格式验证 → NOT RUN。
  * - **跨曲 gapless**：要求同一 `ExoPlayer` 实例上的连续 `MediaItem` 队列且
- *   曲目结束不暂停。当前门面 single-handle 契约（`03-06 §4` / `§15 T06`）要求
- *   新 `prepare()` 前必须 `release()`，而 adapter 的 `release()` 会
- *   `player.release()`、下次 `prepare()` 重新 `ExoPlayer.Builder().build()`，
- *   **player 不复用、队列长度恒为 1** → 跨曲 gapless 架构阻断，判 BLOCKED。
- *   解锁前置是门面队列化演进（连续 prepare / 复用 player），本批不擅自改契约。
+ *   曲目结束不暂停。单曲 `prepare()` 路径仍受 single-handle 契约约束
+ *   （`release()` → `player.release()` → 下次重建，player 不复用）→ 判 BLOCKED；
+ *   `§61.131` 的门面增量 `prepareQueue()` 与 `§61.139` 的播放链接线已在 B2 侧
+ *   落地「同一 player 多 MediaItem」，`assess(playerReused=true, count>=2,
+ *   pauseAtEnd=false)` 判可达。**真机无缝听感 NOT RUN**（设备离线，见 `12 §61.139`）。
  */
 internal data class GaplessAssessment(
     /** 官方 Extractor + AudioSink 的文件内 trimming 能力（静态事实，真机 NOT RUN）。 */

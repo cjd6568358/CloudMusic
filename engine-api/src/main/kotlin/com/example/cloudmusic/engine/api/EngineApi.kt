@@ -4,6 +4,7 @@ import com.example.cloudmusic.common.CloudMusicError
 import com.example.cloudmusic.model.IDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 /**
@@ -91,6 +92,16 @@ interface IMusicEngine {
      * **增量方法**（门面 prepare 不动，单曲路径零回归）。
      */
     fun prepareQueue(sources: List<EngineSource>, startIndex: Int, config: EngineConfig): EngineHandle
+
+    /**
+     * §61.139（gapless 队列接线）：队列模式下当前 MediaItem 索引；非队列路径恒 -1。
+     * B2 由 Player.Listener.onMediaItemTransition 驱动，业务层据此同步 UI 游标。
+     * **增量方法**（14 方法门面不动，M1 守护加法兼容）。
+     */
+    fun queueIndex(): StateFlow<Int>
+
+    /** §61.139：队列内跳播（不重建 player，保持 gapless）；非队列实现退化。 */
+    fun seekToQueueIndex(handle: EngineHandle, index: Int)
     fun release(handle: EngineHandle)
     fun lastError(): CloudMusicError?
 }
@@ -129,6 +140,7 @@ class InMemoryMusicEngine : IMusicEngine {
     private var volume = 1f
     private var error: CloudMusicError? = null
     private var nextRaw = 1L
+    private val _queueIndex = MutableStateFlow(-1)
 
     override fun prepare(source: EngineSource, config: EngineConfig): EngineHandle {
         check(activeHandle == null) {
@@ -143,6 +155,7 @@ class InMemoryMusicEngine : IMusicEngine {
         this.volume = 1f
         this.error = null
         this.dataSource = null
+        _queueIndex.value = -1
         _state.value = EngineState.PREPARING
         return handle
     }
@@ -211,12 +224,25 @@ class InMemoryMusicEngine : IMusicEngine {
         requireActive(handle)
     }
 
-    /** §61.131：内存参考实现——记录队列快照（单测断言用）。 */
+    /** §61.131 / §61.139：内存参考实现——记录队列快照并模拟 playlist 内跳播。 */
     override fun prepareQueue(sources: List<EngineSource>, startIndex: Int, config: EngineConfig): EngineHandle {
         val handle = prepare(sources.first(), config)
         queuedSources = sources.toList()
         queuedStartIndex = startIndex
+        _queueIndex.value = startIndex.coerceIn(0, sources.lastIndex)
         return handle
+    }
+
+    override fun queueIndex(): StateFlow<Int> = _queueIndex.asStateFlow()
+
+    /** 队列内跳播不重建 handle；同步 source/duration 让 snapshot 反映当前曲目。 */
+    override fun seekToQueueIndex(handle: EngineHandle, index: Int) {
+        requireActive(handle)
+        val src = queuedSources?.getOrNull(index) ?: return
+        source = src
+        duration = src.expectedLength
+        position = 0L
+        _queueIndex.value = index
     }
 
     /** §61.131：最近一次 prepareQueue 的队列快照。 */
@@ -232,6 +258,7 @@ class InMemoryMusicEngine : IMusicEngine {
         activeHandle = null
         source = null
         error = null
+        _queueIndex.value = -1
         _state.value = EngineState.IDLE
     }
 

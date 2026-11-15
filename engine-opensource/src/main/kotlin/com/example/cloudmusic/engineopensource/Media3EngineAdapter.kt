@@ -35,6 +35,7 @@ import com.example.cloudmusic.engine.api.IMusicEngine
 import com.example.cloudmusic.model.IDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 /**
@@ -56,8 +57,8 @@ import kotlinx.coroutines.flow.asStateFlow
  * - `§61.105` ReplayGain：官方 metadata（VorbisComment / ID3）→
  *   [ReplayGainController] → `ExoPlayer.volume`；不做音频扫描 / 不持久化，
  *   真机音量效果 NOT RUN。gapless：文件内 trimming 由官方 Extractor 具备，
- *   跨曲队列因 single-handle 契约（prepare 前 release → player 重建）判 BLOCKED，
- *   详见 [GaplessPolicy]，不在本类伪造队列接线。
+ *   跨曲队列自 §61.131 起由门面增量 prepareQueue + §61.139 播放链接线：
+ *   同一 ExoPlayer 实例的多 MediaItem playlist 可达，详见 [GaplessPolicy]。
  * - `setQuality` 仍为门面轻量实现；[EngineConfig] 的 `sampleRateHz` /
  *   `preferHardwareDecoder` / `bufferMs` / `autoSkipOnError` 不由本类逐项消费
  *   （平台 MediaCodec 优先、缓冲由 ExoPlayer 管理），不写成「已支持」。
@@ -88,6 +89,7 @@ class Media3EngineAdapter : IMusicEngine {
     @Volatile
     private var error: CloudMusicError? = null
     private var nextRaw = 1L
+    private val _queueIndex = MutableStateFlow(-1)
 
     /**
      * §61.87（F3 首轮真机暴露）：ExoPlayer 强制「单线程（application thread）」
@@ -147,6 +149,20 @@ class Media3EngineAdapter : IMusicEngine {
     }
 
     private val listener = object : Player.Listener {
+        /**
+         * §61.139：playlist 自动切曲 / 手动跳播 → 上报当前 MediaItem 索引，
+         * PlayerController 据此同步业务游标与媒体会话元数据。切曲同时清掉
+         * 上一曲的 ReplayGain 标签与库值兜底，避免增益串曲（队列内库值增益
+         * 仅起播曲生效，其余曲目靠容器标签，限制见 12 §61.139）。
+         */
+        override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+            val idx = player?.currentMediaItemIndex ?: -1
+            _queueIndex.value = idx
+            replayGain.reset()
+            replayGain.onLibraryGain(null)
+            Log.i(TAG, "queue transition index=%d reason=%d".format(idx, reason))
+        }
+
         override fun onPlaybackStateChanged(playbackState: Int) {
             when (playbackState) {
                 Player.STATE_READY -> {
@@ -258,6 +274,8 @@ class Media3EngineAdapter : IMusicEngine {
                 "MEDIA3_SOURCE", "EngineSource 既无 url 也无 localPath，无法构造 MediaItem")
         }
         error = null
+        // §61.139：单曲 prepare 走非队列路径，索引恒 -1。
+        _queueIndex.value = -1
         // §61.100 对齐勘误（原注释错挂 §61.99；文档 §61.99 实为 LoudnessEvaluator
         // / ReplayGain 实证，本改动来自 2026-11-13 07:11 提交 1485ce0f）：
         // 不透传 mimeType——media3 的 DefaultMediaSourceFactory 对
@@ -458,6 +476,18 @@ class Media3EngineAdapter : IMusicEngine {
 
     override fun state(): Flow<EngineState> = _state.asStateFlow()
 
+    /** §61.139：队列模式下的当前 MediaItem 索引（非队列恒 -1）。 */
+    override fun queueIndex(): StateFlow<Int> = _queueIndex.asStateFlow()
+
+    /** §61.139：队列内跳播——ExoPlayer 原生 seekTo(itemIndex)，不重建 player。 */
+    override fun seekToQueueIndex(handle: EngineHandle, index: Int) = guard(handle) {
+        val count = it.mediaItemCount
+        if (count > 0 && index in 0 until count) {
+            it.seekTo(index, 0L)
+            _queueIndex.value = index
+        }
+    }
+
     /** 03-06 §5：切质量 V0.1 不启用；A 路线 `EngineAdapter` 亦为空实现。 */
     override fun setQuality(handle: EngineHandle, quality: Int) {
         requireActive(handle)
@@ -536,6 +566,9 @@ class Media3EngineAdapter : IMusicEngine {
                 "MEDIA3_CONTEXT", "appContext 未注入")
         error = null
         replayGain.reset()
+        // §61.139 / §61.120：库值增益只对起播曲注入；切曲时由 listener 清空。
+        replayGain.onLibraryGain(config.trackGainDb)
+        _queueIndex.value = startIndex.coerceIn(0, sources.lastIndex)
         val items = sources.map { source ->
             val uri: Uri = when {
                 source.url != null -> Uri.parse(source.url)
@@ -548,6 +581,17 @@ class Media3EngineAdapter : IMusicEngine {
         val first = sources.first()
         Log.i(TAG, "prepareQueue count=%d startIndex=%d first=%s".format(
             sources.size, startIndex, first.trackId))
+        // §61.139 施工单步骤 4：队列路径传入真实判据，cross_track 可达。
+        val gapless = GaplessPolicy.assess(
+            playerReused = true,
+            queuedItemCount = sources.size,
+            pauseAtEndOfMediaItems = false,
+        )
+        Log.i(TAG, "gapless queue in_file=%s cross_track=%s blocker=%s".format(
+            gapless.inFileTrimmingAvailable,
+            gapless.crossTrackAvailable,
+            gapless.blocker ?: "none",
+        ))
         val renderersFactory = DefaultRenderersFactory(ctx)
             .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
             .setMediaCodecSelector { mimeType, secure, tunneling ->
@@ -612,6 +656,7 @@ class Media3EngineAdapter : IMusicEngine {
         dataSource = null
         activeHandle = null
         error = null
+        _queueIndex.value = -1
         _state.value = EngineState.IDLE
     }
 

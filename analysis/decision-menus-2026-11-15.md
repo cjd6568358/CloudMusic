@@ -111,4 +111,20 @@ fun prepareQueue(handle: EngineHandle, sources: List<EngineSource>,
 
 ---
 
+---
+
+## 三、施工单状态补记（§61.139，2026-11-15 第一百五十五批）
+
+- **一.1 gapless 施工单**：步骤 1（门面增量 + 三实现，§61.131）已就绪；本批完成
+  **步骤 2**（PlayerController 队列 ≥2 分支 + 索引同步 + next/prev 原生跳播）与
+  **步骤 4**（B2 `prepareQueue` 传入真实 `GaplessPolicy.assess` 参量 → `cross_track=true`）；
+  **步骤 3（真机 2+ 曲目无间隙听感）NOT RUN** —— 设备离线，不宣称已验收。
+- 新增约束（施工单未列，正确性所需）：仅 `PlayMode.SEQUENCE` + 整队列本地音源 +
+  `seekTo == 0` 的立即起播启用队列路径；随机/单曲循环/列表循环、带位置恢复、含
+  网络或代理音源一律保持单曲 `prepare`，避免顺序语义错乱与「仅 WiFi」闸门被绕过。
+- **二 `:engine-legacy` 去留**：`settings.gradle.kts` 已按粒度 A 注释 include
+  （§61.131 拍板落地），本批无进一步改动；A 路线 `EngineAdapter` 同步补上两个
+  增量方法的退化实现，保证将来从 git 历史恢复模块时仍可编译。
+- 真机项（九页像素校准 / 封面实测 / gapless 听感 / 7,500 首冷扫）均待设备在场。
+
 > AI生成
