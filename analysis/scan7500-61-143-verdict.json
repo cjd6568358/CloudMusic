@@ -1,0 +1,40 @@
+{
+  "batch": "§61.143",
+  "date": "2026-11-15",
+  "scope": "T-V #9 7,500 首冷扫就绪度打通 + 实测（存储注册路径 + 扫描链真机首跑）",
+  "apk": "§61.143 本机签名（含 binder defer + playLocal 强制重建，62/514/0）",
+  "code_changes": [
+    "StorageDriverBinder.sync（core-di/scan/ScanComposition.kt）：registry 已有实例优先（playLocal 沙箱注入不被 binder 覆盖）；配置变更（modified）仍重建；T-A4-10 用例",
+    "ensureLocalFixtureDriver（PlaybackComposition.kt）：幂等闸改为强制重建（remove+put）——C-10 binder 会先建 MediaStore 通道实例，播放 link() 纯路径不受影响，但扫描 list 必须 file 通道"
+  ],
+  "storage_registration": {
+    "method": "DataStore 预写（files/datastore/cloudmusic_settings.pb，AppSettingsCodec JSON 格式，storages=[debug-local-fixture root=files/music]）+ playLocal 注册 file driver",
+    "note": "生产 local factory 非 SAF 通道 = MediaStoreDirectorySource（只索引外部卷），应用私有目录恒 0 文件——V0.1 设计边界，不是 bug"
+  },
+  "measurements": {
+    "cold_scan_stage_a": {
+      "run": "17:48 轮（pid 6578，file driver，RESCAN refresh=true）",
+      "result": "walk 7514 文件 + 批量 upsert 7538 tracks + snapshot 7514 行，~50-60s 完成（DB 主文件 159KB→3.4MB）——阶段 A 本体在 ≤60s 判据边缘",
+      "metadata_phase": "7514 × 逐文件 JAudioTagger 读 + **逐条 Room 单事务 upsertBatch(listOf(单行))** + 逐文件进度 emit → CPU 200%+ / GC 风暴 / 内存 234→459MB，数分钟未完成即被 MIUI 冻结（17:49:16 hibernation）→ 击杀（17:57:35）"
+    },
+    "frozen_wall_clock_artifact": "18:05 轮 429,948ms = 大部分为 MIUI 冻结墙钟（18:07:49 hibernation → 18:12:39 解冻完成 90ms 扫描 → 18:15:36 kill），非真实扫描工作量",
+    "cold_scan_verdict": "FAIL（判据 ≤60s）——卡点 = runMetadata 逐条事务/逐 emit 设计在 7,500 规模分钟级，非阶段 A 本体",
+    "incremental_scan": "NOT RUN——MIUI 后台冻结使无人值守测量不可靠，待 USB/亮屏前台会话"
+  },
+  "side_effect_finding": {
+    "severity": "重要",
+    "fact": "0-candidate 扫描（driver 通道错配时必现）会把既有 snapshot 全部条目标 UNREACHABLE 并清空快照（18:00 轮实锤：7514 OK→UNREACHABLE + snapshot 0）",
+    "recovery": "可逆——重新以正确 driver 扫描即由 Reconciler 置回 OK（§8 快照语义）；但『driver 错配 + 全量重扫』组合的破坏面应挂账（建议：候选为空时拒绝清快照/置 UNREACHABLE，需拍板）"
+  },
+  "environment_risks": [
+    "MIUI SmartPower：后台 App 冻结（hibernation）+ 击杀，无人值守长扫描不可靠（本轮两次实锤）",
+    "MIUI 服务 intent 投递延迟 ~21s（后台时），playLocal→RESCAN 时序必须以 logcat prepare 就绪为闸",
+    "startservice 后台拒绝（app is in background uid null）→ 必须 am start 后 2s 内紧凑发送"
+  ],
+  "leftovers": [
+    "runMetadata 优化施工单：单行事务聚合为批（chunked）+ 进度 emit 节流（每 N 或每秒）——7,500 规模冷扫判据达标的必经路径",
+    "0-candidate 保护（clear-snapshot 拒绝）待拍板",
+    "增量扫（≤10s 判据）实测待 USB/亮屏会话",
+    "当前库态：7514 曲 UNREACHABLE（可恢复）+ 24 OK + snapshot 空——下轮正确扫描自动恢复"
+  ]
+}

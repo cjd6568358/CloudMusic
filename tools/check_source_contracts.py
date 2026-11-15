@@ -120,7 +120,11 @@ AudioTrack 同 session 跨曲）与 §61.140 歌单首曲封面真机 PASS；
 （零源码改动）——wma/aiff/wavpack 三项 PASS + ape FAIL×2（静音）分档登记
 （PASS 留档不删、FAIL 不隐匿，双口径受守护）；
 新增一组 §61.142 守护。
-详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.142。
+第一百五十九批（12 §61.143，2026-11-15）：T-V #9 就绪度打通——binder registry
+优先 + playLocal 强制重建（C-10 覆盖冲突）+ DataStore 预写 storage；7,500 冷扫
+首跑 FAIL 判据定位 runMetadata 逐条事务设计；0-candidate 破坏面挂账；
+新增一组 §61.143 守护。
+详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.143。
 """
 from __future__ import annotations
 
@@ -2395,6 +2399,41 @@ def main() -> int:
         failures.append("12 §61.142：断点章节未登记")
     else:
         print("[PASS] 12 §61.142：容器复测 3 PASS + ape FAIL×2 分档 + 断点登记在位")
+
+    # ---- 12 §61.143（7,500 冷扫就绪度 + 首轮实测）长效守护 ---------------
+    # 防 C-10 回潮（binder 覆盖既有实例 / playLocal 幂等闸挡住 file 通道重建）
+    # 与「冷扫 FAIL 判据被伪造成 PASS」；0-candidate 破坏面挂账受守护。
+    scan_comp = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                 / "example" / "cloudmusic" / "di" / "scan" / "ScanComposition.kt")
+    playback_comp = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                     / "example" / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
+    scan_comp_txt = scan_comp.read_text(encoding="utf-8") if scan_comp.is_file() else ""
+    playback_comp_txt = playback_comp.read_text(encoding="utf-8") if playback_comp.is_file() else ""
+    verdict143 = ROOT / "analysis" / "scan7500-61-143-verdict.json"
+    verdict143_txt = verdict143.read_text(encoding="utf-8") if verdict143.is_file() else ""
+    if not all(x in scan_comp_txt for x in (
+        "registry 已有实例（playLocal 沙箱注入 / 调试入口）优先",
+        "DriverRegistry.get(storage.id) != null",
+    )):
+        failures.append("12 §61.143：StorageDriverBinder registry 优先分支缺失（C-10 覆盖冲突回潮）")
+    elif not all(x in playback_comp_txt for x in (
+        "强制重建为 file 通道实例",
+        "runCatching { DriverRegistry.remove(LOCAL_FIXTURE_STORAGE_ID) }",
+    )):
+        failures.append("12 §61.143：ensureLocalFixtureDriver 强制重建缺失")
+    elif "T-A4-10 binder defers to pre-registered instances" not in (
+        (ROOT / "core-di" / "src" / "test" / "kotlin" / "com" / "example" / "cloudmusic"
+         / "di" / "scan" / "ScanContractsTest.kt").read_text(encoding="utf-8")
+    ):
+        failures.append("12 §61.143：T-A4-10 用例缺失")
+    elif not all(x in verdict143_txt for x in (
+        '"cold_scan_verdict": "FAIL', "runMetadata", "0-candidate",
+    )):
+        failures.append("12 §61.143：冷扫 FAIL 裁决 / runMetadata 卡点 / 破坏面挂账未登记")
+    elif "### 61.143" not in doc139_txt:
+        failures.append("12 §61.143：断点章节未登记")
+    else:
+        print("[PASS] 12 §61.143：binder defer + 强制重建 + T-A4-10 + 冷扫 FAIL 裁决在位")
 
     # 12 §61.42 守护：用户把口径升级为「1:1 像素级复刻」后，按竞品可观测证据
     # 自研重画播放页（竞品真实位图 / 色值 / 尺寸 / 控件层级），并如实挂账

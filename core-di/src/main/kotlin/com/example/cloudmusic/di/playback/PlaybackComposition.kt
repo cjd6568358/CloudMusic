@@ -546,7 +546,11 @@ class PlaybackRuntime @Inject constructor(
 
     /** 以 App 私有目录为沙箱根，用平台 `java.io.File` 实现 `LocalDirectorySource`（零权限）。 */
     private suspend fun ensureLocalFixtureDriver(root: String) {
-        if (DriverRegistry.get(LOCAL_FIXTURE_STORAGE_ID) != null) return
+        // §61.143：强制重建为 file 通道实例——C-10 的 StorageDriverBinder 会按 DataStore
+        // storage 先建 MediaStore 通道实例（MediaStore 不索引应用私有目录，list 恒空），
+        // 播放用 `LocalDriver.link()` 纯路径产出不受影响，但 **T-V #9 的扫描 list 必须
+        // 用 file 通道**。先 remove（幂等 drop，B02）再 put 覆盖。
+        runCatching { DriverRegistry.remove(LOCAL_FIXTURE_STORAGE_ID) }
         val escaped = root.replace("\\", "\\\\").replace("\"", "\\\"")
         val additionJson = "{\"root_folder_path\":\"$escaped\",\"show_hidden\":true}"
         val storage = Storage(

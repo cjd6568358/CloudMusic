@@ -280,6 +280,33 @@ class ScanContractsTest {
     // ---- 03-04 §6 / C-04 生产行为（fake 端口） -------------------------------
 
     @Test
+    fun `T-A4-10 binder defers to pre-registered instances and rebuilds only on config change`() {
+        val drivers = mutableListOf<FakeDriver>()
+        val factory: DriverFactory = { _, _ -> FakeDriver().also { drivers += it } }
+        val binder = StorageDriverBinder(mapOf("local" to factory))
+        runBlocking {
+            // 既有实例（§61.143 playLocal 沙箱注入同型）：binder 不新建、不覆盖。
+            val foreign = FakeDriver()
+            DriverRegistry.put("a", foreign)
+            val first = binder.sync(listOf(storage("a", modified = 1)))
+            assertTrue(first.failed.isEmpty())
+            assertEquals(listOf("a"), first.created)
+            assertEquals(0, drivers.size)
+            assertTrue(DriverRegistry.get("a") === foreign)
+
+            // 幂等：同配置再次 sync 仍不动既有实例。
+            binder.sync(listOf(storage("a", modified = 1)))
+            assertEquals(0, drivers.size)
+            assertTrue(DriverRegistry.get("a") === foreign)
+
+            // 配置变更（modified 不同）→ 重建语义：移除既有实例并由 binder 新建。
+            binder.sync(listOf(storage("a", modified = 2)))
+            assertEquals(1, drivers.size)
+            assertTrue(DriverRegistry.get("a") !== foreign)
+        }
+    }
+
+    @Test
     fun `T-A4-09 tag reader merges local channels and skips JAudioTagger for content uri`() {
         var jaudioCalls = 0
         val media = object : MediaMetadataPort {

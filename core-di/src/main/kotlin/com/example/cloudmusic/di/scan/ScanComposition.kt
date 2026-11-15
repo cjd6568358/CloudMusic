@@ -54,6 +54,8 @@ data class DriverSyncResult(
  *
  * 这里按 `Storage.modified`（03-11 §5 / 08 §7）做幂等同步：新增/变更先 remove
  * 再 create + init + put，配置变更即等价于 `REBUILD_DRIVER_AND_FULL_RESCAN` 的重建部分。
+ * §61.143：registry 已有实例（非 binder 创建，如 playLocal 沙箱注入）优先——binder 只补
+ * 缺口不覆盖；该 id 的配置变更（modified 变化）仍会 remove + 重建（显式改配置语义）。
  */
 class StorageDriverBinder(
     private val factories: Map<String, @JvmSuppressWildcards DriverFactory>,
@@ -73,6 +75,15 @@ class StorageDriverBinder(
         val failed = mutableListOf<String>()
         val created = mutableListOf<String>()
         plan.toCreate.forEach { storage ->
+            // §61.143：registry 已有实例（playLocal 沙箱注入 / 调试入口）优先，binder 只补
+            // 缺口——与 ensureFactories 的「幂等共存」语义一致，避免覆盖扫描器依赖的既有
+            // 实例（MediaStore 通道不索引应用私有目录，覆盖会令沙箱扫描恒 0 文件）。
+            // 配置变更（modified 不同）仍走下方重建：显式改配置 = REBUILD_DRIVER 语义。
+            if (DriverRegistry.get(storage.id) != null) {
+                known[storage.id] = storage.modified
+                created += storage.id
+                return@forEach
+            }
             val factory = factories[storage.driverType]
             if (factory == null) {
                 failed += storage.id
