@@ -110,6 +110,8 @@ fun CloudMusicApp(
     onAddMediaStore: () -> Unit,
     /** §61.132：添加 WebDAV 源（url / username / password / rootPath）。 */
     onAddWebDav: (String, String, String, String) -> Unit = { _, _, _, _ -> },
+    /** §61.151：添加 STRM 独立源（delegateStorageId + paths 多行，空=委托根目录）。 */
+    onAddStrm: (String, String) -> Unit = { _, _ -> },
     onPlay: () -> Unit,
     onPause: () -> Unit,
     onNext: () -> Unit,
@@ -195,6 +197,7 @@ fun CloudMusicApp(
                 showSources -> SourcesScreen(
                     storageList, onRescanAll, onRetryUnavailable, onAddSaf, onAddMediaStore,
                     onAddWebDav,
+                    onAddStrm,
                     onBack = { showSources = false },
                 )
                 tab == 0 -> LibraryScreen(
@@ -661,9 +664,11 @@ private fun SourcesScreen(
     onAddSaf: () -> Unit,
     onAddMediaStore: () -> Unit,
     onAddWebDav: (String, String, String, String) -> Unit,
+    onAddStrm: (String, String) -> Unit,
     onBack: () -> Unit,
 ) {
     var showWebDav by remember { mutableStateOf(false) }
+    var showStrm by remember { mutableStateOf(false) }
     CompPage {
         Column(Modifier.fillMaxSize()) {
             CompHeaderBar(title = "数据源管理", onBack = onBack)
@@ -671,6 +676,8 @@ private fun SourcesScreen(
             CompSettingsRow("⊕", "本地目录（SAF）", onClick = onAddSaf, rightHint = "无需读取权限")
             CompSettingsRow("⊕", "从媒体库导入", onClick = onAddMediaStore, rightHint = "按动作申请权限")
             CompSettingsRow("⊕", "添加 WebDAV 源", onClick = { showWebDav = true }, rightHint = "地址 + 认证")
+            // §61.151：STRM 独立源（委托已添加的数据源挂载 .strm 挂载点）。
+            CompSettingsRow("⊕", "添加 STRM 源", onClick = { showStrm = true }, rightHint = "委托数据源 + .strm")
             CompGroupTitle("维护")
             CompSettingsRow("↻", "全量重扫", onClick = onRescan)
             CompSettingsRow("↻", "重试失败项", onClick = onRetry)
@@ -706,6 +713,18 @@ private fun SourcesScreen(
             },
         )
     }
+    // §61.151：STRM 独立源对话框——委托源候选 = 已添加且非 strm 的存储
+    // （strm 委托 strm 不禁止但无意义，不列）。
+    if (showStrm) {
+        StrmDialog(
+            delegates = storages.filter { it.driverType != "strm" },
+            onDismiss = { showStrm = false },
+            onAdd = { delegateId, paths ->
+                onAddStrm(delegateId, paths)
+                showStrm = false
+            },
+        )
+    }
 }
 
 /** §61.132/§61.137：WebDAV 源添加（b5y 面板 + 表单；字段与 WebDavDriver strCompat 对齐）。 */
@@ -733,6 +752,68 @@ private fun WebDavDialog(
             if (url.isNotBlank()) {
                 onAdd(url.trim().trimEnd('/'), username.trim(), password, rootPath.trim())
             }
+        }),
+    )
+}
+
+/** §61.151：STRM 独立源添加（b5y 面板；字段与 StrmDriver str() 对齐——
+ *  delegate_storage_id + paths 多行 `key:dst` / 裸 `dst`，空 = 委托根目录）。
+ *  委托候选 = 已添加且非 strm 的存储；选中行高亮品牌红。 */
+@Composable
+private fun StrmDialog(
+    delegates: List<Storage>,
+    onDismiss: () -> Unit,
+    onAdd: (delegateStorageId: String, paths: String) -> Unit,
+) {
+    var delegateId by remember { mutableStateOf("") }
+    var paths by remember { mutableStateOf("") }
+    val canAdd = delegateId.isNotBlank() && delegates.any { it.id == delegateId }
+    CompSheetDialog(
+        onDismiss = onDismiss,
+        title = "添加 STRM 源",
+        content = {
+            Column {
+                if (delegates.isEmpty()) {
+                    Text(
+                        "还没有可委托的数据源——先添加本地目录 / WebDAV，再挂载其 .strm 挂载点",
+                        color = Comp.TextSecondary,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    )
+                } else {
+                    Text(
+                        "委托数据源",
+                        color = Comp.TextSecondary,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    )
+                    delegates.forEach { storage ->
+                        val selected = storage.id == delegateId
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { delegateId = storage.id }
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                if (selected) "●" else "○",
+                                color = if (selected) Comp.AccentRed else Comp.TextSecondary,
+                                fontSize = 14.sp,
+                            )
+                            Text(
+                                " ${storage.remark.ifBlank { storage.mountPath }}（${storage.driverType}）",
+                                color = if (selected) Comp.TextPrimary else Comp.TextSecondary,
+                                fontSize = 14.sp,
+                            )
+                        }
+                    }
+                }
+                CompDialogInput(paths, { paths = it }, hint = "挂载路径（可空=委托根目录；每行 目录 或 名:目录）")
+            }
+        },
+        actions = listOf("添加" to {
+            if (canAdd) onAdd(delegateId, paths.trim())
         }),
     )
 }

@@ -148,7 +148,10 @@ skip 对齐等价替代 + 样本终审（描述符垃圾，真机验证须真实
 第一百六十六批（12 §61.150，2026-11-15）：MiniPlayer 真曲名（§61.141 观察项
 收口）+ ReplayGain 真机验证收口（29 日志/21 落库/spec 一致实锤）；
 新增一组 §61.150 守护。
-详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.150。
+第一百六十七批（12 §61.151，2026-11-15）：STRM 独立源 UI 收口（StrmDriver
+已在位，补 SourcesScreen 入口 + StrmDialog + MainActivity 接线；UX 挂账登记）；
+新增一组 §61.151 守护。
+详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.151。
 """
 from __future__ import annotations
 
@@ -2594,6 +2597,30 @@ def main() -> int:
         failures.append("12 §61.150：断点章节未登记")
     else:
         print("[PASS] 12 §61.150：MiniPlayer 真曲名 + RG 真机收口在位")
+
+    # ---- 12 §61.151（STRM 独立源 UI）长效守护 ----------------------------
+    # 防 UI 入口被移除（StrmDriver/factory 既有，缺的只是入口）；
+    # MainActivity 接线（add("strm") + delegate_storage_id 键名）在位。
+    if not all(x in app_txt for x in (
+        "添加 STRM 源", "fun StrmDialog(", "driverType != \"strm\"",
+    )):
+        failures.append("12 §61.151：SourcesScreen STRM 入口 / StrmDialog 缺失")
+    main_txt = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                / "cloudmusic" / "MainActivity.kt").read_text(encoding="utf-8")
+    if not all(x in main_txt for x in (
+        "onAddStrm = { delegateId, paths ->",
+        "put(\"delegate_storage_id\", delegateId)",
+        'storages.add("strm", addition)',
+    )):
+        failures.append("12 §61.151：MainActivity STRM 接线缺失")
+    elif not all(x in doc139_txt for x in (
+        "STRM 独立源 UI 收口", "重复入库", "无删除入口",
+    )):
+        failures.append("12 §61.151：STRM UI 收口 / UX 挂账未登记")
+    elif "### 61.151" not in doc139_txt:
+        failures.append("12 §61.151：断点章节未登记")
+    else:
+        print("[PASS] 12 §61.151：STRM UI 入口 + 接线 + UX 挂账登记在位")
 
     # 12 §61.42 守护：用户把口径升级为「1:1 像素级复刻」后，按竞品可观测证据
     # 自研重画播放页（竞品真实位图 / 色值 / 尺寸 / 控件层级），并如实挂账
