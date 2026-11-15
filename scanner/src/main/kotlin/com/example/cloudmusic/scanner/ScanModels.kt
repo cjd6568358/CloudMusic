@@ -25,7 +25,9 @@ data class ScanRequest(
     val onlyWifiMetadata: Boolean = true,
     val wifiAvailable: Boolean = true,
     val storageConcurrency: Int = 4,
-    val metadataConcurrency: Int = 2,
+    /** §61.161：2→4——metadata 阶段逐文件标签读取是冷扫瓶颈（§61.147/160 一手），
+     *  4 并发在 mid-range 设备上实测安全（IO-bound，无 CPU 竞争恶化）。 */
+    val metadataConcurrency: Int = 4,
     /** 每批 upsert 条数（03-04 §10：禁止逐条写库） */
     val batchSize: Int = 500,
     /**
