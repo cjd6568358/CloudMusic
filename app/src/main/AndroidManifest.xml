@@ -28,6 +28,7 @@
          会抛 UnknownServiceException，HEAD 探测与 Range 取流全部失败。
          这里只放开明文流量策略，不新增任何权限（11 项 / C3 白名单不变）。 -->
     <application
+        android:theme="@style/Theme.CloudMusic"
         android:name=".CloudMusicApplication"
         android:allowBackup="false"
         android:usesCleartextTraffic="true">
