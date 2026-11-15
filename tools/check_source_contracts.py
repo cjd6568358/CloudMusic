@@ -151,7 +151,9 @@ skip 对齐等价替代 + 样本终审（描述符垃圾，真机验证须真实
 第一百六十七批（12 §61.151，2026-11-15）：STRM 独立源 UI 收口（StrmDriver
 已在位，补 SourcesScreen 入口 + StrmDialog + MainActivity 接线；UX 挂账登记）；
 新增一组 §61.151 守护。
-详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.151。
+第一百六十八批（12 §61.152，2026-11-15）：数据源移除入口收口（§61.151 UX 挂账
+——确认弹窗 + remove/markOrphan + rescanAll 接线）；新增一组 §61.152 守护。
+详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.152。
 """
 from __future__ import annotations
 
@@ -2621,6 +2623,27 @@ def main() -> int:
         failures.append("12 §61.151：断点章节未登记")
     else:
         print("[PASS] 12 §61.151：STRM UI 入口 + 接线 + UX 挂账登记在位")
+
+    # ---- 12 §61.152（数据源移除入口）长效守护 ----------------------------
+    # 防 §61.151 UX 挂账回潮（删除入口被移除 / markOrphan 语义文案丢失）。
+    if not all(x in app_txt for x in (
+        "var removeTarget by remember { mutableStateOf<Storage?>(null) }",
+        "移除数据源", "文件不会被删除",
+    )):
+        failures.append("12 §61.152：数据源移除入口 UI 缺失")
+    if not all(x in main_txt for x in (
+        "onRemoveStorage = { id ->",
+        "storages.remove(id)",
+    )):
+        failures.append("12 §61.152：MainActivity 移除接线缺失")
+    if not all(x in doc139_txt for x in (
+        "数据源移除入口", "markOrphan",
+    )):
+        failures.append("12 §61.152：移除入口收口未登记")
+    elif "### 61.152" not in doc139_txt:
+        failures.append("12 §61.152：断点章节未登记")
+    else:
+        print("[PASS] 12 §61.152：移除入口 UI + 接线 + 语义登记在位")
 
     # 12 §61.42 守护：用户把口径升级为「1:1 像素级复刻」后，按竞品可观测证据
     # 自研重画播放页（竞品真实位图 / 色值 / 尺寸 / 控件层级），并如实挂账

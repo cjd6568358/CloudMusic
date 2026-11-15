@@ -112,6 +112,8 @@ fun CloudMusicApp(
     onAddWebDav: (String, String, String, String) -> Unit = { _, _, _, _ -> },
     /** §61.151：添加 STRM 独立源（delegateStorageId + paths 多行，空=委托根目录）。 */
     onAddStrm: (String, String) -> Unit = { _, _ -> },
+    /** §61.152：移除数据源（markOrphan → 曲目标记不可用，文件不删）。 */
+    onRemoveStorage: (String) -> Unit = { _ -> },
     onPlay: () -> Unit,
     onPause: () -> Unit,
     onNext: () -> Unit,
@@ -198,6 +200,7 @@ fun CloudMusicApp(
                     storageList, onRescanAll, onRetryUnavailable, onAddSaf, onAddMediaStore,
                     onAddWebDav,
                     onAddStrm,
+                    onRemoveStorage,
                     onBack = { showSources = false },
                 )
                 tab == 0 -> LibraryScreen(
@@ -665,10 +668,13 @@ private fun SourcesScreen(
     onAddMediaStore: () -> Unit,
     onAddWebDav: (String, String, String, String) -> Unit,
     onAddStrm: (String, String) -> Unit,
+    onRemoveStorage: (String) -> Unit,
     onBack: () -> Unit,
 ) {
     var showWebDav by remember { mutableStateOf(false) }
     var showStrm by remember { mutableStateOf(false) }
+    // §61.152：移除确认（StorageRepository.remove → markOrphan → 曲目标记不可用）。
+    var removeTarget by remember { mutableStateOf<Storage?>(null) }
     CompPage {
         Column(Modifier.fillMaxSize()) {
             CompHeaderBar(title = "数据源管理", onBack = onBack)
@@ -696,7 +702,8 @@ private fun SourcesScreen(
                         CompSettingsRow(
                             icon = "☁",
                             title = storage.remark.ifBlank { storage.mountPath },
-                            onClick = {},
+                            // §61.152：点行 → 移除确认（此前无删除入口 = UX 挂账）。
+                            onClick = { removeTarget = storage },
                             rightHint = "${storage.driverType} · $status",
                         )
                     }
@@ -723,6 +730,30 @@ private fun SourcesScreen(
                 onAddStrm(delegateId, paths)
                 showStrm = false
             },
+        )
+    }
+    // §61.152：移除数据源确认——markOrphan 语义文案（曲目不删、标不可用）。
+    removeTarget?.let { target ->
+        CompSheetDialog(
+            onDismiss = { removeTarget = null },
+            title = "移除数据源",
+            content = {
+                Text(
+                    "移除「${target.remark.ifBlank { target.mountPath }}」（${target.driverType}）？" +
+                        "该源曲目将标记为不可用，文件不会被删除。",
+                    color = Comp.TextSecondary,
+                    fontSize = 13.sp,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                )
+            },
+            actions = listOf(
+                "取消" to { removeTarget = null },
+                "移除" to {
+                    onRemoveStorage(target.id)
+                    removeTarget = null
+                },
+            ),
+            destructiveIndexOf = 1,
         )
     }
 }

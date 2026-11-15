@@ -152,6 +152,19 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     },
+                    // §61.152：移除数据源——markOrphan（曲目标记不可用）+ rescanAll。
+                    onRemoveStorage = { id ->
+                        lifecycleScope.launch {
+                            runCatching {
+                                storages.remove(id)
+                            }.onSuccess {
+                                runtime.rescanAll()
+                                Toast.makeText(this@MainActivity, "数据源已移除", Toast.LENGTH_SHORT).show()
+                            }.onFailure { e ->
+                                Toast.makeText(this@MainActivity, "移除失败: ${e.message}", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    },
                     onPlay = {
                         // 03-11 §2：首次播放前按动作申请通知权限。B03：被拒仍照常播放，
                         // 只少了通知卡片；核心能力不受权限拒绝影响。
