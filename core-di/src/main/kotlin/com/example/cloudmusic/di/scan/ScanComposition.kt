@@ -74,6 +74,12 @@ class StorageDriverBinder(
         }
         val failed = mutableListOf<String>()
         val created = mutableListOf<String>()
+        // §61.153：binder 失败可见化——factory 缺失 / init 异常此前静默吞掉，
+        // active() 过滤后扫描 0 文件无法归因（WebDAV/STRM 真机一手）。
+        runCatching {  // §61.153：JVM 单测无 android.util.Log（not mocked）
+            android.util.Log.i("CM-Scan", "binder sync: active=%d known=%d toCreate=%d".format(
+                active.size, known.size, plan.toCreate.size))
+        }
         plan.toCreate.forEach { storage ->
             // §61.143：registry 已有实例（playLocal 沙箱注入 / 调试入口）优先，binder 只补
             // 缺口——与 ensureFactories 的「幂等共存」语义一致，避免覆盖扫描器依赖的既有
@@ -86,6 +92,7 @@ class StorageDriverBinder(
             }
             val factory = factories[storage.driverType]
             if (factory == null) {
+                runCatching { android.util.Log.w("CM-Scan", "binder: 无 factory: %s (%s)".format(storage.id, storage.driverType)) }
                 failed += storage.id
                 return@forEach
             }
@@ -102,6 +109,7 @@ class StorageDriverBinder(
             if (ok) {
                 created += storage.id
             } else {
+                runCatching { android.util.Log.w("CM-Scan", "binder: init 失败: %s (%s)".format(storage.id, storage.driverType)) }
                 runCatching { driver.drop() }
                 failed += storage.id
             }

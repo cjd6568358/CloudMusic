@@ -31,10 +31,16 @@ object PropfindParser {
     fun parse(xml: String, skipFirst: Boolean = true): List<PropfindItem> {
         val factory = DocumentBuilderFactory.newInstance().apply {
             isNamespaceAware = true
-            // 禁止 DTD / 外部实体，避免解析不可信 NAS 响应时的 XXE
-            setFeature("http://apache.org/xml/features/disallow-doctype-decl", true)
-            setFeature("http://xml.org/sax/features/external-general-entities", false)
-            setFeature("http://xml.org/sax/features/external-parameter-entities", false)
+            // 禁止 DTD / 外部实体，避免解析不可信 NAS 响应时的 XXE。
+            // §61.153：Android 的 harmony 解析器不支持全部 Xerces 特性名——
+            // setFeature 直接抛 ParserConfigurationException（真机一手：
+            // disallow-doctype-decl → 整个 WebDAV/STRM 扫描 E_SCAN）。
+            // 逐项 try，不支持的跳过（Android 默认即不解析外部实体）。
+            listOf(
+                "http://apache.org/xml/features/disallow-doctype-decl",
+                "http://xml.org/sax/features/external-general-entities",
+                "http://xml.org/sax/features/external-parameter-entities",
+            ).forEach { feature -> runCatching { setFeature(feature, true) } }
         }
         val doc = factory.newDocumentBuilder().parse(InputSource(StringReader(xml)))
         doc.documentElement.normalize()

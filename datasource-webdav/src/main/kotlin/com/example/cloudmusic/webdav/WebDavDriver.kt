@@ -7,6 +7,7 @@ import com.example.cloudmusic.datasource.DirectLinkCapability
 import com.example.cloudmusic.datasource.DriverConfig
 import com.example.cloudmusic.datasource.DriverCtx
 import com.example.cloudmusic.datasource.PathRule
+import com.example.cloudmusic.datasource.TextReadCapability
 import com.example.cloudmusic.model.Header
 import com.example.cloudmusic.model.Link
 import com.example.cloudmusic.model.LinkArgs
@@ -23,13 +24,16 @@ import java.util.concurrent.ConcurrentHashMap
  * 本机播放默认返回 PROXIED（带鉴权流，须经本地代理回环 URL 供引擎自取，`16 §3.2` 触发器 ④）；
  * 投屏由 directUrl() 匿名探测后直推。
  */
+/** §61.153：实现 TextReadCapability——WebDAV 托管 .strm 的扫描展开（03-04 §5）
+ *  与 STRM 委托链（StrmDriver expand/link）都依赖本能力；缺它则 per-file
+ *  DsNotSupport → E_SCAN 静默 0 候选（§61.151 真机一手）。 */
 class WebDavDriver(
     storage: Storage,
     addition: String,
     private val http: HttpStack,
     /** 08 配置项：用户「WebDAV 强制走代理」开关。 */
     private val forceWebdavProxy: Boolean = false,
-) : AbstractDriver(storage, addition), DirectLinkCapability, ByteRangeCapability {
+) : AbstractDriver(storage, addition), DirectLinkCapability, ByteRangeCapability, TextReadCapability {
 
     override val config = DriverConfig(name = "WebDAV", localSort = true, preferProxy = false)
 
@@ -132,6 +136,20 @@ class WebDavDriver(
     }
 
     // ------------------------------------------------------------------
+    /** §61.153：GET 小文本（.strm 等）；编码回落 UTF-8 → GBK（TextReadCapability 契约）。 */
+    override suspend fun readText(file: Obj): String {
+        val request = WebDavRequest(method = "GET", url = buildUrl(sandbox(file.path)))
+        val response = executeWithAuth(request)
+        if (response.status == 404) throw CloudMusicError.DsNotFound(file.path)
+        if (response.status !in 200..299) {
+            throw CloudMusicError.DsUpstream("${response.status}", "GET 失败, status=${response.status}")
+        }
+        val bytes = response.bodyBytes ?: response.body.toByteArray(Charsets.UTF_8)
+        val utf8 = runCatching { String(bytes, Charsets.UTF_8) }.getOrNull()
+        if (utf8 != null && !utf8.contains('�')) return utf8
+        return String(bytes, java.nio.charset.Charset.forName("GBK"))
+    }
+
     private suspend fun propfind(path: String, depth: Int): String {
         val request = WebDavRequest(
             method = "PROPFIND",

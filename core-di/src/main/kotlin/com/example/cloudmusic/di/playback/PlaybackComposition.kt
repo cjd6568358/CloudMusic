@@ -230,7 +230,9 @@ class PlaybackRuntime @Inject constructor(
             val scanStart = android.os.SystemClock.elapsedRealtime()
             _state.update { it.copy(scanning = true, scanned = 0, total = 0, errors = 0) }
             try {
+                var lastProgress: ScanProgress? = null
                 coordinator.scan(request).collect { progress: ScanProgress ->
+                    lastProgress = progress
                     _state.update {
                         it.copy(
                             scanned = progress.scanned,
@@ -242,6 +244,11 @@ class PlaybackRuntime @Inject constructor(
                 Log.i("CM-Scan", "scan done: %d ms (refresh=%s files≈%d)".format(
                     android.os.SystemClock.elapsedRealtime() - scanStart,
                     request.refresh, _state.value.scanned))
+                // §61.153：扫描错误可见化——此前 B07/storage 级错误静默吞掉，
+                // WebDAV/STRM 扫描 0 文件无法归因（真机一手）。前 5 条细节 WARN。
+                lastProgress?.errors?.take(5)?.forEach {
+                    Log.w("CM-Scan", "scan error: %s %s %s".format(it.path, it.code, it.detail))
+                }
             } catch (e: Exception) {
                 _state.update { it.copy(lastEffect = "SCAN_FAILED") }
             } finally {

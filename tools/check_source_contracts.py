@@ -153,7 +153,10 @@ skip 对齐等价替代 + 样本终审（描述符垃圾，真机验证须真实
 新增一组 §61.151 守护。
 第一百六十八批（12 §61.152，2026-11-15）：数据源移除入口收口（§61.151 UX 挂账
 ——确认弹窗 + remove/markOrphan + rescanAll 接线）；新增一组 §61.152 守护。
-详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.152。
+第一百六十九批（12 §61.153，2026-11-15）：WebDAV/STRM 真机添加排障——双真 bug
+修复（TextReadCapability 双实现 + PropfindParser XXE 特性 runCatching）+
+扫描错误/binder 可见化四件套；新增一组 §61.153 守护。
+详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.153。
 """
 from __future__ import annotations
 
@@ -421,7 +424,8 @@ SIGNATURES = {
         "override suspend fun directUrl(file: Obj): String?",
         "proxySourceUrl = url",  # C-07：PROXIED 分支必须带回源 URL
         # C-12（12 §31）：ByteRangeCapability 的真正生产实现
-        "), DirectLinkCapability, ByteRangeCapability {",
+        # §61.153：supertype 追加 TextReadCapability（.strm 扫描/委托链文本读取）
+        "), DirectLinkCapability, ByteRangeCapability, TextReadCapability {",
         "override suspend fun readBytes(file: Obj, offset: Long, length: Int): ByteArray?",
     ],
     "scanner/src/main/kotlin/com/example/cloudmusic/scanner/ScanCoordinator.kt": [
@@ -2644,6 +2648,30 @@ def main() -> int:
         failures.append("12 §61.152：断点章节未登记")
     else:
         print("[PASS] 12 §61.152：移除入口 UI + 接线 + 语义登记在位")
+
+    # ---- 12 §61.153（WebDAV/STRM 双真 bug 修复）长效守护 -----------------
+    # 防①TextReadCapability 实现被删（.strm 扫描回潮断链）/ ②XXE 硬化回潮
+    # （Android harmony 解析器 setFeature 抛异常）/ ③可见化被静默化。
+    webdav_txt = (ROOT / "datasource-webdav" / "src" / "main" / "kotlin" / "com"
+                  / "example" / "cloudmusic" / "webdav" / "WebDavDriver.kt").read_text(encoding="utf-8")
+    strm_txt = (ROOT / "datasource-strm" / "src" / "main" / "kotlin" / "com"
+                / "example" / "cloudmusic" / "strm" / "StrmDriver.kt").read_text(encoding="utf-8")
+    propfind_txt = (ROOT / "datasource-webdav" / "src" / "main" / "kotlin" / "com"
+                    / "example" / "cloudmusic" / "webdav" / "PropfindParser.kt").read_text(encoding="utf-8")
+    if "TextReadCapability" not in webdav_txt.split("readText")[0] or             "override suspend fun readText(file: Obj): String" not in webdav_txt:
+        failures.append("12 §61.153：WebDavDriver TextReadCapability 实现缺失")
+    elif ", TextReadCapability" not in strm_txt or "override suspend fun readText(file: Obj): String" not in strm_txt:
+        failures.append("12 §61.153：StrmDriver TextReadCapability 实现缺失")
+    elif "runCatching { setFeature(feature, true) }" not in propfind_txt:
+        failures.append("12 §61.153：PropfindParser XXE 特性 runCatching 缺失（Android setFeature 抛异常回潮）")
+    elif not all(x in doc139_txt for x in (
+        "双真 bug", "TextReadCapability",
+    )):
+        failures.append("12 §61.153：双真 bug 修复未登记")
+    elif "### 61.153" not in doc139_txt:
+        failures.append("12 §61.153：断点章节未登记")
+    else:
+        print("[PASS] 12 §61.153：TextReadCapability 双实现 + XXE runCatching + 登记在位")
 
     # 12 §61.42 守护：用户把口径升级为「1:1 像素级复刻」后，按竞品可观测证据
     # 自研重画播放页（竞品真实位图 / 色值 / 尺寸 / 控件层级），并如实挂账

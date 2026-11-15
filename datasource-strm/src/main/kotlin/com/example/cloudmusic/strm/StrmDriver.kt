@@ -2,6 +2,7 @@ package com.example.cloudmusic.strm
 
 import com.example.cloudmusic.common.CloudMusicError
 import com.example.cloudmusic.datasource.AbstractDriver
+import com.example.cloudmusic.datasource.TextReadCapability
 import com.example.cloudmusic.datasource.Driver
 import com.example.cloudmusic.datasource.DriverConfig
 import com.example.cloudmusic.datasource.DriverCtx
@@ -22,7 +23,13 @@ class StrmDriver(
     storage: Storage,
     addition: String,
     private val registry: DriverRegistry,
-) : AbstractDriver(storage, addition) {
+) : AbstractDriver(storage, addition), TextReadCapability {
+
+    /** §61.153：委托链转发——ScanCoordinator expandStrm 对 StrmDriver 实例调
+     *  readTextOrThrow 时经此落到底层驱动的 readText（WebDAV GET 等）。 */
+    override suspend fun readText(file: Obj): String =
+        requireDelegate().readTextOrThrow(file)
+
 
     override val config = DriverConfig(name = "Strm", localSort = true, noCache = true)
 

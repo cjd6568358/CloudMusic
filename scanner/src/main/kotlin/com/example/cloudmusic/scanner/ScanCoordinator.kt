@@ -142,6 +142,9 @@ class ScanCoordinator(
             throw e
         } catch (e: Exception) {
             state.error("", "E_SCAN_STORAGE_UNREACHABLE", e.message ?: "目录走查失败")
+            // §61.153：walk 异常可见化——错误此前在首个 emit 前发生，runScan 的
+            // lastProgress.errors 恒空（WebDAV/STRM 0 文件无法归因的真机一手）。
+            emit(state.progress(storage.id, request))
             return   // B07：单个 Storage 失败不影响其它 Storage
         }
 
