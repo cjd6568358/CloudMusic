@@ -237,8 +237,14 @@ class AndroidTagReader(
             runCatching { media.read(ref) }.getOrDefault(MediaTags.EMPTY)
         else MediaTags.EMPTY
         val fromHead = TagMerger.fromRaw(head.read(candidate))
-        runCatching { directoryCover(candidate, ref) }
-        return TagMerger.merge(fromMedia, fromJAudio, fromHead)
+        val merged = TagMerger.merge(fromMedia, fromJAudio, fromHead)
+        // §61.146：仅当无内嵌封面才查同目录封面——原实现无条件 list 父目录，
+        // 平铺大目录（夹具根 7,514 文件）下每候选一次全量 list+sort = O(n² log n)，
+        // 有内嵌封面时纯属白干（真机 467% 多核空转一手）。
+        if (merged.embeddedCover == null) {
+            runCatching { directoryCover(candidate, ref) }
+        }
+        return merged
     }
 
     override fun probe(head: ByteArray): AudioFormat = AudioProbe.probe(head)

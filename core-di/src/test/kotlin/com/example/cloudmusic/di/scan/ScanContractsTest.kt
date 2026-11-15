@@ -318,9 +318,12 @@ class ScanContractsTest {
         val jaudio = object : JAudioTaggerPort {
             override fun read(filePath: String) = MediaTags(
                 title = "文件标签", artist = "艺人", durationMs = 26_000L, sampleRate = 44_100,
+                embeddedCover = byteArrayOf(1),
             )
         }
-        val reader = AndroidTagReader(media, jaudio, FakeLocator("/files/full.mp3"), EmptyTagReader)
+        var dirCoverCalls = 0
+        val reader = AndroidTagReader(media, jaudio, FakeLocator("/files/full.mp3"), EmptyTagReader,
+            directoryCover = { _, _ -> dirCoverCalls++ })
         runBlocking {
             val raw = reader.read(candidate())
             assertEquals("文件标签", raw.title)
@@ -328,6 +331,7 @@ class ScanContractsTest {
             assertEquals(26_000L, raw.durationMs)
             assertEquals(44_100, raw.sampleRate)
             assertEquals(0, mediaCalls) // §61.145：title+duration 齐备 → 检索器零调用
+            assertEquals(0, dirCoverCalls) // §61.146：有内嵌封面 → 目录封面查找零调用
         }
         val poor = AndroidTagReader(media, jaudio, FakeLocator("/files/poor.mp3"), EmptyTagReader)
         runBlocking {

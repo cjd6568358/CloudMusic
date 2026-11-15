@@ -132,7 +132,10 @@ AudioTrack 同 session 跨曲）与 §61.140 歌单首曲封面真机 PASS；
 先行 + 检索器缺项兜底（content:// 原样）②封面 MD5 去重
 ③markAvailabilityBatch 接口默认实现 + 批量覆写 + Reconciler 分组；
 新增一组 §61.145 守护。
-详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.145。
+第一百六十二批（12 §61.146，2026-11-15）：增量判据真机 PASS（1,051ms）+
+directoryCover O(n²) 守卫修复（embeddedCover==null 才查）；
+新增一组 §61.146 守护。
+详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.146。
 """
 from __future__ import annotations
 
@@ -2497,6 +2500,21 @@ def main() -> int:
         failures.append("12 §61.145：断点章节未登记")
     else:
         print("[PASS] 12 §61.145：通道跳步 + 封面去重 + 批量置位 + 断点登记在位")
+
+    # ---- 12 §61.146（目录封面 O(n²) 消除 + 增量 PASS）长效守护 -----------
+    # 防 directoryCover 无条件回潮（平铺大目录 O(n² log n) 空转）；
+    # 增量判据 PASS 裁决在位。
+    if not all(x in tag_cover_txt for x in (
+        "仅当无内嵌封面才查同目录封面",
+        "if (merged.embeddedCover == null)",
+    )):
+        failures.append("12 §61.146：directoryCover 守卫缺失（无条件 list 回潮）")
+    elif "1,051 ms" not in doc139_txt and "1051 ms" not in doc139_txt:
+        failures.append("12 §61.146：增量判据 PASS 裁决未登记")
+    elif "### 61.146" not in doc139_txt:
+        failures.append("12 §61.146：断点章节未登记")
+    else:
+        print("[PASS] 12 §61.146：directoryCover 守卫 + 增量 PASS 裁决在位")
 
     # 12 §61.42 守护：用户把口径升级为「1:1 像素级复刻」后，按竞品可观测证据
     # 自研重画播放页（竞品真实位图 / 色值 / 尺寸 / 控件层级），并如实挂账
