@@ -201,6 +201,22 @@ class ScanCoordinatorTest {
     }
 
     @Test
+    @DisplayName("§61.144 metadata 写库按 batchSize 聚合：单行事务 ×N 不得出现")
+    fun metadataBatchedUpsert() = runTest {
+        val files = (1..30).map { obj("/music/m$it.mp3", size = it.toLong()) }
+        DriverRegistry.put("s1", FakeDriver(mapOf("" to files)))
+        val recording = RecordingSink()
+        val tagged = object : TagReader {
+            override suspend fun read(candidate: Candidate): RawTags =
+                RawTags(title = candidate.obj.name.substringBeforeLast('.'), completeness = 1f)
+        }
+        coordinator(listOf(storage()), recording, tagReader = tagged)
+            .run(ScanRequest(includeMetadata = true, batchSize = 500))
+        // 阶段 A 一次批量(30) + metadata 按 500 聚合为一批(30)——不是 30 个单行事务
+        assertEquals(listOf(30, 30), recording.batches)
+    }
+
+    @Test
     @DisplayName("失败汇总：非 http scheme 的 strm 记 E_LINK_BAD_SCHEME，不中断扫描")
     fun failureSummary() = runTest {
         val bad = obj("/music/bad.strm")

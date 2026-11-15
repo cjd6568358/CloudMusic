@@ -36,5 +36,22 @@
     "0-candidate 保护（clear-snapshot 拒绝）待拍板",
     "增量扫（≤10s 判据）实测待 USB/亮屏会话",
     "当前库态：7514 曲 UNREACHABLE（可恢复）+ 24 OK + snapshot 空——下轮正确扫描自动恢复"
-  ]
+  ],
+  "followup_61_144": {
+    "date": "2026-11-15",
+    "code": "runMetadata 事务聚合落地（chunked upsertBatch + emit 节流，T-A4-11 PASS）——事务 7514→16、emit 7514→16",
+    "device_findings": [
+      "已有库重扫（refresh=true）阶段 A 更新路径 ~8.5min（对比空库插入路径 50s）——独立卡点：insert≠update 成本",
+      "metadata 阶段 21min+ 零落地（标题/cover_ref 全未更新、covers=6）——根因 = MediaMetadataRetriever per-file 全量提取（03-04 §6.2「MediaMetadataRetriever 为主」设计）+ 封面 per-trackId 无内容哈希去重（7,501 次重复解码/编码）",
+      "增量扫（快照在+无变化）NOT RUN 完成——进程 MIUI 击杀且 CPU 异常（100%）未定位；线程栈抓取无权限（/data/anr 对 shell/run-as 均拒）"
+    ],
+    "verdict": "冷扫判据 ≤60s 维持 FAIL；事务聚合只解次要因子，主要卡点 = 标签通道语义（MediaMetadataRetriever per-file）+ 封面重编码 + 阶段 A 更新路径",
+    "optimization_backlog": [
+      "标签通道语义演进：JAudioTagger 主（LOCAL 文件）/ MediaMetadataRetriever 降为 content:// 与兜底——03-04 §6.2 口径演进需拍板",
+      "封面内容哈希去重（decode/encode 前先 hash 原字节，命中即复用）",
+      "阶段 A 更新路径批量化（已有库重扫 8.5min）",
+      "增量扫描 CPU 异常定位（需 USB+亮屏可抓栈环境）"
+    ],
+    "measurement_env": "MIUI 后台冻结使 T-V #9 无人值守测量不可靠——完整判据实测必须 USB + 亮屏前台会话"
+  }
 }

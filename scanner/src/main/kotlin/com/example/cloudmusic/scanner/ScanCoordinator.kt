@@ -323,19 +323,27 @@ class ScanCoordinator(
         emit: (ScanProgress) -> Unit,
     ) {
         val semaphore = Semaphore(request.metadataConcurrency.coerceAtLeast(1))
+        // §61.144：metadata 写库按 batchSize 聚合——原实现逐文件 `upsertBatch(listOf(单行))`
+        // + 逐文件进度 emit，7,500 规模 = 7,514 个独立 Room 事务 + 7,514 次全量重组，
+        // 是 T-V #9 冷扫判据 FAIL 的直接卡点（阶段 A 本体 ~50-60s，metadata 阶段分钟级）。
+        // 现按块并行读标签（信号量限流），块尾一次 upsertBatch + emit；
+        // 取消/异常时仅当前块的增量丢失（阶段 A 骨架已在库，重扫即恢复，§8 快照语义）。
         coroutineScope {
-            candidates.map { candidate ->
-                async {
-                    semaphore.withPermit {
-                        currentCoroutineContext().ensureActive()
-                        val raw = tagReader.read(candidate)
-                        if (raw == RawTags.EMPTY) return@withPermit   // B01：降级，保留阶段 A 骨架
-                        trackSink.upsertBatch(listOf(trackFactory.build(candidate, raw)))
-                        state.addMetadata(1)
-                        emit(state.progress(storageId, request, phase = ScanPhase.METADATA))
+            candidates.chunked(request.batchSize.coerceAtLeast(1)).forEach { chunk ->
+                val tracks = chunk.map { candidate ->
+                    async {
+                        semaphore.withPermit {
+                            currentCoroutineContext().ensureActive()
+                            val raw = tagReader.read(candidate)
+                            if (raw == RawTags.EMPTY) null   // B01：降级，保留阶段 A 骨架
+                            else trackFactory.build(candidate, raw)
+                        }
                     }
-                }
-            }.awaitAll()
+                }.awaitAll().filterNotNull()
+                if (tracks.isNotEmpty()) trackSink.upsertBatch(tracks)
+                state.addMetadata(tracks.size)
+                emit(state.progress(storageId, request, phase = ScanPhase.METADATA))
+            }
         }
     }
 

@@ -124,7 +124,11 @@ AudioTrack 同 session 跨曲）与 §61.140 歌单首曲封面真机 PASS；
 优先 + playLocal 强制重建（C-10 覆盖冲突）+ DataStore 预写 storage；7,500 冷扫
 首跑 FAIL 判据定位 runMetadata 逐条事务设计；0-candidate 破坏面挂账；
 新增一组 §61.143 守护。
-详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.143。
+第一百六十批（12 §61.144，2026-11-15）：runMetadata 按 batchSize 聚合（事务/emit
+7,514→16，T-A4-11）+ 重扫真机深化（阶段 A 更新路径 8.5min / metadata 通道根因 /
+增量扫 NOT RUN）；冷扫判据维持 FAIL；
+新增一组 §61.144 守护。
+详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.144。
 """
 from __future__ import annotations
 
@@ -2434,6 +2438,29 @@ def main() -> int:
         failures.append("12 §61.143：断点章节未登记")
     else:
         print("[PASS] 12 §61.143：binder defer + 强制重建 + T-A4-10 + 冷扫 FAIL 裁决在位")
+
+    # ---- 12 §61.144（runMetadata 事务聚合）长效守护 ----------------------
+    # 防逐文件单事务回潮（T-V #9 冷扫 FAIL 的次要因子）+ 裁决证据在位。
+    scan_coord = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
+                  / "example" / "cloudmusic" / "scanner" / "ScanCoordinator.kt")
+    scan_coord_txt = scan_coord.read_text(encoding="utf-8") if scan_coord.is_file() else ""
+    if not all(x in scan_coord_txt for x in (
+        "metadata 写库按 batchSize 聚合",
+        "candidates.chunked(request.batchSize.coerceAtLeast(1))",
+        "if (tracks.isNotEmpty()) trackSink.upsertBatch(tracks)",
+    )):
+        failures.append("12 §61.144：runMetadata 块聚合缺失（逐文件单事务回潮）")
+    elif "metadataBatchedUpsert" not in (
+        (ROOT / "scanner" / "src" / "test" / "kotlin" / "com" / "example" / "cloudmusic"
+         / "scanner" / "ScanCoordinatorTest.kt").read_text(encoding="utf-8")
+    ):
+        failures.append("12 §61.144：metadataBatchedUpsert 用例缺失")
+    elif "followup_61_144" not in verdict143_txt:
+        failures.append("12 §61.144：重扫深化裁决（阶段A更新路径 / metadata 通道根因）未登记")
+    elif "### 61.144" not in doc139_txt:
+        failures.append("12 §61.144：断点章节未登记")
+    else:
+        print("[PASS] 12 §61.144：runMetadata 块聚合 + 用例 + 重扫深化裁决在位")
 
     # 12 §61.42 守护：用户把口径升级为「1:1 像素级复刻」后，按竞品可观测证据
     # 自研重画播放页（竞品真实位图 / 色值 / 尺寸 / 控件层级），并如实挂账
