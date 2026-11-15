@@ -128,7 +128,11 @@ AudioTrack 同 session 跨曲）与 §61.140 歌单首曲封面真机 PASS；
 7,514→16，T-A4-11）+ 重扫真机深化（阶段 A 更新路径 8.5min / metadata 通道根因 /
 增量扫 NOT RUN）；冷扫判据维持 FAIL；
 新增一组 §61.144 守护。
-详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.144。
+第一百六十一批（12 §61.145，2026-11-15）：扫描三线优化——①LOCAL 路径 JAudio
+先行 + 检索器缺项兜底（content:// 原样）②封面 MD5 去重
+③markAvailabilityBatch 接口默认实现 + 批量覆写 + Reconciler 分组；
+新增一组 §61.145 守护。
+详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.145。
 """
 from __future__ import annotations
 
@@ -2461,6 +2465,38 @@ def main() -> int:
         failures.append("12 §61.144：断点章节未登记")
     else:
         print("[PASS] 12 §61.144：runMetadata 块聚合 + 用例 + 重扫深化裁决在位")
+
+    # ---- 12 §61.145（扫描三线优化）长效守护 ------------------------------
+    # 防①通道跳步回潮（检索器回到 per-file 主通道）/ ②去重被删 / ③批量置位回潮；
+    # 接口默认实现（逐行委托）必须在位以防接口演进破坏既有 fake。
+    tag_cover_txt = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                     / "example" / "cloudmusic" / "di" / "scan" / "ProductionTagAndCover.kt"
+                     ).read_text(encoding="utf-8")
+    repos_txt = (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com"
+                 / "example" / "cloudmusic" / "storage" / "Repositories.kt"
+                 ).read_text(encoding="utf-8")
+    reconciler_txt = (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com"
+                      / "example" / "cloudmusic" / "storage" / "InMemoryLibrary.kt"
+                      ).read_text(encoding="utf-8")
+    if not all(x in tag_cover_txt for x in (
+        "LOCAL 文件路径 JAudioTagger 先行",
+        "jaudioSufficient", "written[hash]",
+    )):
+        failures.append("12 §61.145：①通道跳步 / ②封面哈希去重缺失")
+    elif not all(x in repos_txt for x in (
+        "suspend fun markAvailabilityBatch(ids: List<TrackId>, a: Availability)",
+        "ids.forEach { markAvailability(it, a) }",
+    )):
+        failures.append("12 §61.145：③markAvailabilityBatch 接口默认实现缺失")
+    elif not all(x in reconciler_txt for x in (
+        "batch.groupBy { it.availability }",
+        "tracks.markAvailabilityBatch(group.map { it.id }, availability)",
+    )):
+        failures.append("12 §61.145：Reconciler 分组批量缺失（逐行回潮）")
+    elif "### 61.145" not in doc139_txt:
+        failures.append("12 §61.145：断点章节未登记")
+    else:
+        print("[PASS] 12 §61.145：通道跳步 + 封面去重 + 批量置位 + 断点登记在位")
 
     # 12 §61.42 守护：用户把口径升级为「1:1 像素级复刻」后，按竞品可观测证据
     # 自研重画播放页（竞品真实位图 / 色值 / 尺寸 / 控件层级），并如实挂账

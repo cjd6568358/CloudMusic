@@ -86,6 +86,13 @@ class RoomTrackRepository(
     override suspend fun markAvailability(id: TrackId, a: Availability) =
         dao.markAvailability(id.value, a.name, clock())
 
+    /** §61.145：批量置位（500 一批防 SQLite 变量上限，单事务多行）。 */
+    override suspend fun markAvailabilityBatch(ids: List<TrackId>, a: Availability) {
+        ids.map { it.value }.chunked(500).forEach { chunk ->
+            dao.markAvailabilityBatch(chunk, a.name, clock())
+        }
+    }
+
     override suspend fun markOrphan(storageId: String) = dao.markOrphan(storageId, clock())
 
     /** §61.122（T5-2）：分析管线落库增益。 */

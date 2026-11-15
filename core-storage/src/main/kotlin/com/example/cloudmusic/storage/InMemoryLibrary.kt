@@ -105,6 +105,19 @@ class InMemoryTrackRepository(
         }
     }
 
+    /** §61.145：单事务批量置位（覆写默认逐行委托；不计 batchCount——非 upsert）。 */
+    override suspend fun markAvailabilityBatch(ids: List<TrackId>, a: Availability) {
+        store.mutate { s ->
+            val idsSet = ids.mapTo(HashSet()) { it.value }
+            s.copy(
+                tracks = s.tracks.mapValues { (id, entity) ->
+                    if (id in idsSet) entity.copy(availability = a.name, updatedAt = store.now())
+                    else entity
+                },
+            )
+        }
+    }
+
     /** §9：删除 Storage 时把相关曲目标 UNREACHABLE，歌单成员关系保留。 */
     override suspend fun markOrphan(storageId: String) {
         store.mutate { s ->
@@ -145,11 +158,16 @@ class InMemoryTrackRepository(
 class ScanReconciler(private val tracks: TrackRepository) {
     suspend fun upsertFromScan(batch: List<Track>) {
         tracks.upsertBatch(batch)
-        batch.forEach { tracks.markAvailability(it.id, it.availability) }
+        // §61.145：可用性置位按值分组批量（C-04「扫到置回 OK」语义不变——upsertBatch
+        // 是合并语义不覆盖已有 availability，显式置位不可省）；逐行 suspend + 每行
+        // 独立 WAL 事务是 §61.144 真机一手阶段 A 更新路径分钟级卡点的直接成分。
+        batch.groupBy { it.availability }.forEach { (availability, group) ->
+            tracks.markAvailabilityBatch(group.map { it.id }, availability)
+        }
     }
 
     suspend fun markUnavailable(ids: List<TrackId>) {
-        ids.forEach { tracks.markAvailability(it, Availability.UNREACHABLE) }
+        tracks.markAvailabilityBatch(ids, Availability.UNREACHABLE)
     }
 }
 

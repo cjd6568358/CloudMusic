@@ -90,6 +90,19 @@ class InMemoryRepositoryTest {
     }
 
     @Test
+    @DisplayName("§61.145 markAvailabilityBatch 单事务批量置位，语义与逐行一致")
+    fun markAvailabilityBatchFlipsAll() = runTest {
+        val many = (1..1200).map { testTrack(TrackId.of("s", "/b/$it.flac")) }
+        tracks.upsertBatch(many)
+        tracks.markAvailabilityBatch(many.map { it.id }, Availability.UNREACHABLE)
+        assertEquals(1200, tracks.observeAll().first().count { it.availability == Availability.UNREACHABLE })
+        tracks.markAvailabilityBatch(many.map { it.id }, Availability.OK)
+        assertEquals(1200, tracks.observeAll().first().count { it.availability == Availability.OK })
+        // 不触碰收藏/播放次数（独立表口径）
+        assertEquals(0, favorites.observe().first().size)
+    }
+
+    @Test
     @DisplayName("03-05 B02 / T06 7,500 首一次性 upsert 分 15 批事务")
     fun b02() = runTest {
         val many = (1..7_500).map { i ->

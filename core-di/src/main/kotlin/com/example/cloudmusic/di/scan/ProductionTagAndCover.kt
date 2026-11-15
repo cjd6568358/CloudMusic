@@ -103,10 +103,20 @@ class AndroidCoverWriter(context: Context) : CoverWriterPort {
     private val appContext = context.applicationContext
     private val dir = File(CoverPolicy.coverDir(appContext.cacheDir.absolutePath))
 
+    /** §61.145：内容哈希 → 已落盘 ref 的会话级去重——同字节封面（同专辑多曲目 / 夹具
+     *  复制集）只 decode/encode 一次；命中直接复用路径，封面文件本身按 trackId 命名
+     *  语义不变（首个 trackId 的文件被同内容后续曲目共享引用，字节一致无损）。 */
+    private val written = java.util.concurrent.ConcurrentHashMap<String, String>()
+
     override fun write(trackId: String, bytes: ByteArray): String? {
         if (!CoverPolicy.accepts(bytes)) return null
-        return runCatching { decodeAndWrite(trackId, bytes) }
-            .getOrNull()?.takeIf { it.isNotEmpty() }
+        val hash = java.security.MessageDigest.getInstance("MD5")
+            .digest(bytes).joinToString("") { "%02x".format(it) }
+        written[hash]?.let { return it }
+        val ref = runCatching { decodeAndWrite(trackId, bytes) }
+            .getOrNull()?.takeIf { it.isNotEmpty() } ?: return null
+        written[hash] = ref
+        return ref
     }
 
     override fun writeFromRef(trackId: String, ref: String): String? {
@@ -216,9 +226,16 @@ class AndroidTagReader(
         val local = ref.startsWith("content://") || ref.startsWith("file://") || ref.startsWith("/")
         if (!local) return head.read(candidate) // 网络音源：ByteRange 头部解析
 
-        val fromMedia = runCatching { media.read(ref) }.getOrDefault(MediaTags.EMPTY)
+        // §61.145：LOCAL 文件路径 JAudioTagger 先行——其文本帧 + header(duration/sampleRate)
+        // 覆盖除音质外全部字段且成本毫秒级；MediaMetadataRetriever（§61.144 真机一手：
+        // MIUI 上百 ms 级/文件，7,514 文件 = 分钟级）降为**缺项兜底**：JAudio 未给出
+        // title 或 duration 时才调用。content:// 不受影响（JAudio 不接受流）。
         val fromJAudio = if (ref.startsWith("content://")) MediaTags.EMPTY
         else runCatching { jaudio.read(ref.removePrefix("file://")) }.getOrDefault(MediaTags.EMPTY)
+        val jaudioSufficient = fromJAudio.title != null && fromJAudio.durationMs != null
+        val fromMedia = if (ref.startsWith("content://") || !jaudioSufficient)
+            runCatching { media.read(ref) }.getOrDefault(MediaTags.EMPTY)
+        else MediaTags.EMPTY
         val fromHead = TagMerger.fromRaw(head.read(candidate))
         runCatching { directoryCover(candidate, ref) }
         return TagMerger.merge(fromMedia, fromJAudio, fromHead)

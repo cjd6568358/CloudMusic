@@ -307,6 +307,43 @@ class ScanContractsTest {
     }
 
     @Test
+    fun `T-A4-12 LOCAL ref with sufficient JAudio tags skips MediaMetadataRetriever`() {
+        var mediaCalls = 0
+        val media = object : MediaMetadataPort {
+            override fun read(ref: String): MediaTags {
+                mediaCalls++
+                return MediaTags(title = "不该被调用", durationMs = 1L)
+            }
+        }
+        val jaudio = object : JAudioTaggerPort {
+            override fun read(filePath: String) = MediaTags(
+                title = "文件标签", artist = "艺人", durationMs = 26_000L, sampleRate = 44_100,
+            )
+        }
+        val reader = AndroidTagReader(media, jaudio, FakeLocator("/files/full.mp3"), EmptyTagReader)
+        runBlocking {
+            val raw = reader.read(candidate())
+            assertEquals("文件标签", raw.title)
+            assertEquals("艺人", raw.artist)
+            assertEquals(26_000L, raw.durationMs)
+            assertEquals(44_100, raw.sampleRate)
+            assertEquals(0, mediaCalls) // §61.145：title+duration 齐备 → 检索器零调用
+        }
+        val poor = AndroidTagReader(media, jaudio, FakeLocator("/files/poor.mp3"), EmptyTagReader)
+        runBlocking {
+            // JAudio 缺 duration → 检索器兜底仍要跑；merge 仍按既有 media-first 逐字段优先
+            val tagged = object : JAudioTaggerPort {
+                override fun read(filePath: String) = MediaTags(title = "只有标题", artist = "兜底艺人")
+            }
+            val r = AndroidTagReader(media, tagged, FakeLocator("/files/poor.mp3"), EmptyTagReader)
+                .read(candidate())
+            assertEquals("不该被调用", r.title)   // media-first merge 语义不变
+            assertEquals(1L, r.durationMs)
+            assertEquals(1, mediaCalls)          // 兜底恰好一次
+        }
+    }
+
+    @Test
     fun `T-A4-09 tag reader merges local channels and skips JAudioTagger for content uri`() {
         var jaudioCalls = 0
         val media = object : MediaMetadataPort {

@@ -22,6 +22,12 @@ interface TrackRepository {
     suspend fun get(id: TrackId): Track?
     suspend fun upsertBatch(tracks: List<Track>)          // ★每 500 条一个事务
     suspend fun markAvailability(id: TrackId, a: Availability)
+    /** §61.145：批量可用性置位（重扫恢复 OK / markUnavailable 批路径）——默认逐行委托，
+     *  生产实现必须覆写为单事务批量（逐行 suspend + 每行独立 WAL 事务是 7,500 重扫
+     *  阶段 A 更新路径分钟级卡点的直接成分，§61.144 真机一手）。 */
+    suspend fun markAvailabilityBatch(ids: List<TrackId>, a: Availability) {
+        ids.forEach { markAvailability(it, a) }
+    }
     suspend fun markOrphan(storageId: String)             // 删除 Storage 时调用
     /** §61.122（T5-2）：分析管线落库曲目增益（dB，负=衰减）；仅 LOCAL opt-in。 */
     suspend fun markReplayGain(id: TrackId, gainDb: Float)

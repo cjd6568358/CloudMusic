@@ -55,6 +55,10 @@ interface TrackDao {
     @Query("UPDATE tracks SET availability = :value, updated_at = :now WHERE id = :id")
     suspend fun markAvailability(id: String, value: String, now: Long)
 
+    /** §61.145：批量可用性置位（单事务多行，消灭逐行 suspend + 每行 WAL 事务）。 */
+    @Query("UPDATE tracks SET availability = :value, updated_at = :now WHERE id IN (:ids)")
+    suspend fun markAvailabilityBatch(ids: List<String>, value: String, now: Long)
+
     /** §61.122（T5-2）：分析管线落库增益。 */
     @Query("UPDATE tracks SET replay_gain_db = :db WHERE id = :id")
     suspend fun markReplayGain(id: String, db: Float)
