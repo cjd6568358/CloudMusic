@@ -528,6 +528,11 @@ class EngineAdapter : IMusicEngine {
         slot(handle)
     }
 
+    /** §61.131：A 路线 gapless = 逐曲 prepare（退化，无真 gapless）。 */
+    override fun prepareQueue(sources: List<com.example.cloudmusic.engine.api.EngineSource>, startIndex: Int, config: com.example.cloudmusic.engine.api.EngineConfig): EngineHandle {
+        return prepare(sources.first(), config)
+    }
+
     override fun release(handle: EngineHandle) {
         // §61.26：与 prepare / releaseAllInternal 互斥；VFM 随 slot 释放（G05 实证
         // 共享字段在自动进曲竞态下会释放到别人刚创建的实例上）。

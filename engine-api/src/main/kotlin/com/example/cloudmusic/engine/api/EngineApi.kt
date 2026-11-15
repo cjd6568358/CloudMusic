@@ -84,6 +84,13 @@ interface IMusicEngine {
      * band 数不匹配（取 min）；未挂载 audiofx 时静默忽略。
      */
     fun setEqualizerBands(handle: EngineHandle, levelsMillibel: List<Int>)
+
+    /**
+     * §61.131（gapless 队列化施工单）：多曲目 gapless 播放——B2 侧走 ExoPlayer
+     * 原生 playlist（setMediaItems），同格式相邻曲目无缝衔接。
+     * **增量方法**（门面 prepare 不动，单曲路径零回归）。
+     */
+    fun prepareQueue(sources: List<EngineSource>, startIndex: Int, config: EngineConfig): EngineHandle
     fun release(handle: EngineHandle)
     fun lastError(): CloudMusicError?
 }
@@ -203,6 +210,20 @@ class InMemoryMusicEngine : IMusicEngine {
     override fun setEqualizerBands(handle: EngineHandle, levelsMillibel: List<Int>) {
         requireActive(handle)
     }
+
+    /** §61.131：内存参考实现——记录队列快照（单测断言用）。 */
+    override fun prepareQueue(sources: List<EngineSource>, startIndex: Int, config: EngineConfig): EngineHandle {
+        val handle = prepare(sources.first(), config)
+        queuedSources = sources.toList()
+        queuedStartIndex = startIndex
+        return handle
+    }
+
+    /** §61.131：最近一次 prepareQueue 的队列快照。 */
+    var queuedSources: List<EngineSource>? = null
+        private set
+    var queuedStartIndex: Int = 0
+        private set
 
     override fun release(handle: EngineHandle) {
         requireActive(handle)

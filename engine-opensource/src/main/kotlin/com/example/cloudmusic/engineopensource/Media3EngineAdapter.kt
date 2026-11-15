@@ -516,6 +516,66 @@ class Media3EngineAdapter : IMusicEngine {
      * 忽略（attachAudioEffect 先行）；band 数不匹配取 min；millibel 钳制
      * [-1500, 1500]（系统 Equalizer 合法范围 ±15dB）。
      */
+    /**
+     * §61.131（gapless 队列化施工单）：多曲目 gapless 播放——B2 走 ExoPlayer
+     * 原生 playlist（setMediaItems），同格式相邻曲目无缝衔接。
+     * 复用 prepare() 的 renderersFactory/mediaSourceFactory/cache 逻辑；
+     * startIndex 为 ExoPlayer 的起始 MediaItem 索引。
+     * 单曲路径（prepare）零回归——PlayerController 按队列大小分支。
+     */
+    override fun prepareQueue(
+        sources: List<EngineSource>,
+        startIndex: Int,
+        config: EngineConfig,
+    ): EngineHandle {
+        check(activeHandle == null) {
+            "single handle invariant: release() before a new prepareQueue() (03-06 §4)"
+        }
+        val ctx = appContext
+            ?: throw CloudMusicError.DsUpstream(
+                "MEDIA3_CONTEXT", "appContext 未注入")
+        error = null
+        replayGain.reset()
+        val items = sources.map { source ->
+            val uri: Uri = when {
+                source.url != null -> Uri.parse(source.url)
+                source.localPath != null -> Uri.fromFile(File(source.localPath))
+                else -> throw CloudMusicError.DsUpstream(
+                    "MEDIA3_SOURCE", "EngineSource 既无 url 也无 localPath")
+            }
+            MediaItem.Builder().setUri(uri).setMediaId(source.trackId).build()
+        }
+        val first = sources.first()
+        Log.i(TAG, "prepareQueue count=%d startIndex=%d first=%s".format(
+            sources.size, startIndex, first.trackId))
+        val renderersFactory = DefaultRenderersFactory(ctx)
+            .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
+            .setMediaCodecSelector { mimeType, secure, tunneling ->
+                if (mimeType == "audio/x-ape") emptyList()
+                else MediaCodecSelector.DEFAULT.getDecoderInfos(mimeType, secure, tunneling)
+            }
+        // 队列播放用 DefaultDataSource.Factory（同时处理 local 与 http，
+        // 不做 CacheDataSource 包装——gapless 场景缓存收益低于复杂度成本）。
+        val dataSourceFactory = androidx.media3.datasource.DefaultDataSource.Factory(ctx)
+        val mediaSourceFactory = DefaultMediaSourceFactory(
+            dataSourceFactory,
+            androidx.media3.extractor.ape.ApeExtractor.factoryWithApe(),
+        )
+        val handle = EngineHandle(nextRaw++)
+        onMainSync(10L, Unit) {
+            val p = ExoPlayer.Builder(ctx, renderersFactory, mediaSourceFactory).build()
+            player = p
+            p.addListener(listener)
+            p.setMediaItems(items, startIndex.coerceIn(0, items.size - 1), 0L)
+            p.setPauseAtEndOfMediaItems(false)
+            Log.i(TAG, "gapless playlist: %d items startIndex=%d".format(items.size, startIndex))
+            p.prepare()
+            activeHandle = handle
+            _state.value = EngineState.PAUSED
+        }
+        return handle
+    }
+
     override fun setEqualizerBands(handle: EngineHandle, levelsMillibel: List<Int>) {
         requireActive(handle)
         onMainSync(5L, Unit) {
