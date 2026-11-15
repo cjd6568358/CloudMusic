@@ -172,12 +172,13 @@ class ApeExtractor : Extractor {
         writeLeU16(extradata, 4, formatFlags)
         apeExtradata = extradata
 
-        val skipWav = formatFlags and FLAG_CREATE_WAV_HEADER == 0
-        if (skipWav && wavHeaderLength in 1..0x100000) {
-            input.skipFully(wavHeaderLength.toInt())
-        }
+        // §61.157（FFmpeg 6.0 ape.c ape_read_header 顺序逐字对齐）：文件布局 =
+        // [descriptor][header][seektable][wavheader][frames]——**seek 表在 wav 头
+        // 之前**。旧实现在读 seek 表前先 skipFully(wavHeaderLength)，把流位置推到
+        // seek 表内偏移 +44B → 全部 frames[] 错位 11 项 → 每包 payload 垃圾
+        // （§61.148/156 真机每包 "Error decoding frame" 的最终根因）。
         // firstframe = descriptor + header + seektable + wavheader（+v<3810 的逐帧计数）。
-        val wavSkip = if (skipWav) wavHeaderLength.toLong() else 0L
+        val wavSkip = wavHeaderLength.toLong()
         firstFrameOffset = descriptorLength.toLong() + headerLen.toLong() +
             seekTableLength.toLong() + wavSkip
         if (version < 3810) firstFrameOffset += totalFrames
@@ -190,6 +191,10 @@ class ApeExtractor : Extractor {
         for (i in 1 until totalFrames) {
             if (!input.readFully(entry, 0, 4, true)) return Extractor.RESULT_END_OF_INPUT
             frames[i] = readLeU32(entry, 0) and 0xFFFFFFFFL
+        }
+        // §61.157：wav 头在 seek 表**之后**——读完 seek 表再跳过，落到 firstframe。
+        if (wavSkip in 1..0x100000) {
+            input.skipFully(wavSkip.toInt())
         }
         // §61.94b（Media3 一手栈：Loading finished before preparation is complete）：
         // 截断文件——SeekMap 声明时长必须与实际可投递数据一致，否则 Media3 在
