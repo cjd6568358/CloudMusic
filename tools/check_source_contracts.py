@@ -116,7 +116,11 @@ gapless 施工单步骤 3 真机 PASS（prepareQueue + cross_track + 零间隙 +
 AudioTrack 同 session 跨曲）与 §61.140 歌单首曲封面真机 PASS；
 裁决 evidence = analysis/gapless-61-141-verdict.json + screenshots；
 新增一组 §61.141 守护（防裁决证据被删/被改写）。
-详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.141。
+第一百五十八批（12 §61.142，2026-11-15）：容器 Extractor 真机复测清点
+（零源码改动）——wma/aiff/wavpack 三项 PASS + ape FAIL×2（静音）分档登记
+（PASS 留档不删、FAIL 不隐匿，双口径受守护）；
+新增一组 §61.142 守护。
+详见 docs/12-编码阶段第一批交付.md §5.1 / §11~§21 / §25~§61 / §61.142。
 """
 from __future__ import annotations
 
@@ -2375,6 +2379,22 @@ def main() -> int:
         failures.append("12 §61.141：断点章节未登记")
     else:
         print("[PASS] 12 §61.141：gapless 真机 PASS 裁决 + 截图证据 + 断点登记在位")
+
+    # ---- 12 §61.142（容器真机复测清点）长效守护 -------------------------
+    # 防「ape FAIL×2 分档登记被抹成 PASS」或「三容器 PASS 证据被删」；
+    # PASS 不伪造、FAIL 不隐匿，双口径留档口径受守护。
+    verdict142 = ROOT / "analysis" / "containers-61-142-verdict.json"
+    verdict142_txt = verdict142.read_text(encoding="utf-8") if verdict142.is_file() else ""
+    if not all(x in verdict142_txt for x in (
+        '"wma_asf"', '"aiff"', '"wavpack"', '"ape"',
+        '"verdict": "PASS"', '"verdict": "FAIL×2（静音播放）"',
+        "PASS 证据留档不删",
+    )):
+        failures.append("12 §61.142：容器复测裁决 JSON 关键字段缺失或 ape FAIL 分档被抹")
+    elif "### 61.142" not in doc139_txt or "容器 Extractor 真机复测清点" not in doc139_txt:
+        failures.append("12 §61.142：断点章节未登记")
+    else:
+        print("[PASS] 12 §61.142：容器复测 3 PASS + ape FAIL×2 分档 + 断点登记在位")
 
     # 12 §61.42 守护：用户把口径升级为「1:1 像素级复刻」后，按竞品可观测证据
     # 自研重画播放页（竞品真实位图 / 色值 / 尺寸 / 控件层级），并如实挂账

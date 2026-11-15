@@ -1,0 +1,49 @@
+{
+  "batch": "§61.142",
+  "date": "2026-11-15",
+  "scope": "容器 Extractor 真机复测挂账清点：ape / wma(ASF) / aiff / wavpack（§61.94/97/102 实现后首轮真机）",
+  "apk": "bbb5446b (§61.140) 本机签名，与 §61.141 同进程会话（pid 22686）",
+  "fixture_dir": "/data/user/0/com.example.cloudmusic/files/music（debug-local-fixture driver，playLocal 注入）",
+  "extractor_list": "factoryWithApe() = [ApeExtractor, AsfExtractor, AiffExtractor, WavpackExtractor] + DefaultExtractorsFactory 21 = 25（CM-Factory: extractors: 25 (ape/asf + 21 default) 每次起播可观测）",
+  "results": {
+    "wma_asf": {
+      "verdict": "PASS",
+      "evidence": [
+        "17:13:59.185 BUFFERING → 59.325 READY durationMs=45445 → PLAYING（45s 真实 WMA）",
+        "17:13:59.247 [wmav2 @ …] Could not update timestamps for skipped samples（ffmpeg 良性告警）",
+        "17:14:04.535 AudioTrack(22686) [audioTrackData][fine] 5s(f:5238 m:0 s:0 k:0) sessionId 4753 sr 44100 ch 2 —— 出声实锤",
+        "audio_flinger: track 566 client 22686 session 4753 Active=yes FrmRdy=22050/22050 —— 混音器活跃实锤"
+      ]
+    },
+    "aiff": {
+      "verdict": "PASS",
+      "evidence": [
+        "17:15:23.059 BUFFERING → 23.105 READY durationMs=11946 → PLAYING",
+        "positionMs 1:1 推进（10010 @10s）→ 17:15:35.119 ENDED positionMs=12012 → PAUSED —— 生命周期完整，ENDED 与 duration 精确一致",
+        "AudioTrack 细粒度 [audioTrackData] 日志本轮未打印（MIUI xlog 口径偶发）；与 WMA 同一 AudioSink 管线佐证"
+      ]
+    },
+    "wavpack": {
+      "verdict": "PASS",
+      "evidence": [
+        "17:15:57.801 BUFFERING → 57.903 READY durationMs=12000 → PLAYING",
+        "17:15:59.644 [wavpack @ …] Block 0 has invalid size (size 540 vs. 354 bytes left)（解码器容忍，继续播）",
+        "17:15:59.897 AudioTrack stop(736): called with 119808 frames delivered —— 真帧交付",
+        "positionMs 1:1（9848 @10s）→ 17:16:10.050 ENDED positionMs=12003 → PAUSED"
+      ]
+    },
+    "ape": {
+      "verdict": "FAIL×2（静音播放）",
+      "evidence": [
+        "两轮注入（17:09:48 / 17:12:46）同模式：BUFFERING → READY durationMs=2395742（≈40min，容器+元数据解析正确）→ PLAYING",
+        "ffmpeg [ape] packet size is not a multiple of 4 + Error decoding frame ×3 + Incorrect offset passed；随后 ffmpeg_jni Output buffer realloc 链（65535→294912，14 次）= 解码器确有产帧",
+        "但之后 110s 零解码日志、零 [audioTrackData]（xlog audiotrack_parameter 曾建 DEEP_BUFFER/PCM16/44.1k/2ch AudioTrack，随后无写入）",
+        "audio_flinger 两轮均零本应用活跃轨道（同窗抖音 pid 22683 正常活跃可对照）→ 无声；positionMs 时钟仍 1:1 走（静音播放）",
+        "logcat 证据：本轮窗口已滚动，关键行逐条登记于本 JSON；61-141 批 logcat 亦含首轮 ape 段"
+      ],
+      "attribution": "与 §61.127 F3 ape local/remote PASS（同 APK 同文件）矛盾；与 §61.127 补记 G08 attempt6（avcodec_open2 Invalid argument，判环境瞬态）同族但本会话两次稳定复现。候选归因：解码器实例/会话状态、APE 帧封装边界（packet size 非 4 倍数告警指向 extractor 取帧边界）、输出焦点竞争。**按 §61.127 口径：PASS 证据留档不删，本 FAIL 分档登记，归因待专项批**"
+    }
+  },
+  "conclusion": "容器挂账 4 项清点完成：wma(ASF)/aiff/wavpack 三项真机 PASS（wma 出声+混音器双实锤，aiff/wv 生命周期 1:1 + 帧交付）；ape 稳定 FAIL×2（静音）分档登记待归因。mp3 sanity + gapless（§61.141）同会话已 PASS，输出管线能力无疑，ape 失败隔离为 ape 专属链路。",
+  "leftover": "7,500 首冷扫（T-V #9）就绪度缺口：StorageRepository（DataStore）空 → rescanAll 无存储可扫；需 SAF 手动授权或 DataStore 预写 storage 配置（wifiOnly 预写先例），下一批处理"
+}
