@@ -1,0 +1,39 @@
+{
+  "method": "competitor_home_skeleton_spec",
+  "source": "analysis/l3-reference/competitor-home.png",
+  "size": [
+    1440,
+    3200
+  ],
+  "main_background": {
+    "hex": "#F4F7FA",
+    "rgb": [
+      244,
+      247,
+      250
+    ],
+    "pixel_share": 0.391
+  },
+  "skeleton": {
+    "top_nav": "汉堡 + 分类(心动/推荐/音乐/播客/听书) + 搜索，选中品牌红下划线",
+    "card_row": "横向推荐卡片（本地专辑卡片替代）",
+    "section_title": "分区标题（最近添加替代在线推荐）",
+    "track_rows": "歌曲列表行",
+    "bottom_bar": "竞品四 tab（首页/搜索/笔记/我的）—— 本实现保留 7 tab 以不丢功能"
+  },
+  "not_replicated_online": [
+    "红包广告（在线运营）",
+    "推荐算法歌单",
+    "社交收藏数（44%人收藏）",
+    "顶部运营渐变横幅"
+  ],
+  "implementation": {
+    "file": "app/.../ui/HomeScreen.kt",
+    "data": "本地曲库按 album 分组 → 专辑卡片；tracks.take(20) → 最近添加",
+    "pixel_gaps": [
+      "顶部分类为静态骨架，点击仅切下划线不加载在线频道",
+      "底栏 7 tab 非竞品 4 tab（功能优先）",
+      "浅色背景 #F4F7FA 与现有深色主题页并存（切页有主题跳变）"
+    ]
+  }
+}

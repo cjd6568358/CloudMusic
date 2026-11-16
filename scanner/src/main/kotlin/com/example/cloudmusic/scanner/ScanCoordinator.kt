@@ -134,13 +134,24 @@ class ScanCoordinator(
             state.error("", "E_SCAN_STORAGE_UNREACHABLE", "驱动未注册: ${storage.id}")
             return
         }
+        // §61.178（真机一手）：扫描卡在「正在扫描曲库 0/0」无法归因——
+        // 分步打点，定位到底停在快照读取还是目录走查。:scanner 是纯 JVM 模块，
+        // 无 android.util.Log；Android 上 System.out 会进 logcat（tag=System.out）。
+        fun trace(msg: String) {
+            println("CM-Scan [${storage.id}] $msg")
+        }
+        trace("scanStorage 入口 driver=${driver.javaClass.simpleName}")
         val previous = snapshotStore.load(storage.id)
+        trace("快照已载入 previous=${previous.size}")
         val candidates = mutableListOf<Candidate>()
         try {
+            trace("walk 开始 path='${storage.mountPath}' root='${rootPathFor(storage)}'")
             walk(driver, storage, Obj(name = "", isDir = true, path = ""), request, state, candidates, 0)
+            trace("walk 完成 candidates=${candidates.size}")
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
+            trace("walk 抛异常 ${e::class.java.name}: ${e.message}")
             state.error("", "E_SCAN_STORAGE_UNREACHABLE", e.message ?: "目录走查失败")
             // §61.153：walk 异常可见化——错误此前在首个 emit 前发生，runScan 的
             // lastProgress.errors 恒空（WebDAV/STRM 0 文件无法归因的真机一手）。
@@ -163,11 +174,17 @@ class ScanCoordinator(
         }
 
         val seen = scoped.map { it.obj.path }.toSet()
+        // §61.179：快照与曲库不一致时强制重扫。删除数据源只 markOrphan（置
+        // UNREACHABLE）而不清快照，重新加回同源时 size/mtime 全未变 ⇒ 旧判据
+        // 认为「已扫过」全部 skip ⇒ 曲目永久 UNREACHABLE（播放不了的静默成因之一）。
+        val knownPaths = if (request.refresh || request.onlyUnavailable) null
+        else runCatching { trackSink.knownPaths(storage.id) }.getOrNull()
         val changed = scoped.filter { c ->
             val old = previous[c.obj.path]
             // 定向增量必须强制重处理，否则文件未变时失败项永远不会被重新 upsert 置回 OK。
             request.refresh || request.onlyUnavailable || old == null ||
-                !old.matches(c.obj.size, c.obj.modified)
+                !old.matches(c.obj.size, c.obj.modified) ||
+                (knownPaths != null && c.obj.path !in knownPaths)
         }
         state.addSkipped(scoped.size - changed.size)
         val minDurationMs = minDurationMsSource?.invoke() ?: rules.minDurationMs
@@ -178,8 +195,10 @@ class ScanCoordinator(
         state.addScanned(scoped.size)
 
         // 阶段 A：批量 upsert 骨架（禁止逐条写库）
+        println("CM-Scan [${storage.id}] 阶段A 准备 upsert: accepted=${accepted.size} changed=${changed.size} skipped=${scoped.size - changed.size}")
         val tracks = accepted.map { trackFactory.build(it) }
         tracks.chunked(request.batchSize.coerceAtLeast(1)).forEach { trackSink.upsertBatch(it) }
+        println("CM-Scan [${storage.id}] 阶段A 完成 upsert=${tracks.size}")
         state.addUpserted(tracks.size)
         state.stageA.incrementAndGet()
         emit(state.progress(storage.id, request, stageAFinished = true))
@@ -221,6 +240,8 @@ class ScanCoordinator(
             return
         }
         val items = driver.list(dir, request.refresh)
+        // §61.178：目录级打点——网络源卡在首个 list() 时无法与「未开始」区分。
+        println("CM-Scan [${storage.id}] list('${dir.path}') -> ${items.size} 项")
         if (rules.isNoMedia(items.map { it.name })) return   // B11：整个子树跳过
 
         val childDirs = mutableListOf<Obj>()

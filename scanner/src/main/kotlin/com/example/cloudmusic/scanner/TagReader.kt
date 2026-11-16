@@ -1,5 +1,7 @@
 package com.example.cloudmusic.scanner
 
+import com.example.cloudmusic.model.LegacyTextRepair
+
 import com.example.cloudmusic.datasource.ByteRangeCapability
 
 /** docs/03-04 §6.1 · 原始标签。失败一律返回 EMPTY，不中断整轮扫描（B16）。 */
@@ -14,6 +16,9 @@ data class RawTags(
     val sampleRate: Int? = null,
     val bitDepth: Int? = null,
     val embeddedCover: ByteArray? = null,
+    /** docs/01 §0（2026-11-16 拍板）：内嵌歌词（ID3v2 USLT）。头部读取尽力而为，
+     *  完整歌词由 core-di 的 JAudioTagger 通道提供（读取整文件）。 */
+    val lyrics: String? = null,
     val completeness: Float = 0f,
 ) {
     companion object { val EMPTY = RawTags() }
@@ -56,6 +61,7 @@ class HeadTagReader(
         val limit = minOf(head.size, 10 + synchSafe(head, 6))
         val fields = mutableMapOf<String, String>()
         var cover: ByteArray? = null
+        var lyrics: String? = null
         var pos = 10
         while (pos + 10 <= limit) {
             val headerSize = if (major == 2) 6 else 10
@@ -74,6 +80,7 @@ class HeadTagReader(
                 "TYER", "TYE", "TDRC" -> fields["year"] = decodeText(body)
                 "TCON", "TCO" -> fields["genre"] = decodeText(body)
                 "APIC", "PIC" -> cover = body
+                "USLT", "ULT" -> decodeUsLT(body)?.let { lyrics = it }
             }
             pos += headerSize + frameSize
         }
@@ -85,8 +92,39 @@ class HeadTagReader(
             year = fields["year"]?.take(4)?.toIntOrNull(),
             genre = fields["genre"],
             embeddedCover = cover,
+            lyrics = lyrics,
         )
     }
+
+    /**
+     * 解析 ID3v2 USLT（内嵌歌词）帧。帧体 = 1B 文本编码 + 3B ISO 语言码 +
+     * 内容描述符（编码相关的 NUL 结尾）+ 歌词文本。描述符可能为空（单个 NUL）。
+     * 头部读取只读 64KB，超长歌词可能被截断——完整歌词由 JAudioTagger 通道兜底。
+     */
+    private fun decodeUsLT(body: ByteArray): String? = runCatching {
+        if (body.size < 5) return null
+        val encoding = body[0].toInt() and 0xff
+        val charset = when (encoding) {
+            1 -> Charsets.UTF_16
+            2 -> Charsets.UTF_16BE
+            3 -> Charsets.UTF_8
+            else -> Charsets.ISO_8859_1
+        }
+        val nulWidth = if (encoding == 1 || encoding == 2) 2 else 1
+        // 跳过 3B 语言码，从描述符开始找结尾 NUL
+        var d = 3
+        while (d + nulWidth <= body.size) {
+            val isNul = if (nulWidth == 1) body[d] == 0.toByte()
+            else body[d] == 0.toByte() && body[d + 1] == 0.toByte()
+            if (isNul) break
+            d += nulWidth
+        }
+        val textStart = if (d + nulWidth <= body.size) d + nulWidth else body.size
+        if (textStart >= body.size) return null
+        val text = String(body, textStart, body.size - textStart, charset)
+            .trimEnd('\u0000', ' ', '\t', '\r')
+        LegacyTextRepair.fix(text)?.takeIf { it.isNotBlank() }
+    }.getOrNull()
 
     private fun parseId3v1(tail: ByteArray): RawTags {
         if (tail.size < 128) return RawTags.EMPTY
@@ -112,6 +150,7 @@ class HeadTagReader(
             sampleRate = primary.sampleRate ?: fallback.sampleRate,
             bitDepth = primary.bitDepth ?: fallback.bitDepth,
             embeddedCover = primary.embeddedCover ?: fallback.embeddedCover,
+            lyrics = primary.lyrics?.takeIf { it.isNotBlank() } ?: fallback.lyrics,
         )
         val filled = listOf(result.title, result.artist, result.album)
             .count { !it.isNullOrBlank() }
@@ -134,13 +173,18 @@ class HeadTagReader(
             3 -> Charsets.UTF_8
             else -> Charsets.ISO_8859_1
         }
-        return String(data, charset).trimEnd('\u0000', ' ', '\t').trim()
+        val text = String(data, charset).trimEnd('\u0000', ' ', '\t').trim()
+        // §61.170：enc=0x00 但实为 GBK 的中文旧标签（本机检索器同病），统一走修复。
+        return LegacyTextRepair.fix(text) ?: text
     }
 
     private fun isoText(bytes: ByteArray, offset: Int, length: Int): String? {
         if (offset + length > bytes.size) return null
-        return String(bytes, offset, length, Charsets.ISO_8859_1)
-            .trimEnd('\u0000', ' ').trim().takeIf { it.isNotEmpty() }
+        val text = String(bytes, offset, length, Charsets.ISO_8859_1)
+            .trimEnd('\u0000', ' ').trim()
+        if (text.isEmpty()) return null
+        // §61.170：ID3v1 定长单字节字段同样是 GBK 高发区。
+        return LegacyTextRepair.fix(text)
     }
 
     private fun ByteArray.matches(text: String, offset: Int): Boolean {

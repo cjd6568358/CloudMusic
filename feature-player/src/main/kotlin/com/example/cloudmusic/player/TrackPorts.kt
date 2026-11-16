@@ -29,3 +29,24 @@ class InMemoryTrackLookup(tracks: Collection<Track>) : TrackLookup {
     private val map = tracks.associateBy { it.id }
     override suspend fun get(id: TrackId): Track? = map[id]
 }
+
+/**
+ * §61.181（B 案）：引擎真值时长**回填曲库**的落库端口（[PlayerController] 在
+ * 引擎解出真实时长且曲库缺值（durationMs<=0，STRM / 无标签）时调用一次）。
+ * 生产由 `:core-di` 绑定 `TrackRepository.updateDuration`；纯 JVM 测试注入记录型 fake。
+ */
+fun interface TrackDurationWriter {
+    suspend fun write(id: TrackId, durationMs: Long)
+}
+
+/**
+ * §61.182（三层守护网 ② 配套）：播放游标**写侧**端口 —— 冷启动恢复（03-06 §8.2 /
+ * PRD §6.1）的写半边。`QueueRepository.saveCursor` 此前全工程只有测试调用（T11 手调
+ * 造数据）、生产链零写方 ⇒ playback_state 恒缺失、恢复链死路（真机一手
+ * `cold-start restore: playback_state 缺失，跳过恢复`，`12 §61.181` 判据③现场）。
+ * 写入节奏 = 切歌 / 暂停 + PLAYING 期每 5s（`QueueRepository.saveCursor` 接口注释
+ * 既有口径）。生产由 `:core-di` 绑定 `QueueRepository.saveCursor`；null = 不写（单测）。
+ */
+fun interface CursorWriter {
+    suspend fun write(trackId: String, positionMs: Long)
+}

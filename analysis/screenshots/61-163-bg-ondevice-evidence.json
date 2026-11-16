@@ -1,0 +1,31 @@
+{
+  "method": "on_device_cover_driven_background",
+  "device": "23013RK75C / Android 13 @192.168.1.2:37265",
+  "apk": "app-debug.apk built from §61.163 (assembleDebug offline SUCCESS, install -r Success)",
+  "idle_state_no_cover": {
+    "bg_top": [
+      38,
+      38,
+      38
+    ],
+    "is_default_dark": true
+  },
+  "playing_with_cover": {
+    "track": "f3_mp3_cover.mp3 (Dolly 官方回答)",
+    "bg_top": [
+      53,
+      79,
+      114
+    ],
+    "bg_bottom": [
+      35,
+      54,
+      78
+    ],
+    "gradient_down": true
+  },
+  "verdict": {
+    "cover_driven_chain_works": true,
+    "note": "真机背景随封面自动变化(深灰→蓝色渐变)，证明封面取色链路通；与竞品基准色值不同因封面非同一张，符合按封面生成预期。静态标定误差≤1见 tools/verify_player_background.py"
+  }
+}

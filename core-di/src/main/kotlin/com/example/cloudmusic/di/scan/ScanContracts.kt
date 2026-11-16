@@ -1,5 +1,6 @@
 package com.example.cloudmusic.di.scan
 
+import com.example.cloudmusic.model.LegacyTextRepair
 import com.example.cloudmusic.model.Storage
 import com.example.cloudmusic.scanner.Candidate
 import com.example.cloudmusic.scanner.RawTags
@@ -26,6 +27,8 @@ data class MediaTags(
     val sampleRate: Int? = null,
     val bitDepth: Int? = null,
     val embeddedCover: ByteArray? = null,
+    /** docs/01 §0（2026-11-16 拍板）：内嵌歌词（USLT / LYRICS 帧）。 */
+    val lyrics: String? = null,
 ) {
     companion object {
         val EMPTY = MediaTags()
@@ -58,17 +61,24 @@ object TagMerger {
         fun <T : Any> pick(selector: (MediaTags) -> T?): T? =
             sources.firstNotNullOfOrNull(selector)
 
+        // §61.170（2026-11-16 真机首页一手）：旧打标工具把 GBK 字节标成 ID3v2 enc=0x00 /
+        // ID3v1 单字节字段，检索器与 JAudioTagger 都按规范解 ISO-8859-1 ⇒ 中文标题整列花。
+        // 统一在此唯一合并口做一次「只在疑似乱码时生效」的修复，两个端口都覆盖。
+        fun text(selector: (MediaTags) -> String?): String? =
+            LegacyTextRepair.fix(pick(selector)?.takeIf(String::isNotBlank))
+
         val raw = RawTags(
-            title = pick { it.title?.takeIf(String::isNotBlank) },
-            artist = pick { it.artist?.takeIf(String::isNotBlank) },
-            album = pick { it.album?.takeIf(String::isNotBlank) },
+            title = text { it.title },
+            artist = text { it.artist },
+            album = text { it.album },
             trackNo = pick { it.trackNo },
             year = pick { it.year },
-            genre = pick { it.genre?.takeIf(String::isNotBlank) },
+            genre = text { it.genre },
             durationMs = pick { it.durationMs },
             sampleRate = pick { it.sampleRate },
             bitDepth = pick { it.bitDepth },
             embeddedCover = pick { it.embeddedCover?.takeIf(ByteArray::isNotEmpty) },
+            lyrics = text { it.lyrics },
         )
         return raw.copy(completeness = completeness(raw))
     }

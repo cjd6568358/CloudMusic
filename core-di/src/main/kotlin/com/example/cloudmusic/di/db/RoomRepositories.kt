@@ -99,6 +99,10 @@ class RoomTrackRepository(
     override suspend fun markReplayGain(id: TrackId, gainDb: Float) =
         dao.markReplayGain(id.value, gainDb)
 
+    /** §61.181（B 案）：引擎真值时长回填（DAO 侧只写缺值行，已有元数据不覆盖）。 */
+    override suspend fun updateDuration(id: TrackId, durationMs: Long) =
+        dao.updateDuration(id.value, durationMs)
+
     override suspend fun count(): Int = dao.count()
 
     /** B06：除启动回调外，也可由扫描完成后显式重建。 */

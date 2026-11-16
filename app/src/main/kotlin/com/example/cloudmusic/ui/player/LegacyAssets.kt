@@ -35,8 +35,11 @@ object LegacyPalette {
     /** `layout/legacy_c5y.xml` / `legacy_gc.xml`：`android:background="#ff262626"`。 */
     val PageBackground = 0xFF262626.toInt()
 
-    /** 真机启动屏 1440x3200 六点采样，2026-11-09，值一致。 */
+    /** 真机启动屏 1440x3200 六点采样，2026-11-09，值一致（渐变顶）。 */
     val BrandRed = 0xFFA22016.toInt()
+
+    /** 真机启动屏渐变底（docs/01 §0 严格像素级，2026-11-16 PIL 采样 #AE2318）。 */
+    val SplashRedBottom = 0xFFAE2318.toInt()
 
     /** `legacy_ew` / `drawable/legacy_bn5.xml` 的 progress 实心色：`#ffff3a3a`。 */
     val PrimaryRed = 0xFFFF3A3A.toInt()
@@ -131,6 +134,119 @@ object LegacyMetrics {
 
     /** 自定值（**非竞品实证**）：迷你条封面旋转周期，竞品未导出该参数，`12 §61.42` 挂账。 */
     const val MiniCoverSpinMs = 12_000L
+}
+
+/**
+ * §61.174（2026-11-16 播放页整体 1:1）：**基准图像素量化表**。
+ *
+ * 与 [LegacyMetrics] 的区别：[LegacyMetrics] 全部来自反编译 XML（dp/sp 原值）；
+ * 本表全部来自竞品真机基准图 `analysis/l3-reference/competitor-player-baseline.png`
+ * （1440x3200 @density 3.5 → 411.43 x 914.29 dp）的**逐像素测量**，用于还原
+ * 「竞品皮肤实际渲染出来的位置与尺寸」。可复跑证据：`tools/measure_player_baseline.py`。
+ *
+ * 测量方法：按行/列统计亮像素带（文字、图标、轨道）与暗中性像素（黑胶环），
+ * 得到每个元素的 bbox 中心与跨度，再除以 density。误差 ±1dp（基准图抗锯齿）。
+ *
+ * 内容区基准：状态栏底 y=37dp，导航栏顶 y=871dp，可用高 834dp。
+ */
+object PlayerBaseline {
+    // ── 顶栏 ────────────────────────────────────────────────────────────────
+    /** 顶栏高：chevron 44dip 槽位（[LegacyMetrics.BackBarHeightDp]）与基准文字带 46dp 取齐。 */
+    const val TopBarHeightDp = 46f
+    /** chevron 中心 x = 28dp → 左边距。 */
+    const val TopBarSidePaddingDp = 18f
+    /** 顶栏图标视觉尺寸（chevron 17dp / 刷新 19.4dp）。 */
+    const val TopBarIconDp = 20f
+    /** 居中标题字号（基准文字带高 19dp）。 */
+    const val TopBarTitleSp = 14f
+
+    // ── 唱片 ────────────────────────────────────────────────────────────────
+    /** 唱片外接圆直径 / 屏宽：1087px / 1440px = 0.7549（实测 310.6dp）。 */
+    const val DiscDiameterRatio = 0.755f
+    /** 唱片直径占唱片区高度的上限（310.6dp / 462dp = 0.672），防矮屏溢出。 */
+    const val DiscMaxHeightRatio = 0.672f
+
+    // ── 唱针 ────────────────────────────────────────────────────────────────
+    /** 轴心 x / 屏宽：719.5px / 1440px = 0.500（**正好水平居中**）。 */
+    const val NeedlePivotXRatio = 0.500f
+    /** 轴心 y / 唱片区高：基准绝对 149.3dp，唱片区自 83.1dp 起 → 66.2/462 = 0.143。 */
+    const val NeedlePivotYRatio = 0.143f
+    /** 轴心白圆半径：水平最宽 60px / 2 / 3.5 = 8.6dp。 */
+    const val NeedlePivotRadiusDp = 8.6f
+    /** 唱臂杆宽：22px = 6.3dp。 */
+    const val NeedleArmWidthDp = 6.3f
+    /** 唱头中心 x / 屏宽：998px / 1440px = 0.693。 */
+    const val NeedleHeadXRatio = 0.693f
+    /** 唱头中心 y / 唱片区高：基准绝对 289.1dp → 206/462 = 0.446。 */
+    const val NeedleHeadYRatio = 0.446f
+    /** 唱头块尺寸：斜置后整体跨度 108x~110px → 块本体约 23x19dp（倾角 24°）。 */
+    const val NeedleHeadWidthDp = 23f
+    const val NeedleHeadHeightDp = 19f
+
+    // ── 文本（唱片下方） ────────────────────────────────────────────────────
+    /**
+     * 文本块纵向标定（`12 §61.174` 修正，2026-11-16 二次量测）：
+     * 旧值 `TitleSp=24` 是**从字带高 17.4dp 反推**的错值——CJK 字墨高 ≈ 0.94em 而非 1em。
+     * 改用**字符步进**（同排汉字相邻左缘间距，等价 1em 宽）重测：
+     * 标题 27.1 / 44.6 / 61.7 / 78.9 → 步进 17.5 / 17.1 / 17.2 ⇒ **17.3sp**；
+     * 艺人 27.1 / 41.7 / 54.9 → 步进 14.6 / 13.2 ⇒ **13.5sp**（含半角字重偏差）。
+     * 24sp 塞进 18dp 行框必然裁字，这才是真机「标题只剩半截」的根因，而非行高不够。
+     */
+    const val TitleSp = 17.5f
+    const val ArtistSp = 13.5f
+    /** 标题 / 艺人左起 x = 95px = 27dp。 */
+    const val SidePaddingDp = 27f
+    /**
+     * 唱片底(545.7) → 标题行框顶(598.3) = 52.6。其中竞品「422人」在线胶囊（568.3~576.9）
+     * 无数据源故省略，留白并入本段。
+     */
+    const val GapDiscToTitleDp = 52.6f
+    /** 标题行框高：容 17.5sp 文字（行盒 ≈ 20.5dp + 字体上下留白），居中后字带 602.2~618.5。 */
+    const val TitleRowHeightDp = 24f
+    /**
+     * 标题行底(622.3) → 艺人行顶(628.1) = 5.8。
+     * 基准图里标题字带底 618.3 与艺人字带顶 632.3 之间实为 14dp 空档（竞品此处在艺人名后
+     * 挂「关注」胶囊，胶囊无数据源已省略，其垂直占位保留）。
+     */
+    const val GapTitleToArtistDp = 5.8f
+    /** 艺人行框高：13.5sp 居中，字带 632.2~645.0（基准 632.3~645.1）。 */
+    const val ArtistRowHeightDp = 21f
+    /** 艺人行底(649.1) → 进度条触控区顶(665.4) = 16.2。 */
+    const val GapArtistToProgressDp = 16.2f
+
+    // ── 进度条 ──────────────────────────────────────────────────────────────
+    /** 轨道左右边距：106px / 30dp；右端 1333px → 381dp（右边距 30dp）。 */
+    const val ProgressSidePaddingDp = 30f
+    /** 轨道高：5px ≈ 1.4dp，取 2dp 保证可见（基准实测 1.4~2dp）。 */
+    const val ProgressTrackDp = 2f
+    /** 滑块直径：18px = 5.1dp。 */
+    const val ProgressThumbDp = 5f
+    /** 时间行字号：字高 30px = 8.6dp → 约 11sp。 */
+    const val TimeSp = 11f
+    /** 进度条触控区高（轨道居中，含上下拖动余量）。 */
+    const val ProgressTouchDp = 19f
+    /** 进度区底 → 时间行顶：基准 684.4dp → 687.1dp。 */
+    const val GapProgressToTimeDp = 2.7f
+    /** 时间行高（11sp）。 */
+    const val TimeRowHeightDp = 15f
+
+    // ── 控制行 ──────────────────────────────────────────────────────────────
+    /** 时间行底 → 主控制行顶：702dp → 744.2dp = 42dp。 */
+    const val GapTimeToMainControlDp = 42.1f
+    /** 主控制行图标：上一首 / 下一首 60px = 17dp 视觉宽（`legacy_g_o` 90px 位图内缩）。 */
+    const val MainControlIconDp = 30f
+    /** 暂停双条：宽 33px = 9.4dp，高 104px = 29.7dp，条间距 30px = 8.6dp。 */
+    const val PauseBarWidthDp = 9.4f
+    const val PauseBarHeightDp = 29.7f
+    const val PauseBarGapDp = 8.6f
+    /** 模式 / 队列图标：87px / 66px → 取 24dp。 */
+    const val MainControlSideDp = 24f
+    /** 主控制行底 → 副控制行顶：774.2dp → 820.6dp = 46dp。 */
+    const val GapMainToSecondaryDp = 46.2f
+    /** 副控制行图标：基准 6~20dp（各行差异大），取 16dp 与带高一致。 */
+    const val SecondaryControlDp = 16f
+    /** 副控制行底 → 内容底（导航栏上缘 853.7dp）：836.6 → 853.7 = 17dp。 */
+    const val BottomPaddingDp = 17.4f
 }
 
 /** D-146 导出的竞品位图 / 字体在 assets 下的路径（51 文件闭包，均 `replaced=false`）。 */

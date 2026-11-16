@@ -1,0 +1,46 @@
+{
+  "method": "competitor_launch_pixel_spec",
+  "source": "analysis/l3-reference/competitor-launch.png",
+  "size": [
+    1440,
+    3200
+  ],
+  "background_gradient": {
+    "top": "#A22016",
+    "bottom": "#AE2318",
+    "samples": {
+      "top": [
+        162,
+        32,
+        22
+      ],
+      "bottom": [
+        174,
+        35,
+        24
+      ]
+    }
+  },
+  "logo": {
+    "white_bbox": [
+      603,
+      1278,
+      828,
+      1521
+    ],
+    "width_px": 225,
+    "width_screen_ratio": 0.1562,
+    "center_y_ratio": 0.4388
+  },
+  "implementation": {
+    "bg": "Brush.verticalGradient(BrandRed #A22016 → SplashRedBottom #AE2318)",
+    "logo": "assets/launch/logo.png cropped from baseline (transparent bg), width 56dp",
+    "slogan": "网易云音乐 · 发现好音乐 (system sans bold ~ baseline legacy_a.ttf)",
+    "duration_ms": 1200
+  },
+  "pixel_gaps": [
+    "logo 垂直位置用固定 offset(-40dp) 近似，真机校准 NOT RUN",
+    "slogan 字形用系统 sans bold 近似竞品 legacy_a.ttf，非严格字形",
+    "未含系统状态栏/导航栏（由系统绘制）"
+  ]
+}

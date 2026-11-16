@@ -31,6 +31,11 @@ interface TrackRepository {
     suspend fun markOrphan(storageId: String)             // 删除 Storage 时调用
     /** §61.122（T5-2）：分析管线落库曲目增益（dB，负=衰减）；仅 LOCAL opt-in。 */
     suspend fun markReplayGain(id: TrackId, gainDb: Float)
+    /**
+     * §61.181（B 案）：引擎真值时长回填——只写**缺值行**（durationMs<=0，
+     * STRM / 无标签），已有元数据不覆盖；调用方须传引擎解出的真实时长（>0）。
+     */
+    suspend fun updateDuration(id: TrackId, durationMs: Long)
     suspend fun count(): Int
 }
 
@@ -61,6 +66,20 @@ interface StorageRepository {
     suspend fun update(s: Storage)
     suspend fun remove(id: String)                                 // 同时 markOrphan
     suspend fun setError(id: String, msg: String)
+}
+
+/**
+ * docs/01 §0（2026-11-16 拍板）：歌词仓库。本地优先（同目录 .lrc / 内嵌 USLT），
+ * 本地缺失时允许在线 provider 兜底（个人自用，不考虑合规）。
+ * 以 [TrackId] 为键，与 Track 结构解耦——不新增 Track 字段、不动 Room tracks 表。
+ */
+interface LyricRepository {
+    /** 观察某曲目的歌词；无歌词时发 [com.example.cloudmusic.model.Lyrics.EMPTY]。 */
+    fun observe(id: TrackId): Flow<com.example.cloudmusic.model.Lyrics>
+    /** 写入本地歌词（同目录 lrc / 内嵌 USLT 扫描结果，或在线缓存）。 */
+    suspend fun save(id: TrackId, lyrics: com.example.cloudmusic.model.Lyrics)
+    /** 是否存在可用歌词（UI 决定显示占位还是歌词 View）。 */
+    suspend fun has(id: TrackId): Boolean
 }
 
 /** 03-05 §6：批量 upsert 的事务大小；阶段 A / 阶段 B 共用。 */

@@ -9,6 +9,7 @@ import com.example.cloudmusic.di.db.RoomPlaylistRepository
 import com.example.cloudmusic.di.db.RoomQueueRepository
 import com.example.cloudmusic.di.db.RoomScanSnapshotStore
 import com.example.cloudmusic.di.db.RoomTrackRepository
+import com.example.cloudmusic.di.db.TrackDao
 import com.example.cloudmusic.di.settings.DataStoreStorageRepository
 import com.example.cloudmusic.di.settings.SettingsAccess
 import com.example.cloudmusic.di.settings.SettingsStore
@@ -111,6 +112,13 @@ object LibraryModule {
     @Provides
     @Singleton
     fun provideTrackRepository(db: LibraryDatabase): TrackRepository = RoomTrackRepository(db)
+
+    /**
+     * §61.173：DAO 首次直接对外提供 —— 存量乱码标题修复需要「逐行读文本 + 条件 UPDATE」这种
+     * 数据维护语义，不适合塞进 `TrackRepository` 的领域接口（会污染跨模块契约）。
+     */
+    @Provides
+    fun provideTrackDao(db: LibraryDatabase): TrackDao = db.trackDao()
 
     @Provides
     @Singleton

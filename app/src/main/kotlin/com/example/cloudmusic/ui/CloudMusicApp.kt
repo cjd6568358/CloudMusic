@@ -16,6 +16,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,6 +32,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Scaffold
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -39,6 +43,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.example.cloudmusic.ui.player.LegacyAsset
 import com.example.cloudmusic.ui.player.LegacyMetrics
 import com.example.cloudmusic.ui.player.LegacyPalette
@@ -47,6 +53,8 @@ import com.example.cloudmusic.ui.player.loadLegacyTypeface
 import com.example.cloudmusic.ui.player.rememberLegacyImageBitmap
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -56,9 +64,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.cloudmusic.SurfaceNav
 import com.example.cloudmusic.di.playback.RuntimeState
 import com.example.cloudmusic.model.Availability
 import com.example.cloudmusic.model.Storage
@@ -73,6 +83,7 @@ import com.example.cloudmusic.player.QueueItem
 import com.example.cloudmusic.storage.AppSettings
 import com.example.cloudmusic.storage.Playlist
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 
@@ -93,6 +104,43 @@ import kotlinx.coroutines.flow.map
  * 蓝牙只作状态提示、**不列为与本机/DLNA 并列的可选输出**（禁止事项 8）。
  * V0.1 用状态切页，未引 navigation-compose / coil-compose。
  */
+
+/**
+ * §61.168（飞牛导航）：功能页五页口径标签——胶囊「更多」页的入口单一来源。
+ * 保留 03-10 §5 五页口径（曲库/歌单/搜索/队列/设置）不丢，只是从平铺底栏收进「更多」。
+ */
+private val FUNCTION_PAGE_LABELS = listOf(
+    "曲库" to "♫", "歌单" to "☰", "搜索" to "⌕",
+    "队列" to "☷", "设置" to "⚙",
+)
+
+/**
+ * 飞牛搜索页「搜索发现」热词 —— 取**本地曲库**的高频艺人 / 专辑（spec §3.3 本地化口径）。
+ *
+ * 不造在线热搜：这是离线优先 App，热词必须来自用户自己的曲库；空曲库返回空 →
+ * 搜索页直接给空态，不虚构任何词条。
+ */
+private fun localHotWords(tracks: List<Track>, limit: Int = 10): List<String> {
+    if (tracks.isEmpty()) return emptyList()
+    // 占位符不算热词：「未知」/「<unknown>」/「unknown」都是标签缺失时的兜底值，
+    // 拿来当搜索发现会把噪声推给用户（§61.175 真机截图踩到）。
+    val placeholders = setOf("未知", "未知艺人", "未知专辑", "未知歌手", "unknown", "<unknown>")
+    fun top(counts: Map<String, Int>, n: Int): List<String> =
+        counts.entries
+            .filter {
+                it.key.isNotBlank() &&
+                    !it.key.startsWith("<") &&
+                    it.key.lowercase() !in placeholders
+            }
+            .sortedByDescending { it.value }
+            .take(n)
+            .map { it.key }
+
+    val half = limit / 2
+    return (top(tracks.groupingBy { it.artist }.eachCount(), half) +
+        top(tracks.groupingBy { it.album }.eachCount(), half)).distinct()
+}
+
 @Composable
 fun CloudMusicApp(
     tracks: Flow<List<Track>>,
@@ -136,17 +184,46 @@ fun CloudMusicApp(
     onScanIgnoreDirsChanged: (List<String>) -> Unit = {},
     /** §61.119（M3/M8）：歌单与队列交互（bridge 直达）。 */
     bridge: PlayerStateBridge,
+    /**
+     * §61.183（三层守护网之③）：验收期画面证据通道 —— intent 导航 surface 请求流
+     * （MainActivity 从 `SurfaceNav.parse` 粘性下发；默认空流 = 常规启动零行为变化）。
+     * MIUI 禁 `input tap`，runbook 由此免注入直达播放页等 surface 截图取证。
+     */
+    surfaceRequests: StateFlow<SurfaceNav.Surface?> = MutableStateFlow(null),
 ) {
     var tab by rememberSaveable { mutableIntStateOf(0) }
     var showSources by rememberSaveable { mutableStateOf(false) }
     var showOutput by rememberSaveable { mutableStateOf(false) }
+    // §61.168（飞牛导航）：胶囊三 tab 的「更多」入口面板；内部 tab 索引保持不变。
+    var showMore by rememberSaveable { mutableStateOf(false) }
     // 12 §61.42：用户要求「1:1 像素级复刻竞品播放页」→ 启动即全屏播放页，
     // V0.1 六页 tab 导航栏（曲库/歌单/搜索/队列/我的/设置）不再出现在首屏；
     // 播放页返回才回到功能页，避免把自研导航误当成竞品播放页组件。
-    var showPlayer by rememberSaveable { mutableStateOf(true) }
+    // §61.169（2026-11-16）：该口径作废——首页/音乐库骨架与启动页已就位，竞品冷启动落在**首页**
+    // 而非播放页；继续「启动即播放页」会让首页/音乐库在冷启动时完全不可达，与用户
+    // 「从启动页起 1:1 复刻」的目标冲突。改为冷启动落首页，播放页由迷你条/点歌进入。
+    var showPlayer by rememberSaveable { mutableStateOf(false) }
     var query by rememberSaveable { mutableStateOf("") }
+    // §61.187：搜索页返回目标（-1 = 从「更多」进入 → 返回更多；≥0 = 从该 tab 进入）。
+    // 旧实现「取消」只清关键字不退出页面 ⇒ 用户「返回也返回不了」。
+    var searchReturnTo by rememberSaveable { mutableIntStateOf(-1) }
+    // §61.192 勘误（用户「进了设置页为什么底部TAB没了」）：§61.187 把底栏隐藏扩大到全部
+    // 次级页是**过度隐藏**——飞牛基准只有**搜索页**全屏无底栏（161534），设置页（161550）
+    // 明确显示底栏且「更多」高亮。修正：仅搜索页隐藏，其余页面（含设置）恢复显示。
+    val capsuleHidden = tab == 3
     // §61.119（M3）：加入歌单弹窗目标曲目。
     var addToPlaylistTrack by remember { mutableStateOf<Track?>(null) }
+
+    // §61.183：验收期导航请求兑现（粘性流，启动页结束后同样生效；恒 null = 无动作）。
+    LaunchedEffect(surfaceRequests) {
+        surfaceRequests.collect { req ->
+            when (req) {
+                SurfaceNav.Surface.PLAYER -> showPlayer = true
+                SurfaceNav.Surface.HOME -> showPlayer = false
+                null -> Unit
+            }
+        }
+    }
 
     val trackList by tracks.collectAsState(initial = emptyList())
     val storageList by storages.collectAsState(initial = emptyList())
@@ -158,8 +235,25 @@ fun CloudMusicApp(
     val runtime by runtimeState.collectAsState()
     val player by playerState.collectAsState()
     val appSettings by settings.collectAsState(initial = AppSettings())
+    // §61.167（飞牛首页）：收藏 / 最近播放数供首页卡片流显示（本地真实数据，不造）。
+    val homeFavorites by bridge.observeFavorites().collectAsState(initial = emptySet())
+    val homeHistory by bridge.observeHistory().collectAsState(initial = emptyList())
     val resultsFlow = remember(query) { search(query) }
     val searchResults by resultsFlow.collectAsState(initial = emptyList())
+
+    // §61.187（W7 全屏沉浸）：播放页打开时隐藏系统栏（竞品播放页顶到状态栏，
+    // 行内滑出临时呼出），关闭时恢复——DisposableEffect 成对，退出重组即还原。
+    val view = LocalView.current
+    if (showPlayer) {
+        DisposableEffect(Unit) {
+            val window = (view.context as? android.app.Activity)?.window
+            val controller = window?.let { WindowInsetsControllerCompat(it, view) }
+            controller?.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            controller?.hide(WindowInsetsCompat.Type.systemBars())
+            onDispose { controller?.show(WindowInsetsCompat.Type.systemBars()) }
+        }
+    }
 
     // §61.137：去掉全局 TopAppBar（竞品无全局标题栏，页头归各页：设置 52dip 行 /
     // 歌单·我的音乐 44dip 标题栏）；底栏竞品化（h7 底 + 10sp label + 品牌红选中）。
@@ -176,15 +270,41 @@ fun CloudMusicApp(
         containerColor = Comp.PageBg,
         bottomBar = {
             Column {
-                MiniPlayer(player, onPlay, onPause, onNext, onPrev, miniCoverRef, miniTitle) { showPlayer = true }
-                CompBottomBar(
-                    tabs = listOf(
-                        "曲库" to "♫", "歌单" to "☰", "搜索" to "⌕",
-                        "队列" to "☷", "我的" to "❤", "设置" to "⚙",
+                // §61.196（W13）：设置页不显示播放条（基准 161550 无播放条，仅底部胶囊）；
+                // 其余页面播放条恒显（全局播放控制）。
+                if (tab != 6) {
+                    MiniPlayer(
+                        player, onPlay, onPause, miniCoverRef, miniTitle,
+                        onOpen = { showPlayer = true },
+                        onOpenQueue = { showMore = false; tab = 4 },
+                    )
+                }
+                // §61.187：搜索页隐藏胶囊栏（§61.195 勘误后仅搜索页——设置页底栏在）。
+                if (!capsuleHidden) {
+                // §61.168（飞牛导航）：胶囊三 tab（首页/音乐库/更多），对齐飞牛真机底栏。
+                // 内部 tab 索引 0~6 保持不变；「更多」弹出入口面板承载歌单/搜索/队列/我的/设置，
+                // 功能不丢。无返回箭头/无账号入口（辨别铁律）。
+                // §61.191（W4）：仅图标化——白色图标 + 选中红圆底白图标，去文字标签。
+                FnCapsuleBar(
+                    icons = listOf(
+                        FnCapsuleIcon.Home, FnCapsuleIcon.Music, FnCapsuleIcon.More,
                     ),
-                    selected = if (showSources) -1 else tab,
-                    onSelect = { tab = it; showSources = false },
+                    selected = when {
+                        showSources || showMore -> -1
+                        tab == 0 -> 0
+                        tab == 1 -> 1
+                        else -> 2
+                    },
+                    onSelect = { i ->
+                        showSources = false
+                        showMore = false
+                        when (i) {
+                            0, 1 -> tab = i
+                            2 -> showMore = true
+                        }
+                    },
                 )
+                } // §61.187：次级页隐藏胶囊栏
             }
         },
     ) { padding ->
@@ -194,7 +314,8 @@ fun CloudMusicApp(
                 .padding(padding)
                 .statusBarsPadding(),
         ) {
-            ScanBanner(runtime)
+            // §61.188：移除自造的「曲库就绪/扫描中」横幅——飞牛基准首页无此物；
+            // 扫描失败可见性已由数据源错误态承载（§61.184 setError 接线）。
             when {
                 showSources -> SourcesScreen(
                     storageList, onRescanAll, onRetryUnavailable, onAddSaf, onAddMediaStore,
@@ -203,10 +324,36 @@ fun CloudMusicApp(
                     onRemoveStorage,
                     onBack = { showSources = false },
                 )
-                tab == 0 -> LibraryScreen(
-                    trackList, onRescanAll, onRetryUnavailable, onPlayTracks,
-                ) { track -> addToPlaylistTrack = track }
-                tab == 1 -> PlaylistsScreen(
+                showMore -> MoreScreen(
+                    onPlaylists = { showMore = false; searchReturnTo = -1; tab = 2 },
+                    onSearch = { showMore = false; searchReturnTo = -1; tab = 3 },
+                    onQueue = { showMore = false; tab = 4 },
+                    onMine = { showMore = false; tab = 5 },
+                    onSettings = { showMore = false; tab = 6 },
+                    onSources = { showMore = false; showSources = true },
+                    onLibraryManager = { showMore = false; tab = 7 },
+                    onDismiss = { showMore = false },
+                    entryLabels = FUNCTION_PAGE_LABELS,
+                )
+                tab == 0 -> HomeScreen(
+                    tracks = trackList,
+                    onPlayTracks = onPlayTracks,
+                    onOpenSearch = { searchReturnTo = 0; tab = 3 },
+                    onOpenSources = { showSources = true },
+                    onOpenMine = { tab = 5 },
+                    favoriteCount = homeFavorites.size,
+                    recentCount = homeHistory.size,
+                )
+                tab == 1 -> FnLibraryScreen(
+                    tracks = trackList,
+                    onPlayTracks = onPlayTracks,
+                    onOpenSearch = { searchReturnTo = 1; tab = 3 },
+                    onOpenPlaylists = { tab = 2 },
+                    onOpenFavorites = { tab = 5 },
+                    onOpenHistory = { tab = 5 },
+                    onOpenSources = { showSources = true },
+                )
+                tab == 2 -> PlaylistsScreen(
                     playlistList,
                     onCreate = bridge::onCreatePlaylist,
                     onPlay = bridge::onPlayPlaylist,
@@ -215,14 +362,39 @@ fun CloudMusicApp(
                     onMoveItem = bridge::onMovePlaylistItem,
                     onRemoveItem = bridge::onRemovePlaylistItem,
                     observeTracks = bridge::observePlaylistTracks,
+                    // §61.192：次级页返回（飞牛「←」口径），回「更多」
+                    onBack = { showMore = true },
                 )
-                tab == 2 -> SearchScreen(query, { query = it }, searchResults)
-                tab == 3 -> QueueScreen(
+                tab == 3 -> SearchScreen(
+                    query = query,
+                    onQuery = { query = it },
+                    results = searchResults,
+                    // 飞牛热词 = 本地曲库高频艺人 / 专辑（spec §3.3：不造在线热搜）
+                    hotWords = remember(trackList) { localHotWords(trackList) },
+                    onPlayTracks = onPlayTracks,
+                    // §61.187：「取消」= 退出搜索页回进入方（旧实现只清关键字不退出）
+                    onClose = {
+                        query = ""
+                        if (searchReturnTo >= 0) tab = searchReturnTo else showMore = true
+                    },
+                )
+                tab == 4 -> QueueScreen(
                     queueList,
                     titles = trackList.associate { it.id.value to it },
                     onJump = bridge::onQueueJump,
+                    // §61.192：次级页返回
+                    onBack = { showMore = true },
                 )
-                tab == 4 -> MyMusicScreen(bridge, trackList)
+                tab == 5 -> MyMusicScreen(
+                    bridge = bridge,
+                    allTracks = trackList,
+                    onPlayTracks = onPlayTracks,
+                    onBack = { showMore = true },
+                )
+                // §61.168：原曲库完整版（含加入歌单）从「更多 → 曲库管理」进入，功能不丢。
+                tab == 7 -> LibraryScreen(
+                    trackList, onRescanAll, onRetryUnavailable, onPlayTracks,
+                ) { track -> addToPlaylistTrack = track }
                 else -> SettingsScreen(
                     runtime, appSettings.network.wifiOnly, onRescanAll,
                     { showSources = true },
@@ -236,6 +408,9 @@ fun CloudMusicApp(
                     onScanMinDurationChanged,
                     appSettings.scan.ignoreDirs,
                     onScanIgnoreDirsChanged,
+                    trackCount = trackList.size,
+                    sourceCount = storageList.size,
+                    onBack = { showMore = true },
                 )
             }
         }
@@ -264,25 +439,23 @@ fun CloudMusicApp(
 
     // 12 §61.40：整页播放页覆盖在 Scaffold 之上（局部混用两套 UI 框架，限制在播放页一屏）。
     if (showPlayer) {
-        LegacyPlayerPage(bridge = bridge, onClose = { showPlayer = false })
+        LegacyPlayerPage(
+            bridge = bridge,
+            onClose = { showPlayer = false },
+            // §61.192（W2）：副控制行「更多」位 = 输出/DLNA 入口（权限口径同设置页：
+            // SHOW_BLUETOOTH_NAME 按动作申请，拒绝不阻断——设备名不显示仍可投屏）。
+            onOpenOutput = {
+                showOutput = true
+                onOpenOutput()
+            },
+        )
     }
-}
-
-@Composable
-private fun ScanBanner(state: RuntimeState) {
-    val text = when {
-        state.scanning -> "扫描中 ${state.scanned}/${state.total}"
-        state.errors > 0 -> "扫描完成，${state.errors} 项失败"
-        state.lastEffect.isNotBlank() -> "生效：${state.lastEffect}"
-        else -> "曲库就绪"
-    }
-    CompScanBanner(text)
 }
 
 /**
  * `12 §61.42` / `legacy_e0g.xml`（view_vinyl_records）+ `legacy_bnx.xml`：
  * 迷你条由「37dip 圆环 → 36dip 旋转封面 → 9dip 红点 → 14sp 跑马灯(音符 drawableStart)
- * → 上一首 / 播放 / 下一首」组成，背景是 18dip 圆角的
+ * → 播放 / 队列入口」组成，背景是 18dip 圆角的
  * `gradient dz(#33000000) → du(#00000000)`。色值 / 尺寸 / 位图全部取自竞品导出产物。
  *
  * 不伪造：`CircleProgressView` 的进度弧无生产数据源，只还原静态圆环；
@@ -293,11 +466,11 @@ private fun MiniPlayer(
     player: PlayerState,
     onPlay: () -> Unit,
     onPause: () -> Unit,
-    onNext: () -> Unit,
-    onPrev: () -> Unit,
     coverRef: String?,
     title: String?,
     onOpen: () -> Unit,
+    /** §61.187（W9）：队列入口——竞品 MiniPlayer 右端 ☰（播放列表），不铺前后切换。 */
+    onOpenQueue: () -> Unit,
 ) {
     val playing = player.phase == PlayerPhase.PLAYING
     // §61.138：真实封面（缓存 + 降采样，与列表行同源）。
@@ -366,9 +539,33 @@ private fun MiniPlayer(
             )
         }
 
-        MiniControlButton(LegacyAsset.Prev, "上一首", LegacyMetrics.ControlPrevNextDp, onPrev)
+        // §61.187（W9）：竞品 MiniPlayer 按钮组 = 单个播放/暂停 + 右端 ☰ 队列入口；
+        // 前后切换留给播放页横滑/控制区（mini bar 上铺三个键是自研偏差）。
         MiniPlayPauseButton(playing, onPlay, onPause)
-        MiniControlButton(LegacyAsset.Next, "下一首", LegacyMetrics.ControlPrevNextDp, onNext)
+        MiniQueueButton(onOpenQueue)
+    }
+}
+
+/** §61.187（W9）：竞品 MiniPlayer 右端 ☰ 播放列表入口（三横条绘制，无对应素材）。 */
+@Composable
+private fun MiniQueueButton(onOpenQueue: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .size(40.dp)
+            .clip(CircleShape)
+            .clickable(onClick = onOpenQueue),
+        contentAlignment = Alignment.Center,
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            listOf(0, 1, 2).forEach { row ->
+                Box(
+                    Modifier
+                        .padding(vertical = 2.dp)
+                        .size(width = if (row == 2) 10.dp else 14.dp, height = 2.dp)
+                        .background(Color(LegacyPalette.TextPrimary)),
+                )
+            }
+        }
     }
 }
 
@@ -884,6 +1081,8 @@ private fun PlaylistsScreen(
     onMoveItem: (String, Int, Int) -> Unit,
     onRemoveItem: (String, Int) -> Unit,
     observeTracks: (String) -> Flow<List<Track>>,
+    /** §61.192：次级页返回（回「更多」）。 */
+    onBack: () -> Unit = {},
 ) {
     var showCreate by remember { mutableStateOf(false) }
     var renameTarget by remember { mutableStateOf<String?>(null) }
@@ -893,6 +1092,7 @@ private fun PlaylistsScreen(
         Column(Modifier.fillMaxSize()) {
             CompHeaderBar(
                 title = "歌单",
+                onBack = onBack,
                 right = {
                     Text(
                         "＋",
@@ -1105,44 +1305,80 @@ private fun AddToPlaylistSheet(
 }
 
 /** §61.137 搜索页（asc 搜索框 + asa 结果 + cvq chip 样式预留）：取消清词、框内 ✕。 */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun SearchScreen(
     query: String,
     onQuery: (String) -> Unit,
     results: List<Track>,
+    hotWords: List<String>,
+    onPlayTracks: (List<Track>, Int) -> Unit,
+    /** §61.187：「取消」= 退出搜索页（回进入方）；旧实现只清关键字 ⇒ 无法返回。 */
+    onClose: () -> Unit = {},
 ) {
-    CompPage {
-        Column(Modifier.fillMaxSize()) {
-            Row(
-                Modifier.fillMaxWidth().padding(start = 16.dp, top = 8.dp, bottom = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                CompSearchField(
-                    value = query,
-                    onValueChange = onQuery,
-                    modifier = Modifier.weight(1f),
-                )
-                Text(
-                    "取消",
-                    color = Comp.TextPrimary,
-                    fontSize = 17.sp,
-                    modifier = Modifier
-                        .padding(start = 16.dp, end = 16.dp)
-                        .clickable { onQuery("") },
-                )
-            }
-            when {
-                query.isBlank() -> CompEmpty("输入关键字开始搜索（TrackRepository.search）")
-                results.isEmpty() -> CompEmpty("无匹配结果")
-                else -> LazyColumn(Modifier.fillMaxSize()) {
-                    items(results, key = { it.id.value }) { track ->
-                        CompTrackRow(
-                            title = track.title,
-                            subtitle = "${track.artist} · ${track.album}",
-                            coverRef = track.coverRef,
-                            onClick = {},
-                        )
+    Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
+        // ── 顶栏：搜索框 + 取消（飞牛 161534 逐像素；**无返回箭头**——辨别铁律） ──
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = FnBaseline.SearchBoxLeftDp.dp,
+                    end = FnBaseline.CancelRightDp.dp,
+                    top = FnBaseline.SearchTopGapDp.dp,
+                ),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            FnSearchField(
+                value = query,
+                onValueChange = onQuery,
+                modifier = Modifier.weight(1f),
+            )
+            Text(
+                "取消",
+                color = FnComp.TextSecondary,
+                fontSize = FnBaseline.CancelSp.sp,
+                modifier = Modifier
+                    .padding(start = FnBaseline.SearchToCancelDp.dp)
+                    // §61.187：取消 = 退出搜索页（清关键字由调用方处理）——
+                    // 旧实现只清关键字，用户被困在搜索页（「返回也返回不了」）。
+                    .clickable { onClose() },
+            )
+        }
+        when {
+            // 空曲库：不造热词，直接给空态
+            query.isBlank() && hotWords.isEmpty() -> FnEmpty("输入关键字搜索本地曲库", Modifier.weight(1f))
+            // 飞牛热词区接**本地**艺人 / 专辑名，不造在线热搜（spec §3.3 本地化口径）
+            query.isBlank() -> Column(Modifier.fillMaxSize()) {
+                FnSectionTitle("搜索发现 · 本地曲库")
+                FlowRow(
+                    Modifier.padding(horizontal = FnBaseline.PagePaddingDp.dp + 2.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
+                    hotWords.forEach { word ->
+                        Box(
+                            Modifier
+                                .clip(RoundedCornerShape(16.dp))
+                                .background(FnComp.CardBg)
+                                .clickable { onQuery(word) }
+                                .padding(horizontal = 14.dp, vertical = 7.dp),
+                        ) {
+                            Text(word, color = FnComp.TextSecondary, fontSize = 13.sp, maxLines = 1)
+                        }
                     }
+                }
+            }
+            results.isEmpty() -> FnEmpty("无匹配结果", Modifier.weight(1f))
+            else -> LazyColumn(Modifier.fillMaxSize()) {
+                itemsIndexed(results, key = { _, t -> t.id.value }) { index, track ->
+                    // §61.175：修旧实现的死链——原 `onClick = {}` 点了没反应；
+                    // 现在点结果即从该首起播（替换业务队列，口径同 §61.113 分组播放）。
+                    FnTrackRow(
+                        title = track.title,
+                        subtitle = "${track.artist} · ${track.album}",
+                        coverRef = track.coverRef,
+                        onClick = { onPlayTracks(results, index) },
+                    )
                 }
             }
         }
@@ -1155,10 +1391,12 @@ private fun QueueScreen(
     queue: List<QueueItem>,
     titles: Map<String, Track>,
     onJump: (Int) -> Unit,
+    /** §61.192：次级页返回（回「更多」）。 */
+    onBack: () -> Unit = {},
 ) {
     CompPage {
         Column(Modifier.fillMaxSize()) {
-            CompHeaderBar(title = "播放列表 · ${queue.size}")
+            CompHeaderBar(title = "播放列表 · ${queue.size}", onBack = onBack)
             if (queue.isEmpty()) {
                 CompEmpty("队列为空（播放后由 QueueRepository.observe() 提供）")
             } else {
@@ -1185,41 +1423,60 @@ private fun QueueScreen(
  * §61.137 视觉：44dip 页头 + cvn 分组标题 + cvg 曲目行。
  */
 @Composable
-private fun MyMusicScreen(bridge: PlayerStateBridge, allTracks: List<Track>) {
+private fun MyMusicScreen(
+    bridge: PlayerStateBridge,
+    allTracks: List<Track>,
+    onPlayTracks: (List<Track>, Int) -> Unit,
+    onBack: () -> Unit,
+) {
     val favorites by bridge.observeFavorites().collectAsState(initial = emptySet())
     val history by bridge.observeHistory().collectAsState(initial = emptyList())
-    CompPage {
-        Column(Modifier.fillMaxSize()) {
-            CompHeaderBar(title = "我的音乐")
-            LazyColumn(Modifier.fillMaxSize()) {
-                if (favorites.isNotEmpty()) {
-                    item(key = "fav-header") { CompGroupTitle("收藏 · ${favorites.size}") }
-                    items(allTracks.filter { it.id in favorites }, key = { "fav-" + it.id.value }) { track ->
-                        CompTrackRow(
+    val favTracks = allTracks.filter { it.id in favorites }
+    Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
+        FnPageHeader("我的音乐", onBack = onBack)
+        Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+            Spacer(Modifier.height(FnBaseline.HeaderToCardGapDp.dp))
+            FnStatCard(
+                glyph = "♥",
+                title = "我的音乐",
+                primary = "${favTracks.size} 收藏",
+                secondary = "最近播放 ${history.size} 首 · 全部来自本地曲库",
+                accent = FnComp.IconRed,
+            )
+            Spacer(Modifier.height(FnBaseline.StatToNextGroupDp.dp))
+            if (favTracks.isEmpty() && history.isEmpty()) {
+                FnEmpty("收藏曲目或播放曲目后在此显示", Modifier.height(220.dp))
+            }
+            if (favTracks.isNotEmpty()) {
+                FnSectionTitle("收藏 · ${favTracks.size}")
+                FnGroupCard {
+                    favTracks.forEachIndexed { index, track ->
+                        FnTrackRow(
                             title = track.title,
                             subtitle = track.artist,
                             coverRef = track.coverRef,
-                            onClick = {},
-                            coverGlyph = "♥",
+                            glyph = "♥",
+                            onClick = { onPlayTracks(favTracks, index) },
                         )
                     }
                 }
-                if (history.isNotEmpty()) {
-                    item(key = "hist-header") { CompGroupTitle("最近播放 · ${history.size}") }
-                    items(history, key = { "hist-" + it.id.value }) { track ->
-                        CompTrackRow(
+                Spacer(Modifier.height(FnBaseline.GroupGapDp.dp))
+            }
+            if (history.isNotEmpty()) {
+                FnSectionTitle("最近播放 · ${history.size}")
+                FnGroupCard {
+                    history.forEachIndexed { index, track ->
+                        FnTrackRow(
                             title = track.title,
                             subtitle = track.artist,
                             coverRef = track.coverRef,
-                            onClick = {},
-                            coverGlyph = "↺",
+                            glyph = "↺",
+                            onClick = { onPlayTracks(history, index) },
                         )
                     }
-                }
-                if (favorites.isEmpty() && history.isEmpty()) {
-                    item { CompEmpty("收藏曲目或播放曲目后在此显示") }
                 }
             }
+            Spacer(Modifier.height(28.dp))
         }
     }
 }
@@ -1243,110 +1500,109 @@ private fun SettingsScreen(
     onScanMinDurationChanged: (Long) -> Unit,
     scanIgnoreDirs: List<String>,
     onScanIgnoreDirsChanged: (List<String>) -> Unit,
+    trackCount: Int,
+    sourceCount: Int,
+    onBack: () -> Unit,
 ) {
-    // 操作结果反馈走行右侧 11sp 提示位（b1c drawerItemMsg 语义）。
+    // 操作结果反馈走页底提示位（飞牛行内没有提示位，不硬塞进 50.4dp 行框）。
     var cacheMsg by remember { mutableStateOf("") }
     var showScanDuration by remember { mutableStateOf(false) }
     var showIgnoreDirs by remember { mutableStateOf(false) }
-    CompPage {
-        Column(Modifier.fillMaxSize()) {
-            CompSettingsHeader("设置")
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
-            ) {
-                CompGroupTitle("播放")
-                CompSwitchRow(
-                    icon = "⇅",
-                    title = "允许移动数据播放",
-                    checked = !wifiOnly,
-                    onChange = { onWifiOnlyChanged(!it) },
-                    rightHint = if (wifiOnly) {
-                        "默认仅 WiFi 播放网络音源（01 §6.1）；本地曲目不受影响"
-                    } else {
-                        "移动网络下也可播放网络音源"
-                    },
+    Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
+        // 顶栏：从「更多」进入的**页内二级页**，返回钮语义是「回上一屏」，
+        // 与飞牛「回 NAS 主屏」的宿主壳层返回箭头不同（spec §2 #1 / §61.175）。
+        FnPageHeader("设置", onBack = onBack)
+        Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+            Spacer(Modifier.height(FnBaseline.HeaderToCardGapDp.dp))
+            // 卡1：本地曲库统计（替代飞牛 admin 账号卡，spec §2 #2）——不造用户信息
+            FnStatCard(
+                glyph = "♫",
+                title = "本地曲库",
+                primary = "$trackCount 首",
+                secondary = "$sourceCount 个数据源",
+            )
+            Spacer(Modifier.height(FnBaseline.StatToNextGroupDp.dp))
+            // 卡2 播放（人话标签；§61.188 用户「罗里吧嗦」——砍技术值与内部行话）
+            FnGroupCard {
+                FnRow(
+                    glyph = "⇅",
+                    title = "移动网络播放",
+                    onClick = { onWifiOnlyChanged(!wifiOnly) },
+                    value = if (wifiOnly) "仅 WiFi 下播放" else "允许",
+                    showChevron = false,
+                    trailing = { FnSwitch(checked = !wifiOnly, onChange = { onWifiOnlyChanged(!it) }) },
                 )
-                CompGroupTitle("维护")
-                CompSettingsRow(
-                    icon = "☁",
-                    title = "数据源管理",
-                    onClick = onOpenSources,
-                    rightHint = "SAF / 媒体库 / WebDAV",
-                )
-                CompSettingsRow(
-                    icon = "⌾",
+                FnRow(
+                    dividerAbove = true,
+                    glyph = "⌾",
                     title = "输出设备",
                     onClick = onOpenOutput,
-                    rightHint = "本机 / DLNA",
+                    value = "本机 / DLNA 投屏",
                 )
-                CompSettingsRow(
-                    icon = "↻",
-                    title = "触发全量重扫",
-                    onClick = onRescan,
-                    rightHint = "refresh=true",
-                )
-                CompSettingsRow(
-                    icon = "✕",
+                FnRow(
+                    dividerAbove = true,
+                    glyph = "✕",
                     title = "清理播放缓存",
                     onClick = {
                         onClearCache()
-                        cacheMsg = "清理指令已执行（播放中会被拒绝）；结果见 logcat CloudMusicRuntime"
+                        cacheMsg = if (runtime.proxyRunning) "已执行" else "已执行；播放中会被拒绝"
                     },
-                    rightHint = cacheMsg,
-                )
-                CompSettingsRow(
-                    icon = "⚖",
-                    title = "分析 ReplayGain",
-                    onClick = {
-                        onAnalyzeReplayGain()
-                        cacheMsg = "ReplayGain 分析已启动（LOCAL 未分析曲目，上限 50 首）；进度见 logcat CM-RG"
-                    },
-                    rightHint = cacheMsg,
-                )
-                CompGroupTitle("扫描设置")
-                CompSettingsRow(
-                    icon = "◎",
-                    title = "扫描最短时长",
-                    onClick = { showScanDuration = true },
-                    rightHint = "短于该值的音频不入曲库 · ${scanMinDurationMs / 1000} 秒",
-                )
-                CompSettingsRow(
-                    icon = "◎",
-                    title = "忽略目录",
-                    onClick = { showIgnoreDirs = true },
-                    rightHint = if (scanIgnoreDirs.isEmpty()) "逗号分隔" else "${scanIgnoreDirs.size} 项",
-                )
-                CompGroupTitle("运行态")
-                CompSettingsRow(
-                    icon = "⚙",
-                    title = "播放内核",
-                    onClick = {},
-                    // §61.108 口径修缮：当前生效内核是 B2 开源引擎舱（11-11 换绑，12 §61.65~61.66）；
-                    // EngineAdapter 仅是 A 路线回退实现，不再作为生产绑定表述。
-                    rightHint = "Media3EngineAdapter（B2 开源引擎；11-11 换绑，12 §61.65~61.66）",
-                )
-                CompSettingsRow(
-                    icon = "⇄",
-                    title = "本地流代理",
-                    onClick = {},
-                    rightHint = if (runtime.proxyRunning) "运行中" else "按需启动",
-                )
-                CompSettingsRow(
-                    icon = "✎",
-                    title = "最近生效副作用",
-                    onClick = {},
-                    rightHint = runtime.lastEffect.ifBlank { "无" },
-                )
-                Text(
-                    "设置写入由 SettingsStore 返回 effects，PlaybackRuntime 是唯一执行者（08 §7 / 12 §31）。" +
-                        "照搬播放页属 T-L L3，真机验收属 T-V，本页不伪造已接通。",
-                    color = Comp.TextHint,
-                    fontSize = 10.sp,
-                    modifier = Modifier.padding(horizontal = 32.dp, vertical = 12.dp),
+                    value = "释放空间",
                 )
             }
+            Spacer(Modifier.height(FnBaseline.GroupGapDp.dp))
+            // 卡3 曲库（飞牛「音乐库管理」映射：spec §2 #7）
+            FnGroupCard {
+                FnRow(
+                    glyph = "↻",
+                    title = "重新扫描曲库",
+                    onClick = onRescan,
+                    value = "找出新增与恢复的文件",
+                )
+                FnRow(
+                    dividerAbove = true,
+                    glyph = "☁",
+                    title = "数据源管理",
+                    onClick = onOpenSources,
+                    value = "添加或移除音乐来源",
+                )
+                FnRow(
+                    dividerAbove = true,
+                    glyph = "◎",
+                    title = "忽略目录",
+                    onClick = { showIgnoreDirs = true },
+                    value = if (scanIgnoreDirs.isEmpty()) "未设置" else "${scanIgnoreDirs.size} 项",
+                )
+                FnRow(
+                    dividerAbove = true,
+                    glyph = "◎",
+                    title = "扫描速度限制",
+                    onClick = { showScanDuration = true },
+                    value = "每次至少 ${scanMinDurationMs / 1000} 秒",
+                )
+            }
+            Spacer(Modifier.height(FnBaseline.GroupGapDp.dp))
+            // 卡4 音质（ReplayGain 人话化）
+            FnGroupCard {
+                FnRow(
+                    glyph = "⚖",
+                    title = "音量均衡分析",
+                    onClick = {
+                        onAnalyzeReplayGain()
+                        cacheMsg = "已开始分析（每次最多 50 首，播放时音量更均匀）"
+                    },
+                    value = "让每首歌音量接近",
+                )
+            }
+            if (cacheMsg.isNotBlank()) {
+                Text(
+                    cacheMsg,
+                    color = FnComp.SwitchGreen,
+                    fontSize = 11.sp,
+                    modifier = Modifier.padding(horizontal = 22.dp, vertical = 12.dp),
+                )
+            }
+            Spacer(Modifier.height(28.dp))
         }
     }
     if (showScanDuration) {

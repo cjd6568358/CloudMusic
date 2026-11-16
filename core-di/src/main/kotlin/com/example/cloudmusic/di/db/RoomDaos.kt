@@ -1,5 +1,6 @@
 package com.example.cloudmusic.di.db
 
+import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -63,6 +64,10 @@ interface TrackDao {
     @Query("UPDATE tracks SET replay_gain_db = :db WHERE id = :id")
     suspend fun markReplayGain(id: String, db: Float)
 
+    /** §61.181（B 案）：引擎真值时长回填——只写缺值行（duration_ms<=0），已有元数据不覆盖。 */
+    @Query("UPDATE tracks SET duration_ms = :durationMs WHERE id = :id AND duration_ms <= 0")
+    suspend fun updateDuration(id: String, durationMs: Long)
+
     /** §9 / B03：只标灰，绝不删行，歌单成员关系天然保留。 */
     @Query(
         "UPDATE tracks SET availability = 'UNREACHABLE', updated_at = :now " +
@@ -76,7 +81,41 @@ interface TrackDao {
     /** B06：启动时校验并重建 FTS 索引，参数固定，不接受外部输入。 */
     @Query("INSERT INTO tracks_fts(tracks_fts) VALUES('rebuild')")
     suspend fun rebuildFts()
+
+    /**
+     * §61.173：存量乱码标题修复的读取口 —— 只取文本四列 + 排序键，
+     * 不反序列化整行（7,800 行量级下省掉枚举/时间戳的映射开销）。
+     */
+    @Query("SELECT id, title, artist, album, sort_title FROM tracks")
+    suspend fun allTexts(): List<TrackTextRow>
+
+    /**
+     * §61.173：把修复后的文本写回（含 `sort_title` 重算）。
+     * FTS4 是 `contentEntity = TrackRow` 的外部内容表，Room 生成的
+     * AFTER UPDATE 触发器会同步 `tracks_fts`，无需另写 rebuild。
+     */
+    @Query(
+        "UPDATE tracks SET title = :title, artist = :artist, album = :album, " +
+            "sort_title = :sortTitle, updated_at = :now WHERE id = :id"
+    )
+    suspend fun updateTexts(
+        id: String,
+        title: String,
+        artist: String,
+        album: String,
+        sortTitle: String,
+        now: Long,
+    )
 }
+
+/** §61.173：`allTexts()` 的投影行（列名逐字对齐 DDL，见 [TrackRow]）。 */
+data class TrackTextRow(
+    @ColumnInfo(name = "id") val id: String,
+    @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "artist") val artist: String,
+    @ColumnInfo(name = "album") val album: String,
+    @ColumnInfo(name = "sort_title") val sortTitle: String,
+)
 
 @Dao
 interface PlaylistDao {

@@ -12,6 +12,7 @@ import com.example.cloudmusic.media.IMediaControl
 import com.example.cloudmusic.media.PlayerControllerHandle
 import com.example.cloudmusic.model.Link
 import com.example.cloudmusic.model.Track
+import com.example.cloudmusic.model.TrackId
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -42,6 +43,10 @@ class PlayerController(
     private val config: PlayerConfig = PlayerConfig(),
     /** 03-02 §344：播放前由 03-06 检查「默认仅 WiFi 播放」；纯 JVM 端口，生产实现由 :core-di 注入。 */
     private val networkGate: NetworkPlaybackGate = NetworkPlaybackPolicy.ALLOW_ALL,
+    /** §61.181（B 案）：引擎真值时长回填曲库的落库口；null = 不回填（测试 / 未接线）。 */
+    private val durationWriter: TrackDurationWriter? = null,
+    /** §61.182：播放游标写侧（playback_state 落库）；null = 不写（单测 / 未接线）。 */
+    private val cursorWriter: CursorWriter? = null,
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default),
 ) {
     private val _state = MutableStateFlow(PlayerState())
@@ -70,6 +75,13 @@ class PlayerController(
      * 用 AtomicBoolean：播放指令在 Service 线程、restore 在 [scope] 协程。
      */
     private val pendingPlay = java.util.concurrent.atomic.AtomicBoolean(false)
+
+    /**
+     * §61.181（B 案）：当前曲是否待真值时长回填。prepareAt 按曲库 `durationMs<=0`
+     * 置位（STRM / 无标签），引擎解出真值后经 [durationWriter] 写库一次（A 案
+     * `syncEngineDuration` 兑现）；切曲重置，避免上一曲未兑现的旗标串到新曲。
+     */
+    private val pendingDurationBackfill = java.util.concurrent.atomic.AtomicBoolean(false)
 
     private val controllerHandle: PlayerControllerHandle = HandleAdapter()
 
@@ -130,8 +142,11 @@ class PlayerController(
         runCatching {
             engine.pause(h)
             val pos = engine.positionMs(h)
+            val dur = syncEngineDuration(h)
             _state.update { it.copy(phase = PlayerPhase.PAUSED, positionMs = pos) }
-            media?.setPlaybackState(EngineState.PAUSED, pos, engine.durationMs(h))
+            media?.setPlaybackState(EngineState.PAUSED, pos, dur)
+            // §61.182：暂停点落游标（恢复链写侧：切歌 / 暂停 / 每 5s 三口之一）。
+            _state.value.currentTrackId?.let { persistCursor(it, pos) }
         }.onFailure {
             _state.update { it.copy(phase = PlayerPhase.PAUSED) }
             media?.setPlaybackState(EngineState.PAUSED, 0L, 0L)
@@ -142,6 +157,15 @@ class PlayerController(
         // 03-02 §344：用户点播 / 焦点恢复 / pendingPlay 兑现都必须过闸门；
         // prepareAt 的 autoPlay 分支只覆盖 playAt / 自动进曲。
         if (blockedByNetworkPolicy()) return
+        // §61.182（真机一手，本批判据③复验时发现）：B2 播完后 handle **不释放**
+        // 且 ExoPlayer 在 STATE_ENDED 下 play() 只置 playWhenReady、不重播也不翻转
+        // isPlaying → 旧路径无声空转、MediaSession/UI 假报 PLAYING（§61.25 修的是
+        // 「句柄已释放」分支，本条补「句柄还在但引擎已完」同族缺口）。标准行为不变：
+        // 从头重播当前曲（重建句柄走完整 prepare，playAt 内部再过网络闸门）。
+        if (_state.value.phase == PlayerPhase.ENDED) {
+            restartCurrentIfAny()
+            return
+        }
         // §61.25（E24/E25 真机暴露）：播放完成后句柄已随 msg=2 释放（引擎槽回 IDLE），
         // 此时再按播放不应空转导致 MediaSession 假报 PLAYING——标准行为是
         // 从头重播当前曲（重建引擎句柄走完整 prepare）。
@@ -160,18 +184,43 @@ class PlayerController(
             return
         }
         _state.update { it.copy(phase = PlayerPhase.PLAYING) }
+        val dur = syncEngineDuration(h)
         startPositionTicker()
-        media?.setPlaybackState(EngineState.PLAYING, engine.positionMs(h), engine.durationMs(h))
+        media?.setPlaybackState(EngineState.PLAYING, engine.positionMs(h), dur)
     }
 
     /** §61.114：位置节拍器句柄。 */
     private var positionTicker: Job? = null
 
     /**
+     * §61.181（A 案）：引擎真值时长同步——>0 才写 [PlayerState.durationMs]
+     * （0 = 引擎未解出 / 陈旧句柄异常，UI 回退曲库元数据）；同时兑现 B 案：
+     * 曲库缺时长（prepareAt 置位旗标）且已解出真值 → 经 [durationWriter] 回填一次。
+     * 自身不抛（引擎异常 / 落库失败都吞掉），可在节拍器里安全逐 tick 调用。
+     *
+     * @return 归一后的引擎时长（>0 真值；0 未知），调用方决定是否兜底曲库元数据。
+     */
+    private suspend fun syncEngineDuration(h: EngineHandle): Long {
+        val dur = runCatching { engine.durationMs(h) }.getOrNull()?.takeIf { it > 0 } ?: 0L
+        if (dur > 0) {
+            _state.update { it.copy(durationMs = dur) }
+            if (pendingDurationBackfill.compareAndSet(true, false)) {
+                _state.value.currentTrackId?.let { id ->
+                    runCatching { durationWriter?.write(id, dur) }
+                }
+            }
+        }
+        return dur
+    }
+
+    /**
      * §61.114（真机一手：播放中进度时间冻结在 00:00）——B2 引擎没有逐帧回调，
      * [positionMs] 此前只在暂停 / seek / 恢复时更新一次，PLAYING 期间 UI 进度
      * 与时间显示不走。PLAYING 期每 500ms 轮询引擎位置；相位离开 PLAYING 自行
      * 终止。MediaSession 通知栏位置刷新仍只在转换点（挂账，非本批）。
+     * §61.181：每 tick 同步引擎真值时长（B2 在 READY 异步解出，prepare 返回时
+     * 尚未知；节拍器是「解出后进 state + 触发回填」的兜底采集点）。
+     * §61.182：每 5s（10 tick）落播放游标（写侧复活：saveCursor 此前生产链零写方）。
      */
     private fun startPositionTicker() {
         positionTicker?.cancel()
@@ -181,12 +230,17 @@ class PlayerController(
                 handle?.let { h ->
                     runCatching { engine.positionMs(h) }.getOrNull()?.let { pos ->
                         _state.update { it.copy(positionMs = pos) }
+                        val dur = syncEngineDuration(h)
                         // §61.115：每 2s（4 tick）同步一次 MediaSession 位置——
                         // 此前只在转换点写会话，通知栏进度与 dumpsys 监控通道
                         // 均冻结在起播值（G08 长稳 20 轮 position=0 的一手后果）。
                         if (tick % 4 == 0) {
-                            media?.setPlaybackState(
-                                EngineState.PLAYING, pos, engine.durationMs(h))
+                            media?.setPlaybackState(EngineState.PLAYING, pos, dur)
+                        }
+                        // §61.182：每 5s（10 tick）落游标（与 pause / 切歌共同保
+                        // playback_state 常在，冷启动恢复才有输入）。
+                        if (tick % 10 == 0) {
+                            _state.value.currentTrackId?.let { persistCursor(it, pos) }
                         }
                     }
                 }
@@ -194,6 +248,15 @@ class PlayerController(
                 delay(500)
             }
         }
+    }
+
+    /**
+     * §61.182：游标落库（best-effort，失败吞掉不抛——与 [syncEngineDuration] 同型；
+     * 落库失败只损失一次恢复点，不得带崩播放协程）。
+     */
+    private suspend fun persistCursor(trackId: TrackId, positionMs: Long) {
+        val w = cursorWriter ?: return
+        runCatching { w.write(trackId.value, positionMs) }
     }
 
     /** §61.93（音效必须支持）：effectId>0 启用引擎基础音效（audiofx 档位），0 = 释放。 */
@@ -321,6 +384,9 @@ class PlayerController(
             it.copy(
                 phase = PlayerPhase.PREPARING, currentIndex = index,
                 currentTrackId = item.trackId, positionMs = seekTo, lastError = null,
+                // §61.181：切曲即清零，上一曲真值不残留（验收判据②）；新曲真值由
+                // prepare 返回值 / 节拍器重新写入。
+                durationMs = 0L,
             )
         }
         val track = lookup.get(item.trackId)
@@ -328,6 +394,8 @@ class PlayerController(
             fail(CloudMusicError.DsNotFound(item.trackId.value))
             return
         }
+        // §61.181（B 案）：曲库缺时长（STRM / 无标签）→ 等引擎解出真值后回填一次。
+        pendingDurationBackfill.set(track.durationMs <= 0)
         val link = try {
             resolver.resolve(track)
         } catch (e: Exception) {
@@ -378,18 +446,31 @@ class PlayerController(
         if (seekTo > 0) engine.seek(h, seekTo)
         // 冷启动恢复只 prepare + seek，引擎必须停在 PAUSED（§8.2 / PRD §6.1 不自动开播）。
         if (autoPlay) engine.play(h) else engine.pause(h)
+        // §61.181（A 案）：prepare 返回即读引擎真值时长（已解出则进 state 并兑现回填；
+        // B2 真机上 STRM 直链此刻多半还未 READY，0 = 未知，由节拍器解出后续采）。
+        val engineDur = syncEngineDuration(h)
         _state.update {
             it.copy(
                 phase = if (autoPlay) PlayerPhase.PLAYING else PlayerPhase.PAUSED,
                 positionMs = seekTo,
             )
         }
+        // §61.182：切歌即落游标（恢复链写侧三口之一；restore 的 PAUSED 路径同样落，
+        // 重启后 Room 才有 playback_state 可读）。
+        persistCursor(item.trackId, seekTo)
         if (autoPlay) startPositionTicker()
-        media?.publishMetadata(track, track.coverRef)
+        // §61.185：媒体会话元数据时长同源真值——publishMetadata 直接用曲库值，STRM 恒 0
+        // ⇒ 通知栏进度条比例错（播放页/PlaybackState 已由 §61.181 修，本处补最后一环）。
+        // 引擎未解出（0）时回退曲库值；零契约变更（Track 副本，门面签名不动）。
+        media?.publishMetadata(
+            track.copy(durationMs = if (engineDur > 0) engineDur else track.durationMs),
+            track.coverRef,
+        )
         media?.setPlaybackState(
             if (autoPlay) EngineState.PLAYING else EngineState.PAUSED,
             seekTo,
-            track.durationMs,
+            // §61.181：引擎真值优先，未解出（0）时兜底曲库元数据（本地有标签曲目瞬时正确）。
+            if (engineDur > 0) engineDur else track.durationMs,
         )
     }
 
@@ -426,7 +507,13 @@ class PlayerController(
         if (_state.value.currentIndex == index) return
         val item = queue[index]
         _state.update {
-            it.copy(currentIndex = index, currentTrackId = item.trackId, positionMs = 0L)
+            it.copy(
+                currentIndex = index, currentTrackId = item.trackId,
+                positionMs = 0L,
+                // §61.181：队列内切曲同样清零，真值由节拍器随 READY 采集（队列模式
+                // 仅本地音源，曲库元数据兜底恒可靠）。
+                durationMs = 0L,
+            )
         }
         currentNetworkSource = preparedSources.getOrNull(index)?.url != null
         val track = lookup.get(item.trackId) ?: return

@@ -1,0 +1,73 @@
+{
+  "method": "player_screenshot_band_diff",
+  "screenshot": "analysis/screenshots/6174/player-v3.png",
+  "normalization": "以进度条轨道为原点（消除系统栏高度差异导致的整块平移）",
+  "window_dp": [
+    540,
+    730
+  ],
+  "column_px": [
+    95,
+    330
+  ],
+  "ref_track_y_dp": 674.9,
+  "screenshot_track_y_dp": 687.4,
+  "rows": [
+    {
+      "element": "在线胶囊",
+      "ref_top_off": -107.5,
+      "got_top_off": null,
+      "d_top": null,
+      "ref_h": 10.0,
+      "got_h": null,
+      "d_h": null,
+      "status": "我方未渲染（无数据源，预期）"
+    },
+    {
+      "element": "标题",
+      "ref_top_off": -72.6,
+      "got_top_off": -72.3,
+      "d_top": 0.3,
+      "ref_h": 16.3,
+      "got_h": 16.3,
+      "d_h": 0.0,
+      "got_index": 0,
+      "status": "已比对"
+    },
+    {
+      "element": "艺人",
+      "ref_top_off": -42.6,
+      "got_top_off": null,
+      "d_top": null,
+      "ref_h": 13.1,
+      "got_h": null,
+      "d_h": null,
+      "status": "我方未渲染（无数据源，预期）"
+    },
+    {
+      "element": "进度条",
+      "ref_top_off": -0.9,
+      "got_top_off": -1.7,
+      "d_top": 0.8,
+      "ref_h": 4.0,
+      "got_h": 4.9,
+      "d_h": 0.9,
+      "got_index": 1,
+      "status": "已比对"
+    },
+    {
+      "element": "时间",
+      "ref_top_off": 16.2,
+      "got_top_off": null,
+      "d_top": null,
+      "ref_h": 7.7,
+      "got_h": null,
+      "d_h": null,
+      "status": "我方未渲染（无数据源，预期）"
+    }
+  ],
+  "worst_abs_error_dp": 0.9,
+  "tolerance_dp": 2.0,
+  "pass": true,
+  "note": "第一带（在线胶囊）我方无数据源不渲染属预期；唱针需处于落下态（播放中）才与基准同姿态"
+}

@@ -140,6 +140,16 @@ class InMemoryTrackRepository(
             s.copy(tracks = s.tracks + (id.value to old.copy(replayGainDb = gainDb)))
         }
 
+    /** §61.181（B 案）：只回填缺值行（durationMs<=0），已有元数据不覆盖；非法值（<=0）忽略。 */
+    override suspend fun updateDuration(id: TrackId, durationMs: Long) {
+        if (durationMs <= 0) return
+        store.mutate { s ->
+            val old = s.tracks[id.value] ?: return@mutate s
+            if (old.durationMs > 0) return@mutate s
+            s.copy(tracks = s.tracks + (id.value to old.copy(durationMs = durationMs)))
+        }
+    }
+
     override suspend fun count(): Int = store.snapshot().tracks.size
 }
 
@@ -315,6 +325,21 @@ class InMemoryStorageRepository(
             )
         }
     }
+}
+
+/** docs/01 §0（2026-11-16 拍板）：歌词仓库的纯 JVM 内存实现（测试 / 无落盘场景）。 */
+class InMemoryLyricRepository : LyricRepository {
+    private val data = MutableStateFlow<Map<String, com.example.cloudmusic.model.Lyrics>>(emptyMap())
+
+    override fun observe(id: TrackId): Flow<com.example.cloudmusic.model.Lyrics> =
+        data.map { it[id.value] ?: com.example.cloudmusic.model.Lyrics.EMPTY }
+
+    override suspend fun save(id: TrackId, lyrics: com.example.cloudmusic.model.Lyrics) {
+        data.update { it + (id.value to lyrics) }
+    }
+
+    override suspend fun has(id: TrackId): Boolean =
+        data.value[id.value]?.isEmpty == false
 }
 
 /** docs/03-05 §3.4 / B13：失败记录，启动时按「最近 1,000 条 / 30 天」清理。 */

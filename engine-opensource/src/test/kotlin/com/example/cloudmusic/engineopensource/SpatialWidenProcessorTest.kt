@@ -98,4 +98,79 @@ class SpatialWidenProcessorTest {
         out.get(arr)
         assertTrue(input.contentEquals(arr), "非 16-bit 立体声应原样透传")
     }
+
+    /**
+     * §61.177（真机一手回归）：Media3 `AudioProcessingPipeline` 会把本处理器上一包
+     * `getOutput()` 返回的 ByteBuffer **原样**作为下一包 `queueInput()` 的输入，
+     * 而 `BaseAudioProcessor` 的 `buffer` 字段是复用的（`getOutput()` 只把
+     * `outputBuffer` 换成 `EMPTY_BUFFER`，不重建 `buffer`）⇒ 输出与输入是同一对象。
+     * 旧实现 `out.put(inputBuffer)` 命中 `ByteBuffer` 的 `src == this` 分支抛
+     * `IllegalArgumentException`，直通分支（amount=0，默认值）必崩。
+     *
+     * 本用例用同一对象走两包，正是真机上的那条路径；旧实现会在此抛异常。
+     */
+    @Test
+    fun `管线复用输入缓冲 输入输出同一对象不崩`() {
+        val p = SpatialWidenProcessor()
+        AudioEffectsBus.widenAmount = 0f
+        try {
+            p.configure(AudioFormat(44_100, 2, C.ENCODING_PCM_16BIT))
+            p.flush()
+
+            val first = stereoBytes(listOf(1000 to -2000, -3000 to 4000))
+            p.queueInput(ByteBuffer.wrap(first))
+            val reused = p.output
+            val arr1 = ByteArray(reused.remaining())
+            reused.get(arr1)
+            assertTrue(first.contentEquals(arr1), "第一包应直通")
+
+            // 关键：把上一包 output 的同一对象当作下一包 input 传回（管线真实行为）
+            val second = stereoBytes(listOf(500 to 600, -700 to 800))
+            reused.clear()
+            reused.put(second)
+            reused.flip()
+            p.queueInput(reused)
+
+            val out2 = p.output
+            val arr2 = ByteArray(out2.remaining())
+            out2.get(arr2)
+            assertTrue(second.contentEquals(arr2), "复用同一 buffer 的第二包应直通且不崩")
+        } finally {
+            AudioEffectsBus.widenAmount = 0f
+        }
+    }
+
+    /** §61.177：复用同一对象时，展宽分支（amount>0）也必须正确。 */
+    @Test
+    fun `管线复用输入缓冲 展宽分支同样正确`() {
+        val p = SpatialWidenProcessor()
+        AudioEffectsBus.widenAmount = 0.5f
+        try {
+            p.configure(AudioFormat(44_100, 2, C.ENCODING_PCM_16BIT))
+            p.flush()
+
+            val first = stereoBytes(listOf(4000 to -4000))
+            p.queueInput(ByteBuffer.wrap(first))
+            val reused = p.output
+            val arr1 = ByteArray(reused.remaining())
+            reused.get(arr1)
+            assertEquals(6000, toShorts(arr1)[0])
+
+            val second = stereoBytes(listOf(4000 to -4000))
+            reused.clear()
+            reused.put(second)
+            reused.flip()
+            p.queueInput(reused)
+            // getOutput() 是一次性的：首次调用即把 outputBuffer 换成 EMPTY_BUFFER，
+            // 必须只取一次再读。
+            val out2 = p.output
+            val arr2 = ByteArray(out2.remaining())
+            out2.get(arr2)
+            val shorts = toShorts(arr2)
+            assertEquals(6000, shorts[0], "复用同一 buffer 时 L' 仍应为 mid+side*1.5")
+            assertEquals(-6000, shorts[1], "复用同一 buffer 时 R' 仍应为 mid-side*1.5")
+        } finally {
+            AudioEffectsBus.widenAmount = 0f
+        }
+    }
 }

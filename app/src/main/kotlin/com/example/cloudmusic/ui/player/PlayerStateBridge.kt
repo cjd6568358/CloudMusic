@@ -29,9 +29,12 @@ import kotlinx.coroutines.flow.map
  * - 队列弹窗：属 `03-10 §5` 的 V0.2 完善项。
  * 这四项**不实现、不伪造完成**，仅在 UI 上以只读 / 占位形态呈现。
  *
- * 时长契约：契约 `03-10 §6` 的 `positionMs` / `durationMs` 在这里分别来自
- * [PlayerState.positionMs] 与 [Track.durationMs]（曲库元数据）；
- * `PlayerState` 中并无引擎实时 `durationMs` 字段，故不伪造一个引擎时长流。
+ * 时长契约：契约 `03-10 §6` 的 `positionMs` 来自 [PlayerState.positionMs]；
+ * `durationMs` 自 §61.181 起为「引擎真值优先、曲库元数据兜底」：
+ * [PlayerState.durationMs] > 0（引擎已解出，含 STRM 直链在 READY 时解出的真值）
+ * 即用引擎值，否则回退 [Track.durationMs]（本地有标签曲目在 PREPARING 期即可显示）。
+ * 原口径「无引擎实时字段故不接」（`12 §61.180` 定性）正是 STRM 播放页恒 00:00 的
+ * 直接成分——「不伪造」的正确解法是补真值通道，不是退回占位值。
  */
 class PlayerStateBridge(
     private val runtime: PlaybackRuntime,
@@ -49,8 +52,13 @@ class PlayerStateBridge(
 
     val queueCount: Flow<Int> = queue.observe().map { it.size }
 
-    /** `Track.durationMs`；无曲目时为 0。 */
-    val durationMs: Flow<Long> = track.map { it?.durationMs ?: 0L }
+    /**
+     * §61.181（A 案）：引擎真值优先（[PlayerState.durationMs]，STRM 直链解出的
+     * 真值含在内），曲库元数据兜底（本地有标签曲目 / 引擎未解出时）；无曲目为 0。
+     */
+    val durationMs: Flow<Long> = combine(state, track) { s, t ->
+        if (s.durationMs > 0) s.durationMs else t?.durationMs ?: 0L
+    }
 
     /** `03-10 §6` 的 `playMode`；当前只读（见类注释）。 */
     val playMode: Flow<PlayMode> = state.map { it.mode }

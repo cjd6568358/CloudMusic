@@ -4,6 +4,7 @@ import com.example.cloudmusic.common.NetworkPlaybackGate
 import com.example.cloudmusic.common.NetworkPlaybackPolicy
 import com.example.cloudmusic.engine.api.EngineHandle
 import com.example.cloudmusic.engine.api.EngineState
+import com.example.cloudmusic.engine.api.IMusicEngine
 import com.example.cloudmusic.engine.api.InMemoryMusicEngine
 import com.example.cloudmusic.media.InMemoryMediaControl
 import com.example.cloudmusic.model.Link
@@ -11,6 +12,7 @@ import com.example.cloudmusic.model.SourceRef
 import com.example.cloudmusic.model.SourceType
 import com.example.cloudmusic.model.Track
 import com.example.cloudmusic.model.TrackId
+import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.DisplayName
@@ -45,19 +47,31 @@ class PlayerControllerTest {
         val config: PlayerConfig = PlayerConfig(shuffleSeed = 42L),
         val scope: kotlinx.coroutines.CoroutineScope,
         networkGate: NetworkPlaybackGate = NetworkPlaybackPolicy.ALLOW_ALL,
+        /** §61.181：non-null 时模拟 B2「READY 解出真值时长」（与曲库元数据无关）。 */
+        engineDurationOverride: Long? = null,
+        val lookupTracks: List<Track> = tracksOf(5),
+        durationWriter: TrackDurationWriter? = null,
+        cursorWriter: CursorWriter? = null,
     ) {
         val engine = InMemoryMusicEngine()
+
+        /** §61.181：可变真值（模拟异步解出时机）；snapshot 断言仍走 [engine] 本体。 */
+        val durationEngine: DurationResolvingEngine? =
+            engineDurationOverride?.let { DurationResolvingEngine(engine, it) }
+        private val engineFacade: IMusicEngine = durationEngine ?: engine
         val sync = RecordingQueueSync()
         val media = InMemoryMediaControl()
         val repo = InMemoryQueueRepository { 1_000L }
         val controller = PlayerController(
-            engine = engine,
+            engine = engineFacade,
             sync = sync,
-            lookup = InMemoryTrackLookup(tracksOf(5)),
+            lookup = InMemoryTrackLookup(lookupTracks),
             resolver = resolver,
             media = media,
             config = config,
             networkGate = networkGate,
+            durationWriter = durationWriter,
+            cursorWriter = cursorWriter,
             scope = scope,
         )
 
@@ -73,12 +87,41 @@ class PlayerControllerTest {
         }
     }
 
+    /**
+     * §61.181：仅覆写 `durationMs` 的委托引擎——InMemoryMusicEngine 的时长来自
+     * `expectedLength`（= 曲库元数据），无法模拟 B2 在 READY 时解出与元数据无关的
+     * 真值（STRM 直链 244933 的核心场景）。
+     */
+    private class DurationResolvingEngine(
+        private val real: InMemoryMusicEngine,
+        @Volatile var resolvedDuration: Long,
+    ) : IMusicEngine by real {
+        override fun durationMs(handle: EngineHandle): Long = resolvedDuration
+    }
+
+    /** §61.181：STRM 曲目——曲库时长缺值（0），真实时长只能由引擎解出。 */
+    private fun strmTrack(n: Int) = Track(
+        id = TrackId("id-$n"),
+        title = "strm-$n",
+        artist = "artist",
+        album = "album",
+        durationMs = 0L,
+        sourceRef = SourceRef(
+            storageId = "storage", path = "/p$n.strm", url = "https://example.com/s$n.mp3",
+        ),
+        sourceType = SourceType.STRM,
+    )
+
     private fun fixture(
         resolver: TrackSourceResolver = localResolver,
         config: PlayerConfig = PlayerConfig(shuffleSeed = 42L),
         scope: kotlinx.coroutines.CoroutineScope,
         networkGate: NetworkPlaybackGate = NetworkPlaybackPolicy.ALLOW_ALL,
-    ) = Fixture(resolver, config, scope, networkGate)
+        engineDurationOverride: Long? = null,
+        lookupTracks: List<Track> = Fixture.tracksOf(5),
+        durationWriter: TrackDurationWriter? = null,
+        cursorWriter: CursorWriter? = null,
+    ) = Fixture(resolver, config, scope, networkGate, engineDurationOverride, lookupTracks, durationWriter, cursorWriter)
 
     private val urlResolver = TrackSourceResolver { t ->
         Link(url = "https://example.com/${t.id.value}.mp3")
@@ -406,5 +449,181 @@ class PlayerControllerTest {
         assertEquals(3, f.controller.state.value.currentIndex)
         assertEquals("id-4", f.controller.state.value.currentTrackId?.value)
         assertEquals(0L, f.controller.state.value.positionMs)
+    }
+
+    // ------------------------------------------------------------------
+    // §61.181 · 引擎真值时长通道（A 案）+ 曲库回填（B 案）
+    // ------------------------------------------------------------------
+
+    @Test
+    @DisplayName("§61.181 A案 · STRM 曲库时长 0：引擎真值写入 PlayerState 且进媒体会话")
+    fun strmDurationFromEngine() = runTest {
+        val f = fixture(
+            scope = backgroundScope,
+            resolver = urlResolver,
+            engineDurationOverride = 244_933L,   // 真机一手：READY 时解出 4'04"
+            lookupTracks = listOf(strmTrack(1)),
+        )
+        f.repo.setAll(listOf(strmTrack(1)))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        val s = f.controller.state.value
+        assertEquals(PlayerPhase.PLAYING, s.phase)
+        assertEquals(244_933L, s.durationMs, "引擎解出的真值，非曲库 0")
+        assertEquals(244_933L, f.media.snapshot().playback?.durationMs, "媒体会话与 state 同源")
+        // §61.185：通知栏 metadata 时长同源（publishMetadata 用引擎真值副本，非曲库 0）
+        assertEquals(244_933L, f.media.snapshot().metadata?.durationMs, "通知栏元数据真值")
+    }
+
+    @Test
+    @DisplayName("§61.181 A案 · 切曲即清零：上一曲真值不残留到下一曲未解出期")
+    fun noDurationResidueAcrossTracks() = runTest {
+        val f = fixture(
+            scope = backgroundScope,
+            resolver = urlResolver,
+            engineDurationOverride = 100_000L,   // 第一曲引擎已解出
+            lookupTracks = listOf(track(1), strmTrack(2)),
+        )
+        f.repo.setAll(listOf(track(1), strmTrack(2)))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        assertEquals(100_000L, f.controller.state.value.durationMs)
+
+        // 下一曲引擎尚未解出（真机 B2 READY 异步）→ 恒 0，不得残留 100_000
+        f.durationEngine!!.resolvedDuration = 0L
+        f.controller.playAt(1)
+        assertEquals(0L, f.controller.state.value.durationMs)
+    }
+
+    @Test
+    @DisplayName("§61.181 B案 · 曲库缺时长：引擎解出真值后回填一次；已有元数据不回填")
+    fun backfillsLibraryDuration() = runTest {
+        val writes = mutableListOf<Pair<TrackId, Long>>()
+        val f = fixture(
+            scope = backgroundScope,
+            resolver = urlResolver,
+            engineDurationOverride = 244_933L,
+            lookupTracks = listOf(strmTrack(1)),
+            durationWriter = TrackDurationWriter { id, d -> writes.add(id to d) },
+        )
+        f.repo.setAll(listOf(strmTrack(1)))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        assertEquals(listOf(TrackId("id-1") to 244_933L), writes, "解出真值即回填")
+
+        writes.clear()
+        val local = track(2)
+        val f2 = fixture(
+            scope = backgroundScope,
+            engineDurationOverride = 244_933L,
+            lookupTracks = listOf(local),
+            durationWriter = TrackDurationWriter { id, d -> writes.add(id to d) },
+        )
+        f2.repo.setAll(listOf(local))
+        f2.controller.setQueue(f2.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f2.controller.playAt(0)
+        assertEquals(emptyList(), writes, "曲库已有时长（100_000）不覆盖")
+    }
+
+    @Test
+    @DisplayName("§61.181 A案 · 引擎 READY 异步解出：节拍器采集真值并兑现回填")
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+    fun tickerPicksUpLateResolvedDuration() = runTest {
+        val writes = mutableListOf<Pair<TrackId, Long>>()
+        val f = fixture(
+            scope = backgroundScope,
+            resolver = urlResolver,
+            engineDurationOverride = 0L,          // prepare 返回时未解出（真机 B2 时序）
+            lookupTracks = listOf(strmTrack(1)),
+            durationWriter = TrackDurationWriter { id, d -> writes.add(id to d) },
+        )
+        f.repo.setAll(listOf(strmTrack(1)))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        runCurrent()                              // 节拍器第一 tick：仍未知
+        assertEquals(0L, f.controller.state.value.durationMs)
+
+        f.durationEngine!!.resolvedDuration = 244_933L   // READY：引擎解出真值
+        advanceTimeBy(500)
+        runCurrent()                              // 下一 tick 采集
+        assertEquals(244_933L, f.controller.state.value.durationMs)
+        assertEquals(listOf(TrackId("id-1") to 244_933L), writes, "节拍器兑现 B 案回填")
+    }
+
+    // ------------------------------------------------------------------
+    // §61.182 · 播放游标写侧复活（saveCursor 此前生产链零写方 → 恢复链死路）
+    // ------------------------------------------------------------------
+
+    @Test
+    @DisplayName("§61.182 · 切歌 / 暂停 / PLAYING 每 5s 三口落 playback_state")
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+    fun cursorPersistsOnPreparePauseAndTick() = runTest {
+        val cursors = mutableListOf<Pair<String, Long>>()
+        val f = fixture(
+            scope = backgroundScope,
+            cursorWriter = CursorWriter { id, pos -> cursors.add(id to pos) },
+        )
+        f.queue()
+        f.controller.playAt(0)
+        runCurrent()   // 节拍器第一 tick（tick=0 即写）
+        assertTrue(
+            cursors.contains("id-1" to 0L),
+            "prepareAt 落游标（trackId + seekTo）——写侧不得再断",
+        )
+
+        // PLAYING 期节奏：5s（10 tick）一写，必须在 pause 前验证（PAUSED 后 ticker 自行终止）
+        val atPrepare = cursors.size
+        advanceTimeBy(5_000)
+        runCurrent()
+        assertTrue(cursors.size > atPrepare, "PLAYING 期每 5s（10 tick）落游标")
+
+        val atTick = cursors.size
+        f.controller.pause()
+        runCurrent()
+        assertTrue(cursors.size > atTick, "暂停点落游标")
+        assertTrue(cursors.all { it.first == "id-1" }, "游标曲目与当前曲一致")
+    }
+
+    @Test
+    @DisplayName("§61.182 · restore（PAUSED）同样落游标，重启后 Room 才有恢复输入")
+    fun cursorPersistsOnRestorePrepare() = runTest {
+        val cursors = mutableListOf<Pair<String, Long>>()
+        val f = fixture(
+            scope = backgroundScope,
+            cursorWriter = CursorWriter { id, pos -> cursors.add(id to pos) },
+        )
+        f.repo.setAll(tracks)
+        f.repo.setMode(PlayMode.LIST_LOOP)
+        f.repo.saveCursor("id-3", 42_000L)
+        val snapshot = f.repo.restore()
+        assertNotNull(snapshot)
+        f.controller.restore(snapshot, f.repo.snapshotItems())
+        assertEquals(PlayerPhase.PAUSED, f.controller.state.value.phase)
+        assertTrue(
+            cursors.contains("id-3" to 42_000L),
+            "restore 的 prepareAt 落游标（同值幂等回写）",
+        )
+    }
+
+    @Test
+    @DisplayName("§61.182 · ENDED 后 resume 从头重播（B2 ENDED 不释放句柄、play() 不重播）")
+    fun resumeAfterEndedRestartsFromStart() = runTest {
+        val f = fixture(scope = backgroundScope)
+        f.queue()
+        f.controller.playAt(4)   // 队尾：ENDED 后 SEQUENCE 无下一首 → 相位 ENDED
+        f.engine.reportEnded()   // 引擎自然播完
+        runCurrent()
+        assertEquals(PlayerPhase.ENDED, f.controller.state.value.phase)
+
+        // 旧路径缺陷：handle 仍在 + ExoPlayer ENDED 下 play() 空转 → 假 PLAYING 无声
+        f.controller.resume()
+        assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase)
+        // playAt(4) 本地顺序队列 ≥2 → gapless 路径（prepareQueue 整队列重建，
+        // 内存参考实现的 source 恒为 sources.first()，业务游标看 queuedStartIndex）
+        assertEquals(5, f.engine.queuedSources?.size, "整队列重建")
+        assertEquals(4, f.engine.queuedStartIndex, "从当前曲（队尾）重播")
+        assertEquals(4, f.engine.queueIndex().value)
+        assertEquals(EngineState.PLAYING, f.engine.snapshot().state)
+        assertEquals(0L, f.engine.snapshot().positionMs, "位置归零重播，不留在曲尾")
     }
 }

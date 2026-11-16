@@ -32,6 +32,12 @@ data class PlayerState(
     val currentIndex: Int = -1,
     val currentTrackId: TrackId? = null,
     val positionMs: Long = 0L,
+    /**
+     * §61.181（A 案）：引擎解出的**当前曲真实时长**（>0 有效）。0 = 引擎尚未解出
+     * （B2 在 READY 时才解出，prepare 返回时可能是未知值），UI 按曲库元数据兜底。
+     * 切曲即清零（[PlayerController] PREPARING 置位），不残留上一曲真值。
+     */
+    val durationMs: Long = 0L,
     val mode: PlayMode = PlayMode.SEQUENCE,
     val lastError: CloudMusicError? = null,
     /** 切 DLNA 时手机转遥控器：本机内核静音 + 暂停（§9）。 */

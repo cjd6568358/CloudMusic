@@ -58,24 +58,33 @@ class OkHttpStack(private val client: OkHttpClient) : HttpStack {
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    response.use { resp ->
-                        val headers = mutableMapOf<String, String>()
-                        for (i in 0 until resp.headers.size) {
-                            headers[resp.headers.name(i)] = resp.headers.value(i)
+                    // §61.178（真机一手悬死根因）：整段必须 try-catch。
+                    // `resp.body.bytes()` 抛 IOException / 协程已被取消 / 任何运行时异常
+                    // 一旦逃出本回调，OkHttp 的 AsyncCall 只会把它吞掉（它假设 call 已处理完），
+                    // 协程**永远不会 resume**——扫描表现为「正在扫描曲库 0/0」永久不动，
+                    // 无异常、无超时、无日志（`binder sync` 只打过一次）。
+                    try {
+                        response.use { resp ->
+                            val headers = mutableMapOf<String, String>()
+                            for (i in 0 until resp.headers.size) {
+                                headers[resp.headers.name(i)] = resp.headers.value(i)
+                            }
+                            if (cont.isActive) {
+                                // C-12：只读一次 body（OkHttp 的响应体只能消费一次），
+                                // 二进制与文本视图共用同一份字节。
+                                val bytes = resp.body?.bytes()
+                                cont.resume(
+                                    WebDavResponse(
+                                        status = resp.code,
+                                        headers = headers,
+                                        body = bytes?.toString(Charsets.UTF_8).orEmpty(),
+                                        bodyBytes = bytes,
+                                    ),
+                                )
+                            }
                         }
-                        if (cont.isActive) {
-                            // C-12：只读一次 body（OkHttp 的响应体只能消费一次），
-                            // 二进制与文本视图共用同一份字节。
-                            val bytes = resp.body?.bytes()
-                            cont.resume(
-                                WebDavResponse(
-                                    status = resp.code,
-                                    headers = headers,
-                                    body = bytes?.toString(Charsets.UTF_8).orEmpty(),
-                                    bodyBytes = bytes,
-                                ),
-                            )
-                        }
+                    } catch (e: Throwable) {
+                        if (cont.isActive) cont.resumeWithException(e)
                     }
                 }
             })

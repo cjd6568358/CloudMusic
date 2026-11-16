@@ -1,0 +1,227 @@
+{
+  "method": "feiniu_baseline_selfcheck",
+  "source_metrics": "analysis/l3-reference/feiniu-page-metrics.json",
+  "constants_parsed": 32,
+  "rows": [
+    {
+      "field": "PagePaddingDp",
+      "derived": 16.0,
+      "measured": 16.0,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "reason": "卡片左缘",
+      "status": "PASS"
+    },
+    {
+      "field": "CardCornerDp",
+      "derived": 16.0,
+      "measured": 15.4,
+      "abs_error": 0.6,
+      "tolerance": 2.0,
+      "reason": "圆角枚举拟合",
+      "status": "PASS"
+    },
+    {
+      "field": "RowHeightDp",
+      "derived": 50.4,
+      "measured": 50.4,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "reason": "组 2 高 201.4 / 4 行",
+      "status": "PASS"
+    },
+    {
+      "field": "GroupGapDp",
+      "derived": 20.3,
+      "measured": 20.6,
+      "abs_error": 0.3,
+      "tolerance": 2.0,
+      "reason": "组 3 顶 − 组 2 底",
+      "status": "PASS"
+    },
+    {
+      "field": "HeaderToCardGapDp",
+      "derived": 20.3,
+      "measured": 20.3,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "reason": "顶栏底 → 首卡顶",
+      "status": "PASS"
+    },
+    {
+      "field": "StatToNextGroupDp",
+      "derived": 36.3,
+      "measured": 36.3,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "reason": "统计卡底 → 组 2 顶",
+      "status": "PASS"
+    },
+    {
+      "field": "RowDividerDp",
+      "derived": 1.0,
+      "measured": 0.4,
+      "abs_error": 0.6,
+      "tolerance": 0.8,
+      "reason": "分隔线厚度（1px 抗锯齿摊薄为 0.29，故容差 0.8）",
+      "status": "PASS"
+    },
+    {
+      "field": "RowDividerInsetDp",
+      "derived": 16.0,
+      "measured": 16.0,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "reason": "分隔线左缘 − 卡左缘",
+      "status": "PASS"
+    },
+    {
+      "field": "RowIconDp",
+      "derived": 16.6,
+      "measured": 16.3,
+      "abs_error": 0.3,
+      "tolerance": 2.0,
+      "reason": "红色图标 bbox 宽",
+      "status": "PASS"
+    },
+    {
+      "field": "RowIconLeftDp",
+      "derived": 17.7,
+      "measured": 17.7,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "reason": "图标左缘 − 卡左缘",
+      "status": "PASS"
+    },
+    {
+      "field": "RowTextLeftDp",
+      "derived": 48.6,
+      "measured": 48.6,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "reason": "文字左缘 − 卡左缘",
+      "status": "PASS"
+    },
+    {
+      "field": "RowTitleSp",
+      "derived": 14.0,
+      "measured": 14.0,
+      "abs_error": 0.0,
+      "tolerance": 0.8,
+      "reason": "汉字左缘步进 = 1em",
+      "status": "PASS"
+    },
+    {
+      "field": "HeaderButtonDp",
+      "derived": 40.0,
+      "measured": 39.7,
+      "abs_error": 0.3,
+      "tolerance": 2.0,
+      "reason": "顶栏圆钮直径",
+      "status": "PASS"
+    },
+    {
+      "field": "HeaderTopGapDp",
+      "derived": 5.2,
+      "measured": 5.2,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "reason": "状态栏底 37.1 → 顶栏顶",
+      "status": "PASS"
+    },
+    {
+      "field": "HeaderTitleSp",
+      "derived": 18.3,
+      "measured": 18.3,
+      "abs_error": 0.0,
+      "tolerance": 0.8,
+      "reason": "汉字左缘步进 = 1em",
+      "status": "PASS"
+    },
+    {
+      "field": "SearchBoxHeightDp",
+      "derived": 40.0,
+      "measured": 40.0,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "reason": "搜索框高",
+      "status": "PASS"
+    },
+    {
+      "field": "SearchBoxLeftDp",
+      "derived": 16.0,
+      "measured": 16.0,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "reason": "搜索框左缘",
+      "status": "PASS"
+    },
+    {
+      "field": "SearchBoxCornerDp",
+      "derived": 8.0,
+      "measured": 7.9,
+      "abs_error": 0.1,
+      "tolerance": 2.0,
+      "reason": "搜索框圆角枚举拟合",
+      "status": "PASS"
+    },
+    {
+      "field": "SearchGlyphDp",
+      "derived": 15.4,
+      "measured": 15.1,
+      "abs_error": 0.3,
+      "tolerance": 2.0,
+      "reason": "放大镜 bbox 宽",
+      "status": "PASS"
+    },
+    {
+      "field": "SearchHintLeftDp",
+      "derived": 45.1,
+      "measured": 45.1,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "reason": "占位文字左缘 − 框左缘",
+      "status": "PASS"
+    },
+    {
+      "field": "SearchHintSp",
+      "derived": 14.3,
+      "measured": 14.3,
+      "abs_error": 0.0,
+      "tolerance": 0.8,
+      "reason": "汉字左缘步进 = 1em",
+      "status": "PASS"
+    },
+    {
+      "field": "SearchToCancelDp",
+      "derived": 16.9,
+      "measured": 16.9,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "reason": "框右缘 → 「取消」左缘",
+      "status": "PASS"
+    },
+    {
+      "field": "CancelSp",
+      "derived": 13.4,
+      "measured": 13.4,
+      "abs_error": 0.0,
+      "tolerance": 0.8,
+      "reason": "汉字左缘步进",
+      "status": "PASS"
+    },
+    {
+      "field": "CancelRightDp",
+      "derived": 17.1,
+      "measured": 17.1,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "reason": "「取消」右缘 → 屏右缘",
+      "status": "PASS"
+    }
+  ],
+  "checked": 24,
+  "passed": 24,
+  "worst_abs_error": 0.6,
+  "pass": true
+}

@@ -30,6 +30,8 @@ import com.example.cloudmusic.model.Track
 import com.example.cloudmusic.model.TrackId
 import com.example.cloudmusic.output.dlna.LinkProvider
 import com.example.cloudmusic.output.localproxy.ProxyStartPolicy
+import com.example.cloudmusic.output.router.ActiveOutput
+import com.example.cloudmusic.output.router.OutputRouter
 import com.example.cloudmusic.player.PlayerController
 import com.example.cloudmusic.player.PlayerState
 import com.example.cloudmusic.player.PlayMode
@@ -39,12 +41,16 @@ import com.example.cloudmusic.player.QueueRepository
 import com.example.cloudmusic.player.QueueSync
 import com.example.cloudmusic.player.TrackLookup
 import com.example.cloudmusic.player.TrackSourceResolver
+import com.example.cloudmusic.player.TrackDurationWriter
+import com.example.cloudmusic.player.CursorWriter
+import com.example.cloudmusic.scanner.NameParser
 import com.example.cloudmusic.scanner.ScanCoordinator
 import com.example.cloudmusic.scanner.ScanProgress
 import com.example.cloudmusic.scanner.ScanRequest
 import com.example.cloudmusic.storage.FavoriteRepository
 import com.example.cloudmusic.storage.HistoryRepository
 import com.example.cloudmusic.storage.PlaylistRepository
+import com.example.cloudmusic.storage.StorageRepository
 import com.example.cloudmusic.storage.TrackRepository
 import dagger.Module
 import dagger.Provides
@@ -59,6 +65,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
@@ -79,6 +86,62 @@ private const val LOCAL_FIXTURE_STORAGE_ID = "debug-local-fixture"
  * 这正是 F3 需要验证的 REMOTE 取流路径（与 §61.47 的 LOCAL 路径互补）。
  */
 private const val REMOTE_FIXTURE_STORAGE_ID = "debug-remote-fixture"
+
+/**
+ * §61.182：注入曲目的命名与**扫描链同源**（`NameParser`：%XX 解码 + GBK 修复，
+ * §61.170 口径）——此前曲名直接取 URL 原始路径段，真机一手天书标题
+ * `V.A.%20-%20Love%20Letter%20%28Piano%29`（用户判读 §61.181 时发现）。
+ * 与扫描管线同一清洗规则后，`艺人 - 标题` 拆分 / 百分号解码 / GBK 修复行为一致；
+ * 解不动（纯英文字面 `+` 等）按 NameParser 契约原样保留。
+ * album 保留 `F3 双路径矩阵` 夹具标记，供曲库审计识别（§61.177 口径）；
+ * id 仍用原始路径段 —— 同一 URL 稳定映射同一行，避免历史 DB 行漂移。
+ * 纯 JVM 顶层函数（不触 Android 类），供命名契约单测直接断言。
+ */
+internal fun remoteFixtureTrack(url: String): Track {
+    val path = url.substringBefore('?')
+    val fileName = path.substringAfterLast('/')
+    val parentDir = path.substringBeforeLast('/', "").substringAfterLast('/')
+    val fallback = NameParser.parse(fileName, parentDir)
+    return Track(
+        id = TrackId.of(REMOTE_FIXTURE_STORAGE_ID, fileName),
+        title = fallback.title.ifBlank { fileName.substringBeforeLast('.', fileName) },
+        artist = fallback.artist.ifBlank { "回环音源" },
+        album = "F3 双路径矩阵",
+        durationMs = 0L,
+        sourceRef = SourceRef(
+            storageId = REMOTE_FIXTURE_STORAGE_ID, path = fileName, url = url,
+        ),
+        sourceType = SourceType.STRM,
+    )
+}
+
+/**
+ * §61.184（三层守护网② 审计揪出的 `StorageRepository.setError` 断链的接线）：
+ * Storage 级扫描错误 → **数据源错误态**（设置页 `StorageDto.errorMsg` 有读无写
+ * —— 扫描失败恒只有 CM-Scan 日志，用户在数据源页永远看不到「连接失败」）。
+ *
+ * 归类规则：`ScanError.path == storageId`（ScanCoordinator 对 Storage 级失败以
+ * storageId 为 path 上报，`ScanCoordinator.kt` ScanState.error）→ 置
+ * `"code: detail"`（detail 截 120 字防天书刷屏）；文件级错误 path 恒含 `/`，
+ * 与 storageId（UUID / 夹具 id）天然不撞。本轮**跑过且未失败**的 storage 清
+ * 陈旧 errorMsg（幂等空串——恢复后错误态自动消失）；本轮没跑过的保持原样
+ * （不伪造「正常」）。纯 JVM 顶层函数，单测直测。
+ */
+internal fun storageErrorStates(
+    errors: List<com.example.cloudmusic.scanner.ScanError>,
+    storageIds: Set<String>,
+    seenStorages: Set<String>,
+): Map<String, String> {
+    val failed = errors.filter { it.path in storageIds }
+    val out = LinkedHashMap<String, String>()
+    failed.forEach { e ->
+        out[e.path] = "%s: %s".format(e.code, e.detail.take(120))
+    }
+    seenStorages.asSequence()
+        .filter { it in storageIds && failed.none { f -> f.path == it } }
+        .forEach { out[it] = "" }
+    return out
+}
 
 /** Room 是曲库唯一真相源，播放编排层按 TrackId 反查即可（03-05 / 03-06 §11）。 */
 class RoomTrackLookup(private val tracks: TrackRepository) : TrackLookup {
@@ -157,6 +220,8 @@ class PlaybackRuntime @Inject constructor(
     private val queueRepository: QueueRepository,
     /** 12 §61.47：F2 零权限本地曲库注入时把曲目写进 Room，使曲库 / 队列真实可见。 */
     private val tracks: TrackRepository,
+    /** §61.184：Storage 级扫描错误 → 数据源错误态（setError 断链接线，审计发现）。 */
+    private val storages: StorageRepository,
     /** §61.119（M3）：歌单闭环的落库口。 */
     private val playlists: PlaylistRepository,
     /** §61.130（M5）：收藏 / 最近播放的落库口。 */
@@ -170,6 +235,10 @@ class PlaybackRuntime @Inject constructor(
     /** §61.116（M6-3）：缓存清理需要 cacheDir 路径。 */
     @dagger.hilt.android.qualifiers.ApplicationContext
     private val appContext: android.content.Context,
+    /** §61.193：DLNA 会话引擎第一刀——输出路由状态（活跃输出判定）。 */
+    private val output: OutputRouter,
+    /** §61.193：切歌保持投屏的执行者（发现/推流/setActive 闭环 §61.110 已有）。 */
+    private val castCoordinator: com.example.cloudmusic.output.dlna.DlnaCastCoordinator,
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private val _state = MutableStateFlow(RuntimeState())
@@ -179,6 +248,8 @@ class PlaybackRuntime @Inject constructor(
         restoreEqualizerLoop()
         // §61.130（M5）：播放历史记录（每曲一次）。
         historyLoop()
+        // §61.193：DLNA 切歌保持（会话引擎第一刀）。
+        dlnaRecastLoop()
     }
     val state: StateFlow<RuntimeState> = _state.asStateFlow()
 
@@ -224,6 +295,10 @@ class PlaybackRuntime @Inject constructor(
     fun retryUnavailable() = runScan(ScanRequest(onlyUnavailable = true))
 
     private fun runScan(request: ScanRequest) {
+        // §61.178：重入可见化——扫描被 cancel 后真机只看到「正在扫描曲库」消失，
+        // 无法判断是重入取消、Service 重建还是 scope 销毁。
+        Log.i("CM-Scan", "runScan 触发 refresh=${request.refresh} 调用链=" +
+            Throwable().stackTrace.take(6).joinToString(" <- ") { "${it.methodName}:${it.lineNumber}" })
         scanJob?.cancel()
         scanJob = scope.launch {
             // §61.129（T-V #9）：扫描时长观测（冷扫 ≤60s / 增量 ≤10s 基线判据）。
@@ -231,8 +306,11 @@ class PlaybackRuntime @Inject constructor(
             _state.update { it.copy(scanning = true, scanned = 0, total = 0, errors = 0) }
             try {
                 var lastProgress: ScanProgress? = null
+                // §61.184：per-storage 跑动集合（供「本轮干净 → 清陈旧错误态」判定）。
+                val seenStorages = mutableSetOf<String>()
                 coordinator.scan(request).collect { progress: ScanProgress ->
                     lastProgress = progress
+                    seenStorages += progress.storageId
                     _state.update {
                         it.copy(
                             scanned = progress.scanned,
@@ -244,12 +322,38 @@ class PlaybackRuntime @Inject constructor(
                 Log.i("CM-Scan", "scan done: %d ms (refresh=%s files≈%d)".format(
                     android.os.SystemClock.elapsedRealtime() - scanStart,
                     request.refresh, _state.value.scanned))
+                // §61.184：Storage 级扫描失败 → 数据源错误态（`StorageRepository.setError`
+                // 此前零生产写方，审计揪出的断链）——设置页数据源行现在能看到「连接失败」；
+                // 本轮跑过且未失败的 storage 清陈旧 errorMsg（幂等空串）。写侧失败只记日志，
+                // 不影响扫描主流程。
+                runCatching {
+                    val storageIds = storages.observe().first().mapTo(HashSet()) { it.id }
+                    storageErrorStates(
+                        lastProgress?.errors.orEmpty(), storageIds, seenStorages,
+                    ).forEach { (id, msg) ->
+                        storages.setError(id, msg)
+                        Log.i("CM-Scan", "storage error-state: %s → %s".format(id, msg.ifBlank { "已清" }))
+                    }
+                }.onFailure {
+                    Log.w("CM-Scan", "storage error-state write failed: ${it.message}")
+                }
                 // §61.153：扫描错误可见化——此前 B07/storage 级错误静默吞掉，
                 // WebDAV/STRM 扫描 0 文件无法归因（真机一手）。前 5 条细节 WARN。
                 lastProgress?.errors?.take(5)?.forEach {
                     Log.w("CM-Scan", "scan error: %s %s %s".format(it.path, it.code, it.detail))
                 }
+            } catch (e: kotlinx.coroutines.CancellationException) {
+                // §61.178：取消（`scanJob?.cancel()` 重入 / 离开页面）不是扫描失败。
+                // 旧实现把 CancellationException 一并按 Exception 吞成 SCAN_FAILED，
+                // 通知栏出现「设置已生效：SCAN_FAILED」而日志零输出。
+                Log.i("CM-Scan", "scan cancelled: ${e.javaClass.name}: ${e.message} cause=${e.cause}")
+                Log.i("CM-Scan", "cancel stack=" + e.stackTrace.take(6)
+                    .joinToString(" <- ") { "${it.className.substringAfterLast('.')}.${it.methodName}:${it.lineNumber}" })
+                throw e
             } catch (e: Exception) {
+                // §61.178（可观测性）：此前只置 lastEffect 不打日志，真机「扫描 0 首」
+                // 完全无法归因（与 §61.176 点歌静默失效同型：失败与没触发同形）。
+                Log.w("CM-Scan", "scan failed: ${e::class.java.name}: ${e.message}", e)
                 _state.update { it.copy(lastEffect = "SCAN_FAILED") }
             } finally {
                 _state.update { it.copy(scanning = false) }
@@ -367,13 +471,29 @@ class PlaybackRuntime @Inject constructor(
      * 曲目已由扫描落库（不再 upsert）；网络闸门在 controller/Service 层照常生效。
      */
     fun playTracks(items: List<Track>, startAt: Int) {
-        if (items.isEmpty()) return
+        // §61.176（点歌接线 / 用户一手）：本方法是 UI「点某一首」的唯一落点。
+        // 加三段留痕：PlayerController.prepareAt 的失败分支走 `fail()`（只改状态、不打日志），
+        // 缺这段可观测性时，「resolve 失败」与「点击没接上」在 logcat 里完全同形（都是静默）。
+        if (items.isEmpty()) {
+            Log.w("CloudMusicRuntime", "playTracks: 空列表，忽略（startAt=$startAt）")
+            return
+        }
         scope.launch {
             runCatching {
+                Log.i(
+                    "CloudMusicRuntime",
+                    "playTracks: n=${items.size} startAt=$startAt first=${items.getOrNull(startAt)?.title}",
+                )
                 queueRepository.setAll(items)
                 val queueItems = queueRepository.observe().first()
                 controller.setQueue(queueItems, PlayMode.SEQUENCE, startAt)
                 controller.playAt(startAt)
+                val s = controller.state.value
+                Log.i(
+                    "CloudMusicRuntime",
+                    "playTracks: 结果 phase=${s.phase} idx=${s.currentIndex} " +
+                        "err=${s.lastError?.let { e -> e::class.simpleName } ?: "-"}",
+                )
             }.onFailure { Log.w("CloudMusicRuntime", "playTracks: 分组播放失败", it) }
         }
     }
@@ -530,18 +650,7 @@ class PlaybackRuntime @Inject constructor(
     }
 
     fun playUrl(url: String) = scope.launch {
-        val name = url.substringBefore('?').substringAfterLast('/')
-        val track = Track(
-            id = TrackId.of(REMOTE_FIXTURE_STORAGE_ID, name),
-            title = name.substringBeforeLast('.', name),
-            artist = "回环音源",
-            album = "F3 双路径矩阵",
-            durationMs = 0L,
-            sourceRef = SourceRef(
-                storageId = REMOTE_FIXTURE_STORAGE_ID, path = name, url = url,
-            ),
-            sourceType = SourceType.STRM,
-        )
+        val track = remoteFixtureTrack(url)
         runCatching {
             tracks.upsertBatch(listOf(track))
             queueRepository.setAll(listOf(track))
@@ -682,6 +791,47 @@ class PlaybackRuntime @Inject constructor(
     }
 
     /**
+     * §61.193：DLNA 切歌保持（会话引擎第一刀，用户「说好的 DLNA 全都没有」）。
+     *
+     * 投屏目标设备由 UI 首次投屏成功时经 [onDlnaDeviceSelected] 写入；本收集器观察
+     * 播放状态 × 输出路由：**DLNA 为活跃输出且换曲**时，自动把新曲目 re-cast 到该设备
+     * （SetAVTransportURI + Play，hint 走 routeHint → 输出弹窗可见）；回落 LOCAL 即清设备。
+     * 挂账：进度同步 / 断连回落 / 多设备列表（capstone 另批，`12 §61.192`）。
+     */
+    @Volatile
+    private var castingDevice: com.example.cloudmusic.output.dlna.DmrDevice? = null
+
+    /** UI 首次投屏成功时写入目标设备（CloudMusicApp onOutputSelected DLNA 分支）。 */
+    fun onDlnaDeviceSelected(device: com.example.cloudmusic.output.dlna.DmrDevice) {
+        castingDevice = device
+    }
+
+    private fun dlnaRecastLoop() {
+        scope.launch {
+            var lastTrackId: String? = null
+            combine(controller.state, output.state()) { s, o -> s to o }.collect { (s, o) ->
+                // 回落本机：清投屏目标（下次投屏重新选设备）。
+                if (o.activeOutput == ActiveOutput.LOCAL && castingDevice != null) {
+                    castingDevice = null
+                }
+                val trackId = s.currentTrackId?.value
+                val device = castingDevice
+                if (o.activeOutput == ActiveOutput.DLNA &&
+                    trackId != null && trackId != lastTrackId &&
+                    s.phase == PlayerPhase.PLAYING && device != null
+                ) {
+                    val track = runCatching { tracks.get(TrackId(trackId)) }.getOrNull()
+                    if (track != null) {
+                        runCatching { castCoordinator.startCast(track, device) }
+                            .onFailure { Log.w("CM-DLNA", "切歌保持 re-cast 失败: ${it.message}") }
+                    }
+                }
+                lastTrackId = trackId
+            }
+        }
+    }
+
+    /**
      * §61.116（M6-3 / 子清单 #6）：清理 B2 播放缓存（`cacheDir/b2_media_cache`，
      * SimpleCache 256MiB LRU）。播放 / 预备中直接拒绝（SimpleCache 实例在引擎内
      * 活跃写盘，删一半会造成 CacheDataSource 读错窗口）；返回释放字节数，
@@ -754,6 +904,8 @@ object PlaybackModule {
         media: IMediaControl,
         settings: SettingsStore,
         networkGate: NetworkPlaybackGate,
+        tracks: TrackRepository,
+        queueRepository: QueueRepository,
     ): PlayerController = PlayerController(
         engine = engine,
         sync = sync,
@@ -762,5 +914,11 @@ object PlaybackModule {
         media = media,
         config = SettingsProjection.playerConfig(settings.current()),
         networkGate = networkGate,
+        // §61.181（B 案）：引擎解出真值时长且曲库缺值（STRM / 无标签）→ 回填曲库，
+        // 下次进页 / 重扫不再依赖引擎在场。
+        durationWriter = TrackDurationWriter { id, dur -> tracks.updateDuration(id, dur) },
+        // §61.182：播放游标写侧复活（saveCursor 此前生产链零写方 ⇒ 冷启动恢复死路，
+        // 真机一手 `playback_state 缺失`）——切歌 / 暂停 / PLAYING 每 5s 落 playback_state。
+        cursorWriter = CursorWriter { id, pos -> queueRepository.saveCursor(id, pos) },
     )
 }

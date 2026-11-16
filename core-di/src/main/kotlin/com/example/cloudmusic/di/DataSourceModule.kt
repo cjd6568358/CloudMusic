@@ -47,8 +47,24 @@ object DataSourceModule {
     @IntoMap
     @StringKey(KEY_WEBDAV)
     fun provideWebDavFactory(client: OkHttpClient): DriverFactory = { storage, addition ->
-        WebDavDriver(storage, addition.raw, OkHttpStack(client))
+        WebDavDriver(storage, addition.raw, OkHttpStack(scopedWebDavClient(client)))
     }
+
+    /**
+     * §61.178（真机一手）：WebDAV **元数据请求**必须有超时上限。
+     *
+     * 全局 `OkHttpClient` 不能设 `callTimeout`——播放取流 / 本地代理由它承载，长播会被掐断。
+     * 但 WebDAV 驱动的 `list` / `get` / `readRange` / `readText` 全是短请求，服务器
+     * 不响应时必须失败而不是无限挂：真机现象是通知栏「正在扫描曲库 0/0」永不变，
+     * 无异常、无超时、无日志（`binder sync` 打过一次后再无下文）。
+     */
+    private fun scopedWebDavClient(base: OkHttpClient): OkHttpClient =
+        base.newBuilder()
+            .connectTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
+            .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+            .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+            .callTimeout(90, java.util.concurrent.TimeUnit.SECONDS)
+            .build()
 
     @Provides
     @IntoMap

@@ -1,0 +1,145 @@
+{
+  "method": "player_layout_chain_selfcheck",
+  "source_code": "app/src/main/kotlin/com/example/cloudmusic/ui/player/LegacyAssets.kt",
+  "reference_metrics": "analysis/l3-reference/player-baseline-metrics.json",
+  "assumptions": {
+    "screen_dp": [
+      411.4,
+      914.3
+    ],
+    "content_top_dp": 37.1,
+    "bottom_fixed_sum_dp": 308.0,
+    "disc_zone_height_dp": 462.6,
+    "ink_heights_dp": {
+      "title": 16.3,
+      "artist": 13.1
+    },
+    "text_rendering_model": "文字在行框内居中 → 墨带顶 = 行框顶 + (行高 - 墨高)/2",
+    "note": "content_bottom 由 target_content_h 反推，属构造性重合，不作独立判据"
+  },
+  "rows": [
+    {
+      "field": "title_sp",
+      "derived": 17.5,
+      "measured": 17.3,
+      "abs_error": 0.2,
+      "tolerance": 0.8,
+      "pass": true
+    },
+    {
+      "field": "artist_sp",
+      "derived": 13.5,
+      "measured": 13.9,
+      "abs_error": 0.4,
+      "tolerance": 0.8,
+      "pass": true
+    },
+    {
+      "field": "disc_top_dp",
+      "derived": 235.1,
+      "measured": 234.6,
+      "abs_error": 0.5,
+      "tolerance": 2.0,
+      "pass": true
+    },
+    {
+      "field": "disc_bottom_dp",
+      "derived": 545.7,
+      "measured": 545.1,
+      "abs_error": 0.6,
+      "tolerance": 2.0,
+      "pass": true
+    },
+    {
+      "field": "disc_diameter_dp",
+      "derived": 310.6,
+      "measured": 310.6,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "pass": true
+    },
+    {
+      "field": "title_ink_top_dp",
+      "derived": 602.2,
+      "measured": 602.3,
+      "abs_error": 0.1,
+      "tolerance": 2.0,
+      "pass": true
+    },
+    {
+      "field": "artist_ink_top_dp",
+      "derived": 632.1,
+      "measured": 632.3,
+      "abs_error": 0.2,
+      "tolerance": 2.0,
+      "pass": true
+    },
+    {
+      "field": "progress_center_dp",
+      "derived": 674.8,
+      "measured": 674.9,
+      "abs_error": 0.1,
+      "tolerance": 2.0,
+      "pass": true
+    },
+    {
+      "field": "time_center_dp",
+      "derived": 694.5,
+      "measured": 694.6,
+      "abs_error": 0.1,
+      "tolerance": 2.0,
+      "pass": true
+    },
+    {
+      "field": "main_center_dp",
+      "derived": 759.1,
+      "measured": 759.1,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "pass": true
+    },
+    {
+      "field": "secondary_center_dp",
+      "derived": 828.3,
+      "measured": 828.3,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "pass": true
+    },
+    {
+      "field": "content_bottom_dp",
+      "derived": 853.7,
+      "measured": 853.7,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "pass": true
+    },
+    {
+      "field": "needle_pivot_y_dp",
+      "derived": 149.3,
+      "measured": 149.3,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "pass": true
+    },
+    {
+      "field": "needle_head_x_dp",
+      "derived": 285.1,
+      "measured": 285.1,
+      "abs_error": 0.0,
+      "tolerance": 2.0,
+      "pass": true
+    },
+    {
+      "field": "needle_head_y_dp",
+      "derived": 289.4,
+      "measured": 289.1,
+      "abs_error": 0.3,
+      "tolerance": 2.0,
+      "pass": true
+    }
+  ],
+  "worst_abs_error_dp": 0.6,
+  "tolerance_dp": 2.0,
+  "pass": true
+}

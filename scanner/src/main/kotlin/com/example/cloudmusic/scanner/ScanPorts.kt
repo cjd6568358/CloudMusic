@@ -25,6 +25,19 @@ interface TrackSink {
      * 默认空集 → 既有 fake / 内存实现零回归；生产 `RoomTrackSink` 从曲库投影。
      */
     suspend fun unavailablePaths(storageId: String): Set<String> = emptySet()
+
+    /**
+     * §61.179：该数据源在曲库里**存在且可用**的路径集合。
+     *
+     * 用途：快照（`scan_snapshot`）与曲库（`tracks`）可能不一致——
+     * 删除数据源走 `markOrphan` 只把曲目置 UNREACHABLE 而不清快照，
+     * 重新加回同源时 size/mtime 全未变 ⇒ 增量判定「已扫过」全部 skip
+     * ⇒ 曲目永久停在 UNREACHABLE，播放不了。曲库被清空后同理。
+     *
+     * 返回 `null` = 该实现不提供此能力（fake / 内存实现），调用方跳过本判据，
+     * **不能**用空集表达「不提供」：空集是真实现里的「库为空」。
+     */
+    suspend fun knownPaths(storageId: String): Set<String>? = null
 }
 
 data class ScanSnapshot(

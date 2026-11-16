@@ -6,7 +6,9 @@ import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import com.example.cloudmusic.datasource.ByteRangeCapability
+import com.example.cloudmusic.datasource.Driver
 import com.example.cloudmusic.datasource.DriverRegistry
+import com.example.cloudmusic.datasource.TextReadCapability
 import com.example.cloudmusic.model.Link
 import com.example.cloudmusic.model.Obj
 import com.example.cloudmusic.model.TrackId
@@ -20,6 +22,7 @@ import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
 import java.io.File
 import java.io.FileOutputStream
+import java.nio.charset.Charset
 
 /**
  * docs/03-04 §6.2 定案的 Android 生产实现（第二十批 / T-A4）：
@@ -92,6 +95,9 @@ class JAudioTaggerFilePort : JAudioTaggerPort {
                 durationMs = durationMs,
                 sampleRate = sampleRate,
                 embeddedCover = tags.firstArtwork?.binaryData,
+                // docs/01 §0（2026-11-16 拍板）：完整内嵌歌词（USLT/LYRICS）。
+                // JAudioTagger 读整文件，不受 HeadTagReader 64KB 头部限制，是内嵌歌词主通道。
+                lyrics = tags.getFirst(FieldKey.LYRICS)?.takeIf { it.isNotBlank() },
             )
         }
     }.getOrDefault(MediaTags.EMPTY)
@@ -224,12 +230,82 @@ class DirectoryCoverLookup(
  *  APE/WV 等异构容器 native 级挂死，见 trace_31 / `12 §61.147`）。 */
 private val RETRIEVER_FALLBACK_EXTS = setOf("mp3", "m4a", "aac", "flac", "wav", "ogg", "oga", "opus")
 
+/**
+ * §61.186（用户点单「说好的歌词全都没有」的根因修复）：同目录 `.lrc` 歌词提取。
+ *
+ * 用户曲库主体是 WebDAV/STRM（无内嵌 USLT），而此前的内嵌提取（lyricsSink）只覆盖
+ * 本地标签链 ⇒ 歌词缓存恒空、播放页歌词视图恒占位。本类按 [DirectoryCoverLookup]
+ * 同型：merged 无内嵌歌词时尝试同目录 `<音频名>.lrc`——
+ * - LOCAL：`java.io.File` 直读（UTF-8 → GB18030 回落，NAS 场景 .lrc 常见 GBK）；
+ * - 网络：驱动 [TextReadCapability]（UTF-8→GBK 回落内建，§61.153）；
+ * 命中即经 lyricsSink 落缓存；失败按 (storage, 目录) 记忆——无 .lrc 目录不逐文件
+ * 重试 GET（不 list、直击 sibling 路径，§61.146 O(n²) 教训同源）。
+ */
+class SiblingLyricsLookup(
+    private val sink: (String, String) -> Unit,
+    private val driverFor: (String) -> Driver? = { DriverRegistry.get(it) },
+) {
+    /** (storageId:目录) → 无 .lrc 记忆；上限防无界增长（重扫会话级即可）。 */
+    private val noLyricsDirs = java.util.concurrent.ConcurrentHashMap<String, Boolean>()
+
+    suspend operator fun invoke(candidate: Candidate, ref: String) {
+        val storageId = candidate.storage.id
+        val path = candidate.obj.path
+        // §61.186：先归一化分隔符再切父目录/基名——生产 Android 恒 '/'，但 LOCAL ref
+        // 在桌面 JVM 测试（@TempDir）里是 Windows 反斜杠路径，非 POSIX 假设必须消除。
+        val normPath = path.replace('\\', '/')
+        val parent = normPath.substringBeforeLast('/', "")
+        if (parent.isEmpty()) return
+        val dirKey = "$storageId:$parent"
+        if (noLyricsDirs.containsKey(dirKey)) return
+        val base = normPath.substringAfterLast('/').substringBeforeLast('.', normPath)
+        if (base.isBlank()) return
+        val siblingName = "$base.lrc"
+        // 分支判定：URL 型（http/https）走驱动文本读；content:// 无同目录语义；
+        // 其余（"/…"、"file://…"、Windows 盘符路径）一律按本地文件直读。
+        val raw: String? = when {
+            ref.startsWith("http://", true) || ref.startsWith("https://", true) -> {
+                val cap = driverFor(storageId) as? TextReadCapability
+                runCatching {
+                    cap?.readText(Obj(name = siblingName, isDir = false, path = "$parent/$siblingName"))
+                }.getOrNull()
+            }
+            ref.startsWith("content://") -> null // 无文件系统同目录语义
+            else -> {
+                val localPath = ref.removePrefix("file://")
+                runCatching {
+                    val dir = File(localPath).parentFile ?: return@runCatching null
+                    val f = File(dir, siblingName)
+                    if (f.isFile) readLocalText(f) else null
+                }.getOrNull()
+            }
+        }
+        if (raw.isNullOrBlank()) {
+            if (noLyricsDirs.size < 4096) noLyricsDirs[dirKey] = true
+            return
+        }
+        sink(TrackId.of(storageId, path).value, raw)
+    }
+
+    /** UTF-8 → GB18030 回落（出现替换符即按 GBK 系重解；与 TextReadCapability 口径一致）。 */
+    private fun readLocalText(file: File): String {
+        val bytes = file.readBytes()
+        val utf8 = String(bytes, Charsets.UTF_8)
+        return if (utf8.contains('\uFFFD')) String(bytes, Charset.forName("GB18030")) else utf8
+    }
+}
+
 class AndroidTagReader(
     private val media: MediaMetadataPort,
     private val jaudio: JAudioTaggerPort,
     private val locator: LinkLocator,
     private val head: TagReader,
     private val directoryCover: suspend (Candidate, String) -> Unit = { _, _ -> },
+    /** docs/01 §0：扫描读到的内嵌歌词写盘回调（cacheDir/lyrics/<trackId>.lrc）。
+     *  默认空实现，JVM 单测 / 无缓存场景零影响。 */
+    private val lyricsSink: (String, String) -> Unit = { _, _ -> },
+    /** §61.186：内嵌歌词缺失时的同目录 `.lrc` 提取（LOCAL File / 网络 TextReadCapability）。 */
+    private val siblingLyrics: suspend (Candidate, String) -> Unit = { _, _ -> },
 ) : TagReader {
 
     /** §61.147：JAudio 缺项计数（限频观测用）。 */
@@ -273,6 +349,17 @@ class AndroidTagReader(
         // 有内嵌封面时纯属白干（真机 467% 多核空转一手）。
         if (merged.embeddedCover == null) {
             runCatching { directoryCover(candidate, ref) }
+        }
+        // docs/01 §0（2026-11-16 拍板）：内嵌歌词写盘缓存（IO 密集但极小文本，
+        // 与封面写盘同批）；失败静默，不影响扫描主流程（歌词是派生数据，可重扫恢复）。
+        // §61.186：内嵌缺失 → 同目录 .lrc 提取（WebDAV/STRM 曲库的主歌词来源）。
+        val embeddedLyrics = merged.lyrics?.takeIf { it.isNotBlank() }
+        if (embeddedLyrics != null) {
+            val trackId = com.example.cloudmusic.model.TrackId
+                .of(candidate.storage.id, candidate.obj.path).value
+            runCatching { lyricsSink(trackId, embeddedLyrics) }
+        } else {
+            runCatching { siblingLyrics(candidate, ref) }
         }
         return merged
     }

@@ -103,6 +103,28 @@ class InMemoryRepositoryTest {
     }
 
     @Test
+    @DisplayName("§61.181 updateDuration 只回填缺值行（STRM / 无标签），已有元数据不覆盖")
+    fun updateDurationBackfillsOnlyMissing() = runTest {
+        val missing = testTrack(
+            TrackId.of("webdav", "/strm.strm"), sourceType = SourceType.STRM,
+            durationMs = 0,
+        )
+        val tagged = testTrack(TrackId.of("local", "/tagged.flac"), durationMs = 269_000)
+        tracks.upsertBatch(listOf(missing, tagged))
+
+        tracks.updateDuration(missing.id, 244_933)
+        assertEquals(244_933, tracks.get(missing.id)?.durationMs, "缺值行被回填")
+        tracks.updateDuration(tagged.id, 100)
+        assertEquals(269_000, tracks.get(tagged.id)?.durationMs, "已有元数据不覆盖")
+
+        // 合法性：非真值（<=0）不得写入
+        val fresh = testTrack(TrackId.of("webdav", "/fresh.strm"), sourceType = SourceType.STRM, durationMs = 0)
+        tracks.upsertBatch(listOf(fresh))
+        tracks.updateDuration(fresh.id, 0)
+        assertEquals(0, tracks.get(fresh.id)?.durationMs)
+    }
+
+    @Test
     @DisplayName("03-05 B02 / T06 7,500 首一次性 upsert 分 15 批事务")
     fun b02() = runTest {
         val many = (1..7_500).map { i ->

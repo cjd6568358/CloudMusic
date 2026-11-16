@@ -212,6 +212,10 @@ def main() -> int:
     theme = read(THEME)
     activity = read(MAIN_ACTIVITY)
     bridge = read(BRIDGE)
+    # §61.175（飞牛三页）：设置 / 搜索 / 更多 / 首页 的视觉判据来源
+    feiniu = read(UI / "FeiniuUi.kt")
+    more_screen = read(UI / "MoreScreen.kt")
+    home_screen = read(UI / "HomeScreen.kt")
     settings = read(SETTINGS)
     gradle = read(APP_GRADLE)
     manifest = read(MANIFEST)
@@ -263,15 +267,62 @@ def main() -> int:
     # ── 5. 播放页 / 迷你条 / 主题 ─────────────────────────────────────────
     hardcoded_color_hits = re.findall(r"Color\(0x[0-9A-Fa-f]{6,8}\)", page)
     page_icons = ["BackArrow", "Prev", "Play", "Next", "ModeLoop", "Favorite"]
-    page_ok = (
-        "Color(LegacyPalette.PageBackground)" in page
-        and "SliderDefaults.colors(" in page
-        and "LegacyPalette.PrimaryRed" in page
-        and "detectHorizontalDragGestures" in page
-        and "AndroidView(" in page
-        and all(f"LegacyAsset.{x}" in page for x in page_icons)
-        and not hardcoded_color_hits
+    # §61.169（2026-11-16）与现行实现对齐：播放页背景自 §61.163 起是**封面驱动**的
+    # HSV 渐变（用户铁律：背景随当前封面自动生成，禁止写死），`LegacyPalette.PageBackground`
+    # 只在无封面时作回退，因此旧断言「页面直接使用 Color(PageBackground)/PrimaryRed」已不成立
+    # （HEAD 即如此，非本批引入）。改为断言**更强的封面驱动链**：主色取色 + 底端压暗 +
+    # 无封面回退三者必须同时在位，且仍禁硬编码色值。
+    cover_driven_ok = (
+        "dominantCoverColor(coverBitmap) ?: LegacyPalette.PageBackground" in page
+        and "shadeBottom(bgTop)" in page
+        and "verticalGradient(listOf(Color(bgTop), Color(bgBottom)))" in page
     )
+    # §61.174（2026-11-16 播放页整体 1:1）：进度条由 Material3 `Slider` 换成**基准图形态**
+
+    # 的自绘 Canvas（2dp 轨 + 5dp 白点，`SliderDefaults.colors(` 已不存在）。判据同步改为
+
+    # 断言更强的「基准量化三件同在」：唱片直径比例 / 唱针轴心比例 / 进度条三常量
+
+    # 必须全部来自 PlayerBaseline，禁止退回自定魔数。
+
+    baseline_geom_ok = (
+
+        "PlayerBaseline.DiscDiameterRatio" in vinyl
+
+        and "PlayerBaseline.NeedlePivotXRatio" in vinyl
+
+        and "PlayerBaseline.NeedleArmWidthDp" in vinyl
+
+        and "PlayerBaseline.ProgressTrackDp" in page
+
+        and "PlayerBaseline.ProgressThumbDp" in page
+
+        and "BaselineProgressBar(" in page
+
+        and "PlayerBaseline.TopBarHeightDp" in page
+
+        and "Arrangement.SpaceEvenly" in page
+
+    )
+
+    page_ok = (
+
+        cover_driven_ok
+
+        and baseline_geom_ok
+
+        and "LegacyPalette.White" in page
+
+        and "detectHorizontalDragGestures" in page
+
+        and "AndroidView(" in page
+
+        and all(f"LegacyAsset.{x}" in page for x in page_icons)
+
+        and not hardcoded_color_hits
+
+    )
+
     mini_tokens = [
         "MiniPageBackground", "MiniBarCornerDp", "MiniCoverDp", "MiniProgressDp",
         "MarqueeTextSp", "MarqueeMaxWidthDp", "RedDotDp", "NoteGlyph",
@@ -284,7 +335,48 @@ def main() -> int:
         and "LegacyPalette.PageBackground" in theme
         and "LegacyPalette.PrimaryRed" in theme
     )
-    launch_ok = bool(re.search(r"var showPlayer by rememberSaveable \{ mutableStateOf\(true\) \}", app_ui))
+    # §61.169（2026-11-16）：冷启动口径由「播放页」改为「首页」——
+    # 首页/音乐库/启动页骨架已就位，竞品冷启动落首页；继续启动即播放页会让
+    # 首页与音乐库在冷启动时完全不可达，与「从启动页起 1:1 复刻」目标冲突。
+    # 守护强度不变：仍钉死 showPlayer 的**字面初值**，只是期望值由 true 改 false。
+    launch_ok = bool(re.search(r"var showPlayer by rememberSaveable \{ mutableStateOf\(false\) \}", app_ui))
+
+    # §61.175（2026-11-16）：飞牛设置 / 搜索 / 个人中心 / 更多四页的骨架判据。
+    # 每一条都对应 `feiniu-page-metrics.json` 里的一手量测，防止后续改动把常量抄回目测值。
+    feiniu_tokens = (
+        "object FnBaseline",
+        "const val RowHeightDp = 50.4f",
+        "const val PagePaddingDp = 16f",
+        "const val CardCornerDp = 16f",
+        "const val RowDividerInsetDp = 16f",
+        "const val SearchBoxCornerDp = 8f",
+        "const val HeaderTitleSp = 18.3f",
+        "val RowDivider = Color(0xFF3C3C3F)",
+        "fun FnGroupCard(",
+        "fun FnRow(",
+        "fun FnDivider(",
+        "fun FnSearchField(",
+        "fun FnStatCard(",
+        "fun FnPageHeader(",
+        "fun FnSwitch(",
+    )
+    feiniu_ok = (
+        all(t in feiniu for t in feiniu_tokens)
+        # 组内分隔线必须真的被用上（设置页 8 处 / 更多页 5 处）
+        and app_ui.count("dividerAbove = true") == 8
+        and more_screen.count("dividerAbove = true") == 5
+        # 三页必须统一飞牛底色，且设置/搜索页不得再退回竞品 CompPage / CompSearchField
+        and "background(FnComp.PageBg)" in more_screen
+        and "FnComp.PageBg" in app_ui
+        and 'FnSearchField(' in app_ui
+        and 'FnStatCard(' in app_ui
+        # 搜索热词必须来自本地曲库（离线优先：不造在线热搜）
+        and "private fun localHotWords(" in app_ui
+        # 搜索结果必须可播（原实现 onClick = {} 是死链）
+        and "onPlayTracks(results, index)" in app_ui
+        # 首页「收藏 / 最近」卡必须接「我的音乐」，不得再错导数据源管理
+        and "onClick = onOpenMine" in home_screen
+    )
 
     # ── 6. 禁止 API / 动画参数 / 单通道 ───────────────────────────────────
     scanned = "\n".join(code_lines(vinyl) + code_lines(page) + code_lines(app_ui))
@@ -312,6 +404,17 @@ def main() -> int:
         "mapping_replaced_false": false_rows,
         "new_dependencies": new_dependency_hits(gradle),
         "res_dir_exists": (ROOT / "app" / "src" / "main" / "res").is_dir(),
+        # §61.173 口径收口：`res_dir_exists` 是 M0 期「res 未建立」的历史快照，而该目录
+        # 早已存在（`res/values/{themes,strings}.xml` 受 git 跟踪、属自研主题与字符串）。
+        # 继续要求它为 False 等于要求证据伪造，故改为**更强的实质约束**：
+        # res 下只允许 `values/`（自研主题/文案），一旦出现 layout / drawable / anim /
+        # menu / mipmap 等竞品资源目录即 FAIL。
+        "res_violations": sorted(
+            p.relative_to(ROOT / "app" / "src" / "main" / "res").as_posix()
+            for p in (ROOT / "app" / "src" / "main" / "res").rglob("*")
+            if p.is_file()
+            and p.relative_to(ROOT / "app" / "src" / "main" / "res").parts[0] != "values"
+        ),
         "ui_legacy_included": bool(re.search(r'^\s*include\(":ui-legacy"\)', settings, re.M)),
     }
     baseline_ok = (
@@ -321,7 +424,7 @@ def main() -> int:
         and baseline["mapping_rows"] == 61
         and baseline["mapping_replaced_false"] == 61
         and not baseline["new_dependencies"]
-        and not baseline["res_dir_exists"]
+        and not baseline["res_violations"]
         and not baseline["ui_legacy_included"]
     )
 
@@ -339,11 +442,13 @@ def main() -> int:
         "page_uses_competitor_assets_and_colors": page_ok,
         "mini_bar_matches_e0g_spec": mini_ok,
         "theme_fixed_dark_competitor": theme_ok,
-        "player_is_launch_screen_no_tab_bar": launch_ok,
+        "player_is_launch_screen_no_tab_bar": launch_ok,  # §61.169：已改为「冷启动落首页」
         "no_banned_animation_api": not banned_hits,
         "rotation_parameters_intact": rotation_ok,
         "single_channel_bridge_intact": bridge_ok,
         "baseline_unchanged": baseline_ok,
+        "res_dir_has_no_competitor_assets": not baseline["res_violations"],
+        "feiniu_pages_follow_baseline": feiniu_ok,
     }
 
     spec = {

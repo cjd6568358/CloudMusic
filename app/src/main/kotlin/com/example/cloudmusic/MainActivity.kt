@@ -3,13 +3,23 @@ package com.example.cloudmusic
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
+import kotlinx.coroutines.delay
 import com.example.cloudmusic.common.PermissionGate
+import com.example.cloudmusic.di.db.LegacyTextRepairRunner
+import com.example.cloudmusic.di.db.TrackDao
 import com.example.cloudmusic.di.playback.PlaybackRuntime
 import com.example.cloudmusic.di.settings.SettingsStore
 import com.example.cloudmusic.output.dlna.DlnaCastCoordinator
@@ -22,8 +32,10 @@ import com.example.cloudmusic.storage.StorageRepository
 import com.example.cloudmusic.storage.TrackRepository
 import com.example.cloudmusic.ui.CloudMusicApp
 import com.example.cloudmusic.ui.CloudMusicTheme
+import com.example.cloudmusic.ui.SplashScreen
 import com.example.cloudmusic.ui.player.PlayerStateBridge
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -98,10 +110,70 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var castCoordinator: DlnaCastCoordinator
 
+    /**
+     * §61.173：存量乱码标题修复需要直接操作 DAO —— 逐行文本清洗 + 条件 UPDATE，
+     * 不是 Repository 的领域语义，故不进 `TrackRepository` 接口（避免污染跨模块契约）。
+     */
+    @Inject
+    lateinit var trackDao: TrackDao
+
+    /** §61.173：存量文本修复器（纯数据维护，无播放/扫描副作用）。 */
+    private val textRepair by lazy { LegacyTextRepairRunner(trackDao) }
+
+    /**
+     * §61.173（2026-11-16 用户问「乱码的问题什么时候修」）：**存量**脏标题一次性改写。
+     *
+     * 背景：§61.170 已修「入库路径」，但 `ScanCoordinator` 对 size/mtime 未变的文件直接跳过，
+     * 重扫**不会**重读这些文件的标签 ⇒ 已落库的 52 条 GBK 误读标题只能靠本通道改写。
+     *
+     * 幂等：`LegacyTextRepairRunner.run()` 无脏行时零写入；本方法另用 SharedPreferences 记
+     * `legacy_text_repair_v1_done`，避免每次冷启动白读全库文本。失败（异常）不写标记，下次重试。
+     */
+    private fun repairLegacyTextOnce() {
+        val prefs = getSharedPreferences(MAINTENANCE_PREFS, MODE_PRIVATE)
+        if (prefs.getBoolean(KEY_TEXT_REPAIR_V2, false)) return
+        lifecycleScope.launch {
+            val result = runCatching { textRepair.run() }
+                .onFailure { Log.w("CM-Repair", "legacy text repair failed: ${it.message}") }
+                .getOrNull() ?: return@launch
+            prefs.edit().putBoolean(KEY_TEXT_REPAIR_V2, true).apply()
+            Log.i("CM-Repair", "legacy text repair scanned=${result.scanned} repaired=${result.repaired}")
+        }
+    }
+
+    /**
+     * §61.183（三层守护网之③）：验收期画面证据通道 —— intent 导航 surface 的请求流。
+     * MIUI 禁 `input tap`（INJECT_EVENTS）导致验收 runbook 无法自动走到播放页截图；
+     * 本通道以显式组件 intent（`am start -n …MainActivity -a <ACTION> --activity-single-top
+     * --activity-clear-top`）直达 surface，纯取证、不注入事件。常规 LAUNCHER 启动
+     * parse 返回 null，零行为变化；收口随 `12 §61.33` 的 PlaybackService exported 一并评估。
+     */
+    private val surfaceRequests = MutableStateFlow<SurfaceNav.Surface?>(null)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // §61.183：冷启动携带导航 action（am start -a OPEN_PLAYER）→ 粘性请求，
+        // 启动页结束由 CloudMusicApp 内收集器兑现。
+        surfaceRequests.value = SurfaceNav.parse(intent?.action)
+        repairLegacyTextOnce()
         setContent {
             CloudMusicTheme {
+                // docs/01 §0（2026-11-16 拍板）：启动页严格像素级复刻竞品。
+                // 作为覆盖层显示 1.2s（或点击跳过），结束后露出首屏。
+                // §61.169：CloudMusicApp 冷启动已由「播放页」改为「首页」（l3_visual_replica_spec
+                // 同步钉死 showPlayer=false），与本启动页一起构成「启动页 → 首页」的竞品口径。
+                // §61.171（2026-11-16 用户一手）：必须用 rememberSaveable —— 用 remember 时
+                // 横竖屏旋转会重建 Activity，状态归位到 true，启动页被**重放**一次
+                // （用户实测：旋转又看到网易云启动页）。启动页是「每次冷启动一次」的语义，
+                // 不是「每次重组一次」。
+                var showSplash by rememberSaveable { mutableStateOf(true) }
+                if (showSplash) {
+                    LaunchedEffect(Unit) {
+                        delay(1200L)
+                        showSplash = false
+                    }
+                    SplashScreen(onFinish = { showSplash = false })
+                } else {
                 val appSettingsState = settingsStore.settings.collectAsState(
                     initial = AppSettings())
                 CloudMusicApp(
@@ -175,6 +247,19 @@ class MainActivity : ComponentActivity() {
                     onPause = runtime::pause,
                     onNext = runtime::next,
                     onPrev = runtime::prev,
+                    // §61.176（用户一手：点击歌曲根本播放不了）——根因是这条线**从未接线**：
+                    // `CloudMusicApp.onPlayTracks` 自 §61.113 引入起就只有默认空实现
+                    // （`{ _, _ -> }`），MainActivity 侧一直没传，于是首页 / 音乐库 / 搜索 /
+                    // 我的音乐 / 歌单里所有「点某一首」都落在空 lambda 上，UI 无反馈也无日志。
+                    // `PlaybackRuntime.playTracks`（§61.113 已实现：setAll → setQueue →
+                    // playAt）恰好就是该回调的语义，直接绑定即闭环。
+                    // 权限口径与 `onPlay` 一致：首次播放前按动作申请通知权限，B03 被拒仍照常播放
+                    // （只少通知卡片），不阻塞点歌。
+                    onPlayTracks = { items, startAt ->
+                        permissionRequester.request(PermissionGate.UserAction.START_PLAYBACK) {
+                            runtime.playTracks(items, startAt)
+                        }
+                    },
                     onWifiOnlyChanged = { value ->
                         // 03-11 §4：写入后由 Flow 即时生效；B14 飞行模式下也照常保存、不联网校验。
                         lifecycleScope.launch {
@@ -227,15 +312,17 @@ class MainActivity : ComponentActivity() {
                                         output.updateRouteHint("无正在播放的曲目，无法投屏")
                                         return@launch
                                     }
-                                    runCatching {
-                                        val result = castCoordinator.startCast(current, device)
-                                        if (result.started) {
-                                            // T09：本机静音 + 媒体控件停用（03-08 §10.1 的
-                                            // 本机侧动作——API 已在，随本批接线）。
-                                            output.setActive(ActiveOutput.DLNA)
-                                            runtime.onOutputChanged(true)
-                                        }
-                                    }.onFailure {
+                    runCatching {
+                        val result = castCoordinator.startCast(current, device)
+                        if (result.started) {
+                            // §61.193：记住投屏目标 → 切歌保持（runtime dlnaRecastLoop）。
+                            runtime.onDlnaDeviceSelected(device)
+                            // T09：本机静音 + 媒体控件停用（03-08 §10.1 的
+                            // 本机侧动作——API 已在，随本批接线）。
+                            output.setActive(ActiveOutput.DLNA)
+                            runtime.onOutputChanged(true)
+                        }
+                    }.onFailure {
                                         output.updateRouteHint(
                                             "投屏失败：${it.message ?: "未知错误"}（保持本机播放）",
                                         )
@@ -272,7 +359,9 @@ class MainActivity : ComponentActivity() {
                         }
                     },
                     bridge = playerBridge,
+                    surfaceRequests = surfaceRequests,
                 )
+                } // end else (showSplash)
             }
         }
     }
@@ -281,5 +370,18 @@ class MainActivity : ComponentActivity() {
         super.onStart()
         // minSdk 26 → startForegroundService 恒可用；Service 已存在时只回调 onStartCommand。
         startForegroundService(Intent(this, PlaybackService::class.java))
+    }
+
+    /** §61.183：热启动导航（--activity-single-top 复用栈顶实例时经此兑现）。 */
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        surfaceRequests.value = SurfaceNav.parse(intent?.action)
+    }
+
+    private companion object {
+        /** §61.173：数据维护标记库（与 `08` 用户配置项无关，属内部一次性任务状态）。 */
+        const val MAINTENANCE_PREFS = "maintenance"
+        /** v2（§61.173）：v1 只修 GBK，v2 追加百分号编码 —— 换 key 以确保存量再跑一轮。 */
+        const val KEY_TEXT_REPAIR_V2 = "legacy_text_repair_v2_done"
     }
 }

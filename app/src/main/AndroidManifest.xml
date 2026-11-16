@@ -39,9 +39,15 @@
              必须 exported=true；设为 false 时外部应用启动会抛 ActivityNotFoundException
              （https://developer.android.com/guide/topics/manifest/activity-element）。
              §61.23 / §61.24 记的「随 Service 一并恢复」只适用于 PlaybackService。 -->
+        <!-- §61.175（2026-11-16）：锁定竖屏。
+             播放页 / 首页 / 音乐库 / 设置 / 搜索全部按竞品竖屏基准（1440×3200@3.5）
+             逐像素标定；横屏下唱片区 weight(1f) 与底对齐链路必然错位，且系统会把
+             窗口信箱化（实测横屏 mAppBounds 宽 2915 内只渲染 1024）。
+             竞品播放页同样不支持横屏，锁竖屏是复刻的一部分，不是权宜。 -->
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

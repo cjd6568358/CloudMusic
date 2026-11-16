@@ -6,6 +6,7 @@ import androidx.room.Fts4
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.example.cloudmusic.model.Availability
+import com.example.cloudmusic.model.LegacyTextRepair
 import com.example.cloudmusic.model.SourceRef
 import com.example.cloudmusic.model.SourceType
 import com.example.cloudmusic.model.Track
@@ -96,29 +97,37 @@ data class TrackRow(
          * 也不得触碰收藏 / 播放次数（那些在独立表）。恢复语义只走 `ScanReconciler.upsertFromScan`。
          * 纯函数，便于在无 Android 运行时的 JVM 单测里断言。
          */
-        fun from(track: Track, existing: TrackRow?, now: Long): TrackRow = TrackRow(
-            id = track.id.value,
-            title = track.title,
-            artist = track.artist,
-            album = track.album,
-            durationMs = track.durationMs,
-            trackNo = track.trackNo,
-            year = track.year,
-            sampleRate = track.sampleRate,
-            bitDepth = track.bitDepth,
-            storageId = track.sourceRef.storageId,
-            sourcePath = track.sourceRef.path,
-            sourceUrl = track.sourceRef.url,
-            sourceType = track.sourceType.name,
-            coverRef = track.coverRef,
-            // §61.120：分析增益只由 T5-2 分析管线写入，扫描 upsert 保留旧值。
-            replayGainDb = existing?.replayGainDb ?: track.replayGainDb,
-            tagCompleteness = track.tagCompleteness,
-            availability = existing?.availability ?: track.availability.name,
-            addedAt = existing?.addedAt ?: now,
-            updatedAt = now,
-            sortTitle = SortKeys.of(track.title),
-        )
+        fun from(track: Track, existing: TrackRow?, now: Long): TrackRow {
+            // §61.173（2026-11-16）：入库唯一映射口的乱码兜底 —— 本地内嵌标签 / WebDAV
+            // displayname / STRM 内容任何通道解出的「GBK 被当 Latin-1」文本都在这里修一次，
+            // 保证库里不再落**新的**脏行（存量由 LegacyTextRepairRunner 一次性改写）。
+            val title = LegacyTextRepair.fix(track.title) ?: track.title
+            val artist = LegacyTextRepair.fix(track.artist) ?: track.artist
+            val album = LegacyTextRepair.fix(track.album) ?: track.album
+            return TrackRow(
+                id = track.id.value,
+                title = title,
+                artist = artist,
+                album = album,
+                durationMs = track.durationMs,
+                trackNo = track.trackNo,
+                year = track.year,
+                sampleRate = track.sampleRate,
+                bitDepth = track.bitDepth,
+                storageId = track.sourceRef.storageId,
+                sourcePath = track.sourceRef.path,
+                sourceUrl = track.sourceRef.url,
+                sourceType = track.sourceType.name,
+                coverRef = track.coverRef,
+                // §61.120：分析增益只由 T5-2 分析管线写入，扫描 upsert 保留旧值。
+                replayGainDb = existing?.replayGainDb ?: track.replayGainDb,
+                tagCompleteness = track.tagCompleteness,
+                availability = existing?.availability ?: track.availability.name,
+                addedAt = existing?.addedAt ?: now,
+                updatedAt = now,
+                sortTitle = SortKeys.of(title),
+            )
+        }
     }
 }
 

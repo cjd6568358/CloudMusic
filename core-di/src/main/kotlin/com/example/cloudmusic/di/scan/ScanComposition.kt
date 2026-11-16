@@ -21,6 +21,7 @@ import com.example.cloudmusic.scanner.StorageProvider
 import com.example.cloudmusic.scanner.TagReader
 import com.example.cloudmusic.scanner.TrackFactory
 import com.example.cloudmusic.scanner.TrackSink
+import com.example.cloudmusic.storage.LyricFileStore
 import com.example.cloudmusic.storage.ScanReconciler
 import com.example.cloudmusic.storage.TrackRepository
 import dagger.Module
@@ -170,6 +171,19 @@ class RoomTrackSink(
                 .map { it.sourceRef.path }
                 .toSet()
         }.getOrDefault(emptySet())
+
+    /**
+     * §61.179：曲库侧「存在且可用」的路径视图——快照与曲库不一致时的兜底重扫依据。
+     * 取不到（异常）时返回 `null`，调用方跳过本判据而不是误判「全库为空」。
+     */
+    override suspend fun knownPaths(storageId: String): Set<String>? =
+        runCatching {
+            tracks.observeAll().first()
+                .asSequence()
+                .filter { it.sourceRef.storageId == storageId && it.availability == Availability.OK }
+                .map { it.sourceRef.path }
+                .toSet()
+        }.getOrNull()
 }
 
 @Module
@@ -213,12 +227,18 @@ object ScanModule {
 
     @Provides
     @Singleton
+    fun provideLyricFileStore(@ApplicationContext context: Context): LyricFileStore =
+        LyricFileStore(context.cacheDir)
+
+    @Provides
+    @Singleton
     fun provideTagReader(
         @ApplicationContext context: Context,
         client: OkHttpClient,
         locator: LinkLocator,
         writer: CoverWriterPort,
         cache: CoverLookupCache,
+        lyricStore: LyricFileStore,
     ): TagReader {
         // C-12（12 §31）：此前生产 rangeFor 恒为 null（没有任何 Driver 实现该能力），
         // 网络音源标签 + 同目录封面两条链路同时失效。现在两级回落：
@@ -239,6 +259,15 @@ object ScanModule {
             // 必须命名参数：HeadTagReader 的尾随 lambda 会匹配最后一个 Int(headSize) 参数
             head = HeadTagReader(rangeFor = rangeFor),
             directoryCover = directoryLookup::invoke,
+            // docs/01 §0：内嵌歌词写盘缓存；IO 在扫描协程内，失败静默（派生数据可重扫）。
+            lyricsSink = { trackId, raw -> lyricStore.saveRaw(
+                com.example.cloudmusic.model.TrackId(trackId), raw) },
+            // §61.186：内嵌缺失 → 同目录 .lrc 提取（WebDAV/STRM 曲库主歌词来源，
+            // 走驱动 TextReadCapability，GBK 回落内建；失败按目录记忆不逐文件重试）。
+            siblingLyrics = SiblingLyricsLookup(
+                sink = { trackId, raw -> lyricStore.saveRaw(
+                    com.example.cloudmusic.model.TrackId(trackId), raw) },
+            )::invoke,
         )
     }
 

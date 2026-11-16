@@ -12,6 +12,8 @@ import android.view.Gravity
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
+import kotlin.math.cos
+import kotlin.math.sin
 import android.widget.ImageView
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 
@@ -25,7 +27,7 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
  * `AnimationHolder.onAnimationUpdate()` 把 `getAnimatedFraction() * 360.0f`
  * 传给 `View.setRotation(...)`；唱针由两个 `ObjectAnimator` 起落。
  *
- * `12 §61.42` 本批改动：视觉层从自绘色块换成 D-146 导出的**竞品真实位图**，
+ * `12 §61.42`：视觉层从自绘色块换成 D-146 导出的**竞品真实位图**，
  * 且按竞品 layout 的 z 序重排（证据 `analysis/l3-reference/legacy-disc-layers.png`）：
  * - `legacy_gc.xml`：`playDiscBg=@drawable/ga6`（浅色底盘）→
  *   `smallAlbumCover=@drawable/g9f`（红色唱片盘，居中 170dip）→
@@ -33,7 +35,16 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
  * - `legacy_bv5.xml`：`ga9`（NoShadow 外圈）→ `ga8`（WithShadow 框）依次叠加。
  * 位图自身 alpha 原样保留，不额外调色，避免自造颜色产生色差。
  *
- * 唱针位图不在竞品导出闭包内，按竞品形态自绘（金属杆 + 顶部 pivot），
+ * `12 §61.174`（播放页整体 1:1）几何重做：旧实现按 `min(w,h)*0.86` 居中，
+ * 真机上唱片偏大、唱针悬在右上角。现按基准图逐像素量化（[PlayerBaseline]）：
+ * - 唱片直径 = `min(屏宽 × 0.757, 区高 × 0.666)`，**底部对齐**（上方空隙留给唱针）；
+ * - 唱针轴心固定在 `(0.506 × 宽, 0.152 × 高)`；唱头自 §61.197 起改为**从唱片圆心按
+ *   44°/0.86r 求落点**（压在盘缘右上）——旧固定比例 (0.705w, 0.463h) 在唱片区坐标系
+ *   里落在盘顶上方 37dp（悬空白棒根因，用户「探针还是没改」实证）；
+ * - 唱臂 §61.190 起为「细直段 4.5dp + 外弯粗弧段 8.5dp」两段式 + 轴心光晕 +
+ *   唱头圆角块（凹槽刻线两道），形态对齐 `cp-crop-02-disc.png`。
+ *
+ * 唱针位图不在竞品导出闭包内，按基准图形态自绘（平台 View 体系 `onDraw`），
  * 属用户授权的「其余全部自己实现」，如实挂账。
  *
  * 合规边界（`03-10 §11 #1` / `§3.3`）：**不用 Compose Canvas 重绘唱片**，也不用
@@ -89,14 +100,12 @@ class VinylDiscView(context: Context) : FrameLayout(context) {
         setImageBitmap(loadLegacyBitmap(context, LegacyAsset.DiscFrame))
     }
 
-    /** 唱针：竞品闭包内未定位到位图，按竞品形态自绘；pivot 固定在顶部。 */
+    /** 唱针容器：铺满整个视图（§61.174），旋转轴心用绝对坐标，起落不再依赖容器边距。 */
     private val needle = FrameLayout(context).apply { rotation = NEEDLE_UP_DEGREES }
 
     /**
-     * §61.109（P2 ③）：基准图 `competitor-player-baseline.png` 的唱臂是**白色弧形**
-     * （顶部白色 pivot 圆 + 弧形杆 + 末端唱头），旧灰直杆与其不符。按基准形态自绘
-     * （平台 View 体系 `onDraw`，仍非 Compose Canvas）；像素级校准待真机截图比对
-     * （`pixel_level_1to1` 未达成前 False）。
+     * `12 §61.109` / `§61.174`：基准图唱臂是**白色弧形**
+     * （轴心白色圆 + 近竖直起步的弧杆 + 末端唱头），按基准图逐像素测量自绘。
      */
     private val needleArm = NeedleArmView(context)
 
@@ -120,8 +129,8 @@ class VinylDiscView(context: Context) : FrameLayout(context) {
         discContainer.addView(vinylRing, fill(Gravity.CENTER))
         discContainer.addView(discFrame, fill(Gravity.CENTER))
         addView(discContainer, fill(Gravity.CENTER))
-        needle.addView(needleArm)
-        addView(needle, LayoutParams(60, 260, Gravity.TOP or Gravity.END))
+        needle.addView(needleArm, fill(Gravity.CENTER))
+        addView(needle, fill(Gravity.CENTER))
     }
 
     override fun onAttachedToWindow() {
@@ -135,11 +144,21 @@ class VinylDiscView(context: Context) : FrameLayout(context) {
         applySizes(w, h)
     }
 
-    /** 按竞品 `legacy_gc.xml` 的比例把各层尺寸精确化；可重复调用，幂等。 */
+    /**
+     * `12 §61.174` 按基准图量化值精确化各层（可重复调用，幂等）。
+     *
+     * 唱片**底部对齐**：基准图唱片底边正好贴着唱片区下缘（y=550dp 绝对），
+     * 上方 153dp 空档留给唱针轴心与弧杆。
+     */
     private fun applySizes(w: Int, h: Int) {
         if (w <= 0 || h <= 0) return
-        val discSize = (minOf(w, h) * 0.86f).toInt()
-        discContainer.layoutParams = LayoutParams(discSize, discSize, Gravity.CENTER)
+        val density = resources.displayMetrics.density
+        val discSize = minOf(
+            w * PlayerBaseline.DiscDiameterRatio,
+            h * PlayerBaseline.DiscMaxHeightRatio,
+        ).toInt().coerceAtLeast(1)
+
+        discContainer.layoutParams = LayoutParams(discSize, discSize, Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL)
         discBacking.layoutParams = LayoutParams(discSize, discSize, Gravity.CENTER)
 
         // `legacy_gc.xml`：黑胶盘 fill_parent + margin @dimen/auh(10dip)，比底盘略小。
@@ -152,18 +171,25 @@ class VinylDiscView(context: Context) : FrameLayout(context) {
         val labelSize = (discSize * 0.60f).toInt()
         albumLabel.layoutParams = LayoutParams(labelSize, labelSize, Gravity.CENTER)
 
-        // §61.109：唱臂容器加宽以容纳弧形杆（基准形态），pivot 圆心仍在容器顶缘中点。
-        val needleW = (discSize * 0.16f).toInt().coerceAtLeast(10)
-        val needleH = (discSize * 0.50f).toInt()
-        needle.layoutParams = LayoutParams(needleW, needleH, Gravity.TOP or Gravity.END).apply {
-            topMargin = (h * 0.02f).toInt()
-            rightMargin = (w * 0.16f).toInt()
-        }
-        needle.pivotX = needleW / 2f
-        // §61.109：起落动画绕基准图 pivot 圆心转（= NeedleArmView 顶缘圆心 y）。
-        needle.pivotY = needleW * 0.42f
-        needleArm.layoutParams = LayoutParams(
-            LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT,
+        // 唱针容器铺满，旋转轴心 = 基准图白色 pivot 圆心（绝对比例坐标）。
+        needle.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+        needle.pivotX = w * PlayerBaseline.NeedlePivotXRatio
+        needle.pivotY = h * PlayerBaseline.NeedlePivotYRatio
+        needleArm.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+        // §61.197（用户「探针还是没改」真因）：唱头位置不再用固定比例——旧比例
+        // (0.705w, 0.463h) 在唱片区坐标系里落在盘顶上方 37dp（悬空白棒根因）。
+        // 改为**从唱片圆心按 44°/0.86r 求唱头落点**（落在盘缘右上，与
+        // `cp-crop-02-disc.png` 一致：针头压在黑胶边缘上）。
+        val discCx = w / 2f
+        val discCy = h - discSize / 2f // 唱片底部对齐 → 圆心
+        val headAngle = Math.toRadians(44.0)
+        val headR = discSize / 2f * 0.86f
+        needleArm.setGeometry(
+            pivotX = w * PlayerBaseline.NeedlePivotXRatio,
+            pivotY = h * PlayerBaseline.NeedlePivotYRatio,
+            headX = (discCx + headR * cos(headAngle)).toFloat(),
+            headY = (discCy - headR * sin(headAngle)).toFloat(),
+            density = density,
         )
         invalidate()
     }
@@ -234,9 +260,9 @@ class VinylDiscView(context: Context) : FrameLayout(context) {
     }
 
     /**
-     * §61.109（P2 ②）：圆形真实封面替代红色占位盘（基准图形态）。封面缺失 /
-     * 解码失败时回退竞品 `g9f` 位图，不出现空盘。圆形裁切用平台
-     * `RoundedBitmapDrawable`（非 Compose Canvas），与自绘边界一致。
+     * `12 §61.109`：圆形真实封面替代红色占位盘。封面缺失 / 解码失败时回退竞品
+     * `g9f` 位图，不出现空盘。圆形裁切用平台 `RoundedBitmapDrawable`
+     * （非 Compose Canvas），与自绘边界一致。
      */
     fun setCover(cover: Bitmap?) {
         // AndroidView.update 每次 recomposition 都会调；同一位图直接跳过，
@@ -257,7 +283,12 @@ class VinylDiscView(context: Context) : FrameLayout(context) {
     /** 上一次设置的封面引用（去抖用，不持有额外生命周期）。 */
     private var lastCover: Bitmap? = null
 
-    /** 基准形态白色弧形唱臂（自绘）：pivot 圆 + 二次曲线杆 + 末端唱头。 */
+    /**
+     * 基准图唱臂（自绘，`12 §61.174`；§61.190 按 `cp-crop-02-disc.png` 逐形态重绘）：
+     * 竞品形态五要素——① 轴心光晕（半透明大圆）② 轴心白点 ③ 近竖直细短臂
+     * ④ 外弯加粗弧臂（细→粗锥形观感）⑤ 唱头圆角块（两道凹槽刻线）落在盘缘右上。
+     * 旧实现单段均匀细杆、无光晕无凹槽 ⇒ 用户「探针跟竞品不一致」。
+     */
     private class NeedleArmView(context: Context) : View(context) {
 
         private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -269,35 +300,88 @@ class VinylDiscView(context: Context) : FrameLayout(context) {
             color = Color.WHITE
             style = Paint.Style.FILL
         }
+        private val haloPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.WHITE
+            style = Paint.Style.FILL
+            alpha = 36
+        }
+        private val groovePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.rgb(222, 222, 222)
+            style = Paint.Style.STROKE
+            strokeCap = Paint.Cap.ROUND
+        }
         private val armPath = Path()
+
+        private var pivotX = 0f
+        private var pivotY = 0f
+        private var headX = 0f
+        private var headY = 0f
+        private var density = 1f
+
+        fun setGeometry(
+            pivotX: Float,
+            pivotY: Float,
+            headX: Float,
+            headY: Float,
+            density: Float,
+        ) {
+            this.pivotX = pivotX
+            this.pivotY = pivotY
+            this.headX = headX
+            this.headY = headY
+            this.density = density
+            invalidate()
+        }
 
         override fun onDraw(canvas: Canvas) {
             super.onDraw(canvas)
-            val w = width.toFloat()
-            val h = height.toFloat()
-            if (w <= 0f || h <= 0f) return
-            // pivot：顶部白色圆（基准图唱臂轴心）。
-            val pivotR = w * 0.42f
-            val pivotY = w * 0.42f
-            canvas.drawCircle(w * 0.5f, pivotY, pivotR, fillPaint)
-            // 弧形杆：pivot 下方起笔，控制点右拉形成基准图的弓形，落在唱头处。
-            val startX = w * 0.5f
-            val startY = pivotY + pivotR * 0.6f
-            val endX = w * 0.68f
-            val endY = h - w * 0.9f
-            armPath.reset()
-            armPath.moveTo(startX, startY)
-            armPath.quadTo(w * 0.72f, h * 0.42f, endX, endY)
-            paint.strokeWidth = w * 0.16f
-            canvas.drawPath(armPath, paint)
-            // 唱头：末端白色圆角矩形（沿杆方向的矮块）。
-            val headW = w * 0.5f
-            val headH = w * 0.8f
-            canvas.drawRoundRect(
-                endX - headW / 2f, endY - headH / 2f,
-                endX + headW / 2f, endY + headH / 2f,
-                headW * 0.35f, headW * 0.35f, fillPaint,
+            if (pivotX <= 0f || headY <= pivotY) return
+            val pivotR = PlayerBaseline.NeedlePivotRadiusDp * density
+            val headW = PlayerBaseline.NeedleHeadWidthDp * density
+            val headH = PlayerBaseline.NeedleHeadHeightDp * density
+            val thinW = 4.5f * density
+            val thickW = 8.5f * density
+
+            // ① 轴心光晕（半透明大圆）
+            canvas.drawCircle(pivotX, pivotY, pivotR * 2.3f, haloPaint)
+            // ② 轴心白点
+            canvas.drawCircle(pivotX, pivotY, pivotR, fillPaint)
+
+            // ③④ 两段臂：细直段（轴心 → 膝，近竖直下行 42%）+ 粗弧段（膝 → 唱头外弯）。
+            // 锥形观感 = 两段 stroke 宽度 4.5dp → 8.5dp。
+            val kneeX = pivotX + (headX - pivotX) * 0.18f
+            val kneeY = pivotY + (headY - pivotY) * 0.42f
+            paint.strokeWidth = thinW
+            canvas.drawLine(
+                pivotX, pivotY + pivotR * 0.4f, kneeX, kneeY, paint,
             )
+            paint.strokeWidth = thickW
+            armPath.reset()
+            armPath.moveTo(kneeX, kneeY)
+            armPath.quadTo(
+                kneeX + (headX - kneeX) * 0.30f, kneeY + (headY - kneeY) * 0.52f,
+                headX, headY,
+            )
+            canvas.drawPath(armPath, paint)
+
+            // ⑤ 唱头：沿杆方向倾斜的白色圆角块 + 两道凹槽刻线（基准 74x62px，倾角约 24°）。
+            canvas.save()
+            canvas.rotate(24f, headX, headY)
+            canvas.drawRoundRect(
+                headX - headW / 2f, headY - headH / 2f,
+                headX + headW / 2f, headY + headH / 2f,
+                headH * 0.34f, headH * 0.34f, fillPaint,
+            )
+            groovePaint.strokeWidth = 1.5f * density
+            canvas.drawLine(
+                headX - headW * 0.20f, headY - headH * 0.30f,
+                headX - headW * 0.20f, headY + headH * 0.30f, groovePaint,
+            )
+            canvas.drawLine(
+                headX + headW * 0.08f, headY - headH * 0.30f,
+                headX + headW * 0.08f, headY + headH * 0.30f, groovePaint,
+            )
+            canvas.restore()
         }
     }
 }

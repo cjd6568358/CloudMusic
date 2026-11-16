@@ -1578,11 +1578,20 @@ def main() -> int:
     missing_main = [n for n in main_needles if n not in main52]
     # 03-11 §8 #2：启动阶段零申请 → request 只出现在用户动作回调里。
     # §61.29：START_PLAYBACK / SHOW_BLUETOOTH_NAME 各一处，均为 UI 回调、不在 onCreate 直接调用。
+    # §61.176（点歌接线）：START_PLAYBACK 增至 2 处（迷你条播放键 + 曲目行点歌），
+    # 两处都是用户动作回调，仍满足「启动阶段零申请」。判据同步升级为**按动作计数**，
+    # 强度不减反增：总数 3 之外，两个动作的调用点数量也各自钉死——
+    # 多一处就等于多一个未登记的申请入口。
     startup_requests = len(re.findall(r"permissionRequester\.request\(", main52))
-    if missing_main or startup_requests != 2:
+    play_requests = len(re.findall(r"UserAction\.START_PLAYBACK", main52))
+    bt_requests = len(re.findall(r"UserAction\.SHOW_BLUETOOTH_NAME", main52))
+    if (missing_main or startup_requests != 3
+            or play_requests != 2 or bt_requests != 1):
         failures.append(
             f"12 §52：MainActivity 动作接线缺失 {missing_main}；"
-            f"permissionRequester.request 应恰好 2 处（实测 {startup_requests}），启动不得申请"
+            f"permissionRequester.request 应恰好 3 处（实测 {startup_requests}），"
+            f"START_PLAYBACK 应 2 处（实测 {play_requests}）/ SHOW_BLUETOOTH_NAME 应 1 处"
+            f"（实测 {bt_requests}），启动不得申请"
         )
     else:
         print("[PASS] 12 §52：两个按动作申请入口在位；启动阶段零申请、数据源入口齐备")
@@ -1894,10 +1903,114 @@ def main() -> int:
     ui_body = ui61c.read_text(encoding="utf-8") if ui61c.is_file() else ""
     if "networkGate.rejectReason(runtime.currentNetworkSource())" not in service_body:
         failures.append("12 §61.28：Service 缺同步判定，拒绝后会假报 PLAYING（§61.27 同类问题）")
-    elif not all(n in ui_body for n in ("允许移动数据播放", "onWifiOnlyChanged", "CompSwitchRow(", "checked = !wifiOnly")):
+    # §61.175（飞牛设置页）：开关从竞品 CompSwitchRow 换成飞牛 FnRow + FnSwitch，
+    # 判据同步升级（强度不减）：仍要求「开关组件 + 双向回调 + checked 取反」三件同在。
+    elif not all(n in ui_body for n in (
+        "允许移动数据播放", "onWifiOnlyChanged", "FnSwitch(", "checked = !wifiOnly",
+    )):
         failures.append("12 §61.28：设置页缺移动数据播放开关（01 §6.1）")
     else:
         print("[PASS] 12 §61.28：Service 同步判定 + 设置页开关在位")
+
+    # ---- 12 §61.176（点歌接线 / 用户一手）：默认参数吞掉回调的静态守护 ----
+    # 现象：点曲目行无任何反应（无播放、无日志）。根因不在播放链，而在**接线**：
+    # `CloudMusicApp.onPlayTracks` 自 §61.113 起带默认空实现 `{ _, _ -> }`，
+    # MainActivity 侧从未传值 → 编译通过、运行期静默 no-op。这类「有默认值所以
+    # 不漏编译」的洞只能靠源码断言守住，判据三条：
+    # ① 契约签名仍在（防止有人把参数删了换成别的名字）；
+    # ② MainActivity 显式绑定，且落到 `runtime.playTracks`（不是空 lambda / 只切页）；
+    # ③ 每个曲目列表页都把回调透传给行点击（缺一页就有一页点不动）。
+    main_act = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                / "cloudmusic" / "MainActivity.kt")
+    main_kt = main_act.read_text(encoding="utf-8") if main_act.is_file() else ""
+    passthrough_pages = ("HomeScreen(", "FnLibraryScreen(", "SearchScreen(", "MyMusicScreen(")
+    if "onPlayTracks: (List<Track>, Int) -> Unit" not in ui_body:
+        failures.append("12 §61.176：CloudMusicApp 的点歌回调签名被改动（§61.113 契约）")
+    elif "onPlayTracks = " not in main_kt or "runtime.playTracks(" not in main_kt:
+        failures.append("12 §61.176：MainActivity 未绑定 onPlayTracks（点歌静默 no-op，用户一手）")
+    elif any(p not in ui_body for p in passthrough_pages):
+        failures.append("12 §61.176：曲目列表页缺 onPlayTracks 透传（该页点歌无效）")
+    else:
+        print("[PASS] 12 §61.176：点歌回调 MainActivity→runtime.playTracks 全链在位")
+
+    # ---- 12 §61.177（声场展宽直通分支 / 用户一手「歌全播不了」）----
+    # 现象：库里任何歌一点就崩，logcat 为
+    #   IllegalArgumentException at ByteBuffer.put <- SpatialWidenProcessor.queueInput
+    #   error=ERROR_CODE_FAILED_RUNTIME_CHECK engine_error=E_DS_UPSTREAM_MEDIA3_PLAYBACK
+    # 根因：`BaseAudioProcessor.replaceOutputBuffer(n)` 返回它复用的 `buffer` 字段，
+    # `getOutput()` 只把 `outputBuffer` 换成 EMPTY_BUFFER、不重建 `buffer`；
+    # Media3 管线把上一包 output 原样当下一包 input 传回 ⇒ `out` 与 `inputBuffer`
+    # 是同一对象 ⇒ `ByteBuffer.put(ByteBuffer)` 命中 `src == this` 抛 IllegalArgumentException。
+    # 旧直通分支只在 widenAmount==0 时命中，而 0 正是默认值 ⇒ 每首歌必崩。
+    # 判据：① 不得再出现 `out.put(inputBuffer)`；② 必须先 `inputBuffer.get(bytes...)`
+    # 再 `replaceOutputBuffer`；③ 回归单测必须保留「同一 buffer 复用」用例。
+    widen_kt = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" / "com" / "example"
+                / "cloudmusic" / "engineopensource" / "SpatialWidenProcessor.kt")
+    widen_body = widen_kt.read_text(encoding="utf-8") if widen_kt.is_file() else ""
+    widen_test = (ROOT / "engine-opensource" / "src" / "test" / "kotlin" / "com" / "example"
+                  / "cloudmusic" / "engineopensource" / "SpatialWidenProcessorTest.kt")
+    widen_test_body = widen_test.read_text(encoding="utf-8") if widen_test.is_file() else ""
+    widen_code = "\n".join(
+        ln for ln in widen_body.splitlines()
+        if not ln.strip().startswith(("*", "//", "/*")))
+    if "out.put(inputBuffer)" in widen_code:
+        failures.append("12 §61.177：SpatialWidenProcessor 直通分支回到 put(ByteBuffer)（src==this 必崩）")
+    elif "inputBuffer.get(bytes" not in widen_body:
+        failures.append("12 §61.177：SpatialWidenProcessor 未先读走输入缓冲（会与输出缓冲同一对象冲突）")
+    elif "管线复用输入缓冲" not in widen_test_body:
+        failures.append("12 §61.177：缺「输入输出同一 buffer」回归单测（真机崩溃路径无守护）")
+    else:
+        print("[PASS] 12 §61.177：声场展宽先读后写 + 复用同一 buffer 回归用例在位")
+
+    # ---- 12 §61.178（扫描悬死 + 静默失败）：可观测性与协程 resume 保护 ----
+    # 现象一：通知栏「正在扫描曲库 0/0」永久不动，无异常、无超时、无日志。
+    #   根因：`OkHttpStack.onResponse` 里 `resp.body.bytes()` 抛异常会逃出回调，
+    #   OkHttp 的 AsyncCall 只当 call 已处理完而吞掉 ⇒ 协程永远不 resume。
+    # 现象二：`runScan` 的 catch 只置 lastEffect=SCAN_FAILED 不打日志，
+    #   且把 CancellationException（正常取消）也当失败 ⇒ 通知栏出现 SCAN_FAILED。
+    # 判据：① onResponse 体必须有 catch(Throwable) + resumeWithException；
+    #       ② runScan 必须打印失败原因；③ 取消与失败必须分流；
+    #       ④ 扫描分步打点不得被删（入口/快照/list/阶段A）。
+    webdav_http = (ROOT / "datasource-webdav" / "src" / "main" / "kotlin" / "com" / "example"
+                   / "cloudmusic" / "webdav" / "WebDavHttp.kt")
+    http_body = webdav_http.read_text(encoding="utf-8") if webdav_http.is_file() else ""
+    play_comp = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                 / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
+    play_body2 = play_comp.read_text(encoding="utf-8") if play_comp.is_file() else ""
+    scan_coord = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "example"
+                  / "cloudmusic" / "scanner" / "ScanCoordinator.kt")
+    scan_body = scan_coord.read_text(encoding="utf-8") if scan_coord.is_file() else ""
+    if "catch (e: Throwable)" not in http_body or "resumeWithException(e)" not in http_body:
+        failures.append("12 §61.178：OkHttpStack.onResponse 缺 catch(Throwable)+resumeWithException（协程会永久悬死）")
+    elif "scan failed:" not in play_body2:
+        failures.append("12 §61.178：runScan 失败仍不打日志（扫描 0 首无法归因）")
+    elif "CancellationException" not in play_body2:
+        failures.append("12 §61.178：runScan 未把取消与失败分流（正常取消会误报 SCAN_FAILED）")
+    elif not all(k in scan_body for k in ("scanStorage 入口", "快照已载入", "阶段A 完成 upsert")):
+        failures.append("12 §61.178：ScanCoordinator 扫描分步打点被删（卡点无法定位）")
+    else:
+        print("[PASS] 12 §61.178：WebDAV resume 受保护 + 扫描取消/失败分流 + 分步打点在位")
+
+    # ---- 12 §61.179（快照与曲库不一致 ⇒ 增量扫描永远漏扫）----
+    # 现象：删数据源（markOrphan 只置 UNREACHABLE、不清 scan_snapshot）后重新加回同源，
+    #   文件 size/mtime 全未变 ⇒ 增量判定「已扫过」全部 skip ⇒ 曲目永久 UNREACHABLE。
+    #   曲库被清空而快照残留同理（本批真机复现：7838→0 后重扫 upsert=0）。
+    # 判据：knownPaths 三件套（端口 / 生产实现 / 调用点）缺一不可。
+    ports_kt = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "example"
+                / "cloudmusic" / "scanner" / "ScanPorts.kt")
+    ports_body = ports_kt.read_text(encoding="utf-8") if ports_kt.is_file() else ""
+    scan_comp = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                 / "cloudmusic" / "di" / "scan" / "ScanComposition.kt")
+    comp_body = scan_comp.read_text(encoding="utf-8") if scan_comp.is_file() else ""
+    if "suspend fun knownPaths" not in ports_body:
+        failures.append("12 §61.179：TrackSink 缺 knownPaths 端口（快照/曲库不一致无兜底）")
+    elif "override suspend fun knownPaths" not in comp_body:
+        failures.append("12 §61.179：RoomTrackSink 未实现 knownPaths（判据恒为空集）")
+    elif "trackSink.knownPaths(" not in scan_body:
+        failures.append("12 §61.179：ScanCoordinator 未用 knownPaths 强制重扫（缺曲目会被永久跳过）")
+    else:
+        print("[PASS] 12 §61.179：快照/曲库不一致兜底重扫（端口+实现+调用点）在位")
+
 
     # ---- 12 §61.29（第五十六批 / T-L L2 蓝牙授权 + ACL 广播联动）----
     # 03-09 §4 的广播映射表 / §8 B01 降级 / §10 B12 设备地址不入日志；
@@ -2684,10 +2797,12 @@ def main() -> int:
         "AudioEffectsBus.widenAmount", "widen16Stereo",
     )):
         failures.append("12 §61.160：SpatialWidenProcessor / AudioEffectsBus 缺失")
-    elif "buildAudioSink" in adapter160:
-        # §61.160 补记：注入已还原（真机 BUFFERING→IDLE）——处理器文件保留，
-        # 注入点待调通后重新接入。当前不应有 buildAudioSink 覆写。
-        failures.append("12 §61.160：buildAudioSink 覆写仍存在（应已还原）")
+    elif "buildAudioSink" not in adapter160:
+        # §61.161 口径演进（commit 25d308b7）：T5-3 选项 B 注入真机调通 PASS
+        # （buildAudioSink → DefaultAudioSink.Builder 注入声场展宽处理器），
+        # §61.160 补记「应已还原」口径作废 —— 覆写必须在位（§61.182 审计时
+        # 发现该守护停在旧口径、每轮必 FAIL，顺手对齐）。
+        failures.append("12 §61.161：buildAudioSink 覆写缺失（T5-3 选项 B 桥应在位）")
     elif "class SpatialWidenProcessor : BaseAudioProcessor()" not in wid_txt:
         failures.append("12 §61.160：SpatialWidenProcessor 类缺失")
     elif not all(x in doc139_txt for x in (
@@ -2725,9 +2840,12 @@ def main() -> int:
                 and bl["mapping_rows"] == 61
                 and bl["mapping_replaced_false"] == 61
                 and not bl["new_dependencies"]
-                and not bl["res_dir_exists"]
+                and not bl.get("res_violations")
                 and not bl["ui_legacy_included"]
             )
+            # §61.173：`res_dir_exists` 由「必须为 False」改为「`res_violations` 必须为空」
+            # （res 下只允许自研 values/）。原判据与仓库事实冲突（该目录早已存在），
+            # 继续要求 False 只能靠伪造证据通过；新判据强度更高：禁止竞品 layout/drawable 混入。
             # 12 §61.81 / B2 M1：上列 baseline_ok 读的是 M0 历史视觉证据 JSON，
             # 冻结在 19 模块 / 零新增依赖，历史文件不改写；M1 起「当前态」为
             # 20 模块 + media3 1.11.1，由本条与 §61.81 守护校验，避免把历史
@@ -5704,6 +5822,140 @@ def main() -> int:
 
         warnings.append("第六十七批（12 §61.40，2026-11-08 晚）：用户拍板「UI 交互严格复刻竞品」→ 按 12 §39 / docs/14 §4.1 / 03-10 §3.3 §6 的实证参数，在 :app 内零发布基线变更落地播放页：VinylDiscView（ValueAnimator.ofFloat(0,1) + LinearInterpolator + repeatCount(-1) + repeatMode(1) + 20000ms÷playSpeed + fraction*360 → setRotation，唱针用两个 ObjectAnimator；不用 Compose Canvas、不用 animateFloatAsState 近似、不加载 anim XML）、平台 TextView 原生 MARQUEE 跑马灯、72dp 横向手势切歌、Slider→PlayerStateBridge.onSeek、迷你条点击展开整页。PlayerStateBridge 按 03-10 §6 单向绑定 StateFlow，不持有 PlayerController/IMusicEngine；契约中 onModeToggle/onFavorite/歌词/输出切换/队列弹窗/封面 6 项生产无后端，只读占位不伪造。新增 tools/l3_interaction_spec.py + analysis/l3-interaction-spec.json + §61.40 守护（14 项全 PASS）：19 模块 / 11 权限 / 51 素材 / 61 行 csv 全 false / 零新增依赖 / res/ 未建 / :ui-legacy 未 include 零变化。48 个播放页 layout 的像素级照搬、20 个竞品 View 的 XML 视觉、横屏黑胶页仍需拍板后另批；A3 仍 G01~G08 PASS / G09 PARTIAL、舱不冻结")
         warnings.append("第六十八批（12 §61.41，2026-11-09 上午）：用户拍板 B（三项全开：第 20 模块 :ui-legacy / 联网补 4 类依赖 / 补导其余 39 个 layout）→ 按 §61.38 同纪律先实证。tools/l3_full_replica_audit.py 全量审计 48 个 layout_semantic_tags：39 个未导出 layout 已复制到 analysis/l3-full-replica/layouts/，合计 421 元素 / 53 个竞品 View 类 / 81 个混淆 app:* attr / 282 个 @id / 163 项资源引用（约为已导出 9 个的 3 倍）。口径校正：48 项是「资源闭包涉及的 layout」不是 48 个播放页，其中 11 个非播放页误命中、且不存在标准竖屏主播放页 tag；§61.40 报告「39 个含标准竖屏主播放页」表述作废。决定性结论：竞品 gb.xml 里 ConstraintLayout 是标准类名但 layout_constraint* 属性名被资源混淆成 a5f/a5l/a65/a69，竞品 attrs.xml 中标准名 0 个 → 在自研工程重声明同名 attr 只会分配新 ID，ConstraintLayout 读不到值，约束语义不还原；引入 androidx.constraintlayout 依赖或 §61.39 的 attrs.xml 都只让 aapt2 编译通过，不等于布局语义还原。Google Maven 实测 HTTP 200（依赖可达）。故三项授权保留但本批不改基线：19 模块 / 零新增依赖 / res/ 未建 / :ui-legacy 未 include / 51 素材 / 61 行 csv 全 false 零变化，新增 §61.41 守护防证据漂移与基线被提前改动。修正后路径 B1 结构照搬 / B2 先补主页面与 attr 反查 / A 真实贴图优先 / C 维持现状待重新拍板。A3 仍 G01~G08 PASS / G09 PARTIAL、舱不冻结")
+
+    # =====================================================================
+    # §61.182 三层守护网（用户 2026-11-16 拍板「全做」）
+    # =====================================================================
+
+    # ② 写侧审计：凡审计范围内接口的 suspend 方法，必须有**生产调用方**。
+    #   src/test 的调用不算 —— T11 手调 saveCursor 造数据、生产链写侧断线、
+    #   「半条链测试」全绿的真机教训见 12 §61.181 判据③现场：playback_state
+    #   恒缺失（`cold-start restore: playback_state 缺失`）⇒ 冷启动恢复死路。
+    #   允许项（_AUDIT_ALLOW）必须带 docs 挂账出处，随收口批移除。
+    #   A/B 反证：--audit-mask <方法名> 可临时屏蔽其调用方检出（演示断链必 FAIL）。
+    _AUDIT_SCOPES = ("core-storage", "feature-player", "scanner")
+    _AUDIT_ALLOW = {
+        ("QueueRepository", "insertNext"): "插播 UI 未落地（03-06 §8 / 12 §61.119 仅跳播）",
+        ("QueueRepository", "move"): "队列拖拽排序 UI 未落地（03-06 §8）",
+        ("QueueRepository", "remove"): "队列移除 UI 未落地（03-06 §8）",
+        ("QueueRepository", "clear"): "清空队列 UI 未落地（03-06 §8）",
+        # §61.184：Storage.setError 断链已接线（runScan → storageErrorStates → setError，
+        # 扫描失败 → 数据源错误态；本行移出挂账清单，守护转正）。
+    }
+    _mask_next = False
+    _masked = set()
+    for _a in sys.argv[1:]:
+        if _a == "--audit-mask":
+            _mask_next = True
+        elif _mask_next:
+            _masked.add(_a)
+            _mask_next = False
+    _prod_kt = []
+    for _scope_dir in sorted(ROOT.glob("*/src/main")):
+        for _p in _scope_dir.rglob("*.kt"):
+            _lines = []
+            for _ln in _p.read_text(encoding="utf-8", errors="replace").splitlines():
+                _s = _ln.strip()
+                if _s.startswith(("//", "*", "/*")):
+                    continue
+                _lines.append(_ln.split("//", 1)[0])
+            _prod_kt.append((_p, "\n".join(_lines)))
+    _iface_decl = re.compile(r"^\s*interface\s+(\w+)\b")
+    _suspend_decl = re.compile(r"^\s*(?:override\s+)?suspend\s+fun\s+(\w+)\(")
+    _in_scope = lambda _p: any(
+        str(_p).startswith(str(ROOT / s) + chr(92)) or
+        str(_p).startswith(str(ROOT / s) + "/") for s in _AUDIT_SCOPES)
+    _audited = set()
+    _decl_file = {}
+    for _p, _src in _prod_kt:
+        if not _in_scope(_p):
+            continue
+        _cur, _depth = None, 0
+        for _ln in _src.splitlines():
+            _m = _iface_decl.match(_ln)
+            if _m and _depth == 0:
+                _cur = _m.group(1)
+            # interface 声明行的 `{` 同样计入深度（漏计会把整个接口体清空 → 0 方法）
+            _depth += _ln.count("{") - _ln.count("}")
+            if _cur and _depth <= 0:
+                _cur, _depth = None, 0
+                continue
+            if _cur:
+                _fm = _suspend_decl.match(_ln)
+                if _fm:
+                    _audited.add((_cur, _fm.group(1)))
+                    _decl_file[(_cur, _fm.group(1))] = _p
+    _audit_failures = []
+    for _iface, _m in sorted(_audited):
+        if (_iface, _m) in _AUDIT_ALLOW:
+            continue
+        if _m in _masked:
+            # --audit-mask 反证模式：屏蔽调用方检出，强制演示「断链必 FAIL」。
+            _audit_failures.append(
+                "%s.%s 无生产调用方（--audit-mask 反证：屏蔽检出后断链现形）" % (_iface, _m))
+            continue
+        _has_caller = False
+        for _p, _src in _prod_kt:
+            if _p == _decl_file.get((_iface, _m)):
+                continue
+            for _ln in _src.splitlines():
+                if "fun " in _ln:
+                    continue
+                if re.search(r"\b%s\s*\(" % re.escape(_m), _ln):
+                    _has_caller = True
+                    break
+            if _has_caller:
+                break
+        if not _has_caller:
+            _audit_failures.append(
+                "%s.%s 无生产调用方（半条链契约：实现/测试在、生产写读断链，"
+                "见 12 §61.182；如属诚实挂账请移入 _AUDIT_ALLOW 并带出处）" % (_iface, _m))
+    if _audit_failures:
+        failures.extend(_audit_failures)
+    else:
+        print("[PASS] §61.182 写侧审计：%d 个仓储/端口 suspend 方法均有生产调用方" % len(_audited))
+
+    # ① 注入通道命名同源：playUrl 的 Track 构造必须走扫描链同一清洗入口
+    #   （NameParser），不得用 URL 原始路径段当曲名 —— 真机一手天书标题
+    #   `V.A.%20-%20Love%20Letter%20%28Piano%29`（用户判读 12 §61.181 时发现）。
+    _pc = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt"
+    if _pc.is_file():
+        _pc_src = _code_only(_pc.read_text(encoding="utf-8", errors="replace"))
+        _naming_bad = []
+        if "import com.example.cloudmusic.scanner.NameParser" not in _pc_src:
+            _naming_bad.append("未接入 NameParser")
+        if "internal fun remoteFixtureTrack(" not in _pc_src:
+            _naming_bad.append("remoteFixtureTrack 构造器缺失")
+        # 旧 playUrl 习语（URL 原始路径段直接当曲名/行键）回归即 FAIL。
+        # 注意 playLocal 的本地文件名兜底 `name.substringBeforeLast` 不受影响
+        # （本地路径无百分号编码，§61.112 已接真实标签链）。
+        if re.search(r"val\s+name\s*=\s*url\.substringBefore\('\?'\)\.substringAfterLast\('/'\)", _pc_src):
+            _naming_bad.append("playUrl 曲名仍取原始 URL 路径段")
+        if _naming_bad:
+            failures.append("§61.182 注入通道命名同源破坏：%s" % "；".join(_naming_bad))
+        else:
+            print("[PASS] §61.182 注入通道命名与扫描链同源（NameParser）")
+
+    # ③ 画面证据自动化通道（§61.183）：验收期 debug 导航必须在位 —— MainActivity 经
+    #   SurfaceNav 解析 intent 直达 surface（MIUI 禁 input tap 的免注入替代）；
+    #   通道缺失/改名而 runbook 未同步即 FAIL（与 §61.33 收口清单同族登记）。
+    _ma = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "MainActivity.kt"
+    _sn = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "SurfaceNav.kt"
+    _sweep = ROOT / "tools" / "b2_surface_sweep.py"
+    if _sn.is_file() and _ma.is_file():
+        _sn_src = _code_only(_sn.read_text(encoding="utf-8", errors="replace"))
+        _ma_src = _code_only(_ma.read_text(encoding="utf-8", errors="replace"))
+        _nav_bad = []
+        if "ACTION_OPEN_PLAYER" not in _sn_src or "fun parse(" not in _sn_src:
+            _nav_bad.append("SurfaceNav 通道缺失")
+        if "SurfaceNav.parse" not in _ma_src or "surfaceRequests" not in _ma_src:
+            _nav_bad.append("MainActivity 未接 SurfaceNav")
+        if not _sweep.is_file():
+            _nav_bad.append("tools/b2_surface_sweep.py runbook 缺失")
+        if _nav_bad:
+            failures.append("§61.183 画面证据通道：%s" % "；".join(_nav_bad))
+        else:
+            print("[PASS] §61.183 画面证据自动化通道（SurfaceNav + runbook）在位")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

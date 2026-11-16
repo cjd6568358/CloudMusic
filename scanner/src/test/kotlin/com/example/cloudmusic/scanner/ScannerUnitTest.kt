@@ -8,6 +8,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayOutputStream
+import java.nio.charset.Charset
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -96,6 +97,58 @@ class ScannerUnitTest {
     }
 
     @Test
+    @DisplayName("§61.170 GBK 旧标签（enc=0x00 实为 GBK）在解析时修复为中文")
+    fun gbkLegacyTag() = runTest {
+        // ID3v2 enc=0x00 名义 Latin-1，但旧工具写入的是 GBK 字节
+        val gbk = byteArrayOf(
+            0xD6.toByte(), 0xDC.toByte(), // 周
+            0xBD.toByte(), 0xDC.toByte(), // 杰
+            0xC2.toByte(), 0xD7.toByte(), // 伦
+        )
+        val head = id3v2Raw("TIT2" to (byteArrayOf(0) + gbk))
+        val tags = HeadTagReader(rangeFor = { FakeRange(head) }).read(candidate("c.mp3"))
+        assertEquals("周杰伦", tags.title)
+    }
+
+    @Test
+    @DisplayName("§61.170 GBK 文件名兜底（WebDAV/OpenList 文件名乱码）修复为中文")
+    fun gbkFileNameFallback() {
+        // "周杰伦 - 晴天.mp3" 的 GBK 字节被按 ISO-8859-1 解出
+        val gbkName = mojibake(
+            "周杰伦 - 晴天.mp3".toByteArray(charset("GB18030")),
+        )
+        val fallback = NameParser.parse(gbkName, "叶惠美")
+        assertEquals("晴天", fallback.title)
+        assertEquals("周杰伦", fallback.artist)
+        assertEquals("叶惠美", fallback.album)
+    }
+
+    @Test
+    @DisplayName("§61.170 百分号编码文件名（STRM 侧）解成中文标题")
+    fun percentEncodedFileName() {
+        val fallback = NameParser.parse(
+            "S.H.E%20-%20%E8%8C%B1%E7%BD%97%E8%AE%B0.wma",
+            "F3 双路径矩阵",
+        )
+        assertEquals("茱罗记", fallback.title)
+        assertEquals("S.H.E", fallback.artist)
+        // 不含 %XX 的名字原样保留（含字面 % 也不乱解）
+        assertEquals("100% Pure", NameParser.normalize("100% Pure"))
+    }
+
+    @Test
+    @DisplayName("LYRIC-1 内嵌 USLT 歌词解析（头部可读时）；无 USLT 帧时 lyrics=null")
+    fun lyricUsLt() = runTest {
+        val lyricText = "[00:01.00]第一行\n[00:02.50]第二行"
+        val head = id3v2WithUsLt(lyricText)
+        val tags = HeadTagReader(rangeFor = { FakeRange(head) }).read(candidate("a.mp3"))
+        assertEquals(lyricText, tags.lyrics)
+
+        val noLyric = HeadTagReader(rangeFor = { FakeRange(id3v2("TIT2" to "无歌词")) }).read(candidate("b.mp3"))
+        assertEquals(null, noLyric.lyrics)
+    }
+
+    @Test
     @DisplayName("T07 TrackId 换 host / 凭据但 Storage.id 不变 → 不变")
     fun trackIdStable() {
         val factory = TrackFactory()
@@ -154,6 +207,37 @@ class ScannerUnitTest {
             body.write(byteArrayOf(0, 0))
             body.write(payload)
         }
+        val tagBody = body.toByteArray()
+        return "ID3".toByteArray() + byteArrayOf(4, 0, 0) + synchSafe(tagBody.size) + tagBody
+    }
+
+    /** 把 GBK 字节串当 ISO-8859-1 解出来 —— 真机 WebDAV 文件名乱码形态。 */
+    private fun mojibake(gbk: ByteArray): String = String(gbk, Charsets.ISO_8859_1)
+
+    private fun charset(name: String): Charset = Charset.forName(name)
+
+    /** 构造原始帧（payload 由调用方给出，用于 enc=0x00 的 GBK 旧标签等场景）。 */
+    private fun id3v2Raw(vararg frames: Pair<String, ByteArray>): ByteArray {
+        val body = ByteArrayOutputStream()
+        frames.forEach { (id, payload) ->
+            body.write(id.toByteArray(Charsets.ISO_8859_1))
+            body.write(synchSafe(payload.size))
+            body.write(byteArrayOf(0, 0))
+            body.write(payload)
+        }
+        val tagBody = body.toByteArray()
+        return "ID3".toByteArray() + byteArrayOf(4, 0, 0) + synchSafe(tagBody.size) + tagBody
+    }
+
+    /** 构造带 USLT 内嵌歌词的 ID3v2.4 帧：encoding=3(UTF-8) + lang='chi' + 空描述符 + 歌词。 */
+    private fun id3v2WithUsLt(lyrics: String): ByteArray {
+        val payload = byteArrayOf(3) + "chi".toByteArray(Charsets.ISO_8859_1) +
+            byteArrayOf(0) + lyrics.toByteArray(Charsets.UTF_8)
+        val body = ByteArrayOutputStream()
+        body.write("USLT".toByteArray(Charsets.ISO_8859_1))
+        body.write(synchSafe(payload.size))
+        body.write(byteArrayOf(0, 0))
+        body.write(payload)
         val tagBody = body.toByteArray()
         return "ID3".toByteArray() + byteArrayOf(4, 0, 0) + synchSafe(tagBody.size) + tagBody
     }

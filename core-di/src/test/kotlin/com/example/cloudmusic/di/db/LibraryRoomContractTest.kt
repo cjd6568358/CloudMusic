@@ -13,6 +13,7 @@ import java.util.Locale
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertNull
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -219,5 +220,50 @@ class LibraryRoomContractTest {
         assertEquals(12_345L, state.positionMs)
         assertEquals("SHUFFLE", state.playMode.name)
         assertEquals(8L, state.updatedAt)
+    }
+    // ---- §61.173：存量乱码标题修复（GBK 被当 Latin-1） ----------------------
+
+    @Test
+    fun `T-A1-15 plan repairs GBK-as-Latin-1 text on every field`() {
+        val row = TrackTextRow(
+            id = "t1",
+            title = "²»ÊÇÒòÎª¼ÅÄ¯²ÅÏëÄã-t.r.y",
+            artist = "ÁªÏµÈË:ÁõÃ÷¡î15895559019",
+            album = "ËÕÖÝÌìµØÈË¿¨ºÅÍø",
+            sortTitle = "",
+        )
+        val plan = LegacyTextRepairRunner.plan(row)!!
+        assertEquals("不是因为寂寞才想你-t.r.y", plan.title)
+        assertEquals("联系人:刘明☆15895559019", plan.artist)
+        assertEquals("苏州天地人卡号网", plan.album)
+        assertEquals("t1", plan.id)
+    }
+
+    @Test
+    fun `T-A1-16 plan leaves already-correct text untouched`() {
+        assertNull(LegacyTextRepairRunner.plan(TrackTextRow("t1", "晴天", "周杰伦", "叶惠美", "")))
+        assertNull(LegacyTextRepairRunner.plan(TrackTextRow("t2", "一辈子的孤单", "刘若英", "涩女郎", "")))
+        // 真 Latin-1 文本（Café）在 GB18030 下解码失败 ⇒ 必须原样保留，不能被误伤。
+        assertNull(LegacyTextRepairRunner.plan(TrackTextRow("t3", "Café del Mar", "Various", "Nice", "")))
+    }
+
+    @Test
+    fun `T-A1-17 TrackRow_from repairs text at the single ingest point`() {
+        val dirty = Track(
+            id = TrackId("t9"),
+            title = "Ò»±²×ÓµÄ¹Âµ¥",
+            artist = "ÁõÈôÓ¢",
+            album = "É¬Å®ÀÉµçÊÓ¾çÔ\u00ADÉù´ø",
+            durationMs = 1L,
+            sourceRef = SourceRef("strm-1", "/刘若英 - 一辈子的孤单.strm"),
+            sourceType = SourceType.STRM,
+            coverRef = null,
+            tagCompleteness = 0.2f,
+        )
+        val row = TrackRow.from(dirty, null, 1L)
+        assertEquals("一辈子的孤单", row.title)
+        assertEquals("刘若英", row.artist)
+        assertEquals("涩女郎电视剧原声带", row.album)
+        assertEquals(SortKeys.of("一辈子的孤单"), row.sortTitle)
     }
 }
