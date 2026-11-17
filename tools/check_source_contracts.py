@@ -6423,6 +6423,42 @@ def main() -> int:
     else:
         print("[PASS] §61.210 F4 双轨标注 + 证据 JSON（等级标注 + not_claims + 基准值在位）")
 
+    # §61.211（G09 拍板 A）MIUI 自启动引导入口：判定核 + 设置页行 + 跳转接线，
+    # 防「申请电池优化豁免」违规口径回潮（PRD §9 引导口径）与判定核被绕过（硬编码 true）。
+    _miui = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "MiuiAutostartGuide.kt"
+    _miui_bad = []
+    if not all(p.is_file() for p in (_miui, _app_ui, _main_src)):
+        _miui_bad.append("源文件缺失")
+    else:
+        _miui_src = _code_only(_miui.read_text(encoding="utf-8", errors="replace"))
+        _ui_src = _code_only(_app_ui.read_text(encoding="utf-8", errors="replace"))
+        _main3_src = _code_only(_main_src.read_text(encoding="utf-8", errors="replace"))
+        if not all(x in _miui_src for x in (
+            "object MiuiAutostartGuide",
+            'const val MIUI_MANUFACTURER = "Xiaomi"',
+            "fun shouldShow(manufacturer: String?): Boolean",
+            "不申请电池优化豁免",
+        )):
+            _miui_bad.append("判定核缺失")
+        if not all(x in _ui_src for x in (
+            "MiuiAutostartGuide",
+            '.shouldShow(android.os.Build.MANUFACTURER)',
+            "后台播放保活（MIUI）",
+            "onOpenAutostartSettings",
+        )):
+            _miui_bad.append("设置页引导行缺失")
+        if "ACTION_APPLICATION_DETAILS_SETTINGS" not in _main3_src:
+            _miui_bad.append("MainActivity 跳转接线缺失")
+        _miui_test = ROOT / "app" / "src" / "test" / "kotlin" / "com" / "example" / "cloudmusic" / "MiuiAutostartGuideTest.kt"
+        if not _miui_test.is_file() or "class MiuiAutostartGuideTest" not in _miui_test.read_text(encoding="utf-8", errors="replace"):
+            _miui_bad.append("MiuiAutostartGuideTest 缺失")
+        if "## 第二百二十三批（§61.211）" not in doc139_txt:
+            _miui_bad.append("docs/12 批次登记缺失")
+    if _miui_bad:
+        failures.append("§61.211 MIUI 自启动引导：%s" % "；".join(_miui_bad))
+    else:
+        print("[PASS] §61.211 MIUI 自启动引导（判定核 + 设置页行 + 跳转 + 用例，PRD §9 口径）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

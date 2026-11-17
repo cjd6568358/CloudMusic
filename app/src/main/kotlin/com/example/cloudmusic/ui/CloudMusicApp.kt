@@ -162,6 +162,8 @@ fun CloudMusicApp(
     /** §61.208（A4）：合并重复项开关（scan.mergeDuplicates 的 UI 消费口径）。 */
     mergeDuplicates: Boolean = false,
     onMergeDuplicatesChanged: (Boolean) -> Unit = { _ -> },
+    /** §61.211（G09 拍板 A）：MIUI 自启动引导跳转（仅 MIUI 系设备显示行）。 */
+    onOpenAutostartSettings: () -> Unit = {},
     onAddSaf: () -> Unit,
     onAddMediaStore: () -> Unit,
     /** §61.132：添加 WebDAV 源（url / username / password / rootPath）。 */
@@ -434,6 +436,8 @@ fun CloudMusicApp(
                     onScanIgnoreDirsChanged,
                     trackCount = trackList.size,
                     sourceCount = storageList.size,
+                    // §61.211（G09 拍板 A）：MIUI 自启动引导。
+                    onOpenAutostartSettings = onOpenAutostartSettings,
                     onBack = { showMore = true },
                 )
             }
@@ -1561,6 +1565,8 @@ private fun SettingsScreen(
     onScanIgnoreDirsChanged: (List<String>) -> Unit,
     trackCount: Int,
     sourceCount: Int,
+    /** §61.211（G09 拍板 A）：MIUI 自启动引导（仅 MIUI 系设备显示）。 */
+    onOpenAutostartSettings: () -> Unit = {},
     onBack: () -> Unit,
 ) {
     // 操作结果反馈走页底提示位（飞牛行内没有提示位，不硬塞进 50.4dp 行框）。
@@ -1607,6 +1613,29 @@ private fun SettingsScreen(
                         cacheMsg = if (runtime.proxyRunning) "已执行" else "已执行；播放中会被拒绝"
                     },
                     value = "释放空间",
+                )
+                // §61.211（G09 拍板 A / 预研报告 §4）：仅 MIUI 系设备显示——
+                // 进程重建受 MIUI 拉活限制，应用侧唯一可行动点 = 引导手动开自启动。
+                if (com.example.cloudmusic.MiuiAutostartGuide
+                    .shouldShow(android.os.Build.MANUFACTURER)
+                ) {
+                    FnRow(
+                        dividerAbove = true,
+                        glyph = "⚑",
+                        title = "后台播放保活（MIUI）",
+                        onClick = onOpenAutostartSettings,
+                        value = "去开启自启动",
+                    )
+                }
+            }
+            if (com.example.cloudmusic.MiuiAutostartGuide
+                .shouldShow(android.os.Build.MANUFACTURER)
+            ) {
+                Text(
+                    com.example.cloudmusic.MiuiAutostartGuide.GUIDE_TEXT,
+                    color = FnComp.TextSecondary,
+                    fontSize = 11.sp,
+                    modifier = Modifier.padding(horizontal = 22.dp, vertical = 8.dp),
                 )
             }
             Spacer(Modifier.height(FnBaseline.GroupGapDp.dp))

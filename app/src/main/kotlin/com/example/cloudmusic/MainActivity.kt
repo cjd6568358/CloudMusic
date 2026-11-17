@@ -298,6 +298,20 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     },
+                    // §61.211（G09 拍板 A / 预研报告 §4）：MIUI 自启动引导——跳系统
+                    // 应用详情页（无敏感权限，PRD §9 不申请电池优化豁免口径不变）。
+                    onOpenAutostartSettings = {
+                        runCatching {
+                            startActivity(
+                                android.content.Intent(
+                                    android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                    android.net.Uri.parse("package:$packageName"),
+                                ).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK),
+                            )
+                        }.onFailure {
+                            Toast.makeText(this@MainActivity, "无法打开系统设置", Toast.LENGTH_SHORT).show()
+                        }
+                    },
                     onAddSaf = { treeLauncher.launch(null) },
                     onAddMediaStore = { localSourceAdder.addMediaStore() },
                     // §61.132：WebDAV 源添加——StorageRepository.add 落库 + rescanAll 触发扫描。
