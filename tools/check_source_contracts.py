@@ -6437,7 +6437,7 @@ def main() -> int:
             "object MiuiAutostartGuide",
             'const val MIUI_MANUFACTURER = "Xiaomi"',
             "fun shouldShow(manufacturer: String?): Boolean",
-            "不申请电池优化豁免",
+            "不会申请电池优化豁免",
         )):
             _miui_bad.append("判定核缺失")
         if not all(x in _ui_src for x in (
