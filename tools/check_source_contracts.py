@@ -6400,6 +6400,29 @@ def main() -> int:
     else:
         print("[PASS] §61.208 同 URL 双源折叠（DuplicateFolder + 列表/搜索接线 + 开关行 + 用例）")
 
+    # §61.210（A5）F4 叙述统一 + 证据 JSON：防 §8.3 F4 行表头回退为单轨「仍 BLOCKED」、
+    # 证据 JSON 丢失或被改造成伪造原始留存口径。
+    _ev_json = ROOT / "analysis" / "evidence-webdav-strm-2026-11-18.json"
+    _a5_bad = []
+    doc17_path = (ROOT / "docs" / "17-竞品模块清单与复刻规划.md")
+    if not all(p.is_file() for p in (_ev_json, doc17_path)):
+        _a5_bad.append("文件缺失")
+    else:
+        _d17 = doc17_path.read_text(encoding="utf-8", errors="replace")
+        if "现行结论 = 双轨" not in _d17 or "A 路线 = 历史档案 BLOCKED" not in _d17:
+            _a5_bad.append("§8.3 F4 行双轨标注缺失（单轨 BLOCKED 表头回潮）")
+        _ev = _ev_json.read_text(encoding="utf-8", errors="replace")
+        if "doc-quoted-firsthand" not in _ev or "not_claims" not in _ev:
+            _a5_bad.append("证据 JSON 等级标注/not_claims 缺失")
+        if "scan done: 467463 ms" not in _ev or "467463" not in _ev:
+            _a5_bad.append("冷扫基准值漂移")
+        if "## 第二百二十二批（§61.210）" not in doc139_txt:
+            _a5_bad.append("docs/12 批次登记缺失")
+    if _a5_bad:
+        failures.append("§61.210 F4 叙述统一 + 证据 JSON：%s" % "；".join(_a5_bad))
+    else:
+        print("[PASS] §61.210 F4 双轨标注 + 证据 JSON（等级标注 + not_claims + 基准值在位）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
