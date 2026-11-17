@@ -6473,11 +6473,12 @@ def main() -> int:
         _bad212.append("源文件缺失")
     else:
         _dsr_src = _code_only(_dsr.read_text(encoding="utf-8", errors="replace"))
+        _dsr_raw = _dsr.read_text(encoding="utf-8", errors="replace")
         _ports_src = _code_only(_scan_ports.read_text(encoding="utf-8", errors="replace"))
         if not all(x in _dsr_src for x in (
             "if (dto.id == id && dto.errorMsg != msg) dto.copy(errorMsg = msg) else dto",
-            "无限重扫循环",
-        )) or "modified = clock()" in _dsr_src.split("override suspend fun setError")[1][:600]:
+        )) or "modified = clock()" in _dsr_src.split("override suspend fun setError")[1][:600] \
+                or "无限重扫循环" not in _dsr_raw:
             _bad212.append("setError 未修（modified 写回/幂等门缺失）")
         if not all(x in _ports_src for x in (
             "val directUrl: String? = null",
