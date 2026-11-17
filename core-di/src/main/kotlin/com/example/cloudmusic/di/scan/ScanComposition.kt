@@ -5,6 +5,8 @@ import com.example.cloudmusic.datasource.ByteRangeCapability
 import com.example.cloudmusic.datasource.DriverCtx
 import com.example.cloudmusic.datasource.DriverFactory
 import com.example.cloudmusic.datasource.DriverRegistry
+import com.example.cloudmusic.di.lyrics.OnlineLyricsFetcher
+import com.example.cloudmusic.di.lyrics.okHttpLyricsGet
 import com.example.cloudmusic.di.settings.SettingsAccess
 import com.example.cloudmusic.di.settings.toModel
 import com.example.cloudmusic.local.LocalAddition
@@ -229,6 +231,20 @@ object ScanModule {
     @Singleton
     fun provideLyricFileStore(@ApplicationContext context: Context): LyricFileStore =
         LyricFileStore(context.cacheDir)
+
+    /**
+     * §61.198（docs/01 §0 拍板）：在线歌词 provider。与扫描链同用 [LyricFileStore] 缓存，
+     * 但**只在本地歌词缺失时按需调用**，不进扫描热路径（92 首 STRM 冷扫已 ≈2min）。
+     */
+    @Provides
+    @Singleton
+    fun provideOnlineLyricsFetcher(
+        client: OkHttpClient,
+        lyricStore: LyricFileStore,
+    ): OnlineLyricsFetcher = OnlineLyricsFetcher(
+        httpGet = okHttpLyricsGet(client),
+        store = lyricStore,
+    )
 
     @Provides
     @Singleton
