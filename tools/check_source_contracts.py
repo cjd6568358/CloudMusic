@@ -6283,6 +6283,50 @@ def main() -> int:
     else:
         print("[PASS] §61.205 封面去重持久 + 扫描节奏（dedup-index + ScanPacer + wake lock + 两用例）")
 
+    # §61.206（A2-①）MediaStore ContentObserver 数据源变更订阅：
+    # ① 端口 + NoOp + MediaStoreChangeSource 生产实现 + MediaChangeScanPolicy 判定核；
+    # ② runtime 订阅幂等注册 + 防抖 collect + RESCAN 幂等（shouldScan 双条件）；
+    # ③ Hilt 绑定在位；防「订阅空转」（本地源为空不扫）与「打断手动扫描」回潮。
+    _pbcomp = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+               / "example" / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
+    _obs_bad = []
+    if not _pbcomp.is_file():
+        _obs_bad.append("源文件缺失")
+    else:
+        _pb_src = _code_only(_pbcomp.read_text(encoding="utf-8", errors="replace"))
+        if not all(x in _pb_src for x in (
+            "fun interface MediaChangeSource",
+            "object NoOpMediaChangeSource : MediaChangeSource",
+            "class MediaStoreChangeSource(private val context: android.content.Context) : MediaChangeSource",
+            "MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true, observer",
+            "object MediaChangeScanPolicy",
+            "const val DEBOUNCE_MS = 3_000L",
+            "fun shouldScan(scanActive: Boolean, localIds: Set<String>): Boolean",
+            "!scanActive && localIds.isNotEmpty()",
+        )):
+            _obs_bad.append("订阅端口 / 生产实现 / 判定核缺失")
+        if not all(x in _pb_src for x in (
+            "private fun registerMediaChangeSubscription()",
+            "if (mediaChangeRegistered) return",
+            ".debounce(MediaChangeScanPolicy.DEBOUNCE_MS)",
+            "MediaChangeScanPolicy.shouldScan(scanJob?.isActive == true, localIds)",
+            'it.driverType == "local"',
+            "ScanRequest(storageIds = localIds)",
+        )):
+            _obs_bad.append("runtime 订阅接线（幂等注册 + 防抖 + 定向本地源）缺失")
+        if "fun provideMediaChangeSource(" not in _pb_src:
+            _obs_bad.append("PlaybackModule 绑定缺失")
+        _obs_test = (ROOT / "core-di" / "src" / "test" / "kotlin" / "com"
+                     / "example" / "cloudmusic" / "di" / "playback" / "MediaChangeScanPolicyTest.kt")
+        if not _obs_test.is_file() or "class MediaChangeScanPolicyTest" not in _obs_test.read_text(encoding="utf-8", errors="replace"):
+            _obs_bad.append("MediaChangeScanPolicyTest 缺失")
+        if "## 第二百一十八批（§61.206）" not in doc139_txt:
+            _obs_bad.append("docs/12 批次登记缺失")
+    if _obs_bad:
+        failures.append("§61.206 MediaStore 变更订阅：%s" % "；".join(_obs_bad))
+    else:
+        print("[PASS] §61.206 MediaStore 变更订阅（端口 + 防抖 + RESCAN 幂等 + 空转守卫 + 判定核用例）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

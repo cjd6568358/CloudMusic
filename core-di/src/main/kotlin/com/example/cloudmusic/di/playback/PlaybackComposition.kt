@@ -1,5 +1,10 @@
 package com.example.cloudmusic.di.playback
 
+import android.database.ContentObserver
+import android.net.Uri
+import android.os.Handler
+import android.os.Looper
+import android.provider.MediaStore
 import android.util.Log
 import com.example.cloudmusic.common.NetworkPlaybackGate
 import com.example.cloudmusic.common.PathNormalizer
@@ -68,6 +73,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
@@ -202,6 +208,53 @@ data class RuntimeState(
 )
 
 /**
+ * §61.206（A2-①）：数据源变更订阅端口。纯 JVM 默认 [NoOpMediaChangeSource]
+ * （注册即返回空注销，测试/桌面零影响）；Android 生产实现 = [MediaStoreChangeSource]。
+ */
+fun interface MediaChangeSource {
+    /** 注册变更回调；返回注销动作（失败/不可用返回空注销，不抛）。 */
+    fun register(onChange: () -> Unit): () -> Unit
+}
+
+/** 测试 / 桌面默认：空订阅。 */
+object NoOpMediaChangeSource : MediaChangeSource {
+    override fun register(onChange: () -> Unit): () -> Unit = {}
+}
+
+/**
+ * §61.206（A2-①）：MediaStore ContentObserver 生产实现——本地媒体库子树
+ * （`content://media/external/audio`）的文件级变更（新增/删除/修改都会触发行变更）。
+ * 回调落在主线程 Handler，只做一次 `tryEmit`，重活全部在 runtime 协程内。
+ */
+class MediaStoreChangeSource(private val context: android.content.Context) : MediaChangeSource {
+    override fun register(onChange: () -> Unit): () -> Unit = runCatching {
+        val resolver = context.contentResolver
+        val observer = object : ContentObserver(Handler(Looper.getMainLooper())) {
+            override fun onChange(selfChange: Boolean, uri: Uri?) {
+                onChange()
+            }
+        }
+        resolver.registerContentObserver(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true, observer)
+        val unregister: () -> Unit = { runCatching { resolver.unregisterContentObserver(observer) } }
+        unregister
+    }.getOrElse { NoOpMediaChangeSource.register(onChange) }
+}
+
+/**
+ * §61.206（A2-①）：MediaStore 变更 → 定向增量扫的判定核（纯 JVM，RESCAN 幂等口径）。
+ * - 扫描运行中（手动 RESCAN / 设置变更全量）⇒ 事件**丢弃不排队**：打断手动扫描是
+ *   破坏（§61.178 取消语义），排队则与防抖目的相悖；下次变更自然再触发。
+ * - 本地存储集合为空（全部数据源是网络源）⇒ 不扫（订阅空转守卫，零扫描动作）。
+ * 防抖 [DEBOUNCE_MS]：文件复制是成簇的行变更，3s 静默期后才发一次定向增量。
+ */
+object MediaChangeScanPolicy {
+    const val DEBOUNCE_MS = 3_000L
+
+    fun shouldScan(scanActive: Boolean, localIds: Set<String>): Boolean =
+        !scanActive && localIds.isNotEmpty()
+}
+
+/**
  * T-A5（`12 §31`）· `PlaybackService` 与 `:core-di` 之间唯一的编排入口。
  *
  * 把四件此前「有对象、无调用方」的事接起来：
@@ -244,6 +297,8 @@ class PlaybackRuntime @Inject constructor(
     private val output: OutputRouter,
     /** §61.193：切歌保持投屏的执行者（发现/推流/setActive 闭环 §61.110 已有）。 */
     private val castCoordinator: com.example.cloudmusic.output.dlna.DlnaCastCoordinator,
+    /** §61.206（A2-①）：MediaStore 变更订阅（生产 MediaStoreChangeSource，测试 NoOp）。 */
+    private val mediaChangeSource: MediaChangeSource = NoOpMediaChangeSource,
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private val _state = MutableStateFlow(RuntimeState())
@@ -280,7 +335,14 @@ class PlaybackRuntime @Inject constructor(
     @Volatile
     private var scanJob: Job? = null
 
+    /** §61.206（A2-①）：MediaStore 变更事件流（tryEmit，防抖后触发定向增量扫）。 */
+    private val mediaChanges = kotlinx.coroutines.flow.MutableSharedFlow<Unit>(extraBufferCapacity = 16)
+
+    @Volatile
+    private var mediaChangeRegistered = false
+
     fun start() {
+        registerMediaChangeSubscription()
         // 12 §50（真机 A3 暴露）：03-06 §8.2 的冷启动恢复此前只有单测调用方，
         // 生产侧从未接线 → Room 里的队列 / 光标永远不会被读，engine.prepare() 也不会触发。
         // 恢复只 prepare + seek，保持 PAUSED（PRD §6.1 不自动开播）。
@@ -317,6 +379,34 @@ class PlaybackRuntime @Inject constructor(
 
     /** 网络恢复 / 重试失败项：C-14 定向增量。 */
     fun retryUnavailable() = runScan(ScanRequest(onlyUnavailable = true))
+
+    /**
+     * §61.206（A2-①）：MediaStore 变更订阅。幂等注册（start 可能被 Service 重建
+     * 多次调用）；变更 → 防抖 [MediaChangeScanPolicy.DEBOUNCE_MS] → 定向增量扫
+     * （仅 driverType=local 的存储，网络源由 RESCAN/设置页手动口径覆盖）。
+     * 运行时为 @Singleton 进程生命周期，注销动作不持有（与进程同生共死）。
+     */
+    private fun registerMediaChangeSubscription() {
+        if (mediaChangeRegistered) return
+        mediaChangeRegistered = true
+        scope.launch {
+            mediaChanges
+                .debounce(MediaChangeScanPolicy.DEBOUNCE_MS)
+                .collect {
+                    val localIds = runCatching {
+                        storages.observe().first()
+                            .filter { it.driverType == "local" }
+                            .mapTo(HashSet()) { it.id }
+                    }.getOrDefault(emptySet())
+                    if (!MediaChangeScanPolicy.shouldScan(scanJob?.isActive == true, localIds)) {
+                        return@collect   // RESCAN 幂等 / 订阅空转守卫：零扫描动作
+                    }
+                    Log.i("CM-Scan", "MediaStore 变更 → 定向增量扫（本地源 ${localIds.size} 个）")
+                    runScan(ScanRequest(storageIds = localIds))
+                }
+        }
+        mediaChangeSource.register { mediaChanges.tryEmit(Unit) }
+    }
 
     private fun runScan(request: ScanRequest) {
         // §61.178：重入可见化——扫描被 cancel 后真机只看到「正在扫描曲库」消失，
@@ -966,6 +1056,13 @@ object PlaybackModule {
     @Provides
     @Singleton
     fun provideTrackLookup(tracks: TrackRepository): TrackLookup = RoomTrackLookup(tracks)
+
+    /** §61.206（A2-①）：MediaStore ContentObserver 订阅（注册失败静默回落空注销）。 */
+    @Provides
+    @Singleton
+    fun provideMediaChangeSource(
+        @dagger.hilt.android.qualifiers.ApplicationContext context: android.content.Context,
+    ): MediaChangeSource = MediaStoreChangeSource(context)
 
     @Provides
     @Singleton
