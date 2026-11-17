@@ -186,7 +186,7 @@ data class FailureLogRow(
     @ColumnInfo(name = "happened_at") val happenedAt: Long,
 )
 
-/** 03-04 §8 `(storage_id, path, size, modified, kind, scanned_at)`。 */
+/** 03-04 §8 `(storage_id, path, size, modified, kind, scanned_at)`；§61.204 增 metadata_done。 */
 @Entity(tableName = "scan_snapshot", primaryKeys = ["storage_id", "path"])
 data class ScanSnapshotRow(
     @ColumnInfo(name = "storage_id") val storageId: String,
@@ -195,6 +195,8 @@ data class ScanSnapshotRow(
     @ColumnInfo(name = "modified") val modified: Long,
     @ColumnInfo(name = "kind") val kind: String,
     @ColumnInfo(name = "scanned_at") val scannedAt: Long,
+    /** §61.204（A1-③）：该文件版本元数据读取已完成（refresh 重扫 stat 命中跳过的依据）。 */
+    @ColumnInfo(name = "metadata_done", defaultValue = "0") val metadataDone: Boolean = false,
 ) {
     fun toModel(): ScanSnapshot = ScanSnapshot(
         storageId = storageId,
@@ -203,6 +205,7 @@ data class ScanSnapshotRow(
         modified = modified,
         kind = CandidateKind.valueOf(kind),
         scannedAt = scannedAt,
+        metadataDone = metadataDone,
     )
 
     companion object {
@@ -213,6 +216,7 @@ data class ScanSnapshotRow(
             modified = model.modified,
             kind = model.kind.name,
             scannedAt = model.scannedAt,
+            metadataDone = model.metadataDone,
         )
     }
 }

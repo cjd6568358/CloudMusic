@@ -47,6 +47,13 @@ data class ScanSnapshot(
     val modified: Long,
     val kind: CandidateKind,
     val scannedAt: Long,
+    /**
+     * §61.204（A1-③）：该文件版本（size/modified 未变的前提下）的元数据读取是否
+     * 已完成。`refresh=true` 的 stat 命中跳过依赖此标记——false（上次扫描中断 /
+     * WiFi 闸跳过 / 新文件）⇒ 重扫时补读，true ⇒ 跳过重读（标签内嵌于文件本体，
+     * stat 未变 ⇒ 标签不可能变）。
+     */
+    val metadataDone: Boolean = false,
 ) {
     fun matches(size: Long, modified: Long): Boolean =
         this.size == size && this.modified == modified
@@ -55,6 +62,14 @@ data class ScanSnapshot(
 interface ScanSnapshotStore {
     suspend fun load(storageId: String): Map<String, ScanSnapshot>
     suspend fun save(storageId: String, entries: List<ScanSnapshot>)
+
+    /**
+     * §61.204：metadata 块完成后按路径批量置 done（快照整轮替换发生在阶段 A 与
+     * 阶段 B 之间，此处是对已完成块的增量回写）。默认空实现 = 既有 fake / 内存
+     * 实现零回归（§61.145 markAvailabilityBatch 同型接口演进）。
+     */
+    suspend fun markMetadataDone(storageId: String, paths: Collection<String>) {}
+
     suspend fun clear(storageId: String)
 }
 
@@ -70,6 +85,13 @@ class InMemoryScanSnapshotStore(
         // 整轮扫描写完整快照：本次没扫到的条目随替换移除，
         // 这样文件恢复出现时会被当作新增重新 upsert（03-04 §8「恢复自动置 OK」）
         data[storageId] = ConcurrentHashMap(entries.associateBy { it.path })
+    }
+
+    override suspend fun markMetadataDone(storageId: String, paths: Collection<String>) {
+        val store = data[storageId] ?: return
+        paths.forEach { path ->
+            store[path]?.let { store[path] = it.copy(metadataDone = true) }
+        }
     }
 
     override suspend fun clear(storageId: String) {

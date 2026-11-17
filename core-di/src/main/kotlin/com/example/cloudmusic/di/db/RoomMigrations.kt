@@ -38,5 +38,17 @@ object LibraryMigrations {
             }
         }
 
-    val ALL: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3)
+    /** §61.204（A1-③）：v3→v4 增 `scan_snapshot.metadata_done`。 */
+    val MIGRATION_3_4: Migration =
+        object : Migration(LibrarySchema.VERSION_V3, LibrarySchema.VERSION_V4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                MigrationSql.apply(object : SqlExecutor {
+                    override fun exec(sql: String) {
+                        db.execSQL(sql)
+                    }
+                }, MigrationSql.V3_TO_V4)
+            }
+        }
+
+    val ALL: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
 }

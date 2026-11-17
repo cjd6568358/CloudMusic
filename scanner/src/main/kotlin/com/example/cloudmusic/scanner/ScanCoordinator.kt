@@ -177,14 +177,29 @@ class ScanCoordinator(
         // §61.179：快照与曲库不一致时强制重扫。删除数据源只 markOrphan（置
         // UNREACHABLE）而不清快照，重新加回同源时 size/mtime 全未变 ⇒ 旧判据
         // 认为「已扫过」全部 skip ⇒ 曲目永久 UNREACHABLE（播放不了的静默成因之一）。
-        val knownPaths = if (request.refresh || request.onlyUnavailable) null
-        else runCatching { trackSink.knownPaths(storage.id) }.getOrNull()
+        // §61.204：knownPaths 改为恒计算（refresh 也取）——stat 命中跳过要求
+        // 「曲库行存在且可用」，否则 C-04 恢复 / 重加源场景会被 statHit 跳过而
+        // 无法置回 OK（判据开销 = 一次全表投影，量级 ~百 ms）。
+        val knownPaths = runCatching { trackSink.knownPaths(storage.id) }.getOrNull()
+        // §61.204（A1-③）：refresh=true 的 stat 命中跳过——(path,size,mtime) 未变 +
+        // 元数据已完成（metadataDone）+ 曲库行可用 ⇒ 阶段 A 重 upsert 与阶段 B 重读
+        // 全跳。标签内嵌于文件本体，stat 未变 ⇒ 标签不可能变，重读是纯浪费
+        // （§61.160 一手：本地 7514 文件 refresh 重扫 ~87s 的大头）。
+        // refresh 语义从「全部重读」收敛为「重新走查 + 只重处理有变 / 元数据未完成 /
+        // 行不可用者」；普通增量扫描语义不变（T11 口径保持）。
+        val statHit = if (request.refresh) scoped.filter { c ->
+            val old = previous[c.obj.path]
+            old != null && old.matches(c.obj.size, c.obj.modified) && old.metadataDone &&
+                (knownPaths == null || c.obj.path in knownPaths)
+        }.map { it.obj.path }.toSet() else emptySet()
         val changed = scoped.filter { c ->
             val old = previous[c.obj.path]
             // 定向增量必须强制重处理，否则文件未变时失败项永远不会被重新 upsert 置回 OK。
-            request.refresh || request.onlyUnavailable || old == null ||
-                !old.matches(c.obj.size, c.obj.modified) ||
-                (knownPaths != null && c.obj.path !in knownPaths)
+            c.obj.path !in statHit && (
+                request.refresh || request.onlyUnavailable || old == null ||
+                    !old.matches(c.obj.size, c.obj.modified) ||
+                    (knownPaths != null && c.obj.path !in knownPaths)
+                )
         }
         state.addSkipped(scoped.size - changed.size)
         val minDurationMs = minDurationMsSource?.invoke() ?: rules.minDurationMs
@@ -215,7 +230,14 @@ class ScanCoordinator(
         snapshotStore.save(
             storage.id,
             candidates.map {
-                ScanSnapshot(storage.id, it.obj.path, it.obj.size, it.obj.modified, it.kind, now)
+                // §61.204：stat 未变 → 继承上一轮 metadataDone（refresh 重扫可跳过重读）；
+                // 有变 / 新出现 → 重置 false，待本轮 metadata 块完成回写。
+                val old = previous[it.obj.path]
+                val statUnchanged = old != null && old.matches(it.obj.size, it.obj.modified)
+                ScanSnapshot(
+                    storage.id, it.obj.path, it.obj.size, it.obj.modified, it.kind, now,
+                    metadataDone = statUnchanged && old.metadataDone,
+                )
             },
         )
         // 文件恢复出现：accepted 里的 upsert 已把 availability 置回 OK
@@ -365,6 +387,9 @@ class ScanCoordinator(
                     }
                 }.awaitAll().filterNotNull()
                 if (tracks.isNotEmpty()) trackSink.upsertBatch(tracks)
+                // §61.204：本块 tag 读取完成（含 B01 降级的稳定结果）→ 快照回写 done；
+                // 取消发生在块内则整块不记，下轮 refresh 自动补读（§61.144 语义延续）。
+                snapshotStore.markMetadataDone(storageId, chunk.map { it.obj.path })
                 state.addMetadata(tracks.size)
                 emit(state.progress(storageId, request, phase = ScanPhase.METADATA))
             }

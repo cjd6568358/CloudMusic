@@ -234,6 +234,76 @@ class ScanCoordinatorTest {
         assertTrue(report.errors.any { it.code == "E_LINK_BAD_SCHEME" })
     }
 
+    // ---- §61.204（A1-②③）：refresh stat 命中跳过 + metadataDone 快照回写 ----
+
+    @Test
+    @DisplayName("T18 refresh=true + stat 命中且元数据已完成 → 零重读零重 upsert，快照继承 done")
+    fun t18() = runTest {
+        val file = obj("/music/a.mp3")
+        DriverRegistry.put("s1", FakeDriver(mapOf("" to listOf(file))))
+        val snapshots = InMemoryScanSnapshotStore()
+        snapshots.save(
+            "s1",
+            listOf(snapshot("s1", file).copy(metadataDone = true)),
+        )
+        val counting = CountingTagReader()
+        val sink = InMemoryTrackSink()
+        val report = coordinator(listOf(storage()), sink, snapshots, counting)
+            .run(ScanRequest(refresh = true, includeMetadata = true))
+        assertEquals(0, counting.reads.get())
+        assertEquals(0, sink.all().size, "stat 命中：阶段 A 骨架也不重 upsert（行已在库）")
+        assertEquals(0, report.upserted)
+        assertEquals(1, report.skipped)
+        assertEquals(true, snapshots.load("s1")["/music/a.mp3"]?.metadataDone, "快照继承 done")
+    }
+
+    @Test
+    @DisplayName("T19 refresh=true + 元数据未完成（上次中断/WiFi 闸）→ 重读补齐并回写 done")
+    fun t19() = runTest {
+        val file = obj("/music/a.mp3")
+        DriverRegistry.put("s1", FakeDriver(mapOf("" to listOf(file))))
+        val snapshots = InMemoryScanSnapshotStore()
+        snapshots.save("s1", listOf(snapshot("s1", file)))   // metadataDone 默认 false
+        val counting = CountingTagReader()
+        val sink = InMemoryTrackSink()
+        coordinator(listOf(storage()), sink, snapshots, counting)
+            .run(ScanRequest(refresh = true, includeMetadata = true))
+        assertEquals(1, counting.reads.get(), "metadataDone=false → 必须重读补齐")
+        assertEquals(true, snapshots.load("s1")["/music/a.mp3"]?.metadataDone, "块完成即回写 done")
+    }
+
+    @Test
+    @DisplayName("T20 refresh=true + stat 命中但行不可用（C-04/§61.179）→ 重处理置回 OK")
+    fun t20() = runTest {
+        val file = obj("/music/a.mp3")
+        DriverRegistry.put("s1", FakeDriver(mapOf("" to listOf(file))))
+        val snapshots = InMemoryScanSnapshotStore()
+        snapshots.save("s1", listOf(snapshot("s1", file).copy(metadataDone = true)))
+        val inner = InMemoryTrackSink()
+        val counting = CountingTagReader()
+        // 行 UNREACHABLE → 不在 knownPaths（「存在且可用」口径）→ 不得被 statHit 跳过
+        val sink = KnownPathsSink(inner, emptySet())
+        coordinator(listOf(storage()), sink, snapshots, counting)
+            .run(ScanRequest(refresh = true, includeMetadata = true))
+        assertEquals(1, counting.reads.get(), "行不可用必须重处理（C-04 恢复语义）")
+        assertEquals(1, inner.all().size)
+    }
+
+    @Test
+    @DisplayName("T21 普通增量扫描（refresh=false）语义不变：stat 未变即跳过（T11 口径保持）")
+    fun t21() = runTest {
+        val file = obj("/music/a.mp3")
+        DriverRegistry.put("s1", FakeDriver(mapOf("" to listOf(file))))
+        val snapshots = InMemoryScanSnapshotStore()
+        snapshots.save("s1", listOf(snapshot("s1", file).copy(metadataDone = true)))
+        val counting = CountingTagReader()
+        val sink = InMemoryTrackSink()
+        val report = coordinator(listOf(storage()), sink, snapshots, counting)
+            .run(ScanRequest(refresh = false, includeMetadata = true))
+        assertEquals(0, counting.reads.get())
+        assertEquals(1, report.skipped)
+    }
+
     // ------------------------------------------------------------------
     private fun storage(id: String = "s1") = Storage(id, "/mnt/$id", "local", Addition("{}"))
 
@@ -323,5 +393,13 @@ class ScanCoordinatorTest {
         val batches = mutableListOf<Int>()
         override suspend fun upsertBatch(tracks: List<Track>) { batches += tracks.size }
         override suspend fun markUnavailable(ids: List<TrackId>) = Unit
+    }
+
+    /** §61.204：knownPaths 可控的 sink——stat 命中要求「行存在且可用」，用空集模拟行不可用。 */
+    private class KnownPathsSink(
+        private val delegate: InMemoryTrackSink,
+        private val paths: Set<String>,
+    ) : TrackSink by delegate {
+        override suspend fun knownPaths(storageId: String): Set<String> = paths
     }
 }

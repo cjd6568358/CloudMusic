@@ -333,6 +333,11 @@ class RoomScanSnapshotStore(private val db: LibraryDatabase) : ScanSnapshotStore
         dao.saveAll(entries.map { ScanSnapshotRow.from(it) })
     }
 
+    /** §61.204：metadata 块增量回写；500 一批防 SQLite 变量上限，幂等可重入。 */
+    override suspend fun markMetadataDone(storageId: String, paths: Collection<String>) {
+        paths.chunked(500).forEach { dao.markMetadataDone(storageId, it) }
+    }
+
     override suspend fun clear(storageId: String) = dao.clear(storageId)
 }
 

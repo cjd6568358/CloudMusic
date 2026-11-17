@@ -21,7 +21,10 @@ object LibrarySchema {
 
     /** §61.120（T5-2 前置）：v3 增 `tracks.replay_gain_db`（分析增益落库）。 */
     const val VERSION_V3 = 3
-    const val VERSION = VERSION_V3
+
+    /** §61.204（A1-③）：v4 增 `scan_snapshot.metadata_done`（refresh stat 命中跳过的依据）。 */
+    const val VERSION_V4 = 4
+    const val VERSION = VERSION_V4
 
     const val FTS_TABLE = "tracks_fts"
 
@@ -108,8 +111,14 @@ object MigrationSql {
     const val ADD_REPLAY_GAIN =
         "ALTER TABLE tracks ADD COLUMN replay_gain_db REAL"
 
+    /** §61.204（A1-③）：快照元数据完成标记（NOT NULL DEFAULT 0 = 旧行视为未完成，
+     *  升级后首轮 refresh 全量重读一次，之后按 stat 命中跳过）。 */
+    const val ADD_SNAPSHOT_METADATA_DONE =
+        "ALTER TABLE scan_snapshot ADD COLUMN metadata_done INTEGER NOT NULL DEFAULT 0"
+
     val V1_TO_V2 = listOf(ADD_SORT_TITLE, CREATE_SORT_INDEX)
     val V2_TO_V3 = listOf(ADD_REPLAY_GAIN)
+    val V3_TO_V4 = listOf(ADD_SNAPSHOT_METADATA_DONE)
 
     fun apply(executor: SqlExecutor) {
         V1_TO_V2.forEach(executor::exec)

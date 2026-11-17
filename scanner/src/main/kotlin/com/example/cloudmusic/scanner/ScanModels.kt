@@ -26,8 +26,10 @@ data class ScanRequest(
     val wifiAvailable: Boolean = true,
     val storageConcurrency: Int = 4,
     /** §61.161：2→4——metadata 阶段逐文件标签读取是冷扫瓶颈（§61.147/160 一手），
-     *  4 并发在 mid-range 设备上实测安全（IO-bound，无 CPU 竞争恶化）。 */
-    val metadataConcurrency: Int = 4,
+     *  4 并发在 mid-range 设备上实测安全（IO-bound，无 CPU 竞争恶化）。
+     *  §61.204（A1-②）：4→8——远程 tag 已被 §61.203 跳过，剩余通道以本地 JAudio
+     *  文件读（毫秒级）为主，8 并发把标签阶段压半；IO-bound，无 CPU 竞争恶化。 */
+    val metadataConcurrency: Int = 8,
     /** 每批 upsert 条数（03-04 §10：禁止逐条写库） */
     val batchSize: Int = 500,
     /**

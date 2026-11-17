@@ -83,13 +83,29 @@ class LibraryRoomContractTest {
         assertEquals(2, LibrarySchema.VERSION_V2)
         // §61.120（T5-2 前置）：v3 增 tracks.replay_gain_db（分析增益落库）。
         assertEquals(3, LibrarySchema.VERSION_V3)
-        assertEquals(LibrarySchema.VERSION_V3, LibrarySchema.VERSION)
+        // §61.204（A1-③）：v4 增 scan_snapshot.metadata_done（refresh stat 命中跳过依据）。
+        assertEquals(4, LibrarySchema.VERSION_V4)
+        assertEquals(LibrarySchema.VERSION_V4, LibrarySchema.VERSION)
         assertEquals("cloudmusic.db", LibrarySchema.DATABASE_NAME)
         assertEquals(1, LibraryMigrations.MIGRATION_1_2.startVersion)
         assertEquals(2, LibraryMigrations.MIGRATION_1_2.endVersion)
         assertEquals(2, LibraryMigrations.MIGRATION_2_3.startVersion)
         assertEquals(3, LibraryMigrations.MIGRATION_2_3.endVersion)
-        assertEquals(2, LibraryMigrations.ALL.size)
+        assertEquals(3, LibraryMigrations.MIGRATION_3_4.startVersion)
+        assertEquals(4, LibraryMigrations.MIGRATION_3_4.endVersion)
+        assertEquals(3, LibraryMigrations.ALL.size)
+    }
+
+    @Test
+    fun `T-A1-02b v3 to v4 migration is additive with metadata_done default`() {
+        val sql = MigrationSql.ADD_SNAPSHOT_METADATA_DONE
+        assertTrue(sql.startsWith("ALTER TABLE scan_snapshot ADD COLUMN metadata_done"))
+        assertTrue("NOT NULL" in sql.uppercase())
+        assertTrue("DEFAULT 0" in sql)
+        assertTrue(MigrationSql.isNonDestructive(MigrationSql.V3_TO_V4))
+        val recorder = RecordingSql()
+        MigrationSql.apply(recorder, MigrationSql.V3_TO_V4)
+        assertEquals(listOf(MigrationSql.ADD_SNAPSHOT_METADATA_DONE), recorder.statements)
     }
 
     // ---- 03-05 §10 / T13 / T14 / B10：Migration ------------------------------

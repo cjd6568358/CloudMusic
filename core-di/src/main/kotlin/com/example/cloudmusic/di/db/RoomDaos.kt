@@ -222,6 +222,13 @@ interface ScanSnapshotDao {
     @Upsert
     suspend fun saveAll(rows: List<ScanSnapshotRow>)
 
+    /** §61.204：metadata 块完成后按路径批量回写 done（幂等，块 ≤500 条防 SQLite 变量上限）。 */
+    @Query(
+        "UPDATE scan_snapshot SET metadata_done = 1 " +
+            "WHERE storage_id = :storageId AND path IN (:paths)",
+    )
+    suspend fun markMetadataDone(storageId: String, paths: Collection<String>)
+
     @Query("DELETE FROM scan_snapshot WHERE storage_id = :storageId")
     suspend fun clear(storageId: String)
 }

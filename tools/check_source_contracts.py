@@ -6157,6 +6157,71 @@ def main() -> int:
     else:
         print("[PASS] §61.203 远程 tag 跳过（SKIP 默认 + 网络侧链修复 + 封面按目录缓存 + 三用例）")
 
+    # §61.204（A1-②③）refresh stat 命中跳过 + 并发 8：
+    # ① ScanSnapshot.metadataDone / ScanSnapshotStore.markMetadataDone 端口在位；
+    # ② ScanCoordinator 的 statHit 只在 refresh 生效且要求行可用（C-04/§61.179 不得被跳过）；
+    # ③ metadata 块完成后按路径回写 done（中断块不回写）；
+    # ④ metadataConcurrency 默认 8（此前 2→4 无守护段，本批补上防回退）；
+    # ⑤ Room 侧 v4 迁移（ADD_SNAPSHOT_METADATA_DONE）+ DAO 批量 UPDATE 在位。
+    _scan_ports = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
+                   / "example" / "cloudmusic" / "scanner" / "ScanPorts.kt")
+    _scan_models = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
+                    / "example" / "cloudmusic" / "scanner" / "ScanModels.kt")
+    _room_daos = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                  / "example" / "cloudmusic" / "di" / "db" / "RoomDaos.kt")
+    _room_migr = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                  / "example" / "cloudmusic" / "di" / "db" / "RoomMigrations.kt")
+    _room_schema = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                    / "example" / "cloudmusic" / "di" / "db" / "LibrarySchema.kt")
+    _stat_bad = []
+    if not all(p.is_file() for p in (_scan_ports, _scan_models, scan_coord, _room_daos,
+                                     _room_migr, _room_schema)):
+        _stat_bad.append("源文件缺失")
+    else:
+        _ports_src = _code_only(_scan_ports.read_text(encoding="utf-8", errors="replace"))
+        _models_src = _code_only(_scan_models.read_text(encoding="utf-8", errors="replace"))
+        _coord_src = _code_only(scan_coord.read_text(encoding="utf-8", errors="replace"))
+        _daos_src = _code_only(_room_daos.read_text(encoding="utf-8", errors="replace"))
+        _migr_src = _code_only(_room_migr.read_text(encoding="utf-8", errors="replace"))
+        _schema_src = _code_only(_room_schema.read_text(encoding="utf-8", errors="replace"))
+        if not all(x in _ports_src for x in (
+            "val metadataDone: Boolean = false",
+            "suspend fun markMetadataDone(storageId: String, paths: Collection<String>) {}",
+        )):
+            _stat_bad.append("ScanSnapshot.metadataDone / markMetadataDone 端口缺失")
+        if "val metadataConcurrency: Int = 8" not in _models_src:
+            _stat_bad.append("metadataConcurrency 默认 8 缺失（§61.161 4 或更早值回退）")
+        if not all(x in _coord_src for x in (
+            "val statHit = if (request.refresh)",
+            "old.metadataDone",
+            "(knownPaths == null || c.obj.path in knownPaths)",
+            "c.obj.path !in statHit && (",
+            "metadataDone = statUnchanged && old.metadataDone",
+            "snapshotStore.markMetadataDone(storageId, chunk.map { it.obj.path })",
+        )):
+            _stat_bad.append("statHit 分区 / 快照继承 / 块级回写缺失")
+        if not all(x in _daos_src for x in (
+            "UPDATE scan_snapshot SET metadata_done = 1",
+        )):
+            _stat_bad.append("DAO 批量回写缺失")
+        if not all(x in _schema_src for x in (
+            "const val VERSION_V4 = 4",
+            "const val ADD_SNAPSHOT_METADATA_DONE",
+        )) or "MIGRATION_3_4" not in _migr_src:
+            _stat_bad.append("v4 迁移（ADD_SNAPSHOT_METADATA_DONE / MIGRATION_3_4）缺失")
+        _coord_test_204 = (ROOT / "scanner" / "src" / "test" / "kotlin" / "com"
+                           / "example" / "cloudmusic" / "scanner" / "ScanCoordinatorTest.kt"
+                           ).read_text(encoding="utf-8", errors="replace")
+        for _case in ("fun t18()", "fun t19()", "fun t20()", "fun t21()"):
+            if _case not in _coord_test_204:
+                _stat_bad.append(f"{_case.rstrip('()')} 用例缺失")
+        if "## 第二百一十六批（§61.204）" not in doc139_txt:
+            _stat_bad.append("docs/12 批次登记缺失")
+    if _stat_bad:
+        failures.append("§61.204 refresh stat 命中跳过：%s" % "；".join(_stat_bad))
+    else:
+        print("[PASS] §61.204 refresh stat 命中跳过（metadataDone 端口 + statHit 分区 + 并发 8 + v4 迁移 + 四用例）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
