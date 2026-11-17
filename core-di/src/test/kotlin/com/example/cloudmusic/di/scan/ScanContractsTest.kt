@@ -543,6 +543,32 @@ class ScanContractsTest {
     }
 
     @Test
+    fun `T-A4-16 cover dedup index persists across instances and tolerates corrupt lines`() {
+        val indexFile = java.nio.file.Files.createTempFile("dedup", ".txt").toFile()
+        try {
+            val index = CoverDedupIndex(indexFile)
+            index.put("a".repeat(32), "/covers/first.webp")
+            index.put("b".repeat(32), "/covers/second.webp")
+            assertEquals("/covers/first.webp", index.get("a".repeat(32)))
+            // §61.205：跨实例（进程重启）持久命中
+            val reopened = CoverDedupIndex(indexFile)
+            assertEquals("/covers/first.webp", reopened.get("a".repeat(32)))
+            assertEquals("/covers/second.webp", reopened.get("b".repeat(32)))
+            // 会话内重复 put 幂等（不重复写行）
+            index.put("a".repeat(32), "/covers/first.webp")
+            assertEquals(2, indexFile.readLines().filter { it.isNotBlank() }.size)
+            // 损坏行跳过（缺字段 / hash 非法长度）
+            indexFile.appendText("garbage\n")
+            indexFile.appendText("short-hash ref.webp\n")
+            val repaired = CoverDedupIndex(indexFile)
+            assertEquals("/covers/first.webp", repaired.get("a".repeat(32)))
+            assertNull(repaired.get("short-hash"))
+        } finally {
+            indexFile.delete()
+        }
+    }
+
+    @Test
     fun `T-A4-11 cover resolver prefers embedded then cached directory then placeholder`() {
         val writer = FakeWriter("/cache/covers/x.webp")
         val cache = CoverLookupCache()

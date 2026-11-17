@@ -304,6 +304,21 @@ class ScanCoordinatorTest {
         assertEquals(1, report.skipped)
     }
 
+    @Test
+    @DisplayName("T22 §61.205 扫描节奏：begin/end 成对（引用计数幂等），块间让步被调用")
+    fun t22() = runTest {
+        DriverRegistry.put("s1", FakeDriver(mapOf("" to listOf(obj("/music/a.mp3")))))
+        val counting = CountingTagReader()
+        val pacer = CountingPacer()
+        val snapshots = InMemoryScanSnapshotStore()
+        coordinator(listOf(storage()), InMemoryTrackSink(), snapshots, counting, pacer = pacer)
+            .run(ScanRequest(includeMetadata = true, metadataConcurrency = 1))
+        assertEquals(1, pacer.begins.get(), "一次 run → begin 一次")
+        assertEquals(1, pacer.ends.get(), "run 结束（含取消路径）→ end 成对")
+        assertEquals(1, pacer.yields.get(), "metadata 单块完成 → 让步一次")
+        assertEquals(true, snapshots.load("s1")["/music/a.mp3"]?.metadataDone)
+    }
+
     // ------------------------------------------------------------------
     private fun storage(id: String = "s1") = Storage(id, "/mnt/$id", "local", Addition("{}"))
 
@@ -334,6 +349,7 @@ class ScanCoordinatorTest {
         sink: TrackSink = InMemoryTrackSink(),
         snapshots: ScanSnapshotStore = InMemoryScanSnapshotStore(),
         tagReader: TagReader = EmptyTagReader,
+        pacer: ScanPacer = ScanPacerNoOp,
     ) = ScanCoordinator(
         storageProvider = object : StorageProvider {
             override suspend fun active(): List<Storage> = storages
@@ -342,6 +358,7 @@ class ScanCoordinatorTest {
         trackSink = sink,
         snapshotStore = snapshots,
         tagReader = tagReader,
+        pacer = pacer,
     )
 
     private class FakeDriver(
@@ -387,6 +404,16 @@ class ScanCoordinatorTest {
             reads.incrementAndGet()
             return RawTags.EMPTY
         }
+    }
+
+    /** §61.205：节奏计数 fake。 */
+    private class CountingPacer : ScanPacer {
+        val begins = AtomicInteger(0)
+        val ends = AtomicInteger(0)
+        val yields = AtomicInteger(0)
+        override fun beginScan() { begins.incrementAndGet() }
+        override fun endScan() { ends.incrementAndGet() }
+        override suspend fun yieldBetweenChunks() { yields.incrementAndGet() }
     }
 
     private class RecordingSink : TrackSink {

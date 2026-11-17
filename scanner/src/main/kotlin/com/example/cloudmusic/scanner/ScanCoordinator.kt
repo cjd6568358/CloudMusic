@@ -58,6 +58,8 @@ class ScanCoordinator(
     private val ignoreDirsSource: (() -> Set<String>)? = null,
     private val trackFactory: TrackFactory = TrackFactory(),
     private val rootPathFor: (Storage) -> String = { "" },
+    /** §61.205（A1-⑤）：扫描节奏（wake lock + 熄屏块间让步）；默认 NoOp 零影响。 */
+    private val pacer: ScanPacer = ScanPacerNoOp,
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default),
 ) {
     private val jobs = ConcurrentHashMap<String, Job>()
@@ -101,24 +103,29 @@ class ScanCoordinator(
         emit: (ScanProgress) -> Unit = {},
     ): ScanReport {
         val state = ScanState()
-        return try {
-            val storages = storageProvider.active()
-                .filter { request.storageIds.isEmpty() || it.id in request.storageIds }
-            val semaphore = Semaphore(request.storageConcurrency.coerceAtLeast(1))
-            coroutineScope {
-                storages.map { storage ->
-                    async {
-                        semaphore.withPermit {
-                            currentCoroutineContext().ensureActive()
-                            scanStorage(storage, request, state, emit)
+        pacer.beginScan()
+        try {
+            return try {
+                val storages = storageProvider.active()
+                    .filter { request.storageIds.isEmpty() || it.id in request.storageIds }
+                val semaphore = Semaphore(request.storageConcurrency.coerceAtLeast(1))
+                coroutineScope {
+                    storages.map { storage ->
+                        async {
+                            semaphore.withPermit {
+                                currentCoroutineContext().ensureActive()
+                                scanStorage(storage, request, state, emit)
+                            }
                         }
-                    }
-                }.awaitAll()
+                    }.awaitAll()
+                }
+                state.report(cancelled = false, stageAFinished = true)
+            } catch (e: CancellationException) {
+                emit(state.progress("", request, cancelled = true))
+                state.report(cancelled = true, stageAFinished = state.stageA.get() > 0)
             }
-            state.report(cancelled = false, stageAFinished = true)
-        } catch (e: CancellationException) {
-            emit(state.progress("", request, cancelled = true))
-            state.report(cancelled = true, stageAFinished = state.stageA.get() > 0)
+        } finally {
+            pacer.endScan()
         }
     }
 
@@ -392,6 +399,8 @@ class ScanCoordinator(
                 snapshotStore.markMetadataDone(storageId, chunk.map { it.obj.path })
                 state.addMetadata(tracks.size)
                 emit(state.progress(storageId, request, phase = ScanPhase.METADATA))
+                // §61.205：块间让步——熄屏时小幅 sleep，防 CPU 长满占用触发 MIUI 异常。
+                pacer.yieldBetweenChunks()
             }
         }
     }

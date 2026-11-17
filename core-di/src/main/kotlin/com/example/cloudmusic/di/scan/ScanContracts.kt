@@ -4,6 +4,7 @@ import com.example.cloudmusic.model.LegacyTextRepair
 import com.example.cloudmusic.model.Storage
 import com.example.cloudmusic.scanner.Candidate
 import com.example.cloudmusic.scanner.RawTags
+import java.io.File
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.roundToInt
 
@@ -162,6 +163,58 @@ class CoverLookupCache {
     fun clear(storageId: String? = null) {
         if (storageId == null) refs.clear()
         else refs.keys.removeIf { it.startsWith("$storageId|") }
+    }
+}
+
+/**
+ * §61.205（A1-④）：封面内容哈希 → 落盘 ref 的**跨扫描持久**去重索引（纯 JVM）。
+ *
+ * §61.145 的会话级去重（AndroidCoverWriter.written）在进程重启后失效——重启后的
+ * 首轮全量重扫仍会对同字节封面整批 decode/encode（7,514 夹具集 = 7,501 份同字节）。
+ * 索引文件与封面文件同住 `cacheDir/covers/`（缓存清理同生共死，无孤儿 ref），
+ * 一行一条 `hash ref`（MD5 32 位十六进制），损坏行跳过；写侧 append + synchronized。
+ */
+class CoverDedupIndex(private val file: File) {
+    private val entries = LinkedHashMap<String, String>()
+
+    @Volatile
+    private var loaded = false
+
+    fun get(hash: String): String? {
+        ensureLoaded()
+        synchronized(entries) { return entries[hash] }
+    }
+
+    /** 新条目才追加落盘；会话内重复 put 幂等（不重复写行）。 */
+    fun put(hash: String, ref: String) {
+        ensureLoaded()
+        val added = synchronized(entries) { entries.put(hash, ref) == null }
+        if (added) appendLine(hash, ref)
+    }
+
+    private fun ensureLoaded() {
+        if (loaded) return
+        synchronized(this) {
+            if (loaded) return
+            runCatching {
+                if (file.isFile) {
+                    file.readLines().forEach { line ->
+                        val parts = line.trim().split(' ', limit = 2)
+                        if (parts.size == 2 && parts[0].length == 32 && parts[1].isNotBlank()) {
+                            entries[parts[0]] = parts[1]
+                        }
+                    }
+                }
+            }
+            loaded = true
+        }
+    }
+
+    private fun appendLine(hash: String, ref: String) {
+        runCatching {
+            file.parentFile?.mkdirs()
+            file.appendText("$hash $ref\n")
+        }
     }
 }
 

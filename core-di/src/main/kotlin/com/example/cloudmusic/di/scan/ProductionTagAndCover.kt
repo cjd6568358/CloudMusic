@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.net.Uri
+import android.os.PowerManager
 import com.example.cloudmusic.datasource.ByteRangeCapability
 import com.example.cloudmusic.datasource.Driver
 import com.example.cloudmusic.datasource.DriverRegistry
@@ -19,6 +20,7 @@ import com.example.cloudmusic.scanner.CoverResolver
 import com.example.cloudmusic.scanner.NameParser
 import com.example.cloudmusic.scanner.RawTags
 import com.example.cloudmusic.scanner.RemoteTagPolicy
+import com.example.cloudmusic.scanner.ScanPacer
 import com.example.cloudmusic.scanner.TagReader
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
@@ -113,17 +115,28 @@ class AndroidCoverWriter(context: Context) : CoverWriterPort {
 
     /** §61.145：内容哈希 → 已落盘 ref 的会话级去重——同字节封面（同专辑多曲目 / 夹具
      *  复制集）只 decode/encode 一次；命中直接复用路径，封面文件本身按 trackId 命名
-     *  语义不变（首个 trackId 的文件被同内容后续曲目共享引用，字节一致无损）。 */
+     *  语义不变（首个 trackId 的文件被同内容后续曲目共享引用，字节一致无损）。
+     *  §61.205（A1-④）：会话级之上再挂跨扫描持久索引（dedup-index.txt，与封面文件
+     *  同住 covers/ 目录，缓存清理同生共死）——进程重启后的首轮全量重扫不再整批
+     *  重复 decode/encode；命中须 ref 文件仍在，防外部删除产生孤儿引用。 */
     private val written = java.util.concurrent.ConcurrentHashMap<String, String>()
+    private val dedupIndex = CoverDedupIndex(File(dir, "dedup-index.txt"))
 
     override fun write(trackId: String, bytes: ByteArray): String? {
         if (!CoverPolicy.accepts(bytes)) return null
         val hash = java.security.MessageDigest.getInstance("MD5")
             .digest(bytes).joinToString("") { "%02x".format(it) }
         written[hash]?.let { return it }
+        dedupIndex.get(hash)?.let { cached ->
+            if (File(cached.removePrefix("file://")).isFile) {
+                written[hash] = cached
+                return cached
+            }
+        }
         val ref = runCatching { decodeAndWrite(trackId, bytes) }
             .getOrNull()?.takeIf { it.isNotEmpty() } ?: return null
         written[hash] = ref
+        dedupIndex.put(hash, ref)
         return ref
     }
 
@@ -176,6 +189,42 @@ class RegistryLinkLocator : LinkLocator {
             Link.Kind.URL -> link.url.takeIf { it.isNotEmpty() }
             Link.Kind.PROXIED -> link.proxySourceUrl // C-07：仅用于读取，禁止入日志
             Link.Kind.TEXT -> null
+        }
+    }
+}
+
+/**
+ * §61.205（A1-⑤）：生产扫描节奏——扫描全程持 PARTIAL wake lock（30min 超时兜底防
+ * 泄漏）防深睡冻结 CPU；熄屏时 metadata 块间让步 50ms，防 CPU 长满触发 MIUI 异常
+ * （§61.144 一手）。begin/end 引用计数幂等（多 Storage / 重入成对出现）。
+ * MIUI 进程级冻结无法由应用完全避免——完整判据实测仍须 USB+亮屏会话（如实登记）。
+ */
+class AndroidScanPacer(private val powerManager: PowerManager) : ScanPacer {
+    private val holders = java.util.concurrent.atomic.AtomicInteger(0)
+
+    @Volatile
+    private var wakeLock: PowerManager.WakeLock? = null
+
+    override fun beginScan() {
+        if (holders.incrementAndGet() > 1) return
+        runCatching {
+            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "cloudmusic:scan")
+                ?.apply {
+                    setReferenceCounted(false)
+                    acquire(30L * 60L * 1000L)
+                }
+        }
+    }
+
+    override fun endScan() {
+        if (holders.decrementAndGet() > 0) return
+        runCatching { wakeLock?.takeIf { it.isHeld }?.release() }
+        wakeLock = null
+    }
+
+    override suspend fun yieldBetweenChunks() {
+        if (!powerManager.isInteractive) {
+            kotlinx.coroutines.delay(50)
         }
     }
 }

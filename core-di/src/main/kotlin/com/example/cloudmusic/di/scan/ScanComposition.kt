@@ -19,6 +19,8 @@ import com.example.cloudmusic.scanner.CoverResolver
 import com.example.cloudmusic.scanner.HeadTagReader
 import com.example.cloudmusic.scanner.RemoteTagPolicy
 import com.example.cloudmusic.scanner.ScanCoordinator
+import com.example.cloudmusic.scanner.ScanPacer
+import com.example.cloudmusic.scanner.ScanPacerNoOp
 import com.example.cloudmusic.scanner.ScanSnapshotStore
 import com.example.cloudmusic.scanner.StorageProvider
 import com.example.cloudmusic.scanner.TagReader
@@ -302,6 +304,17 @@ object ScanModule {
     @Singleton
     fun provideTrackFactory(cover: CoverResolver): TrackFactory = TrackFactory(cover)
 
+    /** §61.205（A1-⑤）：扫描节奏——PARTIAL wake lock + 熄屏块间让步（WAKE_LOCK
+     *  权限在既有 11 项清单内，零新增）。无 PowerManager（JVM/异常环境）回落 NoOp。 */
+    @Provides
+    @Singleton
+    fun provideScanPacer(@ApplicationContext context: Context): ScanPacer {
+        val pm = runCatching {
+            context.getSystemService(Context.POWER_SERVICE) as? android.os.PowerManager
+        }.getOrNull()
+        return if (pm != null) AndroidScanPacer(pm) else ScanPacerNoOp
+    }
+
     @Provides
     @Singleton
     fun provideScanCoordinator(
@@ -311,6 +324,7 @@ object ScanModule {
         tags: TagReader,
         factory: TrackFactory,
         settings: com.example.cloudmusic.di.settings.SettingsStore,
+        pacer: ScanPacer,
     ): ScanCoordinator = ScanCoordinator(
         storageProvider = provider,
         driverRegistry = DriverRegistry,
@@ -322,5 +336,7 @@ object ScanModule {
         // §61.116：minDurationMs 死旋钮接线——每次扫描读当前设置投影。
         minDurationMsSource = { settings.current().scan.minDurationMs },
         ignoreDirsSource = { settings.current().scan.ignoreDirs.toSet() },
+        // §61.205：wake lock + 熄屏块间让步。
+        pacer = pacer,
     )
 }

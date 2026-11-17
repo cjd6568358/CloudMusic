@@ -116,3 +116,22 @@ class InMemoryTrackSink : TrackSink {
     fun all(): List<Track> = tracks.values.toList()
     fun find(id: TrackId): Track? = tracks[id.value]
 }
+
+/**
+ * §61.205（A1-⑤）：扫描节奏端口——扫描期持 wake lock 防深睡冻结 CPU +
+ * 熄屏时块间让步（§61.144 冻结 / CPU-100% 异常教训；MIUI 进程级冻结无法由
+ * 应用完全避免，完整判据实测仍须 USB+亮屏会话）。默认 [ScanPacerNoOp] =
+ * JVM 单测与桌面场景零影响。
+ */
+interface ScanPacer {
+    /** 扫描开始（引用计数幂等——多 Storage / 重入下 begin/end 成对出现）。 */
+    fun beginScan() {}
+
+    /** 扫描结束（引用计数归零才真正释放）。 */
+    fun endScan() {}
+
+    /** metadata 块间让步；熄屏时小幅 sleep（量级 ~50ms，实现自定）。 */
+    suspend fun yieldBetweenChunks() {}
+}
+
+object ScanPacerNoOp : ScanPacer

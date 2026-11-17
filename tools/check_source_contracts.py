@@ -6222,6 +6222,67 @@ def main() -> int:
     else:
         print("[PASS] §61.204 refresh stat 命中跳过（metadataDone 端口 + statHit 分区 + 并发 8 + v4 迁移 + 四用例）")
 
+    # §61.205（A1-④⑤）封面去重跨扫描持久 + 扫描节奏（wake lock + 熄屏让步）：
+    # ① CoverDedupIndex 纯 JVM 持久索引 + AndroidCoverWriter 挂接；
+    # ② ScanPacer 端口 + NoOp + ScanCoordinator begin/end/yield 接线；
+    # ③ AndroidScanPacer 生产实现 + ScanModule 装配；WAKE_LOCK 权限在位（不加新权限）。
+    _manifest = ROOT / "app" / "src" / "main" / "AndroidManifest.xml"
+    _pace_bad = []
+    if not all(p.is_file() for p in (_scan_ports, scan_coord, _tag_cover_203_path, _scan_comp_path, _manifest)):
+        _pace_bad.append("源文件缺失")
+    else:
+        _ports_src = _code_only(_scan_ports.read_text(encoding="utf-8", errors="replace"))
+        _coord_src = _code_only(scan_coord.read_text(encoding="utf-8", errors="replace"))
+        _tag_cover_205 = _code_only(_tag_cover_203_path.read_text(encoding="utf-8", errors="replace"))
+        _comp_src = _code_only(_scan_comp_path.read_text(encoding="utf-8", errors="replace"))
+        _manifest_src = _manifest.read_text(encoding="utf-8", errors="replace")
+        if not all(x in _ports_src for x in (
+            "interface ScanPacer {",
+            "object ScanPacerNoOp : ScanPacer",
+            "suspend fun yieldBetweenChunks() {}",
+        )):
+            _pace_bad.append("ScanPacer 端口 / NoOp 缺失")
+        if not all(x in _coord_src for x in (
+            "private val pacer: ScanPacer = ScanPacerNoOp",
+            "pacer.beginScan()",
+            "pacer.endScan()",
+            "pacer.yieldBetweenChunks()",
+        )):
+            _pace_bad.append("ScanCoordinator 节奏接线缺失（begin/end/yield）")
+        if not all(x in _tag_cover_205 for x in (
+            "class AndroidScanPacer(private val powerManager: PowerManager) : ScanPacer",
+            "PARTIAL_WAKE_LOCK",
+            "CoverDedupIndex(File(dir, \"dedup-index.txt\"))",
+            "dedupIndex.put(hash, ref)",
+        )):
+            _pace_bad.append("AndroidScanPacer / 封面持久去重挂接缺失")
+        if not all(x in _comp_src for x in (
+            "fun provideScanPacer(",
+            "AndroidScanPacer(pm)",
+            "pacer = pacer,",
+        )):
+            _pace_bad.append("ScanModule 节奏装配缺失")
+        if "android.permission.WAKE_LOCK" not in _manifest_src:
+            _pace_bad.append("WAKE_LOCK 权限缺失（既有清单第 10 项，不得新加第 12 项）")
+        _contracts_205 = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                          / "example" / "cloudmusic" / "di" / "scan" / "ScanContracts.kt"
+                          ).read_text(encoding="utf-8", errors="replace")
+        if "class CoverDedupIndex(private val file: File)" not in _contracts_205:
+            _pace_bad.append("CoverDedupIndex 纯 JVM 索引缺失")
+        _contracts_test_205 = (ROOT / "core-di" / "src" / "test" / "kotlin" / "com"
+                               / "example" / "cloudmusic" / "di" / "scan" / "ScanContractsTest.kt"
+                               ).read_text(encoding="utf-8", errors="replace")
+        if "T-A4-16" not in _contracts_test_205:
+            _pace_bad.append("T-A4-16 用例缺失")
+        if "fun t22()" not in _coord_test_204:
+            _pace_bad.append("t22 用例缺失")
+        if "## 第二百一十七批（§61.205）" not in doc139_txt:
+            _pace_bad.append("docs/12 批次登记缺失")
+    if _pace_bad:
+        failures.append("§61.205 封面去重持久 + 扫描节奏：%s" % "；".join(_pace_bad))
+    else:
+        print("[PASS] §61.205 封面去重持久 + 扫描节奏（dedup-index + ScanPacer + wake lock + 两用例）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
