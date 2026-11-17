@@ -10,11 +10,10 @@ import com.example.cloudmusic.model.Track
  * **端口隔离（同 [CastUriResolver] 纪律）**：本类纯 JVM 不触网；SSDP 发现 /
  * SOAP 传输 / 代理由端口注入，fake 全覆盖单测（`DlnaCastCoordinatorTest`）。
  *
- * **§61.110 诚实挂账（不伪造完成）**：03-08 §10.1 的本机侧动作
- * （`IMediaControl.setEnabled(false)` / 引擎静音保进度）、§10.2 断连回落本机
- * （轮询 3 次超时 / seek 恢复）、§10.3 切歌保持投屏、PositionPoller —— 均属
- * **DLNA 会话引擎**，触碰真机播放态，无设备不施工；本类只覆盖「选定设备 →
- * 推流起播」这一段真实可验证的闭环。
+ * **§61.193**：§10.3 切歌保持由 `:core-di` 的 `dlnaRecastLoop` + UI 记住设备落地。
+ * **§61.199**：§10.2 断连回落的进度读取（[positionMs]）与健康判定（[DlnaSessionMonitor]）
+ * 在本模块纯 JVM 落地，执行接线在 `:core-di` 的 `PlaybackRuntime`；真机 E2E 仍 pending-device。
+ * 挂账：多设备列表、手动指定 DMR 的 UI 入口、真实 DMR 进度驱动的 UI 数值显示。
  */
 class DlnaCastCoordinator(
     private val discoverPort: DmrDiscoverPort,
@@ -76,12 +75,56 @@ class DlnaCastCoordinator(
         return CastStartResult(started = true, device = device, viaProxy = castUri.viaProxy, fellBackToProxy = fellBack)
     }
 
-    /** §10.2 的 Stop 步骤：尽力而为，失败不阻塞（回落会话引擎属挂账项）。 */
+    /**
+     * §10.1 PositionPoller / §10.2 断连回落的进度源：读 DMR 的 `GetPositionInfo.RelTime`。
+     * 非 2xx / `UPnPError` / 无 RelTime / 非 `HH:MM:SS(.sss)` 一律 null（交会话判定器计失败）。
+     * 不触网逻辑之外的状态，纯读；异常由 [runCatching] 收敛为 null，不打断轮询。
+     */
+    suspend fun positionMs(device: DmrDevice): Long? {
+        val response = runCatching {
+            soap.post(SoapController.getPositionInfo(device.avTransportControlUrl))
+        }.getOrNull() ?: return null
+        if (!isOk(response) || SoapController.errorCode(response.body) != null) return null
+        val relTime = REL_TIME.find(response.body)?.groupValues?.get(1) ?: return null
+        return parseClock(relTime)
+    }
+
+    /**
+     * §61.202 / §10.1：播放页进度条在投屏态的 seek 目标 —— DMR 而非本机被静音的引擎。
+     * 复用 [SoapController.seek] 的 REL_TIME 报文；非 2xx / 传输异常返回 false（不伪造成功）。
+     */
+    suspend fun seekTo(device: DmrDevice, ms: Long): Boolean {
+        if (ms < 0L) return false
+        val response = runCatching {
+            soap.post(SoapController.seek(device.avTransportControlUrl, ms))
+        }.getOrNull() ?: return false
+        return isOk(response)
+    }
+
+    /** §10.2 的 Stop 步骤：尽力而为，失败不阻塞。 */
     suspend fun stopCast(device: DmrDevice) {
         runCatching { soap.post(SoapController.stop(device.avTransportControlUrl)) }
     }
 
     private fun isOk(r: SoapResponse): Boolean = r.status in 200..299
+
+    private companion object {
+        val REL_TIME = Regex(
+            "<(?:[a-zA-Z0-9_-]+:)?RelTime>\\s*([^<]+?)\\s*</",
+            RegexOption.IGNORE_CASE,
+        )
+
+        /** DMR 常见 `00:03:12` / `0:03:12.345`；非法分秒返回 null（不猜进度）。 */
+        fun parseClock(raw: String): Long? {
+            val parts = raw.trim().split(':')
+            if (parts.size != 3) return null
+            val h = parts[0].toLongOrNull() ?: return null
+            val m = parts[1].toLongOrNull() ?: return null
+            val s = parts[2].toDoubleOrNull() ?: return null
+            if (h < 0 || m !in 0..59 || s < 0.0 || s >= 60.0) return null
+            return ((h * 3600L + m * 60L) * 1000L + (s * 1000.0).toLong())
+        }
+    }
 }
 
 /** startCast 的结果口径（如实登记，不把失败写成成功）。 */

@@ -188,4 +188,50 @@ class DlnaCastCoordinatorTest {
         val coordinator = coordinator(soap, RecordingProxy(FakeProxy()))
         coordinator.stopCast(device())   // 不抛 = 判据
     }
+
+    @Test
+    @DisplayName("§61.199 P1：GetPositionInfo 的 RelTime 解析（HH:MM:SS / 小数 / 命名空间前缀）")
+    fun positionFromRelTime() = runTest {
+        val soap = FakeSoap()
+        soap.script.add(200 to "<s:Envelope><RelTime>00:03:12</RelTime></s:Envelope>")
+        soap.script.add(200 to "<s:Envelope><u:RelTime>0:01:02.500</u:RelTime></s:Envelope>")
+        val coordinator = coordinator(soap, RecordingProxy(FakeProxy()))
+        assertEquals(192_000L, coordinator.positionMs(device()))
+        assertEquals(62_500L, coordinator.positionMs(device()))
+        assertTrue(soap.actions.all { it.contains("GetPositionInfo") })
+    }
+
+    @Test
+    @DisplayName("§61.199 P2：SOAP 失败 / UPnPError / 无 RelTime / 非法时钟一律 null")
+    fun positionRejectsBadResponses() = runTest {
+        val soap = FakeSoap()
+        soap.script.add(500 to "<s:Envelope><UPnPError><errorCode>701</errorCode></UPnPError></s:Envelope>")
+        soap.script.add(200 to "<s:Envelope><NoPosition>1</NoPosition></s:Envelope>")
+        soap.script.add(200 to "<s:Envelope><RelTime>NOT_IMPLEMENTED</RelTime></s:Envelope>")
+        soap.script.add(200 to "<s:Envelope><RelTime>00:99:12</RelTime></s:Envelope>")
+        val coordinator = coordinator(soap, RecordingProxy(FakeProxy()))
+        repeat(4) { assertEquals(null, coordinator.positionMs(device())) }
+    }
+
+    @Test
+    @DisplayName("§61.199 P3：位置读取抛错不外溢（轮询不能打断播放）")
+    fun positionTransportFailure() = runTest {
+        val soap = FakeSoap().apply { thrownOnPost = IllegalStateException("network down") }
+        val coordinator = coordinator(soap, RecordingProxy(FakeProxy()))
+        assertEquals(null, coordinator.positionMs(device()))
+    }
+
+    @Test
+    @DisplayName("§61.202 S1：投屏态 seek 走 DMR 的 REL_TIME 报文；非法位置与非 2xx 如实失败")
+    fun seekToDmr() = runTest {
+        val soap = FakeSoap()
+        soap.script.add(200 to "")
+        val coordinator = coordinator(soap, RecordingProxy(FakeProxy()))
+        assertTrue(coordinator.seekTo(device(), 125_000L))
+        assertTrue(soap.actions.last().contains("AVTransport:1#Seek"))
+        assertFalse(coordinator.seekTo(device(), -1L), "负位置不得下发")
+
+        soap.script.add(500 to "<UPnPError><errorCode>701</errorCode></UPnPError>")
+        assertFalse(coordinator.seekTo(device(), 1_000L))
+    }
 }

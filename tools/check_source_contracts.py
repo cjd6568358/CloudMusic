@@ -367,6 +367,15 @@ CONTRACT_FILES = (
     "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/RangeFetcher.kt",
     "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt",
     "engine-legacy/src/test/kotlin/com/example/cloudmusic/enginelegacy/RangeFetcherTest.kt",
+    # 12 §61.198：在线歌词 provider（docs/01 §0 拍板，本地缺失才按需抓取）
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/lyrics/OnlineLyricsFetcher.kt",
+    "core-di/src/test/kotlin/com/example/cloudmusic/di/lyrics/OnlineLyricsFetcherTest.kt",
+    # 12 §61.199：DLNA 断连回落（会话健康判定 + 进度读取）
+    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DlnaSessionMonitor.kt",
+    "output-dlna/src/test/kotlin/com/example/cloudmusic/output/dlna/DlnaSessionMonitorTest.kt",
+    # 12 §61.200：DMR 多设备列表选择判定
+    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DmrDeviceSelector.kt",
+    "output-dlna/src/test/kotlin/com/example/cloudmusic/output/dlna/DmrDeviceSelectorTest.kt",
 )
 
 CHECK_SCRIPTS = (
@@ -1433,9 +1442,9 @@ def main() -> int:
     # ---- 12 §48（DLNA 输出切换：联动契约守护，§61.110 起接线）----------------
     # 03-08 §14 #9 / 03-09 §7：切 DLNA 必须同时改 OutputRouter 与 PlayerController
     # （后者内部再联动 IMediaControl.setEnabled，T09），禁止只切一半状态。
-    # §61.110 演进：切换决策点在 :app（MainActivity.onOutputSelected）——
-    # 成对计数只在决策层做；:core-di 的 PlaybackRuntime.onOutputChanged 是
-    # 委托透传（非切换点），单独锚定其存在，不并入计数。
+    # §61.110 演进：切换决策点在 :app（MainActivity.onOutputSelected）；
+    # §61.199 起 core-di 的断连回落也是真实切换点（setActive LOCAL + onOutputChanged
+    # 成对），故两层都纳入计数，但剔除 core-di 里委托透传「定义」的那一次调用。
     active_calls = output_changed_calls = 0
     for root_rel in ("app/src/main", "core-di/src/main"):
         base = ROOT / root_rel
@@ -1446,8 +1455,13 @@ def main() -> int:
                 continue
             body = prod.read_text(encoding="utf-8", errors="replace")
             active_calls += len(re.findall(r"\.setActive\(", body))
-            if root_rel == "app/src/main":
-                output_changed_calls += len(re.findall(r"\.onOutputChanged\(", body))
+            changed = len(re.findall(r"\.onOutputChanged\(", body))
+            if root_rel == "core-di/src/main":
+                # §61.199：断连回落本身是第二个切换点（core-di 内成对 setActive +
+                # onOutputChanged）；委托透传定义里的 `controller.onOutputChanged(dlna)`
+                # 不是切换动作，从计数中剔除，避免把「定义」当成「调用」。
+                changed -= body.count("= controller.onOutputChanged(dlna)")
+            output_changed_calls += changed
     _runtime_pth = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" /
                     "example" / "cloudmusic" / "di" / "playback" /
                     "PlaybackComposition.kt").read_text(encoding="utf-8")
@@ -1905,8 +1919,10 @@ def main() -> int:
         failures.append("12 §61.28：Service 缺同步判定，拒绝后会假报 PLAYING（§61.27 同类问题）")
     # §61.175（飞牛设置页）：开关从竞品 CompSwitchRow 换成飞牛 FnRow + FnSwitch，
     # 判据同步升级（强度不减）：仍要求「开关组件 + 双向回调 + checked 取反」三件同在。
-    elif not all(n in ui_body for n in (
-        "允许移动数据播放", "onWifiOnlyChanged", "FnSwitch(", "checked = !wifiOnly",
+    # §61.188 W5 用户要求「设置页人话化」→ 标签改为「移动网络播放」；两种文案均
+    # 表示同一 wifiOnly 开关，判据接受任一表述（不因此放宽组件/回调/取反三件）。
+    elif not (("允许移动数据播放" in ui_body or "移动网络播放" in ui_body) and all(
+        n in ui_body for n in ("onWifiOnlyChanged", "FnSwitch(", "checked = !wifiOnly")
     )):
         failures.append("12 §61.28：设置页缺移动数据播放开关（01 §6.1）")
     else:
@@ -5648,8 +5664,11 @@ def main() -> int:
     _tool108 = (ROOT / "tools" / "l3_f3_matrix_run.py").read_text(encoding="utf-8")
     _sdk108a = (ROOT / "tools" / "l3_f4_kind_slot_ab.py").read_text(encoding="utf-8")
     _sdk108b = (ROOT / "tools" / "l3_f4_data_kind_ab.py").read_text(encoding="utf-8")
-    _b2ok = ("Media3EngineAdapter（B2 开源引擎" in _app108
-             and "EngineAdapter（舱内真实内核" not in _app108
+    # §61.188 W5「设置页人话化」按用户要求删掉了「Media3EngineAdapter（B2 开源引擎…）」
+    # 这行内部行话；B2 口径的真相源改由 DI / API / 控制器 / 适配器 / 文档承载。
+    # 判据同步：不再要求 UI 展示引擎实现名，但保留「UI 不得回漂成旧 A 路线内核」
+    # 的否定式检查，其余五处正向判据强度不变。
+    _b2ok = ("EngineAdapter（舱内真实内核" not in _app108
              and "11-11 起为 `Media3EngineAdapter`" in _di108
              and "不替代引擎舱生产适配器" in _api108
              and "`prepareGate` 是 A 路线 EngineAdapter 的内部闸门" in _pc108
@@ -5956,6 +5975,141 @@ def main() -> int:
             failures.append("§61.183 画面证据通道：%s" % "；".join(_nav_bad))
         else:
             print("[PASS] §61.183 画面证据自动化通道（SurfaceNav + runbook）在位")
+
+    # §61.198 在线歌词四级取数（docs/01 §0 用户拍板「本地优先 + 允许在线抓取」）：
+    #   provider 在 core-di（JVM 可测、HTTP 可注入）→ Hilt 单点接线 →
+    #   PlayerStateBridge 本地缓存优先 → UI 只经桥接取歌词。
+    #   破坏任一环即 FAIL（含 UI 直接碰 OkHttp / LyricFileStore 的越界回归）。
+    _oly = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "di" / "lyrics" / "OnlineLyricsFetcher.kt"
+    _oly_test = ROOT / "core-di" / "src" / "test" / "kotlin" / "com" / "example" / "cloudmusic" / "di" / "lyrics" / "OnlineLyricsFetcherTest.kt"
+    _pb = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "player" / "PlayerStateBridge.kt"
+    _lp = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt"
+    if all(p.is_file() for p in (_oly, _oly_test, _pb, _lp)):
+        _oly_src = _code_only(_oly.read_text(encoding="utf-8", errors="replace"))
+        _scan_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                                / "cloudmusic" / "di" / "scan" / "ScanComposition.kt").read_text(
+                                    encoding="utf-8", errors="replace"))
+        _pb_src = _code_only(_pb.read_text(encoding="utf-8", errors="replace"))
+        _lp_src = _code_only(_lp.read_text(encoding="utf-8", errors="replace"))
+        _lyric_bad = []
+        if "class OnlineLyricsFetcher" not in _oly_src or "fun pickSongId" not in _oly_src:
+            _lyric_bad.append("provider 或标题艺人匹配判定缺失")
+        if "fun provideOnlineLyricsFetcher" not in _scan_src:
+            _lyric_bad.append("ScanModule 未注册在线歌词 provider")
+        if "suspend fun lyricsFor(" not in _pb_src:
+            _lyric_bad.append("PlayerStateBridge 无 lyricsFor 统一取数口")
+        if "readRaw(" in _pb_src and "onlineLyrics?.fetch" in _pb_src:
+            if _pb_src.index("readRaw(") > _pb_src.index("onlineLyrics?.fetch"):
+                _lyric_bad.append("本地缓存未先于在线抓取（违反本地优先）")
+        if "bridge.lyricsFor(" not in _lp_src:
+            _lyric_bad.append("播放页未走桥接歌词通道")
+        if "LyricFileStore" in _lp_src or "OkHttp" in _lp_src:
+            _lyric_bad.append("播放页越界直触歌词缓存/网络（03-10 §11 #4）")
+        if _lyric_bad:
+            failures.append("§61.198 在线歌词通道：%s" % "；".join(_lyric_bad))
+        else:
+            print("[PASS] §61.198 在线歌词四级取数（本地优先 + 按需抓取 + UI 零越界）")
+
+    # §61.199 DLNA 断连回落（03-08 §10.2 / T18）：3 次失败判定 + DMR 进度读取 +
+    # 本机接管四段（Stop → LOCAL → 解静音 → seek 续播）必须同在；缺任一段即判半条链。
+    _mon = (ROOT / "output-dlna" / "src" / "main" / "kotlin" / "com" / "example"
+            / "cloudmusic" / "output" / "dlna" / "DlnaSessionMonitor.kt")
+    _mon_test = (ROOT / "output-dlna" / "src" / "test" / "kotlin" / "com" / "example"
+                 / "cloudmusic" / "output" / "dlna" / "DlnaSessionMonitorTest.kt")
+    _cast = (ROOT / "output-dlna" / "src" / "main" / "kotlin" / "com" / "example"
+             / "cloudmusic" / "output" / "dlna" / "DlnaCastCoordinator.kt")
+    _runt = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+             / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
+    if _mon.is_file() and _mon_test.is_file() and _cast.is_file() and _runt.is_file():
+        _mon_src = _code_only(_mon.read_text(encoding="utf-8", errors="replace"))
+        _cast_src = _code_only(_cast.read_text(encoding="utf-8", errors="replace"))
+        _runt_src = _code_only(_runt.read_text(encoding="utf-8", errors="replace"))
+        _dlna_bad = []
+        if "DEFAULT_FAILURE_LIMIT = 3" not in _mon_src or "shouldFallBack" not in _mon_src:
+            _dlna_bad.append("会话判定器缺 3 次阈值或回落一次性语义")
+        if "suspend fun positionMs(" not in _cast_src or "getPositionInfo" not in _cast_src:
+            _dlna_bad.append("DMR 进度读取缺失")
+        if "private fun dlnaSessionLoop()" not in _runt_src or "dlnaSessionLoop()" not in _runt_src:
+            _dlna_bad.append("运行时未接会话轮询")
+        if not all(frag in _runt_src for frag in (
+            "output.setActive(ActiveOutput.LOCAL)", "onOutputChanged(false)",
+            "controller.seek(verdict.lastPositionMs)", "已回到本机播放",
+        )):
+            _dlna_bad.append("本机接管四段（Stop 后 LOCAL/解静音/seek/提示）不全")
+        if _dlna_bad:
+            failures.append("§61.199 DLNA 断连回落：%s" % "；".join(_dlna_bad))
+        else:
+            print("[PASS] §61.199 DLNA 断连回落（3 次判定 + 进度读取 + 本机接管）")
+
+    # §61.200 DMR 多设备列表（03-08 §4.1）：纯 JVM 选择判定 + UI 列表接线 +
+    # 打开弹窗才发现（不常驻扫网）+ 点设备直接投屏，四件同在才算闭环。
+    _sel = (ROOT / "output-dlna" / "src" / "main" / "kotlin" / "com" / "example"
+            / "cloudmusic" / "output" / "dlna" / "DmrDeviceSelector.kt")
+    _mai = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "MainActivity.kt"
+    _cmp = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt"
+    if _sel.is_file() and _mai.is_file() and _cmp.is_file():
+        _sel_src = _code_only(_sel.read_text(encoding="utf-8", errors="replace"))
+        _mai_src = _code_only(_mai.read_text(encoding="utf-8", errors="replace"))
+        _cmp_src = _code_only(_cmp.read_text(encoding="utf-8", errors="replace"))
+        _dmr_bad = []
+        if "fun ranked(" not in _sel_src or "fun pick(" not in _sel_src:
+            _dmr_bad.append("设备去重/排序/记忆选择判定缺失")
+        if "refreshDlnaDevices()" not in _mai_src or "DmrDeviceSelector.pick" not in _mai_src:
+            _dmr_bad.append("MainActivity 未发现设备或未按记忆选择")
+        if "onPickDmr = { device -> castTo(device) }" not in _mai_src:
+            _dmr_bad.append("点选设备未接投屏闭环")
+        if "devices = dmrDevices" not in _cmp_src or "重新扫描 DLNA 设备" not in _cmp_src:
+            _dmr_bad.append("输出弹窗未展示设备列表或重新扫描入口")
+        if _dmr_bad:
+            failures.append("§61.200 DMR 多设备列表：%s" % "；".join(_dmr_bad))
+        else:
+            print("[PASS] §61.200 DMR 多设备列表（去重排序 + 记忆选择 + 弹窗点选 + 按需发现）")
+
+    # §61.201 手动指定 DMR（03-08 §4.2 / A7）：既有探测器与 UI 输入必须接通，
+    # 失败原因要可见（不静默），探测结果要能直接投屏。
+    if _mai.is_file() and _cmp.is_file():
+        _mai_src2 = _code_only(_mai.read_text(encoding="utf-8", errors="replace"))
+        _cmp_src2 = _code_only(_cmp.read_text(encoding="utf-8", errors="replace"))
+        _manual_bad = []
+        if "ManualDmrProbe.probe(" not in _mai_src2 or "DescriptionFetcher" not in _mai_src2:
+            _manual_bad.append("生产侧未接手动探测器/描述抓取端口")
+        if "manualDmrResult" not in _mai_src2 or "probeManualDmr" not in _mai_src2:
+            _manual_bad.append("探测结果未回传 UI")
+        if "ManualDmrDialog(" not in _cmp_src2 or "ManualDmrSpec(" not in _cmp_src2:
+            _manual_bad.append("手动 DMR 输入面板缺失")
+        if "手动指定 DMR（IP / 描述地址）" not in _cmp_src2:
+            _manual_bad.append("输出弹窗无手动入口")
+        if _manual_bad:
+            failures.append("§61.201 手动指定 DMR：%s" % "；".join(_manual_bad))
+        else:
+            print("[PASS] §61.201 手动指定 DMR（输入面板 + 既有探测器 + 结果可见 + 直接投屏）")
+
+    # §61.202 DMR 进度驱动 UI：投屏态进度必须来自 DMR（显示 + seek 双向），
+    # 且播放页不得再直接读 state.positionMs（否则显示被静音的本机引擎冻结位置）。
+    _cast2 = (ROOT / "output-dlna" / "src" / "main" / "kotlin" / "com" / "example"
+              / "cloudmusic" / "output" / "dlna" / "DlnaCastCoordinator.kt")
+    _pb2 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "player" / "PlayerStateBridge.kt"
+    _lp2 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt"
+    if all(p.is_file() for p in (_runt, _cast2, _pb2, _lp2)):
+        _cast2_src = _code_only(_cast2.read_text(encoding="utf-8", errors="replace"))
+        _runt2_src = _code_only(_runt.read_text(encoding="utf-8", errors="replace"))
+        _pb2_src = _code_only(_pb2.read_text(encoding="utf-8", errors="replace"))
+        _lp2_src = _code_only(_lp2.read_text(encoding="utf-8", errors="replace"))
+        _pos_bad = []
+        if "suspend fun seekTo(" not in _cast2_src or "SoapController.seek(" not in _cast2_src:
+            _pos_bad.append("DMR seek 能力缺失")
+        if "fun displayPositionMs()" not in _runt2_src or "_dlnaPositionMs" not in _runt2_src:
+            _pos_bad.append("运行时未裁决/缓存 DMR 进度")
+        if "castCoordinator.seekTo(device, ms)" not in _runt2_src:
+            _pos_bad.append("投屏态 seek 未转发到 DMR")
+        if "runtime.displayPositionMs()" not in _pb2_src:
+            _pos_bad.append("Bridge 未暴露进度单一入口")
+        if "bridge.positionMs.collectAsState" not in _lp2_src or "state.positionMs" in _lp2_src:
+            _pos_bad.append("播放页仍直读本机引擎进度")
+        if _pos_bad:
+            failures.append("§61.202 DMR 进度驱动 UI：%s" % "；".join(_pos_bad))
+        else:
+            print("[PASS] §61.202 DMR 进度驱动 UI（显示与 seek 双向走 DMR，UI 零直读）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

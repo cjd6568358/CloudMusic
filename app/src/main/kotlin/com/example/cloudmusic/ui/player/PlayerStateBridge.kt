@@ -1,11 +1,15 @@
 package com.example.cloudmusic.ui.player
 
+import com.example.cloudmusic.di.lyrics.OnlineLyricsFetcher
 import com.example.cloudmusic.di.playback.PlaybackRuntime
+import com.example.cloudmusic.model.LrcParser
+import com.example.cloudmusic.model.Lyrics
 import com.example.cloudmusic.model.Track
 import com.example.cloudmusic.player.PlayMode
 import com.example.cloudmusic.player.PlayerPhase
 import com.example.cloudmusic.player.PlayerState
 import com.example.cloudmusic.player.QueueRepository
+import com.example.cloudmusic.storage.LyricFileStore
 import com.example.cloudmusic.storage.TrackRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,6 +33,9 @@ import kotlinx.coroutines.flow.map
  * - 队列弹窗：属 `03-10 §5` 的 V0.2 完善项。
  * 这四项**不实现、不伪造完成**，仅在 UI 上以只读 / 占位形态呈现。
  *
+ * §61.202 起 UI 进度改读 [positionMs]（运行时裁决：DLNA 用 DMR 真值、本机用引擎进度），
+ * 不再直接拿 [PlayerState.positionMs]，投屏时才不会显示被静音的本机引擎冻结位置。
+ *
  * 时长契约：契约 `03-10 §6` 的 `positionMs` 来自 [PlayerState.positionMs]；
  * `durationMs` 自 §61.181 起为「引擎真值优先、曲库元数据兜底」：
  * [PlayerState.durationMs] > 0（引擎已解出，含 STRM 直链在 READY 时解出的真值）
@@ -40,6 +47,10 @@ class PlayerStateBridge(
     private val runtime: PlaybackRuntime,
     tracks: TrackRepository,
     queue: QueueRepository,
+    /** §61.198：歌词文件缓存（内嵌 USLT / 同目录 lrc 由扫描链落盘）。 */
+    private val lyricStore: LyricFileStore? = null,
+    /** §61.198：本地缺失时的在线 provider（docs/01 §0 用户拍板允许）。 */
+    private val onlineLyrics: OnlineLyricsFetcher? = null,
 ) {
     /** [PlaybackRuntime.playerState] 本身即 `StateFlow`，直接透传，不复制状态。 */
     val state: StateFlow<PlayerState> = runtime.playerState()
@@ -59,6 +70,25 @@ class PlayerStateBridge(
     val durationMs: Flow<Long> = combine(state, track) { s, t ->
         if (s.durationMs > 0) s.durationMs else t?.durationMs ?: 0L
     }
+
+    /**
+     * §61.198 歌词取数四级：本地文件缓存（内嵌 / 同目录 lrc，扫描期已落盘）
+     * → 在线 provider（标题+艺人一致才取，命中写回同一缓存）→ 空（不造数）。
+     * 阻塞 IO 由调用方在 Dispatchers.IO 执行；两个可选依赖缺省时行为与 §61.186 一致。
+     */
+    suspend fun lyricsFor(track: Track?): Lyrics {
+        val id = track?.id ?: return Lyrics.EMPTY
+        lyricStore?.readRaw(id)?.takeIf { it.isNotBlank() }?.let {
+            return LrcParser.parse(it, "local:file")
+        }
+        return onlineLyrics?.fetch(track) ?: Lyrics.EMPTY
+    }
+
+    /**
+     * §61.202 播放页进度显示的单一入口：运行时在 DLNA 活跃时给 DMR 真值，
+     * 否则给引擎实时进度（见 [PlaybackRuntime.displayPositionMs]）。
+     */
+    val positionMs: Flow<Long> = runtime.displayPositionMs()
 
     /** `03-10 §6` 的 `playMode`；当前只读（见类注释）。 */
     val playMode: Flow<PlayMode> = state.map { it.mode }

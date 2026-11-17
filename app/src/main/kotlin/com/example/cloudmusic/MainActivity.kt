@@ -25,8 +25,15 @@ import com.example.cloudmusic.di.settings.SettingsStore
 import com.example.cloudmusic.output.dlna.DlnaCastCoordinator
 import com.example.cloudmusic.output.router.ActiveOutput
 import com.example.cloudmusic.output.router.OutputRouter
+import com.example.cloudmusic.di.lyrics.OnlineLyricsFetcher
+import com.example.cloudmusic.output.dlna.DescriptionFetcher
+import com.example.cloudmusic.output.dlna.DmrDevice
+import com.example.cloudmusic.output.dlna.DmrDeviceSelector
+import com.example.cloudmusic.output.dlna.ManualDmrProbe
+import com.example.cloudmusic.output.dlna.ManualDmrSpec
 import com.example.cloudmusic.player.QueueRepository
 import com.example.cloudmusic.storage.AppSettings
+import com.example.cloudmusic.storage.LyricFileStore
 import com.example.cloudmusic.storage.PlaylistRepository
 import com.example.cloudmusic.storage.StorageRepository
 import com.example.cloudmusic.storage.TrackRepository
@@ -81,8 +88,77 @@ class MainActivity : ComponentActivity() {
      * `TrackRepository` / `QueueRepository` 现场构造，不改 Hilt 注册图、不新建模块。
      */
     private val playerBridge by lazy {
-        PlayerStateBridge(runtime, tracks, queue)
+        // §61.198：歌词四级取数（本地缓存 → 在线 provider → 空）经桥接注入，
+        // Activity/UI 不接触 OkHttp / 文件系统；Hilt 两个单例由 ScanModule 提供。
+        PlayerStateBridge(runtime, tracks, queue, lyricStore, onlineLyrics)
     }
+
+    /** §61.200：输出弹窗的 DMR 设备列表（用户打开弹窗时才发现，不常驻扫网）。 */
+    private val dlnaDevices = MutableStateFlow<List<DmrDevice>>(emptyList())
+
+    /** §61.200：上次成功投屏的 USN，列表里仍在线则优先选中。 */
+    private var rememberedDmrUsn: String? = null
+
+    /** §61.201：手动 DMR 探测结果（null=未探测；Result 失败带明确原因）。 */
+    private val manualDmrResult = MutableStateFlow<Result<DmrDevice>?>(null)
+
+    /** §61.201：手动探测走既有 [ManualDmrProbe] + 生产 DescriptionFetcher，不做第二套解析。 */
+    private fun probeManualDmr(spec: ManualDmrSpec) {
+        manualDmrResult.value = null
+        lifecycleScope.launch {
+            val result = runCatching { ManualDmrProbe.probe(spec, descriptionFetcher) }
+            manualDmrResult.value = result
+            result.onSuccess { device ->
+                dlnaDevices.value = DmrDeviceSelector.ranked(dlnaDevices.value + device)
+                output.updateRouteHint("手动设备已找到：${device.friendlyName}")
+            }.onFailure {
+                output.updateRouteHint("手动 DMR 探测失败：${it.message}")
+            }
+        }
+    }
+
+    /** §61.200：打开输出弹窗 / 点「重新扫描」时刷新设备列表（发现结果经选择器排序去重）。 */
+    private fun refreshDlnaDevices() {
+        lifecycleScope.launch {
+            output.updateRouteHint("正在发现局域网 DMR…")
+            val found = runCatching { castCoordinator.discover() }.getOrElse { emptyList() }
+            dlnaDevices.value = DmrDeviceSelector.ranked(found)
+            if (found.isEmpty()) output.updateRouteHint("未发现 DLNA 设备（保持本机播放）")
+        }
+    }
+
+    /** §61.200：把当前曲目推到用户点选的设备（原自动选择逻辑收口到此，两个入口共用）。 */
+    private fun castTo(device: DmrDevice) {
+        lifecycleScope.launch {
+            val currentTrackId = runtime.playerState().value.currentTrackId
+            val current = currentTrackId?.let { tracks.get(it) }
+            if (current == null) {
+                output.updateRouteHint("无正在播放的曲目，无法投屏")
+                return@launch
+            }
+            runCatching {
+                val result = castCoordinator.startCast(current, device)
+                if (result.started) {
+                    // §61.193：记住投屏目标 → 切歌保持（runtime dlnaRecastLoop）。
+                    runtime.onDlnaDeviceSelected(device)
+                    rememberedDmrUsn = device.usn
+                    // T09：本机静音 + 媒体控件停用（03-08 §10.1 / §14 #9 成对契约）。
+                    output.setActive(ActiveOutput.DLNA)
+                    runtime.onOutputChanged(true)
+                }
+            }.onFailure {
+                output.updateRouteHint("投屏失败：${it.message ?: "未知错误"}（保持本机播放）")
+            }
+        }
+    }
+
+    /** §61.198：歌词缓存（内嵌 USLT / 同目录 lrc / 在线命中共用）。 */
+    @Inject
+    lateinit var lyricStore: LyricFileStore
+
+    /** §61.198：docs/01 §0 拍板的在线歌词能力（本地缺失才触发）。 */
+    @Inject
+    lateinit var onlineLyrics: OnlineLyricsFetcher
 
     @Inject
     lateinit var tracks: TrackRepository
@@ -109,6 +185,10 @@ class MainActivity : ComponentActivity() {
     /** §61.110：DLNA 第一个生产调用点——输出弹窗 → 发现 → 推流起播（03-08 §10.1 最小闭环）。 */
     @Inject
     lateinit var castCoordinator: DlnaCastCoordinator
+
+    /** §61.201：手动指定 DMR 的描述 XML 抓取端口（生产 = OkHttpDescriptionFetcher）。 */
+    @Inject
+    lateinit var descriptionFetcher: DescriptionFetcher
 
     /**
      * §61.173：存量乱码标题修复需要直接操作 DAO —— 逐行文本清洗 + 条件 UPDATE，
@@ -269,6 +349,8 @@ class MainActivity : ComponentActivity() {
                         }
                     },
                     onOpenOutput = {
+                        // §61.200：用户主动打开弹窗才发现 DMR（不常驻扫网），结果喂给设备列表。
+                        refreshDlnaDevices()
                         // §61.29 / 03-11 §2 SHOW_BLUETOOTH_NAME：只在用户主动打开输出设备
                         // 弹窗时按动作申请，启动阶段零申请；拒绝由 PermissionDecision 降级
                         // （B01：不显示设备名但仍可播放、有线拔出仍能暂停），不循环弹窗。
@@ -296,41 +378,26 @@ class MainActivity : ComponentActivity() {
                                     runtime.onOutputChanged(false)
                                 }
                                 ActiveOutput.DLNA -> {
-                                    output.updateRouteHint("正在发现局域网 DMR…")
-                                    val devices = runCatching { castCoordinator.discover() }
-                                        .getOrElse { emptyList() }
-                                    if (devices.isEmpty()) {
+                                    // §61.200：自动选择入口用「记住设备优先 + 排序第一台」；
+                                    // 弹窗里也可直接点具体设备（onPickDmr → castTo）。
+                                    val device = DmrDeviceSelector.pick(dlnaDevices.value, rememberedDmrUsn)
+                                    if (device == null) {
+                                        refreshDlnaDevices()
                                         output.updateRouteHint("未发现 DLNA 设备（保持本机播放）")
                                         return@launch
                                     }
-                                    // 挂账：多设备选择列表（03-08 §4.1）；本批先取第一台并明示设备名。
-                                    val device = devices.first()
-                                    val currentTrackId =
-                                        runtime.playerState().value.currentTrackId
-                                    val current = currentTrackId?.let { tracks.get(it) }
-                                    if (current == null) {
-                                        output.updateRouteHint("无正在播放的曲目，无法投屏")
-                                        return@launch
-                                    }
-                    runCatching {
-                        val result = castCoordinator.startCast(current, device)
-                        if (result.started) {
-                            // §61.193：记住投屏目标 → 切歌保持（runtime dlnaRecastLoop）。
-                            runtime.onDlnaDeviceSelected(device)
-                            // T09：本机静音 + 媒体控件停用（03-08 §10.1 的
-                            // 本机侧动作——API 已在，随本批接线）。
-                            output.setActive(ActiveOutput.DLNA)
-                            runtime.onOutputChanged(true)
-                        }
-                    }.onFailure {
-                                        output.updateRouteHint(
-                                            "投屏失败：${it.message ?: "未知错误"}（保持本机播放）",
-                                        )
-                                    }
+                                    castTo(device)
                                 }
                             }
                         }
                     },
+                    // §61.200：弹窗设备列表（打开时/重新扫描时刷新）+ 点具体设备直接投屏。
+                    dlnaDevices = dlnaDevices,
+                    onPickDmr = { device -> castTo(device) },
+                    onScanDlna = { refreshDlnaDevices() },
+                    manualDmrResult = manualDmrResult,
+                    onProbeManualDmr = { spec -> probeManualDmr(spec) },
+                    onClearManualDmrResult = { manualDmrResult.value = null },
                     // §61.116（M6）：维护段——清缓存（播放中由 runtime 拒绝并返回 -1）
                     // + 扫描最短时长（写入后下次扫描生效）。
                     onClearCache = {

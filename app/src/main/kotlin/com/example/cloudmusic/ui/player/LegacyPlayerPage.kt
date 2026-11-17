@@ -58,7 +58,6 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
@@ -67,11 +66,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.example.cloudmusic.model.LrcParser
 import com.example.cloudmusic.model.Lyrics
 import com.example.cloudmusic.player.PlayMode
 import com.example.cloudmusic.player.PlayerPhase
-import com.example.cloudmusic.storage.LyricFileStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -141,6 +138,8 @@ fun LegacyPlayerPage(
     val state by bridge.state.collectAsState()
     val track by bridge.track.collectAsState(initial = null)
     val durationMs by bridge.durationMs.collectAsState(initial = 0L)
+    // §61.202：投屏态显示 DMR 实际进度，本机态显示引擎进度；单一入口由 Bridge 裁决。
+    val displayPositionMs by bridge.positionMs.collectAsState(initial = 0L)
     val mode by bridge.playMode.collectAsState(initial = PlayMode.SEQUENCE)
     val playing = state.phase == PlayerPhase.PLAYING
 
@@ -163,18 +162,16 @@ fun LegacyPlayerPage(
     val bgTop = remember(coverBitmap) { dominantCoverColor(coverBitmap) ?: LegacyPalette.PageBackground }
     val bgBottom = remember(bgTop) { shadeBottom(bgTop) }
 
-    // docs/01 §0（2026-11-16 拍板）：歌词本地优先。扫描期内嵌 USLT 写盘到
-    // cacheDir/lyrics/<trackId>.lrc，这里按当前曲目读取 + LrcParser 解析；
-    // 无歌词文件时 Lyrics.EMPTY → 歌词视图显示占位，不造数。
-    val context = LocalContext.current
+    // §61.198：歌词统一经 PlayerStateBridge 取数——本地缓存（内嵌 USLT / 同目录 lrc）
+    // 优先，缺失时按需在线抓取（docs/01 §0 拍板），命中写回同一缓存；UI 不碰 OkHttp / 文件。
+    // 无歌词时 Lyrics.EMPTY → 歌词视图保持占位，不造数。
     val trackId = track?.id
     var lyrics by remember { mutableStateOf(Lyrics.EMPTY) }
-    LaunchedEffect(trackId) {
-        lyrics = withContext(Dispatchers.IO) {
-            val id = trackId ?: return@withContext Lyrics.EMPTY
-            val raw = LyricFileStore(context.cacheDir).readRaw(id)
-            raw?.let { LrcParser.parse(it) } ?: Lyrics.EMPTY
-        }
+    // 真正「按需」：只有用户点唱片切到歌词视图才取数（本地缓存先读、缺失才联网），
+    // 不随每首歌起播盲目请求——92 首 STRM 逐曲联网会拖垮冷扫后的播放体验。
+    LaunchedEffect(trackId, showLyrics) {
+        if (!showLyrics) return@LaunchedEffect
+        lyrics = withContext(Dispatchers.IO) { bridge.lyricsFor(track) }
     }
 
     val density = LocalDensity.current
@@ -228,7 +225,7 @@ fun LegacyPlayerPage(
                 if (showLyrics) {
                     LyricsPanel(
                         lyrics = lyrics,
-                        positionMs = state.positionMs,
+                        positionMs = displayPositionMs,
                         modifier = Modifier.fillMaxSize(),
                     )
                 } else {
@@ -333,7 +330,7 @@ fun LegacyPlayerPage(
             // ── 进度条（§61.174 ④，基准轨道 y=676 / 左右边距 30dp / 轨高 2dp / 点 5dp） ──
             Spacer(Modifier.height(PlayerBaseline.GapArtistToProgressDp.dp))
             BaselineProgressBar(
-                positionMs = state.positionMs,
+                positionMs = displayPositionMs,
                 durationMs = durationMs,
                 onSeek = { bridge.onSeek(it) },
             )
@@ -348,7 +345,7 @@ fun LegacyPlayerPage(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    formatMs(state.positionMs),
+                    formatMs(displayPositionMs),
                     fontSize = PlayerBaseline.TimeSp.sp,
                     color = Color(LegacyPalette.IconTint),
                     style = InkCenteredStyle,

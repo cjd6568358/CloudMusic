@@ -73,6 +73,9 @@ import com.example.cloudmusic.di.playback.RuntimeState
 import com.example.cloudmusic.model.Availability
 import com.example.cloudmusic.model.Storage
 import com.example.cloudmusic.model.Track
+import com.example.cloudmusic.output.dlna.DmrDevice
+import com.example.cloudmusic.output.dlna.DeviceSource
+import com.example.cloudmusic.output.dlna.ManualDmrSpec
 import com.example.cloudmusic.output.router.ActiveOutput
 import com.example.cloudmusic.output.router.OutputDeviceState
 import com.example.cloudmusic.ui.player.LegacyPlayerPage
@@ -170,6 +173,18 @@ fun CloudMusicApp(
     onOpenOutput: () -> Unit,
     /** §61.110：输出弹窗选择（本机 / DLNA）——DLNA 走发现 → 推流 → setActive 闭环。 */
     onOutputSelected: (ActiveOutput) -> Unit = {},
+    /** §61.200：输出弹窗的 DMR 设备列表（MainActivity 打开弹窗时发现并排序去重）。 */
+    dlnaDevices: StateFlow<List<DmrDevice>> = MutableStateFlow(emptyList()),
+    /** §61.200：点具体设备直接投屏（跳过自动选择）。 */
+    onPickDmr: (DmrDevice) -> Unit = {},
+    /** §61.200：弹窗内「重新扫描」触发重新发现。 */
+    onScanDlna: () -> Unit = {},
+    /** §61.201：手动指定 DMR 的探测结果（null = 未探测）。 */
+    manualDmrResult: StateFlow<Result<DmrDevice>?> = MutableStateFlow(null),
+    /** §61.201：提交手动探测（IP / 端口 / 描述地址）。 */
+    onProbeManualDmr: (ManualDmrSpec) -> Unit = {},
+    /** §61.201：打开手动面板时清掉上次结果，避免旧状态误导。 */
+    onClearManualDmrResult: () -> Unit = {},
     /** §61.113（M2-1）：曲库分组视角播放入口——分组曲目替换业务队列并从 index 起播。 */
     onPlayTracks: (List<Track>, Int) -> Unit = { _, _ -> },
     /** §61.116（M6-3）：清理 B2 播放缓存（播放中由 runtime 侧拒绝）。 */
@@ -194,6 +209,8 @@ fun CloudMusicApp(
     var tab by rememberSaveable { mutableIntStateOf(0) }
     var showSources by rememberSaveable { mutableStateOf(false) }
     var showOutput by rememberSaveable { mutableStateOf(false) }
+    // §61.201：手动 DMR 面板与输出面板互斥（避免两个 ModalBottomSheet 叠加）。
+    var showManualDmr by rememberSaveable { mutableStateOf(false) }
     // §61.168（飞牛导航）：胶囊三 tab 的「更多」入口面板；内部 tab 索引保持不变。
     var showMore by rememberSaveable { mutableStateOf(false) }
     // 12 §61.42：用户要求「1:1 像素级复刻竞品播放页」→ 启动即全屏播放页，
@@ -417,7 +434,27 @@ fun CloudMusicApp(
     }
 
     if (showOutput) {
-        OutputDialog(output, onOutputSelected) { showOutput = false }
+        val dmrDevices by dlnaDevices.collectAsState()
+        OutputDialog(
+            state = output,
+            devices = dmrDevices,
+            onOutputSelected = onOutputSelected,
+            onPickDmr = { device -> onPickDmr(device); showOutput = false },
+            onScanDlna = onScanDlna,
+            onOpenManualDmr = {
+                onClearManualDmrResult()
+                showOutput = false
+                showManualDmr = true
+            },
+        ) { showOutput = false }
+    }
+    if (showManualDmr) {
+        val probeResult by manualDmrResult.collectAsState()
+        ManualDmrDialog(
+            result = probeResult,
+            onProbe = onProbeManualDmr,
+            onPick = { device -> onPickDmr(device); showManualDmr = false },
+        ) { showManualDmr = false }
     }
 
     // §61.119（M3）：加入歌单弹窗——曲库行 "+" 触发；支持新建内联（b5y 面板样式）。
@@ -1656,7 +1693,11 @@ private fun IgnoreDirsSheet(
 @Composable
 private fun OutputDialog(
     state: OutputDeviceState,
+    devices: List<DmrDevice> = emptyList(),
     onOutputSelected: (ActiveOutput) -> Unit,
+    onPickDmr: (DmrDevice) -> Unit = {},
+    onScanDlna: () -> Unit = {},
+    onOpenManualDmr: () -> Unit = {},
     onDismiss: () -> Unit,
 ) {
     CompSheetDialog(
@@ -1665,9 +1706,8 @@ private fun OutputDialog(
         content = {
             Column {
                 Text(
-                    "§61.110：切换 / 推流已接线（第一个生产调用点），本机静音随切换联动" +
-                        "（T09 / 03-08 §14 #9 成对契约）；断连回落、DMR 进度轮询、" +
-                        "切歌保持投屏属 DLNA 会话引擎（挂账）。" +
+                    "切换 / 推流已接线（03-08 §10.1），本机静音随切换联动（§14 #9 成对）；" +
+                        "切歌保持与断连回落已由会话引擎接管。" +
                         "蓝牙仅显示连接状态、不作为并列输出（03-10 §11 #8）。",
                     color = Comp.TextHint,
                     fontSize = 10.sp,
@@ -1681,12 +1721,96 @@ private fun OutputDialog(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                     )
                 }
+                if (devices.isNotEmpty()) {
+                    Text(
+                        "发现 ${devices.size} 台 DLNA 设备（点选直接投屏）：",
+                        color = Comp.TextSecondary,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    )
+                }
             }
         },
-        actions = listOf(
-            "本机（手机扬声器 / 有线输出）" to { onOutputSelected(ActiveOutput.LOCAL) },
-            "DLNA（投屏到局域网设备，03-08 §10.1）" to { onOutputSelected(ActiveOutput.DLNA) },
-            "关闭" to onDismiss,
-        ),
+        // §61.200：设备列表直接映射为面板动作——手动设备 / 最近发现已由 DmrDeviceSelector 排序。
+        actions = buildList {
+            add("本机（手机扬声器 / 有线输出）" to { onOutputSelected(ActiveOutput.LOCAL) })
+            devices.forEach { device ->
+                val kind = if (device.source == DeviceSource.MANUAL) "手动" else "发现"
+                add("${device.friendlyName} · $kind" to { onPickDmr(device) })
+            }
+            add("DLNA · 自动选择（记住设备优先）" to { onOutputSelected(ActiveOutput.DLNA) })
+            add("重新扫描 DLNA 设备" to onScanDlna)
+            add("手动指定 DMR（IP / 描述地址）" to onOpenManualDmr)
+            add("关闭" to onDismiss)
+        },
+    )
+}
+
+/**
+ * §61.201 / 03-08 §4.2：手动指定 DMR 的输入面板。
+ *
+ * 复用既有 [ManualDmrProbe]（候选描述路径 + 明确失败原因）与生产 DescriptionFetcher，
+ * UI 只收 IP / 端口 / 可选描述地址 / 备注，不自己解析 XML。探测结果由 Activity 以
+ * [Result] 回传：成功显示设备并允许直接投屏，失败显示探测器给出的原因（不静默）。
+ */
+@Composable
+private fun ManualDmrDialog(
+    result: Result<DmrDevice>?,
+    onProbe: (ManualDmrSpec) -> Unit,
+    onPick: (DmrDevice) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    var host by remember { mutableStateOf("") }
+    var port by remember { mutableStateOf("") }
+    var descUrl by remember { mutableStateOf("") }
+    var label by remember { mutableStateOf("") }
+    var localError by remember { mutableStateOf<String?>(null) }
+    val found = result?.getOrNull()
+    val probeError = result?.exceptionOrNull()?.message
+    CompSheetDialog(
+        onDismiss = onDismiss,
+        title = "手动指定 DMR（03-08 §4.2）",
+        content = {
+            Column {
+                CompDialogInput(host, { host = it }, hint = "设备 IP / 主机名，如 192.168.1.5")
+                CompDialogInput(port, { port = it }, hint = "端口（可空，默认试 8200 / 49152）")
+                CompDialogInput(descUrl, { descUrl = it }, hint = "描述地址（可空，填则仅试它）")
+                CompDialogInput(label, { label = it }, hint = "备注名（可空）")
+                if (localError != null || probeError != null) {
+                    Text(
+                        localError?.let { "请检查输入：$it" } ?: "探测失败：$probeError",
+                        color = Comp.AccentRed,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    )
+                }
+                if (found != null) {
+                    Text(
+                        "已找到：${found.friendlyName}（${found.baseUrl}）",
+                        color = Comp.TextSecondary,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    )
+                }
+            }
+        },
+        actions = buildList {
+            add("探测设备" to probe@{
+                val spec = ManualDmrSpec(
+                    host = host.trim(),
+                    port = port.trim().toIntOrNull(),
+                    descriptionUrl = descUrl.trim().takeIf { it.isNotBlank() },
+                    label = label.trim(),
+                )
+                if (spec.host.isBlank() && spec.descriptionUrl == null) {
+                    localError = "请填写 IP 或描述地址"
+                    return@probe
+                }
+                localError = null
+                onProbe(spec)
+            })
+            if (found != null) add("投屏到 ${found.friendlyName}" to { onPick(found) })
+            add("返回" to onDismiss)
+        },
     )
 }

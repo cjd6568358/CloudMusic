@@ -61,6 +61,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -86,6 +88,9 @@ private const val LOCAL_FIXTURE_STORAGE_ID = "debug-local-fixture"
  * 这正是 F3 需要验证的 REMOTE 取流路径（与 §61.47 的 LOCAL 路径互补）。
  */
 private const val REMOTE_FIXTURE_STORAGE_ID = "debug-remote-fixture"
+
+/** §61.199 / 03-08 §10.2：投屏会话进度轮询周期（失败 3 次 ≈15s 后回落）。 */
+private const val DLNA_POLL_INTERVAL_MS = 5_000L
 
 /**
  * §61.182：注入曲目的命名与**扫描链同源**（`NameParser`：%XX 解码 + GBK 修复，
@@ -250,8 +255,27 @@ class PlaybackRuntime @Inject constructor(
         historyLoop()
         // §61.193：DLNA 切歌保持（会话引擎第一刀）。
         dlnaRecastLoop()
+        // §61.199：DLNA 断连回落本机（会话引擎第二刀）。
+        dlnaSessionLoop()
     }
     val state: StateFlow<RuntimeState> = _state.asStateFlow()
+
+    /**
+     * §61.202：DMR 最近一次上报的进度（ms）。只在投屏会话循环里写，回本机即清零；
+     * 读失败时保留旧值（不把进度打回 0）。
+     */
+    private val _dlnaPositionMs = MutableStateFlow(0L)
+    fun dlnaPositionMs(): StateFlow<Long> = _dlnaPositionMs.asStateFlow()
+
+    /**
+     * §61.202 播放页进度显示的单一入口：DLNA 活跃时用 DMR 真值（未读到时暂用
+     * 本机引擎冻结的进度），否则用引擎实时进度。UI 不再自己判断输出类型。
+     */
+    fun displayPositionMs(): Flow<Long> = combine(
+        playerState(), dlnaPositionMs(), output.state(),
+    ) { s, dmr, o ->
+        if (o.activeOutput == ActiveOutput.DLNA && dmr > 0L) dmr else s.positionMs
+    }
 
     @Volatile
     private var scanJob: Job? = null
@@ -713,8 +737,21 @@ class PlaybackRuntime @Inject constructor(
     fun next() = scope.launch { controller.next() }
     fun prev() = scope.launch { controller.prev() }
 
-    /** §61.26（G03 验收）：外部 seek 入口（通知栏进度条 / 验收 intent 共用同一裁决）。 */
-    fun seekTo(ms: Long) = scope.launch { controller.seek(ms) }
+    /**
+     * §61.26（G03 验收）+ §61.202：外部 seek 入口（播放页进度条 / 通知栏 / 验收 intent 共用）。
+     * 投屏活跃时转发到 DMR（本机引擎此时静音、seek 它不会改变用户听到的进度）；
+     * 下发成功同步刷新显示进度，失败只记日志、不假装生效。非投屏态仍走本机引擎。
+     */
+    fun seekTo(ms: Long) = scope.launch {
+        val device = castingDevice
+        if (output.activeOutput == ActiveOutput.DLNA && device != null) {
+            val ok = runCatching { castCoordinator.seekTo(device, ms) }.getOrDefault(false)
+            if (ok) _dlnaPositionMs.value = ms
+            else Log.w("CM-DLNA", "DMR seek 未确认 ms=$ms")
+        } else {
+            controller.seek(ms)
+        }
+    }
 
     /** §61.93（音效必须支持）：外部音效档位入口（0 = 释放基础音效链）。 */
     fun attachEffect(effectId: Int) = scope.launch { controller.attachEffect(effectId) }
@@ -796,14 +833,20 @@ class PlaybackRuntime @Inject constructor(
      * 投屏目标设备由 UI 首次投屏成功时经 [onDlnaDeviceSelected] 写入；本收集器观察
      * 播放状态 × 输出路由：**DLNA 为活跃输出且换曲**时，自动把新曲目 re-cast 到该设备
      * （SetAVTransportURI + Play，hint 走 routeHint → 输出弹窗可见）；回落 LOCAL 即清设备。
-     * 挂账：进度同步 / 断连回落 / 多设备列表（capstone 另批，`12 §61.192`）。
+     * §61.199：断连回落由 [dlnaSessionLoop] 承担——3 次进度读取失败即 Stop + 切回
+     * LOCAL + seek 到最后已知进度续播。挂账：多设备列表（capstone 另批）。
      */
     @Volatile
     private var castingDevice: com.example.cloudmusic.output.dlna.DmrDevice? = null
 
+    /** §61.199：断连判定器（纯 JVM），只被本类的会话循环访问。 */
+    private val dlnaSession = com.example.cloudmusic.output.dlna.DlnaSessionMonitor()
+
     /** UI 首次投屏成功时写入目标设备（CloudMusicApp onOutputSelected DLNA 分支）。 */
     fun onDlnaDeviceSelected(device: com.example.cloudmusic.output.dlna.DmrDevice) {
         castingDevice = device
+        dlnaSession.reset()   // 新会话：清上次断连标记与旧进度
+        _dlnaPositionMs.value = 0L
     }
 
     private fun dlnaRecastLoop() {
@@ -813,6 +856,8 @@ class PlaybackRuntime @Inject constructor(
                 // 回落本机：清投屏目标（下次投屏重新选设备）。
                 if (o.activeOutput == ActiveOutput.LOCAL && castingDevice != null) {
                     castingDevice = null
+                    dlnaSession.reset()   // 用户主动回本机：会话结束，不留断连标记
+                    _dlnaPositionMs.value = 0L   // §61.202：显示进度交还本机引擎
                 }
                 val trackId = s.currentTrackId?.value
                 val device = castingDevice
@@ -827,6 +872,50 @@ class PlaybackRuntime @Inject constructor(
                     }
                 }
                 lastTrackId = trackId
+            }
+        }
+    }
+
+    /**
+     * §61.199（03-08 §10.2 T18）：DLNA 断连回落本机。
+     *
+     * 投屏活跃且记住了目标设备时，每 [DLNA_POLL_INTERVAL_MS] 读一次 DMR 进度；
+     * 判定器连续 3 次失败 → Stop DMR（尽力）→ OutputRouter 切回 LOCAL →
+     * 解除本机静音 / 恢复 MediaSession → seek 到最后已知进度并续播 → UI 提示。
+     * 不投屏时不读网、不抢占；回落只发一次（判定器保证），避免反复 seek。
+     * 真机 E2E pending-device：无设备不施工、不伪造 PASS。
+     */
+    private fun dlnaSessionLoop() {
+        scope.launch {
+            while (isActive) {
+                val device = castingDevice
+                if (output.activeOutput == ActiveOutput.DLNA && device != null) {
+                    val position = runCatching { castCoordinator.positionMs(device) }.getOrNull()
+                    // §61.202：读成功即刷新显示进度；失败保留旧值（判定器负责计失败次数）。
+                    if (position != null && position >= 0L) _dlnaPositionMs.value = position
+                    val verdict = dlnaSession.observe(position)
+                    if (verdict.shouldFallBack) {
+                        runCatching { castCoordinator.stopCast(device) }
+                            .onFailure { Log.w("CM-DLNA", "回落 Stop 失败: ${it.message}") }
+                        // OutputRouter 是输出状态唯一裁决者（03-08 §14 #9）；先切状态再恢复本机控件。
+                        output.setActive(ActiveOutput.LOCAL)
+                        output.updateRouteHint("已回到本机播放")
+                        this@PlaybackRuntime.onOutputChanged(false)
+                        val resumed = runCatching {
+                            // 从未读到有效进度时不 seek（避免把用户带回开头）。
+                            if (verdict.lastPositionMs > 0L) controller.seek(verdict.lastPositionMs)
+                            controller.resume()
+                        }
+                        if (resumed.isFailure) {
+                            Log.w("CM-DLNA", "回落 seek/resume 失败: ${resumed.exceptionOrNull()?.message}")
+                        }
+                        castingDevice = null
+                        dlnaSession.reset()
+                        _dlnaPositionMs.value = 0L
+                        Log.i("CM-DLNA", "断连回落本机 lastPositionMs=${verdict.lastPositionMs} resumed=${resumed.isSuccess}")
+                    }
+                }
+                delay(DLNA_POLL_INTERVAL_MS)
             }
         }
     }
