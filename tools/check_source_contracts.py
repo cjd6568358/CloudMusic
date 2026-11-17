@@ -6507,6 +6507,31 @@ def main() -> int:
     else:
         print("[PASS] §61.212 循环三层修复 + STRM URL 复用 + v5 迁移 + sweep 勘误")
 
+    # §61.214（M4 收舱）指纹回填 + 舱冻结：engine_compat_test/cabin_frozen 字段在双份
+    # 指纹中同步在位；03-12 §4 A3 行回填现行口径（旧「NOT RUN 不冻结舱」不得回潮）。
+    _m4_bad = []
+    _fp_a = ROOT / "assets" / "ENGINE-FINGERPRINT"
+    _fp_b = ROOT / "app" / "src" / "main" / "assets" / "ENGINE-FINGERPRINT"
+    if not (_fp_a.is_file() and _fp_b.is_file() and _fp_a.read_bytes() == _fp_b.read_bytes()):
+        _m4_bad.append("双份指纹缺失或不一致")
+    else:
+        _fp_txt = _fp_a.read_text(encoding="utf-8", errors="replace")
+        if not all(x in _fp_txt for x in (
+            "engine_compat_test:", "cabin_frozen: true", "frozen_at: 2026-11-18",
+            "已定性受限 PARTIAL",
+        )):
+            _m4_bad.append("A3 终局字段缺失")
+        _d312 = (ROOT / "docs" / "03-模块开发文档" / "03-12 构建发布与合规.md"
+                 ).read_text(encoding="utf-8", errors="replace")
+        if "已定性受限 PARTIAL**（前台/后台 crash 未自动恢复一手 ×3" not in _d312:
+            _m4_bad.append("03-12 §4 A3 行未回填（旧口径回潮）")
+        if "## 第二百二十六批（§61.214）" not in doc139_txt:
+            _m4_bad.append("docs/12 批次登记缺失")
+    if _m4_bad:
+        failures.append("§61.214 M4 收舱：%s" % "；".join(_m4_bad))
+    else:
+        print("[PASS] §61.214 M4 收舱（指纹双份回填 + A3 行现行口径 + 舱冻结标记）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

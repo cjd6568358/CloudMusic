@@ -1,3 +1,8 @@
+# A3 终局状态（§61.214 M4 收舱回填，2026-11-18，拍板 A 口径 `12 §61.213`）
+engine_compat_test: G01~G07 PASS / G08 PASS（20 分钟降级口径 §61.31）/ G09 已定性受限 PARTIAL（前台/后台 crash 未自动恢复一手 ×3：§61.32 漂移、§61.161、§61.213 exit-info 07:05:36；MIUI 拉活受限 + 自启动白名单默认关归因；引导入口已落地 §61.211；M1/M2 前台矩阵补判待在场会话）
+cabin_frozen: true（拍板 A：G09 从「未定案」转「已定性受限」，舱冻结；后续任何 so/舱体改动走版本演进流程，不改本指纹）
+frozen_at: 2026-11-18
+
 # ENGINE-FINGERPRINT · NeteaseCloudMusic 9.6.20 · lib/arm64-v8a · 18 个打包集
 dc20ade9f6cfd7d58d0ad94eb98a4fd75953d426fe91ea71aa845dd858d6392b  libncmplayerengine.so
 7d57eb49b5eba999f3e21121ed8db8e9dd7b7148f2ef7449a69eb2af6536b05b  libaudioplayer.so
