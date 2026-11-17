@@ -317,11 +317,15 @@ class InMemoryStorageRepository(
         tracks.markOrphan(id)
     }
 
+    /** §61.212：error-state 为运行态诊断——不改 modified、同值幂等（与生产
+     *  DataStoreStorageRepository 同口径；防扫描结束 error-state 写回触发 REBUILD
+     *  无限重扫循环）。 */
     override suspend fun setError(id: String, msg: String) {
         store.mutate { s ->
             val storage = s.storages[id] ?: return@mutate s
+            if (storage.errorMsg == msg) return@mutate s
             s.copy(
-                storages = s.storages + (id to storage.copy(errorMsg = msg, modified = store.now())),
+                storages = s.storages + (id to storage.copy(errorMsg = msg)),
             )
         }
     }

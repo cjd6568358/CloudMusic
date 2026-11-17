@@ -56,11 +56,20 @@ class DataStoreStorageRepository(
         tracks.markOrphan(id)
     }
 
+    /**
+     * §61.212（B4 真机一手揪出的无限重扫循环）：error-state 是**运行态诊断**，
+     * 不是用户配置——此前写回 `modified = clock()` 会让 DataStore diff 判定为
+     * STORAGE_CREDENTIALS（data class 相等含 errorMsg/modified）→ REBUILD 全量
+     * 重扫 → 扫描结束又写「已清」→ 无限循环（每轮 ~100s 烧 CPU/网络，真机实测
+     * 01:02~01:06 三轮连跑）。修复 = ① 不改 modified（配置变更语义只属于真实
+     * 用户配置，§61.179 binder.sync 口径不变）；② 同值幂等门（重复「已清」不产生
+     * 任何 diff → 零 effect）。
+     */
     override suspend fun setError(id: String, msg: String) {
         access.update { settings ->
             settings.copy(
                 storages = settings.storages.map { dto ->
-                    if (dto.id == id) dto.copy(errorMsg = msg, modified = clock()) else dto
+                    if (dto.id == id && dto.errorMsg != msg) dto.copy(errorMsg = msg) else dto
                 },
             )
         }

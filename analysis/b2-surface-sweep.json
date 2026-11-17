@@ -1,5 +1,21 @@
 {
-  "device": "192.168.1.2:41271",
-  "ts": "2026-11-17 07:20:48",
-  "error": "device-busy: foreground=com.android.settings"
+  "device": "adb-2a81a46c-yCAQTs._adb-tls-connect._tcp",
+  "ts": "2026-11-18 00:57:31",
+  "foreground": "com.example.cloudmusic",
+  "01-home": "D:\\workspace\\CloudMusic\\analysis\\b2-surface-sweep-20261118-005731\\01-home.png",
+  "02-player": "D:\\workspace\\CloudMusic\\analysis\\b2-surface-sweep-20261118-005731\\02-player.png",
+  "03-home-again": "D:\\workspace\\CloudMusic\\analysis\\b2-surface-sweep-20261118-005731\\03-home-again.png",
+  "app_playback_state": "state=PlaybackState {state=2, position=0, buffered position=0, speed=1.0, updated=65776016, actions=54, custom actions=[], active item id=-1, error=null}",
+  "cm_media3_tail": [
+    "11-18 00:54:51.075 26776 18596 I CM-Media3: media cache ready dir=/data/user/0/com.example.cloudmusic/cache/b2_media_cache cap=256MiB",
+    "11-18 00:54:51.119 26776 26776 I CM-Media3: queue transition index=0 reason=3",
+    "11-18 00:54:51.119 26776 26776 I CM-Media3: gapless in_file=true cross_track=false blocker=single-handle 契约：prepare 前 release → ExoPlayer 重建；需门面队列化 + player 复用",
+    "11-18 00:54:51.123 26776 26776 I CM-Media3: state=BUFFERING",
+    "11-18 00:54:51.127 26776 26776 I CM-Media3: seek toMs=219492 durMs=unset",
+    "11-18 00:54:51.128 26776 26776 I CM-Media3: discontinuity reason=SEEK positionMs=219492",
+    "11-18 00:54:51.233 26776 26776 I CM-Media3: replaygain(tracks) tags=6 gain=none volume=1.000 mode=TRACK diag=ALBUM=后会无期;ARTIST=G.E.M.邓紫棋;COMMENT=V1.0;DATE=2014-07-11;DESCRIPTION=163 key(Don't modify):L64FU3W4YxX3ZFTmbZ+8/bubHSxMaFC3SmfLe7jd5EaXyQj9DiA/v+pOZvFo8wRnNKa1ZSzGIi08b0HIEiuTWa4pVSuAdf+PLXEGALQ+kLv5M8BEkGzQcf5GRjjd9aRmByQveebY8phg09Blr41lGUOTgk2Cu1pgQBq+gaSNvw0mhfRfkENZg1nlU9r9qIzwYX03oGSdxm6pHdMNHTXGAeJbNivFYaYPR4h/0PUW+HKFFaiJwvlcUkGqwCchYv6Yz+GA9AUSJWNAh",
+    "11-18 00:54:51.448 26776 26776 I CM-Media3: state=READY durationMs=223041"
+  ],
+  "out_dir": "D:\\workspace\\CloudMusic\\analysis\\b2-surface-sweep-20261118-005731",
+  "verdict_scope": "脚本只取证；画面不变量（总时长≠00:00 / 曲名无 %20 / 封面非兜底 / 进度合理）由会话内 agent 读 PNG 或用户判读"
 }

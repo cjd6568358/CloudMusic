@@ -319,6 +319,45 @@ class ScanCoordinatorTest {
         assertEquals(true, snapshots.load("s1")["/music/a.mp3"]?.metadataDone)
     }
 
+    @Test
+    @DisplayName("T23 §61.212 strm stat 命中且快照带 URL → 零 readText 复用直链；内容变化才重读")
+    fun t23() = runTest {
+        val strm = obj("/music/a.strm")
+        val url = "https://nas/a.flac"
+        val driver = FakeDriver(
+            tree = mapOf("" to listOf(strm)),
+            texts = mapOf(strm.path to "https://nas/NEW.flac"),
+        )
+        DriverRegistry.put("s1", driver)
+        val snapshots = InMemoryScanSnapshotStore()
+        snapshots.save(
+            "s1",
+            listOf(snapshot("s1", strm, kind = CandidateKind.STRM, directUrl = url)),
+        )
+        val sink = InMemoryTrackSink()
+        // refresh=true 是 URL 复用的主战场（refresh 重扫不再逐文件重读 .strm 内容）
+        coordinator(listOf(storage()), sink, snapshots, tagReader = CountingTagReader())
+            .run(ScanRequest(refresh = true, includeMetadata = true))
+        assertEquals(0, driver.textReads.get(), "stat 命中 + 快照缓存 URL → 免重读 .strm 内容")
+        assertEquals(url, sink.all().single().sourceRef.url, "directUrl 复用快照缓存值")
+
+        // 内容变化（size 变）→ 重读并取新 URL
+        val changed = obj("/music/a.strm", size = 2000)
+        driver.setRoot(listOf(changed))
+        snapshots.save(
+            "s1",
+            listOf(snapshot("s1", strm, kind = CandidateKind.STRM, directUrl = url)),
+        )
+        coordinator(listOf(storage()), sink, snapshots, tagReader = CountingTagReader())
+            .run(ScanRequest(refresh = true, includeMetadata = true))
+        assertEquals(1, driver.textReads.get(), "stat 变化 → 重读 .strm 内容")
+        assertEquals("https://nas/NEW.flac", sink.all().single().sourceRef.url, "新 URL 入库与快照")
+        assertEquals(
+            "https://nas/NEW.flac", snapshots.load("s1")["/music/a.strm"]?.directUrl,
+            "新 URL 写回快照供下轮复用",
+        )
+    }
+
     // ------------------------------------------------------------------
     private fun storage(id: String = "s1") = Storage(id, "/mnt/$id", "local", Addition("{}"))
 
@@ -335,13 +374,19 @@ class ScanCoordinatorTest {
         isDir = isDir,
     )
 
-    private fun snapshot(storageId: String, file: Obj) = ScanSnapshot(
+    private fun snapshot(
+        storageId: String,
+        file: Obj,
+        kind: CandidateKind = CandidateKind.AUDIO,
+        directUrl: String? = null,
+    ) = ScanSnapshot(
         storageId = storageId,
         path = file.path,
         size = file.size,
         modified = file.modified,
-        kind = CandidateKind.AUDIO,
+        kind = kind,
         scannedAt = 0,
+        directUrl = directUrl,
     )
 
     private fun coordinator(
@@ -365,6 +410,8 @@ class ScanCoordinatorTest {
         private var tree: Map<String, List<Obj>>,
         private val texts: Map<String, String> = emptyMap(),
     ) : Driver, TextReadCapability {
+        /** §61.212：readText 计数（expandStrm URL 复用回归锚）。 */
+        var textReads = java.util.concurrent.atomic.AtomicInteger(0)
         override val config = DriverConfig("fake")
 
         fun setRoot(items: List<Obj>) {
@@ -376,7 +423,10 @@ class ScanCoordinatorTest {
         override suspend fun list(dir: Obj, refresh: Boolean): List<Obj> = tree[dir.path] ?: emptyList()
         override suspend fun get(path: String): Obj? = tree.values.flatten().firstOrNull { it.path == path }
         override suspend fun link(file: Obj, args: LinkArgs): Link = Link(localPath = file.path)
-        override suspend fun readText(file: Obj): String = texts[file.path].orEmpty()
+        override suspend fun readText(file: Obj): String {
+            textReads.incrementAndGet()
+            return texts[file.path].orEmpty()
+        }
     }
 
     private class HangingDriver(

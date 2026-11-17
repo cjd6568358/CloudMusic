@@ -50,5 +50,17 @@ object LibraryMigrations {
             }
         }
 
-    val ALL: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+    /** §61.212：v4→v5 增 `scan_snapshot.direct_url`。 */
+    val MIGRATION_4_5: Migration =
+        object : Migration(LibrarySchema.VERSION_V4, LibrarySchema.VERSION_V5) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                MigrationSql.apply(object : SqlExecutor {
+                    override fun exec(sql: String) {
+                        db.execSQL(sql)
+                    }
+                }, MigrationSql.V4_TO_V5)
+            }
+        }
+
+    val ALL: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
 }

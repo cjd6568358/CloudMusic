@@ -54,6 +54,13 @@ data class ScanSnapshot(
      * stat 未变 ⇒ 标签不可能变）。
      */
     val metadataDone: Boolean = false,
+    /**
+     * §61.212（B4 真机一手）：STRM/播放列表候选缓存的 directUrl——walk 阶段的
+     * `expandStrm` 逐文件 `readTextOrThrow`（每 STRM 1 次网络 GET，92 文件 ≈100s
+     * 真机实测）是 §61.203（只砍了 metadata 侧）之后的漏网成本大头；stat 未变 +
+     * 快照已缓存 URL ⇒ 直接复用，`.strm` 内容变化由 (size,modified) 捕获后重读。
+     */
+    val directUrl: String? = null,
 ) {
     fun matches(size: Long, modified: Long): Boolean =
         this.size == size && this.modified == modified

@@ -24,7 +24,10 @@ object LibrarySchema {
 
     /** §61.204（A1-③）：v4 增 `scan_snapshot.metadata_done`（refresh stat 命中跳过的依据）。 */
     const val VERSION_V4 = 4
-    const val VERSION = VERSION_V4
+
+    /** §61.212：v5 增 `scan_snapshot.direct_url`（STRM walk 免逐文件重读的 URL 缓存）。 */
+    const val VERSION_V5 = 5
+    const val VERSION = VERSION_V5
 
     const val FTS_TABLE = "tracks_fts"
 
@@ -116,9 +119,14 @@ object MigrationSql {
     const val ADD_SNAPSHOT_METADATA_DONE =
         "ALTER TABLE scan_snapshot ADD COLUMN metadata_done INTEGER NOT NULL DEFAULT 0"
 
+    /** §61.212：STRM directUrl 缓存（可空 TEXT，旧行 NULL = 首轮照常读文件内容）。 */
+    const val ADD_SNAPSHOT_DIRECT_URL =
+        "ALTER TABLE scan_snapshot ADD COLUMN direct_url TEXT"
+
     val V1_TO_V2 = listOf(ADD_SORT_TITLE, CREATE_SORT_INDEX)
     val V2_TO_V3 = listOf(ADD_REPLAY_GAIN)
     val V3_TO_V4 = listOf(ADD_SNAPSHOT_METADATA_DONE)
+    val V4_TO_V5 = listOf(ADD_SNAPSHOT_DIRECT_URL)
 
     fun apply(executor: SqlExecutor) {
         V1_TO_V2.forEach(executor::exec)

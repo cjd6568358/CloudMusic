@@ -6459,6 +6459,53 @@ def main() -> int:
     else:
         print("[PASS] §61.211 MIUI 自启动引导（判定核 + 设置页行 + 跳转 + 用例，PRD §9 口径）")
 
+    # §61.212（B4 真机一手）无限重扫循环三层修复 + STRM URL 复用 + sweep 拼接勘误：
+    # ① setError 不改 modified + 同值幂等（生产与内存实现同口径）；
+    # ② SettingsChangePolicy.diff 忽略 errorMsg-only（策略防线）；
+    # ③ ScanSnapshot.directUrl 缓存 + expandStrm stat 命中复用（walk 免逐文件重读）；
+    # ④ Room v5 迁移（ADD_SNAPSHOT_DIRECT_URL）；
+    # ⑤ sweep 工具空格 join（`;` 拆参数 bug 不得回潮）。
+    _scan_coord_212 = _code_only(scan_coord.read_text(encoding="utf-8", errors="replace"))
+    _bad212 = []
+    _dsr = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+            / "di" / "settings" / "DataStoreStorageRepository.kt")
+    if not all(p.is_file() for p in (_dsr, _scan_ports, scan_coord)):
+        _bad212.append("源文件缺失")
+    else:
+        _dsr_src = _code_only(_dsr.read_text(encoding="utf-8", errors="replace"))
+        _ports_src = _code_only(_scan_ports.read_text(encoding="utf-8", errors="replace"))
+        if not all(x in _dsr_src for x in (
+            "if (dto.id == id && dto.errorMsg != msg) dto.copy(errorMsg = msg) else dto",
+            "无限重扫循环",
+        )) or "modified = clock()" in _dsr_src.split("override suspend fun setError")[1][:600]:
+            _bad212.append("setError 未修（modified 写回/幂等门缺失）")
+        if not all(x in _ports_src for x in (
+            "val directUrl: String? = null",
+        )):
+            _bad212.append("ScanSnapshot.directUrl 缺失")
+        if not all(x in _scan_coord_212 for x in (
+            "cached.matches(item.size, item.modified) && !cached.directUrl.isNullOrBlank()",
+            "directUrl = it.directUrl ?: old?.takeIf { o -> statUnchanged }?.directUrl",
+        )):
+            _bad212.append("expandStrm URL 复用 / 快照回写缺失")
+        _sc_change = (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com"
+                      / "example" / "cloudmusic" / "storage" / "SettingsChange.kt")
+        _sc_src = _code_only(_sc_change.read_text(encoding="utf-8", errors="replace"))
+        if "stripRuntime" not in _sc_src or "errorMsg" not in _sc_src:
+            _bad212.append("diff 层 errorMsg-only 防线缺失")
+        _schema_src = _code_only(_room_schema.read_text(encoding="utf-8", errors="replace"))
+        if "const val VERSION_V5 = 5" not in _schema_src or "ADD_SNAPSHOT_DIRECT_URL" not in _schema_src:
+            _bad212.append("v5 迁移缺失")
+        _sweep = (ROOT / "tools" / "b2_surface_sweep.py").read_text(encoding="utf-8", errors="replace")
+        if '("01-home", ";".join(NAV_BASE), 8.0)' in _sweep:
+            _bad212.append("sweep 分号拼接 bug 回潮")
+        if "## 第二百二十四批（§61.212）" not in doc139_txt:
+            _bad212.append("docs/12 批次登记缺失")
+    if _bad212:
+        failures.append("§61.212 重扫循环修复 + URL 复用：%s" % "；".join(_bad212))
+    else:
+        print("[PASS] §61.212 循环三层修复 + STRM URL 复用 + v5 迁移 + sweep 勘误")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

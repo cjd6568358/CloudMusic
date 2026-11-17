@@ -197,6 +197,8 @@ data class ScanSnapshotRow(
     @ColumnInfo(name = "scanned_at") val scannedAt: Long,
     /** §61.204（A1-③）：该文件版本元数据读取已完成（refresh 重扫 stat 命中跳过的依据）。 */
     @ColumnInfo(name = "metadata_done", defaultValue = "0") val metadataDone: Boolean = false,
+    /** §61.212：STRM/播放列表候选缓存的 directUrl（walk 免逐文件重读）。 */
+    @ColumnInfo(name = "direct_url") val directUrl: String? = null,
 ) {
     fun toModel(): ScanSnapshot = ScanSnapshot(
         storageId = storageId,
@@ -206,6 +208,7 @@ data class ScanSnapshotRow(
         kind = CandidateKind.valueOf(kind),
         scannedAt = scannedAt,
         metadataDone = metadataDone,
+        directUrl = directUrl,
     )
 
     companion object {
@@ -217,6 +220,7 @@ data class ScanSnapshotRow(
             kind = model.kind.name,
             scannedAt = model.scannedAt,
             metadataDone = model.metadataDone,
+            directUrl = model.directUrl,
         )
     }
 }

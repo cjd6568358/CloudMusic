@@ -153,7 +153,7 @@ class ScanCoordinator(
         val candidates = mutableListOf<Candidate>()
         try {
             trace("walk 开始 path='${storage.mountPath}' root='${rootPathFor(storage)}'")
-            walk(driver, storage, Obj(name = "", isDir = true, path = ""), request, state, candidates, 0)
+            walk(driver, storage, Obj(name = "", isDir = true, path = ""), request, state, candidates, 0, previous)
             trace("walk 完成 candidates=${candidates.size}")
         } catch (e: CancellationException) {
             throw e
@@ -239,11 +239,13 @@ class ScanCoordinator(
             candidates.map {
                 // §61.204：stat 未变 → 继承上一轮 metadataDone（refresh 重扫可跳过重读）；
                 // 有变 / 新出现 → 重置 false，待本轮 metadata 块完成回写。
+                // §61.212：STRM/播放列表候选缓存 directUrl（walk 复用，免逐文件重读）。
                 val old = previous[it.obj.path]
                 val statUnchanged = old != null && old.matches(it.obj.size, it.obj.modified)
                 ScanSnapshot(
                     storage.id, it.obj.path, it.obj.size, it.obj.modified, it.kind, now,
                     metadataDone = statUnchanged && old.metadataDone,
+                    directUrl = it.directUrl ?: old?.takeIf { o -> statUnchanged }?.directUrl,
                 )
             },
         )
@@ -262,6 +264,7 @@ class ScanCoordinator(
         state: ScanState,
         out: MutableList<Candidate>,
         depth: Int,
+        previous: Map<String, ScanSnapshot> = emptyMap(),
     ) {
         currentCoroutineContext().ensureActive()
         if (depth > MAX_WALK_DEPTH) {
@@ -280,7 +283,7 @@ class ScanCoordinator(
                 FileClass.DIRECTORY -> if (item.name.lowercase() !in effectiveIgnoreDirs()) childDirs += item
                 FileClass.AUDIO -> out += audioCandidate(storage, item, dir)
                 // 03-04 §5 内联展开：直接调用共享解析函数，不实例化 StrmDriver / PlaylistDriver
-                FileClass.STRM -> expandStrm(driver, storage, item, dir, state, out)
+                FileClass.STRM -> expandStrm(driver, storage, item, dir, state, out, previous)
                 FileClass.PLAYLIST -> expandPlaylistInline(driver, storage, item, dir, state, out)
                 FileClass.PASS_THROUGH, FileClass.IGNORED -> Unit
             }
@@ -304,7 +307,26 @@ class ScanCoordinator(
         dir: Obj,
         state: ScanState,
         out: MutableList<Candidate>,
+        previous: Map<String, ScanSnapshot> = emptyMap(),
     ) {
+        // §61.212（B4 真机一手）：walk 阶段的逐文件 readTextOrThrow（每 STRM 1 次
+        // 网络 GET，92 文件 ≈100s）是 §61.203（只砍 metadata 侧）后的漏网成本大头。
+        // stat 未变 + 快照已缓存 directUrl ⇒ 直接复用；.strm 内容变化由
+        // (size,modified) 捕获 → 变了才重读。URL 失效由播放期断链标记兜底。
+        val cached = previous[item.path]
+        if (cached != null && cached.kind == CandidateKind.STRM &&
+            cached.matches(item.size, item.modified) && !cached.directUrl.isNullOrBlank()
+        ) {
+            out += Candidate(
+                storage = storage,
+                obj = item,
+                kind = CandidateKind.STRM,
+                parentDirName = parentName(dir.path.ifBlank { item.path }),
+                hint = strmTitleHint(item.name)?.let { TrackHint(title = it.second, artist = it.first) },
+                directUrl = cached.directUrl,
+            )
+            return
+        }
         val text = runCatching { driver.readTextOrThrow(item) }.getOrElse {
             state.error("", "E_SCAN_ENCODING", "strm 读取失败: ${item.path}")
             return

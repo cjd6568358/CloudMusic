@@ -103,9 +103,13 @@ def main() -> int:
             return 1
 
     # ② 前台占用守卫（2026-11-17 首跑教训：用户正在用手机时 am start 构成打断，
-    #    违反「无人值守禁止破坏性注入」纪律）——前台非本 App 一律拒跑。
+    #    违反「无人值守禁止破坏性注入」纪律）——空闲口径 = 前台为本 App **或桌面**
+    #    （com.miui.home / launcher / 熄屏；§61.183 automation runbook 同口径），
+    #    其余第三方前台一律拒跑。2026-11-18 用户在场授权验证时修正：桌面 ≠ 占用。
     fg = foreground_package(serial)
-    if fg != PKG:
+    IDLE_PREFIXES = (PKG, "com.miui.home", "com.android.launcher", "com.google.android.apps.nexuslauncher")
+    fg_idle = bool(fg) and any(fg == p or fg.startswith(p + ".") for p in IDLE_PREFIXES)
+    if not fg_idle:
         print("[REFUSE] 前台是 %s（用户在用手机）——打断用机违反无人值守纪律，拒绝执行。"
               "等手机空闲（前台为本 App 或桌面空闲）后重跑。" % (fg or "未知"))
         result["error"] = "device-busy: foreground=%s" % (fg or "unknown")
@@ -115,12 +119,15 @@ def main() -> int:
     result["foreground"] = fg
 
     # ③ surface 链（导航 intent 免注入；启动页 1.2s + restore 余量）
+    # §61.212 勘误：此前 `";".join(NAV_BASE + [...])` 把单个 am start 的参数拆成了
+    # 多条 shell 命令（`;` 是命令分隔符）——`-a ACTION` 从未传到 onNewIntent，
+    # 02/03 恒截到上一页；01-home 亦坏（被「App 已在前台」掩盖）。改为空格 join 单命令。
     steps = [
-        ("01-home", ";".join(NAV_BASE), 8.0),
-        ("02-player", ";".join(NAV_BASE +
-            ["-a", "com.example.cloudmusic.action.OPEN_PLAYER"]), 2.5),
-        ("03-home-again", ";".join(NAV_BASE +
-            ["-a", "com.example.cloudmusic.action.CLOSE_PLAYER"]), 2.5),
+        ("01-home", " ".join(NAV_BASE), 8.0),
+        ("02-player", " ".join(NAV_BASE +
+            ["-a", "com.example.cloudmusic.action.OPEN_PLAYER"]), 3.0),
+        ("03-home-again", " ".join(NAV_BASE +
+            ["-a", "com.example.cloudmusic.action.CLOSE_PLAYER"]), 3.0),
     ]
     for name, cmd, wait in steps:
         sh(serial, cmd)

@@ -47,12 +47,19 @@ object SettingsChangePolicy {
     /** 逐分组对比，返回本次实际发生的变更集合；无变化返回空集。 */
     fun diff(before: AppSettings, after: AppSettings): Set<SettingsChange> = buildSet {
         if (before.storages != after.storages) {
-            val sameShape = before.storages.size == after.storages.size &&
-                    before.storages.zip(after.storages).all { (a, b) ->
-                        a.id == b.id && a.driverType == b.driverType
-                    }
-            // 03-11 §5：凭据/地址变化必须重建 Driver；增删数据源同样需要重建注册表。
-            add(if (sameShape) SettingsChange.STORAGE_CREDENTIALS else SettingsChange.STORAGE_LIST)
+            // §61.212：errorMsg 是**运行态诊断**（§61.184 error-state 写侧），不是用户配置
+            // ——仅 errorMsg 差异（其余字段全同）不得产生任何 SettingsChange，否则
+            // 「扫描结束写『已清』→ REBUILD → 再扫描 → 再写」无限循环（真机一手）。
+            // modified 是凭据/地址变更的真实信号（03-11 §5），保留参与对比。
+            val stripRuntime = { list: List<StorageDto> -> list.map { it.copy(errorMsg = "") } }
+            if (stripRuntime(before.storages) != stripRuntime(after.storages)) {
+                val sameShape = before.storages.size == after.storages.size &&
+                        before.storages.zip(after.storages).all { (a, b) ->
+                            a.id == b.id && a.driverType == b.driverType
+                        }
+                // 03-11 §5：凭据/地址变化必须重建 Driver；增删数据源同样需要重建注册表。
+                add(if (sameShape) SettingsChange.STORAGE_CREDENTIALS else SettingsChange.STORAGE_LIST)
+            }
         }
         if (before.network.forceWebdavProxy != after.network.forceWebdavProxy) {
             add(SettingsChange.FORCE_WEBDAV_PROXY)

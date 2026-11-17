@@ -85,7 +85,9 @@ class LibraryRoomContractTest {
         assertEquals(3, LibrarySchema.VERSION_V3)
         // §61.204（A1-③）：v4 增 scan_snapshot.metadata_done（refresh stat 命中跳过依据）。
         assertEquals(4, LibrarySchema.VERSION_V4)
-        assertEquals(LibrarySchema.VERSION_V4, LibrarySchema.VERSION)
+        // §61.212：v5 增 scan_snapshot.direct_url（STRM walk 免逐文件重读）。
+        assertEquals(5, LibrarySchema.VERSION_V5)
+        assertEquals(LibrarySchema.VERSION_V5, LibrarySchema.VERSION)
         assertEquals("cloudmusic.db", LibrarySchema.DATABASE_NAME)
         assertEquals(1, LibraryMigrations.MIGRATION_1_2.startVersion)
         assertEquals(2, LibraryMigrations.MIGRATION_1_2.endVersion)
@@ -93,7 +95,9 @@ class LibraryRoomContractTest {
         assertEquals(3, LibraryMigrations.MIGRATION_2_3.endVersion)
         assertEquals(3, LibraryMigrations.MIGRATION_3_4.startVersion)
         assertEquals(4, LibraryMigrations.MIGRATION_3_4.endVersion)
-        assertEquals(3, LibraryMigrations.ALL.size)
+        assertEquals(4, LibraryMigrations.MIGRATION_4_5.startVersion)
+        assertEquals(5, LibraryMigrations.MIGRATION_4_5.endVersion)
+        assertEquals(4, LibraryMigrations.ALL.size)
     }
 
     @Test
@@ -106,6 +110,16 @@ class LibraryRoomContractTest {
         val recorder = RecordingSql()
         MigrationSql.apply(recorder, MigrationSql.V3_TO_V4)
         assertEquals(listOf(MigrationSql.ADD_SNAPSHOT_METADATA_DONE), recorder.statements)
+    }
+
+    @Test
+    fun `T-A1-02c v4 to v5 migration adds nullable direct_url`() {
+        val sql = MigrationSql.ADD_SNAPSHOT_DIRECT_URL
+        assertTrue(sql.startsWith("ALTER TABLE scan_snapshot ADD COLUMN direct_url"))
+        assertTrue(MigrationSql.isNonDestructive(MigrationSql.V4_TO_V5))
+        val recorder = RecordingSql()
+        MigrationSql.apply(recorder, MigrationSql.V4_TO_V5)
+        assertEquals(listOf(MigrationSql.ADD_SNAPSHOT_DIRECT_URL), recorder.statements)
     }
 
     // ---- 03-05 §10 / T13 / T14 / B10：Migration ------------------------------

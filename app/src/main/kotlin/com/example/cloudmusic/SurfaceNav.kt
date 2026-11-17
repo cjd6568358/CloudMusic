@@ -24,8 +24,13 @@ object SurfaceNav {
     /** 回到首页（关闭播放页覆盖层；等价于播放页返回）。 */
     const val ACTION_CLOSE_PLAYER = "com.example.cloudmusic.action.CLOSE_PLAYER"
 
+    /** §61.212（B2 九项视觉判据扩展）：音乐库 / 搜索 / 设置 三页直达（取证导航）。 */
+    const val ACTION_OPEN_LIBRARY = "com.example.cloudmusic.action.OPEN_LIBRARY"
+    const val ACTION_OPEN_SEARCH = "com.example.cloudmusic.action.OPEN_SEARCH"
+    const val ACTION_OPEN_SETTINGS = "com.example.cloudmusic.action.OPEN_SETTINGS"
+
     /** intent 可直达的 surface；后续 surface（曲库 / 队列 / 设置…）按需扩展。 */
-    enum class Surface { PLAYER, HOME }
+    enum class Surface { PLAYER, HOME, LIBRARY, SEARCH, SETTINGS }
 
     /**
      * intent action → 目标 surface。`null` = 常规启动 / 未知 action（零行为变化，
@@ -34,6 +39,9 @@ object SurfaceNav {
     fun parse(action: String?): Surface? = when (action) {
         ACTION_OPEN_PLAYER -> Surface.PLAYER
         ACTION_CLOSE_PLAYER -> Surface.HOME
+        ACTION_OPEN_LIBRARY -> Surface.LIBRARY
+        ACTION_OPEN_SEARCH -> Surface.SEARCH
+        ACTION_OPEN_SETTINGS -> Surface.SETTINGS
         else -> null
     }
 }

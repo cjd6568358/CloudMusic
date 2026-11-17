@@ -1,9 +1,11 @@
 package com.example.cloudmusic.storage
 
 import com.example.cloudmusic.model.Availability
+import com.example.cloudmusic.model.Storage
 import com.example.cloudmusic.model.SourceType
 import com.example.cloudmusic.model.TrackId
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -244,5 +246,39 @@ class InMemoryRepositoryTest {
         now += 31L * 24 * 60 * 60 * 1000
         log.prune()
         assertTrue(log.observe().first().isEmpty())
+    }
+
+    @Test
+    @DisplayName("§61.212 setError 不改 modified、同值幂等零 diff（防 REBUILD 无限重扫循环）")
+    fun setErrorKeepsModifiedAndIsIdempotent() = runTest {
+        val added = storages.add("webdav", "{}")
+        val before = store.snapshot().storages[added.id]!!
+
+        storages.setError(added.id, "E_DS_UNREACHABLE: down")
+        val afterError = store.snapshot().storages[added.id]!!
+        assertEquals(before.modified, afterError.modified, "error-state 是运行态诊断，不得改 modified")
+        assertEquals("E_DS_UNREACHABLE: down", afterError.errorMsg)
+
+        // 同值幂等：重复写「已清」/同错误 → storages 无任何变化 → diff 空集
+        val snapshotBefore = store.snapshot().storages[added.id]!!
+        storages.setError(added.id, "E_DS_UNREACHABLE: down")
+        assertEquals(snapshotBefore, store.snapshot().storages[added.id], "同值写必须零变化")
+
+        // 策略层断言：errorMsg-only 差异（modified 不变）不得产生任何 SettingsChange
+        // （REBUILD_DRIVER_AND_FULL_RESCAN 不得触发——§61.212 无限重扫循环回归锚）
+        val cleared = storages.observe().first().single { it.id == added.id }
+        // Storage→StorageDto 映射在 core-di（SettingsAccess.toDto）；此处按同字段手写，
+        // 只断言 SettingsChangePolicy 对 errorMsg-only 差异的判定。
+        val dto = StorageDto(
+            id = cleared.id, mountPath = cleared.mountPath,
+            driverType = cleared.driverType, additionRaw = cleared.addition.raw,
+            errorMsg = cleared.errorMsg, modified = cleared.modified,
+        )
+        val before2 = AppSettings(storages = listOf(dto))
+        val after2 = AppSettings(storages = listOf(dto.copy(errorMsg = "E_X")))
+        assertEquals(
+            emptySet(), SettingsChangePolicy.diff(before2, after2),
+            "errorMsg-only + modified 不变 → 无任何 SettingsChange（REBUILD 不得触发）",
+        )
     }
 }
