@@ -157,6 +157,8 @@ fun CloudMusicApp(
     playerState: StateFlow<PlayerState>,
     onRescanAll: () -> Unit,
     onRetryUnavailable: () -> Unit,
+    /** §61.207（A2-③）：单源刷新（数据源管理页「刷新此源」行内动作）——定向增量扫。 */
+    onRefreshStorage: (String) -> Unit = { _ -> },
     onAddSaf: () -> Unit,
     onAddMediaStore: () -> Unit,
     /** §61.132：添加 WebDAV 源（url / username / password / rootPath）。 */
@@ -335,7 +337,8 @@ fun CloudMusicApp(
             // 扫描失败可见性已由数据源错误态承载（§61.184 setError 接线）。
             when {
                 showSources -> SourcesScreen(
-                    storageList, onRescanAll, onRetryUnavailable, onAddSaf, onAddMediaStore,
+                    storageList, onRescanAll, onRetryUnavailable, onRefreshStorage,
+                    onAddSaf, onAddMediaStore,
                     onAddWebDav,
                     onAddStrm,
                     onRemoveStorage,
@@ -898,6 +901,7 @@ private fun SourcesScreen(
     storages: List<Storage>,
     onRescan: () -> Unit,
     onRetry: () -> Unit,
+    onRefreshStorage: (String) -> Unit,
     onAddSaf: () -> Unit,
     onAddMediaStore: () -> Unit,
     onAddWebDav: (String, String, String, String) -> Unit,
@@ -907,8 +911,9 @@ private fun SourcesScreen(
 ) {
     var showWebDav by remember { mutableStateOf(false) }
     var showStrm by remember { mutableStateOf(false) }
-    // §61.152：移除确认（StorageRepository.remove → markOrphan → 曲目标记不可用）。
-    var removeTarget by remember { mutableStateOf<Storage?>(null) }
+    // §61.207：行点击 → 源操作面板（刷新此源 / 移除）——§61.152 的移除确认扩为双动作，
+    // 「刷新此源」复用定向增量扫（§61.206/§61.204 同链）。
+    var actionTarget by remember { mutableStateOf<Storage?>(null) }
     CompPage {
         Column(Modifier.fillMaxSize()) {
             CompHeaderBar(title = "数据源管理", onBack = onBack)
@@ -936,8 +941,8 @@ private fun SourcesScreen(
                         CompSettingsRow(
                             icon = "☁",
                             title = storage.remark.ifBlank { storage.mountPath },
-                            // §61.152：点行 → 移除确认（此前无删除入口 = UX 挂账）。
-                            onClick = { removeTarget = storage },
+                            // §61.207：点行 → 源操作面板（刷新此源 / 移除）。
+                            onClick = { actionTarget = storage },
                             rightHint = "${storage.driverType} · $status",
                         )
                     }
@@ -966,25 +971,28 @@ private fun SourcesScreen(
             },
         )
     }
-    // §61.152：移除数据源确认——markOrphan 语义文案（曲目不删、标不可用）。
-    removeTarget?.let { target ->
+    // §61.207：源操作面板（§61.152 移除确认扩为双动作）——「刷新此源」走定向增量扫。
+    actionTarget?.let { target ->
         CompSheetDialog(
-            onDismiss = { removeTarget = null },
-            title = "移除数据源",
+            onDismiss = { actionTarget = null },
+            title = target.remark.ifBlank { target.mountPath },
             content = {
                 Text(
-                    "移除「${target.remark.ifBlank { target.mountPath }}」（${target.driverType}）？" +
-                        "该源曲目将标记为不可用，文件不会被删除。",
+                    "${target.driverType} · ${if (target.isWork) "正常" else "不可用 ${target.errorMsg}"}\n" +
+                        "刷新只重扫该源（有变更的文件才重新处理）；移除标记曲目不可用，文件不删。",
                     color = Comp.TextSecondary,
                     fontSize = 13.sp,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                 )
             },
             actions = listOf(
-                "取消" to { removeTarget = null },
+                "刷新此源" to {
+                    onRefreshStorage(target.id)
+                    actionTarget = null
+                },
                 "移除" to {
                     onRemoveStorage(target.id)
-                    removeTarget = null
+                    actionTarget = null
                 },
             ),
             destructiveIndexOf = 1,

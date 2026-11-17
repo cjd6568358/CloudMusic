@@ -381,6 +381,13 @@ class PlaybackRuntime @Inject constructor(
     fun retryUnavailable() = runScan(ScanRequest(onlyUnavailable = true))
 
     /**
+     * §61.207（A2-③）：单源刷新（数据源管理页「刷新此源」行内动作）——
+     * 定向增量扫（refresh=false 快照 diff，有变才重处理；与 §61.204 statHit 语义
+     * 自然衔接）。与手动 RESCAN 同通道重入语义（后触发者取消前者）。
+     */
+    fun refreshStorage(storageId: String) = runScan(ScanRequest(storageIds = setOf(storageId)))
+
+    /**
      * §61.206（A2-①）：MediaStore 变更订阅。幂等注册（start 可能被 Service 重建
      * 多次调用）；变更 → 防抖 [MediaChangeScanPolicy.DEBOUNCE_MS] → 定向增量扫
      * （仅 driverType=local 的存储，网络源由 RESCAN/设置页手动口径覆盖）。

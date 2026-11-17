@@ -2759,9 +2759,11 @@ def main() -> int:
 
     # ---- 12 §61.152（数据源移除入口）长效守护 ----------------------------
     # 防 §61.151 UX 挂账回潮（删除入口被移除 / markOrphan 语义文案丢失）。
+    # §61.207 演进批注：行点击确认扩为「刷新此源 / 移除」双动作面板（actionTarget），
+    # 移除入口与 markOrphan 语义文案保护口径不变。
     if not all(x in app_txt for x in (
-        "var removeTarget by remember { mutableStateOf<Storage?>(null) }",
-        "移除数据源", "文件不会被删除",
+        "var actionTarget by remember { mutableStateOf<Storage?>(null) }",
+        "\"移除\" to {", "文件不删",
     )):
         failures.append("12 §61.152：数据源移除入口 UI 缺失")
     if not all(x in main_txt for x in (
@@ -6326,6 +6328,40 @@ def main() -> int:
         failures.append("§61.206 MediaStore 变更订阅：%s" % "；".join(_obs_bad))
     else:
         print("[PASS] §61.206 MediaStore 变更订阅（端口 + 防抖 + RESCAN 幂等 + 空转守卫 + 判定核用例）")
+
+    # §61.207（A2-③）设置页「刷新此源」入口：
+    # ① runtime 单源刷新（定向增量）② UI 双动作面板（刷新/移除）③ MainActivity 接线。
+    _app_ui = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+               / "ui" / "CloudMusicApp.kt")
+    _main_src = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+                 / "MainActivity.kt")
+    _src_bad = []
+    if not all(p.is_file() for p in (_pbcomp, _app_ui, _main_src)):
+        _src_bad.append("源文件缺失")
+    else:
+        _pb2_src = _code_only(_pbcomp.read_text(encoding="utf-8", errors="replace"))
+        _ui_src = _code_only(_app_ui.read_text(encoding="utf-8", errors="replace"))
+        _main2_src = _code_only(_main_src.read_text(encoding="utf-8", errors="replace"))
+        if not all(x in _pb2_src for x in (
+            "fun refreshStorage(storageId: String)",
+            "ScanRequest(storageIds = setOf(storageId))",
+        )):
+            _src_bad.append("runtime 单源刷新缺失")
+        if not all(x in _ui_src for x in (
+            "onRefreshStorage: (String) -> Unit = { _ -> }",
+            "var actionTarget by remember { mutableStateOf<Storage?>(null) }",
+            "onClick = { actionTarget = storage }",
+            "\"刷新此源\" to {",
+        )):
+            _src_bad.append("数据源页双动作面板（刷新此源/移除）缺失")
+        if "runtime.refreshStorage(id)" not in _main2_src:
+            _src_bad.append("MainActivity 接线缺失")
+        if "## 第二百一十九批（§61.207）" not in doc139_txt:
+            _src_bad.append("docs/12 批次登记缺失")
+    if _src_bad:
+        failures.append("§61.207 设置页刷新此源：%s" % "；".join(_src_bad))
+    else:
+        print("[PASS] §61.207 设置页刷新此源（runtime 单源定向增量 + 双动作面板 + 接线）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

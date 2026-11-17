@@ -268,6 +268,11 @@ class MainActivity : ComponentActivity() {
                     playerState = runtime.playerState(),
                     onRescanAll = runtime::rescanAll,
                     onRetryUnavailable = runtime::retryUnavailable,
+                    // §61.207（A2-③）：单源刷新（数据源管理页「刷新此源」）——定向增量扫。
+                    onRefreshStorage = { id ->
+                        runtime.refreshStorage(id)
+                        Toast.makeText(this@MainActivity, "已发起该源扫描", Toast.LENGTH_SHORT).show()
+                    },
                     onAddSaf = { treeLauncher.launch(null) },
                     onAddMediaStore = { localSourceAdder.addMediaStore() },
                     // §61.132：WebDAV 源添加——StorageRepository.add 落库 + rescanAll 触发扫描。
