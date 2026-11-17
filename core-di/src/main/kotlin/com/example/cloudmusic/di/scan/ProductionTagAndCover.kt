@@ -16,7 +16,9 @@ import com.example.cloudmusic.scanner.AudioFormat
 import com.example.cloudmusic.scanner.AudioProbe
 import com.example.cloudmusic.scanner.Candidate
 import com.example.cloudmusic.scanner.CoverResolver
+import com.example.cloudmusic.scanner.NameParser
 import com.example.cloudmusic.scanner.RawTags
+import com.example.cloudmusic.scanner.RemoteTagPolicy
 import com.example.cloudmusic.scanner.TagReader
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
@@ -195,10 +197,22 @@ class DirectoryCoverLookup(
      *  59s CPU）。列表含目录条目，size/modified 与快照无关，缓存会话级即可。 */
     private val siblingsCache = java.util.concurrent.ConcurrentHashMap<String, List<Obj>?>()
 
+    /** §61.203：按 (storage, 目录) 缓存**已解析的封面 ref**——封面字节每目录只读
+     *  一次（网络 = 一次 Range 读 ≤5MB；本地 = 一次文件读），同目录其余候选直接复用
+     *  写入 [CoverLookupCache]。此前每候选重复读字节再靠 CoverWriter 哈希去重兜底，
+     *  字节级重复传输/读盘仍在。[DirRef] 包装规避 ConcurrentHashMap 不存 null。 */
+    private class DirRef(val ref: String?)
+    private val dirCoverRefs = java.util.concurrent.ConcurrentHashMap<String, DirRef>()
+
     suspend operator fun invoke(candidate: Candidate, ref: String) {
-        val driver = DriverRegistry.get(candidate.storage.id) ?: return
+        val storageId = candidate.storage.id
         val parentPath = candidate.obj.path.substringBeforeLast('/', "")
-        val cacheKey = "${candidate.storage.id}:$parentPath"
+        val cacheKey = "$storageId:$parentPath"
+        dirCoverRefs[cacheKey]?.let { cached ->
+            cached.ref?.let { cache.put(storageId, candidate.obj.path, it) }
+            return
+        }
+        val driver = DriverRegistry.get(storageId) ?: return
         val siblings = siblingsCache.getOrPut(cacheKey) {
             runCatching {
                 driver.list(Obj(name = "", isDir = true, path = parentPath))
@@ -206,7 +220,7 @@ class DirectoryCoverLookup(
         } ?: return
         val coverName = CoverPolicy.pickDirectoryCover(siblings.map { it.name }) ?: return
         val coverObj = siblings.firstOrNull { it.name == coverName } ?: return
-        val trackId = TrackId.of(candidate.storage.id, candidate.obj.path).value
+        val trackId = TrackId.of(storageId, candidate.obj.path).value
         val local = ref.startsWith("content://") || ref.startsWith("/") || ref.startsWith("file://")
         val written = if (local) {
             val coverRef = runCatching {
@@ -222,7 +236,9 @@ class DirectoryCoverLookup(
             }.getOrNull()
             bytes?.let { writer.write(trackId, it) }
         }
-        written?.let { cache.put(candidate.storage.id, candidate.obj.path, it) }
+        // §61.203：含「该目录无封面」的 null 结果一并记忆，同目录不重复判定。
+        dirCoverRefs[cacheKey] = DirRef(written)
+        written?.let { cache.put(storageId, candidate.obj.path, it) }
     }
 }
 
@@ -306,6 +322,8 @@ class AndroidTagReader(
     private val lyricsSink: (String, String) -> Unit = { _, _ -> },
     /** §61.186：内嵌歌词缺失时的同目录 `.lrc` 提取（LOCAL File / 网络 TextReadCapability）。 */
     private val siblingLyrics: suspend (Candidate, String) -> Unit = { _, _ -> },
+    /** §61.203：远程 tag 跳过策略（默认全跳过，验收 #2 主刀）。 */
+    private val remoteTagPolicy: RemoteTagPolicy = RemoteTagPolicy.SKIP,
 ) : TagReader {
 
     /** §61.147：JAudio 缺项计数（限频观测用）。 */
@@ -315,7 +333,22 @@ class AndroidTagReader(
         val ref = runCatching { locator.locate(candidate) }.getOrNull()
         if (ref.isNullOrBlank()) return head.read(candidate)
         val local = ref.startsWith("content://") || ref.startsWith("file://") || ref.startsWith("/")
-        if (!local) return head.read(candidate) // 网络音源：ByteRange 头部解析
+        if (!local) {
+            // §61.203：远程 tag 跳过——467s 冷扫主导成本 = 逐文件 Range 头尾读 ×
+            // 鉴权握手（§61.160 一手：网络存储 ≈380s）。跳过后标题/艺人走 NameParser
+            // 文件名兜底（非 EMPTY 语义 ⇒ 仍进 TrackFactory.build，目录封面照常消费），
+            // 时长由 §61.181 播放期真值通道回填。专辑/年份/风格等文本帧信息如实让位。
+            if (remoteTagPolicy.shouldSkip(candidate.obj.name, candidate.obj.size)) {
+                val fallback = NameParser.parse(candidate.obj.name, candidate.parentDirName, candidate.hint)
+                val skeleton = RawTags(
+                    title = fallback.title, artist = fallback.artist, album = fallback.album,
+                    completeness = fallback.completeness,
+                )
+                return sideChannels(candidate, ref, skeleton)
+            }
+            val merged = TagMerger.merge(TagMerger.fromRaw(head.read(candidate)))
+            return sideChannels(candidate, ref, merged)
+        }
 
         // §61.145：LOCAL 文件路径 JAudioTagger 先行——其文本帧 + header(duration/sampleRate)
         // 覆盖除音质外全部字段且成本毫秒级；MediaMetadataRetriever（§61.144 真机一手：
@@ -344,6 +377,19 @@ class AndroidTagReader(
         else MediaTags.EMPTY
         val fromHead = TagMerger.fromRaw(head.read(candidate))
         val merged = TagMerger.merge(fromMedia, fromJAudio, fromHead)
+        return sideChannels(candidate, ref, merged)
+    }
+
+    /**
+     * §61.203：封面 / 歌词侧链，LOCAL 与网络分支共用。
+     *
+     * **§61.186 缺口修复**：此前网络分支 `if (!local) return head.read(candidate)`
+     * 提前返回——目录封面（C-11/C-12 登记「网络经 ByteRange 只读封面字节」）、
+     * 同目录 `.lrc`（§61.186 登记「WebDAV/STRM 曲库主歌词来源」）、内嵌歌词写盘
+     * 三条侧链对网络 ref **从未生效**（§61.189 判据 B「服务器无 .lrc」的空结果
+     * 掩盖了这一点：提取根本没跑）。现网络分支（跳过与否）都走本侧链。
+     */
+    private suspend fun sideChannels(candidate: Candidate, ref: String, merged: RawTags): RawTags {
         // §61.146：仅当无内嵌封面才查同目录封面——原实现无条件 list 父目录，
         // 平铺大目录（夹具根 7,514 文件）下每候选一次全量 list+sort = O(n² log n)，
         // 有内嵌封面时纯属白干（真机 467% 多核空转一手）。
@@ -352,7 +398,7 @@ class AndroidTagReader(
         }
         // docs/01 §0（2026-11-16 拍板）：内嵌歌词写盘缓存（IO 密集但极小文本，
         // 与封面写盘同批）；失败静默，不影响扫描主流程（歌词是派生数据，可重扫恢复）。
-        // §61.186：内嵌缺失 → 同目录 .lrc 提取（WebDAV/STRM 曲库的主歌词来源）。
+        // §61.186：内嵌缺失 → 同目录 .lrc 提取。
         val embeddedLyrics = merged.lyrics?.takeIf { it.isNotBlank() }
         if (embeddedLyrics != null) {
             val trackId = com.example.cloudmusic.model.TrackId

@@ -17,6 +17,7 @@ import com.example.cloudmusic.model.TrackId
 import com.example.cloudmusic.scanner.Candidate
 import com.example.cloudmusic.scanner.CoverResolver
 import com.example.cloudmusic.scanner.HeadTagReader
+import com.example.cloudmusic.scanner.RemoteTagPolicy
 import com.example.cloudmusic.scanner.ScanCoordinator
 import com.example.cloudmusic.scanner.ScanSnapshotStore
 import com.example.cloudmusic.scanner.StorageProvider
@@ -284,6 +285,9 @@ object ScanModule {
                 sink = { trackId, raw -> lyricStore.saveRaw(
                     com.example.cloudmusic.model.TrackId(trackId), raw) },
             )::invoke,
+            // §61.203：远程 tag 跳过（验收 #2 主刀）——生产默认 SKIP，白名单/阈值见
+            // RemoteTagPolicy；网络封面/歌词侧链不跳过（§61.186 缺口同步修复）。
+            remoteTagPolicy = RemoteTagPolicy.SKIP,
         )
     }
 

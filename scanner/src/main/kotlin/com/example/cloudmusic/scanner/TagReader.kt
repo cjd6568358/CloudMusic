@@ -29,6 +29,43 @@ interface TagReader {
     fun probe(head: ByteArray): AudioFormat = AudioProbe.probe(head)
 }
 
+/**
+ * §61.203（A1-①，验收 #2）：远程源 tag 跳过策略。
+ *
+ * 467s 冷扫的主导成本 = WebDAV/STRM **逐文件** Range 头尾读（头 64KB + 尾 128B，
+ * 各带鉴权握手）× 并发 4（§61.160 一手：网络存储占 467−87 ≈ 380s）。而头部解析只产出
+ * title/artist/album 等文本帧——文件名兜底（strm `TrackHint` + [NameParser]）已有，
+ * 逐文件读头部的信息增益性价比极低。默认**全跳过**：远程候选直接得到文件名兜底级
+ * [RawTags]（**非 EMPTY** 语义 ⇒ 仍走 `TrackFactory.build`，封面/歌词侧链照常消费），
+ * 时长由 §61.181 播放期真值通道回填。
+ *
+ * [readExts]（扩展名白名单）与 [maxBytes]（容量阈值）是 skip=false（读）模式下的
+ * 约束：仅白名单容器（头字节可解析 ID3/MP4 系容器，与检索器兜底白名单 §61.147 同源
+ * 理由）且未超阈值才值得发 Range 读；[maxBytes] 在两种模式下恒生效（巨型文件
+ * 头解析价值趋零）。
+ */
+data class RemoteTagPolicy(
+    val skipRemoteTags: Boolean = true,
+    val readExts: Set<String> = DEFAULT_REMOTE_TAG_EXTS,
+    val maxBytes: Long = 512L * 1024 * 1024,
+) {
+    fun shouldSkip(fileName: String, sizeBytes: Long): Boolean {
+        if (sizeBytes > maxBytes) return true
+        if (!skipRemoteTags) {
+            val ext = fileName.substringAfterLast('.', "").lowercase()
+            return ext !in readExts
+        }
+        return true
+    }
+
+    companion object {
+        val DEFAULT_REMOTE_TAG_EXTS = setOf("mp3", "m4a", "aac", "flac", "wav", "ogg", "oga", "opus")
+
+        /** 生产默认：全跳过（§61.203）。 */
+        val SKIP = RemoteTagPolicy(skipRemoteTags = true)
+    }
+}
+
 object EmptyTagReader : TagReader {
     override suspend fun read(candidate: Candidate): RawTags = RawTags.EMPTY
 }

@@ -6111,6 +6111,52 @@ def main() -> int:
         else:
             print("[PASS] §61.202 DMR 进度驱动 UI（显示与 seek 双向走 DMR，UI 零直读）")
 
+    # §61.203（A1-①）远程 tag 跳过策略 + §61.186 网络侧链缺口修复：
+    # ① RemoteTagPolicy 策略在位（SKIP 默认）且 AndroidTagReader 网络分支消费它；
+    # ② 网络分支不得提前 return——封面/歌词侧链（sideChannels）必须对网络 ref 生效
+    #   （C-11/C-12 与 §61.186 登记的能力此前从未在生产网络分支运行）；
+    # ③ DirectoryCoverLookup 按目录缓存封面 ref（dirCoverRefs），防每候选重读字节。
+    _treader = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
+                / "example" / "cloudmusic" / "scanner" / "TagReader.kt")
+    _tag_cover_203_path = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                           / "example" / "cloudmusic" / "di" / "scan" / "ProductionTagAndCover.kt")
+    _scan_comp_path = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                       / "example" / "cloudmusic" / "di" / "scan" / "ScanComposition.kt")
+    _skip_bad = []
+    if not all(p.is_file() for p in (_treader, _tag_cover_203_path, _scan_comp_path)):
+        _skip_bad.append("源文件缺失")
+    else:
+        _treader_src = _code_only(_treader.read_text(encoding="utf-8", errors="replace"))
+        _tag_cover_203 = _code_only(_tag_cover_203_path.read_text(encoding="utf-8", errors="replace"))
+        _scancomp_203 = _code_only(_scan_comp_path.read_text(encoding="utf-8", errors="replace"))
+        _treader_test_203 = (ROOT / "core-di" / "src" / "test" / "kotlin" / "com"
+                             / "example" / "cloudmusic" / "di" / "scan" / "ScanContractsTest.kt"
+                             ).read_text(encoding="utf-8", errors="replace")
+        if not all(x in _treader_src for x in (
+            "data class RemoteTagPolicy(",
+            "fun shouldSkip(fileName: String, sizeBytes: Long): Boolean",
+            "val SKIP = RemoteTagPolicy(skipRemoteTags = true)",
+        )):
+            _skip_bad.append("RemoteTagPolicy 策略缺失（SKIP 默认不得回退）")
+        if not all(x in _tag_cover_203 for x in (
+            "remoteTagPolicy.shouldSkip(candidate.obj.name, candidate.obj.size)",
+            "private suspend fun sideChannels(candidate: Candidate, ref: String, merged: RawTags): RawTags",
+            "NameParser.parse(candidate.obj.name, candidate.parentDirName, candidate.hint)",
+            "private val dirCoverRefs = java.util.concurrent.ConcurrentHashMap<String, DirRef>()",
+        )):
+            _skip_bad.append("网络分支策略接线 / 侧链共用 / 封面按目录缓存缺失")
+        if "RemoteTagPolicy.SKIP" not in _scancomp_203:
+            _skip_bad.append("ScanComposition 未装配 SKIP 策略")
+        for _case in ("T-A4-13", "T-A4-14", "T-A4-15"):
+            if _case not in _treader_test_203:
+                _skip_bad.append(f"{_case} 用例缺失")
+        if "## 第二百一十五批（§61.203）" not in doc139_txt:
+            _skip_bad.append("docs/12 批次登记缺失")
+    if _skip_bad:
+        failures.append("§61.203 远程 tag 跳过：%s" % "；".join(_skip_bad))
+    else:
+        print("[PASS] §61.203 远程 tag 跳过（SKIP 默认 + 网络侧链修复 + 封面按目录缓存 + 三用例）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

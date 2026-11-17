@@ -1,5 +1,6 @@
 package com.example.cloudmusic.di.scan
 
+import com.example.cloudmusic.datasource.ByteRangeCapability
 import com.example.cloudmusic.datasource.Driver
 import com.example.cloudmusic.datasource.DriverConfig
 import com.example.cloudmusic.datasource.DriverCtx
@@ -16,6 +17,8 @@ import com.example.cloudmusic.scanner.Candidate
 import com.example.cloudmusic.scanner.CandidateKind
 import com.example.cloudmusic.scanner.EmptyTagReader
 import com.example.cloudmusic.scanner.RawTags
+import com.example.cloudmusic.scanner.RemoteTagPolicy
+import com.example.cloudmusic.scanner.TagReader
 import com.example.cloudmusic.scanner.TrackHint
 import com.example.cloudmusic.scanner.CoverResolver
 import com.example.cloudmusic.model.Availability
@@ -390,14 +393,30 @@ class ScanContractsTest {
 
     @Test
     fun `T-A4-10 tag reader falls back to head reader for network refs and failures`() {
-        val reader = AndroidTagReader(
+        // §61.203：网络 ref 默认跳过头尾 Range 读 → NameParser 文件名兜底骨架
+        // （**非 EMPTY**：仍走 TrackFactory.build 消费目录封面侧链；时长由
+        // §61.181 播放期真值通道回填）。
+        val skipped = AndroidTagReader(
             media = { MediaTags(title = "不该被调用") },
             jaudio = { MediaTags.EMPTY },
             locator = FakeLocator("https://nas/a.mp3"),
             head = EmptyTagReader,
         )
         runBlocking {
-            assertEquals(RawTags.EMPTY, reader.read(candidate()))
+            val raw = skipped.read(candidate())
+            assertEquals("a", raw.title)
+            assertEquals(0.2f, raw.completeness)
+        }
+        // §61.203：读模式（skip=false + 白名单内扩展）→ 仍回落 HeadTagReader（此处 EMPTY）
+        val reading = AndroidTagReader(
+            media = { MediaTags(title = "不该被调用") },
+            jaudio = { MediaTags.EMPTY },
+            locator = FakeLocator("https://nas/a.mp3"),
+            head = EmptyTagReader,
+            remoteTagPolicy = RemoteTagPolicy(skipRemoteTags = false),
+        )
+        runBlocking {
+            assertEquals(RawTags.EMPTY, reading.read(candidate()))
         }
         val broken = AndroidTagReader(
             media = { throw IllegalStateException("boom") },
@@ -407,6 +426,119 @@ class ScanContractsTest {
         )
         runBlocking {
             assertEquals(RawTags.EMPTY, broken.read(candidate()))
+        }
+    }
+
+    @Test
+    fun `T-A4-13 remote skip keeps cover and lyrics side channels and returns filename fallback`() {
+        var headCalls = 0
+        val countingHead = object : TagReader {
+            override suspend fun read(candidate: Candidate): RawTags {
+                headCalls++
+                return RawTags.EMPTY
+            }
+        }
+        var coverCalls = 0
+        var lyricsCalls = 0
+        val reader = AndroidTagReader(
+            media = { MediaTags(title = "不该被调用") },
+            jaudio = { MediaTags.EMPTY },
+            locator = FakeLocator("https://nas/Music/%E5%91%A8%E6%9D%B0%E4%BC%A6%20-%20%E6%99%B4%E5%A4%A9.mp3"),
+            head = countingHead,
+            directoryCover = { _, _ -> coverCalls++ },
+            siblingLyrics = { _, _ -> lyricsCalls++ },
+        )
+        runBlocking {
+            val raw = reader.read(candidate(path = "/Music/周杰伦 - 晴天.mp3"))
+            assertEquals(0, headCalls)          // §61.203：头尾 Range 读零调用
+            assertEquals("晴天", raw.title)      // NameParser 文件名兜底（含 %XX 与 GBK 清洗）
+            assertEquals("周杰伦", raw.artist)
+            assertEquals(0.2f, raw.completeness)
+            assertEquals(1, coverCalls)         // §61.186 缺口修复：网络分支侧链照走
+            assertEquals(1, lyricsCalls)
+        }
+    }
+
+    @Test
+    fun `T-A4-14 remote read mode respects whitelist and size threshold`() {
+        // 纯策略断言：SKIP 恒跳过；读模式按白名单；容量阈值恒生效
+        assertTrue(RemoteTagPolicy.SKIP.shouldSkip("a.mp3", 1L))
+        assertFalse(RemoteTagPolicy(skipRemoteTags = false).shouldSkip("a.mp3", 1L))
+        assertTrue(RemoteTagPolicy(skipRemoteTags = false).shouldSkip("x.ape", 1L))
+        assertTrue(RemoteTagPolicy.SKIP.shouldSkip("a.mp3", Long.MAX_VALUE))
+        assertTrue(RemoteTagPolicy(skipRemoteTags = false, maxBytes = 1024L).shouldSkip("a.mp3", 2048L))
+
+        var headCalls = 0
+        val countingHead = object : TagReader {
+            override suspend fun read(candidate: Candidate): RawTags {
+                headCalls++
+                return RawTags(title = "头标签")
+            }
+        }
+        // 白名单内（mp3）→ 头读发生
+        val reader = AndroidTagReader(
+            media = { MediaTags.EMPTY }, jaudio = { MediaTags.EMPTY },
+            locator = FakeLocator("https://nas/a.mp3"), head = countingHead,
+            remoteTagPolicy = RemoteTagPolicy(skipRemoteTags = false),
+        )
+        runBlocking {
+            assertEquals("头标签", reader.read(candidate()).title)
+            assertEquals(1, headCalls)
+        }
+        // 白名单外（ape）→ 跳过，头读零新增
+        val exotic = AndroidTagReader(
+            media = { MediaTags.EMPTY }, jaudio = { MediaTags.EMPTY },
+            locator = FakeLocator("https://nas/x.ape"), head = countingHead,
+            remoteTagPolicy = RemoteTagPolicy(skipRemoteTags = false),
+        )
+        runBlocking {
+            assertEquals(0.2f, exotic.read(candidate(path = "/Music/x.ape")).completeness)
+            assertEquals(1, headCalls)
+        }
+        // 容量阈值：读模式下超限同样跳过
+        val capped = AndroidTagReader(
+            media = { MediaTags.EMPTY }, jaudio = { MediaTags.EMPTY },
+            locator = FakeLocator("https://nas/a.mp3"), head = countingHead,
+            remoteTagPolicy = RemoteTagPolicy(skipRemoteTags = false, maxBytes = 1024L),
+        )
+        runBlocking {
+            assertEquals(0.2f, capped.read(candidate()).completeness)
+            assertEquals(1, headCalls)
+        }
+    }
+
+    @Test
+    fun `T-A4-15 directory cover reads bytes once per dir and shares ref across candidates`() {
+        val driver = object : Driver {
+            override val config = DriverConfig(name = "FakeWebdav")
+            override suspend fun init(ctx: DriverCtx) {}
+            override fun drop() {}
+            override suspend fun list(dir: Obj, refresh: Boolean) = listOf(
+                Obj(name = "folder.jpg", isDir = false, path = "${dir.path}/folder.jpg", size = 2048L),
+            )
+            override suspend fun get(path: String): Obj? = null
+            override suspend fun link(file: Obj, args: LinkArgs) = Link(url = "https://nas${file.path}")
+        }
+        DriverRegistry.put("w1", driver)
+        var rangeCalls = 0
+        val range = object : ByteRangeCapability {
+            override suspend fun readBytes(file: Obj, offset: Long, length: Int): ByteArray? {
+                rangeCalls++
+                return ByteArray(2048)
+            }
+        }
+        val writer = FakeWriter("/cache/covers/folder.webp")
+        val cache = CoverLookupCache()
+        val lookup = DirectoryCoverLookup(writer, cache, rangeFor = { range })
+        val webdavStorage = storage("w1", driverType = "webdav")
+        val a = candidate(storage = webdavStorage, path = "/Music/a.mp3")
+        val b = candidate(storage = webdavStorage, path = "/Music/b.mp3")
+        runBlocking {
+            lookup(a, "https://nas/Music/a.mp3")
+            lookup(b, "https://nas/Music/b.mp3")
+            assertEquals(1, rangeCalls)   // §61.203：封面字节每目录只读一次
+            assertEquals("/cache/covers/folder.webp", cache.get("w1", "/Music/a.mp3"))
+            assertEquals("/cache/covers/folder.webp", cache.get("w1", "/Music/b.mp3"))
         }
     }
 
