@@ -159,6 +159,9 @@ fun CloudMusicApp(
     onRetryUnavailable: () -> Unit,
     /** §61.207（A2-③）：单源刷新（数据源管理页「刷新此源」行内动作）——定向增量扫。 */
     onRefreshStorage: (String) -> Unit = { _ -> },
+    /** §61.208（A4）：合并重复项开关（scan.mergeDuplicates 的 UI 消费口径）。 */
+    mergeDuplicates: Boolean = false,
+    onMergeDuplicatesChanged: (Boolean) -> Unit = { _ -> },
     onAddSaf: () -> Unit,
     onAddMediaStore: () -> Unit,
     /** §61.132：添加 WebDAV 源（url / username / password / rootPath）。 */
@@ -338,6 +341,7 @@ fun CloudMusicApp(
             when {
                 showSources -> SourcesScreen(
                     storageList, onRescanAll, onRetryUnavailable, onRefreshStorage,
+                    mergeDuplicates, onMergeDuplicatesChanged,
                     onAddSaf, onAddMediaStore,
                     onAddWebDav,
                     onAddStrm,
@@ -902,6 +906,8 @@ private fun SourcesScreen(
     onRescan: () -> Unit,
     onRetry: () -> Unit,
     onRefreshStorage: (String) -> Unit,
+    mergeDuplicates: Boolean,
+    onMergeDuplicatesChanged: (Boolean) -> Unit,
     onAddSaf: () -> Unit,
     onAddMediaStore: () -> Unit,
     onAddWebDav: (String, String, String, String) -> Unit,
@@ -926,6 +932,14 @@ private fun SourcesScreen(
             CompGroupTitle("维护")
             CompSettingsRow("↻", "全量重扫", onClick = onRescan)
             CompSettingsRow("↻", "重试失败项", onClick = onRetry)
+            // §61.208（A4）：同 URL 双源折叠开关（scan.mergeDuplicates 消费方）——
+            // 点行切换，rightHint 反映状态（与本页 CompSettingsRow 体系一致）。
+            CompSettingsRow(
+                icon = "⧉",
+                title = "合并重复项",
+                onClick = { onMergeDuplicatesChanged(!mergeDuplicates) },
+                rightHint = if (mergeDuplicates) "同 URL 只显示一行" else "关闭",
+            )
             CompGroupTitle("已添加 · ${storages.size}")
             if (storages.isEmpty()) {
                 Text(

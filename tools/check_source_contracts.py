@@ -6363,6 +6363,43 @@ def main() -> int:
     else:
         print("[PASS] §61.207 设置页刷新此源（runtime 单源定向增量 + 双动作面板 + 接线）")
 
+    # §61.208（A4）同 URL 双源折叠：mergeDuplicates 死旋钮的消费方落地。
+    # 口径 = UI 展示层折叠（不改库不删行，§15 #3 资产纪律；防扫描层折叠的
+    # refresh↔折叠翻转），胜者 = storageId 字典序最小（确定性）。
+    _dupfolder = (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com"
+                  / "example" / "cloudmusic" / "storage" / "DuplicateFolder.kt")
+    _dup_bad = []
+    if not _dupfolder.is_file():
+        _dup_bad.append("DuplicateFolder.kt 缺失")
+    else:
+        _dup_src = _code_only(_dupfolder.read_text(encoding="utf-8", errors="replace"))
+        if not all(x in _dup_src for x in (
+            "object DuplicateFolder",
+            "fun fold(tracks: List<Track>, enabled: Boolean): List<Track>",
+            "if (!enabled) return tracks",
+        )):
+            _dup_bad.append("折叠纯函数缺失")
+        _dup_test = (ROOT / "core-storage" / "src" / "test" / "kotlin" / "com"
+                     / "example" / "cloudmusic" / "storage" / "DuplicateFolderTest.kt")
+        if not _dup_test.is_file() or "class DuplicateFolderTest" not in _dup_test.read_text(encoding="utf-8", errors="replace"):
+            _dup_bad.append("DuplicateFolderTest 缺失")
+        if not all(x in _main2_src for x in (
+            "DuplicateFolder.fold(list, merge)",
+            "it.copy(scan = it.scan.copy(mergeDuplicates = value))",
+        )):
+            _dup_bad.append("MainActivity 列表/搜索折叠接线或开关写入缺失")
+        if not all(x in _ui_src for x in (
+            '"合并重复项"',
+            "onMergeDuplicatesChanged(!mergeDuplicates)",
+        )):
+            _dup_bad.append("数据源页开关行缺失")
+        if "## 第二百二十批（§61.208）" not in doc139_txt:
+            _dup_bad.append("docs/12 批次登记缺失")
+    if _dup_bad:
+        failures.append("§61.208 同 URL 双源折叠：%s" % "；".join(_dup_bad))
+    else:
+        print("[PASS] §61.208 同 URL 双源折叠（DuplicateFolder + 列表/搜索接线 + 开关行 + 用例）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

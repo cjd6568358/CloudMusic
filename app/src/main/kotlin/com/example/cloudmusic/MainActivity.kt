@@ -33,6 +33,7 @@ import com.example.cloudmusic.output.dlna.ManualDmrProbe
 import com.example.cloudmusic.output.dlna.ManualDmrSpec
 import com.example.cloudmusic.player.QueueRepository
 import com.example.cloudmusic.storage.AppSettings
+import com.example.cloudmusic.storage.DuplicateFolder
 import com.example.cloudmusic.storage.LyricFileStore
 import com.example.cloudmusic.storage.PlaylistRepository
 import com.example.cloudmusic.storage.StorageRepository
@@ -43,6 +44,8 @@ import com.example.cloudmusic.ui.SplashScreen
 import com.example.cloudmusic.ui.player.PlayerStateBridge
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -257,13 +260,26 @@ class MainActivity : ComponentActivity() {
                 val appSettingsState = settingsStore.settings.collectAsState(
                     initial = AppSettings())
                 CloudMusicApp(
-                    tracks = tracks.observeAll(),
+                    // §61.208（A4）：同 URL 双源折叠（mergeDuplicates 开关的消费方）——
+                    // UI 展示层折叠，不改库不删行（曲库行是用户资产）。
+                    tracks = combine(
+                        tracks.observeAll(),
+                        settingsStore.settings.map { it.scan.mergeDuplicates },
+                    ) { list, merge ->
+                        DuplicateFolder.fold(list, merge)
+                    },
                     storages = storages.observe(),
                     playlists = playlists.observePlaylists(),
                     queue = queue.observe(),
                     outputState = output.state(),
                     settings = settingsStore.settings,
-                    search = tracks::search,
+                    // §61.208：搜索结果同口径折叠。
+                    search = { query ->
+                        combine(
+                            tracks.search(query),
+                            settingsStore.settings.map { it.scan.mergeDuplicates },
+                        ) { list, merge -> DuplicateFolder.fold(list, merge) }
+                    },
                     runtimeState = runtime.state,
                     playerState = runtime.playerState(),
                     onRescanAll = runtime::rescanAll,
@@ -272,6 +288,15 @@ class MainActivity : ComponentActivity() {
                     onRefreshStorage = { id ->
                         runtime.refreshStorage(id)
                         Toast.makeText(this@MainActivity, "已发起该源扫描", Toast.LENGTH_SHORT).show()
+                    },
+                    // §61.208（A4）：合并重复项开关（scan.mergeDuplicates 的 UI 消费口径）。
+                    mergeDuplicates = appSettingsState.value.scan.mergeDuplicates,
+                    onMergeDuplicatesChanged = { value ->
+                        lifecycleScope.launch {
+                            settingsStore.update {
+                                it.copy(scan = it.scan.copy(mergeDuplicates = value))
+                            }
+                        }
                     },
                     onAddSaf = { treeLauncher.launch(null) },
                     onAddMediaStore = { localSourceAdder.addMediaStore() },
