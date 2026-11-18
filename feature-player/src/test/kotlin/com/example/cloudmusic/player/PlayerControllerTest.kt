@@ -52,13 +52,18 @@ class PlayerControllerTest {
         val lookupTracks: List<Track> = tracksOf(5),
         durationWriter: TrackDurationWriter? = null,
         cursorWriter: CursorWriter? = null,
+        /** §61.224：节拍器交棒测试——positionMs 劫持值。 */
+        positionOverride: Long? = null,
     ) {
         val engine = InMemoryMusicEngine()
 
         /** §61.181：可变真值（模拟异步解出时机）；snapshot 断言仍走 [engine] 本体。 */
         val durationEngine: DurationResolvingEngine? =
             engineDurationOverride?.let { DurationResolvingEngine(engine, it) }
-        private val engineFacade: IMusicEngine = durationEngine ?: engine
+        /** §61.224：positionMs 可控委托（节拍器交棒测试用）。-1 = 走真实 position。 */
+        val positionEngine: PositionControllableEngine? =
+            positionOverride?.let { PositionControllableEngine(engine, it) }
+        private val engineFacade: IMusicEngine = positionEngine ?: durationEngine ?: engine
         val sync = RecordingQueueSync()
         val media = InMemoryMediaControl()
         val repo = InMemoryQueueRepository { 1_000L }
@@ -92,6 +97,15 @@ class PlayerControllerTest {
      * `expectedLength`（= 曲库元数据），无法模拟 B2 在 READY 时解出与元数据无关的
      * 真值（STRM 直链 244933 的核心场景）。
      */
+    /** §61.224：仅覆写 positionMs 的委托引擎（节拍器交棒测试）。 */
+    private class PositionControllableEngine(
+        private val real: InMemoryMusicEngine,
+        @Volatile var fakePosition: Long,
+    ) : IMusicEngine by real {
+        override fun positionMs(handle: EngineHandle): Long =
+            if (fakePosition >= 0) fakePosition else real.positionMs(handle)
+    }
+
     private class DurationResolvingEngine(
         private val real: InMemoryMusicEngine,
         @Volatile var resolvedDuration: Long,
@@ -121,7 +135,8 @@ class PlayerControllerTest {
         lookupTracks: List<Track> = Fixture.tracksOf(5),
         durationWriter: TrackDurationWriter? = null,
         cursorWriter: CursorWriter? = null,
-    ) = Fixture(resolver, config, scope, networkGate, engineDurationOverride, lookupTracks, durationWriter, cursorWriter)
+        positionOverride: Long? = null,
+    ) = Fixture(resolver, config, scope, networkGate, engineDurationOverride, lookupTracks, durationWriter, cursorWriter, positionOverride)
 
     private val urlResolver = TrackSourceResolver { t ->
         Link(url = "https://example.com/${t.id.value}.mp3")
@@ -625,5 +640,87 @@ class PlayerControllerTest {
         assertEquals(4, f.engine.queueIndex().value)
         assertEquals(EngineState.PLAYING, f.engine.snapshot().state)
         assertEquals(0L, f.engine.snapshot().positionMs, "位置归零重播，不留在曲尾")
+    }
+
+    // ------------------------------------------------------------------
+    // §61.224：CUE 分轨播放包络——起始定位 / 恢复钳制 / 终点交棒 / seek 限界 / gapless 禁用
+    // ------------------------------------------------------------------
+
+    /** 分轨曲目夹具（§61.221 落库口径：cueStartMs/cueEndMs 非零）。 */
+    private fun cueTrack(n: Int, startMs: Long, endMs: Long) = track(n).copy(
+        cueStartMs = startMs,
+        cueEndMs = endMs,
+    )
+
+    @Test
+    @DisplayName("§61.224 · 分轨新起播定位到 cueStartMs")
+    fun cueStartSeek() = runTest {
+        val t = cueTrack(1, 30_000L, 60_000L)
+        val f = fixture(scope = backgroundScope, lookupTracks = listOf(t))
+        f.repo.setAll(listOf(t))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        assertEquals(30_000L, f.engine.snapshot().positionMs, "新起播落到分轨起点")
+        assertEquals(30_000L, f.controller.state.value.positionMs)
+    }
+
+    @Test
+    @DisplayName("§61.224 · 恢复点在包络外 → 回本轨起点（保持 PAUSED 不自动开播）")
+    fun cueRestoreClamp() = runTest {
+        val t = cueTrack(1, 30_000L, 60_000L)
+        val f = fixture(scope = backgroundScope, lookupTracks = listOf(t))
+        f.repo.setAll(listOf(t))
+        f.repo.saveCursor(t.id.value, 5_000L)
+        f.controller.restore(f.repo.restore()!!, f.repo.snapshotItems())
+        assertEquals(PlayerPhase.PAUSED, f.controller.state.value.phase)
+        assertEquals(30_000L, f.engine.snapshot().positionMs, "包络前恢复点回本轨起点")
+    }
+
+    @Test
+    @DisplayName("§61.224 · 节拍器交棒：position ≥ cueEndMs 自动 next（误差 ≤ 1 tick）")
+    fun cueEndAdvance() = runTest {
+        val t = cueTrack(1, 0L, 60_000L)
+        val t2 = track(2)
+        val f = fixture(scope = backgroundScope, lookupTracks = listOf(t, t2), positionOverride = 60_500L)
+        f.repo.setAll(listOf(t, t2))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase)
+        // 队列 2 首、本地音源，但队列含分轨 → 必须禁用 gapless（单曲 prepare 路径）
+        assertNull(f.engine.queuedSources, "队列含分轨必须禁用 gapless")
+        // 引擎 position ≥ cueEndMs（60_500）→ 节拍器下一 tick 交棒 next()
+        advanceTimeBy(500)
+        runCurrent()
+        advanceTimeBy(500)
+        runCurrent()
+        assertEquals(1, f.controller.state.value.currentIndex, "终点交棒进下一曲")
+        assertEquals("id-2", f.controller.state.value.currentTrackId?.value)
+    }
+
+    @Test
+    @DisplayName("§61.224 · seek 钳制进包络：包络后回本轨起点")
+    fun cueSeekClamp() = runTest {
+        val t = cueTrack(1, 30_000L, 60_000L)
+        val f = fixture(scope = backgroundScope, lookupTracks = listOf(t))
+        f.repo.setAll(listOf(t))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        f.controller.seek(99_000L)
+        assertEquals(30_000L, f.engine.snapshot().positionMs, "包络后目标回本轨起点")
+        f.controller.seek(45_000L)
+        assertEquals(45_000L, f.engine.snapshot().positionMs, "包络内原样")
+    }
+
+    @Test
+    @DisplayName("§61.224 · 整轨曲目零行为变化（无分轨时 seek/起播语义不变）")
+    fun wholeTrackNoChange() = runTest {
+        val t = track(1)
+        val f = fixture(scope = backgroundScope, lookupTracks = listOf(t))
+        f.repo.setAll(listOf(t))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        assertEquals(0L, f.engine.snapshot().positionMs, "整轨从 0 起播")
+        f.controller.seek(42_000L)
+        assertEquals(42_000L, f.engine.snapshot().positionMs, "整轨 seek 不受包络影响")
     }
 }

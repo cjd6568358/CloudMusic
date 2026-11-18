@@ -66,6 +66,17 @@ class PlayerController(
     private var currentNetworkSource = false
 
     /**
+     * §61.224（V0.2 M5-③）：当前曲的 CUE 分轨包络（毫秒）。
+     * - [cueStartMs] > 0：prepare 落定后定位到分轨起点（seekTo=0 的新起播；恢复位置走钳制）；
+     * - [cueEndMs] > 0：节拍器读到 position ≥ 终点即交棒 next()（500ms 粒度，误差如实登记），
+     *   引擎自然 ENDED 分支不受影响；
+     * - seek 一律钳制进 [cueStartMs, cueEndMs) 包络（分轨语义 = 只在本轨范围内）。
+     * 整轨 / 普通曲目恒 (0, 0)（§61.221 落库默认），全链零行为变化。
+     */
+    private var cueStartMs = 0L
+    private var cueEndMs = 0L
+
+    /**
      * §61.27（G08 真机实证 · 冷启动启动竞态）：`PlaybackService.onCreate` 异步
      * `restore()` 重建队列，而 `ACTION_PLAY` / 媒体键可能在 queue 仍为空时到达 ——
      * 此时 [resume] 既无 handle、`restartCurrentIfAny()` 的 index 又不在
@@ -230,6 +241,12 @@ class PlayerController(
                 handle?.let { h ->
                     runCatching { engine.positionMs(h) }.getOrNull()?.let { pos ->
                         _state.update { it.copy(positionMs = pos) }
+                        // §61.224：分轨终点交棒——position ≥ cueEndMs 即进下一曲（500ms
+                        // 节拍器粒度，误差 ≤1 tick 如实登记）；引擎自然 ENDED 分支不受影响。
+                        if (cueEndMs > 0 && pos >= cueEndMs) {
+                            scope.launch { next() }
+                            return@launch
+                        }
                         val dur = syncEngineDuration(h)
                         // §61.115：每 2s（4 tick）同步一次 MediaSession 位置——
                         // 此前只在转换点写会话，通知栏进度与 dumpsys 监控通道
@@ -277,16 +294,26 @@ class PlayerController(
         if (index in queue.indices) playAt(index)
     }
 
-    /** §15 T09：钳制到 [0, duration]；未知时长（-1）不钳制上界。 */
+    /** §15 T09：钳制到 [0, duration]；未知时长（-1）不钳制上界。
+     *  §61.224：分轨曲目钳制进 [cueStartMs, cueEndMs) 包络——包络外的目标回到本轨起点。 */
     suspend fun seek(ms: Long) {
         val h = handle ?: return
         runCatching {
             val duration = engine.durationMs(h)
             val upper = if (duration > 0) duration else Long.MAX_VALUE
-            val clamped = ms.coerceIn(0L, upper)
+            val clamped = clampToCue(ms).coerceIn(0L, upper)
             engine.seek(h, clamped)
             _state.update { it.copy(positionMs = clamped) }
         }   // 陈旧句柄（完成后）静默忽略：无可 seek 的活动流。
+    }
+
+    /** §61.224：分轨包络钳制。包络前 → 起点；包络后（含终点）→ 回本轨起点重新播；
+     *  整轨（包络全 0）原样返回，零行为变化。 */
+    private fun clampToCue(ms: Long): Long = when {
+        cueStartMs <= 0 && cueEndMs <= 0 -> ms
+        ms < cueStartMs -> cueStartMs
+        cueEndMs > 0 && ms >= cueEndMs -> cueStartMs
+        else -> ms
     }
 
     suspend fun next() {
@@ -394,6 +421,9 @@ class PlayerController(
             fail(CloudMusicError.DsNotFound(item.trackId.value))
             return
         }
+        // §61.224：分轨包络随曲更新（整轨恒 0，零行为变化）。
+        cueStartMs = track.cueStartMs
+        cueEndMs = track.cueEndMs
         // §61.181（B 案）：曲库缺时长（STRM / 无标签）→ 等引擎解出真值后回填一次。
         pendingDurationBackfill.set(track.durationMs <= 0)
         val link = try {
@@ -422,7 +452,12 @@ class PlayerController(
         // 由 PlayModeOrdering 决定，线性 playlist 无法表达；restore（autoPlay=false /
         // seekTo>0）须保持 PAUSED + 位置恢复；含网络音源须逐曲过「默认仅 WiFi」闸门，
         // 不得被队列绕过。
-        val gaplessEligible = autoPlay && seekTo == 0L && queue.size >= 2 &&
+        // §61.224：队列含 CUE 分轨时禁用 gapless——同一音频文件的 N 个分轨在原生
+        // playlist 里是同一 source，位置无法按轨截断，整队退回单曲 prepare 路径。
+        val hasCueTracks = queue.any { item ->
+            lookup.get(item.trackId)?.let { it.cueStartMs > 0 || it.cueEndMs > 0 } == true
+        }
+        val gaplessEligible = autoPlay && seekTo == 0L && !hasCueTracks && queue.size >= 2 &&
             _state.value.mode == PlayMode.SEQUENCE &&
             source.url == null && source.localPath != null
         val queuedSources = if (gaplessEligible) buildQueueSources(index, source) else null
@@ -443,7 +478,10 @@ class PlayerController(
             preparedSources = emptyList()
         }
         val h = requireNotNull(handle)
-        if (seekTo > 0) engine.seek(h, seekTo)
+        // §61.224：分轨起始定位——新起播（seekTo=0）落到 cueStartMs；恢复位置钳制进
+        // 包络（包络外回本轨起点）。整轨恒 0 零变化。
+        val effectiveSeek = if (seekTo > 0) clampToCue(seekTo) else cueStartMs
+        if (effectiveSeek > 0) engine.seek(h, effectiveSeek)
         // 冷启动恢复只 prepare + seek，引擎必须停在 PAUSED（§8.2 / PRD §6.1 不自动开播）。
         if (autoPlay) engine.play(h) else engine.pause(h)
         // §61.181（A 案）：prepare 返回即读引擎真值时长（已解出则进 state 并兑现回填；
@@ -452,12 +490,13 @@ class PlayerController(
         _state.update {
             it.copy(
                 phase = if (autoPlay) PlayerPhase.PLAYING else PlayerPhase.PAUSED,
-                positionMs = seekTo,
+                // §61.224：显示位置用包络修正后的定位（分轨起点 / 钳制值），非原始 seekTo。
+                positionMs = effectiveSeek,
             )
         }
         // §61.182：切歌即落游标（恢复链写侧三口之一；restore 的 PAUSED 路径同样落，
         // 重启后 Room 才有 playback_state 可读）。
-        persistCursor(item.trackId, seekTo)
+        persistCursor(item.trackId, effectiveSeek)
         if (autoPlay) startPositionTicker()
         // §61.185：媒体会话元数据时长同源真值——publishMetadata 直接用曲库值，STRM 恒 0
         // ⇒ 通知栏进度条比例错（播放页/PlaybackState 已由 §61.181 修，本处补最后一环）。
@@ -468,7 +507,7 @@ class PlayerController(
         )
         media?.setPlaybackState(
             if (autoPlay) EngineState.PLAYING else EngineState.PAUSED,
-            seekTo,
+            effectiveSeek,
             // §61.181：引擎真值优先，未解出（0）时兜底曲库元数据（本地有标签曲目瞬时正确）。
             if (engineDur > 0) engineDur else track.durationMs,
         )

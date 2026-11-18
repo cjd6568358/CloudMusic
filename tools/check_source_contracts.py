@@ -6758,6 +6758,28 @@ def main() -> int:
     else:
         print("[PASS] §61.223 SFTP 外置 lrc 链修复（ref 五态 + cacheDirPrefix + 失败可观测性）")
 
+    # §61.224 CUE 分轨播放包络：起始定位 / 终点交棒 / seek 限界 / gapless 禁用。
+    _pc_src = _code_only((ROOT / "feature-player" / "src" / "main" / "kotlin" / "com"
+                          / "example" / "cloudmusic" / "player" / "PlayerController.kt")
+                         .read_text(encoding="utf-8", errors="replace"))
+    _cue_p_bad = []
+    if "cueStartMs = track.cueStartMs" not in _pc_src or "cueEndMs = track.cueEndMs" not in _pc_src:
+        _cue_p_bad.append("prepareAt 未随曲更新分轨包络")
+    if "private fun clampToCue(ms: Long): Long" not in _pc_src:
+        _cue_p_bad.append("包络钳制纯函数缺失")
+    if "if (cueEndMs > 0 && pos >= cueEndMs)" not in _pc_src:
+        _cue_p_bad.append("节拍器终点交棒缺失")
+    if "val hasCueTracks = queue.any" not in _pc_src:
+        _cue_p_bad.append("gapless 分轨禁用判定缺失")
+    if "val effectiveSeek = if (seekTo > 0) clampToCue(seekTo) else cueStartMs" not in _pc_src:
+        _cue_p_bad.append("分轨起始定位缺失")
+    if "positionMs = effectiveSeek" not in _pc_src:
+        _cue_p_bad.append("显示位置未用包络修正值")
+    if _cue_p_bad:
+        failures.append("§61.224 CUE 播放包络：%s" % "；".join(_cue_p_bad))
+    else:
+        print("[PASS] §61.224 CUE 播放包络（定位/交棒/限界/gapless 禁用）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
