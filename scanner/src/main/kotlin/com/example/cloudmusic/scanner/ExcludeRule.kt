@@ -1,13 +1,15 @@
 package com.example.cloudmusic.scanner
 
 /** docs/03-04 §5 / §9 · 白名单与排除规则。 */
-enum class FileClass { DIRECTORY, AUDIO, STRM, PLAYLIST, PASS_THROUGH, IGNORED }
+enum class FileClass { DIRECTORY, AUDIO, STRM, PLAYLIST, CUE, PASS_THROUGH, IGNORED }
 
 data class ScanRules(
     /** 12 §61.45 / F1：统一取自 AudioFormats（14 项），不再只认 8 项。 */
     val audioExt: Set<String> = com.example.cloudmusic.model.AudioFormats.AUDIO_EXT,
     val strmExt: Set<String> = setOf("strm"),
     val playlistExt: Set<String> = setOf("m3u", "m3u8", "pls"),
+    /** §61.221：CUE sheet（展开为分轨候选；cue 保留在 ObjectType.TEXT_EXT 以支持驱动 readText） */
+    val cueExt: Set<String> = setOf("cue"),
     /** 透传但不入曲库（对齐 03-03 download_file_types） */
     val textPassThrough: Set<String> = setOf("lrc", "srt", "ass", "vtt"),
     val ignoreDirs: Set<String> = setOf("android", ".thumbnails", ".git"),
@@ -21,6 +23,7 @@ data class ScanRules(
             in audioExt -> FileClass.AUDIO
             in strmExt -> FileClass.STRM
             in playlistExt -> FileClass.PLAYLIST
+            in cueExt -> FileClass.CUE
             in textPassThrough -> FileClass.PASS_THROUGH
             else -> FileClass.IGNORED
         }

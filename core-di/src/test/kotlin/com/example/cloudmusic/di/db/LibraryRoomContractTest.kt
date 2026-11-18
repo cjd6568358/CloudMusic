@@ -87,7 +87,9 @@ class LibraryRoomContractTest {
         assertEquals(4, LibrarySchema.VERSION_V4)
         // §61.212：v5 增 scan_snapshot.direct_url（STRM walk 免逐文件重读）。
         assertEquals(5, LibrarySchema.VERSION_V5)
-        assertEquals(LibrarySchema.VERSION_V5, LibrarySchema.VERSION)
+        // §61.221：v6 增 tracks.cue_start_ms / cue_end_ms（CUE 分轨起止）。
+        assertEquals(6, LibrarySchema.VERSION_V6)
+        assertEquals(LibrarySchema.VERSION_V6, LibrarySchema.VERSION)
         assertEquals("cloudmusic.db", LibrarySchema.DATABASE_NAME)
         assertEquals(1, LibraryMigrations.MIGRATION_1_2.startVersion)
         assertEquals(2, LibraryMigrations.MIGRATION_1_2.endVersion)
@@ -97,7 +99,9 @@ class LibraryRoomContractTest {
         assertEquals(4, LibraryMigrations.MIGRATION_3_4.endVersion)
         assertEquals(4, LibraryMigrations.MIGRATION_4_5.startVersion)
         assertEquals(5, LibraryMigrations.MIGRATION_4_5.endVersion)
-        assertEquals(4, LibraryMigrations.ALL.size)
+        assertEquals(5, LibraryMigrations.MIGRATION_5_6.startVersion)
+        assertEquals(6, LibraryMigrations.MIGRATION_5_6.endVersion)
+        assertEquals(5, LibraryMigrations.ALL.size)
     }
 
     @Test

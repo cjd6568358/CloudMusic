@@ -62,5 +62,18 @@ object LibraryMigrations {
             }
         }
 
-    val ALL: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+    /** §61.221：v5→v6 增 `tracks.cue_start_ms` / `tracks.cue_end_ms`（CUE 分轨起止）。 */
+    val MIGRATION_5_6: Migration =
+        object : Migration(LibrarySchema.VERSION_V5, LibrarySchema.VERSION_V6) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                MigrationSql.apply(object : SqlExecutor {
+                    override fun exec(sql: String) {
+                        db.execSQL(sql)
+                    }
+                }, MigrationSql.V5_TO_V6)
+            }
+        }
+
+    val ALL: Array<Migration> =
+        arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
 }

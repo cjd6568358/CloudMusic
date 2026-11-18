@@ -65,6 +65,9 @@ data class TrackRow(
     @ColumnInfo(name = "added_at") val addedAt: Long,
     @ColumnInfo(name = "updated_at") val updatedAt: Long,
     @ColumnInfo(name = "sort_title", defaultValue = "''") val sortTitle: String,
+    /** §61.221：CUE 分轨起止（毫秒）；整轨 / 普通曲目恒 0。 */
+    @ColumnInfo(name = "cue_start_ms", defaultValue = "0") val cueStartMs: Long = 0,
+    @ColumnInfo(name = "cue_end_ms", defaultValue = "0") val cueEndMs: Long = 0,
 ) {
     /** §13 T01：Room 行 → `:core-storage` 的实体，复用其 `toTrack()` 保证往返一致。 */
     fun toEntity(): TrackEntity = TrackEntity(
@@ -87,6 +90,8 @@ data class TrackRow(
         availability = availability,
         addedAt = addedAt,
         updatedAt = updatedAt,
+        cueStartMs = cueStartMs,
+        cueEndMs = cueEndMs,
     )
 
     fun toTrack(): Track = toEntity().toTrack()
@@ -126,6 +131,8 @@ data class TrackRow(
                 addedAt = existing?.addedAt ?: now,
                 updatedAt = now,
                 sortTitle = SortKeys.of(title),
+                cueStartMs = track.cueStartMs,
+                cueEndMs = track.cueEndMs,
             )
         }
     }

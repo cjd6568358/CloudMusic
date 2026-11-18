@@ -57,6 +57,9 @@ data class TrackEntity(
     val availability: String,
     val addedAt: Long,
     val updatedAt: Long,
+    /** §61.221：CUE 分轨起止（毫秒）；整轨 / 普通曲目恒 0（默认值保证既有构造零回归）。 */
+    val cueStartMs: Long = 0,
+    val cueEndMs: Long = 0,
 ) {
     /** §13 T01：实体 → 业务模型，所有业务字段必须往返一致。 */
     fun toTrack(): Track = Track(
@@ -75,6 +78,8 @@ data class TrackEntity(
         replayGainDb = replayGainDb,
         tagCompleteness = tagCompleteness,
         availability = Availability.valueOf(availability),
+        cueStartMs = cueStartMs,
+        cueEndMs = cueEndMs,
     )
 
     companion object {
@@ -107,6 +112,8 @@ data class TrackEntity(
             availability = availability,
             addedAt = addedAt,
             updatedAt = updatedAt,
+            cueStartMs = track.cueStartMs,
+            cueEndMs = track.cueEndMs,
         )
     }
 }

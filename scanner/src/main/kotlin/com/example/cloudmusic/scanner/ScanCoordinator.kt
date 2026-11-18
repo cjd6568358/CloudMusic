@@ -180,7 +180,9 @@ class ScanCoordinator(
             else -> candidates.filter { it.obj.path in targetPaths }
         }
 
-        val seen = scoped.map { it.obj.path }.toSet()
+        // §61.221：seen 按快照键（分轨 = 锚点 idPath，其余 = obj.path）——cue 移除后
+        // 其分轨锚点不再产生 → missing 语义自动把分轨标 UNREACHABLE（禁止删除口径不变）。
+        val seen = scoped.map { it.effectiveIdPath() }.toSet()
         // §61.179：快照与曲库不一致时强制重扫。删除数据源只 markOrphan（置
         // UNREACHABLE）而不清快照，重新加回同源时 size/mtime 全未变 ⇒ 旧判据
         // 认为「已扫过」全部 skip ⇒ 曲目永久 UNREACHABLE（播放不了的静默成因之一）。
@@ -194,17 +196,19 @@ class ScanCoordinator(
         // （§61.160 一手：本地 7514 文件 refresh 重扫 ~87s 的大头）。
         // refresh 语义从「全部重读」收敛为「重新走查 + 只重处理有变 / 元数据未完成 /
         // 行不可用者」；普通增量扫描语义不变（T11 口径保持）。
+        // §61.221：stat 匹配取 statSize/statModified（分轨 = cue 文件 stat；cue 变化即使
+        // 音频 stat 未变也触发重展开）；快照键查 effectiveIdPath（分轨 = 锚点）。
         val statHit = if (request.refresh) scoped.filter { c ->
-            val old = previous[c.obj.path]
-            old != null && old.matches(c.obj.size, c.obj.modified) && old.metadataDone &&
+            val old = previous[c.effectiveIdPath()]
+            old != null && old.matches(c.statSize(), c.statModified()) && old.metadataDone &&
                 (knownPaths == null || c.obj.path in knownPaths)
-        }.map { it.obj.path }.toSet() else emptySet()
+        }.map { it.effectiveIdPath() }.toSet() else emptySet()
         val changed = scoped.filter { c ->
-            val old = previous[c.obj.path]
+            val old = previous[c.effectiveIdPath()]
             // 定向增量必须强制重处理，否则文件未变时失败项永远不会被重新 upsert 置回 OK。
-            c.obj.path !in statHit && (
+            c.effectiveIdPath() !in statHit && (
                 request.refresh || request.onlyUnavailable || old == null ||
-                    !old.matches(c.obj.size, c.obj.modified) ||
+                    !old.matches(c.statSize(), c.statModified()) ||
                     (knownPaths != null && c.obj.path !in knownPaths)
                 )
         }
@@ -240,10 +244,12 @@ class ScanCoordinator(
                 // §61.204：stat 未变 → 继承上一轮 metadataDone（refresh 重扫可跳过重读）；
                 // 有变 / 新出现 → 重置 false，待本轮 metadata 块完成回写。
                 // §61.212：STRM/播放列表候选缓存 directUrl（walk 复用，免逐文件重读）。
-                val old = previous[it.obj.path]
-                val statUnchanged = old != null && old.matches(it.obj.size, it.obj.modified)
+                // §61.221：快照键 = effectiveIdPath（分轨 = 锚点）、stat 取 statObj（分轨 = cue 文件）——
+                // cue 未变时分轨继承 metadataDone，refresh 免重展开；既有候选两处均与旧口径相同。
+                val old = previous[it.effectiveIdPath()]
+                val statUnchanged = old != null && old.matches(it.statSize(), it.statModified())
                 ScanSnapshot(
-                    storage.id, it.obj.path, it.obj.size, it.obj.modified, it.kind, now,
+                    storage.id, it.effectiveIdPath(), it.statSize(), it.statModified(), it.kind, now,
                     metadataDone = statUnchanged && old.metadataDone,
                     directUrl = it.directUrl ?: old?.takeIf { o -> statUnchanged }?.directUrl,
                 )
@@ -277,6 +283,11 @@ class ScanCoordinator(
         if (rules.isNoMedia(items.map { it.name })) return   // B11：整个子树跳过
 
         val childDirs = mutableListOf<Obj>()
+        // §61.221：cue 的 FILE 引用按 basename 匹配同目录音频项——分派前先建索引，
+        // 不改变 AUDIO 候选的产生时机与顺序（整轨候选照常，分轨候选在 cue 处追加）。
+        val audioByName = items.asSequence()
+            .filter { !it.isDir && rules.classify(it.name, false) == FileClass.AUDIO }
+            .associateBy { it.name.lowercase() }
         for (item in items) {
             currentCoroutineContext().ensureActive()
             when (rules.classify(item.name, item.isDir)) {
@@ -285,6 +296,7 @@ class ScanCoordinator(
                 // 03-04 §5 内联展开：直接调用共享解析函数，不实例化 StrmDriver / PlaylistDriver
                 FileClass.STRM -> expandStrm(driver, storage, item, dir, state, out, previous)
                 FileClass.PLAYLIST -> expandPlaylistInline(driver, storage, item, dir, state, out)
+                FileClass.CUE -> expandCue(driver, storage, item, dir, state, out, audioByName)
                 FileClass.PASS_THROUGH, FileClass.IGNORED -> Unit
             }
         }
@@ -349,6 +361,83 @@ class ScanCoordinator(
         }
     }
 
+    /**
+     * §61.221：CUE sheet 展开——一个 cue → N 个分轨候选（kind=CUE，obj = FILE 关联的音频项）。
+     * - FILE 按 basename 匹配同目录音频项（cue 规范：FILE 为相对 cue 所在目录的文件名）；
+     * - 分轨起点 = INDEX 01；终点 = 同 FILE 内下一轨起点；同 FILE 末轨 / 独立 FILE = 0（无界）；
+     * - cue 文本自身的 (size, modified) 作为分轨候选的 stat 源（[Candidate.statObj]）——
+     *   cue 变化即使音频 stat 未变也触发重展开；cue 未变时分轨候选走 statHit 免重 upsert；
+     * - 阶段 A 骨架即带 cue 元数据（[Candidate.cueRaw]），阶段 B 跳过 tag 读取（runMetadata）；
+     * - 整轨候选不抑制（与分轨并存入库，重复条目取舍留后续批如实登记）。
+     */
+    private suspend fun expandCue(
+        driver: Driver,
+        storage: Storage,
+        item: Obj,
+        dir: Obj,
+        state: ScanState,
+        out: MutableList<Candidate>,
+        audioByName: Map<String, Obj>,
+    ) {
+        val text = runCatching { driver.readTextOrThrow(item) }.getOrElse {
+            state.error(storage.id, "E_SCAN_ENCODING", "cue 读取失败: ${item.path}")
+            return
+        }
+        val sheet = CueParser.parse(text)
+        sheet.errors.forEach { state.error(storage.id, "E_SCAN", "cue 解析: $it @ ${item.name}") }
+        val audioTracks = sheet.tracks.filter { it.audio }
+        if (audioTracks.isEmpty()) {
+            state.error(storage.id, "E_SCAN", "cue 无有效音频轨: ${item.path}")
+            return
+        }
+        val cueStem = item.name.substringBeforeLast('.').ifBlank { item.name }
+        val parent = parentName(dir.path.ifBlank { item.path })
+        // (轨, 关联音频) 匹配：FILE 先全名（大小写不敏感）再 basename（cue 常写相对子路径）
+        val matched = mutableListOf<Triple<CueTrack, Obj, Long>>()
+        for (t in audioTracks) {
+            val file = t.file
+            if (file == null) {
+                state.error(storage.id, "E_SCAN", "cue 轨 ${t.no} 无 FILE 上下文 @ ${item.name}")
+                continue
+            }
+            val audio = audioByName[file.lowercase()]
+                ?: audioByName[file.substringAfterLast('/').lowercase()]
+            if (audio == null) {
+                state.error(storage.id, "E_SCAN", "cue 引用的音频文件不在同目录: ${t.file} @ ${item.path}")
+                continue
+            }
+            matched += Triple(t, audio, t.startMs)
+        }
+        for (i in matched.indices) {
+            val (t, audio, start) = matched[i]
+            // 终点 = 同音频文件内下一轨起点；跨音频 / 末轨 = 0（无界，播到本文件自然结束）
+            val end = matched.getOrNull(i + 1)
+                ?.takeIf { (_, nextAudio, _) -> nextAudio.path == audio.path }
+                ?.third ?: 0L
+            val dur = if (end > start) end - start else null
+            val artist = t.performer ?: sheet.albumPerformer
+            out += Candidate(
+                storage = storage,
+                obj = audio,
+                kind = CandidateKind.CUE,
+                parentDirName = parent,
+                hint = TrackHint(title = t.title, artist = artist, durationMs = dur),
+                idPathOverride = "${audio.path}#$cueStem#${t.no}",
+                statObj = item,
+                cueRaw = RawTags(
+                    title = t.title,
+                    artist = artist,
+                    album = sheet.albumTitle,
+                    trackNo = t.no,
+                    durationMs = dur,
+                    completeness = listOfNotNull(t.title, artist, sheet.albumTitle).size / 3f,
+                ),
+                cueStartMs = start,
+                cueEndMs = end,
+            )
+        }
+    }
+
     private suspend fun expandPlaylistInline(
         driver: Driver,
         storage: Storage,
@@ -409,7 +498,9 @@ class ScanCoordinator(
                     async {
                         semaphore.withPermit {
                             currentCoroutineContext().ensureActive()
-                            val raw = tagReader.read(candidate)
+                            // §61.221：分轨元数据已在候选（cue 文本，阶段 A 骨架即带全），
+                            // 跳过 tag 读取——整轨文件 tag 是专辑级信息，读了反而覆盖轨级元数据。
+                            val raw = candidate.cueRaw ?: tagReader.read(candidate)
                             if (raw == RawTags.EMPTY) null   // B01：降级，保留阶段 A 骨架
                             else trackFactory.build(candidate, raw)
                         }
@@ -418,7 +509,8 @@ class ScanCoordinator(
                 if (tracks.isNotEmpty()) trackSink.upsertBatch(tracks)
                 // §61.204：本块 tag 读取完成（含 B01 降级的稳定结果）→ 快照回写 done；
                 // 取消发生在块内则整块不记，下轮 refresh 自动补读（§61.144 语义延续）。
-                snapshotStore.markMetadataDone(storageId, chunk.map { it.obj.path })
+                // §61.221：键 = effectiveIdPath（分轨 = 锚点）。
+                snapshotStore.markMetadataDone(storageId, chunk.map { it.effectiveIdPath() })
                 state.addMetadata(tracks.size)
                 emit(state.progress(storageId, request, phase = ScanPhase.METADATA))
                 // §61.205：块间让步——熄屏时小幅 sleep，防 CPU 长满占用触发 MIUI 异常。

@@ -27,7 +27,10 @@ object LibrarySchema {
 
     /** §61.212：v5 增 `scan_snapshot.direct_url`（STRM walk 免逐文件重读的 URL 缓存）。 */
     const val VERSION_V5 = 5
-    const val VERSION = VERSION_V5
+
+    /** §61.221（V0.2 M5 CUE）：v6 增 `tracks.cue_start_ms` / `tracks.cue_end_ms`（分轨起止）。 */
+    const val VERSION_V6 = 6
+    const val VERSION = VERSION_V6
 
     const val FTS_TABLE = "tracks_fts"
 
@@ -123,10 +126,17 @@ object MigrationSql {
     const val ADD_SNAPSHOT_DIRECT_URL =
         "ALTER TABLE scan_snapshot ADD COLUMN direct_url TEXT"
 
+    /** §61.221（V0.2 M5 CUE）：分轨起止列（NOT NULL DEFAULT 0 = 整轨 / 普通曲目无截断）。 */
+    const val ADD_TRACK_CUE_START =
+        "ALTER TABLE tracks ADD COLUMN cue_start_ms INTEGER NOT NULL DEFAULT 0"
+    const val ADD_TRACK_CUE_END =
+        "ALTER TABLE tracks ADD COLUMN cue_end_ms INTEGER NOT NULL DEFAULT 0"
+
     val V1_TO_V2 = listOf(ADD_SORT_TITLE, CREATE_SORT_INDEX)
     val V2_TO_V3 = listOf(ADD_REPLAY_GAIN)
     val V3_TO_V4 = listOf(ADD_SNAPSHOT_METADATA_DONE)
     val V4_TO_V5 = listOf(ADD_SNAPSHOT_DIRECT_URL)
+    val V5_TO_V6 = listOf(ADD_TRACK_CUE_START, ADD_TRACK_CUE_END)
 
     fun apply(executor: SqlExecutor) {
         V1_TO_V2.forEach(executor::exec)

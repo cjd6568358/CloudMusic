@@ -458,7 +458,8 @@ SIGNATURES = {
     ],
     "scanner/src/main/kotlin/com/example/cloudmusic/scanner/TrackFactory.kt": [
         "fun build(candidate: Candidate, raw: RawTags = RawTags.EMPTY): Track",
-        "TrackId.of(candidate.storage.id, candidate.obj.path)",
+        # §61.221 升级：分轨 TrackId 用锚点 idPath（effectiveIdPath 对既有候选 = obj.path 不变）
+        "TrackId.of(candidate.storage.id, candidate.effectiveIdPath())",
     ],
     "scanner/src/main/kotlin/com/example/cloudmusic/scanner/ScanPorts.kt": [
         "interface TrackSink", "interface ScanSnapshotStore",
@@ -6212,9 +6213,10 @@ def main() -> int:
             "val statHit = if (request.refresh)",
             "old.metadataDone",
             "(knownPaths == null || c.obj.path in knownPaths)",
-            "c.obj.path !in statHit && (",
+            # §61.221 升级：快照键 = effectiveIdPath（分轨锚点）、stat = statObj（cue 文件）
+            "c.effectiveIdPath() !in statHit && (",
             "metadataDone = statUnchanged && old.metadataDone",
-            "snapshotStore.markMetadataDone(storageId, chunk.map { it.obj.path })",
+            "snapshotStore.markMetadataDone(storageId, chunk.map { it.effectiveIdPath() })",
         )):
             _stat_bad.append("statHit 分区 / 快照继承 / 块级回写缺失")
         if not all(x in _daos_src for x in (
@@ -6667,6 +6669,42 @@ def main() -> int:
             failures.append("§61.220 智能歌单：%s" % "；".join(_sp_bad))
         else:
             print("[PASS] §61.220 智能歌单（纯 JVM 规则 + 内置预设 + 实时入口）")
+
+    # §61.221 CUE 分轨：解析器 + 扫描展开（锚点 idPath）+ Track 起止列 + Room v6。
+    _cue = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "example"
+            / "cloudmusic" / "scanner" / "CueSheet.kt")
+    _sc_src = _code_only((ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
+                          / "example" / "cloudmusic" / "scanner" / "ScanCoordinator.kt")
+                         .read_text(encoding="utf-8", errors="replace"))
+    _sm_src = _code_only((ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
+                          / "example" / "cloudmusic" / "scanner" / "ScanModels.kt")
+                         .read_text(encoding="utf-8", errors="replace"))
+    _track_src = _code_only((ROOT / "core-model" / "src" / "main" / "kotlin" / "com"
+                             / "example" / "cloudmusic" / "model" / "Track.kt")
+                            .read_text(encoding="utf-8", errors="replace"))
+    _schema_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                              / "example" / "cloudmusic" / "di" / "db" / "LibrarySchema.kt")
+                             .read_text(encoding="utf-8", errors="replace"))
+    _cue_bad = []
+    if not _cue.is_file() or "object CueParser" not in _code_only(
+            _cue.read_text(encoding="utf-8", errors="replace")):
+        _cue_bad.append("CueParser 解析器缺失")
+    if "CandidateKind.CUE" not in _sm_src or "fun effectiveIdPath()" not in _sm_src:
+        _cue_bad.append("分轨候选模型（CUE kind / 锚点 idPath）缺失")
+    if "FileClass.CUE -> expandCue(" not in _sc_src:
+        _cue_bad.append("walk 未分派 cue 展开")
+    if "candidate.cueRaw ?: tagReader.read(candidate)" not in _sc_src:
+        _cue_bad.append("阶段 B 未对分轨跳过 tag 读取")
+    if "snapshotStore.markMetadataDone(storageId, chunk.map { it.effectiveIdPath() })" not in _sc_src:
+        _cue_bad.append("metadataDone 快照键未按锚点回写")
+    if "val cueStartMs: Long = 0L" not in _track_src or "val cueEndMs: Long = 0L" not in _track_src:
+        _cue_bad.append("Track 分轨起止字段缺失")
+    if "ALTER TABLE tracks ADD COLUMN cue_start_ms" not in _schema_src:
+        _cue_bad.append("Room v6 迁移 SQL 缺失")
+    if _cue_bad:
+        failures.append("§61.221 CUE 分轨：%s" % "；".join(_cue_bad))
+    else:
+        print("[PASS] §61.221 CUE 分轨（解析器 + 锚点展开 + 起止列 + v6 迁移）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

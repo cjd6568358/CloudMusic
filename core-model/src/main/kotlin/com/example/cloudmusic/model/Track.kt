@@ -29,7 +29,14 @@ data class Track(
     /** 0~1，标签缺失时靠文件名兜底。 */
     val tagCompleteness: Float = 0f,
     val availability: Availability = Availability.OK,
-)
+    // ---- §61.221 CUE 分轨（cue sheet 展开；整轨/普通曲目恒 0）----
+    /** 分轨起点毫秒；0 = 从头。播放链据此定位与截断（V0.2 M5-③，另批接线）。 */
+    val cueStartMs: Long = 0L,
+    /** 分轨终点毫秒；0 = 无界（同 FILE 末轨 / 独立 FILE，播到自然结束）。 */
+    val cueEndMs: Long = 0L,
+) {
+    val isCueTrack: Boolean get() = cueStartMs > 0 || cueEndMs > 0
+}
 
 data class SourceRef(
     /** → Storage.id */

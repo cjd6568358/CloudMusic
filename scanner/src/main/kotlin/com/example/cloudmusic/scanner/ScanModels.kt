@@ -8,7 +8,8 @@ import com.example.cloudmusic.model.Storage
 /** docs/03-04 §4 / §5 · 扫描请求、进度与汇总。 */
 enum class ScanPhase { FULL, INCREMENTAL, METADATA }
 
-enum class CandidateKind { AUDIO, STRM, PLAYLIST }
+/** §61.221：CUE 分轨候选——obj 恒为分轨所属音频文件，cue 侧信息在 [Candidate] 专用字段。 */
+enum class CandidateKind { AUDIO, STRM, PLAYLIST, CUE }
 
 data class ScanRequest(
     /** 空集合 = 扫描全部活跃 Storage */
@@ -78,7 +79,30 @@ data class Candidate(
     val hint: TrackHint? = null,
     /** strm / 播放列表 URL 条目的原始 URL（含签名，禁止入日志） */
     val directUrl: String? = null,
+    // ---- §61.221 CUE 分轨专用（kind=CUE 时非默认）----
+    /**
+     * TrackId / 快照键用的锚点路径：`<音频path>#<cue文件名去扩展名>#<轨号>`。
+     * 同一音频的多分轨与既有 AUDIO/STRM 快照键语义（T11）全部依赖此键唯一性；
+     * 既有候选恒为 null，`effectiveIdPath()` 与 obj.path 相同、零行为变化。
+     */
+    val idPathOverride: String? = null,
+    /** cue 文件自身（快照 diff 用 stat 源）——cue 变化即使音频 stat 未变也触发重展开。 */
+    val statObj: Obj? = null,
+    /** cue 元数据（阶段 A 骨架即带全，阶段 B 据此跳过 tag 读取）。 */
+    val cueRaw: RawTags? = null,
+    /** 分轨起点毫秒；0 = 从头。 */
+    val cueStartMs: Long = 0L,
+    /** 分轨终点毫秒；0 = 无界（同 FILE 末轨 / 独立 FILE，播到自然结束）。 */
+    val cueEndMs: Long = 0L,
 ) {
+    /** 快照 / TrackId 的键：分轨用锚点，其余与 obj.path 相同。 */
+    fun effectiveIdPath(): String = idPathOverride ?: obj.path
+
+    /** 快照 diff 的 stat 源：分轨取 cue 文件 stat，其余即 obj 自身。 */
+    fun statSize(): Long = statObj?.size ?: obj.size
+
+    fun statModified(): Long = statObj?.modified ?: obj.modified
+
     fun sourceRef(): SourceRef = SourceRef(
         storageId = storage.id,
         path = obj.path,
@@ -88,7 +112,8 @@ data class Candidate(
     fun sourceType(): SourceType = when (kind) {
         CandidateKind.STRM -> SourceType.STRM
         CandidateKind.PLAYLIST -> SourceType.PLAYLIST
-        CandidateKind.AUDIO -> when (storage.driverType.lowercase()) {
+        // §61.221：分轨的来源类型跟随底层存储（与整轨一致），sourceRef.path 已是真实音频路径
+        CandidateKind.AUDIO, CandidateKind.CUE -> when (storage.driverType.lowercase()) {
             "webdav" -> SourceType.WEBDAV
             "sftp" -> SourceType.SFTP
             "ftp" -> SourceType.FTP
