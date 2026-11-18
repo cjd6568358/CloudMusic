@@ -4,7 +4,7 @@ package com.example.cloudmusic.scanner
  * docs/03-04 §6.1 / T03 · magic bytes 判定真实格式（扩展名只作初筛）。
  * 纯 JVM 实现，不依赖 MediaMetadataRetriever。
  */
-enum class AudioFormat { MP3, FLAC, OGG, WAV, M4A, WMA, UNKNOWN }
+enum class AudioFormat { MP3, FLAC, OGG, WAV, M4A, WMA, DSD, UNKNOWN }
 
 object AudioProbe {
     fun probe(head: ByteArray): AudioFormat {
@@ -16,6 +16,11 @@ object AudioProbe {
             return AudioFormat.WAV
         }
         if (head.size >= 8 && head.startsWith("ftyp", 4)) return AudioFormat.M4A
+        // §61.235（V0.2 格式解析 DSD）：DSF = "DSD " 魔数；DFF = "FRM8"（DSDIFF）。
+        // 入库与 tag 读取链（JAudioTagger 3.0.x DsfFileReader/DffFileReader）已就绪，
+        // 解码出声受引擎能力限制（能力边界如实登记，PlaybackRuntime autoSkipOnError 兜底）。
+        if (head.startsWith("DSD ")) return AudioFormat.DSD
+        if (head.startsWith("FRM8")) return AudioFormat.DSD
         // MPEG audio frame sync: 0xFF Ex / Fx
         if ((head[0].toInt() and 0xff) == 0xFF &&
             ((head[1].toInt() and 0xE0) == 0xE0)

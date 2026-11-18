@@ -13,6 +13,7 @@ import java.io.File
 import java.nio.charset.Charset
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -138,5 +139,15 @@ class FtpDriverTest {
         assertEquals("anonymous", cfg.username, "username 空 → anonymous（FTP 惯例）")
         assertEquals("/m", cfg.root)
         assertEquals(21, cfg.port)
+        assertTrue(!cfg.ssl, "未配置 ssl → 明文 FTP")
+    }
+
+    @Test
+    @DisplayName("§61.235 F6：ssl=true 透传 FtpConfig（FTPS 显式 TLS）")
+    fun sslPassthrough() = runTest {
+        val raw = """{"host":"h","port":990,"username":"u","password":"p","root_folder_path":"/m","ssl":true}"""
+        val cfg = captureConfig(Storage("s3", "/s", "ftp", Addition(raw)))
+        assertTrue(cfg.ssl, "ssl 配置透传")
+        assertEquals(990, cfg.port, "FTPS 隐式端口示例")
     }
 }

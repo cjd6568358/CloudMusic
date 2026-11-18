@@ -12,6 +12,8 @@ data class FtpConfig(
     val username: String,
     val password: String,
     val root: String,
+    /** §61.235：显式 TLS（FTPS）——false = 明文 FTP。 */
+    val ssl: Boolean = false,
 )
 
 /** 一次目录项的最小投影；路径为服务端绝对路径（含 root 前缀）。 */

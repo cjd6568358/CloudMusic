@@ -44,13 +44,15 @@ class FtpDriver(
     private val username: String get() = str("username").trim().ifBlank { "anonymous" }
     private val password: String get() = str("password")
     private val rootPath: String get() = strCompat("root_folder_path", "root_path").trim().trimEnd('/')
+    /** §61.235：显式 TLS（FTPS）。 */
+    private val ssl: Boolean get() = bool("ssl")
 
     override suspend fun doInit(ctx: DriverCtx) {
         if (host.isEmpty()) throw CloudMusicError.DsInvalidConfig("FTP host 为空")
         val created = clientFactory.create(
             FtpConfig(
                 host = host, port = port, username = username,
-                password = password, root = rootPath,
+                password = password, root = rootPath, ssl = ssl,
             ),
         )
         if (!runCatching { created.connect() }.getOrDefault(false)) {

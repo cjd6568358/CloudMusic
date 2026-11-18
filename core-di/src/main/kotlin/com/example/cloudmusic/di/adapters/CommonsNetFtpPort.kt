@@ -33,7 +33,8 @@ private class CommonsNetFtpPort(private val config: FtpConfig) : FtpClientPort {
 
     override suspend fun connect(): Boolean = withContext(Dispatchers.IO) {
         runCatching {
-            val c = FTPClient()
+            // §61.235：ssl=true 走 FTPSClient（显式 TLS，AUTH TLS → PBSZ → PROT）；false = 明文。
+            val c = if (config.ssl) org.apache.commons.net.ftp.FTPSClient(true) else FTPClient()
             c.connectTimeout = CONNECT_TIMEOUT_MS
             c.defaultTimeout = CONNECT_TIMEOUT_MS
             c.connect(config.host, config.port)

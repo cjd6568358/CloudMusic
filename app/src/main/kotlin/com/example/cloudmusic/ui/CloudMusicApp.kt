@@ -174,8 +174,8 @@ fun CloudMusicApp(
     onAddStrm: (String, String) -> Unit = { _, _ -> },
     /** V0.2 §61.216：添加 SFTP 源（host / port / username / password / rootPath）。 */
     onAddSftp: (String, Int, String, String, String, String, String) -> Unit = { _, _, _, _, _, _, _ -> },
-    /** V0.2 §61.228：添加 FTP 源（host / port / username / password / rootPath）。 */
-    onAddFtp: (String, Int, String, String, String) -> Unit = { _, _, _, _, _ -> },
+    /** V0.2 §61.228：添加 FTP 源（host / port / username / password / rootPath / ssl）。 */
+    onAddFtp: (String, Int, String, String, String, Boolean) -> Unit = { _, _, _, _, _, _ -> },
     /** §61.152：移除数据源（markOrphan → 曲目标记不可用，文件不删）。 */
     onRemoveStorage: (String) -> Unit = { _ -> },
     onPlay: () -> Unit,
@@ -965,7 +965,7 @@ private fun SourcesScreen(
     onAddWebDav: (String, String, String, String) -> Unit,
     onAddStrm: (String, String) -> Unit,
     onAddSftp: (String, Int, String, String, String, String, String) -> Unit,
-    onAddFtp: (String, Int, String, String, String) -> Unit,
+    onAddFtp: (String, Int, String, String, String, Boolean) -> Unit,
     onRemoveStorage: (String) -> Unit,
     onBack: () -> Unit,
 ) {
@@ -1057,8 +1057,8 @@ private fun SourcesScreen(
     if (showFtp) {
         FtpDialog(
             onDismiss = { showFtp = false },
-            onAdd = { host, port, user, pass, root ->
-                onAddFtp(host, port, user, pass, root)
+            onAdd = { host, port, user, pass, root, ssl ->
+                onAddFtp(host, port, user, pass, root, ssl)
                 showFtp = false
             },
         )
@@ -1180,8 +1180,9 @@ private fun SftpDialog(
 @Composable
 private fun FtpDialog(
     onDismiss: () -> Unit,
-    onAdd: (String, Int, String, String, String) -> Unit,
+    onAdd: (String, Int, String, String, String, Boolean) -> Unit,
 ) {
+    var ssl by remember { mutableStateOf(false) }
     var host by remember { mutableStateOf("") }
     var port by remember { mutableStateOf("21") }
     var user by remember { mutableStateOf("") }
@@ -1198,6 +1199,13 @@ private fun FtpDialog(
                 CompDialogInput(user, { user = it }, hint = "用户名（空 = 匿名）")
                 CompDialogInput(pass, { pass = it }, hint = "密码（匿名可空）", password = true)
                 CompDialogInput(root, { root = it }, hint = "远程根目录（默认 /）")
+                FnRow(
+                    glyph = "🔒",
+                    title = "FTPS（显式 TLS）",
+                    onClick = { ssl = !ssl },
+                    showChevron = false,
+                    trailing = { FnSwitch(checked = ssl, onChange = { ssl = it }) },
+                )
                 if (error != null) {
                     Text(
                         error!!,
@@ -1216,7 +1224,7 @@ private fun FtpDialog(
                     parsedPort == null || parsedPort !in 1..65535 -> error = "端口必须是 1~65535"
                     else -> {
                         error = null
-                        onAdd(host.trim(), parsedPort, user.trim(), pass, root.trim())
+                        onAdd(host.trim(), parsedPort, user.trim(), pass, root.trim(), ssl)
                     }
                 }
             },

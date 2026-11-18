@@ -370,7 +370,7 @@ class MainActivity : ComponentActivity() {
                     },
                     // V0.2 §61.216：SFTP 源——凭据只写 Addition.raw（DataStore），不进日志 / Toast。
                     // V0.2 §61.228：FTP 源——凭据只写 Addition.raw（DataStore），不进日志 / Toast。
-                    onAddFtp = { host, port, user, pass, root ->
+                    onAddFtp = { host, port, user, pass, root, ssl ->
                         lifecycleScope.launch {
                             runCatching {
                                 val addition = org.json.JSONObject().apply {
@@ -379,6 +379,7 @@ class MainActivity : ComponentActivity() {
                                     if (user.isNotBlank()) put("username", user)
                                     if (pass.isNotBlank()) put("password", pass)
                                     put("root_folder_path", root.ifBlank { "/" })
+                                    if (ssl) put("ssl", true)
                                 }.toString()
                                 storages.add("ftp", addition)
                             }.onSuccess {

@@ -6987,6 +6987,30 @@ def main() -> int:
     else:
         print("[PASS] §61.233 封面刮削（Deezer + 批处理 + updateCover 四件套 + UI）")
 
+    # §61.235 DSD 探测 + FTPS：AudioProbe 魔数 + FtpConfig ssl + FTPSClient + UI 勾选。
+    _probe = _code_only((ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "example"
+                         / "cloudmusic" / "scanner" / "AudioProbe.kt")
+                        .read_text(encoding="utf-8", errors="replace"))
+    _ftp_ports = _code_only((ROOT / "datasource-ftp" / "src" / "main" / "kotlin" / "com"
+                             / "example" / "cloudmusic" / "ftp" / "FtpPorts.kt")
+                            .read_text(encoding="utf-8", errors="replace"))
+    _ftp_port_impl = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                                 / "cloudmusic" / "di" / "adapters" / "CommonsNetFtpPort.kt")
+                                .read_text(encoding="utf-8", errors="replace"))
+    _dsd_bad = []
+    if 'head.startsWith("DSD ")' not in _probe or 'head.startsWith("FRM8")' not in _probe:
+        _dsd_bad.append("DSD/DFF 魔数探测缺失")
+    if "AudioFormat.DSD" not in _probe:
+        _dsd_bad.append("DSD 枚举值缺失")
+    if "val ssl: Boolean = false" not in _ftp_ports:
+        _dsd_bad.append("FtpConfig.ssl 字段缺失")
+    if "FTPSClient(true)" not in _ftp_port_impl:
+        _dsd_bad.append("FTPSClient 显式 TLS 缺失")
+    if _dsd_bad:
+        failures.append("§61.235 DSD 探测 + FTPS：%s" % "；".join(_dsd_bad))
+    else:
+        print("[PASS] §61.235 DSD 探测（DSF/DFF 魔数）+ FTPS（显式 TLS）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
