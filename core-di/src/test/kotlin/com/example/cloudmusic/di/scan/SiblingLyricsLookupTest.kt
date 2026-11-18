@@ -84,12 +84,12 @@ class SiblingLyricsLookupTest {
         val c = candidate("nas-1", "/音乐/a.mp3")
         lookup(c, "http://nas/dav/音乐/a.mp3")
         assertEquals(0, sinkCalls.size)
-        assertEquals(1, driver.reads)
+        assertEquals(4, driver.reads, "无歌词目录：本轮 4 个候选各试一次")
         lookup(candidate("nas-1", "/音乐/b.mp3"), "http://nas/dav/音乐/b.mp3")
-        assertEquals(1, driver.reads, "同目录记忆：不逐文件重试")
+        assertEquals(4, driver.reads, "同目录记忆：第二个候选零请求")
         // 不同目录不受记忆影响
         lookup(candidate("nas-1", "/其它/c.mp3"), "http://nas/dav/其它/c.mp3")
-        assertEquals(2, driver.reads)
+        assertEquals(8, driver.reads)
     }
 
     @Test
@@ -102,6 +102,46 @@ class SiblingLyricsLookupTest {
         assertEquals(1, sinkCalls.size)
         assertEquals("[00:01.50]大约在冬季", sinkCalls[0].second)
         assertTrue('\uFFFD' !in sinkCalls[0].second)
+    }
+
+    private class PathAwareTextDriver(private val answer: (String) -> String?) : Driver, TextReadCapability {
+        val tried = ArrayList<String>()
+        override val config = DriverConfig(name = "PathAwareText")
+        override suspend fun init(ctx: DriverCtx) {}
+        override fun drop() {}
+        override suspend fun list(dir: Obj, refresh: Boolean): List<Obj> = emptyList()
+        override suspend fun get(path: String): Obj? = null
+        override suspend fun link(file: Obj, args: LinkArgs): Link = Link(localPath = "/files/${file.name}")
+        override suspend fun readText(file: Obj): String {
+            tried += file.path
+            return answer(file.path) ?: throw CloudMusicError.DsUnreachable("no lrc: ${file.path}")
+        }
+    }
+
+    @Test
+    @DisplayName("§61.217：lyrics/ 子目录命中即止，不发后续候选请求")
+    fun remoteLyricsSubdirHit() = runTest {
+        val driver = PathAwareTextDriver { path ->
+            "[00:02.00]子目录歌词".takeIf { path == "/音乐/lyrics/晴天.lrc" }
+        }
+        drivers["nas-2"] = driver
+        val c = candidate("nas-2", "/音乐/晴天.flac").copy(
+            hint = TrackHint(title = "晴天", artist = "周杰伦"),
+        )
+        lookup(c, "http://nas/dav/音乐/晴天.flac")
+        assertEquals(1, sinkCalls.size)
+        assertEquals("[00:02.00]子目录歌词", sinkCalls[0].second)
+        assertEquals(listOf("/音乐/晴天.lrc", "/音乐/lyrics/晴天.lrc"), driver.tried)
+    }
+
+    @Test
+    @DisplayName("§61.217：LOCAL 大写 .LRC + GB18030 回落命中")
+    fun localUppercaseLrcGbk(@TempDir dir: File) = runTest {
+        val audio = File(dir, "song.mp3").apply { writeBytes(byteArrayOf(1)) }
+        File(dir, "song.LRC").writeBytes("[00:03.00]大写歌词".toByteArray(Charset.forName("GB18030")))
+        lookup(candidate("local", audio.absolutePath), audio.absolutePath)
+        assertEquals(1, sinkCalls.size)
+        assertEquals("[00:03.00]大写歌词", sinkCalls[0].second)
     }
 
     @Test

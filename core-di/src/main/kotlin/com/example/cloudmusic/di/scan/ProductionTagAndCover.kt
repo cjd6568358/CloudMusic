@@ -304,7 +304,9 @@ private val RETRIEVER_FALLBACK_EXTS = setOf("mp3", "m4a", "aac", "flac", "wav", 
  * - LOCAL：`java.io.File` 直读（UTF-8 → GB18030 回落，NAS 场景 .lrc 常见 GBK）；
  * - 网络：驱动 [TextReadCapability]（UTF-8→GBK 回落内建，§61.153）；
  * 命中即经 lyricsSink 落缓存；失败按 (storage, 目录) 记忆——无 .lrc 目录不逐文件
- * 重试 GET（不 list、直击 sibling 路径，§61.146 O(n²) 教训同源）。
+ * 重试 GET（不 list、直击候选路径，§61.146 O(n²) 教训同源）。
+ * §61.217：候选由 [LyricsPathCandidates] 给出，覆盖 lyrics/ 子目录、标题 / 艺人名
+ * 命名与大写 .LRC；目录记忆保证最多只对一个目录发起一轮候选请求。
  */
 class SiblingLyricsLookup(
     private val sink: (String, String) -> Unit,
@@ -323,27 +325,33 @@ class SiblingLyricsLookup(
         if (parent.isEmpty()) return
         val dirKey = "$storageId:$parent"
         if (noLyricsDirs.containsKey(dirKey)) return
-        val base = normPath.substringAfterLast('/').substringBeforeLast('.', normPath)
-        if (base.isBlank()) return
-        val siblingName = "$base.lrc"
-        // 分支判定：URL 型（http/https）走驱动文本读；content:// 无同目录语义；
-        // 其余（"/…"、"file://…"、Windows 盘符路径）一律按本地文件直读。
-        val raw: String? = when {
-            ref.startsWith("http://", true) || ref.startsWith("https://", true) -> {
-                val cap = driverFor(storageId) as? TextReadCapability
-                runCatching {
-                    cap?.readText(Obj(name = siblingName, isDir = false, path = "$parent/$siblingName"))
+        // V0.2 §61.217：同目录同名之外，再试 lyrics/ 子目录、标题 / 艺人名、大写 .LRC。
+        // 全部是确定性直击路径，不 list 目录（§61.146 O(n²) 教训）；目录级失败记忆不变。
+        val names = LyricsPathCandidates.forTrack(
+            fileName = normPath.substringAfterLast('/'),
+            title = candidate.hint?.title,
+            artist = candidate.hint?.artist,
+        )
+        if (names.isEmpty()) return
+        val remote = ref.startsWith("http://", true) || ref.startsWith("https://", true)
+        if (!remote && ref.startsWith("content://")) return // 无文件系统同目录语义
+        val cap = if (remote) driverFor(storageId) as? TextReadCapability else null
+        val localDir = if (!remote) File(ref.removePrefix("file://")).parentFile else null
+        var raw: String? = null
+        for (name in names) {
+            raw = when {
+                remote -> runCatching {
+                    cap?.readText(Obj(
+                        name = name.substringAfterLast('/'), isDir = false, path = "$parent/$name",
+                    ))
                 }.getOrNull()
-            }
-            ref.startsWith("content://") -> null // 无文件系统同目录语义
-            else -> {
-                val localPath = ref.removePrefix("file://")
-                runCatching {
-                    val dir = File(localPath).parentFile ?: return@runCatching null
-                    val f = File(dir, siblingName)
+                localDir != null -> runCatching {
+                    val f = File(localDir, name.replace('/', File.separatorChar))
                     if (f.isFile) readLocalText(f) else null
                 }.getOrNull()
+                else -> null
             }
+            if (!raw.isNullOrBlank()) break
         }
         if (raw.isNullOrBlank()) {
             if (noLyricsDirs.size < 4096) noLyricsDirs[dirKey] = true

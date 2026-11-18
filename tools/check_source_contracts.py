@@ -188,6 +188,7 @@ GRADLE_FILES = (
     "datasource-api/build.gradle.kts",
     "datasource-strm/build.gradle.kts", "datasource-playlist/build.gradle.kts",
     "datasource-webdav/build.gradle.kts", "datasource-local/build.gradle.kts",
+    "datasource-sftp/build.gradle.kts",  # V0.2 §61.216
     "scanner/build.gradle.kts",
     "core-storage/build.gradle.kts", "engine-api/build.gradle.kts",
     "core-media/build.gradle.kts", "output-localproxy/build.gradle.kts",
@@ -210,6 +211,12 @@ CONTRACT_FILES = (
     "core-model/src/main/kotlin/com/example/cloudmusic/model/Storage.kt",
     "core-model/src/main/kotlin/com/example/cloudmusic/model/Track.kt",
     "core-model/src/main/kotlin/com/example/cloudmusic/model/IDataSource.kt",
+    # 12 §61.218：歌曲信息展示口径
+    "core-model/src/main/kotlin/com/example/cloudmusic/model/TrackInfo.kt",
+    "core-model/src/test/kotlin/com/example/cloudmusic/model/TrackInfoTest.kt",
+    # 12 §61.220：智能歌单纯 JVM 规则引擎
+    "core-model/src/main/kotlin/com/example/cloudmusic/model/SmartPlaylist.kt",
+    "core-model/src/test/kotlin/com/example/cloudmusic/model/SmartPlaylistTest.kt",
     "datasource-api/src/main/kotlin/com/example/cloudmusic/datasource/Driver.kt",
     "datasource-api/src/main/kotlin/com/example/cloudmusic/datasource/DriverRegistry.kt",
     "datasource-api/src/main/kotlin/com/example/cloudmusic/datasource/PathRule.kt",
@@ -370,12 +377,20 @@ CONTRACT_FILES = (
     # 12 §61.198：在线歌词 provider（docs/01 §0 拍板，本地缺失才按需抓取）
     "core-di/src/main/kotlin/com/example/cloudmusic/di/lyrics/OnlineLyricsFetcher.kt",
     "core-di/src/test/kotlin/com/example/cloudmusic/di/lyrics/OnlineLyricsFetcherTest.kt",
+    # 12 §61.217：外置 lrc 多候选路径
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/LyricsPathCandidates.kt",
+    "core-di/src/test/kotlin/com/example/cloudmusic/di/scan/LyricsPathCandidatesTest.kt",
     # 12 §61.199：DLNA 断连回落（会话健康判定 + 进度读取）
     "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DlnaSessionMonitor.kt",
     "output-dlna/src/test/kotlin/com/example/cloudmusic/output/dlna/DlnaSessionMonitorTest.kt",
     # 12 §61.200：DMR 多设备列表选择判定
     "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DmrDeviceSelector.kt",
     "output-dlna/src/test/kotlin/com/example/cloudmusic/output/dlna/DmrDeviceSelectorTest.kt",
+    # 12 §61.216：V0.2 SFTP 数据源
+    "datasource-sftp/src/main/kotlin/com/example/cloudmusic/sftp/SftpPorts.kt",
+    "datasource-sftp/src/main/kotlin/com/example/cloudmusic/sftp/SftpDriver.kt",
+    "datasource-sftp/src/test/kotlin/com/example/cloudmusic/sftp/SftpDriverTest.kt",
+    "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/JschSftpPort.kt",
 )
 
 CHECK_SCRIPTS = (
@@ -2873,7 +2888,7 @@ def main() -> int:
             m1_toml_txt = (ROOT / "gradle" / "libs.versions.toml").read_text(
                 encoding="utf-8")
             m1_baseline_evolved = (
-                m1_settings_txt.count('include(":') == 20
+                m1_settings_txt.count('include(":') == 21
                 and 'include(":engine-opensource")' in m1_settings_txt
                 and 'media3 = "1.11.1"' in m1_toml_txt
                 and "androidx.media3:media3-exoplayer" in m1_toml_txt
@@ -2888,7 +2903,7 @@ def main() -> int:
                 print("[PASS] 12 §61.42 守护：竞品色值 14 项 / 尺寸 20 项 / 位图 19 项 / "
                       "唱片叠层 5 层全部取自一手证据；1:1 未达成如实挂账，"
                       "M0 历史基线 19 模块 / 11 权限 / 51 素材 / 61 行 csv / "
-                      "零新增依赖 / res 未建；M1 当前态已演进为 20 模块 + media3 1.11.1")
+                      "零新增依赖 / res 未建；M1 当前态已演进为 21 模块 + media3 1.11.1")
         except (KeyError, ValueError, OSError) as exc:
             failures.append(f"12 §61.42 守护：视觉规格证据 JSON 不可解析（{exc}）")
 
@@ -2930,7 +2945,7 @@ def main() -> int:
             cur_settings = (ROOT / "settings.gradle.kts").read_text(
                 encoding="utf-8")
             m1_current_ok = (
-                cur_settings.count('include(":') == 20
+                cur_settings.count('include(":') == 21
                 and 'include(":engine-opensource")' in cur_settings
                 and "media3" in (ROOT / "gradle" / "libs.versions.toml")
                     .read_text(encoding="utf-8").lower()
@@ -2942,7 +2957,7 @@ def main() -> int:
                 )
             else:
                 print("[PASS] 12 §61.43 守护：799 activity / 63 包组 / 17 功能域 / "
-                      "50 中文模块名 / 19 自研模块（M0 历史快照，M1 当前 20）；"
+                      "50 中文模块名 / 19 自研模块（M0 历史快照，M1 后演进为 21）；"
                       "P0 二进制基线冻结 + P1~P5 优先级 + 代码文档差异复核；09 §3 计数 31")
         except (KeyError, ValueError, OSError) as exc:
             failures.append(f"12 §61.43 守护：模块清单证据 JSON 不可解析（{exc}）")
@@ -4970,7 +4985,7 @@ def main() -> int:
                 and all(("override " + m) in m1_adapter_txt for m in m1_methods)
                 and all(m in m1g_api for m in m1_methods)
                 # 构建：20 模块 / media3 1.11.1 / 不引 media3-session / 保留 legacy
-                and m1g_settings.count('include(":') == 20
+                and m1g_settings.count('include(":') == 21
                 and 'include(":engine-opensource")' in m1g_settings
                 # §61.131：:engine-legacy 移出打包链（反转：原检查 include 在位→现检查注释在位）
         and '// include(":engine-legacy")' in m1g_settings
@@ -5002,7 +5017,7 @@ def main() -> int:
                     "12 §61.81 守护：M1 骨架 / 构建 / 单点换绑 / 门面签名 / "
                     "诚实边界 / 文档登记漂移，请重跑 tools/l3_b2_m1_audit.py")
             else:
-                print("[PASS] 12 §61.81 守护：:engine-opensource 已启用（20 模块）、"
+                print("[PASS] 12 §61.81 守护：:engine-opensource 已启用（当前 21 模块）、"
                       "media3 1.11.1 三制品、EngineModule 单点换绑且回退保留、"
                       "门面 14 方法零改动、Range/音效未伪造接线、F4 仍 BLOCKED")
         except (KeyError, ValueError, OSError, TypeError) as exc:
@@ -6531,6 +6546,127 @@ def main() -> int:
         failures.append("§61.214 M4 收舱：%s" % "；".join(_m4_bad))
     else:
         print("[PASS] §61.214 M4 收舱（指纹双份回填 + A3 行现行口径 + 舱冻结标记）")
+
+    # §61.216 V0.2 SFTP 数据源：模块 / 依赖 / 注册 / UI 入口 / 端口安全五件同在；
+    # 凭据不得进日志，link 不得伪造 PROXIED（SFTP 无 http 回源 URL）。
+    _sftp_dir = ROOT / "datasource-sftp" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "sftp"
+    _sftp_drv = _sftp_dir / "SftpDriver.kt"
+    _jsch = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+             / "cloudmusic" / "di" / "adapters" / "JschSftpPort.kt")
+    if _sftp_drv.is_file() and _jsch.is_file() and _mai.exists() and _cmp.exists():
+        _settings_src = (ROOT / "settings.gradle.kts").read_text(encoding="utf-8", errors="replace")
+        _catalog_src = (ROOT / "gradle" / "libs.versions.toml").read_text(encoding="utf-8", errors="replace")
+        _ds_src = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                   / "cloudmusic" / "di" / "DataSourceModule.kt").read_text(encoding="utf-8", errors="replace")
+        _drv_src = _code_only(_sftp_drv.read_text(encoding="utf-8", errors="replace"))
+        _jsch_src = _code_only(_jsch.read_text(encoding="utf-8", errors="replace"))
+        _mai_src3 = _code_only(_mai.read_text(encoding="utf-8", errors="replace"))
+        _cmp_src3 = _code_only(_cmp.read_text(encoding="utf-8", errors="replace"))
+        _sftp_bad = []
+        if 'include(":datasource-sftp")' not in _settings_src or "jsch" not in _catalog_src:
+            _sftp_bad.append("模块或依赖未登记")
+        if "KEY_SFTP" not in _ds_src or 'storages.add("sftp"' not in _mai_src3:
+            _sftp_bad.append("注册表键或数据源添加入口缺失")
+        if "添加 SFTP 源" not in _cmp_src3 or "SftpDialog(" not in _cmp_src3:
+            _sftp_bad.append("UI 添加面板缺失")
+        if "ByteRangeCapability" not in _drv_src or "TextReadCapability" not in _drv_src:
+            _sftp_bad.append("扫描期 Range/文本能力缺失")
+        if "localLink(" not in _drv_src or "proxySourceUrl" in _drv_src:
+            _sftp_bad.append("link 未走 LOCAL 缓存或伪造了 PROXIED 回源")
+        if re.search(r"(Log\.[idwe]|println)\(.*(password|passwd|config)", _jsch_src):
+            _sftp_bad.append("JSch 端口疑似打印凭据")
+        if _sftp_bad:
+            failures.append("§61.216 SFTP 数据源：%s" % "；".join(_sftp_bad))
+        else:
+            print("[PASS] §61.216 SFTP 数据源（模块/依赖/注册/UI/端口安全，link 走 LOCAL 缓存）")
+
+    # §61.217 外置 lrc 多候选：候选生成器 + 扫描链调用 + 目录失败记忆三件同在；
+    # 候选必须含 lyrics/ 子目录与大写扩展名，且不允许 list 目录回潮（O(n²)）。
+    _lpc = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "di" / "scan" / "LyricsPathCandidates.kt"
+    if _lpc.is_file():
+        _lpc_src = _code_only(_lpc.read_text(encoding="utf-8", errors="replace"))
+        _ptc_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                               / "cloudmusic" / "di" / "scan" / "ProductionTagAndCover.kt").read_text(
+                                   encoding="utf-8", errors="replace"))
+        _lrc_bad = []
+        if "fun forTrack(" not in _lpc_src or "MAX_CANDIDATES" not in _lpc_src:
+            _lrc_bad.append("候选生成器缺失")
+        if '"lyrics/$base.lrc"' not in _lpc_src or '"$base.LRC"' not in _lpc_src:
+            _lrc_bad.append("子目录或大写扩展名候选缺失")
+        if "LyricsPathCandidates.forTrack(" not in _ptc_src:
+            _lrc_bad.append("扫描链未接多候选")
+        if "noLyricsDirs" not in _ptc_src:
+            _lrc_bad.append("目录失败记忆被移除（会逐文件重试）")
+        # 同文件的 DirectoryCoverLookup 也会 list 目录（封面查找，另一条链），
+        # 只检查 SiblingLyricsLookup 这段，避免误判。
+        _sibling_body = _ptc_src.split("class SiblingLyricsLookup", 1)[-1].split("class AndroidTagReader", 1)[0]
+        if "driver.list(" in _sibling_body:
+            _lrc_bad.append("歌词查找回潮为 list 目录（§61.146 O(n²)）")
+        if _lrc_bad:
+            failures.append("§61.217 外置 lrc 多候选：%s" % "；".join(_lrc_bad))
+        else:
+            print("[PASS] §61.217 外置 lrc 多候选（子目录/大写扩展名 + 目录记忆 + 零 list）")
+
+    # §61.218 歌曲信息面板：纯 JVM 展示口径 + info 位真实可点 + 不泄露签名直链。
+    _ti = ROOT / "core-model" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "model" / "TrackInfo.kt"
+    if _ti.is_file() and _lp2.is_file():
+        _ti_src = _code_only(_ti.read_text(encoding="utf-8", errors="replace"))
+        _lp3 = _code_only(_lp2.read_text(encoding="utf-8", errors="replace"))
+        _info_bad = []
+        if "fun formatLabel(" not in _ti_src or "fun sourceLabel(" not in _ti_src:
+            _info_bad.append("展示口径纯函数缺失")
+        if "AudioFormats.AUDIO_EXT" not in _ti_src:
+            _info_bad.append("格式未按 F1 真相源校验")
+        if "clickable { showTrackInfo = true }" not in _lp3 or "歌曲信息" not in _lp3:
+            _info_bad.append("info 位未接真实面板")
+        if "sourceRef.url" in _lp3:
+            _info_bad.append("面板疑似展示签名直链")
+        if _info_bad:
+            failures.append("§61.218 歌曲信息面板：%s" % "；".join(_info_bad))
+        else:
+            print("[PASS] §61.218 歌曲信息面板（格式真相源 + info 接线 + 直链不泄露）")
+
+    # §61.219 SFTP 私钥认证：配置解析 + JSch addIdentity + UI 输入 + 二选一校验。
+    _sftp_ports = (ROOT / "datasource-sftp" / "src" / "main" / "kotlin" / "com" / "example"
+                   / "cloudmusic" / "sftp" / "SftpPorts.kt")
+    if _sftp_drv.is_file() and _sftp_ports.is_file() and _jsch.is_file():
+        _ports_src = _code_only(_sftp_ports.read_text(encoding="utf-8", errors="replace"))
+        _drv_src2 = _code_only(_sftp_drv.read_text(encoding="utf-8", errors="replace"))
+        _jsch_src2 = _code_only(_jsch.read_text(encoding="utf-8", errors="replace"))
+        _cmp_src4 = _code_only(_cmp.read_text(encoding="utf-8", errors="replace"))
+        _key_bad = []
+        if "privateKey" not in _ports_src or "passphrase" not in _ports_src:
+            _key_bad.append("SftpConfig 缺私钥字段")
+        if "private_key" not in _drv_src2 or "password 或 private_key" not in _drv_src2:
+            _key_bad.append("驱动未解析配置或二选一校验缺失")
+        if "addIdentity(" not in _jsch_src2:
+            _key_bad.append("JSch 端口未接公钥认证")
+        if "PEM 私钥" not in _cmp_src4:
+            _key_bad.append("UI 无私钥输入")
+        if _key_bad:
+            failures.append("§61.219 SFTP 私钥认证：%s" % "；".join(_key_bad))
+        else:
+            print("[PASS] §61.219 SFTP 私钥认证（配置解析 + addIdentity + UI + 二选一）")
+
+    # §61.220 智能歌单：纯 JVM 规则引擎 + 内置预设 + 歌单页实时入口 + 不落库。
+    _sp = (ROOT / "core-model" / "src" / "main" / "kotlin" / "com" / "example"
+           / "cloudmusic" / "model" / "SmartPlaylist.kt")
+    if _sp.is_file():
+        _sp_src = _code_only(_sp.read_text(encoding="utf-8", errors="replace"))
+        _cmp_src5 = _code_only(_cmp.read_text(encoding="utf-8", errors="replace"))
+        _sp_bad = []
+        if "fun evaluate(" not in _sp_src or "val PRESETS" not in _sp_src:
+            _sp_bad.append("规则引擎纯函数或内置预设缺失")
+        if "data class Rule" not in _sp_src or "enum class Field" not in _sp_src:
+            _sp_bad.append("规则模型缺失")
+        if "SmartPlaylist.evaluate(allTracks, rule)" not in _cmp_src5:
+            _sp_bad.append("歌单页未接智能歌单求值")
+        if "onPlaySmart(hits)" not in _cmp_src5:
+            _sp_bad.append("命中曲目未接播放回调")
+        if _sp_bad:
+            failures.append("§61.220 智能歌单：%s" % "；".join(_sp_bad))
+        else:
+            print("[PASS] §61.220 智能歌单（纯 JVM 规则 + 内置预设 + 实时入口）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

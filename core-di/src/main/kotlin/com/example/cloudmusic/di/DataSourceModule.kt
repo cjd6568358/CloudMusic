@@ -1,12 +1,14 @@
 package com.example.cloudmusic.di
 
 import android.content.Context
+import com.example.cloudmusic.di.adapters.JschSftpClientFactory
 import com.example.cloudmusic.di.local.MediaStoreDirectorySource
 import com.example.cloudmusic.di.local.SafDirectorySource
 import com.example.cloudmusic.datasource.DriverFactory
 import com.example.cloudmusic.datasource.DriverRegistry
 import com.example.cloudmusic.local.LocalDriver
 import com.example.cloudmusic.playlist.PlaylistDriver
+import com.example.cloudmusic.sftp.SftpDriver
 import com.example.cloudmusic.strm.StrmDriver
 import com.example.cloudmusic.webdav.OkHttpStack
 import com.example.cloudmusic.webdav.WebDavDriver
@@ -38,6 +40,8 @@ object DataSourceModule {
     const val KEY_STRM = "strm"
     const val KEY_PLAYLIST = "playlist"
     const val KEY_LOCAL = "local"
+    /** V0.2 §61.216：SFTP 数据源注册表键。 */
+    const val KEY_SFTP = "sftp"
 
     @Provides
     @Singleton
@@ -92,10 +96,28 @@ object DataSourceModule {
             mediaStore = MediaStoreDirectorySource(context.contentResolver),
         )
     }
+
+    /**
+     * V0.2 §61.216：SFTP 工厂。凭据只在 Addition.raw → SftpConfig → JSch Session 内存中；
+     * link() 落地到 `cacheDir/sftp/`，不新增 Room 表、不进日志。
+     */
+    @Provides
+    @IntoMap
+    @StringKey(KEY_SFTP)
+    fun provideSftpFactory(
+        @ApplicationContext context: Context,
+    ): DriverFactory = { storage, addition ->
+        SftpDriver(
+            storage = storage,
+            additionJson = addition.raw,
+            clientFactory = JschSftpClientFactory(),
+            cacheDir = context.cacheDir,
+        )
+    }
 }
 
 /**
- * 把 Hilt multibindings 的 `Map<String, DriverFactory>` 一次性灌进 [DriverRegistry]。
+     * 把 Hilt multibindings 的 `Map<String, DriverFactory>` 一次性灌进 [DriverRegistry]。
  * 由 `CloudMusicApplication.onCreate()` 调用；重复启动不会重复注册（T16 的
  * `register` 对同 key 抛异常），因此这里按已有 key 做幂等过滤。
  */

@@ -63,11 +63,15 @@ import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.example.cloudmusic.model.Lyrics
+import com.example.cloudmusic.model.TrackInfo
 import com.example.cloudmusic.player.PlayMode
+import com.example.cloudmusic.ui.Comp
+import com.example.cloudmusic.ui.CompSheetDialog
 import com.example.cloudmusic.player.PlayerPhase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -145,6 +149,8 @@ fun LegacyPlayerPage(
 
     // §61.174：点击唱片区在「唱片 / 歌词」之间切换（竞品同一交互）。
     var showLyrics by remember { mutableStateOf(false) }
+    // V0.2 §61.218：副控制行 info 位从只读图标变成真实歌曲信息面板。
+    var showTrackInfo by remember { mutableStateOf(false) }
 
     // §61.109 ②：真实封面（`Track.coverRef` = 本地文件路径，BridgeModule.readCover 同源）；
     // 解码失败 / 无封面 → null（唱片回退竞品 g9f、背景回退 #262626）。
@@ -422,7 +428,10 @@ fun LegacyPlayerPage(
                     contentAlignment = Alignment.Center,
                 ) { WhaleGlyph() }
                 Box(
-                    modifier = Modifier.size(PlayerBaseline.SecondaryControlDp.dp),
+                    modifier = Modifier
+                        .size(PlayerBaseline.SecondaryControlDp.dp)
+                        // §61.218：info 位接真实歌曲信息（此前是只读几何占位）。
+                        .clickable { showTrackInfo = true },
                     contentAlignment = Alignment.Center,
                 ) { InfoGlyph() }
                 Box(
@@ -444,6 +453,44 @@ fun LegacyPlayerPage(
             onApply = { enabled, level, bands ->
                 bridge.onEqualizer(enabled, level, bands)
             },
+        )
+    }
+    // V0.2 §61.218：真实歌曲信息面板。只显示曲库字段 + 相对路径；
+    // sourceRef.url（STRM 签名直链）与 Addition 凭据一律不展示。
+    if (showTrackInfo && track != null) {
+        val t = track!!
+        CompSheetDialog(
+            onDismiss = { showTrackInfo = false },
+            title = "歌曲信息",
+            content = {
+                Column(Modifier.padding(horizontal = 16.dp)) {
+                    listOf(
+                        "标题" to t.title,
+                        "艺人" to t.artist.ifBlank { "未知" },
+                        "专辑" to t.album.ifBlank { "未知" },
+                        "来源" to TrackInfo.sourceLabel(t),
+                        "格式" to TrackInfo.formatLabel(t),
+                        "时长" to TrackInfo.durationLabel(t),
+                        "路径" to t.sourceRef.path,
+                    ).forEach { (label, value) ->
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                        ) {
+                            Text(label, color = Comp.TextSecondary, fontSize = 12.sp)
+                            Text(
+                                value,
+                                color = Comp.TextPrimary,
+                                fontSize = 12.sp,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier.weight(1f).padding(start = 12.dp),
+                            )
+                        }
+                    }
+                }
+            },
+            actions = listOf("关闭" to { showTrackInfo = false }),
         )
     }
 }

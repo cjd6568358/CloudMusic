@@ -71,6 +71,7 @@ import androidx.compose.ui.unit.sp
 import com.example.cloudmusic.SurfaceNav
 import com.example.cloudmusic.di.playback.RuntimeState
 import com.example.cloudmusic.model.Availability
+import com.example.cloudmusic.model.SmartPlaylist
 import com.example.cloudmusic.model.Storage
 import com.example.cloudmusic.model.Track
 import com.example.cloudmusic.output.dlna.DmrDevice
@@ -170,6 +171,8 @@ fun CloudMusicApp(
     onAddWebDav: (String, String, String, String) -> Unit = { _, _, _, _ -> },
     /** §61.151：添加 STRM 独立源（delegateStorageId + paths 多行，空=委托根目录）。 */
     onAddStrm: (String, String) -> Unit = { _, _ -> },
+    /** V0.2 §61.216：添加 SFTP 源（host / port / username / password / rootPath）。 */
+    onAddSftp: (String, Int, String, String, String, String, String) -> Unit = { _, _, _, _, _, _, _ -> },
     /** §61.152：移除数据源（markOrphan → 曲目标记不可用，文件不删）。 */
     onRemoveStorage: (String) -> Unit = { _ -> },
     onPlay: () -> Unit,
@@ -351,6 +354,7 @@ fun CloudMusicApp(
                     onAddSaf, onAddMediaStore,
                     onAddWebDav,
                     onAddStrm,
+                    onAddSftp,
                     onRemoveStorage,
                     onBack = { showSources = false },
                 )
@@ -392,6 +396,9 @@ fun CloudMusicApp(
                     onMoveItem = bridge::onMovePlaylistItem,
                     onRemoveItem = bridge::onRemovePlaylistItem,
                     observeTracks = bridge::observePlaylistTracks,
+                    // V0.2 §61.220：智能歌单——全量曲库实时求值 + 命中曲目直接播放
+                    allTracks = trackList,
+                    onPlaySmart = { hits -> onPlayTracks(hits, 0) },
                     // §61.192：次级页返回（飞牛「←」口径），回「更多」
                     onBack = { showMore = true },
                 )
@@ -920,11 +927,13 @@ private fun SourcesScreen(
     onAddMediaStore: () -> Unit,
     onAddWebDav: (String, String, String, String) -> Unit,
     onAddStrm: (String, String) -> Unit,
+    onAddSftp: (String, Int, String, String, String, String, String) -> Unit,
     onRemoveStorage: (String) -> Unit,
     onBack: () -> Unit,
 ) {
     var showWebDav by remember { mutableStateOf(false) }
     var showStrm by remember { mutableStateOf(false) }
+    var showSftp by remember { mutableStateOf(false) }
     // §61.207：行点击 → 源操作面板（刷新此源 / 移除）——§61.152 的移除确认扩为双动作，
     // 「刷新此源」复用定向增量扫（§61.206/§61.204 同链）。
     var actionTarget by remember { mutableStateOf<Storage?>(null) }
@@ -937,6 +946,8 @@ private fun SourcesScreen(
             CompSettingsRow("⊕", "添加 WebDAV 源", onClick = { showWebDav = true }, rightHint = "地址 + 认证")
             // §61.151：STRM 独立源（委托已添加的数据源挂载 .strm 挂载点）。
             CompSettingsRow("⊕", "添加 STRM 源", onClick = { showStrm = true }, rightHint = "委托数据源 + .strm")
+            // V0.2 §61.216：SFTP 数据源（凭据只在内存 Addition，不写日志）。
+            CompSettingsRow("⊕", "添加 SFTP 源", onClick = { showSftp = true }, rightHint = "SSH 文件传输")
             CompGroupTitle("维护")
             CompSettingsRow("↻", "全量重扫", onClick = onRescan)
             CompSettingsRow("↻", "重试失败项", onClick = onRetry)
@@ -990,6 +1001,16 @@ private fun SourcesScreen(
             onAdd = { delegateId, paths ->
                 onAddStrm(delegateId, paths)
                 showStrm = false
+            },
+        )
+    }
+    // V0.2 §61.216：SFTP 源输入面板（端口非法时本地拦截，不发起连接）。
+    if (showSftp) {
+        SftpDialog(
+            onDismiss = { showSftp = false },
+            onAdd = { host, port, user, pass, root, key, passphrase ->
+                onAddSftp(host, port, user, pass, root, key, passphrase)
+                showSftp = false
             },
         )
     }
@@ -1048,6 +1069,61 @@ private fun WebDavDialog(
                 onAdd(url.trim().trimEnd('/'), username.trim(), password, rootPath.trim())
             }
         }),
+    )
+}
+
+/** V0.2 §61.216：SFTP 源输入面板（字段与 SftpConfig / 08 配置项对齐；凭据只进 Addition.raw）。 */
+@Composable
+private fun SftpDialog(
+    onDismiss: () -> Unit,
+    onAdd: (String, Int, String, String, String, String, String) -> Unit,
+) {
+    var host by remember { mutableStateOf("") }
+    var port by remember { mutableStateOf("22") }
+    var user by remember { mutableStateOf("") }
+    var pass by remember { mutableStateOf("") }
+    var root by remember { mutableStateOf("/") }
+    var privateKey by remember { mutableStateOf("") }
+    var passphrase by remember { mutableStateOf("") }
+    var error by remember { mutableStateOf<String?>(null) }
+    CompSheetDialog(
+        onDismiss = onDismiss,
+        title = "添加 SFTP 源",
+        content = {
+            Column {
+                CompDialogInput(host, { host = it }, hint = "主机 IP / 域名，如 nas.local")
+                CompDialogInput(port, { port = it }, hint = "SSH 端口（默认 22）")
+                CompDialogInput(user, { user = it }, hint = "用户名")
+                CompDialogInput(pass, { pass = it }, hint = "密码 / 口令", password = true)
+                CompDialogInput(root, { root = it }, hint = "远程根目录（默认 /）")
+                CompDialogInput(privateKey, { privateKey = it }, hint = "PEM 私钥（可与密码二选一，换行用 \\n）", password = true)
+                CompDialogInput(passphrase, { passphrase = it }, hint = "私钥口令（可空）", password = true)
+                if (error != null) {
+                    Text(
+                        error!!,
+                        color = Comp.AccentRed,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    )
+                }
+            }
+        },
+        actions = listOf(
+            "添加" to {
+                val parsedPort = port.trim().toIntOrNull()
+                when {
+                    host.isBlank() -> error = "请填写主机地址"
+                    user.isBlank() -> error = "请填写用户名"
+                    parsedPort == null || parsedPort !in 1..65535 -> error = "端口必须是 1~65535"
+                    pass.isBlank() && privateKey.isBlank() -> error = "请填写密码或 PEM 私钥之一"
+                    else -> {
+                        error = null
+                        onAdd(host.trim(), parsedPort, user.trim(), pass, root.trim(), privateKey, passphrase)
+                    }
+                }
+            },
+            "关闭" to onDismiss,
+        ),
     )
 }
 
@@ -1148,6 +1224,9 @@ private fun PlaylistsScreen(
     onMoveItem: (String, Int, Int) -> Unit,
     onRemoveItem: (String, Int) -> Unit,
     observeTracks: (String) -> Flow<List<Track>>,
+    /** V0.2 §61.220：智能歌单——全量曲库 + 命中曲目播放回调。 */
+    allTracks: List<Track> = emptyList(),
+    onPlaySmart: (List<Track>) -> Unit = {},
     /** §61.192：次级页返回（回「更多」）。 */
     onBack: () -> Unit = {},
 ) {
@@ -1171,10 +1250,20 @@ private fun PlaylistsScreen(
                     )
                 },
             )
-            if (playlists.isEmpty()) {
-                CompEmpty("还没有歌单；在曲库行点「＋」加入曲目时会自动创建")
-            } else {
                 LazyColumn(Modifier.fillMaxSize()) {
+                    // V0.2 §61.220：智能歌单（实时规则，不落库、曲库变化即时生效）。
+                    item { CompGroupTitle("智能歌单 · ${SmartPlaylist.PRESETS.size}（实时规则）") }
+                    items(SmartPlaylist.PRESETS, key = { it.name }) { rule ->
+                        val hits = SmartPlaylist.evaluate(allTracks, rule)
+                        CompPlaylistRow(
+                            name = "✧ ${rule.name}",
+                            subtitle = "命中 ${hits.size} 首 · 点击播放",
+                            onClick = { if (hits.isNotEmpty()) onPlaySmart(hits) },
+                        )
+                    }
+                    if (playlists.isEmpty()) {
+                        item { CompEmpty("还没有自建歌单；在曲库行点「＋」加入曲目时会自动创建") }
+                    }
                     item { CompGroupTitle("创建的歌单 · ${playlists.size}") }
                     items(playlists, key = { it.id }) { playlist ->
                         // §61.140 首曲封面：每行一条 observeTracks 流取 firstOrNull() 的
@@ -1260,7 +1349,6 @@ private fun PlaylistsScreen(
                         }
                     }
                 }
-            }
         }
     }
     // 歌单 ⋮ → more-ops 面板（播放全部 / 重命名 / 删除）。

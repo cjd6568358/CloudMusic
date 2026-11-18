@@ -24,6 +24,14 @@ android {
 
     // 01 §2：仅 arm64-v8a。使用 addAll 而非 +=，避免 AGP 版本间集合类型差异。
     defaultConfig.ndk.abiFilters.addAll(listOf("arm64-v8a"))
+
+    // V0.2 §61.216：JSch 与 jspecify 都带同一 OSGi 清单，Android 资源合并不接受重复路径。
+    // 该清单只是 jar 元数据，剔除不影响 SSH 功能。
+    packaging {
+        resources {
+            excludes += "META-INF/versions/9/OSGI-INF/MANIFEST.MF"
+        }
+    }
 }
 
 dependencies {

@@ -348,6 +348,27 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     },
+                    // V0.2 §61.216：SFTP 源——凭据只写 Addition.raw（DataStore），不进日志 / Toast。
+                    onAddSftp = { host, port, user, pass, root, privateKey, passphrase ->
+                        lifecycleScope.launch {
+                            runCatching {
+                                val addition = org.json.JSONObject().apply {
+                                    put("host", host)
+                                    put("port", port)
+                                    put("username", user)
+                                    put("password", pass)
+                                    put("root_folder_path", root.ifBlank { "/" })
+                                    if (privateKey.isNotBlank()) put("private_key", privateKey)
+                                    if (passphrase.isNotBlank()) put("passphrase", passphrase)
+                                }.toString()
+                                storages.add("sftp", addition)
+                            }.onSuccess {
+                                runtime.rescanAll()
+                            }.onFailure {
+                                Toast.makeText(this@MainActivity, "SFTP 添加失败（请检查地址与凭据）", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    },
                     // §61.152：移除数据源——markOrphan（曲目标记不可用）+ rescanAll。
                     onRemoveStorage = { id ->
                         lifecycleScope.launch {
