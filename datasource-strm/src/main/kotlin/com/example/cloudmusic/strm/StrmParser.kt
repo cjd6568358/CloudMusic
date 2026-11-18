@@ -3,6 +3,9 @@ package com.example.cloudmusic.strm
 /** docs/03-03 §2.2 · `.strm` 消费型解析（与 OpenList 的「生成」方向相反）。 */
 sealed interface StrmParseResult {
     data class Url(val url: String) : StrmParseResult
+    /** §61.227（V0.2 M9）：相对路径引用——相对 .strm 所在目录（或 `/` 开头的驱动内
+     *  绝对路径），由扫描链展开为同源音频候选。`../` 与 `./` 交给 PathNormalizer 消解。 */
+    data class Relative(val path: String) : StrmParseResult
     data class Unsupported(val scheme: String) : StrmParseResult
     data object Empty : StrmParseResult
 }
@@ -22,8 +25,11 @@ fun parseStrm(content: String): StrmParseResult {
         ?: return StrmParseResult.Empty
     val url = line.removePrefix("\uFEFF").trim()
     val scheme = url.substringBefore(':', "").lowercase()
-    return when (scheme) {
-        "http", "https" -> StrmParseResult.Url(url)
+    return when {
+        scheme == "http" || scheme == "https" -> StrmParseResult.Url(url)
+        // §61.227：相对路径形态——`/` 开头（驱动内绝对路径）或无 scheme（不含 `:`，
+        // 含 `./` `../`）。有 scheme 且非 http(s) 仍判 Unsupported（更多 scheme 不在本批）。
+        url.startsWith("/") || ':' !in url -> StrmParseResult.Relative(url)
         else -> StrmParseResult.Unsupported(scheme)
     }
 }

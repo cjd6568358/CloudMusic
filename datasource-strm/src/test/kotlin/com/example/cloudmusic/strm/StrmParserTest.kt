@@ -28,7 +28,8 @@ class StrmParserTest {
     fun t03() {
         assertEquals(StrmParseResult.Unsupported("smb"), parseStrm("smb://nas/a.flac"))
         assertEquals(StrmParseResult.Unsupported("file"), parseStrm("file:///sdcard/a.flac"))
-        assertEquals(StrmParseResult.Unsupported(""), parseStrm("not-a-url"))
+        // §61.227 口径演进：V0.1「无 scheme = 非法 URL」→ V0.2「无 scheme = 相对路径引用」
+        assertEquals(StrmParseResult.Relative("not-a-url"), parseStrm("not-a-url"))
     }
 
     @Test
@@ -58,5 +59,26 @@ class StrmParserTest {
         assertTrue("SECRET" !in description)
         assertTrue("https://" !in description)
         assertTrue("hasQuery=true" in description)
+    }
+
+    @Test
+    @DisplayName("§61.227 · 相对路径（无 scheme）→ Relative")
+    fun relativeNoScheme() {
+        assertEquals(StrmParseResult.Relative("song.mp3"), parseStrm("song.mp3"))
+        assertEquals(StrmParseResult.Relative("./song.mp3"), parseStrm("./song.mp3"))
+        assertEquals(StrmParseResult.Relative("../dir/song.mp3"), parseStrm("../dir/song.mp3"))
+    }
+
+    @Test
+    @DisplayName("§61.227 · 驱动内绝对路径（/ 开头）→ Relative")
+    fun absoluteWithinDriver() {
+        assertEquals(StrmParseResult.Relative("/music/song.mp3"), parseStrm("/music/song.mp3"))
+    }
+
+    @Test
+    @DisplayName("§61.227 · 非法 scheme 仍 Unsupported（更多 scheme 不在本批）")
+    fun badSchemeStillUnsupported() {
+        assertEquals(StrmParseResult.Unsupported("ftp"), parseStrm("ftp://x/a.mp3"))
+        assertEquals(StrmParseResult.Unsupported("smb"), parseStrm("smb://host/share/a.mp3"))
     }
 }

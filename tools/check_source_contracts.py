@@ -6816,6 +6816,32 @@ def main() -> int:
     else:
         print("[PASS] §61.226 CUE UI 相对时间映射（三口纯函数 + 缓存生命周期）")
 
+    # §61.227 strm 相对路径：Relative 分支 + 扫描链展开 + 相对解析。
+    _strm_src = _code_only((ROOT / "datasource-strm" / "src" / "main" / "kotlin" / "com"
+                            / "example" / "cloudmusic" / "strm" / "StrmParser.kt")
+                           .read_text(encoding="utf-8", errors="replace"))
+    _strm_drv = _code_only((ROOT / "datasource-strm" / "src" / "main" / "kotlin" / "com"
+                            / "example" / "cloudmusic" / "strm" / "StrmDriver.kt")
+                           .read_text(encoding="utf-8", errors="replace"))
+    _coord_src = _code_only((ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
+                             / "example" / "cloudmusic" / "scanner" / "ScanCoordinator.kt")
+                            .read_text(encoding="utf-8", errors="replace"))
+    _rel_bad = []
+    if "data class Relative(val path: String)" not in _strm_src:
+        _rel_bad.append("Relative 解析结果缺失")
+    if "url.startsWith(\"/\") || ':' !in url -> StrmParseResult.Relative(url)" not in _strm_src:
+        _rel_bad.append("相对路径形态判定缺失")
+    if "is StrmParseResult.Relative -> {" not in _coord_src:
+        _rel_bad.append("扫描链相对引用展开缺失")
+    if "private fun resolveRelativeStrm(baseDir: String, rel: String): String" not in _coord_src:
+        _rel_bad.append("相对解析纯函数缺失")
+    if "is StrmParseResult.Relative -> {" not in _strm_drv:
+        _rel_bad.append("委托链 link 兜底展开缺失")
+    if _rel_bad:
+        failures.append("§61.227 strm 相对路径：%s" % "；".join(_rel_bad))
+    else:
+        print("[PASS] §61.227 strm 相对路径（Relative 分支 + 扫描链展开 + 委托兜底）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

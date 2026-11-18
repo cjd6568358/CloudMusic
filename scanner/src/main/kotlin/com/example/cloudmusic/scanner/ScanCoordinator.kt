@@ -1,5 +1,6 @@
 package com.example.cloudmusic.scanner
 
+import com.example.cloudmusic.common.PathNormalizer
 import com.example.cloudmusic.datasource.Driver
 import com.example.cloudmusic.datasource.DriverRegistry
 import com.example.cloudmusic.datasource.readTextOrThrow
@@ -352,6 +353,25 @@ class ScanCoordinator(
                 hint = strmTitleHint(item.name)?.let { TrackHint(title = it.second, artist = it.first) },
                 directUrl = result.url,
             )
+            is StrmParseResult.Relative -> {
+                // §61.227（V0.2 M9）：相对引用展开为同源音频候选——解析相对 .strm 所在
+                // 目录（`./` `../` 由 PathNormalizer 消解；`/` 开头为驱动内绝对路径），
+                // 目标命中（非目录）→ kind=AUDIO（obj=目标，播放直接走本驱动 link）；
+                // miss → E_SCAN 可见化，不静默产生空曲库。
+                val baseDir = dir.path.ifBlank { item.path.substringBeforeLast('/', "") }
+                val resolved = runCatching { resolveRelativeStrm(baseDir, result.path) }.getOrNull()
+                val target = resolved?.let { runCatching { driver.get(it) }.getOrNull() }
+                if (resolved == null || target == null || target.isDir) {
+                    state.error(storage.id, "E_SCAN", "strm 相对引用目标不存在: ${item.path}")
+                } else {
+                    out += Candidate(
+                        storage = storage,
+                        obj = target,
+                        kind = CandidateKind.AUDIO,
+                        parentDirName = parentName(dir.path.ifBlank { item.path }),
+                    )
+                }
+            }
             is StrmParseResult.Unsupported -> state.error(
                 storage.id, "E_LINK_BAD_SCHEME", "不支持的 strm scheme: ${result.scheme} @ ${item.path}",
             )
@@ -370,6 +390,14 @@ class ScanCoordinator(
      * - 阶段 A 骨架即带 cue 元数据（[Candidate.cueRaw]），阶段 B 跳过 tag 读取（runMetadata）；
      * - 整轨候选不抑制（与分轨并存入库，重复条目取舍留后续批如实登记）。
      */
+    /** §61.227：.strm 相对引用解析——`/` 开头为驱动内绝对路径，其余相对 [baseDir]
+     *  拼接后由 PathNormalizer 消解 `./` / `../`（越界抛 DsNotSupport，由调用方降级）。 */
+    private fun resolveRelativeStrm(baseDir: String, rel: String): String {
+        val p = rel.trim()
+        val joined = if (p.startsWith("/")) p else if (baseDir.isBlank()) p else "$baseDir/$p"
+        return PathNormalizer.normalize(joined)
+    }
+
     private suspend fun expandCue(
         driver: Driver,
         storage: Storage,
