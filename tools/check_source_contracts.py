@@ -7020,10 +7020,20 @@ def main() -> int:
         _eq_ad_bad.append("段数自适应缺失")
     if "var bandValues by remember" not in _app_src5 or "bandValues = bandValues.toMutableList().also { it[i] = v }" not in _app_src5:
         _eq_ad_bad.append("滑杆状态数组化缺失")
+    _pc_fade_src = _code_only((ROOT / "feature-player" / "src" / "main" / "kotlin" / "com"
+                               / "example" / "cloudmusic" / "player" / "PlayerController.kt")
+                              .read_text(encoding="utf-8", errors="replace"))
+    if "private var fadeOutArmed = false" not in _pc_fade_src:
+        _eq_ad_bad.append("自然结束 fade-out armed 协调缺失")
+    if "if (fadeOutArmed) fadeOutArmed = false" not in _pc_fade_src:
+        _eq_ad_bad.append("ENDED 事件 armed 抑制缺失")
+    if "engine.setVolume(h, 1f)" not in _pc_fade_src or "fadeOutArmed = false" not in _pc_fade_src or "fadeJob?.cancel()" not in _pc_fade_src:
+        _eq_ad_bad.append("seek 干预解除 armed + 音量复位缺失")
     if _eq_ad_bad:
         failures.append("§61.236 EQ 频段自适应：%s" % "；".join(_eq_ad_bad))
     else:
         print("[PASS] §61.236 EQ 频段自适应（段数 = max(5, 自定义长度) + 数组化滑杆）")
+        print("[PASS] §61.237 自然结束 fade-out（armed 协调 + ENDED 抑制 + seek 解除）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

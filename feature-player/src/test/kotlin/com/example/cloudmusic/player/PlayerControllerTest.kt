@@ -734,4 +734,40 @@ class PlayerControllerTest {
         assertEquals(0f, f.controller.fadeCurve(-0.5f), "越界钳到 0")
         assertEquals(1f, f.controller.fadeCurve(1.5f), "越界钳到 1")
     }
+
+    @Test
+    @DisplayName("§61.237 · 自然结束渐出：接近终点 armed → fade 完成回调独占 next")
+    fun naturalFadeout() = runTest {
+        val t = track(1)
+        val f = fixture(scope = backgroundScope, lookupTracks = listOf(t), positionOverride = 98_500L)
+        f.controller.updateFade(true, 2000)
+        f.repo.setAll(listOf(t))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase)
+        // dur=100000、fade=2000 → 窗口 98000 起；pos=98500 → ticker 触发 armed + ramp
+        advanceTimeBy(2_200)   // fade 40 步 × 50ms 走完
+        runCurrent()
+        // 单曲目队列：SEQUENCE 末尾 → ENDED 态收束（fade 完成后 next 走 ENDED 分支）
+        assertEquals(PlayerPhase.ENDED, f.controller.state.value.phase, "fade 完成后队列收束")
+    }
+
+    @Test
+    @DisplayName("§61.237 · 用户 seek 干预：解除 armed + 音量复位 1f")
+    fun seekDisarmsFadeout() = runTest {
+        val t = track(1)
+        val f = fixture(scope = backgroundScope, lookupTracks = listOf(t), positionOverride = 98_500L)
+        f.controller.updateFade(true, 2000)
+        f.repo.setAll(listOf(t))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        advanceTimeBy(600)   // fade-out 已启动（音量正在下降）
+        assertTrue(f.engine.snapshot().volume < 1f, "fade-out 中音量 < 1")
+        f.controller.seek(50_000L)
+        advanceTimeBy(100)
+        assertEquals(1f, f.engine.snapshot().volume, "seek 干预复位音量")
+        // armed 解除后 ticker 恢复正常（不再交棒到下一曲）
+        advanceTimeBy(2_000)
+        assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase)
+    }
 }

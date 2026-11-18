@@ -88,6 +88,14 @@ class PlayerController(
     private var fadeDurationMs = 2000
     private var fadeJob: kotlinx.coroutines.Job? = null
 
+    /**
+     * §61.237：自然结束渐出的 ENDED 竞争协调——armed=true 表示「fade-out 已启动，
+     * next() 由 fadeOut 回调独占」；引擎自然 ENDED 事件到达时若 armed 则跳过
+     * next（否则会双曲跳跃）。手动 seek 解除 armed 并复位音量（用户干预优先）。
+     */
+    @Volatile
+    private var fadeOutArmed = false
+
     /** §61.230：设置侧热更新（PlaybackComposition 的 audiofx 设置循环转发）。 */
     fun updateFade(enabled: Boolean, durationMs: Int) {
         fadeEnabled = enabled
@@ -126,7 +134,12 @@ class PlayerController(
             engine.state().collect { s ->
                 runCatching {
                     when (s) {
-                        EngineState.ENDED -> next()
+                        // §61.237：armed 时自然 ENDED 由 fade-out 回调独占 next，
+                        // 抑制本次（双曲跳跃防护）。
+                        EngineState.ENDED -> {
+                            if (fadeOutArmed) fadeOutArmed = false
+                            else next()
+                        }
                         EngineState.ERROR -> onEngineError(
                             engine.lastError()
                                 ?: CloudMusicError.DsUpstream("ENGINE", "未知引擎错误"),
@@ -271,6 +284,19 @@ class PlayerController(
                         // §61.115：每 2s（4 tick）同步一次 MediaSession 位置——
                         // 此前只在转换点写会话，通知栏进度与 dumpsys 监控通道
                         // 均冻结在起播值（G08 长稳 20 轮 position=0 的一手后果）。
+                        // §61.237：自然结束渐出——接近引擎真值终点（dur - fade 窗口）时
+                        // 启动渐出并 armed（ENDED 事件被抑制，fade 完成回调独占 next）。
+                        if (fadeEnabled && fadeDurationMs > 0 && !fadeOutArmed &&
+                            dur > fadeDurationMs && pos >= dur - fadeDurationMs
+                        ) {
+                            fadeOutArmed = true
+                            val hh = h
+                            fadeOutThen(hh) {
+                                fadeOutArmed = false
+                                scope.launch { next() }
+                            }
+                            return@launch
+                        }
                         if (tick % 4 == 0) {
                             media?.setPlaybackState(EngineState.PLAYING, pos, dur)
                         }
@@ -322,6 +348,12 @@ class PlayerController(
             val duration = engine.durationMs(h)
             val upper = if (duration > 0) duration else Long.MAX_VALUE
             val clamped = clampToCue(ms).coerceIn(0L, upper)
+            // §61.237：用户 seek 干预优先——解除 armed、取消渐出协程、复位音量。
+            if (fadeOutArmed) {
+                fadeOutArmed = false
+                fadeJob?.cancel()
+                engine.setVolume(h, 1f)
+            }
             engine.seek(h, clamped)
             _state.update { it.copy(positionMs = clamped) }
         }   // 陈旧句柄（完成后）静默忽略：无可 seek 的活动流。
