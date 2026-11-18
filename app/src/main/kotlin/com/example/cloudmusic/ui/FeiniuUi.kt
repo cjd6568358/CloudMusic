@@ -53,11 +53,13 @@ import androidx.compose.ui.unit.sp
  * 独立 object 而非改 [Comp]，便于逐页切换、不破坏现有深色主题页。
  */
 object FnComp {
-    val PageBg = Color(0xFF1E1E21)
-    val CardBg = Color(0xFF2B2B2E)
-    val TextPrimary = Color(0xFFFFFFFF)
-    val TextSecondary = Color(0x99FFFFFF)
-    val TextHint = Color(0x66FFFFFF)
+    /** §61.234：主题切色（同 [Comp.applyTheme] 口径；品牌色 BrandOrange/IconRed/SwitchGreen 恒定）。 */
+    var PageBg = Color(0xFF1E1E21)
+    var CardBg = Color(0xFF2B2B2E)
+    var TextPrimary = Color(0xFFFFFFFF)
+    var TextSecondary = Color(0x99FFFFFF)
+    var TextHint = Color(0x66FFFFFF)
+    /** 品牌色——主题恒定。 */
     val BrandOrange = Color(0xFFFD7423)
     val IconRed = Color(0xFFE54545)
     val SwitchGreen = Color(0xFF0DD07F)
@@ -69,15 +71,34 @@ object FnComp {
      * （x 22.3~345.7dp / y 42.3~82.0dp）实际是 **`#2B2B2E`**，与卡片底同色；
      * 白色只是截图缩略时的观感误差。以采样为准。
      */
-    val SearchBg = Color(0xFF2B2B2E)
+    var SearchBg = Color(0xFF2B2B2E)
     /** 搜索占位文字：实测 `#959597`（折算 50% 白叠加在 `#2B2B2E` 上）。 */
-    val SearchHint = Color(0xFF959597)
+    var SearchHint = Color(0xFF959597)
     /** 曲目行封面占位底（比卡片底亮一档，避免与行底糊在一起）。 */
     val CoverPlaceholder = Color(0xFF3A3A3E)
     val Divider = Color(0x1AFFFFFF)
     /** 卡片组内**行间分隔线**：实测 `#3C3C3F`（`161550` y=307dp / 478dp 采样）。 */
     val RowDivider = Color(0xFF3C3C3F)
     val CapsuleBg = Color(0xFF2B2B2E)
+
+    /** §61.234：浅色映射（同 Comp 口径；搜索框实测值保留深色语义，浅色取通用灰）。 */
+    private val darkBase2 = mapOf(
+        "PageBg" to 0xFF1E1E21, "CardBg" to 0xFF2B2B2E, "TextPrimary" to 0xFFFFFFFF,
+        "TextSecondary" to 0x99FFFFFF, "TextHint" to 0x66FFFFFF,
+        "SearchBg" to 0xFF2B2B2E, "SearchHint" to 0xFF959597,
+    )
+
+    fun applyTheme(isDark: Boolean) {
+        fun base(name: String, light: Long) =
+            Color(if (isDark) darkBase2.getValue(name) else light)
+        PageBg = base("PageBg", 0xFFFAFAFA)
+        CardBg = base("CardBg", 0xFFFFFFFF)
+        TextPrimary = base("TextPrimary", 0xFF1A1A1A)
+        TextSecondary = base("TextSecondary", 0x991A1A1A)
+        TextHint = base("TextHint", 0x661A1A1A)
+        SearchBg = base("SearchBg", 0xFFF2F2F2)
+        SearchHint = base("SearchHint", 0xFF8A8A8C)
+    }
 }
 
 /**

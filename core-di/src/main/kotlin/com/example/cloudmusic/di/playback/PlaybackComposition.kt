@@ -910,6 +910,14 @@ class PlaybackRuntime @Inject constructor(
      * §61.230（V0.2 M6）：淡入淡出开关持久化（AudiofxSettings.fadeEnabled）。
      * 即时下发由 restoreEqualizerLoop 的 settings.collect 转发 controller.updateFade。
      */
+    /** §61.234：主题模式持久化（ThemeMode 四值；MainActivity 改后 recreate 生效）。 */
+    fun updateTheme(mode: String) {
+        scope.launch {
+            runCatching { settings.update { it.copy(theme = mode) } }
+                .onFailure { Log.w("CloudMusicRuntime", "updateTheme 失败", it) }
+        }
+    }
+
     /** §61.226 同族：设置流投影（MainActivity 设置页的 fade 开关显示源）。 */
     fun fadeEnabled(): kotlinx.coroutines.flow.StateFlow<Boolean> =
         kotlinx.coroutines.flow.MutableStateFlow(settings.current().audiofx.fadeEnabled).also { flow ->

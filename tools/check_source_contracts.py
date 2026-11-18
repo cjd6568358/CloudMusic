@@ -6939,6 +6939,28 @@ def main() -> int:
     else:
         print("[PASS] §61.231 EQ 调节面（面板 + applyEqualizer 全链接线）")
 
+    # §61.234 UI 主题化：token 切色 + 主题四选项 + 启动应用。
+    _cmp_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                           / "cloudmusic" / "ui" / "CompeteUi.kt")
+                          .read_text(encoding="utf-8", errors="replace"))
+    _main_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                            / "cloudmusic" / "MainActivity.kt")
+                           .read_text(encoding="utf-8", errors="replace"))
+    _theme_bad = []
+    if "fun applyTheme(isDark: Boolean)" not in _cmp_src or "fun applyThemeCompat(isDark: Boolean)" not in _cmp_src:
+        _theme_bad.append("Comp.applyTheme / applyThemeCompat 缺失")
+    if "applyThemeCompat(isDark)" not in _main_src:
+        _theme_bad.append("启动主题应用缺失")
+    if "updateTheme(mode)" not in _main_src or "recreate()" not in _main_src:
+        _theme_bad.append("设置页改主题 recreate 链缺失")
+    if '"DARK_FOLLOW_SYSTEM"' not in _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
+            / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt").read_text(encoding="utf-8", errors="replace")):
+        _theme_bad.append("主题四选项 sheet 缺失")
+    if _theme_bad:
+        failures.append("§61.234 UI 主题化：%s" % "；".join(_theme_bad))
+    else:
+        print("[PASS] §61.234 UI 主题化（token 切色 + 四选项 + recreate 链）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

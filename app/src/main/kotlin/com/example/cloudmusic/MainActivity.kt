@@ -90,6 +90,22 @@ class MainActivity : ComponentActivity() {
      * `12 §61.40` / `03-10 §6`：播放页状态桥。用已注入的 `PlaybackRuntime` /
      * `TrackRepository` / `QueueRepository` 现场构造，不改 Hilt 注册图、不新建模块。
      */
+    /** §61.234：按 settings.theme + 系统深色计算 isDark 并切 Comp/FnComp token。 */
+    private fun applyThemeFromSettings() {
+        val mode = runCatching { settingsStore.current().theme }
+            .getOrDefault(com.example.cloudmusic.storage.ThemeMode.DARK_FOLLOW_SYSTEM)
+        val systemDark = (resources.configuration.uiMode and
+            android.content.res.Configuration.UI_MODE_NIGHT_MASK) ==
+            android.content.res.Configuration.UI_MODE_NIGHT_YES
+        val isDark = when (mode) {
+            com.example.cloudmusic.storage.ThemeMode.LIGHT -> false
+            com.example.cloudmusic.storage.ThemeMode.DARK -> true
+            com.example.cloudmusic.storage.ThemeMode.FOLLOW_SYSTEM -> systemDark
+            else -> true   // DARK_FOLLOW_SYSTEM（默认）与历史行为一致：深色优先
+        }
+        com.example.cloudmusic.ui.applyThemeCompat(isDark)
+    }
+
     private val playerBridge by lazy {
         // §61.198：歌词四级取数（本地缓存 → 在线 provider → 空）经桥接注入，
         // Activity/UI 不接触 OkHttp / 文件系统；Hilt 两个单例由 ScanModule 提供。
@@ -240,6 +256,9 @@ class MainActivity : ComponentActivity() {
         // 启动页结束由 CloudMusicApp 内收集器兑现。
         surfaceRequests.value = SurfaceNav.parse(intent?.action)
         repairLegacyTextOnce()
+        // §61.234（V0.2 主题化）：启动时按 settings.theme + 系统深色切 token——
+        // recreate 后 token 重新初始化，设置页改主题即 recreate 生效。
+        applyThemeFromSettings()
         setContent {
             CloudMusicTheme {
                 // docs/01 §0（2026-11-16 拍板）：启动页严格像素级复刻竞品。
@@ -499,6 +518,13 @@ class MainActivity : ComponentActivity() {
                     onAnalyzeReplayGain = { runtime.analyzeLibraryReplayGain(50) },
                     fadeEnabled = runtime.fadeEnabled().collectAsState(false).value,
                     onFadeEnabledChanged = { on -> runtime.updateFadeEnabled(on) },
+                    themeMode = settingsStore.current().theme,
+                    onThemeChanged = { mode ->
+                        lifecycleScope.launch {
+                            runCatching { runtime.updateTheme(mode) }
+                                .onSuccess { recreate() }
+                        }
+                    },
                     eqEnabled = settingsStore.current().audiofx.enabled,
                     eqEffectLevel = settingsStore.current().audiofx.effectLevel,
                     eqBandsMillibel = settingsStore.current().audiofx.bandsMillibel,

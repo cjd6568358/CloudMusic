@@ -215,6 +215,9 @@ fun CloudMusicApp(
     eqEffectLevel: Int = 0,
     eqBandsMillibel: List<Int> = emptyList(),
     onApplyEqualizer: (Boolean, Int, List<Int>) -> Unit = { _, _, _ -> },
+    /** §61.234：主题模式（设置页四选项；改动即 recreate）。 */
+    themeMode: String = "DARK_FOLLOW_SYSTEM",
+    onThemeChanged: (String) -> Unit = { _ -> },
     /** §61.116（M2-2）：扫描最短时长下限（ms），下次扫描生效。 */
     scanMinDurationMs: Long = 10_000L,
     onScanMinDurationChanged: (Long) -> Unit = {},
@@ -467,6 +470,8 @@ fun CloudMusicApp(
                     eqEffectLevel,
                     eqBandsMillibel,
                     onApplyEqualizer,
+                    themeMode,
+                    onThemeChanged,
                     appSettings.scan.minDurationMs,
                     onScanMinDurationChanged,
                     appSettings.scan.ignoreDirs,
@@ -1832,6 +1837,8 @@ private fun SettingsScreen(
     eqEffectLevel: Int,
     eqBandsMillibel: List<Int>,
     onApplyEqualizer: (Boolean, Int, List<Int>) -> Unit,
+    themeMode: String,
+    onThemeChanged: (String) -> Unit,
     scanMinDurationMs: Long,
     onScanMinDurationChanged: (Long) -> Unit,
     scanIgnoreDirs: List<String>,
@@ -1846,6 +1853,7 @@ private fun SettingsScreen(
     var cacheMsg by remember { mutableStateOf("") }
     var showScanDuration by remember { mutableStateOf(false) }
     var showEq by remember { mutableStateOf(false) }
+    var showTheme by remember { mutableStateOf(false) }
     var showIgnoreDirs by remember { mutableStateOf(false) }
     Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
         // 顶栏：从「更多」进入的**页内二级页**，返回钮语义是「回上一屏」，
@@ -1957,6 +1965,18 @@ private fun SettingsScreen(
                 )
                 FnRow(
                     dividerAbove = true,
+                    glyph = "◐",
+                    title = "主题",
+                    onClick = { showTheme = true },
+                    value = when (themeMode) {
+                        "LIGHT" -> "浅色"
+                        "DARK" -> "深色"
+                        "FOLLOW_SYSTEM" -> "跟随系统"
+                        else -> "深色优先 · 跟随系统"
+                    },
+                )
+                FnRow(
+                    dividerAbove = true,
                     glyph = "∿",
                     title = "淡入淡出",
                     onClick = { onFadeEnabledChanged(!fadeEnabled) },
@@ -1982,6 +2002,21 @@ private fun SettingsScreen(
             }
             Spacer(Modifier.height(28.dp))
         }
+    }
+    if (showTheme) {
+        CompSheetDialog(
+            onDismiss = { showTheme = false },
+            title = "主题",
+            actions = listOf(
+                "深色优先 · 跟随系统（默认）" to {
+                    onThemeChanged("DARK_FOLLOW_SYSTEM"); showTheme = false
+                },
+                "跟随系统" to { onThemeChanged("FOLLOW_SYSTEM"); showTheme = false },
+                "深色" to { onThemeChanged("DARK"); showTheme = false },
+                "浅色" to { onThemeChanged("LIGHT"); showTheme = false },
+                "关闭" to { showTheme = false },
+            ),
+        )
     }
     if (showEq) {
         EqDialog(
