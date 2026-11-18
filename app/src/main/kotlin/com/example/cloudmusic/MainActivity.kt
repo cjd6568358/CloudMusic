@@ -497,6 +497,8 @@ class MainActivity : ComponentActivity() {
                         Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
                     },
                     onAnalyzeReplayGain = { runtime.analyzeLibraryReplayGain(50) },
+                    fadeEnabled = runtime.fadeEnabled().collectAsState(false).value,
+                    onFadeEnabledChanged = { on -> runtime.updateFadeEnabled(on) },
                     scanMinDurationMs = appSettingsState.value.scan.minDurationMs,
                     onScanMinDurationChanged = { v ->
                         lifecycleScope.launch {

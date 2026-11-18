@@ -895,13 +895,35 @@ class PlaybackRuntime @Inject constructor(
                     controller.attachEffect(0)
                 }
                 settings.update {
-                    it.copy(audiofx = com.example.cloudmusic.storage.AudiofxSettings(
+                    // §61.230：保留 fade 字段（AudiofxSettings 新增成员不在此链被重置）
+                    it.copy(audiofx = it.audiofx.copy(
                         enabled = enabled,
                         effectLevel = effectLevel,
                         bandsMillibel = bands,
                     ))
                 }
             }.onFailure { Log.w("CloudMusicRuntime", "applyEqualizer 失败", it) }
+        }
+    }
+
+    /**
+     * §61.230（V0.2 M6）：淡入淡出开关持久化（AudiofxSettings.fadeEnabled）。
+     * 即时下发由 restoreEqualizerLoop 的 settings.collect 转发 controller.updateFade。
+     */
+    /** §61.226 同族：设置流投影（MainActivity 设置页的 fade 开关显示源）。 */
+    fun fadeEnabled(): kotlinx.coroutines.flow.StateFlow<Boolean> =
+        kotlinx.coroutines.flow.MutableStateFlow(settings.current().audiofx.fadeEnabled).also { flow ->
+            scope.launch {
+                settings.settings.collect { fx -> (flow as kotlinx.coroutines.flow.MutableStateFlow<Boolean>).value = fx.audiofx.fadeEnabled }
+            }
+        }
+
+    fun updateFadeEnabled(enabled: Boolean) {
+        scope.launch {
+            runCatching {
+                settings.update { it.copy(audiofx = it.audiofx.copy(fadeEnabled = enabled)) }
+                controller.updateFade(enabled, settings.current().audiofx.fadeDurationMs)
+            }.onFailure { Log.w("CloudMusicRuntime", "updateFadeEnabled 失败", it) }
         }
     }
 
@@ -915,6 +937,9 @@ class PlaybackRuntime @Inject constructor(
                     (fx.audiofx.effectLevel.coerceAtMost(5) / 5f) * 0.8f
                 } else 0f
                 com.example.cloudmusic.engineopensource.AudioEffectsBus.widenAmount = widen
+                // §61.230：淡入淡出配置热更新（起播渐入 + 分轨终点渐出交棒）。
+                val fadeMs = if (fx.audiofx.fadeDurationMs in 200..5000) fx.audiofx.fadeDurationMs else 2000
+                controller.updateFade(fx.audiofx.fadeEnabled, fadeMs)
             }
         }
         scope.launch {

@@ -660,7 +660,10 @@ SIGNATURES = {
         "class PlayerController(",
         "val state: StateFlow<PlayerState>",
         "suspend fun restore(snapshot: PlaybackSnapshot, items: List<QueueItem>)",
-        "if (autoPlay) engine.play(h) else engine.pause(h)",
+        # §61.230 升级：起播分支 fade-in 化（play/pause 分派语义不变，强度不减）
+        "if (autoPlay) {",
+        "engine.play(h)",
+        "} else engine.pause(h)",
     ],
     # 03-08 §3.1 / §5 / §6 / §13 T01~T09、T13、T14（T-P3）
     "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/CastUriResolver.kt": [
@@ -6893,6 +6896,30 @@ def main() -> int:
         failures.append("§61.229 DLNA 音量：%s" % "；".join(_vol_bad))
     else:
         print("[PASS] §61.229 DLNA DMC 音量（RC SetVolume/GetVolume + 运行时路由 + 弹窗滑杆）")
+
+    # §61.230 淡入淡出：包络纯函数 + 设置项 + 配置转发 + 交棒组合。
+    _pc_src3 = _code_only((ROOT / "feature-player" / "src" / "main" / "kotlin" / "com"
+                           / "example" / "cloudmusic" / "player" / "PlayerController.kt")
+                          .read_text(encoding="utf-8", errors="replace"))
+    _fx = (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com" / "example"
+           / "cloudmusic" / "storage" / "AppSettings.kt").read_text(encoding="utf-8", errors="replace")
+    _fade_bad = []
+    if "internal fun fadeCurve(x: Float): Float" not in _pc_src3:
+        _fade_bad.append("fade 包络纯函数缺失")
+    if "fun updateFade(enabled: Boolean, durationMs: Int)" not in _pc_src3:
+        _fade_bad.append("配置热更新入口缺失")
+    if "fadeOutThen(hh) { scope.launch { next() } }" not in _pc_src3:
+        _fade_bad.append("分轨终点渐出交棒组合缺失")
+    if "val fadeEnabled: Boolean = false" not in _fx:
+        _fade_bad.append("AudiofxSettings.fade 配置缺失")
+    if "controller.updateFade(fx.audiofx.fadeEnabled" not in _code_only(
+            (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+             / "di" / "playback" / "PlaybackComposition.kt").read_text(encoding="utf-8", errors="replace")):
+        _fade_bad.append("运行时配置转发缺失")
+    if _fade_bad:
+        failures.append("§61.230 淡入淡出：%s" % "；".join(_fade_bad))
+    else:
+        print("[PASS] §61.230 淡入淡出（包络纯函数 + 设置项 + 转发 + 交棒组合）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

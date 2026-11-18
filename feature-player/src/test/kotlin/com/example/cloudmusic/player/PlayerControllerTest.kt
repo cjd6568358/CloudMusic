@@ -723,4 +723,15 @@ class PlayerControllerTest {
         f.controller.seek(42_000L)
         assertEquals(42_000L, f.engine.snapshot().positionMs, "整轨 seek 不受包络影响")
     }
+
+    @Test
+    @DisplayName("§61.230 · fadeCurve 线性包络：两端 0/1、中点半、越界钳制")
+    fun fadeCurveLinear() = runTest {
+        val f = fixture(scope = backgroundScope)
+        assertEquals(0f, f.controller.fadeCurve(0f))
+        assertEquals(1f, f.controller.fadeCurve(1f))
+        assertEquals(0.5f, f.controller.fadeCurve(0.5f))
+        assertEquals(0f, f.controller.fadeCurve(-0.5f), "越界钳到 0")
+        assertEquals(1f, f.controller.fadeCurve(1.5f), "越界钳到 1")
+    }
 }

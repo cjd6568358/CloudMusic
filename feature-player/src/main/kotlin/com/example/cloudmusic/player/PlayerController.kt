@@ -77,6 +77,24 @@ class PlayerController(
     private var cueEndMs = 0L
 
     /**
+     * §61.230（V0.2 M6）：淡入淡出——起播渐入（全场景）与分轨终点渐出（§61.224 交棒
+     * 组合）。音量包络经 [IMusicEngine.setVolume]（0..1 线性曲线，50ms 步进）；
+     * 切歌/终点完成后复位 1f。手动切歌不渐出（引擎 ENDED 无提前量信号，竞争协调
+     * 复杂化——如实登记）；自然结束同样不渐出。
+     */
+    @Volatile
+    private var fadeEnabled = false
+    @Volatile
+    private var fadeDurationMs = 2000
+    private var fadeJob: kotlinx.coroutines.Job? = null
+
+    /** §61.230：设置侧热更新（PlaybackComposition 的 audiofx 设置循环转发）。 */
+    fun updateFade(enabled: Boolean, durationMs: Int) {
+        fadeEnabled = enabled
+        fadeDurationMs = durationMs.coerceIn(200, 5000)
+    }
+
+    /**
      * §61.27（G08 真机实证 · 冷启动启动竞态）：`PlaybackService.onCreate` 异步
      * `restore()` 重建队列，而 `ACTION_PLAY` / 媒体键可能在 queue 仍为空时到达 ——
      * 此时 [resume] 既无 handle、`restartCurrentIfAny()` 的 index 又不在
@@ -241,10 +259,12 @@ class PlayerController(
                 handle?.let { h ->
                     runCatching { engine.positionMs(h) }.getOrNull()?.let { pos ->
                         _state.update { it.copy(positionMs = pos) }
-                        // §61.224：分轨终点交棒——position ≥ cueEndMs 即进下一曲（500ms
-                        // 节拍器粒度，误差 ≤1 tick 如实登记）；引擎自然 ENDED 分支不受影响。
+                        // §61.224 + §61.230：分轨终点交棒——position ≥ cueEndMs 时
+                        // 先渐出再进下一曲（fade 未启用时立即交棒）。引擎自然 ENDED
+                        // 分支不受影响（无竞争：fade-out 完成 → next() 单一入口）。
                         if (cueEndMs > 0 && pos >= cueEndMs) {
-                            scope.launch { next() }
+                            val hh = h
+                            fadeOutThen(hh) { scope.launch { next() } }
                             return@launch
                         }
                         val dur = syncEngineDuration(h)
@@ -315,6 +335,43 @@ class PlayerController(
         cueEndMs > 0 && ms >= cueEndMs -> cueStartMs
         else -> ms
     }
+
+    /** §61.230：fade-in——起播音量 0 → 1 线性 ramp（50ms 步进，与 focus duck 的
+     *  竞争边缘场景如实登记）。未启用直接跳过（volume 保持 1f）。 */
+    private fun startFadeIn(h: EngineHandle) {
+        if (!fadeEnabled || fadeDurationMs <= 0) return
+        fadeJob?.cancel()
+        fadeJob = scope.launch {
+            engine.setVolume(h, 0f)
+            val steps = (fadeDurationMs / 50).coerceAtLeast(1)
+            for (i in 1..steps) {
+                kotlinx.coroutines.delay(50)
+                engine.setVolume(h, fadeCurve(i.toFloat() / steps))
+            }
+            engine.setVolume(h, 1f)
+        }
+    }
+
+    /** §61.230：fade-out 到静音后复位音量并执行 [onDone]（交棒下一曲）。 */
+    private fun fadeOutThen(h: EngineHandle, onDone: () -> Unit) {
+        if (!fadeEnabled || fadeDurationMs <= 0) {
+            onDone()
+            return
+        }
+        fadeJob?.cancel()
+        fadeJob = scope.launch {
+            val steps = (fadeDurationMs / 50).coerceAtLeast(1)
+            for (i in 1..steps) {
+                kotlinx.coroutines.delay(50)
+                engine.setVolume(h, fadeCurve(1f - i.toFloat() / steps))
+            }
+            engine.setVolume(h, 1f)
+            onDone()
+        }
+    }
+
+    /** §61.230：音量包络纯函数——线性曲线（x∈[0,1] → 音量），单测直测。 */
+    internal fun fadeCurve(x: Float): Float = x.coerceIn(0f, 1f)
 
     suspend fun next() {
         val s = _state.value
@@ -483,7 +540,11 @@ class PlayerController(
         val effectiveSeek = if (seekTo > 0) clampToCue(seekTo) else cueStartMs
         if (effectiveSeek > 0) engine.seek(h, effectiveSeek)
         // 冷启动恢复只 prepare + seek，引擎必须停在 PAUSED（§8.2 / PRD §6.1 不自动开播）。
-        if (autoPlay) engine.play(h) else engine.pause(h)
+        if (autoPlay) {
+            if (fadeEnabled && fadeDurationMs > 0) engine.setVolume(h, 0f)   // §61.230 fade-in 起点
+            engine.play(h)
+            if (fadeEnabled && fadeDurationMs > 0) startFadeIn(h)
+        } else engine.pause(h)
         // §61.181（A 案）：prepare 返回即读引擎真值时长（已解出则进 state 并兑现回填；
         // B2 真机上 STRM 直链此刻多半还未 READY，0 = 未知，由节拍器解出后续采）。
         val engineDur = syncEngineDuration(h)

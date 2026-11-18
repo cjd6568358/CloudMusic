@@ -96,6 +96,10 @@ data class AudiofxSettings(
     val bandsMillibel: List<Int> = emptyList(),
     /** 档位（1~5，0=关）——与 §61.93 attachAudioEffect 的 effectId 同源。 */
     val effectLevel: Int = 0,
+    /** §61.230（V0.2 M6）：淡入淡出开关。起播渐入 / 切曲与终点渐出（节拍器音量包络）。 */
+    val fadeEnabled: Boolean = false,
+    /** §61.230：淡入淡出时长（毫秒）；0 = 未自定义（跟随默认 2000）。 */
+    val fadeDurationMs: Int = 0,
 )
 
 data class DlnaSettings(

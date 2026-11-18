@@ -207,6 +207,9 @@ fun CloudMusicApp(
     onClearCache: () -> Unit = {},
     /** §61.122（T5-2）：ReplayGain 近似分析（LOCAL 未分析曲目，cap 50）。 */
     onAnalyzeReplayGain: () -> Unit = {},
+    /** §61.230：淡入淡出开关（AudiofxSettings.fadeEnabled 热更新）。 */
+    fadeEnabled: Boolean = false,
+    onFadeEnabledChanged: (Boolean) -> Unit = { _ -> },
     /** §61.116（M2-2）：扫描最短时长下限（ms），下次扫描生效。 */
     scanMinDurationMs: Long = 10_000L,
     onScanMinDurationChanged: (Long) -> Unit = {},
@@ -453,6 +456,8 @@ fun CloudMusicApp(
                     onWifiOnlyChanged,
                     onClearCache,
                     onAnalyzeReplayGain,
+                    fadeEnabled,
+                    onFadeEnabledChanged,
                     appSettings.scan.minDurationMs,
                     onScanMinDurationChanged,
                     appSettings.scan.ignoreDirs,
@@ -1727,6 +1732,8 @@ private fun SettingsScreen(
     onWifiOnlyChanged: (Boolean) -> Unit,
     onClearCache: () -> Unit,
     onAnalyzeReplayGain: () -> Unit,
+    fadeEnabled: Boolean,
+    onFadeEnabledChanged: (Boolean) -> Unit,
     scanMinDurationMs: Long,
     onScanMinDurationChanged: (Long) -> Unit,
     scanIgnoreDirs: List<String>,
@@ -1848,6 +1855,15 @@ private fun SettingsScreen(
                         cacheMsg = "已开始分析（每次最多 50 首，播放时音量更均匀）"
                     },
                     value = "让每首歌音量接近",
+                )
+                FnRow(
+                    dividerAbove = true,
+                    glyph = "∿",
+                    title = "淡入淡出",
+                    onClick = { onFadeEnabledChanged(!fadeEnabled) },
+                    value = if (fadeEnabled) "开（起播渐入 / 分轨渐出）" else "关",
+                    showChevron = false,
+                    trailing = { FnSwitch(checked = fadeEnabled, onChange = onFadeEnabledChanged) },
                 )
             }
             if (cacheMsg.isNotBlank()) {
