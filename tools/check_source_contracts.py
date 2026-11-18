@@ -6961,6 +6961,32 @@ def main() -> int:
     else:
         print("[PASS] §61.234 UI 主题化（token 切色 + 四选项 + recreate 链）")
 
+    # §61.233 刮削：Deezer 解析纯函数 + 会话流程 + runtime 入口 + 设置页 + updateCover。
+    _scrape = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                          / "cloudmusic" / "di" / "scan" / "OnlineCoverScraper.kt")
+                         .read_text(encoding="utf-8", errors="replace"))
+    _pc_src4 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                           / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
+                          .read_text(encoding="utf-8", errors="replace"))
+    _scrape_bad = []
+    if "internal fun parseDeezerCover(json: String): String?" not in _scrape:
+        _scrape_bad.append("Deezer 解析纯函数缺失")
+    if "class CoverScrapeSession(" not in _scrape or "tracks.updateCover(track.id, ref)" not in _scrape:
+        _scrape_bad.append("刮削会话（writer→updateCover）缺失")
+    if "fun scrapeMissingCovers(maxCount: Int = 50) = scope.launch" not in _pc_src4:
+        _scrape_bad.append("runtime 批处理入口缺失")
+    if "onScrapeCovers" not in _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+            / "cloudmusic" / "MainActivity.kt").read_text(encoding="utf-8", errors="replace")):
+        _scrape_bad.append("设置页入口未接线")
+    if "suspend fun updateCover(id: TrackId, coverRef: String)" not in _code_only(
+            (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+             / "storage" / "Repositories.kt").read_text(encoding="utf-8", errors="replace")):
+        _scrape_bad.append("updateCover 四件套缺失")
+    if _scrape_bad:
+        failures.append("§61.233 封面刮削：%s" % "；".join(_scrape_bad))
+    else:
+        print("[PASS] §61.233 封面刮削（Deezer + 批处理 + updateCover 四件套 + UI）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

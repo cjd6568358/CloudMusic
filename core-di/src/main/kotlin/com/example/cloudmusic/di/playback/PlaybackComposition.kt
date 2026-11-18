@@ -63,6 +63,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
@@ -293,6 +294,16 @@ class PlaybackRuntime @Inject constructor(
     /** §61.116（M6-3）：缓存清理需要 cacheDir 路径。 */
     @dagger.hilt.android.qualifiers.ApplicationContext
     private val appContext: android.content.Context,
+    /** §61.233：刮削 HTTP（生产 OkHttp；测试 fake CoverHttp 不走此处）。 */
+    private val scrapeHttp: com.example.cloudmusic.di.scan.CoverHttp =
+        com.example.cloudmusic.di.scan.CoverHttp { url ->
+            withContext(kotlinx.coroutines.Dispatchers.IO) {
+                val req = okhttp3.Request.Builder().url(url).build()
+                okhttp3.OkHttpClient().newCall(req).execute().use { resp ->
+                    if (!resp.isSuccessful) null else resp.body?.bytes()
+                }
+            }
+        },
     /** §61.193：DLNA 会话引擎第一刀——输出路由状态（活跃输出判定）。 */
     private val output: OutputRouter,
     /** §61.193：切歌保持投屏的执行者（发现/推流/setActive 闭环 §61.110 已有）。 */
@@ -904,6 +915,22 @@ class PlaybackRuntime @Inject constructor(
                 }
             }.onFailure { Log.w("CloudMusicRuntime", "applyEqualizer 失败", it) }
         }
+    }
+
+    /**
+     * §61.233（V0.2 刮削）：封面在线刮削批处理（设置页触发，同 §61.130 RG 分析模式；
+     * 手动 + 限数 50，不挂扫描期）。结果 toast 汇报尝试/命中数。
+     */
+    fun scrapeMissingCovers(maxCount: Int = 50) = scope.launch {
+        runCatching {
+            val session = com.example.cloudmusic.di.scan.CoverScrapeSession(
+                tracks = tracks,
+                writer = coverWriter,
+                http = scrapeHttp,
+            )
+            val report = session.scrapeMissing(maxCount)
+            Log.i("CM-SCRAPER", "scrape done: attempted=%d hit=%d".format(report.attempted, report.hit))
+        }.onFailure { Log.w("CM-SCRAPER", "scrape 失败", it) }
     }
 
     /**

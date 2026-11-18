@@ -125,6 +125,7 @@ class ScanContractsTest {
         override suspend fun markOrphan(storageId: String) = Unit
 
     override suspend fun markReplayGain(id: TrackId, gainDb: Float) = Unit
+    override suspend fun updateCover(id: TrackId, coverRef: String) { /* §61.233 fake */ }
     override suspend fun updateDuration(id: TrackId, durationMs: Long) = Unit
         override suspend fun count(): Int = 0
         override fun observeAll(): Flow<List<Track>> = MutableStateFlow(emptyList())

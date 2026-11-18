@@ -207,6 +207,8 @@ fun CloudMusicApp(
     onClearCache: () -> Unit = {},
     /** §61.122（T5-2）：ReplayGain 近似分析（LOCAL 未分析曲目，cap 50）。 */
     onAnalyzeReplayGain: () -> Unit = {},
+    /** §61.233：封面在线刮削批处理（限数 50，toast 汇报）。 */
+    onScrapeCovers: () -> Unit = {},
     /** §61.230：淡入淡出开关（AudiofxSettings.fadeEnabled 热更新）。 */
     fadeEnabled: Boolean = false,
     onFadeEnabledChanged: (Boolean) -> Unit = { _ -> },
@@ -464,6 +466,7 @@ fun CloudMusicApp(
                     onWifiOnlyChanged,
                     onClearCache,
                     onAnalyzeReplayGain,
+                    onScrapeCovers,
                     fadeEnabled,
                     onFadeEnabledChanged,
                     eqEnabled,
@@ -1831,6 +1834,7 @@ private fun SettingsScreen(
     onWifiOnlyChanged: (Boolean) -> Unit,
     onClearCache: () -> Unit,
     onAnalyzeReplayGain: () -> Unit,
+    onScrapeCovers: () -> Unit,
     fadeEnabled: Boolean,
     onFadeEnabledChanged: (Boolean) -> Unit,
     eqEnabled: Boolean,
@@ -1962,6 +1966,16 @@ private fun SettingsScreen(
                         cacheMsg = "已开始分析（每次最多 50 首，播放时音量更均匀）"
                     },
                     value = "让每首歌音量接近",
+                )
+                FnRow(
+                    dividerAbove = true,
+                    glyph = "▤",
+                    title = "刮削缺失封面",
+                    onClick = {
+                        onScrapeCovers()
+                        cacheMsg = "已开始刮削（每次最多 50 首，联网匹配专辑封面）"
+                    },
+                    value = "联网补齐缺失封面",
                 )
                 FnRow(
                     dividerAbove = true,

@@ -103,6 +103,10 @@ class RoomTrackRepository(
     override suspend fun updateDuration(id: TrackId, durationMs: Long) =
         dao.updateDuration(id.value, durationMs)
 
+    /** §61.233：刮削封面落库（DAO 侧只写缺封面行，不覆盖已有封面）。 */
+    override suspend fun updateCover(id: TrackId, coverRef: String) =
+        dao.updateCover(id.value, coverRef, System.currentTimeMillis())
+
     override suspend fun count(): Int = dao.count()
 
     /** B06：除启动回调外，也可由扫描完成后显式重建。 */

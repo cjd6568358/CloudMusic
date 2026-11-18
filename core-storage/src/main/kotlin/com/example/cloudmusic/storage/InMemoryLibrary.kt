@@ -141,6 +141,15 @@ class InMemoryTrackRepository(
         }
 
     /** §61.181（B 案）：只回填缺值行（durationMs<=0），已有元数据不覆盖；非法值（<=0）忽略。 */
+    override suspend fun updateCover(id: TrackId, coverRef: String) {
+        // §61.233：只写缺封面行（与 Room DAO 口径一致）
+        store.mutate { s ->
+            val old = s.tracks[id.value] ?: return@mutate s
+            if (old.coverRef != null) return@mutate s
+            s.copy(tracks = s.tracks + (id.value to old.copy(coverRef = coverRef)))
+        }
+    }
+
     override suspend fun updateDuration(id: TrackId, durationMs: Long) {
         if (durationMs <= 0) return
         store.mutate { s ->

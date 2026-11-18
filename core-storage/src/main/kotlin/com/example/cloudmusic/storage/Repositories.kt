@@ -36,6 +36,8 @@ interface TrackRepository {
      * STRM / 无标签），已有元数据不覆盖；调用方须传引擎解出的真实时长（>0）。
      */
     suspend fun updateDuration(id: TrackId, durationMs: Long)
+    /** §61.233（V0.2 M9 刮削）：封面刮削落库——只写**缺封面行**（cover_ref IS NULL），不覆盖已有封面。 */
+    suspend fun updateCover(id: TrackId, coverRef: String)
     suspend fun count(): Int
 }
 

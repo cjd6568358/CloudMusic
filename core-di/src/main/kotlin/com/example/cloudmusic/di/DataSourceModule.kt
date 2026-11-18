@@ -21,6 +21,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoMap
 import dagger.multibindings.StringKey
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -104,6 +105,18 @@ object DataSourceModule {
      * V0.2 §61.216：SFTP 工厂。凭据只在 Addition.raw → SftpConfig → JSch Session 内存中；
      * link() 落地到 `cacheDir/sftp/`，不新增 Room 表、不进日志。
      */
+    /** §61.233：封面刮削 HTTP（生产 OkHttp；测试用 fake CoverHttp）。 */
+    @Provides
+    @Singleton
+    fun provideCoverHttp(client: OkHttpClient): com.example.cloudmusic.di.scan.CoverHttp =
+        com.example.cloudmusic.di.scan.CoverHttp { url ->
+            withContext(kotlinx.coroutines.Dispatchers.IO) {
+                client.newCall(okhttp3.Request.Builder().url(url).build()).execute().use { resp ->
+                    if (!resp.isSuccessful) null else resp.body?.bytes()
+                }
+            }
+        }
+
     /** §61.228：FTP 数据源（commons-net 生产端口，凭据只在 Session 内存）。 */
     @Provides
     @IntoMap

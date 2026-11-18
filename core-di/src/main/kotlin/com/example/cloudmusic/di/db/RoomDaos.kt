@@ -68,6 +68,10 @@ interface TrackDao {
     @Query("UPDATE tracks SET duration_ms = :durationMs WHERE id = :id AND duration_ms <= 0")
     suspend fun updateDuration(id: String, durationMs: Long)
 
+    /** §61.233（V0.2 刮削）：封面落库——只写缺封面行（cover_ref IS NULL），不覆盖已有封面。 */
+    @Query("UPDATE tracks SET cover_ref = :coverRef, updated_at = :now WHERE id = :id AND cover_ref IS NULL")
+    suspend fun updateCover(id: String, coverRef: String, now: Long)
+
     /** §9 / B03：只标灰，绝不删行，歌单成员关系天然保留。 */
     @Query(
         "UPDATE tracks SET availability = 'UNREACHABLE', updated_at = :now " +
