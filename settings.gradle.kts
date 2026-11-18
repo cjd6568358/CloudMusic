@@ -61,6 +61,7 @@ include(":datasource-playlist")
 include(":datasource-webdav")
 include(":datasource-local")  // 第十九批：T-A3 本地音源（纯 JVM 驱动 + 端口，12 §28）
 include(":datasource-sftp")  // V0.2 首项：SFTP 数据源（纯 JVM 驱动 + JSch 端口，12 §61.216）
+include(":datasource-ftp")   // V0.2 M8：FTP 数据源（纯 JVM 驱动 + commons-net 端口，12 §61.228）
 include(":scanner")
 include(":core-storage")
 include(":engine-api")
@@ -100,7 +101,7 @@ if (skipAndroid) {
 // 业务            : :feature-library, :feature-player
 // 核心契约        : :core-di, :core-storage, :core-media
 // 数据源          : :datasource-local, :datasource-webdav, :datasource-strm,
-//                   :datasource-playlist, :datasource-sftp (V0.2；ftp/nfs 仍为预留)
+//                   :datasource-playlist, :datasource-sftp, :datasource-ftp (V0.2；nfs 仍为预留)
 // 扫描            : :scanner
 // 引擎            : :engine-api, :engine-legacy, :engine-bridge,
 //                   :engine-opensource (B2 逃生舱，12 §61.81 / M1 拍板后已启用)

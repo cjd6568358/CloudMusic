@@ -2889,7 +2889,7 @@ def main() -> int:
             m1_toml_txt = (ROOT / "gradle" / "libs.versions.toml").read_text(
                 encoding="utf-8")
             m1_baseline_evolved = (
-                m1_settings_txt.count('include(":') == 21
+                m1_settings_txt.count('include(":') == 22
                 and 'include(":engine-opensource")' in m1_settings_txt
                 and 'media3 = "1.11.1"' in m1_toml_txt
                 and "androidx.media3:media3-exoplayer" in m1_toml_txt
@@ -2946,7 +2946,7 @@ def main() -> int:
             cur_settings = (ROOT / "settings.gradle.kts").read_text(
                 encoding="utf-8")
             m1_current_ok = (
-                cur_settings.count('include(":') == 21
+                cur_settings.count('include(":') == 22
                 and 'include(":engine-opensource")' in cur_settings
                 and "media3" in (ROOT / "gradle" / "libs.versions.toml")
                     .read_text(encoding="utf-8").lower()
@@ -4986,7 +4986,7 @@ def main() -> int:
                 and all(("override " + m) in m1_adapter_txt for m in m1_methods)
                 and all(m in m1g_api for m in m1_methods)
                 # 构建：20 模块 / media3 1.11.1 / 不引 media3-session / 保留 legacy
-                and m1g_settings.count('include(":') == 21
+                and m1g_settings.count('include(":') == 22
                 and 'include(":engine-opensource")' in m1g_settings
                 # §61.131：:engine-legacy 移出打包链（反转：原检查 include 在位→现检查注释在位）
         and '// include(":engine-legacy")' in m1g_settings
@@ -6841,6 +6841,34 @@ def main() -> int:
         failures.append("§61.227 strm 相对路径：%s" % "；".join(_rel_bad))
     else:
         print("[PASS] §61.227 strm 相对路径（Relative 分支 + 扫描链展开 + 委托兜底）")
+
+    # §61.228 FTP 数据源：模块 + 驱动 + 注册 + UI（对齐 §61.216 SFTP 批判据面）。
+    _ftp_src = _code_only((ROOT / "datasource-ftp" / "src" / "main" / "kotlin" / "com"
+                           / "example" / "cloudmusic" / "ftp" / "FtpDriver.kt")
+                          .read_text(encoding="utf-8", errors="replace"))
+    _app_src2 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                            / "cloudmusic" / "ui" / "CloudMusicApp.kt")
+                           .read_text(encoding="utf-8", errors="replace"))
+    _di_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                          / "cloudmusic" / "di" / "DataSourceModule.kt")
+                         .read_text(encoding="utf-8", errors="replace"))
+    _ftp_bad = []
+    if not (ROOT / "datasource-ftp" / "build.gradle.kts").is_file() or "FtpClientFactory" not in _ftp_src:
+        _ftp_bad.append("FTP 模块或端口工厂缺失")
+    if "cacheDir, \"ftp\"" not in _ftp_src:
+        _ftp_bad.append("link 缓存目录口径缺失")
+    if '"anonymous"' not in _ftp_src:
+        _ftp_bad.append("空用户名 anonymous 兜底缺失")
+    if 'KEY_FTP = "ftp"' not in _di_src or "FtpDriver(" not in _di_src:
+        _ftp_bad.append("Hilt 注册缺失")
+    if "添加 FTP 源" not in _app_src2 or "storages.add(\"ftp\"" not in _code_only(
+            (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+             / "MainActivity.kt").read_text(encoding="utf-8", errors="replace")):
+        _ftp_bad.append("UI 入口或落库缺失")
+    if _ftp_bad:
+        failures.append("§61.228 FTP 数据源：%s" % "；".join(_ftp_bad))
+    else:
+        print("[PASS] §61.228 FTP 数据源（模块/驱动/注册/UI 全链）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

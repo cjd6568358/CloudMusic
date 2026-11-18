@@ -2,10 +2,12 @@ package com.example.cloudmusic.di
 
 import android.content.Context
 import com.example.cloudmusic.di.adapters.JschSftpClientFactory
+import com.example.cloudmusic.di.adapters.CommonsNetFtpClientFactory
 import com.example.cloudmusic.di.local.MediaStoreDirectorySource
 import com.example.cloudmusic.di.local.SafDirectorySource
 import com.example.cloudmusic.datasource.DriverFactory
 import com.example.cloudmusic.datasource.DriverRegistry
+import com.example.cloudmusic.ftp.FtpDriver
 import com.example.cloudmusic.local.LocalDriver
 import com.example.cloudmusic.playlist.PlaylistDriver
 import com.example.cloudmusic.sftp.SftpDriver
@@ -42,6 +44,7 @@ object DataSourceModule {
     const val KEY_LOCAL = "local"
     /** V0.2 §61.216：SFTP 数据源注册表键。 */
     const val KEY_SFTP = "sftp"
+    const val KEY_FTP = "ftp"
 
     @Provides
     @Singleton
@@ -101,6 +104,21 @@ object DataSourceModule {
      * V0.2 §61.216：SFTP 工厂。凭据只在 Addition.raw → SftpConfig → JSch Session 内存中；
      * link() 落地到 `cacheDir/sftp/`，不新增 Room 表、不进日志。
      */
+    /** §61.228：FTP 数据源（commons-net 生产端口，凭据只在 Session 内存）。 */
+    @Provides
+    @IntoMap
+    @StringKey(KEY_FTP)
+    fun provideFtpFactory(
+        @ApplicationContext context: Context,
+    ): DriverFactory = { storage, addition ->
+        FtpDriver(
+            storage = storage,
+            additionJson = addition.raw,
+            clientFactory = CommonsNetFtpClientFactory(),
+            cacheDir = context.cacheDir,
+        )
+    }
+
     @Provides
     @IntoMap
     @StringKey(KEY_SFTP)

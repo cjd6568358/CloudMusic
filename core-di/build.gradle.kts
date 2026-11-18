@@ -28,6 +28,8 @@ dependencies {
     // V0.2 §61.216：SFTP 生产传输端口（纯 Java SSH 客户端，凭据只在运行时内存）
     implementation(project(":datasource-sftp"))
     implementation(libs.jsch)
+    implementation(project(":datasource-ftp"))
+    implementation(libs.commons.net)
     implementation(project(":datasource-strm"))
     implementation(project(":datasource-playlist"))
     implementation(project(":core-storage"))

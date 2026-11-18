@@ -173,6 +173,8 @@ fun CloudMusicApp(
     onAddStrm: (String, String) -> Unit = { _, _ -> },
     /** V0.2 §61.216：添加 SFTP 源（host / port / username / password / rootPath）。 */
     onAddSftp: (String, Int, String, String, String, String, String) -> Unit = { _, _, _, _, _, _, _ -> },
+    /** V0.2 §61.228：添加 FTP 源（host / port / username / password / rootPath）。 */
+    onAddFtp: (String, Int, String, String, String) -> Unit = { _, _, _, _, _ -> },
     /** §61.152：移除数据源（markOrphan → 曲目标记不可用，文件不删）。 */
     onRemoveStorage: (String) -> Unit = { _ -> },
     onPlay: () -> Unit,
@@ -360,6 +362,7 @@ fun CloudMusicApp(
                     onAddWebDav,
                     onAddStrm,
                     onAddSftp,
+                    onAddFtp,
                     onRemoveStorage,
                     onBack = { showSources = false },
                 )
@@ -933,12 +936,14 @@ private fun SourcesScreen(
     onAddWebDav: (String, String, String, String) -> Unit,
     onAddStrm: (String, String) -> Unit,
     onAddSftp: (String, Int, String, String, String, String, String) -> Unit,
+    onAddFtp: (String, Int, String, String, String) -> Unit,
     onRemoveStorage: (String) -> Unit,
     onBack: () -> Unit,
 ) {
     var showWebDav by remember { mutableStateOf(false) }
     var showStrm by remember { mutableStateOf(false) }
     var showSftp by remember { mutableStateOf(false) }
+    var showFtp by remember { mutableStateOf(false) }
     // §61.207：行点击 → 源操作面板（刷新此源 / 移除）——§61.152 的移除确认扩为双动作，
     // 「刷新此源」复用定向增量扫（§61.206/§61.204 同链）。
     var actionTarget by remember { mutableStateOf<Storage?>(null) }
@@ -953,6 +958,7 @@ private fun SourcesScreen(
             CompSettingsRow("⊕", "添加 STRM 源", onClick = { showStrm = true }, rightHint = "委托数据源 + .strm")
             // V0.2 §61.216：SFTP 数据源（凭据只在内存 Addition，不写日志）。
             CompSettingsRow("⊕", "添加 SFTP 源", onClick = { showSftp = true }, rightHint = "SSH 文件传输")
+            CompSettingsRow("⊕", "添加 FTP 源", onClick = { showFtp = true }, rightHint = "文件传输协议")
             CompGroupTitle("维护")
             CompSettingsRow("↻", "全量重扫", onClick = onRescan)
             CompSettingsRow("↻", "重试失败项", onClick = onRetry)
@@ -1016,6 +1022,15 @@ private fun SourcesScreen(
             onAdd = { host, port, user, pass, root, key, passphrase ->
                 onAddSftp(host, port, user, pass, root, key, passphrase)
                 showSftp = false
+            },
+        )
+    }
+    if (showFtp) {
+        FtpDialog(
+            onDismiss = { showFtp = false },
+            onAdd = { host, port, user, pass, root ->
+                onAddFtp(host, port, user, pass, root)
+                showFtp = false
             },
         )
     }
@@ -1124,6 +1139,55 @@ private fun SftpDialog(
                     else -> {
                         error = null
                         onAdd(host.trim(), parsedPort, user.trim(), pass, root.trim(), privateKey, passphrase)
+                    }
+                }
+            },
+            "关闭" to onDismiss,
+        ),
+    )
+}
+
+/** §61.228：FTP 源添加（§61.216 SftpDialog 同型；username 空 = anonymous，驱动侧默认）。 */
+@Composable
+private fun FtpDialog(
+    onDismiss: () -> Unit,
+    onAdd: (String, Int, String, String, String) -> Unit,
+) {
+    var host by remember { mutableStateOf("") }
+    var port by remember { mutableStateOf("21") }
+    var user by remember { mutableStateOf("") }
+    var pass by remember { mutableStateOf("") }
+    var root by remember { mutableStateOf("/") }
+    var error by remember { mutableStateOf<String?>(null) }
+    CompSheetDialog(
+        onDismiss = onDismiss,
+        title = "添加 FTP 源",
+        content = {
+            Column {
+                CompDialogInput(host, { host = it }, hint = "主机 IP / 域名，如 nas.local")
+                CompDialogInput(port, { port = it }, hint = "FTP 端口（默认 21）")
+                CompDialogInput(user, { user = it }, hint = "用户名（空 = 匿名）")
+                CompDialogInput(pass, { pass = it }, hint = "密码（匿名可空）", password = true)
+                CompDialogInput(root, { root = it }, hint = "远程根目录（默认 /）")
+                if (error != null) {
+                    Text(
+                        error!!,
+                        color = Comp.AccentRed,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    )
+                }
+            }
+        },
+        actions = listOf(
+            "添加" to {
+                val parsedPort = port.trim().toIntOrNull()
+                when {
+                    host.isBlank() -> error = "请填写主机地址"
+                    parsedPort == null || parsedPort !in 1..65535 -> error = "端口必须是 1~65535"
+                    else -> {
+                        error = null
+                        onAdd(host.trim(), parsedPort, user.trim(), pass, root.trim())
                     }
                 }
             },

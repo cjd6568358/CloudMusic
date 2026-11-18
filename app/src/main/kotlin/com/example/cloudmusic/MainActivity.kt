@@ -350,6 +350,25 @@ class MainActivity : ComponentActivity() {
                         }
                     },
                     // V0.2 §61.216：SFTP 源——凭据只写 Addition.raw（DataStore），不进日志 / Toast。
+                    // V0.2 §61.228：FTP 源——凭据只写 Addition.raw（DataStore），不进日志 / Toast。
+                    onAddFtp = { host, port, user, pass, root ->
+                        lifecycleScope.launch {
+                            runCatching {
+                                val addition = org.json.JSONObject().apply {
+                                    put("host", host)
+                                    put("port", port)
+                                    if (user.isNotBlank()) put("username", user)
+                                    if (pass.isNotBlank()) put("password", pass)
+                                    put("root_folder_path", root.ifBlank { "/" })
+                                }.toString()
+                                storages.add("ftp", addition)
+                            }.onSuccess {
+                                runtime.rescanAll()
+                            }.onFailure {
+                                Toast.makeText(this@MainActivity, "FTP 添加失败（请检查地址与凭据）", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    },
                     onAddSftp = { host, port, user, pass, root, privateKey, passphrase ->
                         lifecycleScope.launch {
                             runCatching {
