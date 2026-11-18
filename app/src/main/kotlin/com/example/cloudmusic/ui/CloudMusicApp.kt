@@ -267,9 +267,10 @@ fun CloudMusicApp(
                 SurfaceNav.Surface.PLAYER -> showPlayer = true
                 SurfaceNav.Surface.HOME -> showPlayer = false
                 // §61.212（B2 取证导航扩展）：MIUI 禁 input tap，次级页经 intent 直达。
-                SurfaceNav.Surface.LIBRARY -> { showMore = false; tab = 1 }
-                SurfaceNav.Surface.SEARCH -> { showMore = false; searchReturnTo = 0; tab = 3 }
-                SurfaceNav.Surface.SETTINGS -> { showMore = false; tab = 6 }
+                // §61.238：三页直达必须关播放页覆盖层——否则从播放页 intent 直达被覆盖层吞掉。
+                SurfaceNav.Surface.LIBRARY -> { showPlayer = false; showMore = false; tab = 1 }
+                SurfaceNav.Surface.SEARCH -> { showPlayer = false; showMore = false; searchReturnTo = 0; tab = 3 }
+                SurfaceNav.Surface.SETTINGS -> { showPlayer = false; showMore = false; tab = 6 }
                 null -> Unit
             }
         }
