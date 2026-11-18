@@ -11,6 +11,7 @@ import com.example.cloudmusic.player.PlayerState
 import com.example.cloudmusic.player.QueueRepository
 import com.example.cloudmusic.storage.LyricFileStore
 import com.example.cloudmusic.storage.TrackRepository
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -61,14 +62,26 @@ class PlayerStateBridge(
         all.firstOrNull { it.id.value == id }
     }
 
+    /** §61.226：[track] 最新值缓存（onSeek 非 suspend 的分轨换算输入）。 */
+    @Volatile
+    private var currentTrackCached: Track? = null
+
+    /** §61.226：持有 track 的 collect 生命周期（bridge 初始化期挂 scope，见 init/构造区）。 */
+    fun attachTrackCache(scope: kotlinx.coroutines.CoroutineScope) {
+        scope.launch { track.collect { currentTrackCached = it } }
+    }
+
     val queueCount: Flow<Int> = queue.observe().map { it.size }
 
     /**
      * §61.181（A 案）：引擎真值优先（[PlayerState.durationMs]，STRM 直链解出的
      * 真值含在内），曲库元数据兜底（本地有标签曲目 / 引擎未解出时）；无曲目为 0。
+     * §61.226：CUE 分轨显示时长 = 包络长（end - start）——UI 进度条按分轨内相对时间，
+     * 引擎 absolute 时长不再直接暴露（§61.224 的播放在包络内截断，超出无意义）。
      */
     val durationMs: Flow<Long> = combine(state, track) { s, t ->
-        if (s.durationMs > 0) s.durationMs else t?.durationMs ?: 0L
+        val base = if (s.durationMs > 0) s.durationMs else t?.durationMs ?: 0L
+        displayDuration(base, t)
     }
 
     /**
@@ -87,8 +100,12 @@ class PlayerStateBridge(
     /**
      * §61.202 播放页进度显示的单一入口：运行时在 DLNA 活跃时给 DMR 真值，
      * 否则给引擎实时进度（见 [PlaybackRuntime.displayPositionMs]）。
+     * §61.226：CUE 分轨显示位置 = absolute - cueStart（分轨内相对时间，0 起点）；
+     * 绝对时间只存在内部链（引擎 / 游标 / MediaSession），UI 一律相对。
      */
-    val positionMs: Flow<Long> = runtime.displayPositionMs()
+    val positionMs: Flow<Long> = combine(runtime.displayPositionMs(), track) { pos, t ->
+        displayPosition(pos, t)
+    }
 
     /** `03-10 §6` 的 `playMode`；当前只读（见类注释）。 */
     val playMode: Flow<PlayMode> = state.map { it.mode }
@@ -106,9 +123,13 @@ class PlayerStateBridge(
         runtime.prev()
     }
 
-    /** `PlaybackRuntime.seekTo`（`12 §61.26` G03 验收同一裁决入口）。 */
+    /**
+     * `PlaybackRuntime.seekTo`（`12 §61.26` G03 验收同一裁决入口）。
+     * §61.226：UI 传分轨内相对时间 → 换算 absolute（+cueStart）再下发；
+     * 引擎侧 `PlayerController.seek` 另有 clampToCue 兜底（双向限界）。
+     */
     fun onSeek(ms: Long) {
-        runtime.seekTo(ms)
+        runtime.seekTo(absoluteSeek(ms, currentTrackCached))
     }
 
     /**
@@ -180,5 +201,24 @@ class PlayerStateBridge(
     /** §61.130（M5）：收藏切换（播放页 ♡ 唯一生产入口）。 */
     fun onToggleFavorite(trackId: com.example.cloudmusic.model.TrackId) {
         runtime.toggleFavorite(trackId)
+    }
+
+    companion object {
+        /** §61.226：分轨显示时长 = 包络长（end - start）；整轨 / 无界原样。 */
+        internal fun displayDuration(base: Long, t: Track?): Long {
+            val start = t?.cueStartMs ?: 0L
+            val end = t?.cueEndMs ?: 0L
+            return if (end > 0 && end <= base) end - start else base
+        }
+
+        /** §61.226：分轨显示位置 = absolute - cueStart（0 起点）；整轨原样。 */
+        internal fun displayPosition(pos: Long, t: Track?): Long {
+            val cue = t?.cueStartMs ?: 0L
+            return if (cue > 0 && pos >= cue) pos - cue else pos
+        }
+
+        /** §61.226：显示相对时间 → absolute（+cueStart）；引擎侧 clampToCue 双向兜底。 */
+        internal fun absoluteSeek(displayMs: Long, t: Track?): Long =
+            displayMs + (t?.cueStartMs ?: 0L)
     }
 }

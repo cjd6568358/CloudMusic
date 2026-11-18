@@ -94,6 +94,7 @@ class MainActivity : ComponentActivity() {
         // §61.198：歌词四级取数（本地缓存 → 在线 provider → 空）经桥接注入，
         // Activity/UI 不接触 OkHttp / 文件系统；Hilt 两个单例由 ScanModule 提供。
         PlayerStateBridge(runtime, tracks, queue, lyricStore, onlineLyrics)
+            .apply { attachTrackCache(lifecycleScope) }
     }
 
     /** §61.200：输出弹窗的 DMR 设备列表（用户打开弹窗时才发现，不常驻扫网）。 */

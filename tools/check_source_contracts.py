@@ -6794,6 +6794,28 @@ def main() -> int:
     else:
         print("[PASS] §61.225 SFTP 扫描期全量下载修复（分块驱动不走 link()）")
 
+    # §61.226 CUE 分轨 UI 相对时间映射：bridge 三口纯函数 + currentTrackCached 注入。
+    _psb = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                       / "cloudmusic" / "ui" / "player" / "PlayerStateBridge.kt")
+                      .read_text(encoding="utf-8", errors="replace"))
+    _cue_u_bad = []
+    if "internal fun displayDuration(base: Long, t: Track?): Long" not in _psb:
+        _cue_u_bad.append("displayDuration 纯函数缺失")
+    if "internal fun displayPosition(pos: Long, t: Track?): Long" not in _psb:
+        _cue_u_bad.append("displayPosition 纯函数缺失")
+    if "internal fun absoluteSeek(displayMs: Long, t: Track?): Long" not in _psb:
+        _cue_u_bad.append("absoluteSeek 纯函数缺失")
+    if "displayMs + (t?.cueStartMs ?: 0L)" not in _psb or "runtime.seekTo(absoluteSeek(ms, currentTrackCached))" not in _psb:
+        _cue_u_bad.append("onSeek 反向换算未接 currentTrackCached")
+    if "attachTrackCache(lifecycleScope)" not in _code_only(
+            (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+             / "MainActivity.kt").read_text(encoding="utf-8", errors="replace")):
+        _cue_u_bad.append("MainActivity 未挂 track 缓存生命周期")
+    if _cue_u_bad:
+        failures.append("§61.226 CUE UI 相对时间：%s" % "；".join(_cue_u_bad))
+    else:
+        print("[PASS] §61.226 CUE UI 相对时间映射（三口纯函数 + 缓存生命周期）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
