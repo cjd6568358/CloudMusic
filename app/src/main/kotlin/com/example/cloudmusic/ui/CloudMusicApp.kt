@@ -235,9 +235,9 @@ fun CloudMusicApp(
     // 旧实现「取消」只清关键字不退出页面 ⇒ 用户「返回也返回不了」。
     var searchReturnTo by rememberSaveable { mutableIntStateOf(-1) }
     // §61.192 勘误（用户「进了设置页为什么底部TAB没了」）：§61.187 把底栏隐藏扩大到全部
-    // 次级页是**过度隐藏**——飞牛基准只有**搜索页**全屏无底栏（161534），设置页（161550）
-    // 明确显示底栏且「更多」高亮。修正：仅搜索页隐藏，其余页面（含设置）恢复显示。
-    val capsuleHidden = tab == 3
+    // 次级页是**过度隐藏**——修正后设置页恢复显示底栏。
+    // §61.222（用户指示）：搜索升为一等 tab（底栏四胶囊），「仅搜索页隐藏底栏」口径
+    // 随之作废（capsuleHidden 判定删除）——搜索页保持底栏可见，选中态可见性优先。
     // §61.119（M3）：加入歌单弹窗目标曲目。
     var addToPlaylistTrack by remember { mutableStateOf<Track?>(null) }
 
@@ -310,32 +310,37 @@ fun CloudMusicApp(
                         onOpenQueue = { showMore = false; tab = 4 },
                     )
                 }
-                // §61.187：搜索页隐藏胶囊栏（§61.195 勘误后仅搜索页——设置页底栏在）。
-                if (!capsuleHidden) {
-                // §61.168（飞牛导航）：胶囊三 tab（首页/音乐库/更多），对齐飞牛真机底栏。
-                // 内部 tab 索引 0~6 保持不变；「更多」弹出入口面板承载歌单/搜索/队列/我的/设置，
+                // §61.222（用户指示）：底栏加搜索 tab——四胶囊（首页/音乐库/搜索/更多）。
+                // §61.187/§61.195 的「搜索页隐藏胶囊栏」口径随本次调整作废：搜索成为
+                // 一等 tab 后保持底栏可见（选中态可见性优先）。
+                // §61.168 内部 tab 索引 0~7 保持不变；「更多」面板承载歌单/队列/我的/设置，
                 // 功能不丢。无返回箭头/无账号入口（辨别铁律）。
                 // §61.191（W4）：仅图标化——白色图标 + 选中红圆底白图标，去文字标签。
                 FnCapsuleBar(
                     icons = listOf(
-                        FnCapsuleIcon.Home, FnCapsuleIcon.Music, FnCapsuleIcon.More,
+                        FnCapsuleIcon.Home, FnCapsuleIcon.Music, FnCapsuleIcon.Search, FnCapsuleIcon.More,
                     ),
                     selected = when {
-                        showSources || showMore -> -1
+                        showSources -> -1
+                        showMore -> 3
                         tab == 0 -> 0
                         tab == 1 -> 1
-                        else -> 2
+                        tab == 3 -> 2
+                        else -> 3
                     },
                     onSelect = { i ->
                         showSources = false
                         showMore = false
                         when (i) {
                             0, 1 -> tab = i
-                            2 -> showMore = true
+                            2 -> {
+                                if (tab != 3) searchReturnTo = tab
+                                tab = 3
+                            }
+                            3 -> showMore = true
                         }
                     },
                 )
-                } // §61.187：次级页隐藏胶囊栏
             }
         },
     ) { padding ->

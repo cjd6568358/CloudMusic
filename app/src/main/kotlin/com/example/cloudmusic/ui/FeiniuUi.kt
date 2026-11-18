@@ -585,7 +585,8 @@ fun FnSectionTitle(text: String, modifier: Modifier = Modifier) {
  * @param icons 三项：首页 / 音乐库 / 更多
  */
 /** §61.191（W4）：底栏胶囊图标种别——飞牛口径仅图标无文字标签（161526/161602 逐段对照）。 */
-enum class FnCapsuleIcon { Home, Music, More }
+/** §61.222：底栏加搜索 tab（用户指示）——四胶囊：首页 / 音乐库 / 搜索 / 更多。 */
+enum class FnCapsuleIcon { Home, Music, Search, More }
 
 /**
  * §61.191（W4）：底部胶囊栏对齐飞牛——**仅图标**（旧实现 = 字形 ⌂♫☰ + 文字标签，
@@ -676,6 +677,18 @@ private fun FnCapsuleGlyph(kind: FnCapsuleIcon, tint: Color) {
                         close()
                     },
                     tint,
+                )
+            }
+            FnCapsuleIcon.Search -> {
+                // 放大镜：圆环描线 + 右下斜手柄（对齐首页搜索框图标形状）
+                drawCircle(tint, radius = 7.dp.toPx(), center = Offset(cx - 2.dp.toPx(), cy - 2.dp.toPx()), style = stroke)
+                drawPath(
+                    p {
+                        moveTo(cx + 3.4.dp.toPx(), cy + 3.4.dp.toPx())
+                        lineTo(cx + 8.6.dp.toPx(), cy + 8.6.dp.toPx())
+                    },
+                    tint,
+                    style = stroke,
                 )
             }
             FnCapsuleIcon.More -> {

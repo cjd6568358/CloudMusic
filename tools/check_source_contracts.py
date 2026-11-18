@@ -6706,6 +6706,29 @@ def main() -> int:
     else:
         print("[PASS] §61.221 CUE 分轨（解析器 + 锚点展开 + 起止列 + v6 迁移）")
 
+    # §61.222 底栏搜索 tab（用户指示）：四胶囊 + tab3 选中映射 + onSelect 直达 + 隐藏口径作废。
+    _app_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                           / "cloudmusic" / "ui" / "CloudMusicApp.kt")
+                          .read_text(encoding="utf-8", errors="replace"))
+    _fei_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                           / "cloudmusic" / "ui" / "FeiniuUi.kt")
+                          .read_text(encoding="utf-8", errors="replace"))
+    _nav_bad = []
+    if "enum class FnCapsuleIcon { Home, Music, Search, More }" not in _fei_src:
+        _nav_bad.append("FnCapsuleIcon 未含 Search")
+    if "FnCapsuleIcon.Search, FnCapsuleIcon.More," not in _app_src:
+        _nav_bad.append("底栏 icons 未加搜索胶囊")
+    if "tab == 3 -> 2" not in _app_src:
+        _nav_bad.append("搜索 tab 选中映射缺失")
+    if "if (tab != 3) searchReturnTo = tab" not in _app_src:
+        _nav_bad.append("底栏搜索进入的返回目标记录缺失")
+    if "capsuleHidden" in _app_src:
+        _nav_bad.append("搜索页隐藏底栏口径未移除（capsuleHidden 残留）")
+    if _nav_bad:
+        failures.append("§61.222 底栏搜索 tab：%s" % "；".join(_nav_bad))
+    else:
+        print("[PASS] §61.222 底栏搜索 tab（四胶囊 + 选中映射 + 隐藏口径作废）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
