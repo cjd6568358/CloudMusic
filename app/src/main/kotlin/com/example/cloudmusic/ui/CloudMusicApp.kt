@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Scaffold
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -187,6 +188,9 @@ fun CloudMusicApp(
     onOutputSelected: (ActiveOutput) -> Unit = {},
     /** §61.200：输出弹窗的 DMR 设备列表（MainActivity 打开弹窗时发现并排序去重）。 */
     dlnaDevices: StateFlow<List<DmrDevice>> = MutableStateFlow(emptyList()),
+    /** §61.229：投屏态 DMR 音量（输出弹窗滑杆）；回调转发 runtime.setCastVolume。 */
+    castVolume: StateFlow<Int> = MutableStateFlow(50),
+    onCastVolumeChanged: (Int) -> Unit = { _ -> },
     /** §61.200：点具体设备直接投屏（跳过自动选择）。 */
     onPickDmr: (DmrDevice) -> Unit = {},
     /** §61.200：弹窗内「重新扫描」触发重新发现。 */
@@ -465,9 +469,12 @@ fun CloudMusicApp(
 
     if (showOutput) {
         val dmrDevices by dlnaDevices.collectAsState()
+        val castVolumeState by castVolume.collectAsState()
         OutputDialog(
             state = output,
             devices = dmrDevices,
+            castVolume = castVolumeState,
+            onCastVolumeChanged = onCastVolumeChanged,
             onOutputSelected = onOutputSelected,
             onPickDmr = { device -> onPickDmr(device); showOutput = false },
             onScanDlna = onScanDlna,
@@ -1906,6 +1913,8 @@ private fun IgnoreDirsSheet(
 private fun OutputDialog(
     state: OutputDeviceState,
     devices: List<DmrDevice> = emptyList(),
+    castVolume: Int = 50,
+    onCastVolumeChanged: (Int) -> Unit = { _ -> },
     onOutputSelected: (ActiveOutput) -> Unit,
     onPickDmr: (DmrDevice) -> Unit = {},
     onScanDlna: () -> Unit = {},
@@ -1939,6 +1948,21 @@ private fun OutputDialog(
                         color = Comp.TextSecondary,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    )
+                }
+                // §61.229：投屏态 DMR 音量滑杆（RenderingControl Master channel）。
+                if (state.activeOutput == ActiveOutput.DLNA && devices.isNotEmpty()) {
+                    Text(
+                        "DMR 音量：$castVolume",
+                        color = Comp.TextSecondary,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    )
+                    Slider(
+                        value = castVolume.toFloat(),
+                        onValueChange = { onCastVolumeChanged(it.toInt()) },
+                        valueRange = 0f..100f,
+                        modifier = Modifier.padding(horizontal = 16.dp),
                     )
                 }
             }

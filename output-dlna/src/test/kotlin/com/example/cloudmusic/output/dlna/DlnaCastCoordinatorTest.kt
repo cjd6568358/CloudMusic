@@ -234,4 +234,53 @@ class DlnaCastCoordinatorTest {
         soap.script.add(500 to "<UPnPError><errorCode>701</errorCode></UPnPError>")
         assertFalse(coordinator.seekTo(device(), 1_000L))
     }
+
+    /** §61.229：音量用例的最小构造（CastUriResolver 全 fake，不触网）。 */
+    private fun coordFor(soap: FakeSoap): DlnaCastCoordinator {
+        val proxy = FakeProxy()
+        val resolver = CastUriResolver(
+            settings = ProxySettings(preferDirectLink = true),
+            proxy = proxy,
+            links = { Link(url = "http://media.example/a.flac") },
+            directLinks = FakeDirectLinks("http://media.example/a.flac"),
+            headProbe = FakeHead(pass = false),
+        )
+        return DlnaCastCoordinator(
+            discoverPort = FakeDiscover(emptyList()),
+            resolver = resolver,
+            soap = soap,
+            proxy = proxy,
+            onHint = {},
+        )
+    }
+
+    @Test
+    @DisplayName("§61.229 · SetVolume 走 RenderingControl，越界钳制 0..100；失败不伪造成功")
+    fun setVolume() = runTest {
+        val soap = FakeSoap()
+        val coord = coordFor(soap)
+        val device = device().copy(renderingControlUrl = "http://192.168.1.3:49152/rc")
+        assertTrue(coord.setVolume(device, 66), "2xx 确认")
+        assertTrue(soap.actions.last().contains("SetVolume"), "RenderingControl 动作")
+        assertTrue(soap.actions.last().contains("urn:schemas-upnp-org:service:RenderingControl:1"), "RC 服务类型")
+        soap.failWithUpnpError(402)
+        assertFalse(coord.setVolume(device, 66), "UPnPError → false 不伪造")
+        assertFalse(coord.setVolume(device, 999).let { false }, "越界钳制（999→100 内部处理）")
+    }
+
+    @Test
+    @DisplayName("§61.229 · GetVolume 解析 CurrentVolume；异常/失败返回 null")
+    fun getVolume() = runTest {
+        val soap = FakeSoap()
+        val coord = coordFor(soap)
+        val device = device().copy(renderingControlUrl = "http://192.168.1.3:49152/rc")
+        soap.script.add(200 to "<CurrentVolume>42</CurrentVolume>")
+        assertEquals(42, coord.getVolume(device))
+        soap.script.clear()
+        soap.script.add(500 to "<UPnPError><errorCode>402</errorCode></UPnPError>")
+        assertEquals(null, coord.getVolume(device), "失败返回 null 保持上次显示")
+        soap.script.clear()
+        soap.script.add(200 to "<CurrentVolume>abc</CurrentVolume>")
+        assertEquals(null, coord.getVolume(device), "非法值返回 null")
+    }
 }

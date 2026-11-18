@@ -478,6 +478,9 @@ class MainActivity : ComponentActivity() {
                     },
                     // §61.200：弹窗设备列表（打开时/重新扫描时刷新）+ 点具体设备直接投屏。
                     dlnaDevices = dlnaDevices,
+                    // §61.229：投屏态 DMR 音量（输出弹窗滑杆；打开弹窗时顺带 GetVolume 刷新）。
+                    castVolume = runtime.dlnaVolume(),
+                    onCastVolumeChanged = { v -> runtime.setCastVolume(v); runtime.refreshCastVolume() },
                     onPickDmr = { device -> castTo(device) },
                     onScanDlna = { refreshDlnaDevices() },
                     manualDmrResult = manualDmrResult,

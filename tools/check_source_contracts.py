@@ -6870,6 +6870,30 @@ def main() -> int:
     else:
         print("[PASS] §61.228 FTP 数据源（模块/驱动/注册/UI 全链）")
 
+    # §61.229 DLNA DMC 音量：SetVolume/GetVolume + 运行时路由 + 输出弹窗滑杆。
+    _coord_src = _code_only((ROOT / "output-dlna" / "src" / "main" / "kotlin" / "com"
+                             / "example" / "cloudmusic" / "output" / "dlna" / "DlnaCastCoordinator.kt")
+                            .read_text(encoding="utf-8", errors="replace"))
+    _pc_src2 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                           / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
+                          .read_text(encoding="utf-8", errors="replace"))
+    _app_src3 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                            / "cloudmusic" / "ui" / "CloudMusicApp.kt")
+                           .read_text(encoding="utf-8", errors="replace"))
+    _vol_bad = []
+    if "suspend fun setVolume(device: DmrDevice, volume: Int): Boolean" not in _coord_src:
+        _vol_bad.append("coordinator SetVolume 缺失")
+    if "CurrentVolume" not in _coord_src:
+        _vol_bad.append("coordinator GetVolume 解析缺失")
+    if "fun setCastVolume(volume: Int) = scope.launch" not in _pc_src2 or "castCoordinator.setVolume(device, volume)" not in _pc_src2:
+        _vol_bad.append("运行时投屏态音量路由缺失")
+    if "DMR 音量：" not in _app_src3 or "onCastVolumeChanged" not in _app_src3:
+        _vol_bad.append("输出弹窗音量滑杆缺失")
+    if _vol_bad:
+        failures.append("§61.229 DLNA 音量：%s" % "；".join(_vol_bad))
+    else:
+        print("[PASS] §61.229 DLNA DMC 音量（RC SetVolume/GetVolume + 运行时路由 + 弹窗滑杆）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

@@ -101,6 +101,30 @@ class DlnaCastCoordinator(
         return isOk(response)
     }
 
+    /**
+     * §61.229（V0.2 M7）：DMR 音量——RenderingControl:1 SetVolume（Master channel）。
+     * 非 2xx / 传输异常返回 false（不伪造成功）；volume 越界钳制 0..100。
+     */
+    suspend fun setVolume(device: DmrDevice, volume: Int): Boolean {
+        val v = volume.coerceIn(0, 100)
+        val response = runCatching {
+            soap.post(SoapController.setVolume(device.renderingControlUrl, v))
+        }.getOrNull() ?: return false
+        return isOk(response)
+    }
+
+    /** §61.229：GetVolume（Master）——解析失败 / 异常返回 null（UI 保持上次显示值）。 */
+    suspend fun getVolume(device: DmrDevice): Int? {
+        val response = runCatching {
+            soap.post(SoapController.getVolume(device.renderingControlUrl))
+        }.getOrNull() ?: return null
+        if (!isOk(response)) return null
+        return Regex(
+            """<(?:[a-zA-Z0-9_-]+:)?CurrentVolume>\s*(\d+)\s*</""",
+            RegexOption.IGNORE_CASE,
+        ).find(response.body)?.groupValues?.get(1)?.toIntOrNull()
+    }
+
     /** §10.2 的 Stop 步骤：尽力而为，失败不阻塞。 */
     suspend fun stopCast(device: DmrDevice) {
         runCatching { soap.post(SoapController.stop(device.avTransportControlUrl)) }

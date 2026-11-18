@@ -323,6 +323,34 @@ class PlaybackRuntime @Inject constructor(
     fun dlnaPositionMs(): StateFlow<Long> = _dlnaPositionMs.asStateFlow()
 
     /**
+     * §61.229（V0.2 M7）：投屏态 DMR 音量——RenderingControl:1 Master channel。
+     * 值由 UI 写入（输出弹窗滑杆）与 GetVolume 读回；非投屏态写操作是 no-op
+     * （本机音量语义 = 系统音量，App 内不接管——§61.93 音效链路正交）。
+     */
+    private val _dlnaVolume = MutableStateFlow(50)
+    fun dlnaVolume(): StateFlow<Int> = _dlnaVolume.asStateFlow()
+
+    /** §61.229：DMR 音量下发（投屏态转发 RenderingControl；失败只记日志、不伪造生效）。 */
+    fun setCastVolume(volume: Int) = scope.launch {
+        val device = castingDevice
+        if (output.activeOutput == ActiveOutput.DLNA && device != null) {
+            val ok = runCatching { castCoordinator.setVolume(device, volume) }.getOrDefault(false)
+            if (ok) _dlnaVolume.value = volume.coerceIn(0, 100)
+            else Log.w("CM-DLNA", "DMR SetVolume 未确认 vol=$volume")
+        } else {
+            Log.w("CM-DLNA", "非投屏态忽略 DMR 音量写入 vol=$volume")
+        }
+    }
+
+    /** §61.229：从 DMR 读回当前音量（打开弹窗时刷新显示；失败保持上次值）。 */
+    fun refreshCastVolume() = scope.launch {
+        val device = castingDevice
+        if (output.activeOutput == ActiveOutput.DLNA && device != null) {
+            castCoordinator.getVolume(device)?.let { _dlnaVolume.value = it.coerceIn(0, 100) }
+        }
+    }
+
+    /**
      * §61.202 播放页进度显示的单一入口：DLNA 活跃时用 DMR 真值（未读到时暂用
      * 本机引擎冻结的进度），否则用引擎实时进度。UI 不再自己判断输出类型。
      */

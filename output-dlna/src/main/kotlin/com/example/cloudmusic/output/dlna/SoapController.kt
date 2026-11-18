@@ -50,6 +50,8 @@ object SoapController {
     fun getPositionInfo(controlUrl: String) = simple(controlUrl, "GetPositionInfo", "<InstanceID>0</InstanceID>")
     fun getTransportInfo(controlUrl: String) = simple(controlUrl, "GetTransportInfo", "<InstanceID>0</InstanceID>")
 
+    fun getVolume(controlUrl: String) = simple(controlUrl, "GetVolume", "<InstanceID>0</InstanceID><Channel>Master</Channel>")
+
     fun setVolume(controlUrl: String, volume: Int) = SoapRequest(
         url = controlUrl,
         soapAction = soapAction(RENDERING_CONTROL, "SetVolume"),
