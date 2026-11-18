@@ -7,6 +7,7 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.PowerManager
 import com.example.cloudmusic.datasource.ByteRangeCapability
+import com.example.cloudmusic.datasource.DirectLinkCapability
 import com.example.cloudmusic.datasource.Driver
 import com.example.cloudmusic.datasource.DriverRegistry
 import com.example.cloudmusic.datasource.TextReadCapability
@@ -183,6 +184,14 @@ class AndroidCoverWriter(context: Context) : CoverWriterPort {
 class RegistryLinkLocator : LinkLocator {
     override suspend fun locate(candidate: Candidate): String? {
         val driver = DriverRegistry.get(candidate.storage.id) ?: return null
+        // §61.225（真机一手）：分块读驱动（ByteRange）且无直链探测（DirectLink）的驱动
+        // 扫描期**不走 link()**——SftpDriver.link() 是全量缓存拉取（§61.216 设计为播放
+        // 链语义），仅为读 tag 触发全量下载 = 冷扫流量爆炸。返回驱动相对路径 ref，
+        // tag 读取经 head.read → rangeFor → readBytes 头尾分块（§61.216 设计本意）；
+        // 歌词/封面侧链按 ref 五态分派照常工作。WebDAV 等直链驱动保持 link() 语义不变。
+        if (driver is ByteRangeCapability && driver !is DirectLinkCapability) {
+            return candidate.obj.path
+        }
         val link = runCatching { driver.link(candidate.obj) }.getOrNull() ?: return null
         return when (link.kind) {
             Link.Kind.LOCAL -> link.localPath

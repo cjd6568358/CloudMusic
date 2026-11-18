@@ -6780,6 +6780,20 @@ def main() -> int:
     else:
         print("[PASS] §61.224 CUE 播放包络（定位/交棒/限界/gapless 禁用）")
 
+    # §61.225 SFTP 扫描期全量下载缺陷修复：分块读驱动不走 link()。
+    _ptc_src2 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                            / "cloudmusic" / "di" / "scan" / "ProductionTagAndCover.kt")
+                           .read_text(encoding="utf-8", errors="replace"))
+    _nol_bad = []
+    if "if (driver is ByteRangeCapability && driver !is DirectLinkCapability)" not in _ptc_src2:
+        _nol_bad.append("分块驱动 locate 特判缺失")
+    if "return candidate.obj.path" not in _ptc_src2:
+        _nol_bad.append("驱动相对路径 ref 返回缺失")
+    if _nol_bad:
+        failures.append("§61.225 SFTP 扫描期全量下载修复：%s" % "；".join(_nol_bad))
+    else:
+        print("[PASS] §61.225 SFTP 扫描期全量下载修复（分块驱动不走 link()）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
