@@ -1243,18 +1243,19 @@ private fun EqDialog(
     onApply: (Boolean, Int, List<Int>) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val bands = remember(bandsMillibel) {
-        if (bandsMillibel.size >= 5) bandsMillibel.take(5) else List(5) { bandsMillibel.getOrNull(it) ?: 0 }
+    // §61.236：段数自适应——引擎 setEqualizerBands band 数不匹配取 min（§61.118），
+    // 面板段数 = max(5, 已存自定义长度)：5 段用固定频段名，更多段用通用 Band N 标签。
+    val count = kotlin.math.max(5, bandsMillibel.size)
+    val bands = remember(bandsMillibel, count) {
+        List(count) { bandsMillibel.getOrNull(it) ?: 0 }
     }
     var on by remember { mutableStateOf(enabled) }
     var level by remember { mutableStateOf(effectLevel.coerceIn(0, 5)) }
-    var b0 by remember { mutableStateOf(bands[0].toFloat()) }
-    var b1 by remember { mutableStateOf(bands[1].toFloat()) }
-    var b2 by remember { mutableStateOf(bands[2].toFloat()) }
-    var b3 by remember { mutableStateOf(bands[3].toFloat()) }
-    var b4 by remember { mutableStateOf(bands[4].toFloat()) }
-    val labels = listOf("60Hz", "230Hz", "910Hz", "3.6kHz", "14kHz")
-    val values = listOf(b0, b1, b2, b3, b4)
+    // §61.236：滑杆状态数组化（段数自适应，不再固定 b0~b4）
+    var bandValues by remember { mutableStateOf(bands.map { it.toFloat() }) }
+    val labels = if (count == 5) listOf("60Hz", "230Hz", "910Hz", "3.6kHz", "14kHz")
+    else (1..count).map { "Band $it" }
+    val values = bandValues
     val db = { v: Float -> "%.1f dB".format(v / 100f) }
     CompSheetDialog(
         onDismiss = onDismiss,
@@ -1288,16 +1289,11 @@ private fun EqDialog(
                             fontSize = 12.sp,
                             modifier = Modifier.padding(top = 4.dp),
                         )
-                        val setter: (Float) -> Unit = when (i) {
-                            0 -> { v -> b0 = v }
-                            1 -> { v -> b1 = v }
-                            2 -> { v -> b2 = v }
-                            3 -> { v -> b3 = v }
-                            else -> { v -> b4 = v }
-                        }
                         Slider(
                             value = values[i],
-                            onValueChange = setter,
+                            onValueChange = { v ->
+                                bandValues = bandValues.toMutableList().also { it[i] = v }
+                            },
                             valueRange = -1500f..1500f,
                         )
                     }
@@ -1309,7 +1305,7 @@ private fun EqDialog(
                 onApply(
                     on,
                     level,
-                    listOf(b0, b1, b2, b3, b4).map { it.toInt() },
+                    bandValues.map { it.toInt() },
                 )
                 onDismiss()
             },
