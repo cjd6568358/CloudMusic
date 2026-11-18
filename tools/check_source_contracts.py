@@ -6921,6 +6921,24 @@ def main() -> int:
     else:
         print("[PASS] §61.230 淡入淡出（包络纯函数 + 设置项 + 转发 + 交棒组合）")
 
+    # §61.231 EQ 调节面：设置页面板 + 三参链路 + MainActivity 接线。
+    _app_src4 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                            / "cloudmusic" / "ui" / "CloudMusicApp.kt")
+                           .read_text(encoding="utf-8", errors="replace"))
+    _eq_bad = []
+    if "private fun EqDialog(" not in _app_src4:
+        _eq_bad.append("均衡器面板缺失")
+    if 'title = "均衡器"' not in _app_src4 or "onApplyEqualizer(en, lvl, bands)" not in _app_src4:
+        _eq_bad.append("EQ 面板应用回调缺失")
+    if "onApplyEqualizer = { en, lvl, bands -> runtime.applyEqualizer(en, lvl, bands) }" not in _code_only(
+            (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+             / "MainActivity.kt").read_text(encoding="utf-8", errors="replace")):
+        _eq_bad.append("MainActivity 未接 applyEqualizer")
+    if _eq_bad:
+        failures.append("§61.231 EQ 调节面：%s" % "；".join(_eq_bad))
+    else:
+        print("[PASS] §61.231 EQ 调节面（面板 + applyEqualizer 全链接线）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

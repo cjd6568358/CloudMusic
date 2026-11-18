@@ -499,6 +499,10 @@ class MainActivity : ComponentActivity() {
                     onAnalyzeReplayGain = { runtime.analyzeLibraryReplayGain(50) },
                     fadeEnabled = runtime.fadeEnabled().collectAsState(false).value,
                     onFadeEnabledChanged = { on -> runtime.updateFadeEnabled(on) },
+                    eqEnabled = settingsStore.current().audiofx.enabled,
+                    eqEffectLevel = settingsStore.current().audiofx.effectLevel,
+                    eqBandsMillibel = settingsStore.current().audiofx.bandsMillibel,
+                    onApplyEqualizer = { en, lvl, bands -> runtime.applyEqualizer(en, lvl, bands) },
                     scanMinDurationMs = appSettingsState.value.scan.minDurationMs,
                     onScanMinDurationChanged = { v ->
                         lifecycleScope.launch {

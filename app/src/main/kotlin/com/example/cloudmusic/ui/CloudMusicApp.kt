@@ -210,6 +210,11 @@ fun CloudMusicApp(
     /** §61.230：淡入淡出开关（AudiofxSettings.fadeEnabled 热更新）。 */
     fadeEnabled: Boolean = false,
     onFadeEnabledChanged: (Boolean) -> Unit = { _ -> },
+    /** §61.231：均衡器面板（AudiofxSettings + applyEqualizer 全链已接）。 */
+    eqEnabled: Boolean = false,
+    eqEffectLevel: Int = 0,
+    eqBandsMillibel: List<Int> = emptyList(),
+    onApplyEqualizer: (Boolean, Int, List<Int>) -> Unit = { _, _, _ -> },
     /** §61.116（M2-2）：扫描最短时长下限（ms），下次扫描生效。 */
     scanMinDurationMs: Long = 10_000L,
     onScanMinDurationChanged: (Long) -> Unit = {},
@@ -458,6 +463,10 @@ fun CloudMusicApp(
                     onAnalyzeReplayGain,
                     fadeEnabled,
                     onFadeEnabledChanged,
+                    eqEnabled,
+                    eqEffectLevel,
+                    eqBandsMillibel,
+                    onApplyEqualizer,
                     appSettings.scan.minDurationMs,
                     onScanMinDurationChanged,
                     appSettings.scan.ignoreDirs,
@@ -1208,6 +1217,91 @@ private fun FtpDialog(
     )
 }
 
+/** §61.231：均衡器面板——5 段滑杆（millibel，±15dB 口径）+ 档位 + 开关；
+ *  应用走 applyEqualizer 全链（engine setEqualizerBands band 数不匹配取 min）。 */
+@Composable
+private fun EqDialog(
+    enabled: Boolean,
+    effectLevel: Int,
+    bandsMillibel: List<Int>,
+    onApply: (Boolean, Int, List<Int>) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val bands = remember(bandsMillibel) {
+        if (bandsMillibel.size >= 5) bandsMillibel.take(5) else List(5) { bandsMillibel.getOrNull(it) ?: 0 }
+    }
+    var on by remember { mutableStateOf(enabled) }
+    var level by remember { mutableStateOf(effectLevel.coerceIn(0, 5)) }
+    var b0 by remember { mutableStateOf(bands[0].toFloat()) }
+    var b1 by remember { mutableStateOf(bands[1].toFloat()) }
+    var b2 by remember { mutableStateOf(bands[2].toFloat()) }
+    var b3 by remember { mutableStateOf(bands[3].toFloat()) }
+    var b4 by remember { mutableStateOf(bands[4].toFloat()) }
+    val labels = listOf("60Hz", "230Hz", "910Hz", "3.6kHz", "14kHz")
+    val values = listOf(b0, b1, b2, b3, b4)
+    val db = { v: Float -> "%.1f dB".format(v / 100f) }
+    CompSheetDialog(
+        onDismiss = onDismiss,
+        title = "均衡器",
+        content = {
+            Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                FnRow(
+                    glyph = "≡",
+                    title = "启用均衡器",
+                    onClick = { on = !on },
+                    showChevron = false,
+                    trailing = { FnSwitch(checked = on, onChange = { on = it }) },
+                )
+                if (on) {
+                    Text(
+                        "效果档位：$level",
+                        color = Comp.TextSecondary,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(vertical = 6.dp),
+                    )
+                    Slider(
+                        value = level.toFloat(),
+                        onValueChange = { level = it.toInt() },
+                        valueRange = 0f..5f,
+                        steps = 4,
+                    )
+                    labels.forEachIndexed { i, label ->
+                        Text(
+                            label + " · " + db(values[i]),
+                            color = Comp.TextSecondary,
+                            fontSize = 12.sp,
+                            modifier = Modifier.padding(top = 4.dp),
+                        )
+                        val setter: (Float) -> Unit = when (i) {
+                            0 -> { v -> b0 = v }
+                            1 -> { v -> b1 = v }
+                            2 -> { v -> b2 = v }
+                            3 -> { v -> b3 = v }
+                            else -> { v -> b4 = v }
+                        }
+                        Slider(
+                            value = values[i],
+                            onValueChange = setter,
+                            valueRange = -1500f..1500f,
+                        )
+                    }
+                }
+            }
+        },
+        actions = listOf(
+            "应用" to {
+                onApply(
+                    on,
+                    level,
+                    listOf(b0, b1, b2, b3, b4).map { it.toInt() },
+                )
+                onDismiss()
+            },
+            "关闭" to onDismiss,
+        ),
+    )
+}
+
 /** §61.151：STRM 独立源添加（b5y 面板；字段与 StrmDriver str() 对齐——
  *  delegate_storage_id + paths 多行 `key:dst` / 裸 `dst`，空 = 委托根目录）。
  *  委托候选 = 已添加且非 strm 的存储；选中行高亮品牌红。 */
@@ -1734,6 +1828,10 @@ private fun SettingsScreen(
     onAnalyzeReplayGain: () -> Unit,
     fadeEnabled: Boolean,
     onFadeEnabledChanged: (Boolean) -> Unit,
+    eqEnabled: Boolean,
+    eqEffectLevel: Int,
+    eqBandsMillibel: List<Int>,
+    onApplyEqualizer: (Boolean, Int, List<Int>) -> Unit,
     scanMinDurationMs: Long,
     onScanMinDurationChanged: (Long) -> Unit,
     scanIgnoreDirs: List<String>,
@@ -1747,6 +1845,7 @@ private fun SettingsScreen(
     // 操作结果反馈走页底提示位（飞牛行内没有提示位，不硬塞进 50.4dp 行框）。
     var cacheMsg by remember { mutableStateOf("") }
     var showScanDuration by remember { mutableStateOf(false) }
+    var showEq by remember { mutableStateOf(false) }
     var showIgnoreDirs by remember { mutableStateOf(false) }
     Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
         // 顶栏：从「更多」进入的**页内二级页**，返回钮语义是「回上一屏」，
@@ -1865,6 +1964,13 @@ private fun SettingsScreen(
                     showChevron = false,
                     trailing = { FnSwitch(checked = fadeEnabled, onChange = onFadeEnabledChanged) },
                 )
+                FnRow(
+                    dividerAbove = true,
+                    glyph = "≡",
+                    title = "均衡器",
+                    onClick = { showEq = true },
+                    value = if (eqEnabled) "开 · 档位 " + eqEffectLevel else "关",
+                )
             }
             if (cacheMsg.isNotBlank()) {
                 Text(
@@ -1876,6 +1982,15 @@ private fun SettingsScreen(
             }
             Spacer(Modifier.height(28.dp))
         }
+    }
+    if (showEq) {
+        EqDialog(
+            enabled = eqEnabled,
+            effectLevel = eqEffectLevel,
+            bandsMillibel = eqBandsMillibel,
+            onApply = { en, lvl, bands -> onApplyEqualizer(en, lvl, bands) },
+            onDismiss = { showEq = false },
+        )
     }
     if (showScanDuration) {
         CompSheetDialog(
