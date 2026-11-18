@@ -6729,6 +6729,35 @@ def main() -> int:
     else:
         print("[PASS] §61.222 底栏搜索 tab（四胶囊 + 选中映射 + 隐藏口径作废）")
 
+    # §61.223 SFTP 外置 lrc 链修复 + 判读可观测性：ref 五态分派 + cacheDirPrefix + init/connect 失败日志。
+    _ptc = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                       / "cloudmusic" / "di" / "scan" / "ProductionTagAndCover.kt")
+                      .read_text(encoding="utf-8", errors="replace"))
+    _scn = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                       / "cloudmusic" / "di" / "scan" / "ScanComposition.kt")
+                      .read_text(encoding="utf-8", errors="replace"))
+    _jsp = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                       / "cloudmusic" / "di" / "adapters" / "JschSftpPort.kt")
+                      .read_text(encoding="utf-8", errors="replace"))
+    _lrc_bad = []
+    if "val isCacheRef = cacheDirPrefix.isNotEmpty() && ref.startsWith(cacheDirPrefix)" not in _ptc:
+        _lrc_bad.append("ref 五态判定（isCacheRef）缺失")
+    # 注意：判据串不能含 "content://" —— _code_only 会把字符串里的 // 当注释剥掉
+    if "if (parent.isEmpty() && (isLocalFile" not in _ptc:
+        _lrc_bad.append("parent 提前返回未按五态语义修正")
+    if "cap != null -> runCatching" not in _ptc:
+        _lrc_bad.append("驱动 TextReadCapability 读分支缺失")
+    if "cacheDirPrefix = context.cacheDir.absolutePath" not in _scn:
+        _lrc_bad.append("生产未注入 cacheDirPrefix")
+    if "sftp connect 失败" not in _jsp:
+        _lrc_bad.append("SFTP 端口连接失败可观测性日志缺失")
+    if "e.message ?: e::class.java.name" not in _scn:
+        _lrc_bad.append("驱动 init 失败日志未携带异常消息")
+    if _lrc_bad:
+        failures.append("§61.223 SFTP lrc 链修复：%s" % "；".join(_lrc_bad))
+    else:
+        print("[PASS] §61.223 SFTP 外置 lrc 链修复（ref 五态 + cacheDirPrefix + 失败可观测性）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

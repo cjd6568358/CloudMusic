@@ -104,6 +104,31 @@ class SiblingLyricsLookupTest {
         assertTrue('\uFFFD' !in sinkCalls[0].second)
     }
 
+    @Test
+    @DisplayName("§61.223：无 scheme 相对路径 ref（SFTP walk 形态）→ 驱动 TextReadCapability 命中")
+    fun sftpRelativeRefHit() = runTest {
+        drivers["sftp-1"] = FakeTextDriver("[00:01.00]sftp lrc")
+        val c = candidate("sftp-1", "nas_song.mp3")
+        lookup(c, "nas_song.mp3")
+        assertEquals(1, sinkCalls.size, "相对路径 ref 走驱动读候选，旧三态判定误判 LOCAL File")
+        assertEquals("[00:01.00]sftp lrc", sinkCalls[0].second)
+    }
+
+    @Test
+    @DisplayName("§61.223：SFTP link() 缓存路径 ref（cacheDir 前缀）→ 驱动 TextReadCapability 命中")
+    fun sftpCacheRefHit() = runTest {
+        drivers["sftp-2"] = FakeTextDriver("[00:01.00]cache ref lrc")
+        val lookup2 = SiblingLyricsLookup(
+            sink = { id, raw -> sinkCalls += id to raw },
+            driverFor = { id -> drivers[id] },
+            cacheDirPrefix = "/data/user/0/com.example.cloudmusic/cache",
+        )
+        // RegistryLinkLocator 对 SFTP 返回 link() 本地缓存路径（§61.216 全量缓存语义）
+        lookup2(candidate("sftp-2", "nas_song.mp3"), "/data/user/0/com.example.cloudmusic/cache/sftp/x.mp3")
+        assertEquals(1, sinkCalls.size, "缓存路径 ref 应回落驱动读同目录 lrc")
+        assertEquals("[00:01.00]cache ref lrc", sinkCalls[0].second)
+    }
+
     private class PathAwareTextDriver(private val answer: (String) -> String?) : Driver, TextReadCapability {
         val tried = ArrayList<String>()
         override val config = DriverConfig(name = "PathAwareText")

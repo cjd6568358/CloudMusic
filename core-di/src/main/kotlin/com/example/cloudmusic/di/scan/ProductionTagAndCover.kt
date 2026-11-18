@@ -311,6 +311,9 @@ private val RETRIEVER_FALLBACK_EXTS = setOf("mp3", "m4a", "aac", "flac", "wav", 
 class SiblingLyricsLookup(
     private val sink: (String, String) -> Unit,
     private val driverFor: (String) -> Driver? = { DriverRegistry.get(it) },
+    /** §61.223：App cacheDir 绝对路径前缀（生产注入 context.cacheDir）——SFTP link()
+     *  的全量本地缓存路径（§61.216）以此开头，须回落驱动读同目录 lrc，不按 LOCAL 处理。 */
+    private val cacheDirPrefix: String = "",
 ) {
     /** (storageId:目录) → 无 .lrc 记忆；上限防无界增长（重扫会话级即可）。 */
     private val noLyricsDirs = java.util.concurrent.ConcurrentHashMap<String, Boolean>()
@@ -322,7 +325,14 @@ class SiblingLyricsLookup(
         // 在桌面 JVM 测试（@TempDir）里是 Windows 反斜杠路径，非 POSIX 假设必须消除。
         val normPath = path.replace('\\', '/')
         val parent = normPath.substringBeforeLast('/', "")
-        if (parent.isEmpty()) return
+        // §61.223：ref 形态五态判定提升到最前——parent 提前返回与下方分派共用同一语义。
+        // 驱动相对路径（SFTP root 根目录文件 = 裸文件名，无斜杠）与 link() 本地缓存路径
+        // （§61.216，cacheDir 前缀）parent 为空是合法形态，候选 path 交驱动 full() 拼 root；
+        // 只有「真 LOCAL」（file:// / 绝对路径含 Windows 盘符）才按父目录语义提前返回。
+        val isCacheRef = cacheDirPrefix.isNotEmpty() && ref.startsWith(cacheDirPrefix)
+        val isLocalFile = !isCacheRef && (ref.startsWith("file://") || ref.startsWith("/") ||
+            (ref.length >= 3 && ref[1] == ':' && (ref[2] == '/' || ref[2] == '\\')))
+        if (parent.isEmpty() && (isLocalFile || ref.startsWith("content://"))) return
         val dirKey = "$storageId:$parent"
         if (noLyricsDirs.containsKey(dirKey)) return
         // V0.2 §61.217：同目录同名之外，再试 lyrics/ 子目录、标题 / 艺人名、大写 .LRC。
@@ -333,15 +343,22 @@ class SiblingLyricsLookup(
             artist = candidate.hint?.artist,
         )
         if (names.isEmpty()) return
-        val remote = ref.startsWith("http://", true) || ref.startsWith("https://", true)
-        if (!remote && ref.startsWith("content://")) return // 无文件系统同目录语义
-        val cap = if (remote) driverFor(storageId) as? TextReadCapability else null
-        val localDir = if (!remote) File(ref.removePrefix("file://")).parentFile else null
+        // §61.223（真机一手）：ref 形态五态分派——http(s) 直链、SFTP 等驱动**相对路径**
+        // （无 scheme）与 **link() 本地缓存路径**（cacheDir 前缀，§61.216 全量缓存语义）
+        // 走 TextReadCapability；content:// 无同目录语义跳过；
+        // file:// / 绝对路径（含桌面 JVM 测试的 Windows 盘符 C:\）走 LOCAL File。
+        // 旧三态判定把相对路径错判为 LOCAL（File("nas_song.mp3").parentFile = null）→
+        // SFTP 外置 lrc 恒不落盘；缓存路径错判则会在 cache/sftp/ 里找 lrc（必 miss）。
+        val cap = if (ref.startsWith("content://") || isLocalFile) null
+        else driverFor(storageId) as? TextReadCapability
+        // §61.223：缓存路径 / 驱动相对路径候选 path 相对驱动 root；LOCAL 不进此分支
+        val localDir = if (isLocalFile) File(ref.removePrefix("file://")).parentFile else null
+        if (cap == null && localDir == null) return // content:// 同语义跳过
         var raw: String? = null
         for (name in names) {
             raw = when {
-                remote -> runCatching {
-                    cap?.readText(Obj(
+                cap != null -> runCatching {
+                    cap.readText(Obj(
                         name = name.substringAfterLast('/'), isDir = false, path = "$parent/$name",
                     ))
                 }.getOrNull()

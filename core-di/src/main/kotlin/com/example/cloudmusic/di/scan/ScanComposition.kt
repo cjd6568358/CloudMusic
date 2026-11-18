@@ -107,15 +107,23 @@ class StorageDriverBinder(
                 failed += storage.id
                 return@forEach
             }
+            // §61.223：init 失败必须携带异常消息——§61.221 真机判读一手：私钥源 init 失败
+            // 只有「init 失败」一行无法归因（§61.178「卡死无法归因」教训的同族缺口）。
             val ok = runCatching {
                 driver.init(DriverCtx(tag = "[scan:${storage.driverType}]", caller = "scan"))
                 DriverRegistry.put(storage.id, driver)
                 known[storage.id] = storage.modified
+            }.onFailure { e ->
+                runCatching {
+                    android.util.Log.w(
+                        "CM-Scan",
+                        "binder: init 失败: %s (%s): %s".format(storage.id, storage.driverType, e.message ?: e::class.java.name),
+                    )
+                }
             }.isSuccess
             if (ok) {
                 created += storage.id
             } else {
-                runCatching { android.util.Log.w("CM-Scan", "binder: init 失败: %s (%s)".format(storage.id, storage.driverType)) }
                 runCatching { driver.drop() }
                 failed += storage.id
             }
@@ -286,6 +294,8 @@ object ScanModule {
             siblingLyrics = SiblingLyricsLookup(
                 sink = { trackId, raw -> lyricStore.saveRaw(
                     com.example.cloudmusic.model.TrackId(trackId), raw) },
+                // §61.223：SFTP link() 缓存路径（§61.216）回落驱动读同目录 lrc
+                cacheDirPrefix = context.cacheDir.absolutePath,
             )::invoke,
             // §61.203：远程 tag 跳过（验收 #2 主刀）——生产默认 SKIP，白名单/阈值见
             // RemoteTagPolicy；网络封面/歌词侧链不跳过（§61.186 缺口同步修复）。

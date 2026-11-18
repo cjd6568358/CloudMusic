@@ -62,6 +62,11 @@ private class JschSftpPort(private val config: SftpConfig) : SftpClientPort {
             session = s
             channel = c
             true
+        }.onFailure { e ->
+            // §61.223：连接/认证失败必须可见——吞异常无法归因（§61.178 教训同族）。
+            runCatching {
+                android.util.Log.w("CM-Scan", "sftp connect 失败: ${e::class.java.simpleName}: ${e.message}")
+            }
         }.getOrDefault(false)
     }
 
