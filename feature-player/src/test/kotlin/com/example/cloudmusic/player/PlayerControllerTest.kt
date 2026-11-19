@@ -52,6 +52,8 @@ class PlayerControllerTest {
         val lookupTracks: List<Track> = tracksOf(5),
         durationWriter: TrackDurationWriter? = null,
         cursorWriter: CursorWriter? = null,
+        /** §61.253：源级失败可用性标记捕获。 */
+        availabilityWriter: TrackAvailabilityWriter? = null,
         /** §61.224：节拍器交棒测试——positionMs 劫持值。 */
         positionOverride: Long? = null,
     ) {
@@ -77,6 +79,7 @@ class PlayerControllerTest {
             networkGate = networkGate,
             durationWriter = durationWriter,
             cursorWriter = cursorWriter,
+            availabilityWriter = availabilityWriter,
             scope = scope,
         )
 
@@ -136,7 +139,8 @@ class PlayerControllerTest {
         durationWriter: TrackDurationWriter? = null,
         cursorWriter: CursorWriter? = null,
         positionOverride: Long? = null,
-    ) = Fixture(resolver, config, scope, networkGate, engineDurationOverride, lookupTracks, durationWriter, cursorWriter, positionOverride)
+        availabilityWriter: TrackAvailabilityWriter? = null,
+    ) = Fixture(resolver, config, scope, networkGate, engineDurationOverride, lookupTracks, durationWriter, cursorWriter, availabilityWriter, positionOverride)
 
     private val urlResolver = TrackSourceResolver { t ->
         Link(url = "https://example.com/${t.id.value}.mp3")
@@ -866,5 +870,27 @@ class PlayerControllerTest {
         assertEquals(42_000L, snap?.positionMs, "整轨位置原样")
         assertEquals(100_000L, snap?.durationMs, "整轨时长原样（曲库元数据）")
         assertEquals(100_000L, f.media.snapshot().metadata?.durationMs, "整轨 metadata 时长原样")
+    }
+
+    @Test
+    @DisplayName("§61.253 · 源级失败 → 可用性如实标记 UNREACHABLE（孤儿源不再谎报 OK）")
+    fun resolverFailureMarksUnreachable() = runTest {
+        val t1 = track(1)
+        val t2 = track(2)
+        val marked = mutableListOf<Pair<String, Boolean>>()
+        val f = fixture(
+            scope = backgroundScope, lookupTracks = listOf(t1, t2),
+            resolver = TrackSourceResolver { t ->
+                if (t.id.value == "id-1") throw com.example.cloudmusic.common.CloudMusicError.DsUnreachable(
+                    "数据源尚未初始化，无法重建 Link",
+                ) else Link(localPath = "/music/${t.id.value}.flac", localSize = t.durationMs)
+            },
+            availabilityWriter = TrackAvailabilityWriter { id, ok -> marked += (id.value to ok) },
+        )
+        f.repo.setAll(listOf(t1, t2))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        assertTrue(marked.contains("id-1" to false), "孤儿源标记 UNREACHABLE")
+        assertEquals("id-2", f.controller.state.value.currentTrackId?.value, "标记后跳链续播")
     }
 }

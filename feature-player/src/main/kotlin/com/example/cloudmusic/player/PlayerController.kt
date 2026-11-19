@@ -48,6 +48,8 @@ class PlayerController(
     private val durationWriter: TrackDurationWriter? = null,
     /** §61.182：播放游标写侧（playback_state 落库）；null = 不写（单测 / 未接线）。 */
     private val cursorWriter: CursorWriter? = null,
+    /** §61.253：源级失败 → UNREACHABLE 标记（孤儿源曲库不再谎报 OK）。 */
+    private val availabilityWriter: com.example.cloudmusic.player.TrackAvailabilityWriter? = null,
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default),
 ) {
     private val _state = MutableStateFlow(PlayerState())
@@ -720,6 +722,12 @@ class PlayerController(
     /** §61.252：fail + 源级自动跳曲（autoPlay 且 autoSkipOnError；restore 不跳——PRD §6.1）。 */
     private suspend fun failAndMaybeSkip(error: CloudMusicError, autoPlay: Boolean) {
         fail(error)
+        // §61.253：驱动缺失/条目不存在 = 源不可达 → 曲库如实标记（不再谎报 OK）。
+        if (error is CloudMusicError.DsUnreachable || error is CloudMusicError.DsNotFound) {
+            _state.value.currentTrackId?.let { id ->
+                runCatching { availabilityWriter?.mark(id, false) }
+            }
+        }
         if (autoPlay && config.autoSkipOnError) next()
     }
 

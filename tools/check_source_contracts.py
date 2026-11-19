@@ -7324,6 +7324,26 @@ def main() -> int:
     else:
         print("[PASS] §61.252 STRM/歌单播放四层修复（url 优先 + 跳链 + ERROR 重试 + 错误可见）")
 
+    # §61.253：孤儿源可用性如实标记（PRD §4 离线优先）。
+    _ports = _code_only((ROOT / "feature-player" / "src" / "main" / "kotlin" / "com"
+                         / "example" / "cloudmusic" / "player" / "TrackPorts.kt")
+                        .read_text(encoding="utf-8", errors="replace"))
+    _c253_bad = []
+    if "fun interface TrackAvailabilityWriter" not in _ports:
+        _c253_bad.append("可用性标记端口缺失")
+    if "error is CloudMusicError.DsUnreachable || error is CloudMusicError.DsNotFound" not in _pc252 \
+            or "availabilityWriter?.mark(id, false)" not in _pc252:
+        _c253_bad.append("控制器失败路径标记缺失")
+    if "TrackAvailabilityWriter { id, ok ->" not in _pb247:
+        _c253_bad.append("组合层接线缺失")
+    if not (ROOT / "scanner" / "src" / "test" / "kotlin" / "com" / "example" / "cloudmusic"
+            / "scanner" / "PlaylistScanTest.kt").exists():
+        _c253_bad.append("m3u 展开扫描 E2E 测试缺失")
+    if _c253_bad:
+        failures.append("§61.253 孤儿源可用性标记：%s" % "；".join(_c253_bad))
+    else:
+        print("[PASS] §61.253 孤儿源可用性标记（端口 + 失败路径 + 组合接线 + m3u E2E 测试）")
+
     if _c250_bad:
         failures.append("§61.250 哈希记忆累进：%s" % "；".join(_c250_bad))
     else:

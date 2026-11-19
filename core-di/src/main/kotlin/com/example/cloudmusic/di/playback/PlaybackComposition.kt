@@ -1245,5 +1245,10 @@ object PlaybackModule {
         // §61.182：播放游标写侧复活（saveCursor 此前生产链零写方 ⇒ 冷启动恢复死路，
         // 真机一手 `playback_state 缺失`）——切歌 / 暂停 / PLAYING 每 5s 落 playback_state。
         cursorWriter = CursorWriter { id, pos -> queueRepository.saveCursor(id, pos) },
+        // §61.253：源级失败 → 曲库可用性如实标记（PRD §4 离线优先）。
+        availabilityWriter = com.example.cloudmusic.player.TrackAvailabilityWriter { id, ok ->
+            tracks.markAvailability(id, if (ok) com.example.cloudmusic.model.Availability.OK
+            else com.example.cloudmusic.model.Availability.UNREACHABLE)
+        },
     )
 }

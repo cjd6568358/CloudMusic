@@ -50,3 +50,11 @@ fun interface TrackDurationWriter {
 fun interface CursorWriter {
     suspend fun write(trackId: String, positionMs: Long)
 }
+
+/**
+ * §61.253：曲目可用性标记端口——源级失败（驱动缺失/孤儿源）时如实置 UNREACHABLE，
+ * 曲库不再谎报 OK（PRD §4 离线优先：不可达条目标记为暂不可用）。
+ */
+fun interface TrackAvailabilityWriter {
+    suspend fun mark(id: TrackId, available: Boolean)
+}
