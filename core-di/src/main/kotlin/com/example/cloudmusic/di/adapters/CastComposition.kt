@@ -66,14 +66,22 @@ class OkHttpProxiedStreamFactory(private val client: OkHttpClient) : DriverStrea
 class RegistryLinkProvider : LinkProvider {
     override suspend fun link(track: Track): Link {
         val ref = track.sourceRef
-        val driver = DriverRegistry.get(ref.storageId)
-        if (driver != null) {
-            val obj = driver.get(ref.path)
-                ?: Obj(name = ref.path.substringAfterLast('/'), path = ref.path)
-            return driver.link(obj)
-        }
+        // §61.252（P0 修复）：URL 条目（strm / 播放列表展开轨）**优先走扫描缓存的直链**
+        // —— 03-03 §2 / §3.6 设计口径（strm 曲目 = Obj 曲目 + `Link(url=...)`；歌单 URL
+        // 条目直推）。此前 driver 在位时直接 `driver.link(条目文件)`：对 .strm 条目拿到
+        // 的是「文本文件」的 PROXIED Link（proxy 回源到 .strm 文本），引擎拿到的是
+        // strm/歌单文本而非音频 → 解码必炸（真机一手：首页最近添加/队列 STRM 全部
+        // 无法播放）。直链过期由 Media3 错误 → autoSkip 兜底，重扫刷新（§61.212）。
+        // AUDIO 候选 directUrl 恒 null（扫描仅 strm/playlist 写 url）→ 本分支不触碰
+        // WebDAV/本地音频的 PROXIED/LOCAL 语义，零回归。
         ref.url?.takeIf { it.startsWith("http", ignoreCase = true) }?.let { return Link(url = it) }
-        throw CloudMusicError.DsUnreachable("数据源尚未初始化，无法重建 Link")
+        val driver = DriverRegistry.get(ref.storageId)
+            ?: throw CloudMusicError.DsUnreachable(
+                "数据源尚未初始化，无法重建 Link（storageId=${ref.storageId}；音源可能已删除）",
+            )
+        val obj = driver.get(ref.path)
+            ?: Obj(name = ref.path.substringAfterLast('/'), path = ref.path)
+        return driver.link(obj)
     }
 }
 

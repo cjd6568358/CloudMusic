@@ -206,7 +206,12 @@ class PlayerController(
         // isPlaying → 旧路径无声空转、MediaSession/UI 假报 PLAYING（§61.25 修的是
         // 「句柄已释放」分支，本条补「句柄还在但引擎已完」同族缺口）。标准行为不变：
         // 从头重播当前曲（重建句柄走完整 prepare，playAt 内部再过网络闸门）。
-        if (_state.value.phase == PlayerPhase.ENDED) {
+        // §61.252（P0 修复）：ERROR 相位的播放指令 = 重建当前曲（与 ENDED 同语义）。
+        // 此前 ERROR 相位 resume() 直落 engine.play(陈旧句柄)——Media3 在 STATE_IDLE
+        // （错误后）不重prepare，用户点播放是死按钮（真机一手：冷启动时服务器不可达
+        // → restore 失败落 ERROR → 点播放永远无声）。典型场景：车库里网络未恢复/
+        // 直链过期后回网，点播放应当重试而不是永远沉默。
+        if (_state.value.phase == PlayerPhase.ENDED || _state.value.phase == PlayerPhase.ERROR) {
             restartCurrentIfAny()
             return
         }
@@ -483,7 +488,12 @@ class PlayerController(
             return
         }
         prepareAt(index, autoPlay = false, seekTo = snapshot.positionMs)
-        _state.update { it.copy(phase = PlayerPhase.PAUSED, positionMs = snapshot.positionMs) }
+        // §61.252（P0 修复）：prepareAt 的源级失败（fail→ERROR）此前被本行无条件
+        // 覆盖成 PAUSED —— 恢复失败从来都被静默显示为「暂停」，用户无从知晓。
+        // ERROR 态保持原样（顶栏显示错误，PRD §6.1 不自动开播语义不变）。
+        if (_state.value.phase != PlayerPhase.ERROR) {
+            _state.update { it.copy(phase = PlayerPhase.PAUSED, positionMs = snapshot.positionMs) }
+        }
         // §61.27：兑现冷启动期间到达的播放意图。PRD §6.1「不自动开播」约束的是
         // 无用户指令的 restore；只有 ACTION_PLAY / 媒体键才会置位 pendingPlay。
         // prepareAt 已建立 handle，resume() 经门面实现下发 play（B2 = Media3EngineAdapter，
@@ -521,7 +531,7 @@ class PlayerController(
         }
         val track = lookup.get(item.trackId)
         if (track == null) {
-            fail(CloudMusicError.DsNotFound(item.trackId.value))
+            failAndMaybeSkip(CloudMusicError.DsNotFound(item.trackId.value), autoPlay)
             return
         }
         // §61.224：分轨包络随曲更新（整轨恒 0，零行为变化）。
@@ -532,7 +542,13 @@ class PlayerController(
         val link = try {
             resolver.resolve(track)
         } catch (e: Exception) {
-            fail(if (e is CloudMusicError) e else CloudMusicError.DsUpstream("RESOLVE", e.message ?: "解析失败"))
+            // §61.252（P0 修复）：源级失败（驱动缺失/条目不可读）与引擎错误同语义 ——
+            // autoPlay 且 autoSkipOnError 时跳下一曲。此前静默停在坏轨（跳链死亡），
+            // 用户看到「整条队列播不了」（真机一手：孤儿 SFTP 轨卡死恢复链）。
+            failAndMaybeSkip(
+                if (e is CloudMusicError) e else CloudMusicError.DsUpstream("RESOLVE", e.message ?: "解析失败"),
+                autoPlay,
+            )
             return
         }
         currentNetworkSource = link.kind != Link.Kind.LOCAL
@@ -545,7 +561,7 @@ class PlayerController(
         val source = try {
             engineSourceOf(track, link)
         } catch (e: IllegalArgumentException) {
-            fail(CloudMusicError.DsInvalidConfig(e.message ?: "音源形态非法"))
+            failAndMaybeSkip(CloudMusicError.DsInvalidConfig(e.message ?: "音源形态非法"), autoPlay)
             return
         }
 
@@ -571,6 +587,7 @@ class PlayerController(
             // §61.120（T5-2 前置）：曲库分析增益兜底（容器标签缺失时生效）。
             trackGainDb = track.replayGainDb,
         )
+        System.err.println("CM-Player|prepareAt: index=$index track=${track.title} src=${source.url ?: source.localPath} gapless=${queuedSources != null}")
         if (queuedSources != null) {
             handle = engine.prepareQueue(queuedSources, index, engineConfig)
             queueMode = true
@@ -696,7 +713,14 @@ class PlayerController(
         com.example.cloudmusic.model.AudioFormats.mimeOfName(link.localPath ?: link.url)
 
     private fun fail(error: CloudMusicError) {
+        System.err.println("CM-Player|fail: $error")
         _state.update { it.copy(phase = PlayerPhase.ERROR, lastError = error) }
+    }
+
+    /** §61.252：fail + 源级自动跳曲（autoPlay 且 autoSkipOnError；restore 不跳——PRD §6.1）。 */
+    private suspend fun failAndMaybeSkip(error: CloudMusicError, autoPlay: Boolean) {
+        fail(error)
+        if (autoPlay && config.autoSkipOnError) next()
     }
 
     private inner class HandleAdapter : PlayerControllerHandle {

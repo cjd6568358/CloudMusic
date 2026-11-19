@@ -351,14 +351,16 @@ class PlayerControllerTest {
     }
 
     @Test
-    @DisplayName("16 §3.2 · PROXIED 无回环 URL 时进入 ERROR，不静默播放")
+    @DisplayName("16 §3.2 · PROXIED 无回环 URL 不静默播放（§61.252：源级失败同 autoSkip——全队耗尽收束 ENDED）")
     fun proxiedNeedsLoopbackUrl() = runTest {
         val broken = TrackSourceResolver { Link(proxy = true) }
         val f = fixture(resolver = broken, scope = backgroundScope)
         f.queue()
         f.controller.playAt(0)
         val s = f.controller.state.value
-        assertEquals(PlayerPhase.ERROR, s.phase)
+        // §61.252 口径演进：源级失败与引擎错误同语义（autoSkipOnError）——5 轨全坏
+        // → 逐曲 fail → 队列耗尽 ENDED（不静默播放语义不变；lastError 供 UI 显示）。
+        assertEquals(PlayerPhase.ENDED, s.phase)
         assertNotNull(s.lastError)
     }
 
@@ -809,6 +811,46 @@ class PlayerControllerTest {
         advanceTimeBy(2_100)
         runCurrent()
         assertEquals(15_000L, f.media.snapshot().playback?.positionMs, "ticker 2s 同步链相对位置")
+    }
+
+    @Test
+    @DisplayName("§61.252 · 源级失败（resolver 抛错）→ autoSkip 下一曲；恢复（autoPlay=false）不跳")
+    fun resolverFailureSkipsOnAutoplay() = runTest {
+        // 轨 1 resolver 抛错（孤儿源），轨 2 正常
+        val t1 = track(1)
+        val t2 = track(2)
+        val throwingResolver = TrackSourceResolver { t ->
+            if (t.id.value == "id-1") throw com.example.cloudmusic.common.CloudMusicError.DsUnreachable(
+                "数据源尚未初始化，无法重建 Link",
+            ) else Link(localPath = "/music/${t.id.value}.flac", localSize = t.durationMs)
+        }
+        val f = fixture(scope = backgroundScope, lookupTracks = listOf(t1, t2), resolver = throwingResolver)
+        f.repo.setAll(listOf(t1, t2))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        // autoPlay=true：轨 1 fail → 自动跳轨 2 正常播放
+        f.controller.playAt(0)
+        assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase, "轨 2 接棒播放")
+        assertEquals("id-2", f.controller.state.value.currentTrackId?.value, "autoSkip 落到下一曲")
+    }
+
+    @Test
+    @DisplayName("§61.252 · restore（autoPlay=false）源级失败 → 停在错误轨不跳（PRD §6.1）")
+    fun resolverFailureStopsOnRestore() = runTest {
+        val t1 = track(1)
+        val f = fixture(
+            scope = backgroundScope, lookupTracks = listOf(t1),
+            resolver = TrackSourceResolver { _ ->
+                throw com.example.cloudmusic.common.CloudMusicError.DsUnreachable(
+                    "数据源尚未初始化，无法重建 Link",
+                )
+            },
+        )
+        f.repo.setAll(listOf(t1))
+        f.repo.saveCursor(t1.id.value, 0L)
+        f.controller.restore(f.repo.restore()!!, f.repo.snapshotItems())
+        assertEquals(PlayerPhase.ERROR, f.controller.state.value.phase, "恢复失败落 ERROR")
+        assertEquals("id-1", f.controller.state.value.currentTrackId?.value, "不跳轨")
+        assertTrue(f.controller.state.value.lastError != null, "lastError 供 UI 显示")
     }
 
     @Test

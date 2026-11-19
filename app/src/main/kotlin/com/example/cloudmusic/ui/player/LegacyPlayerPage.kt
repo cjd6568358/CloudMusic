@@ -215,10 +215,14 @@ fun LegacyPlayerPage(
                     rotateDegrees = 270f,
                     onClick = onClose,
                 )
+                // §61.252：播放失败可见性——lastError 在顶栏原位显示（零布局位移；
+                // 像素基准区不动，错误消失即恢复「本地播放 · 顺序」）。
+                val topLabel = state.lastError?.message ?: "本地播放 · ${modeLabel(mode)}"
                 Text(
-                    text = "本地播放 · ${modeLabel(mode)}",
+                    text = topLabel,
                     fontSize = PlayerBaseline.TopBarTitleSp.sp,
-                    color = Color(LegacyPalette.TextSecondary),
+                    color = if (state.lastError != null) Color(LegacyPalette.AccentRed)
+                    else Color(LegacyPalette.TextSecondary),
                     textAlign = TextAlign.Center,
                     maxLines = 1,
                     modifier = Modifier.weight(1f),

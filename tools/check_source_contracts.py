@@ -7292,6 +7292,43 @@ def main() -> int:
     else:
         print("[PASS] §61.250 哈希记忆累进（限数逐次推进 + 命中复用 + 失败重试）")
 
+    # §61.252（P0 修复）：STRM/歌单无法播放四层 —— url 直链优先 + 源级失败跳链 +
+    # ERROR 相位重试 + 恢复失败可见性。
+    _cast = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                        / "example" / "cloudmusic" / "di" / "adapters" / "CastComposition.kt")
+                       .read_text(encoding="utf-8", errors="replace"))
+    _pc252 = _code_only((ROOT / "feature-player" / "src" / "main" / "kotlin" / "com"
+                         / "example" / "cloudmusic" / "player" / "PlayerController.kt")
+                        .read_text(encoding="utf-8", errors="replace"))
+    _lpp252 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
+                          / "example" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt")
+                         .read_text(encoding="utf-8", errors="replace"))
+    _c252_bad = []
+    _url_first_idx = _cast.find('ref.url?.takeIf { it.startsWith("http", ignoreCase = true) }?.let { return Link(url = it) }')
+    _drv_idx = _cast.find("val driver = DriverRegistry.get(ref.storageId)")
+    if _url_first_idx < 0 or _drv_idx < 0 or _url_first_idx > _drv_idx:
+        _c252_bad.append("url 直链优先未置于 driver 分支之前（设计缺陷回归）")
+    if "音源可能已删除" not in _cast:
+        _c252_bad.append("孤儿源 DsUnreachable 增强信息缺失")
+    if "private suspend fun failAndMaybeSkip" not in _pc252 \
+            or _pc252.count("failAndMaybeSkip(") < 4:
+        _c252_bad.append("源级失败跳链接线缺失（三处 fail 调用点）")
+    if "phase == PlayerPhase.ENDED || _state.value.phase == PlayerPhase.ERROR" not in _pc252:
+        _c252_bad.append("ERROR 相位播放重试缺失（死按钮）")
+    if "if (_state.value.phase != PlayerPhase.ERROR) {" not in _pc252:
+        _c252_bad.append("restore 尾部 ERROR 覆盖防护缺失")
+    if "state.lastError?.message" not in _lpp252:
+        _c252_bad.append("播放页错误可见性缺失")
+    if _c252_bad:
+        failures.append("§61.252 STRM 播放四层修复：%s" % "；".join(_c252_bad))
+    else:
+        print("[PASS] §61.252 STRM/歌单播放四层修复（url 优先 + 跳链 + ERROR 重试 + 错误可见）")
+
+    if _c250_bad:
+        failures.append("§61.250 哈希记忆累进：%s" % "；".join(_c250_bad))
+    else:
+        print("[PASS] §61.250 哈希记忆累进（限数逐次推进 + 命中复用 + 失败重试）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
