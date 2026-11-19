@@ -25,9 +25,20 @@ data class FtpEntry(
     val modified: Long,
 )
 
+/** §61.243（V0.3 M4）：连接结果细分——重连策略据此区分「认证失败不重试」与「网络错误退避重试」。 */
+enum class FtpConnectResult { OK, AUTH_FAILED, NETWORK_ERROR }
+
 interface FtpClientPort {
     /** 建连 + 认证（PASV + binary）；失败返回 false（驱动抛 DsUpstream，不静默降级空曲库）。 */
     suspend fun connect(): Boolean
+
+    /**
+     * §61.243：连接结果细分。默认实现回落布尔口径（false 归 NETWORK_ERROR——
+     * 生产端口覆写以区分认证失败；不覆写时重连策略最多多试几轮，语义保守不破坏）。
+     */
+    suspend fun connectDetailed(): FtpConnectResult =
+        if (connect()) FtpConnectResult.OK else FtpConnectResult.NETWORK_ERROR
+
     suspend fun list(path: String): List<FtpEntry>
     suspend fun stat(path: String): FtpEntry?
     /** 读 [offset, offset+length)（REST 命令）；到达文件尾返回空数组，失败返回 null。 */

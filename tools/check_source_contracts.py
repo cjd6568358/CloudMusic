@@ -7164,6 +7164,34 @@ def main() -> int:
     else:
         print("[PASS] §61.242 逐字歌词（增强 LRC 词级时间轴 + activeWord + 面板高亮）")
 
+    # §61.243 FTP 断线重连退避（V0.3 M4）：结果细分 + 策略/装饰器 + 生产端口异常传播。
+    _fp = _code_only((ROOT / "datasource-ftp" / "src" / "main" / "kotlin" / "com"
+                      / "example" / "cloudmusic" / "ftp" / "FtpPorts.kt")
+                     .read_text(encoding="utf-8", errors="replace"))
+    _fr = _code_only((ROOT / "datasource-ftp" / "src" / "main" / "kotlin" / "com"
+                      / "example" / "cloudmusic" / "ftp" / "FtpReconnect.kt")
+                     .read_text(encoding="utf-8", errors="replace"))
+    _cn = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                      / "example" / "cloudmusic" / "di" / "adapters" / "CommonsNetFtpPort.kt")
+                     .read_text(encoding="utf-8", errors="replace"))
+    _c243_bad = []
+    if "enum class FtpConnectResult { OK, AUTH_FAILED, NETWORK_ERROR }" not in _fp             or "suspend fun connectDetailed(): FtpConnectResult" not in _fp:
+        _c243_bad.append("连接结果细分契约缺失")
+    if "object FtpReconnectPolicy" not in _fr or "fun delayMs(attempt: Int): Long" not in _fr:
+        _c243_bad.append("退避策略缺失")
+    if "class ReconnectingFtpClientPort" not in _fr             or "catch (ce: kotlinx.coroutines.CancellationException)" not in _fr:
+        _c243_bad.append("重连装饰器缺失（或取消透传缺失）")
+    if "FtpConnectResult.AUTH_FAILED -> return fallback" not in _fr:
+        _c243_bad.append("认证失败不重试口径缺失")
+    if "ReconnectingFtpClientPort(CommonsNetFtpPort(config))" not in _cn:
+        _c243_bad.append("生产工厂未包装饰器")
+    if "FtpConnectResult.AUTH_FAILED" not in _cn or _cn.count("getOrElse { throw it }") < 3:
+        _c243_bad.append("生产端口细分/异常传播缺失（服务器语义 null 不传播）")
+    if _c243_bad:
+        failures.append("§61.243 FTP 断线重连退避：%s" % "；".join(_c243_bad))
+    else:
+        print("[PASS] §61.243 FTP 断线重连退避（细分契约 + 指数退避装饰器 + 生产端口传播）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

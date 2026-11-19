@@ -3,7 +3,9 @@ package com.example.cloudmusic.di.adapters
 import com.example.cloudmusic.ftp.FtpClientFactory
 import com.example.cloudmusic.ftp.FtpClientPort
 import com.example.cloudmusic.ftp.FtpConfig
+import com.example.cloudmusic.ftp.FtpConnectResult
 import com.example.cloudmusic.ftp.FtpEntry
+import com.example.cloudmusic.ftp.ReconnectingFtpClientPort
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -23,7 +25,9 @@ import java.io.File
  * - 凭据只在 FTPClient 内存，不写日志（07 §8）。
  */
 class CommonsNetFtpClientFactory : FtpClientFactory {
-    override fun create(config: FtpConfig): FtpClientPort = CommonsNetFtpPort(config)
+    /** §61.243：生产端口包断线自愈装饰器（传输异常退避重连；服务器语义原样透传）。 */
+    override fun create(config: FtpConfig): FtpClientPort =
+        ReconnectingFtpClientPort(CommonsNetFtpPort(config))
 }
 
 private class CommonsNetFtpPort(private val config: FtpConfig) : FtpClientPort {
@@ -31,7 +35,11 @@ private class CommonsNetFtpPort(private val config: FtpConfig) : FtpClientPort {
     private val mutex = Mutex()
     private var client: FTPClient? = null
 
-    override suspend fun connect(): Boolean = withContext(Dispatchers.IO) {
+    override suspend fun connect(): Boolean =
+        connectDetailed() == FtpConnectResult.OK
+
+    /** §61.243：结果细分——登录失败=认证错（重连策略不重试）；连接/握手失败=网络错。 */
+    override suspend fun connectDetailed(): FtpConnectResult = withContext(Dispatchers.IO) {
         runCatching {
             // §61.235：ssl=true 走 FTPSClient（显式 TLS，AUTH TLS → PBSZ → PROT）；false = 明文。
             val c = if (config.ssl) org.apache.commons.net.ftp.FTPSClient(true) else FTPClient()
@@ -40,26 +48,29 @@ private class CommonsNetFtpPort(private val config: FtpConfig) : FtpClientPort {
             c.connect(config.host, config.port)
             if (!FTPReply.isPositiveCompletion(c.replyCode)) {
                 c.disconnect()
-                return@runCatching false
+                return@runCatching FtpConnectResult.NETWORK_ERROR
             }
             if (!c.login(config.username, config.password)) {
                 c.disconnect()
-                return@runCatching false
+                return@runCatching FtpConnectResult.AUTH_FAILED
             }
             c.enterLocalPassiveMode()
             c.setFileType(FTP.BINARY_FILE_TYPE)
             c.setConnectTimeout(CONNECT_TIMEOUT_MS)
             c.setDataTimeout(DATA_TIMEOUT_MS)
             client = c
-            true
-        }.getOrElse { false }
+            FtpConnectResult.OK
+        }.getOrElse { FtpConnectResult.NETWORK_ERROR }
     }
 
     override suspend fun list(path: String): List<FtpEntry> = withContext(Dispatchers.IO) {
         mutex.withLock {
             val c = client ?: return@withLock emptyList()
+            // §61.243：传输异常（IOException）**传播**给装饰器重连；listFiles 返回 null =
+            // 服务器 550 语义（路径不存在）→ 空表，两者不再混淆。
             runCatching {
-                c.listFiles(path).mapNotNull { f ->
+                val files = c.listFiles(path) ?: return@runCatching emptyList<FtpEntry>()
+                files.mapNotNull { f ->
                     val name = f.name
                     if (name == "." || name == "..") null
                     else FtpEntry(
@@ -70,13 +81,14 @@ private class CommonsNetFtpPort(private val config: FtpConfig) : FtpClientPort {
                         modified = f.timestamp?.time?.time ?: 0L,
                     )
                 }
-            }.getOrDefault(emptyList())
+            }.getOrElse { throw it }
         }
     }
 
     override suspend fun stat(path: String): FtpEntry? = withContext(Dispatchers.IO) {
         mutex.withLock {
             val c = client ?: return@withLock null
+            // §61.243：传输异常传播；null（路径不存在 / 无条目）= 服务器语义保持。
             runCatching {
                 // FTP 无独立 stat 命令口径的通用实现——listFiles 单项（服务器支持 MDTM/SIZE
                 // 时 commons-net 走精确命令；否则落 LIST 解析）。
@@ -89,7 +101,7 @@ private class CommonsNetFtpPort(private val config: FtpConfig) : FtpClientPort {
                         modified = f.timestamp?.time?.time ?: 0L,
                     )
                 }
-            }.getOrNull()
+            }.getOrElse { throw it }
         }
     }
 
@@ -98,6 +110,8 @@ private class CommonsNetFtpPort(private val config: FtpConfig) : FtpClientPort {
             mutex.withLock {
                 val c = client ?: return@withLock null
                 if (offset < 0 || length <= 0) return@withLock null
+                // §61.243：传输异常传播（装饰器重连）；null（completePendingCommand false /
+                // 流为空）= 服务器语义保持。
                 runCatching {
                     c.setRestartOffset(offset)
                     c.retrieveFileStream(path)?.use { stream ->
@@ -106,7 +120,7 @@ private class CommonsNetFtpPort(private val config: FtpConfig) : FtpClientPort {
                         if (!c.completePendingCommand()) return@withLock null
                         data
                     }
-                }.getOrElse { null }
+                }.getOrElse { throw it }
             }
         }
 
