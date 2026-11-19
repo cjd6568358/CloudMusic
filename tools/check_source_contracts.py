@@ -7376,6 +7376,22 @@ def main() -> int:
     else:
         print("[PASS] §61.254 m3u 歌单页命名实体（扫描导入 + 幂等 upsert 全链）")
 
+    # §61.255：孤儿源 sweep（扫描期 UNREACHABLE，PRD §4 灰显不删除）。
+    _ports255 = _code_only((ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
+                            / "example" / "cloudmusic" / "scanner" / "ScanPorts.kt")
+                           .read_text(encoding="utf-8", errors="replace"))
+    _c255_bad = []
+    if "suspend fun trackedStorageIds(): Set<String> = emptySet()" not in _ports255             or "suspend fun trackIdsByStorage(storageId: String): List<com.example.cloudmusic.model.TrackId> = emptyList()" not in _ports255:
+        _c255_bad.append("TrackSink 扩展两口缺失")
+    if "E_SCAN_ORPHAN_SOURCE" not in _coord_src or "trackSink.trackedStorageIds().filter { it !in allActive }" not in _coord_src:
+        _c255_bad.append("协调器 sweep 缺失（全量 active 口径）")
+    if "override suspend fun trackedStorageIds(): Set<String>" not in _scancomp_src:
+        _c255_bad.append("RoomTrackSink 投影缺失")
+    if _c255_bad:
+        failures.append("§61.255 孤儿源 sweep：%s" % "；".join(_c255_bad))
+    else:
+        print("[PASS] §61.255 孤儿源 sweep（TrackSink 投影 + 全量 active 口径 + 错误可见）")
+
     if _c250_bad:
         failures.append("§61.250 哈希记忆累进：%s" % "；".join(_c250_bad))
     else:

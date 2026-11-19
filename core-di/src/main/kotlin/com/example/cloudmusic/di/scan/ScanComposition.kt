@@ -197,6 +197,22 @@ class RoomTrackSink(
                 .map { it.sourceRef.path }
                 .toSet()
         }.getOrNull()
+
+    /** §61.255：曲库中有轨道的 storageId 集合（孤儿源 sweep 输入）。 */
+    override suspend fun trackedStorageIds(): Set<String> =
+        runCatching {
+            tracks.observeAll().first().map { it.sourceRef.storageId }.toSet()
+        }.getOrDefault(emptySet())
+
+    /** §61.255：指定 storage 的全部轨道 id（孤儿源标记对象）。 */
+    override suspend fun trackIdsByStorage(storageId: String): List<com.example.cloudmusic.model.TrackId> =
+        runCatching {
+            tracks.observeAll().first()
+                .asSequence()
+                .filter { it.sourceRef.storageId == storageId }
+                .map { it.id }
+                .toList()
+        }.getOrDefault(emptyList())
 }
 
 @Module

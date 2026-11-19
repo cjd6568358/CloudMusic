@@ -122,6 +122,20 @@ class ScanCoordinator(
                         }
                     }.awaitAll()
                 }
+                // §61.255：孤儿源 sweep——曲库里存在、但已不在 active 源清单的轨道
+                // 标 UNREACHABLE（DataStore 手术/历史残留；PRD §4 灰显不删除）。
+                // 口径：按**全量 active**（非定向过滤后）判定，定向重扫不误标其它源。
+                runCatching {
+                    val allActive = storageProvider.active().map { it.id }.toSet()
+                    val orphans = trackSink.trackedStorageIds().filter { it !in allActive }
+                    for (sid in orphans) {
+                        val ids = trackSink.trackIdsByStorage(sid)
+                        if (ids.isNotEmpty()) {
+                            trackSink.markUnavailable(ids)
+                            state.error("", "E_SCAN_ORPHAN_SOURCE", "数据源已移除，${ids.size} 条轨道标记暂不可用: $sid")
+                        }
+                    }
+                }
                 state.report(cancelled = false, stageAFinished = true)
             } catch (e: CancellationException) {
                 emit(state.progress("", request, cancelled = true))

@@ -38,6 +38,17 @@ interface TrackSink {
      * **不能**用空集表达「不提供」：空集是真实现里的「库为空」。
      */
     suspend fun knownPaths(storageId: String): Set<String>? = null
+
+    /**
+     * §61.255：曲库中**有轨道**的 storageId 集合（孤儿源 sweep 输入）。
+     * 默认空集 → 既有 fake / 内存实现零回归；生产 `RoomTrackSink` 从曲库投影。
+     */
+    suspend fun trackedStorageIds(): Set<String> = emptySet()
+
+    /**
+     * §61.255：指定 storage 的全部轨道 id（孤儿源标记 UNREACHABLE 的对象）。
+     */
+    suspend fun trackIdsByStorage(storageId: String): List<com.example.cloudmusic.model.TrackId> = emptyList()
 }
 
 data class ScanSnapshot(
