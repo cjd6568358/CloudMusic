@@ -88,6 +88,11 @@ data class DuplicateReport(
     val groups: List<DuplicateGroup>,
     val confirmed: List<DuplicateGroup> = emptyList(),
     val candidates: Int = 0,
+    /** §61.248：本轮**成功**算出的候选数（≠累计——累计看 memoSize）。 */
     val hashedCount: Int = 0,
     val hashFailed: Int = 0,
+    /** §61.250：命中跨次记忆直接复用的候选数（零 IO）。 */
+    val memoHits: Int = 0,
+    /** §61.250：跨次指纹记忆累计条数（重跑推进进度，UI 展示用）。 */
+    val memoSize: Int = 0,
 )

@@ -106,4 +106,66 @@ class DuplicateHashTest {
         assertEquals(0, report.hashedCount)
         assertEquals(0, report.confirmed.size)
     }
+
+    // ------------------------------------------------------------------
+    // §61.250：跨次指纹记忆累进——限数逐次推进 + 命中零 IO 复用 + 失败不记忆重试
+    // ------------------------------------------------------------------
+
+    @Test
+    @DisplayName("§61.250 S4 · memo 累进：三次限数跑覆盖 6 候选；命中轮零 IO；确认组随累计升级")
+    fun memoProgression() = runTest {
+        val repo = InMemoryTrackRepository()
+        repo.upsertBatch(listOf(
+            track(1, "甲", path = "/1.flac"),
+            track(2, "甲", path = "/2.flac"),
+            track(3, "甲", path = "/3.flac", durationMs = 200_500L),
+            track(4, "甲", path = "/4.flac", durationMs = 201_000L),
+            track(5, "乙", path = "/5.flac"),
+            track(6, "乙", path = "/6.flac"),
+        ))
+        val hasher = ScriptedHasher((1..6).associate { "/$it.flac" to "h$it" })
+        val memo = HashMap<String, String>()
+        val session = DuplicateHashSession(repo, hasher)
+        // 轮 1：前 2 个
+        val r1 = session.detect(maxHashCount = 2, memo = memo)
+        assertEquals(2, r1.hashedCount); assertEquals(0, r1.memoHits); assertEquals(2, r1.memoSize)
+        assertEquals(0, r1.confirmed.size, "前 2 候选分属不同指纹 → 无确认")
+        // 轮 2：命中 2 + 新算 2
+        val r2 = session.detect(maxHashCount = 2, memo = memo)
+        assertEquals(2, r2.memoHits, "命中 memo 零 IO 复用")
+        assertEquals(2, r2.hashedCount)
+        assertEquals(4, r2.memoSize)
+        // 轮 3：全部覆盖，确认组升级（甲组 4 份同指纹？——h1~h4 各异 → 仍无确认；乙组 2 份 h5/h6 异）
+        val r3 = session.detect(maxHashCount = 2, memo = memo)
+        assertEquals(4, r3.memoHits)
+        assertEquals(6, r3.memoSize)
+        assertEquals(0, r3.confirmed.size, "指纹各异（fixture 设计）无确认组")
+        assertEquals(6, r3.candidates)
+        assertEquals(6, hasher.calls.size, "三轮合计恰好每个候选算一次")
+    }
+
+    @Test
+    @DisplayName("§61.250 S5 · 失败不记忆：下轮自动重试并升级确认组")
+    fun failureNotMemoizedRetried() = runTest {
+        val repo = InMemoryTrackRepository()
+        repo.upsertBatch(listOf(
+            track(1, "丙", path = "/1.flac"),
+            track(2, "丙", path = "/2.flac"),
+        ))
+        var healthy = false
+        val hasher = TrackContentHasher { track ->
+            if (!healthy) throw IllegalStateException("驱动未恢复")
+            "same-hash"
+        }
+        val memo = HashMap<String, String>()
+        val session = DuplicateHashSession(repo, hasher)
+        val r1 = session.detect(memo = memo)
+        assertEquals(2, r1.hashFailed, "轮 1 全失败")
+        assertEquals(0, r1.memoSize, "失败不记忆")
+        healthy = true   // 驱动恢复
+        val r2 = session.detect(memo = memo)
+        assertEquals(2, r2.hashedCount, "轮 2 重试成功")
+        assertEquals(1, r2.confirmed.size, "同指纹 → 确认组升级")
+        assertEquals(2, r2.confirmed[0].items.size)
+    }
 }

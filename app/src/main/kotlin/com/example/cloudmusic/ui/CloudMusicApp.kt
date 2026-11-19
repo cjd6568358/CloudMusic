@@ -2094,7 +2094,8 @@ private fun SettingsScreen(
                         else -> {
                             if (current.confirmed.isNotEmpty()) {
                                 Text(
-                                    "✓ 精确确认 ${current.confirmed.size} 组（内容 SHA-256 一致；已算 ${current.hashedCount}/${current.candidates} 个候选文件）",
+                                    "✓ 精确确认 ${current.confirmed.size} 组（内容 SHA-256 一致；指纹缓存 ${current.memoSize}/${current.candidates}" +
+                                        if (current.candidates > current.memoSize) "，再次检测继续推进剩余候选）" else "）",
                                     color = Comp.TextPrimary, fontSize = 13.sp,
                                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                                 )

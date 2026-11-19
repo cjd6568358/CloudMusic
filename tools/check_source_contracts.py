@@ -7243,7 +7243,7 @@ def main() -> int:
         _c248_bad.append("能力位守卫缺失（无 readBytes 驱动须跳过）")
     if "class DriverContentHasher" not in _pt:
         _c248_bad.append("生产哈希器缺失")
-    if "class DuplicateHashSession" not in _dsc or "DuplicateGrouper.groupByHash(hashedTracks) { hashes[it.id] }" not in _dsc             or "distinctBy { it.sourceRef.storageId to it.sourceRef.path }" not in _dsc:
+    if "class DuplicateHashSession" not in _dsc or "DuplicateGrouper.groupByHash(hashedTracks) { memo[memoKey(it)] }" not in _dsc             or "distinctBy { it.sourceRef.storageId to it.sourceRef.path }" not in _dsc:
         _c248_bad.append("确认会话缺失（限数/去重/确认分组）")
     if "DuplicateHashSession(" not in _pb247 or "maxHashCount = 50" not in _pb247:
         _c248_bad.append("runtime 未接确认趟（限数 50）")
@@ -7271,6 +7271,26 @@ def main() -> int:
         failures.append("§61.249 会话封面位图：%s" % "；".join(_c249_bad))
     else:
         print("[PASS] §61.249 会话封面位图（异步解码 + ALBUM_ART + 跨平台 ref 解析）")
+
+    # §61.250 哈希记忆累进：memo 参数 + 失败不记忆 + runtime 持有 + 面板进度。
+    if "memo: MutableMap<String, String> = HashMap()" not in _dsc             or "val pending = candidates.filter { memoKey(it) !in memo }" not in _dsc:
+        _c250_bad_memo = "会话 memo 累进口径缺失"
+    else:
+        _c250_bad_memo = None
+    _c250_bad = []
+    if _c250_bad_memo:
+        _c250_bad.append(_c250_bad_memo)
+    if "} else {\n                memo[memoKey(track)] = h\n            }" not in _dsc:
+        # 失败不记忆 = memo 写入仅在成功分支（_code_only 剥注释，判据锚代码本体）。
+        _c250_bad.append("失败不记忆口径缺失")
+    if "private val duplicateHashMemo =" not in _pb247             or "memo = duplicateHashMemo" not in _pb247             or "duplicateHashMemo.clear()" not in _pb247:
+        _c250_bad.append("runtime 持有/清空缺失")
+    if "再次检测继续推进剩余候选" not in _ui247:
+        _c250_bad.append("面板进度提示缺失")
+    if _c250_bad:
+        failures.append("§61.250 哈希记忆累进：%s" % "；".join(_c250_bad))
+    else:
+        print("[PASS] §61.250 哈希记忆累进（限数逐次推进 + 命中复用 + 失败重试）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

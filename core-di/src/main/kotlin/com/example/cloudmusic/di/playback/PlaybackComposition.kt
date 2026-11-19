@@ -933,6 +933,10 @@ class PlaybackRuntime @Inject constructor(
         }.onFailure { Log.w("CM-SCRAPER", "scrape 失败", it) }
     }
 
+    /** §61.250：跨次指纹记忆（key="storageId|path"）——限数逐次推进 + 命中零 IO 复用。 */
+    private val duplicateHashMemo =
+        java.util.concurrent.ConcurrentHashMap<String, String>()
+
     /** §61.247：重复曲目检测报告（null = 未检测；设置页触发后由 UI 消费展示）。 */
     private val _duplicateReport = kotlinx.coroutines.flow.MutableStateFlow<
         com.example.cloudmusic.model.DuplicateReport?>(null)
@@ -942,6 +946,7 @@ class PlaybackRuntime @Inject constructor(
     /** §61.247：关闭报告面板时清空（下次触发重算）。 */
     fun clearDuplicateReport() {
         _duplicateReport.value = null
+        duplicateHashMemo.clear()   // §61.250：面板关闭清记忆（下次触发从头推进）
     }
 
     /**
@@ -955,7 +960,9 @@ class PlaybackRuntime @Inject constructor(
                 tracks = tracks,
                 hasher = com.example.cloudmusic.di.scan.DriverContentHasher(),
             )
-            val report = session.detect(maxHashCount = 50)
+            // §61.250：跨次指纹记忆（runtime 持有，重跑推进剩余候选；换库全量重扫时
+            // 由调用方 clearDuplicateReport 清——记忆按 storageId|path 键，路径变化自然失效）。
+            val report = session.detect(maxHashCount = 50, memo = duplicateHashMemo)
             _duplicateReport.value = report
             Log.i("CM-DUP", "duplicate scan done: scanned=%d suspected=%d confirmed=%d hashed=%d failed=%d"
                 .format(report.scanned, report.groups.size, report.confirmed.size,
