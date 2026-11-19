@@ -46,6 +46,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -480,9 +481,11 @@ class PlaybackService : Service() {
         artist: String,
         album: String,
         durationMs: Long,
-        @Suppress("UNUSED_PARAMETER") coverPath: String?,
+        coverPath: String?,
     ) {
         val session = mediaSession ?: return
+        // §61.249：基础元数据立即写（标题/艺人/专辑/时长）；封面位图异步补写
+        //（decode 是 IO 成本，不在会话写口同步路径上阻塞）。失败不伪造（无封面态）。
         session.setMetadata(
             MediaMetadata.Builder()
                 .putString(MediaMetadata.METADATA_KEY_TITLE, title)
@@ -491,7 +494,58 @@ class PlaybackService : Service() {
                 .putLong(MediaMetadata.METADATA_KEY_DURATION, durationMs)
                 .build(),
         )
+        coverArtJob?.cancel()
+        coverArtJob = scope.launch {
+            val art = runCatching {
+                withContext(Dispatchers.IO) { decodeCoverArt(coverPath) }
+            }.getOrNull() ?: return@launch
+            // 会话可能已被销毁（异步窗口）——空判 + try 兜底。
+            runCatching {
+                mediaSession?.setMetadata(
+                    MediaMetadata.Builder()
+                        .putString(MediaMetadata.METADATA_KEY_TITLE, title)
+                        .putString(MediaMetadata.METADATA_KEY_ARTIST, artist)
+                        .putString(MediaMetadata.METADATA_KEY_ALBUM, album)
+                        .putLong(MediaMetadata.METADATA_KEY_DURATION, durationMs)
+                        .putBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART, art)
+                        .build(),
+                )
+            }
+        }
     }
+
+    /**
+     * §61.249：封面位图解码（IO 线程调用）——max edge ≤ [COVER_ART_MAX_EDGE] 的
+     * inSampleSize 采样（锁屏/AVRCP 显示足够，省内存）；文件/相对 cacheDir ref 可解，
+     * content:// 走 ContentResolver；解不出返回 null（无封面态，不伪造）。
+     */
+    private fun decodeCoverArt(ref: String?): android.graphics.Bitmap? {
+        if (ref.isNullOrBlank()) return null
+        val bounds = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
+        if (ref.startsWith("content://")) {
+            android.graphics.BitmapFactory.decodeStream(
+                contentResolver.openInputStream(android.net.Uri.parse(ref)), null, bounds,
+            )
+        } else {
+            val file = coverArtFile(ref, cacheDir) ?: return null
+            android.graphics.BitmapFactory.decodeFile(file.absolutePath, bounds)
+        }
+        if (bounds.outWidth <= 0 || bounds.outHeight <= 0) return null
+        var sample = 1
+        while (maxOf(bounds.outWidth, bounds.outHeight) / (sample * 2) >= COVER_ART_MAX_EDGE) sample *= 2
+        val options = android.graphics.BitmapFactory.Options().apply { inSampleSize = sample }
+        return if (ref.startsWith("content://")) {
+            android.graphics.BitmapFactory.decodeStream(
+                contentResolver.openInputStream(android.net.Uri.parse(ref)), null, options,
+            )
+        } else {
+            val file = coverArtFile(ref, cacheDir) ?: return null
+            android.graphics.BitmapFactory.decodeFile(file.absolutePath, options)
+        }
+    }
+
+    /** §61.249：异步封面解码句柄（换曲取消上一张，防过期位图覆盖新元数据）。 */
+    private var coverArtJob: kotlinx.coroutines.Job? = null
 
     /** D-93（12 §33）：Activity 与 Service 注入同一 @Singleton PlaybackRuntime，无需 Binder。 */
     override fun onBind(intent: Intent?): IBinder? = null
@@ -653,6 +707,22 @@ class PlaybackService : Service() {
         const val CHANNEL_ID = "cloudmusic.playback"
         const val SESSION_TAG = "CloudMusic"
         const val NOTIFICATION_ID = 1001
+
+        /** §61.249：会话封面位图 max edge（锁屏/AVRCP 显示足够，内存可控）。 */
+        internal const val COVER_ART_MAX_EDGE: Int = 512
+
+        /**
+         * §61.249：封面 ref → 本地文件（纯函数可测）。绝对路径原样；相对路径锚
+         * cacheDir（§61.223 cacheDirPrefix 教训：相对 ref 必须显式锚定）；
+         * content:// / 空文件 / 不存在 = null（调用方走 ContentResolver 或无封面态）。
+         */
+        internal fun coverArtFile(ref: String?, cacheDir: java.io.File): java.io.File? {
+            if (ref.isNullOrBlank() || ref.startsWith("content://")) return null
+            // 跨平台绝对判断（File.isAbsolute 吃 Windows 盘符——startsWith("/") 会漏）。
+            val candidate = java.io.File(ref)
+            val file = if (candidate.isAbsolute) candidate else java.io.File(cacheDir, ref)
+            return file.takeIf { it.isFile }
+        }
         /** 12 §50：媒体按键兜底 / 通知动作的标准入口，由本应用内部组件转发。 */
         const val ACTION_PLAY = "com.example.cloudmusic.action.PLAY"
         const val ACTION_PAUSE = "com.example.cloudmusic.action.PAUSE"

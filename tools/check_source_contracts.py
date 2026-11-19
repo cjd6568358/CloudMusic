@@ -7254,6 +7254,24 @@ def main() -> int:
     else:
         print("[PASS] §61.248 A1 Tier1 确认趟（哈希端口 + 流式 + 会话限数 + 面板确认分区）")
 
+    # §61.249 会话封面位图（V3-M1 后续刀）：异步解码 + METADATA_KEY_ALBUM_ART + ref 纯函数。
+    _svc249 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
+                          / "example" / "cloudmusic" / "PlaybackService.kt")
+                         .read_text(encoding="utf-8", errors="replace"))
+    _c249_bad = []
+    if "putBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART, art)" not in _svc249:
+        _c249_bad.append("ALBUM_ART 位图写口缺失")
+    if "coverArtJob?.cancel()" not in _svc249 or "withContext(Dispatchers.IO) { decodeCoverArt(coverPath) }" not in _svc249:
+        _c249_bad.append("异步解码/换曲取消缺失")
+    if "internal fun coverArtFile(ref: String?, cacheDir: java.io.File): java.io.File?" not in _svc249:
+        _c249_bad.append("coverArtFile 纯函数缺失")
+    if "candidate.isAbsolute" not in _svc249:
+        _c249_bad.append("跨平台绝对判断缺失（startsWith("/") 漏盘符）")
+    if _c249_bad:
+        failures.append("§61.249 会话封面位图：%s" % "；".join(_c249_bad))
+    else:
+        print("[PASS] §61.249 会话封面位图（异步解码 + ALBUM_ART + 跨平台 ref 解析）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
