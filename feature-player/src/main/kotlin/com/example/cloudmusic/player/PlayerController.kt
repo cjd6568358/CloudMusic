@@ -10,6 +10,7 @@ import com.example.cloudmusic.engine.api.EngineState
 import com.example.cloudmusic.engine.api.IMusicEngine
 import com.example.cloudmusic.media.IMediaControl
 import com.example.cloudmusic.media.PlayerControllerHandle
+import com.example.cloudmusic.model.CueEnvelope
 import com.example.cloudmusic.model.Link
 import com.example.cloudmusic.model.Track
 import com.example.cloudmusic.model.TrackId
@@ -186,7 +187,8 @@ class PlayerController(
             val pos = engine.positionMs(h)
             val dur = syncEngineDuration(h)
             _state.update { it.copy(phase = PlayerPhase.PAUSED, positionMs = pos) }
-            media?.setPlaybackState(EngineState.PAUSED, pos, dur)
+            // §61.239：会话快照分轨相对化（口径同 §61.226 UI 三口）。
+            media?.setPlaybackState(EngineState.PAUSED, sessionPosition(pos), sessionDuration(dur))
             // §61.182：暂停点落游标（恢复链写侧：切歌 / 暂停 / 每 5s 三口之一）。
             _state.value.currentTrackId?.let { persistCursor(it, pos) }
         }.onFailure {
@@ -228,7 +230,8 @@ class PlayerController(
         _state.update { it.copy(phase = PlayerPhase.PLAYING) }
         val dur = syncEngineDuration(h)
         startPositionTicker()
-        media?.setPlaybackState(EngineState.PLAYING, engine.positionMs(h), dur)
+        // §61.239：会话快照分轨相对化。
+        media?.setPlaybackState(EngineState.PLAYING, sessionPosition(engine.positionMs(h)), sessionDuration(dur))
     }
 
     /** §61.114：位置节拍器句柄。 */
@@ -298,7 +301,8 @@ class PlayerController(
                             return@launch
                         }
                         if (tick % 4 == 0) {
-                            media?.setPlaybackState(EngineState.PLAYING, pos, dur)
+                            // §61.239：会话快照分轨相对化（§61.115 每 2s 同步链口径统一）。
+                            media?.setPlaybackState(EngineState.PLAYING, sessionPosition(pos), sessionDuration(dur))
                         }
                         // §61.182：每 5s（10 tick）落游标（与 pause / 切歌共同保
                         // playback_state 常在，冷启动恢复才有输入）。
@@ -367,6 +371,16 @@ class PlayerController(
         cueEndMs > 0 && ms >= cueEndMs -> cueStartMs
         else -> ms
     }
+
+    /**
+     * §61.239：会话快照分轨相对化两口——口径 = [CueEnvelope]（core-model 唯一真值，
+     * 与 §61.226 UI 三口同源）。整轨恒原样，零行为变化。
+     */
+    private fun sessionPosition(posMs: Long): Long =
+        CueEnvelope.displayPosition(posMs, cueStartMs)
+
+    private fun sessionDuration(durMs: Long): Long =
+        CueEnvelope.displayDuration(durMs, cueStartMs, cueEndMs)
 
     /** §61.230：fade-in——起播音量 0 → 1 线性 ramp（50ms 步进，与 focus duck 的
      *  竞争边缘场景如实登记）。未启用直接跳过（volume 保持 1f）。 */
@@ -594,15 +608,19 @@ class PlayerController(
         // §61.185：媒体会话元数据时长同源真值——publishMetadata 直接用曲库值，STRM 恒 0
         // ⇒ 通知栏进度条比例错（播放页/PlaybackState 已由 §61.181 修，本处补最后一环）。
         // 引擎未解出（0）时回退曲库值；零契约变更（Track 副本，门面签名不动）。
+        // §61.239：分轨曲目元数据时长用包络长（与快照/播放页口径统一）。
+        val resolvedDur = if (engineDur > 0) engineDur else track.durationMs
         media?.publishMetadata(
-            track.copy(durationMs = if (engineDur > 0) engineDur else track.durationMs),
+            track.copy(durationMs = CueEnvelope.displayDuration(resolvedDur, cueStartMs, cueEndMs)),
             track.coverRef,
         )
         media?.setPlaybackState(
             if (autoPlay) EngineState.PLAYING else EngineState.PAUSED,
-            effectiveSeek,
+            // §61.239：分轨新起播显示位置 = effectiveSeek - cueStart（整轨原样）。
+            sessionPosition(effectiveSeek),
             // §61.181：引擎真值优先，未解出（0）时兜底曲库元数据（本地有标签曲目瞬时正确）。
-            if (engineDur > 0) engineDur else track.durationMs,
+            // §61.239：分轨显示时长 = 包络长。
+            sessionDuration(resolvedDur),
         )
     }
 

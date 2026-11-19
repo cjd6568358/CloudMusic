@@ -770,4 +770,59 @@ class PlayerControllerTest {
         advanceTimeBy(2_000)
         assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase)
     }
+
+    // ------------------------------------------------------------------
+    // §61.239：会话快照分轨相对化——media 发布链与 §61.226 UI 口径统一（CueEnvelope 同源）
+    // ------------------------------------------------------------------
+
+    @Test
+    @DisplayName("§61.239 · 分轨 prepare：快照位置 = 起点相对 0、时长 = 包络长（metadata 同步）")
+    fun cueSessionSnapshotRelative() = runTest {
+        val t = cueTrack(1, 30_000L, 60_000L)
+        val f = fixture(scope = backgroundScope, lookupTracks = listOf(t))
+        f.repo.setAll(listOf(t))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        val snap = f.media.snapshot().playback
+        assertNotNull(snap)
+        assertEquals(0L, snap.positionMs, "分轨新起播显示位置 = 30_000-30_000 = 0")
+        assertEquals(30_000L, snap.durationMs, "分轨显示时长 = 包络长 60_000-30_000")
+        assertEquals(30_000L, f.media.snapshot().metadata?.durationMs, "metadata 时长同口径（包络长）")
+    }
+
+    @Test
+    @DisplayName("§61.239 · 分轨 pause/resume/ticker 三口全相对化")
+    fun cueSessionPauseResumeRelative() = runTest {
+        val t = cueTrack(1, 30_000L, 60_000L)
+        val f = fixture(scope = backgroundScope, lookupTracks = listOf(t), positionOverride = 45_000L)
+        f.repo.setAll(listOf(t))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        f.controller.pause()
+        assertEquals(15_000L, f.media.snapshot().playback?.positionMs, "pause：absolute 45_000（劫持恒值）- cueStart 30_000 = 15_000")
+        f.controller.resume()
+        val snap = f.media.snapshot().playback
+        assertEquals(EngineState.PLAYING, snap?.state)
+        assertEquals(15_000L, snap?.positionMs, "resume：absolute 45_000 - cueStart 30_000 = 15_000")
+        assertEquals(30_000L, snap?.durationMs, "resume：包络长")
+        // §61.115 每 2s 同步链（tick%4==0）同样相对化
+        advanceTimeBy(2_100)
+        runCurrent()
+        assertEquals(15_000L, f.media.snapshot().playback?.positionMs, "ticker 2s 同步链相对位置")
+    }
+
+    @Test
+    @DisplayName("§61.239 · 整轨快照零行为变化（位置/时长原样）")
+    fun wholeTrackSessionUnchanged() = runTest {
+        val t = track(1)
+        val f = fixture(scope = backgroundScope, lookupTracks = listOf(t), positionOverride = 42_000L)
+        f.repo.setAll(listOf(t))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        f.controller.pause()
+        val snap = f.media.snapshot().playback
+        assertEquals(42_000L, snap?.positionMs, "整轨位置原样")
+        assertEquals(100_000L, snap?.durationMs, "整轨时长原样（曲库元数据）")
+        assertEquals(100_000L, f.media.snapshot().metadata?.durationMs, "整轨 metadata 时长原样")
+    }
 }

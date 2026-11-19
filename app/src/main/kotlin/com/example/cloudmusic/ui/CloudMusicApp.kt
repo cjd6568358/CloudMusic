@@ -1146,7 +1146,9 @@ private fun SftpDialog(
                 CompDialogInput(user, { user = it }, hint = "用户名")
                 CompDialogInput(pass, { pass = it }, hint = "密码 / 口令", password = true)
                 CompDialogInput(root, { root = it }, hint = "远程根目录（默认 /）")
-                CompDialogInput(privateKey, { privateKey = it }, hint = "PEM 私钥（可与密码二选一，换行用 \\n）", password = true)
+                // §61.239：Ed25519 边界一手文案（§61.223 判读登记收口）——Android 无
+                // Ed25519 JCE provider，JSch 本地 Auth fail，推荐 RSA/EC 私钥口径。
+                CompDialogInput(privateKey, { privateKey = it }, hint = "PEM 私钥（可与密码二选一，换行用 \\n；推荐 RSA/EC）", password = true)
                 CompDialogInput(passphrase, { passphrase = it }, hint = "私钥口令（可空）", password = true)
                 if (error != null) {
                     Text(

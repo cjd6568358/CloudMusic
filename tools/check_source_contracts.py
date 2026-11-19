@@ -6798,6 +6798,9 @@ def main() -> int:
         print("[PASS] §61.225 SFTP 扫描期全量下载修复（分块驱动不走 link()）")
 
     # §61.226 CUE 分轨 UI 相对时间映射：bridge 三口纯函数 + currentTrackCached 注入。
+    # §61.239 口径演进：三口实现体下沉 core-model CueEnvelope（唯一真值），
+    # bridge 改为委托——守护改验「委托指向 CueEnvelope + CueEnvelope 本体在位」，
+    # onSeek 注入 currentTrackCached 判据不变（契约本意不变，实现真值源单化随批留痕）。
     _psb = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
                        / "cloudmusic" / "ui" / "player" / "PlayerStateBridge.kt")
                       .read_text(encoding="utf-8", errors="replace"))
@@ -6808,7 +6811,11 @@ def main() -> int:
         _cue_u_bad.append("displayPosition 纯函数缺失")
     if "internal fun absoluteSeek(displayMs: Long, t: Track?): Long" not in _psb:
         _cue_u_bad.append("absoluteSeek 纯函数缺失")
-    if "displayMs + (t?.cueStartMs ?: 0L)" not in _psb or "runtime.seekTo(absoluteSeek(ms, currentTrackCached))" not in _psb:
+    if "CueEnvelope.displayDuration(base, t)" not in _psb \
+            or "CueEnvelope.displayPosition(pos, t)" not in _psb \
+            or "CueEnvelope.absoluteSeek(displayMs, t)" not in _psb:
+        _cue_u_bad.append("三口未委托 CueEnvelope（真值口径漂移）")
+    if "runtime.seekTo(absoluteSeek(ms, currentTrackCached))" not in _psb:
         _cue_u_bad.append("onSeek 反向换算未接 currentTrackCached")
     if "attachTrackCache(lifecycleScope)" not in _code_only(
             (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
@@ -6817,7 +6824,7 @@ def main() -> int:
     if _cue_u_bad:
         failures.append("§61.226 CUE UI 相对时间：%s" % "；".join(_cue_u_bad))
     else:
-        print("[PASS] §61.226 CUE UI 相对时间映射（三口纯函数 + 缓存生命周期）")
+        print("[PASS] §61.226 CUE UI 相对时间映射（三口委托 CueEnvelope + 缓存生命周期）")
 
     # §61.227 strm 相对路径：Relative 分支 + 扫描链展开 + 相对解析。
     _strm_src = _code_only((ROOT / "datasource-strm" / "src" / "main" / "kotlin" / "com"
@@ -7034,6 +7041,34 @@ def main() -> int:
     else:
         print("[PASS] §61.236 EQ 频段自适应（段数 = max(5, 自定义长度) + 数组化滑杆）")
         print("[PASS] §61.237 自然结束 fade-out（armed 协调 + ENDED 抑制 + seek 解除）")
+
+    # §61.239 会话快照分轨相对化：CueEnvelope 唯一真值 + PlayerController 四发布点接线
+    # + SftpDialog Ed25519 边界文案（§61.223 判读登记收口）。
+    _cue_env = _code_only((ROOT / "core-model" / "src" / "main" / "kotlin" / "com"
+                           / "example" / "cloudmusic" / "model" / "CueEnvelope.kt")
+                          .read_text(encoding="utf-8", errors="replace"))
+    _pc_src = _pc_fade_src
+    _sftp_dialog = _app_src5
+    _c239_bad = []
+    if "fun displayDuration(baseMs: Long, cueStartMs: Long, cueEndMs: Long): Long" not in _cue_env \
+            or "fun displayPosition(posMs: Long, cueStartMs: Long): Long" not in _cue_env \
+            or "fun absoluteSeek(displayMs: Long, cueStartMs: Long): Long" not in _cue_env:
+        _c239_bad.append("CueEnvelope 三口本体缺失")
+    _pub_count = _pc_src.count("media?.setPlaybackState(")
+    if _pub_count < 4:
+        _c239_bad.append("setPlaybackState 发布点少于 4（找不到 %d）" % _pub_count)
+    if "sessionPosition(effectiveSeek)" not in _pc_src or "sessionDuration(resolvedDur)" not in _pc_src:
+        _c239_bad.append("prepareAt 发布点未相对化")
+    if "media?.setPlaybackState(EngineState.PLAYING, sessionPosition(pos), sessionDuration(dur))" not in _pc_src:
+        _c239_bad.append("ticker 2s 同步链未相对化")
+    if "CueEnvelope.displayDuration(resolvedDur, cueStartMs, cueEndMs)" not in _pc_src:
+        _c239_bad.append("publishMetadata 包络长未接线")
+    if "推荐 RSA/EC" not in _sftp_dialog:
+        _c239_bad.append("SftpDialog Ed25519 边界文案缺失")
+    if _c239_bad:
+        failures.append("§61.239 会话快照相对化 + Ed25519 文案：%s" % "；".join(_c239_bad))
+    else:
+        print("[PASS] §61.239 会话快照分轨相对化（CueEnvelope 同源四发布点）+ Ed25519 边界文案")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

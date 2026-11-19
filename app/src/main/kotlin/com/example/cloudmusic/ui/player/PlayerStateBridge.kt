@@ -2,6 +2,7 @@ package com.example.cloudmusic.ui.player
 
 import com.example.cloudmusic.di.lyrics.OnlineLyricsFetcher
 import com.example.cloudmusic.di.playback.PlaybackRuntime
+import com.example.cloudmusic.model.CueEnvelope
 import com.example.cloudmusic.model.LrcParser
 import com.example.cloudmusic.model.Lyrics
 import com.example.cloudmusic.model.Track
@@ -204,21 +205,20 @@ class PlayerStateBridge(
     }
 
     companion object {
+        /**
+         * §61.226 三口 → §61.239 起委托 [CueEnvelope]（core-model 唯一真值口径，
+         * 会话快照侧同源）；签名与判据零变化。
+         */
         /** §61.226：分轨显示时长 = 包络长（end - start）；整轨 / 无界原样。 */
-        internal fun displayDuration(base: Long, t: Track?): Long {
-            val start = t?.cueStartMs ?: 0L
-            val end = t?.cueEndMs ?: 0L
-            return if (end > 0 && end <= base) end - start else base
-        }
+        internal fun displayDuration(base: Long, t: Track?): Long =
+            CueEnvelope.displayDuration(base, t)
 
         /** §61.226：分轨显示位置 = absolute - cueStart（0 起点）；整轨原样。 */
-        internal fun displayPosition(pos: Long, t: Track?): Long {
-            val cue = t?.cueStartMs ?: 0L
-            return if (cue > 0 && pos >= cue) pos - cue else pos
-        }
+        internal fun displayPosition(pos: Long, t: Track?): Long =
+            CueEnvelope.displayPosition(pos, t)
 
         /** §61.226：显示相对时间 → absolute（+cueStart）；引擎侧 clampToCue 双向兜底。 */
         internal fun absoluteSeek(displayMs: Long, t: Track?): Long =
-            displayMs + (t?.cueStartMs ?: 0L)
+            CueEnvelope.absoluteSeek(displayMs, t)
     }
 }
