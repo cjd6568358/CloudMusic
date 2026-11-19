@@ -7070,6 +7070,38 @@ def main() -> int:
     else:
         print("[PASS] §61.239 会话快照分轨相对化（CueEnvelope 同源四发布点）+ Ed25519 边界文案")
 
+    # §61.240 系统会话补全第一刀：SessionBridge 纯 JVM 桥 + 发布链直通 + 位保回退。
+    _sb = _code_only((ROOT / "core-media" / "src" / "main" / "kotlin" / "com"
+                      / "example" / "cloudmusic" / "media" / "SessionBridge.kt")
+                     .read_text(encoding="utf-8", errors="replace"))
+    _svc = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
+                       / "example" / "cloudmusic" / "PlaybackService.kt")
+                      .read_text(encoding="utf-8", errors="replace"))
+    _bind = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                        / "example" / "cloudmusic" / "di" / "AppBindings.kt")
+                       .read_text(encoding="utf-8", errors="replace"))
+    _c240_bad = []
+    if "fun interface SessionPlaybackWriter" not in _sb or "fun interface SessionMetadataWriter" not in _sb:
+        _c240_bad.append("SessionBridge 两写口缺失")
+    if "snapshot.state == EngineState.PLAYING" not in _sb:
+        _c240_bad.append("播放态判定缺失（不伪造播放口径）")
+    if "if (snapshot == null) return" not in _sb or "if (metadata == null) return" not in _sb:
+        _c240_bad.append("null 不写口径缺失")
+    if "lateinit var observableControl: ObservableMediaControl" not in _svc:
+        _c240_bad.append("PlaybackService 未注入发布链观察口")
+    if "sessionBridge.onPlayback(snap)" not in _svc or "sessionBridge.onMetadata(md)" not in _svc:
+        _c240_bad.append("发布链两流未接 SessionBridge")
+    if "METADATA_KEY_DURATION" not in _svc or "METADATA_KEY_TITLE" not in _svc:
+        _c240_bad.append("会话元数据字段缺失")
+    if "lastPublishedPosition = it" not in _svc or ".setState(state, lastPublishedPosition," not in _svc:
+        _c240_bad.append("回退链位保缺失（仍恒 0）")
+    if "fun provideObservableMediaControl(impl: IMediaControl): ObservableMediaControl =" not in _bind:
+        _c240_bad.append("DI 二口缺失（同实例观察面）")
+    if _c240_bad:
+        failures.append("§61.240 系统会话补全：%s" % "；".join(_c240_bad))
+    else:
+        print("[PASS] §61.240 系统会话补全第一刀（SessionBridge 直通 + 位保回退 + DI 二口）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

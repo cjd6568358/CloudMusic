@@ -21,6 +21,7 @@ import com.example.cloudmusic.engineopensource.Media3EngineAdapter
 // :engine-legacy 与 18 个 so 本批保留不移除（C5 默认假设）。
 import com.example.cloudmusic.media.IMediaControl
 import com.example.cloudmusic.media.InMemoryMediaControl
+import com.example.cloudmusic.media.ObservableMediaControl
 import com.example.cloudmusic.output.router.InMemoryOutputRouter
 import com.example.cloudmusic.output.router.OutputRouter
 import com.example.cloudmusic.player.QueueRepository
@@ -88,6 +89,17 @@ object MediaModule {
     @Provides
     @Singleton
     fun provideMediaControl(): IMediaControl = InMemoryMediaControl()
+
+    /**
+     * §61.240（V3-M1 第一刀）：发布链观察口（metadata/playback StateFlow）的第二个注入面——
+     * 与 [provideMediaControl] **同一 @Singleton 实例**（参数注入而非二次构造）。
+     * cast 安全性：现行唯一实现 [InMemoryMediaControl] 实现 [ObservableMediaControl]；
+     * 换绑真实现（media-legacy 适配器，V0.3 展望）时同步演进此端口。
+     */
+    @Provides
+    @Singleton
+    fun provideObservableMediaControl(impl: IMediaControl): ObservableMediaControl =
+        impl as ObservableMediaControl
 
     /**
      * 第三十一批（12 §40）：`03-09 §7` 的「OutputRouter 是唯一裁决者」此前没有 DI 绑定，

@@ -18,6 +18,7 @@ import android.bluetooth.BluetoothProfile
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
+import android.media.MediaMetadata
 import android.media.session.MediaSession
 import android.media.session.PlaybackState
 import android.os.Build
@@ -33,6 +34,8 @@ import com.example.cloudmusic.engine.api.EngineState
 import com.example.cloudmusic.engine.api.IMusicEngine
 import com.example.cloudmusic.media.FocusChange
 import com.example.cloudmusic.media.IMediaControl
+import com.example.cloudmusic.media.ObservableMediaControl
+import com.example.cloudmusic.media.SessionBridge
 import com.example.cloudmusic.output.router.BluetoothEvent
 import com.example.cloudmusic.output.router.BluetoothInfo
 import com.example.cloudmusic.output.router.BluetoothOutputPolicy
@@ -87,6 +90,27 @@ class PlaybackService : Service() {
     /** 焦点 / 断连的唯一裁决入口；句柄由 `PlayerController.init` 绑定（`03-07 §3`）。 */
     @Inject
     lateinit var mediaControl: IMediaControl
+
+    /**
+     * §61.240（V3-M1 第一刀）：发布链观察口——与 [mediaControl] 同一实例的第二个注入面。
+     * `metadata()/playback()` StateFlow 即系统会话元数据与进度的唯一真值
+     * （§61.239 起分轨相对口径免费继承）。
+     */
+    @Inject
+    lateinit var observableControl: ObservableMediaControl
+
+    /**
+     * §61.240：系统会话桥（纯 JVM 判定在 `:core-media`，框架常量映射在本服务两写口）。
+     * 判定规则见 [SessionBridge] KDoc；封面位图解码不在本刀范围（登记 V0.3 后续）。
+     */
+    private val sessionBridge = SessionBridge(
+        playbackWriter = { playing, pos, dur -> writeSessionTransport(playing, pos, dur) },
+        metadataWriter = { title, artist, album, dur, cover -> writeSessionMetadata(title, artist, album, dur, cover) },
+    )
+
+    /** §61.240：最近发布位置——引擎态回退链（§61.25）写 PAUSED 时保位不再清零。 */
+    @Volatile
+    private var lastPublishedPosition = 0L
 
     /** `12 §46`：读取 `autoPauseOnDisconnect` 的当前值（DataStore Flow 的最新快照）。 */
     @Inject
@@ -305,6 +329,19 @@ class PlaybackService : Service() {
                 }
             }
         }
+        // §61.240：系统会话补全第一刀——发布链 metadata/playback 直通系统会话。
+        // 快照链（§61.239 相对口径）成为会话真值：锁屏 / 通知 / AVRCP 拿到标题与
+        // 进度，分轨曲目显示相对时间。引擎态回退链（上方 §61.25）保留兜底语义，
+        // 但位置改为最近发布值（防回退写清零进度）。
+        scope.launch {
+            observableControl.playback().collect { snap ->
+                snap?.positionMs?.takeIf { it >= 0 }?.let { lastPublishedPosition = it }
+                sessionBridge.onPlayback(snap)
+            }
+        }
+        scope.launch {
+            observableControl.metadata().collect { md -> sessionBridge.onMetadata(md) }
+        }
     }
 
     /**
@@ -393,9 +430,12 @@ class PlaybackService : Service() {
     /** 12 §61.19：同步 MediaSession PlaybackState（保持 actions 不变）。 */
     private fun updateSessionPlaybackState(state: Int) {
         mediaSession?.let { session ->
+            // §61.240：回退链位置不再恒 0（§61.25 原实现）——用最近发布位置保位；
+            // 速度按态修正（播放 1f / 非播放 0f，非播放期位置不漂移）。
+            val playing = state == PlaybackState.STATE_PLAYING
             session.setPlaybackState(
                 PlaybackState.Builder()
-                    .setState(state, 0L, 1f)
+                    .setState(state, lastPublishedPosition, if (playing) 1f else 0f)
                     .setActions(
                         PlaybackState.ACTION_PLAY or
                             PlaybackState.ACTION_PAUSE or
@@ -405,6 +445,52 @@ class PlaybackService : Service() {
                     .build(),
             )
         }
+    }
+
+    /**
+     * §61.240：快照链写口——发布链 playback 快照 → 系统 PlaybackState。
+     * 位置 = §61.239 相对口径（分轨曲目从 0 起算）；速度 1f/0f 按态修正。
+     */
+    private fun writeSessionTransport(playing: Boolean, positionMs: Long, durationMs: Long) {
+        val session = mediaSession ?: return
+        session.setPlaybackState(
+            PlaybackState.Builder()
+                .setState(
+                    if (playing) PlaybackState.STATE_PLAYING else PlaybackState.STATE_PAUSED,
+                    positionMs,
+                    if (playing) 1f else 0f,
+                )
+                .setActions(
+                    PlaybackState.ACTION_PLAY or
+                        PlaybackState.ACTION_PAUSE or
+                        PlaybackState.ACTION_SKIP_TO_NEXT or
+                        PlaybackState.ACTION_SKIP_TO_PREVIOUS,
+                )
+                .build(),
+        )
+    }
+
+    /**
+     * §61.240：快照链写口——发布链 metadata → 系统会话元数据（标题/艺人/专辑/时长）。
+     * 封面位图解码不在本刀（AVRCP 封面显示登记 V0.3 后续）；时长 0 = 未知原样写
+     * （会话侧表现为无时长，与 §61.185 真值优先口径一致）。
+     */
+    private fun writeSessionMetadata(
+        title: String,
+        artist: String,
+        album: String,
+        durationMs: Long,
+        @Suppress("UNUSED_PARAMETER") coverPath: String?,
+    ) {
+        val session = mediaSession ?: return
+        session.setMetadata(
+            MediaMetadata.Builder()
+                .putString(MediaMetadata.METADATA_KEY_TITLE, title)
+                .putString(MediaMetadata.METADATA_KEY_ARTIST, artist)
+                .putString(MediaMetadata.METADATA_KEY_ALBUM, album)
+                .putLong(MediaMetadata.METADATA_KEY_DURATION, durationMs)
+                .build(),
+        )
     }
 
     /** D-93（12 §33）：Activity 与 Service 注入同一 @Singleton PlaybackRuntime，无需 Binder。 */
