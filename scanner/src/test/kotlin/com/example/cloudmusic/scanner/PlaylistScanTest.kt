@@ -56,6 +56,7 @@ class PlaylistScanTest {
         root: List<Obj>,
         texts: Map<String, String> = emptyMap(),
         sink: InMemoryTrackSink = InMemoryTrackSink(),
+        importSink: PlaylistImportSink? = null,
     ): ScanReport {
         DriverRegistry.put(storageId, FakeDriver(mapOf("" to root), texts))
         return ScanCoordinator(
@@ -68,6 +69,7 @@ class PlaylistScanTest {
             snapshotStore = InMemoryScanSnapshotStore(),
             tagReader = EmptyTagReader,
             pacer = ScanPacerNoOp,
+            playlistImportSink = importSink,
         ).run(ScanRequest(storageIds = setOf(storageId)))
     }
 
@@ -161,5 +163,51 @@ class PlaylistScanTest {
         assertEquals("http://nas/d/track.mp3", track.sourceRef.url)
         assertEquals(SourceType.PLAYLIST, track.sourceType)
         assertEquals(SourceRef(storageId, track.sourceRef.path, "http://nas/d/track.mp3"), track.sourceRef)
+    }
+
+    // ------------------------------------------------------------------
+    // §61.254：m3u → 歌单页命名实体（扫描导入）
+    // ------------------------------------------------------------------
+
+    @Test
+    @DisplayName("§61.254 I1 · m3u 展开注册为命名歌单——稳定 id / 名称 / 条目序 trackIds")
+    fun importRegistersNamedPlaylist() = runTest {
+        val m3u = """
+            #EXTINF:200,官方回答
+            http://nas/d/audio.mp3
+            /music/爱就爱了.flac
+        """.trimIndent()
+        val imports = mutableListOf<Triple<String, String, List<String>>>()
+        val sink = PlaylistImportSink { id, name, ids -> imports += Triple(id, name, ids.map { it.value }) }
+        val root = listOf(
+            obj("/music/爱就爱了.flac", size = 9000),
+            obj("/周华健精选.m3u", size = 300),
+        )
+        val texts = mapOf("/周华健精选.m3u" to m3u)
+        runScan(root = root, texts = texts, importSink = sink)
+        assertEquals(1, imports.size)
+        val (id, name, ids) = imports[0]
+        assertTrue(id.startsWith("pl_imp_"), "导入 id 前缀")
+        assertEquals("周华健精选", name, "name = m3u 文件名去扩展名")
+        assertEquals(2, ids.size, "URL 条目 + 相对音频条目")
+        // 稳定 id：重扫幂等（同路径 → 同 id → upsert 不重复）
+        runScan(root = root, texts = texts, importSink = sink)
+        assertEquals(2, imports.size)
+        assertEquals(id, imports[1].first, "重扫 id 稳定")
+    }
+
+    @Test
+    @DisplayName("§61.254 I2 · 坏条目不进导入 trackIds（accepted 交集过滤）")
+    fun importExcludesRejected() = runTest {
+        val m3u = "/不存在的文件.flac\nhttp://nas/d/ok.mp3\n"
+        val imports = mutableListOf<Triple<String, String, List<String>>>()
+        val sink = PlaylistImportSink { id, name, ids -> imports += Triple(id, name, ids.map { it.value }) }
+        runScan(
+            root = listOf(obj("/歌单.m3u", size = 200)),
+            texts = mapOf("/歌单.m3u" to m3u),
+            importSink = sink,
+        )
+        assertEquals(1, imports.size)
+        assertEquals(1, imports[0].third.size, "坏条目被剔除，仅 URL 条目进歌单")
     }
 }

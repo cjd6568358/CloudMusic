@@ -7344,6 +7344,38 @@ def main() -> int:
     else:
         print("[PASS] §61.253 孤儿源可用性标记（端口 + 失败路径 + 组合接线 + m3u E2E 测试）")
 
+    # §61.254：m3u → 歌单页命名实体（扫描导入，稳定 id 幂等 upsert）。
+    _plimport = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
+                 / "example" / "cloudmusic" / "scanner" / "PlaylistImport.kt")
+    _scancomp_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                                / "example" / "cloudmusic" / "di" / "scan" / "ScanComposition.kt")
+                               .read_text(encoding="utf-8", errors="replace"))
+    _coord_src = _code_only((ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
+                             / "example" / "cloudmusic" / "scanner" / "ScanCoordinator.kt")
+                            .read_text(encoding="utf-8", errors="replace"))
+    _c254_bad = []
+    if not _plimport.exists():
+        _c254_bad.append("扫描导入端口文件缺失")
+    else:
+        _pil = _code_only(_plimport.read_text(encoding="utf-8", errors="replace"))
+        if "fun interface PlaylistImportSink" not in _pil or "data class PlaylistImport" not in _pil:
+            _c254_bad.append("导入端口/引用类型缺失")
+    if "playlistImportSink: com.example.cloudmusic.scanner.PlaylistImportSink? = null," not in _coord_src             and "playlistImportSink: PlaylistImportSink? = null," not in _coord_src:
+        _c254_bad.append("协调器导入口缺失")
+    if '"pl_imp_"' not in _coord_src:
+        _c254_bad.append("稳定 id 派生缺失")
+    _repo_src = _code_only((ROOT / "core-storage" / "src" / "main" / "kotlin" / "com"
+                            / "example" / "cloudmusic" / "storage" / "Repositories.kt")
+                           .read_text(encoding="utf-8", errors="replace"))
+    if "suspend fun upsertImported(id: String, name: String, trackIds: List<TrackId>)" not in _repo_src:
+        _c254_bad.append("仓库接口 upsertImported 缺失")
+    if "playlists.upsertImported(id, name, ids)" not in _scancomp_src:
+        _c254_bad.append("组合层接线缺失")
+    if _c254_bad:
+        failures.append("§61.254 m3u 歌单页导入：%s" % "；".join(_c254_bad))
+    else:
+        print("[PASS] §61.254 m3u 歌单页命名实体（扫描导入 + 幂等 upsert 全链）")
+
     if _c250_bad:
         failures.append("§61.250 哈希记忆累进：%s" % "；".join(_c250_bad))
     else:

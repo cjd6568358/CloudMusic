@@ -335,6 +335,7 @@ object ScanModule {
         factory: TrackFactory,
         settings: com.example.cloudmusic.di.settings.SettingsStore,
         pacer: ScanPacer,
+        playlists: com.example.cloudmusic.storage.PlaylistRepository,
     ): ScanCoordinator = ScanCoordinator(
         storageProvider = provider,
         driverRegistry = DriverRegistry,
@@ -348,5 +349,9 @@ object ScanModule {
         ignoreDirsSource = { settings.current().scan.ignoreDirs.toSet() },
         // §61.205：wake lock + 熄屏块间让步。
         pacer = pacer,
+        // §61.254：m3u 展开条目 → 歌单页命名实体（稳定 id 幂等 upsert）。
+        playlistImportSink = com.example.cloudmusic.scanner.PlaylistImportSink { id, name, ids ->
+            playlists.upsertImported(id, name, ids)
+        },
     )
 }

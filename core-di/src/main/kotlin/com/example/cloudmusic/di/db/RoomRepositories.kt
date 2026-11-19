@@ -152,6 +152,21 @@ class RoomPlaylistRepository(
         dao.touch(id, now)
     }
 
+    /** §61.254：扫描导入幂等 upsert——行不存在则建；曲目全量替换（顺序 = m3u 条目序）。 */
+    override suspend fun upsertImported(id: String, name: String, trackIds: List<TrackId>) =
+        db.withTransaction {
+            val now = clock()
+            if (dao.get(id) == null) {
+                dao.insertPlaylist(PlaylistRow(id, name, now, now))
+            } else {
+                dao.rename(id, name, now)
+            }
+            dao.clearMembers(id)
+            dao.insertMembers(trackIds.mapIndexed { position, trackId ->
+                PlaylistTrackRow(id, position, trackId.value, now)
+            })
+        }
+
     override suspend fun move(id: String, from: Int, to: Int) = rewrite(id) { list ->
         if (from !in list.indices || to !in list.indices || from == to) false
         else {

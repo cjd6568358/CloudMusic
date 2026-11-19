@@ -48,6 +48,12 @@ interface PlaylistRepository {
     suspend fun rename(id: String, name: String)
     suspend fun delete(id: String)
     suspend fun addTracks(id: String, trackIds: List<TrackId>)   // 跨来源混合
+    /**
+     * §61.254：扫描导入的命名歌单（m3u 展开）——按稳定 id 幂等 upsert：
+     * 歌单行不存在则建（createdAt=now），存在则改名刷新；曲目**全量替换**（顺序 = m3u 条目序）。
+     * 与用户手建歌单（create/addTracks）互不干扰（id 约定 pl_imp_*）。
+     */
+    suspend fun upsertImported(id: String, name: String, trackIds: List<TrackId>)
     suspend fun move(id: String, from: Int, to: Int)
     suspend fun remove(id: String, position: Int)
 }

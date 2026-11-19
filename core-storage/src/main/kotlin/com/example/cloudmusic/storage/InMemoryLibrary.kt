@@ -262,6 +262,21 @@ class InMemoryPlaylistRepository(
 
     private fun renumber(list: List<PlaylistMember>): List<PlaylistMember> =
         list.mapIndexed { i, m -> m.copy(position = i) }
+
+    /** §61.254：扫描导入幂等 upsert——行不存在则建；曲目全量替换（顺序 = m3u 条目序）。 */
+    override suspend fun upsertImported(id: String, name: String, trackIds: List<TrackId>) {
+        val now = store.now()
+        store.mutate { s ->
+            val existing = s.playlists[id]
+            val playlists = if (existing == null) {
+                s.playlists + (id to Playlist(id, name, now, now))
+            } else {
+                s.playlists + (id to existing.copy(name = name, updatedAt = now))
+            }
+            val members = s.members + (id to trackIds.mapIndexed { i, t -> PlaylistMember(i, t, now) })
+            s.copy(playlists = playlists, members = members)
+        }
+    }
 }
 
 class InMemoryFavoriteRepository(

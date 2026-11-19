@@ -57,6 +57,8 @@ class ScanCoordinator(
     private val minDurationMsSource: (() -> Long)? = null,
     /** §61.117（M2-2）：每扫描读取的忽略目录集合——AppSettings.scan.ignoreDirs 接线。 */
     private val ignoreDirsSource: (() -> Set<String>)? = null,
+    /** §61.254：m3u 展开条目 → 歌单页命名实体（null = 不导入，测试/默认零影响）。 */
+    private val playlistImportSink: com.example.cloudmusic.scanner.PlaylistImportSink? = null,
     private val trackFactory: TrackFactory = TrackFactory(),
     private val rootPathFor: (Storage) -> String = { "" },
     /** §61.205（A1-⑤）：扫描节奏（wake lock + 熄屏块间让步）；默认 NoOp 零影响。 */
@@ -152,9 +154,14 @@ class ScanCoordinator(
         val previous = snapshotStore.load(storage.id)
         trace("快照已载入 previous=${previous.size}")
         val candidates = mutableListOf<Candidate>()
+        // §61.254：walk 收集的 m3u 导入引用（expandPlaylistInline 填充；metadata 后统一导入）。
+        val playlistImports = mutableListOf<com.example.cloudmusic.scanner.PlaylistImport>()
         try {
             trace("walk 开始 path='${storage.mountPath}' root='${rootPathFor(storage)}'")
-            walk(driver, storage, Obj(name = "", isDir = true, path = ""), request, state, candidates, 0, previous)
+            walk(
+                driver, storage, Obj(name = "", isDir = true, path = ""), request, state, candidates,
+                0, previous, playlistImports,
+            )
             trace("walk 完成 candidates=${candidates.size}")
         } catch (e: CancellationException) {
             throw e
@@ -261,6 +268,23 @@ class ScanCoordinator(
         if (request.includeMetadata && (!request.onlyWifiMetadata || request.wifiAvailable)) {
             runMetadata(storage.id, accepted, request, state, emit)
         }
+        // §61.254：歌单导入——accepted 交集过滤（规则剔除的条目不进歌单），
+        // TrackId 由组合层 sink 按 storageId+path 派生（TrackId.of 同一真值源）。
+        val sink = playlistImportSink
+        if (sink != null && playlistImports.isNotEmpty()) {
+            val acceptedPaths = accepted.map { it.effectiveIdPath() }.toSet()
+            playlistImports.forEach { imp ->
+                runCatching {
+                    sink.import(
+                        imp.id, imp.name,
+                        imp.idPaths.filter { it in acceptedPaths }
+                            .map { com.example.cloudmusic.model.TrackId.of(storage.id, it) },
+                    )
+                }.onFailure {
+                    state.error("", "E_SCAN_IMPORT", "歌单导入失败: ${imp.name}")
+                }
+            }
+        }
     }
 
     private suspend fun walk(
@@ -272,6 +296,7 @@ class ScanCoordinator(
         out: MutableList<Candidate>,
         depth: Int,
         previous: Map<String, ScanSnapshot> = emptyMap(),
+        imports: MutableList<com.example.cloudmusic.scanner.PlaylistImport> = mutableListOf(),
     ) {
         currentCoroutineContext().ensureActive()
         if (depth > MAX_WALK_DEPTH) {
@@ -296,13 +321,13 @@ class ScanCoordinator(
                 FileClass.AUDIO -> out += audioCandidate(storage, item, dir)
                 // 03-04 §5 内联展开：直接调用共享解析函数，不实例化 StrmDriver / PlaylistDriver
                 FileClass.STRM -> expandStrm(driver, storage, item, dir, state, out, previous)
-                FileClass.PLAYLIST -> expandPlaylistInline(driver, storage, item, dir, state, out)
+                FileClass.PLAYLIST -> expandPlaylistInline(driver, storage, item, dir, state, out, imports)
                 FileClass.CUE -> expandCue(driver, storage, item, dir, state, out, audioByName)
                 FileClass.PASS_THROUGH, FileClass.IGNORED -> Unit
             }
         }
         for (child in childDirs) {
-            walk(driver, storage, child, request, state, out, depth + 1)
+            walk(driver, storage, child, request, state, out, depth + 1, previous, imports)
         }
     }
 
@@ -473,6 +498,7 @@ class ScanCoordinator(
         dir: Obj,
         state: ScanState,
         out: MutableList<Candidate>,
+        imports: MutableList<com.example.cloudmusic.scanner.PlaylistImport>,
     ) {
         val source = object : PlaylistSource {
             override suspend fun readText(path: String): String? = runCatching {
@@ -487,24 +513,33 @@ class ScanCoordinator(
             state.error("", "E_SCAN_ENCODING", "播放列表展开失败: ${item.path}")
             return
         }
+        val added = mutableListOf<Candidate>()
         expanded.forEach { obj ->
             obj.playlistRejection()?.let { reason ->
                 state.error("", "E_DS_NOT_SUPPORT", "$reason @ ${obj.path}")
                 return@forEach
             }
-            obj.playlistDirectUrl()?.let { url ->
-                out += Candidate(
+            val candidate = obj.playlistDirectUrl()?.let { url ->
+                Candidate(
                     storage = storage, obj = obj, kind = CandidateKind.PLAYLIST,
                     parentDirName = parentName(dir.path.ifBlank { obj.path }),
                     directUrl = url,
                 )
-                return@forEach
-            }
-            out += Candidate(
+            } ?: Candidate(
                 storage = storage, obj = obj, kind = CandidateKind.PLAYLIST,
                 parentDirName = parentName(dir.path.ifBlank { obj.path }),
             )
+            added += candidate
+            out += candidate
         }
+        // §61.254：注册为歌单页命名实体——id = 稳定派生（storageId+m3u 路径，重扫幂等）；
+        // name = m3u 文件名去扩展名；曲目序 = m3u 条目序（坏条目已被上方剔除）。
+        imports += com.example.cloudmusic.scanner.PlaylistImport(
+            id = "pl_imp_" + com.example.cloudmusic.model.TrackId
+                .of("playlist-import", "${storage.id}|${item.path}").value,
+            name = item.name.substringBeforeLast('.'),
+            idPaths = added.map { it.effectiveIdPath() },
+        )
     }
 
     private suspend fun runMetadata(

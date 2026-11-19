@@ -281,4 +281,32 @@ class InMemoryRepositoryTest {
             "errorMsg-only + modified 不变 → 无任何 SettingsChange（REBUILD 不得触发）",
         )
     }
+
+    @Test
+    fun `upsertImported - 幂等建单 + 全量替换 + 与手建歌单互不干扰`() = runTest {
+        // 手建歌单（用户数据）
+        val userId = playlists.create("我的最爱")
+        // 扫描导入（稳定 id）
+        val impId = "pl_imp_abc123"
+        // 先注册成员轨（InMemory 观察口按 store.tracks 解引用）
+        tracks.upsertBatch(listOf(
+            testTrack(TrackId("t1")).copy(title = "曲一"),
+            testTrack(TrackId("t2")).copy(title = "曲二"),
+        ))
+        playlists.upsertImported(impId, "周华健精选", listOf(TrackId("t1"), TrackId("t2")))
+        var rows = playlists.observePlaylists().first()
+        assertEquals(2, rows.size, "导入建单")
+        var members = playlists.observeTracks(impId).first().map { it.id.value }
+        assertEquals(listOf("t1", "t2"), members, "曲目顺序 = m3u 条目序")
+        // 重扫：同名同 id → 不重复建；曲目全量替换
+        tracks.upsertBatch(listOf(testTrack(TrackId("t3")).copy(title = "曲三")))
+        playlists.upsertImported(impId, "周华健精选（更新）", listOf(TrackId("t3")))
+        rows = playlists.observePlaylists().first()
+        assertEquals(2, rows.size, "幂等不重复")
+        members = playlists.observeTracks(impId).first().map { it.id.value }
+        assertEquals(listOf("t3"), members, "全量替换")
+        assertEquals("周华健精选（更新）", rows.first { it.id == impId }.name)
+        // 手建歌单不受影响
+        assertEquals("我的最爱", rows.first { it.id == userId }.name)
+    }
 }
