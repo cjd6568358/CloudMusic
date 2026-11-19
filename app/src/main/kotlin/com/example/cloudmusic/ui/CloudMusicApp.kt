@@ -211,6 +211,12 @@ fun CloudMusicApp(
     onAnalyzeReplayGain: () -> Unit = {},
     /** §61.233：封面在线刮削批处理（限数 50，toast 汇报）。 */
     onScrapeCovers: () -> Unit = {},
+    /** §61.247（V0.3 M5 / A1 Tier2）：重复曲目检测（设置页触发 → 结果面板）。 */
+    onFindDuplicates: () -> Unit = {},
+    /** §61.247：检测结果流（null = 未检测）。 */
+    duplicateReport: StateFlow<com.example.cloudmusic.model.DuplicateReport?> = MutableStateFlow(null),
+    /** §61.247：关闭结果面板时清空报告（下次触发重算）。 */
+    onClearDuplicates: () -> Unit = {},
     /** §61.230：淡入淡出开关（AudiofxSettings.fadeEnabled 热更新）。 */
     fadeEnabled: Boolean = false,
     onFadeEnabledChanged: (Boolean) -> Unit = { _ -> },
@@ -470,6 +476,9 @@ fun CloudMusicApp(
                     onClearCache,
                     onAnalyzeReplayGain,
                     onScrapeCovers,
+                    onFindDuplicates,
+                    duplicateReport,
+                    onClearDuplicates,
                     fadeEnabled,
                     onFadeEnabledChanged,
                     eqEnabled,
@@ -1846,6 +1855,10 @@ private fun SettingsScreen(
     onClearCache: () -> Unit,
     onAnalyzeReplayGain: () -> Unit,
     onScrapeCovers: () -> Unit,
+    /** §61.247（V0.3 M5 / A1 Tier2）：重复曲目检测触发与结果流。 */
+    onFindDuplicates: () -> Unit = {},
+    duplicateReport: StateFlow<com.example.cloudmusic.model.DuplicateReport?> = MutableStateFlow(null),
+    onClearDuplicates: () -> Unit = {},
     fadeEnabled: Boolean,
     onFadeEnabledChanged: (Boolean) -> Unit,
     eqEnabled: Boolean,
@@ -1869,6 +1882,7 @@ private fun SettingsScreen(
     var showScanDuration by remember { mutableStateOf(false) }
     var showEq by remember { mutableStateOf(false) }
     var showTheme by remember { mutableStateOf(false) }
+    var showDupReport by remember { mutableStateOf(false) }
     var showIgnoreDirs by remember { mutableStateOf(false) }
     Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
         // 顶栏：从「更多」进入的**页内二级页**，返回钮语义是「回上一屏」，
@@ -1990,6 +2004,17 @@ private fun SettingsScreen(
                 )
                 FnRow(
                     dividerAbove = true,
+                    glyph = "⧉",
+                    title = "检测重复曲目",
+                    onClick = {
+                        onFindDuplicates()
+                        showDupReport = true
+                        cacheMsg = "已开始检测（按标题/艺人 + 时长 ±1s 分组，仅提示不自动删除）"
+                    },
+                    value = "找出疑似重复的曲目",
+                )
+                FnRow(
+                    dividerAbove = true,
                     glyph = "◐",
                     title = "主题",
                     onClick = { showTheme = true },
@@ -2041,6 +2066,56 @@ private fun SettingsScreen(
                 "浅色" to { onThemeChanged("LIGHT"); showTheme = false },
                 "关闭" to { showTheme = false },
             ),
+        )
+    }
+    if (showDupReport) {
+        val report by duplicateReport.collectAsState()
+        CompSheetDialog(
+            onDismiss = {
+                showDupReport = false
+                onClearDuplicates()
+            },
+            title = "疑似重复曲目",
+            content = {
+                Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                    // 委托属性不能 smart cast —— 先落本地快照。
+                    val current = report
+                    when {
+                        current == null -> Text(
+                            "尚未检测或检测中…（重新点「检测重复曲目」刷新）",
+                            color = Comp.TextSecondary, fontSize = 13.sp,
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+                        )
+                        current.groups.isEmpty() -> Text(
+                            "未发现疑似重复（曲库 ${current.scanned} 首）",
+                            color = Comp.TextSecondary, fontSize = 13.sp,
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+                        )
+                        else -> {
+                            Text(
+                                "曲库 ${current.scanned} 首，疑似重复 ${current.groups.size} 组（时长 ±1s 同键聚合；是否重复由你判断，本应用只提示不删除）：",
+                                color = Comp.TextSecondary, fontSize = 12.sp,
+                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                            )
+                            current.groups.forEach { group ->
+                                Text(
+                                    "${group.title} · ${group.artist}（${group.items.size} 份）",
+                                    color = Comp.TextPrimary, fontSize = 14.sp,
+                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                                )
+                                group.items.forEach { t ->
+                                    Text(
+                                        "  · ${t.sourceRef.path}（${t.sourceType.name}，${t.durationMs / 1000}s）",
+                                        color = Comp.TextHint, fontSize = 11.sp,
+                                        modifier = Modifier.padding(horizontal = 16.dp),
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            actions = listOf("关闭" to { showDupReport = false; onClearDuplicates() }),
         )
     }
     if (showEq) {

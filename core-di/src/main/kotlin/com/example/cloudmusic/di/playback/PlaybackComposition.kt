@@ -933,6 +933,31 @@ class PlaybackRuntime @Inject constructor(
         }.onFailure { Log.w("CM-SCRAPER", "scrape 失败", it) }
     }
 
+    /** §61.247：重复曲目检测报告（null = 未检测；设置页触发后由 UI 消费展示）。 */
+    private val _duplicateReport = kotlinx.coroutines.flow.MutableStateFlow<
+        com.example.cloudmusic.model.DuplicateReport?>(null)
+    fun duplicateReport(): kotlinx.coroutines.flow.StateFlow<
+        com.example.cloudmusic.model.DuplicateReport?> = _duplicateReport.asStateFlow()
+
+    /** §61.247：关闭报告面板时清空（下次触发重算）。 */
+    fun clearDuplicateReport() {
+        _duplicateReport.value = null
+    }
+
+    /**
+     * §61.247（V0.3 M5 / A1 Tier2）：重复曲目检测（设置页触发；零 IO 读曲库内存分组，
+     * 不挂扫描期）。结果进 [duplicateReport] 由设置页结果面板展示；处置用户手动。
+     */
+    fun findDuplicates() = scope.launch {
+        runCatching {
+            val session = com.example.cloudmusic.di.scan.DuplicateScanSession(tracks)
+            val report = session.detect()
+            _duplicateReport.value = report
+            Log.i("CM-DUP", "duplicate scan done: scanned=%d groups=%d"
+                .format(report.scanned, report.groups.size))
+        }.onFailure { Log.w("CM-DUP", "duplicate scan 失败", it) }
+    }
+
     /**
      * §61.230（V0.2 M6）：淡入淡出开关持久化（AudiofxSettings.fadeEnabled）。
      * 即时下发由 restoreEqualizerLoop 的 settings.collect 转发 controller.updateFade。

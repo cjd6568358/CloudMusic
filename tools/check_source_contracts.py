@@ -7192,6 +7192,38 @@ def main() -> int:
     else:
         print("[PASS] §61.243 FTP 断线重连退避（细分契约 + 指数退避装饰器 + 生产端口传播）")
 
+    # §61.247 A1 分层去重 Tier2（V0.3 M5）：纯 JVM 分组 + 会话 + 设置页端到端。
+    _dg = _code_only((ROOT / "core-model" / "src" / "main" / "kotlin" / "com"
+                      / "example" / "cloudmusic" / "model" / "DuplicateGrouper.kt")
+                     .read_text(encoding="utf-8", errors="replace"))
+    _ds = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                      / "example" / "cloudmusic" / "di" / "scan" / "DuplicateScan.kt")
+                     .read_text(encoding="utf-8", errors="replace"))
+    _pb247 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                         / "example" / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
+                        .read_text(encoding="utf-8", errors="replace"))
+    _ma247 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
+                         / "example" / "cloudmusic" / "MainActivity.kt")
+                        .read_text(encoding="utf-8", errors="replace"))
+    _ui247 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
+                         / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt")
+                        .read_text(encoding="utf-8", errors="replace"))
+    _c247_bad = []
+    if "object DuplicateGrouper" not in _dg             or "fun suspectedDuplicates(tracks: List<Track>): List<DuplicateGroup>" not in _dg             or "const val DURATION_TOLERANCE_MS: Long = 1_000L" not in _dg             or "fun groupByHash(tracks: List<Track>, hashOf: (Track) -> String?): List<DuplicateGroup>" not in _dg:
+        _c247_bad.append("Tier2 分组纯函数/Tier1 消费位缺失")
+    if "class DuplicateScanSession" not in _ds or "DuplicateGrouper.suspectedDuplicates(all)" not in _ds:
+        _c247_bad.append("检测会话缺失")
+    if "fun findDuplicates()" not in _pb247 or "_duplicateReport.value = report" not in _pb247:
+        _c247_bad.append("runtime 触发/报告流缺失")
+    if "runtime.findDuplicates()" not in _ma247:
+        _c247_bad.append("MainActivity 接线缺失")
+    if "检测重复曲目" not in _ui247 or "onClearDuplicates" not in _ui247:
+        _c247_bad.append("设置页入口/结果面板缺失")
+    if _c247_bad:
+        failures.append("§61.247 A1 分层去重 Tier2：%s" % "；".join(_c247_bad))
+    else:
+        print("[PASS] §61.247 A1 分层去重 Tier2（纯 JVM 分组 + 会话 + 设置页面板）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

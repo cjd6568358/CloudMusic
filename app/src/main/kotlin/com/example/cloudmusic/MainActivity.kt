@@ -536,6 +536,10 @@ class MainActivity : ComponentActivity() {
                     },
                     onAnalyzeReplayGain = { runtime.analyzeLibraryReplayGain(50) },
                     onScrapeCovers = { runtime.scrapeMissingCovers(50) },
+                    // §61.247（V0.3 M5 / A1 Tier2）：重复曲目检测入口与结果面板。
+                    onFindDuplicates = { runtime.findDuplicates() },
+                    duplicateReport = runtime.duplicateReport(),
+                    onClearDuplicates = { runtime.clearDuplicateReport() },
                     fadeEnabled = runtime.fadeEnabled().collectAsState(false).value,
                     onFadeEnabledChanged = { on -> runtime.updateFadeEnabled(on) },
                     themeMode = settingsStore.current().theme,
