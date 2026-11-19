@@ -7224,6 +7224,36 @@ def main() -> int:
     else:
         print("[PASS] §61.247 A1 分层去重 Tier2（纯 JVM 分组 + 会话 + 设置页面板）")
 
+    # §61.248 A1 Tier1 确认趟：哈希端口 + 流式哈希 + 生产哈希器 + 确认会话。
+    _sc = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                      / "example" / "cloudmusic" / "di" / "scan" / "ScanContracts.kt")
+                     .read_text(encoding="utf-8", errors="replace"))
+    _pt = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                      / "example" / "cloudmusic" / "di" / "scan" / "ProductionTagAndCover.kt")
+                     .read_text(encoding="utf-8", errors="replace"))
+    _dsc = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                       / "example" / "cloudmusic" / "di" / "scan" / "DuplicateScan.kt")
+                      .read_text(encoding="utf-8", errors="replace"))
+    _c248_bad = []
+    if "fun interface TrackContentHasher" not in _sc:
+        _c248_bad.append("哈希端口缺失")
+    if 'object ContentHashing' not in _pt or 'MessageDigest.getInstance("SHA-256")' not in _pt:
+        _c248_bad.append("流式哈希缺失")
+    if "as? ByteRangeCapability ?: return null" not in _pt:
+        _c248_bad.append("能力位守卫缺失（无 readBytes 驱动须跳过）")
+    if "class DriverContentHasher" not in _pt:
+        _c248_bad.append("生产哈希器缺失")
+    if "class DuplicateHashSession" not in _dsc or "DuplicateGrouper.groupByHash(hashedTracks) { hashes[it.id] }" not in _dsc             or "distinctBy { it.sourceRef.storageId to it.sourceRef.path }" not in _dsc:
+        _c248_bad.append("确认会话缺失（限数/去重/确认分组）")
+    if "DuplicateHashSession(" not in _pb247 or "maxHashCount = 50" not in _pb247:
+        _c248_bad.append("runtime 未接确认趟（限数 50）")
+    if "精确确认" not in _ui247:
+        _c248_bad.append("结果面板确认分区缺失")
+    if _c248_bad:
+        failures.append("§61.248 A1 Tier1 确认趟：%s" % "；".join(_c248_bad))
+    else:
+        print("[PASS] §61.248 A1 Tier1 确认趟（哈希端口 + 流式 + 会话限数 + 面板确认分区）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

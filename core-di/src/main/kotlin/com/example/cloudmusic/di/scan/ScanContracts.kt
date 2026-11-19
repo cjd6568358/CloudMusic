@@ -56,6 +56,15 @@ interface LinkLocator {
     suspend fun locate(candidate: Candidate): String?
 }
 
+/**
+ * §61.248（V0.3 M5 / A1 Tier1）：曲目内容哈希端口——确认趟（对 Tier2 疑似组候选文件
+ * 全读 SHA-256）。null = 不可读（驱动缺失/读取失败），会话计 skipped 不伪造指纹。
+ * 生产实现 [DriverContentHasher] 经 `DriverRegistry` 分块读（流式 digest 防整文件驻留内存）。
+ */
+fun interface TrackContentHasher {
+    suspend fun hash(track: com.example.cloudmusic.model.Track): String?
+}
+
 /** 03-04 §6.1 / §6.5：多通道标签合并 + `tagCompleteness` 计算（纯函数）。 */
 object TagMerger {
     fun merge(vararg sources: MediaTags): RawTags {

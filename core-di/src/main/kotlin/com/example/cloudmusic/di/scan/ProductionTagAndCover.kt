@@ -180,6 +180,58 @@ class AndroidCoverWriter(context: Context) : CoverWriterPort {
         }
 }
 
+
+
+/** §61.248：分块流式 SHA-256（纯逻辑可测）——读不到任何字节 = null（不伪造空指纹）。 */
+object ContentHashing {
+    const val CHUNK_SIZE: Int = 256 * 1024
+
+    /** [readChunk](offset, length) 返回 null/空 = EOF。返回小写十六进制指纹。 */
+    suspend fun hashChunks(
+        readChunk: suspend (offset: Long, length: Int) -> ByteArray?,
+        chunkSize: Int = CHUNK_SIZE,
+    ): String? {
+        val digest = java.security.MessageDigest.getInstance("SHA-256")
+        var offset = 0L
+        var total = 0L
+        while (true) {
+            val chunk = readChunk(offset, chunkSize) ?: break
+            if (chunk.isEmpty()) break
+            digest.update(chunk)
+            offset += chunk.size
+            total += chunk.size
+        }
+        if (total == 0L) return null
+        return digest.digest().joinToString("") { "%02x".format(it) }
+    }
+}
+
+/**
+ * §61.248：生产哈希器——经 `DriverRegistry` 取已 init 的驱动（App 启动即冷扫灌入；
+ * 缺驱动 = null 如实跳过）。路径 = [com.example.cloudmusic.model.Track.sourceRef.path]
+ * （§61.221 口径：driver 相对路径，与扫描链 readBytes 语义一致）。
+ * **流量口径**：本哈希器只被 Tier1 确认趟消费——仅对 Tier2 疑似组候选文件全读，
+ * 限数在会话侧（§61.225 全量下载教训：绝不在扫描期对全库逐文件全读）。
+ */
+class DriverContentHasher : TrackContentHasher {
+    override suspend fun hash(track: com.example.cloudmusic.model.Track): String? {
+        val driver = com.example.cloudmusic.datasource.DriverRegistry.get(track.sourceRef.storageId)
+            ?: return null
+        // readBytes 是 ByteRangeCapability 能力位（§61.225 分块读设计本意）；无该能力的
+        // 驱动（如纯直链型）不伪造——null 跳过。
+        val ranged = driver as? ByteRangeCapability ?: return null
+        val obj = com.example.cloudmusic.model.Obj(
+            name = track.sourceRef.path.substringAfterLast('/'),
+            size = 0L,
+            isDir = false,
+            modified = 0L,
+            path = track.sourceRef.path,
+        )
+        return runCatching {
+            ContentHashing.hashChunks(readChunk = { offset, length -> ranged.readBytes(obj, offset, length) })
+        }.getOrNull()
+    }
+}
 /** 生产 `Link` 定位：经 `DriverRegistry` 的 `link()` 拿到可读取的 ref，不缓存 Link 对象。 */
 class RegistryLinkLocator : LinkLocator {
     override suspend fun locate(candidate: Candidate): String? {

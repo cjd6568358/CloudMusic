@@ -2092,8 +2092,29 @@ private fun SettingsScreen(
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
                         )
                         else -> {
+                            if (current.confirmed.isNotEmpty()) {
+                                Text(
+                                    "✓ 精确确认 ${current.confirmed.size} 组（内容 SHA-256 一致；已算 ${current.hashedCount}/${current.candidates} 个候选文件）",
+                                    color = Comp.TextPrimary, fontSize = 13.sp,
+                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                                )
+                                current.confirmed.forEach { group ->
+                                    Text(
+                                        "${group.title} · ${group.artist}（${group.items.size} 份）",
+                                        color = Comp.TextPrimary, fontSize = 14.sp,
+                                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                                    )
+                                    group.items.forEach { t ->
+                                        Text(
+                                            "  · ${t.sourceRef.path}（${t.sourceType.name}）",
+                                            color = Comp.TextHint, fontSize = 11.sp,
+                                            modifier = Modifier.padding(horizontal = 16.dp),
+                                        )
+                                    }
+                                }
+                            }
                             Text(
-                                "曲库 ${current.scanned} 首，疑似重复 ${current.groups.size} 组（时长 ±1s 同键聚合；是否重复由你判断，本应用只提示不删除）：",
+                                "疑似重复 ${current.groups.size} 组（时长 ±1s 同键聚合；是否重复由你判断，本应用只提示不删除）：",
                                 color = Comp.TextSecondary, fontSize = 12.sp,
                                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                             )

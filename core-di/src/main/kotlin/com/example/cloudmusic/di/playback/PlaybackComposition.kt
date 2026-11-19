@@ -950,11 +950,16 @@ class PlaybackRuntime @Inject constructor(
      */
     fun findDuplicates() = scope.launch {
         runCatching {
-            val session = com.example.cloudmusic.di.scan.DuplicateScanSession(tracks)
-            val report = session.detect()
+            // §61.248：Tier2 分组 + Tier1 哈希确认趟（候选限数 50 文件/次）。
+            val session = com.example.cloudmusic.di.scan.DuplicateHashSession(
+                tracks = tracks,
+                hasher = com.example.cloudmusic.di.scan.DriverContentHasher(),
+            )
+            val report = session.detect(maxHashCount = 50)
             _duplicateReport.value = report
-            Log.i("CM-DUP", "duplicate scan done: scanned=%d groups=%d"
-                .format(report.scanned, report.groups.size))
+            Log.i("CM-DUP", "duplicate scan done: scanned=%d suspected=%d confirmed=%d hashed=%d failed=%d"
+                .format(report.scanned, report.groups.size, report.confirmed.size,
+                    report.hashedCount, report.hashFailed))
         }.onFailure { Log.w("CM-DUP", "duplicate scan 失败", it) }
     }
 

@@ -78,8 +78,16 @@ data class DuplicateGroup(
     val items: List<Track>,
 )
 
-/** §61.247：一次检测的报告（[groups] 按标题排序；空库/无重复 = 空表）。 */
+/**
+ * §61.247：一次检测的报告（[groups] 按标题排序；空库/无重复 = 空表）。
+ * §61.248 扩展（Tier1 确认趟，默认值向后兼容）：[confirmed] = 内容哈希一致的精确重复；
+ * [candidates] = 疑似组唯一候选文件数；[hashedCount]/[hashFailed] = 已算/不可读。
+ */
 data class DuplicateReport(
     val scanned: Int,
     val groups: List<DuplicateGroup>,
+    val confirmed: List<DuplicateGroup> = emptyList(),
+    val candidates: Int = 0,
+    val hashedCount: Int = 0,
+    val hashFailed: Int = 0,
 )
