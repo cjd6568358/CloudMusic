@@ -59,8 +59,12 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.PlatformTextStyle
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -600,8 +604,24 @@ private fun LyricsPanel(
     ) {
         lyrics.lines.drop(start).take(visible).forEachIndexed { i, line ->
             val isActive = start + i == active
+            // §61.242：逐字高亮——active 行有词级时间轴时，当前词提亮（品牌红），
+            // 其余词保持白色；无词级时间轴回退整行高亮（零行为变化）。
+            val text: AnnotatedString = if (isActive && line.words.isNotEmpty()) {
+                val activeWord = lyrics.activeWord(positionMs)
+                buildAnnotatedString {
+                    line.words.forEach { w ->
+                        if (w == activeWord) {
+                            withStyle(SpanStyle(color = Color(LegacyPalette.AccentRed))) { append(w.text) }
+                        } else {
+                            withStyle(SpanStyle(color = Color(LegacyPalette.White))) { append(w.text) }
+                        }
+                    }
+                }
+            } else {
+                AnnotatedString(line.text)
+            }
             Text(
-                text = line.text,
+                text = text,
                 fontSize = if (isActive) 18.sp else 15.sp,
                 fontWeight = if (isActive) FontWeight.Bold else FontWeight.Normal,
                 color = if (isActive) Color(LegacyPalette.White) else Color(LegacyPalette.TextTertiary),

@@ -97,4 +97,57 @@ class LyricsTest {
         assertEquals("local:embedded", LrcParser.parse("[00:01.00]A", "local:embedded").source)
         assertEquals("online:netease", LrcParser.parse("[00:01.00]A", "online:netease").source)
     }
+
+    // ------------------------------------------------------------------
+    // §61.242（V0.3 M3）：增强 LRC 逐字时间轴（词级标签 <mm:ss.xx>）
+    // ------------------------------------------------------------------
+
+    @Test
+    @DisplayName("KARAOKE-1 · 词级标签解析：词时间轴 + 末词无界 + 显示文本剥标签")
+    fun wordTimeline() {
+        val lyrics = LrcParser.parse("[00:12.50]<00:12.50>你<00:13.20>好<00:14.00>吗")
+        assertEquals(1, lyrics.lines.size)
+        val line = lyrics.lines[0]
+        assertEquals("你好吗", line.text, "显示文本剥词级标签")
+        assertEquals(3, line.words.size)
+        assertEquals(LyricWord(12_500L, 13_200L, "你"), line.words[0])
+        assertEquals(LyricWord(13_200L, 14_000L, "好"), line.words[1])
+        assertEquals(LyricWord(14_000L, -1L, "吗"), line.words[2], "末词无界")
+    }
+
+    @Test
+    @DisplayName("KARAOKE-2 · offset 叠加词时间；毫秒 3 位与 [.:] 容忍；空段跳过")
+    fun wordOffsetAndTolerance() {
+        val lyrics = LrcParser.parse(
+            "[offset:-500]\n[01:00:50]<01:00.500>甲<01:01.000><01:01.200>乙",
+        )
+        val line = lyrics.lines[0]
+        assertEquals(2, line.words.size, "连续标签空段跳过")
+        assertEquals(60_000L, line.words[0].startMs, "60_500-500 offset 叠加")
+        assertEquals(60_500L, line.words[0].endMs, "下一标签 61_000-500")
+        assertEquals(60_700L, line.words[1].startMs, "第三标签 61_200-500（空段仅跳词不跳时间）")
+        assertEquals(-1L, line.words[1].endMs, "乙为末段无界")
+    }
+
+    @Test
+    @DisplayName("KARAOKE-3 · 无词级标签行 words 恒空（整行高亮回退零变化）")
+    fun plainLineNoWords() {
+        val lyrics = LrcParser.parse("[00:12.50]普通行")
+        assertTrue(lyrics.lines[0].words.isEmpty())
+        assertNull(lyrics.activeWord(13_000L), "无词级时间轴 activeWord 返回 null")
+    }
+
+    @Test
+    @DisplayName("KARAOKE-4 · activeWord 边界：行前 null / 词内命中 / 末词粘滞 / 跨行")
+    fun activeWordBoundaries() {
+        val lyrics = LrcParser.parse(
+            "[00:10.00]<00:10.00>一二<00:11.00>三四\n[00:20.00]第二行",
+        )
+        assertNull(lyrics.activeWord(5_000L), "active 行之前（activeIndex=-1）返回 null")
+        assertEquals("一二", lyrics.activeWord(10_000L)?.text, "起点命中")
+        assertEquals("一二", lyrics.activeWord(10_999L)?.text, "词区间内")
+        assertEquals("三四", lyrics.activeWord(11_000L)?.text, "第二词起点切词")
+        assertEquals("三四", lyrics.activeWord(15_000L)?.text, "末词粘滞到行尾")
+        assertNull(lyrics.activeWord(20_000L), "第二行为普通行（无词轴）→ null")
+    }
 }

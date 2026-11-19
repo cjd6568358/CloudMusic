@@ -7141,6 +7141,29 @@ def main() -> int:
     else:
         print("[PASS] §61.241 DLNA 上次投屏设备记忆（持久化 + 置顶 + UI 标记全链）")
 
+    # §61.242 逐字歌词（V0.3 M3）：增强 LRC 词级时间轴 + activeWord + 面板逐字高亮。
+    _lyr = _code_only((ROOT / "core-model" / "src" / "main" / "kotlin" / "com"
+                       / "example" / "cloudmusic" / "model" / "Lyrics.kt")
+                      .read_text(encoding="utf-8", errors="replace"))
+    _lpp = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
+                       / "example" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt")
+                      .read_text(encoding="utf-8", errors="replace"))
+    _c242_bad = []
+    if "data class LyricWord(val startMs: Long, val endMs: Long, val text: String)" not in _lyr:
+        _c242_bad.append("LyricWord 模型缺失")
+    if "val words: List<LyricWord> = emptyList()" not in _lyr:
+        _c242_bad.append("LyricLine.words 缺省空（回退口径）缺失")
+    if "fun activeWord(positionMs: Long): LyricWord?" not in _lyr:
+        _c242_bad.append("activeWord 缺失")
+    if "private val WORD_TAG = Regex" not in _lyr or "private fun parseWords(textPart: String, offsetMs: Long): List<LyricWord>" not in _lyr:
+        _c242_bad.append("词级解析链缺失")
+    if "lyrics.activeWord(positionMs)" not in _lpp or "SpanStyle(color = Color(LegacyPalette.AccentRed))" not in _lpp:
+        _c242_bad.append("面板逐字高亮缺失")
+    if _c242_bad:
+        failures.append("§61.242 逐字歌词：%s" % "；".join(_c242_bad))
+    else:
+        print("[PASS] §61.242 逐字歌词（增强 LRC 词级时间轴 + activeWord + 面板高亮）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

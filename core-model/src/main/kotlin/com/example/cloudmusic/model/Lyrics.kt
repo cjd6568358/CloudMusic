@@ -11,7 +11,20 @@ package com.example.cloudmusic.model
  */
 
 /** 单行歌词：时间戳（毫秒）+ 文本。 */
-data class LyricLine(val timeMs: Long, val text: String)
+data class LyricLine(
+    val timeMs: Long,
+    val text: String,
+    /** §61.242：词级时间轴（增强 LRC；无词级标签恒空，UI 回退整行高亮）。 */
+    val words: List<LyricWord> = emptyList(),
+)
+
+/**
+ * §61.242（V0.3 M3）：逐字歌词时间轴单元（增强 LRC `<mm:ss.xx>` 词级标签）。
+ * [endMs] = 下一个词的起点；**行内最后一个词 endMs = -1（无界）**——语义为「唱到行尾」，
+ * 仅在行本身为 active 行时被查询（粘滞到最后，不伪造提前结束）。
+ * 无词级标签的行 [LyricLine.words] 恒空 → UI 回退整行高亮（零行为变化）。
+ */
+data class LyricWord(val startMs: Long, val endMs: Long, val text: String)
 
 /**
  * 一首歌的逐行歌词。
@@ -51,6 +64,18 @@ data class Lyrics(
     /** [positionMs] 处的文本；无有效行返回 null。 */
     fun activeText(positionMs: Long): String? = lines.getOrNull(activeIndex(positionMs))?.text
 
+    /**
+     * §61.242：[positionMs] 处应高亮的词（仅 active 行内查询；行无词级时间轴返回 null）。
+     * 词激活区间 = startMs <= pos < endMs；行尾无界词（endMs = -1）粘滞命中。
+     */
+    fun activeWord(positionMs: Long): LyricWord? {
+        val line = lines.getOrNull(activeIndex(positionMs)) ?: return null
+        if (line.words.isEmpty()) return null
+        return line.words.firstOrNull { w ->
+            w.startMs <= positionMs && (w.endMs < 0 || positionMs < w.endMs)
+        }
+    }
+
     companion object {
         val EMPTY = Lyrics(emptyList())
     }
@@ -70,6 +95,12 @@ object LrcParser {
     private val TIME_TAG = Regex("""\[(\d{1,3}):(\d{2})(?:[.:](\d{1,3}))?\]""")
     private val OFFSET_TAG = Regex("""\[offset:\s*([+-]?\d+)\s*\]""", RegexOption.IGNORE_CASE)
 
+    /**
+     * §61.242：增强 LRC 词级标签 `<mm:ss.xx>`（与行级同制式：毫秒 1~3 位归一、[.:] 容忍）。
+     * 出现即视为逐字歌词行；标签间文本为词，空段跳过；无标签行 words 恒空（回退整行高亮）。
+     */
+    private val WORD_TAG = Regex("""<(\d{1,3}):(\d{2})(?:[.:](\d{1,3}))?>""")
+
     /** 解析 LRC 文本；无任何有效行时返回 [Lyrics.EMPTY]。 */
     fun parse(text: String, source: String = "local:lrc"): Lyrics {
         var offsetMs = 0L
@@ -85,14 +116,43 @@ object LrcParser {
             val textPart = TIME_TAG.replace(line, "").trim()
             val stamps = TIME_TAG.findAll(line).map { it.toMillis() }.toList()
             if (textPart.isEmpty()) continue
+            // §61.242：词级时间轴解析（有标签才产出 words；空段跳过；末词无界 -1）。
+            // 行首无标签但行中夹标签的混合形态按首标签前段处理（无时间归属 → 丢弃该前段）。
+            val words = parseWords(textPart, offsetMs)
+            val displayText = if (words.isEmpty()) textPart else words.joinToString("") { it.text }
             for (t in stamps) {
                 val adj = (t + offsetMs).coerceAtLeast(0L)
-                rows += LyricLine(adj, textPart)
+                rows += LyricLine(adj, displayText, words.map { w ->
+                    // 词时间同叠 offset；起点 0 钳制与行级一致。
+                    w.copy(startMs = (w.startMs + offsetMs).coerceAtLeast(0L),
+                           endMs = if (w.endMs < 0) -1L else (w.endMs + offsetMs).coerceAtLeast(0L))
+                })
             }
         }
         if (rows.isEmpty()) return Lyrics.EMPTY.copy(source = source)
         val sorted = rows.sortedBy { it.timeMs }
         return Lyrics(sorted, offsetMs, source)
+    }
+
+    /**
+     * §61.242：词级段解析——`<t1>词<t2>词…`；最后一段 endMs = -1（无界）。
+     * 无词标签 → 空表（行级回退）。offset 由调用方统一叠加（此处产原始时间）。
+     */
+    private fun parseWords(textPart: String, offsetMs: Long): List<LyricWord> {
+        val tags = WORD_TAG.findAll(textPart).toList()
+        if (tags.isEmpty()) return emptyList()
+        // 首标签前的无时间归属前段丢弃（增强 LRC 约定词全部挂在标签后）。
+        val out = mutableListOf<LyricWord>()
+        for (i in tags.indices) {
+            val start = tags[i].range.last + 1
+            val end = if (i + 1 < tags.size) tags[i + 1].range.first else textPart.length
+            val word = textPart.substring(start, end)
+            if (word.isBlank()) continue
+            val startMs = tags[i].toMillis()
+            val endMs = if (i + 1 < tags.size) tags[i + 1].toMillis() else -1L
+            out += LyricWord(startMs, endMs, word)
+        }
+        return out
     }
 
     private fun MatchResult.toMillis(): Long {
