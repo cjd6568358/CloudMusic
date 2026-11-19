@@ -7102,6 +7102,45 @@ def main() -> int:
     else:
         print("[PASS] §61.240 系统会话补全第一刀（SessionBridge 直通 + 位保回退 + DI 二口）")
 
+    # §61.241 DLNA 上次投屏设备记忆（V3-M2）：DlnaSettings 持久化 + 选择器置顶 + 全链接线。
+    _as = _code_only((ROOT / "core-storage" / "src" / "main" / "kotlin" / "com"
+                      / "example" / "cloudmusic" / "storage" / "AppSettings.kt")
+                     .read_text(encoding="utf-8", errors="replace"))
+    _codec = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                         / "example" / "cloudmusic" / "di" / "settings" / "AppSettingsCodec.kt")
+                        .read_text(encoding="utf-8", errors="replace"))
+    _sel = _code_only((ROOT / "output-dlna" / "src" / "main" / "kotlin" / "com"
+                       / "example" / "cloudmusic" / "output" / "dlna" / "DmrDeviceSelector.kt")
+                      .read_text(encoding="utf-8", errors="replace"))
+    _pb = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                      / "example" / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
+                     .read_text(encoding="utf-8", errors="replace"))
+    _ma = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
+                      / "example" / "cloudmusic" / "MainActivity.kt")
+                     .read_text(encoding="utf-8", errors="replace"))
+    _c241_bad = []
+    if "val lastDmrUsn: String? = null" not in _as or "fun withLastDmr(usn: String, name: String): DlnaSettings" not in _as:
+        _c241_bad.append("DlnaSettings 记忆字段/方法缺失")
+    if 'put("lastDmrUsn", it)' not in _codec or 'lastDmrUsn = dlna.str("lastDmrUsn", "")' not in _codec:
+        _c241_bad.append("codec 两侧未接线（旧 JSON 兼容缺失）")
+    if 'fun ranked(devices: List<DmrDevice>, lastDmrUsn: String? = null)' not in _sel \
+            or 'deduped.partition { it.usn == lastDmrUsn }' not in _sel:
+        _c241_bad.append("选择器置顶口径缺失（缺省零变化）")
+    if 'it.dlna.withLastDmr(device.usn, device.friendlyName)' not in _pb:
+        _c241_bad.append("投屏成功持久化写入缺失")
+    if 'MutableStateFlow(settingsStore.current().dlna.lastDmrUsn)' not in _ma \
+            or 'rememberedDmrUsn.value = device.usn' not in _ma:
+        _c241_bad.append("MainActivity 持久化读取/写回缺失")
+    _ui_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
+                          / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt")
+                         .read_text(encoding="utf-8", errors="replace"))
+    if "上次投屏" not in _ui_src or "lastDmrUsn: StateFlow<String?> = MutableStateFlow(null)" not in _ui_src:
+        _c241_bad.append("输出弹窗上次投屏标记缺失")
+    if _c241_bad:
+        failures.append("§61.241 DLNA 上次投屏记忆：%s" % "；".join(_c241_bad))
+    else:
+        print("[PASS] §61.241 DLNA 上次投屏设备记忆（持久化 + 置顶 + UI 标记全链）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

@@ -83,7 +83,10 @@ class SettingsContractTest {
         ),
         theme = "LIGHT",
         network = NetworkSettings(wifiOnly = false, forceWebdavProxy = true),
-        dlna = DlnaSettings(manualDmrHistory = listOf("dmr-1", "dmr-2"), preferDirectLink = false),
+        dlna = DlnaSettings(
+            manualDmrHistory = listOf("dmr-1", "dmr-2"), preferDirectLink = false,
+            lastDmrUsn = "uuid:living-room-tv", lastDmrName = "客厅电视",
+        ),
         playback = PlaybackSettings(autoSkipOnError = false, restoreLastQueue = false),
     )
 
@@ -102,6 +105,19 @@ class SettingsContractTest {
         assertEquals(original, AppSettingsCodec.decode(encoded))
         assertTrue(encoded.contains("additionRaw"))
         assertTrue(encoded.contains("中文"), "凭据里的中文必须随 DataStore 明文保留")
+    }
+
+    @Test
+    fun `T-A2-04 lastDmr memory round-trip and legacy-JSON default`() {
+        // §61.241（V3-M2）：记忆随 codec 保留；旧 JSON 无字段 → null/空串（不伪造上次设备）。
+        val populated = populated()
+        assertEquals("uuid:living-room-tv", populated.dlna.lastDmrUsn)
+        assertEquals(populated, AppSettingsCodec.decode(AppSettingsCodec.encode(populated)))
+        val legacy = AppSettingsCodec.decode(
+            "{\"theme\":\"LIGHT\",\"dlna\":{\"manualDmrHistory\":[\"dmr-1\"],\"preferDirectLink\":true}}",
+        )
+        assertEquals(null, legacy.dlna.lastDmrUsn)
+        assertEquals("", legacy.dlna.lastDmrName)
     }
 
     @Test

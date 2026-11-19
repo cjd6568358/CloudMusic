@@ -188,6 +188,8 @@ fun CloudMusicApp(
     onOutputSelected: (ActiveOutput) -> Unit = {},
     /** §61.200：输出弹窗的 DMR 设备列表（MainActivity 打开弹窗时发现并排序去重）。 */
     dlnaDevices: StateFlow<List<DmrDevice>> = MutableStateFlow(emptyList()),
+    /** §61.241（V3-M2）：上次投屏设备 USN——弹窗里给该设备标「上次投屏」。 */
+    lastDmrUsn: StateFlow<String?> = MutableStateFlow(null),
     /** §61.229：投屏态 DMR 音量（输出弹窗滑杆）；回调转发 runtime.setCastVolume。 */
     castVolume: StateFlow<Int> = MutableStateFlow(50),
     onCastVolumeChanged: (Int) -> Unit = { _ -> },
@@ -493,9 +495,11 @@ fun CloudMusicApp(
     if (showOutput) {
         val dmrDevices by dlnaDevices.collectAsState()
         val castVolumeState by castVolume.collectAsState()
+        val lastUsn by lastDmrUsn.collectAsState()
         OutputDialog(
             state = output,
             devices = dmrDevices,
+            lastDmrUsn = lastUsn,
             castVolume = castVolumeState,
             onCastVolumeChanged = onCastVolumeChanged,
             onOutputSelected = onOutputSelected,
@@ -2100,6 +2104,7 @@ private fun IgnoreDirsSheet(
 private fun OutputDialog(
     state: OutputDeviceState,
     devices: List<DmrDevice> = emptyList(),
+    lastDmrUsn: String? = null,
     castVolume: Int = 50,
     onCastVolumeChanged: (Int) -> Unit = { _ -> },
     onOutputSelected: (ActiveOutput) -> Unit,
@@ -2158,8 +2163,10 @@ private fun OutputDialog(
         actions = buildList {
             add("本机（手机扬声器 / 有线输出）" to { onOutputSelected(ActiveOutput.LOCAL) })
             devices.forEach { device ->
+                // §61.241：上次成功投屏的设备标记（发现列表里在线才显示，不伪造）。
                 val kind = if (device.source == DeviceSource.MANUAL) "手动" else "发现"
-                add("${device.friendlyName} · $kind" to { onPickDmr(device) })
+                val badge = if (device.usn == lastDmrUsn) " · 上次投屏" else ""
+                add("${device.friendlyName} · $kind$badge" to { onPickDmr(device) })
             }
             add("DLNA · 自动选择（记住设备优先）" to { onOutputSelected(ActiveOutput.DLNA) })
             add("重新扫描 DLNA 设备" to onScanDlna)

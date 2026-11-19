@@ -14,17 +14,27 @@ package com.example.cloudmusic.output.dlna
  */
 object DmrDeviceSelector {
 
-    fun ranked(devices: List<DmrDevice>): List<DmrDevice> = devices
-        .groupBy { it.usn }
-        .values.mapNotNull { group -> group.maxByOrNull { it.lastSeen } }
-        .sortedWith(
-            compareByDescending<DmrDevice> { it.source == DeviceSource.MANUAL }
-                .thenByDescending { it.lastSeen }
-                .thenBy { it.friendlyName.lowercase() }
-        )
+    /**
+     * §61.241（V3-M2）：[lastDmrUsn]（上次成功投屏设备，持久化记忆）仍在线时置顶——
+     * 「上次那台」比手动/发现排序更相关。null/blank 或 USN 不在列表 = 现行排序零变化。
+     */
+    fun ranked(devices: List<DmrDevice>, lastDmrUsn: String? = null): List<DmrDevice> {
+        val deduped = devices
+            .groupBy { it.usn }
+            .values.mapNotNull { group -> group.maxByOrNull { it.lastSeen } }
+        val (lastUsed, rest) = if (lastDmrUsn.isNullOrBlank()) {
+            emptyList<DmrDevice>() to deduped
+        } else {
+            deduped.partition { it.usn == lastDmrUsn }
+        }
+        val order = compareByDescending<DmrDevice> { it.source == DeviceSource.MANUAL }
+            .thenByDescending { it.lastSeen }
+            .thenBy { it.friendlyName.lowercase() }
+        return lastUsed.sortedWith(order) + rest.sortedWith(order)
+    }
 
     fun pick(devices: List<DmrDevice>, rememberedUsn: String?): DmrDevice? {
-        val list = ranked(devices)
+        val list = ranked(devices, rememberedUsn)
         if (list.isEmpty()) return null
         return if (rememberedUsn.isNullOrBlank()) list.first()
         else list.firstOrNull { it.usn == rememberedUsn } ?: list.first()

@@ -75,6 +75,22 @@ class AppSettingsTest {
     }
 
     @Test
+    @DisplayName("§61.241 · lastDmr 记忆：成功投屏更新、空 USN 不写、回本机不清（记忆非活跃态）")
+    fun lastDmrMemory() {
+        var s = DlnaSettings()
+        assertEquals(null, s.lastDmrUsn)
+        s = s.withLastDmr("uuid:tv-1", "客厅电视")
+        assertEquals("uuid:tv-1", s.lastDmrUsn)
+        assertEquals("客厅电视", s.lastDmrName)
+        // 空 USN 不写（不伪造记忆）
+        assertEquals(s, s.withLastDmr("  ", "名字"))
+        // 覆盖更新（换设备）
+        s = s.withLastDmr("uuid:box-2", "卧室盒子")
+        assertEquals("uuid:box-2", s.lastDmrUsn)
+        assertEquals("卧室盒子", s.lastDmrName)
+    }
+
+    @Test
     @DisplayName("08 §2 取值范围 / 03-05 §4 · SettingsValidator 拦截非法值")
     fun validatorRejectsInvalidValues() {
         assertTrue(SettingsValidator.validate(AppSettings(theme = "NEON")).any { "theme" in it })

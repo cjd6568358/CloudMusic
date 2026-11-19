@@ -69,6 +69,9 @@ object AppSettingsCodec {
                 settings.dlna.manualDmrHistory.forEach { add(JsonPrimitive(it)) }
             })
             put("preferDirectLink", settings.dlna.preferDirectLink)
+            // §61.241（V3-M2）：上次投屏设备记忆（usn 空不写字段，读侧默认 null 兼容旧 JSON）。
+            settings.dlna.lastDmrUsn?.let { put("lastDmrUsn", it) }
+            if (settings.dlna.lastDmrName.isNotEmpty()) put("lastDmrName", settings.dlna.lastDmrName)
         })
         // §61.118（T5-1）：audiofx 持久化（enabled / effectLevel / 各 band millibel）。
         put("audiofx", buildJsonObject {
@@ -117,6 +120,9 @@ object AppSettingsCodec {
             dlna = DlnaSettings(
                 manualDmrHistory = dlna.strs("manualDmrHistory", emptyList()),
                 preferDirectLink = dlna.bool("preferDirectLink", true),
+                // §61.241：旧 JSON 无字段 → null/空串默认（不伪造上次设备）。
+                lastDmrUsn = dlna.str("lastDmrUsn", "").takeIf { it.isNotBlank() },
+                lastDmrName = dlna.str("lastDmrName", ""),
             ),
             audiofx = AudiofxSettings(
                 enabled = audiofx.bool("enabled", false),

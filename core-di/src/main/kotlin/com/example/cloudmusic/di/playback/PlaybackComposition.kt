@@ -1032,6 +1032,13 @@ class PlaybackRuntime @Inject constructor(
         castingDevice = device
         dlnaSession.reset()   // 新会话：清上次断连标记与旧进度
         _dlnaPositionMs.value = 0L
+        // §61.241（V3-M2）：上次投屏设备持久化——进程死亡后仍记忆（回本机不清，
+        // 是记忆不是活跃态）。scope.launch 与 updateTheme 同型（settings.update 是
+        // suspend）；失败只记日志不伪造已记。
+        scope.launch {
+            runCatching { settings.update { it.copy(dlna = it.dlna.withLastDmr(device.usn, device.friendlyName)) } }
+                .onFailure { Log.w("CM-DLNA", "上次投屏设备持久化失败: ${it.message}") }
+        }
     }
 
     private fun dlnaRecastLoop() {

@@ -106,6 +106,14 @@ data class DlnaSettings(
     /** 上限 20，按 lastSeen 淘汰最旧（08 §2.5）。 */
     val manualDmrHistory: List<String> = emptyList(),
     val preferDirectLink: Boolean = true,
+    /**
+     * §61.241（V3-M2）：上次成功投屏设备 USN——进程死亡后仍生效的记忆
+     * （区别于运行期 castingDevice：回本机不清，下次发现列表置顶 + 自动选择优先）。
+     * null = 从未投屏。持久化进既有 settings JSON，零新存储设施。
+     */
+    val lastDmrUsn: String? = null,
+    /** §61.241：上次投屏设备友好名（仅 UI 提示用；离线时列表无此设备，不伪造在线态）。 */
+    val lastDmrName: String = "",
 ) {
     companion object {
         const val HISTORY_LIMIT = 20
@@ -117,6 +125,10 @@ data class DlnaSettings(
         val next = (manualDmrHistory.filter { it != deviceId } + deviceId).takeLast(HISTORY_LIMIT)
         return copy(manualDmrHistory = next)
     }
+
+    /** §61.241：投屏成功时更新上次设备记忆（空 USN 不写）。 */
+    fun withLastDmr(usn: String, name: String): DlnaSettings =
+        if (usn.isBlank()) this else copy(lastDmrUsn = usn, lastDmrName = name)
 }
 
 /** 设置项合法性校验（08 §2 的取值范围 + 08 §5 的敏感项约束）。 */

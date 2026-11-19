@@ -116,8 +116,16 @@ class MainActivity : ComponentActivity() {
     /** §61.200：输出弹窗的 DMR 设备列表（用户打开弹窗时才发现，不常驻扫网）。 */
     private val dlnaDevices = MutableStateFlow<List<DmrDevice>>(emptyList())
 
-    /** §61.200：上次成功投屏的 USN，列表里仍在线则优先选中。 */
-    private var rememberedDmrUsn: String? = null
+    /**
+     * §61.200：上次成功投屏的 USN，列表里仍在线则优先选中。
+     * §61.241（V3-M2）：初值读持久化记忆（settingsStore.dlna.lastDmrUsn，进程死亡后
+     * 仍生效）；StateFlow 化供输出弹窗「上次投屏」标记随重组刷新。
+     */
+    // by lazy：字段初始化器在 Hilt 成员注入前运行，settingsStore 必须延迟到首次访问
+    //（首次访问均在 onCreate 之后——输出弹窗打开 / castTo / pick）。
+    private val rememberedDmrUsn: MutableStateFlow<String?> by lazy {
+        MutableStateFlow(settingsStore.current().dlna.lastDmrUsn)
+    }
 
     /** §61.201：手动 DMR 探测结果（null=未探测；Result 失败带明确原因）。 */
     private val manualDmrResult = MutableStateFlow<Result<DmrDevice>?>(null)
@@ -129,7 +137,7 @@ class MainActivity : ComponentActivity() {
             val result = runCatching { ManualDmrProbe.probe(spec, descriptionFetcher) }
             manualDmrResult.value = result
             result.onSuccess { device ->
-                dlnaDevices.value = DmrDeviceSelector.ranked(dlnaDevices.value + device)
+                dlnaDevices.value = DmrDeviceSelector.ranked(dlnaDevices.value + device, rememberedDmrUsn.value)
                 output.updateRouteHint("手动设备已找到：${device.friendlyName}")
             }.onFailure {
                 output.updateRouteHint("手动 DMR 探测失败：${it.message}")
@@ -142,8 +150,16 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             output.updateRouteHint("正在发现局域网 DMR…")
             val found = runCatching { castCoordinator.discover() }.getOrElse { emptyList() }
-            dlnaDevices.value = DmrDeviceSelector.ranked(found)
-            if (found.isEmpty()) output.updateRouteHint("未发现 DLNA 设备（保持本机播放）")
+            dlnaDevices.value = DmrDeviceSelector.ranked(found, rememberedDmrUsn.value)
+            if (found.isEmpty()) {
+                // §61.241：上次投屏设备不在线 → 如实提示（不伪造在线态）。
+                val hint = if (found.isEmpty() && rememberedDmrUsn.value != null) {
+                    "未发现 DLNA 设备（上次投屏的「${settingsStore.current().dlna.lastDmrName}」不在线；保持本机播放）"
+                } else {
+                    "未发现 DLNA 设备（保持本机播放）"
+                }
+                output.updateRouteHint(hint)
+            }
         }
     }
 
@@ -161,7 +177,7 @@ class MainActivity : ComponentActivity() {
                 if (result.started) {
                     // §61.193：记住投屏目标 → 切歌保持（runtime dlnaRecastLoop）。
                     runtime.onDlnaDeviceSelected(device)
-                    rememberedDmrUsn = device.usn
+                    rememberedDmrUsn.value = device.usn
                     // T09：本机静音 + 媒体控件停用（03-08 §10.1 / §14 #9 成对契约）。
                     output.setActive(ActiveOutput.DLNA)
                     runtime.onOutputChanged(true)
@@ -485,7 +501,7 @@ class MainActivity : ComponentActivity() {
                                 ActiveOutput.DLNA -> {
                                     // §61.200：自动选择入口用「记住设备优先 + 排序第一台」；
                                     // 弹窗里也可直接点具体设备（onPickDmr → castTo）。
-                                    val device = DmrDeviceSelector.pick(dlnaDevices.value, rememberedDmrUsn)
+                                    val device = DmrDeviceSelector.pick(dlnaDevices.value, rememberedDmrUsn.value)
                                     if (device == null) {
                                         refreshDlnaDevices()
                                         output.updateRouteHint("未发现 DLNA 设备（保持本机播放）")
@@ -498,6 +514,8 @@ class MainActivity : ComponentActivity() {
                     },
                     // §61.200：弹窗设备列表（打开时/重新扫描时刷新）+ 点具体设备直接投屏。
                     dlnaDevices = dlnaDevices,
+                    // §61.241：上次投屏设备标记（StateFlow，投屏成功后弹窗重组可见）。
+                    lastDmrUsn = rememberedDmrUsn,
                     // §61.229：投屏态 DMR 音量（输出弹窗滑杆；打开弹窗时顺带 GetVolume 刷新）。
                     castVolume = runtime.dlnaVolume(),
                     onCastVolumeChanged = { v -> runtime.setCastVolume(v); runtime.refreshCastVolume() },

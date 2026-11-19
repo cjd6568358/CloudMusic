@@ -59,4 +59,46 @@ class DmrDeviceSelectorTest {
         assertNull(DmrDeviceSelector.pick(emptyList(), "u1"))
         assertEquals(emptyList<DmrDevice>(), DmrDeviceSelector.ranked(emptyList()))
     }
+
+    // ------------------------------------------------------------------
+    // §61.241（V3-M2）：上次投屏设备持久化记忆 → 发现列表置顶
+    // ------------------------------------------------------------------
+
+    @Test
+    @DisplayName("§61.241 L1：上次投屏设备在线 → 置顶（优先于手动/最近发现排序）")
+    fun rankedPinsLastUsed() {
+        val devices = listOf(
+            device("manual", "手动盒子", DeviceSource.MANUAL, lastSeen = 300),
+            device("tv", "客厅电视", lastSeen = 100),
+            device("box", "卧室盒子", lastSeen = 200),
+        )
+        val list = DmrDeviceSelector.ranked(devices, "tv")
+        assertEquals("客厅电视", list[0].friendlyName, "上次投屏置顶")
+        assertEquals("手动盒子", list[1].friendlyName, "其余保持手动优先排序")
+        assertEquals("卧室盒子", list[2].friendlyName)
+    }
+
+    @Test
+    @DisplayName("§61.241 L2：null/空/已下线 USN → 现行排序零变化")
+    fun rankedNoPinKeepsLegacyOrder() {
+        val devices = listOf(
+            device("a", "阿尔法", lastSeen = 100),
+            device("b", "贝塔", DeviceSource.MANUAL, lastSeen = 1),
+            device("c", "查理", lastSeen = 200),
+        )
+        val legacy = listOf("贝塔", "查理", "阿尔法")
+        assertEquals(legacy, DmrDeviceSelector.ranked(devices).map { it.friendlyName }, "缺省参数零变化")
+        assertEquals(legacy, DmrDeviceSelector.ranked(devices, null).map { it.friendlyName })
+        assertEquals(legacy, DmrDeviceSelector.ranked(devices, "").map { it.friendlyName })
+        assertEquals(legacy, DmrDeviceSelector.ranked(devices, "已下线-usn").map { it.friendlyName })
+    }
+
+    @Test
+    @DisplayName("§61.241 L3：pick 持久化记忆直通——进程重启后读到的 USN 仍优先选中")
+    fun pickWithPersistedUsn() {
+        val devices = listOf(device("a", "阿尔法", lastSeen = 100), device("tv", "客厅电视", lastSeen = 50))
+        assertEquals("客厅电视", DmrDeviceSelector.pick(devices, "tv")!!.friendlyName)
+        // 下线回落排序第一台（贝塔语义），不伪造在线
+        assertEquals("阿尔法", DmrDeviceSelector.pick(devices, "offline")!!.friendlyName)
+    }
 }
