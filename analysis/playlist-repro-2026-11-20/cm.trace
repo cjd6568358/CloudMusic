@@ -1,0 +1,166 @@
+*version
+3
+data-file-overflow=false
+clock=dual
+elapsed-time-usec=6185170
+num-method-calls=367
+clock-call-overhead-nsec=1097
+vm=art
+pid=9813
+*threads
+9813	main
+27059	Signal Catcher
+27060	perfetto_hprof_listener
+27061	ADB-JDWP Connection Control Thread
+27062	Jit thread pool worker thread 0
+27063	HeapTaskDaemon
+27065	ReferenceQueueDaemon
+27066	FinalizerDaemon
+27067	FinalizerWatchdogDaemon
+27068	binder:9813_1
+27069	binder:9813_2
+27071	binder:9813_3
+27074	9813-ScoutStateMachine
+27079	Profile Saver
+27081	Timer-0
+27082	Timer-1
+27083	RenderThread
+27086	DefaultDispatcher-worker-1
+27088	DefaultDispatcher-worker-3
+27089	WifiManagerThread
+27090	DefaultDispatcher-worker-4
+27092	DefaultDispatcher-worker-6
+27091	DefaultDispatcher-worker-5
+27096	DefaultDispatcher-worker-2
+27094	DefaultDispatcher-worker-8
+27097	kotlinx.coroutines.DefaultExecutor
+27093	DefaultDispatcher-worker-7
+27098	Binder:interceptor
+27102	hwuiTask0
+27103	hwuiTask1
+27104	arch_disk_io_0
+27105	queued-work-looper
+27106	arch_disk_io_1
+27108	arch_disk_io_2
+27109	arch_disk_io_3
+27112	OkHttp TaskRunner
+27122	binder:9813_4
+27350	InsetsAnimations
+27397	binder:9813_5
+*methods
+0xa8	java.lang.ThreadLocal	set	(Ljava/lang/Object;)V	ThreadLocal.java
+0x44	java.lang.ref.ReferenceQueue	remove	()Ljava/lang/ref/Reference;	ReferenceQueue.java
+0x48	java.lang.ref.ReferenceQueue	remove	(J)Ljava/lang/ref/Reference;	ReferenceQueue.java
+0x94	java.util.concurrent.locks.LockSupport	park	(Ljava/lang/Object;)V	LockSupport.java
+0x70	java.util.concurrent.locks.LockSupport	parkNanos	(J)V	LockSupport.java
+0x7c	java.util.concurrent.locks.LockSupport	parkNanos	(Ljava/lang/Object;J)V	LockSupport.java
+0xa0	java.util.concurrent.SynchronousQueue$TransferStack	awaitFulfill	(Ljava/util/concurrent/SynchronousQueue$TransferStack$SNode;ZJ)Ljava/util/concurrent/SynchronousQueue$TransferStack$SNode;	SynchronousQueue.java
+0x9c	java.util.concurrent.SynchronousQueue$TransferStack	transfer	(Ljava/lang/Object;ZJ)Ljava/lang/Object;	SynchronousQueue.java
+0xf8	java.util.concurrent.atomic.AtomicIntegerFieldUpdater$AtomicIntegerFieldUpdaterImpl	accessCheck	(Ljava/lang/Object;)V	AtomicIntegerFieldUpdater.java
+0xf4	java.util.concurrent.atomic.AtomicIntegerFieldUpdater$AtomicIntegerFieldUpdaterImpl	get	(Ljava/lang/Object;)I	AtomicIntegerFieldUpdater.java
+0x90	java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject	await	()V	AbstractQueuedSynchronizer.java
+0x5c	java.util.TimerThread	mainLoop	()V	Timer.java
+0x58	java.util.TimerThread	run	()V	Timer.java
+0x80	java.util.concurrent.ThreadPoolExecutor$Worker	run	()V	ThreadPoolExecutor.java
+0x88	java.util.concurrent.ThreadPoolExecutor	getTask	()Ljava/lang/Runnable;	ThreadPoolExecutor.java
+0x84	java.util.concurrent.ThreadPoolExecutor	runWorker	(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V	ThreadPoolExecutor.java
+0x8c	java.util.concurrent.LinkedBlockingQueue	take	()Ljava/lang/Object;	LinkedBlockingQueue.java
+0x98	java.util.concurrent.SynchronousQueue	poll	(JLjava/util/concurrent/TimeUnit;)Ljava/lang/Object;	SynchronousQueue.java
+0x34	java.lang.Object	wait	()V	Object.java
+0x38	java.lang.Object	wait	(J)V	Object.java
+0x3c	java.lang.Object	wait	(JI)V	Object.java
+0x74	jdk.internal.misc.Unsafe	park	(ZJ)V	Unsafe.java
+0x20	java.lang.Thread	run	()V	Thread.java
+0xfc	java.lang.Class	isInstance	(Ljava/lang/Object;)Z	Class.java
+0x8	java.lang.reflect.Method	invoke	(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;	Method.java
+0x24	java.lang.Daemons$Daemon	run	()V	Daemons.java
+0x40	java.lang.Daemons$FinalizerDaemon	runInternal	()V	Daemons.java
+0x50	java.lang.Daemons$FinalizerWatchdogDaemon	sleepUntilNeeded	()Z	Daemons.java
+0x4c	java.lang.Daemons$FinalizerWatchdogDaemon	runInternal	()V	Daemons.java
+0x28	java.lang.Daemons$HeapTaskDaemon	runInternal	()V	Daemons.java
+0x30	java.lang.Daemons$ReferenceQueueDaemon	runInternal	()V	Daemons.java
+0x2c	dalvik.system.VMRuntime	runHeapTasks	()V	VMRuntime.java
+0x1a4	android.app.IApplicationThread$Stub	onTransact	(ILandroid/os/Parcel;Landroid/os/Parcel;I)Z	IApplicationThread.java
+0x1c4	android.os.Handler	enqueueMessage	(Landroid/os/MessageQueue;Landroid/os/Message;J)Z	Handler.java
+0xac	android.os.Handler	dispatchMessage	(Landroid/os/Message;)V	Handler.java
+0x1b8	android.os.Handler	sendMessage	(Landroid/os/Message;)Z	Handler.java
+0x1c0	android.os.Handler	sendMessageAtTime	(Landroid/os/Message;J)Z	Handler.java
+0x1bc	android.os.Handler	sendMessageDelayed	(Landroid/os/Message;J)Z	Handler.java
+0x54	android.os.HandlerThread	run	()V	HandlerThread.java
+0x10	android.os.Looper	loop	()V	Looper.java
+0x14	android.os.Looper	loopOnce	(Landroid/os/Looper;JI)Z	Looper.java
+0xa4	android.os.ThreadLocalWorkSource	setUid	(I)J	ThreadLocalWorkSource.java
+0x144	android.os.Message	<init>	()V	Message.java
+0x140	android.os.Message	obtain	()Landroid/os/Message;	Message.java
+0x13c	android.os.Message	obtain	(Landroid/os/Handler;I)Landroid/os/Message;	Message.java
+0x164	android.os.Message	recycleUnchecked	()V	Message.java
+0x4	com.android.internal.os.RuntimeInit$MethodAndArgsCaller	run	()V	RuntimeInit.java
+0x138	com.android.internal.util.StateMachine	obtainMessage	(I)Landroid/os/Message;	StateMachine.java
+0xb4	com.android.internal.util.StateMachine$SmHandler	performTransitions	(Lcom/android/internal/util/State;Landroid/os/Message;)V	StateMachine.java
+0x128	com.android.internal.util.StateMachine$SmHandler	processMsg	(Landroid/os/Message;)Lcom/android/internal/util/State;	StateMachine.java
+0xb0	com.android.internal.util.StateMachine$SmHandler	handleMessage	(Landroid/os/Message;)V	StateMachine.java
+0x1ac	android.app.ActivityThread	-$$Nest$msendMessage	(Landroid/app/ActivityThread;ILjava/lang/Object;II)V	ActivityThread.java
+0xc	android.app.ActivityThread	main	([Ljava/lang/String;)V	ActivityThread.java
+0x1b0	android.app.ActivityThread	sendMessage	(ILjava/lang/Object;II)V	ActivityThread.java
+0x1b4	android.app.ActivityThread	sendMessage	(ILjava/lang/Object;IIZ)V	ActivityThread.java
+0x1a8	android.app.ActivityThread$ApplicationThread	profilerControl	(ZLandroid/app/ProfilerInfo;I)V	ActivityThread.java
+0x1c	android.os.MessageQueue	nativePollOnce	(JI)V	MessageQueue.java
+0x18	android.os.MessageQueue	next	()Landroid/os/Message;	MessageQueue.java
+0x19c	android.os.Binder	execTransact	(IJJI)Z	Binder.java
+0x1a0	android.os.Binder	execTransactInternal	(IJJII)Z	Binder.java
+0	com.android.internal.os.ZygoteInit	main	([Ljava/lang/String;)V	ZygoteInit.java
+0x114	kotlinx.coroutines.DelayKt	delay	(JLkotlin/coroutines/Continuation;)Ljava/lang/Object;	Delay.kt
+0x110	com.example.cloudmusic.di.playback.PlaybackRuntime$dlnaSessionLoop$1	invokeSuspend	(Ljava/lang/Object;)Ljava/lang/Object;	PlaybackComposition.kt
+0xd0	kotlinx.coroutines.DispatchedTaskKt	dispatch	(Lkotlinx/coroutines/DispatchedTask;I)V	DispatchedTask.kt
+0xd4	kotlinx.coroutines.scheduling.SchedulerCoroutineDispatcher	dispatch	(Lkotlin/coroutines/CoroutineContext;Ljava/lang/Runnable;)V	Dispatcher.kt
+0xe0	kotlinx.coroutines.scheduling.CoroutineScheduler	addToGlobalQueue	(Lkotlinx/coroutines/scheduling/Task;)Z	CoroutineScheduler.kt
+0xd8	kotlinx.coroutines.scheduling.CoroutineScheduler	dispatch$default	(Lkotlinx/coroutines/scheduling/CoroutineScheduler;Ljava/lang/Runnable;ZZILjava/lang/Object;)V	CoroutineScheduler.kt
+0x188	kotlinx.coroutines.scheduling.CoroutineScheduler	parkedWorkersStackNextIndex	(Lkotlinx/coroutines/scheduling/CoroutineScheduler$Worker;)I	CoroutineScheduler.kt
+0x184	kotlinx.coroutines.scheduling.CoroutineScheduler	parkedWorkersStackPop	()Lkotlinx/coroutines/scheduling/CoroutineScheduler$Worker;	CoroutineScheduler.kt
+0x180	kotlinx.coroutines.scheduling.CoroutineScheduler	tryUnpark	()Z	CoroutineScheduler.kt
+0xdc	kotlinx.coroutines.scheduling.CoroutineScheduler	dispatch	(Ljava/lang/Runnable;ZZ)V	CoroutineScheduler.kt
+0xf0	kotlinx.coroutines.scheduling.CoroutineScheduler	isTerminated	()Z	CoroutineScheduler.kt
+0x104	kotlinx.coroutines.scheduling.CoroutineScheduler	runSafely	(Lkotlinx/coroutines/scheduling/Task;)V	CoroutineScheduler.kt
+0x17c	kotlinx.coroutines.scheduling.CoroutineScheduler	signalCpuWork	()V	CoroutineScheduler.kt
+0xe4	kotlinx.coroutines.internal.LockFreeTaskQueue	addLast	(Ljava/lang/Object;)Z	LockFreeTaskQueue.kt
+0x100	kotlinx.coroutines.scheduling.CoroutineScheduler$Worker	executeTask	(Lkotlinx/coroutines/scheduling/Task;)V	CoroutineScheduler.kt
+0x190	kotlinx.coroutines.scheduling.CoroutineScheduler$Worker	findAnyTask	(Z)Lkotlinx/coroutines/scheduling/Task;	CoroutineScheduler.kt
+0x124	kotlinx.coroutines.scheduling.CoroutineScheduler$Worker	inStack	()Z	CoroutineScheduler.kt
+0x6c	kotlinx.coroutines.scheduling.CoroutineScheduler$Worker	park	()V	CoroutineScheduler.kt
+0x64	kotlinx.coroutines.scheduling.CoroutineScheduler$Worker	runWorker	()V	CoroutineScheduler.kt
+0x68	kotlinx.coroutines.scheduling.CoroutineScheduler$Worker	tryPark	()V	CoroutineScheduler.kt
+0x194	kotlinx.coroutines.scheduling.CoroutineScheduler$Worker	trySteal	(I)Lkotlinx/coroutines/scheduling/Task;	CoroutineScheduler.kt
+0x18c	kotlinx.coroutines.scheduling.CoroutineScheduler$Worker	findTask	(Z)Lkotlinx/coroutines/scheduling/Task;	CoroutineScheduler.kt
+0x60	kotlinx.coroutines.scheduling.CoroutineScheduler$Worker	run	()V	CoroutineScheduler.kt
+0x198	kotlinx.coroutines.scheduling.WorkQueue	trySteal	(ILkotlin/jvm/internal/Ref$ObjectRef;)J	WorkQueue.kt
+0xec	kotlinx.coroutines.internal.LockFreeTaskQueueCore	get_state$volatile$FU	()Ljava/util/concurrent/atomic/AtomicLongFieldUpdater;	LockFreeTaskQueue.kt
+0xe8	kotlinx.coroutines.internal.LockFreeTaskQueueCore	addLast	(Ljava/lang/Object;)I	LockFreeTaskQueue.kt
+0xbc	kotlinx.coroutines.EventLoopImplBase$DelayedResumeTask	run	()V	EventLoop.common.kt
+0x108	kotlinx.coroutines.DispatchedTask	run	()V	DispatchedTask.kt
+0x78	kotlinx.coroutines.DefaultExecutor	run	()V	DefaultExecutor.kt
+0xb8	kotlinx.coroutines.EventLoopImplBase	processNextEvent	()J	EventLoop.common.kt
+0x118	kotlinx.coroutines.EventLoopImplBase	scheduleResumeAfterDelay	(JLkotlinx/coroutines/CancellableContinuation;)V	EventLoop.common.kt
+0x11c	kotlinx.coroutines.CancellableContinuationKt	disposeOnCancellation	(Lkotlinx/coroutines/CancellableContinuation;Lkotlinx/coroutines/DisposableHandle;)V	CancellableContinuation.kt
+0x120	kotlinx.coroutines.CancellableContinuationKt	invokeOnCancellation	(Lkotlinx/coroutines/CancellableContinuation;Lkotlinx/coroutines/CancelHandler;)V	CancellableContinuation.kt
+0x178	kotlinx.coroutines.JobSupport	getState$kotlinx_coroutines_core	()Ljava/lang/Object;	JobSupport.kt
+0x174	kotlinx.coroutines.JobSupport	removeNode$kotlinx_coroutines_core	(Lkotlinx/coroutines/JobNode;)V	JobSupport.kt
+0x170	kotlinx.coroutines.JobNode	dispose	()V	JobSupport.kt
+0x168	kotlinx.coroutines.CancellableContinuationImpl	detachChildIfNonResuable	()V	CancellableContinuationImpl.kt
+0xcc	kotlinx.coroutines.CancellableContinuationImpl	dispatchResume	(I)V	CancellableContinuationImpl.kt
+0xc4	kotlinx.coroutines.CancellableContinuationImpl	resumeImpl$kotlinx_coroutines_core$default	(Lkotlinx/coroutines/CancellableContinuationImpl;Ljava/lang/Object;ILkotlin/jvm/functions/Function3;ILjava/lang/Object;)V	CancellableContinuationImpl.kt
+0x16c	kotlinx.coroutines.CancellableContinuationImpl	detachChild$kotlinx_coroutines_core	()V	CancellableContinuationImpl.kt
+0xc8	kotlinx.coroutines.CancellableContinuationImpl	resumeImpl$kotlinx_coroutines_core	(Ljava/lang/Object;ILkotlin/jvm/functions/Function3;)V	CancellableContinuationImpl.kt
+0xc0	kotlinx.coroutines.CancellableContinuationImpl	resumeUndispatched	(Lkotlinx/coroutines/CoroutineDispatcher;Ljava/lang/Object;)V	CancellableContinuationImpl.kt
+0x10c	kotlin.coroutines.jvm.internal.BaseContinuationImpl	resumeWith	(Ljava/lang/Object;)V	ContinuationImpl.kt
+0x15c	android.os.perfdebug.MessageMonitorImpl$MessageMonitorInfoImpl	<init>	()V	MessageMonitorImpl.java
+0x160	android.os.perfdebug.MessageMonitorImpl$MessageMonitorInfoImpl$1	<init>	(Landroid/os/perfdebug/MessageMonitorImpl$MessageMonitorInfoImpl;)V	MessageMonitorImpl.java
+0x130	android.app.AppScoutStateMachine	-$$Nest$mcheckDestStateInPeriod	(Landroid/app/AppScoutStateMachine;)V	AppScoutStateMachine.java
+0x134	android.app.AppScoutStateMachine	checkDestStateInPeriod	()V	AppScoutStateMachine.java
+0x12c	android.app.AppScoutStateMachine$NormalState	processMessage	(Landroid/os/Message;)Z	AppScoutStateMachine.java
+0x148	android.os.perfdebug.MessageMonitor	newMessageMonitorInfo	()Landroid/os/perfdebug/MessageMonitor$MessageMonitorInfo;	MessageMonitor.java
+0x14c	com.miui.base.MiuiStubUtil	newInstance	(Ljava/lang/Class;)Ljava/lang/Object;	MiuiStubUtil.java
+0x150	com.miui.base.MiuiStubRegistry	get	(Ljava/lang/Class;Z)Ljava/lang/Object;	MiuiStubRegistry.java
+0x158	android.os.perfdebug.MessageMonitorImpl$MessageMonitorInfoImpl$Provider	provideNewInstance	()Landroid/os/perfdebug/MessageMonitorImpl$MessageMonitorInfoImpl;	MessageMonitorImpl$MessageMonitorInfoImpl$Provider.java
+0x154	android.os.perfdebug.MessageMonitorImpl$MessageMonitorInfoImpl$Provider	provideNewInstance	()Ljava/lang/Object;	MessageMonitorImpl$MessageMonitorInfoImpl$Provider.java
+*end
+SLOW   ‘˛^h                  U&        è  U&       è  U&       è  U&       è  U&       è  U&       è  U&       è  U&       è  ∑i        8è  ∑i$       8è  ∑i(       8è  ∑i,       8è  πi        Iè  πi$       Iè  πi0       Iè  πi4       Iè  πi8       Iè  πi<       Iè  ∫i        Vè  ∫i$       Vè  ∫i@       Vè  ∫iD       Vè  ∫iH       Vè  ∫i8       Vè  ∫i<       Vè  ªi        eè  ªi$       eè  ªiL       eè  ªiP       eè  ªi4       eè  ªi8       eè  ªi<       eè  ¬iT       wè  ¬i       wè  ¬i       wè  ¬i       wè  ¬i       wè  …iX       Üè  …i\       Üè  …i4       Üè  …i8       Üè  …i<       Üè   iX       ëè   i\       ëè   i4       ëè   i8       ëè   i<       ëè  Œi`       °è  Œid       °è  Œih       °è  Œil       °è  Œip       °è  Œit       °è  –i`       Øè  –id       Øè  –ih       Øè  –il       Øè  –ip       Øè  –it       Øè  —iT       ∏è  —i       ∏è  —i       ∏è  —i       ∏è  —i       ∏è  “i`       ¡è  “id       ¡è  “ih       ¡è  “il       ¡è  “ip       ¡è  “it       ¡è  ‘i`       Õè  ‘id       Õè  ‘ih       Õè  ‘il       Õè  ‘ip       Õè  ‘it       Õè  ”i`       ◊è  ”id       ◊è  ”ih       ◊è  ”il       ◊è  ”ip       ◊è  ”it       ◊è  ÿi`       ‚è  ÿid       ‚è  ÿih       ‚è  ÿil       ‚è  ÿip       ‚è  ÿit       ‚è  ÷i`       Ïè  ÷id       Ïè  ÷ih       Ïè  ÷il       Ïè  ÷ip       Ïè  ÷it       Ïè  Ÿi        Ùè  Ÿix       Ùè  Ÿi|       Ùè  Ÿit       Ùè  ’i`        ê  ’id        ê  ’ih        ê  ’il        ê  ’ip        ê  ’it        ê  ⁄iT       ê  ⁄i       ê  ⁄i       ê  ⁄i       ê  ⁄i       ê  ‡i        !ê  ‡iÄ       !ê  ‡iÑ       !ê  ‡ià       !ê  ‡iå       !ê  ‡iê       !ê  ‡iî       !ê  ‡it       !ê  ·iT       /ê  ·i       /ê  ·i       /ê  ·i       /ê  ·i       /ê  ‚i        :ê  ‚iÄ       :ê  ‚iÑ       :ê  ‚ià       :ê  ‚iå       :ê  ‚iê       :ê  ‚iî       :ê  ‚it       :ê  ‰i        Dê  ‰iÄ       Dê  ‰iÑ       Dê  ‰ià       Dê  ‰iå       Dê  ‰iê       Dê  ‰iî       Dê  ‰it       Dê  Âi        Nê  ÂiÄ       Nê  ÂiÑ       Nê  Âià       Nê  Âiå       Nê  Âiê       Nê  Âiî       Nê  Âit       Nê  Ëi        ^ê  ËiÄ       ^ê  ËiÑ       ^ê  Ëià       ^ê  Ëiò       ^ê  Ëiú       ^ê  Ëi†       ^ê  Ëi|       ^ê  Ëit       ^ê  ÷jT       jê  ÷j       jê  ÷j       jê  ÷j       jê  ÷j       jê  ¬i   r   ßP	 ¬i   r   ßP	 ¬i§   r   ßP	 ¬i®   r   ßP	 ¬i©   D  R	 ¬i•   D  R	 ¬i¨   D  R	 ¬i∞   D  R	 ¬i¥   D  R	 ¬iµ   ±  }S	 ¬i±   ±  }S	 ¬i≠   ±  }S	 ¬i   ±  }S	 ¬i   ±  }S	 Ÿiu   [  â Ÿi}   [  â Ÿi∏   [  â Ÿiº   [  â Ÿi¿   [  â Ÿiƒ   c  Öã Ÿi»   c  Öã ŸiÃ   c  Öã Ÿi–   c  Öã Ÿi‘   c  Öã Ÿiÿ   c  Öã Ÿi‹   c  Öã Ÿi‡   c  Öã Ÿi‰   c  Öã ŸiË   c  Öã ŸiÏ   c  Öã ÷iu   h   Qç ÷iq   h   Qç ÷im   h   Qç ÷ii   h   Qç ÷i   h   Qç ÷iÙ   h   Qç ÷i¯   h   Qç ÷i¸   h   Qç ŸiÌ   :  [ç ŸiÈ   :  [ç ŸiÂ   :  [ç Ÿi·   :  [ç Ÿi›   :  [ç ŸiŸ   :  [ç Ÿi’   :  [ç Ÿi—   :  [ç ŸiÕ   :  [ç Ÿi…   :  [ç Ÿi≈   :  [ç Ÿi¡   :  [ç ŸiΩ   :  [ç Ÿiπ   :  [ç Ÿi|   :  [ç Ÿit   :  [ç ÷i˝   X  tî ÷i˘   X  tî ÷iı   X  tî ÷iÒ   X  tî ÷i   X  tî ÷i  X  tî ÷i  X  tî ÷i  X  tî ÷i  X  tî ÷i  0  ˘ï ÷i  0  ˘ï ÷i  0  ˘ï ÷i   0  ˘ï ÷i!    ró ÷i    ró ÷i    ró ÷i    ró ÷i    ró ÷i    ró ÷i	    ró ÷i    ró ÷i    ró ÷ih     ró ÷i$    ró ÷i%  9  ‚ò ÷il   9  ‚ò ÷ip   9  ‚ò ÷it   9  ‚ò ¬i   º  Ω/ ¬i   º  Ω/ ¬i¨   º  Ω/ ¬i∞   º  Ω/ ¬i(  º  Ω/ ¬i,  º  Ω/ ¬i0  º  Ω/ ¬i4  º  Ω/ ¬i8  º  Ω/ ¬i<  º  Ω/ ¬i@  º  Ω/ ¬iD  º  Ω/ ¬iH  º  Ω/ ¬iL  º  Ω/ ¬iP  º  Ω/ ¬iT  º  Ω/ ¬iX  º  Ω/ ¬i\  º  Ω/ ¬i`  º  Ω/ ¬ia  /  ^Å/ ¬i]  /  ^Å/ ¬iY  /  ^Å/ ¬iU  /  ^Å/ ¬iQ  /  ^Å/ ¬iM  /  ^Å/ ¬iI  /  ^Å/ ¬iE  /  ^Å/ ¬iA  /  ^Å/ ¬i=  /  ^Å/ ¬i9  /  ^Å/ ¬i5  /  ^Å/ ¬i1  /  ^Å/ ¬i-  /  ^Å/ ¬i)  /  ^Å/ ¬i±   /  ^Å/ ¬i≠   /  ^Å/ ¬i   /  ^Å/ ¬i   T  ‹Ç/ ¬i   ®  V≥U ¬i   ®  V≥U ¬id  ®  V≥U ¬ie  Ê  ›¥U ¬i   Ê  ›¥U ¬i   Ê  ›¥U Ÿiu   Î  é‚W Ÿi}   Î  é‚W Ÿi∏   Î  é‚W Ÿiº   Î  é‚W Ÿi¿   Î  é‚W Ÿiƒ   Î  é‚W Ÿi»   Î  é‚W Ÿih  Î  é‚W Ÿil  Î  é‚W Ÿip  Î  é‚W Ÿit  Î  é‚W Ÿix  Î  é‚W Ÿiy  §  ‰W Ÿiu  §  ‰W Ÿiq  §  ‰W Ÿim  §  ‰W Ÿii  §  ‰W ŸiÃ   §  ‰W Ÿi–   §  ‰W Ÿi‘   §  ‰W Ÿiÿ   §  ‰W Ÿi‹   §  ‰W Ÿi|  §  ‰W ŸiÄ  §  ‰W ŸiÑ  §  ‰W Ÿià  §  ‰W Ÿiâ    éÂW ŸiÖ    éÂW ŸiÅ    éÂW Ÿi}    éÂW Ÿi›     éÂW ŸiŸ     éÂW Ÿi’     éÂW Ÿi—     éÂW ŸiÕ     éÂW Ÿi…     éÂW Ÿi≈     éÂW Ÿi¡     éÂW ŸiΩ     éÂW Ÿiπ     éÂW Ÿi|     éÂW Ÿit     éÂW ÷iu   °  éËW ÷iq   °  éËW ÷im   °  éËW ÷ii   °  éËW ÷i   °  éËW ÷i  °  éËW ÷i  °  éËW ÷i  °  éËW ÷i  °  éËW ÷i  °  éËW ÷i  y  ˇÈW ÷i  y  ˇÈW ÷i  y  ˇÈW ÷i	  y  ˇÈW ÷i  y  ˇÈW ÷i  y  ˇÈW ÷iå  y  ˇÈW ÷iê  y  ˇÈW ÷iî  y  ˇÈW ÷iò  y  ˇÈW ÷iô    jÎW ÷iï    jÎW ÷ië    jÎW ÷iç    jÎW ÷ih     jÎW ÷il     jÎW ÷ip     jÎW ÷it     jÎW kú  o  Y]^ k†  o  Y]^ k§  o  Y]^ k®  o  Y]^ k¨  o  Y]^ k∞  o  Y]^ k¥  o  Y]^ k∏  o  Y]^ kº  o  Y]^ k¿  o  Y]^ kƒ  o  Y]^ 
