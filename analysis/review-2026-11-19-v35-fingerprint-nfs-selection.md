@@ -29,7 +29,7 @@
 | 方案 | 内容 | 许可证 | 成本 | 精度 | 备注 |
 |---|---|---|---|---|---|
 | **A1 分层去重（推荐基座）** | Tier1 文件内容 SHA-256 精确去重（纯 JVM 扫描期可选开关）+ Tier2 时长±1s × 标题/艺人归一化模糊匹配（纯 JVM） | 无依赖 | 小 | 精确重复全覆盖；转码/重标签重复靠 Tier2 兜底 | 先落地即解决 90% 场景 |
-| **A2 纯 JVM 声纹** | [Chromaprint.scala](https://github.com/mgdigital/Chromaprint.scala)——chromaprint 算法纯 JVM 重实现（官方 chromaprint 仓库收录的 Scala/JVM 版），无 native；**Maven Central 无官方构件**（JitPack 或源码 vendored） | 待核实（原版 chromaprint 为 LGPL-2.1/部分 Apache——**引入前必须读 LICENSE 文件**） | 中（解码到 PCM 需 Android 侧 Media3 批处理 + Scala 依赖引入 Android 的字节码/体积验证） | 与 AcoustID 指纹兼容 | 无 NDK/so，符合纯 JVM 偏好；Scala 运行时体积 ~几 MB |
+| **A2 纯 JVM 声纹** | [Chromaprint.scala](https://github.com/mgdigital/Chromaprint.scala)——chromaprint 算法纯 JVM 重实现（官方 chromaprint 仓库收录的 Scala/JVM 版），无 native；**Maven Central 无官方构件**（JitPack 或源码 vendored） | **MIT ✓（§61.246 已核实 LICENSE：Mike Gibson 2019，原作者算法署名保留）** | 中（解码到 PCM 需 Android 侧 Media3 批处理 + Scala 依赖引入 Android 的字节码/体积验证） | 与 AcoustID 指纹兼容 | 无 NDK/so，符合纯 JVM 偏好；Scala 运行时体积 ~几 MB（R8 可裁） |
 | **A3 NDK chromaprint** | [chromaprint C 库](https://github.com/acoustid/chromaprint)（[LGPL-2.1](https://acoustid.org/license)）NDK 交叉编译 arm64 .so + 自写 JNI（社区无现成 Android binding） | LGPL-2.1 ✓（动态链接） | 大（NDK 构建 + JNI 层 + 版本演进管理——项目有 B2 NDK 工具链先例 `analysis/b2-ffmpeg-toolchain-*`） | 最准、生态兼容 | 舱冻结纪律不适用（scanner 域新 so，非 engine-legacy 舱体），但**新增 so = 新版本演进面** |
 | **A4 只做 A1，声纹挂账** | A1 落地 + Tier3 挂账 V1.0 | 无依赖 | 最小 | 见 A1 | 最保守 |
 
@@ -74,7 +74,21 @@
 开第 23 模块；spike FAIL（依赖不可用/协议不可达）→ 如实回落 B4 挂账。**B2 保留为 B1
 spike 失败后的备选**（NFS 收益足够大时）。
 
-### 2.4 若拍板 B1 的落地序（草案）
+### 2.4 B1 spike 静态结果（§61.246 实测，2026-11-20；jar 下载解剖，未执行任何内容）
+
+| 项 | 实测（nfs4j 0.28.5） | 结论 |
+|---|---|---|
+| 字节码 | basic-client 11 类（34KB）/ core 970 类（981KB），**全 Java 17（major 61）、零 native、零隐藏资源** | AGP D8 desugar + minSdk 26 可吞；无 so ✓ |
+| **客户端形态** | basic-client 的 11 类**全是 NFSv4 client**（`org/dcache/nfs/v4/client/*`，含 jline CLI demo `Main`）；**core 的 152 个 v3 类全部是服务端 + xdr，v3 客户端类 = 无** | **家用 NAS 主流 NFSv3 导出没有现成客户端**——B1 前提对 v3 不成立：v3 需在 oncrpc4j 上自研子集（LOOKUP3/READDIR3(PLUS)/READ3 + mount 协议，B3）；v4 NAS 才走 B1 |
+| compile 依赖域 | slf4j-api / guava / **oncrpc4j-core** / **com.sleepycat:je**（Berkeley DB Java，v4 server state 存储——client 场景可 `exclude`）；logback/jimfs/junit/jmh/mockito 全在 **test 域**（可排除 ✓） | 依赖树比 POM 面上干净；je 需确认 client 路径不触 |
+| **Android 缺失 API 面** | `com.sun.security.auth.module.UnixSystem`（v4 RPC stub）/ `com.sun.security.auth.UnixNumericUserPrincipal/GroupPrincipal`（core `UnixSubjects` + v4 `CompoundContext`，引用面 2 类）——**JDK 专有，ART 无** | 路径 A：vendored shim（纯数据 holder，包名 `com.sun.security.auth` 在 ART 的可定义性需模拟器验证）；路径 B：代码路径规避（client 侧 AUTH_SYS 自组 principal） |
+| 维护 | release 0.28.5（2026-08-19） | 维护中 ✓ |
+
+**spike 后的拍板材料变化**：B1 从「现成客户端直接用」修正为「**NFSv4 NAS 现成（需 shim）**；
+**NFSv3 NAS 需 B3 自研子集**（oncrpc4j 协议层现成，量级 = mount3 + NFSv3 五六个过程，中等）」。
+**拍板前新增一个前置事实项：确认你的 NAS 的 NFS 导出版本（v3 / v4.x）**——这直接决定 B1 还是 B3。
+
+### 2.5 若拍板 B1 的落地序（草案）
 
 `:datasource-nfs`（第 23 模块，NfsDriver + nfs4j 端口）→ Hilt KEY_NFS + 数据源页入口 →
 凭据纪律（NFS 无凭据，host/export 记录；凭据零泄漏口径照搬）→ link 流式落
