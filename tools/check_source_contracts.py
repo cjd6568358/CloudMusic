@@ -7392,6 +7392,34 @@ def main() -> int:
     else:
         print("[PASS] §61.255 孤儿源 sweep（TrackSink 投影 + 全量 active 口径 + 错误可见）")
 
+    # §61.256（P0 后续）：Tier3 声纹确认趟——自研纯 Kotlin 频谱指纹（零新依赖）。
+    _afp = _code_only((ROOT / "core-model" / "src" / "main" / "kotlin" / "com"
+                       / "example" / "cloudmusic" / "model" / "AudioFingerprint.kt")
+                      .read_text(encoding="utf-8", errors="replace"))
+    _mpd = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                       / "example" / "cloudmusic" / "di" / "adapters" / "MediaPcmDecoder.kt")
+                      .read_text(encoding="utf-8", errors="replace"))
+    _fsession = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                            / "example" / "cloudmusic" / "di" / "scan" / "FingerprintSession.kt")
+                           .read_text(encoding="utf-8", errors="replace"))
+    _c256_bad = []
+    if "object AudioFingerprint" not in _afp             or "fun fingerprint(pcm: FloatArray, sampleRate: Int): Set<Long>" not in _afp             or "fun similarity(a: Set<Long>, b: Set<Long>): Double" not in _afp:
+        _c256_bad.append("指纹核缺失")
+    if "class MediaPcmDecoder" not in _mpd or "MediaCodec.createDecoderByType" not in _mpd:
+        _c256_bad.append("解码器缺失")
+    if "class FingerprintSession" not in _fsession             or "AudioFingerprint.similarity(" not in _fsession             or "AudioFingerprint.MATCH_THRESHOLD" not in _fsession:
+        _c256_bad.append("声纹会话缺失")
+    if "fingerprintConfirmed: List<DuplicateGroup> = emptyList()" not in _dg:
+        _c256_bad.append("报告字段缺失")
+    if "FingerprintSession(" not in _pb247:
+        _c256_bad.append("runtime 接线缺失")
+    if "声纹疑似同源" not in _ui247:
+        _c256_bad.append("面板声纹分区缺失")
+    if _c256_bad:
+        failures.append("§61.256 Tier3 声纹：%s" % "；".join(_c256_bad))
+    else:
+        print("[PASS] §61.256 Tier3 声纹（自研 FFT 指纹核 + MediaCodec 解码 + 会话升级 + 面板分区）")
+
     if _c250_bad:
         failures.append("§61.250 哈希记忆累进：%s" % "；".join(_c250_bad))
     else:

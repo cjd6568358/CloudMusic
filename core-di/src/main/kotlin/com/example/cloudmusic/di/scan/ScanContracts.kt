@@ -61,6 +61,18 @@ interface LinkLocator {
  * 全读 SHA-256）。null = 不可读（驱动缺失/读取失败），会话计 skipped 不伪造指纹。
  * 生产实现 [DriverContentHasher] 经 `DriverRegistry` 分块读（流式 digest 防整文件驻留内存）。
  */
+/**
+ * §61.256（V0.3 M5 / A1 Tier3）：PCM 解码端口——声纹确认趟的音频解码（单声道 float + 采样率）。
+ * [maxSeconds] 限秒（指纹只需代表性片段，防整曲驻留内存）。null = 不可解码（远端取流失败 /
+ * 编解码器不支持），会话如实跳过。生产实现 [MediaPcmDecoder]（MediaExtractor + MediaCodec）。
+ */
+fun interface PcmDecoder {
+    suspend fun decodeMono(track: com.example.cloudmusic.model.Track, maxSeconds: Int): PcmData?
+}
+
+/** §61.256：解码产物（单声道 PCM + 采样率）。 */
+data class PcmData(val pcm: FloatArray, val sampleRate: Int)
+
 fun interface TrackContentHasher {
     suspend fun hash(track: com.example.cloudmusic.model.Track): String?
 }

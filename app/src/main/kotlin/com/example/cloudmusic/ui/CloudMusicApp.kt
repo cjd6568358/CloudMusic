@@ -2114,6 +2114,27 @@ private fun SettingsScreen(
                                     }
                                 }
                             }
+                            if (current.fingerprintConfirmed.isNotEmpty()) {
+                                Text(
+                                    "≈ 声纹疑似同源 ${current.fingerprintConfirmed.size} 组（频谱指纹匹配，可能为转码拷贝；已解码 ${current.fingerprintedCount} 个候选）",
+                                    color = Comp.TextPrimary, fontSize = 13.sp,
+                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                                )
+                                current.fingerprintConfirmed.forEach { group ->
+                                    Text(
+                                        "${group.title} · ${group.artist}（${group.items.size} 份）",
+                                        color = Comp.TextPrimary, fontSize = 14.sp,
+                                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                                    )
+                                    group.items.forEach { t ->
+                                        Text(
+                                            "  · ${t.sourceRef.path}（${t.sourceType.name}）",
+                                            color = Comp.TextHint, fontSize = 11.sp,
+                                            modifier = Modifier.padding(horizontal = 16.dp),
+                                        )
+                                    }
+                                }
+                            }
                             Text(
                                 "疑似重复 ${current.groups.size} 组（时长 ±1s 同键聚合；是否重复由你判断，本应用只提示不删除）：",
                                 color = Comp.TextSecondary, fontSize = 12.sp,

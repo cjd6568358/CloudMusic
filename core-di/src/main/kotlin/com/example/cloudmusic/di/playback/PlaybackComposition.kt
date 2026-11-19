@@ -962,11 +962,19 @@ class PlaybackRuntime @Inject constructor(
             )
             // §61.250：跨次指纹记忆（runtime 持有，重跑推进剩余候选；换库全量重扫时
             // 由调用方 clearDuplicateReport 清——记忆按 storageId|path 键，路径变化自然失效）。
-            val report = session.detect(maxHashCount = 50, memo = duplicateHashMemo)
+            var report = session.detect(maxHashCount = 50, memo = duplicateHashMemo)
+            // §61.256：Tier3 声纹趟——对哈希未确认的疑似组解码匹配（转码/异格式拷贝升级）。
+            if (report.groups.isNotEmpty()) {
+                val fpSession = com.example.cloudmusic.di.scan.FingerprintSession(
+                    tracks = tracks,
+                    decoder = com.example.cloudmusic.di.adapters.MediaPcmDecoder(),
+                )
+                report = fpSession.detect(report, maxCount = 20)
+            }
             _duplicateReport.value = report
-            Log.i("CM-DUP", "duplicate scan done: scanned=%d suspected=%d confirmed=%d hashed=%d failed=%d"
+            Log.i("CM-DUP", "duplicate scan done: scanned=%d suspected=%d confirmed=%d fpConfirmed=%d hashed=%d failed=%d"
                 .format(report.scanned, report.groups.size, report.confirmed.size,
-                    report.hashedCount, report.hashFailed))
+                    report.fingerprintConfirmed.size, report.hashedCount, report.hashFailed))
         }.onFailure { Log.w("CM-DUP", "duplicate scan 失败", it) }
     }
 

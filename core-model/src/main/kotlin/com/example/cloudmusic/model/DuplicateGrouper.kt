@@ -95,4 +95,10 @@ data class DuplicateReport(
     val memoHits: Int = 0,
     /** §61.250：跨次指纹记忆累计条数（重跑推进进度，UI 展示用）。 */
     val memoSize: Int = 0,
+    /** §61.256：Tier3 声纹疑似同源组（转码/异格式拷贝；阈值保守，处置用户手动）。 */
+    val fingerprintConfirmed: List<DuplicateGroup> = emptyList(),
+    /** §61.256：本轮成功声纹的候选数。 */
+    val fingerprintedCount: Int = 0,
+    /** §61.256：不可解码候选数（远端取流失败/编解码器不支持，如实计数）。 */
+    val fingerprintFailed: Int = 0,
 )

@@ -5,6 +5,8 @@ import com.example.cloudmusic.model.SourceType
 import com.example.cloudmusic.model.Track
 import com.example.cloudmusic.model.TrackId
 import com.example.cloudmusic.storage.InMemoryTrackRepository
+import com.example.cloudmusic.di.scan.PcmDecoder
+import com.example.cloudmusic.di.scan.PcmData
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -167,5 +169,58 @@ class DuplicateHashTest {
         assertEquals(2, r2.hashedCount, "轮 2 重试成功")
         assertEquals(1, r2.confirmed.size, "同指纹 → 确认组升级")
         assertEquals(2, r2.confirmed[0].items.size)
+    }
+
+    // ------------------------------------------------------------------
+    // §61.256：Tier3 声纹确认趟（fake decoder 注入）
+    // ------------------------------------------------------------------
+
+    /** 合成 PCM：同指纹因子 = 同源；不同因子 = 异源（复用 core-model 夹具思路）。 */
+    private fun synthPcm(base: Double): FloatArray {
+        val rate = 8000
+        val n = rate * 10
+        return FloatArray(n) { i ->
+            val t = i.toDouble() / rate
+            (kotlin.math.sin(2 * Math.PI * 220.0 * base * t) * 0.5 +
+                kotlin.math.sin(2 * Math.PI * 440.0 * base * t) * 0.5).toFloat()
+        }
+    }
+
+    @Test
+    @DisplayName("§61.256 S6 · 声纹趟：同谱候选升级 fingerprintConfirmed；不可解码计 failed")
+    fun fingerprintSessionUpgrades() = runTest {
+        val repo = InMemoryTrackRepository()
+        repo.upsertBatch(listOf(
+            track(1, "甲", path = "/a.mp3"),
+            track(2, "甲", path = "/b.mp3"),
+            track(3, "甲", path = "/c.mp3"),
+        ))
+        // 解码器：/a 与 /b 同谱（转码拷贝），/c 异谱，/d 不可解码
+        val decoder = PcmDecoder { t, _ ->
+            when (t.sourceRef.path) {
+                "/a.mp3", "/b.mp3" -> PcmData(synthPcm(1.0), 8000)
+                "/c.mp3" -> PcmData(synthPcm(1.5), 8000)
+                else -> null
+            }
+        }
+        val session = DuplicateScanSession(repo)
+        val base = session.detect()
+        assertEquals(1, base.groups.size, "Tier2 疑似组（3 份同键）")
+        val fp = FingerprintSession(repo, decoder).detect(base, maxCount = 20)
+        assertEquals(1, fp.fingerprintConfirmed.size, "同谱对升级声纹组")
+        assertEquals(2, fp.fingerprintConfirmed[0].items.size, "/a+/b 同谱聚合")
+        assertEquals(3, fp.fingerprintedCount, "三候选全部解码")
+        assertEquals(0, fp.fingerprintFailed)
+    }
+
+    @Test
+    @DisplayName("§61.256 S7 · 不可解码 → fingerprintFailed 如实计数（不伪造声纹）")
+    fun undecodableCounted() = runTest {
+        val repo = InMemoryTrackRepository()
+        repo.upsertBatch(listOf(track(1, "甲", path = "/1.flac"), track(2, "甲", path = "/2.flac")))
+        val base = DuplicateScanSession(repo).detect()
+        val fp = FingerprintSession(repo, PcmDecoder { _, _ -> null }).detect(base)
+        assertEquals(2, fp.fingerprintFailed)
+        assertEquals(0, fp.fingerprintConfirmed.size)
     }
 }
