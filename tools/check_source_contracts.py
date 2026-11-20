@@ -7504,6 +7504,53 @@ def main() -> int:
     else:
         print("[PASS] §61.265 OOM 缓解（android:largeHeap=true，根因待定位）")
 
+    # §61.266：HTTP 音源 OOM——探测只取元数据、读按 len 上界、响应体流式截断（禁止整段入堆）。
+    _ports_src = _code_only((ROOT / "engine-bridge" / "src" / "main" / "kotlin" / "com"
+                             / "example" / "cloudmusic" / "bridge" / "DataSourcePorts.kt")
+                            .read_text(encoding="utf-8", errors="replace"))
+    _http_ds_src = _code_only((ROOT / "engine-bridge" / "src" / "main" / "kotlin" / "com"
+                               / "example" / "cloudmusic" / "bridge" / "HttpDataSource.kt")
+                              .read_text(encoding="utf-8", errors="replace"))
+    _okhttp_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                              / "example" / "cloudmusic" / "di" / "adapters" / "OkHttpAdapters.kt")
+                             .read_text(encoding="utf-8", errors="replace"))
+    _adapters_test = _code_only((ROOT / "core-di" / "src" / "test" / "kotlin" / "com" / "example"
+                                 / "cloudmusic" / "di" / "adapters" / "ProductionAdaptersTest.kt")
+                                .read_text(encoding="utf-8", errors="replace"))
+    _ds_test = _code_only((ROOT / "engine-bridge" / "src" / "test" / "kotlin" / "com" / "example"
+                           / "cloudmusic" / "bridge" / "DataSourceAdapterTest.kt")
+                          .read_text(encoding="utf-8", errors="replace"))
+    _c266_bad = []
+    if "rangeEnd: Long?," not in _ports_src:
+        _c266_bad.append("端口未声明有界 rangeEnd")
+    if "fun probe(" not in _ports_src or "fetch(url, headers, 0L, redirect, 0L)" not in _ports_src:
+        _c266_bad.append("probe 默认实现缺失（1 字节兜底）")
+    if "http.probe(" not in _http_ds_src:
+        _c266_bad.append("open 未改用 probe 探测")
+    if "slice = fetch(offset)" in _http_ds_src:
+        _c266_bad.append("readAt 仍发无界 Range")
+    if "MAX_CHUNK" not in _http_ds_src:
+        _c266_bad.append("单次读取上限缺失")
+    if "resp.body?.bytes()" in _okhttp_src:
+        _c266_bad.append("响应体仍整段读入 ByteArray")
+    for _needle, _label in (
+        ("readAtMost(", "流式有界读"),
+        ("skipFully(", "忽略 Range 时流式跳偏移"),
+        ("bytes=$rangeStart-$rangeEnd", "有界 Range 头"),
+        ("MAX_BODY_BYTES", "无界请求兜底上限"),
+    ):
+        if _needle not in _okhttp_src:
+            _c266_bad.append(_label + "缺失")
+    for _t in ("T01b", "T01c", "T01d"):
+        if _t not in _adapters_test:
+            _c266_bad.append("用例 " + _t + " 缺失")
+    if "assertEquals(6L, call.rangeEnd" not in _ds_test:
+        _c266_bad.append("引擎侧有界读断言缺失")
+    if _c266_bad:
+        failures.append("§61.266 音源 OOM：%s" % "；".join(_c266_bad))
+    else:
+        print("[PASS] §61.266 HTTP 音源 OOM（HEAD 探测 + 有界 Range + 流式截断）")
+
     if _c250_bad:
         failures.append("§61.250 哈希记忆累进：%s" % "；".join(_c250_bad))
     else:

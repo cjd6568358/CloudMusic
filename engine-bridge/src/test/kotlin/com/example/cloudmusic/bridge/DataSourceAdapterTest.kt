@@ -20,19 +20,42 @@ class DataSourceAdapterTest {
         private val body: ByteArray,
         private val total: Long = body.size.toLong(),
     ) : RangeHttpStack {
-        data class Call(val url: String, val headers: List<Header>, val rangeStart: Long, val redirect: Boolean)
+        data class Call(
+            val url: String,
+            val headers: List<Header>,
+            val rangeStart: Long,
+            val redirect: Boolean,
+            val rangeEnd: Long?,
+        )
         val calls = mutableListOf<Call>()
 
-        override fun fetch(url: String, headers: List<Header>, rangeStart: Long, redirect: Boolean): HttpSlice {
-            calls.add(Call(url, headers, rangeStart, redirect))
+        override fun fetch(
+            url: String,
+            headers: List<Header>,
+            rangeStart: Long,
+            redirect: Boolean,
+            rangeEnd: Long?,
+        ): HttpSlice {
+            calls.add(Call(url, headers, rangeStart, redirect, rangeEnd))
             val start = rangeStart.toInt().coerceIn(0, body.size)
-            return HttpSlice(body.copyOfRange(start, body.size), total, "audio/flac")
+            // 服务端遵守 Range：有界请求只回 [start, rangeEnd]，无界才回到尾部。
+            val end = if (rangeEnd == null) {
+                body.size
+            } else {
+                (rangeEnd + 1).coerceIn(start.toLong(), body.size.toLong()).toInt()
+            }
+            return HttpSlice(body.copyOfRange(start, end), total, "audio/flac")
         }
     }
 
     private class FailingHttp : RangeHttpStack {
-        override fun fetch(url: String, headers: List<Header>, rangeStart: Long, redirect: Boolean): HttpSlice =
-            throw IllegalStateException("模拟上游读取失败")
+        override fun fetch(
+            url: String,
+            headers: List<Header>,
+            rangeStart: Long,
+            redirect: Boolean,
+            rangeEnd: Long?,
+        ): HttpSlice = throw IllegalStateException("模拟上游读取失败")
     }
 
     private class FakeFd(private val data: ByteArray) : SeekableSource {
@@ -167,6 +190,7 @@ class DataSourceAdapterTest {
 
         val call = http.calls.last()
         assertEquals(3L, call.rangeStart)
+        assertEquals(6L, call.rangeEnd, "§61.266：按 len 上界请求，禁止 bytes=offset- 拉完整文件")
         assertTrue(call.redirect)
         assertEquals(listOf("Authorization", "X-Trace"), call.headers.map { it.name })
         assertEquals("audio/flac", ds.mimeHint())

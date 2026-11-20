@@ -11,7 +11,7 @@ import java.io.RandomAccessFile
  * 16 §5.2 已确认这条路线（OkHttp / DatagramSocket / JDK DOM 均可纯 JVM；`FdOpener` 同 `TagReader` 端口）。
  */
 
-/** 一次带 `Range: bytes={rangeStart}-` 的 GET 结果。`totalLength = -1` 表示未知（chunked）。 */
+/** 一次带 `Range: bytes={rangeStart}-{rangeEnd?}` 的 GET 结果。`totalLength = -1` 表示未知（chunked）。 */
 data class HttpSlice(
     val body: ByteArray,
     val totalLength: Long,
@@ -20,7 +20,23 @@ data class HttpSlice(
 
 /** HTTP 端口。生产由 OkHttp 4.x 实现（透传 headers、302 跟随、10s 连接 / 30s 读超时）。 */
 fun interface RangeHttpStack {
-    fun fetch(url: String, headers: List<Header>, rangeStart: Long, redirect: Boolean): HttpSlice
+    /**
+     * [rangeEnd] 为 null 时保持历史口径（`bytes=start-`）；非 null 时**必须**只读这一小段，
+     * 禁止把整段响应体读进 ByteArray（§61.266 真机 OOM 根因）。
+     *
+     * `fun interface` 的抽象方法不允许带默认值，调用方须显式传参。
+     */
+    fun fetch(
+        url: String,
+        headers: List<Header>,
+        rangeStart: Long,
+        redirect: Boolean,
+        rangeEnd: Long?,
+    ): HttpSlice
+
+    /** 只探测总长度 / MIME；默认退化为 1 字节 Range，生产实现优先 HEAD。 */
+    fun probe(url: String, headers: List<Header>, redirect: Boolean): HttpSlice =
+        fetch(url, headers, 0L, redirect, 0L)
 }
 
 /** 可随机读的句柄。Android 侧换成 `contentResolver.openFileDescriptor(uri, "r")`。 */
@@ -61,7 +77,7 @@ fun interface DriverStreamFactory {
 }
 
 /** 未注入端口时的显式占位：分派仍可进行（T01~T03 只验类型），实际取流会给出可判定的错误。 */
-internal fun unavailableHttpStack(): RangeHttpStack = RangeHttpStack { _, _, _, _ ->
+internal fun unavailableHttpStack(): RangeHttpStack = RangeHttpStack { _, _, _, _, _ ->
     throw CloudMusicError.DsUnreachable("未配置 RangeHttpStack（生产由 OkHttp 注入）")
 }
 

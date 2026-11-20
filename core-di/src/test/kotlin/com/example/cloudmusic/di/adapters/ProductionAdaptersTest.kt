@@ -64,12 +64,59 @@ class ProductionAdaptersTest {
             headers = listOf(Header("Authorization", "Basic secret")),
             rangeStart = 4,
             redirect = false,
+            rangeEnd = null,
         )
         assertEquals("5678", slice.body.decodeToString())
         assertEquals(8L, slice.totalLength)
         val sent = server.requests.single()
         assertEquals("bytes=4-", sent.header("Range"))
         assertEquals("Basic secret", sent.header("Authorization"))
+    }
+
+    @Test
+    fun `T01b 有界 Range 只读请求长度`() = withServer { server ->
+        server.handle("/track") { ex ->
+            if (ex.header("Range") == "bytes=4-7") {
+                ex.respond(206, "5678", "Content-Range" to "bytes 4-7/8")
+            } else {
+                ex.respond(200, "12345678")
+            }
+        }
+        val slice = OkHttpRangeHttpStack(client).fetch(
+            url = server.url("/track"), headers = emptyList(),
+            rangeStart = 4, redirect = false, rangeEnd = 7,
+        )
+        assertEquals("5678", slice.body.decodeToString())
+        assertEquals("bytes=4-7", server.requests.single().header("Range"))
+    }
+
+    @Test
+    fun `T01c probe 用 HEAD 只读元数据`() = withServer { server ->
+        server.handle("/track") { ex ->
+            if (ex.method == "HEAD") {
+                ex.respond(200, "12345678") // HEAD 无 body，但报实体长度 8
+            } else {
+                ex.respond(200, "12345678", "Content-Range" to "bytes 0-7/8")
+            }
+        }
+        val slice = OkHttpRangeHttpStack(client).probe(server.url("/track"), emptyList(), false)
+        assertEquals(0, slice.body.size)
+        assertEquals(8L, slice.totalLength)
+        assertEquals("HEAD", server.requests.single().method)
+    }
+
+    @Test
+    fun `T01d 服务端忽略 Range 时有界请求仍截断为请求长度`() = withServer { server ->
+        // 真机 §61.266 场景：服务端对 Range 视而不见，回 200 整段。
+        val payload = "0123456789abcdef"
+        server.handle("/ignore") { ex -> ex.respond(200, payload) }
+        val slice = OkHttpRangeHttpStack(client).fetch(
+            url = server.url("/ignore"), headers = emptyList(),
+            rangeStart = 4, redirect = false, rangeEnd = 7,
+        )
+        assertEquals("4567", slice.body.decodeToString(), "只保留请求区间，绝不整段入堆")
+        assertEquals(-1L, slice.totalLength, "偏移>0 的 200 响应不得把整段长度当总量")
+        assertEquals("bytes=4-7", server.requests.single().header("Range"))
     }
 
     @Test
@@ -84,7 +131,7 @@ class ProductionAdaptersTest {
     fun `T03 redirect 先取 302 再对最终地址发 Range`() = withServer { server ->
         server.handle("/origin") { it.respond(302, null, "Location" to "/final") }
         server.handle("/final") { it.respond(200, "abcdef") }
-        val slice = OkHttpRangeHttpStack(client).fetch(server.url("/origin"), emptyList(), 0, true)
+        val slice = OkHttpRangeHttpStack(client).fetch(server.url("/origin"), emptyList(), 0, true, null)
         assertEquals("abcdef", slice.body.decodeToString())
         assertEquals(6L, slice.totalLength)
         val final = server.requests.single { it.path == "/final" }
@@ -274,19 +321,20 @@ class ProductionAdaptersTest {
     /** 一次请求的快照 + 可回写响应的 socket；测试 lambda 直接用它 header() / respond()。 */
     private class Req(
         private val socket: Socket,
-        private val method: String,
+        val method: String,
         val path: String,
         private val headers: Map<String, String>,
     ) {
         fun header(name: String): String? =
             headers.entries.firstOrNull { it.key.equals(name, ignoreCase = true) }?.value
 
-        /** HEAD 恒无 body；302 / 404 用 null body；Connection: close 让 OkHttp 不复用连接。 */
+        /** HEAD 恒无 body（但 Content-Length 按 GET 的实体长度报，与真实服务端一致）；
+         *  302 / 404 用 null body；Connection: close 让 OkHttp 不复用连接。 */
         fun respond(code: Int, body: String?, vararg extra: Pair<String, String>) {
             val bytes = body?.toByteArray(Charsets.UTF_8)
             val head = StringBuilder("HTTP/1.1 $code ${reasonOf(code)}\r\n")
             extra.forEach { head.append(it.first).append(": ").append(it.second).append("\r\n") }
-            head.append("Content-Length: ${if (method == "HEAD" || bytes == null) 0 else bytes.size}\r\n")
+            head.append("Content-Length: ${bytes?.size ?: 0}\r\n")
             head.append("Connection: close\r\n\r\n")
             val out = socket.getOutputStream()
             out.write(head.toString().toByteArray(Charsets.ISO_8859_1))

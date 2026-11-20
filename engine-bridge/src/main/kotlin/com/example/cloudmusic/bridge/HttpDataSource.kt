@@ -18,15 +18,17 @@ class HttpDataSource(
     private var overrideMime: String? = null
 
     override fun open(offset: Long): Long {
-        // 探测总长度；-1 表示 chunked / 无 Content-Range，UI 进度条应显示不可拖动。
-        val slice = fetch(offset)
+        // §61.266：只读探测。旧实现 fetch(offset) 会把整个远端文件读进 ByteArray
+        // （真机 259MB APE → OOM 闪退）；总长度 / MIME 用 HEAD 或 1 字节 Range 即可。
+        val slice = http.probe(link.url, link.headers + args.headers, args.redirect)
         total = slice.totalLength
         overrideMime = slice.mimeHint ?: overrideMime
         return total
     }
 
     override fun readAtInternal(offset: Long, buf: ByteArray, len: Int): Int {
-        val slice = fetch(offset)
+        // 每次只读调用方需要的那一小段（上限 64KiB），禁止 `bytes=offset-` 拉完整剩余文件。
+        val slice = fetch(offset, (offset + len - 1L).coerceAtMost(offset + MAX_CHUNK - 1L))
         total = slice.totalLength
         overrideMime = slice.mimeHint ?: overrideMime
         if (slice.body.isEmpty()) return 0
@@ -39,10 +41,15 @@ class HttpDataSource(
 
     override fun closeInternal() = Unit
 
-    private fun fetch(offset: Long) = http.fetch(
+    private fun fetch(offset: Long, rangeEnd: Long?) = http.fetch(
         url = link.url,
         headers = link.headers + args.headers,
         rangeStart = offset,
         redirect = args.redirect,
+        rangeEnd = rangeEnd,
     )
+
+    private companion object {
+        const val MAX_CHUNK = 64 * 1024
+    }
 }
