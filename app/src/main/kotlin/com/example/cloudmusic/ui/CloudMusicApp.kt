@@ -406,7 +406,6 @@ fun CloudMusicApp(
                 tab == 0 -> HomeScreen(
                     tracks = trackList,
                     onPlayTracks = onPlayTracks,
-                    onOpenSearch = { searchReturnTo = 0; tab = 3 },
                     onOpenSources = { showSources = true },
                     onOpenMine = { tab = 5 },
                     favoriteCount = homeFavorites.size,

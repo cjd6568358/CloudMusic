@@ -7438,6 +7438,20 @@ def main() -> int:
     else:
         print("[PASS] §61.258 偏移哈希（固定帧距 + 无绝对帧号 + F6 偏移命中）")
 
+    # §61.261：首页搜索入口去重——底栏已有搜索 tab，首页不再重复放搜索圆钮。
+    _home_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
+                            / "example" / "cloudmusic" / "ui" / "HomeScreen.kt")
+                           .read_text(encoding="utf-8", errors="replace"))
+    _c261_bad = []
+    if "fun HomeScreen(" not in _home_src:
+        _c261_bad.append("首页缺失")
+    if "onOpenSearch" in _home_src or ".clickable { onOpenSearch() }" in _home_src:
+        _c261_bad.append("首页搜索入口重复")
+    if _c261_bad:
+        failures.append("§61.261 首页搜索去重：%s" % "；".join(_c261_bad))
+    else:
+        print("[PASS] §61.261 首页搜索去重（底栏搜索 tab 单一入口）")
+
     if _c250_bad:
         failures.append("§61.250 哈希记忆累进：%s" % "；".join(_c250_bad))
     else:

@@ -51,7 +51,6 @@ import com.example.cloudmusic.model.Track
 fun HomeScreen(
     tracks: List<Track>,
     onPlayTracks: (List<Track>, Int) -> Unit,
-    onOpenSearch: () -> Unit,
     onOpenSources: () -> Unit,
     /** §61.175：收藏 / 最近卡片详情入口（原实现错导向数据源管理，属死链）。 */
     onOpenMine: () -> Unit = {},
@@ -61,30 +60,11 @@ fun HomeScreen(
     LazyColumn(
         Modifier.fillMaxSize().background(FnComp.PageBg),
     ) {
-        // ── 顶栏（基准 161602）：无标题行，仅右上搜索圆钮（无返回箭头——辨别铁律） ──
+        // ── 横向大卡片流（§61.261：底栏已有搜索 tab，首页不再重复放搜索钮）──
         item {
             Row(
-                Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 14.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End,
-            ) {
-                Box(
-                    Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
-                        .background(FnComp.CardBg)
-                        .clickable { onOpenSearch() },
-                    contentAlignment = Alignment.Center,
-                ) {
-                    FnLineIcon(FnIcon.Search, FnComp.TextPrimary)
-                }
-            }
-        }
-
-        // ── 横向大卡片流（基准 161602）：漫游（米白+红橙 blob+黑胶角）/收藏（橙+心）/最近（绿+时钟）──
-        item {
-            Row(
-                Modifier.horizontalScroll(rememberScrollState()).padding(horizontal = 20.dp),
+                Modifier.horizontalScroll(rememberScrollState())
+                    .padding(horizontal = 20.dp, vertical = 14.dp),
             ) {
                 RoamCard(count = tracks.size) {
                     if (tracks.isNotEmpty()) {
