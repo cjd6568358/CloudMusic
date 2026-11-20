@@ -96,8 +96,9 @@ PRD §3 V0.2 列九项代码侧全实现（`docs/01 §10` §61.233 终版回填�
   **117/866/0**（+6）；guard 九判据 A/B 反证两路 PASS；
   **真机 PASS**（2026-11-21 / `192.168.1.10:37385`：进程存活 5min+、OOM/SIGSEGV 命中 0、PSS 181→208MB 平稳；
   证据 `analysis/device-diagnosis-2026-11-21-ooms-fix-and-silent-playback.md`）。
-  注：无声问题经曲库实证修正为 WebDAV APE 源文件兼容性（听说.ape 解析失败、
-  元数据全 0；另一 APE 曾 READY 成功），非 seek 竞态、非本批回归；详见诊断报告。
+  注：无声问题最终定案（00:39 对照）= 本地 WebDAV 播放走 Media3 直连签名直链，
+  服务端 EOF（unexpected end of stream）→ preparation 失败；MP3 亦复现，与 APE/seek/本批改动均无关。
+  修复方向待拍板（走本机回环代理），详见诊断报告。
 
 ## 3.1 本批已执行（§61.239，第二百五十一批——原登记保留）
 

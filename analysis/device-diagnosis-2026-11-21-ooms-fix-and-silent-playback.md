@@ -87,3 +87,37 @@ Media3 的 prepare 不使用它，故**不是本次崩溃的直接触发**，但
 4. 下一步（需用户在场）：点播**非「听说」专辑**的一首（如 `85760ba7 逝年 / 夏小虎`，整轨 OK），
    - 出声 → 坐实是「听说.ape」坏文件，与代码无关，走数据修复（替换/重下源文件）；
    - 不出声 → WebDAV APE 链路通病，立专项查自定义 `ApeExtractor` 对该编码的兼容性。
+
+
+## 五、决定性对照（00:37~00:39）——推翻第四节 APE 归因
+
+用 `cmd media_session dispatch play` 触发播放（不注入 UI，绕开 MIUI INJECT_EVENTS 限制），
+当前曲目是 **「逝年 / 夏小虎」= MP3**（`.mp3?sign=...`），**非 APE、非 CUE 分轨**：
+
+```
+prepare trackId=f43878dd ... url=http://192.168.1.1:15244/d/ecloud_self/.../夏小虎 - 逝年.mp3?sign=...
+state=BUFFERING
+Caused by: java.io.EOFException: 
+ not found: size=0 content=...
+   → HttpDataSourceException: unexpected end of stream on com.android.okhttp.Address...
+   → DefaultHttpDataSource.open → engine_error=E_DS_UPSTREAM_MEDIA3_PLAYBACK → state=IDLE
+```
+
+**根因最终定案**：本地播放 WebDAV 曲目时，Media3 走 `DefaultHttpDataSource`
+**直连 WebDAV 带签名直链**（`?sign=...`），服务端连接不稳定/签名直链提前断流 →
+`EOFException: unexpected end of stream` → preparation 失败 → 无声。
+- 与 APE 编码无关（MP3 同样失败）；
+- 与 CUE 分轨 seek 无关（逝年是整轨、无 seek）；
+- 与 §61.266 改动无关（Media3 直连，不经我改的 HttpDataSource）；
+- `forceWebdavProxy` 配置只作用于 DLNA/投屏直链决策（`DirectLinkCapability`），
+  **管不到本地 Media3 播放**，不是现成开关。
+
+修复方向（需拍板，影响播放器编排层）：让本地 WebDAV 播放走 app 已有的本机回环代理
+（`NanoHttpStreamProxy` / `proxy.publish`，回源 OkHttp 稳定），而非 Media3 直连签名直链。
+该改动跨 PlayerController / 组合层，须专项 + A/B 反证 + 真机多曲目对照，不在本批仓促改。
+
+### 关于用户报「闪退」（00:38）
+
+复查：进程 PID 26804 **全程存活**，logcat 无 FATAL/SIGSEGV/OOM/tombstone、无 am_proc_died；
+前台由 app 切到浏览器属用户手动切走，**不是进程崩溃**。真实症状是「点播无声→自动回 IDLE」，
+非崩溃。
