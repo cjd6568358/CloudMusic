@@ -181,6 +181,12 @@ class SandboxQueueSync : QueueSync {
  * - `PROXIED` / `TEXT` 态先 `proxy.publish(trackId, link)` 拿**局域网代理 URL**，
  *   复制成 URL 态 Link 再返回，供引擎回环自取（16 §3.2 触发器 ④）。
  * 原始 PROXIED Link（含 C-07 `proxySourceUrl` 与鉴权头）仍交给代理回源，二者不混淆。
+ *
+ * §61.268（本地 WebDAV 播放无声）：扫描期为 WebDAV 音频写入的**带签名直链**（`?sign=...`）
+ * 经 `RegistryLinkProvider` 第 77 行以 URL 态直推，Media3 `DefaultHttpDataSource` 直连该
+ * 签名链接 → 服务端 `EOFException: unexpected end of stream` → preparation 失败无声
+ * （真机 2026-11-21 MP3/APE 均复现）。此类直链改走**本机回环代理**（OkHttp 稳定回源）。
+ * 只针对签名直链，普通 strm/歌单 URL（无 sign）保持 §61.252 原样，零回归。
  */
 class ProductionTrackSourceResolver(
     private val links: LinkProvider,
@@ -188,12 +194,26 @@ class ProductionTrackSourceResolver(
 ) : TrackSourceResolver {
     override suspend fun resolve(track: Track): Link {
         val link = links.link(track)
-        return when (link.kind) {
-            Link.Kind.PROXIED, Link.Kind.TEXT -> {
+        return when {
+            link.kind == Link.Kind.PROXIED || link.kind == Link.Kind.TEXT ||
+                (link.kind == Link.Kind.URL && needsLoopbackProxy(link.url)) -> {
                 val url = proxy.publish(track.id.value, link)
                 link.copy(url = url, proxy = false, requireReference = false)
             }
             else -> link
+        }
+    }
+
+    internal companion object {
+        /**
+         * 需要转本机代理的直链特征：OpenList / WebDAV 的 `?sign=` 签名直链。
+         * 签名直链有有效期且服务端连接不稳（真机 EOF），回环代理用持久凭据回源更稳。
+         * 纯函数，便于 JVM 单测 A/B 反证（无 sign 的普通 URL 必须为 false = 保持原行为）。
+         */
+        fun needsLoopbackProxy(url: String?): Boolean {
+            if (url.isNullOrBlank()) return false
+            val q = url.substringAfter('?', "")
+            return q.split('&').any { it.startsWith("sign=", ignoreCase = true) }
         }
     }
 }

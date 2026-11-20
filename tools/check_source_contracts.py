@@ -7551,6 +7551,32 @@ def main() -> int:
     else:
         print("[PASS] §61.266 HTTP 音源 OOM（HEAD 探测 + 有界 Range + 流式截断）")
 
+    # §61.268：本地 WebDAV 签名直链（?sign=）必须转本机回环代理，禁止 Media3 直连。
+    _resolver_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                                / "example" / "cloudmusic" / "di" / "playback"
+                                / "PlaybackComposition.kt")
+                               .read_text(encoding="utf-8", errors="replace"))
+    _resolver_test = _code_only((ROOT / "core-di" / "src" / "test" / "kotlin" / "com" / "example"
+                                 / "cloudmusic" / "di" / "playback"
+                                 / "TrackSourceResolverProxyTest.kt")
+                                .read_text(encoding="utf-8", errors="replace"))
+    _c268_bad = []
+    if "fun needsLoopbackProxy(" not in _resolver_src:
+        _c268_bad.append("签名直链判定缺失")
+    if 'it.startsWith("sign=", ignoreCase = true)' not in _resolver_src:
+        _c268_bad.append("sign= 特征判定缺失")
+    if "link.kind == Link.Kind.URL && needsLoopbackProxy(link.url)" not in _resolver_src:
+        _c268_bad.append("URL 态未接签名直链判定")
+    if "proxy.publish(track.id.value, link)" not in _resolver_src:
+        _c268_bad.append("未转本机代理")
+    for _t in ("signedUrlGoesProxy", "plainUrlUnchanged", "proxiedStillProxy"):
+        if _t not in _resolver_test:
+            _c268_bad.append("用例 " + _t + " 缺失")
+    if _c268_bad:
+        failures.append("§61.268 WebDAV 签名直链走代理：%s" % "；".join(_c268_bad))
+    else:
+        print("[PASS] §61.268 本地 WebDAV 签名直链走本机代理（Media3 禁止直连）")
+
     if _c250_bad:
         failures.append("§61.250 哈希记忆累进：%s" % "；".join(_c250_bad))
     else:
