@@ -31,6 +31,51 @@ import java.util.concurrent.TimeUnit
 /** 03-06 §7.2：每次读取发 `Range: bytes={start}-`；302 预解析与总长度推断都在此收口。 */
 class OkHttpRangeHttpStack(private val client: OkHttpClient) : RangeHttpStack {
 
+    /**
+     * §61.269（真机卡顿）：签名直链每次 Range 都 302 到对象存储（实测 0.78~1.31s/次），
+     * 每读 64KiB 付一次 302 税 → 播 3s 卡 3.5s。缓存 OkHttp 自动跟随后的**最终 URL**
+     * （键=原始 url），后续 Range 直接打最终地址；实测 redirect=0、耗时降至 0.27~0.68s。
+     * TTL 240s < 对象存储签名 300s；返回 403/404 时失效重解析。线程安全（@Singleton 多线程）。
+     *
+     * 安全：缓存目标跨 host（如 WebDAV→天翼云对象存储）时，原始鉴权头**不透传**——
+     * 对象存储的鉴权在 URL query（AWS 签名）里，且避免把凭据泄露给第三方域。
+     */
+    private data class Redirect(val finalUrl: String, val crossHost: Boolean, val atMs: Long)
+    private val redirectCache = java.util.concurrent.ConcurrentHashMap<String, Redirect>()
+
+    /** 解析结果：目标 URL + 是否该剥离原始 headers。命中缓存走最终地址，未命中走原地址。 */
+    private data class Target(val url: String, val dropHeaders: Boolean)
+
+    private fun resolveTarget(url: String, headers: List<Header>, redirect: Boolean): Target {
+        if (redirect) return Target(resolveRedirect(url, headers), dropHeaders = false)
+        val c = redirectCache[url]
+        if (c != null && System.currentTimeMillis() - c.atMs < REDIRECT_TTL_MS) {
+            return Target(c.finalUrl, c.crossHost)
+        }
+        return Target(url, dropHeaders = false)
+    }
+
+    /** 缓存命中且跨 host 时不带原始鉴权头；否则原样透传。 */
+    private fun applyHeaders(builder: Request.Builder, headers: List<Header>, drop: Boolean) {
+        if (drop) return
+        headers.forEach { builder.header(it.name, it.value) }
+    }
+
+    /** 从响应链记录最终 URL（OkHttp 自动跟随后 request.url 即最终地址）。 */
+    private fun rememberRedirect(original: String, resp: okhttp3.Response) {
+        val finalUrl = resp.request.url.toString()
+        if (finalUrl == original) return
+        val crossHost = runCatching {
+            URI(original).host.equals(URI(finalUrl).host, ignoreCase = true).not()
+        }.getOrDefault(false)
+        redirectCache[original] = Redirect(finalUrl, crossHost, System.currentTimeMillis())
+    }
+
+    /** 上游拒绝（签名失效）时清缓存，下次重解析。 */
+    private fun dropRedirect(original: String) {
+        redirectCache.remove(original)
+    }
+
     override fun fetch(
         url: String,
         headers: List<Header>,
@@ -38,14 +83,16 @@ class OkHttpRangeHttpStack(private val client: OkHttpClient) : RangeHttpStack {
         redirect: Boolean,
         rangeEnd: Long?,
     ): HttpSlice {
-        val target = if (redirect) resolveRedirect(url, headers) else url
+        val t = resolveTarget(url, headers, redirect)
         val rangeValue = if (rangeEnd == null) "bytes=$rangeStart-" else "bytes=$rangeStart-$rangeEnd"
-        val builder = Request.Builder().url(target).header("Range", rangeValue)
-        headers.forEach { builder.header(it.name, it.value) }
+        val builder = Request.Builder().url(t.url).header("Range", rangeValue)
+        applyHeaders(builder, headers, t.dropHeaders)
         client.newCall(builder.get().build()).execute().use { resp ->
+            if (resp.code == 403 || resp.code == 404) dropRedirect(url)
             if (resp.code != 206 && !resp.isSuccessful) {
                 throw IOException("音源 HTTP ${resp.code}") // 不回显 URL / headers
             }
+            rememberRedirect(url, resp)
             // §61.266：一律流式读，最多读到请求的那一段。服务端忽略 Range 返回 200 整段时，
             // 先流式跳过 rangeStart 再截断，绝不 `body.bytes()` 把 259MB 整文件装进堆。
             val stream = resp.body?.byteStream()
@@ -72,18 +119,20 @@ class OkHttpRangeHttpStack(private val client: OkHttpClient) : RangeHttpStack {
      * `Range: bytes=0-0`（1 字节），绝不整文件 GET。
      */
     override fun probe(url: String, headers: List<Header>, redirect: Boolean): HttpSlice {
-        val target = if (redirect) resolveRedirect(url, headers) else url
-        val builder = Request.Builder().url(target).head()
-        headers.forEach { builder.header(it.name, it.value) }
+        val t = resolveTarget(url, headers, redirect)
+        val builder = Request.Builder().url(t.url).head()
+        applyHeaders(builder, headers, t.dropHeaders)
         client.newCall(builder.build()).execute().use { resp ->
+            if (resp.code == 403 || resp.code == 404) dropRedirect(url)
             if (resp.isSuccessful || resp.code == 206) {
+                rememberRedirect(url, resp)
                 val total = totalLength(
                     resp.header("Content-Range"), resp.header("Content-Length"), 0L, resp.code,
                 )
                 return HttpSlice(ByteArray(0), total, resp.header("Content-Type"))
             }
         }
-        return fetch(target, headers, 0L, false, 0L)
+        return fetch(url, headers, 0L, redirect, 0L)
     }
 
     /** 流式跳过 [count] 字节（服务端忽略 Range 时的兜底），不占用等量堆内存。 */
@@ -125,6 +174,9 @@ class OkHttpRangeHttpStack(private val client: OkHttpClient) : RangeHttpStack {
     }
 
     companion object {
+        /** §61.269：302 缓存 TTL（ms）。对象存储签名有效期 300s，留 60s 余量。 */
+        internal const val REDIRECT_TTL_MS = 240_000L
+
         /**
          * §61.266 兜底：`fetch` 未带 `rangeEnd`（历史口径）时单次最多读 8 MiB。
          * 正常播放路径由 `HttpDataSource` 显式传 `rangeEnd`（≤64 KiB），不会触顶。

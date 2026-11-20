@@ -120,6 +120,49 @@ class ProductionAdaptersTest {
     }
 
     @Test
+    fun `T01e 302 缓存——首次跟随后续直接打最终地址（消除卡顿）`() = withServer { server ->
+        // /origin 302 → /final；OkHttp 默认跟随。首次命中 /origin + /final，
+        // 缓存后第二次只应打 /final（不再请求 /origin = 不再付 302 往返）。
+        server.handle("/origin") { ex ->
+            ex.respond(302, null, "Location" to server.url("/final"))
+        }
+        server.handle("/final") { ex -> ex.respond(206, "01234567", "Content-Range" to "bytes 0-7/8") }
+        val stack = OkHttpRangeHttpStack(client)
+        val s1 = stack.fetch(server.url("/origin"), emptyList(), 0, false, 7)
+        assertEquals("01234567", s1.body.decodeToString())
+        assertEquals(1, server.requests.count { it.path == "/origin" }, "首次应请求 /origin 一次")
+        val before = server.requests.count { it.path == "/origin" }
+
+        val s2 = stack.fetch(server.url("/origin"), emptyList(), 0, false, 7)
+        assertEquals("01234567", s2.body.decodeToString())
+        assertEquals(before, server.requests.count { it.path == "/origin" },
+            "第二次不得再请求 /origin（缓存命中，无 302）")
+        assertTrue(server.requests.count { it.path == "/final" } >= 2, "两次都应打到 /final")
+    }
+
+    @Test
+    fun `T01f 403 后清缓存并重新解析`() = withServer { server ->
+        var reject = false
+        server.handle("/origin") { ex ->
+            ex.respond(302, null, "Location" to server.url("/final"))
+        }
+        server.handle("/final") { ex ->
+            if (reject) ex.respond(403, null) else ex.respond(206, "abcd", "Content-Range" to "bytes 0-3/4")
+        }
+        val stack = OkHttpRangeHttpStack(client)
+        stack.fetch(server.url("/origin"), emptyList(), 0, false, 3)
+        // 模拟签名过期：最终地址开始返回 403，应清缓存
+        reject = true
+        assertFailsWith<IOException> { stack.fetch(server.url("/origin"), emptyList(), 0, false, 3) }
+        // 恢复签名后再次请求：缓存已清 → 应重走 /origin 重新解析
+        reject = false
+        val s3 = stack.fetch(server.url("/origin"), emptyList(), 0, false, 3)
+        assertEquals("abcd", s3.body.decodeToString())
+        assertEquals(2, server.requests.count { it.path == "/origin" },
+            "403 清缓存后，下次应重新解析原始地址（重走 302）")
+    }
+
+    @Test
     fun `T02 未知长度不伪造 Content-Length`() {
         assertEquals(8L, OkHttpRangeHttpStack.totalLength("bytes 4-7/8", null, 4, 206))
         assertEquals(-1L, OkHttpRangeHttpStack.totalLength(null, null, 4, 200))

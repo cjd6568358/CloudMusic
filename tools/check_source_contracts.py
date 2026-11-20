@@ -7577,6 +7577,32 @@ def main() -> int:
     else:
         print("[PASS] §61.268 本地 WebDAV 签名直链走本机代理（Media3 禁止直连）")
 
+    # §61.269：302 目标缓存——消除签名直链每个 Range 重复 302 导致的播放卡顿。
+    _okhttp_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                              / "example" / "cloudmusic" / "di" / "adapters" / "OkHttpAdapters.kt")
+                             .read_text(encoding="utf-8", errors="replace"))
+    _okhttp_test = _code_only((ROOT / "core-di" / "src" / "test" / "kotlin" / "com" / "example"
+                               / "cloudmusic" / "di" / "adapters" / "ProductionAdaptersTest.kt")
+                              .read_text(encoding="utf-8", errors="replace"))
+    _c269_bad = []
+    if "redirectCache" not in _okhttp_src or "fun resolveTarget(" not in _okhttp_src:
+        _c269_bad.append("302 目标缓存/解析缺失")
+    if "REDIRECT_TTL_MS" not in _okhttp_src or "REDIRECT_TTL_MS = 240_000L" not in _okhttp_src:
+        _c269_bad.append("缓存 TTL 缺失或被禁用")
+    if "rememberRedirect(url, resp)" not in _okhttp_src:
+        _c269_bad.append("缓存写入点缺失")
+    if "dropRedirect(" not in _okhttp_src or "resp.code == 403 || resp.code == 404" not in _okhttp_src:
+        _c269_bad.append("403/404 缓存失效缺失")
+    if "crossHost" not in _okhttp_src or "if (drop) return" not in _okhttp_src:
+        _c269_bad.append("跨 host 剥离鉴权头缺失")
+    for _t in ("T01e", "T01f"):
+        if _t not in _okhttp_test:
+            _c269_bad.append("用例 " + _t + " 缺失")
+    if _c269_bad:
+        failures.append("§61.269 302 缓存去卡顿：%s" % "；".join(_c269_bad))
+    else:
+        print("[PASS] §61.269 302 目标缓存去卡顿（TTL + 403 失效 + 跨 host 剥离鉴权）")
+
     if _c250_bad:
         failures.append("§61.250 哈希记忆累进：%s" % "；".join(_c250_bad))
     else:

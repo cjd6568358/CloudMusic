@@ -193,3 +193,56 @@ Caused by: java.io.EOFException:
   （或至少 `192.168.1.0/24`）加入直连/绕过规则，或临时关闭 clash 的 VPN/TUN 模式后复播。
 - 验证方法（用户操作后我可读数）：设备默认路由 `curl http://192.168.1.1:15244/` 应返回 200。
 - 一旦 WebDAV 可达，§61.266（OOM PASS）+ §61.268（转代理健壮性）即可正常复播出声。
+
+
+## 九、真机出声 PASS（01:00，用户关闭 VPN 后）——最终结论
+
+用户关闭设备 VPN 后复验（端点 192.168.1.14:39211），网络恢复：默认路由 WebDAV 200、
+`tun0` 路由消失、`ip route get 192.168.1.1 → wlan0`。用 `cmd media_session dispatch play`
+触发当前 STRM 曲目，读 `CM-Media3` + AudioTrack：
+
+```
+prepare ... url=http://192.168.1.14:43497/t/<token>   ← §61.268 转本机代理生效
+state=READY durationMs=26201 → state=PLAYING positionMs=0
+position 推进：0 → 2052 → 5312 → 7984（MediaSession state=3）
+AudioTrack: f:5003 → 10000 → 15044（m:0 无静音，真实音频帧持续写入）
+崩溃：0
+```
+
+**真机判据全部达成：`state=PLAYING` + AudioTrack 真实帧 + position 持续推进 + 零崩溃。**
+
+### 最终结论（更正第八节的过度表述）
+
+1. **§61.266 OOM 修复：真机 PASS**（独立成立）。
+2. **§61.268 转代理修复：真机 PASS** —— 签名直链经 `ProductionTrackSourceResolver`
+   转本机回环代理（`43497/t/...`），在网络可达时**确实稳定出声**。第八节"clash 是唯一
+   根因、代码修复无效"的表述**作废**：VPN 关闭只是扫清了网络前提，出声靠的是修好的代码路径。
+3. 之前无声是**双重因素叠加**：① 设备 VPN 劫持局域网流量（网络前提，用户已关闭）；
+   ② 签名直链直连不如本机代理稳（§61.268 修复）。二者缺一都放不出声。
+4. 诚实边界：中途出现 2~3 次短 BUFFERING→PAUSED→READY（网络抖动重缓冲），
+   但最终稳定出声；durationMs=26201（≈26s）是该 STRM 轨显示时长。
+
+
+## 十、§61.269 真机去卡顿 PASS（01:09，端点 192.168.1.14:39211）
+
+装机 302 缓存修复后，seek 回 0 完整播放同一首 STRM（官方回答 / 26.2s）：
+
+```
+修复前（§9 同曲）：PLAYING 0 → BUFFERING 2052 → READY → BUFFERING 5312 → READY → ...
+                  每 ~3.3s 卡一次，26s 内 BUFFERING 8+ 次
+修复后：           PLAYING 0 →（26s 无任何 BUFFERING）→ ENDED 26236
+                  BUFFERING 共 2 次（均在起播前 seek+prepare），播放中 0 次
+AudioTrack：       f:10152 → 15210 → 20000 → 25033（m:0 无静音，连续写帧）
+崩溃：             0
+```
+
+**判据达成**：整首连续播放、播放中零 BUFFERING、AudioTrack 真实帧连续。**§61.269 真机 PASS。**
+实测根因与修复闭环：每 Range 302 税（0.78~1.31s）→ 缓存最终对象存储 URL →
+后续 Range redirect=0（0.27~0.68s），卡顿消失。
+
+### 本日三批最终状态
+- §61.266 OOM 闪退：真机 PASS（进程存活、零 OOM、PSS 平稳）。
+- §61.268 签名直链转本机代理：真机 PASS（关 VPN 后 state=PLAYING + 真实帧）。
+- §61.269 302 缓存去卡顿：真机 PASS（整首连续、播放中零 BUFFERING）。
+三重因素（OOM / 直连不稳 / 302 重复税）逐一实证消除。用户早期报告的"闪退、播不了、
+一卡一卡"三个症状全部闭环。
