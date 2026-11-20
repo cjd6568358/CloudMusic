@@ -26,6 +26,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.displayCutoutPadding
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -376,7 +378,9 @@ fun CloudMusicApp(
             Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .statusBarsPadding(),
+                .statusBarsPadding()
+                // §61.262：竖屏挖孔在状态栏内，普通页只补左右安全区，避免与 statusBarsPadding 叠加顶移。
+                .displayCutoutPadding(),
         ) {
             // §61.188：移除自造的「曲库就绪/扫描中」横幅——飞牛基准首页无此物；
             // 扫描失败可见性已由数据源错误态承载（§61.184 setError 接线）。
@@ -1673,7 +1677,7 @@ private fun SearchScreen(
     /** §61.187：「取消」= 退出搜索页（回进入方）；旧实现只清关键字 ⇒ 无法返回。 */
     onClose: () -> Unit = {},
 ) {
-    Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
+    Column(Modifier.fillMaxSize().background(FnComp.PageBg).imePadding()) {
         // ── 顶栏：搜索框 + 取消（飞牛 161534 逐像素；**无返回箭头**——辨别铁律） ──
         Row(
             Modifier

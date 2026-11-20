@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cloudmusic.model.Track
+import com.example.cloudmusic.model.recentlyAdded
 
 /**
  * 飞牛音乐风格首页（docs/01 §0 拍板；基准 `161602_feiniu.png`，辨别清单
@@ -108,7 +109,7 @@ fun HomeScreen(
                 }
             }
         } else {
-            items(tracks.take(20), key = { it.id.value }) { track ->
+            items(tracks.recentlyAdded(), key = { it.id.value }) { track ->
                 HomeTrackRow(track) {
                     val idx = tracks.indexOfFirst { it.id == track.id }
                     onPlayTracks(tracks, idx)

@@ -29,6 +29,8 @@ data class Track(
     /** 0~1，标签缺失时靠文件名兜底。 */
     val tagCompleteness: Float = 0f,
     val availability: Availability = Availability.OK,
+    /** §61.262：入库时间（Room added_at），默认 0 保证既有构造零回归。 */
+    val addedAt: Long = 0L,
     // ---- §61.221 CUE 分轨（cue sheet 展开；整轨/普通曲目恒 0）----
     /** 分轨起点毫秒；0 = 从头。播放链据此定位与截断（V0.2 M5-③，另批接线）。 */
     val cueStartMs: Long = 0L,
@@ -37,6 +39,16 @@ data class Track(
 ) {
     val isCueTrack: Boolean get() = cueStartMs > 0 || cueEndMs > 0
 }
+
+/**
+ * §61.262：首页「最近添加」= 按 addedAt 倒序、按 id 去重、取前 N。
+ * 旧实现 `tracks.take(20)` 只是曲库前 20 条（CUE 同曲分轨会看起来重复），语义错误。
+ */
+fun List<Track>.recentlyAdded(limit: Int = 20): List<Track> =
+    groupBy { it.id }.values
+        .map { group -> group.maxBy { it.addedAt } }
+        .sortedByDescending { it.addedAt }
+        .take(limit.coerceAtLeast(0))
 
 data class SourceRef(
     /** → Storage.id */

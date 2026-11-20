@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -195,6 +196,8 @@ fun LegacyPlayerPage(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            // §61.262：播放页沉浸式隐藏系统栏，挖孔/刘海安全区由这里兜底（上下左右全补）。
+            .displayCutoutPadding()
             .background(Brush.verticalGradient(listOf(Color(bgTop), Color(bgBottom)))),
     ) {
         Column(modifier = Modifier.fillMaxSize()) {

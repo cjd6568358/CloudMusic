@@ -7452,6 +7452,33 @@ def main() -> int:
     else:
         print("[PASS] §61.261 首页搜索去重（底栏搜索 tab 单一入口）")
 
+    # §61.262：全面屏安全区 / IME 避让 / Android 15 opt-out + 首页「最近添加」真实排序。
+    _theme_src = (ROOT / "app" / "src" / "main" / "res" / "values" / "themes.xml").read_text(encoding="utf-8", errors="replace")
+    _app_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
+                           / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt")
+                          .read_text(encoding="utf-8", errors="replace"))
+    _player_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
+                              / "example" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt")
+                             .read_text(encoding="utf-8", errors="replace"))
+    _track_src = _code_only((ROOT / "core-model" / "src" / "main" / "kotlin" / "com"
+                             / "example" / "cloudmusic" / "model" / "Track.kt")
+                            .read_text(encoding="utf-8", errors="replace"))
+    _c262_bad = []
+    if "android:windowOptOutEdgeToEdgeEnforcement" not in _theme_src:
+        _c262_bad.append("Android 15 opt-out 缺失")
+    if ".displayCutoutPadding()" not in _app_src:
+        _c262_bad.append("普通页挖孔安全区缺失")
+    if ".imePadding()" not in _app_src:
+        _c262_bad.append("搜索页 IME 避让缺失")
+    if ".displayCutoutPadding()" not in _player_src:
+        _c262_bad.append("播放页挖孔安全区缺失")
+    if "fun List<Track>.recentlyAdded(" not in _track_src or "tracks.recentlyAdded()" not in _home_src:
+        _c262_bad.append("最近添加排序/去重缺失")
+    if _c262_bad:
+        failures.append("§61.262 全面屏+最近添加：%s" % "；".join(_c262_bad))
+    else:
+        print("[PASS] §61.262 全面屏安全区 + IME 避让 + Android 15 opt-out + 最近添加排序去重")
+
     if _c250_bad:
         failures.append("§61.250 哈希记忆累进：%s" % "；".join(_c250_bad))
     else:

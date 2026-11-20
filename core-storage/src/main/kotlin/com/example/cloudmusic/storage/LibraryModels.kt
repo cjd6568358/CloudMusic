@@ -78,6 +78,7 @@ data class TrackEntity(
         replayGainDb = replayGainDb,
         tagCompleteness = tagCompleteness,
         availability = Availability.valueOf(availability),
+        addedAt = addedAt,
         cueStartMs = cueStartMs,
         cueEndMs = cueEndMs,
     )

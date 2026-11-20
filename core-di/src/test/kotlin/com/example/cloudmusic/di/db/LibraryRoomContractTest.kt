@@ -31,6 +31,7 @@ class LibraryRoomContractTest {
         id: String = "t1",
         title: String = "晴天",
         url: String? = null,
+        addedAt: Long = 0L,
     ): Track = Track(
         id = TrackId(id),
         title = title,
@@ -45,6 +46,7 @@ class LibraryRoomContractTest {
         sourceType = SourceType.WEBDAV,
         coverRef = "/covers/1.jpg",
         tagCompleteness = 0.8f,
+        addedAt = addedAt,
     )
 
     private class RecordingSql : SqlExecutor {
@@ -202,7 +204,7 @@ class LibraryRoomContractTest {
 
     @Test
     fun `T-A1-10 new row uses the track state and round-trips all fields`() {
-        val source = track(url = "https://user:p%40ss@host/a?x=中文")
+        val source = track(url = "https://user:p%40ss@host/a?x=中文", addedAt = 1_000L)
         val row = TrackRow.from(source, null, 1_000L)
         assertEquals(Availability.OK.name, row.availability)
         assertEquals(SourceType.WEBDAV.name, row.sourceType)

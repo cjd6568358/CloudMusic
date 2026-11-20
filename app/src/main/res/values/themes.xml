@@ -5,5 +5,7 @@
         <item name="android:statusBarColor">@android:color/black</item>
         <item name="android:navigationBarColor">@android:color/black</item>
         <item name="android:windowLightStatusBar">false</item>
+        <!-- §61.262：targetSdk 35 在 Android 15 强制边到边；opt-out 保留飞牛基准间距。 -->
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
     </style>
 </resources>

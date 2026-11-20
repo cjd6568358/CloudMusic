@@ -22,6 +22,7 @@ internal fun testTrack(
     path: String = "/music/晴天.flac",
     sourceType: SourceType = SourceType.LOCAL,
     availability: Availability = Availability.OK,
+    addedAt: Long = 0L,
     url: String? = null,
 ): Track = Track(
     id = id,
@@ -38,6 +39,7 @@ internal fun testTrack(
     coverRef = "covers/x.webp",
     tagCompleteness = 0.8f,
     availability = availability,
+    addedAt = addedAt,
 )
 
 /** docs/03-05 §13 的 T01 / T02 / T04 / T05 与 §12 的 B05 / B07 / B11 / B13 纯单元部分。 */
@@ -46,7 +48,7 @@ class LibraryContractTest {
     @Test
     @DisplayName("03-05 T01 TrackEntity.from(Track) 往返所有业务字段一致")
     fun t01() {
-        val track = testTrack(TrackId.of("local", "/music/晴天.flac"))
+        val track = testTrack(TrackId.of("local", "/music/晴天.flac"), addedAt = 100)
         val entity = TrackEntity.from(track, addedAt = 100, updatedAt = 200)
         assertEquals(track, entity.toTrack())
         assertEquals(100, entity.addedAt)
