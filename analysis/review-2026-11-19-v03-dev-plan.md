@@ -93,7 +93,10 @@ PRD §3 V0.2 列九项代码侧全实现（`docs/01 §10` §61.233 终版回填�
 - §61.265：OOM 闪退缓解（largeHeap=true，根因待定位）；117/860/0 不变；同曲复播 pending-device。
 - §61.266：HTTP 音源 OOM 真根因（`Range: bytes=offset-` 整段入堆 → 259MB APE 撞 256MB 上限）；
   收口 = `probe()` 只取元数据 + 有界 Range（≤64KiB）+ 流式 `readAtMost`/`skipFully`；
-  **117/866/0**（+6）；guard 九判据 A/B 反证两路 PASS；真机复验 pending。
+  **117/866/0**（+6）；guard 九判据 A/B 反证两路 PASS；
+  **真机 PASS**（2026-11-21 / `192.168.1.10:37385`：进程存活 5min+、OOM/SIGSEGV 命中 0、PSS 181→208MB 平稳；
+  证据 `analysis/device-diagnosis-2026-11-21-ooms-fix-and-silent-playback.md`）。
+  注：无声问题是 CUE 分轨 + Media3 大 offset seek 的独立缺陷，另立专项。
 
 ## 3.1 本批已执行（§61.239，第二百五十一批——原登记保留）
 
