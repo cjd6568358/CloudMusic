@@ -7420,6 +7420,24 @@ def main() -> int:
     else:
         print("[PASS] §61.256 Tier3 声纹（自研 FFT 指纹核 + MediaCodec 解码 + 会话升级 + 面板分区）")
 
+    # §61.258（§61.256 挂账收口）：偏移哈希——固定帧距、绝对帧号不入哈希，整体时间平移不误判。
+    _c258_bad = []
+    if "const val PAIR_DELTA_FRAMES: Int = 1" not in _afp:
+        _c258_bad.append("固定帧距常量缺失")
+    if "PAIR_DELTA_FRAMES.toLong() and 0xFF" not in _afp:
+        _c258_bad.append("哈希未用固定帧距")
+    if "frameIdx" in _afp:
+        _c258_bad.append("绝对帧号仍入哈希")
+    _fp_test = _code_only((ROOT / "core-model" / "src" / "test" / "kotlin" / "com"
+                           / "example" / "cloudmusic" / "model" / "AudioFingerprintTest.kt")
+                          .read_text(encoding="utf-8", errors="replace"))
+    if "fun timeOffsetMatches()" not in _fp_test:
+        _c258_bad.append("偏移命中用例缺失")
+    if _c258_bad:
+        failures.append("§61.258 偏移哈希：%s" % "；".join(_c258_bad))
+    else:
+        print("[PASS] §61.258 偏移哈希（固定帧距 + 无绝对帧号 + F6 偏移命中）")
+
     if _c250_bad:
         failures.append("§61.250 哈希记忆累进：%s" % "；".join(_c250_bad))
     else:

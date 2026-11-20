@@ -83,6 +83,21 @@ class AudioFingerprintTest {
     }
 
     @Test
+    @DisplayName("§61.258 F6 · 整体时间偏移（前导静音 / 截头）→ 仍判疑似同源")
+    fun timeOffsetMatches() {
+        val pcm = music(11.0, seconds = 12.0)
+        val base = AudioFingerprint.fingerprint(pcm, rate)
+        // 非 HOP 整数倍偏移，模拟真实「片头多了一段空白」而非人为对齐的格子平移。
+        val lead = 1_379
+        val shifted = FloatArray(pcm.size + lead) { i -> if (i < lead) 0f else pcm[i - lead] }
+        val simLead = AudioFingerprint.similarity(base, AudioFingerprint.fingerprint(shifted, rate))
+        assertTrue(simLead >= AudioFingerprint.MATCH_THRESHOLD, "前导静音偏移应命中：$simLead")
+        val trimmed = pcm.copyOfRange(lead, pcm.size)
+        val simTrim = AudioFingerprint.similarity(base, AudioFingerprint.fingerprint(trimmed, rate))
+        assertTrue(simTrim >= AudioFingerprint.MATCH_THRESHOLD, "截头偏移应命中：$simTrim")
+    }
+
+    @Test
     @DisplayName("§61.256 F5 · likelySameSource 便捷判：同源 true / 异曲 false")
     fun likelySameSource() {
         val a = music(5.0)

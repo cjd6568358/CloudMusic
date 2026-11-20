@@ -12,8 +12,9 @@ import kotlin.math.sin
  * A3 NDK 拍板闸门；算法为 Shazam 风格频谱峰值地标哈希的保守简化）。
  *
  * 管线：PCM 单声道 float → 重采样 8kHz → 分帧 FFT（radix-2）→ 每帧取能量 Top 峰（邻域
- * 抑制）→ 相邻帧峰值配对 → 量化哈希（64bit long）。相似度 = 哈希多重集交集 / min 大小
- * （Jaccard 变体，时间对齐宽容——转码/重编码保持时间轴，偏移哈希作为后续演进挂账）。
+ * 抑制）→ 相邻帧峰值配对 → 量化哈希（64bit long）。相似度 = 哈希多重集交集 / min 大小。
+ * 哈希只编码峰值频率对与[PAIR_DELTA_FRAMES]固定帧距，**不编码绝对帧号**——前导静音 /
+ * 头部截断造成整体时间偏移时哈希集不变（§61.258 偏移哈希挂账收口）。
  *
  * 口径（如实登记）：
  * - 自研算法精度无第三方基准——只用于「转码重复**疑似**升级确认」（与 Tier1 内容哈希、
@@ -36,6 +37,12 @@ object AudioFingerprint {
 
     /** 匹配阈值：交集/min ≥ 此值判「疑似同源」。 */
     const val MATCH_THRESHOLD: Double = 0.35
+
+    /**
+     * 峰值对的固定帧距（相邻帧）。只编码「频率对 + 相对距离」，不编码绝对时间位置：
+     * 时间轴上整体平移（前导静音 / 截掉片头）不会改变哈希集（§61.258）。
+     */
+    const val PAIR_DELTA_FRAMES: Int = 1
 
     /** 重采样（线性插值降采样；升采样不支持——解码侧先保证 ≤TARGET_RATE 或就近取）。 */
     internal fun resample(pcm: FloatArray, srcRate: Int): FloatArray {
@@ -112,14 +119,14 @@ object AudioFingerprint {
 
     /**
      * PCM → 指纹哈希集（Long 集合）。[pcm] 必须单声道；[sampleRate] 为其采样率。
-     * 哈希 = 相邻帧峰值对（bin1 量化到 8 bin 粒度、bin2 同、帧距），符号位防负。
+     * 哈希 = 相邻帧峰值对（bin1 量化到 8 bin 粒度、bin2 同、固定帧距[PAIR_DELTA_FRAMES]），
+     * 符号位防负；绝对帧号不入哈希，故整体时间偏移鲁棒（§61.258）。
      */
     fun fingerprint(pcm: FloatArray, sampleRate: Int): Set<Long> {
         if (pcm.size < FRAME_SIZE) return emptySet()
         val resampled = resample(pcm, sampleRate)
         val hashes = mutableSetOf<Long>()
         var prevPeaks: IntArray? = null
-        var frameIdx = 0
         var pos = 0
         while (pos + FRAME_SIZE <= resampled.size) {
             val frame = resampled.copyOfRange(pos, pos + FRAME_SIZE)
@@ -129,13 +136,14 @@ object AudioFingerprint {
                     // 量化：bin 换算对数音高（8 bin/八度近似），帧距直接入哈希
                     val q1 = (log2((p1 + 1.0).coerceAtLeast(1.0)) * 8).toInt().coerceAtLeast(0)
                     val q2 = (log2((p2 + 1.0).coerceAtLeast(1.0)) * 8).toInt().coerceAtLeast(0)
-                    var h = (q1.toLong() shl 20) or (q2.toLong() shl 8) or (frameIdx.toLong() and 0xFF)
+                    // 只入固定帧距（相对时间），绝不入绝对帧号——否则平移片段即失配。
+                    var h = (q1.toLong() shl 20) or (q2.toLong() shl 8) or
+                        (PAIR_DELTA_FRAMES.toLong() and 0xFF)
                     h = h and Long.MAX_VALUE
                     hashes += h
                 }
             }
             prevPeaks = peaks
-            frameIdx++
             pos += HOP
         }
         return hashes
