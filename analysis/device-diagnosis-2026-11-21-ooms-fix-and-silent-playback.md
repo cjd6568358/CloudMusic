@@ -50,14 +50,40 @@ Content-Range: bytes 0-511/299845048        ← 真实 APE 299MB，Range 正常
 字段当播放时长用。两套语义混用。`expectedLength=264813` 出现在日志里只是打印，
 Media3 的 prepare 不使用它，故**不是本次崩溃的直接触发**，但属长期隐患。
 
-## 三、结论与待办（不擅自改引擎时序）
+## 三、曲库真相纠正（00:32，从设备 Room 489 轨实证）
 
-1. **§61.266 已真机 PASS**，可回填 v0.3 账本 / docs 09 §2。
-2. **无声问题**是 CUE 分轨 + Media3 大 offset seek 的独立缺陷：
-   `PlayerController.prepareAt` 在 `engine.prepare()` 后立即 `engine.seek(cueStartMs)`，
-   此刻 `duration=TIME_UNSET`，Media3 在 preparation 完成前收到大跨度 seek →
-   容器解析失败 / 停在 BUFFERING。候选修复 = pending-seek（READY 后再落点）。
-   但日志存在反例（unset 下 seek=1426693 仍有一次 READY 成功），真实失败模式未完全收敛，
-   **按纪律不仓促改引擎时序**（需 A/B 反证 + 回归 + 多轮真机对照）。
-3. 下一步建议：用户拍板是否立 §61.267 专项，按「pending-seek + A/B 反证 + 真机多轨对照」推进；
-   或先取一个**整轨（非 CUE 分轨）**曲目点播作对照，确认整轨能出声即坐实分轨 seek 是唯一变量。
+直接取设备 `cloudmusic.db` + WAL 查证，**推翻上文 2.1 的「seek 竞态」归因**：
+
+| 曲目 id | 标题 | duration_ms | cue_start_ms | cue_end_ms | 日志 seek |
+|---|---|---|---|---|---|
+| c7507b1c… | 24楼 | 264813 | **995440** | 1260253 | `toMs=995440` ✅ 正是 cue 起点 |
+| b9ae0b20… | 你说的对 | 317027 | **1426693** | 1743720 | `toMs=1426693` ✅ 正是 cue 起点 |
+| 8b2a9c74… | 20？？ 长岛 黄昏 | 50146 | 0 | 50146 | 无 seek（整轨）→ 仍 `PARSING_CONTAINER_MALFORMED` |
+
+**结论修正**：seek 落点是**正确的** CUE 分轨起点，不是 bug。`duration_ms=264813`（4.4min）
+只是分轨**显示时长**，与字节长度无关（印证 2.3 的字段语义错配，但不影响 seek）。
+真正失败是 **ApeExtractor 对 WebDAV APE 的解析**：
+- `8b2a9c74`（整轨、无 seek、来源 `听说.ape`）同样 `PARSING_CONTAINER_MALFORMED`，
+  且该曲 `sample_rate=0 / bit_depth=0`（元数据从未解出），文件名含 GBK 问号（§61.264/265 已登记）。
+- 另一来源 `一整夜.ape` 的 24楼分轨曾 READY 成功（98ca token，HEAD=299845048、`MAC ` 头正常）。
+- 即失败与「具体 APE 源文件 / 编码变体」相关，而非 seek 时序。
+
+### 曾尝试并已撤销的错误修复（纪律记录）
+
+基于被推翻的竞态理论，一度写了 pending-seek（duration=TIME_UNSET 挂起 seek 至 READY）
++ `Media3SeekDeferTest` 单测。曲库真相证明方向错误后，**已全部撤销，未留任何代码**。
+不把未收敛的猜测写进引擎。
+
+## 四、结论与待办
+
+1. **§61.266 已真机 PASS**，可回填 v0.3 账本 / docs 09 §2（已提交 `9409903a`）。
+2. **无声问题根因 = WebDAV APE 源文件兼容性**：
+   - 同一路径下 `一整夜.ape` 能 READY，`听说.ape`（含 GBK 问号、元数据全 0）解析失败。
+   - 非代码回归（§61.266 改的 `HttpDataSource` 只在代理回源路径，已 curl 实证供数正常；
+     Media3 直接取流走 `DefaultHttpDataSource`，与我改动无关）。
+   - 属**源文件级缺陷**（服务器文件名/编码）或自定义 `ApeExtractor` 对该 APE 变体的兼容性问题。
+3. 尝试外部注入本地 `f3_ape.ape` 做对照，被 MIUI 后台限制 / 音频焦点拦下（不注入 UI 是铁律），
+   无法全自动完成对照。
+4. 下一步（需用户在场）：点播**非「听说」专辑**的一首（如 `85760ba7 逝年 / 夏小虎`，整轨 OK），
+   - 出声 → 坐实是「听说.ape」坏文件，与代码无关，走数据修复（替换/重下源文件）；
+   - 不出声 → WebDAV APE 链路通病，立专项查自定义 `ApeExtractor` 对该编码的兼容性。
