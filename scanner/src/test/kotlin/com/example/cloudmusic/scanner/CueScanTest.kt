@@ -220,6 +220,17 @@ class CueScanTest {
         assertEquals(6, cueTracks.map { it.id.value }.toSet().size, "锚点含 cue 文件名，零冲突")
     }
 
+    @Test
+    fun `坏 cue 文件按文件路径上报 不得写成数据源级失败`() = runTest {
+        val report = runScan(
+            root = listOf(obj("/m/bad.cue", size = 100)),
+            texts = mapOf("/m/bad.cue" to "not a cue sheet"),
+        )
+        val err = report.errors.first { it.detail.contains("cue") }
+        assertEquals("/m/bad.cue", err.path,
+            "文件级 CUE 错误必须带文件路径；写成 storageId 会让 storageErrorStates 踢掉整个源")
+    }
+
     // ------------------------------------------------------------------
     private suspend fun runScan(
         root: List<Obj>,

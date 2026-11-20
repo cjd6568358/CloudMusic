@@ -7481,6 +7481,22 @@ def main() -> int:
     else:
         print("[PASS] §61.262 全面屏安全区 + IME 避让 + Android 15 opt-out + 最近添加排序去重")
 
+    # §61.264：文件级扫描错误不得用 storageId 上报（否则整个源被 errorMsg 踢出 active）。
+    _scan_src = _code_only((ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
+                            / "example" / "cloudmusic" / "scanner" / "ScanCoordinator.kt")
+                           .read_text(encoding="utf-8", errors="replace"))
+    _c264_bad = []
+    if 'storage.id, "E_' in _scan_src:
+        _c264_bad.append("文件级错误仍用 storageId 上报")
+    if "坏 cue 文件按文件路径上报" not in _code_only((ROOT / "scanner" / "src" / "test" / "kotlin" / "com"
+                                                  / "example" / "cloudmusic" / "scanner" / "CueScanTest.kt")
+                                                .read_text(encoding="utf-8", errors="replace")):
+        _c264_bad.append("坏 CUE 路径判据缺失")
+    if _c264_bad:
+        failures.append("§61.264 文件级错误隔离：%s" % "；".join(_c264_bad))
+    else:
+        print("[PASS] §61.264 文件级错误隔离（坏 CUE 不踢掉整个源）")
+
     if _c250_bad:
         failures.append("§61.250 哈希记忆累进：%s" % "；".join(_c250_bad))
     else:

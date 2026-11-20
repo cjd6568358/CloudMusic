@@ -401,7 +401,7 @@ class ScanCoordinator(
                 val resolved = runCatching { resolveRelativeStrm(baseDir, result.path) }.getOrNull()
                 val target = resolved?.let { runCatching { driver.get(it) }.getOrNull() }
                 if (resolved == null || target == null || target.isDir) {
-                    state.error(storage.id, "E_SCAN", "strm 相对引用目标不存在: ${item.path}")
+                    state.error(item.path, "E_SCAN", "strm 相对引用目标不存在: ${item.path}")
                 } else {
                     out += Candidate(
                         storage = storage,
@@ -412,10 +412,10 @@ class ScanCoordinator(
                 }
             }
             is StrmParseResult.Unsupported -> state.error(
-                storage.id, "E_LINK_BAD_SCHEME", "不支持的 strm scheme: ${result.scheme} @ ${item.path}",
+                item.path, "E_LINK_BAD_SCHEME", "不支持的 strm scheme: ${result.scheme} @ ${item.path}",
             )
             StrmParseResult.Empty -> state.error(
-                storage.id, "E_LINK_BAD_SCHEME", "strm 内容为空: ${item.path}",
+                item.path, "E_LINK_BAD_SCHEME", "strm 内容为空: ${item.path}",
             )
         }
     }
@@ -447,14 +447,14 @@ class ScanCoordinator(
         audioByName: Map<String, Obj>,
     ) {
         val text = runCatching { driver.readTextOrThrow(item) }.getOrElse {
-            state.error(storage.id, "E_SCAN_ENCODING", "cue 读取失败: ${item.path}")
+            state.error(item.path, "E_SCAN_ENCODING", "cue 读取失败: ${item.path}")
             return
         }
         val sheet = CueParser.parse(text)
-        sheet.errors.forEach { state.error(storage.id, "E_SCAN", "cue 解析: $it @ ${item.name}") }
+        sheet.errors.forEach { state.error(item.path, "E_SCAN", "cue 解析: $it @ ${item.name}") }
         val audioTracks = sheet.tracks.filter { it.audio }
         if (audioTracks.isEmpty()) {
-            state.error(storage.id, "E_SCAN", "cue 无有效音频轨: ${item.path}")
+            state.error(item.path, "E_SCAN", "cue 无有效音频轨: ${item.path}")
             return
         }
         val cueStem = item.name.substringBeforeLast('.').ifBlank { item.name }
@@ -464,13 +464,13 @@ class ScanCoordinator(
         for (t in audioTracks) {
             val file = t.file
             if (file == null) {
-                state.error(storage.id, "E_SCAN", "cue 轨 ${t.no} 无 FILE 上下文 @ ${item.name}")
+                state.error(item.path, "E_SCAN", "cue 轨 ${t.no} 无 FILE 上下文 @ ${item.name}")
                 continue
             }
             val audio = audioByName[file.lowercase()]
                 ?: audioByName[file.substringAfterLast('/').lowercase()]
             if (audio == null) {
-                state.error(storage.id, "E_SCAN", "cue 引用的音频文件不在同目录: ${t.file} @ ${item.path}")
+                state.error(item.path, "E_SCAN", "cue 引用的音频文件不在同目录: ${t.file} @ ${item.path}")
                 continue
             }
             matched += Triple(t, audio, t.startMs)
