@@ -48,6 +48,9 @@ fun List<Track>.recentlyAdded(limit: Int = 20): List<Track> =
     groupBy { it.id }.values
         .map { group -> group.maxBy { it.addedAt } }
         .sortedByDescending { it.addedAt }
+        // §61.263：CUE 分轨/不同版本会同名同艺人；「最近添加」是歌曲视图，不展示重复曲名。
+        // 只在展示层折叠，曲库的行与分轨数据一行不删（合法分轨仍可进歌单/播放）。
+        .distinctBy { it.title.trim().lowercase() + "|" + it.artist.trim().lowercase() }
         .take(limit.coerceAtLeast(0))
 
 data class SourceRef(

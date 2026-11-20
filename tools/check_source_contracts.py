@@ -7474,6 +7474,8 @@ def main() -> int:
         _c262_bad.append("播放页挖孔安全区缺失")
     if "fun List<Track>.recentlyAdded(" not in _track_src or "tracks.recentlyAdded()" not in _home_src:
         _c262_bad.append("最近添加排序/去重缺失")
+    if "distinctBy { it.title.trim().lowercase()" not in _track_src:
+        _c262_bad.append("同名同艺人展示折叠缺失")
     if _c262_bad:
         failures.append("§61.262 全面屏+最近添加：%s" % "；".join(_c262_bad))
     else:

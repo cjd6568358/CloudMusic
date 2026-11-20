@@ -21,6 +21,15 @@ class TrackRecentlyAddedTest {
     }
 
     @Test
+    @DisplayName("§61.263 R3 · 同名同艺人（CUE 分轨/版本）在展示层折叠，库行不删")
+    fun dedupesSameTitleArtistForDisplay() {
+        val a = track("a", 30).copy(title = "很爱很爱你", artist = "刘若英")
+        val older = track("b", 29).copy(title = "很爱很爱你", artist = "刘若英")
+        val other = track("c", 28).copy(title = "后来", artist = "刘若英")
+        assertEquals(listOf("a", "c"), listOf(older, a, other).recentlyAdded(5).map { it.id.value })
+    }
+
+    @Test
     @DisplayName("§61.262 R2 · 同 id 只出现一次 + limit<=0 空列表")
     fun dedupesAndClamps() {
         val dup = track("same", 30)
