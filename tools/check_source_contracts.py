@@ -7497,6 +7497,13 @@ def main() -> int:
     else:
         print("[PASS] §61.264 文件级错误隔离（坏 CUE 不踢掉整个源）")
 
+    # §61.265：OOM 闪退缓解——largeHeap 声明在位（不宣称根因修复）。
+    _manifest_src = (ROOT / "app" / "src" / "main" / "AndroidManifest.xml").read_text(encoding="utf-8", errors="replace")
+    if 'android:largeHeap="true"' not in _manifest_src:
+        failures.append("§61.265 OOM 缓解：largeHeap 声明缺失")
+    else:
+        print("[PASS] §61.265 OOM 缓解（android:largeHeap=true，根因待定位）")
+
     if _c250_bad:
         failures.append("§61.250 哈希记忆累进：%s" % "；".join(_c250_bad))
     else:

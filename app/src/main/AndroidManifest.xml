@@ -27,11 +27,14 @@
          targetSdk >= 28 默认禁止明文流量，App 内 HttpURLConnection 对 http://
          会抛 UnknownServiceException，HEAD 探测与 Range 取流全部失败。
          这里只放开明文流量策略，不新增任何权限（11 项 / C3 白名单不变）。 -->
+    <!-- §61.265：真机 23:38 播放大体积 CUE 分轨时 Java 堆撞 256MB 上限后 ART finalizer 崩溃；
+         largeHeap 抬升上限属缓解，根因（堆增长点）仍待 instrumented 复跑定位。 -->
     <application
         android:theme="@style/Theme.CloudMusic"
         android:name=".CloudMusicApplication"
         android:allowBackup="false"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:largeHeap="true">
 
         <!-- T-A6（12 §33 / 03-10 §5）：Compose 自研页面入口；播放页照搬属 T-L L3。 -->
         <!-- ★ 12 §61.33 口径定论：LAUNCHER 必须保持 exported=true，A3 验收后**不改回 false**。
