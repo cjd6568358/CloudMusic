@@ -102,7 +102,9 @@ PRD §3 V0.2 列九项代码侧全实现（`docs/01 §10` §61.233 终版回填�
 - §61.268：本地 WebDAV 播放无声修复——签名直链（`?sign=`）在 `ProductionTrackSourceResolver`
   转本机回环代理（OkHttp 稳定回源），Media3 不再直连签名直链（真机 MP3/APE 均 EOF）；
   无 sign 的 strm/歌单与 PROXIED/TEXT 零回归。**119/874/0**（+2/+8）；guard 五判据 A/B 反证 PASS；
-  真机复验 pending（自己用 `cmd media_session dispatch play` 可全自动验证，无需用户点屏）。
+  真机复验：修复机制（签名直链转回环代理）已由日志证实生效；但出声未达成——
+  当前网络（设备换 IP .14）下 WebDAV 服务对设备断连（TCP 连上即关闭、curl HTTP:000），
+  属服务端/网络环境阻塞，非代码失败；待网络恢复后复验，详见诊断报告 §6。
 
 ## 3.1 本批已执行（§61.239，第二百五十一批——原登记保留）
 

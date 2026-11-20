@@ -121,3 +121,25 @@ Caused by: java.io.EOFException:
 复查：进程 PID 26804 **全程存活**，logcat 无 FATAL/SIGSEGV/OOM/tombstone、无 am_proc_died；
 前台由 app 切到浏览器属用户手动切走，**不是进程崩溃**。真实症状是「点播无声→自动回 IDLE」，
 非崩溃。
+
+
+## 六、§61.268 真机复验尝试（00:51~00:54）——环境阻塞，非代码失败
+
+设备端点变为 `192.168.1.14:39211`（IP 从 .10 换到 .14；全网段扫 39211 定位）。
+装机新 APK（030536ed）后注入 STRM 签名直链验证修复：
+
+- **修复机制生效**：日志确认 `prepare ... url=http://192.168.1.14:43497/t/<token>`——
+  签名直链已被 `ProductionTrackSourceResolver` 转成**本机回环代理 URL**，不再直连。
+- **但代理回源仍失败**：`ERROR_CODE_IO_BAD_HTTP_STATUS` / Response 404 → IDLE。
+- **根因是环境，非代码**：
+  - 库里签名直链**未过期**（PC `curl -r 0-15` → 206 + `ID3` MP3 头，正常）；
+  - 设备能 `ping` 通 192.168.1.1，TCP 能连上 15244，但**请求发出后服务端立刻断开连接**
+    （设备 `curl` → `HTTP:000`，`Connected to ... port 15244` 后 `Closing connection`，无响应）；
+  - 即当前网络环境（设备新 IP .14）下 WebDAV/OpenList 服务对设备断连——
+    这正是 `unexpected end of stream` 的**真正来源**，是服务端/网络层问题。
+- **诚实边界**：§61.268 的"签名直链转代理"在本环境下无法完成出声复验（上游断连）。
+  修复机制本身（转代理）已被日志证实生效；但"转代理能否彻底解决 EOF"**未能证实**——
+  因为上游连接问题在代理回源路径上依然存在。
+- **不宣称修复成功**：真机出声判据（`state=PLAYING` + AudioTrack 真实帧）未达成。
+  待网络环境恢复（设备能稳定访问 WebDAV）后复验；若届时代理回源仍失败，
+  需回头查代理回源对 WebDAV 鉴权/Digest 的处理，另立专项。
