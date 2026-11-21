@@ -8178,6 +8178,43 @@ def main() -> int:
     else:
         print("[PASS] §61.284 收藏/历史/歌单展开改懒 item（无全量组合，序号算法单测同源）")
 
+    # ---- §61.285（U-13 拍板 ②：重扫进行态）：按钮反馈 + 重入不误清标志 ----
+    # 判据（结构 + 真实接线，不看"能不能跑"）：
+    #   ① 曲库页签名有 `scanning: Boolean`（状态从运行时来，不是页内自造）；
+    #   ② 顶栏重扫钮把 scanning 传给按钮的 busy，且 busy 时显示进度环、禁用点击；
+    #   ③ CloudMusicApp 必须传真实 `runtime.scanning`（写死 false 等于没做）；
+    #   ④ 运行时的 finally 必须做「仍是当前代次」判定——重入时旧任务后跑会把
+    #      新一轮的 scanning 覆盖成 false（进度环刚亮就灭，正是本项要治的）；
+    #      用**起跑前**定下的代次而不是 Job 身份（身份在"同步跑完"的极端时序下会误判）。
+    _fn_lib_285 = (_ui_dir / "FnLibraryScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _lib_code_285 = _code_only(_fn_lib_285)
+    _c285 = []
+    if "scanning: Boolean" not in _lib_code_285:
+        _c285.append("曲库页签名缺 scanning 形参")
+    if "FnHeaderButton(FnIcon.Refresh, onRescan, busy = scanning)" not in _lib_code_285:
+        _c285.append("重扫钮未接 scanning→busy")
+    _hb = _lib_code_285[_lib_code_285.find("private fun FnHeaderButton("):]
+    _hb = _hb[:_hb.find(chr(10) + "}") if chr(10) + "}" in _hb else len(_hb)]
+    if "CircularProgressIndicator(" not in _hb:
+        _c285.append("busy 态无进度环（用户仍看不到扫描在跑）")
+    if "FnComp.BrandOrange" not in _hb:
+        _c285.append("进度环未用品牌橙（裸色值会与飞牛基准漂移）")
+    if "clickable(enabled = !busy)" not in _hb:
+        _c285.append("busy 态未禁用点击（连点会取消重启，丢已扫进度）")
+    if "scanning = runtime.scanning" not in _code_app:
+        _c285.append("App 未传真实 runtime.scanning（写死/未接＝无反馈）")
+    _pb = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+           / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt").read_text(
+               encoding="utf-8", errors="replace")
+    if "val generation = ++scanGeneration" not in _pb:
+        _c285.append("runScan 未在起跑前生成代次（无法判定谁有权收 scanning）")
+    if "if (scanGeneration == generation)" not in _pb:
+        _c285.append("runScan 的 finally 未判「仍是当前代次」（重入会误清 scanning）")
+    if _c285:
+        failures.append("§61.285 重扫进行态：%s" % "；".join(_c285))
+    else:
+        print("[PASS] §61.285 重扫进行态（进度环 + 禁用 + 真实 scanning + 重入不误清）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

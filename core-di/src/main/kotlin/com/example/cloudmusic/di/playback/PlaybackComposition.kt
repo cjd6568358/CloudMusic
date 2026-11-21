@@ -394,6 +394,16 @@ class PlaybackRuntime @Inject constructor(
     @Volatile
     private var scanJob: Job? = null
 
+    /**
+     * §61.285：扫描代次（last-wins 的"谁有权收标志"）。
+     *
+     * `runScan` 取消旧任务后立即起新任务，旧任务的 `finally` 可能在新任务起跑之后才执行；
+     * 只比 `scanJob` 身份在"扫描零步同步跑完"的极端情况下会误判（finally 早于赋值），
+     * 代次是**起跑前**就定下的值，比较结果与调度顺序无关。
+     */
+    @Volatile
+    private var scanGeneration: Int = 0
+
     /** §61.206（A2-①）：MediaStore 变更事件流（tryEmit，防抖后触发定向增量扫）。 */
     private val mediaChanges = kotlinx.coroutines.flow.MutableSharedFlow<Unit>(extraBufferCapacity = 16)
 
@@ -480,6 +490,7 @@ class PlaybackRuntime @Inject constructor(
         Log.i("CM-Scan", "runScan 触发 refresh=${request.refresh} 调用链=" +
             Throwable().stackTrace.take(6).joinToString(" <- ") { "${it.methodName}:${it.lineNumber}" })
         scanJob?.cancel()
+        val generation = ++scanGeneration
         scanJob = scope.launch {
             // §61.129（T-V #9）：扫描时长观测（冷扫 ≤60s / 增量 ≤10s 基线判据）。
             val scanStart = android.os.SystemClock.elapsedRealtime()
@@ -536,7 +547,12 @@ class PlaybackRuntime @Inject constructor(
                 Log.w("CM-Scan", "scan failed: ${e::class.java.name}: ${e.message}", e)
                 _state.update { it.copy(lastEffect = "SCAN_FAILED") }
             } finally {
-                _state.update { it.copy(scanning = false) }
+                // §61.285（U-13 ②）：重入（last-wins）时旧任务的 finally 与新一轮起跑**无序**——
+                // 旧任务后跑会把新任务的 `scanning` 覆盖成 false，重扫钮的进度环刚亮就灭
+                // （正是 U-13 要解决的"看不到反馈"）。只有"仍是当前扫描任务"才收掉状态。
+                if (scanGeneration == generation) {
+                    _state.update { it.copy(scanning = false) }
+                }
             }
         }
     }

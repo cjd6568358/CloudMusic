@@ -485,6 +485,8 @@ fun CloudMusicApp(
                     onPlayTracks = onPlayTracks,
                     onAddToPlaylist = { addToPlaylistTrack = it },
                     onRescan = onRescanAll,
+                    // §61.285（U-13 ②）：扫描进行中 → 重扫钮进度环 + 禁用。
+                    scanning = runtime.scanning,
                     onRetryUnavailable = onRetryUnavailable,
                     onOpenSearch = { searchReturnTo = 1; subOrigin = 1; tab = 3 },
                     onOpenPlaylists = { subOrigin = 1; tab = 2 },

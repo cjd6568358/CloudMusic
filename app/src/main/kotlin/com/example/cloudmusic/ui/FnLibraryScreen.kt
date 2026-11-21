@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -69,6 +70,12 @@ fun FnLibraryScreen(
     onAddToPlaylist: (Track) -> Unit,
     /** 全库重扫（原 tab7 顶栏「↻」）。 */
     onRescan: () -> Unit,
+    /**
+     * §61.285（U-13 拍板 ②）：扫描进行中 → 重扫钮显示进度环并禁用点击。
+     * 此前点重扫**零可见反馈**（§61.188 移除扫描横幅后），大库远程扫描几十秒
+     * 用户不知道是否生效，只能连点（而 `runScan` 是 last-wins：连点会取消重启）。
+     */
+    scanning: Boolean = false,
     /** 不可用视图的「重试」动作（原 tab7 UNAVAILABLE 视图按钮）。 */
     onRetryUnavailable: () -> Unit,
     onOpenSearch: () -> Unit,
@@ -100,7 +107,7 @@ fun FnLibraryScreen(
                     Modifier.align(Alignment.CenterEnd),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    FnHeaderButton(FnIcon.Refresh, onRescan)
+                    FnHeaderButton(FnIcon.Refresh, onRescan, busy = scanning)
                     FnHeaderButton(FnIcon.Search, onOpenSearch)
                 }
             }
@@ -280,18 +287,32 @@ private fun unavailableSubtitle(track: Track): String =
         track.sourceRef.path.ifBlank { null },
     ).joinToString(" · ")
 
-/** 顶栏圆钮（40dp，与飞牛页头同量值）。 */
+/**
+ * 顶栏圆钮（40dp，与飞牛页头同量值）。
+ *
+ * §61.285（U-13 拍板 ②）：[busy] 时圆钮内换成品牌橙进度环并**禁用点击**——
+ * 禁用不只是防连点，也是 last-wins 语义的 UI 表达（重入会取消并重启当前扫描，
+ * 用户看到的"重新开始"其实会丢掉已扫进度）。
+ */
 @Composable
-private fun FnHeaderButton(icon: FnIcon, onClick: () -> Unit) {
+private fun FnHeaderButton(icon: FnIcon, onClick: () -> Unit, busy: Boolean = false) {
     Box(
         Modifier
             .size(FnBaseline.HeaderButtonDp.dp)
             .clip(CircleShape)
             .background(FnComp.CardBg)
-            .clickable { onClick() },
+            .clickable(enabled = !busy) { onClick() },
         contentAlignment = Alignment.Center,
     ) {
-        FnLineIcon(icon, FnComp.TextPrimary)
+        if (busy) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(18.dp),
+                color = FnComp.BrandOrange,
+                strokeWidth = 2.dp,
+            )
+        } else {
+            FnLineIcon(icon, FnComp.TextPrimary)
+        }
     }
 }
 
