@@ -8937,6 +8937,94 @@ def main() -> int:
     else:
         print("[PASS] §61.295 弹层键盘避让（内容吃 IME inset / 五个长表单可滚 / 不叠双层滚动 / 默认 false）")
 
+    # ---- §61.296（搜索归一化：全角空格也是分隔符）----
+    #   背景：中文输入法在中文态按空格键常插入**全角空格 U+3000**，而 Java/Kotlin 正则的
+    #   `\s` 只认 ASCII 空白——实测 `"周杰伦\u3000稻香".split("\\s+")` 只有 1 段。于是两个词
+    #   被粘成一个 token，LIKE 与 FTS MATCH 双双落空：用户看到的是「明明有这首歌，搜不到」。
+    #   另：Java 的 `String.trim()` 只剥 <= U+0020（实测 `"\u3000\u3000".trim().length == 2`），
+    #   不能拿 trim 当兜底。判据盯四件事：**单一真相源在 core-model**、
+    #   **三条取数路径（纯 JVM / FTS / Room）都用它**、**全仓禁止 ASCII-only 分词**、
+    #   **纯空白查询仍返回全量**（用例在册）。
+    _c296 = []
+
+    def _fn_body296(_code: str, _sig: str) -> str:
+        _i = _code.find(_sig)
+        if _i < 0:
+            return ""
+        _st, _blocks = [], []
+        for _j, _ch in enumerate(_code):
+            if _ch == "{":
+                _st.append(_j)
+            elif _ch == "}" and _st:
+                _blocks.append((_st.pop(), _j))
+        _after = [_b for _b in _blocks if _b[0] > _i]
+        if not _after:
+            return ""
+        _first = min(_after, key=lambda _b: _b[0])
+        return _code[_i:_first[1]]
+
+    _st_path296 = ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/SearchText.kt"
+    if not _st_path296.is_file():
+        _c296.append("core-model 的 SearchText 缺失（归一化退化成各写各的）")
+    else:
+        _st296 = _code_only(_st_path296.read_text(encoding="utf-8", errors="replace"))
+        if not re.search(r"object\s+SearchText\s*\{", _st296):
+            _c296.append("SearchText 对象缺失")
+        for _fn296 in ("fun isSeparator(", "fun normalize(", "fun tokens("):
+            if _fn296 not in _st296:
+                _c296.append("SearchText 缺函数：%s" % _fn296)
+        _sep296 = _fn_body296(_st296, "fun isSeparator(")
+        if "isWhitespace" not in _sep296 or "isSpaceChar" not in _sep296:
+            _c296.append("isSeparator 未同时判 isWhitespace/isSpaceChar（NBSP 会漏）")
+        _norm296 = _fn_body296(_st296, "fun normalize(")
+        if "Regex(" in _norm296 or "trim()" in _norm296:
+            _c296.append("normalize 退回 trim/Regex 兜底（Java trim 不剥 U+3000）")
+
+    _lq_path296 = ROOT / "core-storage/src/main/kotlin/com/example/cloudmusic/storage/LibraryQuery.kt"
+    _lq296 = _code_only(_lq_path296.read_text(encoding="utf-8", errors="replace"))
+    _lq_search296 = _fn_body296(_lq296, "fun search(")
+    if "SearchText.normalize" not in _lq_search296 or "SearchText.tokens" not in _lq_search296:
+        _c296.append("LibraryQuery.search 未走 SearchText（纯 JVM 侧仍会粘词）")
+
+    _ls_path296 = ROOT / "core-di/src/main/kotlin/com/example/cloudmusic/di/db/LibrarySchema.kt"
+    _ls296 = _code_only(_ls_path296.read_text(encoding="utf-8", errors="replace"))
+    if "SearchText.normalize" not in _fn_body296(_ls296, "fun isShortQuery("):
+        _c296.append("FtsQuery.isShortQuery 未归一（尾随全角空格会把 1 字查询抬成 2 字）")
+    if "SearchText.tokens" not in _fn_body296(_ls296, "fun match("):
+        _c296.append("FtsQuery.match 未走 SearchText.tokens（FTS 收到跨列大短语）")
+
+    _rr_path296 = ROOT / "core-di/src/main/kotlin/com/example/cloudmusic/di/db/RoomRepositories.kt"
+    _rr296 = _code_only(_rr_path296.read_text(encoding="utf-8", errors="replace"))
+    if "SearchText.normalize" not in _fn_body296(_rr296, "override fun search("):
+        _c296.append("RoomTrackRepository.search 未归一（LIKE/FTS 都拿整串）")
+
+    # 全仓禁令：ASCII-only 分词（`\s`）不得再出现在任何主源码里
+    _re_sites296 = []
+    for _root296 in ("core-model", "core-storage", "core-di", "app", "feature-player"):
+        for _p296 in sorted((ROOT / _root296 / "src" / "main").rglob("*.kt")):
+            _code296 = _code_only(_p296.read_text(encoding="utf-8", errors="replace"))
+            if re.search(r'Regex\(\s*"\\\\s\+"\s*\)', _code296):
+                _re_sites296.append(_p296.name)
+    if _re_sites296:
+        _c296.append("仍有 ASCII-only 分词 Regex(\"\\\\s+\")：%s" % ",".join(_re_sites296))
+
+    # 用例在册：SearchText 7 条 + 两处契约扩展（纯空白查询 → 全量）
+    _st_test296 = (ROOT / "core-model/src/test/kotlin/com/example/cloudmusic/model/SearchTextTest.kt")
+    if not _st_test296.is_file():
+        _c296.append("SearchTextTest 缺失")
+    else:
+        _t296 = _st_test296.read_text(encoding="utf-8", errors="replace")
+        if _t296.count("@Test") < 7:
+            _c296.append("SearchTextTest 用例不足 7 条（实际 %d）" % _t296.count("@Test"))
+        if "\\u3000" not in _t296:
+            _c296.append("用例未覆盖全角空格 U+3000")
+
+    if _c296:
+        _c296 = list(dict.fromkeys(_c296))
+        failures.append("§61.296 搜索归一化：%s" % "；".join(_c296))
+    else:
+        print("[PASS] §61.296 搜索归一化（全角空格算分隔符 / 三路取数同源 / 禁用 ASCII-only 分词 / 用例在册）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

@@ -171,6 +171,17 @@ class LibraryRoomContractTest {
     }
 
     @Test
+    fun `T-A1-06b full-width space splits FTS tokens`() {
+        // 全角空格不切分时，FTS 收到的是一个跨列短语 ⇒ 两个词都在库里却零命中。
+        assertEquals("\"晴天\" \"周杰伦\"", FtsQuery.match("晴天\u3000周杰伦"))
+        assertEquals("\"晴天\" \"周杰伦\"", FtsQuery.match("\u3000晴天 \u3000周杰伦\u3000"))
+        assertEquals("\"Hotel\" \"California\"", FtsQuery.match("Hotel\u00A0California"))
+        // 尾随全角空格不得把 1 字查询抬成 2 字（否则会走 FTS 而丢掉 LIKE 兜底）
+        assertTrue(FtsQuery.isShortQuery("周\u3000"))
+        assertFalse(FtsQuery.isShortQuery("周\u3000杰"))
+    }
+
+    @Test
     fun `T-A1-07 LIKE wildcards in user input are escaped`() {
         assertEquals("100\\% \\_ \\\\", LikePattern.escape("100% _ \\"))
         assertEquals("晴天", LikePattern.escape("晴天"))

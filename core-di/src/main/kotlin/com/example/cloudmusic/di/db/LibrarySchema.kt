@@ -1,5 +1,6 @@
 package com.example.cloudmusic.di.db
 
+import com.example.cloudmusic.model.SearchText
 import java.text.Collator
 import java.util.Locale
 
@@ -65,11 +66,14 @@ object LibrarySchema {
 
 /** 03-05 §8：FTS4 MATCH 短语转义，避免用户输入里的引号破坏 MATCH 语法。 */
 object FtsQuery {
-    fun isShortQuery(raw: String): Boolean = raw.trim().length < 2
+    /**
+     * `§61.296`：分词与短查询判定统一走 `SearchText`。此前用 `trim()` + `Regex("\\s+")`，
+     * 中文输入法的全角空格（U+3000）不会被切成两段，FTS 收到的是一个大短语，
+     * 而短语无法跨 title/artist 列匹配 ⇒ 「周杰伦　稻香」搜不到「稻香 / 周杰伦」。
+     */
+    fun isShortQuery(raw: String): Boolean = SearchText.normalize(raw).length < 2
 
-    fun match(raw: String): String = raw.trim()
-        .split(Regex("\\s+"))
-        .filter { it.isNotEmpty() }
+    fun match(raw: String): String = SearchText.tokens(raw)
         .joinToString(" ") { token -> "\"${token.replace("\"", "\"\"")}\"" }
 }
 

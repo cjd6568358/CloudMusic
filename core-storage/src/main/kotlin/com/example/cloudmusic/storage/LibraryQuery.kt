@@ -1,5 +1,6 @@
 package com.example.cloudmusic.storage
 
+import com.example.cloudmusic.model.SearchText
 import com.example.cloudmusic.model.Track
 import java.text.Collator
 import java.util.Locale
@@ -38,12 +39,16 @@ object LibraryQuery {
     /**
      * 短查询（<2 字符）或 FTS 无结果时回落 `LIKE %q%`（§8 / B05）。
      * `availability != OK` 的曲目仍可被搜索到（B07）—— 这里不做任何状态过滤。
+     *
+     * `§61.296`：分词走 `SearchText`（全角空格 / 不换行空格都算分隔符）。
+     * 此前用 `Regex("\\s+")`——`\s` 只认 ASCII，中文输入法打出的 U+3000 会把
+     * 「周杰伦　稻香」粘成一个 token，两个词都命中却搜不到。
      */
     fun search(tracks: List<Track>, query: String): List<Track> {
-        val q = query.trim()
+        val q = SearchText.normalize(query)
         if (q.isEmpty()) return tracks
         if (q.length < 2) return tracks.filter { likeHit(it, q) }
-        val tokens = q.split(Regex("\\s+")).filter { it.isNotEmpty() }
+        val tokens = SearchText.tokens(q)
         val matched = tracks.filter { t ->
             tokens.all { token -> fields(t).any { f -> f.contains(token, ignoreCase = true) } }
         }

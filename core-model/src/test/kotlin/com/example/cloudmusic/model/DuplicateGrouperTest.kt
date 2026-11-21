@@ -89,4 +89,17 @@ class DuplicateGrouperTest {
         val noHash = DuplicateGrouper.groupByHash(tracks) { null }
         assertEquals(0, noHash.size, "全 null（未算出）不分组")
     }
+
+    @Test
+    @DisplayName("§61.296 G7 · 全角空格与半角空格归一到同一键（不漏报重复）")
+    fun fullWidthSpaceNormalized() {
+        assertEquals("album name", DuplicateGrouper.normalize("Album\u3000Name"))
+        assertEquals(DuplicateGrouper.normalize("Album Name"), DuplicateGrouper.normalize("Album\u3000\u00A0Name"))
+        // 同一首歌，两个文件标题的空格字符不同 → 仍应归为一组疑似重复
+        val out = DuplicateGrouper.suspectedDuplicates(
+            listOf(track(1, "黑色梦中"), track(2, "黑色梦中\u3000", path = "/nas/1.flac")),
+        )
+        assertEquals(1, out.size)
+        assertEquals(2, out[0].items.size)
+    }
 }

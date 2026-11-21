@@ -2,6 +2,7 @@ package com.example.cloudmusic.di.db
 
 import androidx.room.withTransaction
 import com.example.cloudmusic.model.Availability
+import com.example.cloudmusic.model.SearchText
 import com.example.cloudmusic.model.Track
 import com.example.cloudmusic.model.TrackId
 import com.example.cloudmusic.player.PlayMode
@@ -45,9 +46,11 @@ class RoomTrackRepository(
 
     override fun observeAll(): Flow<List<Track>> = dao.observeAll().map { it.toSortedTracks() }
 
-    /** §8：FTS MATCH 优先；短查询 / FTS 无结果回落 LIKE；B07 不按 availability 过滤。 */
+    /** §8：FTS MATCH 优先；短查询 / FTS 无结果回落 LIKE；B07 不按 availability 过滤。
+     *  `§61.296`：查询先经 `SearchText` 归一（全角空格折叠为半角），否则 LIKE 与 FTS
+     *  都会拿到「一个带 U+3000 的整串」，两个词都命中却零结果。 */
     override fun search(query: String): Flow<List<Track>> {
-        val q = query.trim()
+        val q = SearchText.normalize(query)
         if (q.isEmpty()) return observeAll()
         val likeFlow = dao.searchLike("%${LikePattern.escape(q)}%").map { it.toSortedTracks() }
         if (FtsQuery.isShortQuery(q)) return likeFlow

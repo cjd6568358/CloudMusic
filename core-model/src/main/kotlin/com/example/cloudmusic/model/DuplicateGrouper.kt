@@ -17,8 +17,11 @@ object DuplicateGrouper {
     /** 时长容差：转码/重封装造成的毫秒级漂移覆盖（±1s）。 */
     const val DURATION_TOLERANCE_MS: Long = 1_000L
 
-    /** 归一化：trim + 小写 + 空白折叠（中英混排友好，不做全角折叠——保守）。 */
-    fun normalize(s: String): String = s.trim().lowercase().replace(Regex("\\s+"), " ")
+    /** 归一化：trim + 小写 + 空白折叠（中英混排友好）。
+     *  `§61.296`：空白折叠走 `SearchText`——全角空格 U+3000 / 不换行空格同样是分隔符，
+     *  否则「Album　Name」与「Album Name」会算成两组，疑似重复检测漏报。
+     *  不做字形折叠（NFKC）：保守，避免把不同字形的标题并成一组。 */
+    fun normalize(s: String): String = SearchText.normalize(s).lowercase()
 
     /** Tier2 疑似重复分组。确定性输出（组按标题、组内按路径排序）。 */
     fun suspectedDuplicates(tracks: List<Track>): List<DuplicateGroup> {

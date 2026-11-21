@@ -108,6 +108,13 @@ class LibraryContractTest {
         assertEquals(1, LibraryQuery.search(tracks, "晴天 周杰伦").size)
         assertEquals(1, LibraryQuery.search(tracks, "california").size) // 大小写不敏感
         assertEquals(tracks, LibraryQuery.search(tracks, "   "))
+        // §61.296：中文输入法打出的全角空格（U+3000）与不换行空格同样是分隔符。
+        // 此前 `\s` 只认 ASCII，这两个断言都会得到 0 条——「明明有这首歌，搜不到」。
+        assertEquals(1, LibraryQuery.search(tracks, "晴天\u3000周杰伦").size)
+        assertEquals(1, LibraryQuery.search(tracks, "晴天\u00A0周杰伦").size)
+        assertEquals(2, LibraryQuery.search(tracks, "\u3000周杰伦\u3000").size)
+        // 纯全角空格 = 空查询 → 全量（不能因为 trim 不剥 U+3000 而变成 0 条）
+        assertEquals(tracks, LibraryQuery.search(tracks, "\u3000\u3000"))
     }
 
     @Test
