@@ -228,6 +228,11 @@ fun CloudMusicApp(
     onApplyEqualizer: (Boolean, Int, List<Int>) -> Unit = { _, _, _ -> },
     /** §61.234：主题模式（设置页四选项；改动即 recreate）。 */
     themeMode: String = "DARK_FOLLOW_SYSTEM",
+    /**
+     * §61.291：主题计算结果（MainActivity `applyThemeFromSettings()` 的返回值）。
+     * 系统栏明暗靠它决定——UI 侧不重算 `uiMode`，避免两处判断漂移。
+     */
+    darkTheme: Boolean = true,
     onThemeChanged: (String) -> Unit = { _ -> },
     /** §61.116（M2-2）：扫描最短时长下限（ms），下次扫描生效。 */
     scanMinDurationMs: Long = 10_000L,
@@ -311,35 +316,36 @@ fun CloudMusicApp(
     // 无黑块）。实测 MIUI 下 hide(statusBars()) 不生效（状态栏仍在），故改用透明状态栏方案：
     //   setDecorFitsSystemWindows(false) + statusBarColor 透明 → 页面渐变背景顶到屏幕上沿。
     // 底部保留系统操作栏——导航栏不清透明、不隐藏（用户明确要求，竞品亦保留三键导航）。
-    // 关闭播放页时成对还原——DisposableEffect 退出重组即恢复，其它飞牛页面零影响。
+    // 关闭播放页时按当前主题重新上色（§61.291：目标态重算，不再保存/还原窗口原值）。
+    // §61.291（V0.4 系统栏明暗跟随）：系统栏改为「声明式目标态」——
+    // 由 (showPlayer, darkTheme) 一次算出该是什么颜色，退出播放页按**当前主题**重算，
+    // 不再保存窗口原值再还原（原实现只改状态栏，浅色主题下普通页仍是 themes.xml 的纯黑条）。
     val view = LocalView.current
-    if (showPlayer) {
-        DisposableEffect(Unit) {
-            val activity = view.context as? android.app.Activity
-            val window = activity?.window
-            val controller = window?.let { WindowInsetsControllerCompat(it, view) }
-            val origStatusBarColor = window?.statusBarColor
-            // theme optical：windowOptOutEdgeToEdgeEnforcement=true 时 decorView fits=true。
-            // 用 ViewCompat 读原值，退出播放页时精确还原（避免硬编码假设）。
-            val origDecorFits: Boolean = window?.decorView?.let {
-                androidx.core.view.ViewCompat.getFitsSystemWindows(it)
-            } ?: true
-            if (window != null) {
-                // 内容延伸到状态栏后，透明状态栏让页面渐变顶上去（消除黑块）
-                androidx.core.view.WindowCompat.setDecorFitsSystemWindows(window, false)
-                window.statusBarColor = android.graphics.Color.TRANSPARENT
-                // 仅状态栏图标按页面深色背景反相；导航栏保持系统默认（保留三键）
-                controller?.systemBarsBehavior =
+    val activityWindow = (view.context as? android.app.Activity)?.window
+    // theme optical：windowOptOutEdgeToEdgeEnforcement=true 时 decorView fits=true。
+    // 在进入播放页之前读一次基线（播放页会把它改成 false），退出时还原到这个基线。
+    val themeDecorFits: Boolean = remember(activityWindow) {
+        activityWindow?.decorView?.let {
+            androidx.core.view.ViewCompat.getFitsSystemWindows(it)
+        } ?: true
+    }
+    DisposableEffect(showPlayer, darkTheme) {
+        if (activityWindow != null) {
+            androidx.core.view.WindowCompat.setDecorFitsSystemWindows(
+                activityWindow,
+                if (showPlayer) false else themeDecorFits,
+            )
+            SystemBars.apply(activityWindow, darkTheme, showPlayer)
+            if (showPlayer) {
+                // 内容延伸到状态栏后，透明状态栏让页面渐变顶上去（消除黑块）；
+                // 导航栏保留三键、压黑不隐藏（用户明确要求）。
+                val controller = WindowInsetsControllerCompat(activityWindow, view)
+                controller.systemBarsBehavior =
                     WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-                controller?.show(WindowInsetsCompat.Type.navigationBars())
-            }
-            onDispose {
-                if (window != null) {
-                    origStatusBarColor?.let { window.statusBarColor = it }
-                    androidx.core.view.WindowCompat.setDecorFitsSystemWindows(window, origDecorFits)
-                }
+                controller.show(WindowInsetsCompat.Type.navigationBars())
             }
         }
+        onDispose { }
     }
 
     // §61.137：去掉全局 TopAppBar（竞品无全局标题栏，页头归各页：设置 52dip 行 /

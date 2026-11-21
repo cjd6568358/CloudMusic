@@ -90,8 +90,11 @@ class MainActivity : ComponentActivity() {
      * `12 §61.40` / `03-10 §6`：播放页状态桥。用已注入的 `PlaybackRuntime` /
      * `TrackRepository` / `QueueRepository` 现场构造，不改 Hilt 注册图、不新建模块。
      */
-    /** §61.234：按 settings.theme + 系统深色计算 isDark 并切 Comp/FnComp token。 */
-    private fun applyThemeFromSettings() {
+    /**
+     * §61.234：按 settings.theme + 系统深色计算 isDark 并切 Comp/FnComp token。
+     * §61.291：返回值交给 `CloudMusicApp(darkTheme = …)` 决定系统栏明暗，避免 UI 侧二次判断。
+     */
+    private fun applyThemeFromSettings(): Boolean {
         val mode = runCatching { settingsStore.current().theme }
             .getOrDefault(com.example.cloudmusic.storage.ThemeMode.DARK_FOLLOW_SYSTEM)
         val systemDark = (resources.configuration.uiMode and
@@ -104,6 +107,7 @@ class MainActivity : ComponentActivity() {
             else -> true   // DARK_FOLLOW_SYSTEM（默认）与历史行为一致：深色优先
         }
         com.example.cloudmusic.ui.applyThemeCompat(isDark)
+        return isDark
     }
 
     private val playerBridge by lazy {
@@ -274,7 +278,7 @@ class MainActivity : ComponentActivity() {
         repairLegacyTextOnce()
         // §61.234（V0.2 主题化）：启动时按 settings.theme + 系统深色切 token——
         // recreate 后 token 重新初始化，设置页改主题即 recreate 生效。
-        applyThemeFromSettings()
+        val darkTheme = applyThemeFromSettings()
         setContent {
             CloudMusicTheme {
                 // docs/01 §0（2026-11-16 拍板）：启动页严格像素级复刻竞品。
@@ -543,6 +547,8 @@ class MainActivity : ComponentActivity() {
                     fadeEnabled = runtime.fadeEnabled().collectAsState(false).value,
                     onFadeEnabledChanged = { on -> runtime.updateFadeEnabled(on) },
                     themeMode = settingsStore.current().theme,
+                    // §61.291：主题结果直传，系统栏与页面同色（浅色主题不再出现黑条）
+                    darkTheme = darkTheme,
                     onThemeChanged = { mode ->
                         lifecycleScope.launch {
                             runCatching { runtime.updateTheme(mode) }

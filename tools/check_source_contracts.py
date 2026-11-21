@@ -7627,14 +7627,19 @@ def main() -> int:
     _player_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
                               / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt")
                              .read_text(encoding="utf-8", errors="replace"))
+    # §61.291 后系统栏改由 SystemBars.kt 单点上色、宿主按 showPlayer 传 decorFits 形态：
+    # 判据跟着搬到「形态 + 目标文件」，强度不变（仍要求播放页 decorFits=false / 透明状态栏 / 保留导航栏）。
+    _sysbars_src270 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                                  / "cloudmusic" / "ui" / "SystemBars.kt")
+                                 .read_text(encoding="utf-8", errors="replace"))
     _c270_bad = []
-    if "setDecorFitsSystemWindows(window, false)" not in _app_src:
-        _c270_bad.append("顶部内容延伸（decorFits=false）缺失")
-    if "window.statusBarColor = android.graphics.Color.TRANSPARENT" not in _app_src:
+    if "setDecorFitsSystemWindows(" not in _app_src or "if (showPlayer) false else themeDecorFits" not in _app_src:
+        _c270_bad.append("顶部内容延伸（播放页 decorFits=false）缺失")
+    if "window.statusBarColor = android.graphics.Color.TRANSPARENT" not in _sysbars_src270:
         _c270_bad.append("透明状态栏缺失")
-    if "controller?.show(WindowInsetsCompat.Type.navigationBars())" not in _app_src:
+    if not re.search(r"controller\??\.show\(WindowInsetsCompat\.Type\.navigationBars\(\)\)", _app_src):
         _c270_bad.append("底部导航栏保留缺失")
-    if "controller?.hide(WindowInsetsCompat.Type.systemBars())" in _app_src:
+    if "hide(WindowInsetsCompat.Type.systemBars())" in _app_src or "hide(WindowInsetsCompat.Type.systemBars())" in _sysbars_src270:
         _c270_bad.append("仍在整组隐藏 systemBars")
     if "statusBarsPadding()" not in _player_src:
         _c270_bad.append("控件让出状态栏 padding 缺失")
@@ -8525,6 +8530,89 @@ def main() -> int:
         failures.append("§61.290 无障碍语义：%s" % "；".join(_c290))
     else:
         print("[PASS] §61.290 无障碍语义（图标播报名真相源 + 底栏/开关状态语义 + 纯图标钮具名 + 进度条可调）")
+
+    # ---- §61.291（系统栏明暗跟随：两条栏与页面同色，图标按主题反相）----
+    #   背景：`themes.xml` 把 statusBarColor / navigationBarColor 写死黑色、windowLightStatusBar=false，
+    #   运行时只有播放页临时改过一次透明 ⇒ 浅色主题下页面底 `#FAFAFA` 顶部却是一条纯黑栏。
+    #   判据盯三件事：**单一写入口**（SystemBars.kt）、**目标态可判**（stateFor 纯函数）、
+    #   **不留命令式还原**（退出播放页按主题重算，而不是把窗口原值塞回去）。
+    _c291 = []
+    _ui_src_dir = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                  / "cloudmusic" / "ui")
+    _sysbars_path = _ui_src_dir / "SystemBars.kt"
+    _cloud_app_path = _ui_src_dir / "CloudMusicApp.kt"
+    _main_path = _ui_src_dir.parent / "MainActivity.kt"
+
+    if not _sysbars_path.is_file():
+        _c291.append("SystemBars.kt 缺失（系统栏无单一写入口）")
+    else:
+        _sb = _sysbars_path.read_text(encoding="utf-8", errors="replace")
+        # 1) 目标态纯函数在位，且四种组合的口径写死（播放页恒沉浸/恒浅色图标）
+        if "data class State(" not in _sb or "fun stateFor(" not in _sb:
+            _c291.append("SystemBars 缺目标态纯函数 stateFor（图标明暗将散落在调用点）")
+        for _need in ("State(immersive = true, lightIcons = true)",
+                      "State(immersive = false, lightIcons = isDark)"):
+            if _need not in _sb:
+                _c291.append("目标态口径缺失：%s" % _need)
+        # 2) 两条栏都必须上色，且底色取自页面底（单一真相源）
+        # 沉浸 / 普通两种形态都必须各自给**两条栏**上色（按出现次数判，防分支漏一条被另一分支掩盖）
+        for _need in ("window.statusBarColor =", "window.navigationBarColor ="):
+            _n = _sb.count(_need)
+            if _n < 2:
+                _c291.append("两条栏未在沉浸/普通两种形态下都上色（%s 仅 %d 次）" % (_need.strip(), _n))
+        if "FnComp.PageBg.toArgb()" not in _sb:
+            _c291.append("栏底色未取 FnComp.PageBg（写死色值又会与页面底漂移）")
+        # 3) 图标明暗必须来自目标态，禁字面量
+        for _need in ("isAppearanceLightStatusBars = !state.lightIcons",
+                      "isAppearanceLightNavigationBars = !state.lightIcons"):
+            if _need not in _sb:
+                _c291.append("图标明暗未由目标态取反：%s" % _need.strip())
+
+    # 4) 宿主侧：效果键必须同时含 showPlayer 与 darkTheme（键漏一个就不会重算）
+    if not _cloud_app_path.is_file():
+        _c291.append("CloudMusicApp.kt 缺失（结构变了）")
+    else:
+        _ca = _cloud_app_path.read_text(encoding="utf-8", errors="replace")
+        if "DisposableEffect(showPlayer, darkTheme)" not in _ca:
+            _c291.append("系统栏效果键未同时含 showPlayer 与 darkTheme（退出播放页不会按主题重算）")
+        if "SystemBars.apply(activityWindow, darkTheme, showPlayer)" not in _ca:
+            _c291.append("未按目标态上色（SystemBars.apply 调用缺失或被写死参数）")
+        # 5) 通用禁令：不许再保存/还原窗口原值（两来源并存时必然漏配对）
+        if "origStatusBarColor" in _ca:
+            _c291.append("仍在保存/还原状态栏原值（§61.291 起改为目标态重算）")
+
+    # 6) MainActivity 必须把主题结果交给 UI，禁止 UI 侧二次判断 uiMode
+    if not _main_path.is_file():
+        _c291.append("MainActivity.kt 缺失（结构变了）")
+    else:
+        _ma = _main_path.read_text(encoding="utf-8", errors="replace")
+        if "darkTheme = applyThemeFromSettings()" not in _ma:
+            _c291.append("MainActivity 未接收 applyThemeFromSettings 的主题结果")
+        if "darkTheme = darkTheme," not in _ma:
+            _c291.append("主题结果未传入 CloudMusicApp（系统栏拿不到明暗）")
+
+    # 7) 首帧基线：XML 不得把状态栏图标声明成深色（否则浅色冷启动首帧白底白字）
+    _themes_path = ROOT / "app" / "src" / "main" / "res" / "values" / "themes.xml"
+    if _themes_path.is_file():
+        _themes = _themes_path.read_text(encoding="utf-8", errors="replace")
+        if "android:windowLightStatusBar\">true" in _themes:
+            _c291.append("themes.xml 首帧基线声明了深色图标（与深色默认底冲突）")
+
+    # 8) 真值表必须有 JVM 断言（四种组合都要钉）
+    _bars_test = (_ui_test_dir / "SystemBarsTest.kt")
+    if not _bars_test.is_file():
+        _c291.append("SystemBarsTest.kt 缺失（图标明暗真值表无断言）")
+    else:
+        _bt = _bars_test.read_text(encoding="utf-8", errors="replace")
+        for _need in ("darkThemeNormalPage", "lightThemeNormalPage",
+                      "playerPageInDarkTheme", "playerPageInLightTheme"):
+            if _need not in _bt:
+                _c291.append("系统栏用例缺失：%s" % _need)
+
+    if _c291:
+        failures.append("§61.291 系统栏明暗跟随：%s" % "；".join(_c291))
+    else:
+        print("[PASS] §61.291 系统栏明暗跟随（目标态纯函数 + 两条栏同页面底 + 图标反相 + 退出按主题重算）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
