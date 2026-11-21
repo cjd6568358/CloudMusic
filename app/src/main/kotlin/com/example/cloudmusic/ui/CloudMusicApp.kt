@@ -302,17 +302,39 @@ fun CloudMusicApp(
     val resultsFlow = remember(query) { search(query) }
     val searchResults by resultsFlow.collectAsState(initial = emptyList())
 
-    // §61.187（W7 全屏沉浸）：播放页打开时隐藏系统栏（竞品播放页顶到状态栏，
-    // 行内滑出临时呼出），关闭时恢复——DisposableEffect 成对，退出重组即还原。
+    // §61.187（W7 全屏沉浸）/ §61.270（用户 2026-11-21 口径）：
+    // 顶部全面屏——状态栏透明 + 内容延伸到状态栏后面（竞品真机：时间/信号叠在深灰页面上，
+    // 无黑块）。实测 MIUI 下 hide(statusBars()) 不生效（状态栏仍在），故改用透明状态栏方案：
+    //   setDecorFitsSystemWindows(false) + statusBarColor 透明 → 页面渐变背景顶到屏幕上沿。
+    // 底部保留系统操作栏——导航栏不清透明、不隐藏（用户明确要求，竞品亦保留三键导航）。
+    // 关闭播放页时成对还原——DisposableEffect 退出重组即恢复，其它飞牛页面零影响。
     val view = LocalView.current
     if (showPlayer) {
         DisposableEffect(Unit) {
-            val window = (view.context as? android.app.Activity)?.window
+            val activity = view.context as? android.app.Activity
+            val window = activity?.window
             val controller = window?.let { WindowInsetsControllerCompat(it, view) }
-            controller?.systemBarsBehavior =
-                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            controller?.hide(WindowInsetsCompat.Type.systemBars())
-            onDispose { controller?.show(WindowInsetsCompat.Type.systemBars()) }
+            val origStatusBarColor = window?.statusBarColor
+            // theme optical：windowOptOutEdgeToEdgeEnforcement=true 时 decorView fits=true。
+            // 用 ViewCompat 读原值，退出播放页时精确还原（避免硬编码假设）。
+            val origDecorFits: Boolean = window?.decorView?.let {
+                androidx.core.view.ViewCompat.getFitsSystemWindows(it)
+            } ?: true
+            if (window != null) {
+                // 内容延伸到状态栏后，透明状态栏让页面渐变顶上去（消除黑块）
+                androidx.core.view.WindowCompat.setDecorFitsSystemWindows(window, false)
+                window.statusBarColor = android.graphics.Color.TRANSPARENT
+                // 仅状态栏图标按页面深色背景反相；导航栏保持系统默认（保留三键）
+                controller?.systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                controller?.show(WindowInsetsCompat.Type.navigationBars())
+            }
+            onDispose {
+                if (window != null) {
+                    origStatusBarColor?.let { window.statusBarColor = it }
+                    androidx.core.view.WindowCompat.setDecorFitsSystemWindows(window, origDecorFits)
+                }
+            }
         }
     }
 

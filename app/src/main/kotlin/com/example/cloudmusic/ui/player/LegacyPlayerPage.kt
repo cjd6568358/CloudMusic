@@ -22,6 +22,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.displayCutoutPadding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -196,11 +198,17 @@ fun LegacyPlayerPage(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            // §61.262：播放页沉浸式隐藏系统栏，挖孔/刘海安全区由这里兜底（上下左右全补）。
-            .displayCutoutPadding()
-            .background(Brush.verticalGradient(listOf(Color(bgTop), Color(bgBottom)))),
+            // §61.270：背景先铺满全屏（含状态栏区），渐变从屏幕最顶端连续开始，
+            // 消除状态栏与页面之间的分界线；displayCutoutPadding 只收拢内容、不裁背景。
+            .background(Brush.verticalGradient(listOf(Color(bgTop), Color(bgBottom))))
+            .displayCutoutPadding(),
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        // §61.270（用户 2026-11-21）：背景已铺满全屏（含状态栏区，消除黑块），
+        // 但控件须避开系统栏——顶部让出状态栏高度、底部让出导航栏高度（三键保留）。
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+            .navigationBarsPadding()) {
 
             // ── 顶栏（§61.174，基准 y 51~70）：下箭头（收起）/ 居中「来源 · 模式」/
             //    右侧换一批（竞品 cast/刷新位；漫游无数据源 → 只读几何） ────────────

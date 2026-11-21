@@ -7603,6 +7603,37 @@ def main() -> int:
     else:
         print("[PASS] §61.269 302 目标缓存去卡顿（TTL + 403 失效 + 跨 host 剥离鉴权）")
 
+    # §61.270：播放页顶部全面屏（透明状态栏+内容延伸）+ 底部保留系统导航栏。
+    _app_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                           / "cloudmusic" / "ui" / "CloudMusicApp.kt")
+                          .read_text(encoding="utf-8", errors="replace"))
+    _player_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                              / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt")
+                             .read_text(encoding="utf-8", errors="replace"))
+    _c270_bad = []
+    if "setDecorFitsSystemWindows(window, false)" not in _app_src:
+        _c270_bad.append("顶部内容延伸（decorFits=false）缺失")
+    if "window.statusBarColor = android.graphics.Color.TRANSPARENT" not in _app_src:
+        _c270_bad.append("透明状态栏缺失")
+    if "controller?.show(WindowInsetsCompat.Type.navigationBars())" not in _app_src:
+        _c270_bad.append("底部导航栏保留缺失")
+    if "controller?.hide(WindowInsetsCompat.Type.systemBars())" in _app_src:
+        _c270_bad.append("仍在整组隐藏 systemBars")
+    if "statusBarsPadding()" not in _player_src:
+        _c270_bad.append("控件让出状态栏 padding 缺失")
+    if "navigationBarsPadding()" not in _player_src:
+        _c270_bad.append("控件让出导航栏 padding 缺失")
+    # 背景顺序：.background 必须在 .displayCutoutPadding 之前，否则状态栏区无背景、出现分界线。
+    _bg_i = _player_src.find(".background(Brush.verticalGradient")
+    _cut_i = _player_src.find(".displayCutoutPadding()")
+    if _bg_i < 0 or _cut_i < 0 or _bg_i > _cut_i:
+        _c270_bad.append("背景未铺满状态栏区（background 顺序错）")
+    if _c270_bad:
+        failures.append("§61.270 播放页系统栏：%s" % "；".join(_c270_bad))
+    else:
+        print("[PASS] §61.270 播放页顶部全面屏 + 底部保留系统导航栏")
+
+
     if _c250_bad:
         failures.append("§61.250 哈希记忆累进：%s" % "；".join(_c250_bad))
     else:
