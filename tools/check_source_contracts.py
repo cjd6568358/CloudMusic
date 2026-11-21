@@ -6730,8 +6730,12 @@ def main() -> int:
                            / "cloudmusic" / "ui" / "FeiniuUi.kt")
                           .read_text(encoding="utf-8", errors="replace"))
     _nav_bad = []
-    if "enum class FnCapsuleIcon { Home, Music, Search, More }" not in _fei_src:
-        _nav_bad.append("FnCapsuleIcon 未含 Search")
+    # §61.290 后枚举项带播报名（`Search("搜索")`），判据改为「按名字顺序取」而非整行字面量：
+    # 强度不变（仍要求恰好 Home/Music/Search/More 四项且顺序一致），只是不再被 label 参数绊住。
+    _capsule_block = _fei_src.split("enum class FnCapsuleIcon", 1)[1].split("}", 1)[0]
+    _capsule_names = re.findall(r"^    ([A-Z][A-Za-z]+)\(", _capsule_block, re.M)
+    if _capsule_names != ["Home", "Music", "Search", "More"]:
+        _nav_bad.append("FnCapsuleIcon 四胶囊不是 Home/Music/Search/More（实得 %s）" % _capsule_names)
     if "FnCapsuleIcon.Search, FnCapsuleIcon.More," not in _app_src:
         _nav_bad.append("底栏 icons 未加搜索胶囊")
     if "tab == 3 -> 2" not in _app_src:
@@ -7853,7 +7857,9 @@ def main() -> int:
         _c278.append("03-10 §8.1 图标-功能映射表缺失")
     else:
         _enum_body = _fn_icons.split("enum class FnIcon")[1].split("}")[0]
-        _names = re.findall(r"^    ([A-Z][A-Za-z]+),$", _enum_body, re.M)
+        # §61.290 后枚举项形如 `Songs("全部歌曲"),`——正则允许尾随 label 参数，
+        # 仍然只取枚举名，条数下限 25 不变。
+        _names = re.findall(r"^    ([A-Z][A-Za-z]+)(?:\([^)]*\))?,$", _enum_body, re.M)
         if len(_names) < 25:
             _c278.append("FnIcon 枚举解析异常（仅 %d 项）" % len(_names))
         _unlisted = [n for n in _names if ("`%s`" % n) not in _doc310]
@@ -8233,11 +8239,14 @@ def main() -> int:
             _c286.append("槽位未按 enabled 禁用（越界方向点了没反应，用户无法分辨到头/点空）")
         if "FnComp.TextHint" not in _slot_body:
             _c286.append("禁用态没有视觉区分（TextHint 未用）")
-    for _needle in ('PlaylistActionSlot("↑", canUp, onUp)',
-                    'PlaylistActionSlot("↓", canDown, onDown)',
-                    'PlaylistActionSlot("✕", true, onRemove)'):
-        if _needle not in _code_app:
-            _c286.append("三键未全部走独立槽位：%s" % _needle)
+    # §61.290 后每键多一个描述参数；判据改按「字形 + 边界标志 + 回调」三元组匹配，
+    # 强度不减（仍要求三键各自独立成槽、方向标志正确、回调对应），并额外要求描述非空。
+    for _glyph, _flag, _cb in (("↑", "canUp", "onUp"),
+                               ("↓", "canDown", "onDown"),
+                               ("✕", "true", "onRemove")):
+        _pat = r'PlaylistActionSlot\("%s", %s, "[^"]+", %s\)' % (re.escape(_glyph), _flag, _cb)
+        if not re.search(_pat, _code_app):
+            _c286.append("三键未全部走独立槽位（或描述缺失）：%s" % _glyph)
     # 禁止行内直接删：曲目行只允许落「待确认」，真删必须在弹层回调里按 target 执行。
     if "onRemoveItem(playlist.id, index)" in _code_app:
         _c286.append("曲目行仍在校目内直接 onRemoveItem（无确认即删，误触丢位置不可撤销）")
@@ -8395,6 +8404,109 @@ def main() -> int:
         failures.append("§61.289 重组期全量扫描：%s" % "；".join(_c289))
     else:
         print("[PASS] §61.289 曲库分组/筛选（纯函数 + 记忆化 + LazyListScope 禁令 + 取数语义用例）")
+
+    # ---- §61.290（无障碍语义：纯图标控件必须说得出「是什么 / 什么状态」）----
+    #   背景：全仓 `semantics`/`Role` 使用数此前为 **0**，`contentDescription` 仅 5 处（3 处是
+    #   `null`）。图标画在 Canvas 上不产生语义节点，于是底栏四个 tab、页头重扫/搜索圆钮、
+    #   歌单行三键、迷你条播放键在 TalkBack 里全是无名「按钮」——底栏是整屏唯一导航入口，
+    #   等于盲用不可导航。判据分两类：**状态型控件必须用带角色的 Modifier**（toggleable /
+    #   selectable 由框架播报状态），**图标型控件必须有播报名**（且名字来自枚举单一真相源）。
+    _c290 = []
+
+    # 1) FnIcon 播报名真相源：枚举带 label + 每一项都写了
+    _enum_head = "enum class FnIcon(val label: String) {"
+    if _enum_head not in _fn_icons:
+        _c290.append("FnIcon 未带 label 播报名参数（纯图标控件将无名）")
+    else:
+        _ei = _fn_icons.find(_enum_head)
+        _ee = _fn_icons.find("\n}\n", _ei)
+        _enum_block = _fn_icons[_ei:_ee]
+        _naked = [ln.strip().rstrip(",") for ln in _enum_block.splitlines()
+                  if ln.strip().endswith(",") and "(" not in ln]
+        if _naked:
+            _c290.append("图标项缺播报名：%s" % "、".join(_naked))
+    if "contentDescription: String? = null" not in _fn_icons:
+        _c290.append("FnLineIcon 缺 contentDescription 参数位")
+    if "private fun Modifier.iconSemantics(" not in _fn_icons:
+        _c290.append("装饰性图标未走 iconSemantics 空实现（会多出无名语义节点）")
+
+    # 2) 底栏：只有图标 + 是唯一导航入口 ⇒ selectable(Role.Tab) 且必须播名字
+    if "enum class FnCapsuleIcon(val label: String)" not in _fn_ui:
+        _c290.append("底栏 tab 枚举未带播报名")
+    if "role = Role.Tab" not in _fn_ui:
+        _c290.append("底栏 tab 未走 selectable(Role.Tab)（选中态不播报）")
+    if "contentDescription = kind.label" not in _fn_ui:
+        _c290.append("底栏 tab 未挂播报名")
+    if ".clickable { onSelect(i) }" in _fn_ui:
+        _c290.append("底栏 tab 退回裸 clickable（选中态不播报）")
+
+    # 3) 手绘开关：必须 toggleable(Role.Switch)，否则盲用无法判断开/关
+    if "toggleable(value = checked, role = Role.Switch" not in _fn_ui:
+        _c290.append("手绘开关未走 toggleable(Role.Switch)（开关态不播报）")
+    _sw_i = _fn_ui.find("fun FnSwitch(")
+    if _sw_i >= 0:
+        _sw_body = _fn_ui[_sw_i:_fn_ui.find("\n}\n", _sw_i)]
+        if ".clickable" in _sw_body:
+            _c290.append("FnSwitch 体内仍有裸 clickable（覆盖了 toggleable 的状态语义）")
+
+    # 4) 页头圆钮：描述 + 扫描中状态 + 禁用态
+    _hb_i = _fn_lib.find("private fun FnHeaderButton(")
+    if _hb_i < 0:
+        _c290.append("FnHeaderButton 缺失（结构变了）")
+    else:
+        _hb_body = _fn_lib[_hb_i:_fn_lib.find("\n}\n", _hb_i)]
+        for _need, _why in (
+            ("contentDescription = icon.label", "页头圆钮无名"),
+            ('stateDescription = "正在扫描"', "扫描中不播报状态（用户只看到环在转）"),
+            ("disabled()", "扫描中未播报不可用（会一直点）"),
+        ):
+            if _need not in _hb_body:
+                _c290.append(_why)
+
+    # 5) 迷你条 + 歌单三键：onClickLabel 是动作提示，不是控件名
+    _mb_i = _code_app.find("private fun MiniBarButton(")
+    if _mb_i < 0:
+        _c290.append("MiniBarButton 缺失（结构变了）")
+    elif "contentDescription = description" not in _code_app[_mb_i:_code_app.find("\n}\n", _mb_i)]:
+        _c290.append("迷你条圆钮无名（onClickLabel 不构成控件名）")
+    _slot_calls = re.findall(r'PlaylistActionSlot\("[↑↓✕]", [^,\n]+, "(?:[^"]+)",', _code_app)
+    if len(_slot_calls) != 3:
+        _c290.append("歌单行三键未全部带描述（实得 %d / 3 个具名调用）" % len(_slot_calls))
+    if "contentDescription = description" not in _code_app:
+        _c290.append("歌单行三键未挂描述（↑↓✕ 会被读成箭头/乘号）")
+
+    # 6) 播放页：主控钮两种形态都要有名字；进度条要让 TalkBack 读得出、拖得动
+    if 'contentDescription = if (playing) "暂停" else "播放"' not in _player_src:
+        _c290.append("播放/暂停主控钮无名（自绘双竖条形态尤其无声）")
+    if "progressBarRangeInfo = ProgressBarRangeInfo(" not in _player_src:
+        _c290.append("进度条缺 progressBarRangeInfo（TalkBack 读不出播放位置）")
+    if "setProgress {" not in _player_src:
+        _c290.append("进度条缺 setProgress（无障碍服务无法调进度）")
+
+    # 7) 搜索框：装饰字形屏蔽 + 清除钮具名且触达达标
+    for _need, _why in (
+        ("clearAndSetSemantics { }", "装饰字形未屏蔽（「⌕」会被念成生僻符号）"),
+        ('contentDescription = "清除搜索"', "清除钮无名（「✕」会被读成乘号）"),
+        ("SearchClearDp", "清除钮未扩到 40dp 触达槽位（13sp 文字裸点约 13dp）"),
+    ):
+        if _need not in _fn_ui:
+            _c290.append(_why)
+
+    # 8) 播报名不许只写在代码里：条数/唯一/无 ASCII 必须有 JVM 断言
+    _label_test = (_ui_test_dir / "FnIconLabelTest.kt")
+    if not _label_test.is_file():
+        _c290.append("FnIconLabelTest.kt 缺失（播报名的静态断言是唯一可复跑判据）")
+    else:
+        _lt = _label_test.read_text(encoding="utf-8", errors="replace")
+        for _need in ("iconCountIsPinned", "labelsAreUnique", "labelsHaveNoAscii",
+                      "labelsAreShort", "capsuleTabsAreLabelled"):
+            if _need not in _lt:
+                _c290.append("播报名用例缺失：%s" % _need)
+
+    if _c290:
+        failures.append("§61.290 无障碍语义：%s" % "；".join(_c290))
+    else:
+        print("[PASS] §61.290 无障碍语义（图标播报名真相源 + 底栏/开关状态语义 + 纯图标钮具名 + 进度条可调）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

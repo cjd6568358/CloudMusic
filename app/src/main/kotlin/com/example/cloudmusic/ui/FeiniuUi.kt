@@ -20,6 +20,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -38,6 +40,10 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -201,6 +207,8 @@ object FnBaseline {
      * 逐行内缩量枚举拟合后是 7.9 —— 视觉上确实只是普通圆角矩形，与截图一致。
      */
     const val SearchBoxCornerDp = 8f
+    /** 清除钮触达槽位（§61.290）：原 13sp 文字裸点 ≈13dp，抬到 40dp 与行高一致。 */
+    const val SearchClearDp = 40f
     /** 放大镜：x 28.3~43.4 = 15.4dp，框内左 12.3dp。 */
     const val SearchGlyphDp = 15.4f
     /** 占位文字字号：`搜索` 两字左缘 61.1 / 75.4 ⇒ 步进 14.3dp。 */
@@ -524,7 +532,10 @@ fun FnSearchField(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
-            Modifier.size(FnBaseline.SearchGlyphDp.dp),
+            Modifier
+                .size(FnBaseline.SearchGlyphDp.dp)
+                // 装饰字形：不屏蔽的话 TalkBack 会把「⌕」当生僻符号读出来。
+                .clearAndSetSemantics { },
             contentAlignment = Alignment.Center,
         ) {
             Text("⌕", color = FnComp.SearchHint, fontSize = 14.sp)
@@ -549,16 +560,25 @@ fun FnSearchField(
                 singleLine = true,
                 textStyle = TextStyle(color = FnComp.TextPrimary, fontSize = FnBaseline.SearchHintSp.sp),
                 cursorBrush = SolidColor(FnComp.IconRed),
-                modifier = Modifier.fillMaxWidth(),
+                // §61.290：BasicTextField 不自带标签，静音输入框只会读「编辑框」。
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .semantics { contentDescription = hint },
             )
         }
         if (value.isNotEmpty()) {
-            Text(
-                "✕",
-                color = FnComp.SearchHint,
-                fontSize = 13.sp,
-                modifier = Modifier.clickable { onValueChange("") },
-            )
+            // §61.290：原实现是 13sp 文字裸 clickable，触控区约 13dp（远低于 40dp 下限），
+            // 且播报成「乘号」。改为 40dp 槽位 + 具名动作；字形取 CenterEnd，右缘位置不变。
+            Box(
+                Modifier
+                    .size(FnBaseline.SearchClearDp.dp)
+                    .clip(CircleShape)
+                    .semantics { contentDescription = "清除搜索" }
+                    .clickable(onClickLabel = "清除", onClick = { onValueChange("") }),
+                contentAlignment = Alignment.CenterEnd,
+            ) {
+                Text("✕", color = FnComp.SearchHint, fontSize = 13.sp)
+            }
         }
     }
 }
@@ -681,7 +701,9 @@ fun FnSwitch(checked: Boolean, onChange: (Boolean) -> Unit, modifier: Modifier =
             .size(width = 40.dp, height = 22.dp)
             .clip(RoundedCornerShape(11.dp))
             .background(if (checked) FnComp.SwitchGreen else FnComp.SwitchOffBg)
-            .clickable { onChange(!checked) },
+            // §61.290：手绘开关必须走 toggleable，TalkBack 才会播报「已开启/已关闭」；
+            // 只挂 clickable 时读作无名按钮，盲用用户无法判断当前是开还是关。
+            .toggleable(value = checked, role = Role.Switch, onValueChange = onChange),
         contentAlignment = if (checked) Alignment.CenterEnd else Alignment.CenterStart,
     ) {
         Box(
@@ -904,7 +926,12 @@ fun FnSectionTitle(text: String, modifier: Modifier = Modifier) {
  */
 /** §61.191（W4）：底栏胶囊图标种别——飞牛口径仅图标无文字标签（161526/161602 逐段对照）。 */
 /** §61.222：底栏加搜索 tab（用户指示）——四胶囊：首页 / 音乐库 / 搜索 / 更多。 */
-enum class FnCapsuleIcon { Home, Music, Search, More }
+enum class FnCapsuleIcon(val label: String) {
+    Home("首页"),
+    Music("音乐库"),
+    Search("搜索"),
+    More("更多"),
+}
 
 /**
  * §61.191（W4）：底部胶囊栏对齐飞牛——**仅图标**（旧实现 = 字形 ⌂♫☰ + 文字标签，
@@ -940,7 +967,14 @@ fun FnCapsuleBar(
                         .size(52.dp)
                         .clip(CircleShape)
                         .background(if (active) FnComp.IconRed else Color.Transparent)
-                        .clickable { onSelect(i) },
+                        // §61.290：底栏只有图标，是**整屏唯一导航入口**——旧的裸 clickable
+                        // 让 TalkBack 读到一排无名按钮，选中态也不播报，等于不可用。
+                        .selectable(
+                            selected = active,
+                            role = Role.Tab,
+                            onClick = { onSelect(i) },
+                        )
+                        .semantics { contentDescription = kind.label },
                     contentAlignment = Alignment.Center,
                 ) {
                     FnCapsuleGlyph(

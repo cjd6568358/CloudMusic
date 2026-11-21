@@ -62,6 +62,11 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.semantics.ProgressBarRangeInfo
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.progressBarRangeInfo
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.setProgress
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.PlatformTextStyle
@@ -555,6 +560,15 @@ private fun BaselineProgressBar(
             .fillMaxWidth()
             .padding(horizontal = PlayerBaseline.ProgressSidePaddingDp.dp)
             .height(PlayerBaseline.ProgressTouchDp.dp)
+            // §61.290：Canvas + pointerInput 的进度条对无障碍服务完全不可见——
+            // 补 progressBarRangeInfo 让 TalkBack 读得出位置，补 setProgress 让它能拖。
+            .semantics {
+                progressBarRangeInfo = ProgressBarRangeInfo(liveFraction, 0f..1f)
+                setProgress { target ->
+                    onSeek((target.coerceIn(0f, 1f) * safeDuration).toLong())
+                    true
+                }
+            }
             .pointerInput(safeDuration) {
                 detectTapGestures { offset ->
                     onSeek((offset.x / size.width * safeDuration).toLong())
@@ -781,6 +795,8 @@ private fun LegacyPlayPauseButton(playing: Boolean, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .size(PlayerBaseline.MainControlIconDp.dp)
+            // §61.290：播放键两种形态（位图 / 自绘双竖条）都必须有名字。
+            .semantics { contentDescription = if (playing) "暂停" else "播放" }
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,

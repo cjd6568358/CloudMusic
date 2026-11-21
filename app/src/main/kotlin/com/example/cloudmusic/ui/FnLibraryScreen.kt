@@ -31,6 +31,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.disabled
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -334,6 +338,15 @@ private fun FnHeaderButton(icon: FnIcon, onClick: () -> Unit, busy: Boolean = fa
             .size(FnBaseline.HeaderButtonDp.dp)
             .clip(CircleShape)
             .background(FnComp.CardBg)
+            // §61.290：纯图标圆钮 + 扫描中换成进度环——两个状态都必须说得出口：
+            // 描述给「这个钮是什么」，stateDescription 给「现在在做什么」。
+            .semantics {
+                contentDescription = icon.label
+                if (busy) {
+                    stateDescription = "正在扫描"
+                    disabled()
+                }
+            }
             .clickable(enabled = !busy) { onClick() },
         contentAlignment = Alignment.Center,
     ) {

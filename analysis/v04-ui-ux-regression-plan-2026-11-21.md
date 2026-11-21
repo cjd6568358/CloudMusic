@@ -79,6 +79,12 @@
 > **补批 6（重组期计算）**：§61.289 把曲库分组/不可用筛选从 `LazyListScope` 抽成纯函数并
 > `remember`，我的音乐收藏过滤加 `remember(allTracks, favorites)`——此前每次列表重建都全量扫
 > 7,500 首。新增 `LibraryGroupsTest` **6 条纯 JVM 用例**钉住排序语义。测试 **128/927/0**；
+> **补批 7（无障碍语义）**：§61.290 首次审计 a11y——`semantics` / `Role` 使用数此前为 **0**，
+> 纯图标控件（底栏四 tab / 开关 / 页头钮 / 歌单 ↑↓✕ / 迷你条 / 自绘播放键）在 TalkBack 里全无名，
+> 进度条对无障碍服务不可见。播报名收进 `FnIcon`(29) / `FnCapsuleIcon`(4) 枚举，状态型控件换
+> `toggleable(Role.Switch)` / `selectable(Role.Tab)`，进度条补 `progressBarRangeInfo` +
+> `setProgress`。测试 **130/939/0**（+6 条 `FnIconLabelTest`）；guard **252 条 PASS**；
+> 11 条 A/B 全如期 FAIL。真机 TalkBack 判读并入 09（清单增补 **U-17**）。**九项状态不变。**
 > guard 251 条 PASS；实测帧率仍归 09（U-14 判据补第 ⑤ 条）。
 
 ## 2. 执行序

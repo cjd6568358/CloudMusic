@@ -57,6 +57,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.style.TextOverflow
@@ -717,6 +719,9 @@ private fun MiniBarButton(icon: FnIcon, description: String, onClick: () -> Unit
         modifier = Modifier
             .size(40.dp)
             .clip(CircleShape)
+            // §61.290：onClickLabel 只是「双击以…」的动作提示，不是控件名；
+            // 图标画在 Canvas 上不产生语义节点，所以必须显式挂描述。
+            .semantics { contentDescription = description }
             .clickable(onClickLabel = description, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
@@ -1496,18 +1501,26 @@ private fun PlaylistRowActions(
     onRemove: () -> Unit,
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        PlaylistActionSlot("↑", canUp, onUp)
-        PlaylistActionSlot("↓", canDown, onDown)
-        PlaylistActionSlot("✕", true, onRemove)
+        PlaylistActionSlot("↑", canUp, "上移", onUp)
+        PlaylistActionSlot("↓", canDown, "下移", onDown)
+        PlaylistActionSlot("✕", true, "从歌单移除", onRemove)
     }
 }
 
 @Composable
-private fun PlaylistActionSlot(glyph: String, enabled: Boolean, onClick: () -> Unit) {
+private fun PlaylistActionSlot(
+    glyph: String,
+    enabled: Boolean,
+    description: String,
+    onClick: () -> Unit,
+) {
     Box(
         Modifier
             .size(PlaylistActionSlotDp.dp)
             .clip(CircleShape)
+            // §61.290：↑↓✕ 三个字形无语义，TalkBack 会读「向上箭头 / 乘号」；
+            // 越界置灰时还要播报「不可用」，否则用户会一直点。
+            .semantics { contentDescription = description }
             .clickable(enabled = enabled) { onClick() },
         contentAlignment = Alignment.Center,
     ) {

@@ -13,6 +13,8 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -42,103 +44,123 @@ import androidx.compose.ui.unit.dp
  *   所以同一个图标在 17dp 行内槽位与 24dp 顶栏圆钮里形状一致，只有笔画随之变细；
  * - 笔画：`2 * u`，圆头 + 圆角连接；不引任何位图素材（`assets-mapping.csv` 口径
  *   `replaced=false`，图标一律自绘，不复制竞品资源）。
+ *
+ * ## 为什么枚举里带 `label`（§61.290）
+ *
+ * `label` 不是给肉眼看的，是 **TalkBack 播报名**：`FnLineIcon` 是纯 Canvas，默认不产生
+ * 任何语义节点，纯图标按钮（底栏 tab / 页头圆钮 / 歌单行三键 / 迷你条）在无障碍服务里
+ * 就是无名「按钮」。播报名若散落在各调用点手写，同一图标会叫出「重扫 / 重新扫描 /
+ * 刷新」三种名字，且新图标漏写不会被发现。收进枚举后：单一真相源 + `FnIconLabelTest`
+ * 可对 29 项做「非空 / 唯一 / 无 ASCII / 长度上限 / 条数」五重静态断言。
  */
-enum class FnIcon {
+enum class FnIcon(val label: String) {
     // ── 曲库视图 / 导航 ────────────────────────────────────────────────────
     /** 全部歌曲：圆圈内八分音符（基准 `161526` 曲库图标）。 */
-    Songs,
+    Songs("全部歌曲"),
 
     /** 歌手：头 + 肩弧。 */
-    Artists,
+    Artists("歌手"),
 
     /** 专辑：**唱片套（圆角方）+ 内圈 + 中孔**——不再是「同心圆靶心」。 */
-    Albums,
+    Albums("专辑"),
 
     /** 音源 / 音乐来源：**双层机架（存储盒 + 指示灯）**——与歌单提包不同形。 */
-    Sources,
+    Sources("音乐来源"),
 
     /** 不可用：圆 + 斜杠（禁止符号）。 */
-    Unavailable,
+    Unavailable("不可用"),
 
     /** 歌单：提包（基准 `161526` 歌单图标）。 */
-    Playlist,
+    Playlist("歌单"),
 
     /** 收藏：心形。 */
-    Favorite,
+    Favorite("收藏"),
 
     /** 最近播放：时钟。 */
-    Recent,
+    Recent("最近播放"),
 
     /** 搜索：放大镜。 */
-    Search,
+    Search("搜索"),
 
     /** 重扫：开口圆环 + 箭头。 */
-    Refresh,
+    Refresh("重扫"),
 
     /** 投屏 / 漫游：中点 + 双弧。 */
-    Broadcast,
+    Broadcast("投屏"),
 
     // ── 设置行 / 行操作 ───────────────────────────────────────────────────
     /** 移动网络播放：上下箭头（数据进出）。 */
-    Network,
+    Network("移动网络"),
 
     /** 播放到（输出设备）：显示器 + 底座。 */
-    Output,
+    Output("输出设备"),
 
     /** 清理播放缓存：垃圾桶。 */
-    Trash,
+    Trash("清理缓存"),
 
     /** 后台播放不中断 / 自启动：电源符号。 */
-    Power,
+    Power("后台播放"),
 
     /** 忽略目录：文件夹 + 减号（排除语义）。 */
-    FolderOff,
+    FolderOff("忽略目录"),
 
     /** 扫描速度限制：表盘 + 指针。 */
-    Gauge,
+    Gauge("扫描限速"),
 
     /** 音量均衡分析：三根不等高音柱。 */
-    Level,
+    Level("音量均衡"),
 
     /** 刮削缺失封面：相框 + 山 + 太阳。 */
-    Image,
+    Image("封面"),
 
     /** 检测重复曲目 / 合并重复项：两个错位方框。 */
-    Duplicate,
+    Duplicate("重复曲目"),
 
     /** 主题：对比度半圆。 */
-    Contrast,
+    Contrast("主题"),
 
     /** 淡入淡出：渐强渐弱包络。 */
-    Wave,
+    Wave("淡入淡出"),
 
     /** 均衡器：三根竖滑杆 + 滑块。 */
-    Sliders,
+    Sliders("均衡器"),
 
     /** 加密 / 凭据：锁。 */
-    Lock,
+    Lock("凭据"),
 
     /** 添加来源：圆角方框 + 加号。 */
-    Add,
+    Add("添加"),
 
     /** 设置：齿轮（双环 + 齿）。 */
-    Settings,
+    Settings("设置"),
 
     /** 队列：三行清单（末行短）。 */
-    Queue,
+    Queue("播放列表"),
 
     // ── 播放控制（迷你条，§61.279） ─────────────────────────────────────────
     /** 播放：实心三角（播放键）。 */
-    Play,
+    Play("播放"),
 
     /** 暂停：双竖条（暂停键）。 */
-    Pause,
+    Pause("暂停"),
 }
+
+/**
+ * 纯图标控件的语义挂载（§61.290）。
+ *
+ * `contentDescription == null` 时**不挂任何语义节点**——装饰性图标（行首图标、
+ * 空态插图、快捷入口圆底）本就该被无障碍服务跳过，多加一个无名节点只会让焦点
+ * 列表变长。只有「图标本身就是控件全部信息」的地方才传描述。
+ */
+private fun Modifier.iconSemantics(description: String?): Modifier =
+    if (description == null) this else this.semantics { contentDescription = description }
 
 /**
  * 画一个飞牛线性图标。
  *
  * @param size 视框边长（默认 24dp）；内部按 `size / 24` 等比缩放，笔画随之变细。
+ * @param contentDescription TalkBack 播报名；装饰性图标保持 `null`，
+ *   纯图标按钮传 `icon.label` 或更贴切的动作名（§61.290）。
  */
 @Composable
 fun FnLineIcon(
@@ -146,8 +168,9 @@ fun FnLineIcon(
     tint: Color,
     size: Dp = 24.dp,
     modifier: Modifier = Modifier,
+    contentDescription: String? = null,
 ) {
-    Canvas(modifier.size(size)) {
+    Canvas(modifier.size(size).iconSemantics(contentDescription)) {
         val u = this.size.minDimension / 24f
         val sw = 2f * u
         val s = Stroke(width = sw, cap = StrokeCap.Round, join = StrokeJoin.Round)
