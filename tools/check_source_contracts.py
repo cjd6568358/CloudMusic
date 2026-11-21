@@ -1370,9 +1370,15 @@ def main() -> int:
         ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
         / "cloudmusic" / "ui" / "CloudMusicApp.kt"
     ).read_text(encoding="utf-8")
+    # §61.274（V0.4-01 入口合并）：曲库已并入底栏「音乐库」，不再有「更多→曲库」行；
+    # 判据同步为「四个功能入口标签 + 音乐库页在位」——页面口径不缩（03-10 §5 五页仍全），
+    # 只是曲库入口由本页承载（`FnLibraryScreen(` 断言）。
+    # §61.278：功能页入口标签的值从 Unicode 字形改为 FnIcon 枚举（判据随类型改，强度不变：
+    # 仍是「四个入口标签 + 三页骨架 + 输出弹窗 + 蓝牙不并列」五项齐全才算 PASS）。
     ui_needles = (
-        "\"曲库\" to \"♫\"", "\"歌单\" to \"☰\"", "\"搜索\" to \"⌕\"",
-        "\"队列\" to \"☷\"", "\"设置\" to \"⚙\"", "OutputDialog(", "蓝牙仅显示连接状态",
+        "\"歌单\" to FnIcon.Playlist", "\"搜索\" to FnIcon.Search",
+        "\"队列\" to FnIcon.Queue", "\"设置\" to FnIcon.Settings",
+        "FnLibraryScreen(", "OutputDialog(", "蓝牙设备请在系统设置里连接",
     )
     missing_ui = [n for n in ui_needles if n not in ui_app]
     if missing_ui:
@@ -6079,7 +6085,7 @@ def main() -> int:
             _dmr_bad.append("MainActivity 未发现设备或未按记忆选择")
         if "onPickDmr = { device -> castTo(device) }" not in _mai_src:
             _dmr_bad.append("点选设备未接投屏闭环")
-        if "devices = dmrDevices" not in _cmp_src or "重新扫描 DLNA 设备" not in _cmp_src:
+        if "devices = dmrDevices" not in _cmp_src or "重新搜索投屏设备" not in _cmp_src:
             _dmr_bad.append("输出弹窗未展示设备列表或重新扫描入口")
         if _dmr_bad:
             failures.append("§61.200 DMR 多设备列表：%s" % "；".join(_dmr_bad))
@@ -6098,7 +6104,7 @@ def main() -> int:
             _manual_bad.append("探测结果未回传 UI")
         if "ManualDmrDialog(" not in _cmp_src2 or "ManualDmrSpec(" not in _cmp_src2:
             _manual_bad.append("手动 DMR 输入面板缺失")
-        if "手动指定 DMR（IP / 描述地址）" not in _cmp_src2:
+        if "手动添加投屏设备（IP / 端口）" not in _cmp_src2:
             _manual_bad.append("输出弹窗无手动入口")
         if _manual_bad:
             failures.append("§61.201 手动指定 DMR：%s" % "；".join(_manual_bad))
@@ -6370,7 +6376,7 @@ def main() -> int:
         if not all(x in _ui_src for x in (
             "onRefreshStorage: (String) -> Unit = { _ -> }",
             "var actionTarget by remember { mutableStateOf<Storage?>(null) }",
-            "onClick = { actionTarget = storage }",
+            "actionTarget = storage",
             "\"刷新此源\" to {",
         )):
             _src_bad.append("数据源页双动作面板（刷新此源/移除）缺失")
@@ -6457,13 +6463,13 @@ def main() -> int:
             "object MiuiAutostartGuide",
             'const val MIUI_MANUFACTURER = "Xiaomi"',
             "fun shouldShow(manufacturer: String?): Boolean",
-            "不会申请电池优化豁免",
+            "不会申请省电白名单",
         )):
             _miui_bad.append("判定核缺失")
         if not all(x in _ui_src for x in (
             "MiuiAutostartGuide",
             '.shouldShow(android.os.Build.MANUFACTURER)',
-            "后台播放保活（MIUI）",
+            "后台播放不中断（MIUI）",
             "onOpenAutostartSettings",
         )):
             _miui_bad.append("设置页引导行缺失")
@@ -6897,7 +6903,7 @@ def main() -> int:
         _vol_bad.append("coordinator GetVolume 解析缺失")
     if "fun setCastVolume(volume: Int) = scope.launch" not in _pc_src2 or "castCoordinator.setVolume(device, volume)" not in _pc_src2:
         _vol_bad.append("运行时投屏态音量路由缺失")
-    if "DMR 音量：" not in _app_src3 or "onCastVolumeChanged" not in _app_src3:
+    if "投屏音量：" not in _app_src3 or "onCastVolumeChanged" not in _app_src3:
         _vol_bad.append("输出弹窗音量滑杆缺失")
     if _vol_bad:
         failures.append("§61.229 DLNA 音量：%s" % "；".join(_vol_bad))
@@ -7638,6 +7644,232 @@ def main() -> int:
         failures.append("§61.250 哈希记忆累进：%s" % "；".join(_c250_bad))
     else:
         print("[PASS] §61.250 哈希记忆累进（限数逐次推进 + 命中复用 + 失败重试）")
+
+    # ---- §61.274（V0.4-01 入口合并 / 拍板 §61.272 #4）：曲库唯一入口 + 全功能吸收 ----
+    # 判据（新增判据，不改动既有强度）：
+    # ① 旧入口彻底消失：无 tab7 分支 / 无「更多→曲库」参数 / 标签表不含「曲库」；
+    # ② 音乐库页吸收全功能：视图组含不可用 + 行尾「＋」入歌单 + 重扫 + 重试；
+    # ③ SurfaceNav.LIBRARY 仍直达 tab1（取证导航不死链）；
+    # ④ 分组视图具备展开语义（防退回「每组只显示首条」的丢歌形态）。
+    _ui274 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+              / "ui" / "CloudMusicApp.kt").read_text(encoding="utf-8", errors="replace")
+    _lib274 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+               / "ui" / "FnLibraryScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _more274 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+                / "ui" / "MoreScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _c274 = []
+    if "onLibraryManager" in _ui274 or "onLibraryManager" in _more274:
+        _c274.append("「更多→曲库」入口参数仍在（应已删除）")
+    if re.search(r"tab\s*==\s*7", _ui274) or re.search(r"tab\s*=\s*7", _ui274):
+        _c274.append("tab7 分支仍在（曲库第二入口）")
+    _labels274 = re.search(r"FUNCTION_PAGE_LABELS\s*=\s*listOf\(([^)]*)\)", _ui274)
+    if _labels274 is None:
+        _c274.append("FUNCTION_PAGE_LABELS 定义缺失")
+    elif "曲库" in _labels274.group(1):
+        _c274.append("FUNCTION_PAGE_LABELS 仍含「曲库」标签（入口合并未完成）")
+    if not re.search(r"SurfaceNav\.Surface\.LIBRARY\s*->\s*\{[^}]*tab\s*=\s*1", _ui274):
+        _c274.append("SurfaceNav.LIBRARY 未直达音乐库 tab1")
+    for _kw in ("全部歌曲", "歌手", "专辑", "音源", "不可用"):
+        if _kw not in _lib274:
+            _c274.append("音乐库视图组缺「%s」" % _kw)
+    if "onAddToPlaylist" not in _lib274 or "onAddToPlaylist = { addToPlaylistTrack = it }" not in _ui274:
+        _c274.append("行尾「＋」入歌单未接线（原 tab7 功能丢失）")
+    if "onRescan" not in _lib274 or "onRescan = onRescanAll" not in _ui274:
+        _c274.append("音乐库缺重扫入口（原 tab7 「↻」丢失）")
+    if "onRetryUnavailable" not in _lib274 or "onRetryUnavailable = onRetryUnavailable" not in _ui274:
+        _c274.append("不可用视图缺重试接线（原 tab7 功能丢失）")
+    if "FnGroupHeader(" not in _lib274 or "expanded" not in _lib274:
+        _c274.append("分组视图缺展开语义（会退回「每组只显示首条」）")
+    if _c274:
+        failures.append("§61.274 V0.4-01 入口合并：%s" % "；".join(_c274))
+    else:
+        print("[PASS] §61.274 V0.4-01 曲库唯一入口（音乐库吸收全功能 + 无 tab7/更多入口）")
+
+    # ---- §61.275（V0.4-02 显示契约统一）：副题「已知字段才显示」+ 文案去内部术语 ----
+    # 判据：① 列表副题统一走 TrackInfo.listSubtitle（单一真相源，占位值/空段过滤）；
+    # ② 用户可见文案不含内部术语（保活/电池优化豁免/重新拉起/数据源管理/DLNA/DMR）
+    #    与文档编号（§）；③ 副题不得再用 `${track.artist} · ${track.album}` 裸拼。
+    # 边界：PlaybackService 的 logcat 文本不是用户可见文案，不纳入；注释由 _code_only 剥离。
+    _ui_dir = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic")
+    _ui_pkg = _ui_dir / "ui"
+    _c275 = []
+    for _rel in ("ui/HomeScreen.kt", "ui/FnLibraryScreen.kt", "ui/CloudMusicApp.kt"):
+        _body = _code_only((_ui_dir / _rel).read_text(encoding="utf-8", errors="replace"))
+        if "TrackInfo.listSubtitle(" not in _body:
+            _c275.append("%s 副题未走 TrackInfo.listSubtitle" % _rel)
+    for _p in _ui_pkg.rglob("*.kt"):
+        _body = _code_only(_p.read_text(encoding="utf-8", errors="replace"))
+        if re.search(r"\$\{track\.artist\}\s*·\s*\$\{track\.album\}", _body):
+            _c275.append("%s 仍有 artist · album 裸拼副题（缺字段会出现空段）" % _p.name)
+    _copy_files = [
+        _ui_dir / "MainActivity.kt",
+        _ui_dir / "LocalSourceAdder.kt",
+        _ui_dir / "MiuiAutostartGuide.kt",
+    ] + list(_ui_pkg.rglob("*.kt"))
+    # §61.275：错误码同样不得进用户文案（07 码表 → ErrorText.human 映射）
+    _copy_terms = ("保活", "电池优化豁免", "重新拉起", "数据源管理", "DLNA", "DMR", "E_DS_")
+    _err275 = (ROOT / "core-model" / "src" / "main" / "kotlin" / "com" / "example"
+               / "cloudmusic" / "model" / "ErrorText.kt")
+    if not _err275.is_file() or "fun human(" not in _err275.read_text(encoding="utf-8", errors="replace"):
+        _c275.append("错误码人话映射（ErrorText）缺失")
+    elif any(x not in _ui274 for x in (
+        "ErrorText.human(storage.errorMsg)",
+        "ErrorText.human(target.errorMsg)",
+    )):
+        _c275.append("数据源错误态未走 ErrorText.human（仍会显示原始错误码）")
+    for _p in _copy_files:
+        if not _p.is_file():
+            continue
+        _body = _code_only(_p.read_text(encoding="utf-8", errors="replace"))
+        for _lit in re.findall(r'"((?:[^"\\\n]|\\.)*)"', _body):
+            _hit = [t for t in _copy_terms if t in _lit]
+            if _hit:
+                _c275.append("%s 文案残留内部术语「%s」" % (_p.name, ",".join(_hit)))
+            if "§" in _lit:
+                _c275.append("%s 文案残留文档编号（§）" % _p.name)
+    if _c275:
+        failures.append("§61.275 V0.4-02 显示契约：%s" % "；".join(sorted(set(_c275))))
+    else:
+        print("[PASS] §61.275 V0.4-02 副题已知字段才显示 + 文案无内部术语")
+
+    # ---- §61.276（V0.4-03 灰显落地 / 拍板 #3A）：整行降透明 + 「暂不可用」角标 ----
+    # 判据：① 组件层具备灰显能力（dimmed/badge + alpha 45% + 角标组件）；
+    # ② 音乐库行按 availability 自动灰显并拦截点击；③ 收藏/最近/歌单/队列四处接线；
+    # ④ 点击提示走人话原因（TrackInfo.availabilityLabel），不是枚举名。
+    _fe276 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+              / "ui" / "FeiniuUi.kt").read_text(encoding="utf-8", errors="replace")
+    _lib276 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+               / "ui" / "FnLibraryScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _ui276 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+              / "ui" / "CloudMusicApp.kt").read_text(encoding="utf-8", errors="replace")
+    _c276 = []
+    if "dimmed: Boolean = false" not in _fe276 or "badge: String? = null" not in _fe276:
+        _c276.append("FnTrackRow 缺 dimmed/badge 参数")
+    if ".alpha(if (dimmed) 0.45f else 1f)" not in _fe276:
+        _c276.append("整行降透明（45%）缺失")
+    if "fun FnUnavailableBadge(" not in _fe276:
+        _c276.append("「暂不可用」角标组件缺失")
+    if "dimmed = unavailable" not in _lib276 or "badge = if (unavailable)" not in _lib276:
+        _c276.append("音乐库行未按 availability 灰显")
+    if "fun unavailableBadge(" not in _ui276 or "fun playOrExplain(" not in _ui276:
+        _c276.append("不可用拦截/角标辅助缺失（收藏/最近/歌单/队列将仍可误触播放）")
+    if _ui276.count("dimmed = ") < 3:
+        _c276.append("收藏/最近/歌单/队列灰显接线不足（<3 处）")
+    if "TrackInfo.availabilityLabel(" not in _ui276:
+        _c276.append("不可用点击未走人话原因（会露出枚举名）")
+    if _c276:
+        failures.append("§61.276 V0.4-03 灰显：%s" % "；".join(_c276))
+    else:
+        print("[PASS] §61.276 V0.4-03 灰显（整行降透明 + 角标 + 点击原因，不误触播放）")
+
+    # ---- §61.277（V0.4-04 四页 + 弹窗族飞牛化）：飞牛页禁 Comp，弹窗统一 FnSheetDialog ----
+    # 判据：① 非播放页源码（CloudMusicApp）不得再出现竞品组件/令牌（Comp* 与 Comp.*）；
+    # ② 全局底色 = FnComp.PageBg；③ 弹窗族已切 FnSheetDialog；④ 三页用 FnPageHeader 骨架。
+    # 边界：播放页（LegacyPlayerPage / 竞品覆盖层）仍按竞品视觉，Comp 令牌在 CompeteUi 保留。
+    _c277 = []
+    _legacy_tokens = (
+        "CompPage(", "CompHeaderBar(", "CompGroupTitle(", "CompSettingsRow(",
+        "CompTrackRow(", "CompPlaylistRow(", "CompSheetDialog(", "CompDialogInput(",
+        "Comp.Text", "Comp.RowBg", "Comp.ChipBg", "Comp.AccentRed",
+    )
+    _app277 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+               / "cloudmusic" / "ui" / "CloudMusicApp.kt").read_text(
+                   encoding="utf-8", errors="replace")
+    # Comp.Text 不能直接子串匹配（会命中 FnComp.Text）→ 用负向后视正则
+    _hit277 = [t for t in _legacy_tokens if not t.startswith("Comp.") and t in _app277]
+    if re.search(r"(?<!Fn)Comp\.", _app277):
+        _hit277.append("Comp.*")
+    if _hit277:
+        _c277.append("非播放页仍用竞品组件/令牌：%s" % ",".join(_hit277))
+    if "containerColor = FnComp.PageBg" not in _app277:
+        _c277.append("全局底色未切飞牛（containerColor）")
+    if _app277.count("FnSheetDialog(") < 10:
+        _c277.append("弹窗族未全量切 FnSheetDialog（<10 处）")
+    _fn_pages = ("SourcesScreen(", "PlaylistsScreen(", "QueueScreen(")
+    if any(x not in _app277 for x in _fn_pages):
+        _c277.append("三页页面函数缺失（重命名会绕过本判据）")
+    if _c277:
+        failures.append("§61.277 V0.4-04 飞牛化：%s" % "；".join(_c277))
+    else:
+        print("[PASS] §61.277 V0.4-04 三页 + 弹窗族飞牛化（非播放页零 Comp 混用）")
+
+    # ---- §61.278（V0.4-05 图标表意校准）：单一真相源 + 表意修正 + 映射表在册 ----
+    # 判据：① 图标只由 FnIcons.kt 定义（曲库页不得再自带一份枚举）；
+    #       ② 行/统计卡图标一律传 FnIcon 枚举，退役的 Unicode 字形不得回流；
+    #       ③ 三处表意错按 03-10 §8.1 修正（专辑=唱片套 / 音源=双层机架 / 设置=梯形齿轮廓）；
+    #       ④ 映射表与枚举**双向**在册（加图标不登记、登记了没实现，都 FAIL）。
+    # 边界：`☰` 仍是曲目封面占位字形、`✕` 仍是搜索清词、`♥/↺` 仍是列表行标记，均不在退役集合内。
+    _ui_dir = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+               / "cloudmusic" / "ui")
+    _fn_icons = (_ui_dir / "FnIcons.kt").read_text(encoding="utf-8", errors="replace")
+    _fn_lib = (_ui_dir / "FnLibraryScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _fn_ui = (_ui_dir / "FeiniuUi.kt").read_text(encoding="utf-8", errors="replace")
+    _fn_more = (_ui_dir / "MoreScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _c278 = []
+    if "enum class FnIcon" not in _fn_icons or "fun FnLineIcon(" not in _fn_icons:
+        _c278.append("FnIcons.kt 缺 enum class FnIcon / fun FnLineIcon")
+    if "enum class FnIcon" in _fn_lib:
+        _c278.append("FnLibraryScreen 仍自带图标枚举（双真相源）")
+    _retired_glyphs = ("⚑", "☁", "⚖", "▤", "⧉", "◐", "∿", "⊕", "⌾", "⇅", "◎", "🔒", "≡")
+    _glyph_back = [g for g in _retired_glyphs
+                   if any(g in t for t in (_app277, _fn_ui, _fn_more))]
+    if _glyph_back:
+        _c278.append("退役 Unicode 字形回流（应改 FnIcon）：%s" % " ".join(_glyph_back))
+    if 'FnRow("' in _app277:
+        _c278.append("FnRow 仍以字符串字形传参")
+    for _sig in (r"fun FnRow\(\s*icon: FnIcon", r"fun FnStatCard\(\s*icon: FnIcon"):
+        if not re.search(_sig, _fn_ui):
+            _c278.append("FeiniuUi 行组件签名未改 FnIcon：%s" % _sig)
+
+    def _icon_branch(src_text, start, end):
+        i = src_text.find(start)
+        j = src_text.find(end, i + 1) if i >= 0 else -1
+        return src_text[i:j] if 0 <= i < j else ""
+
+    _albums = _icon_branch(_fn_icons, "FnIcon.Albums ->", "FnIcon.Sources ->")
+    if "rect(3f, 3f, 18f, 18f" not in _albums:
+        _c278.append("专辑图标退回同心圆（应为唱片套方框）")
+    if "同心圆" in _albums:
+        _c278.append("专辑图标注释仍是同心圆口径（靶心）")
+    _sources = _icon_branch(_fn_icons, "FnIcon.Sources ->", "FnIcon.Unavailable ->")
+    if _sources.count("rect(") < 2:
+        _c278.append("音源图标不是双层机架（rect < 2，会与歌单提包同形）")
+    _gear = _icon_branch(_fn_icons, "FnIcon.Settings ->", "FnIcon.Queue ->")
+    if "teeth" not in _gear or "close()" not in _gear:
+        _c278.append("设置齿轮未用梯形齿闭合轮廓（缺 teeth/close）")
+    if "listOf(0f, 45f" in _gear:
+        _c278.append("设置齿轮退回放射短齿（视觉读成船舵）")
+
+    _doc310 = (ROOT / "docs" / "03-模块开发文档" / "03-10 UI 组件与主题.md").read_text(
+        encoding="utf-8", errors="replace")
+    if "### 8.1 线性图标-功能映射表" not in _doc310:
+        _c278.append("03-10 §8.1 图标-功能映射表缺失")
+    else:
+        _enum_body = _fn_icons.split("enum class FnIcon")[1].split("}")[0]
+        _names = re.findall(r"^    ([A-Z][A-Za-z]+),$", _enum_body, re.M)
+        if len(_names) < 25:
+            _c278.append("FnIcon 枚举解析异常（仅 %d 项）" % len(_names))
+        _unlisted = [n for n in _names if ("`%s`" % n) not in _doc310]
+        if _unlisted:
+            _c278.append("枚举已加但映射表未登记：%s" % ",".join(_unlisted))
+    # 唱片红标（V0.4-05 顺带审查项）：竞品 g9f 位图带「网易云音乐保留全部著作权权利」版权弧text，
+    # 播放页占位盘必须走自绘 DiscLabelArt，且自绘实现不得再画文字。
+    _vinyl = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+              / "cloudmusic" / "ui" / "player" / "VinylDiscView.kt").read_text(
+                  encoding="utf-8", errors="replace")
+    _label = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+              / "cloudmusic" / "ui" / "player" / "DiscLabelArt.kt").read_text(
+                  encoding="utf-8", errors="replace")
+    if "LegacyAsset.DiscRed" in _vinyl:
+        _c278.append("播放页仍用竞品红标位图（带 NetEase 版权文字）")
+    if _vinyl.count("DiscLabelArt.redLabel(") < 2:
+        _c278.append("唱片占位盘未全量改自绘（<2 处调用）")
+    if "drawText" in _label:
+        _c278.append("自绘红标不得绘文字（会重新引入版权文案风险）")
+    if _c278:
+        failures.append("§61.278 V0.4-05 图标表意：%s" % "；".join(_c278))
+    else:
+        print("[PASS] §61.278 V0.4-05 图标单一真相源 + 表意修正 + 映射表双向在册")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

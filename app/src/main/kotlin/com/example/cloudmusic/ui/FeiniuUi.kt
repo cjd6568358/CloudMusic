@@ -21,11 +21,15 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -77,6 +81,8 @@ object FnComp {
     /** 曲目行封面占位底（比卡片底亮一档，避免与行底糊在一起）。 */
     val CoverPlaceholder = Color(0xFF3A3A3E)
     val Divider = Color(0x1AFFFFFF)
+    /** 弹层输入框底：卡片底上提一档的白 8%（§61.277）。 */
+    val InputBg = Color(0x14FFFFFF)
     /** 卡片组内**行间分隔线**：实测 `#3C3C3F`（`161550` y=307dp / 478dp 采样）。 */
     val RowDivider = Color(0xFF3C3C3F)
     val CapsuleBg = Color(0xFF2B2B2E)
@@ -211,6 +217,8 @@ fun FnPageHeader(
     title: String,
     modifier: Modifier = Modifier,
     onBack: (() -> Unit)? = null,
+    /** §61.277（V0.4-04）：右上动作槽（如歌单页「＋」），与标题同一水平带。 */
+    trailing: (@Composable () -> Unit)? = null,
 ) {
     Box(
         modifier
@@ -241,6 +249,9 @@ fun FnPageHeader(
             fontWeight = FontWeight.Bold,
             modifier = Modifier.align(Alignment.Center),
         )
+        if (trailing != null) {
+            Box(Modifier.align(Alignment.CenterEnd)) { trailing() }
+        }
     }
 }
 
@@ -263,12 +274,16 @@ fun FnGroupCard(
 /**
  * 飞牛设置行：红色线性图标 + 标题 + 可选值 + chevron，行高 50.4dp。
  *
- * 图标用 Unicode 字形落在固定 16.6dp 槽位里（视觉高保真自研，不引竞品素材 —— 竞品素材
- * 沿用沿用 `assets-mapping.csv` 口径 `replaced=false`）。
+ * **§61.278（V0.4-05）**：图标从「Unicode 字形」改为 [FnLineIcon] 矢量（17dp 落在
+ * 16.6dp 槽位），全站一套笔画/端点；此前是十几种 Unicode 字形混排（红旗 / 云朵 / 叉号 /
+ * 天平 / 方框 / 叠框 / 半圆 / 波形 / 三横线…，完整清单见 03-10 §8.1），字重与基线随厂商
+ * 字体漂移，同一个「双圈」字形还兼了「忽略目录」和「扫描速度限制」两行。
+ * 图标一律自绘，不引竞品素材
+ * （`assets-mapping.csv` 口径 `replaced=false`）。
  */
 @Composable
 fun FnRow(
-    glyph: String,
+    icon: FnIcon,
     title: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -299,7 +314,7 @@ fun FnRow(
                 .size(FnBaseline.RowIconDp.dp),
             contentAlignment = Alignment.Center,
         ) {
-            Text(glyph, color = FnComp.IconRed, fontSize = 13.sp, maxLines = 1)
+            FnLineIcon(icon, FnComp.IconRed, size = 17.dp)
         }
         Spacer(
             Modifier.width(
@@ -372,7 +387,7 @@ fun FnDivider() {
  */
 @Composable
 fun FnStatCard(
-    glyph: String,
+    icon: FnIcon,
     title: String,
     primary: String,
     secondary: String,
@@ -389,7 +404,7 @@ fun FnStatCard(
                 Modifier.size(FnBaseline.StatAvatarDp.dp).clip(CircleShape).background(accent),
                 contentAlignment = Alignment.Center,
             ) {
-                Text(glyph, color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                FnLineIcon(icon, Color.White, size = 22.dp)
             }
             Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
@@ -513,7 +528,14 @@ fun FnCover(
     }
 }
 
-/** 飞牛曲目行：46dp 封面 + 曲名 15sp + 副行 12sp，整行可点（点击即起播）。 */
+/**
+ * 飞牛曲目行：46dp 封面 + 曲名 15sp + 副行 12sp，整行可点（点击即起播）。
+ *
+ * §61.276（V0.4-03 灰显契约，拍板 #3A）：
+ * - [dimmed] = `availability != OK` → **整行降透明 45%**（仍可见 / 可搜索 / 可点，
+ *   只是不装作能播）；
+ * - [badge] = 「暂不可用」角标（曲名右侧）；点击由调用方弹原因，不弹网络错误。
+ */
 @Composable
 fun FnTrackRow(
     title: String,
@@ -523,11 +545,14 @@ fun FnTrackRow(
     coverRef: String? = null,
     glyph: String = "♪",
     trailing: (@Composable () -> Unit)? = null,
+    dimmed: Boolean = false,
+    badge: String? = null,
 ) {
     Row(
         modifier
             .fillMaxWidth()
             .height(FnBaseline.TrackRowHeightDp.dp)
+            .alpha(if (dimmed) 0.45f else 1f)
             .clickable(onClick = onClick)
             .padding(horizontal = FnBaseline.PagePaddingDp.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -535,24 +560,50 @@ fun FnTrackRow(
         FnCover(coverRef, Modifier.size(FnBaseline.TrackCoverDp.dp), glyph)
         Spacer(Modifier.width(12.dp))
         Column(Modifier.weight(1f)) {
-            Text(
-                title,
-                color = FnComp.TextPrimary,
-                fontSize = 15.sp,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Spacer(Modifier.height(4.dp))
-            Text(
-                subtitle,
-                color = FnComp.TextSecondary,
-                fontSize = 12.sp,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    title,
+                    color = FnComp.TextPrimary,
+                    fontSize = 15.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f, fill = false),
+                )
+                if (badge != null) {
+                    Spacer(Modifier.width(6.dp))
+                    FnUnavailableBadge(badge)
+                }
+            }
+            // §61.275：副题为空（艺人/专辑均缺失）时不渲染空行——行高仍固定 60dp，
+            // 曲名在行内居中，避免「空副行」把标题顶偏。
+            if (subtitle.isNotBlank()) {
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    subtitle,
+                    color = FnComp.TextSecondary,
+                    fontSize = 12.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
         }
         if (trailing != null) trailing()
     }
+}
+
+/** 「暂不可用」角标（10sp，品牌红字 + 12% 红底，不抢曲名但可辨）。 */
+@Composable
+fun FnUnavailableBadge(text: String = "暂不可用") {
+    Text(
+        text,
+        color = FnComp.IconRed,
+        fontSize = 10.sp,
+        maxLines = 1,
+        modifier = Modifier
+            .clip(RoundedCornerShape(4.dp))
+            .background(FnComp.IconRed.copy(alpha = 0.14f))
+            .padding(horizontal = 5.dp, vertical = 1.dp),
+    )
 }
 
 /**
@@ -576,6 +627,189 @@ fun FnSwitch(checked: Boolean, onChange: (Boolean) -> Unit, modifier: Modifier =
                 .size(18.dp)
                 .clip(CircleShape)
                 .background(Color.White),
+        )
+    }
+}
+
+/**
+ * 飞牛卡片弹层（`V0.4-04`）：圆角 20 顶 + 拖动柄 + 16sp 粗标题 + 52dp 动作行。
+ *
+ * 与非播放页的 `CompSheetDialog`（竞品 #1C1C1C 半透明 + 10dp 圆角）是**两套**视觉：
+ * 飞牛页一律用本组件，`Comp` 令牌自此收敛为播放页专用（守护「飞牛页禁 Comp」）。
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FnSheetDialog(
+    onDismiss: () -> Unit,
+    title: String? = null,
+    content: (@Composable () -> Unit)? = null,
+    actions: List<Pair<String, () -> Unit>> = emptyList(),
+    destructiveIndexOf: Int? = null,
+) {
+    androidx.compose.material3.ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        containerColor = FnComp.CardBg,
+        contentColor = FnComp.TextPrimary,
+        shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
+        dragHandle = {
+            Box(
+                Modifier.fillMaxWidth().padding(vertical = 10.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                Box(
+                    Modifier
+                        .size(width = 36.dp, height = 4.dp)
+                        .clip(RoundedCornerShape(2.dp))
+                        .background(FnComp.Divider),
+                )
+            }
+        },
+    ) {
+        Column(Modifier.navigationBarsPadding()) {
+            if (title != null) {
+                Text(
+                    title,
+                    color = FnComp.TextPrimary,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
+                )
+            }
+            content?.invoke()
+            actions.forEachIndexed { index, (label, action) ->
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(52.dp)
+                        .clickable(onClick = action),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        label,
+                        color = if (index == destructiveIndexOf) {
+                            FnComp.IconRed
+                        } else {
+                            FnComp.TextPrimary
+                        },
+                        fontSize = 15.sp,
+                        maxLines = 1,
+                    )
+                }
+            }
+            Spacer(Modifier.height(12.dp))
+        }
+    }
+}
+
+/** 飞牛弹层输入行：卡片底上一档的圆角输入框（替换 `CompDialogInput`）。 */
+@Composable
+fun FnDialogInput(
+    value: String,
+    onValueChange: (String) -> Unit,
+    hint: String,
+    password: Boolean = false,
+) {
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp, vertical = 6.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .background(FnComp.InputBg)
+            .padding(horizontal = 14.dp, vertical = 11.dp),
+    ) {
+        if (value.isEmpty()) {
+            Text(hint, color = FnComp.TextHint, fontSize = 14.sp, maxLines = 1)
+        }
+        BasicTextField(
+            value = value,
+            onValueChange = onValueChange,
+            singleLine = true,
+            textStyle = TextStyle(color = FnComp.TextPrimary, fontSize = 14.sp),
+            visualTransformation = if (password) {
+                PasswordVisualTransformation()
+            } else {
+                VisualTransformation.None
+            },
+            cursorBrush = SolidColor(FnComp.IconRed),
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
+}
+
+/**
+ * 飞牛歌单行（`V0.4-04`）：46dp 封面 + 名称 15sp + 副行 12sp + 可选尾件。
+ *
+ * 替换竞品 `CompPlaylistRow`；与 [FnTrackRow] 同量值，页内节奏一致。
+ */
+@Composable
+fun FnPlaylistRow(
+    name: String,
+    subtitle: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    coverRef: String? = null,
+    trailing: (@Composable () -> Unit)? = null,
+) {
+    Row(
+        modifier
+            .fillMaxWidth()
+            .height(FnBaseline.TrackRowHeightDp.dp)
+            .clickable(onClick = onClick)
+            .padding(horizontal = FnBaseline.PagePaddingDp.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        FnCover(coverRef, Modifier.size(FnBaseline.TrackCoverDp.dp), glyph = "☰")
+        Spacer(Modifier.width(12.dp))
+        Column(Modifier.weight(1f)) {
+            Text(
+                name,
+                color = FnComp.TextPrimary,
+                fontSize = 15.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            if (subtitle.isNotBlank()) {
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    subtitle,
+                    color = FnComp.TextSecondary,
+                    fontSize = 12.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        }
+        if (trailing != null) trailing()
+    }
+}
+
+/**
+ * 飞牛胶囊按钮（`V0.4-01` 引入）：列表内动作（如「重试不可用曲目」）。
+ *
+ * 描边态 = 卡片底 + 品牌红字；实心态 = 品牌红底 + 白字。高 34dp / 圆角 17dp，
+ * 与飞牛页内 pill 形态一致（不引竞品 `CompActionButton`）。
+ */
+@Composable
+fun FnActionButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    filled: Boolean = false,
+) {
+    Box(
+        modifier
+            .height(34.dp)
+            .clip(RoundedCornerShape(17.dp))
+            .background(if (filled) FnComp.IconRed else FnComp.CardBg)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 16.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text,
+            color = if (filled) Color.White else FnComp.IconRed,
+            fontSize = 13.sp,
+            maxLines = 1,
         )
     }
 }

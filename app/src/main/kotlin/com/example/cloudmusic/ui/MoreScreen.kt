@@ -19,8 +19,9 @@ import androidx.compose.ui.unit.sp
 /**
  * 飞牛胶囊导航「更多」页（docs/01 §0；飞牛风格骨架 + 我们的功能，非飞牛账号壳层）。
  *
- * 承载胶囊三 tab 之外的全部功能入口：曲库 / 歌单 / 搜索 / 队列 / 我的音乐 / 设置 / 数据源，
- * 一个都不丢。**不含**飞牛的 admin 卡 / 修改密码 / 用户管理 / 退出登录 / 服务器设置
+ * 承载胶囊三 tab 之外的全部功能入口：歌单 / 搜索 / 队列 / 我的音乐 / 设置 / 数据源，
+ * 一个都不丢。**曲库行已于 §61.274（V0.4-01 入口合并）删除**——曲库管理全功能并入底栏
+ * 「音乐库」，全 App 只保留一个曲库入口（拍板 §61.272 #4）。**不含**飞牛的 admin 卡 / 修改密码 / 用户管理 / 退出登录 / 服务器设置
  * （辨别清单 spec §2：我们没有账号体系）。
  *
  * `12 §61.175`：卡片与行改用 [FnGroupCard] / [FnRow]（行高 50.4dp、圆角 16、无行分隔线），
@@ -34,11 +35,11 @@ fun MoreScreen(
     onMine: () -> Unit,
     onSettings: () -> Unit,
     onSources: () -> Unit,
-    onLibraryManager: () -> Unit = {},
     onDismiss: () -> Unit,
-    /** 功能页入口标签（由 CloudMusicApp 提供，保持 03-10 §5 五页口径单一来源）。 */
-    entryLabels: List<Pair<String, String>> = listOf(
-        "曲库" to "♫", "歌单" to "☰", "搜索" to "⌕", "队列" to "☷", "设置" to "⚙",
+    /** 功能页入口标签（由 CloudMusicApp 提供，保持 03-10 §5 页面口径单一来源）。 */
+    entryLabels: List<Pair<String, FnIcon>> = listOf(
+        "歌单" to FnIcon.Playlist, "搜索" to FnIcon.Search,
+        "队列" to FnIcon.Queue, "设置" to FnIcon.Settings,
     ),
 ) {
     Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
@@ -46,30 +47,26 @@ fun MoreScreen(
         Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
             Spacer(Modifier.height(FnBaseline.HeaderToCardGapDp.dp))
             FnGroupCard {
-                // 前 5 行由 CloudMusicApp 提供的五页口径标签驱动（守护单一来源），
-                // 顺序：曲库(entryLabels[0]) / 歌单[1] / 搜索[2] / 队列[3] / 设置[4]。
-                FnRow(entryLabels[0].second, entryLabels[0].first, onLibraryManager)
+                // 行由 CloudMusicApp 提供的口径标签驱动（守护单一来源），
+                // §61.274 起顺序：歌单(entryLabels[0]) / 搜索[1] / 队列[2] / 设置[3]。
+                FnRow(entryLabels[0].second, entryLabels[0].first, onPlaylists)
                 FnRow(
-                    entryLabels[1].second, entryLabels[1].first, onPlaylists,
+                    entryLabels[1].second, entryLabels[1].first, onSearch,
                     dividerAbove = true,
                 )
                 FnRow(
-                    entryLabels[2].second, entryLabels[2].first, onSearch,
-                    dividerAbove = true,
-                )
-                FnRow(
-                    entryLabels[3].second, entryLabels[3].first, onQueue,
+                    entryLabels[2].second, entryLabels[2].first, onQueue,
                     dividerAbove = true,
                 )
             }
             Spacer(Modifier.height(FnBaseline.GroupGapDp.dp))
             FnGroupCard {
-                FnRow("♥", "我的音乐", onMine)
+                FnRow(FnIcon.Favorite, "我的音乐", onMine)
                 FnRow(
-                    entryLabels[4].second, entryLabels[4].first, onSettings,
+                    entryLabels[3].second, entryLabels[3].first, onSettings,
                     dividerAbove = true,
                 )
-                FnRow("⊕", "数据源", onSources, dividerAbove = true)
+                FnRow(FnIcon.Sources, "音乐来源", onSources, dividerAbove = true)
             }
             Text(
                 "CloudMusic · 统一虚拟曲库 · 本地 / WebDAV / STRM 平等对待 · AGPL-3.0",

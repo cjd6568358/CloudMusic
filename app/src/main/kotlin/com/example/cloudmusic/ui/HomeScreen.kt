@@ -34,7 +34,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalContext
+import android.widget.Toast
 import com.example.cloudmusic.model.Track
+import com.example.cloudmusic.model.TrackInfo
 import com.example.cloudmusic.model.recentlyAdded
 
 /**
@@ -101,7 +105,7 @@ fun HomeScreen(
                         textAlign = TextAlign.Center,
                     )
                     Text(
-                        "从「音乐库」添加数据源并扫描",
+                        "从「音乐库 → 来源」添加音乐来源并扫描",
                         color = FnComp.TextHint, fontSize = 12.sp,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(top = 4.dp).clickable { onOpenSources() },
@@ -251,8 +255,25 @@ private fun RecentCard(count: Int, onClick: () -> Unit) {
 
 @Composable
 private fun HomeTrackRow(track: Track, onClick: () -> Unit) {
+    // §61.276（V0.4-03 B09）：不可用曲目灰显但仍可见，点击只提示原因。
+    val context = LocalContext.current
+    val unavailable = track.availability != com.example.cloudmusic.model.Availability.OK
     Row(
-        Modifier.fillMaxWidth().clickable { onClick() }.padding(horizontal = 20.dp, vertical = 10.dp),
+        Modifier
+            .fillMaxWidth()
+            .alpha(if (unavailable) 0.45f else 1f)
+            .clickable {
+                if (unavailable) {
+                    Toast.makeText(
+                        context,
+                        TrackInfo.availabilityLabel(track),
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                } else {
+                    onClick()
+                }
+            }
+            .padding(horizontal = 20.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         val cover = rememberCompCover(track.coverRef)
@@ -272,11 +293,25 @@ private fun HomeTrackRow(track: Track, onClick: () -> Unit) {
         }
         Spacer(Modifier.width(12.dp))
         Column(Modifier.weight(1f)) {
-            Text(track.title, color = FnComp.TextPrimary, fontSize = 15.sp, maxLines = 1)
-            Text(
-                "${track.artist} · ${track.album}", color = FnComp.TextSecondary,
-                fontSize = 11.sp, maxLines = 1,
-            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    track.title, color = FnComp.TextPrimary, fontSize = 15.sp,
+                    maxLines = 1, modifier = Modifier.weight(1f, fill = false),
+                )
+                if (unavailable) {
+                    Spacer(Modifier.width(6.dp))
+                    FnUnavailableBadge()
+                }
+            }
+            // §61.275（显示契约）：已知字段才显示——缺专辑不再出现「艺人 · 」空段 /
+            // 「未知」噪声（远程曲目常态）。
+            val subtitle = TrackInfo.listSubtitle(track)
+            if (subtitle.isNotBlank()) {
+                Text(
+                    subtitle, color = FnComp.TextSecondary,
+                    fontSize = 11.sp, maxLines = 1,
+                )
+            }
         }
     }
 }

@@ -78,7 +78,7 @@ import com.example.cloudmusic.model.Lyrics
 import com.example.cloudmusic.model.TrackInfo
 import com.example.cloudmusic.player.PlayMode
 import com.example.cloudmusic.ui.Comp
-import com.example.cloudmusic.ui.CompSheetDialog
+import com.example.cloudmusic.ui.FnSheetDialog
 import com.example.cloudmusic.player.PlayerPhase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -478,15 +478,18 @@ fun LegacyPlayerPage(
     // sourceRef.url（STRM 签名直链）与 Addition 凭据一律不展示。
     if (showTrackInfo && track != null) {
         val t = track!!
-        CompSheetDialog(
+        FnSheetDialog(
             onDismiss = { showTrackInfo = false },
             title = "歌曲信息",
             content = {
                 Column(Modifier.padding(horizontal = 16.dp)) {
                     listOf(
                         "标题" to t.title,
-                        "艺人" to t.artist.ifBlank { "未知" },
-                        "专辑" to t.album.ifBlank { "未知" },
+                        // §61.275：缺失字段用占位「—」，不写「未知」；扫描器兜底值也算缺失
+                        "艺人" to t.artist.takeIf { TrackInfo.isKnown(it) }.orEmpty()
+                            .ifBlank { TrackInfo.UNKNOWN },
+                        "专辑" to t.album.takeIf { TrackInfo.isKnown(it) }.orEmpty()
+                            .ifBlank { TrackInfo.UNKNOWN },
                         "来源" to TrackInfo.sourceLabel(t),
                         "格式" to TrackInfo.formatLabel(t),
                         "时长" to TrackInfo.durationLabel(t),

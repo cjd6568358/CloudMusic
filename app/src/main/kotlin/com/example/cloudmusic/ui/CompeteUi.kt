@@ -36,6 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -226,6 +227,8 @@ fun CompSettingsRow(
     onClick: () -> Unit,
     rightHint: String? = null,
     rightHintColor: Color = Comp.TextSecondary,
+    /** §61.275（B06）：行尾槽位（失败源「不可用」角标等）。 */
+    trailing: (@Composable () -> Unit)? = null,
 ) {
     Row(
         modifier = Modifier
@@ -262,6 +265,10 @@ fun CompSettingsRow(
                 textAlign = TextAlign.End,
                 modifier = Modifier.padding(start = 10.dp),
             )
+        }
+        if (trailing != null) {
+            Spacer(Modifier.width(8.dp))
+            trailing()
         }
         Text("›", color = Comp.TextHint, fontSize = 16.sp, modifier = Modifier.padding(start = 8.dp))
     }
@@ -412,10 +419,15 @@ fun CompTrackRow(
     trailing: (@Composable () -> Unit)? = null,
     coverGlyph: String = "♪",
     coverRef: String? = null,
+    /** §61.276（V0.4-03）：不可用曲目整行降透明（仍可见、可点并给原因）。 */
+    dimmed: Boolean = false,
+    /** 「暂不可用」角标；null = 正常曲目。 */
+    badge: String? = null,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .alpha(if (dimmed) 0.45f else 1f)
             .padding(top = 5.dp, bottom = 5.dp, end = 16.dp)
             .background(Comp.RowBg)
             .clickable(onClick = onClick),
@@ -434,13 +446,29 @@ fun CompTrackRow(
                 .weight(1f)
                 .padding(start = 10.dp),
         ) {
-            Text(
-                title,
-                color = Comp.TextPrimary,
-                fontSize = 16.sp,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    title,
+                    color = Comp.TextPrimary,
+                    fontSize = 16.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f, fill = false),
+                )
+                if (badge != null) {
+                    Spacer(Modifier.width(6.dp))
+                    Text(
+                        badge,
+                        color = Comp.AccentRed,
+                        fontSize = 10.sp,
+                        maxLines = 1,
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(4.dp))
+                            .background(Comp.AccentRed.copy(alpha = 0.14f))
+                            .padding(horizontal = 5.dp, vertical = 1.dp),
+                    )
+                }
+            }
             Spacer(Modifier.height(6.dp))
             Text(
                 subtitle,

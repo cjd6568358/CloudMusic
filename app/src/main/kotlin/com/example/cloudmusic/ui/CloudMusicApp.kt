@@ -9,6 +9,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
+import android.widget.Toast
 import android.widget.TextView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -67,16 +68,19 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cloudmusic.SurfaceNav
 import com.example.cloudmusic.di.playback.RuntimeState
-import com.example.cloudmusic.model.Availability
 import com.example.cloudmusic.model.SmartPlaylist
 import com.example.cloudmusic.model.Storage
+import com.example.cloudmusic.model.Availability
+import com.example.cloudmusic.model.ErrorText
 import com.example.cloudmusic.model.Track
+import com.example.cloudmusic.model.TrackInfo
 import com.example.cloudmusic.output.dlna.DmrDevice
 import com.example.cloudmusic.output.dlna.DeviceSource
 import com.example.cloudmusic.output.dlna.ManualDmrSpec
@@ -113,12 +117,15 @@ import kotlinx.coroutines.flow.map
  */
 
 /**
- * §61.168（飞牛导航）：功能页五页口径标签——胶囊「更多」页的入口单一来源。
- * 保留 03-10 §5 五页口径（曲库/歌单/搜索/队列/设置）不丢，只是从平铺底栏收进「更多」。
+ * §61.168（飞牛导航）：功能页口径标签——胶囊「更多」页的入口单一来源。
+ *
+ * §61.274（V0.4-01 入口合并，拍板 §61.272 #4）：**「曲库」行已删**——原 tab7 曲库管理
+ * 的全部功能（视图组 / ＋入歌单 / 不可用重试 / 重扫）并入底栏「音乐库」，全 App 只保留
+ * 一个曲库入口；本表随之由五页收缩为四页（歌单 / 搜索 / 队列 / 设置），功能一个不丢。
  */
 private val FUNCTION_PAGE_LABELS = listOf(
-    "曲库" to "♫", "歌单" to "☰", "搜索" to "⌕",
-    "队列" to "☷", "设置" to "⚙",
+    "歌单" to FnIcon.Playlist, "搜索" to FnIcon.Search,
+    "队列" to FnIcon.Queue, "设置" to FnIcon.Settings,
 )
 
 /**
@@ -350,7 +357,9 @@ fun CloudMusicApp(
         trackList.firstOrNull { it.id.value == id.value }?.title
     }
     Scaffold(
-        containerColor = Comp.PageBg,
+        // §61.277（V0.4-04 ④）：全局底色切飞牛页底；Comp 令牌自此收敛为播放页专用
+        // （播放页覆盖层自带 LegacyPalette 背景，不受本行影响）。
+        containerColor = FnComp.PageBg,
         bottomBar = {
             Column {
                 // §61.196（W13）：设置页不显示播放条（基准 161550 无播放条，仅底部胶囊）；
@@ -425,7 +434,6 @@ fun CloudMusicApp(
                     onMine = { showMore = false; tab = 5 },
                     onSettings = { showMore = false; tab = 6 },
                     onSources = { showMore = false; showSources = true },
-                    onLibraryManager = { showMore = false; tab = 7 },
                     onDismiss = { showMore = false },
                     entryLabels = FUNCTION_PAGE_LABELS,
                 )
@@ -437,9 +445,14 @@ fun CloudMusicApp(
                     favoriteCount = homeFavorites.size,
                     recentCount = homeHistory.size,
                 )
+                // §61.274（V0.4-01）：曲库唯一入口——原 tab7 全功能（视图组 / ＋入歌单 /
+                // 不可用重试 / 重扫）已并入本页，不再有第二个曲库入口。
                 tab == 1 -> FnLibraryScreen(
                     tracks = trackList,
                     onPlayTracks = onPlayTracks,
+                    onAddToPlaylist = { addToPlaylistTrack = it },
+                    onRescan = onRescanAll,
+                    onRetryUnavailable = onRetryUnavailable,
                     onOpenSearch = { searchReturnTo = 1; tab = 3 },
                     onOpenPlaylists = { tab = 2 },
                     onOpenFavorites = { tab = 5 },
@@ -487,10 +500,6 @@ fun CloudMusicApp(
                     onPlayTracks = onPlayTracks,
                     onBack = { showMore = true },
                 )
-                // §61.168：原曲库完整版（含加入歌单）从「更多 → 曲库管理」进入，功能不丢。
-                tab == 7 -> LibraryScreen(
-                    trackList, onRescanAll, onRetryUnavailable, onPlayTracks,
-                ) { track -> addToPlaylistTrack = track }
                 else -> SettingsScreen(
                     runtime, appSettings.network.wifiOnly, onRescanAll,
                     { showSources = true },
@@ -855,139 +864,39 @@ private fun MiniPauseBar() {
     )
 }
 
-/** §61.113（M2-1）：曲库分组视角——全部 / 专辑 / 艺人 / 不可用（analysis/m2-sublist）。 */
-private enum class LibraryView { ALL, ALBUM, ARTIST, UNAVAILABLE }
+/**
+ * §61.276（V0.4-03 灰显契约，拍板 #3A / 03-10 §9 B09）：
+ * `availability != OK` 的曲目行 = 整行降透明 + 「暂不可用」角标，**仍可见 / 可搜索 /
+ * 可保留在歌单与队列**；点击只给原因（原生 Toast），不发起播放、不弹网络错误。
+ */
+private fun unavailableBadge(track: Track): String? =
+    if (track.availability != Availability.OK) "暂不可用" else null
 
-private fun LibraryView.label(): String = when (this) {
-    LibraryView.ALL -> "全部"
-    LibraryView.ALBUM -> "专辑"
-    LibraryView.ARTIST -> "艺人"
-    LibraryView.UNAVAILABLE -> "不可用"
+/** 可用则执行动作；不可用只提示原因（`V0.4-03`）。 */
+private fun playOrExplain(
+    context: android.content.Context,
+    track: Track,
+    action: () -> Unit,
+) {
+    if (track.availability == Availability.OK) {
+        action()
+    } else {
+        Toast.makeText(context, TrackInfo.availabilityLabel(track), Toast.LENGTH_SHORT).show()
+    }
 }
 
-/**
- * §61.137 曲库页（`fragment_music_library`/as5 + `music_library_music_item`/cvi +
- * `music_library_music_info_layout`/cvg）：45dip 顶 tab（17sp，白色 1dip 指示器）+
- * 0.5dip 分割线 + 行（48dip 封面 / 16sp 歌名 / 12sp 歌手 · 时长，aer 行底）。
- * 原 FilterChip 计数改为分组副标题承载（竞品 tab 无计数）。
- */
+/** 带不可用拦截的飞牛曲目行（搜索结果等单行场景复用）。 */
 @Composable
-private fun LibraryScreen(
-    tracks: List<Track>,
-    onRescan: () -> Unit,
-    onRetry: () -> Unit,
-    onPlayTracks: (List<Track>, Int) -> Unit,
-    onAddToPlaylist: (Track) -> Unit,
-) {
-    var view by rememberSaveable { mutableIntStateOf(0) }
-    var expanded by remember { mutableStateOf(setOf<String>()) }
-    CompPage {
-        Column(Modifier.fillMaxSize().padding(top = 6.dp)) {
-            CompTabRow(
-                tabs = LibraryView.entries.map { it.label() },
-                selected = view,
-                onSelect = { view = it },
-                trailing = {
-                    Box(Modifier.fillMaxSize().clickable(onClick = onRescan), contentAlignment = Alignment.Center) {
-                        Text("↻", color = Comp.TextSecondary, fontSize = 17.sp)
-                    }
-                },
-            )
-            if (tracks.isEmpty()) {
-                CompEmpty("曲库为空：添加数据源后执行扫描")
-                return@Column
-            }
-            when (LibraryView.entries[view]) {
-                LibraryView.ALL -> LazyColumn(Modifier.fillMaxSize()) {
-                    items(tracks, key = { it.id.value }) { track ->
-                        CompTrackRow(
-                            title = track.title,
-                            subtitle = "${track.artist} · ${track.album}",
-                            coverRef = track.coverRef,
-                            onClick = {
-                                val idx = tracks.indexOfFirst { it.id == track.id }
-                                onPlayTracks(tracks, idx)
-                            },
-                            trailing = {
-                                Text(
-                                    "＋",
-                                    color = Comp.TextSecondary,
-                                    fontSize = 18.sp,
-                                    modifier = Modifier
-                                        .padding(start = 4.dp, end = 2.dp)
-                                        .clickable { onAddToPlaylist(track) },
-                                )
-                            },
-                        )
-                    }
-                }
-                LibraryView.ALBUM, LibraryView.ARTIST -> {
-                    val groups = when (LibraryView.entries[view]) {
-                        LibraryView.ALBUM -> tracks.groupBy { it.album.ifBlank { "未知专辑" } }
-                        else -> tracks.groupBy { it.artist.ifBlank { "未知艺人" } }
-                    }
-                    LazyColumn(Modifier.fillMaxSize()) {
-                        groups.forEach { (key, groupTracks) ->
-                            item(key = "group-" + key) {
-                                val open = key in expanded
-                                CompGroupTitle("$key · ${groupTracks.size}")
-                                Text(
-                                    if (open) "收起 ▾" else "展开 ▸",
-                                    color = Comp.TextHint,
-                                    fontSize = 11.sp,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .clickable {
-                                            expanded = if (open) expanded - key else expanded + key
-                                        }
-                                        .padding(horizontal = 16.dp, vertical = 4.dp),
-                                )
-                            }
-                            if (key in expanded) {
-                                items(groupTracks, key = { it.id.value + "-" + key }) { track ->
-                                    CompTrackRow(
-                                        title = track.title,
-                                        subtitle = track.artist,
-                                        coverRef = track.coverRef,
-                                        onClick = {
-                                            val idx = groupTracks.indexOfFirst { it.id == track.id }
-                                            onPlayTracks(groupTracks, idx)
-                                        },
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-                LibraryView.UNAVAILABLE -> {
-                    val bad = tracks.filter { it.availability != Availability.OK }
-                    LazyColumn(Modifier.fillMaxSize()) {
-                        if (bad.isEmpty()) {
-                            item { CompEmpty("没有不可用曲目") }
-                        } else {
-                            item {
-                                CompActionButton(
-                                    text = "重试不可用曲目",
-                                    onClick = onRetry,
-                                    modifier = Modifier.padding(16.dp),
-                                    heightDp = 32,
-                                )
-                            }
-                            items(bad, key = { it.id.value }) { track ->
-                                CompTrackRow(
-                                    title = track.title,
-                                    subtitle = "${track.availability} · "
-                                        + (track.sourceRef.path ?: track.sourceRef.url ?: ""),
-                                    coverRef = track.coverRef,
-                                    onClick = {},
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+private fun TrackRowGuarded(track: Track, onClick: () -> Unit) {
+    val context = LocalContext.current
+    FnTrackRow(
+        title = track.title,
+        subtitle = TrackInfo.listSubtitle(track),
+        coverRef = track.coverRef,
+        dimmed = track.availability != Availability.OK,
+        badge = unavailableBadge(track),
+        onClick = { playOrExplain(context, track, onClick) },
+    )
 }
 
 /** §61.137 数据源管理（`main_account` 行样式）：添加来源 / 维护 / 已添加 三组。 */
@@ -1015,51 +924,74 @@ private fun SourcesScreen(
     // §61.207：行点击 → 源操作面板（刷新此源 / 移除）——§61.152 的移除确认扩为双动作，
     // 「刷新此源」复用定向增量扫（§61.206/§61.204 同链）。
     var actionTarget by remember { mutableStateOf<Storage?>(null) }
-    CompPage {
-        Column(Modifier.fillMaxSize()) {
-            CompHeaderBar(title = "数据源管理", onBack = onBack)
-            CompGroupTitle("添加来源")
-            CompSettingsRow("⊕", "本地目录（SAF）", onClick = onAddSaf, rightHint = "无需读取权限")
-            CompSettingsRow("⊕", "从媒体库导入", onClick = onAddMediaStore, rightHint = "按动作申请权限")
-            CompSettingsRow("⊕", "添加 WebDAV 源", onClick = { showWebDav = true }, rightHint = "地址 + 认证")
-            // §61.151：STRM 独立源（委托已添加的数据源挂载 .strm 挂载点）。
-            CompSettingsRow("⊕", "添加 STRM 源", onClick = { showStrm = true }, rightHint = "委托数据源 + .strm")
-            // V0.2 §61.216：SFTP 数据源（凭据只在内存 Addition，不写日志）。
-            CompSettingsRow("⊕", "添加 SFTP 源", onClick = { showSftp = true }, rightHint = "SSH 文件传输")
-            CompSettingsRow("⊕", "添加 FTP 源", onClick = { showFtp = true }, rightHint = "文件传输协议")
-            CompGroupTitle("维护")
-            CompSettingsRow("↻", "全量重扫", onClick = onRescan)
-            CompSettingsRow("↻", "重试失败项", onClick = onRetry)
-            // §61.208（A4）：同 URL 双源折叠开关（scan.mergeDuplicates 消费方）——
-            // 点行切换，rightHint 反映状态（与本页 CompSettingsRow 体系一致）。
-            CompSettingsRow(
-                icon = "⧉",
-                title = "合并重复项",
-                onClick = { onMergeDuplicatesChanged(!mergeDuplicates) },
-                rightHint = if (mergeDuplicates) "同 URL 只显示一行" else "关闭",
-            )
-            CompGroupTitle("已添加 · ${storages.size}")
+    Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
+        FnPageHeader("音乐来源", onBack = onBack)
+        LazyColumn(Modifier.fillMaxSize()) {
+            item { FnSectionTitle("添加音乐来源") }
+            item {
+                FnGroupCard {
+                    FnRow(FnIcon.Add, "本地目录（SAF）", onAddSaf, value = "无需读取权限")
+                    FnRow(FnIcon.Add, "从媒体库导入", onAddMediaStore, value = "按动作申请权限", dividerAbove = true)
+                    FnRow(FnIcon.Add, "添加 WebDAV 源", { showWebDav = true }, value = "地址 + 认证", dividerAbove = true)
+                    // §61.151：STRM 独立源（复用已添加的来源挂载 .strm 挂载点）。
+                    FnRow(FnIcon.Add, "添加 STRM 源", { showStrm = true }, value = "复用已有来源 + .strm", dividerAbove = true)
+                    // V0.2 §61.216：SFTP 数据源（凭据只在内存 Addition，不写日志）。
+                    FnRow(FnIcon.Add, "添加 SFTP 源", { showSftp = true }, value = "SSH 文件传输", dividerAbove = true)
+                    FnRow(FnIcon.Add, "添加 FTP 源", { showFtp = true }, value = "文件传输协议", dividerAbove = true)
+                }
+            }
+            item { FnSectionTitle("维护") }
+            item {
+                FnGroupCard {
+                    FnRow(FnIcon.Refresh, "全量重扫", onRescan, value = "找出新增与恢复的文件")
+                    FnRow(FnIcon.Refresh, "重试失败项", onRetry, value = "只处理上次失败的", dividerAbove = true)
+                    // §61.208（A4）：同 URL 双源折叠开关（scan.mergeDuplicates 消费方）。
+                    FnRow(
+                        FnIcon.Duplicate, "合并重复项",
+                        { onMergeDuplicatesChanged(!mergeDuplicates) },
+                        value = if (mergeDuplicates) "同 URL 只显示一行" else "关闭",
+                        showChevron = false,
+                        dividerAbove = true,
+                        trailing = {
+                            FnSwitch(checked = mergeDuplicates, onChange = onMergeDuplicatesChanged)
+                        },
+                    )
+                }
+            }
+            item { FnSectionTitle("已添加 · ${storages.size}") }
             if (storages.isEmpty()) {
-                Text(
-                    "还没有数据源，点上方按钮添加本地目录或导入媒体库",
-                    color = Comp.TextSecondary,
-                    fontSize = 12.sp,
-                    modifier = Modifier.padding(horizontal = 32.dp, vertical = 12.dp),
-                )
+                item {
+                    Text(
+                        "还没有音乐来源，点上方按钮添加本地目录或导入媒体库",
+                        color = FnComp.TextHint,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(horizontal = 22.dp, vertical = 8.dp),
+                    )
+                }
             } else {
-                LazyColumn(Modifier.fillMaxSize()) {
-                    items(storages, key = { it.id }) { storage ->
-                        val status = if (storage.isWork) "正常" else "不可用 ${storage.errorMsg}"
-                        CompSettingsRow(
-                            icon = "☁",
-                            title = storage.remark.ifBlank { storage.mountPath },
+                items(storages, key = { it.id }) { storage ->
+                    // §61.275：错误码不进用户文案（07 码表 → 人话映射）
+                    val status = if (storage.isWork) {
+                        "正常"
+                    } else {
+                        "不可用 · " + ErrorText.human(storage.errorMsg)
+                    }
+                    FnGroupCard(Modifier.padding(bottom = 10.dp)) {
+                        FnRow(
+                            FnIcon.Sources,
+                            storage.remark.ifBlank { storage.mountPath },
                             // §61.207：点行 → 源操作面板（刷新此源 / 移除）。
-                            onClick = { actionTarget = storage },
-                            rightHint = "${storage.driverType} · $status",
+                            { actionTarget = storage },
+                            value = "${storage.driverType} · $status",
+                            // §61.275（B06）：失败源在列表里也必须一眼可辨（灰显 + 角标）
+                            trailing = if (storage.isWork) null else {
+                                { FnUnavailableBadge("不可用") }
+                            },
                         )
                     }
                 }
             }
+            item { Spacer(Modifier.height(28.dp)) }
         }
     }
     if (showWebDav) {
@@ -1104,14 +1036,16 @@ private fun SourcesScreen(
     }
     // §61.207：源操作面板（§61.152 移除确认扩为双动作）——「刷新此源」走定向增量扫。
     actionTarget?.let { target ->
-        CompSheetDialog(
+        FnSheetDialog(
             onDismiss = { actionTarget = null },
             title = target.remark.ifBlank { target.mountPath },
             content = {
                 Text(
-                    "${target.driverType} · ${if (target.isWork) "正常" else "不可用 ${target.errorMsg}"}\n" +
+                    "${target.driverType} · " + (
+                        if (target.isWork) "正常" else "不可用 · " + ErrorText.human(target.errorMsg)
+                        ) + "\n" +
                         "刷新只重扫该源（有变更的文件才重新处理）；移除标记曲目不可用，文件不删。",
-                    color = Comp.TextSecondary,
+                    color = FnComp.TextSecondary,
                     fontSize = 13.sp,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                 )
@@ -1141,15 +1075,15 @@ private fun WebDavDialog(
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var rootPath by remember { mutableStateOf("/music") }
-    CompSheetDialog(
+    FnSheetDialog(
         onDismiss = onDismiss,
         title = "添加 WebDAV 源",
         content = {
             Column {
-                CompDialogInput(url, { url = it }, hint = "服务器地址（含端口），如 https://nas:5006")
-                CompDialogInput(username, { username = it }, hint = "用户名（可空=匿名）")
-                CompDialogInput(password, { password = it }, hint = "密码（可空）", password = true)
-                CompDialogInput(rootPath, { rootPath = it }, hint = "远程路径（默认 /music）")
+                FnDialogInput(url, { url = it }, hint = "服务器地址（含端口），如 https://nas:5006")
+                FnDialogInput(username, { username = it }, hint = "用户名（可空=匿名）")
+                FnDialogInput(password, { password = it }, hint = "密码（可空）", password = true)
+                FnDialogInput(rootPath, { rootPath = it }, hint = "远程路径（默认 /music）")
             }
         },
         actions = listOf("添加" to {
@@ -1174,24 +1108,24 @@ private fun SftpDialog(
     var privateKey by remember { mutableStateOf("") }
     var passphrase by remember { mutableStateOf("") }
     var error by remember { mutableStateOf<String?>(null) }
-    CompSheetDialog(
+    FnSheetDialog(
         onDismiss = onDismiss,
         title = "添加 SFTP 源",
         content = {
             Column {
-                CompDialogInput(host, { host = it }, hint = "主机 IP / 域名，如 nas.local")
-                CompDialogInput(port, { port = it }, hint = "SSH 端口（默认 22）")
-                CompDialogInput(user, { user = it }, hint = "用户名")
-                CompDialogInput(pass, { pass = it }, hint = "密码 / 口令", password = true)
-                CompDialogInput(root, { root = it }, hint = "远程根目录（默认 /）")
+                FnDialogInput(host, { host = it }, hint = "主机 IP / 域名，如 nas.local")
+                FnDialogInput(port, { port = it }, hint = "SSH 端口（默认 22）")
+                FnDialogInput(user, { user = it }, hint = "用户名")
+                FnDialogInput(pass, { pass = it }, hint = "密码 / 口令", password = true)
+                FnDialogInput(root, { root = it }, hint = "远程根目录（默认 /）")
                 // §61.239：Ed25519 边界一手文案（§61.223 判读登记收口）——Android 无
                 // Ed25519 JCE provider，JSch 本地 Auth fail，推荐 RSA/EC 私钥口径。
-                CompDialogInput(privateKey, { privateKey = it }, hint = "PEM 私钥（可与密码二选一，换行用 \\n；推荐 RSA/EC）", password = true)
-                CompDialogInput(passphrase, { passphrase = it }, hint = "私钥口令（可空）", password = true)
+                FnDialogInput(privateKey, { privateKey = it }, hint = "PEM 私钥（可与密码二选一，换行用 \\n；推荐 RSA/EC）", password = true)
+                FnDialogInput(passphrase, { passphrase = it }, hint = "私钥口令（可空）", password = true)
                 if (error != null) {
                     Text(
                         error!!,
-                        color = Comp.AccentRed,
+                        color = FnComp.IconRed,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                     )
@@ -1230,18 +1164,18 @@ private fun FtpDialog(
     var pass by remember { mutableStateOf("") }
     var root by remember { mutableStateOf("/") }
     var error by remember { mutableStateOf<String?>(null) }
-    CompSheetDialog(
+    FnSheetDialog(
         onDismiss = onDismiss,
         title = "添加 FTP 源",
         content = {
             Column {
-                CompDialogInput(host, { host = it }, hint = "主机 IP / 域名，如 nas.local")
-                CompDialogInput(port, { port = it }, hint = "FTP 端口（默认 21）")
-                CompDialogInput(user, { user = it }, hint = "用户名（空 = 匿名）")
-                CompDialogInput(pass, { pass = it }, hint = "密码（匿名可空）", password = true)
-                CompDialogInput(root, { root = it }, hint = "远程根目录（默认 /）")
+                FnDialogInput(host, { host = it }, hint = "主机 IP / 域名，如 nas.local")
+                FnDialogInput(port, { port = it }, hint = "FTP 端口（默认 21）")
+                FnDialogInput(user, { user = it }, hint = "用户名（空 = 匿名）")
+                FnDialogInput(pass, { pass = it }, hint = "密码（匿名可空）", password = true)
+                FnDialogInput(root, { root = it }, hint = "远程根目录（默认 /）")
                 FnRow(
-                    glyph = "🔒",
+                    icon = FnIcon.Lock,
                     title = "FTPS（显式 TLS）",
                     onClick = { ssl = !ssl },
                     showChevron = false,
@@ -1250,7 +1184,7 @@ private fun FtpDialog(
                 if (error != null) {
                     Text(
                         error!!,
-                        color = Comp.AccentRed,
+                        color = FnComp.IconRed,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                     )
@@ -1298,13 +1232,13 @@ private fun EqDialog(
     else (1..count).map { "Band $it" }
     val values = bandValues
     val db = { v: Float -> "%.1f dB".format(v / 100f) }
-    CompSheetDialog(
+    FnSheetDialog(
         onDismiss = onDismiss,
         title = "均衡器",
         content = {
             Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                 FnRow(
-                    glyph = "≡",
+                    icon = FnIcon.Sliders,
                     title = "启用均衡器",
                     onClick = { on = !on },
                     showChevron = false,
@@ -1313,7 +1247,7 @@ private fun EqDialog(
                 if (on) {
                     Text(
                         "效果档位：$level",
-                        color = Comp.TextSecondary,
+                        color = FnComp.TextSecondary,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(vertical = 6.dp),
                     )
@@ -1326,7 +1260,7 @@ private fun EqDialog(
                     labels.forEachIndexed { i, label ->
                         Text(
                             label + " · " + db(values[i]),
-                            color = Comp.TextSecondary,
+                            color = FnComp.TextSecondary,
                             fontSize = 12.sp,
                             modifier = Modifier.padding(top = 4.dp),
                         )
@@ -1367,22 +1301,22 @@ private fun StrmDialog(
     var delegateId by remember { mutableStateOf("") }
     var paths by remember { mutableStateOf("") }
     val canAdd = delegateId.isNotBlank() && delegates.any { it.id == delegateId }
-    CompSheetDialog(
+    FnSheetDialog(
         onDismiss = onDismiss,
         title = "添加 STRM 源",
         content = {
             Column {
                 if (delegates.isEmpty()) {
                     Text(
-                        "还没有可委托的数据源——先添加本地目录 / WebDAV，再挂载其 .strm 挂载点",
-                        color = Comp.TextSecondary,
+                        "还没有可复用的来源——先添加本地目录 / WebDAV，再挂载其 .strm 挂载点",
+                        color = FnComp.TextSecondary,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                     )
                 } else {
                     Text(
-                        "委托数据源",
-                        color = Comp.TextSecondary,
+                        "复用来源",
+                        color = FnComp.TextSecondary,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                     )
@@ -1397,12 +1331,12 @@ private fun StrmDialog(
                         ) {
                             Text(
                                 if (selected) "●" else "○",
-                                color = if (selected) Comp.AccentRed else Comp.TextSecondary,
+                                color = if (selected) FnComp.IconRed else FnComp.TextSecondary,
                                 fontSize = 14.sp,
                             )
                             Text(
                                 " ${storage.remark.ifBlank { storage.mountPath }}（${storage.driverType}）",
-                                color = if (selected) Comp.TextPrimary else Comp.TextSecondary,
+                                color = if (selected) FnComp.TextPrimary else FnComp.TextSecondary,
                                 fontSize = 14.sp,
                             )
                         }
@@ -1414,19 +1348,19 @@ private fun StrmDialog(
                     onValueChange = { paths = it },
                     minLines = 3,
                     textStyle = androidx.compose.ui.text.TextStyle(
-                        color = Comp.TextPrimary,
+                        color = FnComp.TextPrimary,
                         fontSize = 14.sp,
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 8.dp)
-                        .background(Comp.RowBg)
+                        .background(FnComp.InputBg)
                         .padding(12.dp),
                     decorationBox = { inner ->
                         if (paths.isBlank()) {
                             Text(
                                 "挂载路径（可空=委托根目录；每行 目录 或 名:目录）",
-                                color = Comp.TextHint,
+                                color = FnComp.TextHint,
                                 fontSize = 14.sp,
                             )
                         }
@@ -1458,128 +1392,155 @@ private fun PlaylistsScreen(
     /** §61.192：次级页返回（回「更多」）。 */
     onBack: () -> Unit = {},
 ) {
+    val context = LocalContext.current
     var showCreate by remember { mutableStateOf(false) }
     var renameTarget by remember { mutableStateOf<String?>(null) }
     var expandedId by remember { mutableStateOf<String?>(null) }
     var deleteTarget by remember { mutableStateOf<Playlist?>(null) }
-    CompPage {
-        Column(Modifier.fillMaxSize()) {
-            CompHeaderBar(
-                title = "歌单",
-                onBack = onBack,
-                right = {
+    // §61.277（V0.4-04）：飞牛骨架重排——页头 + 分组标题 + 飞牛行；逻辑/回调零改动。
+    var opsTarget by remember { mutableStateOf<Playlist?>(null) }
+    Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
+        FnPageHeader(
+            "歌单",
+            onBack = onBack,
+            trailing = {
+                Box(
+                    Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .clickable { showCreate = true },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text("＋", color = FnComp.TextPrimary, fontSize = 20.sp)
+                }
+            },
+        )
+        LazyColumn(Modifier.fillMaxSize()) {
+            // V0.2 §61.220：智能歌单（实时规则，不落库、曲库变化即时生效）。
+            item { FnSectionTitle("智能歌单 · ${SmartPlaylist.PRESETS.size}（实时规则）") }
+            items(SmartPlaylist.PRESETS, key = { it.name }) { rule ->
+                val hits = SmartPlaylist.evaluate(allTracks, rule)
+                FnPlaylistRow(
+                    name = "✧ ${rule.name}",
+                    subtitle = "命中 ${hits.size} 首 · 点击播放",
+                    onClick = { if (hits.isNotEmpty()) onPlaySmart(hits) },
+                )
+            }
+            item { FnSectionTitle("创建的歌单 · ${playlists.size}") }
+            if (playlists.isEmpty()) {
+                item {
                     Text(
-                        "＋",
-                        color = Comp.TextPrimary,
-                        fontSize = 20.sp,
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .clickable { showCreate = true },
+                        "还没有自建歌单；在音乐库曲目行点「＋」即可创建并加入",
+                        color = FnComp.TextHint,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(horizontal = 22.dp, vertical = 8.dp),
                     )
-                },
-            )
-                LazyColumn(Modifier.fillMaxSize()) {
-                    // V0.2 §61.220：智能歌单（实时规则，不落库、曲库变化即时生效）。
-                    item { CompGroupTitle("智能歌单 · ${SmartPlaylist.PRESETS.size}（实时规则）") }
-                    items(SmartPlaylist.PRESETS, key = { it.name }) { rule ->
-                        val hits = SmartPlaylist.evaluate(allTracks, rule)
-                        CompPlaylistRow(
-                            name = "✧ ${rule.name}",
-                            subtitle = "命中 ${hits.size} 首 · 点击播放",
-                            onClick = { if (hits.isNotEmpty()) onPlaySmart(hits) },
-                        )
+                }
+            }
+            items(playlists, key = { it.id }) { playlist ->
+                // §61.140 首曲封面：每行一条 observeTracks 流取 firstOrNull() 的
+                // coverRef（复用 §61.138 LruCache；行离开组合即取消收集）。
+                val firstCoverRef by remember(playlist.id) {
+                    observeTracks(playlist.id).map { tracks ->
+                        tracks.firstOrNull()?.coverRef
                     }
-                    if (playlists.isEmpty()) {
-                        item { CompEmpty("还没有自建歌单；在曲库行点「＋」加入曲目时会自动创建") }
-                    }
-                    item { CompGroupTitle("创建的歌单 · ${playlists.size}") }
-                    items(playlists, key = { it.id }) { playlist ->
-                        // §61.140 首曲封面：每行一条 observeTracks 流取 firstOrNull() 的
-                        // coverRef（复用 §61.138 LruCache；行离开组合即取消收集）。
-                        val firstCoverRef by remember(playlist.id) {
-                            observeTracks(playlist.id).map { tracks ->
-                                tracks.firstOrNull()?.coverRef
-                            }
-                        }.collectAsState(initial = null)
-                        CompPlaylistRow(
-                            name = playlist.name,
-                            subtitle = "展开查看曲目",
-                            coverRef = firstCoverRef,
-                            onClick = {
-                                expandedId = if (expandedId == playlist.id) null else playlist.id
-                            },
-                            trailing = {
-                                Text(
-                                    "⋮",
-                                    color = Comp.TextSecondary,
-                                    fontSize = 18.sp,
-                                    modifier = Modifier
-                                        .padding(horizontal = 16.dp)
-                                        .clickable { onPlay(playlist.id) },
-                                )
-                            },
-                        )
-                        if (expandedId == playlist.id) {
-                            val tracks by observeTracks(playlist.id)
-                                .collectAsState(initial = emptyList())
-                            if (tracks.isEmpty()) {
-                                Text(
-                                    "（空歌单——在曲库行点「＋」加入）",
-                                    color = Comp.TextHint,
-                                    fontSize = 11.sp,
-                                    modifier = Modifier.padding(horizontal = 32.dp, vertical = 4.dp),
-                                )
-                            }
-                            tracks.forEachIndexed { index, track ->
-                                CompTrackRow(
-                                    title = "${index + 1}. ${track.title}",
-                                    subtitle = track.artist,
-                                    coverRef = track.coverRef,
-                                    onClick = {},
-                                    trailing = {
-                                        Row {
-                                            Text(
-                                                "↑",
-                                                color = Comp.TextSecondary,
-                                                fontSize = 14.sp,
-                                                modifier = Modifier
-                                                    .padding(4.dp)
-                                                    .clickable {
-                                                        if (index > 0) {
-                                                            onMoveItem(playlist.id, index, index - 1)
-                                                        }
-                                                    },
-                                            )
-                                            Text(
-                                                "↓",
-                                                color = Comp.TextSecondary,
-                                                fontSize = 14.sp,
-                                                modifier = Modifier
-                                                    .padding(4.dp)
-                                                    .clickable {
-                                                        if (index < tracks.size - 1) {
-                                                            onMoveItem(playlist.id, index, index + 1)
-                                                        }
-                                                    },
-                                            )
-                                            Text(
-                                                "✕",
-                                                color = Comp.TextSecondary,
-                                                fontSize = 14.sp,
-                                                modifier = Modifier
-                                                    .padding(4.dp)
-                                                    .clickable { onRemoveItem(playlist.id, index) },
-                                            )
-                                        }
-                                    },
-                                )
-                            }
+                }.collectAsState(initial = null)
+                FnPlaylistRow(
+                    name = playlist.name,
+                    subtitle = if (expandedId == playlist.id) "收起曲目" else "展开查看曲目",
+                    coverRef = firstCoverRef,
+                    onClick = {
+                        expandedId = if (expandedId == playlist.id) null else playlist.id
+                    },
+                    trailing = {
+                        Box(
+                            Modifier
+                                .size(40.dp)
+                                .clip(CircleShape)
+                                .clickable { opsTarget = playlist },
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Text("⋮", color = FnComp.TextSecondary, fontSize = 18.sp)
                         }
+                    },
+                )
+                if (expandedId == playlist.id) {
+                    val tracks by observeTracks(playlist.id)
+                        .collectAsState(initial = emptyList())
+                    if (tracks.isEmpty()) {
+                        Text(
+                            "（空歌单——在音乐库曲目行点「＋」加入）",
+                            color = FnComp.TextHint,
+                            fontSize = 11.sp,
+                            modifier = Modifier.padding(start = 78.dp, bottom = 6.dp),
+                        )
+                    }
+                    tracks.forEachIndexed { index, track ->
+                        FnTrackRow(
+                            title = "${index + 1}. ${track.title}",
+                            // §61.275：艺人/专辑缺失不渲染空段
+                            subtitle = TrackInfo.listSubtitle(track),
+                            coverRef = track.coverRef,
+                            dimmed = track.availability != Availability.OK,
+                            badge = unavailableBadge(track),
+                            onClick = { playOrExplain(context, track) {} },
+                            trailing = {
+                                Row {
+                                    Text(
+                                        "↑",
+                                        color = FnComp.TextSecondary,
+                                        fontSize = 14.sp,
+                                        modifier = Modifier
+                                            .padding(6.dp)
+                                            .clickable {
+                                                if (index > 0) {
+                                                    onMoveItem(playlist.id, index, index - 1)
+                                                }
+                                            },
+                                    )
+                                    Text(
+                                        "↓",
+                                        color = FnComp.TextSecondary,
+                                        fontSize = 14.sp,
+                                        modifier = Modifier
+                                            .padding(6.dp)
+                                            .clickable {
+                                                if (index < tracks.size - 1) {
+                                                    onMoveItem(playlist.id, index, index + 1)
+                                                }
+                                            },
+                                    )
+                                    Text(
+                                        "✕",
+                                        color = FnComp.TextSecondary,
+                                        fontSize = 14.sp,
+                                        modifier = Modifier
+                                            .padding(6.dp)
+                                            .clickable { onRemoveItem(playlist.id, index) },
+                                    )
+                                }
+                            },
+                        )
                     }
                 }
+            }
+            item { Spacer(Modifier.height(28.dp)) }
         }
     }
-    // 歌单 ⋮ → more-ops 面板（播放全部 / 重命名 / 删除）。
+    // 歌单 ⋮ → 操作面板（播放全部 / 重命名 / 删除）。
+    opsTarget?.let { target ->
+        FnSheetDialog(
+            onDismiss = { opsTarget = null },
+            title = target.name,
+            actions = listOf(
+                "播放全部" to { opsTarget = null; onPlay(target.id) },
+                "重命名" to { opsTarget = null; renameTarget = target.id },
+                "删除歌单" to { opsTarget = null; deleteTarget = target },
+                "取消" to { opsTarget = null },
+            ),
+            destructiveIndexOf = 2,
+        )
+    }
     if (showCreate) {
         CreatePlaylistSheet(
             title = "新建歌单",
@@ -1609,7 +1570,7 @@ private fun PlaylistsScreen(
     }
     // §61.121：删除确认（此前误删无确认，M3 挂账 UX 收口）。
     deleteTarget?.let { target ->
-        CompSheetDialog(
+        FnSheetDialog(
             onDismiss = { deleteTarget = null },
             title = "删除歌单「${target.name}」？歌单曲目引用将一并移除；该操作不可撤销。",
             actions = listOf(
@@ -1624,7 +1585,7 @@ private fun PlaylistsScreen(
     }
 }
 
-/** 建单/重命名共用输入面板（b5y 底板 + CompDialogInput）。 */
+/** 建单/重命名共用输入面板（飞牛卡片弹层 + FnDialogInput，§61.277）。 */
 @Composable
 private fun CreatePlaylistSheet(
     title: String,
@@ -1635,10 +1596,10 @@ private fun CreatePlaylistSheet(
     onDismiss: () -> Unit,
 ) {
     var text by remember(title) { mutableStateOf(initial) }
-    CompSheetDialog(
+    FnSheetDialog(
         onDismiss = onDismiss,
         title = title,
-        content = { CompDialogInput(text, { text = it }, hint = hint) },
+        content = { FnDialogInput(text, { text = it }, hint = hint) },
         actions = listOf(confirmLabel to { onConfirm(text) }),
     )
 }
@@ -1653,7 +1614,7 @@ private fun AddToPlaylistSheet(
     onDismiss: () -> Unit,
 ) {
     var newName by remember { mutableStateOf("") }
-    CompSheetDialog(
+    FnSheetDialog(
         onDismiss = onDismiss,
         title = "加入歌单：$trackTitle",
         content = {
@@ -1661,7 +1622,7 @@ private fun AddToPlaylistSheet(
                 if (playlists.isEmpty()) {
                     Text(
                         "还没有歌单，先新建一个",
-                        color = Comp.TextSecondary,
+                        color = FnComp.TextSecondary,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                     )
@@ -1675,10 +1636,10 @@ private fun AddToPlaylistSheet(
                             .padding(horizontal = 16.dp),
                         contentAlignment = Alignment.CenterStart,
                     ) {
-                        Text(pl.name, color = Comp.TextPrimary, fontSize = 16.sp, maxLines = 1)
+                        Text(pl.name, color = FnComp.TextPrimary, fontSize = 16.sp, maxLines = 1)
                     }
                 }
-                CompDialogInput(newName, { newName = it }, hint = "新歌单名")
+                FnDialogInput(newName, { newName = it }, hint = "新歌单名")
             }
         },
         actions = listOf("建并加入" to {
@@ -1756,12 +1717,8 @@ private fun SearchScreen(
                 itemsIndexed(results, key = { _, t -> t.id.value }) { index, track ->
                     // §61.175：修旧实现的死链——原 `onClick = {}` 点了没反应；
                     // 现在点结果即从该首起播（替换业务队列，口径同 §61.113 分组播放）。
-                    FnTrackRow(
-                        title = track.title,
-                        subtitle = "${track.artist} · ${track.album}",
-                        coverRef = track.coverRef,
-                        onClick = { onPlayTracks(results, index) },
-                    )
+                    // §61.276（V0.4-03）：不可用曲目灰显 + 点击原因（不报网络错误）
+                    TrackRowGuarded(track) { onPlayTracks(results, index) }
                 }
             }
         }
@@ -1777,24 +1734,29 @@ private fun QueueScreen(
     /** §61.192：次级页返回（回「更多」）。 */
     onBack: () -> Unit = {},
 ) {
-    CompPage {
-        Column(Modifier.fillMaxSize()) {
-            CompHeaderBar(title = "播放列表 · ${queue.size}", onBack = onBack)
-            if (queue.isEmpty()) {
-                CompEmpty("队列为空（播放后由 QueueRepository.observe() 提供）")
-            } else {
-                LazyColumn(Modifier.fillMaxSize()) {
-                    items(queue, key = { "${it.queueId}-${it.position}" }) { item ->
-                        val track = titles[item.trackId.value]
-                        CompTrackRow(
-                            title = track?.title ?: item.trackId.value,
-                            subtitle = listOfNotNull(track?.artist, track?.album)
-                                .joinToString(" · ").ifBlank { "来源：${item.sourceRef}" },
-                            coverRef = track?.coverRef,
-                            onClick = { onJump(item.position) },
-                            coverGlyph = "${item.position + 1}",
-                        )
-                    }
+    val context = LocalContext.current
+    Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
+        FnPageHeader("播放列表 · ${queue.size}", onBack = onBack)
+        if (queue.isEmpty()) {
+            FnEmpty("队列为空，播放后会列出接下来的曲目", Modifier.weight(1f))
+        } else {
+            LazyColumn(Modifier.fillMaxSize()) {
+                items(queue, key = { "${it.queueId}-${it.position}" }) { item ->
+                    val track = titles[item.trackId.value]
+                    FnTrackRow(
+                        title = track?.title ?: item.trackId.value,
+                        // §61.275：已知字段才显示（含占位值过滤），此处只保留来源兜底。
+                        subtitle = track?.let { TrackInfo.listSubtitle(it) }
+                            .orEmpty().ifBlank { "来源：${item.sourceRef}" },
+                        coverRef = track?.coverRef,
+                        glyph = "${item.position + 1}",
+                        dimmed = track != null && track.availability != Availability.OK,
+                        badge = track?.let { unavailableBadge(it) },
+                        onClick = {
+                            // §61.276：队列里的不可用曲目可保留，跳转前给原因
+                            if (track != null) playOrExplain(context, track) { onJump(item.position) }
+                        },
+                    )
                 }
             }
         }
@@ -1804,6 +1766,7 @@ private fun QueueScreen(
 /**
  * §61.130（M5 我的音乐）：收藏 + 最近播放两段（FavoriteRepo/HistoryRepo 全收口）。
  * §61.137 视觉：44dip 页头 + cvn 分组标题 + cvg 曲目行。
+ * §61.277（V0.4-04）：页头/标题/行改飞牛骨架。
  */
 @Composable
 private fun MyMusicScreen(
@@ -1812,6 +1775,7 @@ private fun MyMusicScreen(
     onPlayTracks: (List<Track>, Int) -> Unit,
     onBack: () -> Unit,
 ) {
+    val context = LocalContext.current
     val favorites by bridge.observeFavorites().collectAsState(initial = emptySet())
     val history by bridge.observeHistory().collectAsState(initial = emptyList())
     val favTracks = allTracks.filter { it.id in favorites }
@@ -1820,7 +1784,7 @@ private fun MyMusicScreen(
         Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
             Spacer(Modifier.height(FnBaseline.HeaderToCardGapDp.dp))
             FnStatCard(
-                glyph = "♥",
+                icon = FnIcon.Favorite,
                 title = "我的音乐",
                 primary = "${favTracks.size} 收藏",
                 secondary = "最近播放 ${history.size} 首 · 全部来自本地曲库",
@@ -1836,10 +1800,12 @@ private fun MyMusicScreen(
                     favTracks.forEachIndexed { index, track ->
                         FnTrackRow(
                             title = track.title,
-                            subtitle = track.artist,
+                            subtitle = TrackInfo.listSubtitle(track),
                             coverRef = track.coverRef,
                             glyph = "♥",
-                            onClick = { onPlayTracks(favTracks, index) },
+                            dimmed = track.availability != Availability.OK,
+                            badge = unavailableBadge(track),
+                            onClick = { playOrExplain(context, track) { onPlayTracks(favTracks, index) } },
                         )
                     }
                 }
@@ -1851,10 +1817,12 @@ private fun MyMusicScreen(
                     history.forEachIndexed { index, track ->
                         FnTrackRow(
                             title = track.title,
-                            subtitle = track.artist,
+                            subtitle = TrackInfo.listSubtitle(track),
                             coverRef = track.coverRef,
                             glyph = "↺",
-                            onClick = { onPlayTracks(history, index) },
+                            dimmed = track.availability != Availability.OK,
+                            badge = unavailableBadge(track),
+                            onClick = { playOrExplain(context, track) { onPlayTracks(history, index) } },
                         )
                     }
                 }
@@ -1917,7 +1885,7 @@ private fun SettingsScreen(
             Spacer(Modifier.height(FnBaseline.HeaderToCardGapDp.dp))
             // 卡1：本地曲库统计（替代飞牛 admin 账号卡，spec §2 #2）——不造用户信息
             FnStatCard(
-                glyph = "♫",
+                icon = FnIcon.Songs,
                 title = "本地曲库",
                 primary = "$trackCount 首",
                 secondary = "$sourceCount 个数据源",
@@ -1926,7 +1894,7 @@ private fun SettingsScreen(
             // 卡2 播放（人话标签；§61.188 用户「罗里吧嗦」——砍技术值与内部行话）
             FnGroupCard {
                 FnRow(
-                    glyph = "⇅",
+                    icon = FnIcon.Network,
                     title = "移动网络播放",
                     onClick = { onWifiOnlyChanged(!wifiOnly) },
                     value = if (wifiOnly) "仅 WiFi 下播放" else "允许",
@@ -1935,14 +1903,14 @@ private fun SettingsScreen(
                 )
                 FnRow(
                     dividerAbove = true,
-                    glyph = "⌾",
-                    title = "输出设备",
+                    icon = FnIcon.Output,
+                    title = "播放到",
                     onClick = onOpenOutput,
-                    value = "本机 / DLNA 投屏",
+                    value = "本机 / 投屏",
                 )
                 FnRow(
                     dividerAbove = true,
-                    glyph = "✕",
+                    icon = FnIcon.Trash,
                     title = "清理播放缓存",
                     onClick = {
                         onClearCache()
@@ -1957,8 +1925,8 @@ private fun SettingsScreen(
                 ) {
                     FnRow(
                         dividerAbove = true,
-                        glyph = "⚑",
-                        title = "后台播放保活（MIUI）",
+                        icon = FnIcon.Power,
+                        title = "后台播放不中断（MIUI）",
                         onClick = onOpenAutostartSettings,
                         value = "去开启自启动",
                     )
@@ -1967,39 +1935,49 @@ private fun SettingsScreen(
             if (com.example.cloudmusic.MiuiAutostartGuide
                 .shouldShow(android.os.Build.MANUFACTURER)
             ) {
-                Text(
-                    com.example.cloudmusic.MiuiAutostartGuide.GUIDE_TEXT,
-                    color = FnComp.TextSecondary,
-                    fontSize = 11.sp,
-                    modifier = Modifier.padding(horizontal = 22.dp, vertical = 8.dp),
-                )
+                // §61.275（V0.4-02）：说明块加边界样式——与卡片行区分，长文不再像「行内小字」
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = FnBaseline.PagePaddingDp.dp, vertical = 8.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(FnComp.CardBg)
+                        .padding(horizontal = 14.dp, vertical = 12.dp),
+                ) {
+                    Text(
+                        com.example.cloudmusic.MiuiAutostartGuide.GUIDE_TEXT,
+                        color = FnComp.TextSecondary,
+                        fontSize = 12.sp,
+                        lineHeight = 18.sp,
+                    )
+                }
             }
             Spacer(Modifier.height(FnBaseline.GroupGapDp.dp))
             // 卡3 曲库（飞牛「音乐库管理」映射：spec §2 #7）
             FnGroupCard {
                 FnRow(
-                    glyph = "↻",
-                    title = "重新扫描曲库",
+                    icon = FnIcon.Refresh,
+                    title = "重新扫描音乐库",
                     onClick = onRescan,
                     value = "找出新增与恢复的文件",
                 )
                 FnRow(
                     dividerAbove = true,
-                    glyph = "☁",
-                    title = "数据源管理",
+                    icon = FnIcon.Sources,
+                    title = "音乐来源",
                     onClick = onOpenSources,
                     value = "添加或移除音乐来源",
                 )
                 FnRow(
                     dividerAbove = true,
-                    glyph = "◎",
+                    icon = FnIcon.FolderOff,
                     title = "忽略目录",
                     onClick = { showIgnoreDirs = true },
                     value = if (scanIgnoreDirs.isEmpty()) "未设置" else "${scanIgnoreDirs.size} 项",
                 )
                 FnRow(
                     dividerAbove = true,
-                    glyph = "◎",
+                    icon = FnIcon.Gauge,
                     title = "扫描速度限制",
                     onClick = { showScanDuration = true },
                     value = "每次至少 ${scanMinDurationMs / 1000} 秒",
@@ -2009,7 +1987,7 @@ private fun SettingsScreen(
             // 卡4 音质（ReplayGain 人话化）
             FnGroupCard {
                 FnRow(
-                    glyph = "⚖",
+                    icon = FnIcon.Level,
                     title = "音量均衡分析",
                     onClick = {
                         onAnalyzeReplayGain()
@@ -2019,7 +1997,7 @@ private fun SettingsScreen(
                 )
                 FnRow(
                     dividerAbove = true,
-                    glyph = "▤",
+                    icon = FnIcon.Image,
                     title = "刮削缺失封面",
                     onClick = {
                         onScrapeCovers()
@@ -2029,7 +2007,7 @@ private fun SettingsScreen(
                 )
                 FnRow(
                     dividerAbove = true,
-                    glyph = "⧉",
+                    icon = FnIcon.Duplicate,
                     title = "检测重复曲目",
                     onClick = {
                         onFindDuplicates()
@@ -2040,7 +2018,7 @@ private fun SettingsScreen(
                 )
                 FnRow(
                     dividerAbove = true,
-                    glyph = "◐",
+                    icon = FnIcon.Contrast,
                     title = "主题",
                     onClick = { showTheme = true },
                     value = when (themeMode) {
@@ -2052,7 +2030,7 @@ private fun SettingsScreen(
                 )
                 FnRow(
                     dividerAbove = true,
-                    glyph = "∿",
+                    icon = FnIcon.Wave,
                     title = "淡入淡出",
                     onClick = { onFadeEnabledChanged(!fadeEnabled) },
                     value = if (fadeEnabled) "开（起播渐入 / 分轨渐出）" else "关",
@@ -2061,7 +2039,7 @@ private fun SettingsScreen(
                 )
                 FnRow(
                     dividerAbove = true,
-                    glyph = "≡",
+                    icon = FnIcon.Sliders,
                     title = "均衡器",
                     onClick = { showEq = true },
                     value = if (eqEnabled) "开 · 档位 " + eqEffectLevel else "关",
@@ -2079,7 +2057,7 @@ private fun SettingsScreen(
         }
     }
     if (showTheme) {
-        CompSheetDialog(
+        FnSheetDialog(
             onDismiss = { showTheme = false },
             title = "主题",
             actions = listOf(
@@ -2095,7 +2073,7 @@ private fun SettingsScreen(
     }
     if (showDupReport) {
         val report by duplicateReport.collectAsState()
-        CompSheetDialog(
+        FnSheetDialog(
             onDismiss = {
                 showDupReport = false
                 onClearDuplicates()
@@ -2108,12 +2086,12 @@ private fun SettingsScreen(
                     when {
                         current == null -> Text(
                             "尚未检测或检测中…（重新点「检测重复曲目」刷新）",
-                            color = Comp.TextSecondary, fontSize = 13.sp,
+                            color = FnComp.TextSecondary, fontSize = 13.sp,
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
                         )
                         current.groups.isEmpty() -> Text(
                             "未发现疑似重复（曲库 ${current.scanned} 首）",
-                            color = Comp.TextSecondary, fontSize = 13.sp,
+                            color = FnComp.TextSecondary, fontSize = 13.sp,
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
                         )
                         else -> {
@@ -2121,19 +2099,19 @@ private fun SettingsScreen(
                                 Text(
                                     "✓ 精确确认 ${current.confirmed.size} 组（内容 SHA-256 一致；指纹缓存 ${current.memoSize}/${current.candidates}" +
                                         if (current.candidates > current.memoSize) "，再次检测继续推进剩余候选）" else "）",
-                                    color = Comp.TextPrimary, fontSize = 13.sp,
+                                    color = FnComp.TextPrimary, fontSize = 13.sp,
                                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                                 )
                                 current.confirmed.forEach { group ->
                                     Text(
                                         "${group.title} · ${group.artist}（${group.items.size} 份）",
-                                        color = Comp.TextPrimary, fontSize = 14.sp,
+                                        color = FnComp.TextPrimary, fontSize = 14.sp,
                                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                                     )
                                     group.items.forEach { t ->
                                         Text(
                                             "  · ${t.sourceRef.path}（${t.sourceType.name}）",
-                                            color = Comp.TextHint, fontSize = 11.sp,
+                                            color = FnComp.TextHint, fontSize = 11.sp,
                                             modifier = Modifier.padding(horizontal = 16.dp),
                                         )
                                     }
@@ -2142,19 +2120,19 @@ private fun SettingsScreen(
                             if (current.fingerprintConfirmed.isNotEmpty()) {
                                 Text(
                                     "≈ 声纹疑似同源 ${current.fingerprintConfirmed.size} 组（频谱指纹匹配，可能为转码拷贝；已解码 ${current.fingerprintedCount} 个候选）",
-                                    color = Comp.TextPrimary, fontSize = 13.sp,
+                                    color = FnComp.TextPrimary, fontSize = 13.sp,
                                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                                 )
                                 current.fingerprintConfirmed.forEach { group ->
                                     Text(
                                         "${group.title} · ${group.artist}（${group.items.size} 份）",
-                                        color = Comp.TextPrimary, fontSize = 14.sp,
+                                        color = FnComp.TextPrimary, fontSize = 14.sp,
                                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                                     )
                                     group.items.forEach { t ->
                                         Text(
                                             "  · ${t.sourceRef.path}（${t.sourceType.name}）",
-                                            color = Comp.TextHint, fontSize = 11.sp,
+                                            color = FnComp.TextHint, fontSize = 11.sp,
                                             modifier = Modifier.padding(horizontal = 16.dp),
                                         )
                                     }
@@ -2162,19 +2140,19 @@ private fun SettingsScreen(
                             }
                             Text(
                                 "疑似重复 ${current.groups.size} 组（时长 ±1s 同键聚合；是否重复由你判断，本应用只提示不删除）：",
-                                color = Comp.TextSecondary, fontSize = 12.sp,
+                                color = FnComp.TextSecondary, fontSize = 12.sp,
                                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                             )
                             current.groups.forEach { group ->
                                 Text(
                                     "${group.title} · ${group.artist}（${group.items.size} 份）",
-                                    color = Comp.TextPrimary, fontSize = 14.sp,
+                                    color = FnComp.TextPrimary, fontSize = 14.sp,
                                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                                 )
                                 group.items.forEach { t ->
                                     Text(
                                         "  · ${t.sourceRef.path}（${t.sourceType.name}，${t.durationMs / 1000}s）",
-                                        color = Comp.TextHint, fontSize = 11.sp,
+                                        color = FnComp.TextHint, fontSize = 11.sp,
                                         modifier = Modifier.padding(horizontal = 16.dp),
                                     )
                                 }
@@ -2196,7 +2174,7 @@ private fun SettingsScreen(
         )
     }
     if (showScanDuration) {
-        CompSheetDialog(
+        FnSheetDialog(
             onDismiss = { showScanDuration = false },
             title = "扫描最短时长（下次扫描生效）",
             actions = listOf(5_000L to "5 秒", 10_000L to "10 秒", 30_000L to "30 秒", 60_000L to "60 秒")
@@ -2228,10 +2206,10 @@ private fun IgnoreDirsSheet(
     onDismiss: () -> Unit,
 ) {
     var text by remember { mutableStateOf(current.joinToString(", ")) }
-    CompSheetDialog(
+    FnSheetDialog(
         onDismiss = onDismiss,
         title = "忽略目录（逗号分隔，下次扫描生效）",
-        content = { CompDialogInput(text, { text = it }, hint = "如：System Volume Information, .Trash") },
+        content = { FnDialogInput(text, { text = it }, hint = "如：System Volume Information, .Trash") },
         actions = listOf(
             "应用" to {
                 onApply(
@@ -2256,31 +2234,32 @@ private fun OutputDialog(
     onOpenManualDmr: () -> Unit = {},
     onDismiss: () -> Unit,
 ) {
-    CompSheetDialog(
+    FnSheetDialog(
         onDismiss = onDismiss,
-        title = "输出设备 · 当前：${if (state.activeOutput == ActiveOutput.LOCAL) "本机" else "DLNA"}",
+        title = "播放到 · 当前：${if (state.activeOutput == ActiveOutput.LOCAL) "本机" else "投屏"}",
         content = {
             Column {
+                // §61.275（V0.4-02 文案人话化）：原段落是开发者口径（§ 编号 + 「推流 /
+                // 会话引擎 / 并列输出」），用户读不懂；改为白话说明，信息量不减。
                 Text(
-                    "切换 / 推流已接线（03-08 §10.1），本机静音随切换联动（§14 #9 成对）；" +
-                        "切歌保持与断连回落已由会话引擎接管。" +
-                        "蓝牙仅显示连接状态、不作为并列输出（03-10 §11 #8）。",
-                    color = Comp.TextHint,
+                    "选择声音从哪里播放。投屏后手机本机静音，断开或切歌时会自动回到本机。" +
+                        "蓝牙设备请在系统设置里连接。",
+                    color = FnComp.TextHint,
                     fontSize = 10.sp,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                 )
                 if (state.routeHint.isNotBlank()) {
                     Text(
                         "状态提示：${state.routeHint}",
-                        color = Comp.TextSecondary,
+                        color = FnComp.TextSecondary,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                     )
                 }
                 if (devices.isNotEmpty()) {
                     Text(
-                        "发现 ${devices.size} 台 DLNA 设备（点选直接投屏）：",
-                        color = Comp.TextSecondary,
+                        "发现 ${devices.size} 台可投屏设备（点选直接投屏）：",
+                        color = FnComp.TextSecondary,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                     )
@@ -2288,8 +2267,8 @@ private fun OutputDialog(
                 // §61.229：投屏态 DMR 音量滑杆（RenderingControl Master channel）。
                 if (state.activeOutput == ActiveOutput.DLNA && devices.isNotEmpty()) {
                     Text(
-                        "DMR 音量：$castVolume",
-                        color = Comp.TextSecondary,
+                        "投屏音量：$castVolume",
+                        color = FnComp.TextSecondary,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                     )
@@ -2311,9 +2290,9 @@ private fun OutputDialog(
                 val badge = if (device.usn == lastDmrUsn) " · 上次投屏" else ""
                 add("${device.friendlyName} · $kind$badge" to { onPickDmr(device) })
             }
-            add("DLNA · 自动选择（记住设备优先）" to { onOutputSelected(ActiveOutput.DLNA) })
-            add("重新扫描 DLNA 设备" to onScanDlna)
-            add("手动指定 DMR（IP / 描述地址）" to onOpenManualDmr)
+            add("自动选择投屏设备（记住上次）" to { onOutputSelected(ActiveOutput.DLNA) })
+            add("重新搜索投屏设备" to onScanDlna)
+            add("手动添加投屏设备（IP / 端口）" to onOpenManualDmr)
             add("关闭" to onDismiss)
         },
     )
@@ -2340,19 +2319,19 @@ private fun ManualDmrDialog(
     var localError by remember { mutableStateOf<String?>(null) }
     val found = result?.getOrNull()
     val probeError = result?.exceptionOrNull()?.message
-    CompSheetDialog(
+    FnSheetDialog(
         onDismiss = onDismiss,
-        title = "手动指定 DMR（03-08 §4.2）",
+        title = "手动添加投屏设备",
         content = {
             Column {
-                CompDialogInput(host, { host = it }, hint = "设备 IP / 主机名，如 192.168.1.5")
-                CompDialogInput(port, { port = it }, hint = "端口（可空，默认试 8200 / 49152）")
-                CompDialogInput(descUrl, { descUrl = it }, hint = "描述地址（可空，填则仅试它）")
-                CompDialogInput(label, { label = it }, hint = "备注名（可空）")
+                FnDialogInput(host, { host = it }, hint = "设备 IP / 主机名，如 192.168.1.5")
+                FnDialogInput(port, { port = it }, hint = "端口（可空，默认试 8200 / 49152）")
+                FnDialogInput(descUrl, { descUrl = it }, hint = "设备说明地址（可空，填了只试它）")
+                FnDialogInput(label, { label = it }, hint = "备注名（可空）")
                 if (localError != null || probeError != null) {
                     Text(
                         localError?.let { "请检查输入：$it" } ?: "探测失败：$probeError",
-                        color = Comp.AccentRed,
+                        color = FnComp.IconRed,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                     )
@@ -2360,7 +2339,7 @@ private fun ManualDmrDialog(
                 if (found != null) {
                     Text(
                         "已找到：${found.friendlyName}（${found.baseUrl}）",
-                        color = Comp.TextSecondary,
+                        color = FnComp.TextSecondary,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                     )

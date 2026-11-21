@@ -140,7 +140,7 @@ class MainActivity : ComponentActivity() {
                 dlnaDevices.value = DmrDeviceSelector.ranked(dlnaDevices.value + device, rememberedDmrUsn.value)
                 output.updateRouteHint("手动设备已找到：${device.friendlyName}")
             }.onFailure {
-                output.updateRouteHint("手动 DMR 探测失败：${it.message}")
+                output.updateRouteHint("手动添加投屏设备失败：${it.message}")
             }
         }
     }
@@ -148,15 +148,15 @@ class MainActivity : ComponentActivity() {
     /** §61.200：打开输出弹窗 / 点「重新扫描」时刷新设备列表（发现结果经选择器排序去重）。 */
     private fun refreshDlnaDevices() {
         lifecycleScope.launch {
-            output.updateRouteHint("正在发现局域网 DMR…")
+            output.updateRouteHint("正在查找可投屏设备…")
             val found = runCatching { castCoordinator.discover() }.getOrElse { emptyList() }
             dlnaDevices.value = DmrDeviceSelector.ranked(found, rememberedDmrUsn.value)
             if (found.isEmpty()) {
                 // §61.241：上次投屏设备不在线 → 如实提示（不伪造在线态）。
                 val hint = if (found.isEmpty() && rememberedDmrUsn.value != null) {
-                    "未发现 DLNA 设备（上次投屏的「${settingsStore.current().dlna.lastDmrName}」不在线；保持本机播放）"
+                    "找不到上次投屏的「${settingsStore.current().dlna.lastDmrName}」，继续用本机播放"
                 } else {
-                    "未发现 DLNA 设备（保持本机播放）"
+                    "未找到可投屏设备（继续用本机播放）"
                 }
                 output.updateRouteHint(hint)
             }
@@ -432,7 +432,7 @@ class MainActivity : ComponentActivity() {
                                 storages.remove(id)
                             }.onSuccess {
                                 runtime.rescanAll()
-                                Toast.makeText(this@MainActivity, "数据源已移除", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@MainActivity, "音乐来源已移除", Toast.LENGTH_SHORT).show()
                             }.onFailure { e ->
                                 Toast.makeText(this@MainActivity, "移除失败: ${e.message}", Toast.LENGTH_SHORT).show()
                             }
@@ -504,7 +504,7 @@ class MainActivity : ComponentActivity() {
                                     val device = DmrDeviceSelector.pick(dlnaDevices.value, rememberedDmrUsn.value)
                                     if (device == null) {
                                         refreshDlnaDevices()
-                                        output.updateRouteHint("未发现 DLNA 设备（保持本机播放）")
+                                        output.updateRouteHint("未找到可投屏设备（继续用本机播放）")
                                         return@launch
                                     }
                                     castTo(device)

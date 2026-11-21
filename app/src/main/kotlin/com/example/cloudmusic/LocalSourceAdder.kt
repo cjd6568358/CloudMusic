@@ -62,7 +62,7 @@ class LocalSourceAdder(
                 )
                 return@request
             }
-            add(LocalSourceSpec.mediaStoreAddition(), "已添加媒体库数据源，开始全量重扫")
+            add(LocalSourceSpec.mediaStoreAddition(), "已添加音乐来源，开始扫描")
         }
     }
 
@@ -73,7 +73,7 @@ class LocalSourceAdder(
                 storages.add(LocalSourceSpec.DRIVER_TYPE, additionJson)
                 runtime.rescanAll()
             }
-            toast(outcome.fold({ okMessage }, { "添加数据源失败：${it.message}" }))
+            toast(outcome.fold({ okMessage }, { "添加音乐来源失败：${it.message}" }))
         }
     }
 

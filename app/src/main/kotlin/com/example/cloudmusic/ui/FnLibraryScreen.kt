@@ -1,8 +1,8 @@
 package com.example.cloudmusic.ui
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,346 +16,408 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import android.widget.Toast
+import com.example.cloudmusic.model.Availability
+import com.example.cloudmusic.model.SourceType
 import com.example.cloudmusic.model.Track
+import com.example.cloudmusic.model.TrackInfo
 
 /**
  * 飞牛音乐风格「音乐库」页（基准 `161526_feiniu.png`；辨别清单
  * `analysis/l3-reference/feiniu-ui-adaptation-spec.md`）。
  *
  * §61.188（用户「中间的音乐库和飞牛的对吗」——对齐基准重排）：
- * - 基准形态 = **纵向行式分组卡**（图标左 24dp 红色线性图标 + 15sp 标签右 + 行间分隔线），
- *   不是横向图标瓦片——本批把横向字形瓦片（♫♬▣♯）重排为基准形态；
- * - 顶栏 = 居中加粗「音乐库」+ 右上搜索圆钮（飞牛口径），替换左对齐大标题 + ⌕ 字形；
+ * - 基准形态 = 纵向行式分组卡（图标左 + 标签右 + 行间分隔线）；顶栏居中标题 + 右上圆钮；
  * - 图标 = Canvas 红色线性绘制（飞牛无导出素材，按基准截图形状自绘，不造位图）；
+ *   图标本体自 §61.278 起统一收在 `FnIcons.kt`（唯一图标真相源，见 03-10 §8 映射表）；
  * - **辨别铁律**：不画返回箭头（独立 App 无宿主壳层）；「已下载」无对应实现，剔除不造。
+ *
+ * **§61.274（V0.4-01 入口合并，拍板 §61.272 #4）**：本页吸收原 `tab7` 曲库管理
+ * （`LibraryScreen`）的全部功能——「＋」入歌单、不可用视图 + 重试、重扫入口——
+ * 全 App 只保留本页一个曲库入口（「更多」面板的「曲库」行与 tab7 分支已删除）。
+ *
+ * 视图组 = 全部歌曲 / 歌手 / 专辑 / **音源** / 不可用：
+ * - 原「风格」视图按 `sourceType` 伪分组（曲库无 genre 字段，扫描侧读出也未入库），
+ *   名不副实；本批改名为**音源**，标签与真实数据一致（新增 genre 列需 DB 迁移，另立批）；
+ * - 歌手/专辑/音源视图原实现只显示每组**首条**（用户看不见组内其余曲目 → 视为丢歌），
+ *   改为「计数行 + 展开/收起」，展开后行内仍带「＋」。
  */
 @Composable
 fun FnLibraryScreen(
     tracks: List<Track>,
     onPlayTracks: (List<Track>, Int) -> Unit,
+    /** §61.119（M3）：行尾「＋」→ 加入歌单面板（`AddToPlaylistSheet` 接线不变）。 */
+    onAddToPlaylist: (Track) -> Unit,
+    /** 全库重扫（原 tab7 顶栏「↻」）。 */
+    onRescan: () -> Unit,
+    /** 不可用视图的「重试」动作（原 tab7 UNAVAILABLE 视图按钮）。 */
+    onRetryUnavailable: () -> Unit,
     onOpenSearch: () -> Unit,
     onOpenPlaylists: () -> Unit,
     onOpenFavorites: () -> Unit,
     onOpenHistory: () -> Unit,
     onOpenSources: () -> Unit,
 ) {
-    // 分组视角：全部歌曲 / 歌手 / 专辑 / 风格
-    val view = remember { mutableIntStateOf(0) }
-    val views = listOf("全部歌曲", "歌手", "专辑", "风格")
+    var viewIndex by rememberSaveable { mutableIntStateOf(0) }
+    var expanded by remember { mutableStateOf(setOf<String>()) }
+    val views = LibraryView.entries
+    val current = views[viewIndex.coerceIn(0, views.lastIndex)]
 
     LazyColumn(Modifier.fillMaxSize().background(FnComp.PageBg)) {
-        // ── 顶栏（基准 161526）：居中「音乐库」+ 右上搜索圆钮 ──────────────────
+        // ── 顶栏（基准 161526）：居中「音乐库」+ 右上重扫 / 搜索圆钮 ────────────
         item {
-            Row(
-                Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 14.dp),
-                verticalAlignment = Alignment.CenterVertically,
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 14.dp)
+                    .height(FnBaseline.HeaderButtonDp.dp),
             ) {
-                Spacer(Modifier.width(40.dp))
                 Text(
                     "音乐库", color = FnComp.TextPrimary,
                     fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.align(Alignment.Center),
                 )
-                Box(
-                    Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
-                        .background(FnComp.CardBg)
-                        .clickable { onOpenSearch() },
-                    contentAlignment = Alignment.Center,
+                Row(
+                    Modifier.align(Alignment.CenterEnd),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    FnLineIcon(FnIcon.Search, FnComp.TextPrimary)
+                    FnHeaderButton(FnIcon.Refresh, onRescan)
+                    FnHeaderButton(FnIcon.Search, onOpenSearch)
                 }
             }
         }
 
-        // ── 分组卡 1：全部歌曲 / 歌手 / 专辑 / 风格（基准纵向行 + 分隔线） ─────
+        // ── 快捷入口：歌单 / 收藏 / 最近播放 / 数据源（原分组卡收为横排，让出列表空间） ──
         item {
-            FnMenuCard {
-                FnMenuRow(FnIcon.Songs, "全部歌曲", selected = view.intValue == 0) {
-                    view.intValue = 0
-                }
-                FnMenuDivider()
-                FnMenuRow(FnIcon.Artists, "全部歌手", selected = view.intValue == 1) {
-                    view.intValue = 1
-                }
-                FnMenuDivider()
-                FnMenuRow(FnIcon.Albums, "全部专辑", selected = view.intValue == 2) {
-                    view.intValue = 2
-                }
-                FnMenuDivider()
-                FnMenuRow(FnIcon.Styles, "全部风格", selected = view.intValue == 3) {
-                    view.intValue = 3
+            Row(
+                Modifier.fillMaxWidth().padding(horizontal = 12.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+            ) {
+                FnQuickEntry(FnIcon.Playlist, "歌单", onOpenPlaylists)
+                FnQuickEntry(FnIcon.Favorite, "收藏", onOpenFavorites)
+                FnQuickEntry(FnIcon.Recent, "最近", onOpenHistory)
+                FnQuickEntry(FnIcon.Sources, "来源", onOpenSources)
+            }
+        }
+
+        // ── 视图切换（全部歌曲 / 歌手 / 专辑 / 音源 / 不可用） ──────────────────
+        item {
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState())
+                    .padding(horizontal = 20.dp, vertical = 12.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                views.forEachIndexed { i, v ->
+                    FnViewChip(v.label, v.icon, i == viewIndex) { viewIndex = i }
                 }
             }
         }
 
-        // ── 分组卡 2：歌单 / 收藏 / 最近播放（「已下载」无对应实现，剔除不造） ──
-        item {
-            Spacer(Modifier.height(16.dp))
-            FnMenuCard {
-                FnMenuRow(FnIcon.Playlist, "歌单") { onOpenPlaylists() }
-                FnMenuDivider()
-                FnMenuRow(FnIcon.Favorite, "收藏") { onOpenFavorites() }
-                FnMenuDivider()
-                FnMenuRow(FnIcon.Recent, "最近播放") { onOpenHistory() }
-            }
-        }
-
-        // ── 数据源入口（映射飞牛「服务器设置」——spec §2 #6） ──────────────────
-        item {
-            Spacer(Modifier.height(16.dp))
-            FnMenuCard {
-                FnMenuRow(FnIcon.Sources, "数据源管理") { onOpenSources() }
-            }
-        }
-
-        // ── 选中视角的曲目列表 ────────────────────────────────────────────────
-        item {
-            Text(
-                views[view.intValue], color = FnComp.TextPrimary,
-                fontSize = 18.sp, fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
-            )
-        }
-
+        // ── 当前视图 ──────────────────────────────────────────────────────────
         if (tracks.isEmpty()) {
             item {
                 Text(
-                    "曲库为空：从「数据源管理」添加并扫描",
+                    "曲库为空：从「来源」添加音乐来源并扫描",
                     color = FnComp.TextHint, fontSize = 13.sp,
-                    modifier = Modifier.padding(20.dp),
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 24.dp),
                 )
             }
         } else {
-            val shown = when (view.intValue) {
-                1 -> tracks.groupBy { it.artist.ifBlank { "未知艺人" } }.map { it.value.first() }
-                2 -> tracks.groupBy { it.album.ifBlank { "未归类" } }.map { it.value.first() }
-                3 -> tracks.groupBy { it.sourceType.name }.map { it.value.first() } // 风格→按音源类型
-                else -> tracks
-            }
-            items(shown, key = { it.id.value }) { track ->
-                FnTrackRow(track) {
-                    val idx = tracks.indexOfFirst { it.id == track.id }
-                    onPlayTracks(tracks, idx)
+            when (current) {
+                LibraryView.ALL -> {
+                    item { FnCountLine("共 ${tracks.size} 首") }
+                    items(tracks, key = { it.id.value }) { track ->
+                        FnTrackLine(
+                            track = track,
+                            onPlay = {
+                                val idx = tracks.indexOfFirst { it.id == track.id }
+                                onPlayTracks(tracks, idx)
+                            },
+                            onAdd = { onAddToPlaylist(track) },
+                        )
+                    }
+                }
+
+                LibraryView.ARTIST, LibraryView.ALBUM, LibraryView.SOURCE -> {
+                    val groups = when (current) {
+                        // §61.275：「未知」字样不进筛选/分组标题（扫描器兜底值也算缺失）
+                        LibraryView.ARTIST -> groupByLabel(tracks) {
+                            it.artist.takeIf { v -> TrackInfo.isKnown(v) } ?: "未标注艺人"
+                        }
+                        LibraryView.ALBUM -> groupByLabel(tracks) {
+                            it.album.takeIf { v -> TrackInfo.isKnown(v) } ?: "未归类专辑"
+                        }
+                        else -> groupByLabel(tracks) { it.sourceType.shortLabel() }
+                            .sortedByDescending { it.second.size }
+                    }
+                    item {
+                        FnCountLine("${groups.size} 个分组 · ${tracks.size} 首")
+                    }
+                    groups.forEach { (name, groupTracks) ->
+                        item(key = "group-" + name) {
+                            val open = name in expanded
+                            FnGroupHeader(
+                                name = name,
+                                count = groupTracks.size,
+                                open = open,
+                            ) {
+                                expanded = if (open) expanded - name else expanded + name
+                            }
+                        }
+                        if (name in expanded) {
+                            items(groupTracks, key = { "t-" + name + "-" + it.id.value }) { track ->
+                                FnTrackLine(
+                                    track = track,
+                                    onPlay = {
+                                        val idx = groupTracks.indexOfFirst { it.id == track.id }
+                                        onPlayTracks(groupTracks, idx)
+                                    },
+                                    onAdd = { onAddToPlaylist(track) },
+                                )
+                            }
+                        }
+                    }
+                }
+
+                LibraryView.UNAVAILABLE -> {
+                    val bad = tracks.filter { it.availability != Availability.OK }
+                    item { FnCountLine("${bad.size} 首不可用（仍保留在曲库，恢复后自动转可用）") }
+                    if (bad.isEmpty()) {
+                        item {
+                            Text(
+                                "没有不可用曲目",
+                                color = FnComp.TextHint, fontSize = 13.sp,
+                                modifier = Modifier.padding(horizontal = 20.dp, vertical = 20.dp),
+                            )
+                        }
+                    } else {
+                        item {
+                            FnActionButton(
+                                text = "重试不可用曲目",
+                                onClick = onRetryUnavailable,
+                                modifier = Modifier.padding(start = 20.dp, top = 4.dp, bottom = 8.dp),
+                            )
+                        }
+                        items(bad, key = { it.id.value }) { track ->
+                            FnTrackLine(
+                                track = track,
+                                onPlay = {}, // §61.276：点击由行内拦截，只提示原因
+                                subtitle = unavailableSubtitle(track),
+                            )
+                        }
+                    }
                 }
             }
         }
-        item { Spacer(Modifier.height(20.dp)) }
+
+        item { Spacer(Modifier.height(24.dp)) }
     }
 }
 
-/** 基准分组卡：#2B2B2E 圆角容器，行间 1dp 分隔线（161526 逐段对照）。 */
-@Composable
-private fun FnMenuCard(content: @Composable () -> Unit) {
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp)
-            .clip(RoundedCornerShape(14.dp))
-            .background(FnComp.CardBg)
-            .padding(vertical = 6.dp, horizontal = 14.dp),
-    ) { content() }
+/** 视图组（原 `CloudMusicApp.LibraryView` 迁入；tab7 已废弃）。 */
+private enum class LibraryView(val label: String, val icon: FnIcon) {
+    ALL("全部歌曲", FnIcon.Songs),
+    ARTIST("歌手", FnIcon.Artists),
+    ALBUM("专辑", FnIcon.Albums),
+    SOURCE("音源", FnIcon.Sources),
+    UNAVAILABLE("不可用", FnIcon.Unavailable),
 }
 
-/** 基准行：24dp 红色线性图标 + 15sp 标签；选中态标签转品牌红。 */
+/** 按标签分组并按名称排序（空标签已由调用方兜底，不产生空分组）。 */
+private fun groupByLabel(
+    tracks: List<Track>,
+    key: (Track) -> String,
+): List<Pair<String, List<Track>>> =
+    tracks.groupBy(key).toList().sortedBy { it.first }
+
+/** 音源短标签：列表分组用（`TrackInfo.sourceLabel` 是详情口径，带「直链 / 预留」后缀）。 */
+private fun SourceType.shortLabel(): String = when (this) {
+    SourceType.LOCAL -> "本机"
+    SourceType.WEBDAV -> "WebDAV"
+    SourceType.STRM -> "STRM"
+    SourceType.PLAYLIST -> "播放列表"
+    SourceType.SFTP -> "SFTP"
+    SourceType.FTP -> "FTP"
+    SourceType.NFS -> "NFS"
+}
+
+/**
+ * 不可用原因（人话）：枚举名不进 UI。
+ *
+ * `OK` 返回 null —— 调用方只在 `availability != OK` 时取用，防御性返回空串避免 null 泄漏。
+ */
+private fun unavailableReason(a: Availability): String = when (a) {
+    Availability.OK -> ""
+    Availability.UNREACHABLE -> "源暂不可达"
+    Availability.LINK_EXPIRED -> "链接已失效"
+    Availability.UNSUPPORTED_SCHEME -> "链接格式不支持"
+}
+
+private fun unavailableSubtitle(track: Track): String =
+    listOfNotNull(
+        unavailableReason(track.availability).ifBlank { null },
+        track.sourceRef.path.ifBlank { null },
+    ).joinToString(" · ")
+
+/** 顶栏圆钮（40dp，与飞牛页头同量值）。 */
 @Composable
-private fun FnMenuRow(
-    icon: FnIcon,
+private fun FnHeaderButton(icon: FnIcon, onClick: () -> Unit) {
+    Box(
+        Modifier
+            .size(FnBaseline.HeaderButtonDp.dp)
+            .clip(CircleShape)
+            .background(FnComp.CardBg)
+            .clickable { onClick() },
+        contentAlignment = Alignment.Center,
+    ) {
+        FnLineIcon(icon, FnComp.TextPrimary)
+    }
+}
+
+/** 快捷入口（图标圆底 + 11sp 标签）：原三张分组卡收为一行，列表上移。 */
+@Composable
+private fun FnQuickEntry(icon: FnIcon, label: String, onClick: () -> Unit) {
+    Column(
+        Modifier
+            .width(78.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .clickable { onClick() }
+            .padding(vertical = 8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Box(
+            Modifier.size(44.dp).clip(CircleShape).background(FnComp.CardBg),
+            contentAlignment = Alignment.Center,
+        ) {
+            FnLineIcon(icon, FnComp.IconRed)
+        }
+        Spacer(Modifier.height(7.dp))
+        Text(label, color = FnComp.TextSecondary, fontSize = 11.sp, maxLines = 1)
+    }
+}
+
+/** 视图胶囊（选中 = 品牌红字 + 红 16% 底，未选中 = 卡片底灰白字）。 */
+@Composable
+private fun FnViewChip(
     label: String,
-    selected: Boolean = false,
+    icon: FnIcon,
+    selected: Boolean,
     onClick: () -> Unit,
 ) {
+    val tint = if (selected) FnComp.IconRed else FnComp.TextSecondary
+    Row(
+        Modifier
+            .clip(RoundedCornerShape(16.dp))
+            .background(if (selected) FnComp.IconRed.copy(alpha = 0.16f) else FnComp.CardBg)
+            .clickable { onClick() }
+            .padding(horizontal = 12.dp, vertical = 6.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(5.dp),
+    ) {
+        // §61.278：视图 chip 带图 —— 五个视图（歌/人/碟/源/禁用）一眼可分，
+        // 也避免「全部歌曲」与「专辑」在纯文字下要靠读字才分得清。
+        FnLineIcon(icon, tint, size = 14.dp)
+        Text(label, color = tint, fontSize = 13.sp, maxLines = 1)
+    }
+}
+
+/** 列表上方计数行（原 tab7 的分组副标题口径，改成真实计数）。 */
+@Composable
+private fun FnCountLine(text: String) {
+    Text(
+        text,
+        color = FnComp.TextHint,
+        fontSize = 12.sp,
+        modifier = Modifier.padding(horizontal = 20.dp, vertical = 4.dp),
+    )
+}
+
+/** 分组头：名称 + 首数 + 展开箭头，整行可点（修「只显示每组首条」的丢歌语义）。 */
+@Composable
+private fun FnGroupHeader(name: String, count: Int, open: Boolean, onClick: () -> Unit) {
     Row(
         Modifier
             .fillMaxWidth()
             .clickable { onClick() }
-            .padding(vertical = 16.dp),
+            .padding(horizontal = 20.dp, vertical = 13.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        FnLineIcon(icon, FnComp.IconRed)
-        Spacer(Modifier.width(16.dp))
         Text(
-            label,
-            color = if (selected) FnComp.IconRed else FnComp.TextPrimary,
+            name,
+            color = FnComp.TextPrimary,
             fontSize = 15.sp,
+            fontWeight = FontWeight.Medium,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f),
         )
+        Text("$count 首", color = FnComp.TextHint, fontSize = 12.sp)
+        Spacer(Modifier.width(8.dp))
+        Text(if (open) "▾" else "▸", color = FnComp.TextSecondary, fontSize = 12.sp)
     }
 }
 
+/** 曲目行：共享 [FnTrackRow] + 行尾「＋」（入歌单）。 */
 @Composable
-private fun FnMenuDivider() {
-    Box(
-        Modifier
-            .fillMaxWidth()
-            .padding(start = 40.dp)
-            .height(1.dp)
-            .background(FnComp.PageBg),
-    )
-}
-
-/** 基准线性图标种别（飞牛无导出素材，按 `161526/161602` 截图形状自绘）。 */
-enum class FnIcon { Songs, Artists, Albums, Styles, Playlist, Favorite, Recent, Sources, Search, Broadcast }
-
-/**
- * 红色线性图标（stroke 2dp，24dp 视框）。形状按基准截图自绘：
- * 歌曲音符 / 歌手人形 / 专辑同心圆 / 风格四芒 / 歌单包 / 心形 / 时钟 / 数据源文件夹。
- */
-@Composable
-fun FnLineIcon(icon: FnIcon, tint: androidx.compose.ui.graphics.Color) {
-    Canvas(Modifier.size(24.dp)) {
-        val s = Stroke(width = 2.dp.toPx(), cap = StrokeCap.Round)
-        val w = 2.dp.toPx()
-        val c = tint
-        val cx = size.width / 2f
-        val cy = size.height / 2f
-        fun path(block: (Path.() -> Unit)) = Path().apply(block)
-        when (icon) {
-            FnIcon.Songs -> {
-                // 音符：右杆 + 左下圆头 + 外圈（基准歌曲图标 = 圆圈内八分音符）
-                drawCircle(c, radius = size.minDimension / 2f - 2.dp.toPx(), center = Offset(cx, cy), style = s)
-                drawPath(path {
-                    moveTo(cx + 4.dp.toPx(), cy - 7.dp.toPx())
-                    lineTo(cx + 4.dp.toPx(), cy + 4.dp.toPx())
-                }, c, style = s)
-                drawCircle(c, radius = 2.6f.dp.toPx(), center = Offset(cx + 1.4f.dp.toPx(), cy + 4.6f.dp.toPx()), style = s)
-            }
-            FnIcon.Artists -> {
-                // 歌手：头 + 肩弧
-                drawCircle(c, radius = 4.dp.toPx(), center = Offset(cx, cy - 4.dp.toPx()), style = s)
-                drawPath(path {
-                    moveTo(cx - 8.dp.toPx(), cy + 8.dp.toPx())
-                    quadraticBezierTo(cx, cy + 1.dp.toPx(), cx + 8.dp.toPx(), cy + 8.dp.toPx())
-                }, c, style = s)
-            }
-            FnIcon.Albums -> {
-                // 专辑：同心圆 + 中孔
-                drawCircle(c, radius = size.minDimension / 2f - 2.dp.toPx(), center = Offset(cx, cy), style = s)
-                drawCircle(c, radius = 6.dp.toPx(), center = Offset(cx, cy), style = s)
-                drawCircle(c, radius = 1.6f.dp.toPx(), center = Offset(cx, cy))
-            }
-            FnIcon.Styles -> {
-                // 风格：四芒星（两线交叉 + 短斜叉）
-                drawLine(c, Offset(cx, cy - 9.dp.toPx()), Offset(cx, cy + 9.dp.toPx()), strokeWidth = w, cap = StrokeCap.Round)
-                drawLine(c, Offset(cx - 9.dp.toPx(), cy), Offset(cx + 9.dp.toPx(), cy), strokeWidth = w, cap = StrokeCap.Round)
-                drawLine(c, Offset(cx - 5.dp.toPx(), cy - 5.dp.toPx()), Offset(cx + 5.dp.toPx(), cy + 5.dp.toPx()), strokeWidth = w, cap = StrokeCap.Round)
-                drawLine(c, Offset(cx + 5.dp.toPx(), cy - 5.dp.toPx()), Offset(cx - 5.dp.toPx(), cy + 5.dp.toPx()), strokeWidth = w, cap = StrokeCap.Round)
-            }
-            FnIcon.Playlist -> {
-                // 歌单：圆角包形（基准歌单图标 = 提包）
-                drawPath(path {
-                    moveTo(cx - 7.dp.toPx(), cy - 3.dp.toPx())
-                    lineTo(cx - 7.dp.toPx(), cy + 7.dp.toPx())
-                    lineTo(cx + 7.dp.toPx(), cy + 7.dp.toPx())
-                    lineTo(cx + 7.dp.toPx(), cy - 3.dp.toPx())
-                    close()
-                }, c, style = s)
-                drawPath(path {
-                    moveTo(cx - 4.dp.toPx(), cy - 3.dp.toPx())
-                    lineTo(cx - 4.dp.toPx(), cy - 7.dp.toPx())
-                    lineTo(cx + 4.dp.toPx(), cy - 7.dp.toPx())
-                    lineTo(cx + 4.dp.toPx(), cy - 3.dp.toPx())
-                }, c, style = s)
-            }
-            FnIcon.Favorite -> {
-                // 心形（双 cubic）
-                drawPath(path {
-                    moveTo(cx, cy + 8.dp.toPx())
-                    cubicTo(cx - 11.dp.toPx(), cy - 1.dp.toPx(), cx - 6.dp.toPx(), cy - 9.dp.toPx(), cx, cy - 3.dp.toPx())
-                    cubicTo(cx + 6.dp.toPx(), cy - 9.dp.toPx(), cx + 11.dp.toPx(), cy - 1.dp.toPx(), cx, cy + 8.dp.toPx())
-                }, c, style = s)
-            }
-            FnIcon.Recent -> {
-                // 时钟：圆 + 指针
-                drawCircle(c, radius = size.minDimension / 2f - 2.dp.toPx(), center = Offset(cx, cy), style = s)
-                drawLine(c, Offset(cx, cy), Offset(cx, cy - 5.dp.toPx()), strokeWidth = w, cap = StrokeCap.Round)
-                drawLine(c, Offset(cx, cy), Offset(cx + 4.dp.toPx(), cy + 2.dp.toPx()), strokeWidth = w, cap = StrokeCap.Round)
-            }
-            FnIcon.Sources -> {
-                // 数据源：文件夹
-                drawPath(path {
-                    moveTo(cx - 9.dp.toPx(), cy - 6.dp.toPx())
-                    lineTo(cx - 3.dp.toPx(), cy - 6.dp.toPx())
-                    lineTo(cx - 1.dp.toPx(), cy - 3.dp.toPx())
-                    lineTo(cx + 9.dp.toPx(), cy - 3.dp.toPx())
-                    lineTo(cx + 9.dp.toPx(), cy + 6.dp.toPx())
-                    lineTo(cx - 9.dp.toPx(), cy + 6.dp.toPx())
-                    close()
-                }, c, style = s)
-            }
-            FnIcon.Search -> {
-                // 搜索：圆 + 柄
-                drawCircle(c, radius = 6.dp.toPx(), center = Offset(cx - 1.dp.toPx(), cy - 1.dp.toPx()), style = s)
-                drawLine(c, Offset(cx + 3.5f.dp.toPx(), cy + 3.5f.dp.toPx()), Offset(cx + 8.dp.toPx(), cy + 8.dp.toPx()), strokeWidth = w, cap = StrokeCap.Round)
-            }
-            FnIcon.Broadcast -> {
-                // 漫游：中点 + 两侧弧（基准「((•))」广播形态）
-                drawCircle(c, radius = 2.4f.dp.toPx(), center = Offset(cx, cy))
-                drawArc(
-                    c, startAngle = -50f, sweepAngle = 100f,
-                    useCenter = false, style = s,
-                    topLeft = Offset(cx - 6.dp.toPx(), cy - 6.dp.toPx()),
-                    size = androidx.compose.ui.geometry.Size(12.dp.toPx(), 12.dp.toPx()),
-                )
-                drawArc(
-                    c, startAngle = -50f, sweepAngle = 100f,
-                    useCenter = false, style = s,
-                    topLeft = Offset(cx - 9.5f.dp.toPx(), cy - 9.5f.dp.toPx()),
-                    size = androidx.compose.ui.geometry.Size(19.dp.toPx(), 19.dp.toPx()),
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun FnTrackRow(track: Track, onClick: () -> Unit) {
-    Row(
-        Modifier.fillMaxWidth().clickable { onClick() }.padding(horizontal = 20.dp, vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        val cover = rememberCompCover(track.coverRef)
-        Box(
-            Modifier.size(44.dp).clip(RoundedCornerShape(6.dp)).background(FnComp.CardBg),
-            contentAlignment = Alignment.Center,
-        ) {
-            if (cover != null) {
-                androidx.compose.foundation.Image(
-                    bitmap = cover.asImageBitmap(), contentDescription = track.title,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = androidx.compose.ui.layout.ContentScale.Crop,
-                )
+private fun FnTrackLine(
+    track: Track,
+    onPlay: () -> Unit,
+    onAdd: (() -> Unit)? = null,
+    // §61.275：副题走 TrackInfo 单一真相源（已知字段才显示，占位值不渲染）
+    subtitle: String = TrackInfo.listSubtitle(track),
+) {
+    val context = LocalContext.current
+    val unavailable = track.availability != Availability.OK
+    FnTrackRow(
+        title = track.title,
+        subtitle = subtitle,
+        // §61.276（V0.4-03 B09）：不可用曲目仍可见/可搜索/可保留，点击只给原因，
+        // 不发起播放、不弹网络错误。
+        onClick = {
+            if (unavailable) {
+                Toast.makeText(
+                    context, TrackInfo.availabilityLabel(track), Toast.LENGTH_SHORT,
+                ).show()
             } else {
-                Text("♫", color = FnComp.TextHint, fontSize = 20.sp)
+                onPlay()
             }
-        }
-        Spacer(Modifier.width(12.dp))
-        Column(Modifier.weight(1f)) {
-            Text(track.title, color = FnComp.TextPrimary, fontSize = 15.sp, maxLines = 1)
-            Text(
-                "${track.artist} · ${track.album}", color = FnComp.TextSecondary,
-                fontSize = 11.sp, maxLines = 1,
-            )
-        }
-    }
+        },
+        coverRef = track.coverRef,
+        dimmed = unavailable,
+        badge = if (unavailable) "暂不可用" else null,
+        trailing = {
+            if (onAdd != null) {
+                Box(
+                    Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .clickable { onAdd() },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text("＋", color = FnComp.TextSecondary, fontSize = 18.sp)
+                }
+            }
+        },
+    )
 }

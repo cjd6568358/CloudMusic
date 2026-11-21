@@ -76,10 +76,14 @@ class VinylDiscView(context: Context) : FrameLayout(context) {
         setImageBitmap(loadLegacyBitmap(context, LegacyAsset.DiscBacking))
     }
 
-    /** `g9f` 588x588 红色唱片盘：竞品真实位图，作为中心「专辑封面」的默认占位。 */
+    /**
+     * 中心「专辑封面」层。占位盘 = **自绘**红色标签（[DiscLabelArt]）：
+     * 竞品 `g9f` 位图上带两圈版权文字（「网易云音乐保留全部著作权权利」/
+     * "All rights are reserved by NetEase Cloud Music"），§61.278 起不再使用该位图。
+     */
     private val albumLabel = ImageView(context).apply {
         scaleType = ImageView.ScaleType.FIT_CENTER
-        setImageBitmap(loadLegacyBitmap(context, LegacyAsset.DiscRed))
+        setImageBitmap(DiscLabelArt.redLabel(context))
     }
 
     /** `ga0` 828x828 黑胶环：竞品真实位图，中心透明，露出红色唱片盘。 */
@@ -260,8 +264,9 @@ class VinylDiscView(context: Context) : FrameLayout(context) {
     }
 
     /**
-     * `12 §61.109`：圆形真实封面替代红色占位盘。封面缺失 / 解码失败时回退竞品
-     * `g9f` 位图，不出现空盘。圆形裁切用平台 `RoundedBitmapDrawable`
+     * `12 §61.109`：圆形真实封面替代红色占位盘。封面缺失 / 解码失败时回退**自绘**
+     * 红标（[DiscLabelArt]，§61.278 起不再用带竞品版权文字的 `g9f` 位图），不出现空盘。
+     * 圆形裁切用平台 `RoundedBitmapDrawable`
      * （非 Compose Canvas），与自绘边界一致。
      */
     fun setCover(cover: Bitmap?) {
@@ -270,7 +275,7 @@ class VinylDiscView(context: Context) : FrameLayout(context) {
         if (cover === lastCover) return
         lastCover = cover
         if (cover == null) {
-            albumLabel.setImageBitmap(loadLegacyBitmap(context, LegacyAsset.DiscRed))
+            albumLabel.setImageBitmap(DiscLabelArt.redLabel(context))
             return
         }
         val rounded = RoundedBitmapDrawableFactory.create(context.resources, cover).apply {

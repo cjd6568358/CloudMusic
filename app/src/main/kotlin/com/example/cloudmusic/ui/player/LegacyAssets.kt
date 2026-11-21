@@ -263,7 +263,14 @@ object LegacyAsset {
     const val DiscRing = "$XX/legacy_ga9.webp"
     /** 924x924 带阴影黑色圆环：`legacy_bv5.xml` smallAlbumDisc0WithShadow，最上层框。 */
     const val DiscFrame = "$XX/legacy_ga8.png"
-    /** 588x588 红色唱片盘（中心轴孔）：`legacy_gc.xml` smallAlbumCover 的默认占位图。 */
+    /**
+     * 588x588 红色唱片盘（中心轴孔）：`legacy_gc.xml` smallAlbumCover 的默认占位图。
+     *
+     * **§61.278 起退役**：该位图带两圈竞品版权文字（「网易云音乐保留全部著作权权利」/
+     * "All rights are reserved by NetEase Cloud Music"），播放页占位盘改自绘
+     * [DiscLabelArt]。常量保留仅作素材出处留痕，**UI 侧禁止再引用**（守护 §61.278）。
+     */
+    @Deprecated("竞品版权文字素材，改用 DiscLabelArt 自绘红标")
     const val DiscRed = "$XX/legacy_g9f.webp"
 
     // ── 封面 / 装饰 ──
