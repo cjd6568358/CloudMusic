@@ -33,6 +33,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -287,6 +288,33 @@ fun FnGroupCard(
             .background(FnComp.CardBg),
         content = content,
     )
+}
+
+/**
+ * §61.284：懒列表里的「分组卡片行」外框——与 [FnGroupCard] **视觉等价**的逐行版本。
+ *
+ * 背景：[FnGroupCard] 把整块卡片底画在一个 `Column` 上，因此一块卡只能落进同一个 Lazy
+ * item——收藏/播放历史上千首时就是一次性全量组合（离屏行也建节点）。本扩展把同一张卡
+ * 拆成「逐行自带底」：首行圆上角、末行圆下角、单行四角、中间直角，行与行严丝合缝，
+ * 观感与整块卡一致，但每行可被 Lazy 列表独立进出组合。
+ *
+ * 令牌与 [FnGroupCard] 同源（`PagePaddingDp` / `CardCornerDp` / `CardBg`），不引新色值；
+ * 调用方式：`FnTrackRow(..., modifier = Modifier.fnGroupCardRow(index, count))`。
+ */
+fun Modifier.fnGroupCardRow(index: Int, count: Int): Modifier {
+    val corner = FnBaseline.CardCornerDp.dp
+    val first = index == 0
+    val last = index == count - 1
+    val shape = when {
+        first && last -> RoundedCornerShape(corner)
+        first -> RoundedCornerShape(topStart = corner, topEnd = corner)
+        last -> RoundedCornerShape(bottomStart = corner, bottomEnd = corner)
+        else -> RectangleShape
+    }
+    return fillMaxWidth()
+        .padding(horizontal = FnBaseline.PagePaddingDp.dp)
+        .clip(shape)
+        .background(FnComp.CardBg)
 }
 
 /**

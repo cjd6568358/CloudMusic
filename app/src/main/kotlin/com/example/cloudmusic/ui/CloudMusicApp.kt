@@ -29,6 +29,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -55,8 +56,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.style.TextOverflow
@@ -83,6 +82,7 @@ import com.example.cloudmusic.player.QueueItem
 import com.example.cloudmusic.storage.AppSettings
 import com.example.cloudmusic.storage.Playlist
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -1256,6 +1256,12 @@ private fun PlaylistsScreen(
     var deleteTarget by remember { mutableStateOf<Playlist?>(null) }
     // §61.277（V0.4-04）：飞牛骨架重排——页头 + 分组标题 + 飞牛行；逻辑/回调零改动。
     var opsTarget by remember { mutableStateOf<Playlist?>(null) }
+    // §61.284（B07 收口）：展开歌单的曲目要作为父 LazyColumn 的独立 item 发出（懒加载），
+    // 而 `LazyListScope` 里不能 collectAsState → 曲目流提升到列表作用域外，且只在有展开项
+    // 时订阅（收起即取消，不常驻；与 §61.140 首曲封面的生命周期口径一致）。
+    val expandedTracks by remember(expandedId) {
+        expandedId?.let { id -> observeTracks(id) } ?: flowOf(emptyList())
+    }.collectAsState(initial = emptyList())
     Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
         FnPageHeader(
             "歌单",
@@ -1294,45 +1300,56 @@ private fun PlaylistsScreen(
                     )
                 }
             }
-            items(playlists, key = { it.id }) { playlist ->
-                // §61.140 首曲封面：每行一条 observeTracks 流取 firstOrNull() 的
-                // coverRef（复用 §61.138 LruCache；行离开组合即取消收集）。
-                val firstCoverRef by remember(playlist.id) {
-                    observeTracks(playlist.id).map { tracks ->
-                        tracks.firstOrNull()?.coverRef
-                    }
-                }.collectAsState(initial = null)
-                FnPlaylistRow(
-                    name = playlist.name,
-                    subtitle = if (expandedId == playlist.id) "收起曲目" else "展开查看曲目",
-                    coverRef = firstCoverRef,
-                    onClick = {
-                        expandedId = if (expandedId == playlist.id) null else playlist.id
-                    },
-                    trailing = {
-                        Box(
-                            Modifier
-                                .size(40.dp)
-                                .clip(CircleShape)
-                                .clickable { opsTarget = playlist },
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Text("⋮", color = FnComp.TextSecondary, fontSize = 18.sp)
+            // §61.284（B07 收口）：歌单行与「展开后的曲目行」都发成父列表的独立 item。
+            // 此前整段曲目塞在一个 item 的 Column 里 → 展开 2000 首就一次性全量组合。
+            // 展开态统一读列表作用域外的 expandedTracks（LazyListScope 内不能 collectAsState）。
+            playlists.forEach { playlist ->
+                item(key = "pl-" + playlist.id) {
+                    // §61.140 首曲封面：每行一条 observeTracks 流取 firstOrNull() 的
+                    // coverRef（复用 §61.138 LruCache；行离开组合即取消收集）。
+                    val firstCoverRef by remember(playlist.id) {
+                        observeTracks(playlist.id).map { tracks ->
+                            tracks.firstOrNull()?.coverRef
                         }
-                    },
-                )
+                    }.collectAsState(initial = null)
+                    FnPlaylistRow(
+                        name = playlist.name,
+                        subtitle = if (expandedId == playlist.id) "收起曲目" else "展开查看曲目",
+                        coverRef = firstCoverRef,
+                        onClick = {
+                            expandedId = if (expandedId == playlist.id) null else playlist.id
+                        },
+                        trailing = {
+                            Box(
+                                Modifier
+                                    .size(40.dp)
+                                    .clip(CircleShape)
+                                    .clickable { opsTarget = playlist },
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                Text("⋮", color = FnComp.TextSecondary, fontSize = 18.sp)
+                            }
+                        },
+                    )
+                }
                 if (expandedId == playlist.id) {
-                    val tracks by observeTracks(playlist.id)
-                        .collectAsState(initial = emptyList())
-                    if (tracks.isEmpty()) {
-                        Text(
-                            "（空歌单——在音乐库曲目行点「＋」加入）",
-                            color = FnComp.TextHint,
-                            fontSize = 11.sp,
-                            modifier = Modifier.padding(start = 78.dp, bottom = 6.dp),
-                        )
+                    if (expandedTracks.isEmpty()) {
+                        item(key = "pl-" + playlist.id + "-empty") {
+                            Text(
+                                "（空歌单——在音乐库曲目行点「＋」加入）",
+                                color = FnComp.TextHint,
+                                fontSize = 11.sp,
+                                modifier = Modifier.padding(start = 78.dp, bottom = 6.dp),
+                            )
+                        }
                     }
-                    tracks.forEachIndexed { index, track ->
+                    itemsIndexed(
+                        expandedTracks,
+                        // 同一首歌可在歌单里重复出现（位置即身份）→ key 必须带序号。
+                        key = { index, track ->
+                            "pl-" + playlist.id + "-" + index + "-" + track.id.value
+                        },
+                    ) { index, track ->
                         FnTrackRow(
                             title = "${index + 1}. ${track.title}",
                             // §61.275：艺人/专辑缺失不渲染空段
@@ -1362,7 +1379,7 @@ private fun PlaylistsScreen(
                                         modifier = Modifier
                                             .padding(6.dp)
                                             .clickable {
-                                                if (index < tracks.size - 1) {
+                                                if (index < expandedTracks.size - 1) {
                                                     onMoveItem(playlist.id, index, index + 1)
                                                 }
                                             },
@@ -1641,69 +1658,76 @@ private fun MyMusicScreen(
     val favorites by bridge.observeFavorites().collectAsState(initial = emptySet())
     val history by bridge.observeHistory().collectAsState(initial = emptyList())
     val favTracks = allTracks.filter { it.id in favorites }
+    // §61.284（B07 收口）：收藏/历史此前是 Column + verticalScroll + forEach，**离屏行也
+    // 全部组合**；而播放历史在库里没有上限（HistoryDao.observe 无 LIMIT、也无淘汰），
+    // 用过几个月就是几千行常驻节点。改 LazyColumn：行序与卡片外观不变，只把 item 发懒。
+    val listState = rememberLazyListState()
+    // 「最近」入口进来要滚到最近播放段。懒列表下无法量未组合项的 y 坐标，
+    // 只能按 item 序号定位；序号算法抽在 [MyMusicLayout]，单测与 UI 同源。
+    val historyHeaderIndex = MyMusicLayout.historyHeaderIndex(
+        favoriteCount = favTracks.size,
+        hasHistory = history.isNotEmpty(),
+    )
     Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
         FnPageHeader("我的音乐", onBack = onBack)
-        // §61.280（V0.4-07 ③）：从「最近」入口进来时滚到最近播放段。
-        // 段头 y 坐标要等首帧布局后才知道 → 用 onGloballyPositioned 落值，
-        // 再由 LaunchedEffect(recentY) 触发一次滚动（不递归、不抖动）。
-        val scroll = rememberScrollState()
-        var recentY by remember { mutableIntStateOf(0) }
-        LaunchedEffect(focusRecent, recentY) {
-            if (focusRecent && recentY > 0) scroll.animateScrollTo(recentY)
+        // §61.280（V0.4-07 ③）语义不变：从「最近」卡 / 音乐库「最近」进来才滚，
+        // 从「收藏」卡 / 更多页进来停在顶部（收藏段）。
+        LaunchedEffect(focusRecent, historyHeaderIndex) {
+            if (focusRecent && historyHeaderIndex > 0) {
+                listState.animateScrollToItem(historyHeaderIndex)
+            }
         }
-        Column(Modifier.fillMaxSize().verticalScroll(scroll)) {
-            Spacer(Modifier.height(FnBaseline.HeaderToCardGapDp.dp))
-            FnStatCard(
-                icon = FnIcon.Favorite,
-                title = "我的音乐",
-                primary = "${favTracks.size} 收藏",
-                secondary = "最近播放 ${history.size} 首 · 全部来自本地曲库",
-                accent = FnComp.IconRed,
-            )
-            Spacer(Modifier.height(FnBaseline.StatToNextGroupDp.dp))
+        LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
+            item(key = "mm-stat") {
+                Column {
+                    Spacer(Modifier.height(FnBaseline.HeaderToCardGapDp.dp))
+                    FnStatCard(
+                        icon = FnIcon.Favorite,
+                        title = "我的音乐",
+                        primary = "${favTracks.size} 收藏",
+                        secondary = "最近播放 ${history.size} 首 · 全部来自本地曲库",
+                        accent = FnComp.IconRed,
+                    )
+                    Spacer(Modifier.height(FnBaseline.StatToNextGroupDp.dp))
+                }
+            }
             if (favTracks.isEmpty() && history.isEmpty()) {
-                FnEmpty("收藏曲目或播放曲目后在此显示", Modifier.height(220.dp))
+                item(key = "mm-empty") {
+                    FnEmpty("收藏曲目或播放曲目后在此显示", Modifier.height(220.dp))
+                }
             }
             if (favTracks.isNotEmpty()) {
-                FnSectionTitle("收藏 · ${favTracks.size}")
-                FnGroupCard {
-                    favTracks.forEachIndexed { index, track ->
-                        FnTrackRow(
-                            title = track.title,
-                            subtitle = TrackInfo.listSubtitle(track),
-                            coverRef = track.coverRef,
-                            glyph = "♥",
-                            dimmed = track.availability != Availability.OK,
-                            badge = unavailableBadge(track),
-                            onClick = { playOrExplain(context, track) { onPlayTracks(favTracks, index) } },
-                        )
-                    }
+                item(key = "mm-fav-title") { FnSectionTitle("收藏 · ${favTracks.size}") }
+                itemsIndexed(favTracks, key = { _, t -> "fav-" + t.id.value }) { index, track ->
+                    FnTrackRow(
+                        title = track.title,
+                        subtitle = TrackInfo.listSubtitle(track),
+                        coverRef = track.coverRef,
+                        glyph = "♥",
+                        dimmed = track.availability != Availability.OK,
+                        badge = unavailableBadge(track),
+                        modifier = Modifier.fnGroupCardRow(index, favTracks.size),
+                        onClick = { playOrExplain(context, track) { onPlayTracks(favTracks, index) } },
+                    )
                 }
-                Spacer(Modifier.height(FnBaseline.GroupGapDp.dp))
+                item(key = "mm-fav-gap") { Spacer(Modifier.height(FnBaseline.GroupGapDp.dp)) }
             }
             if (history.isNotEmpty()) {
-                Box(
-                    Modifier.onGloballyPositioned {
-                        recentY = it.positionInParent().y.toInt()
-                    },
-                ) {
-                    FnSectionTitle("最近播放 · ${history.size}")
-                }
-                FnGroupCard {
-                    history.forEachIndexed { index, track ->
-                        FnTrackRow(
-                            title = track.title,
-                            subtitle = TrackInfo.listSubtitle(track),
-                            coverRef = track.coverRef,
-                            glyph = "↺",
-                            dimmed = track.availability != Availability.OK,
-                            badge = unavailableBadge(track),
-                            onClick = { playOrExplain(context, track) { onPlayTracks(history, index) } },
-                        )
-                    }
+                item(key = "mm-hist-title") { FnSectionTitle("最近播放 · ${history.size}") }
+                itemsIndexed(history, key = { _, t -> "hist-" + t.id.value }) { index, track ->
+                    FnTrackRow(
+                        title = track.title,
+                        subtitle = TrackInfo.listSubtitle(track),
+                        coverRef = track.coverRef,
+                        glyph = "↺",
+                        dimmed = track.availability != Availability.OK,
+                        badge = unavailableBadge(track),
+                        modifier = Modifier.fnGroupCardRow(index, history.size),
+                        onClick = { playOrExplain(context, track) { onPlayTracks(history, index) } },
+                    )
                 }
             }
-            Spacer(Modifier.height(28.dp))
+            item(key = "mm-tail") { Spacer(Modifier.height(28.dp)) }
         }
     }
 }

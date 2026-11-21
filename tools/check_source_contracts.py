@@ -7922,9 +7922,15 @@ def main() -> int:
         _c280.append("次级页返回仍写死回「更多」（未接来源）")
     if _app_code.count("subOrigin =") < 8:
         _c280.append("入口来源登记不足（subOrigin < 8 处）")
-    for _needle in ("fun exitSubPage()", "focusRecent", "animateScrollTo(recentY)"):
+    # §61.284：从「最近」入口滚到最近段——旧实现量 y 坐标（animateScrollTo(recentY)），
+    # 懒列表下量不到**未组合项**的坐标，改为按 item 序号定位（animateScrollToItem）。
+    # 判据接受两种实现之一，强度不变：必须有「focusRecent 驱动 + 一次真实滚动定位」。
+    for _needle in ("fun exitSubPage()", "focusRecent"):
         if _needle not in _app_code:
             _c280.append("入口语义分流缺：%s" % _needle)
+    if not ("animateScrollTo(recentY)" in _app_code
+            or "animateScrollToItem(historyHeaderIndex)" in _app_code):
+        _c280.append("入口语义分流缺：从「最近」进入未做滚动定位（y 坐标或 item 序号）")
     _home = (_ui_dir / "HomeScreen.kt").read_text(encoding="utf-8", errors="replace")
     if "onOpenMine(false)" not in _home or "onOpenMine(true)" not in _home:
         _c280.append("首页收藏/最近卡未按语义分流（两张卡仍同一入口）")
@@ -8071,6 +8077,78 @@ def main() -> int:
         failures.append("§61.283 FnComp 令牌切色：%s" % "；".join(_c283))
     else:
         print("[PASS] §61.283 FnComp 六语义令牌随主题切色（品牌色恒定，浅色无深块/隐形线）")
+
+    # ---- §61.284（B07 收口：列表懒加载）：曲目行不得全量组合 ----
+    # 判据是**结构**不是帧率（7,500 首与千首收藏的实测仍归 V0.4-09）：
+    #   ① 我的音乐页 = LazyColumn + 收藏/历史各自 itemsIndexed（带 key），且不再 forEach 全量渲染；
+    #   ② 歌单页展开区 = 曲目行发成父列表独立 item（itemsIndexed(expandedTracks)），
+    #      曲目流提升到列表作用域外（LazyListScope 内不能 collectAsState）；
+    #   ③ 逐行卡片底走 Modifier.fnGroupCardRow（令牌同 FnGroupCard，禁新色值）；
+    #   ④ 「最近」段序号算法 = MyMusicLayout（UI 与单测同源，防两套口径）。
+    # 边界：设置/数据源等**定长**列表仍可用 Column + verticalScroll，不在本判据对象内。
+    _code_app = _code_only(_app277)
+
+    def _fn_region(src: str, marker: str) -> str:
+        """按「函数签名 → 下一个顶层 @Composable」切出函数体（避免跨页误判）。"""
+        i = src.find(marker)
+        if i < 0:
+            return ""
+        j = src.find("\n@Composable", i + len(marker))
+        return src[i:] if j < 0 else src[i:j]
+
+    _mm = _fn_region(_code_app, "private fun MyMusicScreen(")
+    _pl = _fn_region(_code_app, "private fun PlaylistsScreen(")
+    _c284 = []
+    if not _mm:
+        _c284.append("找不到 MyMusicScreen（重命名会绕过本判据）")
+    else:
+        if "LazyColumn(" not in _mm:
+            _c284.append("我的音乐仍是全量渲染（无 LazyColumn）")
+        for _need in ("itemsIndexed(favTracks", "itemsIndexed(history"):
+            if _need not in _mm:
+                _c284.append("我的音乐缺懒 item：%s" % _need)
+        if "forEachIndexed" in _mm:
+            _c284.append("我的音乐仍有 forEachIndexed 全量渲染曲目行")
+        if "animateScrollToItem(historyHeaderIndex)" not in _mm:
+            _c284.append("「最近」入口未按 item 序号定位（懒列表量不到未组合项的 y）")
+        if "MyMusicLayout.historyHeaderIndex(" not in _mm:
+            _c284.append("我的音乐未引用 MyMusicLayout（UI 与断言两套口径）")
+    if not _pl:
+        _c284.append("找不到 PlaylistsScreen（重命名会绕过本判据）")
+    else:
+        if "itemsIndexed(" not in _pl or "expandedTracks" not in _pl:
+            _c284.append("歌单展开区未改懒 item（itemsIndexed(expandedTracks)）")
+        if "tracks.forEachIndexed" in _pl:
+            _c284.append("歌单展开区仍 forEachIndexed 全量渲染")
+        if "val expandedTracks by" not in _app277:
+            _c284.append("展开曲目流未提升到列表作用域外（LazyListScope 内不能 collectAsState）")
+    if "fun Modifier.fnGroupCardRow(" not in _fn_ui:
+        _c284.append("缺 Modifier.fnGroupCardRow（逐行卡片底无处复用）")
+    else:
+        _row = _fn_ui[_fn_ui.find("fun Modifier.fnGroupCardRow("):]
+        _end = _row.find("\n}")
+        _row = _row if _end < 0 else _row[:_end]
+        for _tok in ("FnBaseline.CardCornerDp", "FnBaseline.PagePaddingDp", "FnComp.CardBg"):
+            if _tok not in _row:
+                _c284.append("fnGroupCardRow 未用令牌 %s（硬编码会与卡片漂移）" % _tok)
+        if re.search(r"Color\(0x", _row):
+            _c284.append("fnGroupCardRow 硬编码色值")
+    _mml = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+            / "cloudmusic" / "ui" / "MyMusicLayout.kt")
+    _mmlt = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "example"
+             / "cloudmusic" / "ui" / "MyMusicLayoutTest.kt")
+    if not _mml.is_file():
+        _c284.append("缺 MyMusicLayout.kt（序号算法无单一真相源）")
+    if not _mmlt.is_file():
+        _c284.append("缺 MyMusicLayoutTest（序号口径无断言面）")
+    else:
+        _mmlt_src = _mmlt.read_text(encoding="utf-8", errors="replace")
+        if "historyHeaderIndex" not in _mmlt_src or "assertEquals" not in _mmlt_src:
+            _c284.append("MyMusicLayoutTest 未断言 historyHeaderIndex")
+    if _c284:
+        failures.append("§61.284 列表懒加载：%s" % "；".join(_c284))
+    else:
+        print("[PASS] §61.284 收藏/历史/歌单展开改懒 item（无全量组合，序号算法单测同源）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
