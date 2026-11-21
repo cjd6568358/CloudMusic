@@ -8352,6 +8352,50 @@ def main() -> int:
     else:
         print("[PASS] §61.288 浅色可读性（TextHint/SearchHint ≥ 深色基准 + 基准钉值 + 量化用例在册）")
 
+    # ---- §61.289（重组期的全量扫描：分组/筛选必须抽成纯函数并记忆化）----
+    #   背景：曲库分组与不可用筛选此前直接写在 LazyListScope 的 content lambda 里——那是
+    #   LazyColumn 的 item 构建器，**每次列表重建都会重跑**（切视图 / 展开分组 / 曲库更新）。
+    #   7,500 首时一次 groupBy+sortedBy 是几十毫秒级。修法：抽纯函数 + composable 顶部 remember。
+    _c289 = []
+    for _need in ("internal fun libraryGroups(", "internal fun unavailableTracks("):
+        if _need not in _fn_lib:
+            _c289.append("缺纯函数：%s" % _need)
+    if "remember(tracks, current) { libraryGroups(tracks, current) }" not in _fn_lib:
+        _c289.append("分组未记忆化（remember(tracks, current) 缺失）")
+    if "remember(tracks) { unavailableTracks(tracks) }" not in _fn_lib:
+        _c289.append("不可用筛选未记忆化（remember(tracks) 缺失）")
+    # 通用禁令：LazyColumn 的 content lambda（LazyListScope）里不得直接调用分组/全量筛选
+    _lazy_start = _fn_lib.find("LazyColumn(")
+    if _lazy_start < 0:
+        _c289.append("FnLibraryScreen 的 LazyColumn 缺失（结构变了）")
+    else:
+        # 按花括号配对精确取 content lambda（文件末尾的纯函数定义里本来就有 groupByLabel，
+        # 取整段会误报）
+        _brace = _fn_lib.find("{", _lazy_start)
+        _depth = 0
+        _lazy_end = len(_fn_lib)
+        for _i in range(_brace, len(_fn_lib)):
+            if _fn_lib[_i] == "{":
+                _depth += 1
+            elif _fn_lib[_i] == "}":
+                _depth -= 1
+                if _depth == 0:
+                    _lazy_end = _i
+                    break
+        _lazy_body = _fn_lib[_lazy_start:_lazy_end]
+        for _bad in ("= groupByLabel(", "tracks.filter { it.availability"):
+            if _bad in _lazy_body:
+                _c289.append("LazyListScope 内又出现全量扫描：%s" % _bad.strip())
+    if "val favTracks = remember(allTracks, favorites)" not in _code_app:
+        _c289.append("我的音乐收藏过滤未记忆化（每次重组全量扫曲库）")
+    _groups_test = (_ui_test_dir / "LibraryGroupsTest.kt")
+    if not _groups_test.is_file():
+        _c289.append("LibraryGroupsTest.kt 缺失（取数语义无断言）")
+    if _c289:
+        failures.append("§61.289 重组期全量扫描：%s" % "；".join(_c289))
+    else:
+        print("[PASS] §61.289 曲库分组/筛选（纯函数 + 记忆化 + LazyListScope 禁令 + 取数语义用例）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

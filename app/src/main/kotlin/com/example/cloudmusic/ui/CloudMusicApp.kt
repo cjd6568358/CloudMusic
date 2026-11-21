@@ -1717,7 +1717,11 @@ private fun MyMusicScreen(
     val context = LocalContext.current
     val favorites by bridge.observeFavorites().collectAsState(initial = emptySet())
     val history by bridge.observeHistory().collectAsState(initial = emptyList())
-    val favTracks = allTracks.filter { it.id in favorites }
+    // §61.289：收藏过滤记忆化——原写法在 composable 体内，**每次重组都全量扫一遍曲库**
+    // （7,500 首 × 每次播放状态刷新）。只在曲库或收藏变化时重算。
+    val favTracks = remember(allTracks, favorites) {
+        allTracks.filter { it.id in favorites }
+    }
     // §61.284（B07 收口）：收藏/历史此前是 Column + verticalScroll + forEach，**离屏行也
     // 全部组合**；而播放历史在库里没有上限（HistoryDao.observe 无 LIMIT、也无淘汰），
     // 用过几个月就是几千行常驻节点。改 LazyColumn：行序与卡片外观不变，只把 item 发懒。

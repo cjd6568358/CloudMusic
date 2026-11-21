@@ -90,6 +90,12 @@ fun FnLibraryScreen(
     val views = LibraryView.entries
     val current = views[viewIndex.coerceIn(0, views.lastIndex)]
 
+    // §61.289：分组与不可用筛选移出 `LazyListScope` 并记忆化。
+    // 它们此前写在 content lambda 里 ⇒ 每次列表重建（切视图 / 展开分组 / 曲库更新）
+    // 都全量扫一遍 7,500 首；现在只在 tracks 或视图变化时重算。
+    val groups = remember(tracks, current) { libraryGroups(tracks, current) }
+    val badTracks = remember(tracks) { unavailableTracks(tracks) }
+
     LazyColumn(Modifier.fillMaxSize().background(FnComp.PageBg)) {
         // ── 顶栏（基准 161526）：居中「音乐库」+ 右上重扫 / 搜索圆钮 ────────────
         item {
@@ -170,17 +176,7 @@ fun FnLibraryScreen(
                 }
 
                 LibraryView.ARTIST, LibraryView.ALBUM, LibraryView.SOURCE -> {
-                    val groups = when (current) {
-                        // §61.275：「未知」字样不进筛选/分组标题（扫描器兜底值也算缺失）
-                        LibraryView.ARTIST -> groupByLabel(tracks) {
-                            it.artist.takeIf { v -> TrackInfo.isKnown(v) } ?: "未标注艺人"
-                        }
-                        LibraryView.ALBUM -> groupByLabel(tracks) {
-                            it.album.takeIf { v -> TrackInfo.isKnown(v) } ?: "未归类专辑"
-                        }
-                        else -> groupByLabel(tracks) { it.sourceType.shortLabel() }
-                            .sortedByDescending { it.second.size }
-                    }
+                    // §61.289：groups 已在外层 remember（见 composable 顶部）。
                     item {
                         FnCountLine("${groups.size} 个分组 · ${tracks.size} 首")
                     }
@@ -211,9 +207,9 @@ fun FnLibraryScreen(
                 }
 
                 LibraryView.UNAVAILABLE -> {
-                    val bad = tracks.filter { it.availability != Availability.OK }
-                    item { FnCountLine("${bad.size} 首不可用（仍保留在曲库，恢复后自动转可用）") }
-                    if (bad.isEmpty()) {
+                    // §61.289：badTracks 已在外层 remember（见 composable 顶部）。
+                    item { FnCountLine("${badTracks.size} 首不可用（仍保留在曲库，恢复后自动转可用）") }
+                    if (badTracks.isEmpty()) {
                         item {
                             Text(
                                 "没有不可用曲目",
@@ -229,7 +225,7 @@ fun FnLibraryScreen(
                                 modifier = Modifier.padding(start = 20.dp, top = 4.dp, bottom = 8.dp),
                             )
                         }
-                        items(bad, key = { it.id.value }) { track ->
+                        items(badTracks, key = { it.id.value }) { track ->
                             FnTrackLine(
                                 track = track,
                                 onPlay = {}, // §61.276：点击由行内拦截，只提示原因
@@ -245,8 +241,12 @@ fun FnLibraryScreen(
     }
 }
 
-/** 视图组（原 `CloudMusicApp.LibraryView` 迁入；tab7 已废弃）。 */
-private enum class LibraryView(val label: String, val icon: FnIcon) {
+/**
+ * 视图组（原 `CloudMusicApp.LibraryView` 迁入；tab7 已废弃）。
+ *
+ * §61.289：`private` → `internal`——分组/不可用视图的取数逻辑抽成纯函数后要能被 JVM 测试断言。
+ */
+internal enum class LibraryView(val label: String, val icon: FnIcon) {
     ALL("全部歌曲", FnIcon.Songs),
     ARTIST("歌手", FnIcon.Artists),
     ALBUM("专辑", FnIcon.Albums),
@@ -260,6 +260,36 @@ private fun groupByLabel(
     key: (Track) -> String,
 ): List<Pair<String, List<Track>>> =
     tracks.groupBy(key).toList().sortedBy { it.first }
+
+/**
+ * §61.289：某视图下的分组结果（纯函数，便于单测；调用方必须 `remember` 起来）。
+ *
+ * 此前这段 `when` 直接写在 `LazyListScope` 的 content lambda 里——它是 LazyColumn 的
+ * item 构建器，**每次列表重建都会重跑**（切视图、展开/收起分组、曲库更新）。
+ * 7,500 首时一次 `groupBy + sortedBy` 是几十毫秒级，展开分组会明显掉帧。
+ *
+ * 排序语义保持原样：先按组名升序；「音源」视图再按组内曲目数降序（稳定排序，
+ * 数量相同仍按名称序）。
+ */
+internal fun libraryGroups(
+    tracks: List<Track>,
+    view: LibraryView,
+): List<Pair<String, List<Track>>> = when (view) {
+    // §61.275：「未知」字样不进筛选/分组标题（扫描器兜底值也算缺失）
+    LibraryView.ARTIST -> groupByLabel(tracks) {
+        it.artist.takeIf { v -> TrackInfo.isKnown(v) } ?: "未标注艺人"
+    }
+    LibraryView.ALBUM -> groupByLabel(tracks) {
+        it.album.takeIf { v -> TrackInfo.isKnown(v) } ?: "未归类专辑"
+    }
+    LibraryView.SOURCE -> groupByLabel(tracks) { it.sourceType.shortLabel() }
+        .sortedByDescending { it.second.size }
+    LibraryView.ALL, LibraryView.UNAVAILABLE -> emptyList()
+}
+
+/** §61.289：不可用视图的取数（纯函数；同样要被 `remember` 起来，别在 LazyListScope 里跑）。 */
+internal fun unavailableTracks(tracks: List<Track>): List<Track> =
+    tracks.filter { it.availability != Availability.OK }
 
 /** 音源短标签：列表分组用（`TrackInfo.sourceLabel` 是详情口径，带「直链 / 预留」后缀）。 */
 private fun SourceType.shortLabel(): String = when (this) {
