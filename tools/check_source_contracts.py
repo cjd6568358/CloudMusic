@@ -8122,6 +8122,34 @@ def main() -> int:
             _c284.append("歌单展开区仍 forEachIndexed 全量渲染")
         if "val expandedTracks by" not in _app277:
             _c284.append("展开曲目流未提升到列表作用域外（LazyListScope 内不能 collectAsState）")
+    # 通用判据（本批的教训）：任何 `forEach` 块内**直接**渲染曲目行 = 全量组合，
+    # 与"有没有 LazyColumn"无关。按花括号配对切块，避免只看邻近行漏判多行块。
+    _eager_hits = []
+    for _m in re.finditer(r"\.forEach(?:Indexed)?\s*(?:\([^)]*\))?\s*\{", _code_app):
+        _start = _m.end() - 1
+        _depth = 0
+        _j = _start
+        while _j < len(_code_app):
+            _ch = _code_app[_j]
+            if _ch == "{":
+                _depth += 1
+            elif _ch == "}":
+                _depth -= 1
+                if _depth == 0:
+                    break
+            _j += 1
+        _block = _code_app[_start:_j]
+        # 块内有 `item(`/`items(`/`itemsIndexed(` = 正在向父列表**发懒 item**（合法，
+        # 歌单/分组展开都是这个形状）；只有"直接渲染"才是全量组合。
+        if "FnTrackRow(" in _block and not re.search(
+                r"\b(?:item|items|itemsIndexed)\s*\(", _block):
+            # 报「接收者 + 方法名」而不是行号：_code_only 剥过注释，行号与源文件对不上。
+            _recv = _code_app[max(0, _m.start() - 40):_m.start()].strip().splitlines()[-1].strip()
+            _kind = ".forEachIndexed" if _m.group(0).startswith(".forEachIndexed") else ".forEach"
+            _eager_hits.append("%s%s" % (_recv[-24:], _kind))
+    if _eager_hits:
+        _c284.append("forEach 块内直接渲染曲目行（应改 Lazy itemsIndexed）：%s"
+                     % ",".join(_eager_hits))
     if "fun Modifier.fnGroupCardRow(" not in _fn_ui:
         _c284.append("缺 Modifier.fnGroupCardRow（逐行卡片底无处复用）")
     else:
