@@ -394,14 +394,17 @@ class ScanContractsTest {
 
     @Test
     fun `T-A4-10 tag reader falls back to head reader for network refs and failures`() {
-        // §61.203：网络 ref 默认跳过头尾 Range 读 → NameParser 文件名兜底骨架
+        // §61.203：SKIP 策略下网络 ref 跳过头尾 Range 读 → NameParser 文件名兜底骨架
         // （**非 EMPTY**：仍走 TrackFactory.build 消费目录封面侧链；时长由
         // §61.181 播放期真值通道回填）。
+        // §61.281：生产默认已改为 PRODUCTION（读模式）⇒ 此处**显式**传 SKIP，
+        // 断言对象从「默认值」变为「SKIP 语义本身」，判据强度不变。
         val skipped = AndroidTagReader(
             media = { MediaTags(title = "不该被调用") },
             jaudio = { MediaTags.EMPTY },
             locator = FakeLocator("https://nas/a.mp3"),
             head = EmptyTagReader,
+            remoteTagPolicy = RemoteTagPolicy.SKIP,
         )
         runBlocking {
             val raw = skipped.read(candidate())
@@ -448,6 +451,8 @@ class ScanContractsTest {
             head = countingHead,
             directoryCover = { _, _ -> coverCalls++ },
             siblingLyrics = { _, _ -> lyricsCalls++ },
+            // §61.281：显式 SKIP（生产默认已改为读模式），断言对象 = SKIP 语义本身。
+            remoteTagPolicy = RemoteTagPolicy.SKIP,
         )
         runBlocking {
             val raw = reader.read(candidate(path = "/Music/周杰伦 - 晴天.mp3"))
@@ -505,6 +510,51 @@ class ScanContractsTest {
         runBlocking {
             assertEquals(0.2f, capped.read(candidate()).completeness)
             assertEquals(1, headCalls)
+        }
+    }
+
+    @Test
+    fun `T-A4-17 production policy reads whitelisted remote tags so album year genre are restored`() {
+        // §61.281（V0.4-08）：生产默认必须是**读模式**——§61.203 的 SKIP 只是止血，
+        // 代价是远程专辑/年份/风格永久缺失；本条把「恢复」钉成可断言行为。
+        assertFalse(RemoteTagPolicy.PRODUCTION.shouldSkip("a.mp3", 1L))
+        assertFalse(RemoteTagPolicy.PRODUCTION.shouldSkip("b.flac", 1L))
+        assertTrue(RemoteTagPolicy.PRODUCTION.shouldSkip("x.ape", 1L))          // 白名单外
+        assertTrue(RemoteTagPolicy.PRODUCTION.shouldSkip("a.mp3", 513L * 1024 * 1024)) // 超阈值
+
+        // 生产装配用的就是 PRODUCTION：构造时不传策略（走 AndroidTagReader 默认值），
+        // 白名单内远程候选必须真的发生头读，且文本帧进入 RawTags。
+        var headCalls = 0
+        val tagHead = object : TagReader {
+            override suspend fun read(candidate: Candidate): RawTags {
+                headCalls++
+                return RawTags(
+                    title = "七里香", artist = "周杰伦", album = "七里香",
+                    year = 2004, genre = "Pop", completeness = 0.9f,
+                )
+            }
+        }
+        val production = AndroidTagReader(
+            media = { MediaTags.EMPTY }, jaudio = { MediaTags.EMPTY },
+            locator = FakeLocator("https://nas/七里香.mp3"), head = tagHead,
+        )
+        runBlocking {
+            val raw = production.read(candidate(path = "/Music/七里香.mp3"))
+            assertEquals(1, headCalls)
+            assertEquals("七里香", raw.album)
+            assertEquals(2004, raw.year)
+            assertEquals("Pop", raw.genre)
+        }
+
+        // 白名单外扩展名仍走文件名兜底（头读零新增）——「异构容器不炸」的边界不丢。
+        val exotic = AndroidTagReader(
+            media = { MediaTags.EMPTY }, jaudio = { MediaTags.EMPTY },
+            locator = FakeLocator("https://nas/side.ape"), head = tagHead,
+        )
+        runBlocking {
+            val raw = exotic.read(candidate(path = "/Music/side.ape"))
+            assertEquals(1, headCalls)
+            assertEquals(0.2f, raw.completeness)
         }
     }
 

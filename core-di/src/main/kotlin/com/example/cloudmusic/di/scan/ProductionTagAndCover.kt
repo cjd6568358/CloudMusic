@@ -457,8 +457,8 @@ class AndroidTagReader(
     private val lyricsSink: (String, String) -> Unit = { _, _ -> },
     /** §61.186：内嵌歌词缺失时的同目录 `.lrc` 提取（LOCAL File / 网络 TextReadCapability）。 */
     private val siblingLyrics: suspend (Candidate, String) -> Unit = { _, _ -> },
-    /** §61.203：远程 tag 跳过策略（默认全跳过，验收 #2 主刀）。 */
-    private val remoteTagPolicy: RemoteTagPolicy = RemoteTagPolicy.SKIP,
+    /** §61.281：远程 tag 策略——生产默认**白名单读模式**（§61.203 的 SKIP 保留为应急开关）。 */
+    private val remoteTagPolicy: RemoteTagPolicy = RemoteTagPolicy.PRODUCTION,
 ) : TagReader {
 
     /** §61.147：JAudio 缺项计数（限频观测用）。 */
@@ -472,7 +472,9 @@ class AndroidTagReader(
             // §61.203：远程 tag 跳过——467s 冷扫主导成本 = 逐文件 Range 头尾读 ×
             // 鉴权握手（§61.160 一手：网络存储 ≈380s）。跳过后标题/艺人走 NameParser
             // 文件名兜底（非 EMPTY 语义 ⇒ 仍进 TrackFactory.build，目录封面照常消费），
-            // 时长由 §61.181 播放期真值通道回填。专辑/年份/风格等文本帧信息如实让位。
+            // 时长由 §61.181 播放期真值通道回填。
+            // §61.281：生产默认已恢复白名单读模式，本分支只对**白名单外扩展名 / 超 512MB**
+            // 生效（旧口径是全部远程候选）——即异构容器与巨型文件仍走文件名兜底。
             if (remoteTagPolicy.shouldSkip(candidate.obj.name, candidate.obj.size)) {
                 val fallback = NameParser.parse(candidate.obj.name, candidate.parentDirName, candidate.hint)
                 val skeleton = RawTags(

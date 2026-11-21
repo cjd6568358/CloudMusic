@@ -30,14 +30,17 @@ interface TagReader {
 }
 
 /**
- * §61.203（A1-①，验收 #2）：远程源 tag 跳过策略。
+ * §61.203（A1-①，验收 #2）→ §61.281（V0.4-08，拍板 §61.273 #2B 恢复阶段 B）：远程源 tag 策略。
+ *
+ * **现行生产口径 = [PRODUCTION]（读模式：白名单 + 阈值）**，[SKIP] 降级为应急/对照开关。
  *
  * 467s 冷扫的主导成本 = WebDAV/STRM **逐文件** Range 头尾读（头 64KB + 尾 128B，
  * 各带鉴权握手）× 并发 4（§61.160 一手：网络存储占 467−87 ≈ 380s）。而头部解析只产出
  * title/artist/album 等文本帧——文件名兜底（strm `TrackHint` + [NameParser]）已有，
- * 逐文件读头部的信息增益性价比极低。默认**全跳过**：远程候选直接得到文件名兜底级
- * [RawTags]（**非 EMPTY** 语义 ⇒ 仍走 `TrackFactory.build`，封面/歌词侧链照常消费），
- * 时长由 §61.181 播放期真值通道回填。
+ * 逐文件读头部的信息增益性价比极低，故 §61.203 一度默认**全跳过**：远程候选直接得到
+ * 文件名兜底级 [RawTags]（**非 EMPTY** 语义 ⇒ 仍走 `TrackFactory.build`，封面/歌词侧链
+ * 照常消费），时长由 §61.181 播放期真值通道回填——代价是**专辑/年份/风格永久缺失**
+ * （仅靠 03-10 §9 B15「已知字段才显示」把空缺藏起来，用户 2026-11-21 拍板要求恢复）。
  *
  * [readExts]（扩展名白名单）与 [maxBytes]（容量阈值）是 skip=false（读）模式下的
  * 约束：仅白名单容器（头字节可解析 ID3/MP4 系容器，与检索器兜底白名单 §61.147 同源
@@ -61,7 +64,19 @@ data class RemoteTagPolicy(
     companion object {
         val DEFAULT_REMOTE_TAG_EXTS = setOf("mp3", "m4a", "aac", "flac", "wav", "ogg", "oga", "opus")
 
-        /** 生产默认：全跳过（§61.203）。 */
+        /**
+         * 生产默认（§61.281，V0.4-08，拍板 §61.273 #2B 恢复阶段 B）：**读模式**——
+         * 只有白名单扩展名且未超 [maxBytes] 才发 Range 读，补回专辑/年份/风格。
+         *
+         * 成本边界（如实登记，不粉饰）：**新增/变更**的远程候选才会读——阶段 A 的
+         * stat 命中跳过（§61.204）与快照 `metadataDone` 继承把「未变文件」全挡在门外，
+         * 因此稳态增量扫描不产生 Range 读；只有**全量首扫 / 大目录新增**按文件数计费。
+         * 并发受 `ScanRequest.metadataConcurrency`（生产 2）限流，阶段 A 骨架先入库
+         * 并 emit `stageAFinished` ⇒ UI 不被阶段 B 阻塞（03-04 §10 两阶段语义不变）。
+         */
+        val PRODUCTION = RemoteTagPolicy(skipRemoteTags = false)
+
+        /** 显式全跳过：应急开关 / 单测对照（§61.203 原始口径，保留不删）。 */
         val SKIP = RemoteTagPolicy(skipRemoteTags = true)
     }
 }

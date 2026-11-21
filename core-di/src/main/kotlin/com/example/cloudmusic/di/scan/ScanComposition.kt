@@ -313,9 +313,11 @@ object ScanModule {
                 // §61.223：SFTP link() 缓存路径（§61.216）回落驱动读同目录 lrc
                 cacheDirPrefix = context.cacheDir.absolutePath,
             )::invoke,
-            // §61.203：远程 tag 跳过（验收 #2 主刀）——生产默认 SKIP，白名单/阈值见
-            // RemoteTagPolicy；网络封面/歌词侧链不跳过（§61.186 缺口同步修复）。
-            remoteTagPolicy = RemoteTagPolicy.SKIP,
+            // §61.281（V0.4-08，拍板 §61.273 #2B）：远程 tag 恢复**白名单读模式**——
+            // §61.203 的 SKIP 是「467s 冷扫主导成本」的止血，代价是远程专辑/年份/风格
+            // 永久缺失；现按 readExts（mp3/m4a/aac/flac/wav/ogg/opus）+ 512MB 阈值限量读，
+            // 且只读新增/变更候选（stat 命中 + metadataDone 继承）。SKIP 保留为应急开关。
+            remoteTagPolicy = RemoteTagPolicy.PRODUCTION,
         )
     }
 

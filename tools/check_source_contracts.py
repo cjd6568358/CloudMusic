@@ -6161,12 +6161,14 @@ def main() -> int:
         _treader_test_203 = (ROOT / "core-di" / "src" / "test" / "kotlin" / "com"
                              / "example" / "cloudmusic" / "di" / "scan" / "ScanContractsTest.kt"
                              ).read_text(encoding="utf-8", errors="replace")
+        # §61.281：本条判据的**对象已限定为「SKIP 语义」本身**（生产默认已于 §61.281 改为
+        # PRODUCTION 读模式）——强度不变：SKIP 常量、跳过分支、应急回滚通道仍必须存在。
         if not all(x in _treader_src for x in (
             "data class RemoteTagPolicy(",
             "fun shouldSkip(fileName: String, sizeBytes: Long): Boolean",
             "val SKIP = RemoteTagPolicy(skipRemoteTags = true)",
         )):
-            _skip_bad.append("RemoteTagPolicy 策略缺失（SKIP 默认不得回退）")
+            _skip_bad.append("RemoteTagPolicy 策略缺失（SKIP 应急开关不得删除）")
         if not all(x in _tag_cover_203 for x in (
             "remoteTagPolicy.shouldSkip(candidate.obj.name, candidate.obj.size)",
             "private suspend fun sideChannels(candidate: Candidate, ref: String, merged: RawTags): RawTags",
@@ -6174,8 +6176,11 @@ def main() -> int:
             "private val dirCoverRefs = java.util.concurrent.ConcurrentHashMap<String, DirRef>()",
         )):
             _skip_bad.append("网络分支策略接线 / 侧链共用 / 封面按目录缓存缺失")
-        if "RemoteTagPolicy.SKIP" not in _scancomp_203:
-            _skip_bad.append("ScanComposition 未装配 SKIP 策略")
+        # §61.281：装配对象由「必须是 SKIP」升级为「必须显式装配某个 RemoteTagPolicy」——
+        # 判据不降反升：旧断言只要出现 SKIP 即过（写进注释也算），新断言要求真正的装配实参
+        # 且与 production 口径一致（PRODUCTION），SKIP 只能留在回滚通道里。
+        if "remoteTagPolicy = RemoteTagPolicy.PRODUCTION" not in _scancomp_203:
+            _skip_bad.append("ScanComposition 未装配 PRODUCTION 策略")
         for _case in ("T-A4-13", "T-A4-14", "T-A4-15"):
             if _case not in _treader_test_203:
                 _skip_bad.append(f"{_case} 用例缺失")
@@ -6184,7 +6189,7 @@ def main() -> int:
     if _skip_bad:
         failures.append("§61.203 远程 tag 跳过：%s" % "；".join(_skip_bad))
     else:
-        print("[PASS] §61.203 远程 tag 跳过（SKIP 默认 + 网络侧链修复 + 封面按目录缓存 + 三用例）")
+        print("[PASS] §61.203 远程 tag 策略（SKIP 应急通道 + 网络侧链修复 + 封面按目录缓存 + 三用例）")
 
     # §61.204（A1-②③）refresh stat 命中跳过 + 并发 8：
     # ① ScanSnapshot.metadataDone / ScanSnapshotStore.markMetadataDone 端口在位；
@@ -7932,6 +7937,56 @@ def main() -> int:
         failures.append("§61.280 V0.4-07 交互收敛：%s" % "；".join(_c280))
     else:
         print("[PASS] §61.280 V0.4-07 返回栈分层 + 入口语义分流 + 歌词可发现")
+
+    # ---- §61.281（V0.4-08）：远程 tag 阶段 B 白名单读模式恢复 ----
+    # 判据：① 生产默认必须是 PRODUCTION（读模式），SKIP 只作应急/对照保留；
+    #       ② 装配处与适配器默认值都指向 PRODUCTION（防"改了策略没人用"）；
+    #       ③ 白名单 + 阈值约束在位（readExts / maxBytes 真生效，不是摆设）；
+    #       ④ 文档演进注已从"落地前维持 SKIP"改写为现行口径（防文档与代码两张皮）。
+    _c281 = []
+    _tag_reader = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "example"
+                   / "cloudmusic" / "scanner" / "TagReader.kt").read_text(
+                       encoding="utf-8", errors="replace")
+    if "val PRODUCTION = RemoteTagPolicy(skipRemoteTags = false)" not in _tag_reader:
+        _c281.append("RemoteTagPolicy 缺 PRODUCTION 读模式常量")
+    if "val SKIP = RemoteTagPolicy(skipRemoteTags = true)" not in _tag_reader:
+        _c281.append("SKIP 应急开关被删（回滚通道丢失）")
+    for _needle in ("val readExts: Set<String> = DEFAULT_REMOTE_TAG_EXTS",
+                    "val maxBytes: Long = 512L * 1024 * 1024",
+                    "if (sizeBytes > maxBytes) return true"):
+        if _needle not in _tag_reader:
+            _c281.append("白名单/阈值约束丢失：%s" % _needle)
+    _scan_comp = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                  / "cloudmusic" / "di" / "scan" / "ScanComposition.kt").read_text(
+                      encoding="utf-8", errors="replace")
+    # 只看装配实参，不看注释：剥离行注释后必须出现 PRODUCTION 且不再有 SKIP
+    _scan_code = _code_only(_scan_comp)
+    if "remoteTagPolicy = RemoteTagPolicy.PRODUCTION" not in _scan_code:
+        _c281.append("生产装配未指向 PRODUCTION（远程 tag 仍被跳过）")
+    if "remoteTagPolicy = RemoteTagPolicy.SKIP" in _scan_code:
+        _c281.append("生产装配仍是 SKIP（阶段 B 白名单恢复未落地）")
+    _prod_tc = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                / "cloudmusic" / "di" / "scan" / "ProductionTagAndCover.kt").read_text(
+                    encoding="utf-8", errors="replace")
+    if "private val remoteTagPolicy: RemoteTagPolicy = RemoteTagPolicy.PRODUCTION" not in _prod_tc:
+        _c281.append("AndroidTagReader 默认策略未指向 PRODUCTION（漏传即退回全跳过）")
+    _scan_test = (ROOT / "core-di" / "src" / "test" / "kotlin" / "com" / "example"
+                  / "cloudmusic" / "di" / "scan" / "ScanContractsTest.kt").read_text(
+                      encoding="utf-8", errors="replace")
+    for _needle in ("RemoteTagPolicy.PRODUCTION.shouldSkip", "T-A4-17"):
+        if _needle not in _scan_test:
+            _c281.append("可断言行为缺证：%s" % _needle)
+    _doc_scan = (ROOT / "docs" / "03-模块开发文档" / "03-04 扫描与元数据.md").read_text(
+        encoding="utf-8", errors="replace")
+    if "落地前维持 SKIP 现状" in _doc_scan or "将生产默认改回" in _doc_scan:
+        _c281.append("03-04 §10 演进注仍是「待落地」口径（文档与代码两张皮）")
+    for _needle in ("§61.281", "readExts"):
+        if _needle not in _doc_scan:
+            _c281.append("03-04 §10 缺现行口径登记：%s" % _needle)
+    if _c281:
+        failures.append("§61.281 V0.4-08 远程 tag 阶段 B：%s" % "；".join(_c281))
+    else:
+        print("[PASS] §61.281 V0.4-08 远程 tag 阶段 B 白名单读模式恢复（SKIP 留存为回滚通道）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
