@@ -7988,6 +7988,90 @@ def main() -> int:
     else:
         print("[PASS] §61.281 V0.4-08 远程 tag 阶段 B 白名单读模式恢复（SKIP 留存为回滚通道）")
 
+
+    # ---- §61.283（B01 收口）：FnComp 语义令牌必须随主题切色 ----
+    # 成因：§61.234 主题化只 var 化了 7 个令牌，另 5 个语义令牌留成 val 深色常量，
+    #       FnSwitch 关闭态另硬编码 #3A3A3E；§61.277 飞牛化全面铺开后暴露 ⇒
+    #       用户切「浅色」看到黑胶囊 / 重黑分隔线 / 看不见的分隔线与输入框 / 深灰封面占位。
+    # 判据：① FnComp 声明区不得出现白名单外的 val + Color(（防新增令牌又忘切色）；
+    #       ② 品牌色必须仍是 val（主题恒定，不得被"顺手"改 var）；
+    #       ③ 每个语义令牌都必须在 applyTheme 里 base(...) 赋值，且浅深值互异；
+    #       ④ FnSwitch 不得再硬编码关闭态底；
+    #       ⑤ 可断言面（FnThemeTokenTest）在册；
+    #       ⑥ applyThemeCompat 必须联动 FnComp（否则切主题飞牛页不跟随）。
+    _c283 = []
+    _nl = chr(10)
+    _val_color = "val[ ]+([A-Za-z0-9_]+)[ ]*=[ ]*" + re.escape("Color(")
+    _base_call = "([A-Za-z0-9_]+)[ ]*=[ ]*" + re.escape('base("')
+    _fnui = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+             / "cloudmusic" / "ui" / "FeiniuUi.kt").read_text(encoding="utf-8", errors="replace")
+    _fn_start = _fnui.find("object FnComp {")
+    _fn_end = _fnui.find(_nl + "}" + _nl, _fn_start) if _fn_start >= 0 else -1
+    if _fn_start < 0 or _fn_end < 0:
+        _c283.append("找不到 object FnComp 定义")
+        _fn_block = ""
+    else:
+        _fn_block = _fnui[_fn_start:_fn_end]
+    _fn_parts = _fn_block.split("fun applyTheme", 1)
+    _fn_decl = _fn_parts[0]
+    _fn_apply = _fn_parts[1] if len(_fn_parts) > 1 else ""
+    if not _fn_apply:
+        _c283.append("FnComp 缺 applyTheme（令牌无从切色）")
+
+    _allowed_vals = {"BrandOrange", "IconRed", "SwitchGreen"}
+    _const_vals = set(re.findall(_val_color, _fn_decl))
+    _rogue = sorted(_const_vals - _allowed_vals)
+    if _rogue:
+        _c283.append("FnComp 出现主题不切色的 val 令牌：%s（应改 var + 进 applyTheme）"
+                     % "/".join(_rogue))
+    if not _allowed_vals.issubset(_const_vals):
+        _c283.append("品牌色被改成 var（BrandOrange/IconRed/SwitchGreen 应主题恒定）")
+
+    _fn_need = ("CoverPlaceholder", "Divider", "InputBg", "RowDivider", "CapsuleBg", "SwitchOffBg")
+    for _n in _fn_need:
+        if ('%s = base("%s",' % (_n, _n)) not in _fn_apply:
+            _c283.append("applyTheme 未给 %s 切色" % _n)
+    _fn_dark = dict(re.findall('"([A-Za-z0-9_]+)"[ ]+to[ ]+(0x[0-9A-Fa-f]+)', _fn_block))
+    _fn_light = {}
+    for _m in re.finditer(_base_call + '([A-Za-z0-9_]+)",[ ]*(0x[0-9A-Fa-f]+)' + re.escape(")"), _fn_apply):
+        _fn_light[_m.group(2)] = _m.group(3)
+    if len(_fn_light) < len(_fn_need):
+        _c283.append("applyTheme 切色令牌数不足（%d < %d）" % (len(_fn_light), len(_fn_need)))
+    for _n, _lv in sorted(_fn_light.items()):
+        _dv = _fn_dark.get(_n)
+        if _dv is None:
+            _c283.append("浅色映射 %s 缺深色基准（无法回切）" % _n)
+        elif int(_dv, 16) == int(_lv, 16):
+            _c283.append("%s 浅深同值（等于没切色）" % _n)
+
+    _fn_sw = _fnui.split("fun FnSwitch(", 1)
+    _fn_sw_body = _fn_sw[1] if len(_fn_sw) > 1 else ""
+    if "FnComp.SwitchOffBg" not in _fn_sw_body:
+        _c283.append("FnSwitch 关闭态未用 FnComp.SwitchOffBg（硬编码会随主题失配）")
+    if "Color(0xFF3A3A3E)" in _fn_sw_body:
+        _c283.append("FnSwitch 仍硬编码关闭态底 #3A3A3E")
+
+    _fn_test = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "example"
+                / "cloudmusic" / "ui" / "FnThemeTokenTest.kt")
+    if not _fn_test.exists():
+        _c283.append("缺 FnThemeTokenTest（令牌切色无断言面）")
+    else:
+        _tt = _fn_test.read_text(encoding="utf-8", errors="replace")
+        for _n in _fn_need:
+            if _n not in _tt:
+                _c283.append("FnThemeTokenTest 未覆盖 %s" % _n)
+        if "assertNotEquals" not in _tt:
+            _c283.append("FnThemeTokenTest 缺互异断言")
+
+    _cu = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+           / "cloudmusic" / "ui" / "CompeteUi.kt").read_text(encoding="utf-8", errors="replace")
+    if "FnComp.applyTheme(isDark)" not in _cu:
+        _c283.append("applyThemeCompat 未联动 FnComp（切主题后飞牛页不跟随）")
+    if _c283:
+        failures.append("§61.283 FnComp 令牌切色：%s" % "；".join(_c283))
+    else:
+        print("[PASS] §61.283 FnComp 六语义令牌随主题切色（品牌色恒定，浅色无深块/隐形线）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

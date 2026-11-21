@@ -78,20 +78,30 @@ object FnComp {
     var SearchBg = Color(0xFF2B2B2E)
     /** 搜索占位文字：实测 `#959597`（折算 50% 白叠加在 `#2B2B2E` 上）。 */
     var SearchHint = Color(0xFF959597)
-    /** 曲目行封面占位底（比卡片底亮一档，避免与行底糊在一起）。 */
-    val CoverPlaceholder = Color(0xFF3A3A3E)
-    val Divider = Color(0x1AFFFFFF)
-    /** 弹层输入框底：卡片底上提一档的白 8%（§61.277）。 */
-    val InputBg = Color(0x14FFFFFF)
-    /** 卡片组内**行间分隔线**：实测 `#3C3C3F`（`161550` y=307dp / 478dp 采样）。 */
-    val RowDivider = Color(0xFF3C3C3F)
-    val CapsuleBg = Color(0xFF2B2B2E)
+    /** 曲目行封面占位底（深色下比卡片底亮一档，避免与行底糊在一起）。§61.283：var 化随主题切色。 */
+    var CoverPlaceholder = Color(0xFF3A3A3E)
+    var Divider = Color(0x1AFFFFFF)
+    /** 弹层输入框底：卡片底上提一档的白 8%（§61.277）。§61.283：var 化随主题切色。 */
+    var InputBg = Color(0x14FFFFFF)
+    /** 卡片组内**行间分隔线**：实测 `#3C3C3F`（`161550` y=307dp / 478dp 采样）。§61.283：var 化随主题切色。 */
+    var RowDivider = Color(0xFF3C3C3F)
+    var CapsuleBg = Color(0xFF2B2B2E)
+    /**
+     * 开关关闭态轨道。
+     *
+     * §61.283：原先硬编码在 [FnSwitch] 里（`#3A3A3E`），浅色主题下是深灰块 ⇒ 提为令牌随主题切色。
+     */
+    var SwitchOffBg = Color(0xFF3A3A3E)
 
     /** §61.234：浅色映射（同 Comp 口径；搜索框实测值保留深色语义，浅色取通用灰）。 */
     private val darkBase2 = mapOf(
         "PageBg" to 0xFF1E1E21, "CardBg" to 0xFF2B2B2E, "TextPrimary" to 0xFFFFFFFF,
         "TextSecondary" to 0x99FFFFFF, "TextHint" to 0x66FFFFFF,
         "SearchBg" to 0xFF2B2B2E, "SearchHint" to 0xFF959597,
+        // §61.283：本轮补入的语义令牌——此前是 val 常量，浅色主题下不切色（黑块/黑线/消失的线）。
+        "CoverPlaceholder" to 0xFF3A3A3E, "Divider" to 0x1AFFFFFF,
+        "InputBg" to 0x14FFFFFF, "RowDivider" to 0xFF3C3C3F,
+        "CapsuleBg" to 0xFF2B2B2E, "SwitchOffBg" to 0xFF3A3A3E,
     )
 
     fun applyTheme(isDark: Boolean) {
@@ -104,6 +114,14 @@ object FnComp {
         TextHint = base("TextHint", 0x661A1A1A)
         SearchBg = base("SearchBg", 0xFFF2F2F2)
         SearchHint = base("SearchHint", 0xFF8A8A8C)
+        // §61.283：浅色取「同语义反相」而非像素级复刻（飞牛无浅色基准，同 §61.234 口径如实登记）——
+        // 占位/分隔/输入底由「比卡片亮」改为「比卡片深」，白 α 线改为黑 α 线（否则浅底上不可见）。
+        CoverPlaceholder = base("CoverPlaceholder", 0xFFE9E9EC)
+        Divider = base("Divider", 0x1A000000)
+        InputBg = base("InputBg", 0x14000000)
+        RowDivider = base("RowDivider", 0xFFE0E0E3)
+        CapsuleBg = base("CapsuleBg", 0xFFF2F2F2)
+        SwitchOffBg = base("SwitchOffBg", 0xFFD8D8DC)
     }
 }
 
@@ -607,7 +625,7 @@ fun FnUnavailableBadge(text: String = "暂不可用") {
 }
 
 /**
- * 飞牛开关：开=品牌绿 `#0DD07F`，关=`#3A3A3E` 轨道 + 白钮。
+ * 飞牛开关：开=品牌绿 `#0DD07F`，关=[FnComp.SwitchOffBg] 轨道 + 白钮（§61.283 提为令牌）。
  *
  * 尺寸取 40×22dp（行高 50.4dp 内可容纳且不顶破行框），与飞牛设置页的开关比例一致。
  */
@@ -617,7 +635,7 @@ fun FnSwitch(checked: Boolean, onChange: (Boolean) -> Unit, modifier: Modifier =
         modifier
             .size(width = 40.dp, height = 22.dp)
             .clip(RoundedCornerShape(11.dp))
-            .background(if (checked) FnComp.SwitchGreen else Color(0xFF3A3A3E))
+            .background(if (checked) FnComp.SwitchGreen else FnComp.SwitchOffBg)
             .clickable { onChange(!checked) },
         contentAlignment = if (checked) Alignment.CenterEnd else Alignment.CenterStart,
     ) {
