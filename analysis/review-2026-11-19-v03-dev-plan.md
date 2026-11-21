@@ -96,9 +96,7 @@ PRD §3 V0.2 列九项代码侧全实现（`docs/01 §10` §61.233 终版回填�
   **117/866/0**（+6）；guard 九判据 A/B 反证两路 PASS；
   **真机 PASS**（2026-11-21 / `192.168.1.10:37385`：进程存活 5min+、OOM/SIGSEGV 命中 0、PSS 181→208MB 平稳；
   证据 `analysis/device-diagnosis-2026-11-21-ooms-fix-and-silent-playback.md`）。
-  注：无声问题最终定案（00:39 对照）= 本地 WebDAV 播放走 Media3 直连签名直链，
-  服务端 EOF（unexpected end of stream）→ preparation 失败；MP3 亦复现，与 APE/seek/本批改动均无关。
-  修复方向待拍板（走本机回环代理），详见诊断报告。
+  注：无声问题由 §61.268 修复并真机 PASS（详见下条）；中途的"网络阻断唯一根因"推断已被推翻。
 - §61.268：签名直链（`?sign=`）经 `ProductionTrackSourceResolver` 转本机回环代理，
   **真机 PASS**（01:00 用户关 VPN 后：`...43497/t/...` 代理 URL → state=PLAYING +
   AudioTrack 真实帧 f:5003→15044 + position 0→7984 推进，零崩溃）。
