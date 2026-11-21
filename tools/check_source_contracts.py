@@ -8659,6 +8659,131 @@ def main() -> int:
     else:
         print("[PASS] §61.292 页面状态保持（SaveableStateHolder + 槽位 key 纯函数 + 九槽唯一 + 用例在册）")
 
+    # ---- §61.293（输入法交互：键盘动作键不再哑、输入框按场景聚焦）----
+    #   背景：全仓 `KeyboardOptions`/`KeyboardActions`/`ImeAction`/`FocusRequester` 原先出现 **0** 次，
+    #   而两个输入组件都是裸 `BasicTextField` ⇒ ① 搜索框与各来源弹层的回车键是**哑键**（按下既不收
+    #   键盘也不触发任何事，键盘一直盖住下半屏）；② 弹层只为输入而开，却要用户再点一下输入框；
+    #   ③ 搜索页每次进入都不聚焦，点搜索图标后还得再点一下。
+    #   判据盯四件事：**搜索框声明 Search 动作并收键盘**、**两个组件都持有 FocusRequester**、
+    #   **每个弹层首格 autoFocus**、**单行输入必带 keyboardOptions**（防新增输入框退回哑键）。
+    _c293 = []
+
+    def _args_from293(src, lp):
+        """从 '(' 位置起按圆括号配对截取调用实参（含括号）。"""
+        depth = 0
+        for k in range(lp, len(src)):
+            ch = src[k]
+            if ch == "(":
+                depth += 1
+            elif ch == ")":
+                depth -= 1
+                if depth == 0:
+                    return src[lp:k + 1]
+        return ""
+
+    def _fn_body293(src, sig):
+        """按花括号配对截取函数体（含花括号）。"""
+        i = src.find(sig)
+        if i < 0:
+            return ""
+        j = src.find("{", i)
+        if j < 0:
+            return ""
+        depth = 0
+        for k in range(j, len(src)):
+            ch = src[k]
+            if ch == "{":
+                depth += 1
+            elif ch == "}":
+                depth -= 1
+                if depth == 0:
+                    return src[j:k + 1]
+        return ""
+
+    _fei293_path = _ui_src_dir / "FeiniuUi.kt"
+    if not _fei293_path.is_file():
+        _c293.append("FeiniuUi.kt 缺失")
+        _fei293 = ""
+    else:
+        _fei293 = _code_only(_fei293_path.read_text(encoding="utf-8", errors="replace"))
+
+    _search293 = _fn_body293(_fei293, "fun FnSearchField(")
+    if not _search293:
+        _c293.append("FnSearchField 函数体取不到（组件被删或改名）")
+    else:
+        if "KeyboardOptions(imeAction = ImeAction.Search)" not in _search293:
+            _c293.append("搜索框未声明 ImeAction.Search（回车键仍是哑键）")
+        if "onSearch = {" not in _search293 or "clearFocus()" not in _search293:
+            _c293.append("搜索框动作键按下后未收键盘（clearFocus 缺失）")
+        if "FocusRequester()" not in _search293:
+            _c293.append("搜索框未持有 FocusRequester（无法按场景自动聚焦）")
+        if ".focusRequester(focusRequester)" not in _search293:
+            _c293.append("搜索框的 FocusRequester 未接到输入框上")
+        if "LaunchedEffect(autoFocus)" not in _search293 or "requestFocus()" not in _search293:
+            _c293.append("搜索框未在进页时请求焦点")
+
+    _dlg293 = _fn_body293(_fei293, "fun FnDialogInput(")
+    _dlg_i293 = _fei293.find("fun FnDialogInput(")
+    # 参数在函数体之外（体从 '{' 开始），签名单独取参数表。
+    _dlg_sig293 = (_args_from293(_fei293, _dlg_i293 + len("fun FnDialogInput"))
+                   if _dlg_i293 >= 0 else "")
+    if not _dlg293 or not _dlg_sig293:
+        _c293.append("FnDialogInput 签名/函数体取不到（组件被删或改名）")
+    else:
+        for _tok, _msg in (
+            ("imeAction: ImeAction = ImeAction.Done", "弹层输入框未声明动作键参数（默认应为 Done）"),
+            ("autoFocus: Boolean = false", "弹层输入框未声明 autoFocus 参数"),
+        ):
+            if _tok not in _dlg_sig293:
+                _c293.append(_msg)
+        for _tok, _msg in (
+            ("KeyboardOptions(imeAction = imeAction)", "弹层输入框未把 imeAction 接到键盘"),
+            ("onNext = { focusManager.moveFocus(FocusDirection.Down) }", "Next 未接到「走下一格」"),
+            ("onDone = { focusManager.clearFocus() }", "Done 未接到「收键盘」"),
+        ):
+            if _tok not in _dlg293:
+                _c293.append(_msg)
+
+    # 单行输入必须带键盘动作：新加输入框若漏了 keyboardOptions，回车就退回哑键。
+    _basic293 = 0
+    for _m in re.finditer(r"BasicTextField\(", _fei293):
+        _basic293 += 1
+        _a = _args_from293(_fei293, _m.end() - 1)
+        if "singleLine = true" in _a and "keyboardOptions =" not in _a:
+            _c293.append("有单行 BasicTextField 未声明 keyboardOptions（回车退回哑键）")
+    if _basic293 < 2:
+        _c293.append("FeiniuUi 只识别到 %d 个 BasicTextField（搜索框/弹层输入框应为 2 个）" % _basic293)
+
+    # 每个含输入框的弹层：**首个** FnDialogInput 必须自动聚焦。
+    # 用原文判断：注释剥离会在 `https://` 处截断，把同一行后面的 autoFocus 一并吃掉。
+    _ca293 = _ca
+    _decls293 = [(m.group(1), m.start()) for m in
+                 re.finditer(r"(?m)^(?:private |internal )?fun (\w+)\(", _ca293)]
+    _dialogs293 = 0
+    for _idx293, (_name293, _pos293) in enumerate(_decls293):
+        _end293 = _decls293[_idx293 + 1][1] if _idx293 + 1 < len(_decls293) else len(_ca293)
+        _body293 = _ca293[_pos293:_end293]
+        if _name293 == "FnDialogInput" or "FnDialogInput(" not in _body293:
+            continue
+        _dialogs293 += 1
+        _call293 = _args_from293(_body293, _body293.find("FnDialogInput(") + len("FnDialogInput"))
+        if "autoFocus = true" not in _call293:
+            _c293.append("弹层 %s 的首个输入框未自动聚焦" % _name293)
+    if _dialogs293 < 7:
+        _c293.append("只识别到 %d 个含输入框的弹层（改造前为 7 个：WebDAV/SFTP/FTP/投屏/建单/加入歌单/忽略目录）"
+                     % _dialogs293)
+
+    if "autoFocus = remember { shouldAutoFocusSearch(query) }" not in _ca293:
+        _c293.append("搜索页调用点未按「进入时关键字」决定聚焦（或写死了 true）")
+    _sf293 = _args_from293(_ca293, _ca293.find("FnSearchField(") + len("FnSearchField"))
+    if "autoFocus = true" in _sf293:
+        _c293.append("搜索框把 autoFocus 写死 true（搜完返回会再弹键盘盖住结果）")
+
+    if _c293:
+        failures.append("§61.293 输入法交互：%s" % "；".join(_c293))
+    else:
+        print("[PASS] §61.293 输入法交互（搜索动作键+进页聚焦 / 弹层首格聚焦 / 单行输入必带键盘动作）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

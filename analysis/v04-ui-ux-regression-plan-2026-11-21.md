@@ -100,6 +100,12 @@
 > 测试 **134/955/0**（+`PageStateKeyTest` 4 条）；guard **254 条**；A/B 5 条全如期 FAIL。
 > 边界：歌单展开态仍普通 `remember`（B21 挂账）；真机观感并入 09（新增 **U-18**）。
 
+> **补批 10（输入法交互）**：§61.293 查「键盘」——`ImeAction`/`KeyboardOptions`/`FocusRequester` 全仓 0 次，
+> 回车是哑键、弹层与搜索页都不聚焦。修：搜索框 `ImeAction.Search` + `onSearch` 收键盘；`FnDialogInput` 增
+> `imeAction`/`autoFocus`；`InputPolicy.shouldAutoFocusSearch` 纯函数控制抢不抢焦点；七弹层首格聚焦。
+> 测试 **136/963/0**（+`InputFocusTest` 4 条）；guard **255 条**；A/B 6 条全如期 FAIL。
+> 边界：真机键盘观感并入 09（新增 **U-19**）。
+
 ## 2. 执行序
 
 **V0.4-01（入口合并）→ 02（显示契约）→ 03（灰显 #3A）→ 04a~c（风格归一）→ 05（图标）→ 06（MiniPlayer #1A）→ 07（交互）→ 08（远程 tag #2B + 冷扫复测）→ 09（设备窗口收口）。**

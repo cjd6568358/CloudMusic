@@ -62,6 +62,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -959,9 +960,10 @@ private fun WebDavDialog(
         title = "添加 WebDAV 源",
         content = {
             Column {
-                FnDialogInput(url, { url = it }, hint = "服务器地址（含端口），如 https://nas:5006")
-                FnDialogInput(username, { username = it }, hint = "用户名（可空=匿名）")
-                FnDialogInput(password, { password = it }, hint = "密码（可空）", password = true)
+                // §61.293：首格自动聚焦，回车逐格下移，末格（远程路径）回车收键盘。
+                FnDialogInput(url, { url = it }, hint = "服务器地址（含端口），如 https://nas:5006", autoFocus = true, imeAction = ImeAction.Next)
+                FnDialogInput(username, { username = it }, hint = "用户名（可空=匿名）", imeAction = ImeAction.Next)
+                FnDialogInput(password, { password = it }, hint = "密码（可空）", password = true, imeAction = ImeAction.Next)
                 FnDialogInput(rootPath, { rootPath = it }, hint = "远程路径（默认 /music）")
             }
         },
@@ -992,14 +994,15 @@ private fun SftpDialog(
         title = "添加 SFTP 源",
         content = {
             Column {
-                FnDialogInput(host, { host = it }, hint = "主机 IP / 域名，如 nas.local")
-                FnDialogInput(port, { port = it }, hint = "SSH 端口（默认 22）")
-                FnDialogInput(user, { user = it }, hint = "用户名")
-                FnDialogInput(pass, { pass = it }, hint = "密码 / 口令", password = true)
-                FnDialogInput(root, { root = it }, hint = "远程根目录（默认 /）")
+                // §61.293：首格自动聚焦，回车逐格下移，末格（私钥口令）回车收键盘。
+                FnDialogInput(host, { host = it }, hint = "主机 IP / 域名，如 nas.local", autoFocus = true, imeAction = ImeAction.Next)
+                FnDialogInput(port, { port = it }, hint = "SSH 端口（默认 22）", imeAction = ImeAction.Next)
+                FnDialogInput(user, { user = it }, hint = "用户名", imeAction = ImeAction.Next)
+                FnDialogInput(pass, { pass = it }, hint = "密码 / 口令", password = true, imeAction = ImeAction.Next)
+                FnDialogInput(root, { root = it }, hint = "远程根目录（默认 /）", imeAction = ImeAction.Next)
                 // §61.239：Ed25519 边界一手文案（§61.223 判读登记收口）——Android 无
                 // Ed25519 JCE provider，JSch 本地 Auth fail，推荐 RSA/EC 私钥口径。
-                FnDialogInput(privateKey, { privateKey = it }, hint = "PEM 私钥（可与密码二选一，换行用 \\n；推荐 RSA/EC）", password = true)
+                FnDialogInput(privateKey, { privateKey = it }, hint = "PEM 私钥（可与密码二选一，换行用 \\n；推荐 RSA/EC）", password = true, imeAction = ImeAction.Next)
                 FnDialogInput(passphrase, { passphrase = it }, hint = "私钥口令（可空）", password = true)
                 if (error != null) {
                     Text(
@@ -1048,10 +1051,11 @@ private fun FtpDialog(
         title = "添加 FTP 源",
         content = {
             Column {
-                FnDialogInput(host, { host = it }, hint = "主机 IP / 域名，如 nas.local")
-                FnDialogInput(port, { port = it }, hint = "FTP 端口（默认 21）")
-                FnDialogInput(user, { user = it }, hint = "用户名（空 = 匿名）")
-                FnDialogInput(pass, { pass = it }, hint = "密码（匿名可空）", password = true)
+                // §61.293：首格自动聚焦，回车逐格下移，末格（远程根目录）回车收键盘。
+                FnDialogInput(host, { host = it }, hint = "主机 IP / 域名，如 nas.local", autoFocus = true, imeAction = ImeAction.Next)
+                FnDialogInput(port, { port = it }, hint = "FTP 端口（默认 21）", imeAction = ImeAction.Next)
+                FnDialogInput(user, { user = it }, hint = "用户名（空 = 匿名）", imeAction = ImeAction.Next)
+                FnDialogInput(pass, { pass = it }, hint = "密码（匿名可空）", password = true, imeAction = ImeAction.Next)
                 FnDialogInput(root, { root = it }, hint = "远程根目录（默认 /）")
                 FnRow(
                     icon = FnIcon.Lock,
@@ -1560,7 +1564,8 @@ private fun CreatePlaylistSheet(
     FnSheetDialog(
         onDismiss = onDismiss,
         title = title,
-        content = { FnDialogInput(text, { text = it }, hint = hint) },
+        // §61.293：建单/重命名弹层只为输入而开——直接聚焦，回车收键盘。
+        content = { FnDialogInput(text, { text = it }, hint = hint, autoFocus = true) },
         actions = listOf(confirmLabel to { onConfirm(text) }),
     )
 }
@@ -1600,7 +1605,7 @@ private fun AddToPlaylistSheet(
                         Text(pl.name, color = FnComp.TextPrimary, fontSize = 16.sp, maxLines = 1)
                     }
                 }
-                FnDialogInput(newName, { newName = it }, hint = "新歌单名")
+                FnDialogInput(newName, { newName = it }, hint = "新歌单名", autoFocus = true)
             }
         },
         actions = listOf("建并加入" to {
@@ -1637,6 +1642,9 @@ private fun SearchScreen(
                 value = query,
                 onValueChange = onQuery,
                 modifier = Modifier.weight(1f),
+                // §61.293：只在「进来那一刻关键字为空」时抢焦点——搜完点结果去播放再返回，
+                // 不该又弹一次键盘盖住半屏结果（判定是纯函数，见 InputPolicy）。
+                autoFocus = remember { shouldAutoFocusSearch(query) },
             )
             Text(
                 "取消",
@@ -2200,7 +2208,13 @@ private fun IgnoreDirsSheet(
     FnSheetDialog(
         onDismiss = onDismiss,
         title = "忽略目录（逗号分隔，下次扫描生效）",
-        content = { FnDialogInput(text, { text = it }, hint = "如：System Volume Information, .Trash") },
+        content = {
+            FnDialogInput(
+                text, { text = it },
+                hint = "如：System Volume Information, .Trash",
+                autoFocus = true,
+            )
+        },
         actions = listOf(
             "应用" to {
                 onApply(
@@ -2315,9 +2329,10 @@ private fun ManualDmrDialog(
         title = "手动添加投屏设备",
         content = {
             Column {
-                FnDialogInput(host, { host = it }, hint = "设备 IP / 主机名，如 192.168.1.5")
-                FnDialogInput(port, { port = it }, hint = "端口（可空，默认试 8200 / 49152）")
-                FnDialogInput(descUrl, { descUrl = it }, hint = "设备说明地址（可空，填了只试它）")
+                // §61.293：首格自动聚焦，回车逐格下移，末格（备注名）回车收键盘。
+                FnDialogInput(host, { host = it }, hint = "设备 IP / 主机名，如 192.168.1.5", autoFocus = true, imeAction = ImeAction.Next)
+                FnDialogInput(port, { port = it }, hint = "端口（可空，默认试 8200 / 49152）", imeAction = ImeAction.Next)
+                FnDialogInput(descUrl, { descUrl = it }, hint = "设备说明地址（可空，填了只试它）", imeAction = ImeAction.Next)
                 FnDialogInput(label, { label = it }, hint = "备注名（可空）")
                 if (localError != null || probeError != null) {
                     Text(

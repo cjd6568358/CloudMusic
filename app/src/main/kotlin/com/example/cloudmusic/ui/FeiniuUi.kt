@@ -26,6 +26,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -522,7 +531,18 @@ fun FnSearchField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     hint: String = "搜索",
+    /** §61.293：进页是否抢焦点——由调用方按「进来那一刻有没有关键字」决定，不在这里猜。 */
+    autoFocus: Boolean = false,
+    /** §61.293：键盘「搜索」键回调（结果实时过滤，这里只做收尾）。 */
+    onSubmit: (() -> Unit)? = null,
 ) {
+    // §61.293：BasicTextField 不自带键盘动作，回车键此前是「哑键」——按下既不收键盘也不触发任何事。
+    // 键盘态是组合期资源，requester 与 focusManager 在此持有；autoFocus 变化时重新请求。
+    val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
+    LaunchedEffect(autoFocus) {
+        if (autoFocus) focusRequester.requestFocus()
+    }
     Row(
         modifier
             .heightIn(min = FnBaseline.SearchBoxHeightDp.dp)
@@ -563,9 +583,19 @@ fun FnSearchField(
                 singleLine = true,
                 textStyle = TextStyle(color = FnComp.TextPrimary, fontSize = FnBaseline.SearchHintSp.sp),
                 cursorBrush = SolidColor(FnComp.IconRed),
+                // §61.293：搜索场景的动作键必须是「搜索」；按下收键盘并清焦点——
+                // 否则键盘会一直盖住结果列表（结果本身就是实时过滤，不需要再触发查询）。
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions(
+                    onSearch = {
+                        focusManager.clearFocus()
+                        onSubmit?.invoke()
+                    },
+                ),
                 // §61.290：BasicTextField 不自带标签，静音输入框只会读「编辑框」。
                 modifier = Modifier
                     .fillMaxWidth()
+                    .focusRequester(focusRequester)
                     .semantics { contentDescription = hint },
             )
         }
@@ -796,7 +826,16 @@ fun FnDialogInput(
     onValueChange: (String) -> Unit,
     hint: String,
     password: Boolean = false,
+    /** §61.293：动作键。单字段/末位字段 Done（收键盘）；多字段表单前几格 Next 走下一格。 */
+    imeAction: ImeAction = ImeAction.Done,
+    /** §61.293：弹层首个字段自动聚焦——对话框只为输入而开，不该再要用户点一下。 */
+    autoFocus: Boolean = false,
 ) {
+    val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
+    LaunchedEffect(autoFocus) {
+        if (autoFocus) focusRequester.requestFocus()
+    }
     Box(
         Modifier
             .fillMaxWidth()
@@ -826,11 +865,19 @@ fun FnDialogInput(
                 VisualTransformation.None
             },
             cursorBrush = SolidColor(FnComp.IconRed),
+            // §61.293：Next 走下一格、Done 收键盘——此前 Dialog 里的回车同样是哑键，
+            // 用户填完一屏字段只能去点空白处收键盘。
+            keyboardOptions = KeyboardOptions(imeAction = imeAction),
+            keyboardActions = KeyboardActions(
+                onNext = { focusManager.moveFocus(FocusDirection.Down) },
+                onDone = { focusManager.clearFocus() },
+            ),
             // §61.290：新建歌单 / 重命名 / 各来源的地址与账号输入都走这个组件，
             // 不挂标签时 TalkBack 只念「编辑框」，用户不知道这一格要填什么。
             // 密码格不额外暴露内容（visualTransformation 已屏蔽字幕）。
             modifier = Modifier
                 .fillMaxWidth()
+                .focusRequester(focusRequester)
                 .semantics { contentDescription = hint },
         )
     }
