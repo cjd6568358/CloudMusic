@@ -41,7 +41,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import android.widget.Toast
 import com.example.cloudmusic.model.Availability
 import com.example.cloudmusic.model.SourceType
 import com.example.cloudmusic.model.Track
@@ -470,9 +469,7 @@ private fun FnTrackLine(
         // 不发起播放、不弹网络错误。
         onClick = {
             if (unavailable) {
-                Toast.makeText(
-                    context, TrackInfo.availabilityLabel(track), Toast.LENGTH_SHORT,
-                ).show()
+                context.showFeedback(TrackInfo.availabilityLabel(track))
             } else {
                 onPlay()
             }

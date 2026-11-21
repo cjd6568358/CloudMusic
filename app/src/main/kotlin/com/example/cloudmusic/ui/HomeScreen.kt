@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
-import android.widget.Toast
 import com.example.cloudmusic.model.Track
 import com.example.cloudmusic.model.TrackInfo
 import com.example.cloudmusic.model.recentlyAdded
@@ -270,11 +269,7 @@ private fun HomeTrackRow(track: Track, onClick: () -> Unit) {
             .alpha(if (unavailable) 0.45f else 1f)
             .clickable {
                 if (unavailable) {
-                    Toast.makeText(
-                        context,
-                        TrackInfo.availabilityLabel(track),
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                    context.showFeedback(TrackInfo.availabilityLabel(track))
                 } else {
                     onClick()
                 }

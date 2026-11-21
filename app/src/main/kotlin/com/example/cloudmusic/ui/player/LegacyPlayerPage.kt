@@ -85,6 +85,7 @@ import com.example.cloudmusic.model.TrackInfo
 import com.example.cloudmusic.player.PlayMode
 import com.example.cloudmusic.ui.Comp
 import com.example.cloudmusic.ui.FnSheetDialog
+import com.example.cloudmusic.ui.showFeedbackLong
 import com.example.cloudmusic.player.PlayerPhase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -170,9 +171,7 @@ fun LegacyPlayerPage(
         if (track?.id == null) return@LaunchedEffect
         val sp = hintContext.getSharedPreferences("ui_hints", android.content.Context.MODE_PRIVATE)
         if (!sp.getBoolean("lyrics_hint_shown", false)) {
-            android.widget.Toast.makeText(
-                hintContext, "点唱片封面可切换歌词", android.widget.Toast.LENGTH_LONG,
-            ).show()
+            hintContext.showFeedbackLong("点唱片封面可切换歌词")
             sp.edit().putBoolean("lyrics_hint_shown", true).apply()
         }
     }

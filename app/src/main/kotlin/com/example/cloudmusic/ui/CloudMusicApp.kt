@@ -2,7 +2,6 @@ package com.example.cloudmusic.ui
 
 import android.graphics.Bitmap
 import android.view.View
-import android.widget.Toast
 import android.widget.TextView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -283,6 +282,8 @@ fun CloudMusicApp(
     val pageStateHolder = rememberSaveableStateHolder()
     // §61.119（M3）：加入歌单弹窗目标曲目。
     var addToPlaylistTrack by remember { mutableStateOf<Track?>(null) }
+    // §61.294：动作反馈通道（Toast）——面板点完即关，此前不留任何痕迹。
+    val feedbackContext = LocalContext.current
 
     // §61.183：验收期导航请求兑现（粘性流，启动页结束后同样生效；恒 null = 无动作）。
     LaunchedEffect(surfaceRequests) {
@@ -624,12 +625,17 @@ fun CloudMusicApp(
             trackTitle = target.title,
             playlists = playlistList,
             onPick = { playlistId ->
+                // §61.294：面板立即关闭，补一句「已加入」；名字查不到时用中性词兜底。
+                val playlistName = playlistList.firstOrNull { it.id == playlistId }?.name.orEmpty()
                 bridge.onAddToPlaylist(playlistId, target.id)
                 addToPlaylistTrack = null
+                feedbackContext.showFeedback(FeedbackText.addedToPlaylist(playlistName))
             },
             onCreateAndAdd = { name ->
                 bridge.onCreatePlaylist(name) { id -> bridge.onAddToPlaylist(id, target.id) }
                 addToPlaylistTrack = null
+                // §61.294：新建与加入是两次动作，合成一句，避免两条 Toast 打架。
+                feedbackContext.showFeedback(FeedbackText.createdWithTrack(name))
             },
             onDismiss = { addToPlaylistTrack = null },
         )
@@ -761,7 +767,7 @@ private fun playOrExplain(
     if (track.availability == Availability.OK) {
         action()
     } else {
-        Toast.makeText(context, TrackInfo.availabilityLabel(track), Toast.LENGTH_SHORT).show()
+        context.showFeedback(TrackInfo.availabilityLabel(track))
     }
 }
 
@@ -1431,7 +1437,11 @@ private fun PlaylistsScreen(
             hint = "歌单名",
             confirmLabel = "创建",
             onConfirm = { name ->
-                if (name.isNotBlank()) onCreate(name.trim())
+                if (name.isNotBlank()) {
+                    val trimmed = name.trim()
+                    onCreate(trimmed)
+                    context.showFeedback(FeedbackText.createdPlaylist(trimmed))
+                }
                 showCreate = false
             },
             onDismiss = { showCreate = false },
@@ -1445,7 +1455,11 @@ private fun PlaylistsScreen(
             hint = "新名称",
             confirmLabel = "保存",
             onConfirm = { name ->
-                if (name.isNotBlank()) onRename(target, name.trim())
+                if (name.isNotBlank()) {
+                    val trimmed = name.trim()
+                    onRename(target, trimmed)
+                    context.showFeedback(FeedbackText.renamedPlaylist(trimmed))
+                }
                 renameTarget = null
             },
             onDismiss = { renameTarget = null },
@@ -1470,6 +1484,7 @@ private fun PlaylistsScreen(
                 "移除" to {
                     onRemoveItem(target.playlistId, target.index)
                     removeTarget = null
+                    context.showFeedback(FeedbackText.removedFromPlaylist(target.title))
                 },
                 "取消" to { removeTarget = null },
             ),
@@ -1485,6 +1500,7 @@ private fun PlaylistsScreen(
                 "删除" to {
                     onDelete(target.id)
                     deleteTarget = null
+                    context.showFeedback(FeedbackText.deletedPlaylist(target.name))
                 },
                 "取消" to { deleteTarget = null },
             ),

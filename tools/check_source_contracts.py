@@ -8784,6 +8784,77 @@ def main() -> int:
     else:
         print("[PASS] §61.293 输入法交互（搜索动作键+进页聚焦 / 弹层首格聚焦 / 单行输入必带键盘动作）")
 
+    # ---- §61.294（操作反馈：动作点完必须有一句话）----
+    #   背景：宿主 `MainActivity` 早有 Toast（添加来源/权限引导/缓存清理…），而 Compose 层
+    #   五类动作点完即静默——面板关掉、列表变了，却没有一句话确认「刚才那下生效了」：
+    #   加入歌单 / 新建并加入 / 重命名歌单 / 从歌单移除 / 删除歌单。失败也无法与「没点上」区分。
+    #   判据盯四件事：**文案纯函数在册且截断兜底**、**Toast 单出口（ui/ 内只有 Feedback.kt 造）**、
+    #   **六类动作各有调用点**、**单实例替换而非排队**（连点时提示要与当前操作对得上）。
+    _c294 = []
+
+    _ui_root294 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui")
+    _fb_path294 = _ui_root294 / "Feedback.kt"
+    if not _fb_path294.is_file():
+        _c294.append("ui/Feedback.kt 缺失（反馈通道被删）")
+    else:
+        _fb_code294 = _code_only(_fb_path294.read_text(encoding="utf-8", errors="replace"))
+        # 词边界而非子串：改成 FeedbackTextX 时 "object FeedbackText" 仍会被子串命中（294-A 实证）。
+        if not re.search(r"object\s+FeedbackText\s*\{", _fb_code294):
+            _c294.append("FeedbackText 纯函数对象缺失")
+        for _fn294 in ("addedToPlaylist", "createdWithTrack", "createdPlaylist",
+                       "renamedPlaylist", "deletedPlaylist", "removedFromPlaylist"):
+            if not re.search(r"fun\s+%s\s*\(" % _fn294, _fb_code294):
+                _c294.append("文案函数缺失：%s" % _fn294)
+        # 名字必须截断 + 空名兜底：42 字歌单名会把 Toast 撑三行、空名会拼出「已加入「」」
+        if "take(NAME_LIMIT)" not in _fb_code294 or '"…"' not in _fb_code294:
+            _c294.append("brief 未截断超长名（Toast 会被撑成两行）")
+        if '"该歌单"' not in _fb_code294:
+            _c294.append("brief 未兜底空名（会拼出「已加入「」」）")
+        if "feedbackToast?.cancel()" not in _fb_code294:
+            _c294.append("反馈 Toast 未做单实例替换（连点会排队、提示与当前操作错位）")
+        for _out294 in ("fun Context.showFeedback(", "fun Context.showFeedbackLong("):
+            if _out294 not in _fb_code294:
+                _c294.append("统一出口缺失：%s" % _out294)
+
+    # Toast 只允许在 Feedback.kt 里创建：此前四处各建各的，连点必排队
+    _toast_makers294 = []
+    for _p294 in sorted(_ui_root294.rglob("*.kt")):
+        _code294 = _code_only(_p294.read_text(encoding="utf-8", errors="replace"))
+        if "Toast.makeText" in _code294:
+            _toast_makers294.append(_p294.name)
+    if _toast_makers294 != ["Feedback.kt"]:
+        _c294.append("ui/ 内 Toast 制造点不止 Feedback.kt（实际：%s）"
+                     % (",".join(_toast_makers294) or "无"))
+
+    # 六类动作各自的调用点
+    _ca294 = _code_only((_ui_root294 / "CloudMusicApp.kt")
+                        .read_text(encoding="utf-8", errors="replace"))
+    for _call294 in ("FeedbackText.addedToPlaylist(", "FeedbackText.createdWithTrack(",
+                     "FeedbackText.createdPlaylist(", "FeedbackText.renamedPlaylist(",
+                     "FeedbackText.deletedPlaylist(", "FeedbackText.removedFromPlaylist("):
+        if _call294 not in _ca294:
+            _c294.append("动作缺反馈：%s" % _call294)
+    if "showFeedback(" not in _ca294:
+        _c294.append("CloudMusicApp 未接反馈出口")
+
+    # 文案退化只在真机看得见 → 必须有纯 JVM 用例钉住
+    _fb_test294 = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "example"
+                   / "cloudmusic" / "ui" / "FeedbackTextTest.kt")
+    if not _fb_test294.is_file():
+        _c294.append("FeedbackTextTest 用例缺失")
+    else:
+        _t294 = _fb_test294.read_text(encoding="utf-8", errors="replace")
+        if "@Test" not in _t294:
+            _c294.append("FeedbackTextTest 无用例")
+        for _need294 in ("NAME_LIMIT", "该歌单"):
+            if _need294 not in _t294:
+                _c294.append("用例未覆盖：%s" % _need294)
+
+    if _c294:
+        failures.append("§61.294 操作反馈：%s" % "；".join(_c294))
+    else:
+        print("[PASS] §61.294 操作反馈（六类动作有确认 / 文案截断兜底 / Toast 单出口单实例 / 用例在册）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
