@@ -42,6 +42,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -156,6 +157,20 @@ fun LegacyPlayerPage(
 
     // §61.174：点击唱片区在「唱片 / 歌词」之间切换（竞品同一交互）。
     var showLyrics by remember { mutableStateOf(false) }
+    // §61.280（V0.4-07 ④）：**歌词入口可发现性**——「点唱片切歌词」是竞品的隐式交互，
+    // 用户不会自己发现（W 判读时也提过）。首次有曲目进播放页时给一次提示，之后不再打扰；
+    // 标记落 SharedPreferences（纯 UI 提示位，不是用户设置项，故不进 08 配置总表）。
+    val hintContext = LocalContext.current
+    LaunchedEffect(track?.id) {
+        if (track?.id == null) return@LaunchedEffect
+        val sp = hintContext.getSharedPreferences("ui_hints", android.content.Context.MODE_PRIVATE)
+        if (!sp.getBoolean("lyrics_hint_shown", false)) {
+            android.widget.Toast.makeText(
+                hintContext, "点唱片封面可切换歌词", android.widget.Toast.LENGTH_LONG,
+            ).show()
+            sp.edit().putBoolean("lyrics_hint_shown", true).apply()
+        }
+    }
     // V0.2 §61.218：副控制行 info 位从只读图标变成真实歌曲信息面板。
     var showTrackInfo by remember { mutableStateOf(false) }
 

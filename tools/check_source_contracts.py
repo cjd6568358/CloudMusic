@@ -7899,6 +7899,40 @@ def main() -> int:
     else:
         print("[PASS] §61.279 V0.4-06 迷你条飞牛卡片条（竞品跑马灯/旋转盘/双音符已退役）")
 
+    # ---- §61.280（V0.4-07 交互收敛）：返回栈分层 + 入口语义分流 + 歌词可发现 ----
+    # 判据：① 根级 BackHandler 按「播放页 → 来源页/面板 → 次级页回进入方 → 一级 tab 放行」分层；
+    #       ② 次级页返回不得写死回「更多」（`onBack = { showMore = true }` 消失）；
+    #       ③ 每个入口显式登记来源（subOrigin）—— 我的音乐按入口滚到收藏段 / 最近段；
+    #       ④ 歌词入口有一次性发现提示（`lyrics_hint_shown`），不静默隐式交互。
+    _c280 = []
+    _app_code = _code_only(app_txt)
+    if "BackHandler(" not in _app_code:
+        _c280.append("缺根级 BackHandler（返回键会直接退出 App）")
+    else:
+        for _needle in ("showPlayer -> showPlayer = false", "showSources -> showSources = false",
+                        "showMore -> showMore = false", "else -> exitSubPage()"):
+            if _needle not in _app_code:
+                _c280.append("BackHandler 分层缺：%s" % _needle)
+    if "onBack = { showMore = true }" in _app_code:
+        _c280.append("次级页返回仍写死回「更多」（未接来源）")
+    if _app_code.count("subOrigin =") < 8:
+        _c280.append("入口来源登记不足（subOrigin < 8 处）")
+    for _needle in ("fun exitSubPage()", "focusRecent", "animateScrollTo(recentY)"):
+        if _needle not in _app_code:
+            _c280.append("入口语义分流缺：%s" % _needle)
+    _home = (_ui_dir / "HomeScreen.kt").read_text(encoding="utf-8", errors="replace")
+    if "onOpenMine(false)" not in _home or "onOpenMine(true)" not in _home:
+        _c280.append("首页收藏/最近卡未按语义分流（两张卡仍同一入口）")
+    _player = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+               / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt").read_text(
+                   encoding="utf-8", errors="replace")
+    if "lyrics_hint_shown" not in _player:
+        _c280.append("歌词入口无首次提示（隐式交互不可发现）")
+    if _c280:
+        failures.append("§61.280 V0.4-07 交互收敛：%s" % "；".join(_c280))
+    else:
+        print("[PASS] §61.280 V0.4-07 返回栈分层 + 入口语义分流 + 歌词可发现")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

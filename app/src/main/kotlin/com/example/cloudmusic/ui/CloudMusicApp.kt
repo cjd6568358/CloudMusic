@@ -41,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.example.cloudmusic.ui.player.loadLegacyTypeface
+import androidx.activity.compose.BackHandler
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -54,6 +55,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.style.TextOverflow
@@ -252,6 +255,11 @@ fun CloudMusicApp(
     // 而非播放页；继续「启动即播放页」会让首页/音乐库在冷启动时完全不可达，与用户
     // 「从启动页起 1:1 复刻」的目标冲突。改为冷启动落首页，播放页由迷你条/点歌进入。
     var showPlayer by rememberSaveable { mutableStateOf(false) }
+    // §61.280（V0.4-07 ①，03-10 §9 B16）：次级页「从哪进来」——返回键与页头「←」都回**进入方**，
+    // 不再写死回「更多」面板。-1 = 更多面板；≥0 = 该 tab 序号。
+    var subOrigin by rememberSaveable { mutableIntStateOf(-1) }
+    // §61.280（V0.4-07 ③）：我的音乐入口语义——false = 收藏段（默认），true = 最近播放段。
+    var mineFocusRecent by rememberSaveable { mutableStateOf(false) }
     var query by rememberSaveable { mutableStateOf("") }
     // §61.187：搜索页返回目标（-1 = 从「更多」进入 → 返回更多；≥0 = 从该 tab 进入）。
     // 旧实现「取消」只清关键字不退出页面 ⇒ 用户「返回也返回不了」。
@@ -347,6 +355,30 @@ fun CloudMusicApp(
     val miniSubtitle = player.currentTrackId?.let { id ->
         trackList.firstOrNull { it.id.value == id.value }
     }?.let { TrackInfo.listSubtitle(it) }
+    // §61.280（V0.4-07 ①）：次级页统一出口——有来源就回来源，没有（深链/冷启）才回「更多」。
+    fun exitSubPage() {
+        if (subOrigin >= 0) tab = subOrigin else showMore = true
+    }
+
+    // §61.280（V0.4-07 ①，PRD §7.2 返回栈契约 / 03-10 §9 B16）：
+    // 逐层退出——播放页覆盖层 → 「更多」面板 → 次级页（回进入方）→ 一级 tab（首页/音乐库）。
+    // 一级 tab 上**不拦截**，交给系统退出 App；弹层（ModalBottomSheet）自带返回关闭，无需在此处理。
+    BackHandler(
+        enabled = showPlayer || showSources || showMore || tab in 2..6,
+    ) {
+        when {
+            showPlayer -> showPlayer = false
+            showSources -> showSources = false
+            showMore -> showMore = false
+            // 搜索页的「返回」= 清词 + 回进入方（与页内「取消」同一语义，§61.187）。
+            tab == 3 -> {
+                query = ""
+                if (searchReturnTo >= 0) tab = searchReturnTo else showMore = true
+            }
+            else -> exitSubPage()
+        }
+    }
+
     Scaffold(
         // §61.277（V0.4-04 ④）：全局底色切飞牛页底；Comp 令牌自此收敛为播放页专用
         // （播放页覆盖层自带 LegacyPalette 背景，不受本行影响）。
@@ -425,20 +457,24 @@ fun CloudMusicApp(
                     onBack = { showSources = false },
                 )
                 showMore -> MoreScreen(
-                    onPlaylists = { showMore = false; searchReturnTo = -1; tab = 2 },
-                    onSearch = { showMore = false; searchReturnTo = -1; tab = 3 },
-                    onQueue = { showMore = false; tab = 4 },
-                    onMine = { showMore = false; tab = 5 },
-                    onSettings = { showMore = false; tab = 6 },
-                    onSources = { showMore = false; showSources = true },
+                    onPlaylists = { showMore = false; searchReturnTo = -1; subOrigin = -1; tab = 2 },
+                    onSearch = { showMore = false; searchReturnTo = -1; subOrigin = -1; tab = 3 },
+                    onQueue = { showMore = false; subOrigin = -1; tab = 4 },
+                    onMine = { showMore = false; mineFocusRecent = false; subOrigin = -1; tab = 5 },
+                    onSettings = { showMore = false; subOrigin = -1; tab = 6 },
+                    onSources = { showMore = false; subOrigin = -1; showSources = true },
                     onDismiss = { showMore = false },
                     entryLabels = FUNCTION_PAGE_LABELS,
                 )
                 tab == 0 -> HomeScreen(
                     tracks = trackList,
                     onPlayTracks = onPlayTracks,
-                    onOpenSources = { showSources = true },
-                    onOpenMine = { tab = 5 },
+                    onOpenSources = { subOrigin = 0; showSources = true },
+                    onOpenMine = { recent ->
+                        mineFocusRecent = recent
+                        subOrigin = 0
+                        tab = 5
+                    },
                     favoriteCount = homeFavorites.size,
                     recentCount = homeHistory.size,
                 )
@@ -450,11 +486,11 @@ fun CloudMusicApp(
                     onAddToPlaylist = { addToPlaylistTrack = it },
                     onRescan = onRescanAll,
                     onRetryUnavailable = onRetryUnavailable,
-                    onOpenSearch = { searchReturnTo = 1; tab = 3 },
-                    onOpenPlaylists = { tab = 2 },
-                    onOpenFavorites = { tab = 5 },
-                    onOpenHistory = { tab = 5 },
-                    onOpenSources = { showSources = true },
+                    onOpenSearch = { searchReturnTo = 1; subOrigin = 1; tab = 3 },
+                    onOpenPlaylists = { subOrigin = 1; tab = 2 },
+                    onOpenFavorites = { mineFocusRecent = false; subOrigin = 1; tab = 5 },
+                    onOpenHistory = { mineFocusRecent = true; subOrigin = 1; tab = 5 },
+                    onOpenSources = { subOrigin = 1; showSources = true },
                 )
                 tab == 2 -> PlaylistsScreen(
                     playlistList,
@@ -469,7 +505,7 @@ fun CloudMusicApp(
                     allTracks = trackList,
                     onPlaySmart = { hits -> onPlayTracks(hits, 0) },
                     // §61.192：次级页返回（飞牛「←」口径），回「更多」
-                    onBack = { showMore = true },
+                    onBack = { exitSubPage() },
                 )
                 tab == 3 -> SearchScreen(
                     query = query,
@@ -489,17 +525,18 @@ fun CloudMusicApp(
                     titles = trackList.associate { it.id.value to it },
                     onJump = bridge::onQueueJump,
                     // §61.192：次级页返回
-                    onBack = { showMore = true },
+                    onBack = { exitSubPage() },
                 )
                 tab == 5 -> MyMusicScreen(
                     bridge = bridge,
                     allTracks = trackList,
                     onPlayTracks = onPlayTracks,
-                    onBack = { showMore = true },
+                    onBack = { exitSubPage() },
+                    focusRecent = mineFocusRecent,
                 )
                 else -> SettingsScreen(
                     runtime, appSettings.network.wifiOnly, onRescanAll,
-                    { showSources = true },
+                    { subOrigin = 6; showSources = true },
                     // §61.29 / 03-11 §2：打开输出弹窗时按动作申请蓝牙权限显示设备名；
                     // 弹窗本身不等待授权结果（B01 拒绝不阻断）。
                     { showOutput = true; onOpenOutput() },
@@ -526,7 +563,7 @@ fun CloudMusicApp(
                     sourceCount = storageList.size,
                     // §61.211（G09 拍板 A）：MIUI 自启动引导。
                     onOpenAutostartSettings = onOpenAutostartSettings,
-                    onBack = { showMore = true },
+                    onBack = { exitSubPage() },
                 )
             }
         }
@@ -1594,6 +1631,11 @@ private fun MyMusicScreen(
     allTracks: List<Track>,
     onPlayTracks: (List<Track>, Int) -> Unit,
     onBack: () -> Unit,
+    /**
+     * §61.280（V0.4-07 ③）：入口语义分流——从「最近」卡 / 音乐库「最近」进来时
+     * 自动滚到最近播放段；从「收藏」卡 / 更多页「我的音乐」进来则停在顶部（收藏段）。
+     */
+    focusRecent: Boolean = false,
 ) {
     val context = LocalContext.current
     val favorites by bridge.observeFavorites().collectAsState(initial = emptySet())
@@ -1601,7 +1643,15 @@ private fun MyMusicScreen(
     val favTracks = allTracks.filter { it.id in favorites }
     Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
         FnPageHeader("我的音乐", onBack = onBack)
-        Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+        // §61.280（V0.4-07 ③）：从「最近」入口进来时滚到最近播放段。
+        // 段头 y 坐标要等首帧布局后才知道 → 用 onGloballyPositioned 落值，
+        // 再由 LaunchedEffect(recentY) 触发一次滚动（不递归、不抖动）。
+        val scroll = rememberScrollState()
+        var recentY by remember { mutableIntStateOf(0) }
+        LaunchedEffect(focusRecent, recentY) {
+            if (focusRecent && recentY > 0) scroll.animateScrollTo(recentY)
+        }
+        Column(Modifier.fillMaxSize().verticalScroll(scroll)) {
             Spacer(Modifier.height(FnBaseline.HeaderToCardGapDp.dp))
             FnStatCard(
                 icon = FnIcon.Favorite,
@@ -1632,7 +1682,13 @@ private fun MyMusicScreen(
                 Spacer(Modifier.height(FnBaseline.GroupGapDp.dp))
             }
             if (history.isNotEmpty()) {
-                FnSectionTitle("最近播放 · ${history.size}")
+                Box(
+                    Modifier.onGloballyPositioned {
+                        recentY = it.positionInParent().y.toInt()
+                    },
+                ) {
+                    FnSectionTitle("最近播放 · ${history.size}")
+                }
                 FnGroupCard {
                     history.forEachIndexed { index, track ->
                         FnTrackRow(

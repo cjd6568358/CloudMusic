@@ -295,24 +295,31 @@ private fun FnHeaderButton(icon: FnIcon, onClick: () -> Unit) {
     }
 }
 
-/** 快捷入口（图标圆底 + 11sp 标签）：原三张分组卡收为一行，列表上移。 */
+/**
+ * 快捷入口（图标圆底 + 11sp 标签）：原三张分组卡收为一行，列表上移。
+ *
+ * §61.280（V0.4-07 ②「信息权重」）：圆底 44→36dp、图标 24→18dp、行高 78→64dp ——
+ * 这一行是**次级入口**，不该和上面的曲目列表抢视觉权重；压缩后列表首行整体上移约 14dp。
+ * 更深的结构重排（把快捷入口并入顶栏 / 折叠进视图组）不做，等真机判读后再定版式，
+ * 不凭想象改。
+ */
 @Composable
 private fun FnQuickEntry(icon: FnIcon, label: String, onClick: () -> Unit) {
     Column(
         Modifier
-            .width(78.dp)
+            .width(68.dp)
             .clip(RoundedCornerShape(12.dp))
             .clickable { onClick() }
-            .padding(vertical = 8.dp),
+            .padding(vertical = 6.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
-            Modifier.size(44.dp).clip(CircleShape).background(FnComp.CardBg),
+            Modifier.size(36.dp).clip(CircleShape).background(FnComp.CardBg),
             contentAlignment = Alignment.Center,
         ) {
-            FnLineIcon(icon, FnComp.IconRed)
+            FnLineIcon(icon, FnComp.IconRed, size = 18.dp)
         }
-        Spacer(Modifier.height(7.dp))
+        Spacer(Modifier.height(5.dp))
         Text(label, color = FnComp.TextSecondary, fontSize = 11.sp, maxLines = 1)
     }
 }

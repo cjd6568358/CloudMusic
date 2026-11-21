@@ -57,8 +57,14 @@ fun HomeScreen(
     tracks: List<Track>,
     onPlayTracks: (List<Track>, Int) -> Unit,
     onOpenSources: () -> Unit,
-    /** §61.175：收藏 / 最近卡片详情入口（原实现错导向数据源管理，属死链）。 */
-    onOpenMine: () -> Unit = {},
+    /**
+     * §61.175：收藏 / 最近卡片详情入口（原实现错导向数据源管理，属死链）。
+     *
+     * §61.280（V0.4-07 ③）：**语义分流**——参数 `recent` 指出该卡该落到我的音乐的哪一段
+     * （false = 收藏段 / true = 最近播放段）。此前两张卡都调 `tab = 5` 落到同屏顶部，
+     * 「最近」卡点进去看到的是收藏段，语义不对。
+     */
+    onOpenMine: (recent: Boolean) -> Unit = {},
     favoriteCount: Int = 0,
     recentCount: Int = 0,
 ) {
@@ -77,9 +83,9 @@ fun HomeScreen(
                     }
                 }
                 Spacer(Modifier.width(14.dp))
-                CollectCard(count = favoriteCount, onClick = onOpenMine)
+                CollectCard(count = favoriteCount, onClick = { onOpenMine(false) })
                 Spacer(Modifier.width(14.dp))
-                RecentCard(count = recentCount, onClick = onOpenMine)
+                RecentCard(count = recentCount, onClick = { onOpenMine(true) })
                 Spacer(Modifier.width(20.dp))
             }
         }
