@@ -1258,6 +1258,8 @@ private fun PlaylistsScreen(
     var deleteTarget by remember { mutableStateOf<Playlist?>(null) }
     // §61.277（V0.4-04）：飞牛骨架重排——页头 + 分组标题 + 飞牛行；逻辑/回调零改动。
     var opsTarget by remember { mutableStateOf<Playlist?>(null) }
+    // §61.286：待确认的「从歌单移除」目标（曲目行 ✕ 先落这里，弹层确认后才真删）。
+    var removeTarget by remember { mutableStateOf<PendingItemRemoval?>(null) }
     // §61.284（B07 收口）：展开歌单的曲目要作为父 LazyColumn 的独立 item 发出（懒加载），
     // 而 `LazyListScope` 里不能 collectAsState → 曲目流提升到列表作用域外，且只在有展开项
     // 时订阅（收起即取消，不常驻；与 §61.140 首曲封面的生命周期口径一致）。
@@ -1361,40 +1363,21 @@ private fun PlaylistsScreen(
                             badge = unavailableBadge(track),
                             onClick = { playOrExplain(context, track) {} },
                             trailing = {
-                                Row {
-                                    Text(
-                                        "↑",
-                                        color = FnComp.TextSecondary,
-                                        fontSize = 14.sp,
-                                        modifier = Modifier
-                                            .padding(6.dp)
-                                            .clickable {
-                                                if (index > 0) {
-                                                    onMoveItem(playlist.id, index, index - 1)
-                                                }
-                                            },
-                                    )
-                                    Text(
-                                        "↓",
-                                        color = FnComp.TextSecondary,
-                                        fontSize = 14.sp,
-                                        modifier = Modifier
-                                            .padding(6.dp)
-                                            .clickable {
-                                                if (index < expandedTracks.size - 1) {
-                                                    onMoveItem(playlist.id, index, index + 1)
-                                                }
-                                            },
-                                    )
-                                    Text(
-                                        "✕",
-                                        color = FnComp.TextSecondary,
-                                        fontSize = 14.sp,
-                                        modifier = Modifier
-                                            .padding(6.dp)
-                                            .clickable { onRemoveItem(playlist.id, index) },
-                                    )
-                                }
+                                // §61.286：三键独立 40dp 槽位（原 6dp padding 文字只有 ~26dp，
+                                // 紧邻排列极易误触）；✕ 不再单击即删，走二次确认。
+                                PlaylistRowActions(
+                                    canUp = index > 0,
+                                    canDown = index < expandedTracks.size - 1,
+                                    onUp = { onMoveItem(playlist.id, index, index - 1) },
+                                    onDown = { onMoveItem(playlist.id, index, index + 1) },
+                                    onRemove = {
+                                        removeTarget = PendingItemRemoval(
+                                            playlistId = playlist.id,
+                                            index = index,
+                                            title = track.title,
+                                        )
+                                    },
+                                )
                             },
                         )
                     }
@@ -1444,6 +1427,31 @@ private fun PlaylistsScreen(
             onDismiss = { renameTarget = null },
         )
     }
+    // §61.286：从歌单移除曲目同样二次确认——与「删除歌单」 (§61.121) 同一口径。
+    // 此前 ✕ 单击即移除：2,000 首歌单里丢了位置就找不回来（移除不可撤销），
+    // 且触控目标只有 ~26dp 又与 ↑/↓ 紧邻，误触概率不低。
+    removeTarget?.let { target ->
+        FnSheetDialog(
+            onDismiss = { removeTarget = null },
+            title = "从歌单移除「${target.title}」？",
+            content = {
+                Text(
+                    "只从歌单移除，曲库文件不受影响；移除后顺序不可撤销。",
+                    color = FnComp.TextHint,
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(horizontal = 20.dp),
+                )
+            },
+            actions = listOf(
+                "移除" to {
+                    onRemoveItem(target.playlistId, target.index)
+                    removeTarget = null
+                },
+                "取消" to { removeTarget = null },
+            ),
+            destructiveIndexOf = 0,
+        )
+    }
     // §61.121：删除确认（此前误删无确认，M3 挂账 UX 收口）。
     deleteTarget?.let { target ->
         FnSheetDialog(
@@ -1457,6 +1465,55 @@ private fun PlaylistsScreen(
                 "取消" to { deleteTarget = null },
             ),
             destructiveIndexOf = 0,
+        )
+    }
+}
+
+/**
+ * §61.286：歌单曲目行操作槽边长。
+ *
+ * 40dp 与飞牛顶栏圆钮同量值；旧实现是 14sp 文字 + 6dp padding（≈26dp），
+ * 三个键紧邻排列，移动端误触率高（尤其 ✕ 是破坏性操作）。
+ */
+internal const val PlaylistActionSlotDp = 40
+
+/** §61.286：待确认的「从歌单移除」目标（位置即身份，故存 index 而非 trackId）。 */
+private data class PendingItemRemoval(val playlistId: String, val index: Int, val title: String)
+
+/**
+ * 歌单曲目行尾部三键（上移 / 下移 / 移除）。
+ *
+ * §61.286：越界方向 [canUp]/[canDown] 为 false 时置灰且不响应——旧实现点了没反应，
+ * 用户看不出是「到头了」还是「点空了」。
+ */
+@Composable
+private fun PlaylistRowActions(
+    canUp: Boolean,
+    canDown: Boolean,
+    onUp: () -> Unit,
+    onDown: () -> Unit,
+    onRemove: () -> Unit,
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        PlaylistActionSlot("↑", canUp, onUp)
+        PlaylistActionSlot("↓", canDown, onDown)
+        PlaylistActionSlot("✕", true, onRemove)
+    }
+}
+
+@Composable
+private fun PlaylistActionSlot(glyph: String, enabled: Boolean, onClick: () -> Unit) {
+    Box(
+        Modifier
+            .size(PlaylistActionSlotDp.dp)
+            .clip(CircleShape)
+            .clickable(enabled = enabled) { onClick() },
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            glyph,
+            color = if (enabled) FnComp.TextSecondary else FnComp.TextHint,
+            fontSize = 14.sp,
         )
     }
 }

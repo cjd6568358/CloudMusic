@@ -8215,6 +8215,50 @@ def main() -> int:
     else:
         print("[PASS] §61.285 重扫进行态（进度环 + 禁用 + 真实 scanning + 重入不误清）")
 
+    # ---- §61.286（歌单曲目行破坏性操作护栏）：40dp 槽位 + 移除二次确认 + 越界置灰 ----
+    #   判据形态刻意「按结构而非按文案」：只认槽位边长常量、禁用参数、确认弹层的
+    #   destructiveIndexOf，避免把注释/日志里的字样当成实现。
+    _c286 = []
+    if "internal const val PlaylistActionSlotDp = 40" not in _code_app:
+        _c286.append("操作槽边长未定为 40dp（6dp padding 的文字只有 ~26dp，紧邻即误触）")
+    _slot_start = _code_app.find("private fun PlaylistActionSlot(")
+    if _slot_start < 0:
+        _c286.append("PlaylistActionSlot 组件缺失（三键应各自独立成槽）")
+    else:
+        _slot_body = _code_app[_slot_start:]
+        _slot_body = _slot_body[:_slot_body.find(chr(10) + "}") + 1] if (chr(10) + "}") in _slot_body else _slot_body
+        if ".size(PlaylistActionSlotDp.dp)" not in _slot_body:
+            _c286.append("槽位未按 PlaylistActionSlotDp 取尺寸（触控目标回到 ~26dp）")
+        if "clickable(enabled = enabled)" not in _slot_body:
+            _c286.append("槽位未按 enabled 禁用（越界方向点了没反应，用户无法分辨到头/点空）")
+        if "FnComp.TextHint" not in _slot_body:
+            _c286.append("禁用态没有视觉区分（TextHint 未用）")
+    for _needle in ('PlaylistActionSlot("↑", canUp, onUp)',
+                    'PlaylistActionSlot("↓", canDown, onDown)',
+                    'PlaylistActionSlot("✕", true, onRemove)'):
+        if _needle not in _code_app:
+            _c286.append("三键未全部走独立槽位：%s" % _needle)
+    # 禁止行内直接删：曲目行只允许落「待确认」，真删必须在弹层回调里按 target 执行。
+    if "onRemoveItem(playlist.id, index)" in _code_app:
+        _c286.append("曲目行仍在校目内直接 onRemoveItem（无确认即删，误触丢位置不可撤销）")
+    if "onRemoveItem(target.playlistId, target.index)" not in _code_app:
+        _c286.append("移除确认弹层未按待确认目标执行删除")
+    if "var removeTarget by remember { mutableStateOf<PendingItemRemoval?>(null) }" not in _code_app:
+        _c286.append("缺 removeTarget 待确认状态（✕ 无处落，只能直删）")
+    if "从歌单移除" not in _code_app:
+        _c286.append("移除确认弹层缺失（与「删除歌单」口径不一致）")
+    _rm_title = _code_app.find('title = "从歌单移除')
+    if _rm_title < 0:
+        _c286.append("移除确认弹层标题未表明动作对象（用户不知删的是什么）")
+    else:
+        _rm_tail = _code_app[_rm_title:_rm_title + 1200]
+        if "destructiveIndexOf = 0" not in _rm_tail:
+            _c286.append("移除确认的破坏性项未标红（destructiveIndexOf 缺失）")
+    if _c286:
+        failures.append("§61.286 歌单破坏性操作护栏：%s" % "；".join(_c286))
+    else:
+        print("[PASS] §61.286 歌单曲目行护栏（40dp 槽位 + 移除二次确认 + 越界置灰）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
