@@ -8323,6 +8323,35 @@ def main() -> int:
     else:
         print("[PASS] §61.287 字体缩放（含文字容器全部高度下限 + ui 目录通用禁令）")
 
+    # ---- §61.288（浅色自造主题的可读性不得低于深色基准）----
+    #   口径：浅色是**我方补出来的**（飞牛无浅色基准），深色是逐像素采样。判定不是硬追
+    #   WCAG AA，而是「浅色 ≥ 深色同令牌的实测对比度」——否则提示文字会被压得比基准重一档。
+    _c288 = []
+    _ui_test_dir = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "example"
+                    / "cloudmusic" / "ui")
+    _contrast_test = (_ui_test_dir / "FnContrastTest.kt")
+    if not _contrast_test.is_file():
+        _c288.append("FnContrastTest.kt 缺失（量化断言是唯一的可复跑判据）")
+    else:
+        _ct = _contrast_test.read_text(encoding="utf-8", errors="replace")
+        for _need in ("lightTextHintMatchesDarkBaseline", "lightSearchHintMatchesDarkBaseline"):
+            if _need not in _ct:
+                _c288.append("对比度用例缺失：%s" % _need)
+        if "darkBaselineIsPinned" not in _ct:
+            _c288.append("缺「深色基准被钉住」用例（防为修浅色而改采样值）")
+    if 'TextHint = base("TextHint", 0x8F1A1A1A)' not in _fn_ui:
+        _c288.append("浅色 TextHint 未取 56% 黑（40% 黑只有 2.52:1，实测不可读）")
+    if 'SearchHint = base("SearchHint", 0xFF6A6A6C)' not in _fn_ui:
+        _c288.append("浅色 SearchHint 未压到 #6A6A6C（#8A8A8C 只有 3.08:1，深色基准 4.72）")
+    if '"TextHint" to 0x66FFFFFF' not in _fn_ui:
+        _c288.append("深色基准 TextHint 被改动（采样值 40% 白不得动）")
+    if '"SearchHint" to 0xFF959597' not in _fn_ui:
+        _c288.append("深色基准 SearchHint 被改动（采样值 #959597 不得动）")
+    if _c288:
+        failures.append("§61.288 浅色可读性：%s" % "；".join(_c288))
+    else:
+        print("[PASS] §61.288 浅色可读性（TextHint/SearchHint ≥ 深色基准 + 基准钉值 + 量化用例在册）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

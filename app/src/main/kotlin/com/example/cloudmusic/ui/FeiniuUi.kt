@@ -95,7 +95,12 @@ object FnComp {
      */
     var SwitchOffBg = Color(0xFF3A3A3E)
 
-    /** §61.234：浅色映射（同 Comp 口径；搜索框实测值保留深色语义，浅色取通用灰）。 */
+    /**
+     * §61.234：浅色映射（同 Comp 口径；搜索框实测值保留深色语义，浅色取通用灰）。
+     *
+     * §61.288：本表是**深色基准快照**，逐像素采样得来，不得为浅色问题而改动——
+     * 浅色侧要修就修 `applyTheme` 的浅色实参（见 §61.288 的 TextHint / SearchHint）。
+     */
     private val darkBase2 = mapOf(
         "PageBg" to 0xFF1E1E21, "CardBg" to 0xFF2B2B2E, "TextPrimary" to 0xFFFFFFFF,
         "TextSecondary" to 0x99FFFFFF, "TextHint" to 0x66FFFFFF,
@@ -113,9 +118,12 @@ object FnComp {
         CardBg = base("CardBg", 0xFFFFFFFF)
         TextPrimary = base("TextPrimary", 0xFF1A1A1A)
         TextSecondary = base("TextSecondary", 0x991A1A1A)
-        TextHint = base("TextHint", 0x661A1A1A)
+        // §61.288：浅色取 56% 黑（原 40%）——40% 黑在卡片上是 2.52:1，连图形下限都不到，
+        // 而深色基准（40% 白）实测 3.58/3.77。补出的浅色不该比基准更难读。
+        TextHint = base("TextHint", 0x8F1A1A1A)
         SearchBg = base("SearchBg", 0xFFF2F2F2)
-        SearchHint = base("SearchHint", 0xFF8A8A8C)
+        // §61.288：浅色 #8A8A8C on #F2F2F2 只有 3.08:1（深色基准 4.72），压到 #6A6A6C → 4.82。
+        SearchHint = base("SearchHint", 0xFF6A6A6C)
         // §61.283：浅色取「同语义反相」而非像素级复刻（飞牛无浅色基准，同 §61.234 口径如实登记）——
         // 占位/分隔/输入底由「比卡片亮」改为「比卡片深」，白 α 线改为黑 α 线（否则浅底上不可见）。
         CoverPlaceholder = base("CoverPlaceholder", 0xFFE9E9EC)
