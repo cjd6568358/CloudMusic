@@ -81,6 +81,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.example.cloudmusic.model.Lyrics
+import com.example.cloudmusic.model.TimeText
 import com.example.cloudmusic.model.TrackInfo
 import com.example.cloudmusic.player.PlayMode
 import com.example.cloudmusic.ui.Comp
@@ -389,7 +390,7 @@ fun LegacyPlayerPage(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    formatMs(displayPositionMs),
+                    TimeText.clock(displayPositionMs),
                     fontSize = PlayerBaseline.TimeSp.sp,
                     color = Color(LegacyPalette.IconTint),
                     style = InkCenteredStyle,
@@ -397,7 +398,7 @@ fun LegacyPlayerPage(
                 Spacer(Modifier.weight(1f))
                 Spacer(Modifier.weight(1f))
                 Text(
-                    formatMs(durationMs),
+                    TimeText.clock(durationMs),
                     fontSize = PlayerBaseline.TimeSp.sp,
                     color = Color(LegacyPalette.IconTint),
                     style = InkCenteredStyle,
@@ -1015,11 +1016,6 @@ private fun shadeBottom(topArgb: Int): Int {
     val g = (((topArgb shr 8) and 0xFF) * 0.515f).toInt().coerceIn(0, 255)
     val b = ((topArgb and 0xFF) * 0.515f).toInt().coerceIn(0, 255)
     return 0xFF shl 24 or (r shl 16) or (g shl 8) or b
-}
-
-private fun formatMs(ms: Long): String {
-    val total = (ms / 1000).coerceAtLeast(0)
-    return "%02d:%02d".format(total / 60, total % 60)
 }
 
 private fun modeLabel(mode: PlayMode): String = when (mode) {

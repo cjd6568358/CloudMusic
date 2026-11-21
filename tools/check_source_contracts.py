@@ -9025,6 +9025,110 @@ def main() -> int:
     else:
         print("[PASS] §61.296 搜索归一化（全角空格算分隔符 / 三路取数同源 / 禁用 ASCII-only 分词 / 用例在册）")
 
+    # ---- §61.297（时间文本单一真相源 + Locale 安全）----
+    _c297 = []
+
+    def _fn_body297(_code: str, _sig: str) -> str:
+        """取函数声明段：块体（`{`）截到配对 `}`；表达式体（`= ...`）截到下一个 `fun`/结尾。
+
+        §61.297 的 `TimeText.duration` / `TrackInfo.durationLabel` 都是表达式函数，
+        按「找下一个花括号块」的老写法会取到 object 尾部而误判缺失。
+        """
+        _i = _code.find(_sig)
+        if _i < 0:
+            return ""
+        _j = _code.find("fun ", _i + len(_sig))
+        _seg = _code[_i:(_j if _j > 0 else len(_code))]
+        _b = _seg.find("{")
+        if _b >= 0:
+            _stk = 0
+            for _k in range(_b, len(_seg)):
+                if _seg[_k] == "{":
+                    _stk += 1
+                elif _seg[_k] == "}":
+                    _stk -= 1
+                    if _stk == 0:
+                        return _seg[:_k + 1]
+        return _seg
+
+    # A. TimeText 存在，两个函数都 Locale.ROOT，未知值走 TrackInfo.UNKNOWN
+    _tt_path297 = ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/TimeText.kt"
+    if not _tt_path297.is_file():
+        _c297.append("core-model 的 TimeText 缺失（时长格式化又回到各写一份）")
+    else:
+        _tt297 = _code_only(_tt_path297.read_text(encoding="utf-8", errors="replace"))
+        if not re.search(r"object\s+TimeText\s*\{", _tt297):
+            _c297.append("TimeText 对象缺失")
+        # clock 自己必须带 Locale.ROOT；duration 允许委托 clock(ms)（豁免只给它）。
+        for _fn297, _must_root297 in (("fun clock(", True), ("fun duration(", False)):
+            _body297 = _fn_body297(_tt297, _fn297)
+            if not _body297:
+                _c297.append("TimeText 缺函数：%s" % _fn297)
+            elif "Locale.ROOT" not in _body297:
+                if _must_root297 or "clock(ms)" not in _body297:
+                    _c297.append("%s 既未用 Locale.ROOT 也没委托 clock（ar/fa 下变本地数字）" % _fn297)
+        if "TrackInfo.UNKNOWN" not in _fn_body297(_tt297, "fun duration("):
+            _c297.append("duration 未知值未走 TrackInfo.UNKNOWN（会冒出 00:00 冒充真值）")
+
+    # B. 列表侧必须委托，不得再自己拼格式串
+    _ti297 = _code_only(
+        (ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/TrackInfo.kt")
+        .read_text(encoding="utf-8", errors="replace")
+    )
+    _dl297 = _fn_body297(_ti297, "fun durationLabel(")
+    if "TimeText.duration" not in _dl297:
+        _c297.append("TrackInfo.durationLabel 未委托 TimeText（两份实现会再次分叉）")
+    if "%02d" in _dl297:
+        _c297.append("TrackInfo.durationLabel 仍自带格式串")
+
+    # C. 播放页：第二份实现必须消失，时间行两处走 TimeText.clock
+    _lp297 = _code_only(
+        (ROOT / "app/src/main/kotlin/com/example/cloudmusic/ui/player/LegacyPlayerPage.kt")
+        .read_text(encoding="utf-8", errors="replace")
+    )
+    if re.search(r"fun\s+formatMs\s*\(", _lp297):
+        _c297.append("播放页 formatMs 仍在（第二份时长实现未删）")
+    _clock_calls297 = len(re.findall(r"TimeText\.clock\(", _lp297))
+    if _clock_calls297 < 2:
+        _c297.append("播放页时间行未两处走 TimeText.clock（实际 %d 处）" % _clock_calls297)
+
+    # D. 全仓禁令：裸 mm:ss 格式串只允许出现在 TimeText.kt
+    _fmt_sites297 = []
+    for _root297 in ("core-model", "core-storage", "core-di", "app", "feature-player"):
+        for _p297 in sorted((ROOT / _root297 / "src" / "main").rglob("*.kt")):
+            if _p297.name == "TimeText.kt":
+                continue
+            _code297 = _code_only(_p297.read_text(encoding="utf-8", errors="replace"))
+            if re.search(r'"%02d:%02d"', _code297):
+                _fmt_sites297.append(_p297.name)
+    if _fmt_sites297:
+        _c297.append("仍有裸 mm:ss 格式串（未走 TimeText）：%s" % ",".join(sorted(set(_fmt_sites297))))
+
+    # E. LRC 写文件：时间戳必须 Locale.ROOT（本地数字外部播放器解析不了）
+    _lf297 = _code_only(
+        (ROOT / "core-storage/src/main/kotlin/com/example/cloudmusic/storage/LyricFileStore.kt")
+        .read_text(encoding="utf-8", errors="replace")
+    )
+    if "Locale.ROOT" not in _fn_body297(_lf297, "fun Lyrics.serializeToLrc("):
+        _c297.append("serializeToLrc 时间戳未用 Locale.ROOT（写出本地数字，外部播放器解析不了）")
+
+    # F. 用例在册
+    _tt_test297 = ROOT / "core-model/src/test/kotlin/com/example/cloudmusic/model/TimeTextTest.kt"
+    if not _tt_test297.is_file():
+        _c297.append("TimeTextTest 缺失")
+    else:
+        _t297 = _tt_test297.read_text(encoding="utf-8", errors="replace")
+        if _t297.count("@Test") < 4:
+            _c297.append("TimeTextTest 用例不足 4 条（实际 %d）" % _t297.count("@Test"))
+        if "ar-EG" not in _t297:
+            _c297.append("用例未覆盖 ar-EG（Locale 安全没被钉住）")
+
+    if _c297:
+        _c297 = list(dict.fromkeys(_c297))
+        failures.append("§61.297 时间文本：%s" % "；".join(_c297))
+    else:
+        print("[PASS] §61.297 时间文本（单一真相源 / 全仓禁裸 mm:ss / Locale.ROOT / 用例在册）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

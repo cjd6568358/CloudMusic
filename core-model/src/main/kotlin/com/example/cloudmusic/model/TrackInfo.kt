@@ -85,10 +85,11 @@ object TrackInfo {
         Availability.UNSUPPORTED_SCHEME -> "链接格式不支持，无法播放"
     }
 
-    /** 时长用 `mm:ss`，未知（<=0）显示占位 [UNKNOWN] 而不是 00:00 冒充真值。 */
-    fun durationLabel(track: Track): String {
-        if (track.durationMs <= 0L) return UNKNOWN
-        val total = track.durationMs / 1000L
-        return String.format(Locale.ROOT, "%02d:%02d", total / 60L, total % 60L)
-    }
+    /**
+     * 时长用 `mm:ss`，未知（<=0）显示占位 [UNKNOWN] 而不是 00:00 冒充真值。
+     *
+     * §61.297：格式与 Locale 口径统一走 [TimeText]（播放页同一份），此前这里与
+     * 播放页 `formatMs` 各写一遍 `%02d:%02d`，且后者漏了 `Locale.ROOT`。
+     */
+    fun durationLabel(track: Track): String = TimeText.duration(track.durationMs)
 }

@@ -3,6 +3,7 @@ package com.example.cloudmusic.storage
 import com.example.cloudmusic.model.Lyrics
 import com.example.cloudmusic.model.TrackId
 import java.io.File
+import java.util.Locale
 
 /**
  * docs/01 §0（2026-11-16 拍板）：歌词文件缓存（纯 JVM，无 Android 依赖）。
@@ -43,6 +44,10 @@ class LyricFileStore(private val cacheDir: File) {
  * 把 [Lyrics] 序列化回可缓存的 lrc 文本（供在线 provider 缓存 / 测试往返）。
  * 注意：**不写 `[offset:]` 行**——[Lyrics.lines] 的 timeMs 在解析时已叠加过 offset，
  * 若再写 offset 行，重新 parse 会二次叠加（往返 bug）。offsetMs 仅作溯源保留。
+ *
+ * §61.297：时间戳必须 `Locale.ROOT`——`"%02d:%02d.%02d".format(...)` 走默认 locale，
+ * JDK17 实测 `ar_EG` / `fa_IR` 下 `%02d` 输出本地数字，写出 `[٦٥:٣٠.١٢]` 这种
+ * 外部播放器**解析不了**的行（本机再读也读不回）。
  */
 fun Lyrics.serializeToLrc(): String = buildString {
     lines.forEach { line ->
@@ -50,6 +55,6 @@ fun Lyrics.serializeToLrc(): String = buildString {
         val mm = total / 60_000L
         val ss = (total % 60_000L) / 1000L
         val cs = (total % 1000L) / 10L
-        append("[%02d:%02d.%02d]%s\n".format(mm, ss, cs, line.text))
+        append(String.format(Locale.ROOT, "[%02d:%02d.%02d]%s\n", mm, ss, cs, line.text))
     }
 }
