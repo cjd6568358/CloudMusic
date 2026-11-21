@@ -2744,9 +2744,11 @@ def main() -> int:
     # RG 真机验证收口（29 日志/21 落库）在位。
     app_txt = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
                / "cloudmusic" / "ui" / "CloudMusicApp.kt").read_text(encoding="utf-8")
+    # §61.279（V0.4-06）：迷你条改飞牛卡片条后渲染式随之变化，
+    # 判据强度不变——仍是「真曲名优先 + trackId 兜底 + 未在播放占位」三档。
     if not all(x in app_txt for x in (
         "val miniTitle = player.currentTrackId?.let { id ->",
-        "it.text = title ?: player.currentTrackId?.value",
+        'val shownTitle = title ?: player.currentTrackId?.value ?: "未在播放"',
     )):
         failures.append("12 §61.150：MiniPlayer 真曲名接线缺失或回潮")
     elif not all(x in doc139_txt for x in (
@@ -7870,6 +7872,32 @@ def main() -> int:
         failures.append("§61.278 V0.4-05 图标表意：%s" % "；".join(_c278))
     else:
         print("[PASS] §61.278 V0.4-05 图标单一真相源 + 表意修正 + 映射表双向在册")
+
+    # ---- §61.279（V0.4-06 迷你条飞牛化，拍板 #1A）：卡片条 + 静态两行 + 矢量键 ----
+    # 判据：① 迷你条底色 = FnComp.CardBg（飞牛卡片语言），不得回退竞品 #33333e；
+    #       ② 跑马灯 / 双音符 / 旋转盘 / 进度圆环整组退役（出现即 FAIL）；
+    #       ③ 封面走 FnCover、按钮走 FnIcon.Play / FnIcon.Pause / FnIcon.Queue；
+    #       ④ 副行接 `TrackInfo.listSubtitle`（显示契约 §61.275 同源）。
+    _c279 = []
+    if "FnComp.CardBg" not in app_txt:
+        _c279.append("迷你条未用飞牛卡片底（FnComp.CardBg）")
+    _mini_retired = ("MARQUEE", "marqueeRepeatLimit", "MiniCoverCluster",
+                     "RotatingMiniCover", "LegacyAsset.NoteGlyph", "MiniPauseBar")
+    # 注释里可能**如实记录**这些实现已退役（如「原生 MARQUEE 跑马灯已删除」），
+    # 故按剥离注释后的代码判断，避免把留痕注释误判成回流。
+    _app_code279 = _code_only(app_txt)
+    _mini_back = [t for t in _mini_retired if t in _app_code279]
+    if _mini_back:
+        _c279.append("竞品迷你条实现回流：%s" % ",".join(_mini_back))
+    for _needle in ("FnCover(coverRef", "FnIcon.Play", "FnIcon.Pause", "FnIcon.Queue"):
+        if _needle not in app_txt:
+            _c279.append("迷你条缺 %s" % _needle)
+    if "TrackInfo.listSubtitle(it) ?: " in app_txt or "miniSubtitle" not in app_txt:
+        _c279.append("迷你条副行未走 listSubtitle（显示契约分叉）")
+    if _c279:
+        failures.append("§61.279 V0.4-06 迷你条飞牛化：%s" % "；".join(_c279))
+    else:
+        print("[PASS] §61.279 V0.4-06 迷你条飞牛卡片条（竞品跑马灯/旋转盘/双音符已退役）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

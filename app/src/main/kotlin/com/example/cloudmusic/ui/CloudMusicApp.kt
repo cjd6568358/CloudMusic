@@ -1,17 +1,9 @@
 package com.example.cloudmusic.ui
 
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.graphics.Bitmap
-import android.text.TextUtils
-import android.util.TypedValue
-import android.view.Gravity
 import android.view.View
-import android.view.animation.LinearInterpolator
-import android.widget.ImageView
 import android.widget.Toast
 import android.widget.TextView
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -46,15 +38,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.example.cloudmusic.ui.player.LegacyAsset
-import com.example.cloudmusic.ui.player.LegacyMetrics
-import com.example.cloudmusic.ui.player.LegacyPalette
-import com.example.cloudmusic.ui.player.loadLegacyBitmap
 import com.example.cloudmusic.ui.player.loadLegacyTypeface
-import com.example.cloudmusic.ui.player.rememberLegacyImageBitmap
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -347,7 +333,8 @@ fun CloudMusicApp(
 
     // §61.137：去掉全局 TopAppBar（竞品无全局标题栏，页头归各页：设置 52dip 行 /
     // 歌单·我的音乐 44dip 标题栏）；底栏竞品化（h7 底 + 10sp label + 品牌红选中）。
-    // §61.138：迷你条旋转封面接 `Track.coverRef` 真实封面（回退竞品 g9f 占位盘）。
+    // §61.279（V0.4-06 飞牛化）：迷你条封面接 `Track.coverRef` 真实封面，
+    // 缺失时 `FnCover` 落占位底 + 音符字形（不再用竞品旋转盘位图）。
     val miniCoverRef = player.currentTrackId?.let { id ->
         trackList.firstOrNull { it.id.value == id.value }?.coverRef
     }
@@ -356,17 +343,27 @@ fun CloudMusicApp(
     val miniTitle = player.currentTrackId?.let { id ->
         trackList.firstOrNull { it.id.value == id.value }?.title
     }
+    // §61.279：副行接 `TrackInfo.listSubtitle`（艺人 · 专辑，已知字段才拼；空则不渲染）。
+    val miniSubtitle = player.currentTrackId?.let { id ->
+        trackList.firstOrNull { it.id.value == id.value }
+    }?.let { TrackInfo.listSubtitle(it) }
     Scaffold(
         // §61.277（V0.4-04 ④）：全局底色切飞牛页底；Comp 令牌自此收敛为播放页专用
         // （播放页覆盖层自带 LegacyPalette 背景，不受本行影响）。
         containerColor = FnComp.PageBg,
         bottomBar = {
             Column {
-                // §61.196（W13）：设置页不显示播放条（基准 161550 无播放条，仅底部胶囊）；
-                // 其余页面播放条恒显（全局播放控制）。
-                if (tab != 6) {
+                // §61.196（W13）：设置页不显示播放条（基准 161550 无播放条，仅底部胶囊）。
+                // §61.279（V0.4-06）：**无当前曲目时不显示空条**——冷启动只有一条
+                // 「未在播放」+ 一个按了没反应的播放键，是死控件；对应 03-10 §9 B03。
+                if (tab != 6 && player.currentTrackId != null) {
                     MiniPlayer(
-                        player, onPlay, onPause, miniCoverRef, miniTitle,
+                        player = player,
+                        onPlay = onPlay,
+                        onPause = onPause,
+                        coverRef = miniCoverRef,
+                        title = miniTitle,
+                        subtitle = miniSubtitle,
                         onOpen = { showPlayer = true },
                         onOpenQueue = { showMore = false; tab = 4 },
                     )
@@ -597,13 +594,22 @@ fun CloudMusicApp(
 }
 
 /**
- * `12 §61.42` / `legacy_e0g.xml`（view_vinyl_records）+ `legacy_bnx.xml`：
- * 迷你条由「37dip 圆环 → 36dip 旋转封面 → 9dip 红点 → 14sp 跑马灯(音符 drawableStart)
- * → 播放 / 队列入口」组成，背景是 18dip 圆角的
- * `gradient dz(#33000000) → du(#00000000)`。色值 / 尺寸 / 位图全部取自竞品导出产物。
+ * 迷你播放条（**§61.279 / V0.4-06 飞牛化改版，拍板 §61.273 #1A**）。
  *
- * 不伪造：`CircleProgressView` 的进度弧无生产数据源，只还原静态圆环；
- * 暂停位图与唱针不在导出闭包内，按竞品形态自绘；旋转周期 12s 是自定值（挂账）。
+ * 改版口径：竞品 `legacy_e0g.xml` 的「#33333e 深底 + 37dip 进度圆环 + 旋转封面 + 红点 +
+ * 14sp 原生 MARQUEE 跑马灯（drawableStart 双音符）+ ☰」整组退役，换成飞牛卡片条——
+ * `FnComp.CardBg` 16dp 圆角条 + 40dp 圆角封面 + 曲名/艺人两行 + 播放键 + 队列入口，
+ * 与音乐库/设置页同一套卡片语言（页面风格连续，不留「播放器贴纸」感）。
+ *
+ * 三处旧实现是**自研偏差或垫脚石**，一并删除：
+ * 1. **跑马灯**：`TextView` + `MARQUEE` + `isSelected=true` 会在每秒 position tick 的
+ *    recomposition 里持续滚动，既耗电又和飞牛「静态两行」不一致；改 `Text` 单行省略。
+ * 2. **双音符 drawableStart**：`f6m` 音符位图与标题之间没有语义关联（竞品是装饰），
+ *    改由封面 + 两行文字承担信息层级。
+ * 3. **旋转封面 + 进度圆环 + 红点**：圆环无生产数据源（`12 §61.42` 挂账），红点是竞品
+ *    「正在播放」标记；飞牛口径用「播放键形态」表达播放态（▶ / ⏸ 切换），不再画假进度。
+ *
+ * **不伪造**：进度弧仍未接数据源，本版直接不画（比画一条恒 0 的假弧诚实）。
  */
 @Composable
 private fun MiniPlayer(
@@ -612,256 +618,70 @@ private fun MiniPlayer(
     onPause: () -> Unit,
     coverRef: String?,
     title: String?,
+    /** 副行：`TrackInfo.listSubtitle`（艺人 · 专辑，已知字段才拼）；空则整行不渲染。 */
+    subtitle: String?,
     onOpen: () -> Unit,
-    /** §61.187（W9）：队列入口——竞品 MiniPlayer 右端 ☰（播放列表），不铺前后切换。 */
     onOpenQueue: () -> Unit,
 ) {
     val playing = player.phase == PlayerPhase.PLAYING
-    // §61.138：真实封面（缓存 + 降采样，与列表行同源）。
-    val coverBitmap = rememberCompCover(coverRef)
-    val barShape = RoundedCornerShape(LegacyMetrics.MiniBarCornerDp.dp)
+    val shownTitle = title ?: player.currentTrackId?.value ?: "未在播放"
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = LegacyMetrics.PagePaddingDp.dp, vertical = 4.dp)
-            .clip(barShape)
-            // 竞品 `legacy_are.xml` miContainer 深色底 #ff33333e：白色图标在浅色
-            // 系统主题下会不可见，先铺竞品深色底，再叠 `legacy_bnx.xml` 的横向渐变。
-            .background(Color(LegacyPalette.MiniPageBackground))
-            .background(
-                Brush.horizontalGradient(
-                    listOf(
-                        Color(LegacyPalette.ScrimBottom),
-                        Color(LegacyPalette.Transparent),
-                    ),
-                ),
-            )
+            // 左右 16dp = 全站卡片页边距（`FnBaseline.PagePaddingDp`），与上方曲库卡片对齐；
+            // 上下 6dp 让条与胶囊底栏之间留出一条呼吸缝，不糊成一块。
+            .padding(horizontal = 16.dp, vertical = 6.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(FnComp.CardBg)
             .clickable(onClick = onOpen)
-            .padding(horizontal = 8.dp, vertical = 6.dp),
+            .padding(start = 8.dp, end = 6.dp, top = 8.dp, bottom = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        MiniCoverCluster(playing, coverBitmap)
-
-        // `legacy_e0g.xml` slogan：14sp / b1e / 38dip 高 / maxWidth 125dip /
-        // drawableStart=@drawable/f6m / MARQUEE 无限循环。
-        val note = rememberLegacyImageBitmap(LegacyAsset.NoteGlyph)
-        Row(
-            modifier = Modifier
+        FnCover(coverRef, Modifier.size(40.dp), glyph = "♪")
+        Column(
+            Modifier
                 .weight(1f)
-                .height(LegacyMetrics.MarqueeHeightDp.dp)
-                .padding(start = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
+                .padding(start = 10.dp, end = 4.dp),
         ) {
-            if (note != null) {
-                Image(
-                    bitmap = note,
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp),
+            Text(
+                shownTitle,
+                color = FnComp.TextPrimary,
+                fontSize = 14.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            // §61.275 显示契约：副题为空（无艺人也无专辑）时整行不渲染，不留空段。
+            if (!subtitle.isNullOrBlank()) {
+                Text(
+                    subtitle,
+                    color = FnComp.TextHint,
+                    fontSize = 11.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
-            AndroidView(
-                factory = { ctx ->
-                    TextView(ctx).apply {
-                        setSingleLine(true)
-                        ellipsize = TextUtils.TruncateAt.MARQUEE
-                        marqueeRepeatLimit = -1
-                        isSelected = true
-                        gravity = Gravity.CENTER_VERTICAL
-                        setTextColor(LegacyPalette.TextPrimary)
-                        setTextSize(TypedValue.COMPLEX_UNIT_SP, LegacyMetrics.MarqueeTextSp)
-                        loadLegacyTypeface(ctx)?.let { typeface = it }
-                    }
-                },
-                update = {
-                    // §61.150：真曲名优先（§61.141 观察项收口）；曲库缺失回退 raw
-                    // trackId（原行为），未在播放回退占位文案。
-                    it.text = title ?: player.currentTrackId?.value ?: "未在播放"
-                },
-                modifier = Modifier
-                    .weight(1f)
-                    .widthIn(max = LegacyMetrics.MarqueeMaxWidthDp.dp),
-            )
         }
-
-        // §61.187（W9）：竞品 MiniPlayer 按钮组 = 单个播放/暂停 + 右端 ☰ 队列入口；
-        // 前后切换留给播放页横滑/控制区（mini bar 上铺三个键是自研偏差）。
-        MiniPlayPauseButton(playing, onPlay, onPause)
-        MiniQueueButton(onOpenQueue)
+        MiniBarButton(
+            icon = if (playing) FnIcon.Pause else FnIcon.Play,
+            description = if (playing) "暂停" else "播放",
+            onClick = { if (playing) onPause() else onPlay() },
+        )
+        MiniBarButton(FnIcon.Queue, "播放列表", onOpenQueue)
     }
 }
 
-/** §61.187（W9）：竞品 MiniPlayer 右端 ☰ 播放列表入口（三横条绘制，无对应素材）。 */
+/** 迷你条圆钮：40dp 触达区 + 20dp 线性图标（图标取自 `FnIcons` 唯一真相源）。 */
 @Composable
-private fun MiniQueueButton(onOpenQueue: () -> Unit) {
+private fun MiniBarButton(icon: FnIcon, description: String, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .size(40.dp)
             .clip(CircleShape)
-            .clickable(onClick = onOpenQueue),
+            .clickable(onClickLabel = description, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            listOf(0, 1, 2).forEach { row ->
-                Box(
-                    Modifier
-                        .padding(vertical = 2.dp)
-                        .size(width = if (row == 2) 10.dp else 14.dp, height = 2.dp)
-                        .background(Color(LegacyPalette.TextPrimary)),
-                )
-            }
-        }
+        FnLineIcon(icon, FnComp.TextPrimary, size = 20.dp)
     }
-}
-
-/** `legacy_e0g.xml`：37dip `CircleProgressView` 包住 36dip `RotateFrameLayout` + 9dip 红点。 */
-@Composable
-private fun MiniCoverCluster(playing: Boolean, cover: Bitmap?) {
-    Box(
-        modifier = Modifier.size(LegacyMetrics.MiniProgressDp.dp),
-        contentAlignment = Alignment.Center,
-    ) {
-        // 进度弧无生产数据源，只还原静态圆环，不伪造进度（12 §61.42 挂账）。
-        Box(
-            Modifier
-                .fillMaxSize()
-                .clip(CircleShape)
-                .border(1.5.dp, Color(LegacyPalette.TrackBuffer), CircleShape),
-        )
-        RotatingMiniCover(playing, Modifier.size(LegacyMetrics.MiniCoverDp.dp), cover)
-        Box(
-            Modifier
-                .size(LegacyMetrics.RedDotDp.dp)
-                .align(Alignment.TopEnd)
-                .clip(CircleShape)
-                .background(Color(LegacyPalette.AccentRed)),
-        )
-    }
-}
-
-/**
- * 平台属性动画驱动的旋转封面（`RotateFrameLayout` 等价），不加载任何 `res/anim/` XML。
- * §61.138：`cover` 为当前曲真实封面（null 回退竞品 `g9f` 占位盘）；位图替换按
- * 身份比对，避免每秒位置 recomposition 重复 setImageBitmap。
- */
-@Composable
-private fun RotatingMiniCover(
-    playing: Boolean,
-    modifier: Modifier = Modifier,
-    cover: Bitmap? = null,
-) {
-    AndroidView(
-        factory = { ctx ->
-            ImageView(ctx).apply {
-                scaleType = ImageView.ScaleType.FIT_CENTER
-                val placeholder = loadLegacyBitmap(ctx, LegacyAsset.CoverPlaceholder)
-                setImageBitmap(cover ?: placeholder)
-                val animator = ObjectAnimator.ofFloat(this, View.ROTATION, 0f, 360f).apply {
-                    duration = LegacyMetrics.MiniCoverSpinMs
-                    repeatCount = ValueAnimator.INFINITE
-                    interpolator = LinearInterpolator()
-                }
-                tag = SpinState(animator, placeholder, cover)
-            }
-        },
-        update = { view ->
-            val state = view.tag as? SpinState ?: return@AndroidView
-            if (playing) {
-                when {
-                    !state.animator.isStarted -> state.animator.start()
-                    state.animator.isPaused -> state.animator.resume()
-                }
-            } else if (state.animator.isStarted && !state.animator.isPaused) {
-                state.animator.pause()
-            }
-            if (state.lastCover !== cover) {
-                state.lastCover = cover
-                view.setImageBitmap(cover ?: state.placeholder)
-            }
-        },
-        modifier = modifier.clip(CircleShape),
-    )
-}
-
-/** RotatingMiniCover 的 View 级持态（旋转动画 + 占位盘 + 上次封面，随 View 存活）。 */
-private class SpinState(
-    val animator: ObjectAnimator,
-    val placeholder: Bitmap?,
-    var lastCover: Bitmap?,
-)
-
-@Composable
-private fun MiniControlButton(
-    assetPath: String,
-    description: String,
-    sizeDp: Float,
-    onClick: () -> Unit,
-) {
-    val bitmap = rememberLegacyImageBitmap(assetPath)
-    val interactionSource = remember { MutableInteractionSource() }
-    Box(
-        modifier = Modifier
-            .size(LegacyMetrics.ControlSizeDp.dp)
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = onClick,
-            ),
-        contentAlignment = Alignment.Center,
-    ) {
-        if (bitmap != null) {
-            Image(
-                bitmap = bitmap,
-                contentDescription = description,
-                modifier = Modifier.size(sizeDp.dp),
-            )
-        }
-    }
-}
-
-@Composable
-private fun MiniPlayPauseButton(
-    playing: Boolean,
-    onPlay: () -> Unit,
-    onPause: () -> Unit,
-) {
-    val interactionSource = remember { MutableInteractionSource() }
-    Box(
-        modifier = Modifier
-            .size(LegacyMetrics.ControlSizeDp.dp)
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = { if (playing) onPause() else onPlay() },
-            ),
-        contentAlignment = Alignment.Center,
-    ) {
-        if (playing) {
-            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                MiniPauseBar()
-                MiniPauseBar()
-            }
-        } else {
-            val bitmap = rememberLegacyImageBitmap(LegacyAsset.Play)
-            if (bitmap != null) {
-                Image(
-                    bitmap = bitmap,
-                    contentDescription = "播放",
-                    modifier = Modifier.size(LegacyMetrics.ControlPlayDp.dp),
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun MiniPauseBar() {
-    Box(
-        Modifier
-            .width(4.dp)
-            .height(20.dp)
-            .clip(RoundedCornerShape(2.dp))
-            .background(Color(LegacyPalette.White)),
-    )
 }
 
 /**

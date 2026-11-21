@@ -126,6 +126,13 @@ enum class FnIcon {
 
     /** 队列：三行清单（末行短）。 */
     Queue,
+
+    // ── 播放控制（迷你条，§61.279） ─────────────────────────────────────────
+    /** 播放：实心三角（播放键）。 */
+    Play,
+
+    /** 暂停：双竖条（暂停键）。 */
+    Pause,
 }
 
 /**
@@ -412,6 +419,36 @@ fun FnLineIcon(
                 line(4.5f, 7f, 19.5f, 7f)
                 line(4.5f, 12f, 19.5f, 12f)
                 line(4.5f, 17f, 14f, 17f)
+            }
+
+            // 播放控制用**实心**：20dp 下线性三角的尖端会因 2 单位笔画糊成圆点，
+            // 实心三角/双竖条才一眼可辨（与 Material 播放键同一取向）。
+            FnIcon.Play -> drawPath(
+                path = build {
+                    moveTo(9f * u, 5.5f * u)
+                    lineTo(19f * u, 12f * u)
+                    lineTo(9f * u, 18.5f * u)
+                    close()
+                },
+                color = tint,
+                style = Fill,
+            )
+
+            FnIcon.Pause -> {
+                drawRoundRect(
+                    color = tint,
+                    topLeft = pt(7.6f, 5f),
+                    size = Size(3.2f * u, 14f * u),
+                    cornerRadius = CornerRadius(1.2f * u),
+                    style = Fill,
+                )
+                drawRoundRect(
+                    color = tint,
+                    topLeft = pt(13.2f, 5f),
+                    size = Size(3.2f * u, 14f * u),
+                    cornerRadius = CornerRadius(1.2f * u),
+                    style = Fill,
+                )
             }
         }
     }
