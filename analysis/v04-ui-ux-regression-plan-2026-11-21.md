@@ -84,7 +84,8 @@
 > 进度条对无障碍服务不可见。播报名收进 `FnIcon`(29) / `FnCapsuleIcon`(4) 枚举，状态型控件换
 > `toggleable(Role.Switch)` / `selectable(Role.Tab)`，进度条补 `progressBarRangeInfo` +
 > `setProgress`。测试 **130/939/0**（+6 条 `FnIconLabelTest`）；guard **252 条 PASS**；
-> 11 条 A/B 全如期 FAIL。真机 TalkBack 判读并入 09（清单增补 **U-17**）。**九项状态不变。**
+> 11 条 A/B 全如期 FAIL（另含批内补批 `FnDialogInput` / 搜索框占位去重 2 条）。
+> 真机 TalkBack 判读并入 09（清单增补 **U-17**）。**九项状态不变。**
 > guard 251 条 PASS；实测帧率仍归 09（U-14 判据补第 ⑤ 条）。
 
 ## 2. 执行序

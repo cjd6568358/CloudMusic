@@ -8492,6 +8492,24 @@ def main() -> int:
         if _need not in _fn_ui:
             _c290.append(_why)
 
+    # 7b) 输入类组件：可编辑节点必须有标签；占位文字不得作为独立节点重复播报
+    _di_i = _fn_ui.find("fun FnDialogInput(")
+    if _di_i < 0:
+        _c290.append("FnDialogInput 缺失（结构变了）")
+    else:
+        _di_body = _fn_ui[_di_i:_fn_ui.find("\n}\n", _di_i)]
+        if "contentDescription = hint" not in _di_body:
+            _c290.append("对话框输入框无名（新建歌单 / 重命名 / 来源地址都走它）")
+        if "clearAndSetSemantics { }" not in _di_body:
+            _c290.append("对话框占位文字未屏蔽（会与字段描述重复播报）")
+    _sf_i = _fn_ui.find("fun FnSearchField(")
+    if _sf_i < 0:
+        _c290.append("FnSearchField 缺失（结构变了）")
+    else:
+        _sf_body = _fn_ui[_sf_i:_fn_ui.find("\n}\n", _sf_i)]
+        if _sf_body.count("clearAndSetSemantics { }") < 2:
+            _c290.append("搜索框装饰字形 / 占位文字未同时屏蔽（会重复播报）")
+
     # 8) 播报名不许只写在代码里：条数/唯一/无 ASCII 必须有 JVM 断言
     _label_test = (_ui_test_dir / "FnIconLabelTest.kt")
     if not _label_test.is_file():

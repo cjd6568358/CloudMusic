@@ -552,6 +552,9 @@ fun FnSearchField(
                     color = FnComp.SearchHint,
                     fontSize = FnBaseline.SearchHintSp.sp,
                     maxLines = 1,
+                    // 占位文字与下面 BasicTextField 的描述是同一句话；不屏蔽会读两遍
+                    // （先念占位节点，再念字段描述）。
+                    modifier = Modifier.clearAndSetSemantics { },
                 )
             }
             BasicTextField(
@@ -803,7 +806,14 @@ fun FnDialogInput(
             .padding(horizontal = 14.dp, vertical = 11.dp),
     ) {
         if (value.isEmpty()) {
-            Text(hint, color = FnComp.TextHint, fontSize = 14.sp, maxLines = 1)
+            Text(
+                hint,
+                color = FnComp.TextHint,
+                fontSize = 14.sp,
+                maxLines = 1,
+                // 同搜索框：占位与字段描述是同一句话，避免念两遍。
+                modifier = Modifier.clearAndSetSemantics { },
+            )
         }
         BasicTextField(
             value = value,
@@ -816,7 +826,12 @@ fun FnDialogInput(
                 VisualTransformation.None
             },
             cursorBrush = SolidColor(FnComp.IconRed),
-            modifier = Modifier.fillMaxWidth(),
+            // §61.290：新建歌单 / 重命名 / 各来源的地址与账号输入都走这个组件，
+            // 不挂标签时 TalkBack 只念「编辑框」，用户不知道这一格要填什么。
+            // 密码格不额外暴露内容（visualTransformation 已屏蔽字幕）。
+            modifier = Modifier
+                .fillMaxWidth()
+                .semantics { contentDescription = hint },
         )
     }
 }
