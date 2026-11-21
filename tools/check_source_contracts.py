@@ -8614,6 +8614,51 @@ def main() -> int:
     else:
         print("[PASS] §61.291 系统栏明暗跟随（目标态纯函数 + 两条栏同页面底 + 图标反相 + 退出按主题重算）")
 
+    # ---- §61.292（页面状态保持：tab 切走再切回不丢滚动位置与视图选择）----
+    #   背景：顶层内容是 `when { showSources -> … ; tab == 0 -> … }`，切 tab 时旧页整体离组合；
+    #   没有 SaveableStateHolder 时 `rememberSaveable`（含 LazyColumn 自带 listState）会被丢弃 ⇒
+    #   7,500 首曲库滚到半截、切去设置再回来回到顶部，曲库「专辑」视图也变回「全部」。
+    #   判据盯四件事：**持有者与提供者在位**、**key 来自纯函数（禁字面量）**、**槽位互不重复**、
+    #   **槽位集合有 JVM 断言**（串槽是这类改造最隐蔽的错误）。
+    _c292 = []
+    _pkey_path = _ui_src_dir / "PageStateKeys.kt"
+    if not _pkey_path.is_file():
+        _c292.append("PageStateKeys.kt 缺失（槽位 key 无单一真相源）")
+    else:
+        _pk = _pkey_path.read_text(encoding="utf-8", errors="replace")
+        _pk_body = _pk[_pk.find("internal fun pageStateKey("):]
+        if "internal fun pageStateKey(" not in _pk:
+            _c292.append("pageStateKey 纯函数缺失")
+        else:
+            _keys292 = re.findall(r'->\s*"([a-z]+)"', _pk_body)
+            if len(set(_keys292)) < 9:
+                _c292.append("槽位 key 少于 9 个（一级页/覆盖层漏给槽位）：%s" % sorted(set(_keys292)))
+            if len(_keys292) != len(set(_keys292)):
+                _c292.append("槽位 key 重复（两页会串用同一份状态）：%s" % _keys292)
+            if 'else -> "settings"' not in _pk_body:
+                _c292.append("设置页未作为 else 兜底槽（与内容 when 的 else 分支不一致）")
+
+    if "rememberSaveableStateHolder()" not in _ca:
+        _c292.append("CloudMusicApp 未持有 rememberSaveableStateHolder（页面状态无处保存）")
+    if "SaveableStateProvider(pageStateKey(showSources, showMore, tab))" not in _ca:
+        _c292.append("页面内容未被 SaveableStateProvider 包住（或 key 未取自纯函数）")
+    if 'SaveableStateProvider("' in _ca:
+        _c292.append("SaveableStateProvider 使用了字面量 key（绕过单一真相源）")
+
+    _pkey_test = (_ui_test_dir / "PageStateKeyTest.kt")
+    if not _pkey_test.is_file():
+        _c292.append("PageStateKeyTest.kt 缺失（槽位唯一性无断言）")
+    else:
+        _pt = _pkey_test.read_text(encoding="utf-8", errors="replace")
+        for _need in ("tabsMapToOwnSlot", "settingsIsCatchAll", "overlaysWinOverTab", "keysAreUnique"):
+            if _need not in _pt:
+                _c292.append("槽位用例缺失：%s" % _need)
+
+    if _c292:
+        failures.append("§61.292 页面状态保持：%s" % "；".join(_c292))
+    else:
+        print("[PASS] §61.292 页面状态保持（SaveableStateHolder + 槽位 key 纯函数 + 九槽唯一 + 用例在册）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

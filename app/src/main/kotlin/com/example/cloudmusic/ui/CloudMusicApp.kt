@@ -54,6 +54,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -276,6 +277,9 @@ fun CloudMusicApp(
     // 次级页是**过度隐藏**——修正后设置页恢复显示底栏。
     // §61.222（用户指示）：搜索升为一等 tab（底栏四胶囊），「仅搜索页隐藏底栏」口径
     // 随之作废（capsuleHidden 判定删除）——搜索页保持底栏可见，选中态可见性优先。
+    // §61.292（V0.4 页面状态保持）：一级页面各自的 saveable 槽——tab 切走再切回，
+    // LazyColumn 滚动位置与 `rememberSaveable` 的视图选择原样恢复（此前整体离组合即丢弃）。
+    val pageStateHolder = rememberSaveableStateHolder()
     // §61.119（M3）：加入歌单弹窗目标曲目。
     var addToPlaylistTrack by remember { mutableStateOf<Track?>(null) }
 
@@ -453,6 +457,9 @@ fun CloudMusicApp(
         ) {
             // §61.188：移除自造的「曲库就绪/扫描中」横幅——飞牛基准首页无此物；
             // 扫描失败可见性已由数据源错误态承载（§61.184 setError 接线）。
+            // §61.292：按页 key 建立独立 saveable 槽。下方 when 保持原缩进——整块重排会让本批
+            // diff 失去可审性，语义与缩进无关。
+            pageStateHolder.SaveableStateProvider(pageStateKey(showSources, showMore, tab)) {
             when {
                 showSources -> SourcesScreen(
                     storageList, onRescanAll, onRetryUnavailable, onRefreshStorage,
@@ -576,6 +583,7 @@ fun CloudMusicApp(
                     onOpenAutostartSettings = onOpenAutostartSettings,
                     onBack = { exitSubPage() },
                 )
+            }
             }
         }
     }

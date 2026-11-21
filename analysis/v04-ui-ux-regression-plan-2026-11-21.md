@@ -94,6 +94,12 @@
 > 退出播放页按主题重算而非还原原值。测试 **132/947/0**（+`SystemBarsTest` 4 条）；guard **253 条**；
 > A/B 10 条全如期 FAIL（`291-C` 过弱判据当场收紧）。真机观感并入 09（U-12 判据补第 ⑥ 条）。
 
+> **补批 9（页面状态保持）**：§61.292 查「导航状态」——`rememberSaveableStateHolder` 全仓 0 次，
+> 切 tab 时旧页离组合、`rememberSaveable` 被丢弃 ⇒ 曲库回顶部、「专辑」视图变回「全部」。
+> 新增 `ui/PageStateKeys.kt` 9 槽纯函数 + 宿主 `SaveableStateProvider`；槽位 key 禁字面量。
+> 测试 **134/955/0**（+`PageStateKeyTest` 4 条）；guard **254 条**；A/B 5 条全如期 FAIL。
+> 边界：歌单展开态仍普通 `remember`（B21 挂账）；真机观感并入 09（新增 **U-18**）。
+
 ## 2. 执行序
 
 **V0.4-01（入口合并）→ 02（显示契约）→ 03（灰显 #3A）→ 04a~c（风格归一）→ 05（图标）→ 06（MiniPlayer #1A）→ 07（交互）→ 08（远程 tag #2B + 冷扫复测）→ 09（设备窗口收口）。**
