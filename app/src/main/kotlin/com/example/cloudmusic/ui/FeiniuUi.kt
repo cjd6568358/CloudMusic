@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -247,7 +248,9 @@ fun FnPageHeader(
                 end = FnBaseline.PagePaddingDp.dp,
                 top = FnBaseline.HeaderTopGapDp.dp,
             )
-            .height(FnBaseline.HeaderButtonDp.dp),
+            // §61.287：40dp 是下限——页头装 22sp 返回符 + 标题，系统字号放大后
+            // 整条长高，不裁标题（正常字号下 max(40, 内容) == 40，观感不变）。
+            .heightIn(min = FnBaseline.HeaderButtonDp.dp),
     ) {
         if (onBack != null) {
             Box(
@@ -335,7 +338,12 @@ fun FnRow(
     modifier: Modifier = Modifier,
     value: String = "",
     showChevron: Boolean = true,
-    /** 在行上方画 1dp 分隔线（组内**非首行**设 true）。行总高恒为 50.4dp。 */
+    /**
+     * 在行上方画 1dp 分隔线（组内**非首行**设 true）。
+     *
+     * §61.287：行高是**下限** 50.4dp（原 `.height` 硬固定）——正常字号下 `max(50.4, 内容)`
+     * 就是 50.4，像素级观感不变；系统字号放大后行随内容长高，不裁字。
+     */
     dividerAbove: Boolean = false,
     trailing: (@Composable () -> Unit)? = null,
 ) {
@@ -344,8 +352,8 @@ fun FnRow(
         Row(
             Modifier
                 .fillMaxWidth()
-                .height(
-                    if (dividerAbove) {
+                .heightIn(
+                    min = if (dividerAbove) {
                         (FnBaseline.RowHeightDp - FnBaseline.RowDividerDp).dp
                     } else {
                         FnBaseline.RowHeightDp.dp
@@ -442,7 +450,7 @@ fun FnStatCard(
 ) {
     FnGroupCard(modifier) {
         Row(
-            Modifier.fillMaxWidth().height(FnBaseline.StatCardHeightDp.dp)
+            Modifier.fillMaxWidth().heightIn(min = FnBaseline.StatCardHeightDp.dp)
                 .padding(horizontal = FnBaseline.PagePaddingDp.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -501,7 +509,7 @@ fun FnSearchField(
 ) {
     Row(
         modifier
-            .height(FnBaseline.SearchBoxHeightDp.dp)
+            .heightIn(min = FnBaseline.SearchBoxHeightDp.dp)
             .clip(RoundedCornerShape(FnBaseline.SearchBoxCornerDp.dp))
             .background(FnComp.SearchBg)
             .padding(start = 12.3.dp, end = 12.dp),
@@ -597,7 +605,7 @@ fun FnTrackRow(
     Row(
         modifier
             .fillMaxWidth()
-            .height(FnBaseline.TrackRowHeightDp.dp)
+            .heightIn(min = FnBaseline.TrackRowHeightDp.dp)
             .alpha(if (dimmed) 0.45f else 1f)
             .clickable(onClick = onClick)
             .padding(horizontal = FnBaseline.PagePaddingDp.dp),
@@ -620,8 +628,9 @@ fun FnTrackRow(
                     FnUnavailableBadge(badge)
                 }
             }
-            // §61.275：副题为空（艺人/专辑均缺失）时不渲染空行——行高仍固定 60dp，
+            // §61.275：副题为空（艺人/专辑均缺失）时不渲染空行——行高下限仍 60dp，
             // 曲名在行内居中，避免「空副行」把标题顶偏。
+            // §61.287：60dp 是下限不是硬高（原 `.height` 固定），系统字号放大后行随之长高不裁字。
             if (subtitle.isNotBlank()) {
                 Spacer(Modifier.height(4.dp))
                 Text(
@@ -726,7 +735,7 @@ fun FnSheetDialog(
                 Box(
                     Modifier
                         .fillMaxWidth()
-                        .height(52.dp)
+                        .heightIn(min = 52.dp)
                         .clickable(onClick = action),
                     contentAlignment = Alignment.Center,
                 ) {
@@ -799,7 +808,7 @@ fun FnPlaylistRow(
     Row(
         modifier
             .fillMaxWidth()
-            .height(FnBaseline.TrackRowHeightDp.dp)
+            .heightIn(min = FnBaseline.TrackRowHeightDp.dp)
             .clickable(onClick = onClick)
             .padding(horizontal = FnBaseline.PagePaddingDp.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -844,7 +853,7 @@ fun FnActionButton(
 ) {
     Box(
         modifier
-            .height(34.dp)
+            .heightIn(min = 34.dp)
             .clip(RoundedCornerShape(17.dp))
             .background(if (filled) FnComp.IconRed else FnComp.CardBg)
             .clickable(onClick = onClick)

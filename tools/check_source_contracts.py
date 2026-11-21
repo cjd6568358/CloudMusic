@@ -8259,6 +8259,70 @@ def main() -> int:
     else:
         print("[PASS] §61.286 歌单曲目行护栏（40dp 槽位 + 移除二次确认 + 越界置灰）")
 
+    # ---- §61.287（字体缩放：含文字的定高容器必须用高度下限）----
+    #   背景：飞牛组件此前用 `.height(60.dp)` 硬固定行高，内部是 15sp+12sp 两行文字。
+    #   系统字号放大（设置→显示→字体大小，可达 2.0x）后文字被裁切。改 `.heightIn(min=)`：
+    #   正常字号下 max(min, 内容) == min，像素级观感零变化；放大后行随内容长高不裁字。
+    #   豁免：CompeteUi.kt（19 个 composable 已全部零调用，仅 object Comp 令牌与
+    #   rememberCompCover 仍活）、SplashScreen.kt（44dp 是品牌波形图形标尺非文字容器）、
+    #   player/（像素级沉浸页，行高参与基准绝对坐标堆叠，长高会让底部控件整体溢出）。
+    _c287 = []
+    _c287_exempt = {"CompeteUi.kt", "SplashScreen.kt"}
+
+    def _brace_blocks(_src: str):
+        _st, _out = [], []
+        for _i, _ch in enumerate(_src):
+            if _ch == "{":
+                _st.append(_i)
+            elif _ch == "}" and _st:
+                _out.append((_st.pop(), _i))
+        return _out
+
+    for _p in sorted(_ui_dir.glob("*.kt")):
+        if _p.name in _c287_exempt:
+            continue
+        _src = _code_only(_p.read_text(encoding="utf-8", errors="replace"))
+        _bs = _brace_blocks(_src)
+        for _m in re.finditer(re.escape(".height("), _src):
+            _pos = _m.start()
+            _ls = _src.rfind(chr(10), 0, _pos) + 1
+            _le = _src.find(chr(10), _pos)
+            _line = _src[_ls:_le if _le > 0 else len(_src)]
+            if "Spacer(" in _line:
+                continue
+            _cand = [_b for _b in _bs if _b[0] < _pos < _b[1]]
+            if not _cand:
+                continue
+            _inner = min(_cand, key=lambda _b: _b[1] - _b[0])
+            _body = _src[_inner[0]:_inner[1]]
+            if "fontSize" in _body:
+                _c287.append("%s:L%d" % (_p.name, _src.count(chr(10), 0, _pos) + 1))
+    if _c287:
+        failures.append(
+            "§61.287 含文字的容器仍用硬固定高度（大字号会裁字，应 heightIn(min=)）：%s"
+            % "、".join(_c287))
+
+    _fn287 = _code_only(_fn_ui)
+    for _need, _why in (
+        (".height(FnBaseline.TrackRowHeightDp.dp)", "曲目行/歌单行仍硬固定 60dp"),
+        (".height(FnBaseline.RowHeightDp.dp)", "设置行仍硬固定 50.4dp"),
+        (".height(FnBaseline.StatCardHeightDp.dp)", "数据卡仍硬固定 68dp"),
+        (".height(FnBaseline.SearchBoxHeightDp.dp)", "搜索框仍硬固定 40dp"),
+    ):
+        if _need in _fn287:
+            _c287.append(_why)
+    for _need in (".heightIn(min = 52.dp)", ".heightIn(min = 34.dp)"):
+        if _need not in _fn287:
+            _c287.append("对话框操作行/胶囊按钮未改成高度下限：%s" % _need)
+    if ".heightIn(min = 50.dp)" not in _code_app:
+        _c287.append("「加入歌单」选择行未改成高度下限（16sp 文字会裁）")
+    if ".heightIn(min = FnBaseline.HeaderButtonDp.dp)" not in _fn_lib:
+        _c287.append("曲库页顶栏容器未改成高度下限（装 20sp 标题会裁）")
+    if _c287:
+        failures.append("§61.287 字体缩放适配：%s" % "；".join(_c287))
+    else:
+        print("[PASS] §61.287 字体缩放（含文字容器全部高度下限 + ui 目录通用禁令）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

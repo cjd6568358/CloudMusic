@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -96,7 +97,9 @@ fun FnLibraryScreen(
                 Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp, vertical = 14.dp)
-                    .height(FnBaseline.HeaderButtonDp.dp),
+                    // §61.287：40dp 是下限不是硬高——此容器装 20sp 标题，
+                    // 系统字号放大后行随之长高，不裁标题。
+                    .heightIn(min = FnBaseline.HeaderButtonDp.dp),
             ) {
                 Text(
                     "音乐库", color = FnComp.TextPrimary,

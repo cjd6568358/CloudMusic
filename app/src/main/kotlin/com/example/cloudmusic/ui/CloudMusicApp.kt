@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.displayCutoutPadding
@@ -1564,7 +1565,7 @@ private fun AddToPlaylistSheet(
                     Box(
                         Modifier
                             .fillMaxWidth()
-                            .height(50.dp)
+                            .heightIn(min = 50.dp)
                             .clickable { onPick(pl.id) }
                             .padding(horizontal = 16.dp),
                         contentAlignment = Alignment.CenterStart,
