@@ -964,6 +964,8 @@ private fun WebDavDialog(
     FnSheetDialog(
         onDismiss = onDismiss,
         title = "添加 WebDAV 源",
+        // §61.295：4 格 + 动作行，键盘弹出后放不下 → 内容可滚，聚焦格自动滚进视野。
+        scrollable = true,
         content = {
             Column {
                 // §61.293：首格自动聚焦，回车逐格下移，末格（远程路径）回车收键盘。
@@ -998,6 +1000,8 @@ private fun SftpDialog(
     FnSheetDialog(
         onDismiss = onDismiss,
         title = "添加 SFTP 源",
+        // §61.295：7 格是本 App 最长的表单，不开滚动时键盘一起就够不到末尾两格。
+        scrollable = true,
         content = {
             Column {
                 // §61.293：首格自动聚焦，回车逐格下移，末格（私钥口令）回车收键盘。
@@ -1055,6 +1059,8 @@ private fun FtpDialog(
     FnSheetDialog(
         onDismiss = onDismiss,
         title = "添加 FTP 源",
+        // §61.295：5 格 + FTPS 开关，同 SFTP 处理。
+        scrollable = true,
         content = {
             Column {
                 // §61.293：首格自动聚焦，回车逐格下移，末格（远程根目录）回车收键盘。
@@ -1193,6 +1199,8 @@ private fun StrmDialog(
     FnSheetDialog(
         onDismiss = onDismiss,
         title = "添加 STRM 源",
+        // §61.295：委托来源列表随存储数变长，再加 3 行挂载路径编辑框——键盘一弹必然超屏。
+        scrollable = true,
         content = {
             Column {
                 if (delegates.isEmpty()) {
@@ -2343,6 +2351,8 @@ private fun ManualDmrDialog(
     FnSheetDialog(
         onDismiss = onDismiss,
         title = "手动添加投屏设备",
+        // §61.295：4 格 + 探测结果区（成功时还会多出「添加」入口），同样需要滚动。
+        scrollable = true,
         content = {
             Column {
                 // §61.293：首格自动聚焦，回车逐格下移，末格（备注名）回车收键盘。

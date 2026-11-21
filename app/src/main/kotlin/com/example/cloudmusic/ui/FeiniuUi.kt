@@ -4,6 +4,8 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -761,6 +764,12 @@ fun FnSheetDialog(
     onDismiss: () -> Unit,
     title: String? = null,
     content: (@Composable () -> Unit)? = null,
+    /**
+     * §61.295：内容是否可竖向滚动。**默认 false**——本组件已承载若干自带滚动的弹层
+     * （重复曲目清单等），套两层竖向滚动会直接测量崩溃；只有「一屏放不下的表单」
+     * （WebDAV 4 格 / SFTP 7 格 / FTP 5 格 / 手动投屏 4 格）才显式开启。
+     */
+    scrollable: Boolean = false,
     actions: List<Pair<String, () -> Unit>> = emptyList(),
     destructiveIndexOf: Int? = null,
 ) {
@@ -783,7 +792,22 @@ fun FnSheetDialog(
             }
         },
     ) {
-        Column(Modifier.navigationBarsPadding()) {
+        Column(
+            Modifier
+                // §61.295：弹层窗口**不会**为键盘让位——material3 1.3.1 的
+                // ModalBottomSheetDialogWrapper 在 SDK≥30 分支执行 setSoftInputMode(48)，
+                // 48 = SOFT_INPUT_ADJUST_NOTHING（0x30），窗口高度不变、IME 只以 inset 下发。
+                // 所以必须由内容自己吃 ime inset；此前只有 navigationBarsPadding()，
+                // 键盘一弹就把下半屏输入格整块盖住（填完 SFTP 后几格根本看不见）。
+                // 与 navigationBarsPadding 串联安全：Compose 会扣掉已被消费的导航栏高度，
+                // 键盘收起时 ime=0 不产生任何偏移（正常态像素不变）。
+                .navigationBarsPadding()
+                .imePadding()
+                // 键盘占掉半屏后，多字段表单会高于可视区；不开滚动则末尾字段永远够不到。
+                .then(
+                    if (scrollable) Modifier.verticalScroll(rememberScrollState()) else Modifier,
+                ),
+        ) {
             if (title != null) {
                 Text(
                     title,

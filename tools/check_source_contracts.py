@@ -8855,6 +8855,88 @@ def main() -> int:
     else:
         print("[PASS] §61.294 操作反馈（六类动作有确认 / 文案截断兜底 / Toast 单出口单实例 / 用例在册）")
 
+    # ---- §61.295（弹层与键盘：弹层窗口不会自己让位，内容必须吃 IME inset）----
+    #   背景（字节码实证，非推断）：material3 1.3.1 的 ModalBottomSheetDialogWrapper 构造体
+    #   在 SDK>=30 分支执行 `Window.setSoftInputMode(48)`；48 = 0x30 = SOFT_INPUT_ADJUST_NOTHING
+    #   （RESIZE 0x10 | PAN 0x20 的掩码组合即 NOTHING）。也就是说弹层窗口**不会**被键盘顶起，
+    #   IME 只以 inset 下发。此前 FnSheetDialog 只挂 navigationBarsPadding()，键盘一弹就把
+    #   下半屏输入格整块盖住 —— SFTP 7 格表单末尾几格根本看不见。
+    #   判据盯四件事：**弹层内容吃 ime inset**、**超屏表单显式开滚动**、
+    #   **自带滚动的弹层不得再套一层**（双层竖向滚动直接测量崩溃）、**默认值必须是 false**。
+    _c295 = []
+    _ui_root295 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui")
+    _fu_path295 = _ui_root295 / "FeiniuUi.kt"
+    if not _fu_path295.is_file():
+        _c295.append("ui/FeiniuUi.kt 缺失")
+    else:
+        _src295 = _code_only(_fu_path295.read_text(encoding="utf-8", errors="replace"))
+
+        def _brace_blocks295(_s: str):
+            _st, _out = [], []
+            for _i, _ch in enumerate(_s):
+                if _ch == "{":
+                    _st.append(_i)
+                elif _ch == "}" and _st:
+                    _out.append((_st.pop(), _i))
+            return _out
+
+        _bs295 = _brace_blocks295(_src295)
+        _sig295 = _src295.find("fun FnSheetDialog(")
+        _sheet_span295 = None
+        if _sig295 >= 0:
+            _cand295 = [_b for _b in _bs295 if _b[0] > _sig295]
+            if _cand295:
+                _sheet_span295 = min(_cand295, key=lambda _b: _b[0])
+        if _sheet_span295 is None:
+            _c295.append("FnSheetDialog 函数体定位失败（组件被重写？）")
+        else:
+            # 签名在函数体花括号之前，D 组（默认值）必须含签名区，故取「签名起点→函数体末尾」。
+            _body295 = _src295[_sig295:_sheet_span295[1]]
+            # A. 弹层内容必须吃 IME inset；与导航栏 padding 串联（Compose 会扣掉已消费高度）
+            if not re.search(r"navigationBarsPadding\(\)\s*\.\s*imePadding\(\)", _body295):
+                _c295.append("FnSheetDialog 未在 navigationBarsPadding 后接 imePadding"
+                             "（键盘会盖住下半屏输入格）")
+            # D. 默认必须 false：全弹层开滚动会让「自带滚动的弹层」双层嵌套崩溃
+            if not re.search(r"scrollable\s*:\s*Boolean\s*=\s*false", _body295):
+                _c295.append("scrollable 默认值不是 false（自带滚动的弹层会被套两层）")
+            # B. 超屏表单必须显式开滚动（标题在 CloudMusicApp.kt，不在本文件）
+            _app295 = _code_only((_ui_root295 / "CloudMusicApp.kt")
+                                 .read_text(encoding="utf-8", errors="replace"))
+            for _t295 in ("添加 WebDAV 源", "添加 SFTP 源", "添加 FTP 源",
+                          "添加 STRM 源", "手动添加投屏设备"):
+                if _t295 not in _app295:
+                    _c295.append("长表单弹层缺失：%s" % _t295)
+                    continue
+                _ti295 = _app295.find('title = "%s"' % _t295)
+                _start295 = _app295.rfind("FnSheetDialog(", 0, _ti295)
+                _content295 = _app295.find("content = {", _ti295)
+                if _start295 < 0 or _content295 < 0:
+                    _c295.append("%s：调用点结构无法解析" % _t295)
+                    continue
+                if "scrollable = true" not in _app295[_start295:_content295]:
+                    _c295.append("%s 未开 scrollable（键盘弹出后末尾字段够不到）" % _t295)
+        # C. 自带滚动的弹层不得再开滚动（双层竖向滚动 = 测量崩溃）
+        _bsapp295 = _brace_blocks295(_app295)
+        for _m295 in re.finditer(r"FnSheetDialog\(", _app295):
+            _c295_call = _app295.find("content = {", _m295.start())
+            if _c295_call < 0:
+                continue
+            _open295 = _app295.find("{", _c295_call)
+            _inner295 = [_b for _b in _bsapp295 if _b[0] == _open295]
+            if not _inner295:
+                continue
+            _lambda295 = _app295[_inner295[0][0]:_inner295[0][1]]
+            _has_own_scroll295 = ("verticalScroll(" in _lambda295) or ("LazyColumn(" in _lambda295)
+            if _has_own_scroll295 and "scrollable = true" in _app295[_m295.start():_c295_call]:
+                _c295.append("自带滚动的弹层又开了 scrollable（双层竖向滚动会崩溃）")
+
+    if _c295:
+        # 同一调用点可能被多条正则重复命中，去重后再报，避免一句话刷两遍
+        _c295 = list(dict.fromkeys(_c295))
+        failures.append("§61.295 弹层键盘避让：%s" % "；".join(_c295))
+    else:
+        print("[PASS] §61.295 弹层键盘避让（内容吃 IME inset / 五个长表单可滚 / 不叠双层滚动 / 默认 false）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
