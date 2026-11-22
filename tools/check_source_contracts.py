@@ -6789,7 +6789,8 @@ def main() -> int:
         _cue_p_bad.append("prepareAt 未随曲更新分轨包络")
     if "private fun clampToCue(ms: Long): Long" not in _pc_src:
         _cue_p_bad.append("包络钳制纯函数缺失")
-    if "if (cueEndMs > 0 && pos >= cueEndMs)" not in _pc_src:
+    # §61.309 口径演进：交棒判据加缓冲冻结（!buffering 前缀）——外推位置非真值。
+    if "if (!buffering && cueEndMs > 0 && pos >= cueEndMs)" not in _pc_src:
         _cue_p_bad.append("节拍器终点交棒缺失")
     if "val hasCueTracks = queue.any" not in _pc_src:
         _cue_p_bad.append("gapless 分轨禁用判定缺失")
@@ -9487,6 +9488,8 @@ def main() -> int:
         _c309.append("prepareAt 乐观发布缺音源静态门禁（网络源 PLAYING 覆盖 BUFFERING）")
     if "runCatching { engine.state().first() }.getOrNull() != EngineState.BUFFERING" not in _pc309:
         _c309.append("节拍器快照缺引擎真值双门（tick8 残迹）")
+    if "if (!buffering && cueEndMs > 0 && pos >= cueEndMs)" not in _pc309:
+        _c309.append("cue 终点交棒缺缓冲冻结（外推越界误跳下一曲）")
     _t309 = (ROOT / "feature-player/src/test/kotlin/com/example/cloudmusic/player/"
              "PlayerControllerTest.kt").read_text(encoding="utf-8", errors="replace")
     if "tickerFreezesPositionWhileBuffering" not in _t309:

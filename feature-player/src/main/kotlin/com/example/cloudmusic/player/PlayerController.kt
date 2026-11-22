@@ -342,7 +342,11 @@ class PlayerController(
                         // §61.224 + §61.230：分轨终点交棒——position ≥ cueEndMs 时
                         // 先渐出再进下一曲（fade 未启用时立即交棒）。引擎自然 ENDED
                         // 分支不受影响（无竞争：fade-out 完成 → next() 单一入口）。
-                        if (cueEndMs > 0 && pos >= cueEndMs) {
+                        // §61.309（K-02 真机一手）：BUFFERING 期 media3 位置按墙钟**无界
+                        // 外推**（实测 450→486→843→1347 越涨越快），可越过 cueEndMs →
+                        // 误触发终点交棒（「还在加载却跳下一首」= 用户体感快进）——
+                        // 缓冲期位置非真值，交棒与渐出判据一并冻结。
+                        if (!buffering && cueEndMs > 0 && pos >= cueEndMs) {
                             val hh = h
                             fadeOutThen(hh) { scope.launch { advanceNext() } }
                             return@launch
