@@ -18,7 +18,13 @@ import kotlinx.coroutines.flow.asStateFlow
 @JvmInline
 value class EngineHandle(val raw: Long)
 
-enum class EngineState { IDLE, PREPARING, PLAYING, PAUSED, ENDED, ERROR }
+/**
+ * §61.301（H0-1）：新增 BUFFERING——Media3 `STATE_BUFFERING` 此前被吞成日志，
+ * 缓冲期业务层照报 PLAYING、系统会话按 speed=1f 墙钟外推（锁屏/通知/车机
+ * 「缓冲中计时照走」的直接根因）。枚举加列不属门面方法签名改动（14+4 不变）；
+ * 既有消费者全部为等值比对，无序数/序列化依赖（全仓扫描一手）。
+ */
+enum class EngineState { IDLE, PREPARING, BUFFERING, PLAYING, PAUSED, ENDED, ERROR }
 
 data class EngineSource(
     val trackId: String,
@@ -275,6 +281,11 @@ class InMemoryMusicEngine : IMusicEngine {
     /** 供上层标记自然播放结束（非契约方法，仅参考实现）。 */
     fun reportEnded() {
         _state.value = EngineState.ENDED
+    }
+
+    /** §61.301：供上层注入缓冲事件（非契约方法，仅参考实现；BUFFERING 透传用例）。 */
+    fun reportBuffering() {
+        _state.value = EngineState.BUFFERING
     }
 
     fun snapshot(): EngineSnapshot = EngineSnapshot(

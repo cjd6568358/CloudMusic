@@ -103,6 +103,15 @@ class Media3EngineAdapter : IMusicEngine {
      */
     private val mainHandler = Handler(Looper.getMainLooper())
 
+    /**
+     * §61.301（H0-2）：最近一次成功读到的引擎位置。`positionMs()` 的主线程同步读
+     * 有 1s 超时兜底，此前超时返回 0L——缓冲/重解码恰是主线程最忙窗口，UI 瞬跳
+     * 00:00 再弹回（「快进了一下」的根因之一）。超时改保留本值（volatile：
+     * ticker 在 Dispatchers.Default 写读，主线程在 seek/prepare 写）。
+     */
+    @Volatile
+    private var lastKnownPositionMs: Long = 0L
+
     private fun onMain(block: () -> Unit) {
         if (Looper.myLooper() == Looper.getMainLooper()) block() else mainHandler.post(block)
     }
@@ -174,13 +183,28 @@ class Media3EngineAdapter : IMusicEngine {
                         "state=READY durationMs=%d".format(
                             if (d == C.TIME_UNSET) -1L else d),
                     )
+                    // §61.301（H0-1）：READY 是 BUFFERING 的唯一收敛点——按真实
+                    // 播放意图回正 PLAYING/PAUSED（缓冲结束恢复计时；暂停中缓冲
+                    // 完成不伪造播放）。此前 READY 只打日志，BUFFERING 一旦发布
+                    // 就没人回正。
+                    player?.let { p ->
+                        _state.value =
+                            if (p.playWhenReady && p.isPlaying) EngineState.PLAYING
+                            else EngineState.PAUSED
+                    }
                 }
                 Player.STATE_ENDED -> {
                     Log.i(TAG, "state=ENDED positionMs=%d".format(positionNow()))
                     _state.value = EngineState.ENDED
                 }
                 Player.STATE_IDLE -> Log.i(TAG, "state=IDLE")
-                Player.STATE_BUFFERING -> Log.i(TAG, "state=BUFFERING")
+                // §61.301（H0-1）：BUFFERING 透传——此前只打日志，业务层照报
+                // PLAYING、系统会话按 speed=1f 墙钟外推（「缓冲中计时照走」根因）。
+                // 仅在播放意图存在时发布：暂停态的重缓冲保持 PAUSED 不伪装。
+                Player.STATE_BUFFERING -> {
+                    Log.i(TAG, "state=BUFFERING")
+                    player?.takeIf { it.playWhenReady }?.let { _state.value = EngineState.BUFFERING }
+                }
             }
         }
 
@@ -390,6 +414,8 @@ class Media3EngineAdapter : IMusicEngine {
             replayGain.reset()
             // 与 EngineAdapter / InMemoryMusicEngine 一致：prepare 后等 play() 才进入 PLAYING。
             _state.value = EngineState.PAUSED
+            // §61.301（H0-2）：新曲位置真值从 0 起算，清上一曲残留兜底值。
+            lastKnownPositionMs = 0L
         }
         return handle
     }
@@ -459,6 +485,9 @@ class Media3EngineAdapter : IMusicEngine {
         Log.i(TAG, "seek toMs=%d durMs=%s".format(
             target, if (d == C.TIME_UNSET) "unset" else d.toString()))
         it.seekTo(target)
+        // §61.301（H0-2）：seek 落点即刻成为已知位置（主线程忙时 positionMs()
+        // 超时兜底不回退到 seek 前旧值）。
+        lastKnownPositionMs = target
     }
 
     /**
@@ -472,11 +501,20 @@ class Media3EngineAdapter : IMusicEngine {
 
     override fun positionMs(handle: EngineHandle): Long {
         requireActive(handle)
-        // §61.87：getter 也受单线程约束 → 主线程同步读（1s 超时回退 0）。
-        return onMainSync(1L, 0L) {
-            val p = player ?: return@onMainSync 0L
-            val pos = p.currentPosition
-            if (pos == C.TIME_UNSET) 0L else pos
+        // §61.87：getter 也受单线程约束 → 主线程同步读。
+        // §61.301（H0-2）：超时/异常兜底改保留 [lastKnownPositionMs]（-1 作
+        // 「本次未读到」哨兵），不再返回 0——缓冲期主线程最忙，瞬跳 00:00 再
+        // 弹回 = 「快进了一下」的观感根因之一。
+        val pos = onMainSync(1L, -1L) {
+            val p = player ?: return@onMainSync -1L
+            val v = p.currentPosition
+            if (v == C.TIME_UNSET || v < 0) -1L else v
+        }
+        return if (pos >= 0L) {
+            lastKnownPositionMs = pos
+            pos
+        } else {
+            lastKnownPositionMs
         }
     }
 
@@ -500,6 +538,7 @@ class Media3EngineAdapter : IMusicEngine {
         if (count > 0 && index in 0 until count) {
             it.seekTo(index, 0L)
             _queueIndex.value = index
+            lastKnownPositionMs = 0L   // §61.301（H0-2）：换曲位置真值归零。
         }
     }
 

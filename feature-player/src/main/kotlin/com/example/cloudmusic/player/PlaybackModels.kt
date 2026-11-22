@@ -40,6 +40,13 @@ data class PlayerState(
     val durationMs: Long = 0L,
     val mode: PlayMode = PlayMode.SEQUENCE,
     val lastError: CloudMusicError? = null,
+    /**
+     * §61.301（H0-1）：引擎 BUFFERING 透传标志。PlayerPhase 不加列（UI 的 exhaustive
+     * when 零强制改动）：引擎进缓冲时 phase 保持 PLAYING 而本标志置位——节拍器
+     * 缓冲期停发 PLAYING 会话快照（防系统会话 speed=1f 外推重锚），UI 可选渲染
+     * 缓冲态。PAUSED/ENDED 等非播放相位恒 false。
+     */
+    val isBuffering: Boolean = false,
     /** 切 DLNA 时手机转遥控器：本机内核静音 + 暂停（§9）。 */
     val remoteOutput: Boolean = false,
 )

@@ -893,4 +893,55 @@ class PlayerControllerTest {
         assertTrue(marked.contains("id-1" to false), "孤儿源标记 UNREACHABLE")
         assertEquals("id-2", f.controller.state.value.currentTrackId?.value, "标记后跳链续播")
     }
+
+    // ------------------------------------------------------------------
+    // §61.301 · H0-1 BUFFERING 透传（「缓冲中计时照走」+ 会话外推重锚跳变根因）
+
+    @Test
+    @DisplayName("§61.301 · BUFFERING 透传：isBuffering 置位，PLAYING 收敛清除，phase 不加列")
+    fun bufferingFlagSetAndClear() = runTest {
+        val f = fixture(scope = backgroundScope)
+        f.repo.setAll(listOf(track(1)))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        runCurrent()
+        assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase)
+        assertFalse(f.controller.state.value.isBuffering)
+
+        f.engine.reportBuffering()
+        runCurrent()
+        assertTrue(f.controller.state.value.isBuffering, "引擎 BUFFERING 透传为标志位")
+        assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase, "PlayerPhase 不加列（UI exhaustive when 零改动）")
+
+        f.engine.play(EngineHandle(f.engine.snapshot().handleRaw!!))
+        runCurrent()
+        assertFalse(f.controller.state.value.isBuffering, "PLAYING 到达即清除")
+    }
+
+    @Test
+    @DisplayName("§61.301 · 缓冲期节拍器停发 PLAYING 会话快照（防系统外推时钟重锚回弹）")
+    fun tickerSuppressesSessionSnapshotWhileBuffering() = runTest {
+        val f = fixture(scope = backgroundScope, positionOverride = 10_000L)
+        f.repo.setAll(listOf(track(1)))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        runCurrent()   // tick=0：发布 PLAYING@10s
+        assertEquals(10_000L, f.media.snapshot().playback?.positionMs)
+
+        f.engine.reportBuffering()
+        runCurrent()
+        // 缓冲期位置真值冻结；用可变委托把假位置改为 11s——若快照链未被门禁，
+        // tick=4 的发布窗就会把 11s 写进媒体会话（= 重锚外推时钟）。
+        f.positionEngine!!.fakePosition = 11_000L
+        advanceTimeBy(2_000)
+        runCurrent()
+        assertEquals(10_000L, f.media.snapshot().playback?.positionMs, "缓冲期不重锚 PLAYING 快照")
+        assertTrue(f.controller.state.value.isBuffering)
+
+        f.engine.play(EngineHandle(f.engine.snapshot().handleRaw!!))
+        runCurrent()
+        advanceTimeBy(2_000)
+        runCurrent()
+        assertEquals(11_000L, f.media.snapshot().playback?.positionMs, "缓冲结束恢复 2s 发布链")
+    }
 }

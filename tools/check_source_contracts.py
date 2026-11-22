@@ -489,9 +489,11 @@ SIGNATURES = {
         "class InMemoryPlaylistRepository(", "class InMemoryStorageRepository(",
     ],
     # 03-06 §4 稳定门面（逐字对齐，不得漂移）
+    # §61.301：枚举加列 BUFFERING（缓冲透传）——非方法签名改动（14+4 不变），
+    # 判据随口径演进（§61.239 先例），文档 03-06 §4 随批批注。
     "engine-api/src/main/kotlin/com/example/cloudmusic/engine/api/EngineApi.kt": [
         "value class EngineHandle(val raw: Long)",
-        "enum class EngineState { IDLE, PREPARING, PLAYING, PAUSED, ENDED, ERROR }",
+        "enum class EngineState { IDLE, PREPARING, BUFFERING, PLAYING, PAUSED, ENDED, ERROR }",
         "interface IMusicEngine",
         "fun prepare(source: EngineSource, config: EngineConfig): EngineHandle",
         "fun attachDataSource(handle: EngineHandle, ds: IDataSource)",
@@ -9149,6 +9151,53 @@ def main() -> int:
         failures.append("§61.298 APE seek 自洽：%s" % "；".join(_c298))
     else:
         print("[PASS] §61.298 APE seek 自洽（按 position 定位 / 不用 timeUs 反算 / 用例在册）")
+
+    # ---- §61.301（H0-1+H0-2 时钟真相：BUFFERING 透传 / 会话 speed / 超时兜底非 0）----
+    _c301 = []
+    _api301 = (ROOT / "engine-api/src/main/kotlin/com/example/cloudmusic/engine/api/"
+                      "EngineApi.kt").read_text(encoding="utf-8", errors="replace")
+    if "BUFFERING" not in _api301.split("enum class EngineState", 1)[-1].split("}", 1)[0]:
+        _c301.append("EngineState 无 BUFFERING（缓冲态被吞，系统会话外推照走）")
+    if "fun reportBuffering()" not in _api301:
+        _c301.append("InMemoryMusicEngine 缺 reportBuffering（透传用例无处注入）")
+    _ad301 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/example/cloudmusic/"
+                         "engineopensource/Media3EngineAdapter.kt"
+                         ).read_text(encoding="utf-8", errors="replace"))
+    _lst301 = _ad301[_ad301.find("override fun onPlaybackStateChanged"):
+                     _ad301.find("override fun onIsPlayingChanged")]
+    if "EngineState.BUFFERING" not in _lst301:
+        _c301.append("适配器 listener 未透传 BUFFERING")
+    if "playWhenReady" not in _lst301:
+        _c301.append("BUFFERING 发布缺 playWhenReady 门（暂停中重缓冲不得伪装缓冲）")
+    if "EngineState.PLAYING" not in _lst301 or "EngineState.PAUSED" not in _lst301:
+        _c301.append("READY 分支缺 PLAYING/PAUSED 回正（BUFFERING 发布后无收敛点）")
+    _pos301 = _ad301[_ad301.find("override fun positionMs("):
+                     _ad301.find("override fun durationMs(")]
+    if "onMainSync(1L, 0L)" in _pos301:
+        _c301.append("positionMs 超时仍兜底 0L（瞬跳 00:00 回弹）")
+    if "lastKnownPositionMs" not in _pos301:
+        _c301.append("positionMs 超时未保留上次已知位置")
+    _pm301 = (ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/player/"
+              "PlaybackModels.kt").read_text(encoding="utf-8", errors="replace")
+    if "val isBuffering: Boolean = false" not in _pm301:
+        _c301.append("PlayerState 缺 isBuffering 标志")
+    _pc301 = _code_only((ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/"
+                         "player/PlayerController.kt").read_text(encoding="utf-8", errors="replace"))
+    if "tick % 4 == 0 && !_state.value.isBuffering" not in _pc301:
+        _c301.append("节拍器未按 isBuffering 门禁（缓冲期 PLAYING 快照重锚外推时钟）")
+    _sv301 = _code_only((ROOT / "app/src/main/kotlin/com/example/cloudmusic/"
+                         "PlaybackService.kt").read_text(encoding="utf-8", errors="replace"))
+    if "PlaybackState.STATE_BUFFERING" not in _sv301:
+        _c301.append("PlaybackService 未直写 STATE_BUFFERING（锁屏/通知外推不停）")
+    _t301 = (ROOT / "feature-player/src/test/kotlin/com/example/cloudmusic/player/"
+             "PlayerControllerTest.kt").read_text(encoding="utf-8", errors="replace")
+    if "reportBuffering" not in _t301:
+        _c301.append("BUFFERING 透传用例缺（无回归防线）")
+    if _c301:
+        failures.append("§61.301 时钟真相自洽：%s" % "；".join(_c301))
+    else:
+        print("[PASS] §61.301 时钟真相自洽（BUFFERING 透传 / READY 回正 / 超时兜底非 0 / "
+              "快照门禁 / 会话 BUFFERING）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

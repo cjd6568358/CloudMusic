@@ -320,6 +320,11 @@ class PlaybackService : Service() {
                         playingObserved = true
                         updateSessionPlaybackState(PlaybackState.STATE_PLAYING)
                     }
+                    // §61.301（H0-1）：缓冲直写系统会话 STATE_BUFFERING——speed 随
+                    // updateSessionPlaybackState 的非播放口径落 0f，锁屏/通知/车机
+                    // 的墙钟外推就此停走（「缓冲中计时照走」根因）；BUFFERING 结束
+                    // 由 PLAYING/PAUSED 分支回正。
+                    EngineState.BUFFERING -> updateSessionPlaybackState(PlaybackState.STATE_BUFFERING)
                     EngineState.IDLE, EngineState.ENDED, EngineState.ERROR -> {
                         if (playingObserved) {
                             playingObserved = false

@@ -147,6 +147,12 @@ class PlayerController(
                             engine.lastError()
                                 ?: CloudMusicError.DsUpstream("ENGINE", "未知引擎错误"),
                         )
+                        // §61.301（H0-1）：BUFFERING 透传为 [PlayerState.isBuffering]
+                        // 标志（PlayerPhase 不动）；PLAYING/PAUSED 是缓冲的收敛点，
+                        // 到达即清除。节拍器据标志缓冲期停发 PLAYING 会话快照。
+                        EngineState.BUFFERING -> _state.update { it.copy(isBuffering = true) }
+                        EngineState.PLAYING, EngineState.PAUSED ->
+                            _state.update { it.copy(isBuffering = false) }
                         else -> Unit
                     }
                 }
@@ -188,7 +194,7 @@ class PlayerController(
             engine.pause(h)
             val pos = engine.positionMs(h)
             val dur = syncEngineDuration(h)
-            _state.update { it.copy(phase = PlayerPhase.PAUSED, positionMs = pos) }
+            _state.update { it.copy(phase = PlayerPhase.PAUSED, positionMs = pos, isBuffering = false) }
             // §61.239：会话快照分轨相对化（口径同 §61.226 UI 三口）。
             media?.setPlaybackState(EngineState.PAUSED, sessionPosition(pos), sessionDuration(dur))
             // §61.182：暂停点落游标（恢复链写侧：切歌 / 暂停 / 每 5s 三口之一）。
@@ -234,7 +240,7 @@ class PlayerController(
             restartCurrentIfAny()
             return
         }
-        _state.update { it.copy(phase = PlayerPhase.PLAYING) }
+        _state.update { it.copy(phase = PlayerPhase.PLAYING, isBuffering = false) }
         val dur = syncEngineDuration(h)
         startPositionTicker()
         // §61.239：会话快照分轨相对化。
@@ -307,8 +313,12 @@ class PlayerController(
                             }
                             return@launch
                         }
-                        if (tick % 4 == 0) {
+                        if (tick % 4 == 0 && !_state.value.isBuffering) {
                             // §61.239：会话快照分轨相对化（§61.115 每 2s 同步链口径统一）。
+                            // §61.301（H0-1）：缓冲期停发 PLAYING 快照——BUFFERING 态
+                            // 由 PlaybackService 引擎直采链写 STATE_BUFFERING+speed=0f
+                            // （系统会话停走），此处再按 2s 链重锚 PLAYING 会让外推
+                            // 时钟反复回弹（跳变观感）。
                             media?.setPlaybackState(EngineState.PLAYING, sessionPosition(pos), sessionDuration(dur))
                         }
                         // §61.182：每 5s（10 tick）落游标（与 pause / 切歌共同保
@@ -618,6 +628,8 @@ class PlayerController(
                 phase = if (autoPlay) PlayerPhase.PLAYING else PlayerPhase.PAUSED,
                 // §61.224：显示位置用包络修正后的定位（分轨起点 / 钳制值），非原始 seekTo。
                 positionMs = effectiveSeek,
+                // §61.301：换曲清缓冲标志，防上一曲残留。
+                isBuffering = false,
             )
         }
         // §61.182：切歌即落游标（恢复链写侧三口之一；restore 的 PAUSED 路径同样落，

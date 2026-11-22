@@ -38,10 +38,10 @@ class EngineApiContractTest {
     }
 
     @Test
-    @DisplayName("EA02 EngineState 六态齐全，初始态为 IDLE")
+    @DisplayName("EA02 EngineState 七态齐全（§61.301 加列 BUFFERING），初始态为 IDLE")
     fun ea02() = runTest {
         assertEquals(
-            listOf("IDLE", "PREPARING", "PLAYING", "PAUSED", "ENDED", "ERROR"),
+            listOf("IDLE", "PREPARING", "BUFFERING", "PLAYING", "PAUSED", "ENDED", "ERROR"),
             EngineState.entries.map { it.name },
         )
         assertEquals(EngineState.IDLE, InMemoryMusicEngine().state().first())
