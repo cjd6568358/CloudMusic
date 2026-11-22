@@ -482,6 +482,8 @@ class PlaybackService : Service() {
 
     /** 12 §61.19：同步 MediaSession PlaybackState（保持 actions 不变）。 */
     private fun updateSessionPlaybackState(state: Int) {
+        System.err.println("CM-DIAG|updateSessionPlaybackState state=$state from=" +
+            Throwable().stackTrace.toList().take(3).joinToString(" <- ") { it.className.substringAfterLast('.') + "." + it.methodName })
         mediaSession?.let { session ->
             // §61.240：回退链位置不再恒 0（§61.25 原实现）——用最近发布位置保位；
             // 速度按态修正（播放 1f / 非播放 0f，非播放期位置不漂移）。
@@ -505,6 +507,8 @@ class PlaybackService : Service() {
      * 位置 = §61.239 相对口径（分轨曲目从 0 起算）；速度 1f/0f 按态修正。
      */
     private fun writeSessionTransport(playing: Boolean, positionMs: Long, durationMs: Long) {
+        System.err.println("CM-DIAG|writeSessionTransport playing=$playing pos=$positionMs from=" +
+            Throwable().stackTrace.toList().take(3).joinToString(" <- ") { it.className.substringAfterLast('.') + "." + it.methodName })
         val session = mediaSession ?: return
         session.setPlaybackState(
             PlaybackState.Builder()

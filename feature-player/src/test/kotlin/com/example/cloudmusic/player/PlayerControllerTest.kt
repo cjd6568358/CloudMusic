@@ -509,11 +509,14 @@ class PlayerControllerTest {
         val s = f.controller.state.value
         assertEquals(PlayerPhase.PLAYING, s.phase)
         assertEquals(244_933L, s.durationMs, "引擎解出的真值，非曲库 0")
-        assertEquals(244_933L, f.media.snapshot().playback?.durationMs, "媒体会话与 state 同源")
         // §61.185：通知栏 metadata 时长同源（publishMetadata 用引擎真值副本，非曲库 0）
-        // §61.303 K1d：发布走 500ms 防抖，虚拟时间推过窗口后落地
+        // §61.303 K1d：发布走 500ms 防抖；§61.309 网络源 autoPlay 不发乐观快照 →
+        // 节拍器 tick0（500ms）接管首发布，两窗口一并推过
         advanceTimeBy(KernelTuning.METADATA_DEBOUNCE_MS)
         runCurrent()
+        advanceTimeBy(500)
+        runCurrent()
+        assertEquals(244_933L, f.media.snapshot().playback?.durationMs, "媒体会话与 state 同源（tick0 接管首发布）")
         assertEquals(244_933L, f.media.snapshot().metadata?.durationMs, "通知栏元数据真值")
     }
 
@@ -1058,6 +1061,30 @@ class PlayerControllerTest {
         advanceTimeBy(KernelTuning.AUTO_SKIP_DELAY_MS)
         runCurrent()
         assertEquals(before, f.controller.state.value.currentTrackId, "已让位的延迟窗不得再触发（不双切）")
+    }
+
+    @Test
+    @DisplayName("§61.309 · 缓冲期位置冻结（K-02 真机：media3 BUFFERING 墙钟外推 → App 进度照走）")
+    fun tickerFreezesPositionWhileBuffering() = runTest {
+        val f = fixture(scope = backgroundScope, positionOverride = 10_000L)
+        f.repo.setAll(listOf(track(1)))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        runCurrent()
+        assertEquals(10_000L, f.controller.state.value.positionMs)
+
+        f.engine.reportBuffering()
+        runCurrent()
+        f.positionEngine!!.fakePosition = 11_000L
+        advanceTimeBy(1_500)
+        runCurrent()
+        assertEquals(10_000L, f.controller.state.value.positionMs, "缓冲期位置冻结（卡住不涨）")
+
+        f.engine.play(EngineHandle(f.engine.snapshot().handleRaw!!))
+        runCurrent()
+        advanceTimeBy(500)
+        runCurrent()
+        assertEquals(11_000L, f.controller.state.value.positionMs, "READY 恢复后续走")
     }
 
     @Test

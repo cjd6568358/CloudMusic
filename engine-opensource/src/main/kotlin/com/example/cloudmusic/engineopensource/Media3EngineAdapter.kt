@@ -491,7 +491,14 @@ class Media3EngineAdapter : IMusicEngine {
 
     override fun play(handle: EngineHandle) = guard(handle) {
         it.play()
-        _state.value = EngineState.PLAYING
+        // §61.309（K-02 真机一手）：prepare 期 BUFFERING 事件（34.744）→ prepare 收尾
+        // PAUSED（34.755）→ play() 乐观 PLAYING（34.758）在 14ms 内连环覆盖，控制器
+        // collect 只见 PLAYING → isBuffering 永不置位 → 节拍器门禁失效 + 系统会话
+        // 按 speed=1f 走钟 5s（真机 Avrcp 逐条证据）。真值守卫：媒体尚在 BUFFERING
+        // 时不得盲写 PLAYING（READY 收敛点会回正，§61.301）。
+        _state.value =
+            if (it.playbackState == Player.STATE_BUFFERING) EngineState.BUFFERING
+            else EngineState.PLAYING
     }
 
     override fun pause(handle: EngineHandle) = guard(handle) {

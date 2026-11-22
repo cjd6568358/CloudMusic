@@ -25,6 +25,7 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -330,7 +331,14 @@ class PlayerController(
             while (isActive && _state.value.phase == PlayerPhase.PLAYING) {
                 handle?.let { h ->
                     runCatching { engine.positionMs(h) }.getOrNull()?.let { pos ->
-                        _state.update { it.copy(positionMs = pos) }
+                        // §61.309（K-02 真机一手）：media3 的 currentPosition 在 BUFFERING
+                        // 期间按播放时钟墙钟外推（实测 450→486→843→1347ms 持续走）——
+                        // 缓冲期冻结 App 内进度显示（卡住不涨是通用播放器语义），
+                        // READY 恢复后下一拍自动续走。cue 交棒与 fade 判据仍用真值 pos。
+                        val buffering = _state.value.isBuffering
+                        if (!buffering) {
+                            _state.update { it.copy(positionMs = pos) }
+                        }
                         // §61.224 + §61.230：分轨终点交棒——position ≥ cueEndMs 时
                         // 先渐出再进下一曲（fade 未启用时立即交棒）。引擎自然 ENDED
                         // 分支不受影响（无竞争：fade-out 完成 → next() 单一入口）。
@@ -356,7 +364,9 @@ class PlayerController(
                             }
                             return@launch
                         }
-                        if (tick % 4 == 0 && !_state.value.isBuffering) {
+                        if (tick % 4 == 0 && !_state.value.isBuffering &&
+                            runCatching { engine.state().first() }.getOrNull() != EngineState.BUFFERING
+                        ) {
                             // §61.239：会话快照分轨相对化（§61.115 每 2s 同步链口径统一）。
                             // §61.301（H0-1）：缓冲期停发 PLAYING 快照——BUFFERING 态
                             // 由 PlaybackService 引擎直采链写 STATE_BUFFERING+speed=0f
@@ -826,14 +836,23 @@ class PlayerController(
             track.copy(durationMs = CueEnvelope.displayDuration(resolvedDur, cueStartMs, cueEndMs)),
             track.coverRef,
         )
-        media?.setPlaybackState(
-            if (autoPlay) EngineState.PLAYING else EngineState.PAUSED,
-            // §61.239：分轨新起播显示位置 = effectiveSeek - cueStart（整轨原样）。
-            sessionPosition(effectiveSeek),
-            // §61.181：引擎真值优先，未解出（0）时兜底曲库元数据（本地有标签曲目瞬时正确）。
-            // §61.239：分轨显示时长 = 包络长。
-            sessionDuration(resolvedDur),
-        )
+        // §61.309（K-02 真机一手，确定性口径）：**网络源 autoPlay 不发乐观 PLAYING**——
+        // 网络起播必经 BUFFERING（直写链已发 STATE_BUFFERING+speed=0f），乐观发布在
+        // 真机上 43ms 内覆盖它 → 系统会话从锚按 1f 墙钟外推整个缓冲窗（Avrcp 逐条
+        // 证据）。play() 走主线程异步、prepareAt 在 Default 继续，「读状态再决定」存在
+        // 结构性竞态（首轮 engineNow=PAUSED 门禁被穿透的一手教训）→ 直接按音源类型
+        // 静态判定：网络源不发（BUFFERING 直写 + READY 回正 + 节拍器接管），本地源
+        // 秒 READY 照发零变化。恢复（autoPlay=false）照发 PAUSED。
+        if (!autoPlay || !currentNetworkSource) {
+            media?.setPlaybackState(
+                if (autoPlay) EngineState.PLAYING else EngineState.PAUSED,
+                // §61.239：分轨新起播显示位置 = effectiveSeek - cueStart（整轨原样）。
+                sessionPosition(effectiveSeek),
+                // §61.181：引擎真值优先，未解出（0）时兜底曲库元数据（本地有标签曲目瞬时正确）。
+                // §61.239：分轨显示时长 = 包络长。
+                sessionDuration(resolvedDur),
+            )
+        }
     }
 
     /**

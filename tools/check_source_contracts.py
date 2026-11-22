@@ -5361,7 +5361,7 @@ def main() -> int:
                 (ROOT / "docs" / "17-竞品模块清单与复刻规划.md").read_text(encoding="utf-8"),
                 (ROOT / "analysis" / "task-backlog-2026-11-07.md").read_text(encoding="utf-8"),
             ]
-            _mx = _json.loads((ROOT / "analysis" / "l3-f3-matrix.json"
+            _mx = _json.loads((ROOT / "analysis" / "l3-f3-matrix-hist-2026-11-14.json"
                                ).read_text(encoding="utf-8"))
             if (_a.get("verdict") == "PASS"
                     and _a.get("device_run") is False
@@ -5450,7 +5450,7 @@ def main() -> int:
                 (ROOT / "docs" / "17-竞品模块清单与复刻规划.md").read_text(encoding="utf-8"),
                 (ROOT / "analysis" / "task-backlog-2026-11-07.md").read_text(encoding="utf-8"),
             ]
-            _mx103 = _json.loads((ROOT / "analysis" / "l3-f3-matrix.json"
+            _mx103 = _json.loads((ROOT / "analysis" / "l3-f3-matrix-hist-2026-11-14.json"
                                   ).read_text(encoding="utf-8"))
             if (_t.get("verdict") == "PASS"
                     and _snap.get("device_run") is False
@@ -5486,7 +5486,7 @@ def main() -> int:
             import json as _json
             _v = _json.loads(ret_verdict.read_text(encoding="utf-8"))
             _rm = _json.loads(ret_matrix.read_text(encoding="utf-8"))
-            _hist = _json.loads((ROOT / "analysis" / "l3-f3-matrix.json"
+            _hist = _json.loads((ROOT / "analysis" / "l3-f3-matrix-hist-2026-11-14.json"
                                  ).read_text(encoding="utf-8"))
             _d12e = (ROOT / "docs" / "12-编码阶段第一批交付.md").read_text(
                 encoding="utf-8")
@@ -9468,6 +9468,33 @@ def main() -> int:
     else:
         print("[PASS] §61.308 K4c/d 自洽（03-06 B2 主线+档案附录 / docs/17 P0 终局批注 / "
               "NOTICE B2 栈登记 / LICENSE=AGPL-3.0）")
+
+    # ---- §61.309（K-02 真机一手：BUFFERING 乐观写覆盖 + 墙钟外推 → 双冻结）----
+    _c309 = []
+    _ad309 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/example/cloudmusic/"
+                         "engineopensource/Media3EngineAdapter.kt"
+                         ).read_text(encoding="utf-8", errors="replace"))
+    _play309 = _ad309[_ad309.find("override fun play("):_ad309.find("override fun pause(")]
+    if "if (it.playbackState == Player.STATE_BUFFERING) EngineState.BUFFERING" not in _play309:
+        _c309.append("适配器 play() 缺真值守卫（BUFFERING 被乐观 PLAYING 覆盖，会话照走根因）")
+    _pc309 = _code_only((ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/player/"
+                         "PlayerController.kt").read_text(encoding="utf-8", errors="replace"))
+    _tk309 = _pc309[_pc309.find("private fun startPositionTicker()"):]
+    _tk309 = _tk309[:_tk309.find("/**")]
+    if "val buffering = _state.value.isBuffering" not in _tk309 or "if (!buffering)" not in _tk309:
+        _c309.append("节拍器缺缓冲期位置冻结（media3 墙钟外推直通 UI）")
+    if "if (!autoPlay || !currentNetworkSource)" not in _pc309:
+        _c309.append("prepareAt 乐观发布缺音源静态门禁（网络源 PLAYING 覆盖 BUFFERING）")
+    if "runCatching { engine.state().first() }.getOrNull() != EngineState.BUFFERING" not in _pc309:
+        _c309.append("节拍器快照缺引擎真值双门（tick8 残迹）")
+    _t309 = (ROOT / "feature-player/src/test/kotlin/com/example/cloudmusic/player/"
+             "PlayerControllerTest.kt").read_text(encoding="utf-8", errors="replace")
+    if "tickerFreezesPositionWhileBuffering" not in _t309:
+        _c309.append("位置冻结用例缺（无回归防线）")
+    if _c309:
+        failures.append("§61.309 缓冲期冻结自洽：%s" % "；".join(_c309))
+    else:
+        print("[PASS] §61.309 缓冲期冻结自洽（play() 真值守卫 / 节拍器位置冻结 / 用例在册）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
