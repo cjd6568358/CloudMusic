@@ -11,6 +11,7 @@ import androidx.media3.common.Metadata
 import androidx.media3.common.Tracks
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
+import androidx.media3.datasource.DataSpec
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.cache.CacheDataSource
@@ -95,6 +96,9 @@ class Media3EngineAdapter : IMusicEngine {
     private var error: CloudMusicError? = null
     private var nextRaw = 1L
     private val _queueIndex = MutableStateFlow(-1)
+
+    /** §61.317：缓存预热线程引用——prepare 新曲时 interrupt 上一条。 */
+    private var cacheWarmerThread: Thread? = null
 
     /**
      * §61.87（F3 首轮真机暴露）：ExoPlayer 强制「单线程（application thread）」
@@ -432,6 +436,38 @@ class Media3EngineAdapter : IMusicEngine {
             // §61.301（H0-2）：新曲位置真值从 0 起算，清上一曲残留兜底值。
             lastKnownPositionMs = 0L
         }
+        // §61.317（方案二）：CUE/APE 大文件后台缓存预热——网络源在播放的同时预读
+        // 全文件到 SimpleCache，后续 seek/切曲/同一镜像其他分轨全部走缓存（秒开）。
+        // 用户诉求「分段下载」= 此处对上游发起全量 Range 读，CacheDataSource 自动
+        // 分段写入缓存。上一曲预热线程 interrupt 取消（防带宽浪费）。
+        cacheWarmerThread?.interrupt()
+        cacheWarmerThread = if (url != null) {
+            Thread({
+                try {
+                    val warmFactory = CacheDataSource.Factory()
+                        .setCache(ensureCache(ctx))
+                        .setCacheKeyFactory(CacheKeyFactory { cacheKey })
+                        .setUpstreamDataSourceFactory(
+                            DefaultDataSource.Factory(
+                                ctx,
+                                DefaultHttpDataSource.Factory()
+                                    .setAllowCrossProtocolRedirects(true),
+                            ),
+                        )
+                        .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
+                    val ds = warmFactory.createDataSource()
+                    ds.open(DataSpec(Uri.parse(url!!), 0, C.LENGTH_UNSET.toLong()))
+                    val buf = ByteArray(64 * 1024)
+                    while (ds.read(buf, 0, buf.size) != C.RESULT_END_OF_INPUT &&
+                        !Thread.currentThread().isInterrupted
+                    ) { /* CacheDataSource writes to cache during read */ }
+                    ds.close()
+                    Log.i(TAG, "cache warmer complete: $cacheKey")
+                } catch (e: Exception) {
+                    Log.i(TAG, "cache warmer ended: ${e?.message ?: "interrupted"}")
+                }
+            }, "CacheWarmer-$cacheKey").also { it.start() }
+        } else null
         return handle
     }
 
@@ -453,8 +489,9 @@ class Media3EngineAdapter : IMusicEngine {
                 /* minBufferMs= */ DefaultLoadControl.DEFAULT_MIN_BUFFER_MS,
                 /* maxBufferMs= */ DefaultLoadControl.DEFAULT_MAX_BUFFER_MS,
                 /* bufferForPlaybackMs= */ bufferMs.coerceIn(500, 15_000),
-                /* bufferForPlaybackAfterRebufferMs= */
-                (bufferMs * 2).coerceAtLeast(
+                /* bufferForPlaybackAfterRebufferMs= §61.317 复播阈值 = 起播阈值（不翻倍，
+                15s 起播 15s 复播——2×30s 对大 APE 来说缓冲等待过长）*/
+                bufferMs.coerceAtLeast(
                     DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS,
                 ),
             )
@@ -752,6 +789,7 @@ class Media3EngineAdapter : IMusicEngine {
     override fun release(handle: EngineHandle) {
         requireActive(handle)
         Log.i(TAG, "release handle=%d".format(handle.raw))
+        cacheWarmerThread?.interrupt() // §61.317：释放时取消预热线程
         // §61.87：player.release() 也必须在 application thread（主 Looper）。
         onMainSync(5L, Unit) {
             try {

@@ -54,7 +54,10 @@ data class EngineConfig(
     /** 0 = 由内核探测。 */
     val sampleRateHz: Int = 0,
     val preferHardwareDecoder: Boolean = true,
-    val bufferMs: Int = 2000,
+    /** §61.317：默认 15000（15s 起播缓冲）——网络 CUE/APE 大文件码率 ~1000kbps，
+     *  2s 缓冲仅 ~250KB，网络抖动即断流。15s ≈ 1.875MB，抗短时网络波动。
+     *  本地源不受影响（秒 READY）。 */
+    val bufferMs: Int = 15000,
     /** PRD §6.1：解码失败自动跳下一首（可关）。 */
     val autoSkipOnError: Boolean = true,
     /**

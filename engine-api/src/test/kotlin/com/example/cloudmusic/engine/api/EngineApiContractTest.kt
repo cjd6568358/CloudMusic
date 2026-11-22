@@ -55,7 +55,7 @@ class EngineApiContractTest {
         val c = EngineConfig()
         assertEquals(0, c.sampleRateHz)
         assertTrue(c.preferHardwareDecoder)
-        assertEquals(2000, c.bufferMs)
+        assertEquals(15000, c.bufferMs) // §61.317：15s 起播缓冲（网络 CUE/APE 大文件）
         assertTrue(c.autoSkipOnError)
     }
 

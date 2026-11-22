@@ -9499,6 +9499,24 @@ def main() -> int:
     else:
         print("[PASS] §61.309 缓冲期冻结自洽（play() 真值守卫 / 节拍器位置冻结 / 用例在册）")
 
+    # ---- §61.317（CUE 大文件预缓存 + 缓冲区 15s + 缓存预热）----
+    _c317 = []
+    _ad317 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/example/cloudmusic/"
+                         "engineopensource/Media3EngineAdapter.kt"
+                         ).read_text(encoding="utf-8", errors="replace"))
+    if "cacheWarmerThread" not in _ad317:
+        _c317.append("适配器缺缓存预热线程（CUE/APE 大文件无预热）")
+    if "CacheWarmer-" not in _ad317:
+        _c317.append("预热线程命名缺失")
+    _api317 = (ROOT / "engine-api/src/main/kotlin/com/example/cloudmusic/engine/api/EngineApi.kt"
+               ).read_text(encoding="utf-8")
+    if "val bufferMs: Int = 15000" not in _api317:
+        _c317.append("bufferMs 默认值非 15000（网络 CUE/APE 15s 起播缓冲）")
+    if _c317:
+        failures.append("§61.317 缓存预热自洽：%s" % "；".join(_c317))
+    else:
+        print("[PASS] §61.317 缓存预热自洽（预热线程在册 / bufferMs=15000 / 命名在册）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
