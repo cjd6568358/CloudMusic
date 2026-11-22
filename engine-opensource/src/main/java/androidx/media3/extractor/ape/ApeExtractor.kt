@@ -48,6 +48,10 @@ class ApeExtractor : Extractor {
     private var frames = LongArray(0)          // 每帧绝对偏移（§61.149 起为对齐回退后的 packet 起点）
     /** §61.149：首包前 8 字节（internal 供 JVM 回归断言 LE 字节序）。 */
     internal var firstPacketPrefix: ByteArray? = null
+    /** §61.298：当前帧游标（仅供纯 JVM 断言 seek 定位）。 */
+    internal val currentFrameIndex: Int get() = currentFrame
+    /** §61.298：帧起点表快照（供纯 JVM 断言）。 */
+    internal var frameOffsets: LongArray = LongArray(0)
 
     private var state = STATE_READ_HEADER
     private var currentFrame = 0
@@ -69,13 +73,19 @@ class ApeExtractor : Extractor {
     }
 
     override fun seek(position: Long, timeUs: Long) {
-        // 外部 seek：按 timeUs 定位帧游标；帧表未就绪时回到头解析状态重走。
+        // §61.298：按 **position（字节偏移）** 定位帧，不用 timeUs 反算。
+        // 根因：frameTimeUs(i)=bpf*i*1e6/sr 整数截断，frameForTimeUs(frameTimeUs(i))
+        // 实测 1405/1435 帧反算成 i-1（off-by-one）。Media3 下发的 position 才是
+        // SeekMap.getSeekPoints 给出的精确帧起点，timeUs 是配对的截断值。
+        // 旧实现按 timeUs 反算 → currentFrame 落后一帧 → readFrames 回退读错位数据
+        // → FFmpeg `Error decoding frame` + 无限 BUFFERING（真机 252 首 cue 分轨 APE 全中）。
+        // 用户实证：从头播流畅、seek 到 cueStart 即卡、播放时间乱跳。
         if (frames.isEmpty()) {
             state = STATE_READ_HEADER
             currentFrame = 0
             return
         }
-        currentFrame = frameForTimeUs(timeUs)
+        currentFrame = frameIndexForPosition(position)
         state = STATE_READ_FRAMES
     }
 
@@ -193,6 +203,7 @@ class ApeExtractor : Extractor {
             frames[i] = readLeU32(entry, 0) and 0xFFFFFFFFL
         }
         // §61.157：wav 头在 seek 表**之后**——读完 seek 表再跳过，落到 firstframe。
+        frameOffsets = frames.copyOf()
         if (wavSkip in 1..0x100000) {
             input.skipFully(wavSkip.toInt())
         }
@@ -382,6 +393,19 @@ class ApeExtractor : Extractor {
         if (sampleRate <= 0 || blocksPerFrame <= 0) return 0
         val frame = (timeUs * sampleRate / (blocksPerFrame.toLong() * 1_000_000L)).toInt()
         return frame.coerceIn(0, (totalFrames - 1).coerceAtLeast(0))
+    }
+    /** §61.298：按 Media3 下发的字节偏移反查帧号（seek 的唯一正确口径）。 */
+    private fun frameIndexForPosition(position: Long): Int {
+        if (frames.isEmpty()) return 0
+        val exact = frames.indexOf(position)
+        if (exact >= 0) return exact
+        var lo = 0
+        var hi = frames.size - 1
+        while (lo < hi) {
+            val mid = (lo + hi + 1) / 2
+            if (frames[mid] <= position) lo = mid else hi = mid - 1
+        }
+        return lo
     }
 
     private fun isApeMagic(b: ByteArray): Boolean =

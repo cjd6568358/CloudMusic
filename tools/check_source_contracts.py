@@ -9129,6 +9129,27 @@ def main() -> int:
     else:
         print("[PASS] §61.297 时间文本（单一真相源 / 全仓禁裸 mm:ss / Locale.ROOT / 用例在册）")
 
+    # ---- §61.298（APE seek off-by-one：播放时间乱跳/卡顿根因）----
+    _c298 = []
+    _ape298 = ROOT / "engine-opensource/src/main/java/androidx/media3/extractor/ape/ApeExtractor.kt"
+    _src298 = _code_only(_ape298.read_text(encoding="utf-8", errors="replace"))
+    _seek298 = _src298[_src298.find("override fun seek("):]
+    _seek298 = _seek298[:_seek298.find("override fun read(")]
+    if "frameIndexForPosition(position)" not in _seek298:
+        _c298.append("seek 未按 position 定位帧（timeUs 反算 off-by-one → 播放时间乱跳）")
+    if "frameForTimeUs(timeUs)" in _seek298:
+        _c298.append("seek 仍用 frameForTimeUs(timeUs)（1405/1435 帧反算成 i-1）")
+    if "private fun frameIndexForPosition" not in _src298:
+        _c298.append("缺 frameIndexForPosition（按字节偏移反查帧号）")
+    _tt298 = (ROOT / "engine-opensource/src/test/kotlin/com/example/cloudmusic/engineopensource/"
+                     "ApeExtractorTest.kt").read_text(encoding="utf-8", errors="replace")
+    if "seek 按 position 定位帧" not in _tt298:
+        _c298.append("用例未覆盖 seek by position（真机乱跳无回归防线）")
+    if _c298:
+        failures.append("§61.298 APE seek 自洽：%s" % "；".join(_c298))
+    else:
+        print("[PASS] §61.298 APE seek 自洽（按 position 定位 / 不用 timeUs 反算 / 用例在册）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

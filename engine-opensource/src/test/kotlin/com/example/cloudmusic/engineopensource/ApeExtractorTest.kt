@@ -101,6 +101,23 @@ class ApeExtractorTest {
     }
 
     @Test
+    fun `seek 按 position 定位帧而非 timeUs 反算（播放时间乱跳根因）`() {
+        // §61.298：frameTimeUs(i) 整数截断使 frameForTimeUs 反算 1405/1435 帧成 i-1。
+        // Media3 下发的 position 是 SeekMap 给出的精确帧起点；旧实现按 timeUs
+        // 反算 → 帧游标落后一帧 → 解码错位 → Error decoding frame + 时间乱跳。
+        val (_, guard, _, extractor) = parseAll()
+        val offsets = extractor.frameOffsets
+        assertTrue(offsets.size > 10, "帧表足够长")
+        for (idx in listOf(1, 2, 3, offsets.size / 4, offsets.size / 2)) {
+            if (idx <= 0 || idx >= offsets.size) continue
+            extractor.seek(offsets[idx], 0L)   // timeUs 故意传错，验证只认 position
+            assertEquals(idx, extractor.currentFrameIndex,
+                "seek 到帧 $idx 的 position=${offsets[idx]} 应定位到帧 $idx")
+        }
+        assertTrue(guard < 2000)
+    }
+
+    @Test
     fun `tag 探测不误触发（截断样本无 APE tag）`() {
         val (rec, guard, _, _) = parseAll()
         // f3_ape.ape 是 4MiB 截断片段——尾部无 APETAGEX，tagEnd 保持未探测。
