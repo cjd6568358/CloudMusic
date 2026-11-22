@@ -9363,6 +9363,34 @@ def main() -> int:
         print("[PASS] §61.305 K2 自洽（真相源自控双源换轨 / 注释无 libffmpeg / 三格 MIME 赎回 / "
               "dsf-dff-tak 占位判据在册）")
 
+    # ---- §61.306（K3a/b：RemoteStop 停播停服 + 保活锁组合拳 + 3c~h 决策登记）----
+    _c306 = []
+    _pl306 = (ROOT / "app/src/main/kotlin/com/example/cloudmusic/PlaybackLocks.kt"
+              ).read_text(encoding="utf-8", errors="replace")
+    if "fun shouldHold(state: EngineState, isNetworkSource: Boolean)" not in _pl306:
+        _c306.append("缺保活锁判定（网络 × PLAYING|BUFFERING）")
+    if "fun releaseAll()" not in _pl306:
+        _c306.append("缺销毁兜底释放")
+    _sv306 = _code_only((ROOT / "app/src/main/kotlin/com/example/cloudmusic/"
+                         "PlaybackService.kt").read_text(encoding="utf-8", errors="replace"))
+    if "override fun onStop()" not in _sv306:
+        _c306.append("RemoteStop（onStop）仍无人消费（通知划掉后播放继续）")
+    if "performPause()\n                    stopSelf()" not in _sv306:
+        _c306.append("onStop 未落停播停服口径（performPause+stopSelf）")
+    if "lockHolder.update(s, runtime.currentNetworkSource())" not in _sv306:
+        _c306.append("引擎态采集未驱动保活锁")
+    if "lockHolder.releaseAll()" not in _sv306:
+        _c306.append("onDestroy 缺保活锁兜底释放")
+    _lt306 = (ROOT / "app/src/test/kotlin/com/example/cloudmusic/"
+              "PlaybackLockPolicyTest.kt").read_text(encoding="utf-8", errors="replace")
+    if "shouldHoldMatrix" not in _lt306 or "holderIdempotentTransitions" not in _lt306:
+        _c306.append("保活锁判定/幂等用例缺（无回归防线）")
+    if _c306:
+        failures.append("§61.306 K3 自洽：%s" % "；".join(_c306))
+    else:
+        print("[PASS] §61.306 K3 自洽（RemoteStop 停播停服 / 组合拳锁判定+幂等 / "
+              "销毁兜底释放 / 用例在册）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

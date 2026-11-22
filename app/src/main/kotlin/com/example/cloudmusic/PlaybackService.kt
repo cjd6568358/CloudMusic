@@ -157,6 +157,9 @@ class PlaybackService : Service() {
     private var lastPositionLogAt = 0L
     private var mediaSession: MediaSession? = null
     private lateinit var audioManager: AudioManager
+
+    /** §61.306（K3b）：保活锁持有者（PARTIAL_WAKE_LOCK + WifiLock，onCreate 装配）。 */
+    private lateinit var lockHolder: PlaybackLockHolder
     private var focusRequest: AudioFocusRequest? = null
     private var noisyRegistered = false
     /** §61.29：ACL 广播仅在 BLUETOOTH_CONNECT 已授予时注册（B01 降级）。 */
@@ -254,6 +257,36 @@ class PlaybackService : Service() {
             }
         }
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        // §61.306（K3b）：PARTIAL_WAKE_LOCK + WifiLock 服务层统一持有（lx 组合拳对齐，
+        // 方案 §61.299 §3.2-8）——网络曲 PLAYING/BUFFERING 持有、暂停/结束/销毁即释。
+        val powerManager = getSystemService(Context.POWER_SERVICE) as android.os.PowerManager
+        val wifiManager = getSystemService(Context.WIFI_SERVICE) as android.net.wifi.WifiManager
+        val wakeLock = powerManager.newWakeLock(
+            android.os.PowerManager.PARTIAL_WAKE_LOCK, "CloudMusic:playback",
+        ).apply { setReferenceCounted(false) }
+        val wifiLock = wifiManager.createWifiLock(
+            android.net.wifi.WifiManager.WIFI_MODE_FULL_HIGH_PERF, "CloudMusic:wifi",
+        ).apply { setReferenceCounted(false) }
+        lockHolder = PlaybackLockHolder(
+            wakeLockPort = object : LockPort {
+                override fun acquire() {
+                    runCatching { wakeLock.acquire() }
+                }
+
+                override fun release() {
+                    runCatching { if (wakeLock.isHeld) wakeLock.release() }
+                }
+            },
+            wifiLockPort = object : LockPort {
+                override fun acquire() {
+                    runCatching { wifiLock.acquire() }
+                }
+
+                override fun release() {
+                    runCatching { if (wifiLock.isHeld) wifiLock.release() }
+                }
+            },
+        )
         // 12 §46：必须在注册 receiver 之前建好策略，避免 onCreate 前收到广播时无裁决者。
         disconnectPolicy = BluetoothOutputPolicy(
             settings = bluetoothSettings(bluetoothConnectGranted()),
@@ -273,6 +306,17 @@ class PlaybackService : Service() {
                 override fun onPause() = performPause()
                 override fun onSkipToNext() { runtime.next() }
                 override fun onSkipToPrevious() { runtime.prev() }
+
+                override fun onStop() {
+                    // §61.306（K3a）：RemoteStop（通知划掉）= **停播 + 停服，不退 App**
+                    // （§10-E 拍板默认；lx 的「RemoteStop=退出整个 App」不采——退出权
+                    // 留给用户）。此前 onStop 未覆写：划掉通知后播放继续无声进行
+                    // （lx FAQ「后台清理仍在播放」同族问题）。performPause 暂停引擎 +
+                    // 落游标（pause 三口之一）+ 放弃焦点 + 会话回 PAUSED；stopSelf 走
+                    // onDestroy 释放会话/前台通知/保活锁，下次冷启动按 restore 链原地恢复。
+                    performPause()
+                    stopSelf()
+                }
             })
             // 12 §50（真机 A3 暴露）：此前只 setCallback + isActive，从未 setPlaybackState，
             // dumpsys media_session 显示 state=null → 系统媒体键 / 蓝牙按键无会话可路由，
@@ -315,6 +359,9 @@ class PlaybackService : Service() {
         // 瞬时 IDLE 会被随后的 PLAYING 覆盖，无观察级影响。
         scope.launch {
             engine.state().collect { s ->
+                // §61.306（K3b）：保活锁随引擎态/音源网络态进出（网络 × PLAYING|BUFFERING
+                // 才持有；holder 内部幂等去重，2s 快照链零重复触碰）。
+                lockHolder.update(s, runtime.currentNetworkSource())
                 when (s) {
                     EngineState.PLAYING -> {
                         playingObserved = true
@@ -562,6 +609,7 @@ class PlaybackService : Service() {
         }
         unregisterAclReceiver()
         abandonAudioFocus()
+        if (::lockHolder.isInitialized) lockHolder.releaseAll() // §61.306（K3b）：销毁兜底释锁
         runtime.stop()
         mediaSession?.isActive = false
         mediaSession?.release()
