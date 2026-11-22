@@ -56,6 +56,8 @@ class PlayerControllerTest {
         availabilityWriter: TrackAvailabilityWriter? = null,
         /** §61.224：节拍器交棒测试——positionMs 劫持值。 */
         positionOverride: Long? = null,
+        /** §61.303：引擎装饰器（计数 prepare 等判定用），包在最外层门面。 */
+        engineDecorator: ((IMusicEngine) -> IMusicEngine)? = null,
     ) {
         val engine = InMemoryMusicEngine()
 
@@ -65,7 +67,8 @@ class PlayerControllerTest {
         /** §61.224：positionMs 可控委托（节拍器交棒测试用）。-1 = 走真实 position。 */
         val positionEngine: PositionControllableEngine? =
             positionOverride?.let { PositionControllableEngine(engine, it) }
-        private val engineFacade: IMusicEngine = positionEngine ?: durationEngine ?: engine
+        private val baseEngine: IMusicEngine = positionEngine ?: durationEngine ?: engine
+        private val engineFacade: IMusicEngine = engineDecorator?.invoke(baseEngine) ?: baseEngine
         val sync = RecordingQueueSync()
         val media = InMemoryMediaControl()
         val repo = InMemoryQueueRepository { 1_000L }
@@ -140,7 +143,8 @@ class PlayerControllerTest {
         cursorWriter: CursorWriter? = null,
         positionOverride: Long? = null,
         availabilityWriter: TrackAvailabilityWriter? = null,
-    ) = Fixture(resolver, config, scope, networkGate, engineDurationOverride, lookupTracks, durationWriter, cursorWriter, availabilityWriter, positionOverride)
+        engineDecorator: ((IMusicEngine) -> IMusicEngine)? = null,
+    ) = Fixture(resolver, config, scope, networkGate, engineDurationOverride, lookupTracks, durationWriter, cursorWriter, availabilityWriter, positionOverride, engineDecorator)
 
     private val urlResolver = TrackSourceResolver { t ->
         Link(url = "https://example.com/${t.id.value}.mp3")
@@ -323,6 +327,8 @@ class PlayerControllerTest {
         assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase)
 
         f.controller.next() // 第二次 prepare，验证旧 handle 已 release
+        advanceTimeBy(KernelTuning.MANUAL_SWITCH_DEBOUNCE_MS) // §61.303 K1a：手动切歌防抖窗
+        runCurrent()
         assertEquals("id-2", f.engine.snapshot().source?.trackId)
         assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase)
 
@@ -355,16 +361,22 @@ class PlayerControllerTest {
     }
 
     @Test
-    @DisplayName("16 §3.2 · PROXIED 无回环 URL 不静默播放（§61.252：源级失败同 autoSkip——全队耗尽收束 ENDED）")
+    @DisplayName("16 §3.2 · PROXIED 无回环 URL 不静默播放（§61.252 源级失败同 autoSkip + §61.303 K1f 连续失败护栏收束）")
     fun proxiedNeedsLoopbackUrl() = runTest {
         val broken = TrackSourceResolver { Link(proxy = true) }
         val f = fixture(resolver = broken, scope = backgroundScope)
         f.queue()
         f.controller.playAt(0)
+        // §61.252 口径演进：源级失败与引擎错误同语义（autoSkipOnError + §61.303 K1c 5s 窗）
+        // ——5 轨全坏：前 4 次逐曲跳（各付 5s 窗），第 5 次失败命中 K1f 连续失败护栏
+        // （连续 ≥5 → 停止跳曲，不静默播放语义不变；lastError 供 UI 显示）。
+        repeat(4) {
+            advanceTimeBy(KernelTuning.AUTO_SKIP_DELAY_MS)
+            runCurrent()
+        }
         val s = f.controller.state.value
-        // §61.252 口径演进：源级失败与引擎错误同语义（autoSkipOnError）——5 轨全坏
-        // → 逐曲 fail → 队列耗尽 ENDED（不静默播放语义不变；lastError 供 UI 显示）。
-        assertEquals(PlayerPhase.ENDED, s.phase)
+        assertEquals(4, s.currentIndex, "护栏收束在第 5 首（不再耗尽全队）")
+        assertEquals(PlayerPhase.ERROR, s.phase)
         assertNotNull(s.lastError)
     }
 
@@ -391,6 +403,8 @@ class PlayerControllerTest {
         f.queue()
         f.controller.playAt(0)
         f.controller.onEngineError(com.example.cloudmusic.common.CloudMusicError.DsUpstream("403", "上游拒绝"))
+        advanceTimeBy(KernelTuning.AUTO_SKIP_DELAY_MS) // §61.303 K1c：跳曲 5s 延迟窗
+        runCurrent()
         assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase)
         assertEquals("id-2", f.controller.state.value.currentTrackId?.value)
 
@@ -427,6 +441,8 @@ class PlayerControllerTest {
 
         val handleBefore = f.engine.snapshot().handleRaw
         f.controller.next()
+        advanceTimeBy(KernelTuning.MANUAL_SWITCH_DEBOUNCE_MS) // §61.303 K1a：防抖窗后执行
+        runCurrent()
         assertEquals("id-3", f.controller.state.value.currentTrackId?.value)
         assertEquals("id-3", f.engine.snapshot().source?.trackId, "队列内跳播同步引擎当前曲目")
         assertEquals(2, f.engine.queueIndex().value)
@@ -493,6 +509,9 @@ class PlayerControllerTest {
         assertEquals(244_933L, s.durationMs, "引擎解出的真值，非曲库 0")
         assertEquals(244_933L, f.media.snapshot().playback?.durationMs, "媒体会话与 state 同源")
         // §61.185：通知栏 metadata 时长同源（publishMetadata 用引擎真值副本，非曲库 0）
+        // §61.303 K1d：发布走 500ms 防抖，虚拟时间推过窗口后落地
+        advanceTimeBy(KernelTuning.METADATA_DEBOUNCE_MS)
+        runCurrent()
         assertEquals(244_933L, f.media.snapshot().metadata?.durationMs, "通知栏元数据真值")
     }
 
@@ -793,6 +812,8 @@ class PlayerControllerTest {
         assertNotNull(snap)
         assertEquals(0L, snap.positionMs, "分轨新起播显示位置 = 30_000-30_000 = 0")
         assertEquals(30_000L, snap.durationMs, "分轨显示时长 = 包络长 60_000-30_000")
+        advanceTimeBy(KernelTuning.METADATA_DEBOUNCE_MS) // §61.303 K1d：防抖窗后落地
+        runCurrent()
         assertEquals(30_000L, f.media.snapshot().metadata?.durationMs, "metadata 时长同口径（包络长）")
     }
 
@@ -831,8 +852,10 @@ class PlayerControllerTest {
         val f = fixture(scope = backgroundScope, lookupTracks = listOf(t1, t2), resolver = throwingResolver)
         f.repo.setAll(listOf(t1, t2))
         f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
-        // autoPlay=true：轨 1 fail → 自动跳轨 2 正常播放
+        // autoPlay=true：轨 1 fail → 5s 延迟窗（§61.303 K1c）→ 自动跳轨 2 正常播放
         f.controller.playAt(0)
+        advanceTimeBy(KernelTuning.AUTO_SKIP_DELAY_MS)
+        runCurrent()
         assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase, "轨 2 接棒播放")
         assertEquals("id-2", f.controller.state.value.currentTrackId?.value, "autoSkip 落到下一曲")
     }
@@ -869,6 +892,8 @@ class PlayerControllerTest {
         val snap = f.media.snapshot().playback
         assertEquals(42_000L, snap?.positionMs, "整轨位置原样")
         assertEquals(100_000L, snap?.durationMs, "整轨时长原样（曲库元数据）")
+        advanceTimeBy(KernelTuning.METADATA_DEBOUNCE_MS) // §61.303 K1d：防抖窗后落地
+        runCurrent()
         assertEquals(100_000L, f.media.snapshot().metadata?.durationMs, "整轨 metadata 时长原样")
     }
 
@@ -890,6 +915,9 @@ class PlayerControllerTest {
         f.repo.setAll(listOf(t1, t2))
         f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
         f.controller.playAt(0)
+        // §61.303 K1c：自动跳曲改为 5s 延迟窗，推过虚拟时间让窗满触发
+        advanceTimeBy(KernelTuning.AUTO_SKIP_DELAY_MS)
+        runCurrent()
         assertTrue(marked.contains("id-1" to false), "孤儿源标记 UNREACHABLE")
         assertEquals("id-2", f.controller.state.value.currentTrackId?.value, "标记后跳链续播")
     }
@@ -943,5 +971,135 @@ class PlayerControllerTest {
         advanceTimeBy(2_000)
         runCurrent()
         assertEquals(11_000L, f.media.snapshot().playback?.positionMs, "缓冲结束恢复 2s 发布链")
+    }
+
+    // ------------------------------------------------------------------
+    // §61.303 · K1a/c/d/f 行为对齐（lx 管理层行为移植为契约，参数=KernelTuning）
+
+    @Test
+    @DisplayName("§61.303 K1a · 手动切歌防抖：连点 3 次仅末次生效（prepare 计数=1，序贯无交错）")
+    fun manualSwitchDebounceLatestWins() = runTest {
+        var prepares = 0
+        val f = fixture(
+            scope = backgroundScope,
+            engineDecorator = { base ->
+                object : IMusicEngine by base {
+                    override fun prepare(
+                        source: com.example.cloudmusic.engine.api.EngineSource,
+                        config: com.example.cloudmusic.engine.api.EngineConfig,
+                    ): EngineHandle {
+                        prepares++
+                        return base.prepare(source, config)
+                    }
+
+                    override fun prepareQueue(
+                        sources: List<com.example.cloudmusic.engine.api.EngineSource>,
+                        startIndex: Int,
+                        config: com.example.cloudmusic.engine.api.EngineConfig,
+                    ): EngineHandle {
+                        prepares++
+                        return base.prepareQueue(sources, startIndex, config)
+                    }
+                }
+            },
+        )
+        f.queue()
+        f.controller.playAtDebounced(0)
+        f.controller.playAtDebounced(1)
+        f.controller.playAtDebounced(2)
+        assertEquals(PlayerPhase.IDLE, f.controller.state.value.phase, "防抖窗内未执行任何 prepare")
+        assertEquals(0, prepares, "窗内零 prepare")
+        advanceTimeBy(KernelTuning.MANUAL_SWITCH_DEBOUNCE_MS)
+        runCurrent()
+        assertEquals(1, prepares, "latest-wins：3 次连点只执行末次一次 prepare")
+        assertEquals(2, f.controller.state.value.currentIndex, "末次目标")
+        assertEquals(2, f.engine.queuedStartIndex, "gapless 队列路径起点同步（engine.source 恒队首，不作为断言口）")
+        assertEquals("id-3", f.controller.state.value.currentTrackId?.value)
+        assertEquals(PlayerPhase.PLAYING, f.controller.state.value.phase)
+    }
+
+    @Test
+    @DisplayName("§61.303 K1a · 自动连播不受防抖抑制（ENDED→advanceNext 立即交棒）")
+    fun autoAdvanceBypassesDebounce() = runTest {
+        val f = fixture(scope = backgroundScope)
+        f.queue()
+        f.controller.playAt(0)
+        runCurrent()
+        f.engine.reportEnded() // 自然播完 → 引擎 ENDED 事件
+        runCurrent()
+        assertEquals("id-2", f.controller.state.value.currentTrackId?.value, "ENDED 自动交棒不经防抖窗")
+    }
+
+    @Test
+    @DisplayName("§61.303 K1c · 自动跳曲 5s 延迟窗：窗内人工 next 让位（不双切）")
+    fun autoSkipYieldsToManualNext() = runTest {
+        val t1 = track(1)
+        val t2 = track(2)
+        val t3 = track(3)
+        val f = fixture(
+            scope = backgroundScope, lookupTracks = listOf(t1, t2, t3),
+            resolver = TrackSourceResolver { t ->
+                if (t.id.value == "id-1") throw com.example.cloudmusic.common.CloudMusicError.DsUnreachable("unreachable")
+                else Link(localPath = "/music/${t.id.value}.flac", localSize = t.durationMs)
+            },
+        )
+        f.repo.setAll(listOf(t1, t2, t3))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        runCurrent() // id-1 解析失败 → ERROR + 5s 跳曲窗启动
+        assertEquals(PlayerPhase.ERROR, f.controller.state.value.phase)
+        f.controller.next() // 窗内人工 next：让位（取消 autoSkip）
+        advanceTimeBy(KernelTuning.MANUAL_SWITCH_DEBOUNCE_MS)
+        runCurrent()
+        assertEquals("id-2", f.controller.state.value.currentTrackId?.value)
+        val before = f.controller.state.value.currentTrackId
+        advanceTimeBy(KernelTuning.AUTO_SKIP_DELAY_MS)
+        runCurrent()
+        assertEquals(before, f.controller.state.value.currentTrackId, "已让位的延迟窗不得再触发（不双切）")
+    }
+
+    @Test
+    @DisplayName("§61.303 K1d · 元数据发布防抖：窗内多次只落最新一次")
+    fun metadataDebounceLatestWins() = runTest {
+        val t1 = track(1)
+        val t2 = track(2)
+        val f = fixture(scope = backgroundScope, lookupTracks = listOf(t1, t2))
+        f.repo.setAll(listOf(t1, t2))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        advanceTimeBy(KernelTuning.METADATA_DEBOUNCE_MS)
+        runCurrent()
+        assertEquals("title-1", f.media.snapshot().metadata?.title)
+        f.controller.playAt(1)
+        assertEquals("title-1", f.media.snapshot().metadata?.title, "窗内不落地")
+        advanceTimeBy(KernelTuning.METADATA_DEBOUNCE_MS)
+        runCurrent()
+        assertEquals("title-2", f.media.snapshot().metadata?.title, "窗满落最新")
+    }
+
+    @Test
+    @DisplayName("§61.303 K1f · 连续 5 首 autoSkip 失败 → 停止跳曲 + 人话提示")
+    fun consecutiveSkipGuardStops() = runTest {
+        val tracks5 = (1..5).map { track(it) }
+        val f = fixture(
+            scope = backgroundScope, lookupTracks = tracks5,
+            resolver = TrackSourceResolver { _ ->
+                throw com.example.cloudmusic.common.CloudMusicError.DsUnreachable("all down")
+            },
+        )
+        f.repo.setAll(tracks5)
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        repeat(4) { // 前 4 次：失败 → 5s 窗 → 自动跳下一曲再失败
+            advanceTimeBy(KernelTuning.AUTO_SKIP_DELAY_MS)
+            runCurrent()
+        }
+        assertEquals(4, f.controller.state.value.currentIndex, "第 5 次失败起护栏落位（停在第 5 首）")
+        val err = f.controller.state.value.lastError
+        assertNotNull(err)
+        assertTrue(err.message!!.contains("连续"), "人话化提示置 lastError（V0.4-02 口径）")
+        advanceTimeBy(KernelTuning.AUTO_SKIP_DELAY_MS)
+        runCurrent()
+        assertEquals(4, f.controller.state.value.currentIndex, "护栏后不再自动跳")
     }
 }

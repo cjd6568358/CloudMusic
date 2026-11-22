@@ -6934,7 +6934,8 @@ def main() -> int:
         _fade_bad.append("fade 包络纯函数缺失")
     if "fun updateFade(enabled: Boolean, durationMs: Int)" not in _pc_src3:
         _fade_bad.append("配置热更新入口缺失")
-    if "fadeOutThen(hh) { scope.launch { next() } }" not in _pc_src3:
+    # §61.303 口径演进：交棒入口 next() → advanceNext()（自动连播不过防抖，语义不变）。
+    if "fadeOutThen(hh) { scope.launch { advanceNext() } }" not in _pc_src3:
         _fade_bad.append("分轨终点渐出交棒组合缺失")
     if "val fadeEnabled: Boolean = false" not in _fx:
         _fade_bad.append("AudiofxSettings.fade 配置缺失")
@@ -9245,6 +9246,50 @@ def main() -> int:
     else:
         print("[PASS] §61.302 取流吞吐自洽（openStream 端口 / 顺序续泵 / 200 流式跳过 / "
               "302 缓存同口径 / 缓存 key 稳定 / LoadControl 显式化 / 用例在册）")
+
+    # ---- §61.303（K1a/c/d/f 行为对齐：切歌防抖串行化 / 跳曲延迟窗 / 元数据防抖 / 连续失败护栏）----
+    _c303 = []
+    _kt303 = (ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/player/"
+              "KernelTuning.kt").read_text(encoding="utf-8", errors="replace")
+    for _n303, _m303 in (
+        ("MANUAL_SWITCH_DEBOUNCE_MS = 500L", "切歌防抖 500ms"),
+        ("METADATA_DEBOUNCE_MS = 500L", "元数据防抖 500ms"),
+        ("AUTO_SKIP_DELAY_MS = 5_000L", "跳曲延迟 5s"),
+        ("CONSECUTIVE_SKIP_FAIL_LIMIT = 5", "连续失败护栏 ≥5"),
+    ):
+        if _n303 not in _kt303:
+            _c303.append("KernelTuning 缺 " + _m303)
+    _pc303 = _code_only((ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/player/"
+                         "PlayerController.kt").read_text(encoding="utf-8", errors="replace"))
+    if "fun playAtDebounced(" not in _pc303:
+        _c303.append("缺 playAtDebounced（手动切歌防抖入口）")
+    if "private suspend fun advanceNext()" not in _pc303:
+        _c303.append("缺 advanceNext（自动连播不过防抖）")
+    if "switchSeq.get() == my" not in _pc303:
+        _c303.append("防抖 latest-wins 代次判定缺失")
+    if "switchMutex.withLock" not in _pc303:
+        _c303.append("prepare 序贯锁缺失")
+    if "private fun scheduleAutoSkip()" not in _pc303:
+        _c303.append("缺 scheduleAutoSkip（跳曲延迟窗）")
+    if "E_SKIP_GUARD" not in _pc303:
+        _c303.append("缺连续失败护栏人话提示")
+    if "private fun publishMetadataDebounced(" not in _pc303:
+        _c303.append("缺元数据发布防抖")
+    _cmp303 = _code_only((ROOT / "core-di/src/main/kotlin/com/example/cloudmusic/di/playback/"
+                          "PlaybackComposition.kt").read_text(encoding="utf-8", errors="replace"))
+    if _cmp303.count("playAtDebounced(") < 5:
+        _c303.append("组合层手动点播入口未全部切防抖（<5 处）")
+    _t303 = (ROOT / "feature-player/src/test/kotlin/com/example/cloudmusic/player/"
+             "PlayerControllerTest.kt").read_text(encoding="utf-8", errors="replace")
+    for _n303 in ("manualSwitchDebounceLatestWins", "autoAdvanceBypassesDebounce",
+                  "autoSkipYieldsToManualNext", "metadataDebounceLatestWins", "consecutiveSkipGuardStops"):
+        if _n303 not in _t303:
+            _c303.append("用例 " + _n303 + " 缺失")
+    if _c303:
+        failures.append("§61.303 K1 行为对齐自洽：%s" % "；".join(_c303))
+    else:
+        print("[PASS] §61.303 K1a/c/d/f 行为对齐（防抖 latest-wins / 自动不过防抖 / 5s 跳曲窗 / "
+              "护栏 ≥5 / 元数据防抖 / KernelTuning 唯一出口 / 用例在册）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

@@ -20,6 +20,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -117,6 +119,28 @@ class PlayerController(
     private val pendingPlay = java.util.concurrent.atomic.AtomicBoolean(false)
 
     /**
+     * §61.303（K1a）：手动切歌串行化 + 防抖（lx actionId+promise 链对齐；复用
+     * §61.285 扫描代次先例的代次护栏思路）。switchSeq = 手动指令代次（latest-wins：
+     * 连点 3 次仅末次生效）；switchMutex 保证 prepare 序贯无交错；自动连播
+     * （ENDED→[advanceNext] / 交棒 / 自动跳曲）**不经过防抖**（K1a 判据）。
+     */
+    private val switchMutex = Mutex()
+    private val switchSeq = java.util.concurrent.atomic.AtomicLong(0L)
+    private var switchJob: Job? = null
+
+    /** §61.303（K1c）：自动跳曲延迟窗句柄——窗内人工干预立即让位（不双切）。 */
+    private var autoSkipJob: Job? = null
+
+    /** §61.303（K1f）：同一会话连续 autoSkip 失败计数（AtomicInteger：scope 多线程）。 */
+    private val consecutiveSkipFails = java.util.concurrent.atomic.AtomicInteger(0)
+
+    /** §61.303（K1d）：通知元数据发布防抖窗句柄与待发布快照（latest-wins）。 */
+    private var metadataJob: Job? = null
+
+    @Volatile
+    private var pendingMetadata: Pair<Track, String?>? = null
+
+    /**
      * §61.181（B 案）：当前曲是否待真值时长回填。prepareAt 按曲库 `durationMs<=0`
      * 置位（STRM / 无标签），引擎解出真值后经 [durationWriter] 写库一次（A 案
      * `syncEngineDuration` 兑现）；切曲重置，避免上一曲未兑现的旗标串到新曲。
@@ -141,7 +165,7 @@ class PlayerController(
                         // 抑制本次（双曲跳跃防护）。
                         EngineState.ENDED -> {
                             if (fadeOutArmed) fadeOutArmed = false
-                            else next()
+                            else advanceNext()
                         }
                         EngineState.ERROR -> onEngineError(
                             engine.lastError()
@@ -187,6 +211,7 @@ class PlayerController(
     suspend fun playAt(index: Int) = prepareAt(index, autoPlay = true, seekTo = 0L)
 
     suspend fun pause() {
+        autoSkipJob?.cancel() // §61.303（K1c）：暂停 = 用户接管，自动跳曲让位
         val h = handle ?: return
         // §61.25（E25 真机暴露）：句柄可能已被引擎完成路径（msg=2 → releaseAllInternal）
         // 释放，引擎对陈旧句柄显式报 DsNotFound；暂停不得因此带崩协程，会话态仍回 PAUSED。
@@ -293,7 +318,7 @@ class PlayerController(
                         // 分支不受影响（无竞争：fade-out 完成 → next() 单一入口）。
                         if (cueEndMs > 0 && pos >= cueEndMs) {
                             val hh = h
-                            fadeOutThen(hh) { scope.launch { next() } }
+                            fadeOutThen(hh) { scope.launch { advanceNext() } }
                             return@launch
                         }
                         val dur = syncEngineDuration(h)
@@ -309,7 +334,7 @@ class PlayerController(
                             val hh = h
                             fadeOutThen(hh) {
                                 fadeOutArmed = false
-                                scope.launch { next() }
+                                scope.launch { advanceNext() }
                             }
                             return@launch
                         }
@@ -436,7 +461,55 @@ class PlayerController(
     /** §61.230：音量包络纯函数——线性曲线（x∈[0,1] → 音量），单测直测。 */
     internal fun fadeCurve(x: Float): Float = x.coerceIn(0f, 1f)
 
+    /**
+     * §61.303（K1a）：手动下一曲——500ms 防抖 latest-wins + [switchMutex] 序贯执行，
+     * 目标在执行时按当前游标重算（连点 3 次仅末次生效）。自动连播走 [advanceNext]。
+     */
     suspend fun next() {
+        val my = switchSeq.incrementAndGet()
+        yieldAutoSkipToUser()
+        switchJob?.cancel()
+        switchJob = scope.launch {
+            delay(KernelTuning.MANUAL_SWITCH_DEBOUNCE_MS)
+            if (switchSeq.get() == my) switchMutex.withLock { nextInternal() }
+        }
+    }
+
+    /** §61.303（K1a）：手动上一曲——同 [next] 防抖口径。 */
+    suspend fun prev() {
+        val my = switchSeq.incrementAndGet()
+        yieldAutoSkipToUser()
+        switchJob?.cancel()
+        switchJob = scope.launch {
+            delay(KernelTuning.MANUAL_SWITCH_DEBOUNCE_MS)
+            if (switchSeq.get() == my) switchMutex.withLock { prevInternal() }
+        }
+    }
+
+    /**
+     * §61.303（K1a）：手动切歌防抖入口——500ms 窗 latest-wins（连点 3 次仅末次生效），
+     * 执行经 [switchMutex] 序贯无交错 prepare。UI/媒体键的手动点播走这里；
+     * 内部自动路径（restore / restartCurrentIfAny / 自动连播）走 [playAt] 直执行，
+     * **不受防抖抑制**（§61.299 K1a 判据）。
+     */
+    suspend fun playAtDebounced(index: Int) {
+        val my = switchSeq.incrementAndGet()
+        yieldAutoSkipToUser()
+        switchJob?.cancel()
+        switchJob = scope.launch {
+            delay(KernelTuning.MANUAL_SWITCH_DEBOUNCE_MS)
+            if (switchSeq.get() == my) {
+                switchMutex.withLock { prepareAt(index, autoPlay = true, seekTo = 0L) }
+            }
+        }
+    }
+
+    /** §61.303（K1a）：自动连播唯一入口——ENDED/交棒/自动跳曲，立即执行不过防抖。 */
+    private suspend fun advanceNext() {
+        switchMutex.withLock { nextInternal() }
+    }
+
+    private suspend fun nextInternal() {
         val s = _state.value
         val target = PlayModeOrdering.nextIndex(s.currentIndex, queue.size, s.mode, shuffle)
         if (target == null) {
@@ -456,7 +529,7 @@ class PlayerController(
         playAt(target)
     }
 
-    suspend fun prev() {
+    private suspend fun prevInternal() {
         val target = PlayModeOrdering.prevIndex(_state.value.currentIndex, queue.size) ?: return
         val h = handle
         if (queueMode && h != null) {
@@ -468,10 +541,59 @@ class PlayerController(
         playAt(target)
     }
 
-    /** §9：记录失败 → 自动跳下一首（可关）→ UI 展示具体原因。 */
+    /** §61.303（K1c）：人工干预让位——取消待执行的自动跳曲并清连续失败计数。 */
+    private fun yieldAutoSkipToUser() {
+        autoSkipJob?.cancel()
+        autoSkipJob = null
+        consecutiveSkipFails.set(0)
+    }
+
+    /**
+     * §61.303（K1c+K1f）：自动跳曲 5s 延迟窗 + 连续失败护栏（lx delayNextTimeout 对齐）。
+     * 窗内人工干预（next/prev/playAtDebounced/pause）立即让位不双切；同一会话连续
+     * ≥[KernelTuning.CONSECUTIVE_SKIP_FAIL_LIMIT] 首 autoSkip 失败 → 停止自动跳曲，
+     * 人话化提示置 lastError（V0.4-02 口径），停在半途待用户裁决；成功起播清零。
+     */
+    private fun scheduleAutoSkip() {
+        val fails = consecutiveSkipFails.incrementAndGet()
+        if (fails >= KernelTuning.CONSECUTIVE_SKIP_FAIL_LIMIT) {
+            autoSkipJob?.cancel()
+            _state.update {
+                it.copy(
+                    lastError = CloudMusicError.DsUpstream(
+                        "E_SKIP_GUARD",
+                        "连续 $fails 首播放失败，已暂停自动跳曲——点播放重试或切换音源",
+                    ),
+                )
+            }
+            return
+        }
+        autoSkipJob?.cancel()
+        autoSkipJob = scope.launch {
+            delay(KernelTuning.AUTO_SKIP_DELAY_MS)
+            advanceNext()
+        }
+    }
+
+    /**
+     * §61.303（K1d）：通知元数据发布防抖（lx debounceUpdateMetaTools 对齐）——
+     * 500ms 窗 latest-wins：快速切歌只发布最后一曲元数据（治通知栏歌名错乱）。
+     * duration 同源链（§61.185/186/239）原样透传不回退。
+     */
+    private fun publishMetadataDebounced(track: Track, coverRef: String?) {
+        pendingMetadata = track to coverRef
+        metadataJob?.cancel()
+        metadataJob = scope.launch {
+            delay(KernelTuning.METADATA_DEBOUNCE_MS)
+            pendingMetadata?.let { (t, c) -> media?.publishMetadata(t, c) }
+            pendingMetadata = null
+        }
+    }
+
+    /** §9：记录失败 → 延迟自动跳下一首（可关，§61.303 K1c 5s 窗）→ UI 展示具体原因。 */
     suspend fun onEngineError(error: CloudMusicError) {
         _state.update { it.copy(phase = PlayerPhase.ERROR, lastError = error) }
-        if (config.autoSkipOnError) next()
+        if (config.autoSkipOnError) scheduleAutoSkip()
     }
 
     /** §9：切 DLNA → 本机内核静音 + 暂停，手机转遥控器；回落恢复。 */
@@ -632,6 +754,7 @@ class PlayerController(
                 isBuffering = false,
             )
         }
+        consecutiveSkipFails.set(0) // §61.303（K1f）：成功起播清连续失败计数
         // §61.182：切歌即落游标（恢复链写侧三口之一；restore 的 PAUSED 路径同样落，
         // 重启后 Room 才有 playback_state 可读）。
         persistCursor(item.trackId, effectiveSeek)
@@ -641,7 +764,7 @@ class PlayerController(
         // 引擎未解出（0）时回退曲库值；零契约变更（Track 副本，门面签名不动）。
         // §61.239：分轨曲目元数据时长用包络长（与快照/播放页口径统一）。
         val resolvedDur = if (engineDur > 0) engineDur else track.durationMs
-        media?.publishMetadata(
+        publishMetadataDebounced(
             track.copy(durationMs = CueEnvelope.displayDuration(resolvedDur, cueStartMs, cueEndMs)),
             track.coverRef,
         )
@@ -698,7 +821,7 @@ class PlayerController(
         }
         currentNetworkSource = preparedSources.getOrNull(index)?.url != null
         val track = lookup.get(item.trackId) ?: return
-        media?.publishMetadata(track, track.coverRef)
+        publishMetadataDebounced(track, track.coverRef)
         media?.setPlaybackState(EngineState.PLAYING, 0L, track.durationMs)
     }
 
@@ -740,7 +863,7 @@ class PlayerController(
                 runCatching { availabilityWriter?.mark(id, false) }
             }
         }
-        if (autoPlay && config.autoSkipOnError) next()
+        if (autoPlay && config.autoSkipOnError) scheduleAutoSkip()
     }
 
     private inner class HandleAdapter : PlayerControllerHandle {

@@ -649,7 +649,7 @@ class PlaybackRuntime @Inject constructor(
             queueRepository.setAll(listOf(track))
             val items = queueRepository.observe().first()
             controller.setQueue(items, PlayMode.SEQUENCE, 0)
-            controller.playAt(0)
+            controller.playAtDebounced(0)
         }.onFailure { Log.w("CloudMusicRuntime", "playLocal: 注入播放失败", it) }
     }
 
@@ -683,7 +683,7 @@ class PlaybackRuntime @Inject constructor(
                 queueRepository.setAll(items)
                 val queueItems = queueRepository.observe().first()
                 controller.setQueue(queueItems, PlayMode.SEQUENCE, startAt)
-                controller.playAt(startAt)
+                controller.playAtDebounced(startAt)
                 val s = controller.state.value
                 Log.i(
                     "CloudMusicRuntime",
@@ -718,7 +718,7 @@ class PlaybackRuntime @Inject constructor(
 
     /** §61.119（M8）：队列点击跳播——当前队列第 [index] 项起播。 */
     fun jumpTo(index: Int) = scope.launch {
-        runCatching { controller.playAt(index) }
+        runCatching { controller.playAtDebounced(index) }
             .onFailure { Log.w("CloudMusicRuntime", "jumpTo 失败", it) }
     }
 
@@ -840,7 +840,7 @@ class PlaybackRuntime @Inject constructor(
                 queueRepository.setAll(list)
                 val queueItems = queueRepository.observe().first()
                 controller.setQueue(queueItems, PlayMode.SEQUENCE, 0)
-                controller.playAt(0)
+                controller.playAtDebounced(0)
             }.onFailure { Log.w("CloudMusicRuntime", "playPlaylist 失败", it) }
         }
     }
@@ -852,7 +852,7 @@ class PlaybackRuntime @Inject constructor(
             queueRepository.setAll(listOf(track))
             val items = queueRepository.observe().first()
             controller.setQueue(items, PlayMode.SEQUENCE, 0)
-            controller.playAt(0)
+            controller.playAtDebounced(0)
         }.onFailure { Log.w("CloudMusicRuntime", "playUrl: 注入播放失败", it) }
     }
 
