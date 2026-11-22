@@ -9,9 +9,12 @@ package com.example.cloudmusic.model
  * 本对象把「扩展名集合」与「扩展名 → MIME」收敛到一处，6 处一律引用本对象，
  * 不再各自维护字面量清单。
  *
- * **客观边界**：以 `libffmpeg.so` 实际编入的 demuxer + decoder 为准（`docs/17 §8.2`）。
- * 本对象**不声称"全格式已支持"** —— 纳入 [AUDIO_EXT] 只表示「允许进入扫描 / 取流链路」，
- * 能否真机播放由 F3 的「逐格式 × REMOTE/LOCAL 双路径」矩阵判定。
+ * **客观边界（§61.305 K2b 换轨）**：自控双源 = `engine-opensource/src/main/jni/build_ffmpeg.sh`
+ * 的 `ENABLED_DECODERS`（ffmpeg 软解集）**∪** Media3 内建 Extractors + 四手写提取器
+ * （`Ape/Asf/Aiff/Wavpack`，容器层）。原「以逆向产物编入集为准」口径随 Kernel 2.0 K4
+ * 逆向清退退役（§61.299 R1 残留项）。本对象**不声称"全格式已支持"** —— 纳入
+ * [AUDIO_EXT] 只表示「允许进入扫描 / 取流链路」，能否真机播放由 F3 的
+ * 「逐格式 × REMOTE/LOCAL 双路径」矩阵判定（复跑挂 K-01 真机窗）。
  *
  * 纯 Kotlin + JDK、零 Android / 零第三方依赖，故所有模块（含 `:scanner` /
  * `:datasource-strm` 经 `:datasource-api` 的 `api` 传递）均可直接引用，
@@ -33,9 +36,10 @@ object AudioFormats {
      * 已知 MIME、但**暂不纳入曲库收录**的音频扩展名。
      *
      * `alac`（Apple Lossless）在 F1 前的 `StrmPaths.defaultFilterTypes` 与 `MimeHint.MAP`
-     * 中已存在，`libffmpeg.so` 也编入 `alac` decoder；但 F1 前的 14 项收录集不含它，
-     * 且 `.alac` 裸流能否真机播放**未经 F3 验证**。故 F1 保持「可推断 MIME / 可 strm
-     * 过滤」，不把行为回退掉，也不擅自扩收录集。是否并入 [AUDIO_EXT] 由 F3 决定。
+     * 中已存在，ffmpeg 软解集亦含 `alac` decoder（`FfmpegLibrary` 标准映射）；但 F1 前
+     * 的 14 项收录集不含它，且 `.alac` 裸流能否真机播放**未经 F3 验证**。故 F1 保持
+     * 「可推断 MIME / 可 strm 过滤」，不把行为回退掉，也不擅自扩收录集。
+     * 是否并入 [AUDIO_EXT] 由 F3 决定。
      */
     val EXTRA_AUDIO_EXT: Set<String> = linkedSetOf("alac")
 
@@ -57,8 +61,13 @@ object AudioFormats {
      * `audio/mp4`，属 6 处之间的口径分歧；F1 统一到本表，`.aac` 的 MIME 由
      * `audio/mp4` 变为 `audio/aac`（行为变更已登记于 `12 §61.45`，待 F3 真机复核）。
      *
-     * 新增的 6 种收录格式（ape/dsf/dff/aiff/wv/tak）在竞品与契约中**均无已确认的
-     * MIME 定义**，F1 不编造，仍落 [OCTET_STREAM]；是否影响播放由 F3 验证。
+     * §61.305（K2b）MIME 赎回（「不编造」口径到期，自控证据赎回三格）：
+     * `ape→audio/x-ape`（`ApeExtractor` 样例输出 + `FfmpegLibrary` 映射 +
+     * `MediaCodecSelector` 排除口径同值）、`aiff→audio/x-aiff`（`AiffExtractor`
+     * 同证）、`wv→audio/x-wavpack`（`WavpackExtractor` 同证）——三者均为
+     * **自控提取器的在册样例 MIME**，非竞品产物、非猜测。`dsf/dff/tak` 无容器层
+     * 实现与实机 Content-Type 证据，**维持 [OCTET_STREAM] 占位**（不编造原则不破；
+     * 回填待 DSD 解码链接通 / tak 提取器立项 + K-01 真机窗 Content-Type 实测）。
      */
     val MIME_BY_EXT: Map<String, String> = linkedMapOf(
         "mp3" to "audio/mpeg",
@@ -70,6 +79,9 @@ object AudioFormats {
         "wma" to "audio/x-ms-wma",
         "alac" to "audio/x-alac",
         "opus" to "audio/ogg",
+        "ape" to "audio/x-ape",
+        "aiff" to "audio/x-aiff",
+        "wv" to "audio/x-wavpack",
     ) + TEXT_MIME_BY_EXT
 
     /**

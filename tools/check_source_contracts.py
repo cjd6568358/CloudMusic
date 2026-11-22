@@ -9339,6 +9339,30 @@ def main() -> int:
         print("[PASS] §61.304 K1b/e 自洽（三级容错 / 取消透传 / 100s 超时 / 竞态指纹 / "
               "历史栈回溯剔除 / 单循环手动前进 / 用例在册）")
 
+    # ---- §61.305（K2 底座收敛：版本核对 / AudioFormats 真相源换轨 / MIME 赎回 / 裁剪定稿）----
+    _c305 = []
+    _af305 = (ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/"
+              "AudioFormats.kt").read_text(encoding="utf-8", errors="replace")
+    if "libffmpeg" in _af305:
+        _c305.append("AudioFormats 仍含 libffmpeg 口径（真相源换轨未完成，§61.299 R1）")
+    if "自控双源" not in _af305:
+        _c305.append("真相源未换轨为自控双源（ENABLED_DECODERS ∪ Extractors）")
+    for _m305 in ('"ape" to "audio/x-ape"', '"aiff" to "audio/x-aiff"',
+                  '"wv" to "audio/x-wavpack"'):
+        if _m305 not in _af305:
+            _c305.append("MIME 赎回缺 " + _m305)
+    _aft305 = (ROOT / "core-model/src/test/kotlin/com/example/cloudmusic/model/"
+               "AudioFormatsTest.kt").read_text(encoding="utf-8", errors="replace")
+    if 'listOf("dsf", "dff", "tak")' not in _aft305:
+        _c305.append("dsf/dff/tak 占位判据缺失（不编造口径无回归防线）")
+    if '"ape" to "audio/x-ape"' not in _aft305:
+        _c305.append("赎回三格表断言缺失")
+    if _c305:
+        failures.append("§61.305 K2 自洽：%s" % "；".join(_c305))
+    else:
+        print("[PASS] §61.305 K2 自洽（真相源自控双源换轨 / 注释无 libffmpeg / 三格 MIME 赎回 / "
+              "dsf-dff-tak 占位判据在册）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

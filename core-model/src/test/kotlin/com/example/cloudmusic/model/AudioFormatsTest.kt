@@ -50,9 +50,9 @@ class AudioFormatsTest {
     }
 
     @Test
-    @DisplayName("F1-4 · MIME_BY_EXT 与 03-06 §7 的 11 项口径逐字一致")
+    @DisplayName("§61.305 K2b · MIME_BY_EXT 14 项口径（三格自控赎回 + dsf/dff/tak 占位不编造）")
     fun mimeTableIsContract() {
-        assertEquals(11, AudioFormats.MIME_BY_EXT.size)
+        assertEquals(14, AudioFormats.MIME_BY_EXT.size)
         val expected = mapOf(
             "mp3" to "audio/mpeg",
             "flac" to "audio/flac",
@@ -63,12 +63,16 @@ class AudioFormatsTest {
             "wma" to "audio/x-ms-wma",
             "alac" to "audio/x-alac",
             "opus" to "audio/ogg",
+            // §61.305 K2b 赎回：自控提取器样例 MIME（Ape/Aiff/WavpackExtractor + FfmpegLibrary 映射同证）
+            "ape" to "audio/x-ape",
+            "aiff" to "audio/x-aiff",
+            "wv" to "audio/x-wavpack",
             "m3u8" to "application/vnd.apple.mpegurl",
             "lrc" to "text/plain",
         )
         assertEquals(expected, AudioFormats.MIME_BY_EXT)
-        // 6 种新收录格式没有已确认 MIME，F1 不编造
-        listOf("ape", "dsf", "dff", "aiff", "wv", "tak").forEach {
+        // dsf/dff/tak 无容器层证据维持占位（不编造原则不破；回填待 K-01 真机窗实测）
+        listOf("dsf", "dff", "tak").forEach {
             assertEquals(AudioFormats.OCTET_STREAM, AudioFormats.mimeOf(it))
         }
     }
@@ -95,7 +99,9 @@ class AudioFormatsTest {
         assertEquals("text/plain", AudioFormats.mimeOfName("/a.lrc"))
         assertEquals("application/vnd.apple.mpegurl", AudioFormats.mimeOfName("/list.m3u8"))
         assertEquals(AudioFormats.OCTET_STREAM, AudioFormats.mimeOfName("/a.bin"))
-        assertEquals(AudioFormats.OCTET_STREAM, AudioFormats.mimeOf("ape"))
+        assertEquals("audio/x-ape", AudioFormats.mimeOfName("/a.APE")) // §61.305 K2b 赎回
+        assertEquals("audio/x-wavpack", AudioFormats.mimeOfName("/a.wv"))
+        assertEquals(AudioFormats.OCTET_STREAM, AudioFormats.mimeOf("tak"))
     }
 
     @Test
