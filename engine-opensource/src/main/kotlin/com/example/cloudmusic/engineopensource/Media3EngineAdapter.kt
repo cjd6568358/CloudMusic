@@ -14,8 +14,10 @@ import androidx.media3.common.Player
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.cache.CacheDataSource
+import androidx.media3.datasource.cache.CacheKeyFactory
 import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
 import androidx.media3.datasource.cache.SimpleCache
+import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.audio.AudioSink
 import androidx.media3.exoplayer.audio.DefaultAudioSink
@@ -62,8 +64,9 @@ import kotlinx.coroutines.flow.asStateFlow
  *   跨曲队列自 §61.131 起由门面增量 prepareQueue + §61.139 播放链接线：
  *   同一 ExoPlayer 实例的多 MediaItem playlist 可达，详见 [GaplessPolicy]。
  * - `setQuality` 仍为门面轻量实现；[EngineConfig] 的 `sampleRateHz` /
- *   `preferHardwareDecoder` / `bufferMs` / `autoSkipOnError` 不由本类逐项消费
- *   （平台 MediaCodec 优先、缓冲由 ExoPlayer 管理），不写成「已支持」。
+ *   `preferHardwareDecoder` / `autoSkipOnError` 不由本类逐项消费
+ *   （平台 MediaCodec 优先），不写成「已支持」。`bufferMs` 自 §61.302（H0-5）
+ *   起消费为 LoadControl 的起播/复播阈值（原为死参数）。
  * - 媒体会话 / 音频焦点 / 媒体按键**不**由 Media3 主导（C1），仍走
  *   `:core-media` + `:media-legacy` + 平台 API；本模块不引 `media3-session`。
  *
@@ -365,10 +368,16 @@ class Media3EngineAdapter : IMusicEngine {
         // §61.88（B2 M3）：URL 态 = 官方 CacheDataSource（缓存优先 + LRU 256MiB +
         // FLAG_IGNORE_CACHE_ON_ERROR 回落直连）；LOCAL 态 = DefaultDataSource
         // 直读文件（不缓存本地文件）。全部官方语义，无 A 路线私有 vfile/commit。
+        // §61.302（H0-4）：缓存 key 与回环 URL 解耦——key 固定为 `b2track:<trackId>`。
+        // 此前 key=URL 原文，回环 URL 含每 publish 随机生成的 token → 缓存 key 每次
+        // 全新 → 256MiB SimpleCache 对远端源跨曲/跨重启命中率恒 0（形同虚设）。
+        // 同 trackId 视为同一内容（重签/换镜像由重新扫描刷新，LRU 自然淘汰旧段）。
+        val cacheKey = "b2track:" + source.trackId
         val dataSourceFactory: androidx.media3.datasource.DataSource.Factory =
             if (url != null) {
                 CacheDataSource.Factory()
                     .setCache(ensureCache(ctx))
+                    .setCacheKeyFactory(CacheKeyFactory { cacheKey })
                     .setUpstreamDataSourceFactory(
                         DefaultDataSource.Factory(
                             ctx,
@@ -387,7 +396,13 @@ class Media3EngineAdapter : IMusicEngine {
         )
         // §61.87：ExoPlayer 的构建 + prepare 必须在 application thread（主 Looper）。
         onMainSync(10L, Unit) {
-            val p = ExoPlayer.Builder(ctx, renderersFactory, mediaSourceFactory).build()
+            val p = ExoPlayer.Builder(ctx, renderersFactory, mediaSourceFactory)
+                // §61.302（H0-5）：LoadControl 显式化——bufferMs 消费为起播阈值
+                // （默认 2000ms，原 DefaultLoadControl 2500ms），复播阈值取两倍且
+                // 不低于官方默认；min/max 维持官方 50s 不变。原实现全默认且
+                // bufferMs 为死参数，缓冲行为无人可调。
+                .setLoadControl(loadControl(config.bufferMs))
+                .build()
             // §61.105：先赋值，保证 metadata 回调（主线程消息队列，本块结束后才到达）
             // 里 ReplayGainController 能立刻写到 player.volume。
             player = p
@@ -425,6 +440,25 @@ class Media3EngineAdapter : IMusicEngine {
             "invalid or released EngineHandle(${handle.raw}); active=${activeHandle?.raw}"
         }
     }
+
+    /**
+     * §61.302（H0-5）：显式 LoadControl——[EngineConfig.bufferMs] 消费为起播阈值
+     * （钳 500~15000ms），复播阈值 = 2×bufferMs 且不低于官方默认 5000ms；
+     * min/maxBuffer 维持官方默认 50s（只增不减的填充目标，防缓冲反复跌落）。
+     * 参数单一出口，后续 KernelTuning 可否决表只改这里。
+     */
+    private fun loadControl(bufferMs: Int): DefaultLoadControl =
+        DefaultLoadControl.Builder()
+            .setBufferDurationsMs(
+                /* minBufferMs= */ DefaultLoadControl.DEFAULT_MIN_BUFFER_MS,
+                /* maxBufferMs= */ DefaultLoadControl.DEFAULT_MAX_BUFFER_MS,
+                /* bufferForPlaybackMs= */ bufferMs.coerceIn(500, 15_000),
+                /* bufferForPlaybackAfterRebufferMs= */
+                (bufferMs * 2).coerceAtLeast(
+                    DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS,
+                ),
+            )
+            .build()
 
     private fun fail(e: CloudMusicError) {
         Log.i(TAG, "engine_error=%s code=%s".format(e.message, e.code))
@@ -674,7 +708,11 @@ class Media3EngineAdapter : IMusicEngine {
         )
         val handle = EngineHandle(nextRaw++)
         onMainSync(10L, Unit) {
-            val p = ExoPlayer.Builder(ctx, renderersFactory, mediaSourceFactory).build()
+            val p = ExoPlayer.Builder(ctx, renderersFactory, mediaSourceFactory)
+                // §61.302（H0-5）：队列路径同口径显式 LoadControl（本地源为主，
+                // bufferMs 语义一致）。
+                .setLoadControl(loadControl(config.bufferMs))
+                .build()
             player = p
             p.addListener(listener)
             p.setMediaItems(items, startIndex.coerceIn(0, items.size - 1), 0L)

@@ -1,6 +1,7 @@
 package com.example.cloudmusic.di.adapters
 
 import com.example.cloudmusic.bridge.HttpSlice
+import com.example.cloudmusic.bridge.HttpStreamSlice
 import com.example.cloudmusic.bridge.RangeHttpStack
 import com.example.cloudmusic.model.Header
 import com.example.cloudmusic.output.dlna.DescriptionFetcher
@@ -111,6 +112,52 @@ class OkHttpRangeHttpStack(private val client: OkHttpClient) : RangeHttpStack {
                 resp.code,
             )
             return HttpSlice(body, total, resp.header("Content-Type"))
+        }
+    }
+
+    /**
+     * §61.302（H0-3）：顺序流式开流——返回**未消费的响应体流**（单条 TCP 流连续泵），
+     * 消除「每 64KiB 一个全新 HTTP GET」结构税。302 缓存 / 403/404 失效重解析 /
+     * 跨 host 剥鉴权与 [fetch] 同口径；服务端忽略 Range 回 200 时**流式**跳过
+     * rangeStart（一次 O(n)，不物化进堆，§61.266 口径延续）。
+     * 生命周期：调用方关闭返回的 body 流即释放响应连接（OkHttp body 流语义），
+     * 因此本方法**不 use{}**——异常路径显式 close。
+     */
+    override fun openStream(
+        url: String,
+        headers: List<Header>,
+        rangeStart: Long,
+        redirect: Boolean,
+    ): HttpStreamSlice {
+        val t = resolveTarget(url, headers, redirect)
+        val builder = Request.Builder().url(t.url).header("Range", "bytes=$rangeStart-")
+        applyHeaders(builder, headers, t.dropHeaders)
+        val resp = client.newCall(builder.get().build()).execute()
+        try {
+            if (resp.code == 403 || resp.code == 404) dropRedirect(url)
+            if (resp.code != 206 && !resp.isSuccessful) {
+                val code = resp.code
+                resp.close()
+                throw IOException("音源 HTTP $code") // 不回显 URL / headers
+            }
+            rememberRedirect(url, resp)
+            val total = totalLength(
+                resp.header("Content-Range"),
+                resp.header("Content-Length"),
+                rangeStart,
+                resp.code,
+            )
+            val mime = resp.header("Content-Type")
+            val stream = resp.body?.byteStream()
+            if (stream == null) {
+                resp.close()
+                return HttpStreamSlice(java.io.ByteArrayInputStream(ByteArray(0)), total, mime)
+            }
+            if (rangeStart > 0 && resp.code != 206) skipFully(stream, rangeStart)
+            return HttpStreamSlice(stream, total, mime)
+        } catch (t: Throwable) {
+            runCatching { resp.close() }
+            throw t
         }
     }
 

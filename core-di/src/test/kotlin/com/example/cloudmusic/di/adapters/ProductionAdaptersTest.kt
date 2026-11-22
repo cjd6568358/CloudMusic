@@ -163,6 +163,43 @@ class ProductionAdaptersTest {
     }
 
     @Test
+    fun `T01g openStream 顺序流单请求连续泵（消每 64KiB 一 GET）`() = withServer { server ->
+        // 640 KiB 正文：旧读模型要发 10 次 GET；流续泵整段消费只允许 1 次请求。
+        val body = buildString { repeat(64) { append("0123456789".repeat(1024)) } }
+        var hits = 0
+        server.handle("/stream") { ex ->
+            hits++
+            if (ex.header("Range") == "bytes=0-") {
+                ex.respond(206, body, "Content-Range" to "bytes 0-${body.length - 1}/${body.length}")
+            } else {
+                ex.respond(416, null)
+            }
+        }
+        val slice = OkHttpRangeHttpStack(client).openStream(server.url("/stream"), emptyList(), 0L, false)
+        assertEquals(body.length.toLong(), slice.totalLength)
+        val out = ByteArray(64 * 1024)
+        var total = 0
+        while (total < body.length) {
+            val n = slice.body.read(out, 0, out.size)
+            if (n <= 0) break
+            total += n
+        }
+        assertEquals(body.length, total, "一次开流连续泵读毕全部字节")
+        assertEquals(1, hits, "整个顺序消费只发一次 HTTP 请求（每 64KiB 一 GET 已消）")
+        slice.body.close()
+    }
+
+    @Test
+    fun `T01h openStream 服务端忽略 Range 时流式跳过起点（O(n) 不物化）`() = withServer { server ->
+        server.handle("/skip") { ex -> ex.respond(200, "12345678") }
+        val slice = OkHttpRangeHttpStack(client).openStream(server.url("/skip"), emptyList(), 4L, false)
+        val buf = ByteArray(4)
+        assertEquals(4, slice.body.read(buf, 0, 4))
+        assertEquals("5678", buf.decodeToString())
+        slice.body.close()
+    }
+
+    @Test
     fun `T02 未知长度不伪造 Content-Length`() {
         assertEquals(8L, OkHttpRangeHttpStack.totalLength("bytes 4-7/8", null, 4, 206))
         assertEquals(-1L, OkHttpRangeHttpStack.totalLength(null, null, 4, 200))

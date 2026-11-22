@@ -7548,8 +7548,12 @@ def main() -> int:
         _c266_bad.append("open 未改用 probe 探测")
     if "slice = fetch(offset)" in _http_ds_src:
         _c266_bad.append("readAt 仍发无界 Range")
-    if "MAX_CHUNK" not in _http_ds_src:
-        _c266_bad.append("单次读取上限缺失")
+    # §61.302 口径演进：顺序读改走 openStream 流式泵（不物化进堆），MAX_CHUNK 物化上限
+    # 随旧读模型退役——OOM 防线由「流式不物化 + fetch 物化路径 MAX_BODY_BYTES 兜底」承接。
+    if "http.openStream(" not in _http_ds_src:
+        _c266_bad.append("readAt 未走 openStream 流式泵（退回每段物化）")
+    if "private fun closeStream" not in _http_ds_src:
+        _c266_bad.append("缺 closeStream（上游响应连接泄漏）")
     if "resp.body?.bytes()" in _okhttp_src:
         _c266_bad.append("响应体仍整段读入 ByteArray")
     for _needle, _label in (
@@ -7563,8 +7567,10 @@ def main() -> int:
     for _t in ("T01b", "T01c", "T01d"):
         if _t not in _adapters_test:
             _c266_bad.append("用例 " + _t + " 缺失")
-    if "assertEquals(6L, call.rangeEnd" not in _ds_test:
-        _c266_bad.append("引擎侧有界读断言缺失")
+    # §61.302 口径演进：引擎侧断言从「有界物化 rangeEnd」改为「openStream 开尾流」——
+    # OOM 防线主体由流式不物化承接（§61.302 块判据 + HttpDataSourceStreamTest 回归）。
+    if "assertEquals(null, call.rangeEnd" not in _ds_test:
+        _c266_bad.append("引擎侧 openStream 开尾流断言缺失")
     if _c266_bad:
         failures.append("§61.266 音源 OOM：%s" % "；".join(_c266_bad))
     else:
@@ -9198,6 +9204,47 @@ def main() -> int:
     else:
         print("[PASS] §61.301 时钟真相自洽（BUFFERING 透传 / READY 回正 / 超时兜底非 0 / "
               "快照门禁 / 会话 BUFFERING）")
+
+    # ---- §61.302（H0-3~H0-5 取流吞吐：顺序流续泵 / 缓存 key 稳定 / LoadControl 显式化）----
+    _c302 = []
+    _ports302 = (ROOT / "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/"
+                 "DataSourcePorts.kt").read_text(encoding="utf-8", errors="replace")
+    if "data class HttpStreamSlice" not in _ports302 or "fun openStream(" not in _ports302:
+        _c302.append("RangeHttpStack 缺 openStream 端口/HttpStreamSlice（流续泵无端口）")
+    _hds302 = _code_only((ROOT / "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/"
+                          "HttpDataSource.kt").read_text(encoding="utf-8", errors="replace"))
+    if "streamNextOffset == offset" not in _hds302:
+        _c302.append("HttpDataSource 缺顺序命中判定（每 64KiB 一 GET 结构税仍在）")
+    if "http.openStream(" not in _hds302:
+        _c302.append("HttpDataSource 未走 openStream 开尾流")
+    if "private fun closeStream" not in _hds302:
+        _c302.append("HttpDataSource 缺 closeStream（上游响应连接泄漏风险）")
+    _ok302 = _code_only((ROOT / "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/"
+                         "OkHttpAdapters.kt").read_text(encoding="utf-8", errors="replace"))
+    _os302 = _ok302[_ok302.find("override fun openStream("):
+                    _ok302.find("override fun probe(")]
+    if "override fun openStream(" not in _ok302:
+        _c302.append("OkHttpRangeHttpStack 未实现 openStream（生产仍走物化默认）")
+    if "skipFully(stream, rangeStart)" not in _os302:
+        _c302.append("openStream 缺 200 流式跳过（忽略 Range 的源 O(n²) 雪崩）")
+    if "rememberRedirect" not in _os302 or "dropRedirect" not in _os302:
+        _c302.append("openStream 缺 302 缓存同口径（每流重付重定向税）")
+    _om302 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/example/cloudmusic/"
+                         "engineopensource/Media3EngineAdapter.kt"
+                         ).read_text(encoding="utf-8", errors="replace"))
+    if "setCacheKeyFactory" not in _om302 or "b2track:" not in _om302:
+        _c302.append("CacheDataSource 缓存 key 未与随机 token 解耦（SimpleCache 恒 miss）")
+    if "setLoadControl(" not in _om302 or "loadControl(config.bufferMs)" not in _om302:
+        _c302.append("ExoPlayer 未显式 setLoadControl（bufferMs 仍为死参数）")
+    _t302 = (ROOT / "engine-bridge/src/test/kotlin/com/example/cloudmusic/bridge/"
+             "HttpDataSourceStreamTest.kt").read_text(encoding="utf-8", errors="replace")
+    if "sequentialReadsUseSingleOpen" not in _t302 or "staleStreamRecoversByReopen" not in _t302:
+        _c302.append("流续泵/陈旧流用例缺（无回归防线）")
+    if _c302:
+        failures.append("§61.302 取流吞吐自洽：%s" % "；".join(_c302))
+    else:
+        print("[PASS] §61.302 取流吞吐自洽（openStream 端口 / 顺序续泵 / 200 流式跳过 / "
+              "302 缓存同口径 / 缓存 key 稳定 / LoadControl 显式化 / 用例在册）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

@@ -141,6 +141,9 @@ class NanoHttpStreamProxy(
         // 每个请求独立开流；RangeInputStream.close() 在响应结束时关闭它。
         val source = dataSourceFactory(entry.link)
         return try {
+            // §61.302 勘误：总长度缓存不采——open(0) 每引擎请求仅一次（被 50s 缓冲
+            // 摊薄），跳过 open() 对 Driver 类实现有 open-before-read 隐性契约风险。
+            // 真正的取流税在「每 64KiB 一 GET」，由 HttpDataSource 顺序流续泵消除。
             val total = source.open(0)
             val mime = source.mimeHint().ifBlank { DEFAULT_MIME }
             val decision = RangeResponder.respond(request, total, mime)

@@ -18,6 +18,16 @@ data class HttpSlice(
     val mimeHint: String? = null,
 )
 
+/**
+ * §61.302（H0-3）：顺序流式开流结果——[body] 是**未消费的响应体流**（连续泵，不物化进堆）。
+ * 与 [HttpSlice]（一次性物化 ≤ 上限的 ByteArray）互补：随机读走物化、顺序读走流。
+ */
+data class HttpStreamSlice(
+    val body: java.io.InputStream,
+    val totalLength: Long,
+    val mimeHint: String? = null,
+)
+
 /** HTTP 端口。生产由 OkHttp 4.x 实现（透传 headers、302 跟随、10s 连接 / 30s 读超时）。 */
 fun interface RangeHttpStack {
     /**
@@ -33,6 +43,28 @@ fun interface RangeHttpStack {
         redirect: Boolean,
         rangeEnd: Long?,
     ): HttpSlice
+
+    /**
+     * §61.302（H0-3）：顺序流式开流——`bytes={rangeStart}-` 的**未消费响应体**，
+     * 供顺序读消费者（回环代理回源 / 扫描头尾读）单条 TCP 流连续泵，消除
+     * 「每 64KiB 一个全新 HTTP GET」结构税（§61.269 实测 0.27~0.68s/64KiB）。
+     * 实现体注意：服务端忽略 Range 回 200 时须**流式**跳过 rangeStart（一次 O(n)，
+     * 不物化）；关闭返回的 [HttpStreamSlice.body] 即释放响应连接（OkHttp body 流语义）。
+     * 默认实现退化为一次性 [fetch] 物化（旧实现 / 纯 JVM fake 零改动可用）。
+     */
+    fun openStream(
+        url: String,
+        headers: List<Header>,
+        rangeStart: Long,
+        redirect: Boolean,
+    ): HttpStreamSlice =
+        fetch(url, headers, rangeStart, redirect, null).let {
+            HttpStreamSlice(
+                java.io.ByteArrayInputStream(it.body),
+                it.totalLength,
+                it.mimeHint,
+            )
+        }
 
     /** 只探测总长度 / MIME；默认退化为 1 字节 Range，生产实现优先 HEAD。 */
     fun probe(url: String, headers: List<Header>, redirect: Boolean): HttpSlice =

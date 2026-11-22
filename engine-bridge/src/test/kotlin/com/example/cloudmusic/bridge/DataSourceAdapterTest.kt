@@ -190,7 +190,9 @@ class DataSourceAdapterTest {
 
         val call = http.calls.last()
         assertEquals(3L, call.rangeStart)
-        assertEquals(6L, call.rangeEnd, "§61.266：按 len 上界请求，禁止 bytes=offset- 拉完整文件")
+        // §61.302 口径演进：顺序读走 openStream 开尾流（单条 TCP 流连续泵、不物化进堆）；
+        // §61.266 的「按 len 上界物化」禁令只约束 fetch 物化路径（随机读），流式泵不在其列。
+        assertEquals(null, call.rangeEnd, "§61.302：顺序读经 openStream 开尾 Range（默认实现落 fetch rangeEnd=null）")
         assertTrue(call.redirect)
         assertEquals(listOf("Authorization", "X-Trace"), call.headers.map { it.name })
         assertEquals("audio/flac", ds.mimeHint())
