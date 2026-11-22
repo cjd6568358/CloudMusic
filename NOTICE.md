@@ -2,10 +2,10 @@
 
 **项目**：CloudMusic（暂定）
 **许可证**：AGPL-3.0（见 `LICENSE`）
-**最后更新**：2026-11-04
+**最后更新**：2026-11-22（§61.308 K4d 全面更新：B2 现行栈登记 + A 路线资产归档路径同步 + LICENSE 勘误 MIT→AGPL-3.0）
 
 > 本文件随仓库发布，用于声明第三方开源依赖、参考样本与二进制来源。
-> **当前状态**：项目处于文档阶段，仓库内**尚未包含**任何第三方代码、native 二进制或竞品素材；以下为按文档规划引入时的登记口径。
+> **当前状态（§61.308）**：现行播放内核 = B2（androidx.media3 官方制品 + 自编译 FFmpeg 6.0 + 四手写提取器，**零竞品二进制**）；A 路线竞品舱与其取证资产已随 §61.307（拍板 C=c2）git mv 归档至 `archive/`（归档不删文件，git 历史保全，不再编译/打包）。
 
 ---
 
@@ -21,6 +21,13 @@
 | nanohttpd | **BSD-3-Clause**（Modified BSD License） | DLNA 本地流代理 | https://github.com/NanoHttpd/nanohttpd |
 | JAudioTagger | **LGPL** | 音频标签解析 | http://www.jthink.net/jaudiotagger/ |
 | MediaMetadataRetriever | Android 系统 API | 时长/音频参数兜底 | Android SDK |
+| androidx.media3 **1.11.1** | Apache-2.0 | 播放内核（exoplayer/datasource/common/decoder 官方制品） | https://android.googlesource.com/platform/frameworks/support（media3） |
+| FFmpeg **6.0**（自编译） | **LGPL-2.1**（动态链接构建口径） | ape/wma/wavpack/aiff 软解（decoder_ffmpeg 扩展） | https://ffmpeg.org |
+| JSch 2.28.8 | BSD-3-Clause | SFTP 数据源 | https://github.com/processing/jsch |
+| commons-net 3.11.0 | Apache-2.0 | FTP/FTPS 数据源 | https://commons.apache.org/proper/commons-net/ |
+
+**decoder_ffmpeg 扩展三件来源声明**：`engine-opensource/src/main/jni/{build_ffmpeg.sh,CMakeLists.txt,ffmpeg_jni.cc}` 原样取自 androidx/media **1.11.1** `libraries/decoder_ffmpeg`（**Apache-2.0**，构建文件注释在册）；`FfmpegLibrary` 含本项目自定义 MIME 映射 4 条（§61.99 区间登记）。**四手写提取器**（`Ape/Asf/Aiff/WavpackExtractor`）为本项目自研（按 libavformat 格式事实实现，零竞品产物）。
+**LGPL 合规口径**：FFmpeg 以独立动态库（libavcodec/libavutil/libswresample 静态编译为独立 .so，经 decoder_ffmpeg JNI 动态加载）形式引入，未修改 FFmpeg 源码合入自有类；保留上游许可与源码获取途径；若公开发布，按 LGPL 提供对应目标文件获取途径。
 
 **JAudioTagger（LGPL）使用条件**：以独立库（AAR/JAR）形式引入，不修改其源码并合入本项目自有类；保留其许可声明与源码获取途径（上方上游地址）；若未来使用修改版，须按 LGPL 开放对应修改。替换方案：`MediaMetadataRetriever` + 自研轻量标签解析器，`TagReader` 接口不变。详见 `docs/03-模块开发文档/03-12 构建发布与合规.md §6`。
 
@@ -32,12 +39,12 @@
 
 | 项 | 值 |
 |---|---|
-| 文件 | `NeteaseCloudMusic.apk`（仓库根目录） |
+| 文件 | `archive/NeteaseCloudMusic.apk`（§61.307 归档；原仓库根目录） |
 | 版本 | 9.6.20（versionCode 9006020） |
 | 包名 | `com.netease.cloudmusic` |
 | 权利 | **归原权利人所有**；本项目仅作个人学习与自用参考 |
 
-本项目对该 APK 做过**静态解包与字符串/清单分析**（未运行、未动态调试、未修改原包）。分析产物见 `analysis/`，报告见 `docs/00-参考APK分析报告.md` 与 `docs/05-Native库实测分析.md`。
+本项目对该 APK 做过**静态解包与字符串/清单分析**（未运行、未动态调试、未修改原包）。分析产物已随 §61.307 归档（`archive/analysis/`），报告见 `docs/00-参考APK分析报告.md` 与 `docs/05-Native库实测分析.md`。
 
 > 该 APK 的代码、native 库、图标、字体、文案、Logo、应用名均受著作权/商标保护。**本项目不声称对其拥有任何权利或授权。**
 
@@ -50,8 +57,8 @@
 
 | 类别 | 来源 | 实际状态 | 登记位置 |
 |---|---|---|---|
-| 播放内核 native 库 | 上述参考 APK | **已引入 18 个 `arm64-v8a` so（18.5 MiB）**，随 debug APK 打包；提取侧 167 个是上限，不等于打包集 | `engine-legacy/src/main/jniLibs/arm64-v8a/`、`assets/ENGINE-FINGERPRINT` 与 `app/src/main/assets/ENGINE-FINGERPRINT`（18 行 SHA-256，C6 dev/release PASS） |
-| 播放内核 Java SDK 层 | 上述参考 APK，jadx 反编译重建 | **已引入 12 个精确 JNI 真类 + slot**（`12 §35` 登记簿 51 行），编译进 `:engine-legacy` | `engine-legacy/src/main/java/com/netease/...`、`docs/12 §10.4`、`analysis/jadx-jni-classes/` |
+| 播放内核 native 库（A 路线） | 上述参考 APK | **已随 §61.307 归档**：18 个 so + jadx Java 层 → `archive/engine-legacy/`（§61.131 已移出打包链，不再编译/打包；git 历史保全） | `archive/engine-legacy/`、`archive/ENGINE-FINGERPRINT-root|app`、`12 §61.131/§61.307` |
+| **现行播放内核（B2）** | **无竞品成分** | Media3 官方制品 + 自编译 FFmpeg 6.0（LGPL 动态链接）+ decoder_ffmpeg 三件（Apache-2.0）+ 四手写提取器（自研） | `engine-opensource/`、`docs/03-06`（§61.308 重写版）、`12 §61.65~66/§61.302~305` |
 | 媒体会话 / 音频焦点层 | 自研为主，竞品语义参照 | **未引入竞品二进制或 dex**；`:core-media` 为纯 JVM 自研焦点状态机，平台接线在 `:app/PlaybackService`；`:media-legacy` 舱体未建立 | `docs/03-07`、`docs/12 §41 / §45` |
 | 播放页 layout / anim / drawable / 自定义 View | 上述参考 APK，资源 ID 反查导出 | **已导出 61 项 / 51 文件（320,569 字节）**，以 `legacy_` 前缀存于 assets 暂存区，**未接入 res、未参与 aapt2** | `docs/assets-mapping.csv`（61 行 `replaced=false`，C4 release FAIL）、`app/src/main/assets/legacy-player/`、`docs/06`、`docs/14` |
 
@@ -80,7 +87,7 @@
 | 场景 | 处置 |
 |---|---|
 | 个人自用 / 侧载（当前目标） | 风险可控；本 NOTICE 如实声明来源与权利状况 |
-| 公开发布仓库 / 分发 APK | ① 完成素材全量替换 ② 法务评估专有二进制的可分发性 ③ 若不可分发，启用架构预留的 `:engine-opensource`（FFmpeg + Media3/ExoPlayer，实测 `libffmpeg.so` 无竞品私有依赖，见 `05 §4`）替换播放内核，上层零改动 |
+| 公开发布仓库 / 分发 APK | ① 完成素材全量替换 ② 法务评估归档资产的可分发性（A 路线二进制已出打包链，archive/ 不随构建产物分发）③ 播放内核替换**已实现**：现行即 `:engine-opensource`（§61.65~66 换绑，§61.307 A 路线归档），上层零改动 |
 | 上架应用商店 | 额外处理隐私政策、权限说明与品牌审查 |
 
 **不得**在公开仓库中声称这些二进制或素材为本项目原创、或已获原权利人授权。
@@ -95,13 +102,13 @@
 | smali / baksmali | 3.0.10 | 同上 |
 | 7-Zip / adb / framework | — | 本机既有环境 |
 
-`tools/` 目前**不含 jadx**；按用户既有环境从打包机补入，或以现有 baksmali 手工重建（`docs/06-资源索引与映射.md §3`）。
+`tools/` 现行只含自研检查脚本；A 路线审计工具 9 件已随 §61.307 归档至 `archive/tools/`。
 
 ---
 
 ## 6. 参考源码只读快照
 
-`reference/openlist/` 内 20 个源码文件 + `LICENSE`，是 **OpenList-zig**（OpenList，AList 社区分支）上游源码的**只读快照**（源码本体在各成员本机，位置因机器而异），仅用于开发期对照数据源驱动的接口语义，**不编译进本项目、不参与构建**。
+`archive/reference/openlist/`（§61.307 归档）内 20 个源码文件 + `LICENSE`，是 **OpenList-zig**（OpenList，AList 社区分支）上游源码的**只读快照**（源码本体在各成员本机，位置因机器而异），仅用于开发期对照数据源驱动的接口语义，**不编译进本项目、不参与构建**。
 
 | 项 | 值 |
 |---|---|

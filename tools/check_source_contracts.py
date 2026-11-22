@@ -9445,6 +9445,30 @@ def main() -> int:
         print("[PASS] §61.307 K4 自洽（c2 归档全量在册 / 工作区无逆向活体 / "
               "B2 自检三处版本一致 / 四提取器在册 / netease 例外清退）")
 
+    # ---- §61.308（K4c 后半 + K4d：03-06 权威化重写 / docs/17 终局批注 / NOTICE-LICENSE 审计）----
+    _c308 = []
+    _d306308 = (ROOT / "docs/03-模块开发文档/03-06 播放内核与队列.md").read_text(encoding="utf-8")
+    if "现行主线（B2，§61.308 权威基线）" not in _d306308:
+        _c308.append("03-06 缺 B2 权威基线主线（权威化重写未落地）")
+    if "## 历史档案（A 路线原文，仅作档案不构成现行口径）" not in _d306308:
+        _c308.append("03-06 缺历史档案附录（A 路线原文未收缩）")
+    _d17308 = (ROOT / "docs/17-竞品模块清单与复刻规划.md").read_text(encoding="utf-8")
+    if "§61.308 终局批注" not in _d17308:
+        _c308.append("docs/17 §1 缺 P0 终局批注（复用竞品二进制口径未终局）")
+    _ntc308 = (ROOT / "NOTICE.md").read_text(encoding="utf-8")
+    for _n308 in ("androidx.media3 **1.11.1**", "FFmpeg **6.0**（自编译）", "decoder_ffmpeg 扩展三件来源声明",
+                  "archive/NeteaseCloudMusic.apk", "LGPL 合规口径"):
+        if _n308 not in _ntc308:
+            _c308.append("NOTICE 缺 " + _n308)
+    _lic308 = (ROOT / "LICENSE").read_text(encoding="utf-8")
+    if "GNU AFFERO GENERAL PUBLIC LICENSE" not in _lic308:
+        _c308.append("LICENSE 与 NOTICE 声明不一致（应为 AGPL-3.0，§61.308 勘误 MIT→AGPL）")
+    if _c308:
+        failures.append("§61.308 K4c/d 自洽：%s" % "；".join(_c308))
+    else:
+        print("[PASS] §61.308 K4c/d 自洽（03-06 B2 主线+档案附录 / docs/17 P0 终局批注 / "
+              "NOTICE B2 栈登记 / LICENSE=AGPL-3.0）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
