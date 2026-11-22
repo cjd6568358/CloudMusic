@@ -266,6 +266,20 @@ K-10  AVRCP/蓝牙实车或耳机实测（封面/按键/断连暂停）
 | **D** | 执行序 | ① 先 V0.4-09 收口再 K 线 ② K 线先行、K5 与 V0.4-09 合并一窗 | **②** |
 | **E** | 默认参数与反向决策（可否决表，不否决即按此执行） | 防抖 500ms / 退避 2~6s / link 总超时 100s / 跳曲延迟 5s / 连续失败 ≥5 停 / 哨兵不采用 / RemoteStop=停播停服不退 App / audio offload 不开 / metadata 滚动歌词暂不做 | 按左列默认 |
 
+> **★ 裁定（2026-11-22 用户拍板，第三百零八批登记）**：A=**丙（Kernel 2.0）** ✓；B=**① 升级最新稳定版** ✓；C=**c2 仓内归档降权**（非 c1——逆向资产移入仓内归档子目录降权、不物理删除，K4a/4e 按此口径执行）；D=**修订执行序：止血批（H0）先行**——本次取流/时钟诊断修复项先于 K1 施工，K1~K4 顺延，K5 仍并入 V0.4-09 一窗；E=**无否决，按默认执行**。
+
+### H0（止血批，拍板 D 修订后立即开工）：取流与时钟止血（2026-11-22 双诊断驱动）
+
+| # | 施工项 | 根因锚点（file:line） | 判据要点 |
+|---|---|---|---|
+| H0-1 | BUFFERING 透传 + 会话 speed 语义 | `EngineState` 无 BUFFERING（`EngineApi.kt:21`）；`Media3EngineAdapter.kt:183` 吞态；ticker 每 2s 无条件 PLAYING 快照（`PlayerController.kt:310-313`）；`PlaybackService.kt:455-472` speed=1f | 引擎 BUFFERING 事件上报；缓冲期停发 PLAYING 快照；系统会话写 `STATE_BUFFERING + speed=0f`；`PlayerState.isBuffering` 标志（PlayerPhase 不动，UI 零强制改动） |
+| H0-2 | 位置读取超时兜底非 0 | `Media3EngineAdapter.kt:473-481` `onMainSync` 超时返回 0L | 超时保留上次已知位置（volatile lastKnown），不再瞬跳 00:00 |
+| H0-3 | 上游流顺序复用/预取 | `NanoHttpStreamProxy.kt:141-146` 每请求新建 IDataSource+open(0)；`HttpDataSource.kt:53` MAX_CHUNK=64KiB 每 read 一发 | 代理对顺序 Range（下一请求起点=上一流末尾±）续用已开上游流连续泵，非顺序才重开；吞吐不再钳制在 64KiB/RTT |
+| H0-4 | 缓存 key 稳定 | `TokenRegistry.kt:20-24` 随机 token → SimpleCache key 恒变恒 miss | 回环 URL 缓存 key 与 token 解耦（CacheKeyFactory 按 trackId+源锚定），跨曲/跨重启可命中 |
+| H0-5 | LoadControl 显式化 | `Media3EngineAdapter.kt:366` 无 setLoadControl；`EngineConfig.bufferMs` 死参数 | DefaultLoadControl 显式配置（bufferForPlayback/rebuffer 按网络源校准）并消费 `EngineConfig.bufferMs`，参数集中于 KernelTuning 可否决表 |
+
+施工序建议：H0-1+H0-2 一批（时钟真相，纯管理层）；H0-3+H0-4+H0-5 一批（取流吞吐）。每批全量测试+guard+A/B 反证+docs/12 登记。
+
 ## 11. 引用与证据清单
 
 **lx-music-mobile（master @ v1.9.2，2026-11-22 检索）**
