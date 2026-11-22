@@ -18,5 +18,16 @@ object KernelTuning {
     /** K1f：同一会话连续 autoSkip 失败护栏阈值（第 N 次起停止自动跳曲并人话提示）。 */
     const val CONSECUTIVE_SKIP_FAIL_LIMIT = 5
 
-    // ---- K1b（下一批 §61.304）在此补位：限流退避 2~6s / link 总超时 100s ----
+    // ---- K1b（§61.304）：取 URL 三级容错 ----
+    /** 常规失败重试次数（lx 取 URL 容错口径：重试 1 次）。 */
+    const val LINK_RETRY_ONCE = 1
+
+    /** 429/限流退避下界（lx 随机 2~6s）。 */
+    const val RATE_LIMIT_BACKOFF_MIN_MS = 2_000L
+
+    /** 429/限流退避上界。 */
+    const val RATE_LIMIT_BACKOFF_MAX_MS = 6_000L
+
+    /** link 解析链总超时（lx 100s 兜底）。 */
+    const val LINK_TOTAL_TIMEOUT_MS = 100_000L
 }

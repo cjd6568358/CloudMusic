@@ -12,6 +12,8 @@ import com.example.cloudmusic.model.SourceRef
 import com.example.cloudmusic.model.SourceType
 import com.example.cloudmusic.model.Track
 import com.example.cloudmusic.model.TrackId
+import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
@@ -1101,5 +1103,108 @@ class PlayerControllerTest {
         advanceTimeBy(KernelTuning.AUTO_SKIP_DELAY_MS)
         runCurrent()
         assertEquals(4, f.controller.state.value.currentIndex, "护栏后不再自动跳")
+    }
+
+    // ------------------------------------------------------------------
+    // §61.304 · K1b 解析容错与竞态指纹 / K1e 播放模式语义
+
+    @Test
+    @DisplayName("§61.304 K1b · 解析链 100s 总超时 → E_LINK_TIMEOUT + 自动跳曲")
+    fun resolveTotalTimeout() = runTest {
+        val t1 = track(1)
+        val t2 = track(2)
+        val f = fixture(
+            scope = backgroundScope, lookupTracks = listOf(t1, t2),
+            resolver = TrackSourceResolver { t ->
+                // URL 源：走单曲路径，绕开 gapless 邻居解析（邻居挂死不受本批判据覆盖）
+                if (t.id.value == "id-1") awaitCancellation() // 解析挂死
+                else Link(url = "https://example.com/${t.id.value}.mp3")
+            },
+        )
+        f.repo.setAll(listOf(t1, t2))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        // runTest 一手实证：测试体挂起期间自动推进虚拟时钟——playAt(0) 挂在解析上时
+        // 100s 超时当场触发，本调用返回即已落 ERROR。
+        f.controller.playAt(0)
+        assertEquals(PlayerPhase.ERROR, f.controller.state.value.phase)
+        assertTrue(
+            f.controller.state.value.lastError?.message?.contains("解析超时") == true,
+            "总超时人话错误（DsUpstream.code 带前缀，断言锚 message）",
+        )
+        advanceTimeBy(KernelTuning.AUTO_SKIP_DELAY_MS)
+        runCurrent()
+        assertEquals("id-2", f.controller.state.value.currentTrackId?.value, "超时后按失败跳曲")
+    }
+
+    @Test
+    @DisplayName("§61.304 K1b · 竞态指纹：迟到 resolve 整链丢弃（旧响应不覆盖新曲）")
+    fun staleResolveDiscardedByGeneration() = runTest {
+        val t1 = track(1)
+        val t2 = track(2)
+        val gate = kotlinx.coroutines.CompletableDeferred<Unit>()
+        val f = fixture(
+            scope = backgroundScope, lookupTracks = listOf(t1, t2),
+            resolver = TrackSourceResolver { t ->
+                // URL 源：单曲路径（绕开 gapless 邻居解析挂死，见 resolveTotalTimeout 边界注）
+                if (t.id.value == "id-1") {
+                    gate.await() // 旧曲解析挂起（模拟慢源）
+                    Link(url = "https://example.com/late.mp3")
+                } else Link(url = "https://example.com/${t.id.value}.mp3")
+            },
+        )
+        f.repo.setAll(listOf(t1, t2))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        launch { f.controller.playAt(0) }
+        runCurrent() // id-1 解析挂起（gen=1）
+        f.controller.playAt(1) // 换代（gen=2）→ id-2 先到先得
+        runCurrent()
+        assertEquals("id-2", f.controller.state.value.currentTrackId?.value)
+        gate.complete(Unit) // 旧 gen=1 的 resolve 迟到返回
+        runCurrent()
+        assertEquals("id-2", f.controller.state.value.currentTrackId?.value, "迟到响应不覆盖新曲")
+        assertEquals("id-2", f.engine.snapshot().source?.trackId, "引擎未被迟到链触碰")
+    }
+
+    @Test
+    @DisplayName("§61.304 K1e · 手动 next 在 SINGLE_LOOP 强制前进；自动 ENDED 原地循环")
+    fun manualNextSingleLoopAdvances() = runTest {
+        val f = fixture(scope = backgroundScope)
+        f.queue(PlayMode.SINGLE_LOOP)
+        f.controller.playAt(0)
+        runCurrent()
+        f.engine.reportEnded() // 自动 ENDED → 原地循环（§8.2 语义不变）
+        runCurrent()
+        assertEquals(0, f.controller.state.value.currentIndex)
+        f.controller.next() // 手动 → listLoop 语义前进（lx 口径）
+        advanceTimeBy(KernelTuning.MANUAL_SWITCH_DEBOUNCE_MS)
+        runCurrent()
+        assertEquals(1, f.controller.state.value.currentIndex, "手动 next 强制前进")
+    }
+
+    @Test
+    @DisplayName("§61.304 K1e · SHUFFLE 手动 prev 历史栈回溯；队列收缩剔除已删曲目")
+    fun shufflePrevPopsHistoryAndPrunes() = runTest {
+        val f = fixture(scope = backgroundScope)
+        f.queue(PlayMode.SHUFFLE)
+        f.controller.playAt(0)
+        runCurrent()
+        f.controller.next()
+        advanceTimeBy(KernelTuning.MANUAL_SWITCH_DEBOUNCE_MS)
+        runCurrent()
+        val order = ShuffleOrder.generate(42L, 5)
+        val expected = order[order.indexOf(0) + 1]
+        assertEquals(expected, f.controller.state.value.currentIndex, "SHUFFLE 前进按序表")
+        assertEquals(listOf(0), f.controller.shuffleHistorySnapshot, "前进前压栈")
+        f.controller.prev()
+        advanceTimeBy(KernelTuning.MANUAL_SWITCH_DEBOUNCE_MS)
+        runCurrent()
+        assertEquals(0, f.controller.state.value.currentIndex, "手动 prev 历史栈回溯")
+        // 队列收缩（5→2）：越界历史项剔除 = 已删曲目出栈
+        f.repo.setAll(Fixture.tracksOf(5).take(2))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SHUFFLE)
+        assertTrue(
+            f.controller.shuffleHistorySnapshot.all { it in 0..1 },
+            "已删曲目（索引 ≥2）从历史栈剔除",
+        )
     }
 }

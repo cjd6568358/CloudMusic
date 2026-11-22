@@ -140,6 +140,21 @@ class PlayerController(
     @Volatile
     private var pendingMetadata: Pair<Track, String?>? = null
 
+    /** §61.304（K1b）：resolve 三级容错装饰（重试/限流退避；总超时在 [prepareAt] 兜底）。 */
+    private val resolvePolicy = ResolveLinkPolicy(resolver)
+
+    /** §61.304（K1b）：prepare 代次——竞态指纹（迟到 resolve 响应整链丢弃）。 */
+    private val prepareSeq = java.util.concurrent.atomic.AtomicLong(0L)
+
+    /**
+     * §61.304（K1e）：SHUFFLE 已播历史栈（手动 prev 回溯到真实上一首；
+     * 队列收缩时剔除越界项 = 已删曲目出栈）。判定入口见 [shuffleHistorySnapshot]。
+     */
+    private val shuffleHistory = ArrayDeque<Int>()
+
+    /** §61.304（K1e）：历史栈只读快照（测试判定口）。 */
+    internal val shuffleHistorySnapshot: List<Int> get() = shuffleHistory.toList()
+
     /**
      * §61.181（B 案）：当前曲是否待真值时长回填。prepareAt 按曲库 `durationMs<=0`
      * 置位（STRM / 无标签），引擎解出真值后经 [durationWriter] 写库一次（A 案
@@ -201,6 +216,9 @@ class PlayerController(
         queueMode = false
         queue = items.toList()
         shuffle = if (mode == PlayMode.SHUFFLE) ShuffleOrder.generate(config.shuffleSeed, items.size) else emptyList()
+        // §61.304（K1e）：队列收缩 = 已删曲目出栈（越界历史项剔除；模式切走时同清）。
+        shuffleHistory.removeAll { it !in items.indices }
+        if (mode != PlayMode.SHUFFLE) shuffleHistory.clear()
         val index = if (items.isEmpty()) -1 else startAt.coerceIn(0, items.size - 1)
         _state.update {
             it.copy(mode = mode, currentIndex = index, currentTrackId = items.getOrNull(index)?.trackId)
@@ -471,7 +489,7 @@ class PlayerController(
         switchJob?.cancel()
         switchJob = scope.launch {
             delay(KernelTuning.MANUAL_SWITCH_DEBOUNCE_MS)
-            if (switchSeq.get() == my) switchMutex.withLock { nextInternal() }
+            if (switchSeq.get() == my) switchMutex.withLock { nextInternal(manual = true) }
         }
     }
 
@@ -506,12 +524,19 @@ class PlayerController(
 
     /** §61.303（K1a）：自动连播唯一入口——ENDED/交棒/自动跳曲，立即执行不过防抖。 */
     private suspend fun advanceNext() {
-        switchMutex.withLock { nextInternal() }
+        switchMutex.withLock { nextInternal(manual = false) }
     }
 
-    private suspend fun nextInternal() {
+    private suspend fun nextInternal(manual: Boolean = false) {
         val s = _state.value
-        val target = PlayModeOrdering.nextIndex(s.currentIndex, queue.size, s.mode, shuffle)
+        // §61.304（K1e）：SHUFFLE 已播历史栈——每次前进前压栈（手动/自动都回溯得起来）。
+        if (s.mode == PlayMode.SHUFFLE && s.currentIndex in queue.indices) {
+            shuffleHistory.addLast(s.currentIndex)
+        }
+        // §61.304（K1e）：手动切歌强制列表循环语义前进（lx 口径）——SINGLE_LOOP 手动
+        // next 不原地循环而是按 LIST_LOOP 前进；自动 ENDED 仍原地循环（§8.2 语义不变）。
+        val effectiveMode = if (manual && s.mode == PlayMode.SINGLE_LOOP) PlayMode.LIST_LOOP else s.mode
+        val target = PlayModeOrdering.nextIndex(s.currentIndex, queue.size, effectiveMode, shuffle)
         if (target == null) {
             _state.update { it.copy(phase = PlayerPhase.ENDED) }
             return
@@ -530,7 +555,22 @@ class PlayerController(
     }
 
     private suspend fun prevInternal() {
-        val target = PlayModeOrdering.prevIndex(_state.value.currentIndex, queue.size) ?: return
+        val s = _state.value
+        // §61.304（K1e）：手动 prev 优先历史栈回溯（SHUFFLE 回退到真实上一首）；
+        // 栈空 / 全为当前曲时回退线性 prevIndex（§8.2 语义保持）。
+        val target: Int = if (s.mode == PlayMode.SHUFFLE) {
+            var fromHistory: Int? = null
+            while (shuffleHistory.isNotEmpty()) {
+                val last = shuffleHistory.removeLast()
+                if (last in queue.indices && last != s.currentIndex) {
+                    fromHistory = last
+                    break
+                }
+            }
+            fromHistory ?: PlayModeOrdering.prevIndex(s.currentIndex, queue.size) ?: return
+        } else {
+            PlayModeOrdering.prevIndex(s.currentIndex, queue.size) ?: return
+        }
         val h = handle
         if (queueMode && h != null) {
             engine.seekToQueueIndex(h, target)
@@ -673,9 +713,23 @@ class PlayerController(
         cueEndMs = track.cueEndMs
         // §61.181（B 案）：曲库缺时长（STRM / 无标签）→ 等引擎解出真值后回填一次。
         pendingDurationBackfill.set(track.durationMs <= 0)
+        // §61.304（K1b）：resolve 三级容错（重试 1 次/限流退避）+ 100s 总超时 +
+        // prepare 代次竞态指纹——迟到响应整链丢弃，不覆盖新曲。
+        val myPrepare = prepareSeq.incrementAndGet()
         val link = try {
-            resolver.resolve(track)
+            kotlinx.coroutines.withTimeoutOrNull(KernelTuning.LINK_TOTAL_TIMEOUT_MS) {
+                resolvePolicy.resolve(track)
+            } ?: throw CloudMusicError.DsUpstream(
+                "E_LINK_TIMEOUT",
+                "音源解析超时（${KernelTuning.LINK_TOTAL_TIMEOUT_MS / 1000}s），请检查音源可达性",
+            )
+        } catch (e: kotlinx.coroutines.CancellationException) {
+            throw e
         } catch (e: Exception) {
+            if (prepareSeq.get() != myPrepare) {
+                System.err.println("CM-Player|prepareAt: 迟到响应整链丢弃 gen=$myPrepare track=${item.trackId.value}")
+                return
+            }
             // §61.252（P0 修复）：源级失败（驱动缺失/条目不可读）与引擎错误同语义 ——
             // autoPlay 且 autoSkipOnError 时跳下一曲。此前静默停在坏轨（跳链死亡），
             // 用户看到「整条队列播不了」（真机一手：孤儿 SFTP 轨卡死恢复链）。
@@ -683,6 +737,10 @@ class PlayerController(
                 if (e is CloudMusicError) e else CloudMusicError.DsUpstream("RESOLVE", e.message ?: "解析失败"),
                 autoPlay,
             )
+            return
+        }
+        if (prepareSeq.get() != myPrepare) {
+            System.err.println("CM-Player|prepareAt: 迟到 resolve 丢弃 gen=$myPrepare track=${item.trackId.value}")
             return
         }
         currentNetworkSource = link.kind != Link.Kind.LOCAL

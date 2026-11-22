@@ -9291,6 +9291,54 @@ def main() -> int:
         print("[PASS] §61.303 K1a/c/d/f 行为对齐（防抖 latest-wins / 自动不过防抖 / 5s 跳曲窗 / "
               "护栏 ≥5 / 元数据防抖 / KernelTuning 唯一出口 / 用例在册）")
 
+    # ---- §61.304（K1b/e：link 三级容错+竞态指纹+100s 超时 / 播放模式语义+随机历史栈）----
+    _c304 = []
+    _kt304 = (ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/player/"
+              "KernelTuning.kt").read_text(encoding="utf-8", errors="replace")
+    for _n304, _m304 in (
+        ("LINK_RETRY_ONCE = 1", "常规失败重试 1 次"),
+        ("RATE_LIMIT_BACKOFF_MIN_MS = 2_000L", "限流退避下界 2s"),
+        ("RATE_LIMIT_BACKOFF_MAX_MS = 6_000L", "限流退避上界 6s"),
+        ("LINK_TOTAL_TIMEOUT_MS = 100_000L", "link 总超时 100s"),
+    ):
+        if _n304 not in _kt304:
+            _c304.append("KernelTuning 缺 " + _m304)
+    _rl304 = _code_only((ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/player/"
+                         "ResolveLinkPolicy.kt").read_text(encoding="utf-8", errors="replace"))
+    if "catch (e: kotlinx.coroutines.CancellationException)" not in _rl304:
+        _c304.append("Policy 缺取消异常透传（总超时被重试循环吞掉）")
+    if "isRateLimited" not in _rl304:
+        _c304.append("缺限流判定")
+    _pc304 = _code_only((ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/player/"
+                         "PlayerController.kt").read_text(encoding="utf-8", errors="replace"))
+    if "withTimeoutOrNull(KernelTuning.LINK_TOTAL_TIMEOUT_MS)" not in _pc304:
+        _c304.append("prepareAt 缺 100s 解析总超时")
+    if "prepareSeq.get() != myPrepare" not in _pc304:
+        _c304.append("缺竞态指纹迟到丢弃")
+    if "shuffleHistory.addLast" not in _pc304:
+        _c304.append("缺 SHUFFLE 历史栈压栈")
+    if "shuffleHistory.removeAll" not in _pc304:
+        _c304.append("缺历史栈已删曲目剔除")
+    if "PlayMode.LIST_LOOP else s.mode" not in _pc304:
+        _c304.append("缺单循环手动强制列表循环前进")
+    _rlt304 = (ROOT / "feature-player/src/test/kotlin/com/example/cloudmusic/player/"
+               "ResolveLinkPolicyTest.kt").read_text(encoding="utf-8", errors="replace")
+    for _n304 in ("retryOnceOnPlainFailure", "rateLimitBackoffThenRetry",
+                  "doubleFailurePropagates", "rateLimitClassification"):
+        if _n304 not in _rlt304:
+            _c304.append("用例 " + _n304 + " 缺失")
+    _pt304 = (ROOT / "feature-player/src/test/kotlin/com/example/cloudmusic/player/"
+              "PlayerControllerTest.kt").read_text(encoding="utf-8", errors="replace")
+    for _n304 in ("resolveTotalTimeout", "staleResolveDiscardedByGeneration",
+                  "manualNextSingleLoopAdvances", "shufflePrevPopsHistoryAndPrunes"):
+        if _n304 not in _pt304:
+            _c304.append("用例 " + _n304 + " 缺失")
+    if _c304:
+        failures.append("§61.304 K1b/e 自洽：%s" % "；".join(_c304))
+    else:
+        print("[PASS] §61.304 K1b/e 自洽（三级容错 / 取消透传 / 100s 超时 / 竞态指纹 / "
+              "历史栈回溯剔除 / 单循环手动前进 / 用例在册）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
