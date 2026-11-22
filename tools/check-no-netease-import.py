@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """C2 · 自研模块禁止出现 com.netease.*（docs/03-12 §3 C2 / §5）。
 
-例外 1：三个照搬舱 :engine-legacy / :media-legacy / :ui-legacy 内保持竞品原包名，
-        因为 JNI 符号与 R 引用硬绑定（03-12 §1.3）。
+例外 1（§61.307 收窄）：照搬舱剩 :media-legacy / :ui-legacy 保持竞品原包名
+        （JNI 符号与 R 引用硬绑定，03-12 §1.3）；:engine-legacy 已随 K4 拍板 C=c2
+        归档至 archive/（不再属扫描面，例外清退）。
 例外 2（12 §47，用户确认 D-145 后）：app/src/main/assets/legacy-player/ 是
         ⑦ 导出的**未替换竞品素材暂存区**，由 C4 单独追踪（release 阻断）。
         其中 layout 的 com.netease.* 自定义 View 类名正是待替换内容，
@@ -27,7 +28,7 @@ OWN_MODULES = (
     "engine-api", "engine-bridge", "engine-opensource",
     "app", "build-logic",
 )
-LEGACY_MARKERS = ("engine-legacy", "media-legacy", "ui-legacy")
+LEGACY_MARKERS = ("media-legacy", "ui-legacy")  # §61.307：engine-legacy 已归档出扫描面
 # 12 §47：C4 追踪的未替换竞品素材区，不按「自研源码」判定（见模块 docstring）。
 C4_STAGED_ASSETS = "app/src/main/assets/legacy-player/"
 REFERENCE = re.compile(r"com\.netease\.", re.IGNORECASE)

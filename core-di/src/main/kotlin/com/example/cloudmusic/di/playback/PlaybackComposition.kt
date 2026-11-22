@@ -161,9 +161,10 @@ class RoomTrackLookup(private val tracks: TrackRepository) : TrackLookup {
 }
 
 /**
- * V0.1 的 native 队列仍是**只读镜像**（03-06 §8 / T-L L1 待落地）：
- * 这里只记录每次「全量、单向」下发，禁止反向回写业务队列。
- * 照搬舱落地后只需替换本 `@Provides`，上层零改动（D-08 同型）。
+ * §61.307（K4f/R8 降级定案）：B2 无 native 队列消费者（A 路线 libnmplaylist 已随
+ * :engine-legacy 归档）——Room 业务队列是唯一真相源（03-06 §8），本实现为**显式
+ * no-op 记录器**（保留 [QueueSync] 端口与「全量、单向、禁反向回写」契约语义，
+ * 供未来扩展；原「照搬舱落地后替换 @Provides」口径随 A 路线归档退役）。
  */
 class SandboxQueueSync : QueueSync {
     @Volatile

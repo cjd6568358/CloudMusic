@@ -37,10 +37,10 @@ rootProject.name = "CloudMusic"
 // + 第二十批（12 §29，T-A4）：标签 / 封面 / 扫描器生产组合层落在 :core-di/scan，仍未新建模块。
 // + 第二十二批（12 §31，T-A5）：nanohttpd 本体 / effects 执行者 / PlaybackRuntime 落在
 //   :core-di/proxy|scan|playback，PlaybackService 与 Manifest 组件声明落在 :app，仍未新建模块。
-// + 第二十三批（12 §32，T-L L1 步骤 1）：启用第 19 个模块 :engine-legacy（Android library），
+// + 第二十三批（12 §32，T-L L1 步骤 1）：曾启用第 19 个模块 :engine-legacy（§61.307 已归档），
 //   18 个 arm64 so 落在 src/main/jniLibs/arm64-v8a/ + ENGINE-FINGERPRINT；仍无 JNI 真类 / slot。
 //   SAF / MediaStore 生产适配落在 :core-di/local。**M0 时共 19 个模块；前 16 个纯 JVM +
-//   :app + :core-di + :engine-legacy**，本机可编译可单测，noAndroid 逃生开关不变。
+//   :app + :core-di**（:engine-legacy §61.307 归档），本机可编译可单测，noAndroid 逃生开关不变。
 // + 12 §61.81（第一百零八批 / B2 M1）：启用第 20 个模块 :engine-opensource
 //   （Media3/ExoPlayer 播放内核骨架，媒体会话仍走平台 API）；18 个私有 so 本批不移除。
 // 任务拆分以 docs/16 §5 的四线任务表为唯一权威（取代 12 §7 滞后行 / 12 §20.5 / 15 §7.5 旧建议）：
@@ -88,9 +88,10 @@ if (skipAndroid) {
 } else {
     include(":app")
     include(":core-di")         // 第十一批：Hilt 唯一注册点（12 §20）
-    // §61.131：:engine-legacy 移出打包链（拍板：粒度 A）——git 历史完整保留，需要回退时恢复此行即可
+    // §61.307（K4 拍板 C=c2）：:engine-legacy 已归档降权至 archive/engine-legacy（归档不删文件，
+// 回退 = git 历史；A 路线回退开关自本批退役，恢复 = git revert 本批 + 回改本行）。
 // include(":engine-legacy")   // 第二十三批：T-L L1 舱体（18 个 arm64 so，12 §10.2 步骤 1）
-    include(":engine-opensource")  // 12 §61.81 / B2 M1：Media3 播放内核骨架（C5 保留 :engine-legacy 回退）
+    include(":engine-opensource")  // 12 §61.81 / B2 M1：Media3 播放内核骨架（唯一生产内核）
 }
 
 // ---------------------------------------------------------------------------

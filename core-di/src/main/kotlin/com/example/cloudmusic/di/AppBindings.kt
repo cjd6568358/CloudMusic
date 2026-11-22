@@ -15,10 +15,9 @@ import com.example.cloudmusic.di.settings.SettingsAccess
 import com.example.cloudmusic.di.settings.SettingsStore
 import com.example.cloudmusic.engine.api.IMusicEngine
 import com.example.cloudmusic.engineopensource.Media3EngineAdapter
-// 12 §61.81 / B2 M1 回退开关：把 provideMusicEngine 的构造改回
-// `EngineAdapter().also { it.appContext = context }` 并恢复 import
-// `com.example.cloudmusic.enginelegacy.EngineAdapter` 即回到 A 路线；
-// :engine-legacy 与 18 个 so 本批保留不移除（C5 默认假设）。
+// §61.307（K4b）：A 路线假回退开关退役——:engine-legacy 已归档至 archive/（拍板 C=c2，
+// 归档不删文件），A 路线回退 = git 历史（revert §61.131 出链批或 §61.307 归档批），
+// 不存在「改回构造即回退」的活通道（假逃生通道比没有更危险，§61.299 R5）。
 import com.example.cloudmusic.media.IMediaControl
 import com.example.cloudmusic.media.InMemoryMediaControl
 import com.example.cloudmusic.media.ObservableMediaControl

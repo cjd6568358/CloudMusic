@@ -180,8 +180,8 @@ GRADLE_FILES = (
     "local.properties.example", "app/build.gradle.kts",
     "app/src/main/AndroidManifest.xml", "core-di/build.gradle.kts",
     # 12 §32（T-L L1 步骤 1）：照搬舱 1 的舱体文件
-    "engine-legacy/build.gradle.kts", "engine-legacy/src/main/AndroidManifest.xml",
-    "engine-legacy/proguard-rules.pro",
+    "archive/engine-legacy/build.gradle.kts", "archive/engine-legacy/src/main/AndroidManifest.xml",
+    "archive/engine-legacy/proguard-rules.pro",
     "engine-bridge/build.gradle.kts", "feature-player/build.gradle.kts",
     "output-dlna/build.gradle.kts",
     "core-common/build.gradle.kts", "core-model/build.gradle.kts",
@@ -359,9 +359,9 @@ CONTRACT_FILES = (
     "app/src/main/kotlin/com/example/cloudmusic/ui/CloudMusicTheme.kt",
     "app/src/main/kotlin/com/example/cloudmusic/ui/CloudMusicApp.kt",
     # 12 §35 第二十六批：T-L L1 步骤 3（舱内真类编译 + 自研加载器）
-    "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineNativeLoader.kt",
+    "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineNativeLoader.kt",
     # 12 §36 第二十七批：EngineAdapter 薄门面 + PlayerDataSource 数据链
-    "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineAdapter.kt",
+    "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineAdapter.kt",
     # 12 §51 第四十二批：§50 平台层改动的纯判定抽离 + :app 首个 JVM 单测
     "app/src/main/kotlin/com/example/cloudmusic/MediaKeyAction.kt",
     "app/src/test/kotlin/com/example/cloudmusic/PlatformContractTest.kt",
@@ -371,9 +371,9 @@ CONTRACT_FILES = (
     "app/src/main/kotlin/com/example/cloudmusic/LocalSourceAdder.kt",
     "app/src/test/kotlin/com/example/cloudmusic/AppActionContractTest.kt",
     # 12 §54 第四十五批：取流句柄阶段 A/B（SourceDataRequest 子类 + 纯 JVM RangeFetcher）
-    "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/RangeFetcher.kt",
-    "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt",
-    "engine-legacy/src/test/kotlin/com/example/cloudmusic/enginelegacy/RangeFetcherTest.kt",
+    "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/RangeFetcher.kt",
+    "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt",
+    "archive/engine-legacy/src/test/kotlin/com/example/cloudmusic/enginelegacy/RangeFetcherTest.kt",
     # 12 §61.198：在线歌词 provider（docs/01 §0 拍板，本地缺失才按需抓取）
     "core-di/src/main/kotlin/com/example/cloudmusic/di/lyrics/OnlineLyricsFetcher.kt",
     "core-di/src/test/kotlin/com/example/cloudmusic/di/lyrics/OnlineLyricsFetcherTest.kt",
@@ -394,11 +394,11 @@ CONTRACT_FILES = (
 )
 
 CHECK_SCRIPTS = (
-    "check-engine-abi.py", "check-no-netease-import.py", "check-permissions.py",
-    "check-assets.py", "check-credentials.py", "check-fingerprint.py",
+    "check-no-netease-import.py", "check-permissions.py",
+    "check-assets.py", "check-credentials.py",
     "pre_release_check.py", "elf_probe.py", "check_common.py",
-    "check-android-env.py", "engine_jni_class_index.py", "engine_jni_verify.py",
-    "check_jni_bindings.py", "resolve_player_anim.py", "resolve_rotation_anim.py",
+    "check-android-env.py",
+    "resolve_player_anim.py", "resolve_rotation_anim.py",
 )
 
 # 03-01 / 03-02 / 03-03 / 03-04 契约中不可漂移的签名片段：{文件: [片段]}
@@ -889,15 +889,15 @@ SIGNATURES = {
         "fun classifyPartitions()", "fun safAdditionRoundTrip()", "fun jsonEscaping()",
     ],
     # 12 §54：取流句柄的纯 JVM 协议与 native 适配签名
-    "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/RangeFetcher.kt": [
+    "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/RangeFetcher.kt": [
         "object RangeFetcher {", "fun interface RangeOpener {", "interface RangeSink {",
         "fun fetch(", "class HttpUrlRangeOpener(",
     ],
-    "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt": [
+    "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt": [
         "class UrlDataRequest(", ": SourceDataRequest()",
         "override fun Start(j1: Long, j2: Long, j3: Long): Long", "override fun Stop()",
     ],
-    "engine-legacy/src/test/kotlin/com/example/cloudmusic/enginelegacy/RangeFetcherTest.kt": [
+    "archive/engine-legacy/src/test/kotlin/com/example/cloudmusic/enginelegacy/RangeFetcherTest.kt": [
         "class RangeFetcherTest {", "fun rangeHeader()", "fun parseTotal()",
         "fun fetchHappyPath()", "fun fetchFailure()",
     ],
@@ -1120,7 +1120,7 @@ def main() -> int:
         print("[PASS] C-14：ScanRequest 定向增量参数在位")
 
     # ---- 12 §32（第二十三批 / T-L L1 步骤 1）长效守护 --------------------------
-    packed_dir = ROOT / "engine-legacy" / "src" / "main" / "jniLibs" / "arm64-v8a"
+    packed_dir = ROOT / "archive" / "engine-legacy" / "src" / "main" / "jniLibs" / "arm64-v8a"
     packed_names = {p.name for p in packed_dir.glob("*.so")} if packed_dir.is_dir() else set()
     if len(packed_names) != 18:
         failures.append(
@@ -1129,28 +1129,28 @@ def main() -> int:
     else:
         print("[PASS] T-L L1：18 个 arm64 so 打包集已按 03-12 §4 落地")
 
-    fp_root = ROOT / "assets" / "ENGINE-FINGERPRINT"
-    fp_app = ROOT / "app" / "src" / "main" / "assets" / "ENGINE-FINGERPRINT"
+    fp_root = ROOT / "archive" / "ENGINE-FINGERPRINT-root"
+    fp_app = ROOT / "archive" / "ENGINE-FINGERPRINT-app"
     if not (
         fp_root.is_file() and fp_app.is_file()
         and fp_root.read_text(encoding="utf-8") == fp_app.read_text(encoding="utf-8")
     ):
-        failures.append("03-06 §6.3：ENGINE-FINGERPRINT 根目录 / app assets 副本缺失或不一致")
+        failures.append("§61.307 K4：ENGINE-FINGERPRINT 双份已归档但缺失或不一致（原 C6 校验源冻结为历史）")
     else:
-        print("[PASS] T-L L1：ENGINE-FINGERPRINT 双份一致（C6 校验源）")
+        print("[PASS] §61.307 K4：ENGINE-FINGERPRINT 双份归档一致（原 C6 校验源退役，冻结历史）")
 
     settings_text = (ROOT / "settings.gradle.kts").read_text(encoding="utf-8")
     app_build_text = (ROOT / "app" / "build.gradle.kts").read_text(encoding="utf-8")
-    # §61.131（拍板：粒度 A）：:engine-legacy 移出打包链——反转断言：
-    # ① settings 不再 include ② :app 不再依赖 ③ legacy 目录文件仍存在（git 历史保留）
+    # §61.131 → §61.307（拍板 C=c2）：:engine-legacy 归档降权——反转断言：
+    # ① settings 保留注释 include 行 ② :app 无依赖 ③ 归档副本在册（归档不删文件）
     if '// include(":engine-legacy")' not in settings_text:
-        failures.append("12 §32/§61.131：settings 应注释 :engine-legacy include（移出打包链）")
+        failures.append("12 §32/§61.131/§61.307：settings 应保留 :engine-legacy 注释行（归档不删）")
     if 'project(":engine-legacy")' in app_build_text:
         failures.append("12 §32/§61.131：:app 仍依赖 :engine-legacy（应已移除）")
-    if not (ROOT / "engine-legacy" / "src" / "main").is_dir():
-        failures.append("12 §61.131：:engine-legacy 源码目录应保留（git 历史不删文件）")
+    if not (ROOT / "archive" / "engine-legacy" / "src" / "main").is_dir():
+        failures.append("§61.307：archive/engine-legacy 归档副本应保留（c2 归档降权不删文件）")
     else:
-        print("[PASS] §61.131：:engine-legacy 已移出打包链（源码目录保留，git 历史不删）")
+        print("[PASS] §61.307：:engine-legacy 已归档降权（archive/ 副本在册，回退 = git 历史）")
 
     jni_index = ROOT / "analysis" / "engine-jni-classes.json"
     if not jni_index.is_file():
@@ -1202,7 +1202,7 @@ def main() -> int:
         print("[PASS] T-A6：UI 层零 Driver / Room / OkHttp 直接依赖")
 
     # ---- 12 §34（第二十五批 / T-L L1 步骤 2 前置）长效守护 -----------------------
-    jni_src = ROOT / "analysis" / "jadx-jni-classes"
+    jni_src = ROOT / "archive" / "analysis" / "jadx-jni-classes"
     jni_java = sorted(jni_src.rglob("*.java")) if jni_src.is_dir() else []
     if len(jni_java) != 12:
         failures.append(
@@ -1224,7 +1224,7 @@ def main() -> int:
             failures.append(f"12 §34：核对报告不可解析：{exc}")
 
     # ---- 12 §35（第二十六批 / T-L L1 步骤 3）长效守护 -------------------------
-    cabin = ROOT / "engine-legacy" / "src" / "main" / "java"
+    cabin = ROOT / "archive" / "engine-legacy" / "src" / "main" / "java"
     cabin_java = list(cabin.rglob("*.java")) if cabin.is_dir() else []
     if len(cabin_java) < 54:
         failures.append(
@@ -1570,7 +1570,7 @@ def main() -> int:
     else:
         print("[PASS] 12 §50：Receiver exported=true + MEDIA_BUTTON 过滤在位（零新增权限）")
 
-    adapter50 = (ROOT / "engine-legacy" / "src" / "main" / "java" / "com"
+    adapter50 = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" / "com"
                  / "example" / "cloudmusic" / "enginelegacy" / "EngineAdapter.kt").read_text(encoding="utf-8")
     # 12 §56：prepare 增加第 4 个 ResourceInfo 参数，守护改按前缀匹配（语义不变）。
     if "PlayerDataSource(provider, source.trackId, source.url != null" not in adapter50:
@@ -1578,7 +1578,7 @@ def main() -> int:
     else:
         print("[PASS] 12 §50 P0-5：URL 源按 source.url != null 走 REMOTE 分支")
 
-    legacy_root = ROOT / "engine-legacy" / "src" / "main" / "java" / "com" / "netease" / "cloudmusic"
+    legacy_root = ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" / "com" / "netease" / "cloudmusic"
     true_classes = (
         legacy_root / "media" / "audioplayer" / "NCMNativeAudioTrackBuilder.java",
         legacy_root / "media" / "audioplayer" / "NCMNativeAudioPlayer.java",
@@ -1710,7 +1710,7 @@ def main() -> int:
         else:
             print("[PASS] 12 §53：取流句柄证据链完整（类型 / 继承 / 契约 / 判据）")
 
-    adapter53 = (ROOT / "engine-legacy" / "src" / "main" / "java" / "com"
+    adapter53 = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" / "com"
                  / "example" / "cloudmusic" / "enginelegacy" / "EngineAdapter.kt").read_text(encoding="utf-8")
     if "data-request-handler-evidence-2026-11-07.md" not in adapter53:
         failures.append("12 §53：EngineAdapter 未指向取流句柄实证报告")
@@ -1718,9 +1718,9 @@ def main() -> int:
         print("[PASS] 12 §53：EngineAdapter 注释指向取流句柄实证报告")
     # §54 起 createDataRequestHandler() 已按实证接通；返回行为由下面的 §54 守护断言。
 
-    request_class53 = (ROOT / "engine-legacy" / "src" / "main" / "java" / "com"
+    request_class53 = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" / "com"
                        / "netease" / "cloudmusic" / "sdk" / "NMCommonCache" / "SourceDataRequest.java")
-    loader53 = (ROOT / "engine-legacy" / "src" / "main" / "java" / "com"
+    loader53 = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" / "com"
                 / "example" / "cloudmusic" / "enginelegacy" / "EngineNativeLoader.kt").read_text(encoding="utf-8")
     request_body53 = request_class53.read_text(encoding="utf-8") if request_class53.is_file() else ""
     if ("public abstract long Start(" not in request_body53 or
@@ -1731,7 +1731,7 @@ def main() -> int:
     else:
         print("[PASS] 12 §53：SourceDataRequest 真类与 NMCommonCache 加载链在位")
 
-    cache_so = ROOT / "engine-legacy" / "src" / "main" / "jniLibs" / "arm64-v8a" / "libNMCommonCache.so"
+    cache_so = ROOT / "archive" / "engine-legacy" / "src" / "main" / "jniLibs" / "arm64-v8a" / "libNMCommonCache.so"
     if not cache_so.is_file():
         failures.append("12 §53：libNMCommonCache.so 缺失，取流 JNI 符号无从解析")
     else:
@@ -1753,10 +1753,10 @@ def main() -> int:
     # §2.5 追加实证出 Start(j1=请求标识, j2=offset, j3=length) 与回传首参后，
     # 本批把 UrlDataRequest / RangeFetcher 接进生产。守护防止接线被回退成 null、
     # LOCAL 源误建取流对象、或忘记释放 native C++ 对象（InitPtr 泄漏）。
-    legacy_main = ROOT / "engine-legacy" / "src" / "main" / "java" / "com" / "example" / "cloudmusic" / "enginelegacy"
+    legacy_main = ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" / "com" / "example" / "cloudmusic" / "enginelegacy"
     fetcher54 = legacy_main / "RangeFetcher.kt"
     request54 = legacy_main / "UrlDataRequest.kt"
-    test54 = (ROOT / "engine-legacy" / "src" / "test" / "kotlin" / "com" / "example"
+    test54 = (ROOT / "archive" / "engine-legacy" / "src" / "test" / "kotlin" / "com" / "example"
               / "cloudmusic" / "enginelegacy" / "RangeFetcherTest.kt")
     missing_files54 = [str(p.name) for p in (fetcher54, request54, test54) if not p.is_file()]
     if missing_files54:
@@ -1842,7 +1842,7 @@ def main() -> int:
     else:
         print("[PASS] 12 §61：EngineAdapter SetConfig(内部缓存目录 + 512MiB 上限) 在位")
 
-    config61 = (ROOT / "engine-legacy" / "src" / "main" / "java" / "com" / "netease"
+    config61 = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" / "com" / "netease"
                 / "cloudmusic" / "android" / "sdk" / "playerengine" / "SourceConfig.java")
     if not config61.is_file():
         failures.append("12 §61：SourceConfig.java 缺失")
@@ -3074,7 +3074,7 @@ def main() -> int:
     # 为准（10.0.0.2:37827），本批未新增 docs 文件，09 §3 计数仍 31。
     f2_tool = ROOT / "tools" / "l3_f2_extension_chain_audit.py"
     f2_json = ROOT / "analysis" / "l3-f2-extension-chain.json"
-    engine_adapter = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineAdapter.kt"
+    engine_adapter = ROOT / "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineAdapter.kt"
     if not all(p.is_file() for p in (f2_tool, f2_json, engine_adapter,
                                      plan17, delivery12, overview)):
         failures.append("12 §61.46 守护：F2 前置实证工具 / JSON / EngineAdapter 源码缺失")
@@ -3182,7 +3182,7 @@ def main() -> int:
     f2x_json = ROOT / "analysis" / "l3-f2-ext-fix.json"
     f2x_log = ROOT / "analysis" / "l3-f2c-extension-verify-logcat.txt"
     audio_formats = ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/AudioFormats.kt"
-    engine_gradle = ROOT / "engine-legacy/build.gradle.kts"
+    engine_gradle = ROOT / "archive/engine-legacy/build.gradle.kts"
     if not all(p.is_file() for p in (f2x_tool, f2x_json, f2x_log, audio_formats,
                                      engine_gradle, engine_adapter, delivery12, plan17)):
         failures.append("12 §61.48 守护：F2-b/F2-c 审计工具 / JSON / 真机日志 / 源码缺失")
@@ -3287,7 +3287,7 @@ def main() -> int:
     f4_json = ROOT / "analysis" / "l3-f4-eof-audit.json"
     f4_probe = ROOT / "analysis" / "l3-f4-eof-probe.json"
     f4_plan = ROOT / "analysis" / "tl-l3-f4-eof-plan-2026-11-09.md"
-    f4_request = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
+    f4_request = ROOT / "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
     if not all(p.is_file() for p in (f4_tool, f4_json, f4_probe, f4_plan,
                                      f4_request, delivery12, plan17)):
         failures.append("12 §61.50 守护：F4 审计工具 / JSON / 探针 / 施工单 / 源码缺失")
@@ -3328,7 +3328,7 @@ def main() -> int:
     ab_json = ROOT / "analysis" / "l3-f4-ab-audit.json"
     ab_report = ROOT / "analysis" / "l3-f4-ab-report.md"
     ab_probe = ROOT / "analysis" / "l3-f4-m4a-final.json"
-    ab_request = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
+    ab_request = ROOT / "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
     if not all(p.is_file() for p in (ab_tool, ab_json, ab_report, ab_probe,
                                      ab_request, delivery12, plan17)):
         failures.append("12 §61.51 守护：F4 A/B 审计工具 / JSON / 报告 / 取证 / 源码缺失")
@@ -3366,7 +3366,7 @@ def main() -> int:
     ks_tool = ROOT / "tools" / "l3_f4_kind_slot_audit.py"
     ks_json = ROOT / "analysis" / "l3-f4-kind-slot-audit.json"
     ks_report = ROOT / "analysis" / "l3-f4-kind-slot-rootcause.md"
-    ks_request = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
+    ks_request = ROOT / "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
     if not all(p.is_file() for p in (ks_tool, ks_json, ks_report, ks_request,
                                      delivery12, plan17)):
         failures.append("12 §61.52 守护：F4 根因审计工具 / JSON / 报告 / 源码缺失")
@@ -3415,7 +3415,7 @@ def main() -> int:
     ab2_audit = ROOT / "tools" / "l3_f4_kind_slot_ab_audit.py"
     ab2_json = ROOT / "analysis" / "l3-f4-kind-slot-ab-audit.json"
     ab2_plan = ROOT / "analysis" / "l3-f4-kind-slot-ab-plan.json"
-    ab2_src = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
+    ab2_src = ROOT / "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
     if not all(p.is_file() for p in (ab2_tool, ab2_audit, ab2_json, ab2_plan,
                                      ab2_src, delivery12, plan17)):
         failures.append("12 §61.53 守护：A/B 脚本 / 审计 / 计划 / 源码缺失")
@@ -4234,7 +4234,7 @@ def main() -> int:
     wr_tool = ROOT / "tools" / "l3_f4_wbranch_recheck.py"
     wr_json = ROOT / "analysis" / "l3-f4-wbranch-recheck.json"
     wr_report = ROOT / "analysis" / "l3-f4-wbranch-recheck-report.md"
-    wr_adapter = (ROOT / "engine-legacy" / "src" / "main" / "java" /
+    wr_adapter = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" /
                   "com" / "example" / "cloudmusic" / "enginelegacy" /
                   "EngineAdapter.kt")
     if not all(p.is_file() for p in (wr_tool, wr_json, wr_report, wr_adapter)):
@@ -4412,7 +4412,7 @@ def main() -> int:
     pg_tool = ROOT / "tools" / "l3_f4_play_gate_disasm.py"
     pg_json = ROOT / "analysis" / "l3-f4-play-gate-disasm.json"
     pg_report = ROOT / "analysis" / "l3-f4-play-gate-report.md"
-    pg_so = (ROOT / "engine-legacy" / "src" / "main" / "jniLibs" /
+    pg_so = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "jniLibs" /
              "arm64-v8a" / "libncmaudioplayer.so")
     if not all(p.is_file() for p in (pg_tool, pg_json, pg_report, pg_so)):
         failures.append("12 §61.74 守护：播放门控反汇编工具 / 证据 / 报告 / so 缺失")
@@ -4530,9 +4530,9 @@ def main() -> int:
     m103_tool = ROOT / "tools" / "l3_f4_minus103_chain_disasm.py"
     m103_json = ROOT / "analysis" / "l3-f4-minus103-chain.json"
     m103_report = ROOT / "analysis" / "l3-f4-minus103-chain-report.md"
-    m103_cache = (ROOT / "engine-legacy" / "src" / "main" / "jniLibs" /
+    m103_cache = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "jniLibs" /
                   "arm64-v8a" / "libNMCommonCache.so")
-    m103_audio = (ROOT / "engine-legacy" / "src" / "main" / "jniLibs" /
+    m103_audio = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "jniLibs" /
                   "arm64-v8a" / "libncmaudioplayer.so")
     if not all(p.is_file() for p in (
             m103_tool, m103_json, m103_report, m103_cache, m103_audio)):
@@ -4594,7 +4594,7 @@ def main() -> int:
     rg_tool = ROOT / "tools" / "l3_f4_read_gap_chain_disasm.py"
     rg_json = ROOT / "analysis" / "l3-f4-read-gap-chain.json"
     rg_report = ROOT / "analysis" / "l3-f4-read-gap-chain-report.md"
-    rg_so = (ROOT / "engine-legacy" / "src" / "main" / "jniLibs" /
+    rg_so = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "jniLibs" /
              "arm64-v8a" / "libNMCommonCache.so")
     if not all(p.is_file() for p in (rg_tool, rg_json, rg_report, rg_so)):
         failures.append("12 §61.77 守护：读侧空白链工具 / 证据 / 报告 / so 缺失")
@@ -4649,10 +4649,10 @@ def main() -> int:
     bs_tool = ROOT / "tools" / "l3_f4_bypass_stream_audit.py"
     bs_json = ROOT / "analysis" / "l3-f4-bypass-stream-audit.json"
     bs_report = ROOT / "analysis" / "l3-f4-bypass-stream-audit-report.md"
-    bs_adapter = (ROOT / "engine-legacy" / "src" / "main" / "java" /
+    bs_adapter = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" /
                   "com" / "example" / "cloudmusic" / "enginelegacy" /
                   "EngineAdapter.kt")
-    bs_src_cfg = (ROOT / "engine-legacy" / "src" / "main" / "java" /
+    bs_src_cfg = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" /
                   "com" / "netease" / "cloudmusic" / "android" / "sdk" /
                   "playerengine" / "SourceConfig.java")
     if not all(p.is_file() for p in (bs_tool, bs_json, bs_report,
@@ -4721,7 +4721,7 @@ def main() -> int:
     a1_verdict = ROOT / "analysis" / "l3-f4-a1-bypass-verdict.json"
     a1_report = ROOT / "analysis" / "l3-f4-a1-bypass-verdict-report.md"
     a1_hist_wiring = ROOT / "analysis" / "l3-f4-level5-wiring-audit.json"
-    a1_adapter = (ROOT / "engine-legacy" / "src" / "main" / "java" /
+    a1_adapter = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" /
                   "com" / "example" / "cloudmusic" / "enginelegacy" /
                   "EngineAdapter.kt")
     a1_d12 = delivery12.read_text(encoding="utf-8")
@@ -6545,8 +6545,8 @@ def main() -> int:
     # §61.214（M4 收舱）指纹回填 + 舱冻结：engine_compat_test/cabin_frozen 字段在双份
     # 指纹中同步在位；03-12 §4 A3 行回填现行口径（旧「NOT RUN 不冻结舱」不得回潮）。
     _m4_bad = []
-    _fp_a = ROOT / "assets" / "ENGINE-FINGERPRINT"
-    _fp_b = ROOT / "app" / "src" / "main" / "assets" / "ENGINE-FINGERPRINT"
+    _fp_a = ROOT / "archive" / "ENGINE-FINGERPRINT-root"
+    _fp_b = ROOT / "archive" / "ENGINE-FINGERPRINT-app"
     if not (_fp_a.is_file() and _fp_b.is_file() and _fp_a.read_bytes() == _fp_b.read_bytes()):
         _m4_bad.append("双份指纹缺失或不一致")
     else:
@@ -9390,6 +9390,60 @@ def main() -> int:
     else:
         print("[PASS] §61.306 K3 自洽（RemoteStop 停播停服 / 组合拳锁判定+幂等 / "
               "销毁兜底释放 / 用例在册）")
+
+    # ---- §61.307（K4 逆向残留清退：c2 归档降权 + B2 引擎自检替代 C1/C6）----
+    _c307 = []
+    for _a307 in (
+        "archive/engine-legacy/build.gradle.kts",
+        "archive/NeteaseCloudMusic.apk",
+        "archive/analysis/decoded/AndroidManifest.xml",
+        "archive/reverse-engine",
+        "archive/reference",
+        "archive/ENGINE-FINGERPRINT-root",
+        "archive/ENGINE-FINGERPRINT-app",
+        "archive/tools/check-engine-abi.py",
+        "archive/tools/extract-engine-libs.py",
+        "archive/tools/check-fingerprint.py",
+        "archive/tools/engine_api_audit.py",
+        "archive/tools/engine_jni_class_index.py",
+        "archive/tools/engine_jni_verify.py",
+        "archive/tools/check_jni_bindings.py",
+        "archive/tools/spike1_engine_audit.py",
+        "archive/tools/e14-cache-hit.sh",
+    ):
+        if not (ROOT / _a307).exists():
+            _c307.append("归档缺 " + _a307)
+    # 根路径残留检查用 joinpath 构造（避免被历史路径重定向误改；锚=工作区根，非 archive/）
+    for _root_name in ("engine-" + "legacy", "reverse-" + "engine", "reference"):
+        if ROOT.joinpath(_root_name).exists():
+            _c307.append("工作区仍残留逆向资产（" + _root_name + " 未归档）")
+    if ROOT.joinpath("assets", "ENGINE-" + "FINGERPRINT").exists():
+        _c307.append("根 assets/ENGINE-FINGERPRINT 未归档")
+    _toml307 = (ROOT / "gradle" / "libs.versions.toml").read_text(encoding="utf-8")
+    _ad307 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/example/cloudmusic/"
+                         "engineopensource/Media3EngineAdapter.kt"
+                         ).read_text(encoding="utf-8", errors="replace"))
+    _eg307 = (ROOT / "engine-opensource/build.gradle.kts").read_text(encoding="utf-8")
+    if 'media3 = "1.11.1"' not in _toml307:
+        _c307.append("B2 自检：toml media3 版本锚缺失")
+    if "engine=media3-1.11.1" not in _ad307:
+        _c307.append("B2 自检：适配器报文串 media3 版本与 toml 不一致")
+    if "androidx/media 1.11.1" not in _eg307:
+        _c307.append("B2 自检：decoder_ffmpeg 三件源注释版本不一致")
+    for _x307, _d307 in (
+        ("ApeExtractor", "ape"), ("AsfExtractor", "asf"),
+        ("AiffExtractor", "aiff"), ("WavpackExtractor", "wavpack"),
+    ):
+        if not (ROOT / "engine-opensource/src/main/java/androidx/media3/extractor" / _d307 / (_x307 + ".kt")).exists():
+            _c307.append("B2 自检：四提取器缺 " + _x307)
+    _nn307 = (ROOT / "tools/check-no-netease-import.py").read_text(encoding="utf-8")
+    if '"engine-legacy"' in _nn307:
+        _c307.append("netease 例外清单仍含 engine-legacy（应随归档清退）")
+    if _c307:
+        failures.append("§61.307 K4 自洽：%s" % "；".join(_c307))
+    else:
+        print("[PASS] §61.307 K4 自洽（c2 归档全量在册 / 工作区无逆向活体 / "
+              "B2 自检三处版本一致 / 四提取器在册 / netease 例外清退）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
