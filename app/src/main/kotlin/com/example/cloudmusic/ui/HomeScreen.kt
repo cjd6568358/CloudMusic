@@ -67,6 +67,11 @@ fun HomeScreen(
     favoriteCount: Int = 0,
     recentCount: Int = 0,
 ) {
+    // §61.321（R3）：最近添加列表 + 序号索引都按曲库变化算一次。
+    // 此前 `tracks.recentlyAdded()` 直接写在 LazyListScope 里（每次重组重排全表），
+    // 行点击时再 `indexOfFirst` 全表扫一遍。
+    val recent = remember(tracks) { tracks.recentlyAdded() }
+    val indexById = remember(tracks) { tracks.withIndex().associate { (i, t) -> t.id to i } }
     LazyColumn(
         Modifier.fillMaxSize().background(FnComp.PageBg),
     ) {
@@ -118,10 +123,9 @@ fun HomeScreen(
                 }
             }
         } else {
-            items(tracks.recentlyAdded(), key = { it.id.value }) { track ->
+            items(recent, key = { it.id.value }) { track ->
                 HomeTrackRow(track) {
-                    val idx = tracks.indexOfFirst { it.id == track.id }
-                    onPlayTracks(tracks, idx)
+                    onPlayTracks(tracks, indexById[track.id] ?: 0)
                 }
             }
         }

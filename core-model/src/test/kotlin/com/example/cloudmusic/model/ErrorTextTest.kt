@@ -42,4 +42,18 @@ class ErrorTextTest {
         assertEquals("扫描失败", ErrorText.human("E_DS_WHATEVER"))
         assertEquals("扫描失败（boom）", ErrorText.human("E_DS_WHATEVER: boom"))
     }
+
+    @Test
+    @DisplayName("§61.323：新登记的四码都有专属文案，不再落「扫描失败」兜底")
+    fun newlyRegisteredCodesHaveOwnText() {
+        val fallback = "扫描失败"
+        for (code in listOf(
+            "E_SCAN_ORPHAN_SOURCE", "E_SCAN_IMPORT", "E_SKIP_GUARD", "E_LINK_TIMEOUT",
+        )) {
+            val text = ErrorText.human(code)
+            assertTrue(text.isNotBlank(), "$code 文案为空")
+            assertFalse(text.startsWith(fallback), "$code 仍落兜底文案：$text")
+            assertFalse(code in text, "用户文案泄漏错误码：$text")
+        }
+    }
 }

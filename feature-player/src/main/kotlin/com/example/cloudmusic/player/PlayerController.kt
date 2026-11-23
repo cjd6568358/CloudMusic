@@ -12,6 +12,7 @@ import com.example.cloudmusic.media.IMediaControl
 import com.example.cloudmusic.media.PlayerControllerHandle
 import com.example.cloudmusic.model.CueEnvelope
 import com.example.cloudmusic.model.Link
+import com.example.cloudmusic.model.MediaCacheKey
 import com.example.cloudmusic.model.Track
 import com.example.cloudmusic.model.TrackId
 import kotlinx.coroutines.CoroutineScope
@@ -67,6 +68,13 @@ class PlayerController(
     /** §61.139：与 queue 下标一一对应的 EngineSource（切曲时同步网络态 / 元数据）。 */
     private var preparedSources: List<EngineSource> = emptyList()
 
+    /**
+     * §61.319（R2）：setQueue 时一次批量预取的队列曲目快照（与 queue 同长同序）。
+     * 队列变更必经 setQueue（restore 亦经此口），因此 prepareAt / buildQueueSources
+     * 全程零 Room 点查；缺曲库行 = null（按原语义跳过 gapless，不伪造）。
+     */
+    private var queueTracks: List<Track?> = emptyList()
+
     /** 最近一次 prepare 的曲目是否为网络音源；供 PlaybackService 同步判定避免会话假报 PLAYING。 */
     @Volatile
     private var currentNetworkSource = false
@@ -101,6 +109,23 @@ class PlayerController(
      */
     @Volatile
     private var fadeOutArmed = false
+
+    /**
+     * §61.321（R3）：节拍器采集到的最新引擎位置（毫秒），**不写进 [PlayerState]**。
+     * `PlayerState.positionMs` 是「转换点快照」（prepare / seek / pause 落值），
+     * 500ms tick 只更新本字段：根 UI 用 `collectAsState` 收整份 state，若每拍都
+     * `copy(positionMs=)`，整棵树（tab / 列表 / 智能歌单扫描）每 500ms 全量重组。
+     * 高频消费方只有播放页，读 `PlayerStateBridge.positionMs`（独立流）。
+     * 相对 seek（媒体键 / 长按）读本字段（PLAYING 期），暂停态回落 state 精确值。
+     */
+    @Volatile
+    private var livePositionMs = 0L
+
+    /**
+     * §61.321：节拍器真值的只读快照（测试判定口）。与 [PlayerState.positionMs] 的
+     * 「转换点快照」语义分离——缓冲冻结判据盯这个字段，不在 state 上。
+     */
+    internal val livePositionSnapshot: Long get() = livePositionMs
 
     /** §61.230：设置侧热更新（PlaybackComposition 的 audiofx 设置循环转发）。 */
     fun updateFade(enabled: Boolean, durationMs: Int) {
@@ -216,6 +241,9 @@ class PlayerController(
     suspend fun setQueue(items: List<QueueItem>, mode: PlayMode, startAt: Int = 0) {
         queueMode = false
         queue = items.toList()
+        // §61.319（R2）：CUE 标志 / gapless 邻居曲目在队列变更时一次取齐（Room IN 查询），
+        // 切歌热路径不再对整条队列逐项 Room 点查（7838 首 × 每次换歌 → 0）。
+        queueTracks = lookup.getMany(queue.map { it.trackId })
         shuffle = if (mode == PlayMode.SHUFFLE) ShuffleOrder.generate(config.shuffleSeed, items.size) else emptyList()
         // §61.304（K1e）：队列收缩 = 已删曲目出栈（越界历史项剔除；模式切走时同清）。
         shuffleHistory.removeAll { it !in items.indices }
@@ -238,6 +266,7 @@ class PlayerController(
             engine.pause(h)
             val pos = engine.positionMs(h)
             val dur = syncEngineDuration(h)
+            livePositionMs = pos
             _state.update { it.copy(phase = PlayerPhase.PAUSED, positionMs = pos, isBuffering = false) }
             // §61.239：会话快照分轨相对化（口径同 §61.226 UI 三口）。
             media?.setPlaybackState(EngineState.PAUSED, sessionPosition(pos), sessionDuration(dur))
@@ -327,6 +356,9 @@ class PlayerController(
     private fun startPositionTicker() {
         positionTicker?.cancel()
         positionTicker = scope.launch {
+            // §61.321：起播瞬间以转换点快照对齐——首个 500ms 窗口内相对 seek
+            // 不得读到上一曲的残留位置。
+            livePositionMs = _state.value.positionMs
             var tick = 0
             while (isActive && _state.value.phase == PlayerPhase.PLAYING) {
                 handle?.let { h ->
@@ -337,7 +369,9 @@ class PlayerController(
                         // READY 恢复后下一拍自动续走。cue 交棒与 fade 判据仍用真值 pos。
                         val buffering = _state.value.isBuffering
                         if (!buffering) {
-                            _state.update { it.copy(positionMs = pos) }
+                            // §61.321（R3）：只更新高频字段，**不**改 PlayerState ——
+                            // 根 UI 收整份 state，每拍 copy 一次 = 每 500ms 全树重组。
+                            livePositionMs = pos
                         }
                         // §61.224 + §61.230：分轨终点交棒——position ≥ cueEndMs 时
                         // 先渐出再进下一曲（fade 未启用时立即交棒）。引擎自然 ENDED
@@ -433,6 +467,7 @@ class PlayerController(
                 engine.setVolume(h, 1f)
             }
             engine.seek(h, clamped)
+            livePositionMs = clamped
             _state.update { it.copy(positionMs = clamped) }
         }   // 陈旧句柄（完成后）静默忽略：无可 seek 的活动流。
     }
@@ -614,8 +649,7 @@ class PlayerController(
             autoSkipJob?.cancel()
             _state.update {
                 it.copy(
-                    lastError = CloudMusicError.DsUpstream(
-                        "E_SKIP_GUARD",
+                    lastError = CloudMusicError.SkipGuard(
                         "连续 $fails 首播放失败，已暂停自动跳曲——点播放重试或切换音源",
                     ),
                 )
@@ -733,8 +767,7 @@ class PlayerController(
         val link = try {
             kotlinx.coroutines.withTimeoutOrNull(KernelTuning.LINK_TOTAL_TIMEOUT_MS) {
                 resolvePolicy.resolve(track)
-            } ?: throw CloudMusicError.DsUpstream(
-                "E_LINK_TIMEOUT",
+            } ?: throw CloudMusicError.LinkTimeout(
                 "音源解析超时（${KernelTuning.LINK_TOTAL_TIMEOUT_MS / 1000}s），请检查音源可达性",
             )
         } catch (e: kotlinx.coroutines.CancellationException) {
@@ -779,9 +812,8 @@ class PlayerController(
         // 不得被队列绕过。
         // §61.224：队列含 CUE 分轨时禁用 gapless——同一音频文件的 N 个分轨在原生
         // playlist 里是同一 source，位置无法按轨截断，整队退回单曲 prepare 路径。
-        val hasCueTracks = queue.any { item ->
-            lookup.get(item.trackId)?.let { it.cueStartMs > 0 || it.cueEndMs > 0 } == true
-        }
+        // §61.319（R2）：标志来自 setQueue 的批量预取，切歌热路径零 Room 点查。
+        val hasCueTracks = queueTracks.any { it?.let { t -> t.cueStartMs > 0 || t.cueEndMs > 0 } == true }
         val gaplessEligible = autoPlay && seekTo == 0L && !hasCueTracks && queue.size >= 2 &&
             _state.value.mode == PlayMode.SEQUENCE &&
             source.url == null && source.localPath != null
@@ -875,7 +907,8 @@ class PlayerController(
                 out.add(first)
                 continue
             }
-            val t = lookup.get(queue[i].trackId) ?: throw IllegalStateException("曲目不存在")
+            // §61.319（R2）：从 setQueue 的批量快照取，不再逐项 Room 点查。
+            val t = queueTracks.getOrNull(i) ?: throw IllegalStateException("曲目不存在")
             val s = engineSourceOf(t, resolver.resolve(t))
             // 网络 / 代理音源必须逐曲过闸门，队列模式不接管。
             if (s.url != null) throw IllegalStateException("队列含网络音源")
@@ -923,6 +956,9 @@ class PlayerController(
             expectedLength = track.durationMs,
             url = url,
             localPath = localPath,
+            // §61.318（R1）：物理锚由 Track.sourceRef 派生；CUE 分轨共享父音频 path，
+            // 因此同一整轨的 N 个分轨共用一个 cache key（切轨秒级命中）。
+            cacheAnchor = MediaCacheKey.of(track),
         )
     }
 
@@ -953,7 +989,17 @@ class PlayerController(
         override fun next() { scope.launch { next() } }
         override fun prev() { scope.launch { prev() } }
         override fun seekRelative(deltaMs: Long) {
-            scope.launch { seek(_state.value.positionMs + deltaMs) }
+            scope.launch {
+                // §61.321（R3）：PLAYING 期 state.positionMs 不再随拍刷新 —— 相对 seek
+                // 以节拍器采集的真值 [livePositionMs] 为基准；非 PLAYING 期 state 的
+                // 转换点值本身就是准的（pause / seek 都会写）。
+                val base = if (_state.value.phase == PlayerPhase.PLAYING) {
+                    livePositionMs
+                } else {
+                    _state.value.positionMs
+                }
+                seek(base + deltaMs)
+            }
         }
 
         override fun pauseFromFocus() { scope.launch { pause() } }

@@ -23,13 +23,29 @@ data class ScanRequest(
     val refresh: Boolean = false,
     /** 阶段 B 开关；阶段 A 从不等待网络元数据 */
     val includeMetadata: Boolean = true,
+    /**
+     * 设置页 `network.metadataWifiOnly` 的扫描侧语义：true 时仅在 [wifiAvailable] 为真
+     * 才进 metadata 阶段。
+     *
+     * §61.323（B-2）接线：此前设置项从未传进请求，恒为默认 true；现由组合层在
+     * `runScan()` 入口用 `AppSettings.network.metadataWifiOnly` 覆写。
+     */
     val onlyWifiMetadata: Boolean = true,
+    /**
+     * 「当前在 WiFi」的事实位。
+     *
+     * §61.323（B-2）：此前**全仓零写方**、恒 true ⇒ 上一条判定永远放行，设置项形同虚设
+     * （架构审计 §4 序 11）。现由组合层用 `AndroidNetworkPlaybackGate.currentKind()`
+     * 覆写；纯 JVM 侧保持默认 true，不引入 Android 依赖。
+     */
     val wifiAvailable: Boolean = true,
     val storageConcurrency: Int = 4,
     /** §61.161：2→4——metadata 阶段逐文件标签读取是冷扫瓶颈（§61.147/160 一手），
      *  4 并发在 mid-range 设备上实测安全（IO-bound，无 CPU 竞争恶化）。
      *  §61.204（A1-②）：4→8——远程 tag 已被 §61.203 跳过，剩余通道以本地 JAudio
-     *  文件读（毫秒级）为主，8 并发把标签阶段压半；IO-bound，无 CPU 竞争恶化。 */
+     *  文件读（毫秒级）为主，8 并发把标签阶段压半；IO-bound，无 CPU 竞争恶化。
+     *  §61.323（B-2）：语义 **每源 → 全源共享**——run() 级单实例信号量，4 源并存
+     *  不再叠加成 32 并发抢核（架构审计 P1-7）。 */
     val metadataConcurrency: Int = 8,
     /** 每批 upsert 条数（03-04 §10：禁止逐条写库） */
     val batchSize: Int = 500,

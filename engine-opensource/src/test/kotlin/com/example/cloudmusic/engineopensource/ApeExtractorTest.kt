@@ -101,6 +101,28 @@ class ApeExtractorTest {
     }
 
     @Test
+    fun `帧起点按 ape_c 契约 4 字节对齐（skip 对齐，真机卡爆根因回归）`() {
+        // §61.320：ffmpeg ape.c 的帧对齐契约——skip_i = (seek_i - firstframe) & 3，
+        // 解码起点 = seek_i - skip_i，包长 = align4(delta + skip_i)。
+        // 本夹具（v3990）实测 139/200 个 seek 起点非 4 字节对齐：旧实现 skip 恒 0、
+        // 包长不补齐 ⇒ 每包 1~3 字节错位，解码器 "packet size is not a multiple of 4"
+        // + "Error decoding frame"（真机 CDImage/幸福沙漏 2 分钟 729 次），
+        // 绝大多数帧解不出声 ⇒ 听感卡爆。本用例锁死对齐不变量。
+        val (_, _, _, extractor) = parseAll()
+        val offsets = extractor.frameOffsets
+        assertTrue(offsets.size > 10, "帧表足够长")
+        assertTrue(
+            offsets.all { it % 4 == 0L },
+            "所有解码起点必须 4B 对齐（旧实现 %d 个未对齐）".format(offsets.count { it % 4 != 0L }),
+        )
+        // 对齐后 seek 仍按 position 精确定位（帧表与 SeekMap 同源）
+        for (idx in listOf(1, offsets.size / 2, offsets.size - 1)) {
+            extractor.seek(offsets[idx], 0L)
+            assertEquals(idx, extractor.currentFrameIndex, "对齐后 seek 帧 $idx 仍精确")
+        }
+    }
+
+    @Test
     fun `seek 按 position 定位帧而非 timeUs 反算（播放时间乱跳根因）`() {
         // §61.298：frameTimeUs(i) 整数截断使 frameForTimeUs 反算 1405/1435 帧成 i-1。
         // Media3 下发的 position 是 SeekMap 给出的精确帧起点；旧实现按 timeUs

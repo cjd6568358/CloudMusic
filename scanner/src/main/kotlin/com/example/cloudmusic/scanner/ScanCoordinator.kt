@@ -112,12 +112,17 @@ class ScanCoordinator(
                 val storages = storageProvider.active()
                     .filter { request.storageIds.isEmpty() || it.id in request.storageIds }
                 val semaphore = Semaphore(request.storageConcurrency.coerceAtLeast(1))
+                // §61.323（B-2）：metadata 预算提到 run() 级**全源共享**。
+                // 原实现在 runMetadata 内部各自 new Semaphore(8) ⇒ 4 源并存时
+                // 上限是 4×8=32 个 tag 读 + WebP 编解码同时抢核（架构审计 P1-7）。
+                // 全局限流后单源吞吐可能略降，但总 CPU 竞争收敛、总时长更可控。
+                val metadataBudget = Semaphore(request.metadataConcurrency.coerceAtLeast(1))
                 coroutineScope {
                     storages.map { storage ->
                         async {
                             semaphore.withPermit {
                                 currentCoroutineContext().ensureActive()
-                                scanStorage(storage, request, state, emit)
+                                scanStorage(storage, request, state, emit, metadataBudget)
                             }
                         }
                     }.awaitAll()
@@ -152,6 +157,8 @@ class ScanCoordinator(
         request: ScanRequest,
         state: ScanState,
         emit: (ScanProgress) -> Unit,
+        /** §61.323（B-2）：run() 级**全源共享**的 metadata 并发预算（原为每源各一份）。 */
+        metadataBudget: Semaphore,
     ) {
         val driver = driverRegistry.get(storage.id)
         if (driver == null) {
@@ -280,7 +287,7 @@ class ScanCoordinator(
         // 文件恢复出现：accepted 里的 upsert 已把 availability 置回 OK
 
         if (request.includeMetadata && (!request.onlyWifiMetadata || request.wifiAvailable)) {
-            runMetadata(storage.id, accepted, request, state, emit)
+            runMetadata(storage.id, accepted, request, state, emit, metadataBudget)
         }
         // §61.254：歌单导入——accepted 交集过滤（规则剔除的条目不进歌单），
         // TrackId 由组合层 sink 按 storageId+path 派生（TrackId.of 同一真值源）。
@@ -562,8 +569,11 @@ class ScanCoordinator(
         request: ScanRequest,
         state: ScanState,
         emit: (ScanProgress) -> Unit,
+        /** §61.323（B-2）：全源共享预算；由 [run] 创建并下传，本函数**不再自建**。 */
+        semaphore: Semaphore,
     ) {
-        val semaphore = Semaphore(request.metadataConcurrency.coerceAtLeast(1))
+        // §61.323（B-2）：此处原有 `val semaphore = Semaphore(request.metadataConcurrency)`，
+        // 每个源一份 ⇒ 多源并存时并发按源数倍增（4 源 = 32）。现改为 run() 级共享。
         // §61.144：metadata 写库按 batchSize 聚合——原实现逐文件 `upsertBatch(listOf(单行))`
         // + 逐文件进度 emit，7,500 规模 = 7,514 个独立 Room 事务 + 7,514 次全量重组，
         // 是 T-V #9 冷扫判据 FAIL 的直接卡点（阶段 A 本体 ~50-60s，metadata 阶段分钟级）。

@@ -1064,27 +1064,43 @@ class PlayerControllerTest {
     }
 
     @Test
-    @DisplayName("§61.309 · 缓冲期位置冻结（K-02 真机：media3 BUFFERING 墙钟外推 → App 进度照走）")
+    @DisplayName("§61.309/§61.321 · 缓冲期位置冻结（判据从 state 迁到节拍器真值）")
     fun tickerFreezesPositionWhileBuffering() = runTest {
         val f = fixture(scope = backgroundScope, positionOverride = 10_000L)
         f.repo.setAll(listOf(track(1)))
         f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
         f.controller.playAt(0)
         runCurrent()
-        assertEquals(10_000L, f.controller.state.value.positionMs)
+        // §61.321：节拍器真值 = 10s；state 保持转换点值（不再逐拍写）。
+        assertEquals(10_000L, f.controller.livePositionSnapshot)
 
         f.engine.reportBuffering()
         runCurrent()
         f.positionEngine!!.fakePosition = 11_000L
         advanceTimeBy(1_500)
         runCurrent()
-        assertEquals(10_000L, f.controller.state.value.positionMs, "缓冲期位置冻结（卡住不涨）")
+        assertEquals(10_000L, f.controller.livePositionSnapshot, "缓冲期位置冻结（卡住不涨）")
 
         f.engine.play(EngineHandle(f.engine.snapshot().handleRaw!!))
         runCurrent()
         advanceTimeBy(500)
         runCurrent()
-        assertEquals(11_000L, f.controller.state.value.positionMs, "READY 恢复后续走")
+        assertEquals(11_000L, f.controller.livePositionSnapshot, "READY 恢复后续走")
+        assertEquals(0L, f.controller.state.value.positionMs, "§61.321：state 不被节拍器改写")
+    }
+
+    @Test
+    @DisplayName("§61.321 · 相对 seek 以节拍器真值为基准（不再读陈旧的 state 快照）")
+    fun seekRelativeUsesLivePosition() = runTest {
+        val f = fixture(scope = backgroundScope, positionOverride = 60_000L)
+        f.repo.setAll(listOf(track(1)))
+        f.controller.setQueue(f.repo.snapshotItems(), PlayMode.SEQUENCE)
+        f.controller.playAt(0)
+        runCurrent()
+        // state 仍停在转换点 0；节拍器真值 60s → 快进 15s 应落到 75s。
+        f.controller.asHandle().seekRelative(15_000L)
+        runCurrent()
+        assertEquals(75_000L, f.controller.state.value.positionMs)
     }
 
     @Test
@@ -1127,6 +1143,9 @@ class PlayerControllerTest {
         val err = f.controller.state.value.lastError
         assertNotNull(err)
         assertTrue(err.message!!.contains("连续"), "人话化提示置 lastError（V0.4-02 口径）")
+        // §61.323（C-2 正名）：此前借 DsUpstream 壳 → 运行时码被拼成
+        // E_DS_UPSTREAM_E_SKIP_GUARD，与 docs/03-06 §13 宣称码不符（failure_log 归错域）。
+        assertEquals("E_SKIP_GUARD", err.code, "运行时码必须等于文档宣称码")
         advanceTimeBy(KernelTuning.AUTO_SKIP_DELAY_MS)
         runCurrent()
         assertEquals(4, f.controller.state.value.currentIndex, "护栏后不再自动跳")
@@ -1156,8 +1175,11 @@ class PlayerControllerTest {
         assertEquals(PlayerPhase.ERROR, f.controller.state.value.phase)
         assertTrue(
             f.controller.state.value.lastError?.message?.contains("解析超时") == true,
-            "总超时人话错误（DsUpstream.code 带前缀，断言锚 message）",
+            "总超时人话错误",
         )
+        // §61.323（C-2 正名）：原断言刻意只锚 message（"DsUpstream.code 带前缀"的妥协），
+        // 现改为直判码值——旧实现（E_DS_UPSTREAM_E_LINK_TIMEOUT）在此必然 FAIL。
+        assertEquals("E_LINK_TIMEOUT", f.controller.state.value.lastError?.code)
         advanceTimeBy(KernelTuning.AUTO_SKIP_DELAY_MS)
         runCurrent()
         assertEquals("id-2", f.controller.state.value.currentTrackId?.value, "超时后按失败跳曲")

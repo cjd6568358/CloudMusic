@@ -3,6 +3,7 @@ package com.example.cloudmusic.ui
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -36,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -56,6 +58,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -77,14 +80,22 @@ import androidx.compose.ui.unit.sp
  * 独立 object 而非改 [Comp]，便于逐页切换、不破坏现有深色主题页。
  */
 object FnComp {
-    /** §61.234：主题切色（同 [Comp.applyTheme] 口径；品牌色 BrandOrange/IconRed/SwitchGreen 恒定）。 */
+    /** §61.234：主题切色（同 [Comp.applyTheme] 口径；强调红/开关绿恒定，§61.323 起橙已归并）。 */
     var PageBg = Color(0xFF1E1E21)
     var CardBg = Color(0xFF2B2B2E)
     var TextPrimary = Color(0xFFFFFFFF)
     var TextSecondary = Color(0x99FFFFFF)
     var TextHint = Color(0x66FFFFFF)
-    /** 品牌色——主题恒定。 */
-    val BrandOrange = Color(0xFFFD7423)
+    /**
+     * 强调色（**唯一**）：选中态 / 可点强调 / 输入光标 / 进度环 / 实心按钮。
+     *
+     * §61.323（A-2，用户拍板「用红」）：原先并存的**旧品牌橙 #FD7423** 只有 1 处
+     * 生产引用（音乐库进度环），却与红色形成「两个主色抢同一语义」——品牌记忆点被
+     * 稀释（评审 §六-3）。本批把橙**归并删除**，强调色只留此一个令牌。
+     *
+     * 语义分工：红 = 强调/选中；[SwitchGreen] = 开关状态（开/关，平台惯例，非强调）；
+     * 删除/错误也复用红色——它们同样属于「需要注意」的强调语义，无需再拆第三色。
+     */
     val IconRed = Color(0xFFE54545)
     val SwitchGreen = Color(0xFF0DD07F)
 
@@ -543,6 +554,10 @@ fun FnSearchField(
     // 键盘态是组合期资源，requester 与 focusManager 在此持有；autoFocus 变化时重新请求。
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
+    // §61.321（UI 评审 #4 / IME 态真机一手）：焦点态决定占位符还画不画。
+    // BasicTextField 聚焦后光标停在起点、占位符照旧画在下面 → 真机是一根红竖线
+    // 压在「搜索」两个字左边，看起来像误触出现的光标手柄。
+    val focused = remember { androidx.compose.runtime.mutableStateOf(false) }
     LaunchedEffect(autoFocus) {
         if (autoFocus) focusRequester.requestFocus()
     }
@@ -557,11 +572,30 @@ fun FnSearchField(
         Box(
             Modifier
                 .size(FnBaseline.SearchGlyphDp.dp)
-                // 装饰字形：不屏蔽的话 TalkBack 会把「⌕」当生僻符号读出来。
+                // 装饰图标：不屏蔽的话 TalkBack 会把字形当符号读出来。
                 .clearAndSetSemantics { },
             contentAlignment = Alignment.Center,
         ) {
-            Text("⌕", color = FnComp.SearchHint, fontSize = 14.sp)
+            // §61.321（UI 评审 #4 真机一手）：`⌕`（U+2315）在 MIUI 字体里落成一个
+            // 孤立小圆圈——和 loading 环同形，看着像一直在加载。自绘线性放大镜：
+            // 圆 + 45° 手柄，尺寸吃满槽位，颜色跟占位文字同一档。
+            Canvas(Modifier.fillMaxSize()) {
+                val w = 1.5.dp.toPx()
+                val r = size.minDimension * 0.30f
+                val c = Offset(size.width * 0.42f, size.height * 0.42f)
+                drawCircle(
+                    color = FnComp.SearchHint,
+                    radius = r,
+                    center = c,
+                    style = androidx.compose.ui.graphics.drawscope.Stroke(width = w),
+                )
+                drawLine(
+                    color = FnComp.SearchHint,
+                    start = Offset(c.x + r * 0.72f, c.y + r * 0.72f),
+                    end = Offset(size.width * 0.88f, size.height * 0.88f),
+                    strokeWidth = w,
+                )
+            }
         }
         Spacer(
             Modifier.width(
@@ -569,7 +603,8 @@ fun FnSearchField(
             ),
         )
         Box(Modifier.weight(1f)) {
-            if (value.isEmpty()) {
+            // §61.321：聚焦后不再叠画占位符（光标已站在起点，两行字重影）。
+            if (value.isEmpty() && !focused.value) {
                 Text(
                     hint,
                     color = FnComp.SearchHint,
@@ -599,6 +634,7 @@ fun FnSearchField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusRequester(focusRequester)
+                    .onFocusChanged { focused.value = it.isFocused }
                     .semantics { contentDescription = hint },
             )
         }
@@ -625,12 +661,16 @@ fun FnCover(
     path: String?,
     modifier: Modifier = Modifier,
     glyph: String = "♪",
+    /** §61.327（A-7）：正在播放时描一圈品牌红——描边走 clip 之内，不会被圆角裁掉半条。 */
+    ring: Boolean = false,
 ) {
     val bitmap = rememberCompCover(path, maxPx = 160)
+    val shape = RoundedCornerShape(FnBaseline.TrackCoverCornerDp.dp)
     Box(
         modifier
-            .clip(RoundedCornerShape(FnBaseline.TrackCoverCornerDp.dp))
-            .background(FnComp.CoverPlaceholder),
+            .clip(shape)
+            .background(FnComp.CoverPlaceholder)
+            .then(if (ring) Modifier.border(1.5.dp, FnComp.IconRed, shape) else Modifier),
         contentAlignment = Alignment.Center,
     ) {
         if (bitmap != null) {
@@ -646,6 +686,9 @@ fun FnCover(
     }
 }
 
+/** §61.327：「正在播放」的 TalkBack 状态串——单一常量，测试与无障碍口径一致。 */
+internal const val NOW_PLAYING_STATE = "正在播放"
+
 /**
  * 飞牛曲目行：46dp 封面 + 曲名 15sp + 副行 12sp，整行可点（点击即起播）。
  *
@@ -653,6 +696,12 @@ fun FnCover(
  * - [dimmed] = `availability != OK` → **整行降透明 45%**（仍可见 / 可搜索 / 可点，
  *   只是不装作能播）；
  * - [badge] = 「暂不可用」角标（曲名右侧）；点击由调用方弹原因，不弹网络错误。
+ *
+ * §61.327（A-7）「正在播放」：调用方只回答一个是非题——[playing]。命中则封面描红圈 +
+ * 曲名转品牌红 + TalkBack 播报「正在播放」。标识的**样式**只在本组件里定义一次，
+ * 五类列表（搜索结果 / 曲库 / 歌单展开 / 队列 / 我的音乐）共用它 ⇒ 样式天然一致
+ * （A-7 判据「播放页外三处列表一致」）。不可用行（[dimmed]）不加标识：
+ * 它本身是「坏消息」，别再拿「正在播放」盖掉「暂不可用」的播报。
  */
 @Composable
 fun FnTrackRow(
@@ -665,23 +714,38 @@ fun FnTrackRow(
     trailing: (@Composable () -> Unit)? = null,
     dimmed: Boolean = false,
     badge: String? = null,
+    playing: Boolean = false,
 ) {
+    val nowPlaying = playing && !dimmed
     Row(
         modifier
             .fillMaxWidth()
             .heightIn(min = FnBaseline.TrackRowHeightDp.dp)
             .alpha(if (dimmed) 0.45f else 1f)
+            .then(
+                if (nowPlaying) {
+                    Modifier.semantics { stateDescription = NOW_PLAYING_STATE }
+                } else {
+                    Modifier
+                },
+            )
             .clickable(onClick = onClick)
             .padding(horizontal = FnBaseline.PagePaddingDp.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        FnCover(coverRef, Modifier.size(FnBaseline.TrackCoverDp.dp), glyph)
+        FnCover(
+            coverRef,
+            Modifier.size(FnBaseline.TrackCoverDp.dp),
+            glyph,
+            ring = nowPlaying,
+        )
         Spacer(Modifier.width(12.dp))
         Column(Modifier.weight(1f)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     title,
-                    color = FnComp.TextPrimary,
+                    // §61.327：正在播放 = 唯一强调色（IconRed），与底栏选中态同一套语言。
+                    color = if (nowPlaying) FnComp.IconRed else FnComp.TextPrimary,
                     fontSize = 15.sp,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,

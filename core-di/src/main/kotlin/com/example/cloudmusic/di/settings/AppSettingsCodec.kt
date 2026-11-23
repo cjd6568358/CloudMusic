@@ -73,13 +73,17 @@ object AppSettingsCodec {
             settings.dlna.lastDmrUsn?.let { put("lastDmrUsn", it) }
             if (settings.dlna.lastDmrName.isNotEmpty()) put("lastDmrName", settings.dlna.lastDmrName)
         })
-        // §61.118（T5-1）：audiofx 持久化（enabled / effectLevel / 各 band millibel）。
+        // §61.118（T5-1）：audiofx 持久化（enabled / effectLevel / 各 band millibel）；
+        // §61.319（R2/D1）：补 fadeEnabled / fadeDurationMs——此前两字段只在内存模型，
+        // encode/decode 都不处理，用户开启淡入淡出后重启即失（数据丢失型真缺陷）。
         put("audiofx", buildJsonObject {
             put("enabled", settings.audiofx.enabled)
             put("effectLevel", settings.audiofx.effectLevel)
             put("bandsMillibel", buildJsonArray {
                 settings.audiofx.bandsMillibel.forEach { add(JsonPrimitive(it)) }
             })
+            put("fadeEnabled", settings.audiofx.fadeEnabled)
+            put("fadeDurationMs", settings.audiofx.fadeDurationMs)
         })
     }.toString()
 
@@ -128,6 +132,9 @@ object AppSettingsCodec {
                 enabled = audiofx.bool("enabled", false),
                 effectLevel = audiofx.int("effectLevel", 0),
                 bandsMillibel = audiofx.ints("bandsMillibel", emptyList()),
+                // §61.319（R2/D1）：缺字段回落模型默认（false / 0），旧 JSON 零回归。
+                fadeEnabled = audiofx.bool("fadeEnabled", false),
+                fadeDurationMs = audiofx.int("fadeDurationMs", 0),
             ),
         )
     }

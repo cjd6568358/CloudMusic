@@ -35,7 +35,12 @@ class AndroidNetworkPlaybackGate @Inject constructor(
             networkSource = networkSource,
         )
 
-    private fun currentKind(): NetworkKind {
+    /**
+     * §61.323（B-2）：当前网络类型。原为 private（只服务 [rejectReason]），现公开给
+     * 扫描侧接线 `ScanRequest.wifiAvailable`——该字段此前全仓零写方、恒 true，
+     * 导致「仅 WiFi 补元数据」开关永不生效。
+     */
+    fun currentKind(): NetworkKind {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
             ?: return NetworkKind.NONE
         val network = cm.activeNetwork ?: return NetworkKind.NONE

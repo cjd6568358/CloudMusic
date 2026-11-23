@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
+import com.example.cloudmusic.common.NetworkKind
 import com.example.cloudmusic.common.NetworkPlaybackGate
 import com.example.cloudmusic.common.PathNormalizer
 import com.example.cloudmusic.datasource.DriverCtx
@@ -35,7 +36,6 @@ import com.example.cloudmusic.model.Track
 import com.example.cloudmusic.model.TrackId
 import com.example.cloudmusic.output.dlna.LinkProvider
 import com.example.cloudmusic.output.localproxy.ProxyStartPolicy
-import com.example.cloudmusic.output.router.ActiveOutput
 import com.example.cloudmusic.output.router.OutputRouter
 import com.example.cloudmusic.player.PlayerController
 import com.example.cloudmusic.player.PlayerState
@@ -50,7 +50,6 @@ import com.example.cloudmusic.player.TrackDurationWriter
 import com.example.cloudmusic.player.CursorWriter
 import com.example.cloudmusic.scanner.NameParser
 import com.example.cloudmusic.scanner.ScanCoordinator
-import com.example.cloudmusic.scanner.ScanProgress
 import com.example.cloudmusic.scanner.ScanRequest
 import com.example.cloudmusic.storage.FavoriteRepository
 import com.example.cloudmusic.storage.HistoryRepository
@@ -64,18 +63,12 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -97,8 +90,6 @@ private const val LOCAL_FIXTURE_STORAGE_ID = "debug-local-fixture"
 private const val REMOTE_FIXTURE_STORAGE_ID = "debug-remote-fixture"
 
 /** §61.199 / 03-08 §10.2：投屏会话进度轮询周期（失败 3 次 ≈15s 后回落）。 */
-private const val DLNA_POLL_INTERVAL_MS = 5_000L
-
 /**
  * §61.182：注入曲目的命名与**扫描链同源**（`NameParser`：%XX 解码 + GBK 修复，
  * §61.170 口径）——此前曲名直接取 URL 原始路径段，真机一手天书标题
@@ -155,9 +146,30 @@ internal fun storageErrorStates(
     return out
 }
 
+/**
+ * §61.323（B-2）：把「设置里的开关」与「平台网络事实」写进扫描请求。
+ *
+ * 断链原貌：`ScanRequest.onlyWifiMetadata` 与 `wifiAvailable` **两个字段都无生产写方**
+ * （前者恒默认 true、后者恒 true）⇒ 设置项 `network.metadataWifiOnly` 只被 codec
+ * 读写、从未影响扫描，「仅 WiFi 补元数据」形同虚设（架构审计 §4 序 11）。
+ *
+ * 纯 JVM 顶层函数：Android 事实位由 [AndroidNetworkPlaybackGate.currentKind] 传入，
+ * 判定本身可单测（与 `storageErrorStates` 同一手法）。
+ */
+internal fun effectiveScanRequest(
+    request: com.example.cloudmusic.scanner.ScanRequest,
+    metadataWifiOnly: Boolean,
+    kind: NetworkKind,
+): com.example.cloudmusic.scanner.ScanRequest = request.copy(
+    onlyWifiMetadata = metadataWifiOnly,
+    wifiAvailable = kind == NetworkKind.WIFI,
+)
+
 /** Room 是曲库唯一真相源，播放编排层按 TrackId 反查即可（03-05 / 03-06 §11）。 */
 class RoomTrackLookup(private val tracks: TrackRepository) : TrackLookup {
     override suspend fun get(id: TrackId): Track? = tracks.get(id)
+    /** §61.319（R2）：走 Room `IN` 批量查询，不再让队列点查风暴落到逐条 `get`。 */
+    override suspend fun getMany(ids: List<TrackId>): List<Track?> = tracks.getMany(ids)
 }
 
 /**
@@ -309,6 +321,8 @@ class PlaybackRuntime @Inject constructor(
     private val history: HistoryRepository,
     private val proxy: PrePublishedCastProxy,
     private val settings: SettingsStore,
+    /** §61.323（B-2）：扫描请求的两个网络事实位（是否 WiFi / 是否按设置限 WiFi）。 */
+    private val networkProbe: AndroidNetworkPlaybackGate,
     /** §61.112：playLocal 调试注入复用扫描管线的真实标签 / 封面件（03-04 §6）。 */
     private val tagReader: JAudioTaggerPort,
     private val coverWriter: CoverWriterPort,
@@ -335,84 +349,82 @@ class PlaybackRuntime @Inject constructor(
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private val _state = MutableStateFlow(RuntimeState())
 
+    /**
+     * §61.324（B-4 拆域）：DLNA 会话域（投屏目标 / DMR 进度音量 / 断连回落）。
+     *
+     * 必须声明在 [init] **之前**——Kotlin 按声明顺序初始化属性，放在后面会 NPE。
+     * 拆出后本类只剩「委托」与「输出切换的另一半契约」（[onOutputChanged]）。
+     */
+    /**
+     * §61.324（B-4 拆域）：扫描域（触发 / 批量状态 / MediaStore 订阅）。
+     * 必须声明在 [init] 之前——属性按声明顺序初始化。
+     */
+    private val scan = ScanRuntime(
+        coordinator = coordinator,
+        storages = storages,
+        settings = settings,
+        networkProbe = networkProbe,
+        mediaChangeSource = mediaChangeSource,
+        _state = _state,
+        scope = scope,
+    )
+
+    /**
+     * §61.324（B-4 拆域）：曲库域（歌单 / 收藏 / 历史 / 刮削 / 重复检测）。
+     * 同样必须声明在 [init] 之前（属性按声明顺序初始化）。
+     */
+    private val library = LibraryFacade(
+        controller = controller,
+        queueRepository = queueRepository,
+        tracks = tracks,
+        playlists = playlists,
+        favorites = favorites,
+        history = history,
+        coverWriter = coverWriter,
+        scrapeHttp = scrapeHttp,
+        appContext = appContext,
+        scope = scope,
+    )
+
+    private val dlna = DlnaSessionFacade(
+        controller = controller,
+        output = output,
+        castCoordinator = castCoordinator,
+        tracks = tracks,
+        settings = settings,
+        scope = scope,
+    )
+
     init {
         // §61.118：换曲后按持久值恢复均衡器（T5-1 持久化的生产执行点）。
         restoreEqualizerLoop()
         // §61.130（M5）：播放历史记录（每曲一次）。
         historyLoop()
-        // §61.193：DLNA 切歌保持（会话引擎第一刀）。
-        dlnaRecastLoop()
-        // §61.199：DLNA 断连回落本机（会话引擎第二刀）。
-        dlnaSessionLoop()
+        // §61.193 / §61.199：DLNA 切歌保持 + 断连回落（§61.324 起由 DlnaSessionFacade 承载）。
+        dlna.start()
     }
     val state: StateFlow<RuntimeState> = _state.asStateFlow()
 
-    /**
-     * §61.202：DMR 最近一次上报的进度（ms）。只在投屏会话循环里写，回本机即清零；
-     * 读失败时保留旧值（不把进度打回 0）。
-     */
-    private val _dlnaPositionMs = MutableStateFlow(0L)
-    fun dlnaPositionMs(): StateFlow<Long> = _dlnaPositionMs.asStateFlow()
-
-    /**
-     * §61.229（V0.2 M7）：投屏态 DMR 音量——RenderingControl:1 Master channel。
-     * 值由 UI 写入（输出弹窗滑杆）与 GetVolume 读回；非投屏态写操作是 no-op
-     * （本机音量语义 = 系统音量，App 内不接管——§61.93 音效链路正交）。
-     */
-    private val _dlnaVolume = MutableStateFlow(50)
-    fun dlnaVolume(): StateFlow<Int> = _dlnaVolume.asStateFlow()
+    // §61.324（B-4 拆域）：以下四项均为 DlnaSessionFacade 的委托口——
+    // 对外签名保持不变（CloudMusicApp / 输出弹窗零改动），实现已搬到该域。
+    fun dlnaPositionMs(): StateFlow<Long> = dlna.positionMs()
+    fun dlnaVolume(): StateFlow<Int> = dlna.volume()
 
     /** §61.229：DMR 音量下发（投屏态转发 RenderingControl；失败只记日志、不伪造生效）。 */
-    fun setCastVolume(volume: Int) = scope.launch {
-        val device = castingDevice
-        if (output.activeOutput == ActiveOutput.DLNA && device != null) {
-            val ok = runCatching { castCoordinator.setVolume(device, volume) }.getOrDefault(false)
-            if (ok) _dlnaVolume.value = volume.coerceIn(0, 100)
-            else Log.w("CM-DLNA", "DMR SetVolume 未确认 vol=$volume")
-        } else {
-            Log.w("CM-DLNA", "非投屏态忽略 DMR 音量写入 vol=$volume")
-        }
-    }
+    fun setCastVolume(volume: Int) = dlna.setVolume(volume)
 
     /** §61.229：从 DMR 读回当前音量（打开弹窗时刷新显示；失败保持上次值）。 */
-    fun refreshCastVolume() = scope.launch {
-        val device = castingDevice
-        if (output.activeOutput == ActiveOutput.DLNA && device != null) {
-            castCoordinator.getVolume(device)?.let { _dlnaVolume.value = it.coerceIn(0, 100) }
-        }
-    }
+    fun refreshCastVolume() = dlna.refreshVolume()
 
     /**
      * §61.202 播放页进度显示的单一入口：DLNA 活跃时用 DMR 真值（未读到时暂用
      * 本机引擎冻结的进度），否则用引擎实时进度。UI 不再自己判断输出类型。
      */
-    fun displayPositionMs(): Flow<Long> = combine(
-        playerState(), dlnaPositionMs(), output.state(),
-    ) { s, dmr, o ->
-        if (o.activeOutput == ActiveOutput.DLNA && dmr > 0L) dmr else s.positionMs
-    }
-
-    @Volatile
-    private var scanJob: Job? = null
-
-    /**
-     * §61.285：扫描代次（last-wins 的"谁有权收标志"）。
-     *
-     * `runScan` 取消旧任务后立即起新任务，旧任务的 `finally` 可能在新任务起跑之后才执行；
-     * 只比 `scanJob` 身份在"扫描零步同步跑完"的极端情况下会误判（finally 早于赋值），
-     * 代次是**起跑前**就定下的值，比较结果与调度顺序无关。
-     */
-    @Volatile
-    private var scanGeneration: Int = 0
-
-    /** §61.206（A2-①）：MediaStore 变更事件流（tryEmit，防抖后触发定向增量扫）。 */
-    private val mediaChanges = kotlinx.coroutines.flow.MutableSharedFlow<Unit>(extraBufferCapacity = 16)
-
-    @Volatile
-    private var mediaChangeRegistered = false
+    fun displayPositionMs(): Flow<Long> = dlna.displayPositionMs()
 
     fun start() {
-        registerMediaChangeSubscription()
+        // §61.324（B-4）：MediaStore 订阅 + 启动增量扫由扫描域自行接线。
+        scan.start()
         // 12 §50（真机 A3 暴露）：03-06 §8.2 的冷启动恢复此前只有单测调用方，
         // 生产侧从未接线 → Room 里的队列 / 光标永远不会被读，engine.prepare() 也不会触发。
         // 恢复只 prepare + seek，保持 PAUSED（PRD §6.1 不自动开播）。
@@ -440,128 +452,17 @@ class PlaybackRuntime @Inject constructor(
                 }
             }
         }
-        runScan(ScanRequest())   // 03-04 §4：App 启动 → 轻量增量（≤10s）
         _state.update { it.copy(proxyRunning = proxy.isRunning()) }
     }
 
-    /** 手动「重新扫描」/ 设置变更后的全量重扫入口。 */
-    fun rescanAll() = runScan(ScanRequest(refresh = true))
+    // §61.324（B-4 拆域）：扫描域（触发 / 批量状态 / MediaStore 订阅 / storage 错误态）
+    // 已移入 [ScanRuntime]；对外三个入口签名不变。
+    fun rescanAll() = scan.rescanAll()
 
-    /** 网络恢复 / 重试失败项：C-14 定向增量。 */
-    fun retryUnavailable() = runScan(ScanRequest(onlyUnavailable = true))
+    fun retryUnavailable() = scan.retryUnavailable()
 
-    /**
-     * §61.207（A2-③）：单源刷新（数据源管理页「刷新此源」行内动作）——
-     * 定向增量扫（refresh=false 快照 diff，有变才重处理；与 §61.204 statHit 语义
-     * 自然衔接）。与手动 RESCAN 同通道重入语义（后触发者取消前者）。
-     */
-    fun refreshStorage(storageId: String) = runScan(ScanRequest(storageIds = setOf(storageId)))
+    fun refreshStorage(storageId: String) = scan.refreshStorage(storageId)
 
-    /**
-     * §61.206（A2-①）：MediaStore 变更订阅。幂等注册（start 可能被 Service 重建
-     * 多次调用）；变更 → 防抖 [MediaChangeScanPolicy.DEBOUNCE_MS] → 定向增量扫
-     * （仅 driverType=local 的存储，网络源由 RESCAN/设置页手动口径覆盖）。
-     * 运行时为 @Singleton 进程生命周期，注销动作不持有（与进程同生共死）。
-     */
-    private fun registerMediaChangeSubscription() {
-        if (mediaChangeRegistered) return
-        mediaChangeRegistered = true
-        scope.launch {
-            mediaChanges
-                .debounce(MediaChangeScanPolicy.DEBOUNCE_MS)
-                .collect {
-                    val localIds = runCatching {
-                        storages.observe().first()
-                            .filter { it.driverType == "local" }
-                            .mapTo(HashSet()) { it.id }
-                    }.getOrDefault(emptySet())
-                    if (!MediaChangeScanPolicy.shouldScan(scanJob?.isActive == true, localIds)) {
-                        return@collect   // RESCAN 幂等 / 订阅空转守卫：零扫描动作
-                    }
-                    Log.i("CM-Scan", "MediaStore 变更 → 定向增量扫（本地源 ${localIds.size} 个）")
-                    runScan(ScanRequest(storageIds = localIds))
-                }
-        }
-        mediaChangeSource.register { mediaChanges.tryEmit(Unit) }
-    }
-
-    private fun runScan(request: ScanRequest) {
-        // §61.178：重入可见化——扫描被 cancel 后真机只看到「正在扫描曲库」消失，
-        // 无法判断是重入取消、Service 重建还是 scope 销毁。
-        Log.i("CM-Scan", "runScan 触发 refresh=${request.refresh} 调用链=" +
-            Throwable().stackTrace.take(6).joinToString(" <- ") { "${it.methodName}:${it.lineNumber}" })
-        scanJob?.cancel()
-        val generation = ++scanGeneration
-        scanJob = scope.launch {
-            // §61.129（T-V #9）：扫描时长观测（冷扫 ≤60s / 增量 ≤10s 基线判据）。
-            val scanStart = android.os.SystemClock.elapsedRealtime()
-            _state.update { it.copy(scanning = true, scanned = 0, total = 0, errors = 0) }
-            try {
-                var lastProgress: ScanProgress? = null
-                // §61.184：per-storage 跑动集合（供「本轮干净 → 清陈旧错误态」判定）。
-                val seenStorages = mutableSetOf<String>()
-                coordinator.scan(request).collect { progress: ScanProgress ->
-                    lastProgress = progress
-                    seenStorages += progress.storageId
-                    _state.update {
-                        it.copy(
-                            scanned = progress.scanned,
-                            total = progress.total,
-                            errors = progress.errors.size,
-                        )
-                    }
-                }
-                Log.i("CM-Scan", "scan done: %d ms (refresh=%s files≈%d)".format(
-                    android.os.SystemClock.elapsedRealtime() - scanStart,
-                    request.refresh, _state.value.scanned))
-                // §61.184：Storage 级扫描失败 → 数据源错误态（`StorageRepository.setError`
-                // 此前零生产写方，审计揪出的断链）——设置页数据源行现在能看到「连接失败」；
-                // 本轮跑过且未失败的 storage 清陈旧 errorMsg（幂等空串）。写侧失败只记日志，
-                // 不影响扫描主流程。
-                runCatching {
-                    val storageIds = storages.observe().first().mapTo(HashSet()) { it.id }
-                    storageErrorStates(
-                        lastProgress?.errors.orEmpty(), storageIds, seenStorages,
-                    ).forEach { (id, msg) ->
-                        storages.setError(id, msg)
-                        Log.i("CM-Scan", "storage error-state: %s → %s".format(id, msg.ifBlank { "已清" }))
-                    }
-                }.onFailure {
-                    Log.w("CM-Scan", "storage error-state write failed: ${it.message}")
-                }
-                // §61.153：扫描错误可见化——此前 B07/storage 级错误静默吞掉，
-                // WebDAV/STRM 扫描 0 文件无法归因（真机一手）。前 5 条细节 WARN。
-                lastProgress?.errors?.take(5)?.forEach {
-                    Log.w("CM-Scan", "scan error: %s %s %s".format(it.path, it.code, it.detail))
-                }
-            } catch (e: kotlinx.coroutines.CancellationException) {
-                // §61.178：取消（`scanJob?.cancel()` 重入 / 离开页面）不是扫描失败。
-                // 旧实现把 CancellationException 一并按 Exception 吞成 SCAN_FAILED，
-                // 通知栏出现「设置已生效：SCAN_FAILED」而日志零输出。
-                Log.i("CM-Scan", "scan cancelled: ${e.javaClass.name}: ${e.message} cause=${e.cause}")
-                Log.i("CM-Scan", "cancel stack=" + e.stackTrace.take(6)
-                    .joinToString(" <- ") { "${it.className.substringAfterLast('.')}.${it.methodName}:${it.lineNumber}" })
-                throw e
-            } catch (e: Exception) {
-                // §61.178（可观测性）：此前只置 lastEffect 不打日志，真机「扫描 0 首」
-                // 完全无法归因（与 §61.176 点歌静默失效同型：失败与没触发同形）。
-                Log.w("CM-Scan", "scan failed: ${e::class.java.name}: ${e.message}", e)
-                _state.update { it.copy(lastEffect = "SCAN_FAILED") }
-            } finally {
-                // §61.285（U-13 ②）：重入（last-wins）时旧任务的 finally 与新一轮起跑**无序**——
-                // 旧任务后跑会把新任务的 `scanning` 覆盖成 false，重扫钮的进度环刚亮就灭
-                // （正是 U-13 要解决的"看不到反馈"）。只有"仍是当前扫描任务"才收掉状态。
-                if (scanGeneration == generation) {
-                    _state.update { it.copy(scanning = false) }
-                }
-            }
-        }
-    }
-
-    /**
-     * C-13 / C-06：本机播放 `proxy` 态曲目时必须启动代理（03-08 §8.4 ④）；
-     * 纯直链队列 / 本机 url 态不启动，省电目标不变。
-     */
     fun ensureProxy(localPlaybackKind: Link.Kind?) {
         val shouldStart = ProxyStartPolicy.shouldStart(
             queueKinds = emptyList(),
@@ -695,27 +596,15 @@ class PlaybackRuntime @Inject constructor(
         }
     }
 
-    /** §61.130（M5）：收藏集合流（播放页 ♡ 状态 + 我的音乐页取数）。 */
-    fun observeFavorites(): Flow<Set<TrackId>> = favorites.observe()
+    // §61.324（B-4 拆域）：曲库域（歌单/收藏/历史/批处理）已移入 [LibraryFacade]。
+    // 以下均为委托口——对外签名逐字不变，CloudMusicApp / 设置页零改动。
+    fun observeFavorites(): Flow<Set<TrackId>> = library.observeFavorites()
 
-    /** §61.130（M5）：最近播放流（HistoryDao JOIN tracks，按 last_played DESC）。 */
-    fun observeHistory(): Flow<List<Track>> = history.observe()
+    fun observeHistory(): Flow<List<Track>> = library.observeHistory()
 
-    /** §61.130（M5）：收藏切换（播放页 ♡ 按钮的唯一生产入口）。 */
-    fun toggleFavorite(trackId: TrackId) {
-        scope.launch {
-            runCatching { favorites.toggle(trackId) }
-                .onFailure { Log.w("CloudMusicRuntime", "toggleFavorite 失败", it) }
-        }
-    }
+    fun toggleFavorite(trackId: TrackId) = library.toggleFavorite(trackId)
 
-    /** §61.130（M5）：播放历史记录（PLAYING 时每曲一次，HistoryDao playCount 递增）。 */
-    fun recordHistory(trackId: TrackId) {
-        scope.launch {
-            runCatching { history.record(trackId) }
-                .onFailure { Log.w("CloudMusicRuntime", "recordHistory 失败", it) }
-        }
-    }
+    fun recordHistory(trackId: TrackId) = library.recordHistory(trackId)
 
     /** §61.119（M8）：队列点击跳播——当前队列第 [index] 项起播。 */
     fun jumpTo(index: Int) = scope.launch {
@@ -723,128 +612,27 @@ class PlaybackRuntime @Inject constructor(
             .onFailure { Log.w("CloudMusicRuntime", "jumpTo 失败", it) }
     }
 
-    /** §61.119（M3）：创建歌单，返回 id（经回调交付 UI）。 */
-    fun createPlaylist(name: String, onCreated: (String) -> Unit = {}) {
-        scope.launch {
-            runCatching { playlists.create(name) }
-                .onSuccess { id -> onCreated(id) }
-                .onFailure { Log.w("CloudMusicRuntime", "createPlaylist 失败", it) }
-        }
-    }
+    // §61.324（B-4 拆域）：歌单 CRUD / ReplayGain 批分析 → LibraryFacade 委托。
+    fun createPlaylist(name: String, onCreated: (String) -> Unit = {}) =
+        library.createPlaylist(name, onCreated)
 
-    /** §61.119（M3）：加入歌单（跨来源混合，契约不变）。 */
-    fun addToPlaylist(playlistId: String, trackId: TrackId) {
-        scope.launch {
-            runCatching { playlists.addTracks(playlistId, listOf(trackId)) }
-                .onFailure { Log.w("CloudMusicRuntime", "addToPlaylist 失败", it) }
-        }
-    }
+    fun addToPlaylist(playlistId: String, trackId: TrackId) =
+        library.addToPlaylist(playlistId, trackId)
 
-    /** §61.121（M3 小账）：歌单内曲目移动（契约 move 收口，removeAt/add 语义）。 */
-    fun moveInPlaylist(id: String, from: Int, to: Int) {
-        scope.launch {
-            runCatching { playlists.move(id, from, to) }
-                .onFailure { Log.w("CloudMusicRuntime", "moveInPlaylist 失败", it) }
-        }
-    }
+    fun moveInPlaylist(id: String, from: Int, to: Int) = library.moveInPlaylist(id, from, to)
 
-    /** §61.121（M3 小账）：歌单内移除单曲（契约 remove 收口）。 */
-    fun removeFromPlaylist(id: String, position: Int) {
-        scope.launch {
-            runCatching { playlists.remove(id, position) }
-                .onFailure { Log.w("CloudMusicRuntime", "removeFromPlaylist 失败", it) }
-        }
-    }
+    fun removeFromPlaylist(id: String, position: Int) = library.removeFromPlaylist(id, position)
 
-    /** §61.121：歌单曲目流透传（UI 展开视图取数；03-10 §11 #4 经 runtime 通道）。 */
-    fun observePlaylistTracks(id: String): Flow<List<Track>> =
-        playlists.observeTracks(id)
+    fun observePlaylistTracks(id: String): Flow<List<Track>> = library.observePlaylistTracks(id)
 
-    /**
-     * §61.122（T5-2 分析管线第一版）：曲库 ReplayGain 近似分析——仅 LOCAL、
-     * 未分析（replayGainDb==null）、上限 [maxCount] 首；逐曲解码（IO 线程）、
-     * 落库 + logcat 进度（CM-RG tag，真机可观测）。耗时随曲库线性增长，
-     * 由设置页显式触发（opt-in）。
-     */
-    fun analyzeLibraryReplayGain(maxCount: Int = 50, force: Boolean = false) {
-        scope.launch {
-            runCatching {
-                val all = tracks.observeAll().first()
-                    .filter { it.sourceType == SourceType.LOCAL &&
-                        (force || it.replayGainDb == null) }
-                    .take(maxCount)
-                if (all.isEmpty()) {
-                    Log.i("CM-RG", "analyze: nothing to analyze")
-                    return@runCatching
-                }
-                Log.i("CM-RG", "analyze start: %d tracks".format(all.size))
-                var done = 0
-                var gained = 0
-                for (track in all) {
-                    ensureActive()
-                    // §61.122 真机一手：playLocal 注入曲目的 sourceRef.path 是文件名
-                    // （非绝对路径）→ 候选 = 原值 + filesDir/music/<name>，取存在的。
-                    val candidates = listOfNotNull(
-                        track.sourceRef.path,
-                        appContext.filesDir.resolve("music/${track.sourceRef.path}")
-                            .absolutePath,
-                    )
-                    val path = candidates.firstOrNull {
-                        java.io.File(it).isFile
-                    }
-                    if (path == null) {
-                        Log.i("CM-RG", "analyze %s → 文件不存在（%s）".format(
-                            track.title.take(20), track.sourceRef.path))
-                        done++
-                        continue
-                    }
-                    val result = com.example.cloudmusic.di.scan.ReplayGainAnalyzer
-                        .analyze(path)
-                    if (result != null) {
-                        tracks.markReplayGain(track.id, result.gainDb)
-                        gained++
-                        Log.i("CM-RG", "analyze %s → %.2f dB (%s)".format(
-                            track.title.take(20), result.gainDb, result.path))
-                    } else {
-                        Log.i("CM-RG", "analyze %s → NO_SAMPLE（平台不可解或过短）".format(
-                            track.title.take(20)))
-                    }
-                    done++
-                }
-                Log.i("CM-RG", "analyze done: %d/%d gained".format(gained, done))
-            }.onFailure { Log.w("CM-RG", "analyze 失败", it) }
-        }
-    }
+    fun analyzeLibraryReplayGain(maxCount: Int = 50, force: Boolean = false) =
+        library.analyzeLibraryReplayGain(maxCount, force)
 
-    /** §61.120（M3 小账）：重命名歌单（契约 rename 收口）。 */
-    fun renamePlaylist(id: String, name: String) {
-        scope.launch {
-            runCatching { playlists.rename(id, name) }
-                .onFailure { Log.w("CloudMusicRuntime", "renamePlaylist 失败", it) }
-        }
-    }
+    fun renamePlaylist(id: String, name: String) = library.renamePlaylist(id, name)
 
-    /** §61.119（M3）：删除歌单。 */
-    fun deletePlaylist(id: String) {
-        scope.launch {
-            runCatching { playlists.delete(id) }
-                .onFailure { Log.w("CloudMusicRuntime", "deletePlaylist 失败", it) }
-        }
-    }
+    fun deletePlaylist(id: String) = library.deletePlaylist(id)
 
-    /** §61.119（M3）：播放歌单——歌单曲目替换业务队列并从头起播。 */
-    fun playPlaylist(id: String) {
-        scope.launch {
-            runCatching {
-                val list = playlists.observeTracks(id).first()
-                if (list.isEmpty()) return@runCatching
-                queueRepository.setAll(list)
-                val queueItems = queueRepository.observe().first()
-                controller.setQueue(queueItems, PlayMode.SEQUENCE, 0)
-                controller.playAtDebounced(0)
-            }.onFailure { Log.w("CloudMusicRuntime", "playPlaylist 失败", it) }
-        }
-    }
+    fun playPlaylist(id: String) = library.playPlaylist(id)
 
     fun playUrl(url: String) = scope.launch {
         val track = remoteFixtureTrack(url)
@@ -916,14 +704,9 @@ class PlaybackRuntime @Inject constructor(
      * 下发成功同步刷新显示进度，失败只记日志、不假装生效。非投屏态仍走本机引擎。
      */
     fun seekTo(ms: Long) = scope.launch {
-        val device = castingDevice
-        if (output.activeOutput == ActiveOutput.DLNA && device != null) {
-            val ok = runCatching { castCoordinator.seekTo(device, ms) }.getOrDefault(false)
-            if (ok) _dlnaPositionMs.value = ms
-            else Log.w("CM-DLNA", "DMR seek 未确认 ms=$ms")
-        } else {
-            controller.seek(ms)
-        }
+        // §61.324（B-4 拆域）：投屏分支已移入 DlnaSessionFacade（含 castingDevice 与
+        // DMR 进度刷新）；非投屏态仍走本机引擎。语义与拆域前逐字一致。
+        if (!dlna.seekIfCasting(ms)) controller.seek(ms)
     }
 
     /** §61.93（音效必须支持）：外部音效档位入口（0 = 释放基础音效链）。 */
@@ -954,66 +737,15 @@ class PlaybackRuntime @Inject constructor(
         }
     }
 
-    /**
-     * §61.233（V0.2 刮削）：封面在线刮削批处理（设置页触发，同 §61.130 RG 分析模式；
-     * 手动 + 限数 50，不挂扫描期）。结果 toast 汇报尝试/命中数。
-     */
-    fun scrapeMissingCovers(maxCount: Int = 50) = scope.launch {
-        runCatching {
-            val session = com.example.cloudmusic.di.scan.CoverScrapeSession(
-                tracks = tracks,
-                writer = coverWriter,
-                http = scrapeHttp,
-            )
-            val report = session.scrapeMissing(maxCount)
-            Log.i("CM-SCRAPER", "scrape done: attempted=%d hit=%d".format(report.attempted, report.hit))
-        }.onFailure { Log.w("CM-SCRAPER", "scrape 失败", it) }
-    }
+    // §61.324（B-4 拆域）：封面刮削 / 重复检测（含跨次指纹记忆）→ LibraryFacade 委托。
+    fun scrapeMissingCovers(maxCount: Int = 50) = library.scrapeMissingCovers(maxCount)
 
-    /** §61.250：跨次指纹记忆（key="storageId|path"）——限数逐次推进 + 命中零 IO 复用。 */
-    private val duplicateHashMemo =
-        java.util.concurrent.ConcurrentHashMap<String, String>()
-
-    /** §61.247：重复曲目检测报告（null = 未检测；设置页触发后由 UI 消费展示）。 */
-    private val _duplicateReport = kotlinx.coroutines.flow.MutableStateFlow<
-        com.example.cloudmusic.model.DuplicateReport?>(null)
     fun duplicateReport(): kotlinx.coroutines.flow.StateFlow<
-        com.example.cloudmusic.model.DuplicateReport?> = _duplicateReport.asStateFlow()
+        com.example.cloudmusic.model.DuplicateReport?> = library.duplicateReport()
 
-    /** §61.247：关闭报告面板时清空（下次触发重算）。 */
-    fun clearDuplicateReport() {
-        _duplicateReport.value = null
-        duplicateHashMemo.clear()   // §61.250：面板关闭清记忆（下次触发从头推进）
-    }
+    fun clearDuplicateReport() = library.clearDuplicateReport()
 
-    /**
-     * §61.247（V0.3 M5 / A1 Tier2）：重复曲目检测（设置页触发；零 IO 读曲库内存分组，
-     * 不挂扫描期）。结果进 [duplicateReport] 由设置页结果面板展示；处置用户手动。
-     */
-    fun findDuplicates() = scope.launch {
-        runCatching {
-            // §61.248：Tier2 分组 + Tier1 哈希确认趟（候选限数 50 文件/次）。
-            val session = com.example.cloudmusic.di.scan.DuplicateHashSession(
-                tracks = tracks,
-                hasher = com.example.cloudmusic.di.scan.DriverContentHasher(),
-            )
-            // §61.250：跨次指纹记忆（runtime 持有，重跑推进剩余候选；换库全量重扫时
-            // 由调用方 clearDuplicateReport 清——记忆按 storageId|path 键，路径变化自然失效）。
-            var report = session.detect(maxHashCount = 50, memo = duplicateHashMemo)
-            // §61.256：Tier3 声纹趟——对哈希未确认的疑似组解码匹配（转码/异格式拷贝升级）。
-            if (report.groups.isNotEmpty()) {
-                val fpSession = com.example.cloudmusic.di.scan.FingerprintSession(
-                    tracks = tracks,
-                    decoder = com.example.cloudmusic.di.adapters.MediaPcmDecoder(),
-                )
-                report = fpSession.detect(report, maxCount = 20)
-            }
-            _duplicateReport.value = report
-            Log.i("CM-DUP", "duplicate scan done: scanned=%d suspected=%d confirmed=%d fpConfirmed=%d hashed=%d failed=%d"
-                .format(report.scanned, report.groups.size, report.confirmed.size,
-                    report.fingerprintConfirmed.size, report.hashedCount, report.hashFailed))
-        }.onFailure { Log.w("CM-DUP", "duplicate scan 失败", it) }
-    }
+    fun findDuplicates() = library.findDuplicates()
 
     /**
      * §61.230（V0.2 M6）：淡入淡出开关持久化（AudiofxSettings.fadeEnabled）。
@@ -1095,104 +827,13 @@ class PlaybackRuntime @Inject constructor(
     }
 
     /**
-     * §61.193：DLNA 切歌保持（会话引擎第一刀，用户「说好的 DLNA 全都没有」）。
-     *
-     * 投屏目标设备由 UI 首次投屏成功时经 [onDlnaDeviceSelected] 写入；本收集器观察
-     * 播放状态 × 输出路由：**DLNA 为活跃输出且换曲**时，自动把新曲目 re-cast 到该设备
-     * （SetAVTransportURI + Play，hint 走 routeHint → 输出弹窗可见）；回落 LOCAL 即清设备。
-     * §61.199：断连回落由 [dlnaSessionLoop] 承担——3 次进度读取失败即 Stop + 切回
-     * LOCAL + seek 到最后已知进度续播。挂账：多设备列表（capstone 另批）。
+     * §61.324（B-4 拆域）：DLNA 会话域已移入 [DlnaSessionFacade]——切歌 re-cast
+     * （§61.193）、断连回落（§61.199）、目标设备记忆（§61.241）与 DMR 进度/音量
+     * （§61.202 / §61.229）全部由该域承载。此处只保留 UI 投屏成功后的写入委托，
+     * 对外签名不变（`CloudMusicApp onOutputSelected DLNA 分支` 零改动）。
      */
-    @Volatile
-    private var castingDevice: com.example.cloudmusic.output.dlna.DmrDevice? = null
-
-    /** §61.199：断连判定器（纯 JVM），只被本类的会话循环访问。 */
-    private val dlnaSession = com.example.cloudmusic.output.dlna.DlnaSessionMonitor()
-
-    /** UI 首次投屏成功时写入目标设备（CloudMusicApp onOutputSelected DLNA 分支）。 */
-    fun onDlnaDeviceSelected(device: com.example.cloudmusic.output.dlna.DmrDevice) {
-        castingDevice = device
-        dlnaSession.reset()   // 新会话：清上次断连标记与旧进度
-        _dlnaPositionMs.value = 0L
-        // §61.241（V3-M2）：上次投屏设备持久化——进程死亡后仍记忆（回本机不清，
-        // 是记忆不是活跃态）。scope.launch 与 updateTheme 同型（settings.update 是
-        // suspend）；失败只记日志不伪造已记。
-        scope.launch {
-            runCatching { settings.update { it.copy(dlna = it.dlna.withLastDmr(device.usn, device.friendlyName)) } }
-                .onFailure { Log.w("CM-DLNA", "上次投屏设备持久化失败: ${it.message}") }
-        }
-    }
-
-    private fun dlnaRecastLoop() {
-        scope.launch {
-            var lastTrackId: String? = null
-            combine(controller.state, output.state()) { s, o -> s to o }.collect { (s, o) ->
-                // 回落本机：清投屏目标（下次投屏重新选设备）。
-                if (o.activeOutput == ActiveOutput.LOCAL && castingDevice != null) {
-                    castingDevice = null
-                    dlnaSession.reset()   // 用户主动回本机：会话结束，不留断连标记
-                    _dlnaPositionMs.value = 0L   // §61.202：显示进度交还本机引擎
-                }
-                val trackId = s.currentTrackId?.value
-                val device = castingDevice
-                if (o.activeOutput == ActiveOutput.DLNA &&
-                    trackId != null && trackId != lastTrackId &&
-                    s.phase == PlayerPhase.PLAYING && device != null
-                ) {
-                    val track = runCatching { tracks.get(TrackId(trackId)) }.getOrNull()
-                    if (track != null) {
-                        runCatching { castCoordinator.startCast(track, device) }
-                            .onFailure { Log.w("CM-DLNA", "切歌保持 re-cast 失败: ${it.message}") }
-                    }
-                }
-                lastTrackId = trackId
-            }
-        }
-    }
-
-    /**
-     * §61.199（03-08 §10.2 T18）：DLNA 断连回落本机。
-     *
-     * 投屏活跃且记住了目标设备时，每 [DLNA_POLL_INTERVAL_MS] 读一次 DMR 进度；
-     * 判定器连续 3 次失败 → Stop DMR（尽力）→ OutputRouter 切回 LOCAL →
-     * 解除本机静音 / 恢复 MediaSession → seek 到最后已知进度并续播 → UI 提示。
-     * 不投屏时不读网、不抢占；回落只发一次（判定器保证），避免反复 seek。
-     * 真机 E2E pending-device：无设备不施工、不伪造 PASS。
-     */
-    private fun dlnaSessionLoop() {
-        scope.launch {
-            while (isActive) {
-                val device = castingDevice
-                if (output.activeOutput == ActiveOutput.DLNA && device != null) {
-                    val position = runCatching { castCoordinator.positionMs(device) }.getOrNull()
-                    // §61.202：读成功即刷新显示进度；失败保留旧值（判定器负责计失败次数）。
-                    if (position != null && position >= 0L) _dlnaPositionMs.value = position
-                    val verdict = dlnaSession.observe(position)
-                    if (verdict.shouldFallBack) {
-                        runCatching { castCoordinator.stopCast(device) }
-                            .onFailure { Log.w("CM-DLNA", "回落 Stop 失败: ${it.message}") }
-                        // OutputRouter 是输出状态唯一裁决者（03-08 §14 #9）；先切状态再恢复本机控件。
-                        output.setActive(ActiveOutput.LOCAL)
-                        output.updateRouteHint("已回到本机播放")
-                        this@PlaybackRuntime.onOutputChanged(false)
-                        val resumed = runCatching {
-                            // 从未读到有效进度时不 seek（避免把用户带回开头）。
-                            if (verdict.lastPositionMs > 0L) controller.seek(verdict.lastPositionMs)
-                            controller.resume()
-                        }
-                        if (resumed.isFailure) {
-                            Log.w("CM-DLNA", "回落 seek/resume 失败: ${resumed.exceptionOrNull()?.message}")
-                        }
-                        castingDevice = null
-                        dlnaSession.reset()
-                        _dlnaPositionMs.value = 0L
-                        Log.i("CM-DLNA", "断连回落本机 lastPositionMs=${verdict.lastPositionMs} resumed=${resumed.isSuccess}")
-                    }
-                }
-                delay(DLNA_POLL_INTERVAL_MS)
-            }
-        }
-    }
+    fun onDlnaDeviceSelected(device: com.example.cloudmusic.output.dlna.DmrDevice) =
+        dlna.onDeviceSelected(device)
 
     /**
      * §61.116（M6-3 / 子清单 #6）：清理 B2 播放缓存（`cacheDir/b2_media_cache`，
@@ -1226,7 +867,7 @@ class PlaybackRuntime @Inject constructor(
     fun playerState(): StateFlow<PlayerState> = controller.state
 
     fun stop() {
-        scanJob?.cancel()
+        scan.cancel()
         scope.cancel()
         proxy.stop()
         _state.update { it.copy(proxyRunning = false, scanning = false) }

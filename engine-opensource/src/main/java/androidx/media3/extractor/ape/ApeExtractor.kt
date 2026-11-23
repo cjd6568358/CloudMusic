@@ -52,6 +52,12 @@ class ApeExtractor : Extractor {
     internal val currentFrameIndex: Int get() = currentFrame
     /** §61.298：帧起点表快照（供纯 JVM 断言）。 */
     internal var frameOffsets: LongArray = LongArray(0)
+    /** §61.320：每帧跳过字节（0..3，ape.c 的 frames[i].skip）。 */
+    private var frameSkips = IntArray(0)
+    /** §61.320：每帧对齐后的 packet 字节数（含 skip，4B 对齐）。 */
+    private var frameSizes = LongArray(0)
+    /** §61.320：上一帧末尾重叠到下一帧开头的 1~3 字节（避免回退取流）。 */
+    private var carry: ByteArray = ByteArray(0)
 
     private var state = STATE_READ_HEADER
     private var currentFrame = 0
@@ -86,6 +92,7 @@ class ApeExtractor : Extractor {
             return
         }
         currentFrame = frameIndexForPosition(position)
+        carry = EMPTY_BYTES
         state = STATE_READ_FRAMES
     }
 
@@ -203,7 +210,6 @@ class ApeExtractor : Extractor {
             frames[i] = readLeU32(entry, 0) and 0xFFFFFFFFL
         }
         // §61.157：wav 头在 seek 表**之后**——读完 seek 表再跳过，落到 firstframe。
-        frameOffsets = frames.copyOf()
         if (wavSkip in 1..0x100000) {
             input.skipFully(wavSkip.toInt())
         }
@@ -216,11 +222,45 @@ class ApeExtractor : Extractor {
             totalFrames = lastValid + 1
             frames = frames.copyOf(totalFrames)
         }
-        // §61.149（FFmpeg 6.0 ape.c/apedec.c 双侧互证后的定案）：帧起点保持 seek 表
-        // 逻辑位置（单调 → 顺序读友好），解码器前缀 offset 恒 0——ape.c 的 skip 对齐
-        // 回退（pos -= skip）由「packet 从逻辑起点起投递」天然等价替代：解码器从
-        // 逻辑起点解码，无需消费编码器填充字节。真正致命的是前缀字节序（见前缀处
-        // 注释）：BE 写（§61.126）错误 → 全包 "Incorrect offset passed"（§61.148 一手）。
+        // §61.320（真机 2026-11-24 一手，CDImage.ape v3990）：帧对齐契约必须与
+        // ffmpeg ape.c 逐字一致——
+        //   skip_i = (seek_i - firstframe) & 3
+        //   pos_i  = seek_i - skip_i              （解码起点向下对齐到 4B）
+        //   size_i = align4(raw_{i+1} - raw_i + skip_i)   末帧 = (fileEnd - wavTail) & ~3
+        //   packet = [nblocks LE32][skip LE32][size 字节]
+        // 旧实现 skip 恒 0、size 用未补齐的原始差：本文件实测 1130/1500 个 seek 起点
+        // 非 4 字节对齐、1127/1499 个帧长非 4 的倍数 → 解码器 bswap 后按字节读，
+        // 起点错位 1~3B ⇒ 每包 "packet size is not a multiple of 4" +
+        // "Error decoding frame"（真机 2 分钟 729 次），绝大多数帧解不出声 ⇒
+        // 听感卡爆 + 播放位置以 2~3.5 倍速虚跳（丢帧后时间戳不回退）。
+        // §61.149 的字节序结论不变（LE 写 + 解码器 bswap），本批只补对齐。
+        val raw = frames.copyOf()
+        frameSkips = IntArray(totalFrames)
+        frameSizes = LongArray(totalFrames)
+        for (i in 0 until totalFrames) {
+            val skip = ((raw[i] - raw[0]) and 3L).toInt()
+            frameSkips[i] = skip
+            frames[i] = raw[i] - skip
+        }
+        val lastRaw = raw[totalFrames - 1]
+        val tail = when {
+            tagEnd > lastRaw -> tagEnd
+            input.length > 0 -> input.length - wavTailLength
+            else -> -1L
+        }
+        for (i in 0 until totalFrames) {
+            frameSizes[i] = if (i + 1 < totalFrames) {
+                val delta = raw[i + 1] - raw[i] + frameSkips[i]
+                (delta + 3) and 3L.inv()
+            } else if (tail > lastRaw) {
+                // ape.c：final_size = fileSize - lastpos - wavtail，向下对齐（& ~3）。
+                (tail - lastRaw) and 3L.inv()
+            } else {
+                // 末帧兜底（ape.c 同款无索引估计），仍按 4B 对齐。
+                (finalFrameBlocks.toLong() * 8 + 3) and 3L.inv()
+            }.coerceAtLeast(4L)
+        }
+        frameOffsets = frames.copyOf()
 
         trackOutput?.format(
             Format.Builder()
@@ -267,8 +307,8 @@ class ApeExtractor : Extractor {
                     pos, currentFrame, totalFrames))
                 return Extractor.RESULT_END_OF_INPUT
             }
-            val next = frames.getOrNull(currentFrame + 1) ?: C.LENGTH_UNSET.toLong()
-            val size = frameSize(currentFrame, next)
+            // §61.320：帧长/跳字节按 ape.c 预计算，不再用原始差（见 readHeader 注释）。
+            val size = frameSizes.getOrElse(currentFrame) { 0L }
             if (size <= 0) {
                 currentFrame++
                 continue
@@ -280,8 +320,11 @@ class ApeExtractor : Extractor {
                     pos, size, input.length - input.position))
                 return Extractor.RESULT_END_OF_INPUT
             }
-            if (input.position != pos) {
-                val delta = pos - input.position
+            // §61.320：carry 里那 1~3 字节已从流里读出（属下一帧开头），
+            // 因此期望的流位置是 pos + carry.size，不是 pos——否则会误判成回退。
+            val expected = pos + carry.size
+            if (input.position != expected) {
+                val delta = expected - input.position
                 // §61.107：REMOTE 真机一手证据 —— 每次 RESULT_SEEK 会让
                 // ProgressiveMediaPeriod 重开 CacheDataSource（ape-remote 30s
                 // 只推进到第 2 帧、每次 9~17s；同一帧序列 LOCAL 22 次仅 8ms）。
@@ -315,28 +358,39 @@ class ApeExtractor : Extractor {
             }
             val prefix = ByteArray(8)
             writeLeU32(prefix, 0, nblocks)
-            writeLeU32(prefix, 4, 0)   // §61.149：offset 恒 0（逻辑起点投递）
+            // §61.320：skip 必须随帧投递（ape.c 的 frames[i].skip）——起点已向下对齐，
+            // 这 0~3 字节是编码器填充，由解码器按 offset 跳过。
+            writeLeU32(prefix, 4, frameSkips.getOrElse(currentFrame) { 0 })
             if (firstPacketPrefix == null) firstPacketPrefix = prefix.copyOf()
             trackOutput?.sampleData(
                 androidx.media3.common.util.ParsableByteArray(prefix), 8,
             )
-            // §61.94b：截断文件——喂入长度按可用数据截取（DataSource 越界读会抛
-            // position out of range → Media3 包成 MALFORMED；截断的末帧解码器自行处理）。
-            val avail = if (input.length >= 0) (input.length - input.position).toInt() else size.toInt()
-            val feedLen = minOf(size.toInt(), avail)
-            // §61.107：REMOTE 下 DataSource 可能一次只给部分数据；旧实现单次
-            // sampleData(..., true) 会把截断帧投给解码器（真机
-            // `ApeDecWrapper: Bad input arguments to ape_dec_process`）。
-            // 循环读满 feedLen（前缀 8B 已单独写入），仍以 fed 为实际投递长度。
+            // §61.320：包长按 ape.c 对齐后，相邻包存在 0 或 4 字节**重叠**（对齐补齐
+            // 会吃进下一帧起点前的字节）。为既不回退取流（§61.107：RESULT_SEEK 会让
+            // Media3 重开 DataSource）又不丢字节，改为自读缓冲 + 重叠结转 carry：
+            // 本帧末尾那几字节正是下一帧的开头，存进 carry 下帧复用。
+            // §61.94b：截断文件——喂入长度按可用数据截取（越界读会 MALFORMED）。
+            val need = size.toInt()
+            val avail = if (input.length >= 0) (input.length - input.position).toInt() else need
+            val feedLen = minOf(need, avail)
+            val buf = ByteArray(feedLen.coerceAtLeast(0))
             var fed = 0
-            var remaining = feedLen
-            while (remaining > 0) {
-                val n = runCatching {
-                    trackOutput?.sampleData(input, remaining, false) ?: -1
-                }.getOrDefault(-1)
+            if (carry.isNotEmpty() && feedLen > 0) {
+                fed = minOf(carry.size, feedLen)
+                System.arraycopy(carry, 0, buf, 0, fed)
+                carry = EMPTY_BYTES
+            }
+            while (fed < feedLen) {
+                val n = runCatching { input.read(buf, fed, feedLen - fed) }.getOrDefault(-1)
                 if (n <= 0) break
                 fed += n
-                remaining -= n
+            }
+            if (fed > 0) {
+                // TrackOutput 无 byte[] 重载，只能包一层 ParsableByteArray（Media3 契约）。
+                trackOutput?.sampleData(
+                    androidx.media3.common.util.ParsableByteArray(buf).apply { setPosition(0) },
+                    fed,
+                )
             }
             if (fed <= 0) {
                 // EOF：①真实文件 = 最后帧读完或到 tag；②截断样本 = 可用部分投递完毕。
@@ -348,6 +402,16 @@ class ApeExtractor : Extractor {
                 }
                 return Extractor.RESULT_END_OF_INPUT
             }
+            // 本帧读到的末尾 1~3 字节属于下一帧（对齐补齐的重叠段）→ 结转。
+            val nextAligned = frames.getOrElse(currentFrame + 1) { -1L }
+            if (nextAligned > pos) {
+                val overlapL = (pos + fed) - nextAligned
+                // align4 向上取整：未对齐时恰好多出 4 字节（不是 1~3），对齐时为 0。
+                val overlap = if (overlapL in 1..4) overlapL.toInt() else 0
+                if (overlap in 1..4 && fed >= overlap) {
+                    carry = buf.copyOfRange(fed - overlap, fed)
+                }
+            }
             trackOutput?.sampleMetadata(
                 frameTimeUs(currentFrame),
                 C.BUFFER_FLAG_KEY_FRAME, 8 + fed, 0, null,
@@ -356,16 +420,6 @@ class ApeExtractor : Extractor {
             return Extractor.RESULT_CONTINUE
         }
         return Extractor.RESULT_END_OF_INPUT
-    }
-
-    private fun frameSize(index: Int, nextPos: Long): Long {
-        val pos = frames[index]
-        val end = if (tagEnd >= 0) tagEnd else -1L
-        return when {
-            nextPos > pos -> if (end >= 0) minOf(nextPos, end) - pos else nextPos - pos
-            end >= 0 && end > pos -> end - pos
-            else -> blocksPerFrame.toLong()   // 末帧/截断：标称块数上界，EOF/tag 兜底
-        }
     }
 
     private fun durationUs(): Long {
@@ -447,6 +501,8 @@ class ApeExtractor : Extractor {
         private const val STATE_READ_HEADER = 0
         /** §61.107：顺序跳过的上限（2MiB）；超过则退回 RESULT_SEEK。 */
         private const val MAX_SEQUENTIAL_SKIP = 2L * 1024 * 1024
+        /** §61.320：重叠结转的空缓冲常量。 */
+        private val EMPTY_BYTES = ByteArray(0)
         /**
          * `12 §61.101`：纯 JVM 单测里 `android.util.Log` 是未 mock 的 stub，
          * 直接调 `Log.i` 会抛 `RuntimeException: Method i ... not mocked`

@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.sp
 import com.example.cloudmusic.model.Availability
 import com.example.cloudmusic.model.SourceType
 import com.example.cloudmusic.model.Track
+import com.example.cloudmusic.model.TrackId
 import com.example.cloudmusic.model.TrackInfo
 
 /**
@@ -87,6 +88,8 @@ fun FnLibraryScreen(
     onOpenFavorites: () -> Unit,
     onOpenHistory: () -> Unit,
     onOpenSources: () -> Unit,
+    /** §61.327（A-7）：当前播放曲目 id——曲目行据此点亮「正在播放」。 */
+    nowPlayingId: TrackId? = null,
 ) {
     var viewIndex by rememberSaveable { mutableIntStateOf(0) }
     var expanded by remember { mutableStateOf(setOf<String>()) }
@@ -174,6 +177,7 @@ fun FnLibraryScreen(
                                 onPlayTracks(tracks, idx)
                             },
                             onAdd = { onAddToPlaylist(track) },
+                            nowPlayingId = nowPlayingId,
                         )
                     }
                 }
@@ -203,6 +207,7 @@ fun FnLibraryScreen(
                                         onPlayTracks(groupTracks, idx)
                                     },
                                     onAdd = { onAddToPlaylist(track) },
+                                    nowPlayingId = nowPlayingId,
                                 )
                             }
                         }
@@ -233,6 +238,7 @@ fun FnLibraryScreen(
                                 track = track,
                                 onPlay = {}, // §61.276：点击由行内拦截，只提示原因
                                 subtitle = unavailableSubtitle(track),
+                                nowPlayingId = nowPlayingId,
                             )
                         }
                     }
@@ -352,7 +358,7 @@ private fun FnHeaderButton(icon: FnIcon, onClick: () -> Unit, busy: Boolean = fa
         if (busy) {
             CircularProgressIndicator(
                 modifier = Modifier.size(18.dp),
-                color = FnComp.BrandOrange,
+                color = FnComp.IconRed,
                 strokeWidth = 2.dp,
             )
         } else {
@@ -459,6 +465,8 @@ private fun FnTrackLine(
     onAdd: (() -> Unit)? = null,
     // §61.275：副题走 TrackInfo 单一真相源（已知字段才显示，占位值不渲染）
     subtitle: String = TrackInfo.listSubtitle(track),
+    /** §61.327（A-7）：当前播放曲目 id；命中即点亮（判断只在 [FnTrackRow] 里做一次）。 */
+    nowPlayingId: TrackId? = null,
 ) {
     val context = LocalContext.current
     val unavailable = track.availability != Availability.OK
@@ -477,6 +485,7 @@ private fun FnTrackLine(
         coverRef = track.coverRef,
         dimmed = unavailable,
         badge = if (unavailable) "暂不可用" else null,
+        playing = track.id == nowPlayingId,
         trailing = {
             if (onAdd != null) {
                 Box(

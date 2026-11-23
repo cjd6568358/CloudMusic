@@ -19,6 +19,8 @@ class CueEnvelopeTest {
         // base=0（引擎未解出）→ 原样 0
         assertEquals(0L, CueEnvelope.displayDuration(0L, 30_000L, 60_000L))
         // 整轨便捷重载（Track null）
+        // §61.320：末轨无 cue 终点（end=0）→ 用文件尾兜底，不再把整文件时长当本轨
+        assertEquals(257_351L, CueEnvelope.displayDuration(4_425_351L, 4_168_000L, 0L))
         assertEquals(120_000L, CueEnvelope.displayDuration(120_000L, null))
     }
 

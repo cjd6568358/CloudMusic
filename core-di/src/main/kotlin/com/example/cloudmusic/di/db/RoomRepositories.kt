@@ -75,6 +75,21 @@ class RoomTrackRepository(
 
     override suspend fun get(id: TrackId): Track? = dao.get(id.value)?.toTrack()
 
+    /**
+     * §61.319（R2）：Room 批量点查——`IN (:ids)` 每条 SQL 最多 500 个变量
+     * （[UPSERT_BATCH_SIZE] 同口径），按输入顺序返回、缺项 null。
+     */
+    override suspend fun getMany(ids: List<TrackId>): List<Track?> {
+        if (ids.isEmpty()) return emptyList()
+        val found = HashMap<String, Track>()
+        for (chunk in ids.distinct().chunked(UPSERT_BATCH_SIZE)) {
+            dao.findByIds(chunk.map { it.value }).forEach { row ->
+                found[row.id] = row.toTrack()
+            }
+        }
+        return ids.map { found[it.value] }
+    }
+
     /** §6 / §14 #3 / C-04：单事务合并旧状态，严格保留 availability 与 addedAt。 */
     override suspend fun upsertBatch(tracks: List<Track>) {
         UpsertPlanner.chunks(tracks).forEach { batch ->

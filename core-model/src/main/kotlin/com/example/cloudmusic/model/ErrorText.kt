@@ -26,6 +26,14 @@ object ErrorText {
             "E_DS_STORAGE_MISSING" -> "来源已不存在（可能被移除），请重新添加"
             "E_DS_NOT_SUPPORT" -> "有文件无法识别（格式不支持或目录层级过深）"
             "E_DS_IO" -> "读取失败：文件或磁盘异常"
+            // §61.323（C-2）：此前未登记也未映射，落 else 的「扫描失败」——
+            // 与真实原因（源被移除 / 歌单导入失败）无关，用户无法据此处理。
+            "E_SCAN_ORPHAN_SOURCE" -> "数据源已移除，其下曲目已标记为暂不可用"
+            "E_SCAN_IMPORT" -> "歌单导入失败：请检查文件格式与编码"
+            // 播放侧两码的 message 本身已是人话（lastError 直接取 .message 展示），
+            // 这里补齐仅为「全部登记码都有映射」的一贯性，正常不会走到。
+            "E_SKIP_GUARD" -> "连续多首播放失败，已暂停自动跳曲"
+            "E_LINK_TIMEOUT" -> "音源解析超时，请检查音源是否可达"
             else -> "扫描失败"
         }
         return if (detail.isBlank()) label else "$label（$detail）"

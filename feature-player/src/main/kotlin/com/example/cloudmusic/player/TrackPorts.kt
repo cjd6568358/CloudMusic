@@ -8,6 +8,14 @@ import com.example.cloudmusic.model.TrackId
 /** 队列只存 `track_id` + `source_ref`，元数据从曲库按 id 取（§8.1）。 */
 interface TrackLookup {
     suspend fun get(id: TrackId): Track?
+
+    /**
+     * §61.319（R2）：批量预取——生产 Room 实现覆写为单条 `IN` 查询，
+     * 消除「每次 prepareAt 扫整队列做 N 次 Room 点查」的风暴。
+     * 默认逐项委托 [get]：测试 fake / 内存实现零改动兼容（§61.319 guard 只钉生产覆写）。
+     * @return 与 [ids] 等长、同序；缺项 null。
+     */
+    suspend fun getMany(ids: List<TrackId>): List<Track?> = ids.map { get(it) }
 }
 
 /**
@@ -28,6 +36,7 @@ class UnavailableTrackSourceResolver : TrackSourceResolver {
 class InMemoryTrackLookup(tracks: Collection<Track>) : TrackLookup {
     private val map = tracks.associateBy { it.id }
     override suspend fun get(id: TrackId): Track? = map[id]
+    override suspend fun getMany(ids: List<TrackId>): List<Track?> = ids.map { map[it] }
 }
 
 /**

@@ -31,6 +31,25 @@ open class CloudMusicError(
     /** u 为带签名的完整 URL，按 07 §8 禁止写入日志，故不保存在消息里。 */
     class LinkExpired(u: String) : CloudMusicError("直链已失效", "E_LINK_EXPIRED")
     class LinkBadScheme(s: String) : CloudMusicError("不支持的 strm scheme: $s", "E_LINK_BAD_SCHEME")
+
+    /**
+     * §61.323（C-2 正名）：link() 三级容错总超时（`KernelTuning.LINK_TOTAL_TIMEOUT_MS`）。
+     *
+     * 此前借用 [DsUpstream] 装壳 → 运行时码被拼成 `E_DS_UPSTREAM_E_LINK_TIMEOUT`，
+     * 与 03-06 §13 / 07 §3 宣称的 `E_LINK_TIMEOUT` 不符，`failure_log` 按前缀
+     * 归档时会被错算进数据源故障。改为具名类后码值即文档码。
+     */
+    class LinkTimeout(d: String) : CloudMusicError(d, "E_LINK_TIMEOUT")
+
+    // ---- E_SKIP_* 连播护栏（03-06 §13、07 §3.1） -----------------------
+    /**
+     * §61.323（C-2 正名）：连续 ≥`CONSECUTIVE_SKIP_FAIL_LIMIT` 首 autoSkip 失败后
+     * 停止自动跳曲、停在半途等用户裁决。
+     *
+     * 同 [LinkTimeout]：原借用 [DsUpstream] 实得 `E_DS_UPSTREAM_E_SKIP_GUARD`。
+     * 该码属队列策略而非上游故障，独立成 `E_SKIP_*` 域。
+     */
+    class SkipGuard(d: String) : CloudMusicError(d, "E_SKIP_GUARD")
 }
 
 /** 统一返回类型（03-01 §6）：异常规范为 [CloudMusicError]。 */

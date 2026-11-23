@@ -20,6 +20,12 @@ interface TrackRepository {
     fun byArtist(artist: String): Flow<List<Track>>
     fun byFolder(prefix: String): Flow<List<Track>>
     suspend fun get(id: TrackId): Track?
+    /**
+     * §61.319（R2）：按 id 批量取，默认逐项委托 [get]（内存实现零改动兼容）；
+     * Room 实现覆写为 `IN` 查询并按 500 分块（SQLite 变量上限），
+     * 用于播放队列 setQueue 时一次取齐 CUE 标志，消除整队逐项点查。
+     */
+    suspend fun getMany(ids: List<TrackId>): List<Track?> = ids.map { get(it) }
     suspend fun upsertBatch(tracks: List<Track>)          // ★每 500 条一个事务
     suspend fun markAvailability(id: TrackId, a: Availability)
     /** §61.145：批量可用性置位（重扫恢复 OK / markUnavailable 批路径）——默认逐行委托，

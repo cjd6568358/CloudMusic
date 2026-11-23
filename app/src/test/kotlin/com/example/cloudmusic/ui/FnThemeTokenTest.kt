@@ -117,16 +117,34 @@ class FnThemeTokenTest {
     }
 
     @Test
-    @DisplayName("品牌色不随主题变（飞牛橙/图标红/开关绿恒定）")
-    fun brandColorsAreThemeConstant() {
+    @DisplayName("§61.323 · 强调色唯一（红）且不随主题变；橙已归并删除")
+    fun accentColorIsThemeConstant() {
         FnComp.applyTheme(isDark = true)
-        val orange = argb(FnComp.BrandOrange)
         val iconRed = argb(FnComp.IconRed)
         val green = argb(FnComp.SwitchGreen)
 
         FnComp.applyTheme(isDark = false)
-        assertEquals(orange, argb(FnComp.BrandOrange))
         assertEquals(iconRed, argb(FnComp.IconRed))
         assertEquals(green, argb(FnComp.SwitchGreen))
+        // A-2 拍板后主色只有一个：红。橙若被重新引入，这里会因编译失败而暴露。
+        assertEquals(0xFFE54545.toInt(), iconRed, "强调色必须是 IconRed #E54545")
+    }
+
+    @Test
+    @DisplayName("§61.323 · 源码侧不留第二主色（BrandOrange 全仓移除）")
+    fun noSecondPrimaryColor() {
+        // 只扫 app 模块 UI 源码：残留的 `BrandOrange`（含注释）都算未收口——
+        // 注释里留着会让后来者以为还有第二个可用主色。
+        val uiDir = java.io.File("src/main/kotlin/com/example/cloudmusic/ui")
+        val files = uiDir.walkTopDown().filter { it.extension == "kt" }.toList()
+        // 防「目录不存在 → 扫到 0 个文件 → 恒 PASS」的假判据。
+        assertTrue(files.size > 10, "UI 源码目录未定位到（找到 ${files.size} 个 .kt）：${uiDir.absolutePath}")
+        val hits = files
+            .flatMap { f -> f.readLines().map { f.name to it } }
+            .filter { (_, line) -> "BrandOrange" in line }
+        assertTrue(
+            hits.isEmpty(),
+            "第二主色残留：" + hits.take(3).joinToString("; ") { "${it.first}: ${it.second.trim()}" },
+        )
     }
 }

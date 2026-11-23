@@ -108,6 +108,34 @@ class SettingsContractTest {
     }
 
     @Test
+    fun `T-A2-05 fade settings round-trip and legacy-JSON default`() {
+        // §61.319（R2/D1）：fade 两字段必须落盘；旧 JSON 缺字段按模型默认 false/0。
+        val original = AppSettings(
+            audiofx = com.example.cloudmusic.storage.AudiofxSettings(
+                enabled = true,
+                effectLevel = 3,
+                bandsMillibel = listOf(-300, 0, 250),
+                fadeEnabled = true,
+                fadeDurationMs = 1_500,
+            ),
+        )
+        val encoded = AppSettingsCodec.encode(original)
+        assertTrue(encoded.contains("fadeEnabled"))
+        assertTrue(encoded.contains("fadeDurationMs"))
+        val decoded = AppSettingsCodec.decode(encoded)
+        assertEquals(original, decoded, "淡入淡出开关与时长必须随设置落盘")
+        assertTrue(decoded.audiofx.fadeEnabled)
+        assertEquals(1_500, decoded.audiofx.fadeDurationMs)
+
+        val legacy = AppSettingsCodec.decode(
+            "{\"audiofx\":{\"enabled\":true,\"effectLevel\":2}}",
+        )
+        assertTrue(legacy.audiofx.enabled, "旧字段不受影响")
+        assertTrue(!legacy.audiofx.fadeEnabled, "旧 JSON 无 fade 字段 → false 默认")
+        assertEquals(0, legacy.audiofx.fadeDurationMs)
+    }
+
+    @Test
     fun `T-A2-04 lastDmr memory round-trip and legacy-JSON default`() {
         // §61.241（V3-M2）：记忆随 codec 保留；旧 JSON 无字段 → null/空串（不伪造上次设备）。
         val populated = populated()

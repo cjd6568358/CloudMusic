@@ -42,6 +42,14 @@ data class EngineSource(
     val headers: List<Pair<String, String>> = emptyList(),
     /** C-05：`LOCAL` 态的本机路径，供 `DataProvider.getLocalPath()` / `openLocalFd()` 直接读取。 */
     val localPath: String? = null,
+    /**
+     * §61.318（R1）：物理媒体文件锚（已派生好的 `b2file:` key，由 PlayerController
+     * 从 `Track.sourceRef` 经 `MediaCacheKey.of` 填入）。远端取流的 cache key 以本字段
+     * 为准，解决旧 `b2track:<trackId>` 在 CUE 分轨间 key 断裂的问题。
+     * null = 兼容历史直连调用（如 `playUrl` 无曲目夹具），适配器退回 trackId 锚。
+     * 附加可选字段不动 `IMusicEngine` 14+4 方法签名（与 C-05 同款演进方式）。
+     */
+    val cacheAnchor: String? = null,
 ) {
     init {
         require(!(url != null && localPath != null)) {

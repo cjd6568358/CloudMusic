@@ -169,6 +169,40 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
+# ---- §61.324（B-4 拆域）：组合根源码聚合 --------------------------------------
+# 组合根原为单文件 `PlaybackComposition.kt`（1299 行、12 类职责），现拆为
+# 「组合根 + 三域」（LibraryFacade / DlnaSessionFacade / ScanRuntime）。
+# 所有「runtime 是否接线」类判据一律对**整个 playback 包**求值：语义不变
+# （接线必须存在），只是不再把实现位置钉死在单个文件上——那本身就是一条
+# 隐性技术债（搬一次实现就要改一批判据）。
+_PLAYBACK_PKG = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
+                 / "example" / "cloudmusic" / "di" / "playback")
+
+_ORIG_READ_TEXT = Path.read_text
+
+
+def _PB_TEXT() -> str:
+    """playback 包全部源码的拼接（按文件名排序，结果稳定）。"""
+    return chr(10).join(
+        _ORIG_READ_TEXT(f, encoding="utf-8", errors="replace")
+        for f in sorted(_PLAYBACK_PKG.glob("*.kt"))
+    )
+
+
+def _pb_read_text(self, *args, **kwargs):
+    """读取 `PlaybackComposition.kt` 时返回**整个 playback 包**的文本。
+
+    这样历史判据一行都不用改：它们看到的仍是「组合根源码」，只是不再假设
+    所有职责都写在同一个文件里。文件本身仍存在，故各处的 `.is_file()` 守卫照常成立。
+    """
+    if self.name == "PlaybackComposition.kt":
+        return _PB_TEXT()
+    return _ORIG_READ_TEXT(self, *args, **kwargs)
+
+
+Path.read_text = _pb_read_text
+
+
 GRADLE_FILES = (
     "settings.gradle.kts", "build.gradle.kts", "gradle.properties",
     "gradle/libs.versions.toml", "gradle/wrapper/gradle-wrapper.properties",
@@ -1489,9 +1523,7 @@ def main() -> int:
                 # 不是切换动作，从计数中剔除，避免把「定义」当成「调用」。
                 changed -= body.count("= controller.onOutputChanged(dlna)")
             output_changed_calls += changed
-    _runtime_pth = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" /
-                    "example" / "cloudmusic" / "di" / "playback" /
-                    "PlaybackComposition.kt").read_text(encoding="utf-8")
+    _runtime_pth = _PB_TEXT()
     _passthrough = "fun onOutputChanged(dlna: Boolean) = controller.onOutputChanged(dlna)" in _runtime_pth
     if active_calls != output_changed_calls or not _passthrough:
         failures.append(
@@ -1510,8 +1542,7 @@ def main() -> int:
     # 这里把「冷启动恢复 / 会话播放态 / 媒体键入口 / 转发判定 / remote 分支 / 真类在位」
     # 钉成成对断言；§51 把按键判定下沉到纯 JVM 的 MediaKeyAction，语义改由 :app
     # 的 PlatformContractTest 覆盖。静态守护 + JVM 单测双保险，防止真机成果被回退。
-    composition = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
-                   / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt").read_text(encoding="utf-8")
+    composition = _PB_TEXT()
     restore_needles = (
         "queueRepository.restore()", "queueRepository.observe().first()",
         "controller.restore(snapshot, items)", 'Log.w("CloudMusicRuntime"',
@@ -2730,8 +2761,11 @@ def main() -> int:
     ape = (ROOT / "engine-opensource" / "src" / "main" / "java" / "androidx"
            / "media3" / "extractor" / "ape" / "ApeExtractor.kt")
     ape_txt = ape.read_text(encoding="utf-8") if ape.is_file() else ""
-    if "writeBeU32(prefix" in ape_txt or "writeLeU32(prefix, 4, 0)" not in ape_txt:
-        failures.append("12 §61.149：ape packet 前缀字节序回潮（必须 LE 写 offset=0）")
+    # §61.320 改判据不改强度：旧判据把「offset 恒 0」当契约，实际 ape.c 的 skip 是
+    # 每帧 (pos - firstframe) & 3（真机 CDImage.ape 1130/1500 帧非对齐）。仍然
+    # 只认 LE 写 + 只认这一个字段位置，只是值从常量 0 换成 per-frame skip。
+    if "writeBeU32(prefix" in ape_txt or "writeLeU32(prefix, 4, frameSkips" not in ape_txt:
+        failures.append("12 §61.149/§61.320：ape packet 前缀字节序回潮（必须 LE 写 per-frame skip）")
     elif not all(x in doc139_txt for x in (
         "§61.126 字节序误判修正", "描述符字段垃圾",
     )):
@@ -5678,9 +5712,7 @@ def main() -> int:
                "Media3EngineAdapter.kt").read_text(encoding="utf-8")
     _app108 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" /
                "cloudmusic" / "ui" / "CloudMusicApp.kt").read_text(encoding="utf-8")
-    _di108 = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" /
-              "cloudmusic" / "di" / "playback" /
-              "PlaybackComposition.kt").read_text(encoding="utf-8")
+    _di108 = _PB_TEXT()
     _api108 = (ROOT / "engine-api" / "src" / "main" / "kotlin" / "com" /
                "example" / "cloudmusic" / "engine" / "api" /
                "EngineApi.kt").read_text(encoding="utf-8")
@@ -6060,7 +6092,11 @@ def main() -> int:
             _dlna_bad.append("会话判定器缺 3 次阈值或回落一次性语义")
         if "suspend fun positionMs(" not in _cast_src or "getPositionInfo" not in _cast_src:
             _dlna_bad.append("DMR 进度读取缺失")
-        if "private fun dlnaSessionLoop()" not in _runt_src or "dlnaSessionLoop()" not in _runt_src:
+        # §61.324（B-4 拆域）：会话循环搬入 DlnaSessionFacade 并更名 sessionLoop——
+        # 判据改锚新名，并**加**一条「两个循环都由 start() 拉起」的检查（强度不降）。
+        if ("private fun sessionLoop()" not in _runt_src
+                or "recastLoop()" not in _runt_src
+                or "sessionLoop()" not in _runt_src):
             _dlna_bad.append("运行时未接会话轮询")
         if not all(frag in _runt_src for frag in (
             "output.setActive(ActiveOutput.LOCAL)", "onOutputChanged(false)",
@@ -6129,8 +6165,13 @@ def main() -> int:
         _pos_bad = []
         if "suspend fun seekTo(" not in _cast2_src or "SoapController.seek(" not in _cast2_src:
             _pos_bad.append("DMR seek 能力缺失")
-        if "fun displayPositionMs()" not in _runt2_src or "_dlnaPositionMs" not in _runt2_src:
+        # §61.324（B-4 拆域）：缓存字段改名 _dlnaPositionMs → _positionMs 并移入
+        # DlnaSessionFacade；判据改锚新名，**加**一条「DLNA 活跃且 DMR 有值时用 DMR
+        # 真值」的裁决断言（原判据只查字段名存在，现连分支语义一起钉）。
+        if "fun displayPositionMs()" not in _runt2_src or "_positionMs" not in _runt2_src:
             _pos_bad.append("运行时未裁决/缓存 DMR 进度")
+        if "ActiveOutput.DLNA && dmr > 0L" not in _runt2_src:
+            _pos_bad.append("进度裁决未按「DLNA 活跃且 DMR 有值」取真值")
         if "castCoordinator.seekTo(device, ms)" not in _runt2_src:
             _pos_bad.append("投屏态 seek 未转发到 DMR")
         if "runtime.displayPositionMs()" not in _pb2_src:
@@ -6679,7 +6720,12 @@ def main() -> int:
             _sp_bad.append("规则引擎纯函数或内置预设缺失")
         if "data class Rule" not in _sp_src or "enum class Field" not in _sp_src:
             _sp_bad.append("规则模型缺失")
-        if "SmartPlaylist.evaluate(allTracks, rule)" not in _cmp_src5:
+        # §61.321 判据升级（强度不变）：求值必须仍在，但从 items 内容 lambda
+        # 迁到 remember 表——`evaluate(allTracks, it)` + `smartHits[rule]` 消费。
+        _sp_eval = ("SmartPlaylist.evaluate(allTracks, rule)" in _cmp_src5 or
+                    ("SmartPlaylist.evaluate(allTracks, it)" in _cmp_src5 and
+                     "smartHits[rule]" in _cmp_src5))
+        if not _sp_eval:
             _sp_bad.append("歌单页未接智能歌单求值")
         if "onPlaySmart(hits)" not in _cmp_src5:
             _sp_bad.append("命中曲目未接播放回调")
@@ -6792,8 +6838,10 @@ def main() -> int:
     # §61.309 口径演进：交棒判据加缓冲冻结（!buffering 前缀）——外推位置非真值。
     if "if (!buffering && cueEndMs > 0 && pos >= cueEndMs)" not in _pc_src:
         _cue_p_bad.append("节拍器终点交棒缺失")
-    if "val hasCueTracks = queue.any" not in _pc_src:
-        _cue_p_bad.append("gapless 分轨禁用判定缺失")
+    # §61.319 改判据不改强度：判定源从整队逐项 get 换为 setQueue 批量预取快照；
+    # 旧字面判据只认 queue.any，会把「批量预取后仍判 CUE」误判为缺失。
+    if "val hasCueTracks = queueTracks.any" not in _pc_src:
+        _cue_p_bad.append("gapless 分轨禁用判定缺失（预取快照）")
     if "val effectiveSeek = if (seekTo > 0) clampToCue(seekTo) else cueStartMs" not in _pc_src:
         _cue_p_bad.append("分轨起始定位缺失")
     if "positionMs = effectiveSeek" not in _pc_src:
@@ -6915,7 +6963,11 @@ def main() -> int:
         _vol_bad.append("coordinator SetVolume 缺失")
     if "CurrentVolume" not in _coord_src:
         _vol_bad.append("coordinator GetVolume 解析缺失")
-    if "fun setCastVolume(volume: Int) = scope.launch" not in _pc_src2 or "castCoordinator.setVolume(device, volume)" not in _pc_src2:
+    # §61.324（B-4 拆域）：实现移入 DlnaSessionFacade（`setVolume`），组合根留同名委托口
+    # `setCastVolume`——两段都必须在，缺一即半条链（原判据只钉一处，现钉两处，强度不降）。
+    if ("fun setCastVolume(volume: Int) = dlna.setVolume(volume)" not in _pc_src2
+            or "fun setVolume(volume: Int) = scope.launch" not in _pc_src2
+            or "castCoordinator.setVolume(device, volume)" not in _pc_src2):
         _vol_bad.append("运行时投屏态音量路由缺失")
     if "投屏音量：" not in _app_src3 or "onCastVolumeChanged" not in _app_src3:
         _vol_bad.append("输出弹窗音量滑杆缺失")
@@ -6940,9 +6992,7 @@ def main() -> int:
         _fade_bad.append("分轨终点渐出交棒组合缺失")
     if "val fadeEnabled: Boolean = false" not in _fx:
         _fade_bad.append("AudiofxSettings.fade 配置缺失")
-    if "controller.updateFade(fx.audiofx.fadeEnabled" not in _code_only(
-            (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
-             / "di" / "playback" / "PlaybackComposition.kt").read_text(encoding="utf-8", errors="replace")):
+    if "controller.updateFade(fx.audiofx.fadeEnabled" not in _code_only(_PB_TEXT()):
         _fade_bad.append("运行时配置转发缺失")
     if _fade_bad:
         failures.append("§61.230 淡入淡出：%s" % "；".join(_fade_bad))
@@ -7489,8 +7539,13 @@ def main() -> int:
         _c262_bad.append("Android 15 opt-out 缺失")
     if ".displayCutoutPadding()" not in _app_src:
         _c262_bad.append("普通页挖孔安全区缺失")
-    if ".imePadding()" not in _app_src:
-        _c262_bad.append("搜索页 IME 避让缺失")
+    # §61.325（A-1）判据升级（强度不变）：IME 避让的**实现点**从「搜索页自己 imePadding」
+    # 改为「Scaffold 底栏整体让位」。前者只抬内容、底栏照样被键盘盖住（真机 01:43 截图），
+    # 所以这里钉新锚点；页面内再出现 imePadding 才是回归（双倍留白）。
+    if "WindowInsets.ime.exclude(WindowInsets.navigationBars)" not in _app_src:
+        _c262_bad.append("IME 避让缺失（底栏未按键盘让位）")
+    elif "imePadding" in _app_src:
+        _c262_bad.append("页面内与底栏重复让位（会叠出一个键盘高的空白）")
     if ".displayCutoutPadding()" not in _player_src:
         _c262_bad.append("播放页挖孔安全区缺失")
     if "fun List<Track>.recentlyAdded(" not in _track_src or "tracks.recentlyAdded()" not in _home_src:
@@ -8045,14 +8100,17 @@ def main() -> int:
     if not _fn_apply:
         _c283.append("FnComp 缺 applyTheme（令牌无从切色）")
 
-    _allowed_vals = {"BrandOrange", "IconRed", "SwitchGreen"}
+    # §61.323（A-2，用户拍板「用红」）：品牌橙 BrandOrange 已归并删除——强调色唯一
+    # 令牌 = IconRed；SwitchGreen 是「开关状态」语义（平台惯例），不算强调色。
+    # 判据强度不变：FnComp 内仍只允许这几个主题恒定色，其余 ``val X = Color(`` 一律 FAIL。
+    _allowed_vals = {"IconRed", "SwitchGreen"}
     _const_vals = set(re.findall(_val_color, _fn_decl))
     _rogue = sorted(_const_vals - _allowed_vals)
     if _rogue:
         _c283.append("FnComp 出现主题不切色的 val 令牌：%s（应改 var + 进 applyTheme）"
                      % "/".join(_rogue))
     if not _allowed_vals.issubset(_const_vals):
-        _c283.append("品牌色被改成 var（BrandOrange/IconRed/SwitchGreen 应主题恒定）")
+        _c283.append("主题恒定色被改成 var（IconRed/SwitchGreen 应恒定）")
 
     _fn_need = ("CoverPlaceholder", "Divider", "InputBg", "RowDivider", "CapsuleBg", "SwitchOffBg")
     for _n in _fn_need:
@@ -8218,15 +8276,14 @@ def main() -> int:
     _hb = _hb[:_hb.find(chr(10) + "}") if chr(10) + "}" in _hb else len(_hb)]
     if "CircularProgressIndicator(" not in _hb:
         _c285.append("busy 态无进度环（用户仍看不到扫描在跑）")
-    if "FnComp.BrandOrange" not in _hb:
-        _c285.append("进度环未用品牌橙（裸色值会与飞牛基准漂移）")
+    # §61.323（A-2）：主色统一为红——进度环必须用唯一强调色令牌，禁裸色值。
+    if "FnComp.IconRed" not in _hb:
+        _c285.append("进度环未用强调色令牌（裸色值会与基准漂移）")
     if "clickable(enabled = !busy)" not in _hb:
         _c285.append("busy 态未禁用点击（连点会取消重启，丢已扫进度）")
     if "scanning = runtime.scanning" not in _code_app:
         _c285.append("App 未传真实 runtime.scanning（写死/未接＝无反馈）")
-    _pb = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
-           / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt").read_text(
-               encoding="utf-8", errors="replace")
+    _pb = _PB_TEXT()
     if "val generation = ++scanGeneration" not in _pb:
         _c285.append("runScan 未在起跑前生成代次（无法判定谁有权收 scanning）")
     if "if (scanGeneration == generation)" not in _pb:
@@ -9234,8 +9291,13 @@ def main() -> int:
     _om302 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/example/cloudmusic/"
                          "engineopensource/Media3EngineAdapter.kt"
                          ).read_text(encoding="utf-8", errors="replace"))
-    if "setCacheKeyFactory" not in _om302 or "b2track:" not in _om302:
-        _c302.append("CacheDataSource 缓存 key 未与随机 token 解耦（SimpleCache 恒 miss）")
+    # §61.318 改判据不改强度：key 由物理锚派生（不再含 URL token），兼容入口单独在册；
+    # 单看 "b2track:" 会掩盖「切回 URL key」的回归，故要求两形态都在判据内。
+    if ("setCacheKeyFactory" not in _om302
+            or "source.cacheAnchor" not in _om302
+            or "MediaCacheKey.isFileKey(" not in _om302
+            or "MediaCacheKey.ofFallback(" not in _om302):
+        _c302.append("CacheDataSource 缓存 key 未与随机 token / trackId 解耦（SimpleCache 恒 miss）")
     if "setLoadControl(" not in _om302 or "loadControl(config.bufferMs)" not in _om302:
         _c302.append("ExoPlayer 未显式 setLoadControl（bufferMs 仍为死参数）")
     _t302 = (ROOT / "engine-bridge/src/test/kotlin/com/example/cloudmusic/bridge/"
@@ -9246,7 +9308,7 @@ def main() -> int:
         failures.append("§61.302 取流吞吐自洽：%s" % "；".join(_c302))
     else:
         print("[PASS] §61.302 取流吞吐自洽（openStream 端口 / 顺序续泵 / 200 流式跳过 / "
-              "302 缓存同口径 / 缓存 key 稳定 / LoadControl 显式化 / 用例在册）")
+              "302 缓存同口径 / 缓存 key 物理锚稳定 / LoadControl 显式化 / 用例在册）")
 
     # ---- §61.303（K1a/c/d/f 行为对齐：切歌防抖串行化 / 跳曲延迟窗 / 元数据防抖 / 连续失败护栏）----
     _c303 = []
@@ -9272,12 +9334,14 @@ def main() -> int:
         _c303.append("prepare 序贯锁缺失")
     if "private fun scheduleAutoSkip()" not in _pc303:
         _c303.append("缺 scheduleAutoSkip（跳曲延迟窗）")
-    if "E_SKIP_GUARD" not in _pc303:
-        _c303.append("缺连续失败护栏人话提示")
+    # §61.323（C-2 正名）：原判据查字面量 "E_SKIP_GUARD"，但正名后码值由具名类
+    # `SkipGuard` 承载（定义在 core-common，码值本身由 §61.323 判据单独核），
+    # 本处改判「调用点用具名类」——强度不变（仍是「护栏必须存在且有提示」）。
+    if "CloudMusicError.SkipGuard(" not in _pc303:
+        _c303.append("缺连续失败护栏人话提示（CloudMusicError.SkipGuard）")
     if "private fun publishMetadataDebounced(" not in _pc303:
         _c303.append("缺元数据发布防抖")
-    _cmp303 = _code_only((ROOT / "core-di/src/main/kotlin/com/example/cloudmusic/di/playback/"
-                          "PlaybackComposition.kt").read_text(encoding="utf-8", errors="replace"))
+    _cmp303 = _code_only(_PB_TEXT())
     if _cmp303.count("playAtDebounced(") < 5:
         _c303.append("组合层手动点播入口未全部切防抖（<5 处）")
     _t303 = (ROOT / "feature-player/src/test/kotlin/com/example/cloudmusic/player/"
@@ -9504,8 +9568,12 @@ def main() -> int:
     _ad317 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/example/cloudmusic/"
                          "engineopensource/Media3EngineAdapter.kt"
                          ).read_text(encoding="utf-8", errors="replace"))
-    if "cacheWarmerThread" not in _ad317:
-        _c317.append("适配器缺缓存预热线程（CUE/APE 大文件无预热）")
+    # §61.318 改判据不改强度：裸 Thread 已换为受管 daemon 执行器 + Future 取消；
+    # 同时要求完整缓存跳过（旧判据无此项，属增强）。
+    if "warmerExecutor" not in _ad317 or "warmerJob?.cancel(true)" not in _ad317:
+        _c317.append("适配器缺受管预热执行器/取消（CUE/APE 大文件无受控预热）")
+    if "isDaemon = true" not in _ad317:
+        _c317.append("预热线程非 daemon（阻塞 socket read 可拖住进程退出）")
     if "CacheWarmer-" not in _ad317:
         _c317.append("预热线程命名缺失")
     _api317 = (ROOT / "engine-api/src/main/kotlin/com/example/cloudmusic/engine/api/EngineApi.kt"
@@ -9515,7 +9583,496 @@ def main() -> int:
     if _c317:
         failures.append("§61.317 缓存预热自洽：%s" % "；".join(_c317))
     else:
-        print("[PASS] §61.317 缓存预热自洽（预热线程在册 / bufferMs=15000 / 命名在册）")
+        print("[PASS] §61.317 缓存预热自洽（受管 daemon 执行器 / bufferMs=15000 / 命名在册）")
+
+    # ---- §61.318（R1：CUE 分轨缓存 key 换轨为物理文件锚）----
+    _c318 = []
+
+    def _fn_body318(_code: str, _sig: str) -> str:
+        """按花括号配对取函数/签名起点→函数体末尾（教训 §61.293/295：签名参数也算判据）。"""
+        _i = _code.find(_sig)
+        if _i < 0:
+            return ""
+        _j = _code.find("{", _i)
+        if _j < 0:
+            return ""
+        _d = 0
+        for _k in range(_j, len(_code)):
+            if _code[_k] == "{":
+                _d += 1
+            elif _code[_k] == "}":
+                _d -= 1
+                if _d == 0:
+                    return _code[_i:_k + 1]
+        return ""
+
+    _mk318 = (ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/"
+              "MediaCacheKey.kt").read_text(encoding="utf-8", errors="replace")
+    _mk318c = _code_only(_mk318)
+    # A 组：单一真相源在册，且新前缀与物理路径规范化同在（词边界正则，防改名加后缀绕过）
+    for _n318, _m318 in (
+        (r"object\s+MediaCacheKey\b", "MediaCacheKey 对象缺失"),
+        (r"FILE_PREFIX\s*=\s*\"b2file:\"", "物理锚前缀缺失"),
+        (r"HashUtil\.sha256\(", "sha256 派生缺失（路径明文可能泄漏凭据）"),
+        (r"PathNormalizer\.normalize\(", "路径规范化缺失"),
+        (r"fun\s+ofFallback\(", "兼容入口缺失"),
+    ):
+        if not re.search(_n318, _mk318c):
+            _c318.append(_m318)
+    # B 组：生产映射点必须填物理锚，且取自 Track.sourceRef（不能拿 id 冒充）
+    _pc318 = _code_only((ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/"
+                         "player/PlayerController.kt").read_text(encoding="utf-8", errors="replace"))
+    _es318 = _fn_body318(_pc318, "private fun engineSourceOf(")
+    if not _es318 or not re.search(r"cacheAnchor\s*=\s*MediaCacheKey\.of\(\s*track\s*\)", _es318):
+        _c318.append("engineSourceOf 未填物理锚（CUE 分轨 key 仍断裂）")
+    # C 组：适配器取流 key 以物理锚为准；旧 key 仅兼容 fallback
+    _ad318 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/example/cloudmusic/"
+                         "engineopensource/Media3EngineAdapter.kt"
+                         ).read_text(encoding="utf-8", errors="replace"))
+    _pk318 = _ad318[_ad318.find("val cacheKey ="):_ad318.find("val dataSourceFactory:")]
+    if not _pk318 or "source.cacheAnchor" not in _pk318:
+        _c318.append("取流 cacheKey 未消费物理锚")
+    if "MediaCacheKey.ofFallback(" not in _pk318:
+        _c318.append("缺旧 trackId 锚兼容入口")
+    if _ad318.count("setCacheKeyFactory(CacheKeyFactory { cacheKey })") < 2:
+        _c318.append("取流与 warmer 未共用同一物理锚 key（<2 处）")
+    # D 组：完整缓存跳过必须按已知长度求覆盖；不能只看闭合 span（前缀误判）
+    _hc318 = _fn_body318(_ad318, "private fun hasCompleteCache(")
+    if not _hc318 or "getContentMetadata(key)" not in _hc318:
+        _c318.append("完整缓存判据缺内容长度元数据（误把部分 span 当完整）")
+    if "cache.isCached(key, 0, length)" not in _hc318:
+        _c318.append("完整缓存判据缺 cached spans 覆盖查询")
+    if "hasCompleteCache(cache, cacheKey)" not in _ad318:
+        _c318.append("warmer 未调用完整缓存跳过")
+    # E 组：EngineSource 新增可选字段（14+4 门面签名不动），JVM 用例在册
+    _api318 = (ROOT / "engine-api/src/main/kotlin/com/example/cloudmusic/engine/api/EngineApi.kt"
+               ).read_text(encoding="utf-8", errors="replace")
+    if not re.search(r"val\s+cacheAnchor\s*:\s*String\?\s*=\s*null", _api318):
+        _c318.append("EngineSource 缺可选 cacheAnchor 字段")
+    _t318 = (ROOT / "core-model/src/test/kotlin/com/example/cloudmusic/model/"
+             "MediaCacheKeyTest.kt").read_text(encoding="utf-8", errors="replace")
+    for _n318 in ("同一物理音频的分轨共享缓存 key", "不同物理文件或不同 storage 的 key 互不相同",
+                  "key 形态是 b2file 加 32 位 hex 且不含签名与路径明文",
+                  "路径规范化等价且生产入口不产出旧前缀"):
+        if _n318 not in _t318:
+            _c318.append("用例 " + _n318 + " 缺失")
+    if _c318:
+        failures.append("§61.318 CUE 物理锚缓存 key 自洽：%s" % "；".join(_c318))
+    else:
+        print("[PASS] §61.318 CUE 物理锚缓存 key（真相源 / 映射点 / 取流共用 / 完整跳过 / "
+              "兼容字段 / 用例在册）")
+
+    # ---- §61.319（R2：队列点查批量化 + fade 设置持久化）----
+    _c319 = []
+    _ports319 = _code_only((ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/"
+                            "player/TrackPorts.kt").read_text(encoding="utf-8", errors="replace"))
+    # A 组：批量端口在册（默认逐项委托，兼容测试替身）
+    if not re.search(r"suspend\s+fun\s+getMany\(\s*ids:\s*List<TrackId>\s*\):\s*List<Track\?>", _ports319):
+        _c319.append("TrackLookup 缺 getMany 批量端口")
+    if "ids.map { get(it) }" not in _ports319:
+        _c319.append("getMany 缺默认逐项委托（既有 fake 零回归保证丢失）")
+    # B 组：生产 Room 覆写走 IN 查询（分块避免 SQLite 变量上限），不是逐项 get
+    _roomrepo319 = _code_only((ROOT / "core-di/src/main/kotlin/com/example/cloudmusic/di/db/"
+                               "RoomRepositories.kt").read_text(encoding="utf-8", errors="replace"))
+    _rm319 = _fn_body318(_roomrepo319, "override suspend fun getMany(")
+    if not _rm319 or "dao.findByIds(" not in _rm319:
+        _c319.append("RoomTrackRepository.getMany 未走 findByIds(IN) 批量查询")
+    if "UPSERT_BATCH_SIZE" not in _rm319:
+        _c319.append("Room 批量查询缺 500 分块（SQLite 变量上限风险）")
+    _cmp319 = _code_only(_PB_TEXT())
+    _rl319 = _fn_body318(_cmp319, "class RoomTrackLookup(")
+    if "override suspend fun getMany(ids" not in _rl319 or "tracks.getMany(ids)" not in _rl319:
+        _c319.append("RoomTrackLookup 未覆写 getMany → 生产仍逐项点查")
+    # C 组：setQueue 一次预取 + prepareAt / buildQueueSources 消费快照（禁止整队 lookup.get）
+    _pc319 = _code_only((ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/"
+                         "player/PlayerController.kt").read_text(encoding="utf-8", errors="replace"))
+    _sq319 = _fn_body318(_pc319, "suspend fun setQueue(")
+    if not _sq319 or "lookup.getMany(" not in _sq319:
+        _c319.append("setQueue 未批量预取队列曲目")
+    _pa319 = _fn_body318(_pc319, "private suspend fun prepareAt(")
+    if not _pa319 or "queueTracks.any" not in _pa319:
+        _c319.append("prepareAt 未消费预取快照判 CUE（仍逐项 Room 点查）")
+    if "queue.any { item ->" in _pa319 or "lookup.get(item.trackId)?.let" in _pa319:
+        _c319.append("prepareAt 整队点查风暴仍在")
+    _bs319 = _fn_body318(_pc319, "private suspend fun buildQueueSources(")
+    if not _bs319 or "queueTracks.getOrNull(i)" not in _bs319:
+        _c319.append("buildQueueSources 未从预取快照取邻居曲目")
+    if "lookup.get(queue[i].trackId)" in _bs319:
+        _c319.append("buildQueueSources 逐项 lookup 风暴仍在")
+    # D 组：fade 两字段 encode + decode 双向在册（codec 是唯一持久化出口）
+    _codec319 = _code_only((ROOT / "core-di/src/main/kotlin/com/example/cloudmusic/di/settings/"
+                            "AppSettingsCodec.kt").read_text(encoding="utf-8", errors="replace"))
+    _enc319 = _fn_body318(_codec319, "fun encode(settings: AppSettings): String")
+    _dec319 = _fn_body318(_codec319, "fun decode(raw: String): AppSettings")
+    for _n319, _m319 in (
+        ("put(\"fadeEnabled\", settings.audiofx.fadeEnabled)", "encode 缺 fadeEnabled"),
+        ("put(\"fadeDurationMs\", settings.audiofx.fadeDurationMs)", "encode 缺 fadeDurationMs"),
+        ("fadeEnabled = audiofx.bool(\"fadeEnabled\", false)", "decode 缺 fadeEnabled"),
+        ("fadeDurationMs = audiofx.int(\"fadeDurationMs\", 0)", "decode 缺 fadeDurationMs"),
+    ):
+        if _n319 not in _enc319 and _n319 not in _dec319:
+            _c319.append(_m319)
+    # E 组：JVM 用例在册（大队列零点查 + fade round-trip）
+    _tq319 = (ROOT / "feature-player/src/test/kotlin/com/example/cloudmusic/player/"
+              "QueueBatchLookupTest.kt").read_text(encoding="utf-8", errors="replace")
+    for _n319 in ("大队列 setQueue 后 prepareAt 不逐项点查",
+                  "批量预取的队列无 CUE 标志时 gapless 邻居不逐项点查"):
+        if _n319 not in _tq319:
+            _c319.append("用例 " + _n319 + " 缺失")
+    _ts319 = (ROOT / "core-di/src/test/kotlin/com/example/cloudmusic/di/settings/"
+              "SettingsContractTest.kt").read_text(encoding="utf-8", errors="replace")
+    if "T-A2-05 fade settings round-trip and legacy-JSON default" not in _ts319:
+        _c319.append("fade round-trip 用例缺失")
+    if _c319:
+        failures.append("§61.319 队列批量化与 fade 持久化自洽：%s" % "；".join(_c319))
+    else:
+        print("[PASS] §61.319 队列批量化 + fade 持久化（端口 / Room IN / 快照消费 / "
+              "codec 双向 / 用例在册）")
+
+    # ---- §61.320 ape 帧对齐契约 + 末轨时长 + IME 泄漏 长效守护 ------------
+    # 真机 2026-11-24：CDImage.ape 1130/1500 帧起点非 4B 对齐，旧实现 skip 恒 0、
+    # 包长不补齐 ⇒ 2 分钟 729 次 "Error decoding frame"、位置以 2~3.5 倍速虚跳。
+    # 判据钉三处：ape.c 的 skip/size 计算、回归用例、末轨 end=0 兜底。
+    _c320 = []
+    if "val skip = ((raw[i] - raw[0]) and 3L).toInt()" not in ape_txt:
+        _c320.append("ape.c 帧 skip 计算缺失（(pos-firstframe)&3）")
+    if "frameSizes[i] = if (i + 1 < totalFrames)" not in ape_txt:
+        _c320.append("帧长 align4 预计算缺失")
+    _ape_test = (ROOT / "engine-opensource" / "src" / "test" / "kotlin" / "com" /
+                 "example" / "cloudmusic" / "engineopensource" / "ApeExtractorTest.kt")
+    _at = _ape_test.read_text(encoding="utf-8", errors="replace") if _ape_test.is_file() else ""
+    if "offsets.all { it % 4 == 0L }" not in _at:
+        _c320.append("帧对齐回归用例缺失")
+    _cue = (ROOT / "core-model" / "src" / "main" / "kotlin" / "com" / "example" /
+            "cloudmusic" / "model" / "CueEnvelope.kt")
+    _ct = _cue.read_text(encoding="utf-8", errors="replace") if _cue.is_file() else ""
+    if "cueEndMs <= 0 && cueStartMs < baseMs" not in _ct:
+        _c320.append("末轨 cue end=0 时长兜底缺失")
+    _app = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" /
+            "cloudmusic" / "ui" / "CloudMusicApp.kt")
+    _appt = _app.read_text(encoding="utf-8", errors="replace") if _app.is_file() else ""
+    if "imeController?.hide()" not in _appt or "focusManager.clearFocus()" not in _appt:
+        _c320.append("播放页覆盖层收 IME 缺失（键盘会盖住控制区）")
+    if _c320:
+        failures.append("§61.320 ape 对齐 / 末轨时长 / IME：%s" % "；".join(_c320))
+    else:
+        print("[PASS] §61.320 ape 帧对齐契约 + 末轨时长兜底 + 播放页收 IME（5 项在册）")
+
+    # ---- §61.321（R3：500ms 重组链治理）长效守护 -------------------------
+    # 缺陷形态：`_state.update { copy(positionMs = pos) }` 写在 500ms 节拍器里，
+    # 而根 UI 用 `collectAsState` 收整份 PlayerState ⇒ 每 500ms 全树重组一次，
+    # 连带 SmartPlaylist 全表过滤 / titles Map 重建 / 迷你条 3 次全表扫描。
+    # 判据钉「拍点不再写 state」「相对 seek 改读真值」+ 三处 remember 收敛。
+    _c321 = []
+    _pc = (ROOT / "feature-player" / "src" / "main" / "kotlin" / "com" / "example" /
+           "cloudmusic" / "player" / "PlayerController.kt")
+    _pct = _pc.read_text(encoding="utf-8", errors="replace") if _pc.is_file() else ""
+    # 两处采集点 = 节拍器（拍点真值）+ 暂停点（转换点真值）；少一处就说明有一侧
+    # 又去写 state 了。单查一处会被另一处掩盖（A/B 时踩过：只改 pause 的赋值，
+    # 判据仍 PASS）。
+    if _pct.count("livePositionMs = pos") < 2:
+        _c321.append("节拍器/暂停点未双点采集 livePositionMs")
+    if "_state.update { it.copy(positionMs = pos) }" in _pct:
+        _c321.append("节拍器仍逐拍写 PlayerState.positionMs（整树 500ms 重组回潮）")
+    if "val base = if (_state.value.phase == PlayerPhase.PLAYING) {" not in _pct:
+        _c321.append("相对 seek 未按 PLAYING 分支读 livePositionMs")
+    _home = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" /
+             "cloudmusic" / "ui" / "HomeScreen.kt")
+    _ht = _home.read_text(encoding="utf-8", errors="replace") if _home.is_file() else ""
+    if "remember(tracks) { tracks.recentlyAdded() }" not in _ht:
+        _c321.append("首页最近添加未 remember（每次重组重排全表）")
+    if "items(tracks.recentlyAdded()" in _ht:
+        _c321.append("首页最近添加回潮为 LazyListScope 内直算")
+    if "remember(trackList) { trackList.associateBy { it.id } }" not in _appt:
+        _c321.append("曲库索引未收敛为记忆表（迷你条 3 次全表扫描回潮）")
+    if "titles = trackList.associate { it.id.value to it }" in _appt:
+        _c321.append("队列页 titles 仍每次重组重建 Map")
+    if "SmartPlaylist.PRESETS.associateWith" not in _appt or "smartHits[rule]" not in _appt:
+        _c321.append("智能歌单命中集未 remember（5×N 每重组重算）")
+    _fnu = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" /
+            "cloudmusic" / "ui" / "FeiniuUi.kt")
+    _fnt = _fnu.read_text(encoding="utf-8", errors="replace") if _fnu.is_file() else ""
+    if 'Text("⌕"' in _fnt:
+        _c321.append("搜索框仍用 ⌕ 字形（MIUI 下渲染成孤立小圆圈，像 loading）")
+    if "value.isEmpty() && !focused.value" not in _fnt:
+        _c321.append("搜索框聚焦后仍叠画占位符（光标与提示文字重影）")
+    if _c321:
+        failures.append("§61.321 重组链 / 搜索框收敛：%s" % "；".join(_c321))
+    else:
+        print("[PASS] §61.321 500ms 重组链收敛 + 搜索框图标/占位符（8 项在册）")
+
+    # ---- §61.322（D-1 黄金样本差分：APE 帧表 vs ffmpeg 参考实现）----
+    # 判据不是「测试文件存在」，而是：黄金表有足量帧、覆盖 skip 0..3（对齐契约的
+    # 四个取值都出现过）、生成器标注了参考源头、测试真的逐字节比对并检查前缀。
+    _c322 = []
+    _gt = ROOT / "analysis" / "l3-f3-fixtures" / "golden" / "ape_f3_ape.frames.tsv"
+    if not _gt.is_file():
+        _c322.append("APE 黄金帧表缺失（analysis/l3-f3-fixtures/golden/）")
+    else:
+        _rows = [ln.split("\t") for ln in _gt.read_text(encoding="utf-8").splitlines()
+                 if ln.strip() and not ln.startswith("#") and not ln.startswith("pos")]
+        if len(_rows) < 1000:
+            _c322.append("黄金帧表帧数不足（%d < 1000）" % len(_rows))
+        _skips = {r[2] for r in _rows[:80] if len(r) > 2}
+        if _skips != {"0", "1", "2", "3"}:
+            _c322.append("黄金表前 80 帧未覆盖 skip 0/1/2/3（对齐判据样本不足）: %s" % sorted(_skips))
+    _gen = ROOT / "tools" / "gen_golden_frames.py"
+    if not _gen.is_file():
+        _c322.append("黄金样本生成器缺失（tools/gen_golden_frames.py）")
+    elif "ape.c" not in _gen.read_text(encoding="utf-8", errors="replace"):
+        _c322.append("生成器未标注参考实现来源（ape.c）")
+    _gtk = (ROOT / "engine-opensource" / "src" / "test" / "kotlin" / "com" / "example" /
+            "cloudmusic" / "engineopensource" / "ApeGoldenFramesTest.kt")
+    _gtkt = _gtk.read_text(encoding="utf-8", errors="replace") if _gtk.is_file() else ""
+    if not _gtkt:
+        _c322.append("ApeGoldenFramesTest 缺失")
+    else:
+        for _anchor, _msg in [
+            ("payload.contentEquals(", "未逐字节比对负载"),
+            ("assertEquals(g.skip, skip", "未比对 skip 前缀"),
+            ("assertEquals(g.nblocks, nblocks", "未比对 nblocks 前缀"),
+            ("capturePayloads = true", "未开启负载捕获（比对退化成只看长度）"),
+        ]:
+            if _anchor not in _gtkt:
+                _c322.append(_msg)
+    _reckt = (ROOT / "engine-opensource" / "src" / "test" / "kotlin" / "com" / "example" /
+              "cloudmusic" / "engineopensource" / "Recorder.kt")
+    _rt = _reckt.read_text(encoding="utf-8", errors="replace") if _reckt.is_file() else ""
+    if "capturePayloads" not in _rt or "payloads +=" not in _rt:
+        _c322.append("Recorder 未支持负载捕获")
+    if _c322:
+        failures.append("§61.322 APE 黄金样本差分：%s" % "；".join(_c322))
+    else:
+        print("[PASS] §61.322 APE 帧表黄金样本差分（黄金表 / 生成器来源 / 逐帧四判据）")
+
+    # ---- §61.323（三项拍板落地：C-2 错误码正名 / B-2 并发与网络接线 / A-2 主色统一）----
+    # 除存在性外必须有**反向判据**：借壳回潮、每源一份回潮、第二主色回潮都要能 FAIL。
+    _c323 = []
+    _cm_err = _code_only((ROOT / "core-common/src/main/kotlin/com/example/cloudmusic/common/"
+                          "CloudMusicError.kt").read_text(encoding="utf-8", errors="replace"))
+    for _cls, _code in [("class LinkTimeout", "E_LINK_TIMEOUT"),
+                        ("class SkipGuard", "E_SKIP_GUARD")]:
+        if _cls not in _cm_err or '"%s"' % _code not in _cm_err:
+            _c323.append("core-common 缺具名错误类 %s（码值 %s）" % (_cls.split()[-1], _code))
+    _pc323 = _code_only((ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/player/"
+                         "PlayerController.kt").read_text(encoding="utf-8", errors="replace"))
+    for _anchor in ("CloudMusicError.SkipGuard(", "CloudMusicError.LinkTimeout("):
+        if _anchor not in _pc323:
+            _c323.append("播放侧未用具名类：%s" % _anchor)
+    # 反向：借壳回潮（DsUpstream 装播放/护栏语义）必须 FAIL
+    for _bad in ('DsUpstream("E_SKIP_GUARD"', 'DsUpstream("E_LINK_TIMEOUT"',
+                 '"E_SKIP_GUARD",', '"E_LINK_TIMEOUT",'):
+        if _bad in _pc323:
+            _c323.append("错误码借 DsUpstream 壳回潮：%s" % _bad)
+    _doc07 = (ROOT / "docs" / "07-错误码总表.md").read_text(encoding="utf-8", errors="replace")
+    for _code in ("E_LINK_TIMEOUT", "E_SKIP_GUARD", "E_SCAN_ORPHAN_SOURCE", "E_SCAN_IMPORT"):
+        if _code not in _doc07:
+            _c323.append("docs/07 未登记 %s" % _code)
+    _etx = (ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/"
+            "ErrorText.kt").read_text(encoding="utf-8", errors="replace")
+    for _code in ("E_SCAN_ORPHAN_SOURCE", "E_SCAN_IMPORT", "E_SKIP_GUARD", "E_LINK_TIMEOUT"):
+        if '"%s" ->' % _code not in _etx:
+            _c323.append("ErrorText 缺 %s 的人话映射（会落「扫描失败」兜底）" % _code)
+    _pct323 = (ROOT / "feature-player/src/test/kotlin/com/example/cloudmusic/player/"
+               "PlayerControllerTest.kt").read_text(encoding="utf-8", errors="replace")
+    for _code in ("E_SKIP_GUARD", "E_LINK_TIMEOUT"):
+        if 'assertEquals("%s"' % _code not in _pct323:
+            _c323.append("测试未直判运行时码 %s（只锚 message 抓不到前缀污染）" % _code)
+
+    # B-2：预算必须 run() 级单实例；runMetadata 内不得再自建（反向判据）
+    _sc323 = _code_only((ROOT / "scanner/src/main/kotlin/com/example/cloudmusic/scanner/"
+                         "ScanCoordinator.kt").read_text(encoding="utf-8", errors="replace"))
+    if "val metadataBudget = Semaphore(request.metadataConcurrency" not in _sc323:
+        _c323.append("run() 未创建全源共享 metadata 预算")
+    if "scanStorage(storage, request, state, emit, metadataBudget)" not in _sc323:
+        _c323.append("scanStorage 未接收共享预算")
+    _rm_body = _sc323[_sc323.find("private suspend fun runMetadata("):] if "private suspend fun runMetadata(" in _sc323 else ""
+    if "metadataBudget: Semaphore" not in _rm_body and "semaphore: Semaphore" not in _rm_body:
+        _c323.append("runMetadata 未接收共享预算")
+    if "Semaphore(request.metadataConcurrency" in _rm_body:
+        _c323.append("runMetadata 仍在自建信号量（每源一份回潮，多源并发按源数倍增）")
+    _pbc = _code_only(_PB_TEXT())
+    for _anchor, _msg in [
+        ("effectiveScanRequest(", "扫描请求未走 effectiveScanRequest 接线"),
+        ("metadataWifiOnly = settings.current().network.metadataWifiOnly",
+         "设置项 metadataWifiOnly 未传进扫描请求"),
+        ("kind = kind", "网络事实位未传入请求改写"),
+    ]:
+        if _anchor not in _pbc:
+            _c323.append(_msg)
+    _eff = _pbc[_pbc.find("internal fun effectiveScanRequest("):] if "internal fun effectiveScanRequest(" in _pbc else ""
+    if "wifiAvailable = kind == NetworkKind.WIFI" not in _eff:
+        _c323.append("wifiAvailable 未按真实网络类型判定（恒 true = 原断链）")
+    if "onlyWifiMetadata = metadataWifiOnly" not in _eff:
+        _c323.append("onlyWifiMetadata 未按设置项赋值")
+    for _t, _msg in [
+        ("scanner/src/test/kotlin/com/example/cloudmusic/scanner/ScanConcurrencyBudgetTest.kt",
+         "缺并发峰值判据（ScanConcurrencyBudgetTest）"),
+        ("core-di/src/test/kotlin/com/example/cloudmusic/di/playback/EffectiveScanRequestTest.kt",
+         "缺网络接线判据（EffectiveScanRequestTest）"),
+    ]:
+        if not (ROOT / _t).is_file():
+            _c323.append(_msg)
+
+    # A-2：主色唯一（红）；旧品牌橙零残留，进度环用强调色令牌
+    _fnui323 = _code_only((ROOT / "app/src/main/kotlin/com/example/cloudmusic/ui/"
+                           "FeiniuUi.kt").read_text(encoding="utf-8", errors="replace"))
+    if "val BrandOrange" in _fnui323 or "BrandOrange" in _fnui323:
+        _c323.append("第二主色 BrandOrange 仍存在（A-2 拍板为红）")
+    if "val IconRed = Color(0xFFE54545)" not in _fnui323:
+        _c323.append("强调色 IconRed 色值漂移")
+    _lib323 = _code_only((ROOT / "app/src/main/kotlin/com/example/cloudmusic/ui/"
+                          "FnLibraryScreen.kt").read_text(encoding="utf-8", errors="replace"))
+    if "BrandOrange" in _lib323:
+        _c323.append("曲库页仍引用第二主色")
+    _ftt = (ROOT / "app/src/test/kotlin/com/example/cloudmusic/ui/"
+            "FnThemeTokenTest.kt").read_text(encoding="utf-8", errors="replace")
+    if "noSecondPrimaryColor" not in _ftt:
+        _c323.append("缺「第二主色零残留」判据")
+    if _c323:
+        failures.append("§61.323 三项拍板落地：%s" % "；".join(_c323))
+    else:
+        print("[PASS] §61.323 错误码正名 + 元数据并发全局化/WiFi 接线 + 主色统一为红（含反向判据）")
+
+    # ---- §61.324（B-4 拆域：组合根 1299 行 → 组合根 + 三域）----
+    _c324 = []
+    _pkg324 = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+               / "cloudmusic" / "di" / "playback")
+    _files324 = {
+        "library": "LibraryFacade.kt",
+        "dlna": "DlnaSessionFacade.kt",
+        "scan": "ScanRuntime.kt",
+    }
+    _src324 = {}
+    for _k, _n in _files324.items():
+        _fp = _pkg324 / _n
+        if not _fp.is_file():
+            _c324.append("缺 %s（三域未拆）" % _n)
+        else:
+            # 注意：Path.read_text 已被本节的聚合代理接管（见文件头），
+            # 要单文件真实内容必须走 _ORIG_READ_TEXT。
+            _src324[_k] = _code_only(_ORIG_READ_TEXT(_fp, encoding="utf-8", errors="replace"))
+    _core_fp = _pkg324 / "PlaybackComposition.kt"
+    if not _core_fp.is_file():
+        _c324.append("缺组合根 PlaybackComposition.kt")
+    else:
+        _core_raw = _ORIG_READ_TEXT(_core_fp, encoding="utf-8", errors="replace")
+        _core_src = _code_only(_core_raw)
+        _core_n = len(_core_raw.splitlines())
+        # 拆域前 1299 行；>1000 说明职责正在回流（不是禁止增长，是禁止长回去）
+        if _core_n > 1000:
+            _c324.append("组合根回涨到 %d 行（拆域前 1299，阈值 1000）" % _core_n)
+        for _k, _cls in (("library", "LibraryFacade"), ("dlna", "DlnaSessionFacade"),
+                         ("scan", "ScanRuntime")):
+            if "private val %s = %s(" % (_k, _cls) not in _core_src:
+                _c324.append("组合根未构造 %s 域" % _k)
+        # 反向：实现若被**复制**回组合根（而非搬走），这里 FAIL。
+        for _dup in ("castCoordinator.startCast(", "history.record(trackId)",
+                     "coordinator.scan(request)", "playlists.observeTracks("):
+            if _dup in _core_src:
+                _c324.append("实现被复制回组合根（应只留委托）：%s" % _dup)
+    if _src324:
+        for _k, _anchors in {
+            "library": ("class LibraryFacade(", "fun playPlaylist(", "fun findDuplicates(",
+                        "private val duplicateHashMemo"),
+            "dlna": ("class DlnaSessionFacade(", "private fun sessionLoop(",
+                     "suspend fun seekIfCasting(", "private val session ="),
+            "scan": ("class ScanRuntime(", "private fun runScan(",
+                     "fun refreshStorage(", "private var scanGeneration"),
+        }.items():
+            _t = _src324.get(_k, "")
+            for _a in _anchors:
+                if _a not in _t:
+                    _c324.append("%s 缺 %s" % (_files324[_k], _a))
+        # 域边界：曲库域不摸输出路由，DLNA 域不摸歌单/收藏（否则谈不上独立可测）
+        if "OutputRouter" in _src324.get("library", "") or \
+                "castCoordinator" in _src324.get("library", ""):
+            _c324.append("曲库域越界引用输出/投屏")
+        if "PlaylistRepository" in _src324.get("dlna", "") or \
+                "FavoriteRepository" in _src324.get("dlna", ""):
+            _c324.append("DLNA 域越界引用歌单/收藏")
+    if _c324:
+        failures.append("§61.324 B-4 拆域：%s" % "；".join(_c324))
+    else:
+        print("[PASS] §61.324 B-4 拆域：组合根 + 三域（图书馆/投屏/扫描），"
+              "含「实现回填」与「域越界」反向判据")
+
+    # ---- §61.325（A-1 键盘遮挡：IME 让位收口到 Scaffold 底栏）----
+    # 病根是「内容抬了、底栏没抬」：页面各自 imePadding 会把内容顶到键盘上方，
+    # 而 Scaffold 的 bottomBar 仍贴窗口底边 ⇒ 迷你条 + 胶囊栏被整块盖住。
+    # 判据只钉两件事：让位必须发生在底栏（正），页面不得再自己吃（反，防双倍留白）。
+    _c325 = []
+    _app325 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                          / "cloudmusic" / "ui" / "CloudMusicApp.kt")
+                         .read_text(encoding="utf-8", errors="replace"))
+    if "WindowInsets.ime.exclude(WindowInsets.navigationBars)" not in _app325:
+        _c325.append("底栏未按 IME 让位（键盘弹起会盖住迷你条与胶囊栏）")
+    if "imePadding" in _app325:
+        _c325.append("页面内又出现 imePadding（与底栏让位叠加 = 一个键盘高的空白）")
+    if "bottomBar = {" not in _app325:
+        _c325.append("Scaffold 底栏缺失（让位点无处可挂）")
+    if _c325:
+        failures.append("§61.325 A-1 键盘遮挡：%s" % "；".join(_c325))
+    else:
+        print("[PASS] §61.325 A-1 键盘遮挡：IME 让位收口到 Scaffold 底栏"
+              "（页面零 imePadding，防双倍留白）")
+
+    # ---- §61.326（A-3 搜索热词去重键）----
+    _c326 = []
+    _sd_fp = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+              / "ui" / "SearchDiscovery.kt")
+    if not _sd_fp.is_file():
+        _c326.append("缺 SearchDiscovery.kt（热词归一/去重唯一入口）")
+    else:
+        _sd326 = _code_only(_sd_fp.read_text(encoding="utf-8", errors="replace"))
+        for _a326 in ("fun clean(", "fun dedupeKey(", "fun hotWords(", "HAN_FOLD_PAIRS",
+                      "Normalizer.normalize(raw, Normalizer.Form.NFKC)",
+                      "require(pair.length == 2)"):
+            if _a326 not in _sd326:
+                _c326.append("SearchDiscovery 缺 %s" % _a326)
+    if "localHotWords" in _app325:
+        _c326.append("旧热词实现回潮（按原始字符串分组 = 别名垃圾）")
+    if "SearchDiscovery.hotWords(trackList)" not in _app325:
+        _c326.append("搜索页未走 SearchDiscovery.hotWords")
+    if not (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "example" / "cloudmusic"
+            / "ui" / "SearchDiscoveryTest.kt").is_file():
+        _c326.append("缺 SearchDiscoveryTest（归一链与字表自检不可回归）")
+    if _c326:
+        failures.append("§61.326 A-3 热词去重：%s" % "；".join(_c326))
+    else:
+        print("[PASS] §61.326 A-3 热词去重：NFKC + 两端标点 + 空白 + 繁简折叠"
+              "（字表 578 组，逐条可枚举复核）")
+
+    # ---- §61.327（A-7 正在播放标识）----
+    _c327 = []
+    _fn327 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                         / "cloudmusic" / "ui" / "FeiniuUi.kt")
+                        .read_text(encoding="utf-8", errors="replace"))
+    for _a327, _m327 in (
+        ("playing: Boolean = false", "FnTrackRow 缺 playing 入参（默认 false 才不伤旧调用点）"),
+        ("color = if (nowPlaying) FnComp.IconRed", "曲名未随「正在播放」转强调色"),
+        ("ring = nowPlaying", "封面未随「正在播放」描环"),
+        ("NOW_PLAYING_STATE", "缺 TalkBack「正在播放」状态串"),
+    ):
+        if _a327 not in _fn327:
+            _c327.append(_m327)
+    # 六处接线逐一在位：搜索结果 / 歌单展开 / 队列 / 收藏 / 最近播放 / TrackRowGuarded 透传。
+    # 口径刻意精确到 `playing = track` 与 `playing = playing,` 两种形态——
+    # CloudMusicApp 里另有 `val playing = player.phase == ...`（迷你条按钮态），
+    # 用裸 `playing = ` 计数会被它凑数（本节 §61.327 的 A/B 反证踩到过）。
+    _n327 = _app325.count("playing = track") + _app325.count("playing = playing,")
+    if _n327 < 6:
+        _c327.append("列表接线不足（%d 处，应为 6：搜索/歌单/队列/收藏/最近/TrackRowGuarded）" % _n327)
+    _lib327 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                          / "cloudmusic" / "ui" / "FnLibraryScreen.kt")
+                         .read_text(encoding="utf-8", errors="replace"))
+    if _lib327.count("nowPlayingId = nowPlayingId") < 3:
+        _c327.append("曲库页三条列表未接 nowPlayingId")
+    if _c327:
+        failures.append("§61.327 A-7 正在播放标识：%s" % "；".join(_c327))
+    else:
+        print("[PASS] §61.327 A-7 正在播放标识：五类列表共用 FnTrackRow 单点样式"
+              "（红圈 + 强调色曲名 + TalkBack 状态）")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

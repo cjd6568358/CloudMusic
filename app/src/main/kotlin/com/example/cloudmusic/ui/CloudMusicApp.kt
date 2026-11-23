@@ -19,9 +19,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.displayCutoutPadding
-import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.exclude
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Slider
@@ -38,6 +42,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -72,6 +78,7 @@ import com.example.cloudmusic.model.Storage
 import com.example.cloudmusic.model.Availability
 import com.example.cloudmusic.model.ErrorText
 import com.example.cloudmusic.model.Track
+import com.example.cloudmusic.model.TrackId
 import com.example.cloudmusic.model.TrackInfo
 import com.example.cloudmusic.output.dlna.DmrDevice
 import com.example.cloudmusic.output.dlna.DeviceSource
@@ -122,31 +129,12 @@ private val FUNCTION_PAGE_LABELS = listOf(
 )
 
 /**
- * 飞牛搜索页「搜索发现」热词 —— 取**本地曲库**的高频艺人 / 专辑（spec §3.3 本地化口径）。
+ * 飞牛搜索页「搜索发现」热词 —— 实现迁到 [SearchDiscovery.hotWords]（§61.326 / A-3）。
  *
- * 不造在线热搜：这是离线优先 App，热词必须来自用户自己的曲库；空曲库返回空 →
- * 搜索页直接给空态，不虚构任何词条。
+ * 旧实现直接拿原始 artist / album 字符串分组，`刘若英` / `劉若英` / `"刘若英` 会并列成
+ * 三个胶囊（评审 §六-5、真机 01:43 截图）。归一化与去重逻辑连同字表现在都在
+ * [SearchDiscovery] 里，可被 JVM 单测直接断言——本文件只负责调用。
  */
-private fun localHotWords(tracks: List<Track>, limit: Int = 10): List<String> {
-    if (tracks.isEmpty()) return emptyList()
-    // 占位符不算热词：「未知」/「<unknown>」/「unknown」都是标签缺失时的兜底值，
-    // 拿来当搜索发现会把噪声推给用户（§61.175 真机截图踩到）。
-    val placeholders = setOf("未知", "未知艺人", "未知专辑", "未知歌手", "unknown", "<unknown>")
-    fun top(counts: Map<String, Int>, n: Int): List<String> =
-        counts.entries
-            .filter {
-                it.key.isNotBlank() &&
-                    !it.key.startsWith("<") &&
-                    it.key.lowercase() !in placeholders
-            }
-            .sortedByDescending { it.value }
-            .take(n)
-            .map { it.key }
-
-    val half = limit / 2
-    return (top(tracks.groupingBy { it.artist }.eachCount(), half) +
-        top(tracks.groupingBy { it.album }.eachCount(), half)).distinct()
-}
 
 @Composable
 fun CloudMusicApp(
@@ -264,6 +252,18 @@ fun CloudMusicApp(
     // 而非播放页；继续「启动即播放页」会让首页/音乐库在冷启动时完全不可达，与用户
     // 「从启动页起 1:1 复刻」的目标冲突。改为冷启动落首页，播放页由迷你条/点歌进入。
     var showPlayer by rememberSaveable { mutableStateOf(false) }
+    // §61.320（真机 2026-11-24 一手）：播放页是覆盖在 Scaffold 之上的整页（不是独立路由），
+    // 搜索框仍留在组合里且**保持焦点**——从搜索结果点歌进播放页时，输入法会一路跟过来，
+    // 把暂停/上一首/下一首/进度条整块盖住（截图实证：播放页下半屏被键盘占据）。
+    // 键盘只属于输入页：进入整页播放页时主动清焦点并收起 IME。
+    val imeController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+    LaunchedEffect(showPlayer) {
+        if (showPlayer) {
+            focusManager.clearFocus()
+            imeController?.hide()
+        }
+    }
     // §61.280（V0.4-07 ①，03-10 §9 B16）：次级页「从哪进来」——返回键与页头「←」都回**进入方**，
     // 不再写死回「更多」面板。-1 = 更多面板；≥0 = 该 tab 序号。
     var subOrigin by rememberSaveable { mutableIntStateOf(-1) }
@@ -356,20 +356,21 @@ fun CloudMusicApp(
 
     // §61.137：去掉全局 TopAppBar（竞品无全局标题栏，页头归各页：设置 52dip 行 /
     // 歌单·我的音乐 44dip 标题栏）；底栏竞品化（h7 底 + 10sp label + 品牌红选中）。
+    // §61.321（R3）：曲库索引一次成型。此前迷你条三行各自 `firstOrNull { ... }`
+    // 全表扫一遍（N 首 × 3 次 / 每次根重组），队列页 titles 也是每次重组重建
+    // 一个 O(N) 的 Map —— 都随重组次数放大成 GC 压力。
+    val tracksById = remember(trackList) { trackList.associateBy { it.id } }
+    // 队列页 `QueueScreen` 的既有契约是 `Map<String, Track>`（键 = trackId.value）。
+    val queueTitles = remember(trackList) { trackList.associate { it.id.value to it } }
     // §61.279（V0.4-06 飞牛化）：迷你条封面接 `Track.coverRef` 真实封面，
     // 缺失时 `FnCover` 落占位底 + 音符字形（不再用竞品旋转盘位图）。
-    val miniCoverRef = player.currentTrackId?.let { id ->
-        trackList.firstOrNull { it.id.value == id.value }?.coverRef
-    }
+    val miniCoverRef = player.currentTrackId?.let { id -> tracksById[id]?.coverRef }
     // §61.150：迷你条标题接 Track.title 真曲名（§61.141 观察项——此前恒显示
     // raw currentTrackId.value，竞品显示曲名）；曲库缺失时回退 trackId（行为不变）。
-    val miniTitle = player.currentTrackId?.let { id ->
-        trackList.firstOrNull { it.id.value == id.value }?.title
-    }
+    val miniTitle = player.currentTrackId?.let { id -> tracksById[id]?.title }
     // §61.279：副行接 `TrackInfo.listSubtitle`（艺人 · 专辑，已知字段才拼；空则不渲染）。
-    val miniSubtitle = player.currentTrackId?.let { id ->
-        trackList.firstOrNull { it.id.value == id.value }
-    }?.let { TrackInfo.listSubtitle(it) }
+    val miniSubtitle = player.currentTrackId?.let { id -> tracksById[id] }
+        ?.let { TrackInfo.listSubtitle(it) }
     // §61.280（V0.4-07 ①）：次级页统一出口——有来源就回来源，没有（深链/冷启）才回「更多」。
     fun exitSubPage() {
         if (subOrigin >= 0) tab = subOrigin else showMore = true
@@ -399,7 +400,22 @@ fun CloudMusicApp(
         // （播放页覆盖层自带 LegacyPalette 背景，不受本行影响）。
         containerColor = FnComp.PageBg,
         bottomBar = {
-            Column {
+            Column(
+                // §61.325（A-1）：键盘弹起时**整条底栏上移到键盘上沿**。
+                // 病根：Scaffold 的 bottomBar 贴着窗口底边排版，而 IME 在本工程的窗口模式下
+                // 只以 inset 下发、窗口高度不变（SearchScreen 的 imePadding 能生效即证据）——
+                // 于是「内容被抬到键盘上方、底栏却原地不动被整块盖住」，迷你条与胶囊栏
+                // 只剩半截甚至全无，用户看到的是「输入时导航消失」。
+                // 修法：把 IME 让位从各页面收口到底栏一处 —— 底栏抬多少，Scaffold 就按
+                // 实际高度喂给内容 padding，两者永远同步，不会出现「内容抬了、栏没抬」。
+                // 减掉 navigationBars 是因为 FnCapsuleBar 自己带 navigationBarsPadding()：
+                // ime inset 已含导航栏高度，不减会多留一条导航栏高的空档；键盘弹起时
+                // 三键导航若被 IME 顶掉，navigationBars 归零，排除项自然失效（自适应）。
+                // 键盘收起时 ime=0 ⇒ 本行零高度，正常态像素分毫不动。
+                Modifier.windowInsetsPadding(
+                    WindowInsets.ime.exclude(WindowInsets.navigationBars),
+                ),
+            ) {
                 // §61.196（W13）：设置页不显示播放条（基准 161550 无播放条，仅底部胶囊）。
                 // §61.279（V0.4-06）：**无当前曲目时不显示空条**——冷启动只有一条
                 // 「未在播放」+ 一个按了没反应的播放键，是死控件；对应 03-10 §9 B03。
@@ -511,6 +527,8 @@ fun CloudMusicApp(
                     onOpenFavorites = { mineFocusRecent = false; subOrigin = 1; tab = 5 },
                     onOpenHistory = { mineFocusRecent = true; subOrigin = 1; tab = 5 },
                     onOpenSources = { subOrigin = 1; showSources = true },
+                    // §61.327（A-7）：当前播放曲目 —— 曲库行的「正在播放」标识。
+                    nowPlayingId = player.currentTrackId,
                 )
                 tab == 2 -> PlaylistsScreen(
                     playlistList,
@@ -524,6 +542,7 @@ fun CloudMusicApp(
                     // V0.2 §61.220：智能歌单——全量曲库实时求值 + 命中曲目直接播放
                     allTracks = trackList,
                     onPlaySmart = { hits -> onPlayTracks(hits, 0) },
+                    nowPlayingId = player.currentTrackId,
                     // §61.192：次级页返回（飞牛「←」口径），回「更多」
                     onBack = { exitSubPage() },
                 )
@@ -532,8 +551,9 @@ fun CloudMusicApp(
                     onQuery = { query = it },
                     results = searchResults,
                     // 飞牛热词 = 本地曲库高频艺人 / 专辑（spec §3.3：不造在线热搜）
-                    hotWords = remember(trackList) { localHotWords(trackList) },
+                    hotWords = remember(trackList) { SearchDiscovery.hotWords(trackList) },
                     onPlayTracks = onPlayTracks,
+                    nowPlayingId = player.currentTrackId,
                     // §61.187：「取消」= 退出搜索页回进入方（旧实现只清关键字不退出）
                     onClose = {
                         query = ""
@@ -542,8 +562,10 @@ fun CloudMusicApp(
                 )
                 tab == 4 -> QueueScreen(
                     queueList,
-                    titles = trackList.associate { it.id.value to it },
+                    // §61.321：与迷你条共用一次性索引，不再每次重组重建 Map。
+                    titles = queueTitles,
                     onJump = bridge::onQueueJump,
+                    nowPlayingId = player.currentTrackId,
                     // §61.192：次级页返回
                     onBack = { exitSubPage() },
                 )
@@ -553,6 +575,7 @@ fun CloudMusicApp(
                     onPlayTracks = onPlayTracks,
                     onBack = { exitSubPage() },
                     focusRecent = mineFocusRecent,
+                    nowPlayingId = player.currentTrackId,
                 )
                 else -> SettingsScreen(
                     runtime, appSettings.network.wifiOnly, onRescanAll,
@@ -773,7 +796,7 @@ private fun playOrExplain(
 
 /** 带不可用拦截的飞牛曲目行（搜索结果等单行场景复用）。 */
 @Composable
-private fun TrackRowGuarded(track: Track, onClick: () -> Unit) {
+private fun TrackRowGuarded(track: Track, playing: Boolean = false, onClick: () -> Unit) {
     val context = LocalContext.current
     FnTrackRow(
         title = track.title,
@@ -781,6 +804,7 @@ private fun TrackRowGuarded(track: Track, onClick: () -> Unit) {
         coverRef = track.coverRef,
         dimmed = track.availability != Availability.OK,
         badge = unavailableBadge(track),
+        playing = playing,
         onClick = { playOrExplain(context, track, onClick) },
     )
 }
@@ -1286,6 +1310,8 @@ private fun PlaylistsScreen(
     /** V0.2 §61.220：智能歌单——全量曲库 + 命中曲目播放回调。 */
     allTracks: List<Track> = emptyList(),
     onPlaySmart: (List<Track>) -> Unit = {},
+    /** §61.327（A-7）：当前播放曲目 id——曲目行据此点亮「正在播放」。 */
+    nowPlayingId: TrackId? = null,
     /** §61.192：次级页返回（回「更多」）。 */
     onBack: () -> Unit = {},
 ) {
@@ -1304,6 +1330,12 @@ private fun PlaylistsScreen(
     val expandedTracks by remember(expandedId) {
         expandedId?.let { id -> observeTracks(id) } ?: flowOf(emptyList())
     }.collectAsState(initial = emptyList())
+    // §61.321（R3）：智能歌单一律按曲库变化算一次，`remember` 住。
+    // 此前 `SmartPlaylist.evaluate(allTracks, rule)` 写在 items 的 content lambda 里，
+    // 每个预设每重组一次就全表过滤一遍（5 × N），滚动 / 任意根重组都会重跑。
+    val smartHits = remember(allTracks) {
+        SmartPlaylist.PRESETS.associateWith { SmartPlaylist.evaluate(allTracks, it) }
+    }
     Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
         FnPageHeader(
             "歌单",
@@ -1324,7 +1356,8 @@ private fun PlaylistsScreen(
             // V0.2 §61.220：智能歌单（实时规则，不落库、曲库变化即时生效）。
             item { FnSectionTitle("智能歌单 · ${SmartPlaylist.PRESETS.size}（实时规则）") }
             items(SmartPlaylist.PRESETS, key = { it.name }) { rule ->
-                val hits = SmartPlaylist.evaluate(allTracks, rule)
+                // §61.321：命中集来自上面 remember 住的表，item 重组只做一次查表。
+                val hits = smartHits[rule].orEmpty()
                 FnPlaylistRow(
                     name = "✧ ${rule.name}",
                     subtitle = "命中 ${hits.size} 首 · 点击播放",
@@ -1399,6 +1432,9 @@ private fun PlaylistsScreen(
                             coverRef = track.coverRef,
                             dimmed = track.availability != Availability.OK,
                             badge = unavailableBadge(track),
+                            // §61.327（A-7）：歌单里同一首可重复出现，位置即身份——
+                            // 命中当前曲的**每一行**都点亮（不是只亮第一行）。
+                            playing = track.id == nowPlayingId,
                             onClick = { playOrExplain(context, track) {} },
                             trailing = {
                                 // §61.286：三键独立 40dp 槽位（原 6dp padding 文字只有 ~26dp，
@@ -1647,10 +1683,15 @@ private fun SearchScreen(
     results: List<Track>,
     hotWords: List<String>,
     onPlayTracks: (List<Track>, Int) -> Unit,
+    /** §61.327（A-7）：当前播放曲目 id。 */
+    nowPlayingId: TrackId? = null,
     /** §61.187：「取消」= 退出搜索页（回进入方）；旧实现只清关键字 ⇒ 无法返回。 */
     onClose: () -> Unit = {},
 ) {
-    Column(Modifier.fillMaxSize().background(FnComp.PageBg).imePadding()) {
+    // §61.325（A-1）：本页**不再**自己吃 ime inset。键盘让位已收口到 Scaffold 的 bottomBar
+    // （整条底栏上移，Scaffold 用「底栏实际高度」喂内容 padding）。两处都加会叠出
+    // 一个键盘高的空白 —— 那正是上一版「结果列表悬在键盘上方一大截」的成因。
+    Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
         // ── 顶栏：搜索框 + 取消（飞牛 161534 逐像素；**无返回箭头**——辨别铁律） ──
         Row(
             Modifier
@@ -1711,7 +1752,10 @@ private fun SearchScreen(
                     // §61.175：修旧实现的死链——原 `onClick = {}` 点了没反应；
                     // 现在点结果即从该首起播（替换业务队列，口径同 §61.113 分组播放）。
                     // §61.276（V0.4-03）：不可用曲目灰显 + 点击原因（不报网络错误）
-                    TrackRowGuarded(track) { onPlayTracks(results, index) }
+                    TrackRowGuarded(
+                        track,
+                        playing = track.id == nowPlayingId,
+                    ) { onPlayTracks(results, index) }
                 }
             }
         }
@@ -1724,6 +1768,8 @@ private fun QueueScreen(
     queue: List<QueueItem>,
     titles: Map<String, Track>,
     onJump: (Int) -> Unit,
+    /** §61.327（A-7）：当前播放曲目 id。 */
+    nowPlayingId: TrackId? = null,
     /** §61.192：次级页返回（回「更多」）。 */
     onBack: () -> Unit = {},
 ) {
@@ -1745,6 +1791,8 @@ private fun QueueScreen(
                         glyph = "${item.position + 1}",
                         dimmed = track != null && track.availability != Availability.OK,
                         badge = track?.let { unavailableBadge(it) },
+                        // §61.327：曲库里查不到的行（track == null）不可能是在播曲目。
+                        playing = track != null && track.id == nowPlayingId,
                         onClick = {
                             // §61.276：队列里的不可用曲目可保留，跳转前给原因
                             if (track != null) playOrExplain(context, track) { onJump(item.position) }
@@ -1772,6 +1820,8 @@ private fun MyMusicScreen(
      * 自动滚到最近播放段；从「收藏」卡 / 更多页「我的音乐」进来则停在顶部（收藏段）。
      */
     focusRecent: Boolean = false,
+    /** §61.327（A-7）：当前播放曲目 id（收藏 / 最近播放两段共用）。 */
+    nowPlayingId: TrackId? = null,
 ) {
     val context = LocalContext.current
     val favorites by bridge.observeFavorites().collectAsState(initial = emptySet())
@@ -1829,6 +1879,7 @@ private fun MyMusicScreen(
                         glyph = "♥",
                         dimmed = track.availability != Availability.OK,
                         badge = unavailableBadge(track),
+                        playing = track.id == nowPlayingId,
                         modifier = Modifier.fnGroupCardRow(index, favTracks.size),
                         onClick = { playOrExplain(context, track) { onPlayTracks(favTracks, index) } },
                     )
@@ -1845,6 +1896,7 @@ private fun MyMusicScreen(
                         glyph = "↺",
                         dimmed = track.availability != Availability.OK,
                         badge = unavailableBadge(track),
+                        playing = track.id == nowPlayingId,
                         modifier = Modifier.fnGroupCardRow(index, history.size),
                         onClick = { playOrExplain(context, track) { onPlayTracks(history, index) } },
                     )
