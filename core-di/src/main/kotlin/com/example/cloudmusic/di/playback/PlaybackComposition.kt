@@ -365,6 +365,8 @@ class PlaybackRuntime @Inject constructor(
         settings = settings,
         networkProbe = networkProbe,
         mediaChangeSource = mediaChangeSource,
+        // §61.329（A-6）：扫描收尾的 CUE 分轨封面继承。
+        tracks = tracks,
         _state = _state,
         scope = scope,
     )

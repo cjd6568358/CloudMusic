@@ -11,6 +11,7 @@ import com.example.cloudmusic.player.QueueItem
 import com.example.cloudmusic.player.QueueRepository
 import com.example.cloudmusic.scanner.ScanSnapshot
 import com.example.cloudmusic.scanner.ScanSnapshotStore
+import com.example.cloudmusic.storage.CoverInheritance
 import com.example.cloudmusic.storage.FailureRecord
 import com.example.cloudmusic.storage.FavoriteRepository
 import com.example.cloudmusic.storage.HistoryRepository
@@ -130,6 +131,40 @@ class RoomTrackRepository(
     /** §61.233：刮削封面落库（DAO 侧只写缺封面行，不覆盖已有封面）。 */
     override suspend fun updateCover(id: TrackId, coverRef: String) =
         dao.updateCover(id.value, coverRef, System.currentTimeMillis())
+
+    /**
+     * §61.329（A-6）：CUE 分轨封面继承。
+     *
+     * 三步、全部按亲缘键 `(storage_id, source_path)` 走，**不碰哈希**：
+     * ① 取全部缺封面行（空串也算缺）；
+     * ② 只为这些行出现过的 storage / path 查 donor（同 storage 同路径且有封面的行）；
+     * ③ [CoverInheritance] 出计划 → 按 coverRef 分组批量回填（`IN` 500 分块）。
+     *
+     * 幂等：写语句自带 `cover_ref IS NULL OR = ''` 前置；扫描后跑一次，旧库就地修好。
+     * 返回实际受影响行数（不是计划条数——并发下可能被别人先填）。
+     */
+    override suspend fun inheritCueSplitCovers(): Int {
+        val gaps = dao.coverGapRows()
+        if (gaps.isEmpty()) return 0
+        val now = System.currentTimeMillis()
+        var filled = 0
+        gaps.groupBy { it.storageId }.forEach { (storageId, rows) ->
+            val donors = rows.map { it.sourcePath }.distinct()
+                .chunked(500)
+                .flatMap { dao.coverDonorRows(storageId, it) }
+            val plan = CoverInheritance.plan(
+                (rows + donors).map {
+                    CoverInheritance.Row(it.id, it.storageId, it.sourcePath, it.coverRef)
+                },
+            )
+            plan.entries.groupBy({ it.value }, { it.key }).forEach { (cover, ids) ->
+                ids.chunked(500).forEach { chunk ->
+                    filled += dao.fillCoverIfEmpty(chunk, cover, now)
+                }
+            }
+        }
+        return filled
+    }
 
     override suspend fun count(): Int = dao.count()
 

@@ -44,6 +44,15 @@ interface TrackRepository {
     suspend fun updateDuration(id: TrackId, durationMs: Long)
     /** §61.233（V0.2 M9 刮削）：封面刮削落库——只写**缺封面行**（cover_ref IS NULL），不覆盖已有封面。 */
     suspend fun updateCover(id: TrackId, coverRef: String)
+    /**
+     * §61.329（A-6）：CUE 分轨的封面继承——把「同一 (storageId, sourcePath) 的其它行」
+     * 已解析出的封面回填给缺封面的锚点行（判定见 [CoverInheritance]）。返回**实际回填行数**。
+     *
+     * 幂等、只写空封面行，扫描后调用一次即可（旧库也被这一趟就地修好）。
+     * 默认实现返回 0：测试替身（`ScanContractsTest` / `SettingsContractTest` 的
+     * `FakeTrackRepository`）不承担曲库写入，生产两个实现均已覆写。
+     */
+    suspend fun inheritCueSplitCovers(): Int = 0
     suspend fun count(): Int
 }
 

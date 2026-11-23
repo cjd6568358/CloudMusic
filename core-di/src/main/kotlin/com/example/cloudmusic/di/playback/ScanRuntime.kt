@@ -29,6 +29,8 @@ class ScanRuntime(
     private val settings: com.example.cloudmusic.di.settings.SettingsStore,
     private val networkProbe: AndroidNetworkPlaybackGate,
     private val mediaChangeSource: MediaChangeSource,
+    /** §61.329（A-6）：扫描收尾的 CUE 分轨封面继承（幂等，只写缺封面行）。 */
+    private val tracks: com.example.cloudmusic.storage.TrackRepository,
     private val _state: MutableStateFlow<RuntimeState>,
     private val scope: CoroutineScope,
 ) {
@@ -144,6 +146,16 @@ class ScanRuntime(
                 Log.i("CM-Scan", "scan done: %d ms (refresh=%s files≈%d)".format(
                     android.os.SystemClock.elapsedRealtime() - scanStart,
                     request.refresh, _state.value.scanned))
+                // §61.329（A-6）：CUE 分轨原本永远没有封面——阶段 B 对分轨跳过 tag 读取
+                // （§61.221），`embeddedCover` 恒 null；同目录封面又只落在整轨候选的缓存键上，
+                // 同块并行谁先谁后不定。结果：分轨在播放页只能回退黑胶占位，背景取色链整条断。
+                // 这里在扫描收尾按 (storageId, sourcePath) 亲缘把父音频行的封面回填给分轨行；
+                // 幂等、只写空封面行，旧库也被这一趟就地修好（不依赖「下次重扫」）。
+                runCatching { tracks.inheritCueSplitCovers() }
+                    .onSuccess { n ->
+                        if (n > 0) Log.i("CM-Scan", "cue 分轨封面继承: %d 行".format(n))
+                    }
+                    .onFailure { Log.w("CM-Scan", "cue 分轨封面继承失败: ${it.message}") }
                 // §61.184：Storage 级扫描失败 → 数据源错误态（`StorageRepository.setError`
                 // 此前零生产写方，审计揪出的断链）——设置页数据源行现在能看到「连接失败」；
                 // 本轮跑过且未失败的 storage 清陈旧 errorMsg（幂等空串）。写侧失败只记日志，

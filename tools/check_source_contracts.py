@@ -10132,6 +10132,63 @@ def main() -> int:
         print("[PASS] §61.328 B-1 持久交互杂项：历史窗口 + 总数分查、游标单行点查、"
               "搜索 300ms 静默 + LIKE 按需兜底")
 
+    # ---- §61.329（A-6 CUE 分轨封面继承）----
+    # 判据钉的是**亲缘键**与**不覆盖**两条，不钉写法：
+    # ① donor 必须按 (storageId, sourcePath) 成对取——只用 path 会让同路径不同源互相串图；
+    # ② 回填语句必须自带「仍为空」前置——否则重扫一次就会把刮削结果覆盖成父音频的封面。
+    _c329 = []
+    _ci_fp = (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com" / "example"
+              / "cloudmusic" / "storage" / "CoverInheritance.kt")
+    if not _ci_fp.is_file():
+        _c329.append("缺 CoverInheritance.kt（分轨封面继承的唯一判定点）")
+    else:
+        _ci329 = _code_only(_ci_fp.read_text(encoding="utf-8", errors="replace"))
+        for _a329, _m329 in (
+            ("fun plan(rows: List<Row>): Map<String, String>", "缺 plan 纯判定入口"),
+            ("donors.putIfAbsent(key(row.storageId, row.sourcePath), cover)",
+             "亲缘键丢了 storageId（同路径跨源会互相串封面）"),
+            ("if (!row.coverRef.isNullOrBlank()) continue",
+             "有封面的行仍进入回填计划（会覆盖刮削/内嵌结果）"),
+        ):
+            if _a329 not in _ci329:
+                _c329.append(_m329)
+
+    _contract329 = _code_only((ROOT / "core-storage" / "src" / "main" / "kotlin" / "com"
+                               / "example" / "cloudmusic" / "storage" / "Repositories.kt")
+                              .read_text(encoding="utf-8", errors="replace"))
+    if "suspend fun inheritCueSplitCovers(): Int" not in _contract329:
+        _c329.append("TrackRepository 缺 inheritCueSplitCovers 契约")
+
+    _daos329 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                           / "cloudmusic" / "di" / "db" / "RoomDaos.kt")
+                          .read_text(encoding="utf-8", errors="replace"))
+    if "WHERE id IN (:ids) AND (cover_ref IS NULL OR cover_ref = '')" not in _daos329:
+        _c329.append("回填语句丢了「仍为空」前置（重扫会覆盖已有封面）")
+    if "suspend fun coverGapRows(): List<CoverRowProjection>" not in _daos329:
+        _c329.append("缺缺封面行投影查询（继承全靠先找出缺口）")
+
+    _repo329 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                           / "cloudmusic" / "di" / "db" / "RoomRepositories.kt")
+                          .read_text(encoding="utf-8", errors="replace"))
+    if "override suspend fun inheritCueSplitCovers(): Int" not in _repo329:
+        _c329.append("Room 未覆写 inheritCueSplitCovers（生产实现只剩默认 0）")
+    if "CoverInheritance.plan(" not in _repo329:
+        _c329.append("Room 实现未复用纯判定（判定分叉成两份）")
+
+    _scan329 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                           / "cloudmusic" / "di" / "playback" / "ScanRuntime.kt")
+                          .read_text(encoding="utf-8", errors="replace"))
+    if "tracks.inheritCueSplitCovers()" not in _scan329:
+        _c329.append("扫描收尾未触发继承（分轨封面永远补不上）")
+
+    if not (ROOT / "core-storage" / "src" / "test" / "kotlin" / "com" / "example"
+            / "cloudmusic" / "storage" / "CoverInheritanceTest.kt").is_file():
+        _c329.append("缺 CoverInheritanceTest（亲缘键与不覆盖不可回归）")
+    if _c329:
+        failures.append("§61.329 A-6 分轨封面继承：%s" % "；".join(_c329))
+    else:
+        print("[PASS] §61.329 A-6 分轨封面继承：(storageId, sourcePath) 亲缘回填、只写空封面行")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

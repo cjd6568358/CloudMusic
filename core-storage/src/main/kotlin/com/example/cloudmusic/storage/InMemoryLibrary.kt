@@ -159,6 +159,27 @@ class InMemoryTrackRepository(
         }
     }
 
+    /** §61.329（A-6）：CUE 分轨封面继承——判定复用 [CoverInheritance]，一次 mutate 写完。 */
+    override suspend fun inheritCueSplitCovers(): Int {
+        var filled = 0
+        store.mutate { s ->
+            val plan = CoverInheritance.plan(
+                s.tracks.values.map {
+                    CoverInheritance.Row(it.id, it.storageId, it.sourcePath, it.coverRef)
+                },
+            )
+            if (plan.isEmpty()) return@mutate s
+            val now = store.now()
+            filled = plan.size
+            s.copy(
+                tracks = s.tracks.mapValues { (id, entity) ->
+                    plan[id]?.let { entity.copy(coverRef = it, updatedAt = now) } ?: entity
+                },
+            )
+        }
+        return filled
+    }
+
     override suspend fun count(): Int = store.snapshot().tracks.size
 }
 

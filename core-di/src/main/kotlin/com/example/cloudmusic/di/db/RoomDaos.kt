@@ -11,6 +11,17 @@ import kotlinx.coroutines.flow.Flow
  * 03-05 §5 / §6 / §8 的 DAO。集合查询一律返回 `Flow`（架构 §10 单向数据流），
  * 写入一律由 Repository 包在事务里；DAO 本身不做来源判断（§14 #8）。
  */
+/**
+ * §61.329（A-6）：封面继承只需要的四列投影——不反序列化整行（7,500 行下省掉
+ * source_url / 枚举 / 时间戳的映射开销）。
+ */
+data class CoverRowProjection(
+    @ColumnInfo(name = "id") val id: String,
+    @ColumnInfo(name = "storage_id") val storageId: String,
+    @ColumnInfo(name = "source_path") val sourcePath: String,
+    @ColumnInfo(name = "cover_ref") val coverRef: String?,
+)
+
 @Dao
 interface TrackDao {
 
@@ -71,6 +82,31 @@ interface TrackDao {
     /** §61.233（V0.2 刮削）：封面落库——只写缺封面行（cover_ref IS NULL），不覆盖已有封面。 */
     @Query("UPDATE tracks SET cover_ref = :coverRef, updated_at = :now WHERE id = :id AND cover_ref IS NULL")
     suspend fun updateCover(id: String, coverRef: String, now: Long)
+
+    /**
+     * §61.329（A-6）：缺封面行的投影（空串按缺失处理——历史行可能是 `''` 而非 NULL）。
+     * 亲缘键 = `(storage_id, source_path)`：分轨与整轨的 id 不同，但这两列相同。
+     */
+    @Query(
+        "SELECT id, storage_id, source_path, cover_ref FROM tracks " +
+            "WHERE cover_ref IS NULL OR cover_ref = ''"
+    )
+    suspend fun coverGapRows(): List<CoverRowProjection>
+
+    /** §61.329：同 storage 同路径的 donor（必有封面）；只问缺封面行出现过的路径，不扫全表。 */
+    @Query(
+        "SELECT id, storage_id, source_path, cover_ref FROM tracks " +
+            "WHERE storage_id = :storageId AND source_path IN (:paths) " +
+            "AND cover_ref IS NOT NULL AND cover_ref != ''"
+    )
+    suspend fun coverDonorRows(storageId: String, paths: List<String>): List<CoverRowProjection>
+
+    /** §61.329：回填（仍以「空封面」为前置，幂等；返回实际影响行数）。 */
+    @Query(
+        "UPDATE tracks SET cover_ref = :coverRef, updated_at = :now " +
+            "WHERE id IN (:ids) AND (cover_ref IS NULL OR cover_ref = '')"
+    )
+    suspend fun fillCoverIfEmpty(ids: List<String>, coverRef: String, now: Long): Int
 
     /** §9 / B03：只标灰，绝不删行，歌单成员关系天然保留。 */
     @Query(
