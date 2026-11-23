@@ -71,7 +71,15 @@ interface FavoriteRepository {
 
 interface HistoryRepository {
     suspend fun record(id: TrackId)
-    fun observe(): Flow<List<Track>>
+
+    /**
+     * §61.328（B-1）：只推**最近** [limit] 条（默认 [LibraryQuery.HISTORY_WINDOW]）。
+     * 列表是懒加载滚动区，几千行全量映射没有意义；总数见 [count]。
+     */
+    fun observe(limit: Int = LibraryQuery.HISTORY_WINDOW): Flow<List<Track>>
+
+    /** §61.328（B-1）：历史总条数（去重后的曲目数，与 [observe] 的窗口无关）。 */
+    fun count(): Flow<Int>
 }
 
 interface StorageRepository {

@@ -179,11 +179,19 @@ interface FavoriteDao {
 
 @Dao
 interface HistoryDao {
+    /**
+     * §61.328（B-1）：只取最近 `limit` 条（`LibraryQuery.HISTORY_WINDOW`）。
+     * 原查询无上限 —— 历史是「一首一行、永不淘汰」的表，几千行全量映射只为填一屏。
+     */
     @Query(
         "SELECT t.* FROM play_history h INNER JOIN tracks t ON t.id = h.track_id " +
-            "ORDER BY h.last_played DESC, h.track_id"
+            "ORDER BY h.last_played DESC, h.track_id LIMIT :limit"
     )
-    fun observe(): Flow<List<TrackRow>>
+    fun observe(limit: Int): Flow<List<TrackRow>>
+
+    /** §61.328（B-1）：历史总条数——统计卡显示真实总数，不受窗口截断影响。 */
+    @Query("SELECT COUNT(*) FROM play_history")
+    fun count(): Flow<Int>
 
     @Query("SELECT * FROM play_history WHERE track_id = :id")
     suspend fun get(id: String): PlayHistoryRow?
@@ -206,6 +214,20 @@ interface QueueDao {
 
     @Insert
     suspend fun insertAll(rows: List<QueueItemRow>)
+
+    /**
+     * §61.328（B-1）：游标定位只查一行。
+     *
+     * `position` 恒等于列表下标（`setAll` / `rewrite` 每次都按 `mapIndexed` 重排），
+     * 所以「最小 position」与旧实现 `items().indexOfFirst { it.trackId == trackId }` 等价，
+     * 但不必把整队（每行还带 `source_ref` 的 JSON）拉回内存反序列化 ——
+     * 此前 PLAYING 期每 5s 就这么干一次。
+     */
+    @Query(
+        "SELECT position FROM queue_items WHERE queue_id = :queueId AND track_id = :trackId " +
+            "ORDER BY position LIMIT 1"
+    )
+    suspend fun positionOf(queueId: String, trackId: String): Int?
 
     @Query("SELECT * FROM playback_state WHERE id = 1")
     suspend fun snapshot(): PlaybackStateRow?

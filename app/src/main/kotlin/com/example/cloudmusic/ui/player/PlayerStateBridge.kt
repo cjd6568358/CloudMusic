@@ -196,8 +196,11 @@ class PlayerStateBridge(
     fun observeFavorites(): Flow<Set<com.example.cloudmusic.model.TrackId>> =
         runtime.observeFavorites()
 
-    /** §61.130（M5）：最近播放流。 */
+    /** §61.130（M5）：最近播放流（§61.328 起只含最近窗口）。 */
     fun observeHistory(): Flow<List<Track>> = runtime.observeHistory()
+
+    /** §61.328（B-1）：历史总数——「最近播放 N 首」用它，否则窗口截断会把 N 说成 300。 */
+    fun observeHistoryCount(): Flow<Int> = runtime.observeHistoryCount()
 
     /** §61.130（M5）：收藏切换（播放页 ♡ 唯一生产入口）。 */
     fun onToggleFavorite(trackId: com.example.cloudmusic.model.TrackId) {

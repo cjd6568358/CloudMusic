@@ -602,6 +602,9 @@ class PlaybackRuntime @Inject constructor(
 
     fun observeHistory(): Flow<List<Track>> = library.observeHistory()
 
+    /** §61.328（B-1）：历史总数（统计卡用；列表只取最近窗口）。 */
+    fun observeHistoryCount(): Flow<Int> = library.observeHistoryCount()
+
     fun toggleFavorite(trackId: TrackId) = library.toggleFavorite(trackId)
 
     fun recordHistory(trackId: TrackId) = library.recordHistory(trackId)

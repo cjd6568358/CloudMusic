@@ -8,6 +8,7 @@ import com.example.cloudmusic.player.PlayerController
 import com.example.cloudmusic.player.QueueRepository
 import com.example.cloudmusic.storage.FavoriteRepository
 import com.example.cloudmusic.storage.HistoryRepository
+import com.example.cloudmusic.storage.LibraryQuery
 import com.example.cloudmusic.storage.PlaylistRepository
 import com.example.cloudmusic.storage.TrackRepository
 import kotlinx.coroutines.CoroutineScope
@@ -48,8 +49,13 @@ class LibraryFacade(
     /** §61.130（M5）：收藏集合流（播放页 ♡ 状态 + 我的音乐页取数）。 */
     fun observeFavorites(): Flow<Set<TrackId>> = favorites.observe()
 
-    /** §61.130（M5）：最近播放流（HistoryDao JOIN tracks，按 last_played DESC）。 */
-    fun observeHistory(): Flow<List<Track>> = history.observe()
+    /** §61.130（M5）：最近播放流（HistoryDao JOIN tracks，按 last_played DESC）。
+     *  §61.328（B-1）：只推最近 [limit] 条；总数另走 [observeHistoryCount]。 */
+    fun observeHistory(limit: Int = LibraryQuery.HISTORY_WINDOW): Flow<List<Track>> =
+        history.observe(limit)
+
+    /** §61.328（B-1）：历史总数（不受列表窗口截断影响）。 */
+    fun observeHistoryCount(): Flow<Int> = history.count()
 
     /** §61.130（M5）：收藏切换（播放页 ♡ 按钮的唯一生产入口）。 */
     fun toggleFavorite(trackId: TrackId) {

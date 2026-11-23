@@ -92,6 +92,27 @@ class InMemoryRepositoryTest {
     }
 
     @Test
+    @DisplayName("§61.328 历史窗口：列表只取最近 N 条，count() 仍是去重总数")
+    fun historyWindow() = runTest {
+        val many = (1..LibraryQuery.HISTORY_WINDOW + 20)
+            .map { testTrack(TrackId.of("s", "/h/$it.flac")) }
+        tracks.upsertBatch(many)
+        many.forEach { t ->
+            now += 10
+            history.record(t.id)
+        }
+        // 总数不受窗口影响：统计卡要的是真实条数（否则「最近播放 300 首」把 320 说少了）。
+        assertEquals(many.size, history.count().first())
+        val recent = history.observe().first()
+        assertEquals(LibraryQuery.HISTORY_WINDOW, recent.size)
+        assertEquals(many.last().id, recent.first().id, "最新一条必须在窗口首位")
+        assertFalse(recent.any { it.id == many.first().id }, "最早的一条应被挤出窗口")
+        // 调用方可以收得更紧（窗口是上限，不是固定值）。
+        assertEquals(5, history.observe(5).first().size)
+        assertEquals(0, history.observe(0).first().size)
+    }
+
+    @Test
     @DisplayName("§61.145 markAvailabilityBatch 单事务批量置位，语义与逐行一致")
     fun markAvailabilityBatchFlipsAll() = runTest {
         val many = (1..1200).map { testTrack(TrackId.of("s", "/b/$it.flac")) }

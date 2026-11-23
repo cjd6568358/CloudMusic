@@ -92,6 +92,7 @@ import com.example.cloudmusic.player.PlayerState
 import com.example.cloudmusic.player.QueueItem
 import com.example.cloudmusic.storage.AppSettings
 import com.example.cloudmusic.storage.Playlist
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -313,9 +314,29 @@ fun CloudMusicApp(
     val appSettings by settings.collectAsState(initial = AppSettings())
     // §61.167（飞牛首页）：收藏 / 最近播放数供首页卡片流显示（本地真实数据，不造）。
     val homeFavorites by bridge.observeFavorites().collectAsState(initial = emptySet())
-    val homeHistory by bridge.observeHistory().collectAsState(initial = emptyList())
-    val resultsFlow = remember(query) { search(query) }
-    val searchResults by resultsFlow.collectAsState(initial = emptyList())
+    // §61.328（B-1）：首页卡片只要**数量**——原实现为此订阅整个历史列表（几千行全量映射）。
+    val homeHistoryCount by bridge.observeHistoryCount().collectAsState(initial = 0)
+
+    // §61.328（B-1）搜索防抖：原写法 `remember(query) { search(query) }` 每击一键就换 Flow，
+    // Room 立刻跑一次 FTS + 一次全表 LIKE（`%q%` 走不了索引）。改为一轮输入静默后再查。
+    var debouncedQuery by rememberSaveable { mutableStateOf("") }
+    LaunchedEffect(query) {
+        val wait = searchDebounceMs(query)
+        if (wait > 0) delay(wait)
+        debouncedQuery = query
+    }
+    val resultsFlow = remember(debouncedQuery) { search(debouncedQuery) }
+    // 不能用 collectAsState(initial = emptyList())：换 Flow 时它会退回初值，打字过程中
+    // 结果区会闪成空白。这里保留上一轮结果，等新结果到达再整体替换（只换不空）。
+    var searchResults by remember { mutableStateOf<List<Track>>(emptyList()) }
+    // §61.328（B-1）：只在「搜索页在前台 + 有关键字」时订阅查询流。
+    // 空关键字下 search("") 返回 observeAll()——7,500 首全量 Collator 排序，而此刻搜索页
+    // 显示的是热词、根本不渲染结果；旧实现让这份全库排序在 App 整个生命周期里跟着每次
+    // 曲库写入重跑一遍。切走 tab 时停订阅，结果保留上一轮（回来立刻重放）。
+    LaunchedEffect(resultsFlow, tab, debouncedQuery) {
+        if (tab != 3 || debouncedQuery.isBlank()) return@LaunchedEffect
+        resultsFlow.collect { searchResults = it }
+    }
 
     // §61.187（W7 全屏沉浸）/ §61.270（用户 2026-11-21 口径）：
     // 顶部全面屏——状态栏透明 + 内容延伸到状态栏后面（竞品真机：时间/信号叠在深灰页面上，
@@ -510,7 +531,7 @@ fun CloudMusicApp(
                         tab = 5
                     },
                     favoriteCount = homeFavorites.size,
-                    recentCount = homeHistory.size,
+                    recentCount = homeHistoryCount,
                 )
                 // §61.274（V0.4-01）：曲库唯一入口——原 tab7 全功能（视图组 / ＋入歌单 /
                 // 不可用重试 / 重扫）已并入本页，不再有第二个曲库入口。
@@ -549,6 +570,8 @@ fun CloudMusicApp(
                 tab == 3 -> SearchScreen(
                     query = query,
                     onQuery = { query = it },
+                    // §61.328（B-1）：热词是「点一下就要出结果」的动作，绕开防抖直接落值。
+                    onPickHotWord = { word -> query = word; debouncedQuery = word },
                     results = searchResults,
                     // 飞牛热词 = 本地曲库高频艺人 / 专辑（spec §3.3：不造在线热搜）
                     hotWords = remember(trackList) { SearchDiscovery.hotWords(trackList) },
@@ -1683,6 +1706,11 @@ private fun SearchScreen(
     results: List<Track>,
     hotWords: List<String>,
     onPlayTracks: (List<Track>, Int) -> Unit,
+    /**
+     * §61.328（B-1）：热词点击的落值通道——**绕开 300ms 防抖**。热词是「点一下就要结果」，
+     * 走防抖会先卡半拍；输入框打字才需要静默合并。默认回落 [onQuery]（不接线也不炸）。
+     */
+    onPickHotWord: (String) -> Unit = onQuery,
     /** §61.327（A-7）：当前播放曲目 id。 */
     nowPlayingId: TrackId? = null,
     /** §61.187：「取消」= 退出搜索页（回进入方）；旧实现只清关键字 ⇒ 无法返回。 */
@@ -1738,7 +1766,8 @@ private fun SearchScreen(
                             Modifier
                                 .clip(RoundedCornerShape(16.dp))
                                 .background(FnComp.CardBg)
-                                .clickable { onQuery(word) }
+                                // §61.328：热词立刻查，不等防抖窗口
+                                .clickable { onPickHotWord(word) }
                                 .padding(horizontal = 14.dp, vertical = 7.dp),
                         ) {
                             Text(word, color = FnComp.TextSecondary, fontSize = 13.sp, maxLines = 1)
@@ -1825,7 +1854,9 @@ private fun MyMusicScreen(
 ) {
     val context = LocalContext.current
     val favorites by bridge.observeFavorites().collectAsState(initial = emptySet())
+    // §61.328（B-1）：列表只取最近窗口（LazyColumn 一屏十几行），总数单独订阅。
     val history by bridge.observeHistory().collectAsState(initial = emptyList())
+    val historyCount by bridge.observeHistoryCount().collectAsState(initial = 0)
     // §61.289：收藏过滤记忆化——原写法在 composable 体内，**每次重组都全量扫一遍曲库**
     // （7,500 首 × 每次播放状态刷新）。只在曲库或收藏变化时重算。
     val favTracks = remember(allTracks, favorites) {
@@ -1858,7 +1889,7 @@ private fun MyMusicScreen(
                         icon = FnIcon.Favorite,
                         title = "我的音乐",
                         primary = "${favTracks.size} 收藏",
-                        secondary = "最近播放 ${history.size} 首 · 全部来自本地曲库",
+                        secondary = "最近播放 $historyCount 首 · 全部来自本地曲库",
                         accent = FnComp.IconRed,
                     )
                     Spacer(Modifier.height(FnBaseline.StatToNextGroupDp.dp))
@@ -1887,7 +1918,8 @@ private fun MyMusicScreen(
                 item(key = "mm-fav-gap") { Spacer(Modifier.height(FnBaseline.GroupGapDp.dp)) }
             }
             if (history.isNotEmpty()) {
-                item(key = "mm-hist-title") { FnSectionTitle("最近播放 · ${history.size}") }
+                // §61.328：小节标题用**总数**，与上方统计卡同口径（窗口截断不谎报）。
+                item(key = "mm-hist-title") { FnSectionTitle("最近播放 · $historyCount") }
                 itemsIndexed(history, key = { _, t -> "hist-" + t.id.value }) { index, track ->
                     FnTrackRow(
                         title = track.title,

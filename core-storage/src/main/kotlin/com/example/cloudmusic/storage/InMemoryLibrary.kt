@@ -305,11 +305,16 @@ class InMemoryHistoryRepository(
         }
     }
 
-    override fun observe(): Flow<List<Track>> = store.state.map { s ->
+    override fun observe(limit: Int): Flow<List<Track>> = store.state.map { s ->
         s.history.values
             .sortedWith(compareByDescending<HistoryEntry> { it.lastPlayed }.thenBy { it.trackId.value })
+            .asSequence()
             .mapNotNull { e -> s.tracks[e.trackId.value]?.toTrack() }
+            .take(limit.coerceAtLeast(0))
+            .toList()
     }
+
+    override fun count(): Flow<Int> = store.state.map { it.history.size }
 }
 
 /** docs/03-05 §2 / §5：Storage 存 DataStore；删除时显式 markOrphan（无物理外键）。 */

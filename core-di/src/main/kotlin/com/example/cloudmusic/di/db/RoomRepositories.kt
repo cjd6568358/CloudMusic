@@ -21,8 +21,10 @@ import com.example.cloudmusic.storage.Playlist
 import com.example.cloudmusic.storage.PlaylistRepository
 import com.example.cloudmusic.storage.TrackRepository
 import com.example.cloudmusic.storage.UPSERT_BATCH_SIZE
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import java.util.UUID
 
@@ -49,15 +51,19 @@ class RoomTrackRepository(
     /** §8：FTS MATCH 优先；短查询 / FTS 无结果回落 LIKE；B07 不按 availability 过滤。
      *  `§61.296`：查询先经 `SearchText` 归一（全角空格折叠为半角），否则 LIKE 与 FTS
      *  都会拿到「一个带 U+3000 的整串」，两个词都命中却零结果。 */
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun search(query: String): Flow<List<Track>> {
         val q = SearchText.normalize(query)
         if (q.isEmpty()) return observeAll()
         val likeFlow = dao.searchLike("%${LikePattern.escape(q)}%").map { it.toSortedTracks() }
         if (FtsQuery.isShortQuery(q)) return likeFlow
-        return combine(
-            dao.searchFts(FtsQuery.match(q)).map { it.toSortedTracks() },
-            likeFlow,
-        ) { fts, fallback -> fts.ifEmpty { fallback } }
+        // §61.328（B-1）LIKE 收敛：只有 FTS 打空时才订阅 LIKE。
+        // 旧写法用 `combine` —— 两条查询**每轮都跑**，FTS 已命中时那次 LIKE 是纯浪费
+        // （`%q%` 走不了索引 = 全表扫 7,500 行），且任一曲库变更都会把两条一起重跑。
+        // 语义仍是「FTS 优先、LIKE 兜底」，只是把兜底从「并行必跑」改成「按需二次查询」。
+        return dao.searchFts(FtsQuery.match(q))
+            .map { it.toSortedTracks() }
+            .flatMapLatest { hits -> if (hits.isEmpty()) likeFlow else flowOf(hits) }
     }
 
     override fun byAlbum(album: String): Flow<List<Track>> =
@@ -246,8 +252,11 @@ class RoomHistoryRepository(
         )
     }
 
-    override fun observe(): Flow<List<Track>> =
-        dao.observe().map { rows -> rows.map { it.toTrack() } }
+    override fun observe(limit: Int): Flow<List<Track>> = dao.observe(limit).map { rows ->
+        rows.map { it.toTrack() }
+    }
+
+    override fun count(): Flow<Int> = dao.count()
 }
 
 /**
@@ -316,9 +325,8 @@ class RoomQueueRepository(
     }
 
     override suspend fun saveCursor(trackId: String, positionMs: Long) {
-        val items = dao.items(DEFAULT_QUEUE_ID)
-        val index = items.indexOfFirst { it.trackId == trackId }
-        if (index >= 0) cursorIndex = index
+        // §61.328（B-1）：点查 position（单行），不再整队拉回内存比对。
+        dao.positionOf(DEFAULT_QUEUE_ID, trackId)?.let { cursorIndex = it }
         db.withTransaction {
             dao.saveSnapshot(
                 PlaybackStateRow(

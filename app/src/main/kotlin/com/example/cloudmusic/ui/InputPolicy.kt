@@ -20,3 +20,18 @@ package com.example.cloudmusic.ui
  * 否则用户点 ✕ 清空关键字会引发一次多余的重新聚焦。
  */
 internal fun shouldAutoFocusSearch(initialQuery: String): Boolean = initialQuery.isBlank()
+
+/**
+ * §61.328（B-1）搜索防抖窗口。
+ *
+ * 原实现每次按键就换一个 Flow，Room 立刻跑一次 FTS + 一次全表 LIKE；中文输入法一次上屏
+ * 还会连发 2~3 次输入事件 ⇒ 打一个词打出好几轮重查询。改为静默 [SEARCH_DEBOUNCE_MS] 后再查。
+ *
+ * **空查询不等**：清空是「回热词页」的即时动作，等半拍会看到上一轮结果闪一下；
+ * 热词点击也不走这条等待（调用方直接落 [debouncedQuery]，见 `SearchScreen.onPickHotWord`）。
+ */
+internal const val SEARCH_DEBOUNCE_MS = 300L
+
+/** 该关键字需要静默多久才值得查一次库（0 = 立刻查）。 */
+internal fun searchDebounceMs(query: String): Long =
+    if (query.isBlank()) 0L else SEARCH_DEBOUNCE_MS

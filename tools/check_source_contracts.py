@@ -10074,6 +10074,64 @@ def main() -> int:
         print("[PASS] §61.327 A-7 正在播放标识：五类列表共用 FnTrackRow 单点样式"
               "（红圈 + 强调色曲名 + TalkBack 状态）")
 
+    # ---- §61.328（B-1 R4 持久交互杂项）----
+    # 三项都是「查询面的边界」问题：历史无窗口、游标全表比对、搜索一键一查。
+    # 判据钉的是**边界**（LIMIT / 单行点查 / 静默窗口），不是写法好看：
+    # 谁把 LIMIT 摘掉、把 items() 放回 saveCursor、把防抖换成 `remember(query)`，这里就红。
+    _c328 = []
+    _daos328 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                           / "cloudmusic" / "di" / "db" / "RoomDaos.kt")
+                          .read_text(encoding="utf-8", errors="replace"))
+    if "ORDER BY h.last_played DESC, h.track_id LIMIT :limit" not in _daos328:
+        _c328.append("play_history 查询没有窗口（几千行全量映射只为填一屏）")
+    if "SELECT COUNT(*) FROM play_history" not in _daos328:
+        _c328.append("历史总数缺独立 count 查询（窗口截断后统计卡会说少）")
+    if "suspend fun positionOf(queueId: String, trackId: String): Int?" not in _daos328:
+        _c328.append("队列游标缺单行点查（saveCursor 会退回整队拉回内存）")
+
+    _repo328 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+                           / "cloudmusic" / "di" / "db" / "RoomRepositories.kt")
+                          .read_text(encoding="utf-8", errors="replace"))
+    if "dao.positionOf(DEFAULT_QUEUE_ID, trackId)" not in _repo328:
+        _c328.append("saveCursor 未走 positionOf（每 5s 一次全队反序列化）")
+    # LIKE 收敛：兜底从「与 FTS 并行必跑」改成「FTS 打空才订阅」。
+    # 判据取门控表达式本身——改回 combine 会同时丢掉这行与 flatMapLatest。
+    if "if (hits.isEmpty()) likeFlow else flowOf(hits)" not in _repo328:
+        _c328.append("LIKE 兜底未收敛（FTS 命中时仍在并行扫全表）")
+    if "flatMapLatest {" not in _repo328:
+        _c328.append("搜索未用 flatMapLatest 做按需兜底")
+
+    _contract328 = _code_only((ROOT / "core-storage" / "src" / "main" / "kotlin" / "com"
+                               / "example" / "cloudmusic" / "storage" / "Repositories.kt")
+                              .read_text(encoding="utf-8", errors="replace"))
+    if "fun observe(limit: Int = LibraryQuery.HISTORY_WINDOW)" not in _contract328:
+        _c328.append("HistoryRepository.observe 缺窗口参数（默认值必须是 HISTORY_WINDOW）")
+    if "fun count(): Flow<Int>" not in _contract328:
+        _c328.append("HistoryRepository 缺 count()（统计卡会被窗口带偏）")
+
+    # UI 侧：防抖必须在「喂给 search 的关键字」上，而不是只拦 UI 输入。
+    if "searchDebounceMs(query)" not in _app325:
+        _c328.append("搜索未接防抖窗口")
+    if "remember(query) { search(query) }" in _app325:
+        _c328.append("search 仍按原始关键字建 Flow（防抖被绕过）")
+    if "remember(debouncedQuery) { search(debouncedQuery) }" not in _app325:
+        _c328.append("search 未消费静默后的关键字")
+    if "clickable { onQuery(word) }" in _app325:
+        _c328.append("热词点击又走防抖通道（点一下要等半拍）")
+    if "if (tab != 3 || debouncedQuery.isBlank()) return@LaunchedEffect" not in _app325:
+        _c328.append("搜索结果流在搜索页外/空词时仍在订阅（全库 Collator 排序常驻）")
+    if "recentCount = homeHistoryCount" not in _app325:
+        _c328.append("首页仍订阅整个历史列表只为取数量")
+    if "最近播放 $historyCount 首" not in _app325:
+        _c328.append("我的音乐统计卡用窗口长度冒充历史总数")
+    if "最近播放 · $historyCount" not in _app325:
+        _c328.append("「最近播放」小节标题仍报窗口长度（同一屏两个数会打架）")
+    if _c328:
+        failures.append("§61.328 B-1 持久交互杂项：%s" % "；".join(_c328))
+    else:
+        print("[PASS] §61.328 B-1 持久交互杂项：历史窗口 + 总数分查、游标单行点查、"
+              "搜索 300ms 静默 + LIKE 按需兜底")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

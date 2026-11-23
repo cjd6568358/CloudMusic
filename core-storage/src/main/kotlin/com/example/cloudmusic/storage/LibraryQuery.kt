@@ -17,6 +17,16 @@ object LibraryQuery {
     const val FAILURE_LOG_MAX = 1_000
     const val FAILURE_LOG_MAX_AGE_MS = 30L * 24 * 60 * 60 * 1000
 
+    /**
+     * §61.328（B-1）：「最近播放」的查询窗口。
+     *
+     * 原 `HistoryDao.observe` 无 LIMIT —— 玩几个月就是几千行、每行一次 `TrackRow → Track`
+     * 映射，而用户一屏只看得到十几行。这里把**列表**截到最近 300 条，总数另由
+     * `HistoryRepository.count()` 提供（统计卡写「最近播放 N 首」，N 仍是去重后的真实总数）。
+     * 窗口按 `last_played DESC` 取，最新记录不会被截掉。
+     */
+    const val HISTORY_WINDOW = 300
+
     enum class SortKey { TITLE, ARTIST, ALBUM, DURATION }
 
     /** Collator(Locale.CHINA)，中文按拼音/笔画而非二进制序（§8 / B04 / T05）。 */
