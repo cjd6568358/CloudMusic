@@ -24,7 +24,7 @@ import android.media.session.PlaybackState
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import android.widget.Toast
+import com.example.cloudmusic.ui.showFeedbackLong
 import com.example.cloudmusic.common.NetworkPlaybackGate
 import com.example.cloudmusic.di.playback.PlaybackRuntime
 import com.example.cloudmusic.player.PlayerPhase
@@ -446,7 +446,7 @@ class PlaybackService : Service() {
         val reason = networkGate.rejectReason(runtime.currentNetworkSource())
         if (reason != null) {
             updateSessionPlaybackState(PlaybackState.STATE_PAUSED)
-            Toast.makeText(this, reason, Toast.LENGTH_LONG).show()
+            showFeedbackLong(reason)
             return
         }
         // 焦点未授予时不启动播放，避免与其他应用抢音频输出。

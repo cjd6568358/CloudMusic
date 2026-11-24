@@ -8888,14 +8888,16 @@ def main() -> int:
             if _out294 not in _fb_code294:
                 _c294.append("统一出口缺失：%s" % _out294)
 
-    # Toast 只允许在 Feedback.kt 里创建：此前四处各建各的，连点必排队
+    # Toast 只允许在 Feedback.kt 里创建：此前四处各建各的，连点必排队。
+    # §61.334 判据升级（强度增加，非降低）：扫描面从 ui/ 扩到整个 app/src/main——
+    # MainActivity / LocalSourceAdder / PlaybackService 的 Toast 也已收口到本出口。
     _toast_makers294 = []
-    for _p294 in sorted(_ui_root294.rglob("*.kt")):
+    for _p294 in sorted((_ui_root294.parent).rglob("*.kt")):
         _code294 = _code_only(_p294.read_text(encoding="utf-8", errors="replace"))
         if "Toast.makeText" in _code294:
             _toast_makers294.append(_p294.name)
     if _toast_makers294 != ["Feedback.kt"]:
-        _c294.append("ui/ 内 Toast 制造点不止 Feedback.kt（实际：%s）"
+        _c294.append("app 生产代码 Toast 制造点不止 Feedback.kt（实际：%s）"
                      % (",".join(_toast_makers294) or "无"))
 
     # 六类动作各自的调用点
@@ -10451,6 +10453,41 @@ def main() -> int:
     else:
         print("[PASS] §61.333 死组件清退：CompeteUi.kt 已删、19 个 Comp* 零引用、"
               "三活体在 ThemeCompat/CoverMemory、播放页令牌边界保留")
+
+    # ---- §61.334（B-7 卫生批：Toast 全域收口 + 歌单展开态 saver）----
+    _c334 = []
+    _app334 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+    # ① 全域唯一 Toast 制造点（与 §61.294 升级后的判据同源，此处额外钉三处宿主调用点）
+    for _fn334, _need334 in (
+        ("MainActivity.kt", ("showFeedback(",)),
+        ("LocalSourceAdder.kt", ("context.showFeedback(",)),
+        ("PlaybackService.kt", ("showFeedbackLong(",)),
+    ):
+        _p334 = _app334 / _fn334
+        if not _p334.is_file():
+            _c334.append("缺 " + _fn334)
+            continue
+        _t334 = _code_only(_p334.read_text(encoding="utf-8", errors="replace"))
+        for _needle334 in _need334:
+            if _needle334 not in _t334:
+                _c334.append("%s 未接 %s" % (_fn334, _needle334))
+        if "Toast.makeText" in _t334 or "android.widget.Toast" in _t334:
+            _c334.append(_fn334 + " 仍自建 Toast")
+    # ② 歌单展开态必须跨配置存活（普通 remember 在旋转/进程重建后折叠态丢失）
+    _fl334 = _app334 / "ui" / "FnLibraryScreen.kt"
+    if not _fl334.is_file():
+        _c334.append("缺 FnLibraryScreen.kt")
+    else:
+        _t334 = _code_only(_fl334.read_text(encoding="utf-8", errors="replace"))
+        _m334 = re.search(r"var expanded by (rememberSaveable|remember)\s*\{", _t334)
+        if not _m334:
+            _c334.append("歌单展开态 expanded 找不到声明")
+        elif _m334.group(1) != "rememberSaveable":
+            _c334.append("歌单展开态仍是普通 remember（旋转后折叠态丢失）")
+    if _c334:
+        failures.append("§61.334 卫生批：%s" % "；".join(_c334))
+    else:
+        print("[PASS] §61.334 卫生批：11 处宿主 Toast 全收口 Feedback 单出口、歌单展开态 rememberSaveable")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

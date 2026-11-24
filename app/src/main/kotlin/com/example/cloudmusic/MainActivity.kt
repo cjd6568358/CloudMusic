@@ -4,7 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import com.example.cloudmusic.ui.showFeedback
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -327,7 +327,7 @@ class MainActivity : ComponentActivity() {
                     // §61.207（A2-③）：单源刷新（数据源管理页「刷新此源」）——定向增量扫。
                     onRefreshStorage = { id ->
                         runtime.refreshStorage(id)
-                        Toast.makeText(this@MainActivity, "已发起该源扫描", Toast.LENGTH_SHORT).show()
+                        showFeedback("已发起该源扫描")
                     },
                     // §61.208（A4）：合并重复项开关（scan.mergeDuplicates 的 UI 消费口径）。
                     mergeDuplicates = appSettingsState.value.scan.mergeDuplicates,
@@ -349,7 +349,7 @@ class MainActivity : ComponentActivity() {
                                 ).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK),
                             )
                         }.onFailure {
-                            Toast.makeText(this@MainActivity, "无法打开系统设置", Toast.LENGTH_SHORT).show()
+                            showFeedback("无法打开系统设置")
                         }
                     },
                     onAddSaf = { treeLauncher.launch(null) },
@@ -368,7 +368,7 @@ class MainActivity : ComponentActivity() {
                             }.onSuccess {
                                 runtime.rescanAll()
                             }.onFailure { e ->
-                                Toast.makeText(this@MainActivity, "WebDAV 添加失败: ${e.message}", Toast.LENGTH_SHORT).show()
+                                showFeedback("WebDAV 添加失败: ${e.message}")
                             }
                         }
                     },
@@ -384,7 +384,7 @@ class MainActivity : ComponentActivity() {
                             }.onSuccess {
                                 runtime.rescanAll()
                             }.onFailure { e ->
-                                Toast.makeText(this@MainActivity, "STRM 添加失败: ${e.message}", Toast.LENGTH_SHORT).show()
+                                showFeedback("STRM 添加失败: ${e.message}")
                             }
                         }
                     },
@@ -405,7 +405,7 @@ class MainActivity : ComponentActivity() {
                             }.onSuccess {
                                 runtime.rescanAll()
                             }.onFailure {
-                                Toast.makeText(this@MainActivity, "FTP 添加失败（请检查地址与凭据）", Toast.LENGTH_SHORT).show()
+                                showFeedback("FTP 添加失败（请检查地址与凭据）")
                             }
                         }
                     },
@@ -425,7 +425,7 @@ class MainActivity : ComponentActivity() {
                             }.onSuccess {
                                 runtime.rescanAll()
                             }.onFailure {
-                                Toast.makeText(this@MainActivity, "SFTP 添加失败（请检查地址与凭据）", Toast.LENGTH_SHORT).show()
+                                showFeedback("SFTP 添加失败（请检查地址与凭据）")
                             }
                         }
                     },
@@ -436,9 +436,9 @@ class MainActivity : ComponentActivity() {
                                 storages.remove(id)
                             }.onSuccess {
                                 runtime.rescanAll()
-                                Toast.makeText(this@MainActivity, "音乐来源已移除", Toast.LENGTH_SHORT).show()
+                                showFeedback("音乐来源已移除")
                             }.onFailure { e ->
-                                Toast.makeText(this@MainActivity, "移除失败: ${e.message}", Toast.LENGTH_SHORT).show()
+                                showFeedback("移除失败: ${e.message}")
                             }
                         }
                     },
@@ -536,7 +536,7 @@ class MainActivity : ComponentActivity() {
                             freed < 0 -> "播放中，暂不能清理缓存"
                             else -> "已释放 %.1f MB 播放缓存".format(freed / 1024.0 / 1024.0)
                         }
-                        Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
+                        showFeedback(msg)
                     },
                     onAnalyzeReplayGain = { runtime.analyzeLibraryReplayGain(50) },
                     onScrapeCovers = { runtime.scrapeMissingCovers(50) },

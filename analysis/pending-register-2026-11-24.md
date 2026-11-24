@@ -11,6 +11,7 @@
 > **2026-11-24 第六批（§61.331）**：B-3 / C-1 / C-3 文档-实码对齐（8 处 + guard 交叉判据）落地。
 > **2026-11-24 第七批（§61.332）**：C-5 dev 闸门脚本归位（4/6 → 真实 6/6，判据强度未减）。
 > **2026-11-24 第八批（§61.333）**：C-4 Comp* 死组件清退（三活体迁出 + 整文件删除）。
+> **2026-11-24 第九批（§61.334）**：B-7 前三项（11 处 Toast 全域收口 + 歌单展开态 saver）。
 > 其余可直接开工。
 
 ---
@@ -37,7 +38,7 @@
 | ~~B-4~~ | ✅ | **已完成（§61.324）**：拆为组合根 **940 行** + `LibraryFacade`（255）/ `DlnaSessionFacade`（214）/ `ScanRuntime`（190） | 架构审计 §4 序 6 | 已验收：对外方法全为一行委托、`CloudMusicApp`/`PlaybackService` 零改动、1049 用例全绿；guard 含「实现回填即 FAIL」「域越界即 FAIL」 |
 | B-5 | P1 | R6+ 拆 `CloudMusicApp.kt`：2414 行、50+ 参数、弹窗族混在页内 | 架构审计 §4 序 7 | 页面逐文件化 + 参数聚合成 `UiActions` 接口；单文件 < 600 行 |
 | B-6 | P1 | R7 抽 `CachedRemoteDriver`（Sftp/Ftp 去重 ~180 行），NFS 开工前置 | 架构审计 §4 序 8 | 两驱动共用一套缓存/重试；NFS 接入只剩端口差异 |
-| B-7 | P2 | R8 卫生批：Toast 全域收口 + `System.err` 换 LogPort + CompeteUi 清退 + B21 歌单展开态 saver | 架构审计 §4 序 10 | 生产代码零 `System.err`；`CompeteUi.kt` 文件删除（`rememberCompCover` 先行迁出） |
+| B-7 | P2 | R8 卫生批：~~Toast 全域收口~~（§61.334）+ **余 `System.err` 换 LogPort** + ~~CompeteUi 清退~~（§61.333）+ ~~B21 歌单展开态 saver~~（§61.334） | 架构审计 §4 序 10 | 生产代码零 `System.err`；`CompeteUi.kt` 删除（已验收） |
 | B-8 | P3 | `settings.gradle.kts` 尾注模块总表仍列已归档/未建模块 | D7 | 与实际 include 集合一致 |
 | B-9 | P3 | `ErrorText.kt` 的 `"E_DS_IO"` 映射无生产写入方 | D6 | 留（标注观察）或删（同步测试） |
 

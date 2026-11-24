@@ -61,7 +61,7 @@ private fun Context.show(message: String, duration: Int) {
 /**
  * 统一反馈出口（短提示）：动作已生效 / 不可用只给原因。
  *
- * **全仓 `ui/` 只允许本文件创建 `Toast`**（`§61.294` 守护）。此前四处 `Toast.makeText`
+ * **全仓生产代码只允许本文件创建 `Toast`**（`§61.294` / §61.334 守护）。此前四处 `Toast.makeText`
  * 各建各的，连点会排队；收口后共用同一实例，后一条直接顶掉前一条。
  */
 fun Context.showFeedback(message: String) = show(message, Toast.LENGTH_SHORT)

@@ -3,7 +3,7 @@ package com.example.cloudmusic
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.widget.Toast
+import com.example.cloudmusic.ui.showFeedback
 import com.example.cloudmusic.common.PermissionGate
 import com.example.cloudmusic.di.playback.PlaybackRuntime
 import com.example.cloudmusic.storage.StorageRepository
@@ -78,6 +78,6 @@ class LocalSourceAdder(
     }
 
     private fun toast(text: String) {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+        context.showFeedback(text)
     }
 }

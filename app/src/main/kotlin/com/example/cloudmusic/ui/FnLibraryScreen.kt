@@ -92,7 +92,7 @@ fun FnLibraryScreen(
     nowPlayingId: TrackId? = null,
 ) {
     var viewIndex by rememberSaveable { mutableIntStateOf(0) }
-    var expanded by remember { mutableStateOf(setOf<String>()) }
+    var expanded by rememberSaveable { mutableStateOf(setOf<String>()) }
     val views = LibraryView.entries
     val current = views[viewIndex.coerceIn(0, views.lastIndex)]
 
