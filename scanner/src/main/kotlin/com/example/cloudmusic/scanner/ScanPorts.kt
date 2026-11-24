@@ -11,6 +11,17 @@ import java.util.concurrent.ConcurrentHashMap
  */
 interface StorageProvider {
     suspend fun active(): List<Storage>
+
+    /**
+     * §61.345（G-4）：配置里**存在**的全部可用源（含 Driver init 失败者）。
+     *
+     * `active()` 会剔除 init 失败的源（SAF 授权过期 / 网络断连），但「配置还在」与
+     * 「源被删除」是两种故障：前者只该跳过本轮扫描，**不能**触发孤儿 sweep 把名下
+     * 全部轨道标 UNREACHABLE（用户一手：本地音源也整片变灰）。
+     *
+     * 默认回到 active()——既有 fake / 单测零改动；生产实现覆写为配置全集。
+     */
+    suspend fun configured(): List<Storage> = active()
 }
 
 interface TrackSink {

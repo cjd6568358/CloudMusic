@@ -131,7 +131,10 @@ class ScanCoordinator(
                 // 标 UNREACHABLE（DataStore 手术/历史残留；PRD §4 灰显不删除）。
                 // 口径：按**全量 active**（非定向过滤后）判定，定向重扫不误标其它源。
                 runCatching {
-                    val allActive = storageProvider.active().map { it.id }.toSet()
+                    // §61.345（G-4）：按 configured()（配置全集）判定孤儿，而非 active()
+                    // （已剔除 init 失败者）——后者会把「SAF 授权过期」误判成「源被删除」，
+                    // 令本地音源名下轨道整片变灰。
+                    val allActive = storageProvider.configured().map { it.id }.toSet()
                     val orphans = trackSink.trackedStorageIds().filter { it !in allActive }
                     for (sid in orphans) {
                         val ids = trackSink.trackIdsByStorage(sid)

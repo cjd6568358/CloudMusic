@@ -10744,6 +10744,32 @@ def main() -> int:
     else:
         print("[PASS] §61.344 G-7/G-8/G-9：进页不弹键盘、音乐库页头搜索与四入口零回潮")
 
+    # ---- §61.345（G-4 孤儿 sweep 误判修复）----
+    _c345 = []
+    _sp345 = ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "scanner" / "ScanPorts.kt"
+    _sc345 = ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "scanner" / "ScanCoordinator.kt"
+    _di345 = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "di" / "scan" / "ScanComposition.kt"
+    for _f345 in (_sp345, _sc345, _di345):
+        if not _f345.is_file():
+            _c345.append("缺 " + _f345.name)
+    if not _c345:
+        _t345 = _code_only(_sp345.read_text(encoding="utf-8", errors="replace"))
+        if "suspend fun configured(): List<Storage> = active()" not in _t345:
+            _c345.append("StorageProvider 缺 configured() 默认方法（fake 测试会破）")
+        _t345 = _code_only(_sc345.read_text(encoding="utf-8", errors="replace"))
+        if "storageProvider.configured().map { it.id }.toSet()" not in _t345:
+            _c345.append("孤儿 sweep 仍用 active()（init 失败源会被误标灰）")
+        _t345 = _code_only(_di345.read_text(encoding="utf-8", errors="replace"))
+        if "override suspend fun configured()" not in _t345:
+            _c345.append("生产 DataStoreStorageProvider 未覆写 configured()")
+        _test345 = ROOT / "scanner" / "src" / "test" / "kotlin" / "com" / "example" / "cloudmusic" / "scanner" / "OrphanSweepTest.kt"
+        if not _test345.is_file() or "initFailedSourceIsNotOrphan" not in _test345.read_text(encoding="utf-8", errors="replace"):
+            _c345.append("缺 init 失败源不标灰的回归用例")
+    if _c345:
+        failures.append("§61.345 G-4 孤儿源误判：%s" % "；".join(_c345))
+    else:
+        print("[PASS] §61.345 G-4 孤儿 sweep 按 configured() 判定、回归用例在册")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

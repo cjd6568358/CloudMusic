@@ -1,7 +1,7 @@
 # CloudMusic · 未完成事项总账（2026-11-24，§61.329 收口时点）
 
 > 口径：只列**当前仍欠**的事。已修项不重复叙述（见 `docs/12 §61.318~§61.329`）。
-> 每行 = 事项 / 一手依据 / 验收判据 / 归属。共 **28 项**：A 组 1、B 组 0、C 组 0、D 组 3、E 组 14、F 组 3、**G 组 7（2026-11-25 用户新提，已完成 4）**。
+> 每行 = 事项 / 一手依据 / 验收判据 / 归属。共 **27 项**：A 组 1、B 组 0、C 组 0、D 组 3、E 组 14、F 组 3、**G 组 6（2026-11-25 用户新提，已完成 5）**。
 > **2026-11-24 更新**：四处「需拍板」已由用户定调（A-2 用红 / B-2 全局 8 / B-4 现在拆 / C-2 正名），
 > 对应四项于 §61.323–§61.324 落地，行内保留原判据作为验收依据（删除线 = 已完成）。
 > **2026-11-24 第二批（§61.325–§61.327）**：A-1 键盘遮挡 / A-3 热词去重 / A-7 正在播放标识三项 UI 落地。
@@ -23,7 +23,8 @@
 > **2026-11-25 第十八批（§61.343）**：B-5 收尾（UiActions 60 参数聚合，组合根 587 行）——**B 组清零**。
 > **2026-11-25 用户一手反馈（G 组 11 项）**：APP 图标 / slogan / 音乐库图标 / 最近添加变灰 / 顶部留白 /
 > 键盘黑遮罩 / 搜索页键盘 / 音乐库重复入口 / 更多页返回键 / 播放页图标重设计——先登记，逐条核实了代码落点。
-> **2026-11-25 §61.344**：G-2/G-7/G-8/G-9 四项纯代码完成（slogan / 进页不弹键盘 / 音乐库两处重复入口），G 组剩 7 项。
+> **2026-11-25 §61.344**：G-2/G-7/G-8/G-9 四项纯代码完成（slogan / 进页不弹键盘 / 音乐库两处重复入口）。
+> **2026-11-25 §61.345**：G-4 静态定位根因并修复（init 失败源被孤儿 sweep 误标灰），G 组剩 6 项。
 > 其余可直接开工。
 
 ---
@@ -127,7 +128,7 @@
 | G-1 | P1 | **APP 图标还没有，设计一个出来** | `AndroidManifest.xml` 无任何 `android:icon` / `roundIcon`；`app/src/main/res` 下零 `mipmap*/ic_launcher*`，当前是系统默认机器人图标 | 需**先拍板视觉**（风格/主色/是否沿用红 `IconRed #E54545`），再出 ic_launcher 各密度 + 自适应前景背景；装到桌面肉眼确认。个人自用侧载，不做上架素材合规 |
 | ~~G-2~~ | ✅ | **已完成（§61.344）**：`SplashScreen.kt` 两处「倾听好声音」→「听见好声音」 | code 原位 | 已验收：编译 + 1085 用例；**判据缺口如实登记**（无 guard 钉 slogan，A/B 改回不 FAIL） |
 | G-3 | P1 | **底部 Tab「音乐库」图标展示不全** | A-4 已把四枚收进 `FnIcon`（24 视框/2 笔画），`FnCapsuleBar` 用 `size = 26.dp`；`FnIcon.Library` 是**双联八分音符**（两空心符头+两符干+斜顶梁，刻意区别于 `Songs`），在 26dp 下最宽 | 真机 3x 截图逐枚判读：音乐库是否被裁切/触底；与 E-14 合并验收（同套笔画、基线对齐）。若确为字形问题改 `FnIcon.Library`，不是回退第二套画布 |
-| G-4 | **P0** | **「最近添加」全部变灰显示暂不可用，本地音源也一样** | 判定在 `HomeScreen.kt:269` `availability != OK` 即标灰；写入方有两条：①`ScanCoordinator.kt:263-267` 快照里有、本次没扫到 ⇒ `markUnavailable`（本地源若 SAF 授权失效/路径变更即命中）；②`ScanCoordinator.kt:136-140` 孤儿源 sweep ⇒ `markOrphan`；③播放失败 `PlaybackComposition.kt:943` 亦会标。真机需读 Room `tracks.availability` 与 `storage_id` 定位是哪条链 | **真机 + 库取证**：`adb exec-out run-as com.example.cloudmusic cat databases/cloudmusic.db`，看最近添加各行 `availability/storage_id/source_path`；判定后再修。禁止凭「本地源不该灰」直接改判定口径——会把真断链也放过去 |
+| ~~G-4~~ | ✅ | **已完成（§61.345，静态定位到根因）**：`DataStoreStorageProvider.active()` 把 init 失败源（SAF 授权过期等）从 active 剔除，孤儿 sweep 用 active 判定 ⇒ 把它名下全部轨道标灰。现给 `StorageProvider` 加 `configured()`（默认=active，生产覆写为配置全集），sweep 改用 configured()：配置还在只跳过扫描，不标灰 | 见 §61.345 | 已验收：新增 `initFailedSourceIsNotOrphan` 回归用例 + guard §61.345 + A/B（改回 active FAIL）；1086 用例全绿。**真机复查仍挂 E 窗**：确认用户现场恢复为彩色（若仍灰则是快照 miss 链，需库取证） |
 | G-5 | P2 | **顶部预留空间太多，干嘛用的？为什么不直接到状态栏？** | 普通页 `CloudMusicApp.kt:377` `.statusBarsPadding()` + `:379` `.displayCutoutPadding()`（§61.262 为竖屏挖孔只补左右，注释称避免与状态栏叠加顶移）；播放页则是 §61.270 已拍板的透明状态栏 + 内容延伸 | **需先确认口径**：用户这条是否与 §61.270（播放页全面屏）冲突、还是专指**普通页**留白；确认后量化「预留多少 px / 目标态是什么」，再改。不能一句「去掉 padding」了事——挖孔屏与三键导航会回潮 |
 | G-6 | **P0** | **键盘上方黑色遮罩问题依旧没解决** | A-1（§61.325）已把 IME 让位收口到 `Scaffold.bottomBar`（`WindowInsets.ime.exclude(navigationBars)`），但**E-11 真机判据一直没做**；弹层侧 `FeiniuUi.kt:868-869` 有 `navigationBarsPadding()+imePadding()`。用户一手说「依旧」⇒ E-11 实测 **FAIL** | **真机复验优先**：搜索页/添加源表单弹键盘，截图看黑遮罩位置与底栏是否贴键盘上沿；录下 IME inset 与窗口高度。判准根因后再改（可能是 window 模式 vs 全屏旗标，不是 padding 缺失），不得静态推断 PASS |
 | ~~G-7~~ | ✅ | **已完成（§61.344）**：`shouldAutoFocusSearch` 恒 false（BasicTextField 点击即聚焦，无需额外接线）；调用点形态不变；§61.293 判据跟源钉恒 false；`InputFocusTest` 四例真值表同步 | 同上 | 已验收：A/B 回潮旧口径 FAIL + 1085 用例全绿；真机「切 tab3 不弹键盘」挂 E-11/E-12 窗 |

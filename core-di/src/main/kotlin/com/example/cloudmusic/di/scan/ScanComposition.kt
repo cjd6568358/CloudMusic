@@ -150,8 +150,11 @@ class DataStoreStorageProvider(
     private val access: SettingsAccess,
     private val binder: StorageDriverBinder,
 ) : StorageProvider {
+    override suspend fun configured(): List<Storage> =
+        access.snapshot().storages.map { it.toModel() }.filter { it.isWork }
+
     override suspend fun active(): List<Storage> {
-        val active = access.snapshot().storages.map { it.toModel() }.filter { it.isWork }
+        val active = configured()
         val result = binder.sync(active)
         val failed = result.failed.toSet()
         return active.filterNot { it.id in failed }

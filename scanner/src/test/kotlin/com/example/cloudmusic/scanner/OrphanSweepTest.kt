@@ -88,6 +88,32 @@ class OrphanSweepTest {
     }
 
     @Test
+    @DisplayName("§61.345 / G-4 · 配置存在但 init 失败的源 → 不当孤儿、轨道不标灰")
+    fun initFailedSourceIsNotOrphan() = runTest {
+        val sink = RecordingSink()
+        sink.upsertBatch(listOf(
+            track("live-1", "s-live"),
+            track("flaky-1", "s-flaky"),   // 配置在、但 active() 剔除（模拟 SAF 授权过期）
+        ))
+        val report = ScanCoordinator(
+            storageProvider = object : StorageProvider {
+                override suspend fun active(): List<Storage> = listOf(liveStorage)
+                override suspend fun configured(): List<Storage> = listOf(
+                    liveStorage,
+                    Storage("s-flaky", "/mnt/flaky", "local", Addition("{}")),
+                )
+            },
+            driverRegistry = DriverRegistry,
+            trackSink = sink,
+            snapshotStore = InMemoryScanSnapshotStore(),
+            tagReader = EmptyTagReader,
+            pacer = ScanPacerNoOp,
+        ).run(ScanRequest(storageIds = setOf("s-live")))
+        assertEquals(0, sink.markedIds.size, "init 失败 ≠ 源被删除，不得标灰")
+        assertTrue(report.errors.none { it.code == "E_SCAN_ORPHAN_SOURCE" })
+    }
+
+    @Test
     @DisplayName("§61.255 · 无孤儿 → 零标记零错误（定向重扫不误标其它源口径）")
     fun noOrphansNoMarks() = runTest {
         val sink = RecordingSink()
