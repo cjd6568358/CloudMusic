@@ -98,15 +98,16 @@ if (skipAndroid) {
 // docs/03-模块开发文档/03-12 构建发布与合规.md §1.1 模块总表
 // 后续迭代在对应目录/源码建立后再逐行启用，避免产生无 build 文件的空项目。
 //
-// App / UI        : :app, :ui-legacy
-// 业务            : :feature-library, :feature-player
-// 核心契约        : :core-di, :core-storage, :core-media
+// 已 include（与上方 include(...) 逐项一致）：
+// App / UI        : :app
+// 业务            : :feature-player
+// 核心契约        : :core-common, :core-model, :core-di, :core-storage, :core-media
 // 数据源          : :datasource-local, :datasource-webdav, :datasource-strm,
-//                   :datasource-playlist, :datasource-sftp, :datasource-ftp (V0.2；nfs 仍为预留)
+//                   :datasource-playlist, :datasource-sftp, :datasource-ftp
 // 扫描            : :scanner
-// 引擎            : :engine-api, :engine-legacy, :engine-bridge,
-//                   :engine-opensource (B2 逃生舱，12 §61.81 / M1 拍板后已启用)
-// 媒体会话        : :media-legacy
-// 输出            : :output-router, :output-dlna, :output-localproxy,
-//                   :output-bluetooth
+// 引擎            : :engine-api, :engine-bridge, :engine-opensource（唯一生产内核）
+// 输出            : :output-router, :output-dlna, :output-localproxy
+// 未建 / 已归档（不是可启用模块；回退走 git 历史）：
+// :ui-legacy, :feature-library, :datasource-nfs（V1.0）, :engine-legacy（归档）,
+// :media-legacy, :output-bluetooth
 // ---------------------------------------------------------------------------

@@ -71,7 +71,7 @@ data class RemoteTagPolicy(
          * 成本边界（如实登记，不粉饰）：**新增/变更**的远程候选才会读——阶段 A 的
          * stat 命中跳过（§61.204）与快照 `metadataDone` 继承把「未变文件」全挡在门外，
          * 因此稳态增量扫描不产生 Range 读；只有**全量首扫 / 大目录新增**按文件数计费。
-         * 并发受 `ScanRequest.metadataConcurrency`（生产 2）限流，阶段 A 骨架先入库
+         * 并发受 `ScanRequest.metadataConcurrency`（生产 8，§61.323 B-2 全源共享）限流，阶段 A 骨架先入库
          * 并 emit `stageAFinished` ⇒ UI 不被阶段 B 阻塞（03-04 §10 两阶段语义不变）。
          */
         val PRODUCTION = RemoteTagPolicy(skipRemoteTags = false)

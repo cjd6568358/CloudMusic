@@ -520,7 +520,7 @@ class Media3EngineAdapter : IMusicEngine {
 
     /**
      * §61.302（H0-5）：显式 LoadControl——[EngineConfig.bufferMs] 消费为起播阈值
-     * （钳 500~15000ms），复播阈值 = 2×bufferMs 且不低于官方默认 5000ms；
+     * （钳 500~15000ms），复播阈值 = 起播阈值且不低于官方默认 5000ms（§61.317 取消翻倍）；
      * min/maxBuffer 维持官方默认 50s（只增不减的填充目标，防缓冲反复跌落）。
      * 参数单一出口，后续 KernelTuning 可否决表只改这里。
      */

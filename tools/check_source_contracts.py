@@ -10303,6 +10303,56 @@ def main() -> int:
         print("[PASS] §61.330 A-4 底栏图标单源：旧画布零残留、四枚全走 FnLineIcon"
               "（24 视框/2 笔画/26dp 盒）、CapsuleTabs 顺序钉死、More 三点语义")
 
+    # ---- §61.331（B-3/C-1/C-3 文档-实码对齐）----
+    # 这批判据以生产实码为真相源交叉核对文档值：文档写错本身就是缺陷，回退也要被抓。
+    _c331 = []
+    def _r331(rel):
+        return (ROOT / rel).read_text(encoding="utf-8", errors="replace")
+    _docs08 = _r331("docs/08-配置项总表.md")
+    _api331 = _r331("engine-api/src/main/kotlin/com/example/cloudmusic/engine/api/EngineApi.kt")
+    _scan331 = _r331("scanner/src/main/kotlin/com/example/cloudmusic/scanner/ScanModels.kt")
+    _set331 = _r331("core-storage/src/main/kotlin/com/example/cloudmusic/storage/AppSettings.kt")
+    _ftp331 = _r331("datasource-ftp/src/main/kotlin/com/example/cloudmusic/ftp/FtpDriver.kt")
+    _m331 = _r331("engine-opensource/src/main/kotlin/com/example/cloudmusic/engineopensource/Media3EngineAdapter.kt")
+    _tag331 = _r331("scanner/src/main/kotlin/com/example/cloudmusic/scanner/TagReader.kt")
+    _grad331 = _r331("settings.gradle.kts")
+    # ① bufferMs：docs/08 的宣称值必须等于 EngineApi 默认值
+    _bm331 = re.search(r"val bufferMs: Int = (\d+)", _api331)
+    if not _bm331:
+        _c331.append("EngineApi.kt 缺 bufferMs 默认值（交叉判据失效）")
+    else:
+        _dm331 = re.search(r"\|\s*`EngineConfig\.bufferMs`\s*\|\s*`(\d+)`\s*\|", _docs08)
+        if not _dm331 or _dm331.group(1) != _bm331.group(1):
+            _c331.append("docs/08 bufferMs=%s 与实码 %s 不一致"
+                         % (_dm331.group(1) if _dm331 else "缺", _bm331.group(1)))
+    # ② metadataConcurrency：TagReader 注释的生产值必须等于 ScanModels 默认值
+    _mc331 = re.search(r"val metadataConcurrency: Int = (\d+)", _scan331)
+    if not _mc331:
+        _c331.append("ScanModels.kt 缺 metadataConcurrency 默认值")
+    else:
+        if "（生产 %s" % _mc331.group(1) not in _tag331:
+            _c331.append("TagReader 注释未写实码生产并发 %s" % _mc331.group(1))
+    # ③ DLNA 两个持久化字段：实码有则文档必须登记
+    for _k331 in ("lastDmrUsn", "lastDmrName"):
+        if _k331 in _set331 and ("dlna.%s" % _k331) not in _docs08:
+            _c331.append("docs/08 缺 dlna.%s 登记（实码已有）" % _k331)
+    # ④ FTP 已落地：不得再与 NFS 并称预留；实码 ssl 字段必须登记
+    if "class FtpDriver" in _ftp331:
+        if "FTP / NFS 仍为后续版本预留" in _docs08:
+            _c331.append("docs/08 仍把 FTP 与 NFS 并称预留")
+        if "`ssl`" not in _docs08:
+            _c331.append("docs/08 FTP 表缺 ssl（实码 §61.235 已落地）")
+    # ⑤ Media3 复播阈值口径（§61.317 取消翻倍）
+    if "复播阈值 = 2×bufferMs" in _m331:
+        _c331.append("Media3EngineAdapter KDoc 仍写复播翻倍（§61.317 已取消）")
+    # ⑥ settings 尾注模块表与实际 include 对齐
+    if "// 已 include（与上方 include(...) 逐项一致）" not in _grad331:
+        _c331.append("settings.gradle.kts 尾注未与实际 include 对齐")
+    if _c331:
+        failures.append("§61.331 文档-实码对齐：%s" % "；".join(_c331))
+    else:
+        print("[PASS] §61.331 文档-实码对齐：bufferMs / 并发 / DLNA 两字段 / FTP 落地 / 复播阈值 / 模块表")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
