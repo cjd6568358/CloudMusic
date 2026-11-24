@@ -10770,6 +10770,46 @@ def main() -> int:
     else:
         print("[PASS] §61.345 G-4 孤儿 sweep 按 configured() 判定、回归用例在册")
 
+    # ---- §61.346（G-3 音乐库图标视觉占比）----
+    # 判据不是「字符串在不在」，而是从 Kotlin 坐标解析出包围盒（含 2 单位笔画半宽），
+    # 断言与同排 Home 同级（宽高 >= 19 单位）且不越 24 视框——防回退到偏小/偏右下。
+    _c346 = []
+    _fi346 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "FnIcons.kt"
+    if not _fi346.is_file():
+        _c346.append("FnIcons.kt 缺失")
+    else:
+        _src346 = _fi346.read_text(encoding="utf-8", errors="replace")
+        _i346 = _src346.find("FnIcon.Library ->")
+        _j346 = _src346.find("FnIcon.More ->", _i346)
+        _blk346 = _src346[_i346:_j346] if _i346 >= 0 and _j346 > _i346 else ""
+        if not _blk346:
+            _c346.append("找不到 FnIcon.Library 字形块")
+        else:
+            _xs346, _ys346 = [], []
+            for _m346 in re.finditer(r"ring\(([-\d.]+)f, ([-\d.]+)f, ([-\d.]+)f\)", _blk346):
+                _cx346, _cy346, _r346 = map(float, _m346.groups())
+                _xs346 += [_cx346 - _r346 - 1, _cx346 + _r346 + 1]
+                _ys346 += [_cy346 - _r346 - 1, _cy346 + _r346 + 1]
+            for _m346 in re.finditer(r"line\(([-\d.]+)f, ([-\d.]+)f, ([-\d.]+)f, ([-\d.]+)f\)", _blk346):
+                _x1, _y1, _x2, _y2 = map(float, _m346.groups())
+                _xs346 += [_x1 - 1, _x2 + 1]
+                _ys346 += [min(_y1, _y2) - 1, max(_y1, _y2) + 1]
+            if not _xs346 or not _ys346:
+                _c346.append("Library 字形无 ring/line 坐标（判据失效）")
+            else:
+                _w346 = max(_xs346) - min(_xs346)
+                _h346 = max(_ys346) - min(_ys346)
+                if _w346 < 19 or _h346 < 19:
+                    _c346.append("Library 包围盒 %.1fx%.1f < 19（26dp 下偏小，G-3 回潮）"
+                                 % (_w346, _h346))
+                if min(_xs346) < 0 or max(_xs346) > 24 or min(_ys346) < 0 or max(_ys346) > 24:
+                    _c346.append("Library 字形越出 24 视框（会被裁切）")
+    if _c346:
+        failures.append("§61.346 G-3 音乐库图标：%s" % "；".join(_c346))
+    else:
+        print("[PASS] §61.346 G-3 音乐库图标：包围盒 %.1fx%.1f 与 Home 同级、未越 24 视框"
+              % (_w346, _h346))
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
