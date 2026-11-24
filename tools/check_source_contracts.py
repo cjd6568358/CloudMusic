@@ -969,7 +969,8 @@ def main() -> int:
         return ("\n").join(
             (base / f).read_text(encoding="utf-8", errors="replace")
             for f in ("CloudMusicApp.kt", "SettingsScreen.kt", "SourcesScreen.kt",
-                       "PlaylistsScreen.kt")
+                       "PlaylistsScreen.kt", "PlayerMiniBar.kt", "TrackRowGuarded.kt",
+                       "SearchScreen.kt", "QueueScreen.kt", "MyMusicScreen.kt")
             if (base / f).is_file()
         )
 
@@ -8170,7 +8171,7 @@ def main() -> int:
         j = src.find("\n@Composable", i + len(marker))
         return src[i:] if j < 0 else src[i:j]
 
-    _mm = _fn_region(_code_app, "private fun MyMusicScreen(")
+    _mm = _fn_region(_code_app, "fun MyMusicScreen(")
     _pl = _fn_region(_code_app, "fun PlaylistsScreen(")
     _c284 = []
     if not _mm:
@@ -8532,7 +8533,7 @@ def main() -> int:
                 _c290.append(_why)
 
     # 5) 迷你条 + 歌单三键：onClickLabel 是动作提示，不是控件名
-    _mb_i = _code_app.find("private fun MiniBarButton(")
+    _mb_i = _code_app.find("fun MiniBarButton(")
     if _mb_i < 0:
         _c290.append("MiniBarButton 缺失（结构变了）")
     elif "contentDescription = description" not in _code_app[_mb_i:_code_app.find("\n}\n", _mb_i)]:
