@@ -78,7 +78,7 @@ include(":output-dlna")     // 第十五批：T-P3 投屏协议与决策（12 §
 //
 // 默认包含 Android 模块，保证 CI 与 release 一定校验 Manifest（C3）与 Hilt DI 图。
 // 未配置 SDK 的成员可用 ./gradlew test -Pcloudmusic.noAndroid=true 临时跳过
-// Android 模块，只跑 16 个纯 JVM 契约模块；CI / release 禁止使用该开关。
+// Android 模块，只跑 18 个纯 JVM 契约模块；CI / release 禁止使用该开关。
 // ---------------------------------------------------------------------------
 val skipAndroid = providers.gradleProperty("cloudmusic.noAndroid")
     .map { it.equals("true", ignoreCase = true) }
@@ -102,7 +102,7 @@ if (skipAndroid) {
 // App / UI        : :app
 // 业务            : :feature-player
 // 核心契约        : :core-common, :core-model, :core-di, :core-storage, :core-media
-// 数据源          : :datasource-local, :datasource-webdav, :datasource-strm,
+// 数据源          : :datasource-api, :datasource-local, :datasource-webdav, :datasource-strm,
 //                   :datasource-playlist, :datasource-sftp, :datasource-ftp
 // 扫描            : :scanner
 // 引擎            : :engine-api, :engine-bridge, :engine-opensource（唯一生产内核）

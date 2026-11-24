@@ -10543,6 +10543,55 @@ def main() -> int:
         print("[PASS] §61.335 LogPort 收尾：生产代码零 System.err、6 处诊断日志走端口、"
               "Android 实现单点注入")
 
+    # ---- §61.336（B-8 settings 尾注模块表与实际 include 交叉核对）----
+    _c336 = []
+    _sg336 = _r331("settings.gradle.kts")
+
+    def _mods336(src: str) -> set:
+        """扫出 :module token（不依赖正则转义，避免落盘吞反斜杠的老坑）。"""
+        out, i = set(), 0
+        while i < len(src):
+            if src[i] == ":" and i + 1 < len(src) and src[i + 1].isalpha():
+                j = i + 1
+                while j < len(src) and (src[j].isalnum() or src[j] in "-_"):
+                    j += 1
+                out.add(src[i:j])
+                i = j
+            else:
+                i += 1
+        return out
+
+    _inc336 = set()
+    for _l336 in _sg336.splitlines():
+        _q336 = _l336.strip()
+        if _q336.startswith('include("'):
+            _k336 = _q336.find('")', len('include("'))
+            if _k336 > 0:
+                _inc336.add(_q336[len('include("'):_k336])
+    _i336 = _sg336.find("// 已 include（")
+    _j336 = _sg336.find("// 未建 / 已归档", _i336) if _i336 >= 0 else -1
+    _note336 = _mods336(_sg336[_i336:_j336]) if (_i336 >= 0 and _j336 > _i336) else set()
+    if not _inc336:
+        _c336.append("settings.gradle.kts 解析不到 include(...) 模块（交叉判据失效）")
+    if not _note336:
+        _c336.append("settings 尾注缺「已 include」段（交叉判据失效）")
+    if _inc336 and _note336:
+        if _inc336 != _note336:
+            _c336.append("尾注模块表与实际 include 不一致：缺 %s / 多 %s"
+                         % (sorted(_inc336 - _note336), sorted(_note336 - _inc336)))
+        if any(_n336 not in _inc336 for _n336 in (":app", ":core-di", ":engine-opensource",
+                                                  ":datasource-api")):
+            _c336.append("include 集合缺关键模块")
+    _jvm336 = sum(1 for _b336 in ROOT.glob("*/build.gradle.kts")
+                  if "cloudmusic.jvm.library" in _b336.read_text(encoding="utf-8", errors="replace"))
+    if _jvm336 and ("只跑 %d 个纯 JVM" % _jvm336) not in _sg336:
+        _c336.append("settings 尾注的纯 JVM 模块数非实际 %d 个" % _jvm336)
+    if _c336:
+        failures.append("§61.336 settings 尾注：%s" % "；".join(_c336))
+    else:
+        print("[PASS] §61.336 settings 尾注：%d 个 include 与尾注逐项一致、纯 JVM 数 %d"
+              % (len(_inc336), _jvm336))
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
