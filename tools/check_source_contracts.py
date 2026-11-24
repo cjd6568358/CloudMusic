@@ -968,7 +968,8 @@ def main() -> int:
                 / "cloudmusic" / "ui")
         return ("\n").join(
             (base / f).read_text(encoding="utf-8", errors="replace")
-            for f in ("CloudMusicApp.kt", "SettingsScreen.kt") if (base / f).is_file()
+            for f in ("CloudMusicApp.kt", "SettingsScreen.kt", "SourcesScreen.kt")
+            if (base / f).is_file()
         )
 
     failures: list[str] = []
@@ -1708,8 +1709,7 @@ def main() -> int:
 
     adder52 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
                / "cloudmusic" / "LocalSourceAdder.kt").read_text(encoding="utf-8")
-    ui52 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
-            / "cloudmusic" / "ui" / "CloudMusicApp.kt").read_text(encoding="utf-8")
+    ui52 = read_cloud_app()
     adder_needles = (
         "takePersistableUriPermission", "PermissionGate.UserAction.ADD_LOCAL_MEDIASTORE",
         "storages.add(LocalSourceSpec.DRIVER_TYPE, additionJson)", "runtime.rescanAll()",
@@ -2784,8 +2784,7 @@ def main() -> int:
     # ---- 12 §61.150（MiniPlayer 真曲名 + RG 真机收口）长效守护 -----------
     # 防 MiniPlayer 回退 raw trackId 主渲染（§61.141 观察项回潮）；
     # RG 真机验证收口（29 日志/21 落库）在位。
-    app_txt = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
-               / "cloudmusic" / "ui" / "CloudMusicApp.kt").read_text(encoding="utf-8")
+    app_txt = read_cloud_app()
     # §61.279（V0.4-06）：迷你条改飞牛卡片条后渲染式随之变化，
     # 判据强度不变——仍是「真曲名优先 + trackId 兜底 + 未在播放占位」三档。
     if not all(x in app_txt for x in (
@@ -6628,7 +6627,7 @@ def main() -> int:
         _drv_src = _code_only(_sftp_drv.read_text(encoding="utf-8", errors="replace"))
         _jsch_src = _code_only(_jsch.read_text(encoding="utf-8", errors="replace"))
         _mai_src3 = _code_only(_mai.read_text(encoding="utf-8", errors="replace"))
-        _cmp_src3 = _code_only(_cmp.read_text(encoding="utf-8", errors="replace"))
+        _cmp_src3 = _code_only(read_cloud_app())
         _sftp_bad = []
         if 'include(":datasource-sftp")' not in _settings_src or "jsch" not in _catalog_src:
             _sftp_bad.append("模块或依赖未登记")
@@ -6705,7 +6704,7 @@ def main() -> int:
         _ports_src = _code_only(_sftp_ports.read_text(encoding="utf-8", errors="replace"))
         _drv_src2 = _code_only(_sftp_drv.read_text(encoding="utf-8", errors="replace"))
         _jsch_src2 = _code_only(_jsch.read_text(encoding="utf-8", errors="replace"))
-        _cmp_src4 = _code_only(_cmp.read_text(encoding="utf-8", errors="replace"))
+        _cmp_src4 = _code_only(read_cloud_app())
         _key_bad = []
         if "privateKey" not in _ports_src or "passphrase" not in _ports_src:
             _key_bad.append("SftpConfig 缺私钥字段")
@@ -10675,6 +10674,8 @@ def main() -> int:
                   "ManualDmrDialog"):
         if "fun %s(" % _n339 in _root339:
             _c339.append("CloudMusicApp.kt 仍定义 " + _n339 + "（拆文件回潮）")
+    if not (_ui339 / "SourcesScreen.kt").is_file():
+        _c339.append("SourcesScreen.kt 缺失（数据源页未拆出）")
     if "read_cloud_app()" not in s_self339:
         _c339.append("判据未读合并源码（拆分后锚点会漏）")
     if _c339:
