@@ -10353,6 +10353,41 @@ def main() -> int:
     else:
         print("[PASS] §61.331 文档-实码对齐：bufferMs / 并发 / DLNA 两字段 / FTP 落地 / 复播阈值 / 模块表")
 
+    # ---- §61.332（C-5 dev 闸门脚本归位）----
+    # 归档后脚本的输入路径曾停在旧位置导致 C1/C6 恒 FAIL；本批只改输入路径与归位，
+    # 判据强度（18 so / 12 JNI 类 / 18 打包集）一字不减，计数断言防「删判据凑 PASS」。
+    _c332 = []
+    _pre332 = _r331("tools/pre_release_check.py")
+    for _s332 in ("check-engine-abi.py", "check-fingerprint.py"):
+        _p332 = ROOT / "tools" / _s332
+        if not _p332.is_file():
+            _c332.append("tools/ 缺 " + _s332 + "（C1/C6 未归位）")
+            continue
+        _t332 = _p332.read_text(encoding="utf-8", errors="replace")
+        if 'ROOT / "archive" / "NeteaseCloudMusic.apk"' not in _t332:
+            _c332.append(_s332 + " 参考 APK 路径未跟 §61.307 归档")
+        if _s332 == "check-engine-abi.py":
+            if 'ROOT / "archive" / "engine-legacy"' not in _t332:
+                _c332.append("C1 engine-legacy 路径未跟归档")
+            _mb332 = re.search(r"EXPECTED_KB: dict\[str, float\] = \{(.*?)\}", _t332, re.S)
+            if not _mb332 or _mb332.group(1).count('"') // 2 != 18:
+                _c332.append("C1 EXPECTED_KB 非 18 项（疑似删判据凑 PASS）")
+            _mj332 = re.search(r"JNI_CLASSES = \((.*?)\)", _t332, re.S)
+            if not _mj332 or _mj332.group(1).count('"') // 2 != 12:
+                _c332.append("C1 JNI_CLASSES 非 12 项（疑似删判据凑 PASS）")
+    for _cid332, _sc332 in (("C1", "check-engine-abi.py"), ("C6", "check-fingerprint.py")):
+        if '("%s", "%s")' % (_cid332, _sc332) not in _pre332:
+            _c332.append("pre_release_check 的 %s 引用被摘除" % _cid332)
+    _ep332 = _r331("tools/elf_probe.py")
+    _i332 = _ep332.find("PACKED_LIBS")
+    _b332 = _ep332[_i332:_ep332.find(")", _i332)]
+    if _b332.count('"') // 2 != 18:
+        _c332.append("elf_probe.PACKED_LIBS 非 18 项（疑似删判据凑 PASS）")
+    if _c332:
+        failures.append("§61.332 dev 闸门脚本归位：%s" % "；".join(_c332))
+    else:
+        print("[PASS] §61.332 dev 闸门脚本归位：C1/C6 在 tools/、输入路径跟 archive/、判据常量 18/12/18 未减")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
