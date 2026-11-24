@@ -10489,6 +10489,60 @@ def main() -> int:
     else:
         print("[PASS] §61.334 卫生批：11 处宿主 Toast 全收口 Feedback 单出口、歌单展开态 rememberSaveable")
 
+    # ---- §61.335（B-7 收尾：System.err → LogPort）----
+    _c335 = []
+    _prod335 = []
+    for _m335 in ("app", "scanner", "core-common", "core-model", "core-di", "core-storage",
+                  "core-media", "datasource-api", "datasource-local", "datasource-webdav",
+                  "datasource-strm", "datasource-playlist", "datasource-sftp", "datasource-ftp",
+                  "engine-api", "engine-bridge", "engine-opensource", "feature-player",
+                  "output-router", "output-dlna", "output-localproxy"):
+        _prod335.extend(sorted((ROOT / _m335 / "src" / "main").rglob("*.kt")))
+    for _f335 in _prod335:
+        _t335 = _code_only(_f335.read_text(encoding="utf-8", errors="replace"))
+        for _bad335 in ("System.err", "System.out", "printStackTrace"):
+            if _bad335 in _t335:
+                _c335.append("%s 仍直写 %s" % (_f335.as_posix(), _bad335))
+    _lp335 = ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "common" / "LogPort.kt"
+    if not _lp335.is_file():
+        _c335.append("core-common/LogPort.kt 缺失")
+    else:
+        _t335 = _code_only(_lp335.read_text(encoding="utf-8", errors="replace"))
+        if "fun interface LogPort" not in _t335 or "NOOP" not in _t335:
+            _c335.append("LogPort 端口或缺 NOOP 默认实现")
+    _pc335 = ROOT / "feature-player" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "player" / "PlayerController.kt"
+    if not _pc335.is_file():
+        _c335.append("PlayerController.kt 缺失")
+    else:
+        _t335 = _code_only(_pc335.read_text(encoding="utf-8", errors="replace"))
+        if "logPort: " not in _t335:
+            _c335.append("PlayerController 未接 LogPort 构造参数")
+        if _t335.count('logPort.debug("CM-Player", "') != 4:
+            _c335.append("PlayerController 诊断日志改走 LogPort 的处数非 4")
+    _svc335 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "PlaybackService.kt"
+    if not _svc335.is_file():
+        _c335.append("PlaybackService.kt 缺失")
+    else:
+        _t335 = _code_only(_svc335.read_text(encoding="utf-8", errors="replace"))
+        if "lateinit var logPort" not in _t335:
+            _c335.append("PlaybackService 未注入 LogPort")
+        if _t335.count('logPort.debug("CM-DIAG", "') != 2:
+            _c335.append("PlaybackService 诊断日志改走 LogPort 的处数非 2")
+    _di335 = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "di" / "BridgeModule.kt"
+    if not _di335.is_file():
+        _c335.append("BridgeModule.kt 缺失")
+    else:
+        _t335 = _code_only(_di335.read_text(encoding="utf-8", errors="replace"))
+        if "fun provideLogPort()" not in _t335 or "android.util.Log.d" not in _t335:
+            _c335.append("core-di 缺 Android LogPort 实现")
+        if _t335.count("android.util.Log.d") != 1:
+            _c335.append("Log.d 散落多处（应只在 provideLogPort）")
+    if _c335:
+        failures.append("§61.335 LogPort 收尾：%s" % "；".join(_c335))
+    else:
+        print("[PASS] §61.335 LogPort 收尾：生产代码零 System.err、6 处诊断日志走端口、"
+              "Android 实现单点注入")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

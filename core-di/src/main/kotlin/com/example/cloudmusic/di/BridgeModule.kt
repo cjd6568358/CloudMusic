@@ -111,6 +111,12 @@ object BridgeModule {
     @Singleton
     fun provideMulticastTransport(): MulticastTransport = DatagramMulticastTransport()
 
+    /** §61.335（B-7）：Android 侧日志实现——纯 JVM 端口的生产出口，仅此一处用 Log.d。 */
+    @Provides
+    @Singleton
+    fun provideLogPort(): com.example.cloudmusic.common.LogPort =
+        com.example.cloudmusic.common.LogPort { tag, message -> android.util.Log.d(tag, message) }
+
     @Provides
     @Singleton
     fun provideMulticastLock(@ApplicationContext context: Context): MulticastLockPort =

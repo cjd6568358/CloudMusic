@@ -55,6 +55,8 @@ class PlayerController(
     /** §61.253：源级失败 → UNREACHABLE 标记（孤儿源曲库不再谎报 OK）。 */
     private val availabilityWriter: com.example.cloudmusic.player.TrackAvailabilityWriter? = null,
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default),
+    /** §61.335（B-7）：诊断日志出口；默认 NOOP 保证既有 JVM 测试零改动。 */
+    private val logPort: com.example.cloudmusic.common.LogPort = com.example.cloudmusic.common.LogPort.NOOP,
 ) {
     private val _state = MutableStateFlow(PlayerState())
     val state: StateFlow<PlayerState> = _state.asStateFlow()
@@ -774,7 +776,7 @@ class PlayerController(
             throw e
         } catch (e: Exception) {
             if (prepareSeq.get() != myPrepare) {
-                System.err.println("CM-Player|prepareAt: 迟到响应整链丢弃 gen=$myPrepare track=${item.trackId.value}")
+                logPort.debug("CM-Player", "prepareAt: 迟到响应整链丢弃 gen=$myPrepare track=${item.trackId.value}")
                 return
             }
             // §61.252（P0 修复）：源级失败（驱动缺失/条目不可读）与引擎错误同语义 ——
@@ -787,7 +789,7 @@ class PlayerController(
             return
         }
         if (prepareSeq.get() != myPrepare) {
-            System.err.println("CM-Player|prepareAt: 迟到 resolve 丢弃 gen=$myPrepare track=${item.trackId.value}")
+            logPort.debug("CM-Player", "prepareAt: 迟到 resolve 丢弃 gen=$myPrepare track=${item.trackId.value}")
             return
         }
         currentNetworkSource = link.kind != Link.Kind.LOCAL
@@ -825,7 +827,7 @@ class PlayerController(
             // §61.120（T5-2 前置）：曲库分析增益兜底（容器标签缺失时生效）。
             trackGainDb = track.replayGainDb,
         )
-        System.err.println("CM-Player|prepareAt: index=$index track=${track.title} src=${source.url ?: source.localPath} gapless=${queuedSources != null}")
+        logPort.debug("CM-Player", "prepareAt: index=$index track=${track.title} src=${source.url ?: source.localPath} gapless=${queuedSources != null}")
         if (queuedSources != null) {
             handle = engine.prepareQueue(queuedSources, index, engineConfig)
             queueMode = true
@@ -967,7 +969,7 @@ class PlayerController(
         com.example.cloudmusic.model.AudioFormats.mimeOfName(link.localPath ?: link.url)
 
     private fun fail(error: CloudMusicError) {
-        System.err.println("CM-Player|fail: $error")
+        logPort.debug("CM-Player", "fail: $error")
         _state.update { it.copy(phase = PlayerPhase.ERROR, lastError = error) }
     }
 

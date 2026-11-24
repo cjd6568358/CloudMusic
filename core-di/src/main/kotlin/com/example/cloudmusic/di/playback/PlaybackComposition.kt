@@ -922,6 +922,7 @@ object PlaybackModule {
         networkGate: NetworkPlaybackGate,
         tracks: TrackRepository,
         queueRepository: QueueRepository,
+        logPort: com.example.cloudmusic.common.LogPort,
     ): PlayerController = PlayerController(
         engine = engine,
         sync = sync,
@@ -937,6 +938,7 @@ object PlaybackModule {
         // 真机一手 `playback_state 缺失`）——切歌 / 暂停 / PLAYING 每 5s 落 playback_state。
         cursorWriter = CursorWriter { id, pos -> queueRepository.saveCursor(id, pos) },
         // §61.253：源级失败 → 曲库可用性如实标记（PRD §4 离线优先）。
+        logPort = logPort,
         availabilityWriter = com.example.cloudmusic.player.TrackAvailabilityWriter { id, ok ->
             tracks.markAvailability(id, if (ok) com.example.cloudmusic.model.Availability.OK
             else com.example.cloudmusic.model.Availability.UNREACHABLE)

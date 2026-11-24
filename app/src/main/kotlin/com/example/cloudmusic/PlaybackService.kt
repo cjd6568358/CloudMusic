@@ -88,6 +88,10 @@ class PlaybackService : Service() {
     @Inject
     lateinit var runtime: PlaybackRuntime
 
+    /** §61.335（B-7）：诊断日志统一出口，由 :core-di 注入 Android Log.d 实现。 */
+    @Inject
+    lateinit var logPort: com.example.cloudmusic.common.LogPort
+
     /** 焦点 / 断连的唯一裁决入口；句柄由 `PlayerController.init` 绑定（`03-07 §3`）。 */
     @Inject
     lateinit var mediaControl: IMediaControl
@@ -482,7 +486,7 @@ class PlaybackService : Service() {
 
     /** 12 §61.19：同步 MediaSession PlaybackState（保持 actions 不变）。 */
     private fun updateSessionPlaybackState(state: Int) {
-        System.err.println("CM-DIAG|updateSessionPlaybackState state=$state from=" +
+        logPort.debug("CM-DIAG", "updateSessionPlaybackState state=$state from=" +
             Throwable().stackTrace.toList().take(3).joinToString(" <- ") { it.className.substringAfterLast('.') + "." + it.methodName })
         mediaSession?.let { session ->
             // §61.240：回退链位置不再恒 0（§61.25 原实现）——用最近发布位置保位；
@@ -507,7 +511,7 @@ class PlaybackService : Service() {
      * 位置 = §61.239 相对口径（分轨曲目从 0 起算）；速度 1f/0f 按态修正。
      */
     private fun writeSessionTransport(playing: Boolean, positionMs: Long, durationMs: Long) {
-        System.err.println("CM-DIAG|writeSessionTransport playing=$playing pos=$positionMs from=" +
+        logPort.debug("CM-DIAG", "writeSessionTransport playing=$playing pos=$positionMs from=" +
             Throwable().stackTrace.toList().take(3).joinToString(" <- ") { it.className.substringAfterLast('.') + "." + it.methodName })
         val session = mediaSession ?: return
         session.setPlaybackState(
