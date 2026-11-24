@@ -6630,9 +6630,14 @@ def main() -> int:
             _sftp_bad.append("注册表键或数据源添加入口缺失")
         if "添加 SFTP 源" not in _cmp_src3 or "SftpDialog(" not in _cmp_src3:
             _sftp_bad.append("UI 添加面板缺失")
-        if "ByteRangeCapability" not in _drv_src or "TextReadCapability" not in _drv_src:
+        # §61.338：能力声明与 LOCAL 缓存链搬到 CachedRemoteDriver，判据跟源不降强度。
+        _base216 = _code_only((ROOT / "datasource-api" / "src" / "main" / "kotlin" / "com" / "example"
+                   / "cloudmusic" / "datasource" / "CachedRemoteDriver.kt")
+                  .read_text(encoding="utf-8", errors="replace"))
+        if ("ByteRangeCapability" not in _base216 or "TextReadCapability" not in _base216
+                or ": CachedRemoteDriver(" not in _drv_src):
             _sftp_bad.append("扫描期 Range/文本能力缺失")
-        if "localLink(" not in _drv_src or "proxySourceUrl" in _drv_src:
+        if "localLink(" not in _base216 or "proxySourceUrl" in (_drv_src + _base216):
             _sftp_bad.append("link 未走 LOCAL 缓存或伪造了 PROXIED 回源")
         if re.search(r"(Log\.[idwe]|println)\(.*(password|passwd|config)", _jsch_src):
             _sftp_bad.append("JSch 端口疑似打印凭据")
@@ -6937,7 +6942,10 @@ def main() -> int:
     _ftp_bad = []
     if not (ROOT / "datasource-ftp" / "build.gradle.kts").is_file() or "FtpClientFactory" not in _ftp_src:
         _ftp_bad.append("FTP 模块或端口工厂缺失")
-    if "cacheDir, \"ftp\"" not in _ftp_src:
+    _base228 = _code_only((ROOT / "datasource-api" / "src" / "main" / "kotlin" / "com" / "example"
+                            / "cloudmusic" / "datasource" / "CachedRemoteDriver.kt")
+                  .read_text(encoding="utf-8", errors="replace"))
+    if '"FTP",' not in _ftp_src or "protocol.lowercase()" not in _base228:
         _ftp_bad.append("link 缓存目录口径缺失")
     if '"anonymous"' not in _ftp_src:
         _ftp_bad.append("空用户名 anonymous 兜底缺失")
@@ -10619,6 +10627,54 @@ def main() -> int:
         failures.append("§61.337 E_DS_IO 观察项：%s" % "；".join(_c337))
     else:
         print("[PASS] §61.337 E_DS_IO 观察项：映射保留、文档标注、零生产写入方")
+
+    # ---- §61.338（B-6 CachedRemoteDriver 去重）----
+    _c338 = []
+    _base338 = ROOT / "datasource-api" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "datasource" / "CachedRemoteDriver.kt"
+    if not _base338.is_file():
+        _c338.append("datasource-api/CachedRemoteDriver.kt 缺失")
+    else:
+        _t338 = _code_only(_base338.read_text(encoding="utf-8", errors="replace"))
+        for _need338 in ("data class RemoteEntry", "abstract class CachedRemoteDriver",
+                         "fun checkReady()", "final override fun doDrop()",
+                         "final override suspend fun list(", "final override suspend fun get(",
+                         "final override suspend fun readBytes(", "final override suspend fun readText(",
+                         "final override suspend fun link(", "private suspend fun readAll(",
+                         "private fun cacheName(", "protected fun full(",
+                         "protected fun RemoteEntry.toObj()", "protected fun upstream(",
+                         "const val CHUNK = 256 * 1024", "protocol.lowercase()",
+                         "Charset.forName(\"GB18030\")"):
+            if _need338 not in _t338:
+                _c338.append("基类缺共享契约 " + _need338)
+    for _fn338, _proto338, _diff338 in (
+        ("datasource-sftp/src/main/kotlin/com/example/cloudmusic/sftp/SftpDriver.kt", "SFTP", "privateKey"),
+        ("datasource-ftp/src/main/kotlin/com/example/cloudmusic/ftp/FtpDriver.kt", "FTP", "ssl"),
+    ):
+        _p338 = ROOT / _fn338
+        if not _p338.is_file():
+            _c338.append("缺驱动 " + _fn338)
+            continue
+        _t338 = _code_only(_p338.read_text(encoding="utf-8", errors="replace"))
+        if ": CachedRemoteDriver(" not in _t338:
+            _c338.append("%s 未继承 CachedRemoteDriver" % _fn338)
+        if _diff338 not in _t338:
+            _c338.append("%s 端口差异 %s 丢失" % (_fn338, _diff338))
+        if 'override suspend fun doInit(ctx: DriverCtx)' not in _t338:
+            _c338.append("%s 缺端口建连 doInit" % _fn338)
+        for _needle338 in ('override suspend fun remoteList(', 'override suspend fun remoteStat(',
+                           'override suspend fun remoteRead(', 'override fun closeClient()',
+                           'override val isReady'):
+            if _needle338 not in _t338:
+                _c338.append("%s 缺端口方法 %s" % (_fn338, _needle338))
+        # 共享逻辑回潮到子类即红：link/readText/readAll/cacheName/full 不得各自实现
+        for _ban338 in ('override suspend fun link(', 'override suspend fun readText(',
+                        'fun readAll(', 'fun cacheName(', 'fun full(', 'fun upstream('):
+            if _ban338 in _t338:
+                _c338.append("%s 又自行实现共享逻辑 %s" % (_fn338, _ban338))
+    if _c338:
+        failures.append("§61.338 CachedRemoteDriver 去重：%s" % "；".join(_c338))
+    else:
+        print("[PASS] §61.338 CachedRemoteDriver 去重：缓存链单点、两驱动只剩端口差异")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
