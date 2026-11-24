@@ -99,24 +99,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 
-/**
- * T-A6（`12 §33`）/ 第三十一批（`12 §40`）：V0.1 最小自研 UI。
- *
- * 页面（03-10 §5 的 V0.1 子集）：曲库 / 歌单 / 搜索 / 队列 / 设置 五页 + 数据源管理入口
- * + 输出设备弹窗。
- *
- * `12 §61.40`（用户「UI 交互严格复刻竞品」）：点击迷你播放条进入 `LegacyPlayerPage`。
- * `12 §61.137`（用户「像素级对齐竞品 UI，包括设置、交互 UI，不只是播放页」）：
- * 非播放页全部按 `analysis/ui-replica/page-spec-61-137.md` 重建——色值/尺寸/字号取自
- * 竞品 `music_library_*` / `main_account` / `item_account_*` / 搜索家族 layout 一手证据，
- * 共享组件在 [CompeteUi.kt]（[Comp] 设计系统）。接线（回调/Repository/bridge）零改动，
- * 仅视觉与组件结构替换；图标用字形占位不导出竞品素材（C4）。
- *
- * 边界（`03-10 §11`）：只经 Repository / StateFlow 取数，不碰 Driver / Room / OkHttp；
- * 蓝牙只作状态提示、**不列为与本机/DLNA 并列的可选输出**（禁止事项 8）。
- * V0.1 用状态切页，未引 navigation-compose / coil-compose。
- */
 
+/**
+ * §61.343（B-5 收尾）：薄门面——60 参数聚合到 [UiActions]，实现体 [CloudMusicAppContent]
+ * 用 `with(actions)` 直接消费字段，函数体逐字未动。
+ */
 /**
  * §61.168（飞牛导航）：功能页口径标签——胶囊「更多」页的入口单一来源。
  *
@@ -129,116 +116,13 @@ private val FUNCTION_PAGE_LABELS = listOf(
     "队列" to FnIcon.Queue, "设置" to FnIcon.Settings,
 )
 
-/**
- * 飞牛搜索页「搜索发现」热词 —— 实现迁到 [SearchDiscovery.hotWords]（§61.326 / A-3）。
- *
- * 旧实现直接拿原始 artist / album 字符串分组，`刘若英` / `劉若英` / `"刘若英` 会并列成
- * 三个胶囊（评审 §六-5、真机 01:43 截图）。归一化与去重逻辑连同字表现在都在
- * [SearchDiscovery] 里，可被 JVM 单测直接断言——本文件只负责调用。
- */
+@Composable
+fun CloudMusicApp(actions: UiActions) {
+    CloudMusicAppContent(actions)
+}
 
 @Composable
-fun CloudMusicApp(
-    tracks: Flow<List<Track>>,
-    storages: Flow<List<Storage>>,
-    playlists: Flow<List<Playlist>>,
-    queue: Flow<List<QueueItem>>,
-    outputState: Flow<OutputDeviceState>,
-    settings: Flow<AppSettings>,
-    search: (String) -> Flow<List<Track>>,
-    runtimeState: StateFlow<RuntimeState>,
-    playerState: StateFlow<PlayerState>,
-    onRescanAll: () -> Unit,
-    onRetryUnavailable: () -> Unit,
-    /** §61.207（A2-③）：单源刷新（数据源管理页「刷新此源」行内动作）——定向增量扫。 */
-    onRefreshStorage: (String) -> Unit = { _ -> },
-    /** §61.208（A4）：合并重复项开关（scan.mergeDuplicates 的 UI 消费口径）。 */
-    mergeDuplicates: Boolean = false,
-    onMergeDuplicatesChanged: (Boolean) -> Unit = { _ -> },
-    /** §61.211（G09 拍板 A）：MIUI 自启动引导跳转（仅 MIUI 系设备显示行）。 */
-    onOpenAutostartSettings: () -> Unit = {},
-    onAddSaf: () -> Unit,
-    onAddMediaStore: () -> Unit,
-    /** §61.132：添加 WebDAV 源（url / username / password / rootPath）。 */
-    onAddWebDav: (String, String, String, String) -> Unit = { _, _, _, _ -> },
-    /** §61.151：添加 STRM 独立源（delegateStorageId + paths 多行，空=委托根目录）。 */
-    onAddStrm: (String, String) -> Unit = { _, _ -> },
-    /** V0.2 §61.216：添加 SFTP 源（host / port / username / password / rootPath）。 */
-    onAddSftp: (String, Int, String, String, String, String, String) -> Unit = { _, _, _, _, _, _, _ -> },
-    /** V0.2 §61.228：添加 FTP 源（host / port / username / password / rootPath / ssl）。 */
-    onAddFtp: (String, Int, String, String, String, Boolean) -> Unit = { _, _, _, _, _, _ -> },
-    /** §61.152：移除数据源（markOrphan → 曲目标记不可用，文件不删）。 */
-    onRemoveStorage: (String) -> Unit = { _ -> },
-    onPlay: () -> Unit,
-    onPause: () -> Unit,
-    onNext: () -> Unit,
-    onPrev: () -> Unit,
-    onWifiOnlyChanged: (Boolean) -> Unit,
-    onOpenOutput: () -> Unit,
-    /** §61.110：输出弹窗选择（本机 / DLNA）——DLNA 走发现 → 推流 → setActive 闭环。 */
-    onOutputSelected: (ActiveOutput) -> Unit = {},
-    /** §61.200：输出弹窗的 DMR 设备列表（MainActivity 打开弹窗时发现并排序去重）。 */
-    dlnaDevices: StateFlow<List<DmrDevice>> = MutableStateFlow(emptyList()),
-    /** §61.241（V3-M2）：上次投屏设备 USN——弹窗里给该设备标「上次投屏」。 */
-    lastDmrUsn: StateFlow<String?> = MutableStateFlow(null),
-    /** §61.229：投屏态 DMR 音量（输出弹窗滑杆）；回调转发 runtime.setCastVolume。 */
-    castVolume: StateFlow<Int> = MutableStateFlow(50),
-    onCastVolumeChanged: (Int) -> Unit = { _ -> },
-    /** §61.200：点具体设备直接投屏（跳过自动选择）。 */
-    onPickDmr: (DmrDevice) -> Unit = {},
-    /** §61.200：弹窗内「重新扫描」触发重新发现。 */
-    onScanDlna: () -> Unit = {},
-    /** §61.201：手动指定 DMR 的探测结果（null = 未探测）。 */
-    manualDmrResult: StateFlow<Result<DmrDevice>?> = MutableStateFlow(null),
-    /** §61.201：提交手动探测（IP / 端口 / 描述地址）。 */
-    onProbeManualDmr: (ManualDmrSpec) -> Unit = {},
-    /** §61.201：打开手动面板时清掉上次结果，避免旧状态误导。 */
-    onClearManualDmrResult: () -> Unit = {},
-    /** §61.113（M2-1）：曲库分组视角播放入口——分组曲目替换业务队列并从 index 起播。 */
-    onPlayTracks: (List<Track>, Int) -> Unit = { _, _ -> },
-    /** §61.116（M6-3）：清理 B2 播放缓存（播放中由 runtime 侧拒绝）。 */
-    onClearCache: () -> Unit = {},
-    /** §61.122（T5-2）：ReplayGain 近似分析（LOCAL 未分析曲目，cap 50）。 */
-    onAnalyzeReplayGain: () -> Unit = {},
-    /** §61.233：封面在线刮削批处理（限数 50，toast 汇报）。 */
-    onScrapeCovers: () -> Unit = {},
-    /** §61.247（V0.3 M5 / A1 Tier2）：重复曲目检测（设置页触发 → 结果面板）。 */
-    onFindDuplicates: () -> Unit = {},
-    /** §61.247：检测结果流（null = 未检测）。 */
-    duplicateReport: StateFlow<com.example.cloudmusic.model.DuplicateReport?> = MutableStateFlow(null),
-    /** §61.247：关闭结果面板时清空报告（下次触发重算）。 */
-    onClearDuplicates: () -> Unit = {},
-    /** §61.230：淡入淡出开关（AudiofxSettings.fadeEnabled 热更新）。 */
-    fadeEnabled: Boolean = false,
-    onFadeEnabledChanged: (Boolean) -> Unit = { _ -> },
-    /** §61.231：均衡器面板（AudiofxSettings + applyEqualizer 全链已接）。 */
-    eqEnabled: Boolean = false,
-    eqEffectLevel: Int = 0,
-    eqBandsMillibel: List<Int> = emptyList(),
-    onApplyEqualizer: (Boolean, Int, List<Int>) -> Unit = { _, _, _ -> },
-    /** §61.234：主题模式（设置页四选项；改动即 recreate）。 */
-    themeMode: String = "DARK_FOLLOW_SYSTEM",
-    /**
-     * §61.291：主题计算结果（MainActivity `applyThemeFromSettings()` 的返回值）。
-     * 系统栏明暗靠它决定——UI 侧不重算 `uiMode`，避免两处判断漂移。
-     */
-    darkTheme: Boolean = true,
-    onThemeChanged: (String) -> Unit = { _ -> },
-    /** §61.116（M2-2）：扫描最短时长下限（ms），下次扫描生效。 */
-    scanMinDurationMs: Long = 10_000L,
-    onScanMinDurationChanged: (Long) -> Unit = {},
-    /** §61.117（M2-2）：扫描忽略目录（小写比对），下次扫描生效。 */
-    scanIgnoreDirs: List<String> = emptyList(),
-    onScanIgnoreDirsChanged: (List<String>) -> Unit = {},
-    /** §61.119（M3/M8）：歌单与队列交互（bridge 直达）。 */
-    bridge: PlayerStateBridge,
-    /**
-     * §61.183（三层守护网之③）：验收期画面证据通道 —— intent 导航 surface 请求流
-     * （MainActivity 从 `SurfaceNav.parse` 粘性下发；默认空流 = 常规启动零行为变化）。
-     * MIUI 禁 `input tap`，runbook 由此免注入直达播放页等 surface 截图取证。
-     */
-    surfaceRequests: StateFlow<SurfaceNav.Surface?> = MutableStateFlow(null),
-) {
+private fun CloudMusicAppContent(actions: UiActions) = with(actions) {
     var tab by rememberSaveable { mutableIntStateOf(0) }
     var showSources by rememberSaveable { mutableStateOf(false) }
     var showOutput by rememberSaveable { mutableStateOf(false) }

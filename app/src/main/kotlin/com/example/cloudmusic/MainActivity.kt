@@ -300,6 +300,7 @@ class MainActivity : ComponentActivity() {
                 val appSettingsState = settingsStore.settings.collectAsState(
                     initial = AppSettings())
                 CloudMusicApp(
+                    com.example.cloudmusic.ui.UiActions(
                     // §61.208（A4）：同 URL 双源折叠（mergeDuplicates 开关的消费方）——
                     // UI 展示层折叠，不改库不删行（曲库行是用户资产）。
                     tracks = combine(
@@ -577,7 +578,7 @@ class MainActivity : ComponentActivity() {
                     },
                     bridge = playerBridge,
                     surfaceRequests = surfaceRequests,
-                )
+                ))
                 } // end else (showSplash)
             }
         }

@@ -970,7 +970,8 @@ def main() -> int:
             (base / f).read_text(encoding="utf-8", errors="replace")
             for f in ("CloudMusicApp.kt", "SettingsScreen.kt", "SourcesScreen.kt",
                        "PlaylistsScreen.kt", "PlayerMiniBar.kt", "TrackRowGuarded.kt",
-                       "SearchScreen.kt", "QueueScreen.kt", "MyMusicScreen.kt")
+                       "SearchScreen.kt", "QueueScreen.kt", "MyMusicScreen.kt",
+                       "UiActions.kt")
             if (base / f).is_file()
         )
 
@@ -6431,7 +6432,7 @@ def main() -> int:
         )):
             _src_bad.append("runtime 单源刷新缺失")
         if not all(x in _ui_src for x in (
-            "onRefreshStorage: (String) -> Unit = { _ -> }",
+            "val onRefreshStorage: (String) -> Unit = { _ -> }",
             "var actionTarget by remember { mutableStateOf<Storage?>(null) }",
             "actionTarget = storage",
             "\"刷新此源\" to {",
@@ -7211,7 +7212,7 @@ def main() -> int:
             or 'rememberedDmrUsn.value = device.usn' not in _ma:
         _c241_bad.append("MainActivity 持久化读取/写回缺失")
     _ui_src = _code_only(read_cloud_app())
-    if "上次投屏" not in _ui_src or "lastDmrUsn: StateFlow<String?> = MutableStateFlow(null)" not in _ui_src:
+    if "上次投屏" not in _ui_src or "val lastDmrUsn: StateFlow<String?> = MutableStateFlow(null)" not in _ui_src:
         _c241_bad.append("输出弹窗上次投屏标记缺失")
     if _c241_bad:
         failures.append("§61.241 DLNA 上次投屏记忆：%s" % "；".join(_c241_bad))
@@ -10685,6 +10686,35 @@ def main() -> int:
         failures.append("§61.339 B-5 第一阶段：%s" % "；".join(_c339))
     else:
         print("[PASS] §61.339 B-5 第一阶段：设置页/EQ/输出弹窗已拆文件、判据读两文件合并源码")
+
+    # ---- §61.343（B-5 收尾：UiActions 参数聚合 + 组合根 <600 行）----
+    _c343 = []
+    _ua343 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "UiActions.kt"
+    _root343 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt"
+    if not _ua343.is_file():
+        _c343.append("UiActions.kt 缺失（60 参数未聚合）")
+    else:
+        _t343 = _code_only(_ua343.read_text(encoding="utf-8", errors="replace"))
+        if "data class UiActions(" not in _t343:
+            _c343.append("UiActions 不是 data class")
+        _val343 = len(re.findall(r"^\s+val \w+:", _ua343.read_text(encoding="utf-8", errors="replace"), re.M))
+        if _val343 != 60:
+            _c343.append("UiActions 字段数非 60（实得 %d）" % _val343)
+    if not _root343.is_file():
+        _c343.append("CloudMusicApp.kt 缺失")
+    else:
+        _t343 = _code_only(_root343.read_text(encoding="utf-8", errors="replace"))
+        if "fun CloudMusicApp(actions: UiActions)" not in _t343:
+            _c343.append("CloudMusicApp 未收为 UiActions 薄门面")
+        if "with(actions)" not in _t343:
+            _c343.append("实现体未用 with(actions)（函数体被改动）")
+        _lines343 = len(_root343.read_text(encoding="utf-8", errors="replace").splitlines())
+        if _lines343 >= 600:
+            _c343.append("组合根 %d 行 ≥600（B-5 行数判据未达标）" % _lines343)
+    if _c343:
+        failures.append("§61.343 UiActions 聚合：%s" % "；".join(_c343))
+    else:
+        print("[PASS] §61.343 UiActions 聚合：60 字段、薄门面 + with 实现体、组合根 <600 行")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
