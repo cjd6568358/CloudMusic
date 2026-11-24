@@ -83,11 +83,6 @@ fun FnLibraryScreen(
     scanning: Boolean = false,
     /** 不可用视图的「重试」动作（原 tab7 UNAVAILABLE 视图按钮）。 */
     onRetryUnavailable: () -> Unit,
-    onOpenSearch: () -> Unit,
-    onOpenPlaylists: () -> Unit,
-    onOpenFavorites: () -> Unit,
-    onOpenHistory: () -> Unit,
-    onOpenSources: () -> Unit,
     /** §61.327（A-7）：当前播放曲目 id——曲目行据此点亮「正在播放」。 */
     nowPlayingId: TrackId? = null,
 ) {
@@ -123,21 +118,7 @@ fun FnLibraryScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     FnHeaderButton(FnIcon.Refresh, onRescan, busy = scanning)
-                    FnHeaderButton(FnIcon.Search, onOpenSearch)
                 }
-            }
-        }
-
-        // ── 快捷入口：歌单 / 收藏 / 最近播放 / 数据源（原分组卡收为横排，让出列表空间） ──
-        item {
-            Row(
-                Modifier.fillMaxWidth().padding(horizontal = 12.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-            ) {
-                FnQuickEntry(FnIcon.Playlist, "歌单", onOpenPlaylists)
-                FnQuickEntry(FnIcon.Favorite, "收藏", onOpenFavorites)
-                FnQuickEntry(FnIcon.Recent, "最近", onOpenHistory)
-                FnQuickEntry(FnIcon.Sources, "来源", onOpenSources)
             }
         }
 
@@ -364,35 +345,6 @@ private fun FnHeaderButton(icon: FnIcon, onClick: () -> Unit, busy: Boolean = fa
         } else {
             FnLineIcon(icon, FnComp.TextPrimary)
         }
-    }
-}
-
-/**
- * 快捷入口（图标圆底 + 11sp 标签）：原三张分组卡收为一行，列表上移。
- *
- * §61.280（V0.4-07 ②「信息权重」）：圆底 44→36dp、图标 24→18dp、行高 78→64dp ——
- * 这一行是**次级入口**，不该和上面的曲目列表抢视觉权重；压缩后列表首行整体上移约 14dp。
- * 更深的结构重排（把快捷入口并入顶栏 / 折叠进视图组）不做，等真机判读后再定版式，
- * 不凭想象改。
- */
-@Composable
-private fun FnQuickEntry(icon: FnIcon, label: String, onClick: () -> Unit) {
-    Column(
-        Modifier
-            .width(68.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .clickable { onClick() }
-            .padding(vertical = 6.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Box(
-            Modifier.size(36.dp).clip(CircleShape).background(FnComp.CardBg),
-            contentAlignment = Alignment.Center,
-        ) {
-            FnLineIcon(icon, FnComp.IconRed, size = 18.dp)
-        }
-        Spacer(Modifier.height(5.dp))
-        Text(label, color = FnComp.TextSecondary, fontSize = 11.sp, maxLines = 1)
     }
 }
 

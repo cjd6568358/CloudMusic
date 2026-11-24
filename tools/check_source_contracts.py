@@ -8838,11 +8838,18 @@ def main() -> int:
         _c293.append("只识别到 %d 个含输入框的弹层（改造前为 7 个：WebDAV/SFTP/FTP/投屏/建单/加入歌单/忽略目录）"
                      % _dialogs293)
 
+    # §61.344（G-7）：用户改口径为「进页不弹键盘，点输入框才弹」。
+    # 判据跟源不降强度：仍钉调用点经 shouldAutoFocusSearch 单一出口（不许各页写死），
+    # 并钉该出口恒 false（不许回潮到「空词抢焦点」）。
     if "autoFocus = remember { shouldAutoFocusSearch(query) }" not in _ca293:
-        _c293.append("搜索页调用点未按「进入时关键字」决定聚焦（或写死了 true）")
+        _c293.append("搜索页调用点未走 shouldAutoFocusSearch 单一出口（或写死 true/false）")
     _sf293 = _args_from293(_ca293, _ca293.find("FnSearchField(") + len("FnSearchField"))
     if "autoFocus = true" in _sf293:
-        _c293.append("搜索框把 autoFocus 写死 true（搜完返回会再弹键盘盖住结果）")
+        _c293.append("搜索框把 autoFocus 写死 true（进页弹键盘）")
+    _policy293 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                  / "cloudmusic" / "ui" / "InputPolicy.kt").read_text(encoding="utf-8", errors="replace")
+    if "internal fun shouldAutoFocusSearch(initialQuery: String): Boolean = false" not in _code_only(_policy293):
+        _c293.append("shouldAutoFocusSearch 不再恒 false（G-7 进页不弹键盘口径回潮）")
 
     if _c293:
         failures.append("§61.293 输入法交互：%s" % "；".join(_c293))
@@ -10715,6 +10722,27 @@ def main() -> int:
         failures.append("§61.343 UiActions 聚合：%s" % "；".join(_c343))
     else:
         print("[PASS] §61.343 UiActions 聚合：60 字段、薄门面 + with 实现体、组合根 <600 行")
+
+    # ---- §61.344（G-7/G-8/G-9 用户一手改动：不弹键盘 / 去重复入口）----
+    _c344 = []
+    _lib344 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "FnLibraryScreen.kt"
+    if not _lib344.is_file():
+        _c344.append("FnLibraryScreen.kt 缺失")
+    else:
+        _t344 = _code_only(_lib344.read_text(encoding="utf-8", errors="replace"))
+        # 反向判据：删除项回潮即红（与 §61.261 首页搜索去重同型）
+        if "FnHeaderButton(FnIcon.Search" in _t344:
+            _c344.append("音乐库页头搜索钮回潮（与底栏搜索 tab 重复，G-8）")
+        if "FnQuickEntry(" in _t344:
+            _c344.append("音乐库快捷入口回潮（歌单/收藏/最近/来源已由别处覆盖，G-9）")
+        for _p344 in ("onOpenSearch", "onOpenPlaylists", "onOpenFavorites",
+                      "onOpenHistory", "onOpenSources"):
+            if _p344 + ":" in _t344:
+                _c344.append("FnLibraryScreen 仍声明多余入参 " + _p344)
+    if _c344:
+        failures.append("§61.344 搜索页键盘/音乐库去重：%s" % "；".join(_c344))
+    else:
+        print("[PASS] §61.344 G-7/G-8/G-9：进页不弹键盘、音乐库页头搜索与四入口零回潮")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

@@ -9,17 +9,16 @@ package com.example.cloudmusic.ui
  */
 
 /**
- * 进入搜索页时是否自动聚焦搜索框。
+ * §61.344（G-7）：进入搜索页**不自动聚焦**搜索框。
  *
- * 判据是**进入那一刻**的关键字：
- * - 空（含纯空白）⇒ 抢焦点并弹键盘。用户点搜索就是为了打字，不该再点一下输入框；
- * - 已有词 ⇒ 不抢焦点。典型路径是「搜完点结果去播放、返回搜索页」，此时再弹键盘
- *   会盖住半屏结果，而用户此刻要的是浏览而不是继续输入。
+ * 原口径（§61.293）是「空词进页即抢焦点弹键盘」；用户 2026-11-25 一手反馈改为
+ * 「切到搜索页不弹键盘，主动点输入框才弹」。BasicTextField 本身点击即聚焦，
+ * 故本函数恒 false 即可，**不需要额外的点击接线**。
  *
- * 调用方必须用 `remember { shouldAutoFocusSearch(query) }` 冻结「进入时」的判定，
- * 否则用户点 ✕ 清空关键字会引发一次多余的重新聚焦。
+ * 保留函数而非直接写死 `autoFocus = false`：口径有一个可测试的单一出口，
+ * 且调用点形态不变（§61.293 只改判据锚点与函数实现，不降强度）。
  */
-internal fun shouldAutoFocusSearch(initialQuery: String): Boolean = initialQuery.isBlank()
+internal fun shouldAutoFocusSearch(initialQuery: String): Boolean = false
 
 /**
  * §61.328（B-1）搜索防抖窗口。

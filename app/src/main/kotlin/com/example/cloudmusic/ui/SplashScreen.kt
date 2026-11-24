@@ -32,7 +32,7 @@ import com.example.cloudmusic.ui.player.LegacyPalette
  * 从基准截图裁出的白色音符 logo + 竞品标语。**§61.172（用户 2026-11-16 拍板）起改为自有品牌**：
  * - logo：不再使用任何竞品裁切图（原 `assets/launch/logo.png` 已删除），改为 Canvas 自绘的
  *   **五条圆角声波**（`BrandWaveMark`），纯代码绘制、零外部资源；
- * - 标语：「倾听好声音」（替换原竞品标语）。
+ * - 标语：「听见好声音」（替换原竞品标语）。
  *
  * 保留项：背景仍是 §61.165 从竞品启动屏一手采样的两色垂直渐变（上 #A22016 / 下 #AE2318），
  * 这是纯色渐变、无品牌识别成分，且 `tools/l3_visual_replica_spec.py` 仍钉死 `BrandRed`
@@ -67,7 +67,7 @@ fun SplashScreen(onFinish: () -> Unit) {
                 .offset(y = (-40).dp),
         )
         Text(
-            text = "倾听好声音",
+            text = "听见好声音",
             color = Color.White,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,

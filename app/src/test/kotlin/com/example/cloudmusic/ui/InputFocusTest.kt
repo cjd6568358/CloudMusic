@@ -3,41 +3,39 @@ package com.example.cloudmusic.ui
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 /**
- * §61.293：搜索页「进页是否抢焦点」的真值表。
+ * §61.293 / §61.344（G-7）：搜索页「进页是否抢焦点」的真值表。
  *
- * 为什么值得钉死：这条判定决定键盘会不会自动弹出。改成恒 `true` 的代价很具体——
- * 用户搜完点结果去播放、返回搜索页时，键盘立刻盖住半屏结果，且每次返回都弹一次；
- * 改成恒 `false` 则是另一头：点搜索图标进页后还得再点一下输入框才能打字。
- * 两种退化的表现都只在真机上才看得见，所以用纯 JVM 断言把口径固定住。
+ * 用户 2026-11-25 一手改口径：切到搜索页**不弹键盘**，主动点输入框才弹。
+ * BasicTextField 点击即聚焦，故 [shouldAutoFocusSearch] 恒 false；
+ * 本测试用三种关键字形态全覆盖钉死「任何入口都不抢焦点」，防回潮到 §61.293 旧口径。
  */
 class InputFocusTest {
 
     @Test
-    @DisplayName("空关键字进入搜索页要抢焦点（否则还要多点一下输入框）")
-    fun blankQueryStealsFocus() {
-        assertTrue(shouldAutoFocusSearch(""))
+    @DisplayName("空关键字进页不抢焦点（G-7：不弹键盘，点输入框才弹）")
+    fun blankQueryDoesNotStealFocus() {
+        assertFalse(shouldAutoFocusSearch(""))
     }
 
     @Test
-    @DisplayName("纯空白等同于空：它不是一次真实查询")
-    fun whitespaceCountsAsBlank() {
-        assertTrue(shouldAutoFocusSearch("   "))
-        assertTrue(shouldAutoFocusSearch("\t"))
+    @DisplayName("纯空白进页不抢焦点")
+    fun whitespaceDoesNotStealFocus() {
+        assertFalse(shouldAutoFocusSearch("   "))
+        assertFalse(shouldAutoFocusSearch("	"))
     }
 
     @Test
-    @DisplayName("带着关键字回来不抢焦点（搜完去播放再返回，不该再弹键盘）")
+    @DisplayName("带关键字返回不抢焦点（搜完去播放再回来，不该弹键盘盖结果）")
     fun existingQueryKeepsFocusAway() {
         assertFalse(shouldAutoFocusSearch("周杰伦"))
         assertFalse(shouldAutoFocusSearch("a"))
     }
 
     @Test
-    @DisplayName("首尾空白不算空：用户确实敲过内容")
-    fun paddedQueryIsNotBlank() {
+    @DisplayName("首尾空白也不抢焦点")
+    fun paddedQueryDoesNotStealFocus() {
         assertFalse(shouldAutoFocusSearch(" 晴天 "))
     }
 }
