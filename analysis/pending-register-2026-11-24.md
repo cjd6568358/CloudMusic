@@ -18,6 +18,7 @@
 > **2026-11-24 第十三批（§61.338）**：B-6 CachedRemoteDriver 去重（SFTP/FTP 缓存链单点）。
 > **2026-11-24 第十四批（§61.339）**：B-5 第一阶段（设置页拆文件 + 判据读合并源），B-5 未收口。
 > **2026-11-24 第十五批（§61.340）**：B-5 第二阶段（数据源页拆文件 + 合并源加第三文件），B-5 未收口。
+> **2026-11-24 第十六批（§61.341）**：B-5 第三阶段（歌单页拆文件 + 合并源加第四文件），B-5 未收口。
 > 其余可直接开工。
 
 ---
@@ -42,7 +43,7 @@
 | ~~B-2~~ | ✅ | **已完成（§61.323）**：metadata 并发提为 run() 级**全源共享 8**（原每源一份，4 源=32）；`onlyWifiMetadata` / `wifiAvailable` 两个「有字段无写方」的断链已接线 | 架构审计 §4 序 11 | 已验收：并发峰值探针（两源 4 曲、预算 2 → 峰值必须 =2）；`EffectiveScanRequestTest` 5 条；A/B 3 条 |
 | ~~B-3~~ | ✅ | **已完成（§61.331）**：docs/08 六处（`bufferMs` 15000 / DLNA 两字段 / SFTP 段不再称私钥·passphrase·FTP 预留 / §3.5 FTP 按实码字段重写并剔两虚字段 / 明文清单补 `passphrase`）+ 两处注释 + settings 尾注；docs/07 四码已于 §61.323 补登 | 架构审计 §3.2 D2/D3/D4/D7 | 已验收：guard §61.331 交叉判据（文档值=实码默认值）+ A/B 2 条 FAIL 后恢复 |
 | ~~B-4~~ | ✅ | **已完成（§61.324）**：拆为组合根 **940 行** + `LibraryFacade`（255）/ `DlnaSessionFacade`（214）/ `ScanRuntime`（190） | 架构审计 §4 序 6 | 已验收：对外方法全为一行委托、`CloudMusicApp`/`PlaybackService` 零改动、1049 用例全绿；guard 含「实现回填即 FAIL」「域越界即 FAIL」 |
-| B-5 | P1 | 拆 `CloudMusicApp.kt`（2484→1453 行）：**第一、二阶段已落地**（设置页/EQ/输出弹窗 627 行→`SettingsScreen.kt`；数据源页+四弹窗 403 行→`SourcesScreen.kt`；判据读合并源）；余页面与 `UiActions` 参数聚合未动 | 架构审计 §4 序 7 | 页面逐文件化 + `UiActions` 接口 + 单文件 <600 行（当前 1453/690/460，**未达标**） |
+| B-5 | P1 | 拆 `CloudMusicApp.kt`（2484→1075 行）：**第一~三阶段已落地**（设置页 627→`SettingsScreen.kt`；数据源页 403→`SourcesScreen.kt`；歌单页 378→`PlaylistsScreen.kt`；判据读合并源）；余页面与 `UiActions` 参数聚合未动 | 架构审计 §4 序 7 | 页面逐文件化 + `UiActions` 接口 + 单文件 <600 行（当前 1075/690/460/385，**未达标**） |
 | ~~B-6~~ | ✅ | **已完成（§61.338）**：`:datasource-api` 抽 `CachedRemoteDriver` + `RemoteEntry`，11 个共享方法 final；SFTP 189→82 / FTP 183→77 行；NFS 接入只剩端口实现。重试链本不重复（FTP 独有 FtpReconnect），如实登记未凭空合成 | 架构审计 §4 序 8 | 已验收：453 行驱动测试零改动全绿 + guard §61.338 + 旧锚点跟源 + A/B 2 条 |
 | ~~B-7~~ | ✅ | **已完成（§61.335）**：Toast 全域收口（§61.334）+ `System.err`→LogPort（6 处，core-common 纯 JVM 端口 + core-di 单点 Android 实现）+ CompeteUi 清退（§61.333）+ 歌单 saver（§61.334） | 架构审计 §4 序 10 | 已验收：guard §61.335 全域零 `System.err`；A/B 3 条 FAIL 后恢复；B-7 四项全清 |
 | ~~B-8~~ | ✅ | **已完成（§61.336）**：§61.331 已拆段，本批补漏 `:datasource-api`、纯 JVM 数 16→18（实测 21 模块减 3 Android）；guard §61.336 做双向集合交叉 + 插件计数，A/B 2 条 FAIL 后恢复 | D7 | 已验收：21 个 include 与尾注逐项一致、数字 18 实测 |

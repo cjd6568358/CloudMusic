@@ -968,7 +968,8 @@ def main() -> int:
                 / "cloudmusic" / "ui")
         return ("\n").join(
             (base / f).read_text(encoding="utf-8", errors="replace")
-            for f in ("CloudMusicApp.kt", "SettingsScreen.kt", "SourcesScreen.kt")
+            for f in ("CloudMusicApp.kt", "SettingsScreen.kt", "SourcesScreen.kt",
+                       "PlaylistsScreen.kt")
             if (base / f).is_file()
         )
 
@@ -2578,7 +2579,7 @@ def main() -> int:
     # 歌单行永远 ☰ 占位；防展开曲目行再次漏传 coverRef。
     app140 = (ROOT / "app" / "src" / "main" / "kotlin" / "com"
               / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt")
-    app140_txt = app140.read_text(encoding="utf-8") if app140.is_file() else ""
+    app140_txt = read_cloud_app() if app140.is_file() else ""
     if not all(x in app140_txt for x in (
         "observeTracks(playlist.id).map { tracks ->",
         "tracks.firstOrNull()?.coverRef",
@@ -6724,7 +6725,7 @@ def main() -> int:
            / "cloudmusic" / "model" / "SmartPlaylist.kt")
     if _sp.is_file():
         _sp_src = _code_only(_sp.read_text(encoding="utf-8", errors="replace"))
-        _cmp_src5 = _code_only(_cmp.read_text(encoding="utf-8", errors="replace"))
+        _cmp_src5 = _code_only(read_cloud_app())
         _sp_bad = []
         if "fun evaluate(" not in _sp_src or "val PRESETS" not in _sp_src:
             _sp_bad.append("规则引擎纯函数或内置预设缺失")
@@ -8170,7 +8171,7 @@ def main() -> int:
         return src[i:] if j < 0 else src[i:j]
 
     _mm = _fn_region(_code_app, "private fun MyMusicScreen(")
-    _pl = _fn_region(_code_app, "private fun PlaylistsScreen(")
+    _pl = _fn_region(_code_app, "fun PlaylistsScreen(")
     _c284 = []
     if not _mm:
         _c284.append("找不到 MyMusicScreen（重命名会绕过本判据）")
@@ -8293,7 +8294,7 @@ def main() -> int:
     _c286 = []
     if "internal const val PlaylistActionSlotDp = 40" not in _code_app:
         _c286.append("操作槽边长未定为 40dp（6dp padding 的文字只有 ~26dp，紧邻即误触）")
-    _slot_start = _code_app.find("private fun PlaylistActionSlot(")
+    _slot_start = _code_app.find("fun PlaylistActionSlot(")
     if _slot_start < 0:
         _c286.append("PlaylistActionSlot 组件缺失（三键应各自独立成槽）")
     else:
@@ -8891,8 +8892,7 @@ def main() -> int:
                      % (",".join(_toast_makers294) or "无"))
 
     # 六类动作各自的调用点
-    _ca294 = _code_only((_ui_root294 / "CloudMusicApp.kt")
-                        .read_text(encoding="utf-8", errors="replace"))
+    _ca294 = _code_only(read_cloud_app())
     for _call294 in ("FeedbackText.addedToPlaylist(", "FeedbackText.createdWithTrack(",
                      "FeedbackText.createdPlaylist(", "FeedbackText.renamedPlaylist(",
                      "FeedbackText.deletedPlaylist(", "FeedbackText.removedFromPlaylist("):
@@ -9746,7 +9746,7 @@ def main() -> int:
         _c320.append("末轨 cue end=0 时长兜底缺失")
     _app = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" /
             "cloudmusic" / "ui" / "CloudMusicApp.kt")
-    _appt = _app.read_text(encoding="utf-8", errors="replace") if _app.is_file() else ""
+    _appt = read_cloud_app() if _app.is_file() else ""
     if "imeController?.hide()" not in _appt or "focusManager.clearFocus()" not in _appt:
         _c320.append("播放页覆盖层收 IME 缺失（键盘会盖住控制区）")
     if _c320:
@@ -10674,6 +10674,8 @@ def main() -> int:
                   "ManualDmrDialog"):
         if "fun %s(" % _n339 in _root339:
             _c339.append("CloudMusicApp.kt 仍定义 " + _n339 + "（拆文件回潮）")
+    if not (_ui339 / "PlaylistsScreen.kt").is_file():
+        _c339.append("PlaylistsScreen.kt 缺失（歌单页未拆出）")
     if not (_ui339 / "SourcesScreen.kt").is_file():
         _c339.append("SourcesScreen.kt 缺失（数据源页未拆出）")
     if "read_cloud_app()" not in s_self339:
