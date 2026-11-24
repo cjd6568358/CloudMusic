@@ -7023,7 +7023,7 @@ def main() -> int:
 
     # §61.234 UI 主题化：token 切色 + 主题四选项 + 启动应用。
     _cmp_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
-                           / "cloudmusic" / "ui" / "CompeteUi.kt")
+                           / "cloudmusic" / "ui" / "ThemeCompat.kt")
                           .read_text(encoding="utf-8", errors="replace"))
     _main_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
                             / "cloudmusic" / "MainActivity.kt")
@@ -7850,7 +7850,7 @@ def main() -> int:
     # ---- §61.277（V0.4-04 四页 + 弹窗族飞牛化）：飞牛页禁 Comp，弹窗统一 FnSheetDialog ----
     # 判据：① 非播放页源码（CloudMusicApp）不得再出现竞品组件/令牌（Comp* 与 Comp.*）；
     # ② 全局底色 = FnComp.PageBg；③ 弹窗族已切 FnSheetDialog；④ 三页用 FnPageHeader 骨架。
-    # 边界：播放页（LegacyPlayerPage / 竞品覆盖层）仍按竞品视觉，Comp 令牌在 CompeteUi 保留。
+    # 边界：播放页（LegacyPlayerPage / 竞品覆盖层）仍按竞品视觉，Comp 令牌已迁至 ThemeCompat.kt（§61.333）。
     _c277 = []
     _legacy_tokens = (
         "CompPage(", "CompHeaderBar(", "CompGroupTitle(", "CompSettingsRow(",
@@ -8153,7 +8153,7 @@ def main() -> int:
             _c283.append("FnThemeTokenTest 缺互异断言")
 
     _cu = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
-           / "cloudmusic" / "ui" / "CompeteUi.kt").read_text(encoding="utf-8", errors="replace")
+           / "cloudmusic" / "ui" / "ThemeCompat.kt").read_text(encoding="utf-8", errors="replace")
     if "FnComp.applyTheme(isDark)" not in _cu:
         _c283.append("applyThemeCompat 未联动 FnComp（切主题后飞牛页不跟随）")
     if _c283:
@@ -8348,11 +8348,10 @@ def main() -> int:
     #   背景：飞牛组件此前用 `.height(60.dp)` 硬固定行高，内部是 15sp+12sp 两行文字。
     #   系统字号放大（设置→显示→字体大小，可达 2.0x）后文字被裁切。改 `.heightIn(min=)`：
     #   正常字号下 max(min, 内容) == min，像素级观感零变化；放大后行随内容长高不裁字。
-    #   豁免：CompeteUi.kt（19 个 composable 已全部零调用，仅 object Comp 令牌与
-    #   rememberCompCover 仍活）、SplashScreen.kt（44dp 是品牌波形图形标尺非文字容器）、
+    #   豁免：SplashScreen.kt（44dp 是品牌波形图形标尺非文字容器）、
     #   player/（像素级沉浸页，行高参与基准绝对坐标堆叠，长高会让底部控件整体溢出）。
     _c287 = []
-    _c287_exempt = {"CompeteUi.kt", "SplashScreen.kt"}
+    _c287_exempt = {"SplashScreen.kt"}
 
     def _brace_blocks(_src: str):
         _st, _out = [], []
@@ -10387,6 +10386,71 @@ def main() -> int:
         failures.append("§61.332 dev 闸门脚本归位：%s" % "；".join(_c332))
     else:
         print("[PASS] §61.332 dev 闸门脚本归位：C1/C6 在 tools/、输入路径跟 archive/、判据常量 18/12/18 未减")
+
+    # ---- §61.333（C-4 死组件清退）----
+    # 19 个 Comp* composable 全仓零调用（一手逐个核过：FeiniuUi 的 5 处命中全是 KDoc 提及）；
+    # 三个活体（object Comp / applyThemeCompat / rememberCompCover）迁出后原文件整段删除。
+    # 边界：播放页仍按竞品视觉用 Comp.TextPrimary/Secondary，判据防「连活体一起误删」。
+    _c333 = []
+
+    def _strip333(src: str) -> str:
+        """§61.333 专用：在 _code_only 之上再剥单行/多行块注释（KDoc 提及不等于调用）。"""
+        out, inside = [], False
+        for ln in src.splitlines():
+            s0 = ln.strip()
+            if inside:
+                if "*/" in s0:
+                    s0 = s0.split("*/", 1)[1].strip()
+                    inside = False
+                else:
+                    continue
+            if s0.startswith(("/*", "//", "#", "*")):
+                if s0.startswith("/*") and "*/" not in s0:
+                    inside = True
+                continue
+            if "/*" in ln:
+                ln = ln.split("/*", 1)[0]
+                if "*/" not in s0:
+                    inside = True
+            if "//" in ln:
+                ln = ln.split("//", 1)[0]
+            out.append(ln)
+        return "\n".join(out)
+    _ui333 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui"
+    if (_ui333 / "CompeteUi.kt").exists():
+        _c333.append("CompeteUi.kt 未删除（19 个零调用 Comp* 仍在）")
+    _dead333 = ("CompPage", "CompHeaderBar", "CompGroupTitle", "CompDivider", "CompSettingsHeader", "CompSettingsRow", "CompSwitchRow", "CompCover", "CompTrackRow", "CompPlaylistRow", "CompSearchField", "CompHistoryChip", "CompTabRow", "CompSheetDialog", "CompDialogInput", "CompActionButton", "CompBottomBar", "CompScanBanner", "CompEmpty")
+    for _n333 in _dead333:
+        for _f333 in sorted(_ui333.rglob("*.kt")):
+            _t333 = _strip333(_f333.read_text(encoding="utf-8", errors="replace"))
+            if re.search(r"\b" + _n333 + r"\b", _t333):
+                _c333.append("%s 仍引用死组件 %s" % (_f333.name, _n333))
+                break
+    for _fn333, _need333 in (
+        ("ThemeCompat.kt", ("object Comp", "fun applyThemeCompat(isDark: Boolean)")),
+        ("CoverMemory.kt", ("fun rememberCompCover", "LruCache")),
+    ):
+        _p333 = _ui333 / _fn333
+        if not _p333.is_file():
+            _c333.append("缺迁出文件 " + _fn333)
+            continue
+        _t333 = _strip333(_p333.read_text(encoding="utf-8", errors="replace"))
+        for _needle333 in _need333:
+            if _needle333 == "object Comp":
+                if not re.search(r"\bobject\s+Comp\s*\{", _t333):
+                    _c333.append("%s 缺 object Comp 令牌" % _fn333)
+            elif _needle333 not in _t333:
+                _c333.append("%s 缺 %s" % (_fn333, _needle333))
+    _lp333 = _ui333 / "player" / "LegacyPlayerPage.kt"
+    if _lp333.is_file():
+        _t333 = _strip333(_lp333.read_text(encoding="utf-8", errors="replace"))
+        if "Comp.TextPrimary" not in _t333 and "Comp.TextSecondary" not in _t333:
+            _c333.append("播放页 Comp 令牌边界被误删")
+    if _c333:
+        failures.append("§61.333 死组件清退：%s" % "；".join(_c333))
+    else:
+        print("[PASS] §61.333 死组件清退：CompeteUi.kt 已删、19 个 Comp* 零引用、"
+              "三活体在 ThemeCompat/CoverMemory、播放页令牌边界保留")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
