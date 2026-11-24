@@ -10592,6 +10592,34 @@ def main() -> int:
         print("[PASS] §61.336 settings 尾注：%d 个 include 与尾注逐项一致、纯 JVM 数 %d"
               % (len(_inc336), _jvm336))
 
+    # ---- §61.337（B-9 E_DS_IO 观察项）----
+    _c337 = []
+    _et337 = ROOT / "core-model" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "model" / "ErrorText.kt"
+    if not _et337.is_file():
+        _c337.append("ErrorText.kt 缺失")
+    else:
+        _t337 = _et337.read_text(encoding="utf-8", errors="replace")
+        if '"E_DS_IO" ->' not in _t337:
+            _c337.append("E_DS_IO 映射被删（历史裸码会退化成「扫描失败」）")
+        if "§61.337（B-9 观察项）" not in _t337:
+            _c337.append("E_DS_IO 未标注「无生产写入方」观察口径")
+    _d7337 = ROOT / "docs" / "07-错误码总表.md"
+    if not _d7337.is_file() or "观察项——`E_DS_IO`" not in _d7337.read_text(encoding="utf-8", errors="replace"):
+        _c337.append("docs/07 未登记 E_DS_IO 的观察口径")
+    _test337 = ROOT / "core-model" / "src" / "test" / "kotlin" / "com" / "example" / "cloudmusic" / "model" / "ErrorTextTest.kt"
+    if not _test337.is_file() or '"E_DS_IO" to' not in _test337.read_text(encoding="utf-8", errors="replace"):
+        _c337.append("ErrorTextTest 缺 E_DS_IO 用例")
+    # 零生产写入方：扫全部 src/main，除 ErrorText 的映射文件外不得出现该码
+    for _f337 in sorted(ROOT.glob("*/src/main/**/*.kt")):
+        if _f337 == _et337:
+            continue
+        if "E_DS_IO" in _code_only(_f337.read_text(encoding="utf-8", errors="replace")):
+            _c337.append("%s 出现 E_DS_IO（观察项不应有生产写入方）" % _f337.as_posix())
+    if _c337:
+        failures.append("§61.337 E_DS_IO 观察项：%s" % "；".join(_c337))
+    else:
+        print("[PASS] §61.337 E_DS_IO 观察项：映射保留、文档标注、零生产写入方")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:
