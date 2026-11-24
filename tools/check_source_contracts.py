@@ -6778,14 +6778,18 @@ def main() -> int:
                            / "cloudmusic" / "ui" / "FeiniuUi.kt")
                           .read_text(encoding="utf-8", errors="replace"))
     _nav_bad = []
-    # §61.290 后枚举项带播报名（`Search("搜索")`），判据改为「按名字顺序取」而非整行字面量：
-    # 强度不变（仍要求恰好 Home/Music/Search/More 四项且顺序一致），只是不再被 label 参数绊住。
-    _capsule_block = _fei_src.split("enum class FnCapsuleIcon", 1)[1].split("}", 1)[0]
-    _capsule_names = re.findall(r"^    ([A-Z][A-Za-z]+)\(", _capsule_block, re.M)
-    if _capsule_names != ["Home", "Music", "Search", "More"]:
-        _nav_bad.append("FnCapsuleIcon 四胶囊不是 Home/Music/Search/More（实得 %s）" % _capsule_names)
-    if "FnCapsuleIcon.Search, FnCapsuleIcon.More," not in _app_src:
-        _nav_bad.append("底栏 icons 未加搜索胶囊")
+    # §61.290 后枚举项带播报名，判据改为「按名字顺序取」而非整行字面量；§61.330 把
+    # 底栏并进 FnIcon（`CapsuleTabs`）后，判据**强度不变**地跟到新真相源：
+    # 仍是「恰好四枚、第二枚是音乐库、第三枚是搜索、顺序一致」，只是不再有独立枚举。
+    _capsule_block = _fei_src.split("val CapsuleTabs: List<FnIcon> = listOf(", 1)
+    _capsule_names = []
+    if len(_capsule_block) > 1:
+        _capsule_names = re.findall(r"FnIcon\.([A-Z][A-Za-z]+)",
+                                    _capsule_block[1].split(")", 1)[0])
+    if _capsule_names != ["Home", "Library", "Search", "More"]:
+        _nav_bad.append("CapsuleTabs 四胶囊不是 Home/Library/Search/More（实得 %s）" % _capsule_names)
+    if "icons = CapsuleTabs" not in _app_src:
+        _nav_bad.append("底栏 icons 未引用 CapsuleTabs（搜索胶囊可能丢失）")
     if "tab == 3 -> 2" not in _app_src:
         _nav_bad.append("搜索 tab 选中映射缺失")
     if "if (tab != 3) searchReturnTo = tab" not in _app_src:
@@ -8503,12 +8507,14 @@ def main() -> int:
         _c290.append("装饰性图标未走 iconSemantics 空实现（会多出无名语义节点）")
 
     # 2) 底栏：只有图标 + 是唯一导航入口 ⇒ selectable(Role.Tab) 且必须播名字
-    if "enum class FnCapsuleIcon(val label: String)" not in _fn_ui:
-        _c290.append("底栏 tab 枚举未带播报名")
+    # §61.330 起底栏不再有独立枚举，四枚并进 `FnIcon`（播报名同源）。判据强度不变：
+    # 仍要求「集合有单一真相源 + 每枚有 label（上方第 1 条统一校验）+ 节点挂描述」。
+    if "val CapsuleTabs: List<FnIcon>" not in _fn_ui:
+        _c290.append("底栏 tab 集合无单一真相源（CapsuleTabs 缺失）")
     if "role = Role.Tab" not in _fn_ui:
         _c290.append("底栏 tab 未走 selectable(Role.Tab)（选中态不播报）")
-    if "contentDescription = kind.label" not in _fn_ui:
-        _c290.append("底栏 tab 未挂播报名")
+    if "contentDescription = icon.label" not in _fn_ui:
+        _c290.append("底栏 tab 未挂播报名（icon.label）")
     if ".clickable { onSelect(i) }" in _fn_ui:
         _c290.append("底栏 tab 退回裸 clickable（选中态不播报）")
 
@@ -10188,6 +10194,114 @@ def main() -> int:
         failures.append("§61.329 A-6 分轨封面继承：%s" % "；".join(_c329))
     else:
         print("[PASS] §61.329 A-6 分轨封面继承：(storageId, sourcePath) 亲缘回填、只写空封面行")
+
+    # ---- §61.330（A-4 底栏图标单源）----
+    # 病根不是「图标不好看」，是**两套图标系统并存**：旧底栏自带 26dp 画布 + 2.2dp 笔画，
+    # 房子/音符画实心、放大镜/笑脸画描线 ⇒ 四枚并排重量差一倍，且笑脸语义指向「我的/账号」。
+    # 判据钉四件事，全部是「系统边界」而非画法细节：
+    # ① 旧枚举/画布在 UI 层零残留（回潮即红）；② 底栏只能经 FnLineIcon 出图（盒模型 26dp 不变）；
+    # ③ 集合唯一真相源 `CapsuleTabs` 且被 CloudMusicApp 直接引用（顺序 = selected 下标）；
+    # ④ 新字形保持线性（无 close/fill）与三点语义（无圆脸回归）。
+    _c330 = []
+
+    def _block330(src: str, anchor: str) -> str:
+        """取 anchor 之后第一个花括号块（含嵌套）——用于按 when 分支/函数体做范围断言。"""
+        i = src.find(anchor)
+        if i < 0:
+            return ""
+        j = src.find("{", i)
+        if j < 0:
+            return ""
+        depth = 0
+        for k in range(j, len(src)):
+            if src[k] == "{":
+                depth += 1
+            elif src[k] == "}":
+                depth -= 1
+                if depth == 0:
+                    return src[j:k + 1]
+        return src[j:]
+
+    _ui330 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui")
+    _fn330 = _code_only((_ui330 / "FeiniuUi.kt").read_text(encoding="utf-8", errors="replace"))
+    _icons330 = _code_only((_ui330 / "FnIcons.kt").read_text(encoding="utf-8", errors="replace"))
+    _app330 = _code_only((_ui330 / "CloudMusicApp.kt").read_text(encoding="utf-8", errors="replace"))
+
+    # ① 第二套图标系统零残留：不只查这两处定义，UI 层任何文件出现旧名都算回潮。
+    for _fp330 in sorted(_ui330.rglob("*.kt")):
+        _s330 = _code_only(_fp330.read_text(encoding="utf-8", errors="replace"))
+        for _dead330 in ("FnCapsuleGlyph", "FnCapsuleIcon"):
+            if _dead330 in _s330:
+                _c330.append("%s 仍含 %s（第二套图标系统回潮）" % (_fp330.name, _dead330))
+
+    # ② 底栏只经 FnLineIcon 出图；盒模型与旧画布同边长，改大小要重测 U-17 触控区。
+    _bar330 = _block330(_fn330, "fun FnCapsuleBar(")
+    if not _bar330:
+        _c330.append("缺 FnCapsuleBar（底栏入口消失）")
+    else:
+        if "FnLineIcon(" not in _bar330:
+            _c330.append("底栏未走 FnLineIcon（又在自绘字形）")
+        for _ban330 in ("Canvas(", "drawPath(", "drawCircle(", "drawLine(", "Path()"):
+            if _ban330 in _bar330:
+                _c330.append("底栏内出现自绘调用 %s" % _ban330)
+        if "size = 26.dp" not in _bar330:
+            _c330.append("底栏图标边长非 26dp（盒模型变化，选中红圆/触控区需重测）")
+
+    # ③ 集合唯一真相源：生产侧 `CapsuleTabs`，CloudMusicApp 直接引用而非再写一份 listOf。
+    # 注意这里切的是**括号**不是花括号：listOf(...) 没有 `{`，用 _block330 会一路吃进
+    # 下一个函数体（首版 A/B 反证踩到过，判据变成永真）。
+    _ti330 = _fn330.find("val CapsuleTabs: List<FnIcon> = listOf(")
+    _tabs330 = ""
+    if _ti330 >= 0:
+        _tj330 = _fn330.find(")", _ti330)
+        _tabs330 = _fn330[_ti330:_tj330 + 1] if _tj330 > 0 else _fn330[_ti330:]
+    if not _tabs330:
+        _c330.append("缺 CapsuleTabs（底栏集合没有单一真相源）")
+    else:
+        _ord330 = [_tabs330.find("FnIcon." + _n330)
+                   for _n330 in ("Home", "Library", "Search", "More")]
+        if -1 in _ord330:
+            _c330.append("CapsuleTabs 缺成员（首页/音乐库/搜索/更多 四枚不全）")
+        elif _ord330 != sorted(_ord330):
+            _c330.append("CapsuleTabs 顺序非 首页/音乐库/搜索/更多（selected 下标会亮错格）")
+        if _tabs330.count("FnIcon.") != 4:
+            _c330.append("CapsuleTabs 成员数非 4（与 selected 的四分支不匹配）")
+    if "icons = CapsuleTabs" not in _app330:
+        _c330.append("CloudMusicApp 未直接引用 CapsuleTabs")
+    if "icons = listOf(" in _app330:
+        _c330.append("CloudMusicApp 又内联了一份图标列表（集合分叉）")
+
+    # ④ 新字形：Home/Library 必须线性（close() 会变实心），More 必须严格三点。
+    for _name330 in ("Home", "Library"):
+        _b330 = _block330(_icons330, "FnIcon.%s ->" % _name330)
+        if not _b330:
+            _c330.append("缺 FnIcon.%s 字形" % _name330)
+        elif "close()" in _b330:
+            _c330.append("FnIcon.%s 用 close() 画实心（与其余图标笔画重量不一致）" % _name330)
+    _more330 = _block330(_icons330, "FnIcon.More ->")
+    if not _more330:
+        _c330.append("缺 FnIcon.More 字形")
+    else:
+        if _more330.count("dot(") != 3:
+            _c330.append("FnIcon.More 不是三点横排（dot 计数 %d）" % _more330.count("dot("))
+        if "ring(" in _more330 or "quadraticBezierTo" in _more330:
+            _c330.append("FnIcon.More 回到圆脸/弧嘴（语义歧义回潮）")
+
+    _test330 = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "example" / "cloudmusic"
+                / "ui" / "FnIconLabelTest.kt")
+    if not _test330.is_file():
+        _c330.append("缺 FnIconLabelTest")
+    else:
+        _t330 = _test330.read_text(encoding="utf-8", errors="replace")
+        for _a330 in ("CapsuleTabs", "capsuleTabOrderIsPinned", "expected = 32"):
+            if _a330 not in _t330:
+                _c330.append("图标测试缺 %s（新增图标/改序不可回归）" % _a330)
+
+    if _c330:
+        failures.append("§61.330 A-4 底栏图标单源：%s" % "；".join(_c330))
+    else:
+        print("[PASS] §61.330 A-4 底栏图标单源：旧画布零残留、四枚全走 FnLineIcon"
+              "（24 视框/2 笔画/26dp 盒）、CapsuleTabs 顺序钉死、More 三点语义")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

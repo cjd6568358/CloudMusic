@@ -28,7 +28,7 @@ class FnIconLabelTest {
     @DisplayName("图标枚举条数钉死：新增图标必须一并决定播报名")
     fun iconCountIsPinned() {
         assertEquals(
-            expected = 29,
+            expected = 32,
             actual = FnIcon.entries.size,
             message = "新增/删除 FnIcon 时必须同步本断言与 label，避免哑图标流入界面",
         )
@@ -68,10 +68,24 @@ class FnIconLabelTest {
     @Test
     @DisplayName("底栏四 tab 全部有播报名且唯一：这是整屏唯一导航入口")
     fun capsuleTabsAreLabelled() {
-        val tabs = FnCapsuleIcon.entries
-        assertEquals(4, tabs.size, "底栏 tab 数量变化时需同步判读项 U-17")
+        // §61.330（A-4）：底栏图标不再单开枚举，直接取 `FnIcon` 的四个成员；
+        // 集合的唯一真相源是生产侧的 `CapsuleTabs`（`CloudMusicApp` 的选中态按位置写死，
+        // 两边若各存一份列表就会错位）。这里断言的是**这个集合**的形状。
+        val tabs = CapsuleTabs
+        assertEquals(4, tabs.size, "底栏 tab 数量变化时需同步判读项 U-17 与 selected 映射")
         assertTrue(tabs.all { it.label.isNotBlank() }, "底栏存在无名字 tab")
         assertEquals(tabs.size, tabs.map { it.label }.distinct().size, "底栏 tab 播报名重名")
         assertTrue(tabs.all { t -> t.label.none { it.code < 128 } }, "底栏 tab 播报名含 ASCII")
+        assertEquals(tabs.size, tabs.distinct().size, "底栏同一个图标重复出现（两个 tab 将无法区分）")
+    }
+
+    @Test
+    @DisplayName("底栏四 tab 是首页/音乐库/搜索/更多：顺序变了选中态就会亮错格")
+    fun capsuleTabOrderIsPinned() {
+        assertEquals(
+            expected = listOf(FnIcon.Home, FnIcon.Library, FnIcon.Search, FnIcon.More),
+            actual = CapsuleTabs,
+            message = "顺序即 CloudMusicApp 里 selected 的下标，改序必须同改映射",
+        )
     }
 }

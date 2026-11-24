@@ -458,10 +458,10 @@ fun CloudMusicApp(
                 // §61.168 内部 tab 索引 0~7 保持不变；「更多」面板承载歌单/队列/我的/设置，
                 // 功能不丢。无返回箭头/无账号入口（辨别铁律）。
                 // §61.191（W4）：仅图标化——白色图标 + 选中红圆底白图标，去文字标签。
+                // §61.330（A-4）：图标集合与画法都收口了——`CapsuleTabs` 是唯一列表，
+                // 四枚字形全部来自 `FnIcon`（线性、同视框、同笔画），此处不再自绘。
                 FnCapsuleBar(
-                    icons = listOf(
-                        FnCapsuleIcon.Home, FnCapsuleIcon.Music, FnCapsuleIcon.Search, FnCapsuleIcon.More,
-                    ),
+                    icons = CapsuleTabs,
                     selected = when {
                         showSources -> -1
                         showMore -> 3

@@ -1066,31 +1066,40 @@ fun FnSectionTitle(text: String, modifier: Modifier = Modifier) {
 }
 
 /**
- * 飞牛风格悬浮胶囊三 tab 底栏（首页 / 音乐库 / 更多）。
+ * 底栏 tab 集合——**唯一真相源**，顺序即 `selected` 的下标（0 首页 / 1 音乐库 /
+ * 2 搜索 / 3 更多）。
+ *
+ * 为什么放在生产侧而不是测试里：`CloudMusicApp` 的选中态是按位置写死的 `when`，
+ * 一旦集合与 `when` 的分支顺序脱钩，用户会看到「点搜索、亮音乐库」。收成一个常量后
+ * `FnIconLabelTest` 能直接断言形状（四项 / 名字唯一 / 无 ASCII），而不是复制一份列表。
+ */
+val CapsuleTabs: List<FnIcon> = listOf(
+    FnIcon.Home, FnIcon.Library, FnIcon.Search, FnIcon.More,
+)
+
+/**
+ * 飞牛风格悬浮胶囊底栏（首页 / 音乐库 / 搜索 / 更多）。
  *
  * 真机形态：`#2B2B2E` 圆角胶囊悬浮于底部，居中留边；**仅图标无文字标签**——
  * 选中项 = 红圆底 + 白色图标，未选中 = 灰白图标（§61.191，161526/161602 对照）。
  * **不含返回箭头、不含任何账号入口**（见 spec §2）。
  *
- * @param icons 三项：首页 / 音乐库 / 更多
- */
-/** §61.191（W4）：底栏胶囊图标种别——飞牛口径仅图标无文字标签（161526/161602 逐段对照）。 */
-/** §61.222：底栏加搜索 tab（用户指示）——四胶囊：首页 / 音乐库 / 搜索 / 更多。 */
-enum class FnCapsuleIcon(val label: String) {
-    Home("首页"),
-    Music("音乐库"),
-    Search("搜索"),
-    More("更多"),
-}
-
-/**
- * §61.191（W4）：底部胶囊栏对齐飞牛——**仅图标**（旧实现 = 字形 ⌂♫☰ + 文字标签，
- * 竞品 = 白色图标，选中项为红圆底白图标），图标 Canvas 自绘（房子/音符/笑脸，
- * 飞牛无导出素材，按 161526/161602 基准形状绘制）。
+ * §61.330（A-4）本栏以前有**第二套图标系统**：`FnCapsuleGlyph` 自带 26dp 画布、
+ * 2.2dp 笔画与 cx/cy 坐标，其中房子/音符画**实心**、放大镜/笑脸画**描线** ——
+ * 四枚并排时视觉重量差一倍，这正是评审 §六-6「风格混用」的成因。现在一律取自
+ * [FnLineIcon]（24 单位视框 / 2 单位笔画 / 圆头端点），底栏不再有任何自绘字形：
+ * 视框、笔画、端点由**同一处**决定，以后新增 tab 也不可能再分叉出一种画法。
+ *
+ * 语义自明靠形状本身（TalkBack 名字仍走 [FnIcon.label]，§61.290）：
+ * 首页 = 房子、音乐库 = 双联音符、搜索 = 放大镜、更多 = 三点横排（`more_horiz`）。
+ * 旧的「笑脸」是全栏唯一的歧义来源——它通常读作「我的 / 账号」，而本 tab 实际承载
+ * 歌单 / 数据源 / 设置，故换成语义明确的三点。
+ *
+ * @param icons 四项，传 [CapsuleTabs]（顺序即 `selected` 下标）
  */
 @Composable
 fun FnCapsuleBar(
-    icons: List<FnCapsuleIcon>,
+    icons: List<FnIcon>,
     selected: Int,
     onSelect: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -1110,7 +1119,7 @@ fun FnCapsuleBar(
                 .padding(vertical = 6.dp, horizontal = 10.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
-            icons.forEachIndexed { i, kind ->
+            icons.forEachIndexed { i, icon ->
                 val active = i == selected
                 Box(
                     Modifier
@@ -1124,88 +1133,17 @@ fun FnCapsuleBar(
                             role = Role.Tab,
                             onClick = { onSelect(i) },
                         )
-                        .semantics { contentDescription = kind.label },
+                        .semantics { contentDescription = icon.label },
                     contentAlignment = Alignment.Center,
                 ) {
-                    FnCapsuleGlyph(
-                        kind = kind,
+                    // 26dp 与旧画布同边长：只换「谁来画」，不动盒模型 ⇒ 触控区、
+                    // 选中态红圆、胶囊高度全部零变化（不是重排版式）。
+                    FnLineIcon(
+                        icon = icon,
                         tint = if (active) Color.White else FnComp.TextHint,
+                        size = 26.dp,
                     )
                 }
-            }
-        }
-    }
-}
-
-/** 底栏三枚白色图标（实心房子 / 实心音符 / 笑脸描线）。 */
-@Composable
-private fun FnCapsuleGlyph(kind: FnCapsuleIcon, tint: Color) {
-    androidx.compose.foundation.Canvas(Modifier.size(26.dp)) {
-        val w = 2.2.dp.toPx()
-        val stroke = androidx.compose.ui.graphics.drawscope.Stroke(
-            width = w,
-            cap = androidx.compose.ui.graphics.StrokeCap.Round,
-        )
-        val cx = size.width / 2f
-        val cy = size.height / 2f
-        fun p(block: (androidx.compose.ui.graphics.Path.() -> Unit)) =
-            androidx.compose.ui.graphics.Path().apply(block)
-        when (kind) {
-            FnCapsuleIcon.Home -> {
-                // 实心房子：屋顶尖 + 方身
-                drawPath(
-                    p {
-                        moveTo(cx - 9.dp.toPx(), cy)
-                        lineTo(cx, cy - 9.dp.toPx())
-                        lineTo(cx + 9.dp.toPx(), cy)
-                        lineTo(cx + 9.dp.toPx(), cy + 8.dp.toPx())
-                        lineTo(cx - 9.dp.toPx(), cy + 8.dp.toPx())
-                        close()
-                    },
-                    tint,
-                )
-            }
-            FnCapsuleIcon.Music -> {
-                // 实心音符：椭圆头 + 右上杆 + 小旗
-                drawPath(
-                    p {
-                        moveTo(cx - 6.dp.toPx(), cy + 5.dp.toPx())
-                        lineTo(cx + 1.dp.toPx(), cy + 3.dp.toPx())
-                        lineTo(cx + 1.dp.toPx(), cy - 8.dp.toPx())
-                        lineTo(cx + 7.dp.toPx(), cy - 6.dp.toPx())
-                        lineTo(cx + 7.dp.toPx(), cy - 3.dp.toPx())
-                        lineTo(cx + 3.dp.toPx(), cy - 5.dp.toPx())
-                        lineTo(cx + 3.dp.toPx(), cy + 4.dp.toPx())
-                        close()
-                    },
-                    tint,
-                )
-            }
-            FnCapsuleIcon.Search -> {
-                // 放大镜：圆环描线 + 右下斜手柄（对齐首页搜索框图标形状）
-                drawCircle(tint, radius = 7.dp.toPx(), center = Offset(cx - 2.dp.toPx(), cy - 2.dp.toPx()), style = stroke)
-                drawPath(
-                    p {
-                        moveTo(cx + 3.4.dp.toPx(), cy + 3.4.dp.toPx())
-                        lineTo(cx + 8.6.dp.toPx(), cy + 8.6.dp.toPx())
-                    },
-                    tint,
-                    style = stroke,
-                )
-            }
-            FnCapsuleIcon.More -> {
-                // 笑脸：圆描线 + 两眼点 + 弧嘴
-                drawCircle(tint, radius = 10.dp.toPx(), center = Offset(cx, cy), style = stroke)
-                drawCircle(tint, radius = 1.3.dp.toPx(), center = Offset(cx - 3.2f.dp.toPx(), cy - 2.6f.dp.toPx()))
-                drawCircle(tint, radius = 1.3.dp.toPx(), center = Offset(cx + 3.2f.dp.toPx(), cy - 2.6f.dp.toPx()))
-                drawPath(
-                    p {
-                        moveTo(cx - 4.dp.toPx(), cy + 3.dp.toPx())
-                        quadraticBezierTo(cx, cy + 6.dp.toPx(), cx + 4.dp.toPx(), cy + 3.dp.toPx())
-                    },
-                    tint,
-                    style = stroke,
-                )
             }
         }
     }
