@@ -962,6 +962,15 @@ def main() -> int:
             out.append(ln)
         return "\n".join(out)
 
+    def read_cloud_app() -> str:
+        """§61.338 B-5：设置页拆到 SettingsScreen.kt 后读两文件合并——等价于拆分前单文件。"""
+        base = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                / "cloudmusic" / "ui")
+        return ("\n").join(
+            (base / f).read_text(encoding="utf-8", errors="replace")
+            for f in ("CloudMusicApp.kt", "SettingsScreen.kt") if (base / f).is_file()
+        )
+
     failures: list[str] = []
     warnings: list[str] = []
 
@@ -1402,10 +1411,7 @@ def main() -> int:
             failures.append(f"12 §39：旋转报告不可解析：{exc}")
 
     # ---- 12 §40（第三十一批 / T-A6 UI 完善）长效守护 -------------------------
-    ui_app = (
-        ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
-        / "cloudmusic" / "ui" / "CloudMusicApp.kt"
-    ).read_text(encoding="utf-8")
+    ui_app = read_cloud_app()
     # §61.274（V0.4-01 入口合并）：曲库已并入底栏「音乐库」，不再有「更多→曲库」行；
     # 判据同步为「四个功能入口标签 + 音乐库页在位」——页面口径不缩（03-10 §5 五页仍全），
     # 只是曲库入口由本页承载（`FnLibraryScreen(` 断言）。
@@ -1972,7 +1978,7 @@ def main() -> int:
     service61c = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "PlaybackService.kt"
     service_body = service61c.read_text(encoding="utf-8") if service61c.is_file() else ""
     ui61c = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt"
-    ui_body = ui61c.read_text(encoding="utf-8") if ui61c.is_file() else ""
+    ui_body = read_cloud_app() if ui61c.is_file() else ""
     if "networkGate.rejectReason(runtime.currentNetworkSource())" not in service_body:
         failures.append("12 §61.28：Service 缺同步判定，拒绝后会假报 PLAYING（§61.27 同类问题）")
     # §61.175（飞牛设置页）：开关从竞品 CompSwitchRow 换成飞牛 FnRow + FnSwitch，
@@ -6117,7 +6123,7 @@ def main() -> int:
     if _sel.is_file() and _mai.is_file() and _cmp.is_file():
         _sel_src = _code_only(_sel.read_text(encoding="utf-8", errors="replace"))
         _mai_src = _code_only(_mai.read_text(encoding="utf-8", errors="replace"))
-        _cmp_src = _code_only(_cmp.read_text(encoding="utf-8", errors="replace"))
+        _cmp_src = _code_only(read_cloud_app())
         _dmr_bad = []
         if "fun ranked(" not in _sel_src or "fun pick(" not in _sel_src:
             _dmr_bad.append("设备去重/排序/记忆选择判定缺失")
@@ -6136,7 +6142,7 @@ def main() -> int:
     # 失败原因要可见（不静默），探测结果要能直接投屏。
     if _mai.is_file() and _cmp.is_file():
         _mai_src2 = _code_only(_mai.read_text(encoding="utf-8", errors="replace"))
-        _cmp_src2 = _code_only(_cmp.read_text(encoding="utf-8", errors="replace"))
+        _cmp_src2 = _code_only(read_cloud_app())
         _manual_bad = []
         if "ManualDmrProbe.probe(" not in _mai_src2 or "DescriptionFetcher" not in _mai_src2:
             _manual_bad.append("生产侧未接手动探测器/描述抓取端口")
@@ -6416,7 +6422,7 @@ def main() -> int:
         _src_bad.append("源文件缺失")
     else:
         _pb2_src = _code_only(_pbcomp.read_text(encoding="utf-8", errors="replace"))
-        _ui_src = _code_only(_app_ui.read_text(encoding="utf-8", errors="replace"))
+        _ui_src = _code_only(read_cloud_app())
         _main2_src = _code_only(_main_src.read_text(encoding="utf-8", errors="replace"))
         if not all(x in _pb2_src for x in (
             "fun refreshStorage(storageId: String)",
@@ -6507,7 +6513,7 @@ def main() -> int:
         _miui_bad.append("源文件缺失")
     else:
         _miui_src = _code_only(_miui.read_text(encoding="utf-8", errors="replace"))
-        _ui_src = _code_only(_app_ui.read_text(encoding="utf-8", errors="replace"))
+        _ui_src = _code_only(read_cloud_app())
         _main3_src = _code_only(_main_src.read_text(encoding="utf-8", errors="replace"))
         if not all(x in _miui_src for x in (
             "object MiuiAutostartGuide",
@@ -6776,9 +6782,7 @@ def main() -> int:
         print("[PASS] §61.221 CUE 分轨（解析器 + 锚点展开 + 起止列 + v6 迁移）")
 
     # §61.222 底栏搜索 tab（用户指示）：四胶囊 + tab3 选中映射 + onSelect 直达 + 隐藏口径作废。
-    _app_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
-                           / "cloudmusic" / "ui" / "CloudMusicApp.kt")
-                          .read_text(encoding="utf-8", errors="replace"))
+    _app_src = _code_only(read_cloud_app())
     _fei_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
                            / "cloudmusic" / "ui" / "FeiniuUi.kt")
                           .read_text(encoding="utf-8", errors="replace"))
@@ -6933,9 +6937,7 @@ def main() -> int:
     _ftp_src = _code_only((ROOT / "datasource-ftp" / "src" / "main" / "kotlin" / "com"
                            / "example" / "cloudmusic" / "ftp" / "FtpDriver.kt")
                           .read_text(encoding="utf-8", errors="replace"))
-    _app_src2 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
-                            / "cloudmusic" / "ui" / "CloudMusicApp.kt")
-                           .read_text(encoding="utf-8", errors="replace"))
+    _app_src2 = _code_only(read_cloud_app())
     _di_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
                           / "cloudmusic" / "di" / "DataSourceModule.kt")
                          .read_text(encoding="utf-8", errors="replace"))
@@ -6967,9 +6969,7 @@ def main() -> int:
     _pc_src2 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
                            / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
                           .read_text(encoding="utf-8", errors="replace"))
-    _app_src3 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
-                            / "cloudmusic" / "ui" / "CloudMusicApp.kt")
-                           .read_text(encoding="utf-8", errors="replace"))
+    _app_src3 = _code_only(read_cloud_app())
     _vol_bad = []
     if "suspend fun setVolume(device: DmrDevice, volume: Int): Boolean" not in _coord_src:
         _vol_bad.append("coordinator SetVolume 缺失")
@@ -7012,11 +7012,9 @@ def main() -> int:
         print("[PASS] §61.230 淡入淡出（包络纯函数 + 设置项 + 转发 + 交棒组合）")
 
     # §61.231 EQ 调节面：设置页面板 + 三参链路 + MainActivity 接线。
-    _app_src4 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
-                            / "cloudmusic" / "ui" / "CloudMusicApp.kt")
-                           .read_text(encoding="utf-8", errors="replace"))
+    _app_src4 = _code_only(read_cloud_app())
     _eq_bad = []
-    if "private fun EqDialog(" not in _app_src4:
+    if "fun EqDialog(" not in _app_src4:
         _eq_bad.append("均衡器面板缺失")
     if 'title = "均衡器"' not in _app_src4 or "onApplyEqualizer(en, lvl, bands)" not in _app_src4:
         _eq_bad.append("EQ 面板应用回调缺失")
@@ -7043,8 +7041,7 @@ def main() -> int:
         _theme_bad.append("启动主题应用缺失")
     if "updateTheme(mode)" not in _main_src or "recreate()" not in _main_src:
         _theme_bad.append("设置页改主题 recreate 链缺失")
-    if '"DARK_FOLLOW_SYSTEM"' not in _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
-            / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt").read_text(encoding="utf-8", errors="replace")):
+    if '"DARK_FOLLOW_SYSTEM"' not in _code_only(read_cloud_app()):
         _theme_bad.append("主题四选项 sheet 缺失")
     if _theme_bad:
         failures.append("§61.234 UI 主题化：%s" % "；".join(_theme_bad))
@@ -7102,9 +7099,7 @@ def main() -> int:
         print("[PASS] §61.235 DSD 探测（DSF/DFF 魔数）+ FTPS（显式 TLS）")
 
     # §61.236 EQ 频段自适应：段数 = max(5, bandsMillibel.size)，滑杆数组化。
-    _app_src5 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
-                            / "cloudmusic" / "ui" / "CloudMusicApp.kt")
-                           .read_text(encoding="utf-8", errors="replace"))
+    _app_src5 = _code_only(read_cloud_app())
     _eq_ad_bad = []
     if "val count = kotlin.math.max(5, bandsMillibel.size)" not in _app_src5:
         _eq_ad_bad.append("段数自适应缺失")
@@ -7214,9 +7209,7 @@ def main() -> int:
     if 'MutableStateFlow(settingsStore.current().dlna.lastDmrUsn)' not in _ma \
             or 'rememberedDmrUsn.value = device.usn' not in _ma:
         _c241_bad.append("MainActivity 持久化读取/写回缺失")
-    _ui_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
-                          / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt")
-                         .read_text(encoding="utf-8", errors="replace"))
+    _ui_src = _code_only(read_cloud_app())
     if "上次投屏" not in _ui_src or "lastDmrUsn: StateFlow<String?> = MutableStateFlow(null)" not in _ui_src:
         _c241_bad.append("输出弹窗上次投屏标记缺失")
     if _c241_bad:
@@ -7288,9 +7281,7 @@ def main() -> int:
     _ma247 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
                          / "example" / "cloudmusic" / "MainActivity.kt")
                         .read_text(encoding="utf-8", errors="replace"))
-    _ui247 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
-                         / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt")
-                        .read_text(encoding="utf-8", errors="replace"))
+    _ui247 = _code_only(read_cloud_app())
     _c247_bad = []
     if "object DuplicateGrouper" not in _dg             or "fun suspectedDuplicates(tracks: List<Track>): List<DuplicateGroup>" not in _dg             or "const val DURATION_TOLERANCE_MS: Long = 1_000L" not in _dg             or "fun groupByHash(tracks: List<Track>, hashOf: (Track) -> String?): List<DuplicateGroup>" not in _dg:
         _c247_bad.append("Tier2 分组纯函数/Tier1 消费位缺失")
@@ -7537,9 +7528,7 @@ def main() -> int:
 
     # §61.262：全面屏安全区 / IME 避让 / Android 15 opt-out + 首页「最近添加」真实排序。
     _theme_src = (ROOT / "app" / "src" / "main" / "res" / "values" / "themes.xml").read_text(encoding="utf-8", errors="replace")
-    _app_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
-                           / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt")
-                          .read_text(encoding="utf-8", errors="replace"))
+    _app_src = _code_only(read_cloud_app())
     _player_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
                               / "example" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt")
                              .read_text(encoding="utf-8", errors="replace"))
@@ -7698,9 +7687,7 @@ def main() -> int:
         print("[PASS] §61.269 302 目标缓存去卡顿（TTL + 403 失效 + 跨 host 剥离鉴权）")
 
     # §61.270：播放页顶部全面屏（透明状态栏+内容延伸）+ 底部保留系统导航栏。
-    _app_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
-                           / "cloudmusic" / "ui" / "CloudMusicApp.kt")
-                          .read_text(encoding="utf-8", errors="replace"))
+    _app_src = _code_only(read_cloud_app())
     _player_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
                               / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt")
                              .read_text(encoding="utf-8", errors="replace"))
@@ -7744,8 +7731,7 @@ def main() -> int:
     # ② 音乐库页吸收全功能：视图组含不可用 + 行尾「＋」入歌单 + 重扫 + 重试；
     # ③ SurfaceNav.LIBRARY 仍直达 tab1（取证导航不死链）；
     # ④ 分组视图具备展开语义（防退回「每组只显示首条」的丢歌形态）。
-    _ui274 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
-              / "ui" / "CloudMusicApp.kt").read_text(encoding="utf-8", errors="replace")
+    _ui274 = read_cloud_app()
     _lib274 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
                / "ui" / "FnLibraryScreen.kt").read_text(encoding="utf-8", errors="replace")
     _more274 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
@@ -7833,8 +7819,7 @@ def main() -> int:
               / "ui" / "FeiniuUi.kt").read_text(encoding="utf-8", errors="replace")
     _lib276 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
                / "ui" / "FnLibraryScreen.kt").read_text(encoding="utf-8", errors="replace")
-    _ui276 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
-              / "ui" / "CloudMusicApp.kt").read_text(encoding="utf-8", errors="replace")
+    _ui276 = read_cloud_app()
     _c276 = []
     if "dimmed: Boolean = false" not in _fe276 or "badge: String? = null" not in _fe276:
         _c276.append("FnTrackRow 缺 dimmed/badge 参数")
@@ -7865,9 +7850,7 @@ def main() -> int:
         "CompTrackRow(", "CompPlaylistRow(", "CompSheetDialog(", "CompDialogInput(",
         "Comp.Text", "Comp.RowBg", "Comp.ChipBg", "Comp.AccentRed",
     )
-    _app277 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
-               / "cloudmusic" / "ui" / "CloudMusicApp.kt").read_text(
-                   encoding="utf-8", errors="replace")
+    _app277 = read_cloud_app()
     # Comp.Text 不能直接子串匹配（会命中 FnComp.Text）→ 用负向后视正则
     _hit277 = [t for t in _legacy_tokens if not t.startswith("Comp.") and t in _app277]
     if re.search(r"(?<!Fn)Comp\.", _app277):
@@ -8652,7 +8635,7 @@ def main() -> int:
     if not _cloud_app_path.is_file():
         _c291.append("CloudMusicApp.kt 缺失（结构变了）")
     else:
-        _ca = _cloud_app_path.read_text(encoding="utf-8", errors="replace")
+        _ca = read_cloud_app()
         if "DisposableEffect(showPlayer, darkTheme)" not in _ca:
             _c291.append("系统栏效果键未同时含 showPlayer 与 darkTheme（退出播放页不会按主题重算）")
         if "SystemBars.apply(activityWindow, darkTheme, showPlayer)" not in _ca:
@@ -8982,8 +8965,7 @@ def main() -> int:
             if not re.search(r"scrollable\s*:\s*Boolean\s*=\s*false", _body295):
                 _c295.append("scrollable 默认值不是 false（自带滚动的弹层会被套两层）")
             # B. 超屏表单必须显式开滚动（标题在 CloudMusicApp.kt，不在本文件）
-            _app295 = _code_only((_ui_root295 / "CloudMusicApp.kt")
-                                 .read_text(encoding="utf-8", errors="replace"))
+            _app295 = _code_only(read_cloud_app())
             for _t295 in ("添加 WebDAV 源", "添加 SFTP 源", "添加 FTP 源",
                           "添加 STRM 源", "手动添加投屏设备"):
                 if _t295 not in _app295:
@@ -10017,9 +9999,7 @@ def main() -> int:
     # 而 Scaffold 的 bottomBar 仍贴窗口底边 ⇒ 迷你条 + 胶囊栏被整块盖住。
     # 判据只钉两件事：让位必须发生在底栏（正），页面不得再自己吃（反，防双倍留白）。
     _c325 = []
-    _app325 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
-                          / "cloudmusic" / "ui" / "CloudMusicApp.kt")
-                         .read_text(encoding="utf-8", errors="replace"))
+    _app325 = _code_only(read_cloud_app())
     if "WindowInsets.ime.exclude(WindowInsets.navigationBars)" not in _app325:
         _c325.append("底栏未按 IME 让位（键盘弹起会盖住迷你条与胶囊栏）")
     if "imePadding" in _app325:
@@ -10675,6 +10655,32 @@ def main() -> int:
         failures.append("§61.338 CachedRemoteDriver 去重：%s" % "；".join(_c338))
     else:
         print("[PASS] §61.338 CachedRemoteDriver 去重：缓存链单点、两驱动只剩端口差异")
+
+    # ---- §61.339（B-5 第一阶段：设置页拆文件，判据读合并源码）----
+    _c339 = []
+    s_self339 = (ROOT / "tools" / "check_source_contracts.py").read_text(encoding="utf-8", errors="replace")
+    _ui339 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui"
+    _set339 = _ui339 / "SettingsScreen.kt"
+    if not _set339.is_file():
+        _c339.append("SettingsScreen.kt 缺失（设置页未拆出）")
+    else:
+        _t339 = _code_only(_set339.read_text(encoding="utf-8", errors="replace"))
+        for _n339 in ("SettingsScreen", "EqDialog", "IgnoreDirsSheet", "OutputDialog",
+                      "ManualDmrDialog"):
+            if "fun %s(" % _n339 not in _t339:
+                _c339.append("SettingsScreen.kt 缺 " + _n339)
+    # 组合根不得再定义这些页面（只保留调用点）
+    _root339 = _code_only((_ui339 / "CloudMusicApp.kt").read_text(encoding="utf-8", errors="replace"))
+    for _n339 in ("SettingsScreen", "EqDialog", "IgnoreDirsSheet", "OutputDialog",
+                  "ManualDmrDialog"):
+        if "fun %s(" % _n339 in _root339:
+            _c339.append("CloudMusicApp.kt 仍定义 " + _n339 + "（拆文件回潮）")
+    if "read_cloud_app()" not in s_self339:
+        _c339.append("判据未读合并源码（拆分后锚点会漏）")
+    if _c339:
+        failures.append("§61.339 B-5 第一阶段：%s" % "；".join(_c339))
+    else:
+        print("[PASS] §61.339 B-5 第一阶段：设置页/EQ/输出弹窗已拆文件、判据读两文件合并源码")
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
