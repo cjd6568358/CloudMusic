@@ -99,8 +99,11 @@ enum class FnIcon(val label: String) {
     /** 重扫：开口圆环 + 箭头。 */
     Refresh("重扫"),
 
-    /** 投屏 / 漫游：中点 + 双弧。 */
+    /** 投屏：中点 + 双弧。 */
     Broadcast("投屏"),
+
+    /** 随机播放：两条交叉箭头（漫游卡的语义是 shuffle，不是投屏）。 */
+    Shuffle("随机播放"),
 
     // ── 设置行 / 行操作 ───────────────────────────────────────────────────
     /** 移动网络播放：上下箭头（数据进出）。 */
@@ -186,6 +189,7 @@ private val fnIconDrawable: Map<FnIcon, Int> = mapOf(
     FnIcon.Search to R.drawable.ic_fn_search,
     FnIcon.Refresh to R.drawable.ic_fn_refresh,
     FnIcon.Broadcast to R.drawable.ic_fn_broadcast,
+    FnIcon.Shuffle to R.drawable.ic_fn_shuffle,
     FnIcon.Network to R.drawable.ic_fn_network,
     FnIcon.Output to R.drawable.ic_fn_output,
     FnIcon.Trash to R.drawable.ic_fn_trash,
@@ -425,6 +429,42 @@ fun FnLineIcon(
                 dot(12f, 12f, 2.4f)
                 arc(12f, 12f, 6f, -50f, 100f)
                 arc(12f, 12f, 9.5f, -50f, 100f)
+            }
+
+            // §61.367：**仅兜底**——正常走上面的 `ic_fn_shuffle` 官方矢量（单条 fill path）。
+            // 这段手绘版在 24dp 下交叉处糊成一坨、chevron 与水平线端点叠成实心块
+            // （真机 3× 放大坐实），正是 §61.362「拼装件」的老毛病；保留只为 when 穷尽。
+            FnIcon.Shuffle -> {
+                path {
+                    moveTo(3f * u, 7f * u)
+                    lineTo(6.8f * u, 7f * u)
+                    lineTo(10.6f * u, 10.6f * u)
+                }
+                path {
+                    moveTo(13.4f * u, 13.4f * u)
+                    lineTo(17.2f * u, 17f * u)
+                    lineTo(20f * u, 17f * u)
+                }
+                path {
+                    moveTo(3f * u, 17f * u)
+                    lineTo(6.8f * u, 17f * u)
+                    lineTo(10.6f * u, 13.4f * u)
+                }
+                path {
+                    moveTo(13.4f * u, 10.6f * u)
+                    lineTo(17.2f * u, 7f * u)
+                    lineTo(20f * u, 7f * u)
+                }
+                path {
+                    moveTo(17.2f * u, 4.2f * u)
+                    lineTo(20f * u, 7f * u)
+                    lineTo(17.2f * u, 9.8f * u)
+                }
+                path {
+                    moveTo(17.2f * u, 14.2f * u)
+                    lineTo(20f * u, 17f * u)
+                    lineTo(17.2f * u, 19.8f * u)
+                }
             }
 
             FnIcon.Network -> {

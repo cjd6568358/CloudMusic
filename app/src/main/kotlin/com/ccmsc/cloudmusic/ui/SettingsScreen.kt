@@ -40,6 +40,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.clickable
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
@@ -148,7 +149,24 @@ internal fun SettingsScreen(
         // 顶栏：从「更多」进入的**页内二级页**，返回钮语义是「回上一屏」，
         // 与飞牛「回 NAS 主屏」的宿主壳层返回箭头不同（spec §2 #1 / §61.175）。
         FnPageHeader("设置", onBack = onBack)
-        Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                // §61.367：内容滚到页头下沿时是**硬切**（一行文字被齐齐削掉半截，读作裁剪 bug）。
+                // 在滚动层自身上画 18dp `PageBg → 透明`渐变（不额外包 Box：外层容器的块体会
+                // 圈进整页文字，§61.287 会把任意 `.height()` 误判成「含文字的定高容器」）。
+                // 滚到顶时渐变盖的是 HeaderToCardGapDp=20.3dp 那段空档，不压第一张卡。
+                .drawWithContent {
+                    drawContent()
+                    drawRect(
+                        brush = Brush.verticalGradient(
+                            listOf(FnComp.PageBg, Color.Transparent),
+                            endY = 18.dp.toPx(),
+                        ),
+                    )
+                },
+        ) {
             Spacer(Modifier.height(FnBaseline.HeaderToCardGapDp.dp))
             // 卡1：本地曲库统计（替代飞牛 admin 账号卡，spec §2 #2）——不造用户信息
             FnStatCard(

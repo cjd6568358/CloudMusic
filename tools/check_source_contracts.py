@@ -10255,6 +10255,31 @@ def main() -> int:
     else:
         print("[PASS] §61.365/366 布局裁切三修 + 播放页空态降透明")
 
+    # ---- §61.367（2026-11-25 走查收尾四件：首页分组标题 / shuffle 图标 / 「＋」语义 / 顶部渐隐）----
+    # 用户一手「每个页面入口都多点点」；走查截图暴露：卡片区无 section 标题、漫游卡图标
+    # 借的是 Broadcast（投屏）与「随机播放」语义矛盾、行尾「＋」无任何说明、设置页滚动硬切。
+    _c367 = []
+    if '"快捷入口"' not in _home365:
+        _c367.append("首页卡片区缺分组标题")
+    if not re.search(r"icon\s*=\s*FnIcon\.Shuffle\b", _home365):
+        _c367.append("漫游卡未用 shuffle 图标（仍借投屏）")
+    _fn367 = (_ui365 / "FnIcons.kt").read_text(encoding="utf-8", errors="replace")
+    if not re.search(r'^\s*Shuffle\("随机播放"\)', _fn367, re.M):
+        _c367.append("FnIcon 缺 Shuffle 枚举")
+    if "FnIcon.Shuffle to R.drawable.ic_fn_shuffle," not in _fn367:
+        _c367.append("Shuffle 未接矢量资源（会掉回手绘兜底，交叉处糊成块）")
+    if not (ROOT / "app" / "src" / "main" / "res" / "drawable" / "ic_fn_shuffle.xml").is_file():
+        _c367.append("ic_fn_shuffle.xml 缺失")
+    if 'contentDescription = "加入歌单"' not in _lib365:
+        _c367.append("音乐库「＋」缺语义标签")
+    if "listOf(FnComp.PageBg, Color.Transparent)" not in _set365:
+        _c367.append("设置页缺顶部渐隐（滚动仍是硬切）")
+    if _c367:
+        failures.append("§61.367 走查收尾：%s" % "；".join(_c367))
+    else:
+        print("[PASS] §61.367 首页分组标题 / 漫游 shuffle / 「＋」语义 / 设置页顶部渐隐")
+
+
     # ---- §61.326（A-3 搜索热词去重键）----
     _c326 = []
     _sd_fp = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
@@ -10525,9 +10550,15 @@ def main() -> int:
         _c330.append("缺 FnIconLabelTest")
     else:
         _t330 = _test330.read_text(encoding="utf-8", errors="replace")
-        for _a330 in ("CapsuleTabs", "capsuleTabOrderIsPinned", "expected = 32"):
+        # §61.367：数量断言不再钉死字面量 32（新增图标会让它变成 33，判据却以为断言丢了）。
+        # 改成正则要求「存在一个 expected = <整数> 的定数断言」——强度不降，只去掉数字耦合。
+        for _a330 in ("CapsuleTabs", "capsuleTabOrderIsPinned"):
             if _a330 not in _t330:
                 _c330.append("图标测试缺 %s（新增图标/改序不可回归）" % _a330)
+        # 数量断言只要求「存在 expected = <整数>」，不钉死字面量：新增图标会让 32 变 33，
+        # 写死数字会让真断言存在时反而误报「断言丢了」（§61.367 踩到）。
+        if not re.search(r"expected = \d+", _t330):
+            _c330.append("图标测试缺 expected = <整数>（新增图标/改序不可回归）")
 
     if _c330:
         failures.append("§61.330 A-4 底栏图标单源：%s" % "；".join(_c330))

@@ -27,8 +27,9 @@ class FnIconLabelTest {
     @Test
     @DisplayName("图标枚举条数钉死：新增图标必须一并决定播报名")
     fun iconCountIsPinned() {
+        // §61.367：32 → 33（新增 Shuffle：漫游卡随机播放语义，取代原借用的 Broadcast）。
         assertEquals(
-            expected = 32,
+            expected = 33,
             actual = FnIcon.entries.size,
             message = "新增/删除 FnIcon 时必须同步本断言与 label，避免哑图标流入界面",
         )

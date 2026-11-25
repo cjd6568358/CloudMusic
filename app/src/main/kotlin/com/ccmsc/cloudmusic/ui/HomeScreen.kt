@@ -75,6 +75,17 @@ fun HomeScreen(
     LazyColumn(
         Modifier.fillMaxSize().background(FnComp.PageBg),
     ) {
+        // §61.367：卡片区此前**没有任何分组标题**，三张卡直接顶在内容区最上方，
+        // 读作「三块散落的色块」。与下方「最近添加」用同款 18sp Bold 标题，
+        // 形成两级 section 节奏（标题 → 卡片流 → 标题 → 列表）。
+        item {
+            Text(
+                "快捷入口", color = FnComp.TextPrimary,
+                fontSize = 18.sp, fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 20.dp, top = 16.dp, bottom = 2.dp),
+            )
+        }
+
         // ── 横向大卡片流（§61.261：底栏已有搜索 tab，首页不再重复放搜索钮）──
         item {
             // §61.365：三张 160dp 卡片 + 2×14dp 间距 = 548dp，屏宽只有 411dp ⇒ 第三张被
@@ -198,7 +209,9 @@ private fun RoamCard(count: Int, onClick: () -> Unit) {
         background = androidx.compose.ui.graphics.Brush.verticalGradient(
             listOf(Color(0xFFD9D0C5), Color(0xFFC9BFB2)),
         ),
-        icon = FnIcon.Broadcast,
+        // §61.367：漫游是**随机播放**，此前借 Broadcast（投屏：中点 + 双弧）——
+        // 卡片写的「随机播放 · N 首」与图标语义直接矛盾。
+        icon = FnIcon.Shuffle,
         onClick = onClick,
         art = {
             Box(

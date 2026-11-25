@@ -448,7 +448,10 @@ private fun FnTrackLine(
                     Modifier
                         .size(40.dp)
                         .clip(CircleShape)
-                        .clickable { onAdd() },
+                        .clickable { onAdd() }
+                        // §61.367：纯「＋」无任何说明——视觉上不知道加到哪，TalkBack 也只念
+                        // 「加号」。补语义标签（真机可见入口另行拍板，见 §61.365 未改清单）。
+                        .semantics { contentDescription = "加入歌单" },
                     contentAlignment = Alignment.Center,
                 ) {
                     Text("＋", color = FnComp.TextSecondary, fontSize = 18.sp)
