@@ -162,9 +162,23 @@ internal fun PlaylistsScreen(
                 // §61.321：命中集来自上面 remember 住的表，item 重组只做一次查表。
                 val hits = smartHits[rule].orEmpty()
                 FnPlaylistRow(
-                    name = "✧ ${rule.name}",
-                    subtitle = "命中 ${hits.size} 首 · 点击播放",
-                    onClick = { if (hits.isNotEmpty()) onPlaySmart(hits) },
+                    // §61.369：名字不再挂 "✧ " 字符前缀——占位从字形换成矢量图标后，
+                    // 前缀既无意义又与图标重复；缺封面即显示歌单图标。
+                    name = rule.name,
+                    placeholderIcon = FnIcon.Playlist,
+                    // 0 首仍写「点击播放」是假承诺：点了没有任何反应，用户只会以为按钮坏了。
+                    subtitle = if (hits.isEmpty()) {
+                        "命中 0 首 · 暂无可播放曲目"
+                    } else {
+                        "命中 ${hits.size} 首 · 点击播放"
+                    },
+                    onClick = {
+                        if (hits.isNotEmpty()) {
+                            onPlaySmart(hits)
+                        } else {
+                            context.showFeedback("「${rule.name}」当前没有命中的曲目")
+                        }
+                    },
                 )
             }
             item { FnSectionTitle("创建的歌单 · ${playlists.size}") }
@@ -194,6 +208,8 @@ internal fun PlaylistsScreen(
                         name = playlist.name,
                         subtitle = if (expandedId == playlist.id) "收起曲目" else "展开查看曲目",
                         coverRef = firstCoverRef,
+                        // §61.369：自建歌单没有首曲封面时，占位同样是歌单图标（不再是 ☰ 字形）。
+                        placeholderIcon = FnIcon.Playlist,
                         onClick = {
                             expandedId = if (expandedId == playlist.id) null else playlist.id
                         },

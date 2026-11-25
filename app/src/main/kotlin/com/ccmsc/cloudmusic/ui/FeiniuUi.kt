@@ -666,6 +666,13 @@ fun FnCover(
     path: String?,
     modifier: Modifier = Modifier,
     glyph: String = "♪",
+    /**
+     * §61.369：缺封面时的**矢量占位图标**（优先于 [glyph]）。
+     *
+     * 字符字形在放大后是笔画粗细不均的「字」，`☰` 尤其读作「菜单」；歌单行 6 连排时
+     * 读作「封面加载失败」。传图标则走 [FnLineIcon] 的统一矢量，与其余界面同语形。
+     */
+    icon: FnIcon? = null,
     /** §61.327（A-7）：正在播放时描一圈品牌红——描边走 clip 之内，不会被圆角裁掉半条。 */
     ring: Boolean = false,
 ) {
@@ -685,6 +692,8 @@ fun FnCover(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
             )
+        } else if (icon != null) {
+            FnLineIcon(icon, FnComp.TextHint, size = 22.dp)
         } else {
             Text(glyph, color = FnComp.TextHint, fontSize = 18.sp)
         }
@@ -988,6 +997,8 @@ fun FnPlaylistRow(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     coverRef: String? = null,
+    /** §61.369：缺封面时的占位图标（歌单行传 `FnIcon.Playlist`）。 */
+    placeholderIcon: FnIcon? = null,
     trailing: (@Composable () -> Unit)? = null,
 ) {
     Row(
@@ -998,7 +1009,12 @@ fun FnPlaylistRow(
             .padding(horizontal = FnBaseline.PagePaddingDp.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        FnCover(coverRef, Modifier.size(FnBaseline.TrackCoverDp.dp), glyph = "☰")
+        FnCover(
+            coverRef,
+            Modifier.size(FnBaseline.TrackCoverDp.dp),
+            glyph = "☰",
+            icon = placeholderIcon,
+        )
         Spacer(Modifier.width(12.dp))
         Column(Modifier.weight(1f)) {
             Text(

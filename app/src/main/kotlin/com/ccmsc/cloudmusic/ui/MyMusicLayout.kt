@@ -19,12 +19,14 @@ internal object MyMusicLayout {
     /**
      * 「最近播放」段标题的 item 序号；无历史时返回 `-1`（没有该段，不应滚动）。
      *
-     * 空态只在「收藏与历史皆空」时发出，而那种情况下 [hasHistory] 必为 false，
-     * 因此空态不参与本式；收藏段非空时恒占「段标题 1 + 曲目 [favoriteCount] + 组间空隙 1」。
+     * 收藏段恒占「段标题 1 + 内容」：有曲目时内容 = [favoriteCount] 行 + 组间空隙 1，
+     * 无曲目时内容 = 空态 1（§61.370 起标题与空态都常驻）。
      */
     fun historyHeaderIndex(favoriteCount: Int, hasHistory: Boolean): Int {
         if (!hasHistory) return -1
-        val favoriteItems = if (favoriteCount > 0) 2 + favoriteCount else 0
+        // §61.370：收藏段标题改成**常驻**，收藏为空时该段 = 标题 1 + 空态 1 = 2 项
+        //（此前两段共用一块空态，favoriteCount=0 时记 0 项）。
+        val favoriteItems = if (favoriteCount > 0) 2 + favoriteCount else 2
         return STAT_ITEMS + favoriteItems
     }
 }

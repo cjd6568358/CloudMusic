@@ -161,13 +161,15 @@ internal fun MyMusicScreen(
                     Spacer(Modifier.height(FnBaseline.StatToNextGroupDp.dp))
                 }
             }
-            if (favTracks.isEmpty() && history.isEmpty()) {
-                item(key = "mm-empty") {
-                    FnEmpty("收藏曲目或播放曲目后在此显示", Modifier.height(220.dp))
+            // §61.370：两段标题**常驻**，空态各自分段。此前空库时只有一块合并空态
+            // 「收藏曲目或播放曲目后在此显示」——从首页「收藏」卡或「最近」卡进来的用户，
+            // 既看不出自己落在哪一段，也看不出这里本该有两段。
+            item(key = "mm-fav-title") { FnSectionTitle("收藏 · ${favTracks.size}") }
+            if (favTracks.isEmpty()) {
+                item(key = "mm-fav-empty") {
+                    FnEmpty("还没有收藏的曲目：在曲目行的心形上点一下即可收藏", Modifier.height(100.dp))
                 }
-            }
-            if (favTracks.isNotEmpty()) {
-                item(key = "mm-fav-title") { FnSectionTitle("收藏 · ${favTracks.size}") }
+            } else {
                 itemsIndexed(favTracks, key = { _, t -> "fav-" + t.id.value }) { index, track ->
                     FnTrackRow(
                         title = track.title,
@@ -183,9 +185,13 @@ internal fun MyMusicScreen(
                 }
                 item(key = "mm-fav-gap") { Spacer(Modifier.height(FnBaseline.GroupGapDp.dp)) }
             }
-            if (history.isNotEmpty()) {
-                // §61.328：小节标题用**总数**，与上方统计卡同口径（窗口截断不谎报）。
-                item(key = "mm-hist-title") { FnSectionTitle("最近播放 · $historyCount") }
+            // §61.328：小节标题用**总数**，与上方统计卡同口径（窗口截断不谎报）。
+            item(key = "mm-hist-title") { FnSectionTitle("最近播放 · $historyCount") }
+            if (history.isEmpty()) {
+                item(key = "mm-hist-empty") {
+                    FnEmpty("还没有播放记录：播放任意曲目后在此显示", Modifier.height(100.dp))
+                }
+            } else {
                 itemsIndexed(history, key = { _, t -> "hist-" + t.id.value }) { index, track ->
                     FnTrackRow(
                         title = track.title,

@@ -22,9 +22,10 @@ class MyMusicLayoutTest {
     }
 
     @Test
-    @DisplayName("只有历史：最近播放段紧接统计卡，序号 1")
+    @DisplayName("只有历史：收藏段「标题 + 空态」占 2 项后，最近段序号 3")
     fun historyOnlyStartsAfterStatCard() {
-        assertEquals(1, MyMusicLayout.historyHeaderIndex(favoriteCount = 0, hasHistory = true))
+        // §61.370：收藏为空时该段不再消失，标题与空态都常驻 ⇒ 2 项。
+        assertEquals(3, MyMusicLayout.historyHeaderIndex(favoriteCount = 0, hasHistory = true))
     }
 
     @Test

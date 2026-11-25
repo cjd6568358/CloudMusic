@@ -10281,6 +10281,40 @@ def main() -> int:
     else:
         print("[PASS] §61.367 首页分组标题 / 漫游 shuffle / 「＋」语义 / 设置页顶部渐隐")
 
+    # ---- §61.369（2026-11-25 深夜）歌单页占位图标与 0 首文案 / §61.370 我的音乐分段空态 ----
+    # 走查（更多页 → 歌单 / 更多页 → 我的音乐）新发现：
+    # ① 6 个智能歌单的封面占位是 ☰ 字形（读作菜单、6 连排像加载失败），名字还挂 ✧ 前缀；
+    # ② 命中 0 首仍写「点击播放」，点了没反应 = 假承诺；
+    # ③ 我的音乐把收藏/最近合并成一块空态，从哪张卡进来都看不出自己在哪一段。
+    _pl369 = (_ui365 / "PlaylistsScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _mm370 = (_ui365 / "MyMusicScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _ml370 = (_ui365 / "MyMusicLayout.kt").read_text(encoding="utf-8", errors="replace")
+    _fe369 = (_ui365 / "FeiniuUi.kt").read_text(encoding="utf-8", errors="replace")
+    _test370 = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
+                / "ui" / "MyMusicLayoutTest.kt").read_text(encoding="utf-8", errors="replace")
+    _c369 = []
+    if "icon: FnIcon? = null" not in _fe369:
+        _c369.append("FnCover 缺矢量占位参数（缺封面会退回 ☰ 字形）")
+    if _pl369.count("placeholderIcon = FnIcon.Playlist") < 2:
+        _c369.append("歌单行占位图标未统一（智能歌单 + 自建歌单共两处）")
+    if 'name = "✧' in _pl369:
+        _c369.append("歌单名又挂回 ✧ 字符前缀（与占位图标语义重复）")
+    if "暂无可播放曲目" not in _pl369:
+        _c369.append("命中 0 首仍写「点击播放」（点了没反应的假承诺）")
+    if "mm-fav-empty" not in _mm370 or "mm-hist-empty" not in _mm370:
+        _c369.append("我的音乐空态未分段（收藏/最近两段标题必须常驻）")
+    if 'item(key = "mm-empty")' in _mm370:
+        _c369.append("合并空态回潮（两段又混成一块）")
+    if "if (favoriteCount > 0) 2 + favoriteCount else 2" not in _ml370:
+        _c369.append("段落序号未把空收藏记为 2 项（focusRecent 会滚错位）")
+    if "favoriteCount = 0, hasHistory = true" not in _test370 or "assertEquals(3" not in _test370:
+        _c369.append("序号单测未跟上空态分段（0 收藏 + 有历史应为 3）")
+    if _c369:
+        failures.append("§61.369/370 歌单占位与我的音乐分段：%s" % "；".join(_c369))
+    else:
+        print("[PASS] §61.369/370 歌单矢量占位 + 0 首文案 + 我的音乐分段空态 + 序号单测")
+
+
 
     # ---- §61.326（A-3 搜索热词去重键）----
     _c326 = []
