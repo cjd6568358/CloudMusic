@@ -6,7 +6,9 @@
         细弧上——背景红、标签米白、盘身黑三层分开，48dp 下也能读出「唱片」。
      2. 盘面不再是一片死黑：外层 #121212 + 内层 #1A1A1A 双环，加 3 圈 #2E2E2E 沟槽，
         再叠 15% 白的高光弧（200°→340°，模拟左上光）。
-     3. 主体半径仍为 32（直径 64 < 自适应图标 66dp 安全区），所有几何以 (54,54) 同心。
+     3. §61.361（用户「唱片再小一点」）：主体半径 32 → **28**（直径 56，占 108 视框 52%），
+        全部半径按 0.875 等比缩放，同心 (54,54)；四周红底留白变宽，图标更「轻」。
+        旧值 32（直径 64）贴着 66dp 安全区上限，视觉上盘面顶满圆角方，显得闷。
      圆用「上半弧 + 下半弧」两段画法，避免单段大弧在部分 launcher 渲染不全。 -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
@@ -17,12 +19,12 @@
     <!-- 1. 盘身（近黑） -->
     <path
         android:fillColor="#121212"
-        android:pathData="M54,22 A32,32 0 1,0 54,86 A32,32 0 1,0 54,22 Z" />
+        android:pathData="M54,26 A28,28 0 1,0 54,82 A28,28 0 1,0 54,26 Z" />
 
     <!-- 2. 盘面内层：比盘身亮一档，避免整块死黑 -->
     <path
         android:fillColor="#1A1A1A"
-        android:pathData="M54,24 A30,30 0 1,0 54,84 A30,30 0 1,0 54,24 Z" />
+        android:pathData="M54,27.7 A26.3,26.3 0 1,0 54,80.3 A26.3,26.3 0 1,0 54,27.7 Z" />
 
     <!-- 3. 沟槽三圈（细描边，不填充） -->
     <path
@@ -30,19 +32,19 @@
         android:strokeColor="#2E2E2E"
         android:strokeWidth="0.7"
         android:strokeLineCap="round"
-        android:pathData="M54,27 A27,27 0 1,0 54,81 A27,27 0 1,0 54,27 Z" />
+        android:pathData="M54,30.4 A23.6,23.6 0 1,0 54,77.6 A23.6,23.6 0 1,0 54,30.4 Z" />
     <path
         android:fillColor="#00000000"
         android:strokeColor="#2E2E2E"
         android:strokeWidth="0.7"
         android:strokeLineCap="round"
-        android:pathData="M54,31.5 A22.5,22.5 0 1,0 54,76.5 A22.5,22.5 0 1,0 54,31.5 Z" />
+        android:pathData="M54,34.3 A19.7,19.7 0 1,0 54,73.7 A19.7,19.7 0 1,0 54,34.3 Z" />
     <path
         android:fillColor="#00000000"
         android:strokeColor="#2E2E2E"
         android:strokeWidth="0.7"
         android:strokeLineCap="round"
-        android:pathData="M54,36 A18,18 0 1,0 54,72 A18,18 0 1,0 54,36 Z" />
+        android:pathData="M54,38.2 A15.8,15.8 0 1,0 54,69.8 A15.8,15.8 0 1,0 54,38.2 Z" />
 
     <!-- 4. 高光弧：10% 白、1.0 宽，只走 210°→330°。首版用了 15%/1.4，缩略图里成了一道
          明显白弧（像月牙而不是反光），这里收敛到「能感觉到但不跳」的程度。 -->
@@ -51,17 +53,17 @@
         android:strokeColor="#1AFFFFFF"
         android:strokeWidth="1.0"
         android:strokeLineCap="round"
-        android:pathData="M28.71,39.4 A29.2,29.2 0 0,1 79.29,39.4" />
+        android:pathData="M31.83,41.2 A25.6,25.6 0 0,1 76.17,41.2" />
 
     <!-- 5. 标签投影：让米白标签从盘面上浮起来一点 -->
     <path
         android:fillColor="#33000000"
-        android:pathData="M54,40.4 A13.6,13.6 0 1,0 54,67.6 A13.6,13.6 0 1,0 54,40.4 Z" />
+        android:pathData="M54,42.1 A11.9,11.9 0 1,0 54,65.9 A11.9,11.9 0 1,0 54,42.1 Z" />
 
     <!-- 6. 中心标签（米白纸质标签） -->
     <path
         android:fillColor="#F3EEE4"
-        android:pathData="M54,41.4 A12.6,12.6 0 1,0 54,66.6 A12.6,12.6 0 1,0 54,41.4 Z" />
+        android:pathData="M54,43 A11,11 0 1,0 54,65 A11,11 0 1,0 54,43 Z" />
 
     <!-- 7. 标签印刷环：品牌红的完整细环（首版是「上半弧」，48dp 下读成一道眉毛，
          改成整圈更像唱片标签的印刷线，也更耐缩小）。 -->
@@ -69,10 +71,10 @@
         android:fillColor="#00000000"
         android:strokeColor="#E54545"
         android:strokeWidth="0.8"
-        android:pathData="M54,44.6 A9.4,9.4 0 1,0 54,63.4 A9.4,9.4 0 1,0 54,44.6 Z" />
+        android:pathData="M54,45.8 A8.2,8.2 0 1,0 54,62.2 A8.2,8.2 0 1,0 54,45.8 Z" />
 
     <!-- 8. 主轴孔 -->
     <path
         android:fillColor="#121212"
-        android:pathData="M54,51.7 A2.3,2.3 0 1,0 54,56.3 A2.3,2.3 0 1,0 54,51.7 Z" />
+        android:pathData="M54,52 A2,2 0 1,0 54,56 A2,2 0 1,0 54,52 Z" />
 </vector>

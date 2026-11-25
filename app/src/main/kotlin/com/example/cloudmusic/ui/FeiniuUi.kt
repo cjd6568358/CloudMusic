@@ -1,5 +1,7 @@
 package com.example.cloudmusic.ui
 
+import com.example.cloudmusic.R
+
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -1080,6 +1082,7 @@ val CapsuleTabs: List<FnIcon> = listOf(
     FnIcon.Home, FnIcon.Library, FnIcon.Search, FnIcon.More,
 )
 
+
 /**
  * 飞牛风格悬浮胶囊底栏（首页 / 音乐库 / 搜索 / 更多）。
  *
@@ -1146,6 +1149,8 @@ fun FnCapsuleBar(
                 ) {
                     // 26dp 与旧画布同边长：只换「谁来画」，不动盒模型 ⇒ 触控区、
                     // 选中态红圆、胶囊高度全部零变化（不是重排版式）。
+                    // §61.363：FnLineIcon 内部已整体切到 Material Symbols 官方矢量，
+                    // 这里不再做 tab 专用映射（§61.362 的临时分支已撤销）。
                     FnLineIcon(
                         icon = icon,
                         tint = if (active) Color.White else FnComp.TextHint,

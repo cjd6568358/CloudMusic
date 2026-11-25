@@ -10137,6 +10137,100 @@ def main() -> int:
     else:
         print("[PASS] §61.359 图标重设计（米白标签+红环+沟槽高光）+ 云音乐 + 启动页红统一")
 
+    # ---- §61.360（2026-11-25 启动页状态栏/导航栏刷品牌红）----
+    # 真机 52-small.png 实证：启动页红屏上下各压一条黑边（themes.xml 写死 black，
+    # 而 SystemBars.apply 只在 splash 结束后的 CloudMusicApp 分支里跑）。
+    # 修法：SplashScreen 显示期间把两栏刷成 BrandRed + 浅色图标，不做还原配对
+    # （退出后由 SystemBars.apply 按主题重算）。判据钉四件事，缺一即红。
+    _sp360 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+              / "cloudmusic" / "ui" / "SplashScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _c360 = []
+    if "window.statusBarColor = red" not in _sp360:
+        _c360.append("启动页未刷状态栏（红屏会压黑边）")
+    if "window.navigationBarColor = red" not in _sp360:
+        _c360.append("启动页未刷导航栏")
+    if "isAppearanceLightStatusBars = false" not in _sp360 or "isAppearanceLightNavigationBars = false" not in _sp360:
+        _c360.append("红底未配浅色图标（图标会看不见）")
+    if "fun Context.findActivity()" not in _sp360:
+        _c360.append("缺 Activity 解包（ContextWrapper 下取不到 window）")
+    if "LegacyPalette.BrandRed" not in _sp360:
+        _c360.append("栏色未取品牌红单一真相源")
+    if _c360:
+        failures.append("§61.360 启动页系统栏：%s" % "；".join(_c360))
+    else:
+        print("[PASS] §61.360 启动页系统栏：状态栏/导航栏刷品牌红 + 浅色图标")
+
+    # ---- §61.361（2026-11-25 tab 图标对齐 + APP 唱片缩小）----
+    # 用户一手：「tab 图标奇奇怪怪的」「APP 应用图标 唱片再小一点」。
+    # 真机 182px Box 实测：Home 77×63 / Library 73×65 / Search **62×57** / More 75×19。
+    # 放大镜是唯一明显缩水的；三点 19px 高是 more_horiz 的语形特征（首轮加重到 r=2.9
+    # 反而变笨重，已回退）。判据用**几何阈值**而非字面坐标（改小数绕不过）：
+    #   Search 圆半径 ≥ 7.0、柄终点 ≥ 20.5（原 6.0 / 20.0）
+    #   APP 唱片半径 26~29（原 32 顶满安全区）
+    _c361 = []
+    _ic361 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+              / "cloudmusic" / "ui" / "FnIcons.kt").read_text(encoding="utf-8", errors="replace")
+    _m361 = re.search(r"FnIcon\.Search -> \{(.*?)\n            \}", _ic361, re.S)
+    if not _m361:
+        _c361.append("FnIcon.Search 分支缺失")
+    else:
+        _b361 = _m361.group(1)
+        _r361 = re.search(r"ring\(([\d.]+)f,\s*([\d.]+)f,\s*([\d.]+)f\)", _b361)
+        _l361 = re.search(r"lineB?\(([\d.]+)f,\s*([\d.]+)f,\s*([\d.]+)f,\s*([\d.]+)f\)", _b361)
+        if not _r361 or float(_r361.group(3)) < 7.0:
+            _c361.append("放大镜圆半径 < 7.0（会比同排图标小一圈）")
+        if not _l361 or float(_l361.group(3)) < 20.5:
+            _c361.append("放大镜柄终点 < 20.5（字形未铺满 24 视框）")
+    _lc361 = (ROOT / "app" / "src" / "main" / "res" / "drawable"
+              / "ic_launcher_foreground.xml").read_text(encoding="utf-8", errors="replace")
+    _d361 = re.search(r"M54,([\d.]+) A([\d.]+),\2 0 1,0 54,([\d.]+)", _lc361)
+    if not _d361:
+        _c361.append("唱片盘身路径缺失")
+    else:
+        _rdisk = float(_d361.group(2))
+        if not (26.0 <= _rdisk <= 29.0):
+            _c361.append("唱片半径 %.1f 不在 26~29（用户要求「再小一点」，原 32 顶满）" % _rdisk)
+    if _c361:
+        failures.append("§61.361 图标几何：%s" % "；".join(_c361))
+    else:
+        print("[PASS] §61.361 图标几何：放大镜铺满视框（r>=7.0/柄>=20.5）+ 唱片半径 26~29")
+
+    # ---- §61.363（2026-11-25 图标全量换 Material Symbols 官方矢量）----
+    # 用户一手：「tab 图标像拼出来的、有毛刺」「为什么不找成熟图标库或者 svg 图标」。
+    # 根因：手写 Canvas 每枚图标是多次 drawLine/多条 path 拼接，StrokeCap.Round 在每个段端
+    # 画半径=半笔宽的实心圆，T 形/折角搭接时两圆相叠 ⇒ 疙瘩。
+    # 改法：32 枚全部换成 Material Symbols Rounded 官方 SVG 原文（960 视框 + translateY=960），
+    # FnLineIcon 优先 painterResource，手写实现仅兜底。判据：drawable 齐全 + 映射齐全 + 渲染路径。
+    _c363 = []
+    _dw363 = ROOT / "app" / "src" / "main" / "res" / "drawable"
+    _want363 = (
+        "home", "library", "more", "songs", "artists", "albums", "sources", "unavailable",
+        "playlist", "favorite", "recent", "search", "refresh", "broadcast", "network",
+        "output", "trash", "power", "folder_off", "gauge", "level", "image", "duplicate",
+        "contrast", "wave", "sliders", "lock", "add", "settings", "queue", "play", "pause",
+    )
+    for _n in _want363:
+        _f = _dw363 / ("ic_fn_" + _n + ".xml")
+        if not _f.is_file():
+            _c363.append("缺矢量 %s" % _f.name)
+        else:
+            _t = _f.read_text(encoding="utf-8", errors="replace")
+            if "pathData" not in _t or 'translateY="960"' not in _t:
+                _c363.append("%s 不是官方 960 视框形态" % _f.name)
+    _fn363 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                         / "cloudmusic" / "ui" / "FnIcons.kt")
+                        .read_text(encoding="utf-8", errors="replace"))
+    if "private val fnIconDrawable: Map<FnIcon, Int>" not in _fn363:
+        _c363.append("缺 FnIcon→矢量映射表")
+    if _fn363.count("to R.drawable.ic_fn_") < 32:
+        _c363.append("映射不足 32 条（会掉回手写拼装图标）")
+    if "painterResource(vector)" not in _fn363:
+        _c363.append("FnLineIcon 未走矢量渲染（毛刺会复发）")
+    if _c363:
+        failures.append("§61.363 图标矢量：%s" % "；".join(_c363))
+    else:
+        print("[PASS] §61.363 图标全量矢量：32 枚 Material Symbols + 映射 + painterResource")
+
     # ---- §61.326（A-3 搜索热词去重键）----
     _c326 = []
     _sd_fp = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"

@@ -1,6 +1,7 @@
 package com.example.cloudmusic.ui
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -8,15 +9,18 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.cloudmusic.R
 
 /**
  * 飞牛线性图标系统（**唯一图标真相源**，docs/03-10 §8 映射表的代码侧）。
@@ -156,6 +160,53 @@ enum class FnIcon(val label: String) {
 }
 
 /**
+ * §61.363：FnIcon → Material Symbols Rounded 官方矢量（Apache 2.0）。
+ *
+ * 为什么整体替换：手写 [FnLineIcon] 每枚图标是多次 `drawLine` / 多条 `path` 拼出来的，
+ * `StrokeCap.Round` 在每段端头画半径 = 半笔宽的实心圆，T 形/折角搭接时两圆相叠 ⇒
+ * 48dp 下肉眼可见「拼装件 + 毛刺」（用户 2026-11-25 一手指出）。官方图标是**单条闭合
+ * fill path**，一次成形、没有接头，且比例/光学对齐都由 Google 调好。
+ *
+ * 二进制体积：32 个 vector 合计约 20KB（纯文本路径），远小于引 `material-icons-extended`
+ * （几十 MB）。所有 path 由 `analysis/e2e-2026-11-25/gen_fn_icons.py` 从官方站点直接拉取，
+ * 未经手工改写。
+ */
+private val fnIconDrawable: Map<FnIcon, Int> = mapOf(
+    FnIcon.Home to R.drawable.ic_fn_home,
+    FnIcon.Library to R.drawable.ic_fn_library,
+    FnIcon.More to R.drawable.ic_fn_more,
+    FnIcon.Songs to R.drawable.ic_fn_songs,
+    FnIcon.Artists to R.drawable.ic_fn_artists,
+    FnIcon.Albums to R.drawable.ic_fn_albums,
+    FnIcon.Sources to R.drawable.ic_fn_sources,
+    FnIcon.Unavailable to R.drawable.ic_fn_unavailable,
+    FnIcon.Playlist to R.drawable.ic_fn_playlist,
+    FnIcon.Favorite to R.drawable.ic_fn_favorite,
+    FnIcon.Recent to R.drawable.ic_fn_recent,
+    FnIcon.Search to R.drawable.ic_fn_search,
+    FnIcon.Refresh to R.drawable.ic_fn_refresh,
+    FnIcon.Broadcast to R.drawable.ic_fn_broadcast,
+    FnIcon.Network to R.drawable.ic_fn_network,
+    FnIcon.Output to R.drawable.ic_fn_output,
+    FnIcon.Trash to R.drawable.ic_fn_trash,
+    FnIcon.Power to R.drawable.ic_fn_power,
+    FnIcon.FolderOff to R.drawable.ic_fn_folder_off,
+    FnIcon.Gauge to R.drawable.ic_fn_gauge,
+    FnIcon.Level to R.drawable.ic_fn_level,
+    FnIcon.Image to R.drawable.ic_fn_image,
+    FnIcon.Duplicate to R.drawable.ic_fn_duplicate,
+    FnIcon.Contrast to R.drawable.ic_fn_contrast,
+    FnIcon.Wave to R.drawable.ic_fn_wave,
+    FnIcon.Sliders to R.drawable.ic_fn_sliders,
+    FnIcon.Lock to R.drawable.ic_fn_lock,
+    FnIcon.Add to R.drawable.ic_fn_add,
+    FnIcon.Settings to R.drawable.ic_fn_settings,
+    FnIcon.Queue to R.drawable.ic_fn_queue,
+    FnIcon.Play to R.drawable.ic_fn_play,
+    FnIcon.Pause to R.drawable.ic_fn_pause,
+)
+
+/**
  * 纯图标控件的语义挂载（§61.290）。
  *
  * `contentDescription == null` 时**不挂任何语义节点**——装饰性图标（行首图标、
@@ -180,6 +231,18 @@ fun FnLineIcon(
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
 ) {
+    // §61.363：有官方矢量就用矢量（单条 fill path，无拼接毛刺）；
+    // 映射不到时保留原来的 Canvas 手写实现兜底（新加 FnIcon 值不会立刻炸）。
+    val vector = fnIconDrawable[icon]
+    if (vector != null) {
+        Image(
+            painter = painterResource(vector),
+            contentDescription = contentDescription,
+            modifier = modifier.size(size),
+            colorFilter = ColorFilter.tint(tint),
+        )
+        return
+    }
     Canvas(modifier.size(size).iconSemantics(contentDescription)) {
         val u = this.size.minDimension / 24f
         val sw = 2f * u
@@ -191,6 +254,22 @@ fun FnLineIcon(
             end = pt(x2, y2),
             strokeWidth = sw,
             cap = StrokeCap.Round,
+        )
+        /**
+         * §61.362（用户一手「像拼出来的、有毛刺」）：**内部搭接**用的平头线。
+         *
+         * 圆头（[line]）在每段端点都画一个半径 = 半个笔宽的实心圆。当两条线以 T 形
+         * 或折角搭接时，两个圆头叠在一起就鼓出一个「疙瘩」；48dp 的底栏图标放大了看，
+         * 就是「拼装件 + 毛刺」。
+         * 平头只画到端点，搭接处是干净的一条，视觉上是一笔画出来的。
+         * 只在笔画**真正的自由端**才用 [line]（圆头收尾）。
+         */
+        fun lineB(x1: Float, y1: Float, x2: Float, y2: Float) = drawLine(
+            color = tint,
+            start = pt(x1, y1),
+            end = pt(x2, y2),
+            strokeWidth = sw,
+            cap = StrokeCap.Butt,
         )
         fun rect(x: Float, y: Float, w: Float, h: Float, r: Float = 2f) = drawRoundRect(
             color = tint,
@@ -253,6 +332,10 @@ fun FnLineIcon(
             // （44~59）的两倍 —— 那正是「重量差一倍」的老毛病掉了个头。三点是
             // `more_horiz` 的标准语形，直径 2.4 单位 ≈ Material 的 r=2/24，且不与
             // 「播放列表」（三横线）撞形。
+            // §61.361：首轮试过把半径从 2.4 加到 2.9 想补「重量」，本地渲染 182px 对比后
+            // 发现反而变成三个笨重的实心球（三点是四个图标里唯一的实心语形，一加重就抢眼）。
+            // 回退到 Material `more_horiz` 的标准 r=2.4 / 中心 4.4·12·19.6 —— 扁是它的语形
+            // 特征，不是缺陷；真正偏小的是放大镜（见 FnIcon.Search）。
             FnIcon.More -> {
                 dot(4.4f, 12f, 2.4f)
                 dot(12f, 12f, 2.4f)
@@ -317,9 +400,16 @@ fun FnLineIcon(
                 line(12f, 12f, 16f, 14f)
             }
 
+            // §61.361（G-3 二次，用户「tab 图标奇奇怪怪的」）：真机四图标包围盒实测
+            // Home 77×63 / Library 73×65 / Search **62×57** / More 75×19 —— 放大镜整整小一圈。
+            // 原 ring(11,11,6)+柄到 20 = 16 单位；改为 ring(10.8,10.8,7.2)+柄到 20.9 = 18.3 单位，
+            // 与 Home 的 18.4 同级，仍是标准放大镜语形（圆大柄短）。
             FnIcon.Search -> {
-                ring(11f, 11f, 6f)
-                line(15.2f, 15.2f, 20f, 20f)
+                ring(10.6f, 10.6f, 7.4f)
+                // §61.362：柄原来从圆环**中心线**（距圆心 √2×5.2≈7.35）起笔且是圆头，
+                // 圆头半径 1 单位会在圆环外侧鼓出一个瘤。改成平头 + 起点后移到 16.2
+                // （距圆心 √2×5.6≈7.92，正落在圆环外沿 7.4+0.5 之内），搭接处干净。
+                lineB(16.2f, 16.2f, 21.2f, 21.2f)
             }
 
             FnIcon.Refresh -> {
