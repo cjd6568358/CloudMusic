@@ -10261,8 +10261,10 @@ def main() -> int:
     _c367 = []
     if '"快捷入口"' not in _home365:
         _c367.append("首页卡片区缺分组标题")
-    if not re.search(r"icon\s*=\s*FnIcon\.Shuffle\b", _home365):
-        _c367.append("漫游卡未用 shuffle 图标（仍借投屏）")
+    if "FnIcon.Shuffle," not in _home365:
+        _c367.append("漫游卡艺术图缺 shuffle 符号（随机播放语义无处承载）")
+    if "FnLineIcon(icon, Color.White)" in _home365:
+        _c367.append("FeatureCard 又画回左下标签图标（三卡会再出现两个同形图标）")
     _fn367 = (_ui365 / "FnIcons.kt").read_text(encoding="utf-8", errors="replace")
     if not re.search(r'^\s*Shuffle\("随机播放"\)', _fn367, re.M):
         _c367.append("FnIcon 缺 Shuffle 枚举")

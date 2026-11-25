@@ -169,7 +169,6 @@ private fun FeatureCard(
     title: String,
     subtitle: String,
     background: androidx.compose.ui.graphics.Brush,
-    icon: FnIcon,
     art: (@Composable androidx.compose.foundation.layout.BoxScope.() -> Unit)? = null,
     onClick: () -> Unit,
 ) {
@@ -181,21 +180,19 @@ private fun FeatureCard(
             .clickable { onClick() },
     ) {
         art?.invoke(this)
-        Row(
+        // §61.368（A 案）：左下角的标签图标**整块删掉**。三张卡原本都是「中央艺术图 +
+        // 左下同形小图标」—— 收藏是两个心、最近是两个时钟，读作重复渲染。删小图标后
+        // Row 只剩一列文字，一并收成 Column；漫游卡的「随机播放」语义并入艺术图（见 RoamCard）。
+        Column(
             Modifier
                 .align(Alignment.BottomStart)
                 .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
         ) {
-            FnLineIcon(icon, Color.White)
-            Spacer(Modifier.width(8.dp))
-            Column {
-                Text(title, color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                Text(
-                    subtitle, color = Color.White.copy(alpha = 0.8f), fontSize = 11.sp,
-                    maxLines = 1, overflow = TextOverflow.Ellipsis,
-                )
-            }
+            Text(title, color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            Text(
+                subtitle, color = Color.White.copy(alpha = 0.8f), fontSize = 11.sp,
+                maxLines = 1, overflow = TextOverflow.Ellipsis,
+            )
         }
     }
 }
@@ -211,7 +208,6 @@ private fun RoamCard(count: Int, onClick: () -> Unit) {
         ),
         // §61.367：漫游是**随机播放**，此前借 Broadcast（投屏：中点 + 双弧）——
         // 卡片写的「随机播放 · N 首」与图标语义直接矛盾。
-        icon = FnIcon.Shuffle,
         onClick = onClick,
         art = {
             Box(
@@ -219,7 +215,9 @@ private fun RoamCard(count: Int, onClick: () -> Unit) {
                     .align(Alignment.TopEnd)
                     .size(120.dp, 110.dp),
             ) {
-                // 红橙 blob（两圆叠置的柔和艺术块）
+                // 红橙 blob（两圆叠置的柔和艺术块）+ 压在块上的深色随机播放符号。
+                // §61.368（A 案）：左下小图标删掉后，「随机播放」的语义由这里承担——
+                // 深棕压在红橙上（对比度足够但不抢眼），30dp 比原来的 24dp 行内槽位更醒目。
                 Box(
                     Modifier
                         .align(Alignment.TopStart)
@@ -230,7 +228,14 @@ private fun RoamCard(count: Int, onClick: () -> Unit) {
                                 listOf(Color(0xFFF4522B), Color(0xFFE23E6E)),
                             ),
                         ),
-                )
+                    contentAlignment = Alignment.Center,
+                ) {
+                    FnLineIcon(
+                        FnIcon.Shuffle,
+                        Color(0xFF3F1109).copy(alpha = 0.82f),
+                        size = 30.dp,
+                    )
+                }
                 // 黑胶盘角（右下露边）
                 Box(
                     Modifier
@@ -261,7 +266,6 @@ private fun CollectCard(count: Int, onClick: () -> Unit) {
         background = androidx.compose.ui.graphics.Brush.verticalGradient(
             listOf(Color(0xFFF7A73B), Color(0xFFFD7423)),
         ),
-        icon = FnIcon.Favorite,
         onClick = onClick,
         art = {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -280,7 +284,6 @@ private fun RecentCard(count: Int, onClick: () -> Unit) {
         background = androidx.compose.ui.graphics.Brush.verticalGradient(
             listOf(Color(0xFF245B49), Color(0xFF1B4034)),
         ),
-        icon = FnIcon.Recent,
         onClick = onClick,
         art = {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

@@ -90,7 +90,7 @@ if caught:
 # ── 2. 七条 A/B：每条改坏一处，必须被拦 ──────────────────────────────────
 CASES = [
     (HOME, '"快捷入口"', '"快捷入口X"', '首页分组标题'),
-    (HOME, 'icon = FnIcon.Shuffle,', 'icon = FnIcon.Broadcast,', '漫游卡 shuffle'),
+    (HOME, 'FnIcon.Shuffle,', 'FnIcon.Broadcast,', '漫游卡 shuffle'),
     (ICONS, 'Shuffle("随机播放"),', 'ShuffleX("随机播放"),', 'Shuffle 枚举'),
     (ICONS, 'FnIcon.Shuffle to R.drawable.ic_fn_shuffle,',
             'FnIcon.ShuffleX to R.drawable.ic_fn_shuffle,', 'Shuffle 映射'),
@@ -119,6 +119,17 @@ try:
 finally:
     os.rename(RES + '.bak', RES)
 print('%s %-14s %s' % ('OK  ' if caught else 'MISS', 'Shuffle 资源', detail))
+if not caught:
+    bad += 1
+
+# 左下标签图标回潮：A 案的核心是「三卡不再各画两个同形图标」，判据钉的是那句调用不得出现
+src = read(HOME)
+_anchor = '            Text(title, color = Color.White'
+assert src.count(_anchor) == 1
+write(HOME, src.replace(_anchor, '            FnLineIcon(icon, Color.White)' + chr(10) + _anchor))
+caught, detail = run_guard()
+write(HOME, src)
+print('%s %-14s %s' % ('OK  ' if caught else 'MISS', '图标回潮', detail))
 if not caught:
     bad += 1
 
