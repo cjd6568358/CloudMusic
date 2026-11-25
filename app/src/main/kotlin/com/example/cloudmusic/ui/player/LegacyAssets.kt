@@ -35,11 +35,17 @@ object LegacyPalette {
     /** `layout/legacy_c5y.xml` / `legacy_gc.xml`：`android:background="#ff262626"`。 */
     val PageBackground = 0xFF262626.toInt()
 
-    /** 真机启动屏 1440x3200 六点采样，2026-11-09，值一致（渐变顶）。 */
-    val BrandRed = 0xFFA22016.toInt()
+    /**
+     * 启动屏红（渐变顶）。
+     *
+     * §61.359（2026-11-25 用户拍板「统一」）：原值 `#A22016` 是 2026-11-09 对竞品启动屏的
+     * 六点采样（照搬基准）；但自家图标底色是品牌红 `#E54545`，两个红并排看像两个应用。
+     * 现统一到 [com.example.cloudmusic.ui.FnComp.IconRed] 同值 `#E54545`。
+     */
+    val BrandRed = 0xFFE54545.toInt()
 
-    /** 真机启动屏渐变底（docs/01 §0 严格像素级，2026-11-16 PIL 采样 #AE2318）。 */
-    val SplashRedBottom = 0xFFAE2318.toInt()
+    /** 启动屏红（渐变底）。§61.359：与渐变顶同值 = 视觉纯色，不再有深红压底。 */
+    val SplashRedBottom = 0xFFE54545.toInt()
 
     /** `legacy_ew` / `drawable/legacy_bn5.xml` 的 progress 实心色：`#ffff3a3a`。 */
     val PrimaryRed = 0xFFFF3A3A.toInt()

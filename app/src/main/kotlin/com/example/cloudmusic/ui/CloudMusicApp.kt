@@ -20,11 +20,10 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.displayCutoutPadding
-import androidx.compose.foundation.layout.exclude
-import androidx.compose.foundation.layout.ime
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Slider
@@ -120,6 +119,7 @@ fun CloudMusicApp(actions: UiActions) {
     CloudMusicAppContent(actions)
 }
 
+@OptIn(ExperimentalLayoutApi::class) // §61.357：WindowInsets.isImeVisible（底栏按键盘可见性让位）
 @Composable
 private fun CloudMusicAppContent(actions: UiActions) = with(actions) {
     var tab by rememberSaveable { mutableIntStateOf(0) }
@@ -304,68 +304,62 @@ private fun CloudMusicAppContent(actions: UiActions) = with(actions) {
         // （播放页覆盖层自带 LegacyPalette 背景，不受本行影响）。
         containerColor = FnComp.PageBg,
         bottomBar = {
-            Column(
-                // §61.325（A-1）：键盘弹起时**整条底栏上移到键盘上沿**。
-                // 病根：Scaffold 的 bottomBar 贴着窗口底边排版，而 IME 在本工程的窗口模式下
-                // 只以 inset 下发、窗口高度不变（SearchScreen 的 imePadding 能生效即证据）——
-                // 于是「内容被抬到键盘上方、底栏却原地不动被整块盖住」，迷你条与胶囊栏
-                // 只剩半截甚至全无，用户看到的是「输入时导航消失」。
-                // 修法：把 IME 让位从各页面收口到底栏一处 —— 底栏抬多少，Scaffold 就按
-                // 实际高度喂给内容 padding，两者永远同步，不会出现「内容抬了、栏没抬」。
-                // 减掉 navigationBars 是因为 FnCapsuleBar 自己带 navigationBarsPadding()：
-                // ime inset 已含导航栏高度，不减会多留一条导航栏高的空档；键盘弹起时
-                // 三键导航若被 IME 顶掉，navigationBars 归零，排除项自然失效（自适应）。
-                // 键盘收起时 ime=0 ⇒ 本行零高度，正常态像素分毫不动。
-                Modifier.windowInsetsPadding(
-                    WindowInsets.ime.exclude(WindowInsets.navigationBars),
-                ),
-            ) {
-                // §61.196（W13）：设置页不显示播放条（基准 161550 无播放条，仅底部胶囊）。
-                // §61.279（V0.4-06）：**无当前曲目时不显示空条**——冷启动只有一条
-                // 「未在播放」+ 一个按了没反应的播放键，是死控件；对应 03-10 §9 B03。
-                if (tab != 6 && player.currentTrackId != null) {
-                    MiniPlayer(
-                        player = player,
-                        onPlay = onPlay,
-                        onPause = onPause,
-                        coverRef = miniCoverRef,
-                        title = miniTitle,
-                        subtitle = miniSubtitle,
-                        onOpen = { showPlayer = true },
-                        onOpenQueue = { showMore = false; tab = 4 },
+            // §61.357（G-6 二次修正，2026-11-25 用户一手）：键盘弹起时**整条底栏不参与排版**。
+            // §61.356 让底栏跟着 IME 上移到键盘上沿——真机观感是「tab 和播放条被键盘推高、
+            // 浮在半空」，用户当场质疑，该方案作废。改回主流口径（网易云/QQ音乐同款）：
+            // 输入时键盘贴底、底栏让位消失；内容区自己吃 ime inset 滚到键盘上沿。
+            // 此时 bottomBar 高度为 0，Scaffold 不再为底栏留白，键盘上方也就不会出现
+            // 「底栏高度那么厚」的黑带——那正是用户最初反馈的「键盘上方黑色遮罩」
+            // （§61.325 把让位收口到底栏时，误判成「输入时导航消失」）。
+            if (!WindowInsets.isImeVisible) {
+                Column {
+                    // §61.196（W13）：设置页不显示播放条（基准 161550 无播放条，仅底部胶囊）。
+                    // §61.279（V0.4-06）：**无当前曲目时不显示空条**——冷启动只有一条
+                    // 「未在播放」+ 一个按了没反应的播放键，是死控件；对应 03-10 §9 B03。
+                    if (tab != 6 && player.currentTrackId != null) {
+                        MiniPlayer(
+                            player = player,
+                            onPlay = onPlay,
+                            onPause = onPause,
+                            coverRef = miniCoverRef,
+                            title = miniTitle,
+                            subtitle = miniSubtitle,
+                            onOpen = { showPlayer = true },
+                            onOpenQueue = { showMore = false; tab = 4 },
+                        )
+                    }
+                    // §61.222（用户指示）：底栏加搜索 tab——四胶囊（首页/音乐库/搜索/更多）。
+                    // §61.187/§61.195 的「搜索页隐藏胶囊栏」口径随本次调整作废：搜索成为
+                    // 一等 tab 后保持底栏可见（选中态可见性优先）。
+                    // §61.168 内部 tab 索引 0~7 保持不变；「更多」面板承载歌单/队列/我的/设置，
+                    // 功能不丢。无返回箭头/无账号入口（辨别铁律）。
+                    // §61.191（W4）：仅图标化——白色图标 + 选中红圆底白图标，去文字标签。
+                    // §61.330（A-4）：图标集合与画法都收口了——`CapsuleTabs` 是唯一列表，
+                    // 四枚字形全部来自 `FnIcon`（线性、同视框、同笔画），此处不再自绘。
+                    FnCapsuleBar(
+                        icons = CapsuleTabs,
+                        selected = when {
+                            showSources -> -1
+                            showMore -> 3
+                            tab == 0 -> 0
+                            tab == 1 -> 1
+                            tab == 3 -> 2
+                            else -> 3
+                        },
+                        onSelect = { i ->
+                            showSources = false
+                            showMore = false
+                            when (i) {
+                                0, 1 -> tab = i
+                                2 -> {
+                                    if (tab != 3) searchReturnTo = tab
+                                    tab = 3
+                                }
+                                3 -> showMore = true
+                            }
+                        },
                     )
                 }
-                // §61.222（用户指示）：底栏加搜索 tab——四胶囊（首页/音乐库/搜索/更多）。
-                // §61.187/§61.195 的「搜索页隐藏胶囊栏」口径随本次调整作废：搜索成为
-                // 一等 tab 后保持底栏可见（选中态可见性优先）。
-                // §61.168 内部 tab 索引 0~7 保持不变；「更多」面板承载歌单/队列/我的/设置，
-                // 功能不丢。无返回箭头/无账号入口（辨别铁律）。
-                // §61.191（W4）：仅图标化——白色图标 + 选中红圆底白图标，去文字标签。
-                // §61.330（A-4）：图标集合与画法都收口了——`CapsuleTabs` 是唯一列表，
-                // 四枚字形全部来自 `FnIcon`（线性、同视框、同笔画），此处不再自绘。
-                FnCapsuleBar(
-                    icons = CapsuleTabs,
-                    selected = when {
-                        showSources -> -1
-                        showMore -> 3
-                        tab == 0 -> 0
-                        tab == 1 -> 1
-                        tab == 3 -> 2
-                        else -> 3
-                    },
-                    onSelect = { i ->
-                        showSources = false
-                        showMore = false
-                        when (i) {
-                            0, 1 -> tab = i
-                            2 -> {
-                                if (tab != 3) searchReturnTo = tab
-                                tab = 3
-                            }
-                            3 -> showMore = true
-                        }
-                    },
-                )
             }
         },
     ) { padding ->
@@ -373,10 +367,15 @@ private fun CloudMusicAppContent(actions: UiActions) = with(actions) {
             Modifier
                 .fillMaxSize()
                 .padding(padding)
-                // §61.352（G-5）：Scaffold 的 padding 已含 statusBars（系统窗口内边距），
-                // 原先此处再叠一层 statusBarsPadding 修饰符 = 状态栏高度加两次 ⇒ 顶部多出一整条。
-                // 只保留 displayCutoutPadding（竖屏挖孔只补左右安全区，不补顶部）。
-                .displayCutoutPadding(),
+                // §61.357（G-6 二次修正）：Scaffold 的 padding 是普通 padding、不消费 window
+                // insets；先把它登记为「已消费」，imePadding 才不会把里面的 navigationBars
+                // 再补一遍（真机 MIUI 三键导航 165px，不 consume 会多空一条导航栏的黑带）。
+                // §61.352（G-5）：此处不再叠 statusBarsPadding——Scaffold padding 已含
+                // statusBars，加两次会顶部多出一整条；只保留 displayCutoutPadding（竖屏
+                // 挖孔只补左右安全区，不补顶部）。
+                .consumeWindowInsets(padding)
+                .displayCutoutPadding()
+                .imePadding(),
         ) {
             // §61.188：移除自造的「曲库就绪/扫描中」横幅——飞牛基准首页无此物；
             // 扫描失败可见性已由数据源错误态承载（§61.184 setError 接线）。

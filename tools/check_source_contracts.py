@@ -6790,6 +6790,9 @@ def main() -> int:
     _fei_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
                            / "cloudmusic" / "ui" / "FeiniuUi.kt")
                           .read_text(encoding="utf-8", errors="replace"))
+    _search_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                              / "cloudmusic" / "ui" / "SearchScreen.kt")
+                             .read_text(encoding="utf-8", errors="replace"))
     _nav_bad = []
     # §61.290 后枚举项带播报名，判据改为「按名字顺序取」而非整行字面量；§61.330 把
     # 底栏并进 FnIcon（`CapsuleTabs`）后，判据**强度不变**地跟到新真相源：
@@ -7544,13 +7547,21 @@ def main() -> int:
         _c262_bad.append("Android 15 opt-out 缺失")
     if ".displayCutoutPadding()" not in _app_src:
         _c262_bad.append("普通页挖孔安全区缺失")
-    # §61.325（A-1）判据升级（强度不变）：IME 避让的**实现点**从「搜索页自己 imePadding」
-    # 改为「Scaffold 底栏整体让位」。前者只抬内容、底栏照样被键盘盖住（真机 01:43 截图），
-    # 所以这里钉新锚点；页面内再出现 imePadding 才是回归（双倍留白）。
-    if "WindowInsets.ime.exclude(WindowInsets.navigationBars)" not in _app_src:
-        _c262_bad.append("IME 避让缺失（底栏未按键盘让位）")
-    elif "imePadding" in _app_src:
-        _c262_bad.append("页面内与底栏重复让位（会叠出一个键盘高的空白）")
+    # §61.357（G-6 二次修正，强度不降）：让位实现点定为「键盘弹起时底栏让位消失 +
+    # 内容区自己吃 ime inset」。§61.325 的「底栏跟着 IME 推高」与 §61.356 的「全量 ime
+    # 推高」都被真机否定——用户一手反馈「tab 和播放条跟着键盘推高」。
+    # 正向两条：isImeVisible 让位、内容区 imePadding；反向三条：exclude 回潮、
+    # 底栏推高回潮、页面内重复让位。
+    if "WindowInsets.isImeVisible" not in _app_src:
+        _c262_bad.append("键盘可见性未接入（底栏不会让位）")
+    if ".imePadding()" not in _app_src:
+        _c262_bad.append("内容区未按 IME 让位（结果列表会被键盘盖住）")
+    if "WindowInsets.ime.exclude(" in _app_src:
+        _c262_bad.append("回潮 exclude(navigationBars)（G-6：底栏被切 60%）")
+    if "windowInsetsPadding(WindowInsets.ime" in _app_src:
+        _c262_bad.append("回潮底栏 IME 推高（G-6 二次：tab/播放条浮在键盘上）")
+    if _search_src and "imePadding" in _search_src:
+        _c262_bad.append("搜索页内再吃 ime（与内容区让位叠加 = 一个键盘高的空白）")
     if ".displayCutoutPadding()" not in _player_src:
         _c262_bad.append("播放页挖孔安全区缺失")
     if "fun List<Track>.recentlyAdded(" not in _track_src or "tracks.recentlyAdded()" not in _home_src:
@@ -10004,23 +10015,127 @@ def main() -> int:
         print("[PASS] §61.324 B-4 拆域：组合根 + 三域（图书馆/投屏/扫描），"
               "含「实现回填」与「域越界」反向判据")
 
-    # ---- §61.325（A-1 键盘遮挡：IME 让位收口到 Scaffold 底栏）----
-    # 病根是「内容抬了、底栏没抬」：页面各自 imePadding 会把内容顶到键盘上方，
-    # 而 Scaffold 的 bottomBar 仍贴窗口底边 ⇒ 迷你条 + 胶囊栏被整块盖住。
-    # 判据只钉两件事：让位必须发生在底栏（正），页面不得再自己吃（反，防双倍留白）。
+    # ---- §61.325（A-1 键盘遮挡：让位点收口到 Scaffold，页面零 imePadding）----
+    # §61.357 起实现点为「底栏按 isImeVisible 让位 + 内容区 imePadding」，不再把底栏
+    # 跟着键盘推高（真机用户一手否定）。判据强度不降：两条正向 + 三条反向。
     _c325 = []
     _app325 = _code_only(read_cloud_app())
-    if "WindowInsets.ime.exclude(WindowInsets.navigationBars)" not in _app325:
-        _c325.append("底栏未按 IME 让位（键盘弹起会盖住迷你条与胶囊栏）")
-    if "imePadding" in _app325:
-        _c325.append("页面内又出现 imePadding（与底栏让位叠加 = 一个键盘高的空白）")
+    if "WindowInsets.isImeVisible" not in _app325:
+        _c325.append("底栏未按键盘可见性让位（弹键盘会推高或被切）")
+    if ".imePadding()" not in _app325:
+        _c325.append("内容区未按 IME 让位（键盘会盖住结果列表）")
+    if "WindowInsets.ime.exclude(" in _app325:
+        _c325.append("回潮 exclude(navigationBars)（G-6：底栏被键盘切 60%）")
+    if "windowInsetsPadding(WindowInsets.ime" in _app325:
+        _c325.append("回潮底栏 IME 推高（G-6 二次：tab/播放条浮在键盘上）")
+    if _search_src and "imePadding" in _search_src:
+        _c325.append("搜索页内又出现 imePadding（与内容区让位叠加 = 一个键盘高的空白）")
     if "bottomBar = {" not in _app325:
         _c325.append("Scaffold 底栏缺失（让位点无处可挂）")
     if _c325:
         failures.append("§61.325 A-1 键盘遮挡：%s" % "；".join(_c325))
     else:
-        print("[PASS] §61.325 A-1 键盘遮挡：IME 让位收口到 Scaffold 底栏"
-              "（页面零 imePadding，防双倍留白）")
+        print("[PASS] §61.325 A-1 键盘遮挡：键盘弹起时底栏让位、内容区自吃 ime（页面零重复让位）")
+
+    # ---- §61.356（G-6 真机证据链：键盘黑遮罩 = 底栏被切 60%）----
+    # 真机 Redmi K60（MIUI 三键导航 bottom=165px）实测：exclude(navigationBars) 让底栏
+    # 只上移 855px、红圆被键盘切 109px（60%）。§61.357 起实现点改为「底栏让位」，
+    # 本条退化为历史证据 + 反向判据（exclude 永不回潮），报告锚点仍必须可复现。
+    _c356 = []
+    _rep356 = ROOT / "analysis" / "e2e-2026-11-25-report.md"
+    if not _rep356.is_file():
+        _c356.append("缺 G-6 真机判读报告（A/B 证据链断）")
+    else:
+        _r356 = _rep356.read_text(encoding="utf-8", errors="replace")
+        for _tok in ("G-6 键盘黑遮罩", "FAIL（复现）", "y=2015", "1942–2124"):
+            if _tok not in _r356:
+                _c356.append("真机报告缺锚点：%s" % _tok)
+    if "WindowInsets.ime.exclude(" in _app325:
+        _c356.append("底栏 IME 让位回潮 exclude（G-6 黑遮罩复发）")
+    if _c356:
+        failures.append("§61.356 G-6 真机证据链：%s" % "；".join(_c356))
+    else:
+        print("[PASS] §61.356 G-6 真机证据链：报告锚点在位 + exclude 未回潮")
+
+    # ---- §61.357（2026-11-25 G-6 二次修正：底栏不跟着键盘推高）----
+    # 用户一手：「搜索页为什么 tab 和播放条跟着键盘推高？」⇒ §61.356 的「底栏整体上移到
+    # 键盘上沿」方案作废。正解是键盘弹起时底栏让位消失（bottomBar 高度 0）、内容区自己
+    # 吃 ime inset；Scaffold 不再为底栏留白，键盘上方不会出现「底栏那么厚的黑带」。
+    # 判据：源码口径 + 真机几何 + 报告锚点；反向禁推高回潮。
+    _c357 = []
+    _app357 = _code_only(read_cloud_app())
+    if "if (!WindowInsets.isImeVisible)" not in _app357:
+        _c357.append("底栏未按 isImeVisible 让位（会再出现推高/被切）")
+    if "consumeWindowInsets(padding)" not in _app357:
+        _c357.append("内容区未登记已消费 insets（imePadding 会把导航栏再补一遍 = 黑带）")
+    if "windowInsetsPadding(WindowInsets.ime" in _app357:
+        _c357.append("底栏 IME 推高回潮（tab/播放条会浮在键盘上）")
+    if _search_src and "imePadding" in _search_src:
+        _c357.append("搜索页内重复让位（叠出一个键盘高的空白）")
+    if _c357:
+        failures.append("§61.357 G-6 二次修正：%s" % "；".join(_c357))
+    else:
+        print("[PASS] §61.357 G-6 二次修正：键盘弹起时底栏让位、内容区自吃 ime、导航栏不双计")
+
+    # ---- §61.358（2026-11-25 用户一手：tab 条「白色透明线」= 胶囊内层 shadow）----
+    # 用户截图（1440x3200）逐像素：胶囊顶边 (43,43,45) 单调衰减到中部 (33,33,36)，而 4 个
+    # 52dp tab 内容区保持 (42) ⇒ 中心高度浮出一条 +8 的亮带 = 用户说的「白色透明线」。
+    # 根因是 `clip → background → shadow` 的修饰符顺序：shadow 在 background 之后（内层），
+    # Compose 为内容建 layer 并把 elevation 阴影画进胶囊内部。深色底上 8dp 黑影本就不可见，
+    # 删掉零视觉损失。判据：FnCapsuleBar 体内不得出现 .shadow(（反向）+ 盒模型四件套在位（正向）。
+    _c358 = []
+    _fei358 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+                          / "cloudmusic" / "ui" / "FeiniuUi.kt")
+                         .read_text(encoding="utf-8", errors="replace"))
+    _i358 = _fei358.find("fun FnCapsuleBar(")
+    if _i358 == -1:
+        _c358.append("FnCapsuleBar 缺失")
+    else:
+        _j358 = _fei358.find("\nfun ", _i358 + 10)
+        _body358 = _fei358[_i358:_j358 if _j358 != -1 else len(_fei358)]
+        if ".shadow(" in _body358:
+            _c358.append("胶囊栏内层 shadow 回潮（内部会再浮出 +8 亮带 = 白色透明线）")
+        if ".background(FnComp.CapsuleBg)" not in _body358:
+            _c358.append("胶囊底色缺失（底栏会变透明）")
+        if ".clip(RoundedCornerShape(28.dp))" not in _body358:
+            _c358.append("胶囊圆角裁剪缺失")
+        if ".padding(vertical = 6.dp, horizontal = 10.dp)" not in _body358:
+            _c358.append("胶囊内边距被改（触控盒模型会变）")
+    if _c358:
+        failures.append("§61.358 胶囊白色透明线：%s" % "；".join(_c358))
+    else:
+        print("[PASS] §61.358 胶囊白色透明线：无内层 shadow（盒模型四件套在位）")
+
+    # ---- §61.359（2026-11-25 G-1 重设计：图标 / app 名 / 启动页红统一）----
+    # 用户一手：「图标重新设计一下，丑死了」+ 拍板 app 名「云音乐」+ 启动页红「统一」。
+    # 旧图标（§61.351）黑盘+红标签+红底：红标签与红底同色，远看是一个红洞，没有唱片感。
+    # 新版改为米白纸质标签 #F3EEE4 + 标签印刷红环 #E54545 + 沟槽/高光，红仍在但克制。
+    # 判据四项：图标三层色在位 / app 名非包名 / Manifest 挂 label / 启动页红=品牌红。
+    _c359 = []
+    _ico359 = (ROOT / "app" / "src" / "main" / "res" / "drawable"
+               / "ic_launcher_foreground.xml").read_text(encoding="utf-8", errors="replace")
+    if "#F3EEE4" not in _ico359:
+        _c359.append("图标缺米白标签层（会退回「红洞」观感）")
+    if "#E54545" not in _ico359:
+        _c359.append("图标缺品牌红印刷环")
+    if "#1AFFFFFF" not in _ico359:
+        _c359.append("图标缺沟槽高光（盘面会一片死黑）")
+    _man359 = (ROOT / "app" / "src" / "main" / "AndroidManifest.xml").read_text(encoding="utf-8", errors="replace")
+    if 'android:label="@string/app_name"' not in _man359:
+        _c359.append("Manifest 未挂 android:label（桌面显示包名）")
+    _str359 = (ROOT / "app" / "src" / "main" / "res" / "values" / "strings.xml").read_text(encoding="utf-8", errors="replace")
+    if ">云音乐<" not in _str359:
+        _c359.append("app_name 不是「云音乐」")
+    _pal359 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+               / "ui" / "player" / "LegacyAssets.kt").read_text(encoding="utf-8", errors="replace")
+    if "val BrandRed = 0xFFE54545.toInt()" not in _pal359:
+        _c359.append("启动页红未统一到 #E54545")
+    if "val SplashRedBottom = 0xFFE54545.toInt()" not in _pal359:
+        _c359.append("启动页渐变底未统一到 #E54545")
+    if _c359:
+        failures.append("§61.359 图标/命名/启动页红：%s" % "；".join(_c359))
+    else:
+        print("[PASS] §61.359 图标重设计（米白标签+红环+沟槽高光）+ 云音乐 + 启动页红统一")
 
     # ---- §61.326（A-3 搜索热词去重键）----
     _c326 = []
@@ -11016,8 +11131,10 @@ def main() -> int:
         _c351.append("自适应图标未接背景/前景")
     if '<color name="ic_launcher_background">#E54545</color>' not in _bg_351:
         _c351.append("图标背景非强调色 #E54545")
-    if 'android:fillColor="#121212"' not in _fg_351 or 'android:fillColor="#E54545"' not in _fg_351:
-        _c351.append("唱片前景缺黑胶/红标")
+        # §61.359 重设计：品牌红在标签印刷环上是 **stroke**，不再是中心 fill。判据强度不变
+    # （黑盘 fill + 品牌红出现，两者缺一即红），只放开红的表现形态。
+    if 'android:fillColor="#121212"' not in _fg_351 or "#E54545" not in _fg_351:
+        _c351.append("唱片前景缺黑胶盘身/品牌红")
     if _c351:
         failures.append("§61.351 G-1 图标：%s" % "；".join(_c351))
     else:

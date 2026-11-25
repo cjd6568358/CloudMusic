@@ -52,8 +52,9 @@ fun SplashScreen(onFinish: () -> Unit) {
             .background(
                 Brush.verticalGradient(
                     listOf(
-                        Color(LegacyPalette.BrandRed),          // #A22016 顶
-                        Color(LegacyPalette.SplashRedBottom),   // #AE2318 底
+                        // §61.359：统一到品牌红 #E54545（原 #A22016/#AE2318 是竞品采样值）。
+                        Color(LegacyPalette.BrandRed),
+                        Color(LegacyPalette.SplashRedBottom),
                     ),
                 ),
             )

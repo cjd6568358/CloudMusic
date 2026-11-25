@@ -238,8 +238,9 @@ def main() -> int:
         color_mismatches.append(f"PageBackground 与 legacy_c5y.xml 不符：{page_bg.group(1)}")
     if mini_bg and "0x" + mini_bg.group(1)[1:].upper() != palette.get("MiniPageBackground"):
         color_mismatches.append(f"MiniPageBackground 与 legacy_are.xml 不符：{mini_bg.group(1)}")
-    if palette.get("BrandRed") != "0xFFA22016":
-        color_mismatches.append("BrandRed 与真机启动屏六点采样 #A22016 不符")
+    # §61.359（2026-11-25 用户拍板）：启动屏红不再沿用竞品采样 #A22016，统一到品牌红 #E54545。
+    if palette.get("BrandRed") != "0xFFE54545":
+        color_mismatches.append("BrandRed 未统一到品牌红 #E54545（§61.359）")
 
     # ── 2. 尺寸常量逐项 ───────────────────────────────────────────────────
     metric_mismatches = [

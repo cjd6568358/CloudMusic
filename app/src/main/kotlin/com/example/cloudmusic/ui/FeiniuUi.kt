@@ -48,7 +48,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
@@ -1116,10 +1115,15 @@ fun FnCapsuleBar(
         contentAlignment = Alignment.Center,
     ) {
         Row(
+            // §61.358（2026-11-25 用户一手：tab 条上那条「白色透明线」）：删除 shadow。
+            // 原写法是 clip → background → shadow —— shadow 在 background **之后**（内层），
+            // Compose 会为后续内容建 graphics layer 并把 elevation 阴影画在胶囊**内部**：
+            // 真机实测胶囊顶边 #2B2B2E(43) 一路衰减到中部 (33)，而 4 个 52dp 的 tab 内容区
+            // 保持 (42) ⇒ 中心高度浮出一条 +8 的亮带，就是用户看到的「白色透明线」。
+            // 深色底上 8dp 黑影本就不可见（黑影叠 #1E1E21），删掉零视觉损失、banding 归零。
             Modifier
                 .clip(RoundedCornerShape(28.dp))
                 .background(FnComp.CapsuleBg)
-                .shadow(8.dp, RoundedCornerShape(28.dp))
                 .padding(vertical = 6.dp, horizontal = 10.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
