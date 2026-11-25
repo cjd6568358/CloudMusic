@@ -263,6 +263,11 @@ private fun CloudMusicAppContent(actions: UiActions) = with(actions) {
     // §61.321（R3）：曲库索引一次成型。此前迷你条三行各自 `firstOrNull { ... }`
     // 全表扫一遍（N 首 × 3 次 / 每次根重组），队列页 titles 也是每次重组重建
     // 一个 O(N) 的 Map —— 都随重组次数放大成 GC 压力。
+    // §61.373：来源页每行显示「已入库 N 首」——按 sourceRef.storageId 聚合一次，
+    // 只在曲库变化时重算（不能每次重组都 groupBy 7.5k）。
+    val trackCountByStorage = remember(trackList) {
+        trackList.groupingBy { it.sourceRef.storageId }.eachCount()
+    }
     val tracksById = remember(trackList) { trackList.associateBy { it.id } }
     // 队列页 `QueueScreen` 的既有契约是 `Map<String, Track>`（键 = trackId.value）。
     val queueTitles = remember(trackList) { trackList.associate { it.id.value to it } }
@@ -384,7 +389,7 @@ private fun CloudMusicAppContent(actions: UiActions) = with(actions) {
             pageStateHolder.SaveableStateProvider(pageStateKey(showSources, showMore, tab)) {
             when {
                 showSources -> SourcesScreen(
-                    storageList, onRescanAll, onRetryUnavailable, onRefreshStorage,
+                    storageList, trackCountByStorage, onRescanAll, onRetryUnavailable, onRefreshStorage,
                     mergeDuplicates, onMergeDuplicatesChanged,
                     onAddSaf, onAddMediaStore,
                     onAddWebDav,

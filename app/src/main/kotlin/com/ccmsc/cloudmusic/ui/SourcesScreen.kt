@@ -103,6 +103,14 @@ import kotlinx.coroutines.flow.map
 @Composable
 internal fun SourcesScreen(
     storages: List<Storage>,
+    /**
+     * §61.373：每个来源当前**入库曲目数**（`sourceRef.storageId` → count）。
+     *
+     * 此前来源行只写「driverType · 正常/不可用」——添加完一个源，用户没有任何途径
+     * 知道它到底扫到几首：扫到 0 首时既可能是空目录、也可能是地址/凭据填错，
+     * 而行内「正常」还会让人以为配置成功。曲目数直接给出答案。
+     */
+    trackCountByStorage: Map<String, Int> = emptyMap(),
     onRescan: () -> Unit,
     onRetry: () -> Unit,
     onRefreshStorage: (String) -> Unit,
@@ -176,13 +184,16 @@ internal fun SourcesScreen(
                     } else {
                         "不可用 · " + ErrorText.human(storage.errorMsg)
                     }
+                    // §61.373：曲目数紧跟状态——「正常 · 0 首」一眼就是可疑配置。
+                    val hits = trackCountByStorage[storage.id] ?: 0
                     FnGroupCard(Modifier.padding(bottom = 10.dp)) {
                         FnRow(
-                            FnIcon.Sources,
+                            // §61.373：行图标按来源类型分（与六个添加入口同一套语形）。
+                            sourceIcon(storage.driverType),
                             storage.remark.ifBlank { storage.mountPath },
                             // §61.207：点行 → 源操作面板（刷新此源 / 移除）。
                             { actionTarget = storage },
-                            value = "${storage.driverType} · $status",
+                            value = "$hits 首 · $status",
                             // §61.275（B06）：失败源在列表里也必须一眼可辨（灰显 + 角标）
                             trailing = if (storage.isWork) null else {
                                 { FnUnavailableBadge("不可用") }
@@ -500,5 +511,20 @@ internal fun StrmDialog(
             if (canAdd) onAdd(delegateId, paths.trim())
         }),
     )
+}
+
+
+/**
+ * §61.373：来源类型 → 图标。与来源页六个添加入口同一套语形，
+ * 让「列表里这行是什么源」和「我要添加什么源」对得上。未知类型回退 Sources。
+ */
+private fun sourceIcon(driverType: String): FnIcon = when (driverType.lowercase()) {
+    "local", "saf" -> FnIcon.Folder
+    "mediastore", "media_store" -> FnIcon.Image
+    "webdav" -> FnIcon.Cloud
+    "strm" -> FnIcon.Link
+    "sftp" -> FnIcon.Terminal
+    "ftp" -> FnIcon.Lan
+    else -> FnIcon.Sources
 }
 

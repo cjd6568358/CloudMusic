@@ -10359,6 +10359,32 @@ def main() -> int:
     else:
         print("[PASS] §61.372 唱片缺封面占位：红盘八分音符（0.44r / Path 符尾）")
 
+    # ---- §61.373（2026-11-26 凌晨）来源页：行内曲目数 + 类型图标 ----
+    # 添加完一个源，用户原先没有任何途径知道它扫到几首：「正常」这两个字在空目录 /
+    # 凭据填错两种情况下都会显示，等于「配置成功」的假信号。
+    _src373 = (_ui365 / "SourcesScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _app373 = (_ui365 / "CloudMusicApp.kt").read_text(encoding="utf-8", errors="replace")
+    _c373 = []
+    if "trackCountByStorage: Map<String, Int>" not in _src373:
+        _c373.append("来源页缺曲目数入参")
+    if '"$hits 首 · $status"' not in _src373:
+        _c373.append("来源行未显示曲目数（「正常」在空目录下也是正常）")
+    if "private fun sourceIcon(" not in _src373:
+        _c373.append("来源行缺类型图标映射（又回退统一机架）")
+    for _t in ('"local", "saf" -> FnIcon.Folder', '"webdav" -> FnIcon.Cloud',
+               '"strm" -> FnIcon.Link', '"sftp" -> FnIcon.Terminal', '"ftp" -> FnIcon.Lan'):
+        if _t not in _src373:
+            _c373.append("sourceIcon 缺分支 %s" % _t)
+    if "groupingBy { it.sourceRef.storageId }.eachCount()" not in _app373:
+        _c373.append("组合根未按 storageId 聚合（来源页会全显 0 首）")
+    if "val trackCountByStorage = remember(trackList) {" not in _app373:
+        _c373.append("聚合未 remember（每次重组都 groupBy 全库）")
+    if _c373:
+        failures.append("§61.373 来源页曲目数与类型图标：%s" % "；".join(_c373))
+    else:
+        print("[PASS] §61.373 来源页行内曲目数（remember 聚合）+ 六类图标映射")
+
+
 
 
 
