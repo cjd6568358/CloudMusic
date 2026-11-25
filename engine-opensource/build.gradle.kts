@@ -20,7 +20,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.cloudmusic.engineopensource"
+    namespace = "com.ccmsc.cloudmusic.engineopensource"
 
     // 本机实装 NDK（gradle/libs.versions.toml ndk 目录项同源）；M2 交叉编译依赖。
     ndkVersion = "27.1.12297006"

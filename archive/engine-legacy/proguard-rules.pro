@@ -64,8 +64,8 @@
 # 5. 门面实现 / 枚举名 / 日志中不得落凭据
 #    Room / DataStore 的枚举按字符串名存取（03-05 §10 / §14 #7），不能混淆枚举成员名。
 # ---------------------------------------------------------------------------
--keep class * implements com.example.cloudmusic.engine.api.IMusicEngine { *; }
--keep class * implements com.example.cloudmusic.media.IMediaControl { *; }
+-keep class * implements com.ccmsc.cloudmusic.engine.api.IMusicEngine { *; }
+-keep class * implements com.ccmsc.cloudmusic.media.IMediaControl { *; }
 -keepclassmembers enum * { *; }
 -assumenosideeffects class android.util.Log {
     public static int v(...);

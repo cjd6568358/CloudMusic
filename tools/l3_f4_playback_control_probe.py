@@ -38,9 +38,9 @@ LOG_DIR = A / "l3-f4-logs"
 OUT = A / "l3-f4-playback-control.json"
 REPORT = A / "l3-f4-playback-control-report.md"
 
-PKG = "com.example.cloudmusic"
-ACTION_PLAY = "com.example.cloudmusic.action.PLAY"
-EXTRA_URL = "com.example.cloudmusic.extra.SOURCE_URL"
+PKG = "com.ccmsc.cloudmusic"
+ACTION_PLAY = "com.ccmsc.cloudmusic.action.PLAY"
+EXTRA_URL = "com.ccmsc.cloudmusic.extra.SOURCE_URL"
 PORT = 8765
 SETTINGS_FILE = "files/datastore/cloudmusic_settings.pb"
 SAMPLE = "f3_m4a_complete.m4a"

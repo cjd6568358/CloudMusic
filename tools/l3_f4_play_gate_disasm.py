@@ -234,7 +234,7 @@ def main() -> int:
         "rounds": rounds,
         "media_session_paused": "state=PlaybackState {state=2" in pb,
         "metadata_null": "metadata: null" in pb,
-        "no_app_audio_track": "com.example.cloudmusic" not in pb.split(
+        "no_app_audio_track": "com.ccmsc.cloudmusic" not in pb.split(
             "--- dumpsys audio")[1] if "--- dumpsys audio" in pb else False,
     }
 

@@ -7,7 +7,7 @@ FILES = {
     'manifest': 'app/src/main/AndroidManifest.xml',
     'strings': 'app/src/main/res/values/strings.xml',
     'icon': 'app/src/main/res/drawable/ic_launcher_foreground.xml',
-    'assets': 'app/src/main/kotlin/com/example/cloudmusic/ui/player/LegacyAssets.kt',
+    'assets': 'app/src/main/kotlin/com/ccmsc/cloudmusic/ui/player/LegacyAssets.kt',
 }
 BAK = 'analysis/e2e-2026-11-25/ab/'
 

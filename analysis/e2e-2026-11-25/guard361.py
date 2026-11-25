@@ -6,7 +6,7 @@ import shutil
 import sys
 
 GUARD = 'tools/check_source_contracts.py'
-ICONS = 'app/src/main/kotlin/com/example/cloudmusic/ui/FnIcons.kt'
+ICONS = 'app/src/main/kotlin/com/ccmsc/cloudmusic/ui/FnIcons.kt'
 LAUNCH = 'app/src/main/res/drawable/ic_launcher_foreground.xml'
 BAK = 'analysis/e2e-2026-11-25/ab/'
 

@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.cloudmusic.di"
+    namespace = "com.ccmsc.cloudmusic.di"
 }
 
 // 03-05 §10：导出 schema 供后续 MigrationTestHelper（T13 / T-V）使用；

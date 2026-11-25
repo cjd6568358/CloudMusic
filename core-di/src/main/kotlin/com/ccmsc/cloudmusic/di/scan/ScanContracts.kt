@@ -1,0 +1,264 @@
+package com.ccmsc.cloudmusic.di.scan
+
+import com.ccmsc.cloudmusic.model.LegacyTextRepair
+import com.ccmsc.cloudmusic.model.Storage
+import com.ccmsc.cloudmusic.scanner.Candidate
+import com.ccmsc.cloudmusic.scanner.RawTags
+import java.io.File
+import java.util.concurrent.ConcurrentHashMap
+import kotlin.math.roundToInt
+
+/**
+ * docs/03-04 §6 / §7 的**纯 JVM 策略与端口**（第二十批 / T-A4）。
+ *
+ * `MediaMetadataRetriever` / `Bitmap` / JAudioTagger 都隔离在端口后面：
+ * 合并规则、封面参数、Driver 重建决策可在本模块的 JVM 单测里完整断言，
+ * 与第十九批 `LocalDriver` 的端口隔离同型。
+ */
+
+/** 单个解析通道的产出；多个通道按 [TagMerger] 逐字段取第一个非空值。 */
+data class MediaTags(
+    val title: String? = null,
+    val artist: String? = null,
+    val album: String? = null,
+    val trackNo: Int? = null,
+    val year: Int? = null,
+    val genre: String? = null,
+    val durationMs: Long? = null,
+    val sampleRate: Int? = null,
+    val bitDepth: Int? = null,
+    val embeddedCover: ByteArray? = null,
+    /** docs/01 §0（2026-11-16 拍板）：内嵌歌词（USLT / LYRICS 帧）。 */
+    val lyrics: String? = null,
+) {
+    companion object {
+        val EMPTY = MediaTags()
+    }
+}
+
+fun interface MediaMetadataPort {
+    /** `ref` 为 content:// URI 或绝对文件路径；失败返回 [MediaTags.EMPTY]。 */
+    fun read(ref: String): MediaTags
+}
+
+fun interface JAudioTaggerPort {
+    /** 只接受真实文件路径（JAudioTagger 的 `AudioFileIO.read(File)` 不支持 content://）。 */
+    fun read(filePath: String): MediaTags
+}
+
+interface CoverWriterPort {
+    fun write(trackId: String, bytes: ByteArray): String?
+    fun writeFromRef(trackId: String, ref: String): String?
+}
+
+/** 把 `Candidate` 解析成可读取的 ref；生产实现经 `DriverRegistry` 的 `link()`。 */
+interface LinkLocator {
+    suspend fun locate(candidate: Candidate): String?
+}
+
+/**
+ * §61.248（V0.3 M5 / A1 Tier1）：曲目内容哈希端口——确认趟（对 Tier2 疑似组候选文件
+ * 全读 SHA-256）。null = 不可读（驱动缺失/读取失败），会话计 skipped 不伪造指纹。
+ * 生产实现 [DriverContentHasher] 经 `DriverRegistry` 分块读（流式 digest 防整文件驻留内存）。
+ */
+/**
+ * §61.256（V0.3 M5 / A1 Tier3）：PCM 解码端口——声纹确认趟的音频解码（单声道 float + 采样率）。
+ * [maxSeconds] 限秒（指纹只需代表性片段，防整曲驻留内存）。null = 不可解码（远端取流失败 /
+ * 编解码器不支持），会话如实跳过。生产实现 [MediaPcmDecoder]（MediaExtractor + MediaCodec）。
+ */
+fun interface PcmDecoder {
+    suspend fun decodeMono(track: com.ccmsc.cloudmusic.model.Track, maxSeconds: Int): PcmData?
+}
+
+/** §61.256：解码产物（单声道 PCM + 采样率）。 */
+data class PcmData(val pcm: FloatArray, val sampleRate: Int)
+
+fun interface TrackContentHasher {
+    suspend fun hash(track: com.ccmsc.cloudmusic.model.Track): String?
+}
+
+/** 03-04 §6.1 / §6.5：多通道标签合并 + `tagCompleteness` 计算（纯函数）。 */
+object TagMerger {
+    fun merge(vararg sources: MediaTags): RawTags {
+        fun <T : Any> pick(selector: (MediaTags) -> T?): T? =
+            sources.firstNotNullOfOrNull(selector)
+
+        // §61.170（2026-11-16 真机首页一手）：旧打标工具把 GBK 字节标成 ID3v2 enc=0x00 /
+        // ID3v1 单字节字段，检索器与 JAudioTagger 都按规范解 ISO-8859-1 ⇒ 中文标题整列花。
+        // 统一在此唯一合并口做一次「只在疑似乱码时生效」的修复，两个端口都覆盖。
+        fun text(selector: (MediaTags) -> String?): String? =
+            LegacyTextRepair.fix(pick(selector)?.takeIf(String::isNotBlank))
+
+        val raw = RawTags(
+            title = text { it.title },
+            artist = text { it.artist },
+            album = text { it.album },
+            trackNo = pick { it.trackNo },
+            year = pick { it.year },
+            genre = text { it.genre },
+            durationMs = pick { it.durationMs },
+            sampleRate = pick { it.sampleRate },
+            bitDepth = pick { it.bitDepth },
+            embeddedCover = pick { it.embeddedCover?.takeIf(ByteArray::isNotEmpty) },
+            lyrics = text { it.lyrics },
+        )
+        return raw.copy(completeness = completeness(raw))
+    }
+
+    fun fromRaw(raw: RawTags): MediaTags = MediaTags(
+        title = raw.title, artist = raw.artist, album = raw.album,
+        trackNo = raw.trackNo, year = raw.year, genre = raw.genre,
+        durationMs = raw.durationMs, sampleRate = raw.sampleRate, bitDepth = raw.bitDepth,
+        embeddedCover = raw.embeddedCover,
+    )
+
+    /** 03-04 §6.5：标签齐全 1.0 / 部分 0.5 / 无标签 0（文件名兜底由 NameParser 给 0.2）。 */
+    fun completeness(raw: RawTags): Float {
+        val filled = listOf(raw.title, raw.artist, raw.album).count { !it.isNullOrBlank() }
+        return when {
+            filled == 3 -> 1.0f
+            filled > 0 -> 0.5f
+            else -> 0f
+        }
+    }
+}
+
+/** 03-04 §6.4 封面落盘参数；全部为纯函数，供 JVM 单测与 Android 实现共用。 */
+object CoverPolicy {
+    const val TARGET_SIZE = 512
+    const val QUALITY = 80
+    const val MAX_EMBEDDED = 5 * 1024 * 1024
+
+    val COVER_NAMES = listOf("cover.jpg", "cover.png", "folder.jpg", "front.jpg")
+
+    fun accepts(bytes: ByteArray?): Boolean =
+        bytes != null && bytes.isNotEmpty() && bytes.size <= MAX_EMBEDDED
+
+    /** 2 的幂采样率，避免把 4000×3000 整图解码进内存。 */
+    fun sampleSize(width: Int, height: Int): Int {
+        if (width <= 0 || height <= 0) return 1
+        var size = 1
+        while (maxOf(width, height) / (size * 2) >= TARGET_SIZE && size < 16) size *= 2
+        return size
+    }
+
+    /** 最长边 ≤ 512、不放大、保持比例。 */
+    fun scaledSize(width: Int, height: Int): Pair<Int, Int> {
+        if (width <= 0 || height <= 0) return TARGET_SIZE to TARGET_SIZE
+        val scale = minOf(
+            TARGET_SIZE.toFloat() / width,
+            TARGET_SIZE.toFloat() / height,
+            1f,
+        )
+        return maxOf(1, (width * scale).roundToInt()) to maxOf(1, (height * scale).roundToInt())
+    }
+
+    fun fileName(trackId: String): String =
+        trackId.filter { it.isLetterOrDigit() || it == '-' || it == '_' } + ".webp"
+
+    fun coverDir(cachePath: String): String = cachePath.trimEnd('/') + "/covers"
+
+    fun pickDirectoryCover(names: Collection<String>): String? {
+        val lowered = names.map { it.lowercase() }
+        return COVER_NAMES.firstOrNull { it in lowered }
+            ?.let { wanted -> names.firstOrNull { it.lowercase() == wanted } }
+    }
+}
+
+/**
+ * `CoverResolver.resolve` 是**同步**方法，而同目录封面要 `driver.list()`（suspend）才能找到。
+ * 因此由 `AndroidTagReader.read`（阶段 B，suspend）顺带查同目录封面并写入本缓存，
+ * `CoverResolver` 只读缓存。网络音源（URL / PROXIED）的同目录封面需 ByteRange，属 T-A5（C-11）。
+ */
+class CoverLookupCache {
+    private val refs = ConcurrentHashMap<String, String>()
+
+    private fun key(storageId: String, path: String) = "$storageId|$path"
+
+    fun put(storageId: String, path: String, ref: String) {
+        refs[key(storageId, path)] = ref
+    }
+
+    fun get(storageId: String, path: String): String? = refs[key(storageId, path)]
+
+    fun clear(storageId: String? = null) {
+        if (storageId == null) refs.clear()
+        else refs.keys.removeIf { it.startsWith("$storageId|") }
+    }
+}
+
+/**
+ * §61.205（A1-④）：封面内容哈希 → 落盘 ref 的**跨扫描持久**去重索引（纯 JVM）。
+ *
+ * §61.145 的会话级去重（AndroidCoverWriter.written）在进程重启后失效——重启后的
+ * 首轮全量重扫仍会对同字节封面整批 decode/encode（7,514 夹具集 = 7,501 份同字节）。
+ * 索引文件与封面文件同住 `cacheDir/covers/`（缓存清理同生共死，无孤儿 ref），
+ * 一行一条 `hash ref`（MD5 32 位十六进制），损坏行跳过；写侧 append + synchronized。
+ */
+class CoverDedupIndex(private val file: File) {
+    private val entries = LinkedHashMap<String, String>()
+
+    @Volatile
+    private var loaded = false
+
+    fun get(hash: String): String? {
+        ensureLoaded()
+        synchronized(entries) { return entries[hash] }
+    }
+
+    /** 新条目才追加落盘；会话内重复 put 幂等（不重复写行）。 */
+    fun put(hash: String, ref: String) {
+        ensureLoaded()
+        val added = synchronized(entries) { entries.put(hash, ref) == null }
+        if (added) appendLine(hash, ref)
+    }
+
+    private fun ensureLoaded() {
+        if (loaded) return
+        synchronized(this) {
+            if (loaded) return
+            runCatching {
+                if (file.isFile) {
+                    file.readLines().forEach { line ->
+                        val parts = line.trim().split(' ', limit = 2)
+                        if (parts.size == 2 && parts[0].length == 32 && parts[1].isNotBlank()) {
+                            entries[parts[0]] = parts[1]
+                        }
+                    }
+                }
+            }
+            loaded = true
+        }
+    }
+
+    private fun appendLine(hash: String, ref: String) {
+        runCatching {
+            file.parentFile?.mkdirs()
+            file.appendText("$hash $ref\n")
+        }
+    }
+}
+
+/**
+ * `DriverRegistry.get(storageId)` 取的是**实例**，而 `DriverRegistrar` 只注册 factory。
+ * [StorageDriverBinder] 在扫描前按本计划把活跃 Storage 的 Driver 实例建好并放入注册表；
+ * `modified` 变化（03-11 §5 / 08 §7）时先 remove 再 create，触发全量重扫。
+ */
+data class DriverSyncPlan(
+    val toRemove: List<String>,
+    val toCreate: List<Storage>,
+    val unchanged: List<Storage>,
+)
+
+object DriverSyncPlanner {
+    fun plan(active: List<Storage>, known: Map<String, Long>): DriverSyncPlan {
+        val activeIds = active.mapTo(LinkedHashSet()) { it.id }
+        val changed = active.filter { known[it.id] != it.modified }
+        val changedIds = changed.mapTo(LinkedHashSet()) { it.id }
+        return DriverSyncPlan(
+            toRemove = known.keys.filter { it !in activeIds || it in changedIds },
+            toCreate = changed,
+            unchanged = active.filter { it.id in known && it.id !in changedIds },
+        )
+    }
+}

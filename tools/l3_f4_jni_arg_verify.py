@@ -32,7 +32,7 @@ JNI_END = "Java_com_netease_cloudmusic_sdk_NMCommonCache_SourceDataRequest_OnNat
 JNI_DATA = "Java_com_netease_cloudmusic_sdk_NMCommonCache_SourceDataRequest_OnNativeDataRequestData"
 SRC_JAVA = ROOT / ("engine-legacy/src/main/java/com/netease/cloudmusic/sdk/"
                    "NMCommonCache/SourceDataRequest.java")
-URL_REQ = ROOT / ("engine-legacy/src/main/java/com/example/cloudmusic/"
+URL_REQ = ROOT / ("engine-legacy/src/main/java/com/ccmsc/cloudmusic/"
                   "enginelegacy/UrlDataRequest.kt")
 DELIVERY12 = ROOT / "docs/12-编码阶段第一批交付.md"
 

@@ -22,9 +22,9 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-AUDIO_FORMATS = ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/AudioFormats.kt"
-AUDIO_FORMATS_TEST = ROOT / "core-model/src/test/kotlin/com/example/cloudmusic/model/AudioFormatsTest.kt"
-ENGINE_ADAPTER = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineAdapter.kt"
+AUDIO_FORMATS = ROOT / "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/AudioFormats.kt"
+AUDIO_FORMATS_TEST = ROOT / "core-model/src/test/kotlin/com/ccmsc/cloudmusic/model/AudioFormatsTest.kt"
+ENGINE_ADAPTER = ROOT / "engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/EngineAdapter.kt"
 ENGINE_GRADLE = ROOT / "engine-legacy/build.gradle.kts"
 SETTINGS = ROOT / "settings.gradle.kts"
 MANIFEST = ROOT / "app/src/main/AndroidManifest.xml"
@@ -55,7 +55,7 @@ FORMATS_ANCHORS = (
     'return ""',
 )
 ADAPTER_ANCHORS = (
-    "com.example.cloudmusic.model.AudioFormats.extOfSource(",
+    "com.ccmsc.cloudmusic.model.AudioFormats.extOfSource(",
     "source.url, source.localPath, source.mimeHint,",
     "resourceInfo extension=$extension fileSize=$length",
 )
@@ -73,7 +73,7 @@ F2C_REQUIRED = (
     "resourceInfo extension=mp3 fileSize=-1",
     "prepare trackId=",
     "remote=false url=null",
-    "getLocalPath path=/data/data/com.example.cloudmusic/files/music/fixture.mp3",
+    "getLocalPath path=/data/data/com.ccmsc.cloudmusic/files/music/fixture.mp3",
     "CreateLocalSource: route XorLocalSource",
     "XorLocalSource::Open success",
     "BufferSource open:",
@@ -87,7 +87,7 @@ F2C_FORBIDDEN = (
     "resourceInfo extension=audio/",
     "SourceCallback.onError code=",
     "FATAL EXCEPTION",
-    "ANR in com.example.cloudmusic",
+    "ANR in com.ccmsc.cloudmusic",
 )
 
 

@@ -18,7 +18,7 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  * 竞品 `nmcache/l.Start(JJJ)` 把 Start 的 j1（请求标识）原样带回三个回调首参 ——
  * 在 normal mode（`cache_local=true`）下被拒的只是内存快路径，数据经 OnWriteNetData
- * 落 vfile；Memory Mode 下没有该兜底，调用方（[com.example.cloudmusic.enginelegacy.UrlDataRequest]）
+ * 落 vfile；Memory Mode 下没有该兜底，调用方（[com.ccmsc.cloudmusic.enginelegacy.UrlDataRequest]）
  * 必须在数据包上传非 2 的 kind（实证取 1）。
  */
 public abstract class SourceDataRequest extends NMCacheBase {

@@ -30,7 +30,7 @@ REPORT = A / "l3-f4-vfile-commit-report.md"
 AUDIT = A / "l3-f4-vfile-commit-audit.json"
 DELIVERY12 = ROOT / "docs" / "12-编码阶段第一批交付.md"
 CONTRACTS = ROOT / "tools" / "check_source_contracts.py"
-P0 = ROOT / "engine-legacy" / "src" / "main" / "java" / "com" / "example" / \
+P0 = ROOT / "engine-legacy" / "src" / "main" / "java" / "com" / "ccmsc" / \
     "cloudmusic" / "enginelegacy" / "UrlDataRequest.kt"
 PROBE_TOOL = ROOT / "tools" / "l3_f4_vfile_commit_probe.py"
 

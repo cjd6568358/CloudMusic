@@ -32,7 +32,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 ADB = ROOT / "tools" / "bin" / "adb.exe"
 A = ROOT / "analysis"
-PKG = "com.example.cloudmusic"
+PKG = "com.ccmsc.cloudmusic"
 PROBE_TOOL = ROOT / "tools" / "l3_f4_vfile_commit_probe.py"
 OUT_INDEX_BEFORE = A / "l3-f4-vfile-index-before.json"
 OUT_INDEX_AFTER = A / "l3-f4-vfile-index-after.json"

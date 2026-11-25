@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """§61.362: tab 图标去毛刺——内部搭接线改连续 path / 平头（Butt）。"""
 
-p = 'app/src/main/kotlin/com/example/cloudmusic/ui/FnIcons.kt'
+p = 'app/src/main/kotlin/com/ccmsc/cloudmusic/ui/FnIcons.kt'
 s = open(p, encoding='utf-8').read()
 
 # 1) 工具函数：加 Butt 头版本的 line

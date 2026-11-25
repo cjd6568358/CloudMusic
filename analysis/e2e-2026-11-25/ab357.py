@@ -2,8 +2,8 @@
 """§61.357 A/B 反证：逐条变异 -> guard 必须 FAIL -> 逐字节恢复 -> PASS。"""
 import subprocess, shutil, sys
 
-APP = 'app/src/main/kotlin/com/example/cloudmusic/ui/CloudMusicApp.kt'
-SEARCH = 'app/src/main/kotlin/com/example/cloudmusic/ui/SearchScreen.kt'
+APP = 'app/src/main/kotlin/com/ccmsc/cloudmusic/ui/CloudMusicApp.kt'
+SEARCH = 'app/src/main/kotlin/com/ccmsc/cloudmusic/ui/SearchScreen.kt'
 BAK = 'analysis/e2e-2026-11-25/ab/'
 shutil.copy(APP, BAK + 'CloudMusicApp.kt.ab357')
 shutil.copy(SEARCH, BAK + 'SearchScreen.kt.ab357')

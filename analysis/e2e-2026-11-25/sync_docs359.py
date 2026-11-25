@@ -28,7 +28,7 @@ rw('docs/12-编码阶段第一批交付.md', lambda s: s + '''
 
 **app 名**：`strings.xml` 的 `app_name` 由 `CloudMusic` 改为 **云音乐**，并在
 `<application>` 挂 `android:label="@string/app_name"` —— 此前根本没有 label，
-真机桌面显示的是包名 `com.example.cloudmusic`（截图 43-real-icon2.png 实证）。
+真机桌面显示的是包名 `com.ccmsc.cloudmusic`（截图 43-real-icon2.png 实证）。
 aapt2 复核：`application: label='云音乐'`。
 
 **启动页红统一**：`LegacyPalette.BrandRed` / `SplashRedBottom` 由竞品采样值
@@ -69,7 +69,7 @@ def ledger(s):
     old = '| ~~G-1~~ | ✅ | **已完成（§61.351）**：用户拍板黑胶唱片 + 强调色 `#E54545`。自适应图标三件套（前景绳槽+红标 / 背景强调色 / anydpi-v26 接前后景）+ Manifest 挂 icon/roundIcon；minSdk 26 无 PNG 兜底 | 一手：Manifest 原无 icon | 已验收：guard §61.351 + A/B（篡改 `<color>` 完整形态 → FAIL）；**桌面外观真机未验**，挂 E 组 |'
     new = ('| ~~G-1~~ | ✅ | **已完成（§61.351 → §61.359 重设计）**：用户「丑死了」二次拍板 ⇒ 旧版「红标签+红底=红洞」改为'
            '黑盘 + 米白 `#F3EEE4` 标签 + 品牌红整圈细环 + 三圈沟槽 + 弱高光；app 名「云音乐」并在 Manifest 挂 `android:label`'
-           '（此前桌面显示包名 `com.example.cloudmusic`）；启动页红由竞品采样 `#A22016`/`#AE2318` 统一到 `#E54545` '
+           '（此前桌面显示包名 `com.ccmsc.cloudmusic`）；启动页红由竞品采样 `#A22016`/`#AE2318` 统一到 `#E54545` '
            '| 真机 10.0.0.5:42963 桌面截图 + aapt2 `label=\'云音乐\'` | 已验收：guard §61.359 新增 + §61.351 形态放开（强度不变），'
            '307 PASS；A/B 3 条（标签回红 / 去 label / 红回旧值）全 FAIL 后恢复；**新图标桌面观感与启动页红待解锁后补验** |')
     assert s.count(old) == 1, ('g1 anchor', s.count(old))
@@ -117,7 +117,7 @@ m += '''
   **教训**：① 红标签放红底上必须有第三色隔开；② 高光 15%/1.4 在缩略图里是「白月牙」，
   收到 10%/1.0 才像反光；③ 标签红「上半弧」在 48dp 读成眉毛，整圈细环更耐缩小。
 - app 名：strings app_name 云音乐 + Manifest 加 android:label（此前**根本没有 label**，
-  桌面显示包名 com.example.cloudmusic —— 真机截图才发现，aapt2 badging 也显示 label=''）。
+  桌面显示包名 com.ccmsc.cloudmusic —— 真机截图才发现，aapt2 badging 也显示 label=''）。
 - 启动页红：LegacyAssets BrandRed/SplashRedBottom 由竞品采样 #A22016/#AE2318 → #E54545，
   同步 tools/l3_visual_replica_spec.py 期望值（14 项色值对照仍全对）。
 - guard 306→307（§61.359 新增；§61.351 的「红标」判据从 fillColor 放开到「品牌红出现」，

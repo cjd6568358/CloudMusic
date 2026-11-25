@@ -176,7 +176,7 @@ ROOT = Path(__file__).resolve().parent.parent
 # （接线必须存在），只是不再把实现位置钉死在单个文件上——那本身就是一条
 # 隐性技术债（搬一次实现就要改一批判据）。
 _PLAYBACK_PKG = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                 / "example" / "cloudmusic" / "di" / "playback")
+                 / "ccmsc" / "cloudmusic" / "di" / "playback")
 
 _ORIG_READ_TEXT = Path.read_text
 
@@ -232,199 +232,199 @@ GRADLE_FILES = (
 # docs/03-01 §2 包结构 + 03-02 / 03-03 驱动 + 03-04 扫描器 + 03-05 曲库 + 03-06 门面
 # + 03-07 媒体会话 + 03-08 本地流代理 + 03-09 输出路由
 CONTRACT_FILES = (
-    "core-common/src/main/kotlin/com/example/cloudmusic/common/CloudMusicError.kt",
-    "core-common/src/main/kotlin/com/example/cloudmusic/common/ErrorCatalog.kt",
-    "core-common/src/main/kotlin/com/example/cloudmusic/common/HashUtil.kt",
-    "core-common/src/main/kotlin/com/example/cloudmusic/common/PathNormalizer.kt",
+    "core-common/src/main/kotlin/com/ccmsc/cloudmusic/common/CloudMusicError.kt",
+    "core-common/src/main/kotlin/com/ccmsc/cloudmusic/common/ErrorCatalog.kt",
+    "core-common/src/main/kotlin/com/ccmsc/cloudmusic/common/HashUtil.kt",
+    "core-common/src/main/kotlin/com/ccmsc/cloudmusic/common/PathNormalizer.kt",
     # 03-11 §1 / §2 / §3：权限清单、按动作申请闸门、拒绝降级矩阵
-    "core-common/src/main/kotlin/com/example/cloudmusic/common/PermissionCatalog.kt",
-    "core-common/src/main/kotlin/com/example/cloudmusic/common/PermissionGate.kt",
-    "core-model/src/main/kotlin/com/example/cloudmusic/model/ObjectType.kt",
-    "core-model/src/main/kotlin/com/example/cloudmusic/model/Obj.kt",
-    "core-model/src/main/kotlin/com/example/cloudmusic/model/Link.kt",
-    "core-model/src/main/kotlin/com/example/cloudmusic/model/Storage.kt",
-    "core-model/src/main/kotlin/com/example/cloudmusic/model/Track.kt",
-    "core-model/src/main/kotlin/com/example/cloudmusic/model/IDataSource.kt",
+    "core-common/src/main/kotlin/com/ccmsc/cloudmusic/common/PermissionCatalog.kt",
+    "core-common/src/main/kotlin/com/ccmsc/cloudmusic/common/PermissionGate.kt",
+    "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/ObjectType.kt",
+    "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/Obj.kt",
+    "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/Link.kt",
+    "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/Storage.kt",
+    "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/Track.kt",
+    "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/IDataSource.kt",
     # 12 §61.218：歌曲信息展示口径
-    "core-model/src/main/kotlin/com/example/cloudmusic/model/TrackInfo.kt",
-    "core-model/src/test/kotlin/com/example/cloudmusic/model/TrackInfoTest.kt",
+    "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/TrackInfo.kt",
+    "core-model/src/test/kotlin/com/ccmsc/cloudmusic/model/TrackInfoTest.kt",
     # 12 §61.220：智能歌单纯 JVM 规则引擎
-    "core-model/src/main/kotlin/com/example/cloudmusic/model/SmartPlaylist.kt",
-    "core-model/src/test/kotlin/com/example/cloudmusic/model/SmartPlaylistTest.kt",
-    "datasource-api/src/main/kotlin/com/example/cloudmusic/datasource/Driver.kt",
-    "datasource-api/src/main/kotlin/com/example/cloudmusic/datasource/DriverRegistry.kt",
-    "datasource-api/src/main/kotlin/com/example/cloudmusic/datasource/PathRule.kt",
-    "datasource-api/src/main/kotlin/com/example/cloudmusic/datasource/LinkRule.kt",
-    "datasource-api/src/main/kotlin/com/example/cloudmusic/datasource/DriverLifecycle.kt",
-    "datasource-api/src/main/kotlin/com/example/cloudmusic/datasource/DirectLinkCapability.kt",
-    "datasource-api/src/main/kotlin/com/example/cloudmusic/datasource/ByteRangeCapability.kt",
-    "datasource-api/src/main/kotlin/com/example/cloudmusic/datasource/AbstractDriver.kt",
-    "datasource-api/src/main/kotlin/com/example/cloudmusic/datasource/TextReadCapability.kt",
-    "datasource-strm/src/main/kotlin/com/example/cloudmusic/strm/StrmParser.kt",
-    "datasource-strm/src/main/kotlin/com/example/cloudmusic/strm/StrmPaths.kt",
-    "datasource-strm/src/main/kotlin/com/example/cloudmusic/strm/StrmDriver.kt",
-    "datasource-playlist/src/main/kotlin/com/example/cloudmusic/playlist/PlaylistParser.kt",
-    "datasource-playlist/src/main/kotlin/com/example/cloudmusic/playlist/PlaylistResolver.kt",
-    "datasource-playlist/src/main/kotlin/com/example/cloudmusic/playlist/PlaylistDriver.kt",
-    "datasource-webdav/src/main/kotlin/com/example/cloudmusic/webdav/DigestAuth.kt",
-    "datasource-webdav/src/main/kotlin/com/example/cloudmusic/webdav/PropfindParser.kt",
-    "datasource-webdav/src/main/kotlin/com/example/cloudmusic/webdav/WebDavHttp.kt",
-    "datasource-webdav/src/main/kotlin/com/example/cloudmusic/webdav/WebDavDriver.kt",
-    "scanner/src/main/kotlin/com/example/cloudmusic/scanner/ScanModels.kt",
-    "scanner/src/main/kotlin/com/example/cloudmusic/scanner/ScanPorts.kt",
-    "scanner/src/main/kotlin/com/example/cloudmusic/scanner/NameParser.kt",
-    "scanner/src/main/kotlin/com/example/cloudmusic/scanner/AudioProbe.kt",
-    "scanner/src/main/kotlin/com/example/cloudmusic/scanner/ExcludeRule.kt",
-    "scanner/src/main/kotlin/com/example/cloudmusic/scanner/TagReader.kt",
-    "scanner/src/main/kotlin/com/example/cloudmusic/scanner/CoverResolver.kt",
-    "scanner/src/main/kotlin/com/example/cloudmusic/scanner/TrackFactory.kt",
-    "scanner/src/main/kotlin/com/example/cloudmusic/scanner/ScanCoordinator.kt",
-    "core-storage/src/main/kotlin/com/example/cloudmusic/storage/LibraryModels.kt",
-    "core-storage/src/main/kotlin/com/example/cloudmusic/storage/Repositories.kt",
-    "core-storage/src/main/kotlin/com/example/cloudmusic/storage/LibraryQuery.kt",
-    "core-storage/src/main/kotlin/com/example/cloudmusic/storage/InMemoryLibrary.kt",
+    "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/SmartPlaylist.kt",
+    "core-model/src/test/kotlin/com/ccmsc/cloudmusic/model/SmartPlaylistTest.kt",
+    "datasource-api/src/main/kotlin/com/ccmsc/cloudmusic/datasource/Driver.kt",
+    "datasource-api/src/main/kotlin/com/ccmsc/cloudmusic/datasource/DriverRegistry.kt",
+    "datasource-api/src/main/kotlin/com/ccmsc/cloudmusic/datasource/PathRule.kt",
+    "datasource-api/src/main/kotlin/com/ccmsc/cloudmusic/datasource/LinkRule.kt",
+    "datasource-api/src/main/kotlin/com/ccmsc/cloudmusic/datasource/DriverLifecycle.kt",
+    "datasource-api/src/main/kotlin/com/ccmsc/cloudmusic/datasource/DirectLinkCapability.kt",
+    "datasource-api/src/main/kotlin/com/ccmsc/cloudmusic/datasource/ByteRangeCapability.kt",
+    "datasource-api/src/main/kotlin/com/ccmsc/cloudmusic/datasource/AbstractDriver.kt",
+    "datasource-api/src/main/kotlin/com/ccmsc/cloudmusic/datasource/TextReadCapability.kt",
+    "datasource-strm/src/main/kotlin/com/ccmsc/cloudmusic/strm/StrmParser.kt",
+    "datasource-strm/src/main/kotlin/com/ccmsc/cloudmusic/strm/StrmPaths.kt",
+    "datasource-strm/src/main/kotlin/com/ccmsc/cloudmusic/strm/StrmDriver.kt",
+    "datasource-playlist/src/main/kotlin/com/ccmsc/cloudmusic/playlist/PlaylistParser.kt",
+    "datasource-playlist/src/main/kotlin/com/ccmsc/cloudmusic/playlist/PlaylistResolver.kt",
+    "datasource-playlist/src/main/kotlin/com/ccmsc/cloudmusic/playlist/PlaylistDriver.kt",
+    "datasource-webdav/src/main/kotlin/com/ccmsc/cloudmusic/webdav/DigestAuth.kt",
+    "datasource-webdav/src/main/kotlin/com/ccmsc/cloudmusic/webdav/PropfindParser.kt",
+    "datasource-webdav/src/main/kotlin/com/ccmsc/cloudmusic/webdav/WebDavHttp.kt",
+    "datasource-webdav/src/main/kotlin/com/ccmsc/cloudmusic/webdav/WebDavDriver.kt",
+    "scanner/src/main/kotlin/com/ccmsc/cloudmusic/scanner/ScanModels.kt",
+    "scanner/src/main/kotlin/com/ccmsc/cloudmusic/scanner/ScanPorts.kt",
+    "scanner/src/main/kotlin/com/ccmsc/cloudmusic/scanner/NameParser.kt",
+    "scanner/src/main/kotlin/com/ccmsc/cloudmusic/scanner/AudioProbe.kt",
+    "scanner/src/main/kotlin/com/ccmsc/cloudmusic/scanner/ExcludeRule.kt",
+    "scanner/src/main/kotlin/com/ccmsc/cloudmusic/scanner/TagReader.kt",
+    "scanner/src/main/kotlin/com/ccmsc/cloudmusic/scanner/CoverResolver.kt",
+    "scanner/src/main/kotlin/com/ccmsc/cloudmusic/scanner/TrackFactory.kt",
+    "scanner/src/main/kotlin/com/ccmsc/cloudmusic/scanner/ScanCoordinator.kt",
+    "core-storage/src/main/kotlin/com/ccmsc/cloudmusic/storage/LibraryModels.kt",
+    "core-storage/src/main/kotlin/com/ccmsc/cloudmusic/storage/Repositories.kt",
+    "core-storage/src/main/kotlin/com/ccmsc/cloudmusic/storage/LibraryQuery.kt",
+    "core-storage/src/main/kotlin/com/ccmsc/cloudmusic/storage/InMemoryLibrary.kt",
     # 08 §1~§8 / 03-05 §4 / 03-11 §4~§7：AppSettings 全量设置项与变更生效规则
-    "core-storage/src/main/kotlin/com/example/cloudmusic/storage/AppSettings.kt",
-    "core-storage/src/main/kotlin/com/example/cloudmusic/storage/SettingsChange.kt",
-    "core-model/src/test/kotlin/com/example/cloudmusic/model/ContractModelTest.kt",
-    "datasource-api/src/test/kotlin/com/example/cloudmusic/datasource/DriverContractTest.kt",
-    "datasource-strm/src/test/kotlin/com/example/cloudmusic/strm/StrmParserTest.kt",
-    "datasource-strm/src/test/kotlin/com/example/cloudmusic/strm/StrmPathsTest.kt",
-    "datasource-strm/src/test/kotlin/com/example/cloudmusic/strm/StrmDriverTest.kt",
-    "datasource-playlist/src/test/kotlin/com/example/cloudmusic/playlist/PlaylistParserTest.kt",
-    "datasource-playlist/src/test/kotlin/com/example/cloudmusic/playlist/PlaylistResolverTest.kt",
-    "datasource-webdav/src/test/kotlin/com/example/cloudmusic/webdav/DigestAuthTest.kt",
-    "datasource-webdav/src/test/kotlin/com/example/cloudmusic/webdav/PropfindParserTest.kt",
-    "datasource-webdav/src/test/kotlin/com/example/cloudmusic/webdav/WebDavDriverTest.kt",
-    "scanner/src/test/kotlin/com/example/cloudmusic/scanner/ScannerUnitTest.kt",
-    "scanner/src/test/kotlin/com/example/cloudmusic/scanner/ScanCoordinatorTest.kt",
-    "core-storage/src/test/kotlin/com/example/cloudmusic/storage/LibraryContractTest.kt",
-    "core-storage/src/test/kotlin/com/example/cloudmusic/storage/InMemoryRepositoryTest.kt",
-    "engine-api/src/main/kotlin/com/example/cloudmusic/engine/api/EngineApi.kt",
-    "engine-api/src/test/kotlin/com/example/cloudmusic/engine/api/EngineApiContractTest.kt",
-    "core-media/src/main/kotlin/com/example/cloudmusic/media/MediaControlApi.kt",
-    "core-media/src/main/kotlin/com/example/cloudmusic/media/FocusPolicy.kt",
-    "core-media/src/main/kotlin/com/example/cloudmusic/media/MediaKeyDispatcher.kt",
-    "core-media/src/main/kotlin/com/example/cloudmusic/media/InMemoryMediaControl.kt",
-    "core-media/src/test/kotlin/com/example/cloudmusic/media/MediaControlContractTest.kt",
-    "output-localproxy/src/main/kotlin/com/example/cloudmusic/output/localproxy/ProxyModels.kt",
-    "output-localproxy/src/main/kotlin/com/example/cloudmusic/output/localproxy/RangeResponder.kt",
-    "output-localproxy/src/main/kotlin/com/example/cloudmusic/output/localproxy/TokenRegistry.kt",
-    "output-localproxy/src/main/kotlin/com/example/cloudmusic/output/localproxy/LocalHttpStreamProxy.kt",
-    "output-localproxy/src/test/kotlin/com/example/cloudmusic/output/localproxy/LocalProxyContractTest.kt",
-    "output-router/src/main/kotlin/com/example/cloudmusic/output/router/OutputModels.kt",
-    "output-router/src/main/kotlin/com/example/cloudmusic/output/router/OutputRouter.kt",
-    "output-router/src/main/kotlin/com/example/cloudmusic/output/router/BluetoothOutputPolicy.kt",
-    "output-router/src/test/kotlin/com/example/cloudmusic/output/router/OutputRoutingContractTest.kt",
-    "core-common/src/test/kotlin/com/example/cloudmusic/common/PermissionGateTest.kt",
-    "core-storage/src/test/kotlin/com/example/cloudmusic/storage/AppSettingsTest.kt",
+    "core-storage/src/main/kotlin/com/ccmsc/cloudmusic/storage/AppSettings.kt",
+    "core-storage/src/main/kotlin/com/ccmsc/cloudmusic/storage/SettingsChange.kt",
+    "core-model/src/test/kotlin/com/ccmsc/cloudmusic/model/ContractModelTest.kt",
+    "datasource-api/src/test/kotlin/com/ccmsc/cloudmusic/datasource/DriverContractTest.kt",
+    "datasource-strm/src/test/kotlin/com/ccmsc/cloudmusic/strm/StrmParserTest.kt",
+    "datasource-strm/src/test/kotlin/com/ccmsc/cloudmusic/strm/StrmPathsTest.kt",
+    "datasource-strm/src/test/kotlin/com/ccmsc/cloudmusic/strm/StrmDriverTest.kt",
+    "datasource-playlist/src/test/kotlin/com/ccmsc/cloudmusic/playlist/PlaylistParserTest.kt",
+    "datasource-playlist/src/test/kotlin/com/ccmsc/cloudmusic/playlist/PlaylistResolverTest.kt",
+    "datasource-webdav/src/test/kotlin/com/ccmsc/cloudmusic/webdav/DigestAuthTest.kt",
+    "datasource-webdav/src/test/kotlin/com/ccmsc/cloudmusic/webdav/PropfindParserTest.kt",
+    "datasource-webdav/src/test/kotlin/com/ccmsc/cloudmusic/webdav/WebDavDriverTest.kt",
+    "scanner/src/test/kotlin/com/ccmsc/cloudmusic/scanner/ScannerUnitTest.kt",
+    "scanner/src/test/kotlin/com/ccmsc/cloudmusic/scanner/ScanCoordinatorTest.kt",
+    "core-storage/src/test/kotlin/com/ccmsc/cloudmusic/storage/LibraryContractTest.kt",
+    "core-storage/src/test/kotlin/com/ccmsc/cloudmusic/storage/InMemoryRepositoryTest.kt",
+    "engine-api/src/main/kotlin/com/ccmsc/cloudmusic/engine/api/EngineApi.kt",
+    "engine-api/src/test/kotlin/com/ccmsc/cloudmusic/engine/api/EngineApiContractTest.kt",
+    "core-media/src/main/kotlin/com/ccmsc/cloudmusic/media/MediaControlApi.kt",
+    "core-media/src/main/kotlin/com/ccmsc/cloudmusic/media/FocusPolicy.kt",
+    "core-media/src/main/kotlin/com/ccmsc/cloudmusic/media/MediaKeyDispatcher.kt",
+    "core-media/src/main/kotlin/com/ccmsc/cloudmusic/media/InMemoryMediaControl.kt",
+    "core-media/src/test/kotlin/com/ccmsc/cloudmusic/media/MediaControlContractTest.kt",
+    "output-localproxy/src/main/kotlin/com/ccmsc/cloudmusic/output/localproxy/ProxyModels.kt",
+    "output-localproxy/src/main/kotlin/com/ccmsc/cloudmusic/output/localproxy/RangeResponder.kt",
+    "output-localproxy/src/main/kotlin/com/ccmsc/cloudmusic/output/localproxy/TokenRegistry.kt",
+    "output-localproxy/src/main/kotlin/com/ccmsc/cloudmusic/output/localproxy/LocalHttpStreamProxy.kt",
+    "output-localproxy/src/test/kotlin/com/ccmsc/cloudmusic/output/localproxy/LocalProxyContractTest.kt",
+    "output-router/src/main/kotlin/com/ccmsc/cloudmusic/output/router/OutputModels.kt",
+    "output-router/src/main/kotlin/com/ccmsc/cloudmusic/output/router/OutputRouter.kt",
+    "output-router/src/main/kotlin/com/ccmsc/cloudmusic/output/router/BluetoothOutputPolicy.kt",
+    "output-router/src/test/kotlin/com/ccmsc/cloudmusic/output/router/OutputRoutingContractTest.kt",
+    "core-common/src/test/kotlin/com/ccmsc/cloudmusic/common/PermissionGateTest.kt",
+    "core-storage/src/test/kotlin/com/ccmsc/cloudmusic/storage/AppSettingsTest.kt",
     # 03-01 §4.1 / 15 §7.5 #4：Hilt 唯一注册点（第十一批）
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/DataSourceModule.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/AppBindings.kt",
-    "app/src/main/kotlin/com/example/cloudmusic/CloudMusicApplication.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/DataSourceModule.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/AppBindings.kt",
+    "app/src/main/kotlin/com/ccmsc/cloudmusic/CloudMusicApplication.kt",
     # 03-06 §7 / 16 §5.3 T-P2：IDataSource 四态实现（第十三批）
-    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/DataSourcePorts.kt",
-    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/BaseDataSource.kt",
-    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/MemoryDataSource.kt",
-    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/FileDataSource.kt",
-    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/HttpDataSource.kt",
-    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/DriverDataSource.kt",
-    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/DataSourceAdapter.kt",
-    "engine-bridge/src/test/kotlin/com/example/cloudmusic/bridge/DataSourceAdapterTest.kt",
+    "engine-bridge/src/main/kotlin/com/ccmsc/cloudmusic/bridge/DataSourcePorts.kt",
+    "engine-bridge/src/main/kotlin/com/ccmsc/cloudmusic/bridge/BaseDataSource.kt",
+    "engine-bridge/src/main/kotlin/com/ccmsc/cloudmusic/bridge/MemoryDataSource.kt",
+    "engine-bridge/src/main/kotlin/com/ccmsc/cloudmusic/bridge/FileDataSource.kt",
+    "engine-bridge/src/main/kotlin/com/ccmsc/cloudmusic/bridge/HttpDataSource.kt",
+    "engine-bridge/src/main/kotlin/com/ccmsc/cloudmusic/bridge/DriverDataSource.kt",
+    "engine-bridge/src/main/kotlin/com/ccmsc/cloudmusic/bridge/DataSourceAdapter.kt",
+    "engine-bridge/src/test/kotlin/com/ccmsc/cloudmusic/bridge/DataSourceAdapterTest.kt",
     # 03-06 §8 / §9 / 16 §5.3 T-P1：播放业务编排层（第十四批）
-    "feature-player/src/main/kotlin/com/example/cloudmusic/player/PlaybackModels.kt",
-    "feature-player/src/main/kotlin/com/example/cloudmusic/player/QueueRepository.kt",
-    "feature-player/src/main/kotlin/com/example/cloudmusic/player/PlayModeOrdering.kt",
-    "feature-player/src/main/kotlin/com/example/cloudmusic/player/QueueSync.kt",
-    "feature-player/src/main/kotlin/com/example/cloudmusic/player/TrackPorts.kt",
-    "feature-player/src/main/kotlin/com/example/cloudmusic/player/PlayerController.kt",
-    "feature-player/src/test/kotlin/com/example/cloudmusic/player/PlayerControllerTest.kt",
+    "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/PlaybackModels.kt",
+    "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/QueueRepository.kt",
+    "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/PlayModeOrdering.kt",
+    "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/QueueSync.kt",
+    "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/TrackPorts.kt",
+    "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/PlayerController.kt",
+    "feature-player/src/test/kotlin/com/ccmsc/cloudmusic/player/PlayerControllerTest.kt",
     # 03-08 §3~§6 / 16 §5.3 T-P3：DLNA 投屏协议与决策（第十五批）
-    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DlnaModels.kt",
-    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/CastUriResolver.kt",
-    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DescriptionParser.kt",
-    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DidlLiteBuilder.kt",
-    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/SoapController.kt",
-    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/SsdpDiscovery.kt",
-    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/ManualDmrProbe.kt",
-    "output-dlna/src/test/kotlin/com/example/cloudmusic/output/dlna/DlnaContractTest.kt",
+    "output-dlna/src/main/kotlin/com/ccmsc/cloudmusic/output/dlna/DlnaModels.kt",
+    "output-dlna/src/main/kotlin/com/ccmsc/cloudmusic/output/dlna/CastUriResolver.kt",
+    "output-dlna/src/main/kotlin/com/ccmsc/cloudmusic/output/dlna/DescriptionParser.kt",
+    "output-dlna/src/main/kotlin/com/ccmsc/cloudmusic/output/dlna/DidlLiteBuilder.kt",
+    "output-dlna/src/main/kotlin/com/ccmsc/cloudmusic/output/dlna/SoapController.kt",
+    "output-dlna/src/main/kotlin/com/ccmsc/cloudmusic/output/dlna/SsdpDiscovery.kt",
+    "output-dlna/src/main/kotlin/com/ccmsc/cloudmusic/output/dlna/ManualDmrProbe.kt",
+    "output-dlna/src/test/kotlin/com/ccmsc/cloudmusic/output/dlna/DlnaContractTest.kt",
     # 12 §25 第十六批：T-P2 / T-P3 端口的生产实现与 :core-di 唯一 Hilt 接线
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/OkHttpAdapters.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/AndroidSourceAdapters.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/DatagramAdapters.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/CastComposition.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/BridgeModule.kt",
-    "core-di/src/test/kotlin/com/example/cloudmusic/di/adapters/ProductionAdaptersTest.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/adapters/OkHttpAdapters.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/adapters/AndroidSourceAdapters.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/adapters/DatagramAdapters.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/adapters/CastComposition.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/BridgeModule.kt",
+    "core-di/src/test/kotlin/com/ccmsc/cloudmusic/di/adapters/ProductionAdaptersTest.kt",
     # 12 §26 第十七批：T-A1 Room（9 张物理表 + FTS4 + Migration + 生产 Repository）
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/LibrarySchema.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/RoomEntities.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/RoomDaos.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/RoomMigrations.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/LibraryDatabase.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/RoomRepositories.kt",
-    "core-di/src/test/kotlin/com/example/cloudmusic/di/db/LibraryRoomContractTest.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/db/LibrarySchema.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/db/RoomEntities.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/db/RoomDaos.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/db/RoomMigrations.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/db/LibraryDatabase.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/db/RoomRepositories.kt",
+    "core-di/src/test/kotlin/com/ccmsc/cloudmusic/di/db/LibraryRoomContractTest.kt",
     # 12 §27 第十八批：T-A2 DataStore 持久化与运行时投影
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/settings/AppSettingsCodec.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/settings/SettingsAccess.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/settings/SettingsDataStore.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/settings/DataStoreStorageRepository.kt",
-    "core-di/src/test/kotlin/com/example/cloudmusic/di/settings/SettingsContractTest.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/settings/AppSettingsCodec.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/settings/SettingsAccess.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/settings/SettingsDataStore.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/settings/DataStoreStorageRepository.kt",
+    "core-di/src/test/kotlin/com/ccmsc/cloudmusic/di/settings/SettingsContractTest.kt",
     # 12 §28 第十九批：T-A3 本地音源（纯 JVM 驱动 + Android 生产端口）
-    "datasource-local/src/main/kotlin/com/example/cloudmusic/local/LocalModels.kt",
-    "datasource-local/src/main/kotlin/com/example/cloudmusic/local/LocalDriver.kt",
-    "datasource-local/src/test/kotlin/com/example/cloudmusic/local/LocalDriverTest.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/local/AndroidLocalSources.kt",
+    "datasource-local/src/main/kotlin/com/ccmsc/cloudmusic/local/LocalModels.kt",
+    "datasource-local/src/main/kotlin/com/ccmsc/cloudmusic/local/LocalDriver.kt",
+    "datasource-local/src/test/kotlin/com/ccmsc/cloudmusic/local/LocalDriverTest.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/local/AndroidLocalSources.kt",
     # 12 §29 第二十批：T-A4 标签 / 封面 / 扫描器生产组合层
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/ScanContracts.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/ProductionTagAndCover.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/ScanComposition.kt",
-    "core-di/src/test/kotlin/com/example/cloudmusic/di/scan/ScanContractsTest.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/scan/ScanContracts.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/scan/ProductionTagAndCover.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/scan/ScanComposition.kt",
+    "core-di/src/test/kotlin/com/ccmsc/cloudmusic/di/scan/ScanContractsTest.kt",
     # 12 §31 第二十二批：T-A5（C-12 / C-13 / C-14 / C-08）的生产接线
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/NetworkByteRange.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/SettingsEffects.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/proxy/NanoHttpStreamProxy.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/proxy/AndroidLanAddress.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/playback/PlaybackComposition.kt",
-    "app/src/main/kotlin/com/example/cloudmusic/PlaybackService.kt",
-    "app/src/main/kotlin/com/example/cloudmusic/MediaButtonEventReceiver.kt",
-    "core-di/src/test/kotlin/com/example/cloudmusic/di/ta5/Ta5ContractsTest.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/scan/NetworkByteRange.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/scan/SettingsEffects.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/proxy/NanoHttpStreamProxy.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/proxy/AndroidLanAddress.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/playback/PlaybackComposition.kt",
+    "app/src/main/kotlin/com/ccmsc/cloudmusic/PlaybackService.kt",
+    "app/src/main/kotlin/com/ccmsc/cloudmusic/MediaButtonEventReceiver.kt",
+    "core-di/src/test/kotlin/com/ccmsc/cloudmusic/di/ta5/Ta5ContractsTest.kt",
     # 12 §33 第二十四批：T-A6 Compose UI 骨架（:app，无新建模块）
-    "app/src/main/kotlin/com/example/cloudmusic/MainActivity.kt",
-    "app/src/main/kotlin/com/example/cloudmusic/ui/CloudMusicTheme.kt",
-    "app/src/main/kotlin/com/example/cloudmusic/ui/CloudMusicApp.kt",
+    "app/src/main/kotlin/com/ccmsc/cloudmusic/MainActivity.kt",
+    "app/src/main/kotlin/com/ccmsc/cloudmusic/ui/CloudMusicTheme.kt",
+    "app/src/main/kotlin/com/ccmsc/cloudmusic/ui/CloudMusicApp.kt",
     # 12 §35 第二十六批：T-L L1 步骤 3（舱内真类编译 + 自研加载器）
-    "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineNativeLoader.kt",
+    "archive/engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/EngineNativeLoader.kt",
     # 12 §36 第二十七批：EngineAdapter 薄门面 + PlayerDataSource 数据链
-    "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineAdapter.kt",
+    "archive/engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/EngineAdapter.kt",
     # 12 §51 第四十二批：§50 平台层改动的纯判定抽离 + :app 首个 JVM 单测
-    "app/src/main/kotlin/com/example/cloudmusic/MediaKeyAction.kt",
-    "app/src/test/kotlin/com/example/cloudmusic/PlatformContractTest.kt",
+    "app/src/main/kotlin/com/ccmsc/cloudmusic/MediaKeyAction.kt",
+    "app/src/test/kotlin/com/ccmsc/cloudmusic/PlatformContractTest.kt",
     # 12 §52 第四十三批：按动作申请权限 + 本地数据源添加闭环
-    "app/src/main/kotlin/com/example/cloudmusic/AppActionContracts.kt",
-    "app/src/main/kotlin/com/example/cloudmusic/PermissionRequester.kt",
-    "app/src/main/kotlin/com/example/cloudmusic/LocalSourceAdder.kt",
-    "app/src/test/kotlin/com/example/cloudmusic/AppActionContractTest.kt",
+    "app/src/main/kotlin/com/ccmsc/cloudmusic/AppActionContracts.kt",
+    "app/src/main/kotlin/com/ccmsc/cloudmusic/PermissionRequester.kt",
+    "app/src/main/kotlin/com/ccmsc/cloudmusic/LocalSourceAdder.kt",
+    "app/src/test/kotlin/com/ccmsc/cloudmusic/AppActionContractTest.kt",
     # 12 §54 第四十五批：取流句柄阶段 A/B（SourceDataRequest 子类 + 纯 JVM RangeFetcher）
-    "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/RangeFetcher.kt",
-    "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt",
-    "archive/engine-legacy/src/test/kotlin/com/example/cloudmusic/enginelegacy/RangeFetcherTest.kt",
+    "archive/engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/RangeFetcher.kt",
+    "archive/engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/UrlDataRequest.kt",
+    "archive/engine-legacy/src/test/kotlin/com/ccmsc/cloudmusic/enginelegacy/RangeFetcherTest.kt",
     # 12 §61.198：在线歌词 provider（docs/01 §0 拍板，本地缺失才按需抓取）
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/lyrics/OnlineLyricsFetcher.kt",
-    "core-di/src/test/kotlin/com/example/cloudmusic/di/lyrics/OnlineLyricsFetcherTest.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/lyrics/OnlineLyricsFetcher.kt",
+    "core-di/src/test/kotlin/com/ccmsc/cloudmusic/di/lyrics/OnlineLyricsFetcherTest.kt",
     # 12 §61.217：外置 lrc 多候选路径
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/LyricsPathCandidates.kt",
-    "core-di/src/test/kotlin/com/example/cloudmusic/di/scan/LyricsPathCandidatesTest.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/scan/LyricsPathCandidates.kt",
+    "core-di/src/test/kotlin/com/ccmsc/cloudmusic/di/scan/LyricsPathCandidatesTest.kt",
     # 12 §61.199：DLNA 断连回落（会话健康判定 + 进度读取）
-    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DlnaSessionMonitor.kt",
-    "output-dlna/src/test/kotlin/com/example/cloudmusic/output/dlna/DlnaSessionMonitorTest.kt",
+    "output-dlna/src/main/kotlin/com/ccmsc/cloudmusic/output/dlna/DlnaSessionMonitor.kt",
+    "output-dlna/src/test/kotlin/com/ccmsc/cloudmusic/output/dlna/DlnaSessionMonitorTest.kt",
     # 12 §61.200：DMR 多设备列表选择判定
-    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DmrDeviceSelector.kt",
-    "output-dlna/src/test/kotlin/com/example/cloudmusic/output/dlna/DmrDeviceSelectorTest.kt",
+    "output-dlna/src/main/kotlin/com/ccmsc/cloudmusic/output/dlna/DmrDeviceSelector.kt",
+    "output-dlna/src/test/kotlin/com/ccmsc/cloudmusic/output/dlna/DmrDeviceSelectorTest.kt",
     # 12 §61.216：V0.2 SFTP 数据源
-    "datasource-sftp/src/main/kotlin/com/example/cloudmusic/sftp/SftpPorts.kt",
-    "datasource-sftp/src/main/kotlin/com/example/cloudmusic/sftp/SftpDriver.kt",
-    "datasource-sftp/src/test/kotlin/com/example/cloudmusic/sftp/SftpDriverTest.kt",
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/JschSftpPort.kt",
+    "datasource-sftp/src/main/kotlin/com/ccmsc/cloudmusic/sftp/SftpPorts.kt",
+    "datasource-sftp/src/main/kotlin/com/ccmsc/cloudmusic/sftp/SftpDriver.kt",
+    "datasource-sftp/src/test/kotlin/com/ccmsc/cloudmusic/sftp/SftpDriverTest.kt",
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/adapters/JschSftpPort.kt",
 )
 
 CHECK_SCRIPTS = (
@@ -437,21 +437,21 @@ CHECK_SCRIPTS = (
 
 # 03-01 / 03-02 / 03-03 / 03-04 契约中不可漂移的签名片段：{文件: [片段]}
 SIGNATURES = {
-    "core-model/src/main/kotlin/com/example/cloudmusic/model/Link.kt": [
+    "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/Link.kt": [
         "enum class Kind { URL, LOCAL, PROXIED, TEXT }",
         "val kind: Kind get()",
         "url 与 localPath 互斥",
         # C-07（12 §25）：PROXIED 专用回源 URL，默认 null、不改 kind 判定
         "val proxySourceUrl: String? = null",
     ],
-    "core-model/src/main/kotlin/com/example/cloudmusic/model/ObjectType.kt": [
+    "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/ObjectType.kt": [
         "UNKNOWN(0), FOLDER(1), VIDEO(2), AUDIO(3), TEXT(4), IMAGE(5)",
         "fun extOf(name: String): String",
     ],
-    "core-model/src/main/kotlin/com/example/cloudmusic/model/IDataSource.kt": [
+    "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/IDataSource.kt": [
         "fun open(offset: Long): Long", "fun readAt(", "fun mimeHint(): String",
     ],
-    "datasource-api/src/main/kotlin/com/example/cloudmusic/datasource/Driver.kt": [
+    "datasource-api/src/main/kotlin/com/ccmsc/cloudmusic/datasource/Driver.kt": [
         "interface Driver", "suspend fun init(ctx: DriverCtx)", "fun drop()",
         "suspend fun list(dir: Obj, refresh: Boolean = false): List<Obj>",
         "suspend fun get(path: String): Obj?",
@@ -459,25 +459,25 @@ SIGNATURES = {
         "fun mustProxy(): Boolean = onlyProxy || noLinkUrl",
         "typealias DriverFactory = (Storage, Addition) -> Driver",
     ],
-    "datasource-api/src/main/kotlin/com/example/cloudmusic/datasource/DriverRegistry.kt": [
+    "datasource-api/src/main/kotlin/com/ccmsc/cloudmusic/datasource/DriverRegistry.kt": [
         "fun register(type: String, factory: DriverFactory)",
         "fun types(): Set<String>", "object DriverRegistry",
     ],
-    "datasource-api/src/main/kotlin/com/example/cloudmusic/datasource/TextReadCapability.kt": [
+    "datasource-api/src/main/kotlin/com/ccmsc/cloudmusic/datasource/TextReadCapability.kt": [
         "interface TextReadCapability", "suspend fun readText(file: Obj): String",
     ],
-    "datasource-api/src/main/kotlin/com/example/cloudmusic/datasource/AbstractDriver.kt": [
+    "datasource-api/src/main/kotlin/com/ccmsc/cloudmusic/datasource/AbstractDriver.kt": [
         "abstract class AbstractDriver(", "fun JsonObject.firstStr(",
         "final override suspend fun init(ctx: DriverCtx)",
     ],
-    "datasource-strm/src/main/kotlin/com/example/cloudmusic/strm/StrmParser.kt": [
+    "datasource-strm/src/main/kotlin/com/ccmsc/cloudmusic/strm/StrmParser.kt": [
         "fun parseStrm(content: String): StrmParseResult",
     ],
-    "datasource-playlist/src/main/kotlin/com/example/cloudmusic/playlist/PlaylistParser.kt": [
+    "datasource-playlist/src/main/kotlin/com/ccmsc/cloudmusic/playlist/PlaylistParser.kt": [
         "sealed interface PlaylistEntry", "fun parsePlaylist(fileName: String, text: String)",
         "const val MAX_DEPTH = 5",
     ],
-    "datasource-webdav/src/main/kotlin/com/example/cloudmusic/webdav/WebDavDriver.kt": [
+    "datasource-webdav/src/main/kotlin/com/ccmsc/cloudmusic/webdav/WebDavDriver.kt": [
         "class WebDavDriver(", "DirectLinkCapability",
         "override suspend fun directUrl(file: Obj): String?",
         "proxySourceUrl = url",  # C-07：PROXIED 分支必须带回源 URL
@@ -486,26 +486,26 @@ SIGNATURES = {
         "), DirectLinkCapability, ByteRangeCapability, TextReadCapability {",
         "override suspend fun readBytes(file: Obj, offset: Long, length: Int): ByteArray?",
     ],
-    "scanner/src/main/kotlin/com/example/cloudmusic/scanner/ScanCoordinator.kt": [
+    "scanner/src/main/kotlin/com/ccmsc/cloudmusic/scanner/ScanCoordinator.kt": [
         "class ScanCoordinator(", "fun scan(request: ScanRequest): Flow<ScanProgress>",
         "suspend fun run(",
     ],
-    "scanner/src/main/kotlin/com/example/cloudmusic/scanner/TrackFactory.kt": [
+    "scanner/src/main/kotlin/com/ccmsc/cloudmusic/scanner/TrackFactory.kt": [
         "fun build(candidate: Candidate, raw: RawTags = RawTags.EMPTY): Track",
         # §61.221 升级：分轨 TrackId 用锚点 idPath（effectiveIdPath 对既有候选 = obj.path 不变）
         "TrackId.of(candidate.storage.id, candidate.effectiveIdPath())",
     ],
-    "scanner/src/main/kotlin/com/example/cloudmusic/scanner/ScanPorts.kt": [
+    "scanner/src/main/kotlin/com/ccmsc/cloudmusic/scanner/ScanPorts.kt": [
         "interface TrackSink", "interface ScanSnapshotStore",
         # C-14（12 §31）：定向增量的不可用条目输入（默认空集，零回归）
         "suspend fun unavailablePaths(storageId: String): Set<String> = emptySet()",
     ],
-    "core-common/src/main/kotlin/com/example/cloudmusic/common/CloudMusicError.kt": [
+    "core-common/src/main/kotlin/com/ccmsc/cloudmusic/common/CloudMusicError.kt": [
         "open class CloudMusicError(", "typealias CmResult<T> = Result<T>",
         "fun mapDriverError(",
     ],
     # 03-05 §5 Repository 契约签名（逐字对齐）
-    "core-storage/src/main/kotlin/com/example/cloudmusic/storage/Repositories.kt": [
+    "core-storage/src/main/kotlin/com/ccmsc/cloudmusic/storage/Repositories.kt": [
         "interface TrackRepository", "fun observeAll(): Flow<List<Track>>",
         "suspend fun upsertBatch(tracks: List<Track>)",
         "suspend fun markOrphan(storageId: String)",
@@ -513,11 +513,11 @@ SIGNATURES = {
         "interface HistoryRepository", "interface StorageRepository",
         "const val UPSERT_BATCH_SIZE = 500",
     ],
-    "core-storage/src/main/kotlin/com/example/cloudmusic/storage/LibraryModels.kt": [
+    "core-storage/src/main/kotlin/com/ccmsc/cloudmusic/storage/LibraryModels.kt": [
         "data class Playlist(", "data class TrackEntity(",
         "fun toTrack(): Track", "fun from(",
     ],
-    "core-storage/src/main/kotlin/com/example/cloudmusic/storage/InMemoryLibrary.kt": [
+    "core-storage/src/main/kotlin/com/ccmsc/cloudmusic/storage/InMemoryLibrary.kt": [
         "class InMemoryTrackRepository(", "class ScanReconciler(",
         "suspend fun upsertFromScan(batch: List<Track>)",
         "class InMemoryPlaylistRepository(", "class InMemoryStorageRepository(",
@@ -525,7 +525,7 @@ SIGNATURES = {
     # 03-06 §4 稳定门面（逐字对齐，不得漂移）
     # §61.301：枚举加列 BUFFERING（缓冲透传）——非方法签名改动（14+4 不变），
     # 判据随口径演进（§61.239 先例），文档 03-06 §4 随批批注。
-    "engine-api/src/main/kotlin/com/example/cloudmusic/engine/api/EngineApi.kt": [
+    "engine-api/src/main/kotlin/com/ccmsc/cloudmusic/engine/api/EngineApi.kt": [
         "value class EngineHandle(val raw: Long)",
         "enum class EngineState { IDLE, PREPARING, BUFFERING, PLAYING, PAUSED, ENDED, ERROR }",
         "interface IMusicEngine",
@@ -542,7 +542,7 @@ SIGNATURES = {
     # C-06（16 §4 / 03-08 §8.4）的断言并入下方同名 key：Python dict 重复键会覆盖，
     # 第十六批检修发现原写法使 C-06 两条断言实际未生效，已合并（12 §25）。
     # 03-07 §3 媒体会话门面（逐字对齐，不得漂移）
-    "core-media/src/main/kotlin/com/example/cloudmusic/media/MediaControlApi.kt": [
+    "core-media/src/main/kotlin/com/ccmsc/cloudmusic/media/MediaControlApi.kt": [
         "interface IMediaControl",
         "fun onFocusChange(change: FocusChange)",
         "fun onMediaButton(key: MediaKey, action: MediaAction)",
@@ -558,7 +558,7 @@ SIGNATURES = {
         "enum class MediaAction { DOWN, UP, LONG_PRESS, DOUBLE_CLICK }",
     ],
     # 03-08 §8 本地流代理契约层
-    "output-localproxy/src/main/kotlin/com/example/cloudmusic/output/localproxy/LocalHttpStreamProxy.kt": [
+    "output-localproxy/src/main/kotlin/com/ccmsc/cloudmusic/output/localproxy/LocalHttpStreamProxy.kt": [
         "interface LocalHttpStreamProxy",
         "fun urlFor(trackId: String): String",
         "fun serve(request: ProxyRequest): ProxyResponse",
@@ -568,64 +568,64 @@ SIGNATURES = {
         "localPlaybackKind: Link.Kind? = null",
         "localPlaybackKind == Link.Kind.PROXIED || localPlaybackKind == Link.Kind.TEXT",
     ],
-    "output-localproxy/src/main/kotlin/com/example/cloudmusic/output/localproxy/RangeResponder.kt": [
+    "output-localproxy/src/main/kotlin/com/ccmsc/cloudmusic/output/localproxy/RangeResponder.kt": [
         "object RangeResponder",
         "fun parse(header: String?): HttpRange?",
         "fun respond(",
     ],
-    "output-localproxy/src/main/kotlin/com/example/cloudmusic/output/localproxy/TokenRegistry.kt": [
+    "output-localproxy/src/main/kotlin/com/ccmsc/cloudmusic/output/localproxy/TokenRegistry.kt": [
         "class TokenRegistry(",
         "fun register(trackId: String, link: Link): String",
         "fun resolve(token: String): ProxyEntry?",
         "fun invalidateAll()",
     ],
     # 03-09 §3 / §7 输出路由与蓝牙断连裁决
-    "output-router/src/main/kotlin/com/example/cloudmusic/output/router/OutputModels.kt": [
+    "output-router/src/main/kotlin/com/ccmsc/cloudmusic/output/router/OutputModels.kt": [
         "enum class ActiveOutput { LOCAL, DLNA }",
         "data class BluetoothInfo(",
         "data class OutputDeviceState(",
         "data class BluetoothSettings(",
     ],
-    "output-router/src/main/kotlin/com/example/cloudmusic/output/router/OutputRouter.kt": [
+    "output-router/src/main/kotlin/com/ccmsc/cloudmusic/output/router/OutputRouter.kt": [
         "interface OutputRouter",
         "fun setActive(output: ActiveOutput)",
         "fun updateBluetooth(info: BluetoothInfo?)",
         "class InMemoryOutputRouter : OutputRouter",
     ],
-    "output-router/src/main/kotlin/com/example/cloudmusic/output/router/BluetoothOutputPolicy.kt": [
+    "output-router/src/main/kotlin/com/ccmsc/cloudmusic/output/router/BluetoothOutputPolicy.kt": [
         "class BluetoothOutputPolicy(",
         "fun onEvent(event: BluetoothEvent, info: BluetoothInfo? = null): BluetoothEventResult",
         "fun notifyPlaybackResumed()",
         "mediaControl.onFocusChange(FocusChange.LOSS)",
     ],
     # 03-11 §1 / §2 / §3 + 08 §1 / §6 / §7
-    "core-common/src/main/kotlin/com/example/cloudmusic/common/PermissionCatalog.kt": [
+    "core-common/src/main/kotlin/com/ccmsc/cloudmusic/common/PermissionCatalog.kt": [
         "object PermissionCatalog {",
         "val DECLARED: List<DeclaredPermission> = listOf(",
         "const val MAX_DECLARED_COUNT = 12",
         "const val ALLOW_BACKUP = false",
         "fun effectiveAt(sdkInt: Int): List<DeclaredPermission>",
     ],
-    "core-common/src/main/kotlin/com/example/cloudmusic/common/PermissionGate.kt": [
+    "core-common/src/main/kotlin/com/ccmsc/cloudmusic/common/PermissionGate.kt": [
         "fun requiredFor(action: UserAction): List<String>",
         "fun requiredFor(action: UserAction, sdkInt: Int): List<String>",
         "fun requestsForStartup(): List<String> = emptyList()",
         "val isCoreCapabilityBlocked: Boolean",
     ],
-    "core-storage/src/main/kotlin/com/example/cloudmusic/storage/AppSettings.kt": [
+    "core-storage/src/main/kotlin/com/ccmsc/cloudmusic/storage/AppSettings.kt": [
         "data class AppSettings(",
         "data class NetworkSettings(",
         "data class ScanSettings(",
         "object SettingsValidator {",
     ],
-    "core-storage/src/main/kotlin/com/example/cloudmusic/storage/SettingsChange.kt": [
+    "core-storage/src/main/kotlin/com/ccmsc/cloudmusic/storage/SettingsChange.kt": [
         "enum class SettingsChange {",
         "fun diff(before: AppSettings, after: AppSettings): Set<SettingsChange>",
         "fun effectsFor(before: AppSettings, after: AppSettings): Set<Effect>",
         "fun requiresFullRescan(before: AppSettings, after: AppSettings): Boolean",
     ],
     # 03-01 §4.1 / 12 §20：Hilt 唯一注册点与 Application 入口
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/DataSourceModule.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/DataSourceModule.kt": [
         "object DataSourceModule {",
         "@InstallIn(SingletonComponent::class)",
         "@StringKey(KEY_WEBDAV)",
@@ -635,7 +635,7 @@ SIGNATURES = {
         "@StringKey(KEY_LOCAL)",
         "fun provideLocalFactory(@ApplicationContext context: Context): DriverFactory",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/AppBindings.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/AppBindings.kt": [
         "object EngineModule {",
         "object MediaModule {",
         "object LibraryModule {",
@@ -650,25 +650,25 @@ SIGNATURES = {
         "fun provideSettingsAccess(store: SettingsStore): SettingsAccess",
         "DataStoreStorageRepository(access, tracks)",
     ],
-    "app/src/main/kotlin/com/example/cloudmusic/CloudMusicApplication.kt": [
+    "app/src/main/kotlin/com/ccmsc/cloudmusic/CloudMusicApplication.kt": [
         "@HiltAndroidApp",
         "class CloudMusicApplication : Application()",
         "driverRegistrar.registerAll()",
     ],
     # 03-06 §7 / §15 T01~T05（T-P2）
-    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/DataSourcePorts.kt": [
+    "engine-bridge/src/main/kotlin/com/ccmsc/cloudmusic/bridge/DataSourcePorts.kt": [
         "fun interface RangeHttpStack {",
         "interface FdOpener {",
         "fun interface DriverStreamFactory {",
         "class JvmFileFdOpener : FdOpener {",
     ],
-    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/BaseDataSource.kt": [
+    "engine-bridge/src/main/kotlin/com/ccmsc/cloudmusic/bridge/BaseDataSource.kt": [
         "abstract class BaseDataSource(protected val link: Link) : IDataSource",
         "final override fun readAt(offset: Long, buf: ByteArray, len: Int): Int",
         "lastError = e.toCloudMusicError()",
         "final override fun close()",
     ],
-    "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/DataSourceAdapter.kt": [
+    "engine-bridge/src/main/kotlin/com/ccmsc/cloudmusic/bridge/DataSourceAdapter.kt": [
         "object DataSourceAdapter {",
         "Link.Kind.URL -> HttpDataSource(link, args, http)",
         "Link.Kind.LOCAL -> FileDataSource(link, fdOpener)",
@@ -676,23 +676,23 @@ SIGNATURES = {
         "Link.Kind.TEXT -> MemoryDataSource(link)",
     ],
     # 03-06 §8 / §9 / §15 T07、T08、T11（T-P1）
-    "feature-player/src/main/kotlin/com/example/cloudmusic/player/QueueRepository.kt": [
+    "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/QueueRepository.kt": [
         "interface QueueRepository {",
         "suspend fun move(from: Int, to: Int)",
         "suspend fun saveCursor(trackId: String, positionMs: Long)",
         "class InMemoryQueueRepository(",
     ],
-    "feature-player/src/main/kotlin/com/example/cloudmusic/player/PlayModeOrdering.kt": [
+    "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/PlayModeOrdering.kt": [
         "object ShuffleOrder {",
         "fun generate(seed: Long, size: Int): List<Int>",
         "fun nextIndex(",
     ],
-    "feature-player/src/main/kotlin/com/example/cloudmusic/player/QueueSync.kt": [
+    "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/QueueSync.kt": [
         "interface QueueSync {",
         "suspend fun push(items: List<QueueItem>, mode: PlayMode, startAt: Int)",
         "object NativeQueueSandbox {",
     ],
-    "feature-player/src/main/kotlin/com/example/cloudmusic/player/PlayerController.kt": [
+    "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/PlayerController.kt": [
         "class PlayerController(",
         "val state: StateFlow<PlayerState>",
         "suspend fun restore(snapshot: PlaybackSnapshot, items: List<QueueItem>)",
@@ -702,7 +702,7 @@ SIGNATURES = {
         "} else engine.pause(h)",
     ],
     # 03-08 §3.1 / §5 / §6 / §13 T01~T09、T13、T14（T-P3）
-    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/CastUriResolver.kt": [
+    "output-dlna/src/main/kotlin/com/ccmsc/cloudmusic/output/dlna/CastUriResolver.kt": [
         "class CastUriResolver(",
         "suspend fun resolve(track: Track): CastUri",
         # C-09（12 §27）：设置动态投影，默认 null 保持第十五批行为
@@ -715,55 +715,55 @@ SIGNATURES = {
         "val url = directLinks.directUrl(link, track)",
         "fun coverUrlFor(trackId: String): String? = null",
     ],
-    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DescriptionParser.kt": [
+    "output-dlna/src/main/kotlin/com/ccmsc/cloudmusic/output/dlna/DescriptionParser.kt": [
         "object DescriptionParser {",
         "fun resolveUrl(base: String, control: String): String",
         "DlnaDescParse",
     ],
-    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DidlLiteBuilder.kt": [
+    "output-dlna/src/main/kotlin/com/ccmsc/cloudmusic/output/dlna/DidlLiteBuilder.kt": [
         "const val CONTENT_FEATURES",
         "fun escape(value: String): String",
         "fun formatDuration(durationMs: Long): String",
     ],
-    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/SoapController.kt": [
+    "output-dlna/src/main/kotlin/com/ccmsc/cloudmusic/output/dlna/SoapController.kt": [
         "fun soapAction(serviceType: String, action: String): String",
         "fun setAvTransportUri(",
         "fun errorCode(body: String): Int?",
     ],
-    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/SsdpDiscovery.kt": [
+    "output-dlna/src/main/kotlin/com/ccmsc/cloudmusic/output/dlna/SsdpDiscovery.kt": [
         "fun buildMSearch(st: String, mx: Int = 3): String",
         "fun parseResponses(raw: Iterable<String>): List<SsdpResponse>",
         "interface MulticastLockPort {",
     ],
-    "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/ManualDmrProbe.kt": [
+    "output-dlna/src/main/kotlin/com/ccmsc/cloudmusic/output/dlna/ManualDmrProbe.kt": [
         "fun candidateUrls(spec: ManualDmrSpec): List<String>",
         "suspend fun probe(",
     ],
     # 12 §25 第十六批：生产端口适配 + :core-di 唯一接线
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/OkHttpAdapters.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/adapters/OkHttpAdapters.kt": [
         "class OkHttpRangeHttpStack(", "class OkHttpHeadProbe(",
         "class OkHttpDescriptionFetcher(", "class OkHttpSoapTransport(",
         "fun totalLength(",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/AndroidSourceAdapters.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/adapters/AndroidSourceAdapters.kt": [
         "class ContentResolverFdOpener(", "class WifiMulticastLockPort(",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/DatagramAdapters.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/adapters/DatagramAdapters.kt": [
         "class DatagramMulticastTransport(",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/CastComposition.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/adapters/CastComposition.kt": [
         "fun interface DataSourceFactory", "class OkHttpProxiedStreamFactory(",
         "class RegistryLinkProvider :", "class ConservativeDirectLinkProvider :",
         "class PrePublishedCastProxy(",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/BridgeModule.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/BridgeModule.kt": [
         "object BridgeModule {", "@InstallIn(SingletonComponent::class)",
         "fun provideCastUriResolver(", "fun provideSsdpScanner(",
         "fun provideProxySettings(store: SettingsStore): ProxySettings",
         "settingsSource = { SettingsProjection.proxy(store.current()) }",
     ],
     # 12 §26 第十七批：03-05 §3 / §6 / §8 / §10 的 Room 契约
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/LibrarySchema.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/db/LibrarySchema.kt": [
         "object LibrarySchema {",
         "const val VERSION_V1 = 1",
         "const val VERSION_V2 = 2",
@@ -772,7 +772,7 @@ SIGNATURES = {
         "ALTER TABLE tracks ADD COLUMN sort_title",
         "fun isNonDestructive(",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/RoomEntities.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/db/RoomEntities.kt": [
         "@Entity(", "data class TrackRow(", "@Fts4(contentEntity = TrackRow::class)",
         "data class TrackFtsRow(", "data class PlaylistRow(", "data class PlaylistTrackRow(",
         "data class FavoriteRow(", "data class PlayHistoryRow(", "data class FailureLogRow(",
@@ -780,7 +780,7 @@ SIGNATURES = {
         "data class PlaybackStateRow(",
         "fun from(track: Track, existing: TrackRow?, now: Long): TrackRow",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/RoomDaos.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/db/RoomDaos.kt": [
         "interface TrackDao {", "interface PlaylistDao {", "interface FavoriteDao {",
         "interface HistoryDao {", "interface QueueDao {", "interface ScanSnapshotDao {",
         "interface FailureLogDao {",
@@ -789,17 +789,17 @@ SIGNATURES = {
         "suspend fun rebuildFts()",
         "suspend fun prune(cutoff: Long, max: Int)",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/RoomMigrations.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/db/RoomMigrations.kt": [
         "object LibraryMigrations {", "val MIGRATION_1_2: Migration =",
         "MigrationSql.apply(", "override fun migrate(db: SupportSQLiteDatabase)",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/LibraryDatabase.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/db/LibraryDatabase.kt": [
         "@Database(", "version = LibrarySchema.VERSION,", "exportSchema = true,",
         "abstract class LibraryDatabase : RoomDatabase()",
         ".addMigrations(*LibraryMigrations.ALL)",
         "VALUES('rebuild')",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/db/RoomRepositories.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/db/RoomRepositories.kt": [
         "object UpsertPlanner {", "class RoomTrackRepository(", "class RoomPlaylistRepository(",
         "class RoomFavoriteRepository(", "class RoomHistoryRepository(",
         "class RoomQueueRepository(", "class RoomScanSnapshotStore(",
@@ -807,60 +807,60 @@ SIGNATURES = {
         "TrackRow.from(it, existing[it.id.value], now)",
     ],
     # 12 §27 第十八批：03-05 §4 / 08 §6 / §7 的 DataStore 契约
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/settings/AppSettingsCodec.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/settings/AppSettingsCodec.kt": [
         "object AppSettingsCodec {", "fun encode(settings: AppSettings): String",
         "fun decode(raw: String): AppSettings", "fun decodeOrDefault(raw: String): AppSettings",
         "put(\"additionRaw\", dto.additionRaw)",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/settings/SettingsAccess.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/settings/SettingsAccess.kt": [
         "interface SettingsAccess {", "data class SettingsUpdate(",
         "object SettingsProjection {", "fun proxy(settings: AppSettings): ProxySettings",
         "fun StorageDto.toModel(): Storage", "fun Storage.toDto(): StorageDto",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/settings/SettingsDataStore.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/settings/SettingsDataStore.kt": [
         "object AppSettingsSerializer : Serializer<AppSettings>",
         "class SettingsStore @Inject constructor(",
         "override suspend fun update(transform: (AppSettings) -> AppSettings): SettingsUpdate",
         "CorruptionException(", "SettingsValidator.validate(next)",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/settings/DataStoreStorageRepository.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/settings/DataStoreStorageRepository.kt": [
         "class DataStoreStorageRepository(", "override suspend fun add(type: String, additionJson: String): Storage",
         "tracks.markOrphan(id)", "override suspend fun setError(id: String, msg: String)",
     ],
     # 12 §28 第十九批：03-02 §3 LocalDriver 双通道契约
-    "datasource-local/src/main/kotlin/com/example/cloudmusic/local/LocalModels.kt": [
+    "datasource-local/src/main/kotlin/com/ccmsc/cloudmusic/local/LocalModels.kt": [
         "enum class LocalChannel { SAF, MEDIA_STORE }",
         "interface LocalDirectorySource {", "data class LocalAddition(",
         "object LocalPathMapping {", "object LocalEntryGrouper {",
         "fun safRelativeFromDocumentId(treeDocId: String, docId: String): String?",
     ],
-    "datasource-local/src/main/kotlin/com/example/cloudmusic/local/LocalDriver.kt": [
+    "datasource-local/src/main/kotlin/com/ccmsc/cloudmusic/local/LocalDriver.kt": [
         "class LocalDriver(", "override val config = DriverConfig(name = \"Local\", localSort = true)",
         "private fun sandboxAbsolute(path: String): String",
         "PathRule.sandbox(root.sandboxRoot(), absolute)",
         "override suspend fun link(file: Obj, args: LinkArgs): Link",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/local/AndroidLocalSources.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/local/AndroidLocalSources.kt": [
         "class SafDirectorySource(", "class MediaStoreDirectorySource(",
         "DocumentsContract.buildChildDocumentsUriUsingTree",
         "MediaStore.Audio.Media.EXTERNAL_CONTENT_URI",
         "LocalEntryGrouper.group(absolutePath, queryAll())",
     ],
     # 12 §29 第二十批：03-04 §6 / §7 的标签、封面与扫描器生产契约
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/ScanContracts.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/scan/ScanContracts.kt": [
         "fun interface MediaMetadataPort", "fun interface JAudioTaggerPort",
         "interface CoverWriterPort {", "interface LinkLocator {",
         "object TagMerger {", "object CoverPolicy {", "class CoverLookupCache {",
         "object DriverSyncPlanner {",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/ProductionTagAndCover.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/scan/ProductionTagAndCover.kt": [
         "class AndroidMediaMetadataPort(", "class JAudioTaggerFilePort :",
         "class AndroidCoverWriter(", "class RegistryLinkLocator :",
         "class DirectoryCoverLookup(", "class AndroidTagReader(",
         "class AndroidCoverResolver(", "AudioFileIO.read(file)",
         "Bitmap.CompressFormat.WEBP",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/ScanComposition.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/scan/ScanComposition.kt": [
         "class StorageDriverBinder(", "class DataStoreStorageProvider(",
         "class RoomTrackSink(", "object ScanModule {",
         "DriverRegistry.put(storage.id, driver)",
@@ -868,70 +868,70 @@ SIGNATURES = {
         "fun provideScanCoordinator(",
     ],
     # 12 §31 第二十二批：T-A5 新落地的契约（C-08 / C-12 / C-13 / C-14）
-    "scanner/src/main/kotlin/com/example/cloudmusic/scanner/ScanModels.kt": [
+    "scanner/src/main/kotlin/com/ccmsc/cloudmusic/scanner/ScanModels.kt": [
         "val onlyUnavailable: Boolean = false",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/NetworkByteRange.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/scan/NetworkByteRange.kt": [
         "object ByteRangePolicy {", "fun interface RangeRequester {",
         "class UrlByteRangeSource(", "class OkHttpRangeRequester(",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/scan/SettingsEffects.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/scan/SettingsEffects.kt": [
         "object EffectsPolicy {", "class SettingsEffectsRunner",
         "coordinator.run(ScanRequest(refresh = true))",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/proxy/NanoHttpStreamProxy.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/proxy/NanoHttpStreamProxy.kt": [
         "NanoHTTPD(0)", "fun interface LanAddressProvider {",
         "class NanoHttpStreamProxy(", "image/webp",
         "fun coverUrlFor(trackId: String): String?", "class RangeInputStream(",
     ],
-    "core-di/src/main/kotlin/com/example/cloudmusic/di/playback/PlaybackComposition.kt": [
+    "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/playback/PlaybackComposition.kt": [
         "class RoomTrackLookup(", "class SandboxQueueSync :",
         "class ProductionTrackSourceResolver(", "class PlaybackRuntime",
         "object PlaybackModule {", "ProxyStartPolicy.shouldStart(",
     ],
-    "app/src/main/kotlin/com/example/cloudmusic/PlaybackService.kt": [
+    "app/src/main/kotlin/com/ccmsc/cloudmusic/PlaybackService.kt": [
         "class PlaybackService : Service()", "@AndroidEntryPoint",
         "START_STICKY", "MediaSession.Callback", "startForeground(NOTIFICATION_ID",
     ],
     # 12 §51：§50 媒体键转发成果的签名（Receiver 只解包转发，判定在 MediaKeyAction）
-    "app/src/main/kotlin/com/example/cloudmusic/MediaButtonEventReceiver.kt": [
+    "app/src/main/kotlin/com/ccmsc/cloudmusic/MediaButtonEventReceiver.kt": [
         "class MediaButtonEventReceiver : BroadcastReceiver()",
         "MediaKeyAction.resolve(event?.keyCode)", "startForegroundService(",
     ],
-    "app/src/main/kotlin/com/example/cloudmusic/MediaKeyAction.kt": [
+    "app/src/main/kotlin/com/ccmsc/cloudmusic/MediaKeyAction.kt": [
         "object MediaKeyAction {", "fun resolve(keyCode: Int?): String?",
     ],
-    "app/src/test/kotlin/com/example/cloudmusic/PlatformContractTest.kt": [
+    "app/src/test/kotlin/com/ccmsc/cloudmusic/PlatformContractTest.kt": [
         "class PlatformContractTest {", "fun pauseKey()", "fun playKeys()",
         "fun unknownKeys()", "fun closedValueDomain()", "fun actionConstants()",
     ],
     # 12 §52：应用动作的纯判定与 Addition 构造（:app 侧签名）
-    "app/src/main/kotlin/com/example/cloudmusic/AppActionContracts.kt": [
+    "app/src/main/kotlin/com/ccmsc/cloudmusic/AppActionContracts.kt": [
         "object PermissionDecision {", "object LocalSourceSpec {",
         "fun classify(", "fun safAddition(treeUri: String): String",
         "const val DRIVER_TYPE = \"local\"",
     ],
-    "app/src/main/kotlin/com/example/cloudmusic/PermissionRequester.kt": [
+    "app/src/main/kotlin/com/ccmsc/cloudmusic/PermissionRequester.kt": [
         "class PermissionRequester(", "fun request(", "RequestMultiplePermissions",
     ],
-    "app/src/main/kotlin/com/example/cloudmusic/LocalSourceAdder.kt": [
+    "app/src/main/kotlin/com/ccmsc/cloudmusic/LocalSourceAdder.kt": [
         "class LocalSourceAdder(", "fun addSaf(uri: Uri)", "fun addMediaStore()",
         "runtime.rescanAll()",
     ],
-    "app/src/test/kotlin/com/example/cloudmusic/AppActionContractTest.kt": [
+    "app/src/test/kotlin/com/ccmsc/cloudmusic/AppActionContractTest.kt": [
         "class AppActionContractTest {", "fun requiredForActions()",
         "fun classifyPartitions()", "fun safAdditionRoundTrip()", "fun jsonEscaping()",
     ],
     # 12 §54：取流句柄的纯 JVM 协议与 native 适配签名
-    "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/RangeFetcher.kt": [
+    "archive/engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/RangeFetcher.kt": [
         "object RangeFetcher {", "fun interface RangeOpener {", "interface RangeSink {",
         "fun fetch(", "class HttpUrlRangeOpener(",
     ],
-    "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt": [
+    "archive/engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/UrlDataRequest.kt": [
         "class UrlDataRequest(", ": SourceDataRequest()",
         "override fun Start(j1: Long, j2: Long, j3: Long): Long", "override fun Stop()",
     ],
-    "archive/engine-legacy/src/test/kotlin/com/example/cloudmusic/enginelegacy/RangeFetcherTest.kt": [
+    "archive/engine-legacy/src/test/kotlin/com/ccmsc/cloudmusic/enginelegacy/RangeFetcherTest.kt": [
         "class RangeFetcherTest {", "fun rangeHeader()", "fun parseTotal()",
         "fun fetchHappyPath()", "fun fetchFailure()",
     ],
@@ -964,7 +964,7 @@ def main() -> int:
 
     def read_cloud_app() -> str:
         """§61.338 B-5：设置页拆到 SettingsScreen.kt 后读两文件合并——等价于拆分前单文件。"""
-        base = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+        base = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                 / "cloudmusic" / "ui")
         return ("\n").join(
             (base / f).read_text(encoding="utf-8", errors="replace")
@@ -997,7 +997,7 @@ def main() -> int:
     # 两处都逐字写出权限字面量，任一侧增删都会被此比对拦截。
     perm_re = re.compile(r'"(android\.permission\.[A-Z_]+)"')
     kt_catalog = (
-        ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example"
+        ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "ccmsc"
         / "cloudmusic" / "common" / "PermissionCatalog.kt"
     )
     py_c3 = ROOT / "tools" / "check-permissions.py"
@@ -1053,7 +1053,7 @@ def main() -> int:
 
     # 03-05 §3 / §10 / §14 #1 / B10：Room 表数、Migration 注册与禁止破坏性重建。
     db_dir = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" /
-              "example" / "cloudmusic" / "di" / "db")
+              "ccmsc" / "cloudmusic" / "di" / "db")
     db_text = "\n".join(
         p.read_text(encoding="utf-8") for p in sorted(db_dir.glob("*.kt"))
     ) if db_dir.is_dir() else ""
@@ -1089,13 +1089,13 @@ def main() -> int:
         failures.append(f":datasource-local 出现 Android 依赖（应保持纯 JVM）: {local_android}")
     else:
         print("[PASS] 03-02 §3 本地驱动：:datasource-local 零 Android 依赖")
-    ds_module = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" / \
+    ds_module = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc" / \
         "cloudmusic" / "di" / "DataSourceModule.kt"
     if ds_module.is_file() and "@StringKey(KEY_LOCAL)" not in ds_module.read_text(encoding="utf-8"):
         failures.append("03-01 §4.1：DataSourceModule 未注册 local 驱动键")
 
     # 12 §29 / C-10：`DriverRegistry.get(storageId)` 取实例，只注册 factory 扫描器仍拿不到驱动。
-    scan_dir = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" / \
+    scan_dir = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc" / \
         "cloudmusic" / "di" / "scan"
     scan_text = "\n".join(
         p.read_text(encoding="utf-8") for p in sorted(scan_dir.glob("*.kt"))
@@ -1117,7 +1117,7 @@ def main() -> int:
     # 网络音源标签 + 同目录封面两条链路同时失效（12 §30 实测发现）。
     webdav_src = (
         ROOT / "datasource-webdav" / "src" / "main" / "kotlin" / "com"
-        / "example" / "cloudmusic" / "webdav" / "WebDavDriver.kt"
+        / "ccmsc" / "cloudmusic" / "webdav" / "WebDavDriver.kt"
     )
     webdav_text = webdav_src.read_text(encoding="utf-8") if webdav_src.is_file() else ""
     if "ByteRangeCapability" not in webdav_text or "override suspend fun readBytes" not in webdav_text:
@@ -1147,7 +1147,7 @@ def main() -> int:
         print("[PASS] 03-11 §1.1 Manifest：Service / Receiver / FGS 类型齐备")
 
     settings_src = (
-        ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+        ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
         / "cloudmusic" / "di" / "settings" / "SettingsDataStore.kt"
     )
     settings_text = settings_src.read_text(encoding="utf-8") if settings_src.is_file() else ""
@@ -1157,7 +1157,7 @@ def main() -> int:
         print("[PASS] C-14：effects 广播总线已接入写入路径")
 
     scan_models = (
-        ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "example"
+        ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "ccmsc"
         / "cloudmusic" / "scanner" / "ScanModels.kt"
     )
     scan_models_text = scan_models.read_text(encoding="utf-8") if scan_models.is_file() else ""
@@ -1235,7 +1235,7 @@ def main() -> int:
         print("[PASS] T-A6：Compose 插件 + BOM + Material3 + activity-compose 依赖在位")
 
     # 03-10 §11 #4：UI 只经 Repository / StateFlow，不直接碰 Driver / Room / OkHttp。
-    ui_dir = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui"
+    ui_dir = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui"
     ui_text = "\n".join(
         p.read_text(encoding="utf-8") for p in sorted(ui_dir.glob("*.kt"))
     ) if ui_dir.is_dir() else ""
@@ -1280,7 +1280,7 @@ def main() -> int:
     else:
         print("[PASS] T-L L1：舱内 12 真类 + slot 编译单元在位（54 个 Java）")
 
-    loader = cabin / "com" / "example" / "cloudmusic" / "enginelegacy" / "EngineNativeLoader.kt"
+    loader = cabin / "com" / "ccmsc" / "cloudmusic" / "enginelegacy" / "EngineNativeLoader.kt"
     if not loader.is_file() or "PLAYBACK_ENGINE_CHAIN" not in loader.read_text(encoding="utf-8"):
         failures.append("12 §35：EngineNativeLoader 缺精确加载链（12 §34 D-104）")
     else:
@@ -1303,7 +1303,7 @@ def main() -> int:
         print("[PASS] T-L L1：slot 登记簿 51 行全部由 compile 触发（≤200 上限）")
 
     # ---- 12 §36（第二十七批 / EngineAdapter + DI 换绑）长效守护 -----------------
-    adapter = cabin / "com" / "example" / "cloudmusic" / "enginelegacy" / "EngineAdapter.kt"
+    adapter = cabin / "com" / "ccmsc" / "cloudmusic" / "enginelegacy" / "EngineAdapter.kt"
     adapter_text = adapter.read_text(encoding="utf-8") if adapter.is_file() else ""
     adapter_needles = (
         "class EngineAdapter : IMusicEngine",
@@ -1318,7 +1318,7 @@ def main() -> int:
         print("[PASS] T-L L1：EngineAdapter 门面映射与加载链在位")
 
     bindings = (
-        ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+        ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
         / "cloudmusic" / "di" / "AppBindings.kt"
     ).read_text(encoding="utf-8")
     # 12 §57：改为 `EngineAdapter().also { ... }` 注入 Context，仍须保证 DI 绑的是舱内实现。
@@ -1441,7 +1441,7 @@ def main() -> int:
 
     # ---- 12 §41（第三十二批 / 音频焦点与 BECOMING_NOISY）长效守护 -------------
     service = (
-        ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+        ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
         / "cloudmusic" / "PlaybackService.kt"
     ).read_text(encoding="utf-8")
     focus_needles = (
@@ -1456,7 +1456,7 @@ def main() -> int:
         print("[PASS] T-A5：音频焦点 + BECOMING_NOISY 平台接线在位（零新增权限/依赖）")
 
     # ---- 12 §43 / §44（T1 解环 + T4 状态回传）长效守护 ------------------------
-    bindings = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    bindings = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                 / "cloudmusic" / "di" / "AppBindings.kt").read_text(encoding="utf-8")
     if "fun provideMediaControl(runtime" in bindings:
         failures.append("12 §43：provideMediaControl 再次注入 PlaybackRuntime，DI 依赖环回归")
@@ -1465,7 +1465,7 @@ def main() -> int:
     else:
         print("[PASS] T1：MediaModule 零参数绑定在位（无 DI 依赖环）")
 
-    facade = (ROOT / "core-media" / "src" / "main" / "kotlin" / "com" / "example"
+    facade = (ROOT / "core-media" / "src" / "main" / "kotlin" / "com" / "ccmsc"
               / "cloudmusic" / "media" / "MediaControlApi.kt").read_text(encoding="utf-8")
     missing_facade = [n for n in ("fun onPlaying() {}", "fun onManualPause() {}")
                       if n not in facade]
@@ -1577,9 +1577,9 @@ def main() -> int:
     else:
         print("[PASS] 12 §50 P0-2/3/4：PlaybackState + mediaButtonReceiver + action 分派在位")
 
-    receiver = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    receiver = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                 / "cloudmusic" / "MediaButtonEventReceiver.kt").read_text(encoding="utf-8")
-    key_action = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    key_action = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                   / "cloudmusic" / "MediaKeyAction.kt").read_text(encoding="utf-8")
     forward_needles = (
         "MediaKeyAction.resolve(event?.keyCode)", "startForegroundService(",
@@ -1612,7 +1612,7 @@ def main() -> int:
         print("[PASS] 12 §50：Receiver exported=true + MEDIA_BUTTON 过滤在位（零新增权限）")
 
     adapter50 = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" / "com"
-                 / "example" / "cloudmusic" / "enginelegacy" / "EngineAdapter.kt").read_text(encoding="utf-8")
+                 / "ccmsc" / "cloudmusic" / "enginelegacy" / "EngineAdapter.kt").read_text(encoding="utf-8")
     # 12 §56：prepare 增加第 4 个 ResourceInfo 参数，守护改按前缀匹配（语义不变）。
     if "PlayerDataSource(provider, source.trackId, source.url != null" not in adapter50:
         failures.append("12 §50 P0-5：SourceConfig.remote 未随 source.url 传入 native")
@@ -1636,7 +1636,7 @@ def main() -> int:
     # §50.7 #3 的三项：按动作申请权限、配置数据源、全量重扫。真机 A3 实测
     # 「三项运行时权限 granted=false / 曲库 0 首只能靠 run-as 灌 Room 夹具」，
     # 本组守护把生产接线钉住；蓝牙 ACL / SHOW_BLUETOOTH_NAME 仍按 §48.6 挂账。
-    requester52 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    requester52 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                    / "cloudmusic" / "PermissionRequester.kt").read_text(encoding="utf-8")
     request_needles = (
         "PermissionGate.requiredFor(action, Build.VERSION.SDK_INT)",
@@ -1650,7 +1650,7 @@ def main() -> int:
     else:
         print("[PASS] 12 §52：requiredFor 按设备 SDK 分派 + 三集合分类 + 已授予短路")
 
-    main52 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    main52 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
               / "cloudmusic" / "MainActivity.kt").read_text(encoding="utf-8")
     main_needles = (
         "PermissionGate.UserAction.START_PLAYBACK",
@@ -1695,11 +1695,11 @@ def main() -> int:
     else:
         print("[PASS] 12 §61.29：SHOW_BLUETOOTH_NAME 按动作申请恰好 1 处（L2 已收口）")
 
-    spec52 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    spec52 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
               / "cloudmusic" / "AppActionContracts.kt").read_text(encoding="utf-8")
-    module52 = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    module52 = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                 / "cloudmusic" / "di" / "DataSourceModule.kt").read_text(encoding="utf-8")
-    local_adapters52 = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    local_adapters52 = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                         / "cloudmusic" / "di" / "local" / "AndroidLocalSources.kt").read_text(encoding="utf-8")
     if ("const val DRIVER_TYPE = \"local\"" not in spec52 or
             "const val KEY_LOCAL = \"local\"" not in module52):
@@ -1710,7 +1710,7 @@ def main() -> int:
     else:
         print("[PASS] 12 §52：driverType / 沙箱卷根与生产实现逐字对齐")
 
-    adder52 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    adder52 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                / "cloudmusic" / "LocalSourceAdder.kt").read_text(encoding="utf-8")
     ui52 = read_cloud_app()
     adder_needles = (
@@ -1751,7 +1751,7 @@ def main() -> int:
             print("[PASS] 12 §53：取流句柄证据链完整（类型 / 继承 / 契约 / 判据）")
 
     adapter53 = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" / "com"
-                 / "example" / "cloudmusic" / "enginelegacy" / "EngineAdapter.kt").read_text(encoding="utf-8")
+                 / "ccmsc" / "cloudmusic" / "enginelegacy" / "EngineAdapter.kt").read_text(encoding="utf-8")
     if "data-request-handler-evidence-2026-11-07.md" not in adapter53:
         failures.append("12 §53：EngineAdapter 未指向取流句柄实证报告")
     else:
@@ -1761,7 +1761,7 @@ def main() -> int:
     request_class53 = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" / "com"
                        / "netease" / "cloudmusic" / "sdk" / "NMCommonCache" / "SourceDataRequest.java")
     loader53 = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" / "com"
-                / "example" / "cloudmusic" / "enginelegacy" / "EngineNativeLoader.kt").read_text(encoding="utf-8")
+                / "ccmsc" / "cloudmusic" / "enginelegacy" / "EngineNativeLoader.kt").read_text(encoding="utf-8")
     request_body53 = request_class53.read_text(encoding="utf-8") if request_class53.is_file() else ""
     if ("public abstract long Start(" not in request_body53 or
             "public abstract void Stop()" not in request_body53):
@@ -1793,10 +1793,10 @@ def main() -> int:
     # §2.5 追加实证出 Start(j1=请求标识, j2=offset, j3=length) 与回传首参后，
     # 本批把 UrlDataRequest / RangeFetcher 接进生产。守护防止接线被回退成 null、
     # LOCAL 源误建取流对象、或忘记释放 native C++ 对象（InitPtr 泄漏）。
-    legacy_main = ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" / "com" / "example" / "cloudmusic" / "enginelegacy"
+    legacy_main = ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" / "com" / "ccmsc" / "cloudmusic" / "enginelegacy"
     fetcher54 = legacy_main / "RangeFetcher.kt"
     request54 = legacy_main / "UrlDataRequest.kt"
-    test54 = (ROOT / "archive" / "engine-legacy" / "src" / "test" / "kotlin" / "com" / "example"
+    test54 = (ROOT / "archive" / "engine-legacy" / "src" / "test" / "kotlin" / "com" / "ccmsc"
               / "cloudmusic" / "enginelegacy" / "RangeFetcherTest.kt")
     missing_files54 = [str(p.name) for p in (fetcher54, request54, test54) if not p.is_file()]
     if missing_files54:
@@ -1911,7 +1911,7 @@ def main() -> int:
     # G08 瞬断注入实证：代理对首个 GET 发 RST，RangeFetcher 连接期重试一次救回
     # 302592B 全量取流（同一 Start id=1 对应两次 open url），37.8s 完整播放无 -103。
     controller61 = (ROOT / "feature-player" / "src" / "main" / "kotlin" / "com"
-                    / "example" / "cloudmusic" / "player" / "PlayerController.kt")
+                    / "ccmsc" / "cloudmusic" / "player" / "PlayerController.kt")
     body61 = controller61.read_text(encoding="utf-8") if controller61.is_file() else ""
     needles61 = (
         "pendingPlay", "AtomicBoolean(false)", "if (queue.isEmpty())",
@@ -1924,7 +1924,7 @@ def main() -> int:
         print("[PASS] 12 §61.27：pendingPlay 置位 / restore 兑现 / 实证注释在位")
 
     test61 = (ROOT / "feature-player" / "src" / "test" / "kotlin" / "com"
-              / "example" / "cloudmusic" / "player" / "PlayerControllerTest.kt")
+              / "ccmsc" / "cloudmusic" / "player" / "PlayerControllerTest.kt")
     test61_body = test61.read_text(encoding="utf-8") if test61.is_file() else ""
     if "pendingPlayBeforeRestore" not in test61_body:
         failures.append("12 §61.27：冷启动竞态回归单测缺失")
@@ -1946,7 +1946,7 @@ def main() -> int:
     # 01 §6.1 / 03-02 §344「播放前由 03-06 检查」：配置字段早已有，但此前零生产消费方。
     # 守护防止闸门被拆、本地音源被误拦（B05）、或绕过 Service 同步判定导致会话假报 PLAYING。
     policy61c = (ROOT / "core-common" / "src" / "main" / "kotlin" / "com"
-                 / "example" / "cloudmusic" / "common" / "NetworkPlaybackPolicy.kt")
+                 / "ccmsc" / "cloudmusic" / "common" / "NetworkPlaybackPolicy.kt")
     policy_body = policy61c.read_text(encoding="utf-8") if policy61c.is_file() else ""
     policy_needles = (
         "enum class NetworkKind", "fun interface NetworkPlaybackGate",
@@ -1968,7 +1968,7 @@ def main() -> int:
         print("[PASS] 12 §61.28：prepareAt / resume 双入口闸门与本地豁免在位")
 
     gate61c = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-               / "example" / "cloudmusic" / "di" / "playback" / "AndroidNetworkPlaybackGate.kt")
+               / "ccmsc" / "cloudmusic" / "di" / "playback" / "AndroidNetworkPlaybackGate.kt")
     gate_body = gate61c.read_text(encoding="utf-8") if gate61c.is_file() else ""
     if not all(n in gate_body for n in (
         "ConnectivityManager", "TRANSPORT_WIFI", "TRANSPORT_CELLULAR",
@@ -1978,9 +1978,9 @@ def main() -> int:
     else:
         print("[PASS] 12 §61.28：生产闸门读实时 wifiOnly + 平台网络态，零新增权限")
 
-    service61c = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "PlaybackService.kt"
+    service61c = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "PlaybackService.kt"
     service_body = service61c.read_text(encoding="utf-8") if service61c.is_file() else ""
-    ui61c = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt"
+    ui61c = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "CloudMusicApp.kt"
     ui_body = read_cloud_app() if ui61c.is_file() else ""
     if "networkGate.rejectReason(runtime.currentNetworkSource())" not in service_body:
         failures.append("12 §61.28：Service 缺同步判定，拒绝后会假报 PLAYING（§61.27 同类问题）")
@@ -2003,7 +2003,7 @@ def main() -> int:
     # ① 契约签名仍在（防止有人把参数删了换成别的名字）；
     # ② MainActivity 显式绑定，且落到 `runtime.playTracks`（不是空 lambda / 只切页）；
     # ③ 每个曲目列表页都把回调透传给行点击（缺一页就有一页点不动）。
-    main_act = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    main_act = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                 / "cloudmusic" / "MainActivity.kt")
     main_kt = main_act.read_text(encoding="utf-8") if main_act.is_file() else ""
     passthrough_pages = ("HomeScreen(", "FnLibraryScreen(", "SearchScreen(", "MyMusicScreen(")
@@ -2027,10 +2027,10 @@ def main() -> int:
     # 旧直通分支只在 widenAmount==0 时命中，而 0 正是默认值 ⇒ 每首歌必崩。
     # 判据：① 不得再出现 `out.put(inputBuffer)`；② 必须先 `inputBuffer.get(bytes...)`
     # 再 `replaceOutputBuffer`；③ 回归单测必须保留「同一 buffer 复用」用例。
-    widen_kt = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" / "com" / "example"
+    widen_kt = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                 / "cloudmusic" / "engineopensource" / "SpatialWidenProcessor.kt")
     widen_body = widen_kt.read_text(encoding="utf-8") if widen_kt.is_file() else ""
-    widen_test = (ROOT / "engine-opensource" / "src" / "test" / "kotlin" / "com" / "example"
+    widen_test = (ROOT / "engine-opensource" / "src" / "test" / "kotlin" / "com" / "ccmsc"
                   / "cloudmusic" / "engineopensource" / "SpatialWidenProcessorTest.kt")
     widen_test_body = widen_test.read_text(encoding="utf-8") if widen_test.is_file() else ""
     widen_code = "\n".join(
@@ -2054,13 +2054,13 @@ def main() -> int:
     # 判据：① onResponse 体必须有 catch(Throwable) + resumeWithException；
     #       ② runScan 必须打印失败原因；③ 取消与失败必须分流；
     #       ④ 扫描分步打点不得被删（入口/快照/list/阶段A）。
-    webdav_http = (ROOT / "datasource-webdav" / "src" / "main" / "kotlin" / "com" / "example"
+    webdav_http = (ROOT / "datasource-webdav" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                    / "cloudmusic" / "webdav" / "WebDavHttp.kt")
     http_body = webdav_http.read_text(encoding="utf-8") if webdav_http.is_file() else ""
-    play_comp = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    play_comp = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                  / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
     play_body2 = play_comp.read_text(encoding="utf-8") if play_comp.is_file() else ""
-    scan_coord = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "example"
+    scan_coord = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                   / "cloudmusic" / "scanner" / "ScanCoordinator.kt")
     scan_body = scan_coord.read_text(encoding="utf-8") if scan_coord.is_file() else ""
     if "catch (e: Throwable)" not in http_body or "resumeWithException(e)" not in http_body:
@@ -2079,10 +2079,10 @@ def main() -> int:
     #   文件 size/mtime 全未变 ⇒ 增量判定「已扫过」全部 skip ⇒ 曲目永久 UNREACHABLE。
     #   曲库被清空而快照残留同理（本批真机复现：7838→0 后重扫 upsert=0）。
     # 判据：knownPaths 三件套（端口 / 生产实现 / 调用点）缺一不可。
-    ports_kt = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "example"
+    ports_kt = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                 / "cloudmusic" / "scanner" / "ScanPorts.kt")
     ports_body = ports_kt.read_text(encoding="utf-8") if ports_kt.is_file() else ""
-    scan_comp = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    scan_comp = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                  / "cloudmusic" / "di" / "scan" / "ScanComposition.kt")
     comp_body = scan_comp.read_text(encoding="utf-8") if scan_comp.is_file() else ""
     if "suspend fun knownPaths" not in ports_body:
@@ -2099,7 +2099,7 @@ def main() -> int:
     # 03-09 §4 的广播映射表 / §8 B01 降级 / §10 B12 设备地址不入日志；
     # 03-11 §2 的 SHOW_BLUETOOTH_NAME 按动作申请（启动阶段零申请）。守护防止
     # permissionGranted 被写回硬编码 false 或 ACL 广播在启动时无条件注册。
-    bt_action = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    bt_action = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                  / "cloudmusic" / "BluetoothBroadcastAction.kt")
     bt_body = bt_action.read_text(encoding="utf-8") if bt_action.is_file() else ""
     bt_needles = (
@@ -2129,10 +2129,10 @@ def main() -> int:
     else:
         print("[PASS] 12 §61.29：B12 设备地址隐私口径在位")
 
-    main_activity = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    main_activity = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                      / "cloudmusic" / "MainActivity.kt")
     main_body = main_activity.read_text(encoding="utf-8") if main_activity.is_file() else ""
-    bt_test = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "example"
+    bt_test = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "ccmsc"
                / "cloudmusic" / "BluetoothBroadcastActionTest.kt")
     if "SHOW_BLUETOOTH_NAME" not in main_body or not bt_test.is_file():
         failures.append("12 §61.29：按动作申请接线或广播映射单测缺失")
@@ -2207,7 +2207,7 @@ def main() -> int:
 
     # 12 §61.32 守护：合规声明必须与实际引入状态一致；sticky 返回值与长稳口径不得回退。
     notice_path = ROOT / "NOTICE.md"
-    service_path = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" /
+    service_path = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" /
                     "cloudmusic" / "PlaybackService.kt")
     t16_path = ROOT / "docs" / "03-模块开发文档" / "03-07 媒体会话与音频焦点.md"
     if not all(p.is_file() for p in (notice_path, service_path, t16_path)):
@@ -2259,9 +2259,9 @@ def main() -> int:
             print("[PASS] 12 §61.33 守护：LAUNCHER exported=true，现行文档无 2h 残留")
 
     # 12 §61.34 / C-16 守护：offline 必须真实影响 networkSourceAvailable，不得退回死参数。
-    gate_path = (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example" /
+    gate_path = (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "ccmsc" /
                  "cloudmusic" / "common" / "PermissionGate.kt")
-    gate_test = (ROOT / "core-common" / "src" / "test" / "kotlin" / "com" / "example" /
+    gate_test = (ROOT / "core-common" / "src" / "test" / "kotlin" / "com" / "ccmsc" /
                  "cloudmusic" / "common" / "PermissionGateTest.kt")
     if not gate_path.is_file() or not gate_test.is_file():
         failures.append("12 §61.34 守护：PermissionGate.kt / PermissionGateTest.kt 缺失")
@@ -2277,9 +2277,9 @@ def main() -> int:
 
     # 12 §61.35 / C-17 守护：离线事实必须由 isOffline(NONE) 单点给出，
     # 且播放闸门与 UI 降级契约之间有交叉断言，防止两套口径分叉。
-    policy_path = (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example" /
+    policy_path = (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "ccmsc" /
                    "cloudmusic" / "common" / "NetworkPlaybackPolicy.kt")
-    policy_test = (ROOT / "core-common" / "src" / "test" / "kotlin" / "com" / "example" /
+    policy_test = (ROOT / "core-common" / "src" / "test" / "kotlin" / "com" / "ccmsc" /
                    "cloudmusic" / "common" / "NetworkPlaybackPolicyTest.kt")
     if not policy_path.is_file() or not policy_test.is_file():
         failures.append("12 §61.35 守护：NetworkPlaybackPolicy.kt / Test 缺失")
@@ -2436,7 +2436,7 @@ def main() -> int:
     spec_tool = ROOT / "tools" / "l3_interaction_spec.py"
     spec_json = ROOT / "analysis" / "l3-interaction-spec.json"
     spec_doc = ROOT / "analysis" / "tl-l3-interaction-replica-2026-11-08.md"
-    player_dir = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "player"
+    player_dir = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "player"
     player_files = [player_dir / n for n in (
         "VinylDiscView.kt", "PlayerStateBridge.kt", "LegacyPlayerPage.kt",
     )]
@@ -2539,13 +2539,13 @@ def main() -> int:
     # 防「门面 prepareQueue 已就绪但播放链未接线」的悬空状态回潮；防把跨曲
     # gapless 伪造成真机已验证（设备离线时无缝听感 NOT RUN）。
     api139 = (ROOT / "engine-api" / "src" / "main" / "kotlin" / "com"
-              / "example" / "cloudmusic" / "engine" / "api" / "EngineApi.kt")
+              / "ccmsc" / "cloudmusic" / "engine" / "api" / "EngineApi.kt")
     pc139 = (ROOT / "feature-player" / "src" / "main" / "kotlin" / "com"
-             / "example" / "cloudmusic" / "player" / "PlayerController.kt")
+             / "ccmsc" / "cloudmusic" / "player" / "PlayerController.kt")
     b2_139 = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" / "com"
-              / "example" / "cloudmusic" / "engineopensource" / "Media3EngineAdapter.kt")
+              / "ccmsc" / "cloudmusic" / "engineopensource" / "Media3EngineAdapter.kt")
     test139 = (ROOT / "feature-player" / "src" / "test" / "kotlin" / "com"
-               / "example" / "cloudmusic" / "player" / "PlayerControllerTest.kt")
+               / "ccmsc" / "cloudmusic" / "player" / "PlayerControllerTest.kt")
     doc139 = ROOT / "docs" / "12-编码阶段第一批交付.md"
     api139_txt = api139.read_text(encoding="utf-8") if api139.is_file() else ""
     pc139_txt = pc139.read_text(encoding="utf-8") if pc139.is_file() else ""
@@ -2582,7 +2582,7 @@ def main() -> int:
     # 防 §61.138 挂账回潮：CompPlaylistRow 支持 coverRef 但调用方不接 =
     # 歌单行永远 ☰ 占位；防展开曲目行再次漏传 coverRef。
     app140 = (ROOT / "app" / "src" / "main" / "kotlin" / "com"
-              / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt")
+              / "ccmsc" / "cloudmusic" / "ui" / "CloudMusicApp.kt")
     app140_txt = read_cloud_app() if app140.is_file() else ""
     if not all(x in app140_txt for x in (
         "observeTracks(playlist.id).map { tracks ->",
@@ -2635,9 +2635,9 @@ def main() -> int:
     # 防 C-10 回潮（binder 覆盖既有实例 / playLocal 幂等闸挡住 file 通道重建）
     # 与「冷扫 FAIL 判据被伪造成 PASS」；0-candidate 破坏面挂账受守护。
     scan_comp = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                 / "example" / "cloudmusic" / "di" / "scan" / "ScanComposition.kt")
+                 / "ccmsc" / "cloudmusic" / "di" / "scan" / "ScanComposition.kt")
     playback_comp = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                     / "example" / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
+                     / "ccmsc" / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
     scan_comp_txt = scan_comp.read_text(encoding="utf-8") if scan_comp.is_file() else ""
     playback_comp_txt = playback_comp.read_text(encoding="utf-8") if playback_comp.is_file() else ""
     verdict143 = ROOT / "analysis" / "scan7500-61-143-verdict.json"
@@ -2653,7 +2653,7 @@ def main() -> int:
     )):
         failures.append("12 §61.143：ensureLocalFixtureDriver 强制重建缺失")
     elif "T-A4-10 binder defers to pre-registered instances" not in (
-        (ROOT / "core-di" / "src" / "test" / "kotlin" / "com" / "example" / "cloudmusic"
+        (ROOT / "core-di" / "src" / "test" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
          / "di" / "scan" / "ScanContractsTest.kt").read_text(encoding="utf-8")
     ):
         failures.append("12 §61.143：T-A4-10 用例缺失")
@@ -2669,7 +2669,7 @@ def main() -> int:
     # ---- 12 §61.144（runMetadata 事务聚合）长效守护 ----------------------
     # 防逐文件单事务回潮（T-V #9 冷扫 FAIL 的次要因子）+ 裁决证据在位。
     scan_coord = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
-                  / "example" / "cloudmusic" / "scanner" / "ScanCoordinator.kt")
+                  / "ccmsc" / "cloudmusic" / "scanner" / "ScanCoordinator.kt")
     scan_coord_txt = scan_coord.read_text(encoding="utf-8") if scan_coord.is_file() else ""
     if not all(x in scan_coord_txt for x in (
         "metadata 写库按 batchSize 聚合",
@@ -2678,7 +2678,7 @@ def main() -> int:
     )):
         failures.append("12 §61.144：runMetadata 块聚合缺失（逐文件单事务回潮）")
     elif "metadataBatchedUpsert" not in (
-        (ROOT / "scanner" / "src" / "test" / "kotlin" / "com" / "example" / "cloudmusic"
+        (ROOT / "scanner" / "src" / "test" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
          / "scanner" / "ScanCoordinatorTest.kt").read_text(encoding="utf-8")
     ):
         failures.append("12 §61.144：metadataBatchedUpsert 用例缺失")
@@ -2693,13 +2693,13 @@ def main() -> int:
     # 防①通道跳步回潮（检索器回到 per-file 主通道）/ ②去重被删 / ③批量置位回潮；
     # 接口默认实现（逐行委托）必须在位以防接口演进破坏既有 fake。
     tag_cover_txt = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                     / "example" / "cloudmusic" / "di" / "scan" / "ProductionTagAndCover.kt"
+                     / "ccmsc" / "cloudmusic" / "di" / "scan" / "ProductionTagAndCover.kt"
                      ).read_text(encoding="utf-8")
     repos_txt = (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com"
-                 / "example" / "cloudmusic" / "storage" / "Repositories.kt"
+                 / "ccmsc" / "cloudmusic" / "storage" / "Repositories.kt"
                  ).read_text(encoding="utf-8")
     reconciler_txt = (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com"
-                      / "example" / "cloudmusic" / "storage" / "InMemoryLibrary.kt"
+                      / "ccmsc" / "cloudmusic" / "storage" / "InMemoryLibrary.kt"
                       ).read_text(encoding="utf-8")
     if not all(x in tag_cover_txt for x in (
         "LOCAL 文件路径 JAudioTagger 先行",
@@ -2813,7 +2813,7 @@ def main() -> int:
         "添加 STRM 源", "fun StrmDialog(", "driverType != \"strm\"",
     )):
         failures.append("12 §61.151：SourcesScreen STRM 入口 / StrmDialog 缺失")
-    main_txt = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    main_txt = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                 / "cloudmusic" / "MainActivity.kt").read_text(encoding="utf-8")
     if not all(x in main_txt for x in (
         "onAddStrm = { delegateId, paths ->",
@@ -2857,11 +2857,11 @@ def main() -> int:
     # 防①TextReadCapability 实现被删（.strm 扫描回潮断链）/ ②XXE 硬化回潮
     # （Android harmony 解析器 setFeature 抛异常）/ ③可见化被静默化。
     webdav_txt = (ROOT / "datasource-webdav" / "src" / "main" / "kotlin" / "com"
-                  / "example" / "cloudmusic" / "webdav" / "WebDavDriver.kt").read_text(encoding="utf-8")
+                  / "ccmsc" / "cloudmusic" / "webdav" / "WebDavDriver.kt").read_text(encoding="utf-8")
     strm_txt = (ROOT / "datasource-strm" / "src" / "main" / "kotlin" / "com"
-                / "example" / "cloudmusic" / "strm" / "StrmDriver.kt").read_text(encoding="utf-8")
+                / "ccmsc" / "cloudmusic" / "strm" / "StrmDriver.kt").read_text(encoding="utf-8")
     propfind_txt = (ROOT / "datasource-webdav" / "src" / "main" / "kotlin" / "com"
-                    / "example" / "cloudmusic" / "webdav" / "PropfindParser.kt").read_text(encoding="utf-8")
+                    / "ccmsc" / "cloudmusic" / "webdav" / "PropfindParser.kt").read_text(encoding="utf-8")
     if "TextReadCapability" not in webdav_txt.split("readText")[0] or             "override suspend fun readText(file: Obj): String" not in webdav_txt:
         failures.append("12 §61.153：WebDavDriver TextReadCapability 实现缺失")
     elif ", TextReadCapability" not in strm_txt or "override suspend fun readText(file: Obj): String" not in strm_txt:
@@ -2879,10 +2879,10 @@ def main() -> int:
 
     # ---- 12 §61.160~161（T5-3 路径 B 桥 + STRM 多行路径）长效守护 ---------
     wid = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" / "com"
-           / "example" / "cloudmusic" / "engineopensource" / "SpatialWidenProcessor.kt")
+           / "ccmsc" / "cloudmusic" / "engineopensource" / "SpatialWidenProcessor.kt")
     wid_txt = wid.read_text(encoding="utf-8") if wid.is_file() else ""
     adapter160 = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" / "com"
-                  / "example" / "cloudmusic" / "engineopensource" / "Media3EngineAdapter.kt").read_text(encoding="utf-8")
+                  / "ccmsc" / "cloudmusic" / "engineopensource" / "Media3EngineAdapter.kt").read_text(encoding="utf-8")
     if not all(x in wid_txt for x in (
         "class SpatialWidenProcessor : BaseAudioProcessor()",
         "AudioEffectsBus.widenAmount", "widen16Stereo",
@@ -2911,7 +2911,7 @@ def main() -> int:
     visual_tool = ROOT / "tools" / "l3_visual_replica_spec.py"
     visual_json = ROOT / "analysis" / "l3-visual-replica-spec.json"
     player_dir = (ROOT / "app" / "src" / "main" / "kotlin" / "com" /
-                  "example" / "cloudmusic" / "ui" / "player")
+                  "ccmsc" / "cloudmusic" / "ui" / "player")
     if not all(p.is_file() for p in (
         visual_tool, visual_json,
         player_dir / "LegacyAssets.kt", player_dir / "VinylDiscView.kt",
@@ -3072,8 +3072,8 @@ def main() -> int:
     # 12 §61.45 守护 / F1：单一格式真相源 AudioFormats 落地 —— 6 处白名单必须
     # 全部接线、零残留硬编码清单；§61.44 历史证据不得被 F1 后工具覆盖；F1 只
     # 统一「清单来源」不声称「全格式已支持」；未新增 docs 文件，09 §3 计数仍 31。
-    f1_source = ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/AudioFormats.kt"
-    f1_test = ROOT / "core-model/src/test/kotlin/com/example/cloudmusic/model/AudioFormatsTest.kt"
+    f1_source = ROOT / "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/AudioFormats.kt"
+    f1_test = ROOT / "core-model/src/test/kotlin/com/ccmsc/cloudmusic/model/AudioFormatsTest.kt"
     f1_tool = ROOT / "tools" / "l3_f1_unified_audit.py"
     f1_json = ROOT / "analysis" / "l3-f1-unified.json"
     legacy_tool = ROOT / "tools" / "l3_audio_format_audit.py"
@@ -3118,7 +3118,7 @@ def main() -> int:
     # 为准（10.0.0.2:37827），本批未新增 docs 文件，09 §3 计数仍 31。
     f2_tool = ROOT / "tools" / "l3_f2_extension_chain_audit.py"
     f2_json = ROOT / "analysis" / "l3-f2-extension-chain.json"
-    engine_adapter = ROOT / "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineAdapter.kt"
+    engine_adapter = ROOT / "archive/engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/EngineAdapter.kt"
     if not all(p.is_file() for p in (f2_tool, f2_json, engine_adapter,
                                      plan17, delivery12, overview)):
         failures.append("12 §61.46 守护：F2 前置实证工具 / JSON / EngineAdapter 源码缺失")
@@ -3225,7 +3225,7 @@ def main() -> int:
     f2x_tool = ROOT / "tools" / "l3_f2_ext_fix_audit.py"
     f2x_json = ROOT / "analysis" / "l3-f2-ext-fix.json"
     f2x_log = ROOT / "analysis" / "l3-f2c-extension-verify-logcat.txt"
-    audio_formats = ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/AudioFormats.kt"
+    audio_formats = ROOT / "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/AudioFormats.kt"
     engine_gradle = ROOT / "archive/engine-legacy/build.gradle.kts"
     if not all(p.is_file() for p in (f2x_tool, f2x_json, f2x_log, audio_formats,
                                      engine_gradle, engine_adapter, delivery12, plan17)):
@@ -3331,7 +3331,7 @@ def main() -> int:
     f4_json = ROOT / "analysis" / "l3-f4-eof-audit.json"
     f4_probe = ROOT / "analysis" / "l3-f4-eof-probe.json"
     f4_plan = ROOT / "analysis" / "tl-l3-f4-eof-plan-2026-11-09.md"
-    f4_request = ROOT / "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
+    f4_request = ROOT / "archive/engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/UrlDataRequest.kt"
     if not all(p.is_file() for p in (f4_tool, f4_json, f4_probe, f4_plan,
                                      f4_request, delivery12, plan17)):
         failures.append("12 §61.50 守护：F4 审计工具 / JSON / 探针 / 施工单 / 源码缺失")
@@ -3372,7 +3372,7 @@ def main() -> int:
     ab_json = ROOT / "analysis" / "l3-f4-ab-audit.json"
     ab_report = ROOT / "analysis" / "l3-f4-ab-report.md"
     ab_probe = ROOT / "analysis" / "l3-f4-m4a-final.json"
-    ab_request = ROOT / "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
+    ab_request = ROOT / "archive/engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/UrlDataRequest.kt"
     if not all(p.is_file() for p in (ab_tool, ab_json, ab_report, ab_probe,
                                      ab_request, delivery12, plan17)):
         failures.append("12 §61.51 守护：F4 A/B 审计工具 / JSON / 报告 / 取证 / 源码缺失")
@@ -3410,7 +3410,7 @@ def main() -> int:
     ks_tool = ROOT / "tools" / "l3_f4_kind_slot_audit.py"
     ks_json = ROOT / "analysis" / "l3-f4-kind-slot-audit.json"
     ks_report = ROOT / "analysis" / "l3-f4-kind-slot-rootcause.md"
-    ks_request = ROOT / "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
+    ks_request = ROOT / "archive/engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/UrlDataRequest.kt"
     if not all(p.is_file() for p in (ks_tool, ks_json, ks_report, ks_request,
                                      delivery12, plan17)):
         failures.append("12 §61.52 守护：F4 根因审计工具 / JSON / 报告 / 源码缺失")
@@ -3459,7 +3459,7 @@ def main() -> int:
     ab2_audit = ROOT / "tools" / "l3_f4_kind_slot_ab_audit.py"
     ab2_json = ROOT / "analysis" / "l3-f4-kind-slot-ab-audit.json"
     ab2_plan = ROOT / "analysis" / "l3-f4-kind-slot-ab-plan.json"
-    ab2_src = ROOT / "archive/engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
+    ab2_src = ROOT / "archive/engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/UrlDataRequest.kt"
     if not all(p.is_file() for p in (ab2_tool, ab2_audit, ab2_json, ab2_plan,
                                      ab2_src, delivery12, plan17)):
         failures.append("12 §61.53 守护：A/B 脚本 / 审计 / 计划 / 源码缺失")
@@ -4279,7 +4279,7 @@ def main() -> int:
     wr_json = ROOT / "analysis" / "l3-f4-wbranch-recheck.json"
     wr_report = ROOT / "analysis" / "l3-f4-wbranch-recheck-report.md"
     wr_adapter = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" /
-                  "com" / "example" / "cloudmusic" / "enginelegacy" /
+                  "com" / "ccmsc" / "cloudmusic" / "enginelegacy" /
                   "EngineAdapter.kt")
     if not all(p.is_file() for p in (wr_tool, wr_json, wr_report, wr_adapter)):
         failures.append("12 §61.71 守护：W 分支判读工具 / 证据 / 报告 / P0 源码缺失")
@@ -4694,7 +4694,7 @@ def main() -> int:
     bs_json = ROOT / "analysis" / "l3-f4-bypass-stream-audit.json"
     bs_report = ROOT / "analysis" / "l3-f4-bypass-stream-audit-report.md"
     bs_adapter = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" /
-                  "com" / "example" / "cloudmusic" / "enginelegacy" /
+                  "com" / "ccmsc" / "cloudmusic" / "enginelegacy" /
                   "EngineAdapter.kt")
     bs_src_cfg = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" /
                   "com" / "netease" / "cloudmusic" / "android" / "sdk" /
@@ -4766,7 +4766,7 @@ def main() -> int:
     a1_report = ROOT / "analysis" / "l3-f4-a1-bypass-verdict-report.md"
     a1_hist_wiring = ROOT / "analysis" / "l3-f4-level5-wiring-audit.json"
     a1_adapter = (ROOT / "archive" / "engine-legacy" / "src" / "main" / "java" /
-                  "com" / "example" / "cloudmusic" / "enginelegacy" /
+                  "com" / "ccmsc" / "cloudmusic" / "enginelegacy" /
                   "EngineAdapter.kt")
     a1_d12 = delivery12.read_text(encoding="utf-8")
     a1_runbook = (ROOT / "analysis" / "l3-f4-online-runbook.md").read_text(
@@ -4891,7 +4891,7 @@ def main() -> int:
             b2_toml = (ROOT / "gradle" / "libs.versions.toml").read_text(
                 encoding="utf-8")
             b2_bindings = (ROOT / "core-di" / "src" / "main" / "kotlin" /
-                           "com" / "example" / "cloudmusic" / "di" /
+                           "com" / "ccmsc" / "cloudmusic" / "di" /
                            "AppBindings.kt").read_text(encoding="utf-8")
             b2_d12 = delivery12.read_text(encoding="utf-8")
             b2_eval = (ROOT / "analysis" /
@@ -4984,7 +4984,7 @@ def main() -> int:
     # 防把「骨架接入」写成 B2 完成 / F4 修复、防门面签名被改、防引入
     # media3-session / 移除 18 so / 伪造 Range 与音效接线、防历史证据回潮。
     m1_adapter = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" /
-                  "com" / "example" / "cloudmusic" / "engineopensource" /
+                  "com" / "ccmsc" / "cloudmusic" / "engineopensource" /
                   "Media3EngineAdapter.kt")
     m1_build = ROOT / "engine-opensource" / "build.gradle.kts"
     m1_json = ROOT / "analysis" / "l3-b2-m1-audit.json"
@@ -4998,10 +4998,10 @@ def main() -> int:
             m1g_settings = (ROOT / "settings.gradle.kts").read_text(encoding="utf-8")
             m1g_toml = (ROOT / "gradle" / "libs.versions.toml").read_text(encoding="utf-8")
             m1g_bindings = (ROOT / "core-di" / "src" / "main" / "kotlin" /
-                            "com" / "example" / "cloudmusic" / "di" /
+                            "com" / "ccmsc" / "cloudmusic" / "di" /
                             "AppBindings.kt").read_text(encoding="utf-8")
             m1g_api = (ROOT / "engine-api" / "src" / "main" / "kotlin" /
-                       "com" / "example" / "cloudmusic" / "engine" / "api" /
+                       "com" / "ccmsc" / "cloudmusic" / "engine" / "api" /
                        "EngineApi.kt").read_text(encoding="utf-8")
             m1g_app = (ROOT / "app" / "build.gradle.kts").read_text(encoding="utf-8")
             m1g_coredi = (ROOT / "core-di" / "build.gradle.kts").read_text(encoding="utf-8")
@@ -5273,7 +5273,7 @@ def main() -> int:
     # 12 §61.86 守护 / F3 双引擎判据：B2 侧 CM-Media3 一手日志 + 矩阵引擎感知
     # 双分支（A 路线签名不得硬套 B2 运行——§61.74 口径「多信号、不反向推断」）。
     m86_adapter_path = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" /
-                        "com" / "example" / "cloudmusic" / "engineopensource" /
+                        "com" / "ccmsc" / "cloudmusic" / "engineopensource" /
                         "Media3EngineAdapter.kt")
     m86_adapter = m86_adapter_path.read_text(encoding="utf-8") \
         if m86_adapter_path.is_file() else ""
@@ -5362,7 +5362,7 @@ def main() -> int:
             _bl = (ROOT / "analysis" / "task-backlog-2026-11-07.md").read_text(
                 encoding="utf-8")
             _adapter = (ROOT / "engine-opensource" / "src" / "main" /
-                        "kotlin" / "com" / "example" / "cloudmusic" /
+                        "kotlin" / "com" / "ccmsc" / "cloudmusic" /
                         "engineopensource" / "Media3EngineAdapter.kt"
                         ).read_text(encoding="utf-8")
             _build = (ROOT / "engine-opensource" / "build.gradle.kts"
@@ -5387,9 +5387,9 @@ def main() -> int:
     # 反伪证边界（纯离线，不依赖本机 SDK / 设备）。
     attr_json = ROOT / "analysis" / "b2-f3-fail-attribution-2026-11-13.json"
     gain_src = (ROOT / "core-model" / "src" / "main" / "kotlin" / "com" /
-                "example" / "cloudmusic" / "model" / "PlaybackGain.kt")
+                "ccmsc" / "cloudmusic" / "model" / "PlaybackGain.kt")
     gain_test = (ROOT / "core-model" / "src" / "test" / "kotlin" / "com" /
-                 "example" / "cloudmusic" / "model" / "PlaybackGainTest.kt")
+                 "ccmsc" / "cloudmusic" / "model" / "PlaybackGainTest.kt")
     if not (attr_json.is_file() and gain_src.is_file() and gain_test.is_file()):
         failures.append("12 §61.101 守护：F3 归因证据 / ReplayGain 值对象与测试缺失")
     else:
@@ -5582,7 +5582,7 @@ def main() -> int:
             _jni105 = (ROOT / "engine-opensource" / "src" / "main" / "jni" /
                        "ffmpeg_jni.cc").read_text(encoding="utf-8")
             _eo = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" /
-                   "com" / "example" / "cloudmusic" / "engineopensource")
+                   "com" / "ccmsc" / "cloudmusic" / "engineopensource")
             _adapter105 = (_eo / "Media3EngineAdapter.kt").read_text(encoding="utf-8")
             _ctrl105 = _eo / "ReplayGainController.kt"
             _d105 = [
@@ -5634,7 +5634,7 @@ def main() -> int:
                        "androidx" / "media3" / "extractor" / "asf" /
                        "AsfExtractor.kt").read_text(encoding="utf-8")
             _asftest = (ROOT / "engine-opensource" / "src" / "test" / "kotlin" /
-                        "com" / "example" / "cloudmusic" / "engineopensource" /
+                        "com" / "ccmsc" / "cloudmusic" / "engineopensource" /
                         "AsfExtractorTest.kt").read_text(encoding="utf-8")
             _d106 = [
                 (ROOT / "docs" / "12-编码阶段第一批交付.md").read_text(encoding="utf-8"),
@@ -5692,7 +5692,7 @@ def main() -> int:
                        "androidx" / "media3" / "extractor" / "ape" /
                        "ApeExtractor.kt").read_text(encoding="utf-8")
             _adp107 = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" /
-                       "com" / "example" / "cloudmusic" / "engineopensource" /
+                       "com" / "ccmsc" / "cloudmusic" / "engineopensource" /
                        "Media3EngineAdapter.kt").read_text(encoding="utf-8")
             if (_pr.get("device_run") is True
                     and _pr.get("checks_passed") == 3
@@ -5718,19 +5718,19 @@ def main() -> int:
     # 12 §61.108 守护 / B2 口径修缮 + F3 增强 + SDK 固化：防陈旧文案回漂，
     # 防 attachDataSource 语义被重新挂上 M3 期承诺，防 enhanced 判据被拆。
     _adp108 = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" / "com" /
-               "example" / "cloudmusic" / "engineopensource" /
+               "ccmsc" / "cloudmusic" / "engineopensource" /
                "Media3EngineAdapter.kt").read_text(encoding="utf-8")
-    _app108 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" /
+    _app108 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" /
                "cloudmusic" / "ui" / "CloudMusicApp.kt").read_text(encoding="utf-8")
     _di108 = _PB_TEXT()
     _api108 = (ROOT / "engine-api" / "src" / "main" / "kotlin" / "com" /
-               "example" / "cloudmusic" / "engine" / "api" /
+               "ccmsc" / "cloudmusic" / "engine" / "api" /
                "EngineApi.kt").read_text(encoding="utf-8")
     _pc108 = (ROOT / "feature-player" / "src" / "main" / "kotlin" / "com" /
-              "example" / "cloudmusic" / "player" /
+              "ccmsc" / "cloudmusic" / "player" /
               "PlayerController.kt").read_text(encoding="utf-8")
     _proxy108 = (ROOT / "output-localproxy" / "src" / "main" / "kotlin" / "com" /
-                 "example" / "cloudmusic" / "output" / "localproxy" /
+                 "ccmsc" / "cloudmusic" / "output" / "localproxy" /
                  "LocalHttpStreamProxy.kt").read_text(encoding="utf-8")
     _d0606 = (ROOT / "docs" / "03-模块开发文档" /
               "03-06 播放内核与队列.md").read_text(encoding="utf-8")
@@ -5869,13 +5869,13 @@ def main() -> int:
         except (OSError, UnicodeError, ValueError) as exc:
             failures.append("12 §61.115 守护：证据不可解析（%s）" % exc)
 
-    if (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example" /
+    if (ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "ccmsc" /
             "cloudmusic" / "common" / "PathNormalizer.kt").is_file():
         warnings.append("实现期修正 C-01：路径规范化下沉至 :core-common（见 PathNormalizer KDoc）")
-    if (ROOT / "datasource-api" / "src" / "main" / "kotlin" / "com" / "example" /
+    if (ROOT / "datasource-api" / "src" / "main" / "kotlin" / "com" / "ccmsc" /
             "cloudmusic" / "datasource" / "TextReadCapability.kt").is_file():
         warnings.append("实现期契约回补 C-02：TextReadCapability（03-01 §5.1 可选能力模式）")
-    if (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com" / "example" /
+    if (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com" / "ccmsc" /
             "cloudmusic" / "storage" / "InMemoryLibrary.kt").is_file():
         warnings.append("实现期补充 C-03（Playlist/TrackEntity 就近定义）/ 澄清 C-04（重扫恢复走 ScanReconciler 显式通道），见 12 §13")
         warnings.append("契约演进 C-05（EngineSource 可选 url/localPath）/ C-06（ProxyStartPolicy 触发器 ④）已落地，见 16 §4 / 12 §21")
@@ -6010,11 +6010,11 @@ def main() -> int:
     # ① 注入通道命名同源：playUrl 的 Track 构造必须走扫描链同一清洗入口
     #   （NameParser），不得用 URL 原始路径段当曲名 —— 真机一手天书标题
     #   `V.A.%20-%20Love%20Letter%20%28Piano%29`（用户判读 12 §61.181 时发现）。
-    _pc = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt"
+    _pc = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt"
     if _pc.is_file():
         _pc_src = _code_only(_pc.read_text(encoding="utf-8", errors="replace"))
         _naming_bad = []
-        if "import com.example.cloudmusic.scanner.NameParser" not in _pc_src:
+        if "import com.ccmsc.cloudmusic.scanner.NameParser" not in _pc_src:
             _naming_bad.append("未接入 NameParser")
         if "internal fun remoteFixtureTrack(" not in _pc_src:
             _naming_bad.append("remoteFixtureTrack 构造器缺失")
@@ -6031,8 +6031,8 @@ def main() -> int:
     # ③ 画面证据自动化通道（§61.183）：验收期 debug 导航必须在位 —— MainActivity 经
     #   SurfaceNav 解析 intent 直达 surface（MIUI 禁 input tap 的免注入替代）；
     #   通道缺失/改名而 runbook 未同步即 FAIL（与 §61.33 收口清单同族登记）。
-    _ma = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "MainActivity.kt"
-    _sn = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "SurfaceNav.kt"
+    _ma = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "MainActivity.kt"
+    _sn = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "SurfaceNav.kt"
     _sweep = ROOT / "tools" / "b2_surface_sweep.py"
     if _sn.is_file() and _ma.is_file():
         _sn_src = _code_only(_sn.read_text(encoding="utf-8", errors="replace"))
@@ -6053,13 +6053,13 @@ def main() -> int:
     #   provider 在 core-di（JVM 可测、HTTP 可注入）→ Hilt 单点接线 →
     #   PlayerStateBridge 本地缓存优先 → UI 只经桥接取歌词。
     #   破坏任一环即 FAIL（含 UI 直接碰 OkHttp / LyricFileStore 的越界回归）。
-    _oly = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "di" / "lyrics" / "OnlineLyricsFetcher.kt"
-    _oly_test = ROOT / "core-di" / "src" / "test" / "kotlin" / "com" / "example" / "cloudmusic" / "di" / "lyrics" / "OnlineLyricsFetcherTest.kt"
-    _pb = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "player" / "PlayerStateBridge.kt"
-    _lp = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt"
+    _oly = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "di" / "lyrics" / "OnlineLyricsFetcher.kt"
+    _oly_test = ROOT / "core-di" / "src" / "test" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "di" / "lyrics" / "OnlineLyricsFetcherTest.kt"
+    _pb = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "player" / "PlayerStateBridge.kt"
+    _lp = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt"
     if all(p.is_file() for p in (_oly, _oly_test, _pb, _lp)):
         _oly_src = _code_only(_oly.read_text(encoding="utf-8", errors="replace"))
-        _scan_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+        _scan_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                                 / "cloudmusic" / "di" / "scan" / "ScanComposition.kt").read_text(
                                     encoding="utf-8", errors="replace"))
         _pb_src = _code_only(_pb.read_text(encoding="utf-8", errors="replace"))
@@ -6085,13 +6085,13 @@ def main() -> int:
 
     # §61.199 DLNA 断连回落（03-08 §10.2 / T18）：3 次失败判定 + DMR 进度读取 +
     # 本机接管四段（Stop → LOCAL → 解静音 → seek 续播）必须同在；缺任一段即判半条链。
-    _mon = (ROOT / "output-dlna" / "src" / "main" / "kotlin" / "com" / "example"
+    _mon = (ROOT / "output-dlna" / "src" / "main" / "kotlin" / "com" / "ccmsc"
             / "cloudmusic" / "output" / "dlna" / "DlnaSessionMonitor.kt")
-    _mon_test = (ROOT / "output-dlna" / "src" / "test" / "kotlin" / "com" / "example"
+    _mon_test = (ROOT / "output-dlna" / "src" / "test" / "kotlin" / "com" / "ccmsc"
                  / "cloudmusic" / "output" / "dlna" / "DlnaSessionMonitorTest.kt")
-    _cast = (ROOT / "output-dlna" / "src" / "main" / "kotlin" / "com" / "example"
+    _cast = (ROOT / "output-dlna" / "src" / "main" / "kotlin" / "com" / "ccmsc"
              / "cloudmusic" / "output" / "dlna" / "DlnaCastCoordinator.kt")
-    _runt = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _runt = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
              / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
     if _mon.is_file() and _mon_test.is_file() and _cast.is_file() and _runt.is_file():
         _mon_src = _code_only(_mon.read_text(encoding="utf-8", errors="replace"))
@@ -6120,10 +6120,10 @@ def main() -> int:
 
     # §61.200 DMR 多设备列表（03-08 §4.1）：纯 JVM 选择判定 + UI 列表接线 +
     # 打开弹窗才发现（不常驻扫网）+ 点设备直接投屏，四件同在才算闭环。
-    _sel = (ROOT / "output-dlna" / "src" / "main" / "kotlin" / "com" / "example"
+    _sel = (ROOT / "output-dlna" / "src" / "main" / "kotlin" / "com" / "ccmsc"
             / "cloudmusic" / "output" / "dlna" / "DmrDeviceSelector.kt")
-    _mai = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "MainActivity.kt"
-    _cmp = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt"
+    _mai = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "MainActivity.kt"
+    _cmp = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "CloudMusicApp.kt"
     if _sel.is_file() and _mai.is_file() and _cmp.is_file():
         _sel_src = _code_only(_sel.read_text(encoding="utf-8", errors="replace"))
         _mai_src = _code_only(_mai.read_text(encoding="utf-8", errors="replace"))
@@ -6163,10 +6163,10 @@ def main() -> int:
 
     # §61.202 DMR 进度驱动 UI：投屏态进度必须来自 DMR（显示 + seek 双向），
     # 且播放页不得再直接读 state.positionMs（否则显示被静音的本机引擎冻结位置）。
-    _cast2 = (ROOT / "output-dlna" / "src" / "main" / "kotlin" / "com" / "example"
+    _cast2 = (ROOT / "output-dlna" / "src" / "main" / "kotlin" / "com" / "ccmsc"
               / "cloudmusic" / "output" / "dlna" / "DlnaCastCoordinator.kt")
-    _pb2 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "player" / "PlayerStateBridge.kt"
-    _lp2 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt"
+    _pb2 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "player" / "PlayerStateBridge.kt"
+    _lp2 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt"
     if all(p.is_file() for p in (_runt, _cast2, _pb2, _lp2)):
         _cast2_src = _code_only(_cast2.read_text(encoding="utf-8", errors="replace"))
         _runt2_src = _code_only(_runt.read_text(encoding="utf-8", errors="replace"))
@@ -6199,11 +6199,11 @@ def main() -> int:
     #   （C-11/C-12 与 §61.186 登记的能力此前从未在生产网络分支运行）；
     # ③ DirectoryCoverLookup 按目录缓存封面 ref（dirCoverRefs），防每候选重读字节。
     _treader = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
-                / "example" / "cloudmusic" / "scanner" / "TagReader.kt")
+                / "ccmsc" / "cloudmusic" / "scanner" / "TagReader.kt")
     _tag_cover_203_path = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                           / "example" / "cloudmusic" / "di" / "scan" / "ProductionTagAndCover.kt")
+                           / "ccmsc" / "cloudmusic" / "di" / "scan" / "ProductionTagAndCover.kt")
     _scan_comp_path = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                       / "example" / "cloudmusic" / "di" / "scan" / "ScanComposition.kt")
+                       / "ccmsc" / "cloudmusic" / "di" / "scan" / "ScanComposition.kt")
     _skip_bad = []
     if not all(p.is_file() for p in (_treader, _tag_cover_203_path, _scan_comp_path)):
         _skip_bad.append("源文件缺失")
@@ -6212,7 +6212,7 @@ def main() -> int:
         _tag_cover_203 = _code_only(_tag_cover_203_path.read_text(encoding="utf-8", errors="replace"))
         _scancomp_203 = _code_only(_scan_comp_path.read_text(encoding="utf-8", errors="replace"))
         _treader_test_203 = (ROOT / "core-di" / "src" / "test" / "kotlin" / "com"
-                             / "example" / "cloudmusic" / "di" / "scan" / "ScanContractsTest.kt"
+                             / "ccmsc" / "cloudmusic" / "di" / "scan" / "ScanContractsTest.kt"
                              ).read_text(encoding="utf-8", errors="replace")
         # §61.281：本条判据的**对象已限定为「SKIP 语义」本身**（生产默认已于 §61.281 改为
         # PRODUCTION 读模式）——强度不变：SKIP 常量、跳过分支、应急回滚通道仍必须存在。
@@ -6251,15 +6251,15 @@ def main() -> int:
     # ④ metadataConcurrency 默认 8（此前 2→4 无守护段，本批补上防回退）；
     # ⑤ Room 侧 v4 迁移（ADD_SNAPSHOT_METADATA_DONE）+ DAO 批量 UPDATE 在位。
     _scan_ports = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
-                   / "example" / "cloudmusic" / "scanner" / "ScanPorts.kt")
+                   / "ccmsc" / "cloudmusic" / "scanner" / "ScanPorts.kt")
     _scan_models = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
-                    / "example" / "cloudmusic" / "scanner" / "ScanModels.kt")
+                    / "ccmsc" / "cloudmusic" / "scanner" / "ScanModels.kt")
     _room_daos = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                  / "example" / "cloudmusic" / "di" / "db" / "RoomDaos.kt")
+                  / "ccmsc" / "cloudmusic" / "di" / "db" / "RoomDaos.kt")
     _room_migr = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                  / "example" / "cloudmusic" / "di" / "db" / "RoomMigrations.kt")
+                  / "ccmsc" / "cloudmusic" / "di" / "db" / "RoomMigrations.kt")
     _room_schema = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                    / "example" / "cloudmusic" / "di" / "db" / "LibrarySchema.kt")
+                    / "ccmsc" / "cloudmusic" / "di" / "db" / "LibrarySchema.kt")
     _stat_bad = []
     if not all(p.is_file() for p in (_scan_ports, _scan_models, scan_coord, _room_daos,
                                      _room_migr, _room_schema)):
@@ -6298,7 +6298,7 @@ def main() -> int:
         )) or "MIGRATION_3_4" not in _migr_src:
             _stat_bad.append("v4 迁移（ADD_SNAPSHOT_METADATA_DONE / MIGRATION_3_4）缺失")
         _coord_test_204 = (ROOT / "scanner" / "src" / "test" / "kotlin" / "com"
-                           / "example" / "cloudmusic" / "scanner" / "ScanCoordinatorTest.kt"
+                           / "ccmsc" / "cloudmusic" / "scanner" / "ScanCoordinatorTest.kt"
                            ).read_text(encoding="utf-8", errors="replace")
         for _case in ("fun t18()", "fun t19()", "fun t20()", "fun t21()"):
             if _case not in _coord_test_204:
@@ -6353,12 +6353,12 @@ def main() -> int:
         if "android.permission.WAKE_LOCK" not in _manifest_src:
             _pace_bad.append("WAKE_LOCK 权限缺失（既有清单第 10 项，不得新加第 12 项）")
         _contracts_205 = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                          / "example" / "cloudmusic" / "di" / "scan" / "ScanContracts.kt"
+                          / "ccmsc" / "cloudmusic" / "di" / "scan" / "ScanContracts.kt"
                           ).read_text(encoding="utf-8", errors="replace")
         if "class CoverDedupIndex(private val file: File)" not in _contracts_205:
             _pace_bad.append("CoverDedupIndex 纯 JVM 索引缺失")
         _contracts_test_205 = (ROOT / "core-di" / "src" / "test" / "kotlin" / "com"
-                               / "example" / "cloudmusic" / "di" / "scan" / "ScanContractsTest.kt"
+                               / "ccmsc" / "cloudmusic" / "di" / "scan" / "ScanContractsTest.kt"
                                ).read_text(encoding="utf-8", errors="replace")
         if "T-A4-16" not in _contracts_test_205:
             _pace_bad.append("T-A4-16 用例缺失")
@@ -6376,7 +6376,7 @@ def main() -> int:
     # ② runtime 订阅幂等注册 + 防抖 collect + RESCAN 幂等（shouldScan 双条件）；
     # ③ Hilt 绑定在位；防「订阅空转」（本地源为空不扫）与「打断手动扫描」回潮。
     _pbcomp = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-               / "example" / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
+               / "ccmsc" / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
     _obs_bad = []
     if not _pbcomp.is_file():
         _obs_bad.append("源文件缺失")
@@ -6405,7 +6405,7 @@ def main() -> int:
         if "fun provideMediaChangeSource(" not in _pb_src:
             _obs_bad.append("PlaybackModule 绑定缺失")
         _obs_test = (ROOT / "core-di" / "src" / "test" / "kotlin" / "com"
-                     / "example" / "cloudmusic" / "di" / "playback" / "MediaChangeScanPolicyTest.kt")
+                     / "ccmsc" / "cloudmusic" / "di" / "playback" / "MediaChangeScanPolicyTest.kt")
         if not _obs_test.is_file() or "class MediaChangeScanPolicyTest" not in _obs_test.read_text(encoding="utf-8", errors="replace"):
             _obs_bad.append("MediaChangeScanPolicyTest 缺失")
         if "## 第二百一十八批（§61.206）" not in doc139_txt:
@@ -6417,9 +6417,9 @@ def main() -> int:
 
     # §61.207（A2-③）设置页「刷新此源」入口：
     # ① runtime 单源刷新（定向增量）② UI 双动作面板（刷新/移除）③ MainActivity 接线。
-    _app_ui = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+    _app_ui = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
                / "ui" / "CloudMusicApp.kt")
-    _main_src = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+    _main_src = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
                  / "MainActivity.kt")
     _src_bad = []
     if not all(p.is_file() for p in (_pbcomp, _app_ui, _main_src)):
@@ -6453,7 +6453,7 @@ def main() -> int:
     # 口径 = UI 展示层折叠（不改库不删行，§15 #3 资产纪律；防扫描层折叠的
     # refresh↔折叠翻转），胜者 = storageId 字典序最小（确定性）。
     _dupfolder = (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com"
-                  / "example" / "cloudmusic" / "storage" / "DuplicateFolder.kt")
+                  / "ccmsc" / "cloudmusic" / "storage" / "DuplicateFolder.kt")
     _dup_bad = []
     if not _dupfolder.is_file():
         _dup_bad.append("DuplicateFolder.kt 缺失")
@@ -6466,7 +6466,7 @@ def main() -> int:
         )):
             _dup_bad.append("折叠纯函数缺失")
         _dup_test = (ROOT / "core-storage" / "src" / "test" / "kotlin" / "com"
-                     / "example" / "cloudmusic" / "storage" / "DuplicateFolderTest.kt")
+                     / "ccmsc" / "cloudmusic" / "storage" / "DuplicateFolderTest.kt")
         if not _dup_test.is_file() or "class DuplicateFolderTest" not in _dup_test.read_text(encoding="utf-8", errors="replace"):
             _dup_bad.append("DuplicateFolderTest 缺失")
         if not all(x in _main2_src for x in (
@@ -6511,7 +6511,7 @@ def main() -> int:
 
     # §61.211（G09 拍板 A）MIUI 自启动引导入口：判定核 + 设置页行 + 跳转接线，
     # 防「申请电池优化豁免」违规口径回潮（PRD §9 引导口径）与判定核被绕过（硬编码 true）。
-    _miui = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "MiuiAutostartGuide.kt"
+    _miui = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "MiuiAutostartGuide.kt"
     _miui_bad = []
     if not all(p.is_file() for p in (_miui, _app_ui, _main_src)):
         _miui_bad.append("源文件缺失")
@@ -6535,7 +6535,7 @@ def main() -> int:
             _miui_bad.append("设置页引导行缺失")
         if "ACTION_APPLICATION_DETAILS_SETTINGS" not in _main3_src:
             _miui_bad.append("MainActivity 跳转接线缺失")
-        _miui_test = ROOT / "app" / "src" / "test" / "kotlin" / "com" / "example" / "cloudmusic" / "MiuiAutostartGuideTest.kt"
+        _miui_test = ROOT / "app" / "src" / "test" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "MiuiAutostartGuideTest.kt"
         if not _miui_test.is_file() or "class MiuiAutostartGuideTest" not in _miui_test.read_text(encoding="utf-8", errors="replace"):
             _miui_bad.append("MiuiAutostartGuideTest 缺失")
         if "## 第二百二十三批（§61.211）" not in doc139_txt:
@@ -6553,7 +6553,7 @@ def main() -> int:
     # ⑤ sweep 工具空格 join（`;` 拆参数 bug 不得回潮）。
     _scan_coord_212 = _code_only(scan_coord.read_text(encoding="utf-8", errors="replace"))
     _bad212 = []
-    _dsr = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+    _dsr = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
             / "di" / "settings" / "DataStoreStorageRepository.kt")
     if not all(p.is_file() for p in (_dsr, _scan_ports, scan_coord)):
         _bad212.append("源文件缺失")
@@ -6576,7 +6576,7 @@ def main() -> int:
         )):
             _bad212.append("expandStrm URL 复用 / 快照回写缺失")
         _sc_change = (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com"
-                      / "example" / "cloudmusic" / "storage" / "SettingsChange.kt")
+                      / "ccmsc" / "cloudmusic" / "storage" / "SettingsChange.kt")
         _sc_src = _code_only(_sc_change.read_text(encoding="utf-8", errors="replace"))
         if "stripRuntime" not in _sc_src or "errorMsg" not in _sc_src:
             _bad212.append("diff 层 errorMsg-only 防线缺失")
@@ -6620,14 +6620,14 @@ def main() -> int:
 
     # §61.216 V0.2 SFTP 数据源：模块 / 依赖 / 注册 / UI 入口 / 端口安全五件同在；
     # 凭据不得进日志，link 不得伪造 PROXIED（SFTP 无 http 回源 URL）。
-    _sftp_dir = ROOT / "datasource-sftp" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "sftp"
+    _sftp_dir = ROOT / "datasource-sftp" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "sftp"
     _sftp_drv = _sftp_dir / "SftpDriver.kt"
-    _jsch = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _jsch = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
              / "cloudmusic" / "di" / "adapters" / "JschSftpPort.kt")
     if _sftp_drv.is_file() and _jsch.is_file() and _mai.exists() and _cmp.exists():
         _settings_src = (ROOT / "settings.gradle.kts").read_text(encoding="utf-8", errors="replace")
         _catalog_src = (ROOT / "gradle" / "libs.versions.toml").read_text(encoding="utf-8", errors="replace")
-        _ds_src = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+        _ds_src = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                    / "cloudmusic" / "di" / "DataSourceModule.kt").read_text(encoding="utf-8", errors="replace")
         _drv_src = _code_only(_sftp_drv.read_text(encoding="utf-8", errors="replace"))
         _jsch_src = _code_only(_jsch.read_text(encoding="utf-8", errors="replace"))
@@ -6641,7 +6641,7 @@ def main() -> int:
         if "添加 SFTP 源" not in _cmp_src3 or "SftpDialog(" not in _cmp_src3:
             _sftp_bad.append("UI 添加面板缺失")
         # §61.338：能力声明与 LOCAL 缓存链搬到 CachedRemoteDriver，判据跟源不降强度。
-        _base216 = _code_only((ROOT / "datasource-api" / "src" / "main" / "kotlin" / "com" / "example"
+        _base216 = _code_only((ROOT / "datasource-api" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                    / "cloudmusic" / "datasource" / "CachedRemoteDriver.kt")
                   .read_text(encoding="utf-8", errors="replace"))
         if ("ByteRangeCapability" not in _base216 or "TextReadCapability" not in _base216
@@ -6658,10 +6658,10 @@ def main() -> int:
 
     # §61.217 外置 lrc 多候选：候选生成器 + 扫描链调用 + 目录失败记忆三件同在；
     # 候选必须含 lyrics/ 子目录与大写扩展名，且不允许 list 目录回潮（O(n²)）。
-    _lpc = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "di" / "scan" / "LyricsPathCandidates.kt"
+    _lpc = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "di" / "scan" / "LyricsPathCandidates.kt"
     if _lpc.is_file():
         _lpc_src = _code_only(_lpc.read_text(encoding="utf-8", errors="replace"))
-        _ptc_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+        _ptc_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                                / "cloudmusic" / "di" / "scan" / "ProductionTagAndCover.kt").read_text(
                                    encoding="utf-8", errors="replace"))
         _lrc_bad = []
@@ -6684,7 +6684,7 @@ def main() -> int:
             print("[PASS] §61.217 外置 lrc 多候选（子目录/大写扩展名 + 目录记忆 + 零 list）")
 
     # §61.218 歌曲信息面板：纯 JVM 展示口径 + info 位真实可点 + 不泄露签名直链。
-    _ti = ROOT / "core-model" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "model" / "TrackInfo.kt"
+    _ti = ROOT / "core-model" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "model" / "TrackInfo.kt"
     if _ti.is_file() and _lp2.is_file():
         _ti_src = _code_only(_ti.read_text(encoding="utf-8", errors="replace"))
         _lp3 = _code_only(_lp2.read_text(encoding="utf-8", errors="replace"))
@@ -6703,7 +6703,7 @@ def main() -> int:
             print("[PASS] §61.218 歌曲信息面板（格式真相源 + info 接线 + 直链不泄露）")
 
     # §61.219 SFTP 私钥认证：配置解析 + JSch addIdentity + UI 输入 + 二选一校验。
-    _sftp_ports = (ROOT / "datasource-sftp" / "src" / "main" / "kotlin" / "com" / "example"
+    _sftp_ports = (ROOT / "datasource-sftp" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                    / "cloudmusic" / "sftp" / "SftpPorts.kt")
     if _sftp_drv.is_file() and _sftp_ports.is_file() and _jsch.is_file():
         _ports_src = _code_only(_sftp_ports.read_text(encoding="utf-8", errors="replace"))
@@ -6725,7 +6725,7 @@ def main() -> int:
             print("[PASS] §61.219 SFTP 私钥认证（配置解析 + addIdentity + UI + 二选一）")
 
     # §61.220 智能歌单：纯 JVM 规则引擎 + 内置预设 + 歌单页实时入口 + 不落库。
-    _sp = (ROOT / "core-model" / "src" / "main" / "kotlin" / "com" / "example"
+    _sp = (ROOT / "core-model" / "src" / "main" / "kotlin" / "com" / "ccmsc"
            / "cloudmusic" / "model" / "SmartPlaylist.kt")
     if _sp.is_file():
         _sp_src = _code_only(_sp.read_text(encoding="utf-8", errors="replace"))
@@ -6750,19 +6750,19 @@ def main() -> int:
             print("[PASS] §61.220 智能歌单（纯 JVM 规则 + 内置预设 + 实时入口）")
 
     # §61.221 CUE 分轨：解析器 + 扫描展开（锚点 idPath）+ Track 起止列 + Room v6。
-    _cue = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "example"
+    _cue = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "ccmsc"
             / "cloudmusic" / "scanner" / "CueSheet.kt")
     _sc_src = _code_only((ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
-                          / "example" / "cloudmusic" / "scanner" / "ScanCoordinator.kt")
+                          / "ccmsc" / "cloudmusic" / "scanner" / "ScanCoordinator.kt")
                          .read_text(encoding="utf-8", errors="replace"))
     _sm_src = _code_only((ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
-                          / "example" / "cloudmusic" / "scanner" / "ScanModels.kt")
+                          / "ccmsc" / "cloudmusic" / "scanner" / "ScanModels.kt")
                          .read_text(encoding="utf-8", errors="replace"))
     _track_src = _code_only((ROOT / "core-model" / "src" / "main" / "kotlin" / "com"
-                             / "example" / "cloudmusic" / "model" / "Track.kt")
+                             / "ccmsc" / "cloudmusic" / "model" / "Track.kt")
                             .read_text(encoding="utf-8", errors="replace"))
     _schema_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                              / "example" / "cloudmusic" / "di" / "db" / "LibrarySchema.kt")
+                              / "ccmsc" / "cloudmusic" / "di" / "db" / "LibrarySchema.kt")
                              .read_text(encoding="utf-8", errors="replace"))
     _cue_bad = []
     if not _cue.is_file() or "object CueParser" not in _code_only(
@@ -6787,10 +6787,10 @@ def main() -> int:
 
     # §61.222 底栏搜索 tab（用户指示）：四胶囊 + tab3 选中映射 + onSelect 直达 + 隐藏口径作废。
     _app_src = _code_only(read_cloud_app())
-    _fei_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _fei_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                            / "cloudmusic" / "ui" / "FeiniuUi.kt")
                           .read_text(encoding="utf-8", errors="replace"))
-    _search_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _search_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                               / "cloudmusic" / "ui" / "SearchScreen.kt")
                              .read_text(encoding="utf-8", errors="replace"))
     _nav_bad = []
@@ -6818,13 +6818,13 @@ def main() -> int:
         print("[PASS] §61.222 底栏搜索 tab（四胶囊 + 选中映射 + 隐藏口径作废）")
 
     # §61.223 SFTP 外置 lrc 链修复 + 判读可观测性：ref 五态分派 + cacheDirPrefix + init/connect 失败日志。
-    _ptc = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _ptc = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                        / "cloudmusic" / "di" / "scan" / "ProductionTagAndCover.kt")
                       .read_text(encoding="utf-8", errors="replace"))
-    _scn = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _scn = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                        / "cloudmusic" / "di" / "scan" / "ScanComposition.kt")
                       .read_text(encoding="utf-8", errors="replace"))
-    _jsp = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _jsp = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                        / "cloudmusic" / "di" / "adapters" / "JschSftpPort.kt")
                       .read_text(encoding="utf-8", errors="replace"))
     _lrc_bad = []
@@ -6848,7 +6848,7 @@ def main() -> int:
 
     # §61.224 CUE 分轨播放包络：起始定位 / 终点交棒 / seek 限界 / gapless 禁用。
     _pc_src = _code_only((ROOT / "feature-player" / "src" / "main" / "kotlin" / "com"
-                          / "example" / "cloudmusic" / "player" / "PlayerController.kt")
+                          / "ccmsc" / "cloudmusic" / "player" / "PlayerController.kt")
                          .read_text(encoding="utf-8", errors="replace"))
     _cue_p_bad = []
     if "cueStartMs = track.cueStartMs" not in _pc_src or "cueEndMs = track.cueEndMs" not in _pc_src:
@@ -6872,7 +6872,7 @@ def main() -> int:
         print("[PASS] §61.224 CUE 播放包络（定位/交棒/限界/gapless 禁用）")
 
     # §61.225 SFTP 扫描期全量下载缺陷修复：分块读驱动不走 link()。
-    _ptc_src2 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _ptc_src2 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                             / "cloudmusic" / "di" / "scan" / "ProductionTagAndCover.kt")
                            .read_text(encoding="utf-8", errors="replace"))
     _nol_bad = []
@@ -6889,7 +6889,7 @@ def main() -> int:
     # §61.239 口径演进：三口实现体下沉 core-model CueEnvelope（唯一真值），
     # bridge 改为委托——守护改验「委托指向 CueEnvelope + CueEnvelope 本体在位」，
     # onSeek 注入 currentTrackCached 判据不变（契约本意不变，实现真值源单化随批留痕）。
-    _psb = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _psb = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                        / "cloudmusic" / "ui" / "player" / "PlayerStateBridge.kt")
                       .read_text(encoding="utf-8", errors="replace"))
     _cue_u_bad = []
@@ -6906,7 +6906,7 @@ def main() -> int:
     if "runtime.seekTo(absoluteSeek(ms, currentTrackCached))" not in _psb:
         _cue_u_bad.append("onSeek 反向换算未接 currentTrackCached")
     if "attachTrackCache(lifecycleScope)" not in _code_only(
-            (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+            (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
              / "MainActivity.kt").read_text(encoding="utf-8", errors="replace")):
         _cue_u_bad.append("MainActivity 未挂 track 缓存生命周期")
     if _cue_u_bad:
@@ -6916,13 +6916,13 @@ def main() -> int:
 
     # §61.227 strm 相对路径：Relative 分支 + 扫描链展开 + 相对解析。
     _strm_src = _code_only((ROOT / "datasource-strm" / "src" / "main" / "kotlin" / "com"
-                            / "example" / "cloudmusic" / "strm" / "StrmParser.kt")
+                            / "ccmsc" / "cloudmusic" / "strm" / "StrmParser.kt")
                            .read_text(encoding="utf-8", errors="replace"))
     _strm_drv = _code_only((ROOT / "datasource-strm" / "src" / "main" / "kotlin" / "com"
-                            / "example" / "cloudmusic" / "strm" / "StrmDriver.kt")
+                            / "ccmsc" / "cloudmusic" / "strm" / "StrmDriver.kt")
                            .read_text(encoding="utf-8", errors="replace"))
     _coord_src = _code_only((ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
-                             / "example" / "cloudmusic" / "scanner" / "ScanCoordinator.kt")
+                             / "ccmsc" / "cloudmusic" / "scanner" / "ScanCoordinator.kt")
                             .read_text(encoding="utf-8", errors="replace"))
     _rel_bad = []
     if "data class Relative(val path: String)" not in _strm_src:
@@ -6942,16 +6942,16 @@ def main() -> int:
 
     # §61.228 FTP 数据源：模块 + 驱动 + 注册 + UI（对齐 §61.216 SFTP 批判据面）。
     _ftp_src = _code_only((ROOT / "datasource-ftp" / "src" / "main" / "kotlin" / "com"
-                           / "example" / "cloudmusic" / "ftp" / "FtpDriver.kt")
+                           / "ccmsc" / "cloudmusic" / "ftp" / "FtpDriver.kt")
                           .read_text(encoding="utf-8", errors="replace"))
     _app_src2 = _code_only(read_cloud_app())
-    _di_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _di_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                           / "cloudmusic" / "di" / "DataSourceModule.kt")
                          .read_text(encoding="utf-8", errors="replace"))
     _ftp_bad = []
     if not (ROOT / "datasource-ftp" / "build.gradle.kts").is_file() or "FtpClientFactory" not in _ftp_src:
         _ftp_bad.append("FTP 模块或端口工厂缺失")
-    _base228 = _code_only((ROOT / "datasource-api" / "src" / "main" / "kotlin" / "com" / "example"
+    _base228 = _code_only((ROOT / "datasource-api" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                             / "cloudmusic" / "datasource" / "CachedRemoteDriver.kt")
                   .read_text(encoding="utf-8", errors="replace"))
     if '"FTP",' not in _ftp_src or "protocol.lowercase()" not in _base228:
@@ -6961,7 +6961,7 @@ def main() -> int:
     if 'KEY_FTP = "ftp"' not in _di_src or "FtpDriver(" not in _di_src:
         _ftp_bad.append("Hilt 注册缺失")
     if "添加 FTP 源" not in _app_src2 or "storages.add(\"ftp\"" not in _code_only(
-            (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+            (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
              / "MainActivity.kt").read_text(encoding="utf-8", errors="replace")):
         _ftp_bad.append("UI 入口或落库缺失")
     if _ftp_bad:
@@ -6971,9 +6971,9 @@ def main() -> int:
 
     # §61.229 DLNA DMC 音量：SetVolume/GetVolume + 运行时路由 + 输出弹窗滑杆。
     _coord_src = _code_only((ROOT / "output-dlna" / "src" / "main" / "kotlin" / "com"
-                             / "example" / "cloudmusic" / "output" / "dlna" / "DlnaCastCoordinator.kt")
+                             / "ccmsc" / "cloudmusic" / "output" / "dlna" / "DlnaCastCoordinator.kt")
                             .read_text(encoding="utf-8", errors="replace"))
-    _pc_src2 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _pc_src2 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                            / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
                           .read_text(encoding="utf-8", errors="replace"))
     _app_src3 = _code_only(read_cloud_app())
@@ -6997,9 +6997,9 @@ def main() -> int:
 
     # §61.230 淡入淡出：包络纯函数 + 设置项 + 配置转发 + 交棒组合。
     _pc_src3 = _code_only((ROOT / "feature-player" / "src" / "main" / "kotlin" / "com"
-                           / "example" / "cloudmusic" / "player" / "PlayerController.kt")
+                           / "ccmsc" / "cloudmusic" / "player" / "PlayerController.kt")
                           .read_text(encoding="utf-8", errors="replace"))
-    _fx = (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com" / "example"
+    _fx = (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com" / "ccmsc"
            / "cloudmusic" / "storage" / "AppSettings.kt").read_text(encoding="utf-8", errors="replace")
     _fade_bad = []
     if "internal fun fadeCurve(x: Float): Float" not in _pc_src3:
@@ -7026,7 +7026,7 @@ def main() -> int:
     if 'title = "均衡器"' not in _app_src4 or "onApplyEqualizer(en, lvl, bands)" not in _app_src4:
         _eq_bad.append("EQ 面板应用回调缺失")
     if "onApplyEqualizer = { en, lvl, bands -> runtime.applyEqualizer(en, lvl, bands) }" not in _code_only(
-            (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+            (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
              / "MainActivity.kt").read_text(encoding="utf-8", errors="replace")):
         _eq_bad.append("MainActivity 未接 applyEqualizer")
     if _eq_bad:
@@ -7035,10 +7035,10 @@ def main() -> int:
         print("[PASS] §61.231 EQ 调节面（面板 + applyEqualizer 全链接线）")
 
     # §61.234 UI 主题化：token 切色 + 主题四选项 + 启动应用。
-    _cmp_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _cmp_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                            / "cloudmusic" / "ui" / "ThemeCompat.kt")
                           .read_text(encoding="utf-8", errors="replace"))
-    _main_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _main_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                             / "cloudmusic" / "MainActivity.kt")
                            .read_text(encoding="utf-8", errors="replace"))
     _theme_bad = []
@@ -7056,10 +7056,10 @@ def main() -> int:
         print("[PASS] §61.234 UI 主题化（token 切色 + 四选项 + recreate 链）")
 
     # §61.233 刮削：Deezer 解析纯函数 + 会话流程 + runtime 入口 + 设置页 + updateCover。
-    _scrape = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _scrape = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                           / "cloudmusic" / "di" / "scan" / "OnlineCoverScraper.kt")
                          .read_text(encoding="utf-8", errors="replace"))
-    _pc_src4 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _pc_src4 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                            / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
                           .read_text(encoding="utf-8", errors="replace"))
     _scrape_bad = []
@@ -7069,11 +7069,11 @@ def main() -> int:
         _scrape_bad.append("刮削会话（writer→updateCover）缺失")
     if "fun scrapeMissingCovers(maxCount: Int = 50) = scope.launch" not in _pc_src4:
         _scrape_bad.append("runtime 批处理入口缺失")
-    if "onScrapeCovers" not in _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    if "onScrapeCovers" not in _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
             / "cloudmusic" / "MainActivity.kt").read_text(encoding="utf-8", errors="replace")):
         _scrape_bad.append("设置页入口未接线")
     if "suspend fun updateCover(id: TrackId, coverRef: String)" not in _code_only(
-            (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+            (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
              / "storage" / "Repositories.kt").read_text(encoding="utf-8", errors="replace")):
         _scrape_bad.append("updateCover 四件套缺失")
     if _scrape_bad:
@@ -7082,13 +7082,13 @@ def main() -> int:
         print("[PASS] §61.233 封面刮削（Deezer + 批处理 + updateCover 四件套 + UI）")
 
     # §61.235 DSD 探测 + FTPS：AudioProbe 魔数 + FtpConfig ssl + FTPSClient + UI 勾选。
-    _probe = _code_only((ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "example"
+    _probe = _code_only((ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                          / "cloudmusic" / "scanner" / "AudioProbe.kt")
                         .read_text(encoding="utf-8", errors="replace"))
     _ftp_ports = _code_only((ROOT / "datasource-ftp" / "src" / "main" / "kotlin" / "com"
-                             / "example" / "cloudmusic" / "ftp" / "FtpPorts.kt")
+                             / "ccmsc" / "cloudmusic" / "ftp" / "FtpPorts.kt")
                             .read_text(encoding="utf-8", errors="replace"))
-    _ftp_port_impl = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _ftp_port_impl = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                                  / "cloudmusic" / "di" / "adapters" / "CommonsNetFtpPort.kt")
                                 .read_text(encoding="utf-8", errors="replace"))
     _dsd_bad = []
@@ -7113,7 +7113,7 @@ def main() -> int:
     if "var bandValues by remember" not in _app_src5 or "bandValues = bandValues.toMutableList().also { it[i] = v }" not in _app_src5:
         _eq_ad_bad.append("滑杆状态数组化缺失")
     _pc_fade_src = _code_only((ROOT / "feature-player" / "src" / "main" / "kotlin" / "com"
-                               / "example" / "cloudmusic" / "player" / "PlayerController.kt")
+                               / "ccmsc" / "cloudmusic" / "player" / "PlayerController.kt")
                               .read_text(encoding="utf-8", errors="replace"))
     if "private var fadeOutArmed = false" not in _pc_fade_src:
         _eq_ad_bad.append("自然结束 fade-out armed 协调缺失")
@@ -7130,7 +7130,7 @@ def main() -> int:
     # §61.239 会话快照分轨相对化：CueEnvelope 唯一真值 + PlayerController 四发布点接线
     # + SftpDialog Ed25519 边界文案（§61.223 判读登记收口）。
     _cue_env = _code_only((ROOT / "core-model" / "src" / "main" / "kotlin" / "com"
-                           / "example" / "cloudmusic" / "model" / "CueEnvelope.kt")
+                           / "ccmsc" / "cloudmusic" / "model" / "CueEnvelope.kt")
                           .read_text(encoding="utf-8", errors="replace"))
     _pc_src = _pc_fade_src
     _sftp_dialog = _app_src5
@@ -7157,13 +7157,13 @@ def main() -> int:
 
     # §61.240 系统会话补全第一刀：SessionBridge 纯 JVM 桥 + 发布链直通 + 位保回退。
     _sb = _code_only((ROOT / "core-media" / "src" / "main" / "kotlin" / "com"
-                      / "example" / "cloudmusic" / "media" / "SessionBridge.kt")
+                      / "ccmsc" / "cloudmusic" / "media" / "SessionBridge.kt")
                      .read_text(encoding="utf-8", errors="replace"))
     _svc = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
-                       / "example" / "cloudmusic" / "PlaybackService.kt")
+                       / "ccmsc" / "cloudmusic" / "PlaybackService.kt")
                       .read_text(encoding="utf-8", errors="replace"))
     _bind = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                        / "example" / "cloudmusic" / "di" / "AppBindings.kt")
+                        / "ccmsc" / "cloudmusic" / "di" / "AppBindings.kt")
                        .read_text(encoding="utf-8", errors="replace"))
     _c240_bad = []
     if "fun interface SessionPlaybackWriter" not in _sb or "fun interface SessionMetadataWriter" not in _sb:
@@ -7189,19 +7189,19 @@ def main() -> int:
 
     # §61.241 DLNA 上次投屏设备记忆（V3-M2）：DlnaSettings 持久化 + 选择器置顶 + 全链接线。
     _as = _code_only((ROOT / "core-storage" / "src" / "main" / "kotlin" / "com"
-                      / "example" / "cloudmusic" / "storage" / "AppSettings.kt")
+                      / "ccmsc" / "cloudmusic" / "storage" / "AppSettings.kt")
                      .read_text(encoding="utf-8", errors="replace"))
     _codec = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                         / "example" / "cloudmusic" / "di" / "settings" / "AppSettingsCodec.kt")
+                         / "ccmsc" / "cloudmusic" / "di" / "settings" / "AppSettingsCodec.kt")
                         .read_text(encoding="utf-8", errors="replace"))
     _sel = _code_only((ROOT / "output-dlna" / "src" / "main" / "kotlin" / "com"
-                       / "example" / "cloudmusic" / "output" / "dlna" / "DmrDeviceSelector.kt")
+                       / "ccmsc" / "cloudmusic" / "output" / "dlna" / "DmrDeviceSelector.kt")
                       .read_text(encoding="utf-8", errors="replace"))
     _pb = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                      / "example" / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
+                      / "ccmsc" / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
                      .read_text(encoding="utf-8", errors="replace"))
     _ma = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
-                      / "example" / "cloudmusic" / "MainActivity.kt")
+                      / "ccmsc" / "cloudmusic" / "MainActivity.kt")
                      .read_text(encoding="utf-8", errors="replace"))
     _c241_bad = []
     if "val lastDmrUsn: String? = null" not in _as or "fun withLastDmr(usn: String, name: String): DlnaSettings" not in _as:
@@ -7226,10 +7226,10 @@ def main() -> int:
 
     # §61.242 逐字歌词（V0.3 M3）：增强 LRC 词级时间轴 + activeWord + 面板逐字高亮。
     _lyr = _code_only((ROOT / "core-model" / "src" / "main" / "kotlin" / "com"
-                       / "example" / "cloudmusic" / "model" / "Lyrics.kt")
+                       / "ccmsc" / "cloudmusic" / "model" / "Lyrics.kt")
                       .read_text(encoding="utf-8", errors="replace"))
     _lpp = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
-                       / "example" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt")
+                       / "ccmsc" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt")
                       .read_text(encoding="utf-8", errors="replace"))
     _c242_bad = []
     if "data class LyricWord(val startMs: Long, val endMs: Long, val text: String)" not in _lyr:
@@ -7249,13 +7249,13 @@ def main() -> int:
 
     # §61.243 FTP 断线重连退避（V0.3 M4）：结果细分 + 策略/装饰器 + 生产端口异常传播。
     _fp = _code_only((ROOT / "datasource-ftp" / "src" / "main" / "kotlin" / "com"
-                      / "example" / "cloudmusic" / "ftp" / "FtpPorts.kt")
+                      / "ccmsc" / "cloudmusic" / "ftp" / "FtpPorts.kt")
                      .read_text(encoding="utf-8", errors="replace"))
     _fr = _code_only((ROOT / "datasource-ftp" / "src" / "main" / "kotlin" / "com"
-                      / "example" / "cloudmusic" / "ftp" / "FtpReconnect.kt")
+                      / "ccmsc" / "cloudmusic" / "ftp" / "FtpReconnect.kt")
                      .read_text(encoding="utf-8", errors="replace"))
     _cn = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                      / "example" / "cloudmusic" / "di" / "adapters" / "CommonsNetFtpPort.kt")
+                      / "ccmsc" / "cloudmusic" / "di" / "adapters" / "CommonsNetFtpPort.kt")
                      .read_text(encoding="utf-8", errors="replace"))
     _c243_bad = []
     if "enum class FtpConnectResult { OK, AUTH_FAILED, NETWORK_ERROR }" not in _fp             or "suspend fun connectDetailed(): FtpConnectResult" not in _fp:
@@ -7277,16 +7277,16 @@ def main() -> int:
 
     # §61.247 A1 分层去重 Tier2（V0.3 M5）：纯 JVM 分组 + 会话 + 设置页端到端。
     _dg = _code_only((ROOT / "core-model" / "src" / "main" / "kotlin" / "com"
-                      / "example" / "cloudmusic" / "model" / "DuplicateGrouper.kt")
+                      / "ccmsc" / "cloudmusic" / "model" / "DuplicateGrouper.kt")
                      .read_text(encoding="utf-8", errors="replace"))
     _ds = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                      / "example" / "cloudmusic" / "di" / "scan" / "DuplicateScan.kt")
+                      / "ccmsc" / "cloudmusic" / "di" / "scan" / "DuplicateScan.kt")
                      .read_text(encoding="utf-8", errors="replace"))
     _pb247 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                         / "example" / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
+                         / "ccmsc" / "cloudmusic" / "di" / "playback" / "PlaybackComposition.kt")
                         .read_text(encoding="utf-8", errors="replace"))
     _ma247 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
-                         / "example" / "cloudmusic" / "MainActivity.kt")
+                         / "ccmsc" / "cloudmusic" / "MainActivity.kt")
                         .read_text(encoding="utf-8", errors="replace"))
     _ui247 = _code_only(read_cloud_app())
     _c247_bad = []
@@ -7307,13 +7307,13 @@ def main() -> int:
 
     # §61.248 A1 Tier1 确认趟：哈希端口 + 流式哈希 + 生产哈希器 + 确认会话。
     _sc = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                      / "example" / "cloudmusic" / "di" / "scan" / "ScanContracts.kt")
+                      / "ccmsc" / "cloudmusic" / "di" / "scan" / "ScanContracts.kt")
                      .read_text(encoding="utf-8", errors="replace"))
     _pt = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                      / "example" / "cloudmusic" / "di" / "scan" / "ProductionTagAndCover.kt")
+                      / "ccmsc" / "cloudmusic" / "di" / "scan" / "ProductionTagAndCover.kt")
                      .read_text(encoding="utf-8", errors="replace"))
     _dsc = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                       / "example" / "cloudmusic" / "di" / "scan" / "DuplicateScan.kt")
+                       / "ccmsc" / "cloudmusic" / "di" / "scan" / "DuplicateScan.kt")
                       .read_text(encoding="utf-8", errors="replace"))
     _c248_bad = []
     if "fun interface TrackContentHasher" not in _sc:
@@ -7337,7 +7337,7 @@ def main() -> int:
 
     # §61.249 会话封面位图（V3-M1 后续刀）：异步解码 + METADATA_KEY_ALBUM_ART + ref 纯函数。
     _svc249 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
-                          / "example" / "cloudmusic" / "PlaybackService.kt")
+                          / "ccmsc" / "cloudmusic" / "PlaybackService.kt")
                          .read_text(encoding="utf-8", errors="replace"))
     _c249_bad = []
     if "putBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART, art)" not in _svc249:
@@ -7376,13 +7376,13 @@ def main() -> int:
     # §61.252（P0 修复）：STRM/歌单无法播放四层 —— url 直链优先 + 源级失败跳链 +
     # ERROR 相位重试 + 恢复失败可见性。
     _cast = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                        / "example" / "cloudmusic" / "di" / "adapters" / "CastComposition.kt")
+                        / "ccmsc" / "cloudmusic" / "di" / "adapters" / "CastComposition.kt")
                        .read_text(encoding="utf-8", errors="replace"))
     _pc252 = _code_only((ROOT / "feature-player" / "src" / "main" / "kotlin" / "com"
-                         / "example" / "cloudmusic" / "player" / "PlayerController.kt")
+                         / "ccmsc" / "cloudmusic" / "player" / "PlayerController.kt")
                         .read_text(encoding="utf-8", errors="replace"))
     _lpp252 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
-                          / "example" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt")
+                          / "ccmsc" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt")
                          .read_text(encoding="utf-8", errors="replace"))
     _c252_bad = []
     _url_first_idx = _cast.find('ref.url?.takeIf { it.startsWith("http", ignoreCase = true) }?.let { return Link(url = it) }')
@@ -7407,7 +7407,7 @@ def main() -> int:
 
     # §61.253：孤儿源可用性如实标记（PRD §4 离线优先）。
     _ports = _code_only((ROOT / "feature-player" / "src" / "main" / "kotlin" / "com"
-                         / "example" / "cloudmusic" / "player" / "TrackPorts.kt")
+                         / "ccmsc" / "cloudmusic" / "player" / "TrackPorts.kt")
                         .read_text(encoding="utf-8", errors="replace"))
     _c253_bad = []
     if "fun interface TrackAvailabilityWriter" not in _ports:
@@ -7417,7 +7417,7 @@ def main() -> int:
         _c253_bad.append("控制器失败路径标记缺失")
     if "TrackAvailabilityWriter { id, ok ->" not in _pb247:
         _c253_bad.append("组合层接线缺失")
-    if not (ROOT / "scanner" / "src" / "test" / "kotlin" / "com" / "example" / "cloudmusic"
+    if not (ROOT / "scanner" / "src" / "test" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
             / "scanner" / "PlaylistScanTest.kt").exists():
         _c253_bad.append("m3u 展开扫描 E2E 测试缺失")
     if _c253_bad:
@@ -7427,12 +7427,12 @@ def main() -> int:
 
     # §61.254：m3u → 歌单页命名实体（扫描导入，稳定 id 幂等 upsert）。
     _plimport = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
-                 / "example" / "cloudmusic" / "scanner" / "PlaylistImport.kt")
+                 / "ccmsc" / "cloudmusic" / "scanner" / "PlaylistImport.kt")
     _scancomp_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                                / "example" / "cloudmusic" / "di" / "scan" / "ScanComposition.kt")
+                                / "ccmsc" / "cloudmusic" / "di" / "scan" / "ScanComposition.kt")
                                .read_text(encoding="utf-8", errors="replace"))
     _coord_src = _code_only((ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
-                             / "example" / "cloudmusic" / "scanner" / "ScanCoordinator.kt")
+                             / "ccmsc" / "cloudmusic" / "scanner" / "ScanCoordinator.kt")
                             .read_text(encoding="utf-8", errors="replace"))
     _c254_bad = []
     if not _plimport.exists():
@@ -7441,12 +7441,12 @@ def main() -> int:
         _pil = _code_only(_plimport.read_text(encoding="utf-8", errors="replace"))
         if "fun interface PlaylistImportSink" not in _pil or "data class PlaylistImport" not in _pil:
             _c254_bad.append("导入端口/引用类型缺失")
-    if "playlistImportSink: com.example.cloudmusic.scanner.PlaylistImportSink? = null," not in _coord_src             and "playlistImportSink: PlaylistImportSink? = null," not in _coord_src:
+    if "playlistImportSink: com.ccmsc.cloudmusic.scanner.PlaylistImportSink? = null," not in _coord_src             and "playlistImportSink: PlaylistImportSink? = null," not in _coord_src:
         _c254_bad.append("协调器导入口缺失")
     if '"pl_imp_"' not in _coord_src:
         _c254_bad.append("稳定 id 派生缺失")
     _repo_src = _code_only((ROOT / "core-storage" / "src" / "main" / "kotlin" / "com"
-                            / "example" / "cloudmusic" / "storage" / "Repositories.kt")
+                            / "ccmsc" / "cloudmusic" / "storage" / "Repositories.kt")
                            .read_text(encoding="utf-8", errors="replace"))
     if "suspend fun upsertImported(id: String, name: String, trackIds: List<TrackId>)" not in _repo_src:
         _c254_bad.append("仓库接口 upsertImported 缺失")
@@ -7459,10 +7459,10 @@ def main() -> int:
 
     # §61.255：孤儿源 sweep（扫描期 UNREACHABLE，PRD §4 灰显不删除）。
     _ports255 = _code_only((ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
-                            / "example" / "cloudmusic" / "scanner" / "ScanPorts.kt")
+                            / "ccmsc" / "cloudmusic" / "scanner" / "ScanPorts.kt")
                            .read_text(encoding="utf-8", errors="replace"))
     _c255_bad = []
-    if "suspend fun trackedStorageIds(): Set<String> = emptySet()" not in _ports255             or "suspend fun trackIdsByStorage(storageId: String): List<com.example.cloudmusic.model.TrackId> = emptyList()" not in _ports255:
+    if "suspend fun trackedStorageIds(): Set<String> = emptySet()" not in _ports255             or "suspend fun trackIdsByStorage(storageId: String): List<com.ccmsc.cloudmusic.model.TrackId> = emptyList()" not in _ports255:
         _c255_bad.append("TrackSink 扩展两口缺失")
     if "E_SCAN_ORPHAN_SOURCE" not in _coord_src or "trackSink.trackedStorageIds().filter { it !in allActive }" not in _coord_src:
         _c255_bad.append("协调器 sweep 缺失（全量 active 口径）")
@@ -7475,13 +7475,13 @@ def main() -> int:
 
     # §61.256（P0 后续）：Tier3 声纹确认趟——自研纯 Kotlin 频谱指纹（零新依赖）。
     _afp = _code_only((ROOT / "core-model" / "src" / "main" / "kotlin" / "com"
-                       / "example" / "cloudmusic" / "model" / "AudioFingerprint.kt")
+                       / "ccmsc" / "cloudmusic" / "model" / "AudioFingerprint.kt")
                       .read_text(encoding="utf-8", errors="replace"))
     _mpd = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                       / "example" / "cloudmusic" / "di" / "adapters" / "MediaPcmDecoder.kt")
+                       / "ccmsc" / "cloudmusic" / "di" / "adapters" / "MediaPcmDecoder.kt")
                       .read_text(encoding="utf-8", errors="replace"))
     _fsession = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                            / "example" / "cloudmusic" / "di" / "scan" / "FingerprintSession.kt")
+                            / "ccmsc" / "cloudmusic" / "di" / "scan" / "FingerprintSession.kt")
                            .read_text(encoding="utf-8", errors="replace"))
     _c256_bad = []
     if "object AudioFingerprint" not in _afp             or "fun fingerprint(pcm: FloatArray, sampleRate: Int): Set<Long>" not in _afp             or "fun similarity(a: Set<Long>, b: Set<Long>): Double" not in _afp:
@@ -7510,7 +7510,7 @@ def main() -> int:
     if "frameIdx" in _afp:
         _c258_bad.append("绝对帧号仍入哈希")
     _fp_test = _code_only((ROOT / "core-model" / "src" / "test" / "kotlin" / "com"
-                           / "example" / "cloudmusic" / "model" / "AudioFingerprintTest.kt")
+                           / "ccmsc" / "cloudmusic" / "model" / "AudioFingerprintTest.kt")
                           .read_text(encoding="utf-8", errors="replace"))
     if "fun timeOffsetMatches()" not in _fp_test:
         _c258_bad.append("偏移命中用例缺失")
@@ -7521,7 +7521,7 @@ def main() -> int:
 
     # §61.261：首页搜索入口去重——底栏已有搜索 tab，首页不再重复放搜索圆钮。
     _home_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
-                            / "example" / "cloudmusic" / "ui" / "HomeScreen.kt")
+                            / "ccmsc" / "cloudmusic" / "ui" / "HomeScreen.kt")
                            .read_text(encoding="utf-8", errors="replace"))
     _c261_bad = []
     if "fun HomeScreen(" not in _home_src:
@@ -7537,10 +7537,10 @@ def main() -> int:
     _theme_src = (ROOT / "app" / "src" / "main" / "res" / "values" / "themes.xml").read_text(encoding="utf-8", errors="replace")
     _app_src = _code_only(read_cloud_app())
     _player_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com"
-                              / "example" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt")
+                              / "ccmsc" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt")
                              .read_text(encoding="utf-8", errors="replace"))
     _track_src = _code_only((ROOT / "core-model" / "src" / "main" / "kotlin" / "com"
-                             / "example" / "cloudmusic" / "model" / "Track.kt")
+                             / "ccmsc" / "cloudmusic" / "model" / "Track.kt")
                             .read_text(encoding="utf-8", errors="replace"))
     _c262_bad = []
     if "android:windowOptOutEdgeToEdgeEnforcement" not in _theme_src:
@@ -7575,13 +7575,13 @@ def main() -> int:
 
     # §61.264：文件级扫描错误不得用 storageId 上报（否则整个源被 errorMsg 踢出 active）。
     _scan_src = _code_only((ROOT / "scanner" / "src" / "main" / "kotlin" / "com"
-                            / "example" / "cloudmusic" / "scanner" / "ScanCoordinator.kt")
+                            / "ccmsc" / "cloudmusic" / "scanner" / "ScanCoordinator.kt")
                            .read_text(encoding="utf-8", errors="replace"))
     _c264_bad = []
     if 'storage.id, "E_' in _scan_src:
         _c264_bad.append("文件级错误仍用 storageId 上报")
     if "坏 cue 文件按文件路径上报" not in _code_only((ROOT / "scanner" / "src" / "test" / "kotlin" / "com"
-                                                  / "example" / "cloudmusic" / "scanner" / "CueScanTest.kt")
+                                                  / "ccmsc" / "cloudmusic" / "scanner" / "CueScanTest.kt")
                                                 .read_text(encoding="utf-8", errors="replace")):
         _c264_bad.append("坏 CUE 路径判据缺失")
     if _c264_bad:
@@ -7598,18 +7598,18 @@ def main() -> int:
 
     # §61.266：HTTP 音源 OOM——探测只取元数据、读按 len 上界、响应体流式截断（禁止整段入堆）。
     _ports_src = _code_only((ROOT / "engine-bridge" / "src" / "main" / "kotlin" / "com"
-                             / "example" / "cloudmusic" / "bridge" / "DataSourcePorts.kt")
+                             / "ccmsc" / "cloudmusic" / "bridge" / "DataSourcePorts.kt")
                             .read_text(encoding="utf-8", errors="replace"))
     _http_ds_src = _code_only((ROOT / "engine-bridge" / "src" / "main" / "kotlin" / "com"
-                               / "example" / "cloudmusic" / "bridge" / "HttpDataSource.kt")
+                               / "ccmsc" / "cloudmusic" / "bridge" / "HttpDataSource.kt")
                               .read_text(encoding="utf-8", errors="replace"))
     _okhttp_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                              / "example" / "cloudmusic" / "di" / "adapters" / "OkHttpAdapters.kt")
+                              / "ccmsc" / "cloudmusic" / "di" / "adapters" / "OkHttpAdapters.kt")
                              .read_text(encoding="utf-8", errors="replace"))
-    _adapters_test = _code_only((ROOT / "core-di" / "src" / "test" / "kotlin" / "com" / "example"
+    _adapters_test = _code_only((ROOT / "core-di" / "src" / "test" / "kotlin" / "com" / "ccmsc"
                                  / "cloudmusic" / "di" / "adapters" / "ProductionAdaptersTest.kt")
                                 .read_text(encoding="utf-8", errors="replace"))
-    _ds_test = _code_only((ROOT / "engine-bridge" / "src" / "test" / "kotlin" / "com" / "example"
+    _ds_test = _code_only((ROOT / "engine-bridge" / "src" / "test" / "kotlin" / "com" / "ccmsc"
                            / "cloudmusic" / "bridge" / "DataSourceAdapterTest.kt")
                           .read_text(encoding="utf-8", errors="replace"))
     _c266_bad = []
@@ -7651,10 +7651,10 @@ def main() -> int:
 
     # §61.268：本地 WebDAV 签名直链（?sign=）必须转本机回环代理，禁止 Media3 直连。
     _resolver_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                                / "example" / "cloudmusic" / "di" / "playback"
+                                / "ccmsc" / "cloudmusic" / "di" / "playback"
                                 / "PlaybackComposition.kt")
                                .read_text(encoding="utf-8", errors="replace"))
-    _resolver_test = _code_only((ROOT / "core-di" / "src" / "test" / "kotlin" / "com" / "example"
+    _resolver_test = _code_only((ROOT / "core-di" / "src" / "test" / "kotlin" / "com" / "ccmsc"
                                  / "cloudmusic" / "di" / "playback"
                                  / "TrackSourceResolverProxyTest.kt")
                                 .read_text(encoding="utf-8", errors="replace"))
@@ -7677,9 +7677,9 @@ def main() -> int:
 
     # §61.269：302 目标缓存——消除签名直链每个 Range 重复 302 导致的播放卡顿。
     _okhttp_src = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com"
-                              / "example" / "cloudmusic" / "di" / "adapters" / "OkHttpAdapters.kt")
+                              / "ccmsc" / "cloudmusic" / "di" / "adapters" / "OkHttpAdapters.kt")
                              .read_text(encoding="utf-8", errors="replace"))
-    _okhttp_test = _code_only((ROOT / "core-di" / "src" / "test" / "kotlin" / "com" / "example"
+    _okhttp_test = _code_only((ROOT / "core-di" / "src" / "test" / "kotlin" / "com" / "ccmsc"
                                / "cloudmusic" / "di" / "adapters" / "ProductionAdaptersTest.kt")
                               .read_text(encoding="utf-8", errors="replace"))
     _c269_bad = []
@@ -7703,12 +7703,12 @@ def main() -> int:
 
     # §61.270：播放页顶部全面屏（透明状态栏+内容延伸）+ 底部保留系统导航栏。
     _app_src = _code_only(read_cloud_app())
-    _player_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _player_src = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                               / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt")
                              .read_text(encoding="utf-8", errors="replace"))
     # §61.291 后系统栏改由 SystemBars.kt 单点上色、宿主按 showPlayer 传 decorFits 形态：
     # 判据跟着搬到「形态 + 目标文件」，强度不变（仍要求播放页 decorFits=false / 透明状态栏 / 保留导航栏）。
-    _sysbars_src270 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _sysbars_src270 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                                   / "cloudmusic" / "ui" / "SystemBars.kt")
                                  .read_text(encoding="utf-8", errors="replace"))
     _c270_bad = []
@@ -7747,9 +7747,9 @@ def main() -> int:
     # ③ SurfaceNav.LIBRARY 仍直达 tab1（取证导航不死链）；
     # ④ 分组视图具备展开语义（防退回「每组只显示首条」的丢歌形态）。
     _ui274 = read_cloud_app()
-    _lib274 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+    _lib274 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
                / "ui" / "FnLibraryScreen.kt").read_text(encoding="utf-8", errors="replace")
-    _more274 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+    _more274 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
                 / "ui" / "MoreScreen.kt").read_text(encoding="utf-8", errors="replace")
     _c274 = []
     if "onLibraryManager" in _ui274 or "onLibraryManager" in _more274:
@@ -7784,7 +7784,7 @@ def main() -> int:
     # ② 用户可见文案不含内部术语（保活/电池优化豁免/重新拉起/数据源管理/DLNA/DMR）
     #    与文档编号（§）；③ 副题不得再用 `${track.artist} · ${track.album}` 裸拼。
     # 边界：PlaybackService 的 logcat 文本不是用户可见文案，不纳入；注释由 _code_only 剥离。
-    _ui_dir = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic")
+    _ui_dir = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic")
     _ui_pkg = _ui_dir / "ui"
     _c275 = []
     for _rel in ("ui/HomeScreen.kt", "ui/FnLibraryScreen.kt", "ui/CloudMusicApp.kt"):
@@ -7802,7 +7802,7 @@ def main() -> int:
     ] + list(_ui_pkg.rglob("*.kt"))
     # §61.275：错误码同样不得进用户文案（07 码表 → ErrorText.human 映射）
     _copy_terms = ("保活", "电池优化豁免", "重新拉起", "数据源管理", "DLNA", "DMR", "E_DS_")
-    _err275 = (ROOT / "core-model" / "src" / "main" / "kotlin" / "com" / "example"
+    _err275 = (ROOT / "core-model" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                / "cloudmusic" / "model" / "ErrorText.kt")
     if not _err275.is_file() or "fun human(" not in _err275.read_text(encoding="utf-8", errors="replace"):
         _c275.append("错误码人话映射（ErrorText）缺失")
@@ -7830,9 +7830,9 @@ def main() -> int:
     # 判据：① 组件层具备灰显能力（dimmed/badge + alpha 45% + 角标组件）；
     # ② 音乐库行按 availability 自动灰显并拦截点击；③ 收藏/最近/歌单/队列四处接线；
     # ④ 点击提示走人话原因（TrackInfo.availabilityLabel），不是枚举名。
-    _fe276 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+    _fe276 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
               / "ui" / "FeiniuUi.kt").read_text(encoding="utf-8", errors="replace")
-    _lib276 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+    _lib276 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
                / "ui" / "FnLibraryScreen.kt").read_text(encoding="utf-8", errors="replace")
     _ui276 = read_cloud_app()
     _c276 = []
@@ -7890,7 +7890,7 @@ def main() -> int:
     #       ③ 三处表意错按 03-10 §8.1 修正（专辑=唱片套 / 音源=双层机架 / 设置=梯形齿轮廓）；
     #       ④ 映射表与枚举**双向**在册（加图标不登记、登记了没实现，都 FAIL）。
     # 边界：`☰` 仍是曲目封面占位字形、`✕` 仍是搜索清词、`♥/↺` 仍是列表行标记，均不在退役集合内。
-    _ui_dir = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _ui_dir = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                / "cloudmusic" / "ui")
     _fn_icons = (_ui_dir / "FnIcons.kt").read_text(encoding="utf-8", errors="replace")
     _fn_lib = (_ui_dir / "FnLibraryScreen.kt").read_text(encoding="utf-8", errors="replace")
@@ -7947,10 +7947,10 @@ def main() -> int:
             _c278.append("枚举已加但映射表未登记：%s" % ",".join(_unlisted))
     # 唱片红标（V0.4-05 顺带审查项）：竞品 g9f 位图带「网易云音乐保留全部著作权权利」版权弧text，
     # 播放页占位盘必须走自绘 DiscLabelArt，且自绘实现不得再画文字。
-    _vinyl = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _vinyl = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
               / "cloudmusic" / "ui" / "player" / "VinylDiscView.kt").read_text(
                   encoding="utf-8", errors="replace")
-    _label = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _label = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
               / "cloudmusic" / "ui" / "player" / "DiscLabelArt.kt").read_text(
                   encoding="utf-8", errors="replace")
     if "LegacyAsset.DiscRed" in _vinyl:
@@ -8020,7 +8020,7 @@ def main() -> int:
     _home = (_ui_dir / "HomeScreen.kt").read_text(encoding="utf-8", errors="replace")
     if "onOpenMine(false)" not in _home or "onOpenMine(true)" not in _home:
         _c280.append("首页收藏/最近卡未按语义分流（两张卡仍同一入口）")
-    _player = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _player = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt").read_text(
                    encoding="utf-8", errors="replace")
     if "lyrics_hint_shown" not in _player:
@@ -8036,7 +8036,7 @@ def main() -> int:
     #       ③ 白名单 + 阈值约束在位（readExts / maxBytes 真生效，不是摆设）；
     #       ④ 文档演进注已从"落地前维持 SKIP"改写为现行口径（防文档与代码两张皮）。
     _c281 = []
-    _tag_reader = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "example"
+    _tag_reader = (ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                    / "cloudmusic" / "scanner" / "TagReader.kt").read_text(
                        encoding="utf-8", errors="replace")
     if "val PRODUCTION = RemoteTagPolicy(skipRemoteTags = false)" not in _tag_reader:
@@ -8048,7 +8048,7 @@ def main() -> int:
                     "if (sizeBytes > maxBytes) return true"):
         if _needle not in _tag_reader:
             _c281.append("白名单/阈值约束丢失：%s" % _needle)
-    _scan_comp = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _scan_comp = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                   / "cloudmusic" / "di" / "scan" / "ScanComposition.kt").read_text(
                       encoding="utf-8", errors="replace")
     # 只看装配实参，不看注释：剥离行注释后必须出现 PRODUCTION 且不再有 SKIP
@@ -8057,12 +8057,12 @@ def main() -> int:
         _c281.append("生产装配未指向 PRODUCTION（远程 tag 仍被跳过）")
     if "remoteTagPolicy = RemoteTagPolicy.SKIP" in _scan_code:
         _c281.append("生产装配仍是 SKIP（阶段 B 白名单恢复未落地）")
-    _prod_tc = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _prod_tc = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                 / "cloudmusic" / "di" / "scan" / "ProductionTagAndCover.kt").read_text(
                     encoding="utf-8", errors="replace")
     if "private val remoteTagPolicy: RemoteTagPolicy = RemoteTagPolicy.PRODUCTION" not in _prod_tc:
         _c281.append("AndroidTagReader 默认策略未指向 PRODUCTION（漏传即退回全跳过）")
-    _scan_test = (ROOT / "core-di" / "src" / "test" / "kotlin" / "com" / "example"
+    _scan_test = (ROOT / "core-di" / "src" / "test" / "kotlin" / "com" / "ccmsc"
                   / "cloudmusic" / "di" / "scan" / "ScanContractsTest.kt").read_text(
                       encoding="utf-8", errors="replace")
     for _needle in ("RemoteTagPolicy.PRODUCTION.shouldSkip", "T-A4-17"):
@@ -8095,7 +8095,7 @@ def main() -> int:
     _nl = chr(10)
     _val_color = "val[ ]+([A-Za-z0-9_]+)[ ]*=[ ]*" + re.escape("Color(")
     _base_call = "([A-Za-z0-9_]+)[ ]*=[ ]*" + re.escape('base("')
-    _fnui = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _fnui = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
              / "cloudmusic" / "ui" / "FeiniuUi.kt").read_text(encoding="utf-8", errors="replace")
     _fn_start = _fnui.find("object FnComp {")
     _fn_end = _fnui.find(_nl + "}" + _nl, _fn_start) if _fn_start >= 0 else -1
@@ -8146,7 +8146,7 @@ def main() -> int:
     if "Color(0xFF3A3A3E)" in _fn_sw_body:
         _c283.append("FnSwitch 仍硬编码关闭态底 #3A3A3E")
 
-    _fn_test = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "example"
+    _fn_test = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "ccmsc"
                 / "cloudmusic" / "ui" / "FnThemeTokenTest.kt")
     if not _fn_test.exists():
         _c283.append("缺 FnThemeTokenTest（令牌切色无断言面）")
@@ -8158,7 +8158,7 @@ def main() -> int:
         if "assertNotEquals" not in _tt:
             _c283.append("FnThemeTokenTest 缺互异断言")
 
-    _cu = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _cu = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
            / "cloudmusic" / "ui" / "ThemeCompat.kt").read_text(encoding="utf-8", errors="replace")
     if "FnComp.applyTheme(isDark)" not in _cu:
         _c283.append("applyThemeCompat 未联动 FnComp（切主题后飞牛页不跟随）")
@@ -8250,9 +8250,9 @@ def main() -> int:
                 _c284.append("fnGroupCardRow 未用令牌 %s（硬编码会与卡片漂移）" % _tok)
         if re.search(r"Color\(0x", _row):
             _c284.append("fnGroupCardRow 硬编码色值")
-    _mml = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _mml = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
             / "cloudmusic" / "ui" / "MyMusicLayout.kt")
-    _mmlt = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "example"
+    _mmlt = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "ccmsc"
              / "cloudmusic" / "ui" / "MyMusicLayoutTest.kt")
     if not _mml.is_file():
         _c284.append("缺 MyMusicLayout.kt（序号算法无单一真相源）")
@@ -8417,7 +8417,7 @@ def main() -> int:
     #   口径：浅色是**我方补出来的**（飞牛无浅色基准），深色是逐像素采样。判定不是硬追
     #   WCAG AA，而是「浅色 ≥ 深色同令牌的实测对比度」——否则提示文字会被压得比基准重一档。
     _c288 = []
-    _ui_test_dir = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "example"
+    _ui_test_dir = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "ccmsc"
                     / "cloudmusic" / "ui")
     _contrast_test = (_ui_test_dir / "FnContrastTest.kt")
     if not _contrast_test.is_file():
@@ -8615,7 +8615,7 @@ def main() -> int:
     #   判据盯三件事：**单一写入口**（SystemBars.kt）、**目标态可判**（stateFor 纯函数）、
     #   **不留命令式还原**（退出播放页按主题重算，而不是把窗口原值塞回去）。
     _c291 = []
-    _ui_src_dir = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _ui_src_dir = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                   / "cloudmusic" / "ui")
     _sysbars_path = _ui_src_dir / "SystemBars.kt"
     _cloud_app_path = _ui_src_dir / "CloudMusicApp.kt"
@@ -8859,7 +8859,7 @@ def main() -> int:
     _sf293 = _args_from293(_ca293, _ca293.find("FnSearchField(") + len("FnSearchField"))
     if "autoFocus = true" in _sf293:
         _c293.append("搜索框把 autoFocus 写死 true（进页弹键盘）")
-    _policy293 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _policy293 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                   / "cloudmusic" / "ui" / "InputPolicy.kt").read_text(encoding="utf-8", errors="replace")
     if "internal fun shouldAutoFocusSearch(initialQuery: String): Boolean = false" not in _code_only(_policy293):
         _c293.append("shouldAutoFocusSearch 不再恒 false（G-7 进页不弹键盘口径回潮）")
@@ -8877,7 +8877,7 @@ def main() -> int:
     #   **六类动作各有调用点**、**单实例替换而非排队**（连点时提示要与当前操作对得上）。
     _c294 = []
 
-    _ui_root294 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui")
+    _ui_root294 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui")
     _fb_path294 = _ui_root294 / "Feedback.kt"
     if not _fb_path294.is_file():
         _c294.append("ui/Feedback.kt 缺失（反馈通道被删）")
@@ -8924,7 +8924,7 @@ def main() -> int:
         _c294.append("CloudMusicApp 未接反馈出口")
 
     # 文案退化只在真机看得见 → 必须有纯 JVM 用例钉住
-    _fb_test294 = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "example"
+    _fb_test294 = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "ccmsc"
                    / "cloudmusic" / "ui" / "FeedbackTextTest.kt")
     if not _fb_test294.is_file():
         _c294.append("FeedbackTextTest 用例缺失")
@@ -8950,7 +8950,7 @@ def main() -> int:
     #   判据盯四件事：**弹层内容吃 ime inset**、**超屏表单显式开滚动**、
     #   **自带滚动的弹层不得再套一层**（双层竖向滚动直接测量崩溃）、**默认值必须是 false**。
     _c295 = []
-    _ui_root295 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui")
+    _ui_root295 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui")
     _fu_path295 = _ui_root295 / "FeiniuUi.kt"
     if not _fu_path295.is_file():
         _c295.append("ui/FeiniuUi.kt 缺失")
@@ -9048,7 +9048,7 @@ def main() -> int:
         _first = min(_after, key=lambda _b: _b[0])
         return _code[_i:_first[1]]
 
-    _st_path296 = ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/SearchText.kt"
+    _st_path296 = ROOT / "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/SearchText.kt"
     if not _st_path296.is_file():
         _c296.append("core-model 的 SearchText 缺失（归一化退化成各写各的）")
     else:
@@ -9065,20 +9065,20 @@ def main() -> int:
         if "Regex(" in _norm296 or "trim()" in _norm296:
             _c296.append("normalize 退回 trim/Regex 兜底（Java trim 不剥 U+3000）")
 
-    _lq_path296 = ROOT / "core-storage/src/main/kotlin/com/example/cloudmusic/storage/LibraryQuery.kt"
+    _lq_path296 = ROOT / "core-storage/src/main/kotlin/com/ccmsc/cloudmusic/storage/LibraryQuery.kt"
     _lq296 = _code_only(_lq_path296.read_text(encoding="utf-8", errors="replace"))
     _lq_search296 = _fn_body296(_lq296, "fun search(")
     if "SearchText.normalize" not in _lq_search296 or "SearchText.tokens" not in _lq_search296:
         _c296.append("LibraryQuery.search 未走 SearchText（纯 JVM 侧仍会粘词）")
 
-    _ls_path296 = ROOT / "core-di/src/main/kotlin/com/example/cloudmusic/di/db/LibrarySchema.kt"
+    _ls_path296 = ROOT / "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/db/LibrarySchema.kt"
     _ls296 = _code_only(_ls_path296.read_text(encoding="utf-8", errors="replace"))
     if "SearchText.normalize" not in _fn_body296(_ls296, "fun isShortQuery("):
         _c296.append("FtsQuery.isShortQuery 未归一（尾随全角空格会把 1 字查询抬成 2 字）")
     if "SearchText.tokens" not in _fn_body296(_ls296, "fun match("):
         _c296.append("FtsQuery.match 未走 SearchText.tokens（FTS 收到跨列大短语）")
 
-    _rr_path296 = ROOT / "core-di/src/main/kotlin/com/example/cloudmusic/di/db/RoomRepositories.kt"
+    _rr_path296 = ROOT / "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/db/RoomRepositories.kt"
     _rr296 = _code_only(_rr_path296.read_text(encoding="utf-8", errors="replace"))
     if "SearchText.normalize" not in _fn_body296(_rr296, "override fun search("):
         _c296.append("RoomTrackRepository.search 未归一（LIKE/FTS 都拿整串）")
@@ -9094,7 +9094,7 @@ def main() -> int:
         _c296.append("仍有 ASCII-only 分词 Regex(\"\\\\s+\")：%s" % ",".join(_re_sites296))
 
     # 用例在册：SearchText 7 条 + 两处契约扩展（纯空白查询 → 全量）
-    _st_test296 = (ROOT / "core-model/src/test/kotlin/com/example/cloudmusic/model/SearchTextTest.kt")
+    _st_test296 = (ROOT / "core-model/src/test/kotlin/com/ccmsc/cloudmusic/model/SearchTextTest.kt")
     if not _st_test296.is_file():
         _c296.append("SearchTextTest 缺失")
     else:
@@ -9137,7 +9137,7 @@ def main() -> int:
         return _seg
 
     # A. TimeText 存在，两个函数都 Locale.ROOT，未知值走 TrackInfo.UNKNOWN
-    _tt_path297 = ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/TimeText.kt"
+    _tt_path297 = ROOT / "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/TimeText.kt"
     if not _tt_path297.is_file():
         _c297.append("core-model 的 TimeText 缺失（时长格式化又回到各写一份）")
     else:
@@ -9157,7 +9157,7 @@ def main() -> int:
 
     # B. 列表侧必须委托，不得再自己拼格式串
     _ti297 = _code_only(
-        (ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/TrackInfo.kt")
+        (ROOT / "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/TrackInfo.kt")
         .read_text(encoding="utf-8", errors="replace")
     )
     _dl297 = _fn_body297(_ti297, "fun durationLabel(")
@@ -9168,7 +9168,7 @@ def main() -> int:
 
     # C. 播放页：第二份实现必须消失，时间行两处走 TimeText.clock
     _lp297 = _code_only(
-        (ROOT / "app/src/main/kotlin/com/example/cloudmusic/ui/player/LegacyPlayerPage.kt")
+        (ROOT / "app/src/main/kotlin/com/ccmsc/cloudmusic/ui/player/LegacyPlayerPage.kt")
         .read_text(encoding="utf-8", errors="replace")
     )
     if re.search(r"fun\s+formatMs\s*\(", _lp297):
@@ -9191,14 +9191,14 @@ def main() -> int:
 
     # E. LRC 写文件：时间戳必须 Locale.ROOT（本地数字外部播放器解析不了）
     _lf297 = _code_only(
-        (ROOT / "core-storage/src/main/kotlin/com/example/cloudmusic/storage/LyricFileStore.kt")
+        (ROOT / "core-storage/src/main/kotlin/com/ccmsc/cloudmusic/storage/LyricFileStore.kt")
         .read_text(encoding="utf-8", errors="replace")
     )
     if "Locale.ROOT" not in _fn_body297(_lf297, "fun Lyrics.serializeToLrc("):
         _c297.append("serializeToLrc 时间戳未用 Locale.ROOT（写出本地数字，外部播放器解析不了）")
 
     # F. 用例在册
-    _tt_test297 = ROOT / "core-model/src/test/kotlin/com/example/cloudmusic/model/TimeTextTest.kt"
+    _tt_test297 = ROOT / "core-model/src/test/kotlin/com/ccmsc/cloudmusic/model/TimeTextTest.kt"
     if not _tt_test297.is_file():
         _c297.append("TimeTextTest 缺失")
     else:
@@ -9226,7 +9226,7 @@ def main() -> int:
         _c298.append("seek 仍用 frameForTimeUs(timeUs)（1405/1435 帧反算成 i-1）")
     if "private fun frameIndexForPosition" not in _src298:
         _c298.append("缺 frameIndexForPosition（按字节偏移反查帧号）")
-    _tt298 = (ROOT / "engine-opensource/src/test/kotlin/com/example/cloudmusic/engineopensource/"
+    _tt298 = (ROOT / "engine-opensource/src/test/kotlin/com/ccmsc/cloudmusic/engineopensource/"
                      "ApeExtractorTest.kt").read_text(encoding="utf-8", errors="replace")
     if "seek 按 position 定位帧" not in _tt298:
         _c298.append("用例未覆盖 seek by position（真机乱跳无回归防线）")
@@ -9237,13 +9237,13 @@ def main() -> int:
 
     # ---- §61.301（H0-1+H0-2 时钟真相：BUFFERING 透传 / 会话 speed / 超时兜底非 0）----
     _c301 = []
-    _api301 = (ROOT / "engine-api/src/main/kotlin/com/example/cloudmusic/engine/api/"
+    _api301 = (ROOT / "engine-api/src/main/kotlin/com/ccmsc/cloudmusic/engine/api/"
                       "EngineApi.kt").read_text(encoding="utf-8", errors="replace")
     if "BUFFERING" not in _api301.split("enum class EngineState", 1)[-1].split("}", 1)[0]:
         _c301.append("EngineState 无 BUFFERING（缓冲态被吞，系统会话外推照走）")
     if "fun reportBuffering()" not in _api301:
         _c301.append("InMemoryMusicEngine 缺 reportBuffering（透传用例无处注入）")
-    _ad301 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/example/cloudmusic/"
+    _ad301 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/ccmsc/cloudmusic/"
                          "engineopensource/Media3EngineAdapter.kt"
                          ).read_text(encoding="utf-8", errors="replace"))
     _lst301 = _ad301[_ad301.find("override fun onPlaybackStateChanged"):
@@ -9260,19 +9260,19 @@ def main() -> int:
         _c301.append("positionMs 超时仍兜底 0L（瞬跳 00:00 回弹）")
     if "lastKnownPositionMs" not in _pos301:
         _c301.append("positionMs 超时未保留上次已知位置")
-    _pm301 = (ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/player/"
+    _pm301 = (ROOT / "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/"
               "PlaybackModels.kt").read_text(encoding="utf-8", errors="replace")
     if "val isBuffering: Boolean = false" not in _pm301:
         _c301.append("PlayerState 缺 isBuffering 标志")
-    _pc301 = _code_only((ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/"
+    _pc301 = _code_only((ROOT / "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/"
                          "player/PlayerController.kt").read_text(encoding="utf-8", errors="replace"))
     if "tick % 4 == 0 && !_state.value.isBuffering" not in _pc301:
         _c301.append("节拍器未按 isBuffering 门禁（缓冲期 PLAYING 快照重锚外推时钟）")
-    _sv301 = _code_only((ROOT / "app/src/main/kotlin/com/example/cloudmusic/"
+    _sv301 = _code_only((ROOT / "app/src/main/kotlin/com/ccmsc/cloudmusic/"
                          "PlaybackService.kt").read_text(encoding="utf-8", errors="replace"))
     if "PlaybackState.STATE_BUFFERING" not in _sv301:
         _c301.append("PlaybackService 未直写 STATE_BUFFERING（锁屏/通知外推不停）")
-    _t301 = (ROOT / "feature-player/src/test/kotlin/com/example/cloudmusic/player/"
+    _t301 = (ROOT / "feature-player/src/test/kotlin/com/ccmsc/cloudmusic/player/"
              "PlayerControllerTest.kt").read_text(encoding="utf-8", errors="replace")
     if "reportBuffering" not in _t301:
         _c301.append("BUFFERING 透传用例缺（无回归防线）")
@@ -9284,11 +9284,11 @@ def main() -> int:
 
     # ---- §61.302（H0-3~H0-5 取流吞吐：顺序流续泵 / 缓存 key 稳定 / LoadControl 显式化）----
     _c302 = []
-    _ports302 = (ROOT / "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/"
+    _ports302 = (ROOT / "engine-bridge/src/main/kotlin/com/ccmsc/cloudmusic/bridge/"
                  "DataSourcePorts.kt").read_text(encoding="utf-8", errors="replace")
     if "data class HttpStreamSlice" not in _ports302 or "fun openStream(" not in _ports302:
         _c302.append("RangeHttpStack 缺 openStream 端口/HttpStreamSlice（流续泵无端口）")
-    _hds302 = _code_only((ROOT / "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/"
+    _hds302 = _code_only((ROOT / "engine-bridge/src/main/kotlin/com/ccmsc/cloudmusic/bridge/"
                           "HttpDataSource.kt").read_text(encoding="utf-8", errors="replace"))
     if "streamNextOffset == offset" not in _hds302:
         _c302.append("HttpDataSource 缺顺序命中判定（每 64KiB 一 GET 结构税仍在）")
@@ -9296,7 +9296,7 @@ def main() -> int:
         _c302.append("HttpDataSource 未走 openStream 开尾流")
     if "private fun closeStream" not in _hds302:
         _c302.append("HttpDataSource 缺 closeStream（上游响应连接泄漏风险）")
-    _ok302 = _code_only((ROOT / "core-di/src/main/kotlin/com/example/cloudmusic/di/adapters/"
+    _ok302 = _code_only((ROOT / "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/adapters/"
                          "OkHttpAdapters.kt").read_text(encoding="utf-8", errors="replace"))
     _os302 = _ok302[_ok302.find("override fun openStream("):
                     _ok302.find("override fun probe(")]
@@ -9306,7 +9306,7 @@ def main() -> int:
         _c302.append("openStream 缺 200 流式跳过（忽略 Range 的源 O(n²) 雪崩）")
     if "rememberRedirect" not in _os302 or "dropRedirect" not in _os302:
         _c302.append("openStream 缺 302 缓存同口径（每流重付重定向税）")
-    _om302 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/example/cloudmusic/"
+    _om302 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/ccmsc/cloudmusic/"
                          "engineopensource/Media3EngineAdapter.kt"
                          ).read_text(encoding="utf-8", errors="replace"))
     # §61.318 改判据不改强度：key 由物理锚派生（不再含 URL token），兼容入口单独在册；
@@ -9318,7 +9318,7 @@ def main() -> int:
         _c302.append("CacheDataSource 缓存 key 未与随机 token / trackId 解耦（SimpleCache 恒 miss）")
     if "setLoadControl(" not in _om302 or "loadControl(config.bufferMs)" not in _om302:
         _c302.append("ExoPlayer 未显式 setLoadControl（bufferMs 仍为死参数）")
-    _t302 = (ROOT / "engine-bridge/src/test/kotlin/com/example/cloudmusic/bridge/"
+    _t302 = (ROOT / "engine-bridge/src/test/kotlin/com/ccmsc/cloudmusic/bridge/"
              "HttpDataSourceStreamTest.kt").read_text(encoding="utf-8", errors="replace")
     if "sequentialReadsUseSingleOpen" not in _t302 or "staleStreamRecoversByReopen" not in _t302:
         _c302.append("流续泵/陈旧流用例缺（无回归防线）")
@@ -9330,7 +9330,7 @@ def main() -> int:
 
     # ---- §61.303（K1a/c/d/f 行为对齐：切歌防抖串行化 / 跳曲延迟窗 / 元数据防抖 / 连续失败护栏）----
     _c303 = []
-    _kt303 = (ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/player/"
+    _kt303 = (ROOT / "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/"
               "KernelTuning.kt").read_text(encoding="utf-8", errors="replace")
     for _n303, _m303 in (
         ("MANUAL_SWITCH_DEBOUNCE_MS = 500L", "切歌防抖 500ms"),
@@ -9340,7 +9340,7 @@ def main() -> int:
     ):
         if _n303 not in _kt303:
             _c303.append("KernelTuning 缺 " + _m303)
-    _pc303 = _code_only((ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/player/"
+    _pc303 = _code_only((ROOT / "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/"
                          "PlayerController.kt").read_text(encoding="utf-8", errors="replace"))
     if "fun playAtDebounced(" not in _pc303:
         _c303.append("缺 playAtDebounced（手动切歌防抖入口）")
@@ -9362,7 +9362,7 @@ def main() -> int:
     _cmp303 = _code_only(_PB_TEXT())
     if _cmp303.count("playAtDebounced(") < 5:
         _c303.append("组合层手动点播入口未全部切防抖（<5 处）")
-    _t303 = (ROOT / "feature-player/src/test/kotlin/com/example/cloudmusic/player/"
+    _t303 = (ROOT / "feature-player/src/test/kotlin/com/ccmsc/cloudmusic/player/"
              "PlayerControllerTest.kt").read_text(encoding="utf-8", errors="replace")
     for _n303 in ("manualSwitchDebounceLatestWins", "autoAdvanceBypassesDebounce",
                   "autoSkipYieldsToManualNext", "metadataDebounceLatestWins", "consecutiveSkipGuardStops"):
@@ -9376,7 +9376,7 @@ def main() -> int:
 
     # ---- §61.304（K1b/e：link 三级容错+竞态指纹+100s 超时 / 播放模式语义+随机历史栈）----
     _c304 = []
-    _kt304 = (ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/player/"
+    _kt304 = (ROOT / "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/"
               "KernelTuning.kt").read_text(encoding="utf-8", errors="replace")
     for _n304, _m304 in (
         ("LINK_RETRY_ONCE = 1", "常规失败重试 1 次"),
@@ -9386,13 +9386,13 @@ def main() -> int:
     ):
         if _n304 not in _kt304:
             _c304.append("KernelTuning 缺 " + _m304)
-    _rl304 = _code_only((ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/player/"
+    _rl304 = _code_only((ROOT / "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/"
                          "ResolveLinkPolicy.kt").read_text(encoding="utf-8", errors="replace"))
     if "catch (e: kotlinx.coroutines.CancellationException)" not in _rl304:
         _c304.append("Policy 缺取消异常透传（总超时被重试循环吞掉）")
     if "isRateLimited" not in _rl304:
         _c304.append("缺限流判定")
-    _pc304 = _code_only((ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/player/"
+    _pc304 = _code_only((ROOT / "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/"
                          "PlayerController.kt").read_text(encoding="utf-8", errors="replace"))
     if "withTimeoutOrNull(KernelTuning.LINK_TOTAL_TIMEOUT_MS)" not in _pc304:
         _c304.append("prepareAt 缺 100s 解析总超时")
@@ -9404,13 +9404,13 @@ def main() -> int:
         _c304.append("缺历史栈已删曲目剔除")
     if "PlayMode.LIST_LOOP else s.mode" not in _pc304:
         _c304.append("缺单循环手动强制列表循环前进")
-    _rlt304 = (ROOT / "feature-player/src/test/kotlin/com/example/cloudmusic/player/"
+    _rlt304 = (ROOT / "feature-player/src/test/kotlin/com/ccmsc/cloudmusic/player/"
                "ResolveLinkPolicyTest.kt").read_text(encoding="utf-8", errors="replace")
     for _n304 in ("retryOnceOnPlainFailure", "rateLimitBackoffThenRetry",
                   "doubleFailurePropagates", "rateLimitClassification"):
         if _n304 not in _rlt304:
             _c304.append("用例 " + _n304 + " 缺失")
-    _pt304 = (ROOT / "feature-player/src/test/kotlin/com/example/cloudmusic/player/"
+    _pt304 = (ROOT / "feature-player/src/test/kotlin/com/ccmsc/cloudmusic/player/"
               "PlayerControllerTest.kt").read_text(encoding="utf-8", errors="replace")
     for _n304 in ("resolveTotalTimeout", "staleResolveDiscardedByGeneration",
                   "manualNextSingleLoopAdvances", "shufflePrevPopsHistoryAndPrunes"):
@@ -9424,7 +9424,7 @@ def main() -> int:
 
     # ---- §61.305（K2 底座收敛：版本核对 / AudioFormats 真相源换轨 / MIME 赎回 / 裁剪定稿）----
     _c305 = []
-    _af305 = (ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/"
+    _af305 = (ROOT / "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/"
               "AudioFormats.kt").read_text(encoding="utf-8", errors="replace")
     if "libffmpeg" in _af305:
         _c305.append("AudioFormats 仍含 libffmpeg 口径（真相源换轨未完成，§61.299 R1）")
@@ -9434,7 +9434,7 @@ def main() -> int:
                   '"wv" to "audio/x-wavpack"'):
         if _m305 not in _af305:
             _c305.append("MIME 赎回缺 " + _m305)
-    _aft305 = (ROOT / "core-model/src/test/kotlin/com/example/cloudmusic/model/"
+    _aft305 = (ROOT / "core-model/src/test/kotlin/com/ccmsc/cloudmusic/model/"
                "AudioFormatsTest.kt").read_text(encoding="utf-8", errors="replace")
     if 'listOf("dsf", "dff", "tak")' not in _aft305:
         _c305.append("dsf/dff/tak 占位判据缺失（不编造口径无回归防线）")
@@ -9448,13 +9448,13 @@ def main() -> int:
 
     # ---- §61.306（K3a/b：RemoteStop 停播停服 + 保活锁组合拳 + 3c~h 决策登记）----
     _c306 = []
-    _pl306 = (ROOT / "app/src/main/kotlin/com/example/cloudmusic/PlaybackLocks.kt"
+    _pl306 = (ROOT / "app/src/main/kotlin/com/ccmsc/cloudmusic/PlaybackLocks.kt"
               ).read_text(encoding="utf-8", errors="replace")
     if "fun shouldHold(state: EngineState, isNetworkSource: Boolean)" not in _pl306:
         _c306.append("缺保活锁判定（网络 × PLAYING|BUFFERING）")
     if "fun releaseAll()" not in _pl306:
         _c306.append("缺销毁兜底释放")
-    _sv306 = _code_only((ROOT / "app/src/main/kotlin/com/example/cloudmusic/"
+    _sv306 = _code_only((ROOT / "app/src/main/kotlin/com/ccmsc/cloudmusic/"
                          "PlaybackService.kt").read_text(encoding="utf-8", errors="replace"))
     if "override fun onStop()" not in _sv306:
         _c306.append("RemoteStop（onStop）仍无人消费（通知划掉后播放继续）")
@@ -9464,7 +9464,7 @@ def main() -> int:
         _c306.append("引擎态采集未驱动保活锁")
     if "lockHolder.releaseAll()" not in _sv306:
         _c306.append("onDestroy 缺保活锁兜底释放")
-    _lt306 = (ROOT / "app/src/test/kotlin/com/example/cloudmusic/"
+    _lt306 = (ROOT / "app/src/test/kotlin/com/ccmsc/cloudmusic/"
               "PlaybackLockPolicyTest.kt").read_text(encoding="utf-8", errors="replace")
     if "shouldHoldMatrix" not in _lt306 or "holderIdempotentTransitions" not in _lt306:
         _c306.append("保活锁判定/幂等用例缺（无回归防线）")
@@ -9503,7 +9503,7 @@ def main() -> int:
     if ROOT.joinpath("assets", "ENGINE-" + "FINGERPRINT").exists():
         _c307.append("根 assets/ENGINE-FINGERPRINT 未归档")
     _toml307 = (ROOT / "gradle" / "libs.versions.toml").read_text(encoding="utf-8")
-    _ad307 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/example/cloudmusic/"
+    _ad307 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/ccmsc/cloudmusic/"
                          "engineopensource/Media3EngineAdapter.kt"
                          ).read_text(encoding="utf-8", errors="replace"))
     _eg307 = (ROOT / "engine-opensource/build.gradle.kts").read_text(encoding="utf-8")
@@ -9554,13 +9554,13 @@ def main() -> int:
 
     # ---- §61.309（K-02 真机一手：BUFFERING 乐观写覆盖 + 墙钟外推 → 双冻结）----
     _c309 = []
-    _ad309 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/example/cloudmusic/"
+    _ad309 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/ccmsc/cloudmusic/"
                          "engineopensource/Media3EngineAdapter.kt"
                          ).read_text(encoding="utf-8", errors="replace"))
     _play309 = _ad309[_ad309.find("override fun play("):_ad309.find("override fun pause(")]
     if "if (it.playbackState == Player.STATE_BUFFERING) EngineState.BUFFERING" not in _play309:
         _c309.append("适配器 play() 缺真值守卫（BUFFERING 被乐观 PLAYING 覆盖，会话照走根因）")
-    _pc309 = _code_only((ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/player/"
+    _pc309 = _code_only((ROOT / "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/"
                          "PlayerController.kt").read_text(encoding="utf-8", errors="replace"))
     _tk309 = _pc309[_pc309.find("private fun startPositionTicker()"):]
     _tk309 = _tk309[:_tk309.find("/**")]
@@ -9572,7 +9572,7 @@ def main() -> int:
         _c309.append("节拍器快照缺引擎真值双门（tick8 残迹）")
     if "if (!buffering && cueEndMs > 0 && pos >= cueEndMs)" not in _pc309:
         _c309.append("cue 终点交棒缺缓冲冻结（外推越界误跳下一曲）")
-    _t309 = (ROOT / "feature-player/src/test/kotlin/com/example/cloudmusic/player/"
+    _t309 = (ROOT / "feature-player/src/test/kotlin/com/ccmsc/cloudmusic/player/"
              "PlayerControllerTest.kt").read_text(encoding="utf-8", errors="replace")
     if "tickerFreezesPositionWhileBuffering" not in _t309:
         _c309.append("位置冻结用例缺（无回归防线）")
@@ -9583,7 +9583,7 @@ def main() -> int:
 
     # ---- §61.317（CUE 大文件预缓存 + 缓冲区 15s + 缓存预热）----
     _c317 = []
-    _ad317 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/example/cloudmusic/"
+    _ad317 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/ccmsc/cloudmusic/"
                          "engineopensource/Media3EngineAdapter.kt"
                          ).read_text(encoding="utf-8", errors="replace"))
     # §61.318 改判据不改强度：裸 Thread 已换为受管 daemon 执行器 + Future 取消；
@@ -9594,7 +9594,7 @@ def main() -> int:
         _c317.append("预热线程非 daemon（阻塞 socket read 可拖住进程退出）")
     if "CacheWarmer-" not in _ad317:
         _c317.append("预热线程命名缺失")
-    _api317 = (ROOT / "engine-api/src/main/kotlin/com/example/cloudmusic/engine/api/EngineApi.kt"
+    _api317 = (ROOT / "engine-api/src/main/kotlin/com/ccmsc/cloudmusic/engine/api/EngineApi.kt"
                ).read_text(encoding="utf-8")
     if "val bufferMs: Int = 15000" not in _api317:
         _c317.append("bufferMs 默认值非 15000（网络 CUE/APE 15s 起播缓冲）")
@@ -9624,7 +9624,7 @@ def main() -> int:
                     return _code[_i:_k + 1]
         return ""
 
-    _mk318 = (ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/"
+    _mk318 = (ROOT / "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/"
               "MediaCacheKey.kt").read_text(encoding="utf-8", errors="replace")
     _mk318c = _code_only(_mk318)
     # A 组：单一真相源在册，且新前缀与物理路径规范化同在（词边界正则，防改名加后缀绕过）
@@ -9638,13 +9638,13 @@ def main() -> int:
         if not re.search(_n318, _mk318c):
             _c318.append(_m318)
     # B 组：生产映射点必须填物理锚，且取自 Track.sourceRef（不能拿 id 冒充）
-    _pc318 = _code_only((ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/"
+    _pc318 = _code_only((ROOT / "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/"
                          "player/PlayerController.kt").read_text(encoding="utf-8", errors="replace"))
     _es318 = _fn_body318(_pc318, "private fun engineSourceOf(")
     if not _es318 or not re.search(r"cacheAnchor\s*=\s*MediaCacheKey\.of\(\s*track\s*\)", _es318):
         _c318.append("engineSourceOf 未填物理锚（CUE 分轨 key 仍断裂）")
     # C 组：适配器取流 key 以物理锚为准；旧 key 仅兼容 fallback
-    _ad318 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/example/cloudmusic/"
+    _ad318 = _code_only((ROOT / "engine-opensource/src/main/kotlin/com/ccmsc/cloudmusic/"
                          "engineopensource/Media3EngineAdapter.kt"
                          ).read_text(encoding="utf-8", errors="replace"))
     _pk318 = _ad318[_ad318.find("val cacheKey ="):_ad318.find("val dataSourceFactory:")]
@@ -9663,11 +9663,11 @@ def main() -> int:
     if "hasCompleteCache(cache, cacheKey)" not in _ad318:
         _c318.append("warmer 未调用完整缓存跳过")
     # E 组：EngineSource 新增可选字段（14+4 门面签名不动），JVM 用例在册
-    _api318 = (ROOT / "engine-api/src/main/kotlin/com/example/cloudmusic/engine/api/EngineApi.kt"
+    _api318 = (ROOT / "engine-api/src/main/kotlin/com/ccmsc/cloudmusic/engine/api/EngineApi.kt"
                ).read_text(encoding="utf-8", errors="replace")
     if not re.search(r"val\s+cacheAnchor\s*:\s*String\?\s*=\s*null", _api318):
         _c318.append("EngineSource 缺可选 cacheAnchor 字段")
-    _t318 = (ROOT / "core-model/src/test/kotlin/com/example/cloudmusic/model/"
+    _t318 = (ROOT / "core-model/src/test/kotlin/com/ccmsc/cloudmusic/model/"
              "MediaCacheKeyTest.kt").read_text(encoding="utf-8", errors="replace")
     for _n318 in ("同一物理音频的分轨共享缓存 key", "不同物理文件或不同 storage 的 key 互不相同",
                   "key 形态是 b2file 加 32 位 hex 且不含签名与路径明文",
@@ -9682,7 +9682,7 @@ def main() -> int:
 
     # ---- §61.319（R2：队列点查批量化 + fade 设置持久化）----
     _c319 = []
-    _ports319 = _code_only((ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/"
+    _ports319 = _code_only((ROOT / "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/"
                             "player/TrackPorts.kt").read_text(encoding="utf-8", errors="replace"))
     # A 组：批量端口在册（默认逐项委托，兼容测试替身）
     if not re.search(r"suspend\s+fun\s+getMany\(\s*ids:\s*List<TrackId>\s*\):\s*List<Track\?>", _ports319):
@@ -9690,7 +9690,7 @@ def main() -> int:
     if "ids.map { get(it) }" not in _ports319:
         _c319.append("getMany 缺默认逐项委托（既有 fake 零回归保证丢失）")
     # B 组：生产 Room 覆写走 IN 查询（分块避免 SQLite 变量上限），不是逐项 get
-    _roomrepo319 = _code_only((ROOT / "core-di/src/main/kotlin/com/example/cloudmusic/di/db/"
+    _roomrepo319 = _code_only((ROOT / "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/db/"
                                "RoomRepositories.kt").read_text(encoding="utf-8", errors="replace"))
     _rm319 = _fn_body318(_roomrepo319, "override suspend fun getMany(")
     if not _rm319 or "dao.findByIds(" not in _rm319:
@@ -9702,7 +9702,7 @@ def main() -> int:
     if "override suspend fun getMany(ids" not in _rl319 or "tracks.getMany(ids)" not in _rl319:
         _c319.append("RoomTrackLookup 未覆写 getMany → 生产仍逐项点查")
     # C 组：setQueue 一次预取 + prepareAt / buildQueueSources 消费快照（禁止整队 lookup.get）
-    _pc319 = _code_only((ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/"
+    _pc319 = _code_only((ROOT / "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/"
                          "player/PlayerController.kt").read_text(encoding="utf-8", errors="replace"))
     _sq319 = _fn_body318(_pc319, "suspend fun setQueue(")
     if not _sq319 or "lookup.getMany(" not in _sq319:
@@ -9718,7 +9718,7 @@ def main() -> int:
     if "lookup.get(queue[i].trackId)" in _bs319:
         _c319.append("buildQueueSources 逐项 lookup 风暴仍在")
     # D 组：fade 两字段 encode + decode 双向在册（codec 是唯一持久化出口）
-    _codec319 = _code_only((ROOT / "core-di/src/main/kotlin/com/example/cloudmusic/di/settings/"
+    _codec319 = _code_only((ROOT / "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/settings/"
                             "AppSettingsCodec.kt").read_text(encoding="utf-8", errors="replace"))
     _enc319 = _fn_body318(_codec319, "fun encode(settings: AppSettings): String")
     _dec319 = _fn_body318(_codec319, "fun decode(raw: String): AppSettings")
@@ -9731,13 +9731,13 @@ def main() -> int:
         if _n319 not in _enc319 and _n319 not in _dec319:
             _c319.append(_m319)
     # E 组：JVM 用例在册（大队列零点查 + fade round-trip）
-    _tq319 = (ROOT / "feature-player/src/test/kotlin/com/example/cloudmusic/player/"
+    _tq319 = (ROOT / "feature-player/src/test/kotlin/com/ccmsc/cloudmusic/player/"
               "QueueBatchLookupTest.kt").read_text(encoding="utf-8", errors="replace")
     for _n319 in ("大队列 setQueue 后 prepareAt 不逐项点查",
                   "批量预取的队列无 CUE 标志时 gapless 邻居不逐项点查"):
         if _n319 not in _tq319:
             _c319.append("用例 " + _n319 + " 缺失")
-    _ts319 = (ROOT / "core-di/src/test/kotlin/com/example/cloudmusic/di/settings/"
+    _ts319 = (ROOT / "core-di/src/test/kotlin/com/ccmsc/cloudmusic/di/settings/"
               "SettingsContractTest.kt").read_text(encoding="utf-8", errors="replace")
     if "T-A2-05 fade settings round-trip and legacy-JSON default" not in _ts319:
         _c319.append("fade round-trip 用例缺失")
@@ -9757,16 +9757,16 @@ def main() -> int:
     if "frameSizes[i] = if (i + 1 < totalFrames)" not in ape_txt:
         _c320.append("帧长 align4 预计算缺失")
     _ape_test = (ROOT / "engine-opensource" / "src" / "test" / "kotlin" / "com" /
-                 "example" / "cloudmusic" / "engineopensource" / "ApeExtractorTest.kt")
+                 "ccmsc" / "cloudmusic" / "engineopensource" / "ApeExtractorTest.kt")
     _at = _ape_test.read_text(encoding="utf-8", errors="replace") if _ape_test.is_file() else ""
     if "offsets.all { it % 4 == 0L }" not in _at:
         _c320.append("帧对齐回归用例缺失")
-    _cue = (ROOT / "core-model" / "src" / "main" / "kotlin" / "com" / "example" /
+    _cue = (ROOT / "core-model" / "src" / "main" / "kotlin" / "com" / "ccmsc" /
             "cloudmusic" / "model" / "CueEnvelope.kt")
     _ct = _cue.read_text(encoding="utf-8", errors="replace") if _cue.is_file() else ""
     if "cueEndMs <= 0 && cueStartMs < baseMs" not in _ct:
         _c320.append("末轨 cue end=0 时长兜底缺失")
-    _app = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" /
+    _app = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" /
             "cloudmusic" / "ui" / "CloudMusicApp.kt")
     _appt = read_cloud_app() if _app.is_file() else ""
     if "imeController?.hide()" not in _appt or "focusManager.clearFocus()" not in _appt:
@@ -9782,7 +9782,7 @@ def main() -> int:
     # 连带 SmartPlaylist 全表过滤 / titles Map 重建 / 迷你条 3 次全表扫描。
     # 判据钉「拍点不再写 state」「相对 seek 改读真值」+ 三处 remember 收敛。
     _c321 = []
-    _pc = (ROOT / "feature-player" / "src" / "main" / "kotlin" / "com" / "example" /
+    _pc = (ROOT / "feature-player" / "src" / "main" / "kotlin" / "com" / "ccmsc" /
            "cloudmusic" / "player" / "PlayerController.kt")
     _pct = _pc.read_text(encoding="utf-8", errors="replace") if _pc.is_file() else ""
     # 两处采集点 = 节拍器（拍点真值）+ 暂停点（转换点真值）；少一处就说明有一侧
@@ -9794,7 +9794,7 @@ def main() -> int:
         _c321.append("节拍器仍逐拍写 PlayerState.positionMs（整树 500ms 重组回潮）")
     if "val base = if (_state.value.phase == PlayerPhase.PLAYING) {" not in _pct:
         _c321.append("相对 seek 未按 PLAYING 分支读 livePositionMs")
-    _home = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" /
+    _home = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" /
              "cloudmusic" / "ui" / "HomeScreen.kt")
     _ht = _home.read_text(encoding="utf-8", errors="replace") if _home.is_file() else ""
     if "remember(tracks) { tracks.recentlyAdded() }" not in _ht:
@@ -9807,7 +9807,7 @@ def main() -> int:
         _c321.append("队列页 titles 仍每次重组重建 Map")
     if "SmartPlaylist.PRESETS.associateWith" not in _appt or "smartHits[rule]" not in _appt:
         _c321.append("智能歌单命中集未 remember（5×N 每重组重算）")
-    _fnu = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" /
+    _fnu = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" /
             "cloudmusic" / "ui" / "FeiniuUi.kt")
     _fnt = _fnu.read_text(encoding="utf-8", errors="replace") if _fnu.is_file() else ""
     if 'Text("⌕"' in _fnt:
@@ -9839,7 +9839,7 @@ def main() -> int:
         _c322.append("黄金样本生成器缺失（tools/gen_golden_frames.py）")
     elif "ape.c" not in _gen.read_text(encoding="utf-8", errors="replace"):
         _c322.append("生成器未标注参考实现来源（ape.c）")
-    _gtk = (ROOT / "engine-opensource" / "src" / "test" / "kotlin" / "com" / "example" /
+    _gtk = (ROOT / "engine-opensource" / "src" / "test" / "kotlin" / "com" / "ccmsc" /
             "cloudmusic" / "engineopensource" / "ApeGoldenFramesTest.kt")
     _gtkt = _gtk.read_text(encoding="utf-8", errors="replace") if _gtk.is_file() else ""
     if not _gtkt:
@@ -9853,7 +9853,7 @@ def main() -> int:
         ]:
             if _anchor not in _gtkt:
                 _c322.append(_msg)
-    _reckt = (ROOT / "engine-opensource" / "src" / "test" / "kotlin" / "com" / "example" /
+    _reckt = (ROOT / "engine-opensource" / "src" / "test" / "kotlin" / "com" / "ccmsc" /
               "cloudmusic" / "engineopensource" / "Recorder.kt")
     _rt = _reckt.read_text(encoding="utf-8", errors="replace") if _reckt.is_file() else ""
     if "capturePayloads" not in _rt or "payloads +=" not in _rt:
@@ -9866,13 +9866,13 @@ def main() -> int:
     # ---- §61.323（三项拍板落地：C-2 错误码正名 / B-2 并发与网络接线 / A-2 主色统一）----
     # 除存在性外必须有**反向判据**：借壳回潮、每源一份回潮、第二主色回潮都要能 FAIL。
     _c323 = []
-    _cm_err = _code_only((ROOT / "core-common/src/main/kotlin/com/example/cloudmusic/common/"
+    _cm_err = _code_only((ROOT / "core-common/src/main/kotlin/com/ccmsc/cloudmusic/common/"
                           "CloudMusicError.kt").read_text(encoding="utf-8", errors="replace"))
     for _cls, _code in [("class LinkTimeout", "E_LINK_TIMEOUT"),
                         ("class SkipGuard", "E_SKIP_GUARD")]:
         if _cls not in _cm_err or '"%s"' % _code not in _cm_err:
             _c323.append("core-common 缺具名错误类 %s（码值 %s）" % (_cls.split()[-1], _code))
-    _pc323 = _code_only((ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/player/"
+    _pc323 = _code_only((ROOT / "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/"
                          "PlayerController.kt").read_text(encoding="utf-8", errors="replace"))
     for _anchor in ("CloudMusicError.SkipGuard(", "CloudMusicError.LinkTimeout("):
         if _anchor not in _pc323:
@@ -9886,19 +9886,19 @@ def main() -> int:
     for _code in ("E_LINK_TIMEOUT", "E_SKIP_GUARD", "E_SCAN_ORPHAN_SOURCE", "E_SCAN_IMPORT"):
         if _code not in _doc07:
             _c323.append("docs/07 未登记 %s" % _code)
-    _etx = (ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/"
+    _etx = (ROOT / "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/"
             "ErrorText.kt").read_text(encoding="utf-8", errors="replace")
     for _code in ("E_SCAN_ORPHAN_SOURCE", "E_SCAN_IMPORT", "E_SKIP_GUARD", "E_LINK_TIMEOUT"):
         if '"%s" ->' % _code not in _etx:
             _c323.append("ErrorText 缺 %s 的人话映射（会落「扫描失败」兜底）" % _code)
-    _pct323 = (ROOT / "feature-player/src/test/kotlin/com/example/cloudmusic/player/"
+    _pct323 = (ROOT / "feature-player/src/test/kotlin/com/ccmsc/cloudmusic/player/"
                "PlayerControllerTest.kt").read_text(encoding="utf-8", errors="replace")
     for _code in ("E_SKIP_GUARD", "E_LINK_TIMEOUT"):
         if 'assertEquals("%s"' % _code not in _pct323:
             _c323.append("测试未直判运行时码 %s（只锚 message 抓不到前缀污染）" % _code)
 
     # B-2：预算必须 run() 级单实例；runMetadata 内不得再自建（反向判据）
-    _sc323 = _code_only((ROOT / "scanner/src/main/kotlin/com/example/cloudmusic/scanner/"
+    _sc323 = _code_only((ROOT / "scanner/src/main/kotlin/com/ccmsc/cloudmusic/scanner/"
                          "ScanCoordinator.kt").read_text(encoding="utf-8", errors="replace"))
     if "val metadataBudget = Semaphore(request.metadataConcurrency" not in _sc323:
         _c323.append("run() 未创建全源共享 metadata 预算")
@@ -9924,26 +9924,26 @@ def main() -> int:
     if "onlyWifiMetadata = metadataWifiOnly" not in _eff:
         _c323.append("onlyWifiMetadata 未按设置项赋值")
     for _t, _msg in [
-        ("scanner/src/test/kotlin/com/example/cloudmusic/scanner/ScanConcurrencyBudgetTest.kt",
+        ("scanner/src/test/kotlin/com/ccmsc/cloudmusic/scanner/ScanConcurrencyBudgetTest.kt",
          "缺并发峰值判据（ScanConcurrencyBudgetTest）"),
-        ("core-di/src/test/kotlin/com/example/cloudmusic/di/playback/EffectiveScanRequestTest.kt",
+        ("core-di/src/test/kotlin/com/ccmsc/cloudmusic/di/playback/EffectiveScanRequestTest.kt",
          "缺网络接线判据（EffectiveScanRequestTest）"),
     ]:
         if not (ROOT / _t).is_file():
             _c323.append(_msg)
 
     # A-2：主色唯一（红）；旧品牌橙零残留，进度环用强调色令牌
-    _fnui323 = _code_only((ROOT / "app/src/main/kotlin/com/example/cloudmusic/ui/"
+    _fnui323 = _code_only((ROOT / "app/src/main/kotlin/com/ccmsc/cloudmusic/ui/"
                            "FeiniuUi.kt").read_text(encoding="utf-8", errors="replace"))
     if "val BrandOrange" in _fnui323 or "BrandOrange" in _fnui323:
         _c323.append("第二主色 BrandOrange 仍存在（A-2 拍板为红）")
     if "val IconRed = Color(0xFFE54545)" not in _fnui323:
         _c323.append("强调色 IconRed 色值漂移")
-    _lib323 = _code_only((ROOT / "app/src/main/kotlin/com/example/cloudmusic/ui/"
+    _lib323 = _code_only((ROOT / "app/src/main/kotlin/com/ccmsc/cloudmusic/ui/"
                           "FnLibraryScreen.kt").read_text(encoding="utf-8", errors="replace"))
     if "BrandOrange" in _lib323:
         _c323.append("曲库页仍引用第二主色")
-    _ftt = (ROOT / "app/src/test/kotlin/com/example/cloudmusic/ui/"
+    _ftt = (ROOT / "app/src/test/kotlin/com/ccmsc/cloudmusic/ui/"
             "FnThemeTokenTest.kt").read_text(encoding="utf-8", errors="replace")
     if "noSecondPrimaryColor" not in _ftt:
         _c323.append("缺「第二主色零残留」判据")
@@ -9954,7 +9954,7 @@ def main() -> int:
 
     # ---- §61.324（B-4 拆域：组合根 1299 行 → 组合根 + 三域）----
     _c324 = []
-    _pkg324 = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _pkg324 = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                / "cloudmusic" / "di" / "playback")
     _files324 = {
         "library": "LibraryFacade.kt",
@@ -10084,7 +10084,7 @@ def main() -> int:
     # Compose 为内容建 layer 并把 elevation 阴影画进胶囊内部。深色底上 8dp 黑影本就不可见，
     # 删掉零视觉损失。判据：FnCapsuleBar 体内不得出现 .shadow(（反向）+ 盒模型四件套在位（正向）。
     _c358 = []
-    _fei358 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _fei358 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                           / "cloudmusic" / "ui" / "FeiniuUi.kt")
                          .read_text(encoding="utf-8", errors="replace"))
     _i358 = _fei358.find("fun FnCapsuleBar(")
@@ -10126,7 +10126,7 @@ def main() -> int:
     _str359 = (ROOT / "app" / "src" / "main" / "res" / "values" / "strings.xml").read_text(encoding="utf-8", errors="replace")
     if ">云音乐<" not in _str359:
         _c359.append("app_name 不是「云音乐」")
-    _pal359 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+    _pal359 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
                / "ui" / "player" / "LegacyAssets.kt").read_text(encoding="utf-8", errors="replace")
     if "val BrandRed = 0xFFE54545.toInt()" not in _pal359:
         _c359.append("启动页红未统一到 #E54545")
@@ -10142,7 +10142,7 @@ def main() -> int:
     # 而 SystemBars.apply 只在 splash 结束后的 CloudMusicApp 分支里跑）。
     # 修法：SplashScreen 显示期间把两栏刷成 BrandRed + 浅色图标，不做还原配对
     # （退出后由 SystemBars.apply 按主题重算）。判据钉四件事，缺一即红。
-    _sp360 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _sp360 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
               / "cloudmusic" / "ui" / "SplashScreen.kt").read_text(encoding="utf-8", errors="replace")
     _c360 = []
     if "window.statusBarColor = red" not in _sp360:
@@ -10168,7 +10168,7 @@ def main() -> int:
     #   Search 圆半径 ≥ 7.0、柄终点 ≥ 20.5（原 6.0 / 20.0）
     #   APP 唱片半径 26~29（原 32 顶满安全区）
     _c361 = []
-    _ic361 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _ic361 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
               / "cloudmusic" / "ui" / "FnIcons.kt").read_text(encoding="utf-8", errors="replace")
     _m361 = re.search(r"FnIcon\.Search -> \{(.*?)\n            \}", _ic361, re.S)
     if not _m361:
@@ -10217,7 +10217,7 @@ def main() -> int:
             _t = _f.read_text(encoding="utf-8", errors="replace")
             if "pathData" not in _t or 'translateY="960"' not in _t:
                 _c363.append("%s 不是官方 960 视框形态" % _f.name)
-    _fn363 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _fn363 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                          / "cloudmusic" / "ui" / "FnIcons.kt")
                         .read_text(encoding="utf-8", errors="replace"))
     if "private val fnIconDrawable: Map<FnIcon, Int>" not in _fn363:
@@ -10231,9 +10231,33 @@ def main() -> int:
     else:
         print("[PASS] §61.363 图标全量矢量：32 枚 Material Symbols + 映射 + painterResource")
 
+    # ---- §61.365（2026-11-25 三处布局裁切）/ §61.366（播放页空态降透明）----
+    # 用户一手「大量问题没解决」；走查（am start 直达 + 包名校验）发现：
+    # 首页第三张卡被右缘硬切、音乐库第五个 chip 被硬切、设置页最后一项贴胶囊。
+    _ui365 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui"
+    _home365 = (_ui365 / "HomeScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _lib365 = (_ui365 / "FnLibraryScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _set365 = (_ui365 / "SettingsScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _pl365 = (_ui365 / "player" / "LegacyPlayerPage.kt").read_text(encoding="utf-8", errors="replace")
+    _c365 = []
+    if "horizontalGradient" not in _home365 or "matchParentSize()" not in _home365:
+        _c365.append("首页卡片缺右缘渐隐（第三张会硬切）")
+    if "FlowRow(" not in _lib365:
+        _c365.append("音乐库分类 chip 未换行（第五个会被切）")
+    if "Spacer(Modifier.height(44.dp))" not in _set365:
+        _c365.append("设置页尾部留白不足（最后一项会贴胶囊）")
+    if "enabled = track != null" not in _pl365:
+        _c365.append("播放页进度条未按空态降透明")
+    if "alpha(if (enabled) 1f else 0.35f)" not in _pl365:
+        _c365.append("播放页进度条缺空态透明度")
+    if _c365:
+        failures.append("§61.365/366 布局与空态：%s" % "；".join(_c365))
+    else:
+        print("[PASS] §61.365/366 布局裁切三修 + 播放页空态降透明")
+
     # ---- §61.326（A-3 搜索热词去重键）----
     _c326 = []
-    _sd_fp = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+    _sd_fp = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
               / "ui" / "SearchDiscovery.kt")
     if not _sd_fp.is_file():
         _c326.append("缺 SearchDiscovery.kt（热词归一/去重唯一入口）")
@@ -10248,7 +10272,7 @@ def main() -> int:
         _c326.append("旧热词实现回潮（按原始字符串分组 = 别名垃圾）")
     if "SearchDiscovery.hotWords(trackList)" not in _app325:
         _c326.append("搜索页未走 SearchDiscovery.hotWords")
-    if not (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "example" / "cloudmusic"
+    if not (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
             / "ui" / "SearchDiscoveryTest.kt").is_file():
         _c326.append("缺 SearchDiscoveryTest（归一链与字表自检不可回归）")
     if _c326:
@@ -10259,7 +10283,7 @@ def main() -> int:
 
     # ---- §61.327（A-7 正在播放标识）----
     _c327 = []
-    _fn327 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _fn327 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                          / "cloudmusic" / "ui" / "FeiniuUi.kt")
                         .read_text(encoding="utf-8", errors="replace"))
     for _a327, _m327 in (
@@ -10277,7 +10301,7 @@ def main() -> int:
     _n327 = _app325.count("playing = track") + _app325.count("playing = playing,")
     if _n327 < 6:
         _c327.append("列表接线不足（%d 处，应为 6：搜索/歌单/队列/收藏/最近/TrackRowGuarded）" % _n327)
-    _lib327 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example"
+    _lib327 = _code_only((ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                           / "cloudmusic" / "ui" / "FnLibraryScreen.kt")
                          .read_text(encoding="utf-8", errors="replace"))
     if _lib327.count("nowPlayingId = nowPlayingId") < 3:
@@ -10293,7 +10317,7 @@ def main() -> int:
     # 判据钉的是**边界**（LIMIT / 单行点查 / 静默窗口），不是写法好看：
     # 谁把 LIMIT 摘掉、把 items() 放回 saveCursor、把防抖换成 `remember(query)`，这里就红。
     _c328 = []
-    _daos328 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _daos328 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                            / "cloudmusic" / "di" / "db" / "RoomDaos.kt")
                           .read_text(encoding="utf-8", errors="replace"))
     if "ORDER BY h.last_played DESC, h.track_id LIMIT :limit" not in _daos328:
@@ -10303,7 +10327,7 @@ def main() -> int:
     if "suspend fun positionOf(queueId: String, trackId: String): Int?" not in _daos328:
         _c328.append("队列游标缺单行点查（saveCursor 会退回整队拉回内存）")
 
-    _repo328 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _repo328 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                            / "cloudmusic" / "di" / "db" / "RoomRepositories.kt")
                           .read_text(encoding="utf-8", errors="replace"))
     if "dao.positionOf(DEFAULT_QUEUE_ID, trackId)" not in _repo328:
@@ -10316,7 +10340,7 @@ def main() -> int:
         _c328.append("搜索未用 flatMapLatest 做按需兜底")
 
     _contract328 = _code_only((ROOT / "core-storage" / "src" / "main" / "kotlin" / "com"
-                               / "example" / "cloudmusic" / "storage" / "Repositories.kt")
+                               / "ccmsc" / "cloudmusic" / "storage" / "Repositories.kt")
                               .read_text(encoding="utf-8", errors="replace"))
     if "fun observe(limit: Int = LibraryQuery.HISTORY_WINDOW)" not in _contract328:
         _c328.append("HistoryRepository.observe 缺窗口参数（默认值必须是 HISTORY_WINDOW）")
@@ -10351,7 +10375,7 @@ def main() -> int:
     # ① donor 必须按 (storageId, sourcePath) 成对取——只用 path 会让同路径不同源互相串图；
     # ② 回填语句必须自带「仍为空」前置——否则重扫一次就会把刮削结果覆盖成父音频的封面。
     _c329 = []
-    _ci_fp = (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com" / "example"
+    _ci_fp = (ROOT / "core-storage" / "src" / "main" / "kotlin" / "com" / "ccmsc"
               / "cloudmusic" / "storage" / "CoverInheritance.kt")
     if not _ci_fp.is_file():
         _c329.append("缺 CoverInheritance.kt（分轨封面继承的唯一判定点）")
@@ -10368,12 +10392,12 @@ def main() -> int:
                 _c329.append(_m329)
 
     _contract329 = _code_only((ROOT / "core-storage" / "src" / "main" / "kotlin" / "com"
-                               / "example" / "cloudmusic" / "storage" / "Repositories.kt")
+                               / "ccmsc" / "cloudmusic" / "storage" / "Repositories.kt")
                               .read_text(encoding="utf-8", errors="replace"))
     if "suspend fun inheritCueSplitCovers(): Int" not in _contract329:
         _c329.append("TrackRepository 缺 inheritCueSplitCovers 契约")
 
-    _daos329 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _daos329 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                            / "cloudmusic" / "di" / "db" / "RoomDaos.kt")
                           .read_text(encoding="utf-8", errors="replace"))
     if "WHERE id IN (:ids) AND (cover_ref IS NULL OR cover_ref = '')" not in _daos329:
@@ -10381,7 +10405,7 @@ def main() -> int:
     if "suspend fun coverGapRows(): List<CoverRowProjection>" not in _daos329:
         _c329.append("缺缺封面行投影查询（继承全靠先找出缺口）")
 
-    _repo329 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _repo329 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                            / "cloudmusic" / "di" / "db" / "RoomRepositories.kt")
                           .read_text(encoding="utf-8", errors="replace"))
     if "override suspend fun inheritCueSplitCovers(): Int" not in _repo329:
@@ -10389,13 +10413,13 @@ def main() -> int:
     if "CoverInheritance.plan(" not in _repo329:
         _c329.append("Room 实现未复用纯判定（判定分叉成两份）")
 
-    _scan329 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example"
+    _scan329 = _code_only((ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc"
                            / "cloudmusic" / "di" / "playback" / "ScanRuntime.kt")
                           .read_text(encoding="utf-8", errors="replace"))
     if "tracks.inheritCueSplitCovers()" not in _scan329:
         _c329.append("扫描收尾未触发继承（分轨封面永远补不上）")
 
-    if not (ROOT / "core-storage" / "src" / "test" / "kotlin" / "com" / "example"
+    if not (ROOT / "core-storage" / "src" / "test" / "kotlin" / "com" / "ccmsc"
             / "cloudmusic" / "storage" / "CoverInheritanceTest.kt").is_file():
         _c329.append("缺 CoverInheritanceTest（亲缘键与不覆盖不可回归）")
     if _c329:
@@ -10430,7 +10454,7 @@ def main() -> int:
                     return src[j:k + 1]
         return src[j:]
 
-    _ui330 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui")
+    _ui330 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui")
     _fn330 = _code_only((_ui330 / "FeiniuUi.kt").read_text(encoding="utf-8", errors="replace"))
     _icons330 = _code_only((_ui330 / "FnIcons.kt").read_text(encoding="utf-8", errors="replace"))
     _app330 = _code_only((_ui330 / "CloudMusicApp.kt").read_text(encoding="utf-8", errors="replace"))
@@ -10495,7 +10519,7 @@ def main() -> int:
         if "ring(" in _more330 or "quadraticBezierTo" in _more330:
             _c330.append("FnIcon.More 回到圆脸/弧嘴（语义歧义回潮）")
 
-    _test330 = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "example" / "cloudmusic"
+    _test330 = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
                 / "ui" / "FnIconLabelTest.kt")
     if not _test330.is_file():
         _c330.append("缺 FnIconLabelTest")
@@ -10517,12 +10541,12 @@ def main() -> int:
     def _r331(rel):
         return (ROOT / rel).read_text(encoding="utf-8", errors="replace")
     _docs08 = _r331("docs/08-配置项总表.md")
-    _api331 = _r331("engine-api/src/main/kotlin/com/example/cloudmusic/engine/api/EngineApi.kt")
-    _scan331 = _r331("scanner/src/main/kotlin/com/example/cloudmusic/scanner/ScanModels.kt")
-    _set331 = _r331("core-storage/src/main/kotlin/com/example/cloudmusic/storage/AppSettings.kt")
-    _ftp331 = _r331("datasource-ftp/src/main/kotlin/com/example/cloudmusic/ftp/FtpDriver.kt")
-    _m331 = _r331("engine-opensource/src/main/kotlin/com/example/cloudmusic/engineopensource/Media3EngineAdapter.kt")
-    _tag331 = _r331("scanner/src/main/kotlin/com/example/cloudmusic/scanner/TagReader.kt")
+    _api331 = _r331("engine-api/src/main/kotlin/com/ccmsc/cloudmusic/engine/api/EngineApi.kt")
+    _scan331 = _r331("scanner/src/main/kotlin/com/ccmsc/cloudmusic/scanner/ScanModels.kt")
+    _set331 = _r331("core-storage/src/main/kotlin/com/ccmsc/cloudmusic/storage/AppSettings.kt")
+    _ftp331 = _r331("datasource-ftp/src/main/kotlin/com/ccmsc/cloudmusic/ftp/FtpDriver.kt")
+    _m331 = _r331("engine-opensource/src/main/kotlin/com/ccmsc/cloudmusic/engineopensource/Media3EngineAdapter.kt")
+    _tag331 = _r331("scanner/src/main/kotlin/com/ccmsc/cloudmusic/scanner/TagReader.kt")
     _grad331 = _r331("settings.gradle.kts")
     # ① bufferMs：docs/08 的宣称值必须等于 EngineApi 默认值
     _bm331 = re.search(r"val bufferMs: Int = (\d+)", _api331)
@@ -10625,7 +10649,7 @@ def main() -> int:
                 ln = ln.split("//", 1)[0]
             out.append(ln)
         return "\n".join(out)
-    _ui333 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui"
+    _ui333 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui"
     if (_ui333 / "CompeteUi.kt").exists():
         _c333.append("CompeteUi.kt 未删除（19 个零调用 Comp* 仍在）")
     _dead333 = ("CompPage", "CompHeaderBar", "CompGroupTitle", "CompDivider", "CompSettingsHeader", "CompSettingsRow", "CompSwitchRow", "CompCover", "CompTrackRow", "CompPlaylistRow", "CompSearchField", "CompHistoryChip", "CompTabRow", "CompSheetDialog", "CompDialogInput", "CompActionButton", "CompBottomBar", "CompScanBanner", "CompEmpty")
@@ -10663,7 +10687,7 @@ def main() -> int:
 
     # ---- §61.334（B-7 卫生批：Toast 全域收口 + 歌单展开态 saver）----
     _c334 = []
-    _app334 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic"
+    _app334 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
     # ① 全域唯一 Toast 制造点（与 §61.294 升级后的判据同源，此处额外钉三处宿主调用点）
     for _fn334, _need334 in (
         ("MainActivity.kt", ("showFeedback(",)),
@@ -10710,14 +10734,14 @@ def main() -> int:
         for _bad335 in ("System.err", "System.out", "printStackTrace"):
             if _bad335 in _t335:
                 _c335.append("%s 仍直写 %s" % (_f335.as_posix(), _bad335))
-    _lp335 = ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "common" / "LogPort.kt"
+    _lp335 = ROOT / "core-common" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "common" / "LogPort.kt"
     if not _lp335.is_file():
         _c335.append("core-common/LogPort.kt 缺失")
     else:
         _t335 = _code_only(_lp335.read_text(encoding="utf-8", errors="replace"))
         if "fun interface LogPort" not in _t335 or "NOOP" not in _t335:
             _c335.append("LogPort 端口或缺 NOOP 默认实现")
-    _pc335 = ROOT / "feature-player" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "player" / "PlayerController.kt"
+    _pc335 = ROOT / "feature-player" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "player" / "PlayerController.kt"
     if not _pc335.is_file():
         _c335.append("PlayerController.kt 缺失")
     else:
@@ -10726,7 +10750,7 @@ def main() -> int:
             _c335.append("PlayerController 未接 LogPort 构造参数")
         if _t335.count('logPort.debug("CM-Player", "') != 4:
             _c335.append("PlayerController 诊断日志改走 LogPort 的处数非 4")
-    _svc335 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "PlaybackService.kt"
+    _svc335 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "PlaybackService.kt"
     if not _svc335.is_file():
         _c335.append("PlaybackService.kt 缺失")
     else:
@@ -10735,7 +10759,7 @@ def main() -> int:
             _c335.append("PlaybackService 未注入 LogPort")
         if _t335.count('logPort.debug("CM-DIAG", "') != 2:
             _c335.append("PlaybackService 诊断日志改走 LogPort 的处数非 2")
-    _di335 = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "di" / "BridgeModule.kt"
+    _di335 = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "di" / "BridgeModule.kt"
     if not _di335.is_file():
         _c335.append("BridgeModule.kt 缺失")
     else:
@@ -10801,7 +10825,7 @@ def main() -> int:
 
     # ---- §61.337（B-9 E_DS_IO 观察项）----
     _c337 = []
-    _et337 = ROOT / "core-model" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "model" / "ErrorText.kt"
+    _et337 = ROOT / "core-model" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "model" / "ErrorText.kt"
     if not _et337.is_file():
         _c337.append("ErrorText.kt 缺失")
     else:
@@ -10813,7 +10837,7 @@ def main() -> int:
     _d7337 = ROOT / "docs" / "07-错误码总表.md"
     if not _d7337.is_file() or "观察项——`E_DS_IO`" not in _d7337.read_text(encoding="utf-8", errors="replace"):
         _c337.append("docs/07 未登记 E_DS_IO 的观察口径")
-    _test337 = ROOT / "core-model" / "src" / "test" / "kotlin" / "com" / "example" / "cloudmusic" / "model" / "ErrorTextTest.kt"
+    _test337 = ROOT / "core-model" / "src" / "test" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "model" / "ErrorTextTest.kt"
     if not _test337.is_file() or '"E_DS_IO" to' not in _test337.read_text(encoding="utf-8", errors="replace"):
         _c337.append("ErrorTextTest 缺 E_DS_IO 用例")
     # 零生产写入方：扫全部 src/main，除 ErrorText 的映射文件外不得出现该码
@@ -10829,7 +10853,7 @@ def main() -> int:
 
     # ---- §61.338（B-6 CachedRemoteDriver 去重）----
     _c338 = []
-    _base338 = ROOT / "datasource-api" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "datasource" / "CachedRemoteDriver.kt"
+    _base338 = ROOT / "datasource-api" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "datasource" / "CachedRemoteDriver.kt"
     if not _base338.is_file():
         _c338.append("datasource-api/CachedRemoteDriver.kt 缺失")
     else:
@@ -10846,8 +10870,8 @@ def main() -> int:
             if _need338 not in _t338:
                 _c338.append("基类缺共享契约 " + _need338)
     for _fn338, _proto338, _diff338 in (
-        ("datasource-sftp/src/main/kotlin/com/example/cloudmusic/sftp/SftpDriver.kt", "SFTP", "privateKey"),
-        ("datasource-ftp/src/main/kotlin/com/example/cloudmusic/ftp/FtpDriver.kt", "FTP", "ssl"),
+        ("datasource-sftp/src/main/kotlin/com/ccmsc/cloudmusic/sftp/SftpDriver.kt", "SFTP", "privateKey"),
+        ("datasource-ftp/src/main/kotlin/com/ccmsc/cloudmusic/ftp/FtpDriver.kt", "FTP", "ssl"),
     ):
         _p338 = ROOT / _fn338
         if not _p338.is_file():
@@ -10878,7 +10902,7 @@ def main() -> int:
     # ---- §61.339（B-5 第一阶段：设置页拆文件，判据读合并源码）----
     _c339 = []
     s_self339 = (ROOT / "tools" / "check_source_contracts.py").read_text(encoding="utf-8", errors="replace")
-    _ui339 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui"
+    _ui339 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui"
     _set339 = _ui339 / "SettingsScreen.kt"
     if not _set339.is_file():
         _c339.append("SettingsScreen.kt 缺失（设置页未拆出）")
@@ -10907,8 +10931,8 @@ def main() -> int:
 
     # ---- §61.343（B-5 收尾：UiActions 参数聚合 + 组合根 <600 行）----
     _c343 = []
-    _ua343 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "UiActions.kt"
-    _root343 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt"
+    _ua343 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "UiActions.kt"
+    _root343 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "CloudMusicApp.kt"
     if not _ua343.is_file():
         _c343.append("UiActions.kt 缺失（60 参数未聚合）")
     else:
@@ -10936,7 +10960,7 @@ def main() -> int:
 
     # ---- §61.344（G-7/G-8/G-9 用户一手改动：不弹键盘 / 去重复入口）----
     _c344 = []
-    _lib344 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "FnLibraryScreen.kt"
+    _lib344 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "FnLibraryScreen.kt"
     if not _lib344.is_file():
         _c344.append("FnLibraryScreen.kt 缺失")
     else:
@@ -10957,9 +10981,9 @@ def main() -> int:
 
     # ---- §61.345（G-4 孤儿 sweep 误判修复）----
     _c345 = []
-    _sp345 = ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "scanner" / "ScanPorts.kt"
-    _sc345 = ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "scanner" / "ScanCoordinator.kt"
-    _di345 = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "di" / "scan" / "ScanComposition.kt"
+    _sp345 = ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "scanner" / "ScanPorts.kt"
+    _sc345 = ROOT / "scanner" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "scanner" / "ScanCoordinator.kt"
+    _di345 = ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "di" / "scan" / "ScanComposition.kt"
     for _f345 in (_sp345, _sc345, _di345):
         if not _f345.is_file():
             _c345.append("缺 " + _f345.name)
@@ -10973,7 +10997,7 @@ def main() -> int:
         _t345 = _code_only(_di345.read_text(encoding="utf-8", errors="replace"))
         if "override suspend fun configured()" not in _t345:
             _c345.append("生产 DataStoreStorageProvider 未覆写 configured()")
-        _test345 = ROOT / "scanner" / "src" / "test" / "kotlin" / "com" / "example" / "cloudmusic" / "scanner" / "OrphanSweepTest.kt"
+        _test345 = ROOT / "scanner" / "src" / "test" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "scanner" / "OrphanSweepTest.kt"
         if not _test345.is_file() or "initFailedSourceIsNotOrphan" not in _test345.read_text(encoding="utf-8", errors="replace"):
             _c345.append("缺 init 失败源不标灰的回归用例")
     if _c345:
@@ -10985,7 +11009,7 @@ def main() -> int:
     # 判据不是「字符串在不在」，而是从 Kotlin 坐标解析出包围盒（含 2 单位笔画半宽），
     # 断言与同排 Home 同级（宽高 >= 19 单位）且不越 24 视框——防回退到偏小/偏右下。
     _c346 = []
-    _fi346 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "FnIcons.kt"
+    _fi346 = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "FnIcons.kt"
     if not _fi346.is_file():
         _c346.append("FnIcons.kt 缺失")
     else:
@@ -11095,7 +11119,7 @@ def main() -> int:
             _c347.append(_msg347)
 
     # 5) 三个测试类逐字节判据 + 负载捕获
-    _tdir347 = (ROOT / "engine-opensource" / "src" / "test" / "kotlin" / "com" / "example" /
+    _tdir347 = (ROOT / "engine-opensource" / "src" / "test" / "kotlin" / "com" / "ccmsc" /
                 "cloudmusic" / "engineopensource")
     _tests347 = {
         "WavpackGoldenFramesTest.kt": ["contentEquals(", "capturePayloads = true", "assertEquals(g.ckSize"],
@@ -11235,7 +11259,7 @@ def main() -> int:
         print("[PASS] §61.351 G-1 黑胶唱片图标（Manifest 挂载 / 自适应 / 强调色）")
 
     # §61.352 G-5：普通页顶部只保留一层 statusBars（Scaffold padding 已含）
-    _cloud_352 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt").read_text(encoding="utf-8")
+    _cloud_352 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "CloudMusicApp.kt").read_text(encoding="utf-8")
     _c352 = []
     if ".statusBarsPadding()" in _cloud_352:
         _c352.append("普通页又叠 .statusBarsPadding()（Scaffold padding 已含，双份留白）")
@@ -11247,8 +11271,8 @@ def main() -> int:
         print("[PASS] §61.352 G-5 普通页顶部单份状态栏内边距（无双份留白）")
 
     # §61.353 G-10：更多页一级 tab 无返回键 / 无底部说明 / 入口放大 / FnRow 可覆盖
-    _more_353 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "MoreScreen.kt").read_text(encoding="utf-8")
-    _fnui_353 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "FeiniuUi.kt").read_text(encoding="utf-8")
+    _more_353 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "MoreScreen.kt").read_text(encoding="utf-8")
+    _fnui_353 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "FeiniuUi.kt").read_text(encoding="utf-8")
     _c353 = []
     if "onDismiss" in _more_353:
         _c353.append("MoreScreen 仍有 onDismiss（一级 tab 不应有返回）")
@@ -11266,8 +11290,8 @@ def main() -> int:
         print("[PASS] §61.353 G-10 更多页（无返回键 / 无底部说明 / 六行放大 / 默认值不变）")
 
     # §61.354 G-11：播放页删死控件与只读入口，触控达标
-    _player_354 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt").read_text(encoding="utf-8")
-    _assets_354 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "player" / "LegacyAssets.kt").read_text(encoding="utf-8")
+    _player_354 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt").read_text(encoding="utf-8")
+    _assets_354 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "player" / "LegacyAssets.kt").read_text(encoding="utf-8")
     _c354 = []
     for _dead in ("RefreshGlyph", "QueueGlyph", "BulbGlyph", "WhaleGlyph"):
         if _dead in _player_354:

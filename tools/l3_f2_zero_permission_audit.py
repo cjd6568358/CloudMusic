@@ -21,19 +21,19 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-SERVICE = ROOT / "app/src/main/kotlin/com/example/cloudmusic/PlaybackService.kt"
-RUNTIME = ROOT / "core-di/src/main/kotlin/com/example/cloudmusic/di/playback/PlaybackComposition.kt"
+SERVICE = ROOT / "app/src/main/kotlin/com/ccmsc/cloudmusic/PlaybackService.kt"
+RUNTIME = ROOT / "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/playback/PlaybackComposition.kt"
 MANIFEST = ROOT / "app/src/main/AndroidManifest.xml"
 SETTINGS = ROOT / "settings.gradle.kts"
-ENGINE = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineAdapter.kt"
+ENGINE = ROOT / "engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/EngineAdapter.kt"
 
 PROBE_MD = ROOT / "analysis/l3-f2-device-probe.md"
 PROBE_LOG = ROOT / "analysis/l3-f2-device-probe-logcat.txt"
 SHOT = ROOT / "analysis/l3-reference/self-ui-with-local-track-2.png"
 OUT = ROOT / "analysis/l3-f2-zero-permission.json"
 
-EXTRA = "com.example.cloudmusic.extra.LOCAL_PATH"
-ACTION_PLAY = "com.example.cloudmusic.action.PLAY"
+EXTRA = "com.ccmsc.cloudmusic.extra.LOCAL_PATH"
+ACTION_PLAY = "com.ccmsc.cloudmusic.action.PLAY"
 
 REQUIRED_FILES = (
     SERVICE, RUNTIME, MANIFEST, SETTINGS, ENGINE, PROBE_MD, PROBE_LOG, SHOT,
@@ -79,7 +79,7 @@ LOG_ASSERTIONS = {
     "remote_false_url_null": "remote=false url=null",
     "extension_is_mime": "resourceInfo extension=audio/mpeg fileSize=-1",
     "get_local_path": (
-        "getLocalPath path=/data/data/com.example.cloudmusic/files/music/fixture.mp3"
+        "getLocalPath path=/data/data/com.ccmsc.cloudmusic/files/music/fixture.mp3"
     ),
     "xor_local_source": "CreateLocalSource: route XorLocalSource",
     "xor_open_success": "XorLocalSource::Open success",
@@ -178,7 +178,7 @@ def main() -> int:
             "engine_unchanged_anchors": engine_unchanged,
             "fixture": {
                 "source": "/sdcard/Music/cloudmusic_g01.mp3",
-                "private_path": "/data/data/com.example.cloudmusic/files/music/fixture.mp3",
+                "private_path": "/data/data/com.ccmsc.cloudmusic/files/music/fixture.mp3",
                 "bytes": 37824,
                 "room_db_bytes": 151552,
             },

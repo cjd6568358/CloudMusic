@@ -21,7 +21,7 @@ ANALYSIS = ROOT / "analysis"
 OUT = ANALYSIS / "l3-f4-level5-wiring-audit.json"
 
 ENGINE_ADAPTER = (ROOT / "engine-legacy" / "src" / "main" / "java" /
-                  "com" / "example" / "cloudmusic" / "enginelegacy" /
+                  "com" / "ccmsc" / "cloudmusic" / "enginelegacy" /
                   "EngineAdapter.kt")
 SO = ROOT / "engine-legacy" / "src" / "main" / "jniLibs" / "arm64-v8a" / "libNMCommonCache.so"
 APK = ROOT / "app" / "build" / "outputs" / "apk" / "debug" / "app-debug.apk"

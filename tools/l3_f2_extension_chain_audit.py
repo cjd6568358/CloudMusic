@@ -23,7 +23,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SOURCE = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineAdapter.kt"
+SOURCE = ROOT / "engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/EngineAdapter.kt"
 OUT = ROOT / "analysis" / "l3-f2-extension-chain.json"
 
 

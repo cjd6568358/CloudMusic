@@ -75,11 +75,11 @@ def main() -> int:
     settings = read(ROOT / "settings.gradle.kts")
     toml = read(ROOT / "gradle" / "libs.versions.toml")
     engine_api = read(ROOT / "engine-api" / "src" / "main" / "kotlin" / "com" /
-                      "example" / "cloudmusic" / "engine" / "api" / "EngineApi.kt")
+                      "ccmsc" / "cloudmusic" / "engine" / "api" / "EngineApi.kt")
     bindings = read(ROOT / "core-di" / "src" / "main" / "kotlin" / "com" /
-                    "example" / "cloudmusic" / "di" / "AppBindings.kt")
+                    "ccmsc" / "cloudmusic" / "di" / "AppBindings.kt")
     adapter = read(ROOT / "engine-legacy" / "src" / "main" / "java" / "com" /
-                   "example" / "cloudmusic" / "enginelegacy" / "EngineAdapter.kt")
+                   "ccmsc" / "cloudmusic" / "enginelegacy" / "EngineAdapter.kt")
     contracts = read(ROOT / "tools" / "check_source_contracts.py")
 
     mem_main = read(ROOT / ".workbuddy-ai" / "memory" / "2026-11-11.md")

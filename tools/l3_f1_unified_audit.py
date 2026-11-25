@@ -21,34 +21,34 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SOURCE = ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/AudioFormats.kt"
-UNIT_TEST = ROOT / "core-model/src/test/kotlin/com/example/cloudmusic/model/AudioFormatsTest.kt"
+SOURCE = ROOT / "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/AudioFormats.kt"
+UNIT_TEST = ROOT / "core-model/src/test/kotlin/com/ccmsc/cloudmusic/model/AudioFormatsTest.kt"
 OUT = ROOT / "analysis" / "l3-f1-unified.json"
 
 # 6 处消费方 → (源码路径, 必须出现的 AudioFormats 引用)
 CONSUMERS = {
     "core-model/ObjectType.AUDIO_EXT": (
-        ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/ObjectType.kt",
+        ROOT / "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/ObjectType.kt",
         "AudioFormats.AUDIO_EXT",
     ),
     "scanner/ScanRules.audioExt": (
-        ROOT / "scanner/src/main/kotlin/com/example/cloudmusic/scanner/ExcludeRule.kt",
+        ROOT / "scanner/src/main/kotlin/com/ccmsc/cloudmusic/scanner/ExcludeRule.kt",
         "AudioFormats.AUDIO_EXT",
     ),
     "datasource-strm/StrmPaths.defaultFilterTypes": (
-        ROOT / "datasource-strm/src/main/kotlin/com/example/cloudmusic/strm/StrmPaths.kt",
+        ROOT / "datasource-strm/src/main/kotlin/com/ccmsc/cloudmusic/strm/StrmPaths.kt",
         "AudioFormats.STREAM_FILTER_TYPES",
     ),
     "engine-bridge/MimeHint.MAP": (
-        ROOT / "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/BaseDataSource.kt",
+        ROOT / "engine-bridge/src/main/kotlin/com/ccmsc/cloudmusic/bridge/BaseDataSource.kt",
         "AudioFormats.MIME_BY_EXT",
     ),
     "feature-player/PlayerController.mimeHintOf": (
-        ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/player/PlayerController.kt",
+        ROOT / "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/PlayerController.kt",
         "AudioFormats.mimeOfName",
     ),
     "output-dlna/DidlLiteBuilder.mimeOf": (
-        ROOT / "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DidlLiteBuilder.kt",
+        ROOT / "output-dlna/src/main/kotlin/com/ccmsc/cloudmusic/output/dlna/DidlLiteBuilder.kt",
         "AudioFormats.mimeOfName",
     ),
 }

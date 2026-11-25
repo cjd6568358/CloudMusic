@@ -31,7 +31,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 ADB = ROOT / "tools" / "bin" / "adb.exe"
 APK = ROOT / "app" / "build" / "outputs" / "apk" / "debug" / "app-debug.apk"
-PKG = "com.example.cloudmusic"
+PKG = "com.ccmsc.cloudmusic"
 MATRIX = ROOT / "analysis" / "l3-f3-matrix.json"
 LOG_DIR = ROOT / "analysis" / "l3-f3-logs"
 FORMATS = ("aiff", "wma", "ape", "wv")

@@ -31,7 +31,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-ASSETS = ROOT / "app/src/main/kotlin/com/example/cloudmusic/ui/player/LegacyAssets.kt"
+ASSETS = ROOT / "app/src/main/kotlin/com/ccmsc/cloudmusic/ui/player/LegacyAssets.kt"
 METRICS = ROOT / "analysis/l3-reference/player-baseline-metrics.json"
 OUT_STATIC = ROOT / "analysis/l3-reference/player-layout-selfcheck.json"
 OUT_SHOT = ROOT / "analysis/l3-reference/player-screenshot-diff.json"

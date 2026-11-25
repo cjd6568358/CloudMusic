@@ -11,7 +11,7 @@ plugins {
 android {
     // namespace 与舱内竞品原包名（com.netease.cloudmusic.*）无关：
     // JNI 符号绑定的是 Java 类的包名，后续真类按源码目录组织即可。
-    namespace = "com.example.cloudmusic.enginelegacy"
+    namespace = "com.ccmsc.cloudmusic.enginelegacy"
 
     defaultConfig {
         // 13 §8 的 12 个精确 JNI 类 + 4 个包族通配 + 202 个 Java_* 符号类覆盖规则，

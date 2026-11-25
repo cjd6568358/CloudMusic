@@ -41,7 +41,7 @@ OUT = A / "l3-f4-wiring-rollback-audit.json"
 REPORT = A / "l3-f4-wiring-rollback-audit-report.md"
 
 ADAPTER = (ROOT / "engine-legacy" / "src" / "main" / "java" /
-           "com" / "example" / "cloudmusic" / "enginelegacy" /
+           "com" / "ccmsc" / "cloudmusic" / "enginelegacy" /
            "EngineAdapter.kt")
 SOURCE_CONFIG = (ROOT / "engine-legacy" / "src" / "main" / "java" /
                  "com" / "netease" / "cloudmusic" / "android" / "sdk" /

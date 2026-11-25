@@ -27,8 +27,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "analysis" / "l3-visual-replica-spec.json"
 
-PLAYER = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "player"
-UI = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui"
+PLAYER = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "player"
+UI = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui"
 ASSETS = ROOT / "app" / "src" / "main" / "assets" / "legacy-player"
 SETTINGS = ROOT / "settings.gradle.kts"
 APP_GRADLE = ROOT / "app" / "build.gradle.kts"
@@ -41,7 +41,7 @@ PAGE = PLAYER / "LegacyPlayerPage.kt"
 BRIDGE = PLAYER / "PlayerStateBridge.kt"
 APP_UI = UI / "CloudMusicApp.kt"
 THEME = UI / "CloudMusicTheme.kt"
-MAIN_ACTIVITY = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "MainActivity.kt"
+MAIN_ACTIVITY = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "MainActivity.kt"
 
 # `legacy_colors.xml` 的色名 → `LegacyPalette` 常量（避免自造颜色产生色差）。
 COLOR_MAP: dict[str, str] = {
@@ -463,7 +463,7 @@ def main() -> int:
             "legacy_e0g.xml / legacy_gr.xml / legacy_gc.xml / legacy_bv5.xml",
             "app/src/main/assets/legacy-player/drawable/legacy_bn5.xml / legacy_bnx.xml / legacy_bp1.xml",
             "analysis/l3-reference/legacy-icons-sheet.png / legacy-control-zoom.png / legacy-disc-layers.png",
-            "app/src/main/kotlin/com/example/cloudmusic/ui/**.kt",
+            "app/src/main/kotlin/com/ccmsc/cloudmusic/ui/**.kt",
         ],
         "competitor_palette": {k: {"xml": xml_colors.get(k), "constant": v, "value": palette.get(v)}
                                for k, v in COLOR_MAP.items()},

@@ -26,12 +26,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "analysis" / "l3-interaction-spec.json"
 
-PLAYER_DIR = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "player"
+PLAYER_DIR = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "player"
 VINYL = PLAYER_DIR / "VinylDiscView.kt"
 BRIDGE = PLAYER_DIR / "PlayerStateBridge.kt"
 PAGE = PLAYER_DIR / "LegacyPlayerPage.kt"
-APP_UI = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt"
-MAIN_ACTIVITY = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "MainActivity.kt"
+APP_UI = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui" / "CloudMusicApp.kt"
+MAIN_ACTIVITY = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "MainActivity.kt"
 SETTINGS = ROOT / "settings.gradle.kts"
 APP_GRADLE = ROOT / "app" / "build.gradle.kts"
 MANIFEST = ROOT / "app" / "src" / "main" / "AndroidManifest.xml"
@@ -260,7 +260,7 @@ def main() -> int:
             "docs/03-模块开发文档/03-10 UI 组件与主题.md §3.3 / §6 / §11",
             "docs/12-编码阶段第一批交付.md §39 / §61.38 / §61.39",
             "analysis/legacy-layout-audit.json",
-            "app/src/main/kotlin/com/example/cloudmusic/ui/player/*.kt",
+            "app/src/main/kotlin/com/ccmsc/cloudmusic/ui/player/*.kt",
         ],
         "animation_parameters": ANIMATION_PARAMETERS,
         "rotation_markers": rotation_markers,

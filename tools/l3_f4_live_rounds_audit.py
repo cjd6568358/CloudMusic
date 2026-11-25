@@ -43,7 +43,7 @@ ROUNDS = (
 WBRANCH_EVIDENCE = A / "l3-f4-wbranch-recheck.json"
 UI_SCREENSHOT = A / "l3-f4-live-ui-20261111.png"
 ADAPTER = (ROOT / "engine-legacy" / "src" / "main" / "java" /
-           "com" / "example" / "cloudmusic" / "enginelegacy" /
+           "com" / "ccmsc" / "cloudmusic" / "enginelegacy" /
            "EngineAdapter.kt")
 FORBIDDEN = ("F4 已解决", "m4a 已支持", "全格式已支持", "level-5 已开启",
              "推断已升级为实证", "seek 已执行")

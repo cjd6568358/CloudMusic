@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """§61.363：FnLineIcon 优先走 Material Symbols 矢量（32 枚），手写实现保留兜底。"""
 
-P = 'app/src/main/kotlin/com/example/cloudmusic/ui/FnIcons.kt'
+P = 'app/src/main/kotlin/com/ccmsc/cloudmusic/ui/FnIcons.kt'
 s = open(P, encoding='utf-8').read()
 
 # 1) imports
@@ -25,7 +25,7 @@ import androidx.compose.ui.semantics.semantics''')
 
 s = s.replace('''import androidx.compose.ui.unit.dp
 ''', '''import androidx.compose.ui.unit.dp
-import com.example.cloudmusic.R
+import com.ccmsc.cloudmusic.R
 ''', 1)
 
 # 2) 映射表 + 说明，插在 iconSemantics 之前

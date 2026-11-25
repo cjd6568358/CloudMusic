@@ -50,7 +50,7 @@ WBRANCH_REPORT = A / "l3-f4-wbranch-recheck-report.md"
 RUNBOOK = A / "l3-f4-online-runbook.md"
 PREFLIGHT_JSON = A / "l3-f4-preflight.json"
 ADAPTER = (ROOT / "engine-legacy" / "src" / "main" / "java" /
-           "com" / "example" / "cloudmusic" / "enginelegacy" /
+           "com" / "ccmsc" / "cloudmusic" / "enginelegacy" /
            "EngineAdapter.kt")
 
 # §61.65~§61.70 的历史证据，只读核验「固化且全绿」，按纪律不重跑覆盖。

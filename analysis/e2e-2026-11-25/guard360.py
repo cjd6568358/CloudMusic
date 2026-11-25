@@ -3,7 +3,7 @@
 import subprocess, shutil, sys
 
 GUARD = 'tools/check_source_contracts.py'
-SPLASH = 'app/src/main/kotlin/com/example/cloudmusic/ui/SplashScreen.kt'
+SPLASH = 'app/src/main/kotlin/com/ccmsc/cloudmusic/ui/SplashScreen.kt'
 BAK = 'analysis/e2e-2026-11-25/ab/'
 
 s = open(GUARD, encoding='utf-8').read()

@@ -263,7 +263,7 @@ def main():
     bl = read("analysis/task-backlog-2026-11-07.md")
     rb = read("analysis/l3-f4-online-runbook.md")
     rep = read("analysis/l3-f4-level5-gate-semantics-report.md")
-    ea = read("engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineAdapter.kt")
+    ea = read("engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/EngineAdapter.kt")
 
     def jall(rel):
         try:

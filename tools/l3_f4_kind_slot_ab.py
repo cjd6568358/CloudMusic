@@ -39,7 +39,7 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SRC = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
+SRC = ROOT / "engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/UrlDataRequest.kt"
 FIXTURES = ROOT / "analysis" / "l3-f3-fixtures"
 LOG_DIR = ROOT / "analysis" / "l3-f4-logs"
 APK = ROOT / "app/build/outputs/apk/debug/app-debug.apk"

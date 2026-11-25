@@ -54,9 +54,9 @@ def main() -> int:
     args = ap.parse_args()
 
     lib, ape, aiff, wvpk = read(FFLIB), read(APE), read(AIFF), read(WVPK)
-    aiff_test = (TESTS / "com" / "example" / "cloudmusic" /
+    aiff_test = (TESTS / "com" / "ccmsc" / "cloudmusic" /
                  "engineopensource" / "AiffExtractorTest.kt")
-    wvpk_test = (TESTS / "com" / "example" / "cloudmusic" /
+    wvpk_test = (TESTS / "com" / "ccmsc" / "cloudmusic" /
                  "engineopensource" / "WavpackExtractorTest.kt")
     mime_test = (TESTS / "androidx" / "media3" / "decoder" / "ffmpeg" /
                  "FfmpegLibraryMimeTest.kt")

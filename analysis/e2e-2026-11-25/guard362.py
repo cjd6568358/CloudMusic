@@ -3,7 +3,7 @@
 import subprocess, shutil, sys
 
 GUARD = 'tools/check_source_contracts.py'
-FEI = 'app/src/main/kotlin/com/example/cloudmusic/ui/FeiniuUi.kt'
+FEI = 'app/src/main/kotlin/com/ccmsc/cloudmusic/ui/FeiniuUi.kt'
 BAK = 'analysis/e2e-2026-11-25/ab/'
 
 s = open(GUARD, encoding='utf-8').read()

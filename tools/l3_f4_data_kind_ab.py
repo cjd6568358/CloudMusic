@@ -41,12 +41,12 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SRC = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
+SRC = ROOT / "engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/UrlDataRequest.kt"
 APK = ROOT / "app/build/outputs/apk/debug/app-debug.apk"
 ADB = ROOT / "tools" / "bin" / "adb.exe"
 PROBE = ROOT / "tools" / "l3_f4_vfile_commit_probe.py"
 A = ROOT / "analysis"
-PKG = "com.example.cloudmusic"
+PKG = "com.ccmsc.cloudmusic"
 OUT = A / "l3-f4-data-kind-ab.json"
 OUT_INDEX = A / "l3-f4-data-kind-ab-index.json"
 

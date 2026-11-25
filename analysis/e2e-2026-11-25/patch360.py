@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """§61.360: 启动页期间状态栏/导航栏刷品牌红。"""
 
-p = 'app/src/main/kotlin/com/example/cloudmusic/ui/SplashScreen.kt'
+p = 'app/src/main/kotlin/com/ccmsc/cloudmusic/ui/SplashScreen.kt'
 s = open(p, encoding='utf-8').read()
 
 # 1. imports
@@ -26,10 +26,10 @@ assert s.count(old_imp3) == 1
 s = s.replace(old_imp3, new_imp3)
 
 old_imp4 = '''import androidx.compose.ui.unit.sp
-import com.example.cloudmusic.ui.player.LegacyPalette'''
+import com.ccmsc.cloudmusic.ui.player.LegacyPalette'''
 new_imp4 = '''import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowInsetsControllerCompat
-import com.example.cloudmusic.ui.player.LegacyPalette'''
+import com.ccmsc.cloudmusic.ui.player.LegacyPalette'''
 assert s.count(old_imp4) == 1
 s = s.replace(old_imp4, new_imp4)
 

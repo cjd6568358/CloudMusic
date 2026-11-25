@@ -24,7 +24,7 @@ WAV_JSON = A / "l3-f4-data-kind-ab-wav.json"
 REPORT = A / "l3-f4-data-kind-verdict-report.md"
 DELIVERY12 = ROOT / "docs" / "12-编码阶段第一批交付.md"
 CONTRACTS = ROOT / "tools" / "check_source_contracts.py"
-P0 = ROOT / "engine-legacy" / "src" / "main" / "java" / "com" / "example" / \
+P0 = ROOT / "engine-legacy" / "src" / "main" / "java" / "com" / "ccmsc" / \
     "cloudmusic" / "enginelegacy" / "UrlDataRequest.kt"
 OUT = A / "l3-f4-data-kind-verdict-audit.json"
 

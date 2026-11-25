@@ -69,14 +69,14 @@ def main() -> int:
     coredi_build = read(ROOT / "core-di" / "build.gradle.kts")
     mod_build = read(ROOT / "engine-opensource" / "build.gradle.kts")
     adapter = read(ROOT / "engine-opensource" / "src" / "main" / "kotlin" /
-                   "com" / "example" / "cloudmusic" / "engineopensource" /
+                   "com" / "ccmsc" / "cloudmusic" / "engineopensource" /
                    "Media3EngineAdapter.kt")
     api = read(ROOT / "engine-api" / "src" / "main" / "kotlin" / "com" /
-               "example" / "cloudmusic" / "engine" / "api" / "EngineApi.kt")
+               "ccmsc" / "cloudmusic" / "engine" / "api" / "EngineApi.kt")
     bindings = read(ROOT / "core-di" / "src" / "main" / "kotlin" / "com" /
-                    "example" / "cloudmusic" / "di" / "AppBindings.kt")
+                    "ccmsc" / "cloudmusic" / "di" / "AppBindings.kt")
     legacy = read(ROOT / "engine-legacy" / "src" / "main" / "java" / "com" /
-                  "example" / "cloudmusic" / "enginelegacy" / "EngineAdapter.kt")
+                  "ccmsc" / "cloudmusic" / "enginelegacy" / "EngineAdapter.kt")
     plan = read(ANALYSIS / "l3-b2-implementation-plan-2026-11-11.md")
     contracts = read(ROOT / "tools" / "check_source_contracts.py")
 
@@ -140,7 +140,7 @@ def main() -> int:
     checks["module_convention_plugin"] = (
         "cloudmusic.android.library" in mod_build)
     checks["module_namespace"] = (
-        'namespace = "com.example.cloudmusic.engineopensource"' in mod_build)
+        'namespace = "com.ccmsc.cloudmusic.engineopensource"' in mod_build)
     checks["adapter_file_exists"] = bool(adapter)
     checks["adapter_implements_facade"] = (
         "class Media3EngineAdapter : IMusicEngine" in adapter)

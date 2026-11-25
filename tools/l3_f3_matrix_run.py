@@ -48,12 +48,12 @@ MANIFEST = ROOT / "analysis" / "l3-f3-fixtures.json"
 LOG_DIR = ROOT / "analysis" / "l3-f3-logs"
 OUT = ROOT / "analysis" / "l3-f3-matrix.json"
 
-PKG = "com.example.cloudmusic"
-ACTION_PLAY = "com.example.cloudmusic.action.PLAY"
-ACTION_SEEK = "com.example.cloudmusic.action.SEEK"
-EXTRA_LOCAL = "com.example.cloudmusic.extra.LOCAL_PATH"
-EXTRA_URL = "com.example.cloudmusic.extra.SOURCE_URL"
-EXTRA_SEEK_MS = "com.example.cloudmusic.extra.SEEK_POSITION_MS"
+PKG = "com.ccmsc.cloudmusic"
+ACTION_PLAY = "com.ccmsc.cloudmusic.action.PLAY"
+ACTION_SEEK = "com.ccmsc.cloudmusic.action.SEEK"
+EXTRA_LOCAL = "com.ccmsc.cloudmusic.extra.LOCAL_PATH"
+EXTRA_URL = "com.ccmsc.cloudmusic.extra.SOURCE_URL"
+EXTRA_SEEK_MS = "com.ccmsc.cloudmusic.extra.SEEK_POSITION_MS"
 PORT = 8765
 PRIVATE_DIR = "/data/data/%s/files/music" % PKG
 
@@ -131,7 +131,7 @@ def parse_log(text: str, ext: str, path_kind: str) -> dict:
     errors = {
         "source_callback_on_error": "SourceCallback.onError" in text,
         "fatal_exception": "FATAL EXCEPTION" in text,
-        "anr": "ANR in com.example.cloudmusic" in text,
+        "anr": "ANR in com.ccmsc.cloudmusic" in text,
         "write_nerr_nonzero": any(int(x) != 0 for x in writes),
         "open_source_failed": bool(re.search(r"openSource [1-9]", text)),
         "engine_prepare_failed": "ENGINE_PREPARE" in text,

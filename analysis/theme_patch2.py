@@ -1,7 +1,7 @@
 import io
 
 # ① PlaybackComposition.updateTheme + theme 投影
-p = 'core-di/src/main/kotlin/com/example/cloudmusic/di/playback/PlaybackComposition.kt'
+p = 'core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/playback/PlaybackComposition.kt'
 s = io.open(p, encoding='utf-8').read()
 s = s.replace('''    /** §61.226 同族：设置流投影（MainActivity 设置页的 fade 开关显示源）。 */''',
 '''    /** §61.234：主题模式持久化（ThemeMode 四值；MainActivity 改后 recreate 生效）。 */
@@ -16,30 +16,30 @@ s = s.replace('''    /** §61.226 同族：设置流投影（MainActivity 设置
 io.open(p, 'w', encoding='utf-8', newline='\n').write(s)
 
 # ② MainActivity.applyThemeFromSettings
-p = 'app/src/main/kotlin/com/example/cloudmusic/MainActivity.kt'
+p = 'app/src/main/kotlin/com/ccmsc/cloudmusic/MainActivity.kt'
 s = io.open(p, encoding='utf-8').read()
 s = s.replace('''    private val playerBridge by lazy {''',
 '''    /** §61.234：按 settings.theme + 系统深色计算 isDark 并切 Comp/FnComp token。 */
     private fun applyThemeFromSettings() {
         val mode = runCatching { settingsStore.current().theme }
-            .getOrDefault(com.example.cloudmusic.storage.ThemeMode.DARK_FOLLOW_SYSTEM)
+            .getOrDefault(com.ccmsc.cloudmusic.storage.ThemeMode.DARK_FOLLOW_SYSTEM)
         val systemDark = (resources.configuration.uiMode and
             android.content.res.Configuration.UI_MODE_NIGHT_MASK) ==
             android.content.res.Configuration.UI_MODE_NIGHT_YES
         val isDark = when (mode) {
-            com.example.cloudmusic.storage.ThemeMode.LIGHT -> false
-            com.example.cloudmusic.storage.ThemeMode.DARK -> true
-            com.example.cloudmusic.storage.ThemeMode.FOLLOW_SYSTEM -> systemDark
+            com.ccmsc.cloudmusic.storage.ThemeMode.LIGHT -> false
+            com.ccmsc.cloudmusic.storage.ThemeMode.DARK -> true
+            com.ccmsc.cloudmusic.storage.ThemeMode.FOLLOW_SYSTEM -> systemDark
             else -> true   // DARK_FOLLOW_SYSTEM（默认）与历史行为一致：深色优先
         }
-        com.example.cloudmusic.ui.CompeteUi.applyThemeCompat(isDark)
+        com.ccmsc.cloudmusic.ui.CompeteUi.applyThemeCompat(isDark)
     }
 
     private val playerBridge by lazy {''')
 io.open(p, 'w', encoding='utf-8', newline='\n').write(s)
 
 # ③ CompeteUi.applyThemeCompat（Comp + FnComp 统一入口；FnComp import 环避免——放 CompeteUi 调 FeiniuUi）
-p = 'app/src/main/kotlin/com/example/cloudmusic/ui/CompeteUi.kt'
+p = 'app/src/main/kotlin/com/ccmsc/cloudmusic/ui/CompeteUi.kt'
 s = io.open(p, encoding='utf-8').read()
 s = s.rstrip()
 s = s[:s.rfind('}')].rstrip() + '''
@@ -47,13 +47,13 @@ s = s[:s.rfind('}')].rstrip() + '''
 /** §61.234：主题统一切换入口（Comp + FnComp 同口径，MainActivity 启动/设置页调用）。 */
 fun CompeteUi.applyThemeCompat(isDark: Boolean) {
     Comp.applyTheme(isDark)
-    com.example.cloudmusic.ui.FnComp.applyTheme(isDark)
+    com.ccmsc.cloudmusic.ui.FnComp.applyTheme(isDark)
 }
 }'''
 io.open(p, 'w', encoding='utf-8', newline='\n').write(s)
 
 # ④ CloudMusicApp 主签名：themeMode/onThemeChanged + 设置页「主题」行
-p = 'app/src/main/kotlin/com/example/cloudmusic/ui/CloudMusicApp.kt'
+p = 'app/src/main/kotlin/com/ccmsc/cloudmusic/ui/CloudMusicApp.kt'
 s = io.open(p, encoding='utf-8').read()
 s = s.replace('''    eqEnabled: Boolean = false,
     eqEffectLevel: Int = 0,

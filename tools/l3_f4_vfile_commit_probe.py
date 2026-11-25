@@ -41,9 +41,9 @@ FIXTURES = ROOT / "analysis" / "l3-f3-fixtures"
 LOG_DIR = ROOT / "analysis" / "l3-f4-logs"
 OUT = ROOT / "analysis" / "l3-f4-vfile-commit-probe.json"
 
-PKG = "com.example.cloudmusic"
-ACTION_PLAY = "com.example.cloudmusic.action.PLAY"
-EXTRA_URL = "com.example.cloudmusic.extra.SOURCE_URL"
+PKG = "com.ccmsc.cloudmusic"
+ACTION_PLAY = "com.ccmsc.cloudmusic.action.PLAY"
+EXTRA_URL = "com.ccmsc.cloudmusic.extra.SOURCE_URL"
 PORT = 8765
 SETTINGS_FILE = "files/datastore/cloudmusic_settings.pb"
 JUMP_OFFSET = 605007

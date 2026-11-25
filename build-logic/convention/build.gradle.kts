@@ -1,6 +1,6 @@
 plugins { `kotlin-dsl` }
 
-group = "com.example.cloudmusic.buildlogic"
+group = "com.ccmsc.cloudmusic.buildlogic"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17

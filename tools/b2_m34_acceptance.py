@@ -25,10 +25,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ADB = ROOT / "tools" / "bin" / "adb.exe"
-PKG = "com.example.cloudmusic"
-ACT = "com.example.cloudmusic.action.PLAY"
-EXTRA_URL = "com.example.cloudmusic.extra.SOURCE_URL"
-EXTRA_SEEK = "com.example.cloudmusic.extra.SEEK_POSITION_MS"
+PKG = "com.ccmsc.cloudmusic"
+ACT = "com.ccmsc.cloudmusic.action.PLAY"
+EXTRA_URL = "com.ccmsc.cloudmusic.extra.SOURCE_URL"
+EXTRA_SEEK = "com.ccmsc.cloudmusic.extra.SEEK_POSITION_MS"
 URL = "http://127.0.0.1:8765/m3_65s.mp3"
 OUT = ROOT / "analysis" / "b2-m34-acceptance.json"
 
@@ -60,7 +60,7 @@ def trigger_url(serial: str, url: str) -> None:
 
 def trigger_seek(serial: str, ms: int) -> None:
     adb(serial, "shell", "am", "startservice", "-n",
-        "%s/.PlaybackService" % PKG, "-a", "com.example.cloudmusic.action.SEEK",
+        "%s/.PlaybackService" % PKG, "-a", "com.ccmsc.cloudmusic.action.SEEK",
         "--el", EXTRA_SEEK, str(ms))
 
 

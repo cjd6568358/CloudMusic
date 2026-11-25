@@ -30,25 +30,25 @@ OUT = ROOT / "analysis" / "l3-audio-format-audit.json"
 
 FILES = {
     "core-model/ObjectType.AUDIO_EXT":
-        ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/ObjectType.kt",
+        ROOT / "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/ObjectType.kt",
     "scanner/ScanRules.audioExt":
-        ROOT / "scanner/src/main/kotlin/com/example/cloudmusic/scanner/ExcludeRule.kt",
+        ROOT / "scanner/src/main/kotlin/com/ccmsc/cloudmusic/scanner/ExcludeRule.kt",
     "datasource-strm/StrmPaths.defaultFilterTypes":
-        ROOT / "datasource-strm/src/main/kotlin/com/example/cloudmusic/strm/StrmPaths.kt",
+        ROOT / "datasource-strm/src/main/kotlin/com/ccmsc/cloudmusic/strm/StrmPaths.kt",
     "engine-bridge/MimeHint.MAP":
-        ROOT / "engine-bridge/src/main/kotlin/com/example/cloudmusic/bridge/BaseDataSource.kt",
+        ROOT / "engine-bridge/src/main/kotlin/com/ccmsc/cloudmusic/bridge/BaseDataSource.kt",
     "feature-player/PlayerController.mimeHintOf":
-        ROOT / "feature-player/src/main/kotlin/com/example/cloudmusic/player/PlayerController.kt",
+        ROOT / "feature-player/src/main/kotlin/com/ccmsc/cloudmusic/player/PlayerController.kt",
     "output-dlna/DidlLiteBuilder.mimeOf":
-        ROOT / "output-dlna/src/main/kotlin/com/example/cloudmusic/output/dlna/DidlLiteBuilder.kt",
+        ROOT / "output-dlna/src/main/kotlin/com/ccmsc/cloudmusic/output/dlna/DidlLiteBuilder.kt",
 }
 
 FFMPEG = ROOT / "engine-legacy/src/main/jniLibs/arm64-v8a/libffmpeg.so"
-ENGINE_ADAPTER = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineAdapter.kt"
-URL_DATA_REQUEST = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
+ENGINE_ADAPTER = ROOT / "engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/EngineAdapter.kt"
+URL_DATA_REQUEST = ROOT / "engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/UrlDataRequest.kt"
 A3_EVIDENCE = ROOT / "analysis/a3-phase-ab-evidence-2026-11-07.md"
 # F1 落地标记：存在即说明 6 处白名单已改为引用单一真相源，本历史工具不再适用。
-AUDIO_FORMATS = ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/AudioFormats.kt"
+AUDIO_FORMATS = ROOT / "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/AudioFormats.kt"
 
 DEDICATED_DECODER_LIBS = (
     "libnecmFlacDec.so", "libnecmMP3Dec.so", "libnecmAACDec.so",

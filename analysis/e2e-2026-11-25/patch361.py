@@ -2,7 +2,7 @@
 """§61.361: tab 图标对齐（Search 放大 / More 加重）+ APP 图标唱片缩小。"""
 
 # ---------- 1. tab icons ----------
-p = 'app/src/main/kotlin/com/example/cloudmusic/ui/FnIcons.kt'
+p = 'app/src/main/kotlin/com/ccmsc/cloudmusic/ui/FnIcons.kt'
 s = open(p, encoding='utf-8').read()
 
 old_search = '''            FnIcon.Search -> {

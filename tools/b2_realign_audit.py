@@ -41,7 +41,7 @@ MEMORY = ROOT / ".workbuddy-ai" / "memory" / "MEMORY.md"
 DAILY = ROOT / ".workbuddy-ai" / "memory" / "2026-11-13.md"
 BUILD_FILE = ROOT / "engine-opensource" / "build.gradle.kts"
 ADAPTER = ROOT / "engine-opensource" / "src" / "main" / "kotlin" / "com" / \
-    "example" / "cloudmusic" / "engineopensource" / "Media3EngineAdapter.kt"
+    "ccmsc" / "cloudmusic" / "engineopensource" / "Media3EngineAdapter.kt"
 RE_README = ROOT / "reverse-engine" / "README.md"
 
 

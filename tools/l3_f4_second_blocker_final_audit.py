@@ -35,7 +35,7 @@ VARIANT_B = A / "l3-f4-ab-selfconsistent.json"
 REPORT = A / "l3-f4-second-blocker-final-report.md"
 DELIVERY12 = ROOT / "docs" / "12-编码阶段第一批交付.md"
 CONTRACTS = ROOT / "tools" / "check_source_contracts.py"
-P0 = ROOT / "engine-legacy" / "src" / "main" / "java" / "com" / "example" / \
+P0 = ROOT / "engine-legacy" / "src" / "main" / "java" / "com" / "ccmsc" / \
     "cloudmusic" / "enginelegacy" / "UrlDataRequest.kt"
 OUT_EVIDENCE = A / "l3-f4-second-blocker-final.json"
 OUT_AUDIT = A / "l3-f4-second-blocker-final-audit.json"

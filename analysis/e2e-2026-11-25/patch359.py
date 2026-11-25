@@ -31,7 +31,7 @@ def manifest(s):
     old = '''    <application
         android:icon="@mipmap/ic_launcher"'''
     new = '''    <!-- §61.359（G-1，用户拍板 B）：应用名「云音乐」。此前没有 android:label，
-         桌面直接显示包名 com.example.cloudmusic（真机截图 43-real-icon2.png 实证）。 -->
+         桌面直接显示包名 com.ccmsc.cloudmusic（真机截图 43-real-icon2.png 实证）。 -->
     <application
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"'''
@@ -51,7 +51,7 @@ def assets(s):
      *
      * §61.359（2026-11-25 用户拍板「统一」）：原值 `#A22016` 是 2026-11-09 对竞品启动屏的
      * 六点采样（照搬基准）；但自家图标底色是品牌红 `#E54545`，两个红并排看像两个应用。
-     * 现统一到 [com.example.cloudmusic.ui.FnComp.IconRed] 同值 `#E54545`。
+     * 现统一到 [com.ccmsc.cloudmusic.ui.FnComp.IconRed] 同值 `#E54545`。
      */
     val BrandRed = 0xFFE54545.toInt()
 
@@ -59,7 +59,7 @@ def assets(s):
     val SplashRedBottom = 0xFFE54545.toInt()'''
     assert s.count(old) == 1
     return s.replace(old, new)
-rw('app/src/main/kotlin/com/example/cloudmusic/ui/player/LegacyAssets.kt', assets)
+rw('app/src/main/kotlin/com/ccmsc/cloudmusic/ui/player/LegacyAssets.kt', assets)
 
 # 5. splash comment
 def splash(s):
@@ -70,7 +70,7 @@ def splash(s):
                         Color(LegacyPalette.SplashRedBottom),'''
     assert s.count(old) == 1
     return s.replace(old, new)
-rw('app/src/main/kotlin/com/example/cloudmusic/ui/SplashScreen.kt', splash)
+rw('app/src/main/kotlin/com/ccmsc/cloudmusic/ui/SplashScreen.kt', splash)
 
 # 6. l3 spec expectation
 def spec(s):

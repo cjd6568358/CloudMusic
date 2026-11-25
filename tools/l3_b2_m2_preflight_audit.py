@@ -79,7 +79,7 @@ def main() -> int:
     toml = read(ROOT / "gradle" / "libs.versions.toml")
     app_build = read(ROOT / "app" / "build.gradle.kts")
     formats = read(ROOT / "core-model" / "src" / "main" / "kotlin" /
-                   "com" / "example" / "cloudmusic" / "model" /
+                   "com" / "ccmsc" / "cloudmusic" / "model" /
                    "AudioFormats.kt")
     d09 = read(ROOT / "docs" / "09-文档闭环总览.md")
     contracts = read(ROOT / "tools" / "check_source_contracts.py")

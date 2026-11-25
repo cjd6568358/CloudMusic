@@ -26,7 +26,7 @@ FAST = ROOT / "analysis" / "l3-f3-fixtures" / "f3_m4a_fast.m4a"
 MOOV_END = ROOT / "analysis" / "l3-f3-fixtures" / "f3_m4a.m4a"
 OUT = ROOT / "analysis" / "l3-f4-ab-audit.json"
 
-URL_DATA_REQUEST = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/UrlDataRequest.kt"
+URL_DATA_REQUEST = ROOT / "engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/UrlDataRequest.kt"
 SETTINGS = ROOT / "settings.gradle.kts"
 MANIFEST = ROOT / "app/src/main/AndroidManifest.xml"
 CSV = ROOT / "docs/assets-mapping.csv"

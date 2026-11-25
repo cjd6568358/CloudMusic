@@ -26,7 +26,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ADB = ROOT / "tools" / "bin" / "adb.exe"
-PKG = "com.example.cloudmusic"
+PKG = "com.ccmsc.cloudmusic"
 APK = ROOT / "app" / "build" / "outputs" / "apk" / "debug" / "app-debug.apk"
 M2_BASELINE_PASS = 11          # §61.49 A 路线基线（11 PASS / 3 FAIL / 7 NO_SAMPLE）
 

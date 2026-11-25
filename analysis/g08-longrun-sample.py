@@ -44,7 +44,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-PACKAGE = "com.example.cloudmusic"
+PACKAGE = "com.ccmsc.cloudmusic"
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ADB_BIN: str | None = None
 TARGET_MINUTES = 20

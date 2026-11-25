@@ -1,7 +1,7 @@
 import io
 
 # ① CompeteUi.Comp：色值 var 化 + applyTheme（基色映射；品牌红不动）
-p = 'app/src/main/kotlin/com/example/cloudmusic/ui/CompeteUi.kt'
+p = 'app/src/main/kotlin/com/ccmsc/cloudmusic/ui/CompeteUi.kt'
 s = io.open(p, encoding='utf-8').read()
 s = s.replace('''object Comp {
     /** `aei` —— 曲库/搜索/歌单页背景。 */
@@ -101,7 +101,7 @@ s = s.replace('''object Comp {
 io.open(p, 'w', encoding='utf-8', newline='\n').write(s)
 
 # ② FeiniuUi.FnComp：同款 var 化 + applyTheme
-p = 'app/src/main/kotlin/com/example/cloudmusic/ui/FeiniuUi.kt'
+p = 'app/src/main/kotlin/com/ccmsc/cloudmusic/ui/FeiniuUi.kt'
 s = io.open(p, encoding='utf-8').read()
 s = s.replace('''object FnComp {
     val PageBg = Color(0xFF1E1E21)

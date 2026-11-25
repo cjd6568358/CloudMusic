@@ -56,10 +56,10 @@ FIXTURES = A / "l3-f3-fixtures"
 LOG_DIR = A / "l3-f4-logs"
 OUT = A / "l3-f4-a1-bypass-live.json"
 
-PKG = "com.example.cloudmusic"
-ACTION_PLAY = "com.example.cloudmusic.action.PLAY"
-EXTRA_LOCAL = "com.example.cloudmusic.extra.LOCAL_PATH"
-EXTRA_URL = "com.example.cloudmusic.extra.SOURCE_URL"
+PKG = "com.ccmsc.cloudmusic"
+ACTION_PLAY = "com.ccmsc.cloudmusic.action.PLAY"
+EXTRA_LOCAL = "com.ccmsc.cloudmusic.extra.LOCAL_PATH"
+EXTRA_URL = "com.ccmsc.cloudmusic.extra.SOURCE_URL"
 PORT = 8765
 PRIVATE_DIR = "/data/data/%s/files/music" % PKG
 SETTINGS_FILE = "files/datastore/cloudmusic_settings.pb"

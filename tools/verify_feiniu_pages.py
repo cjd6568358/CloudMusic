@@ -18,7 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 METRICS = ROOT / "analysis" / "l3-reference" / "feiniu-page-metrics.json"
 OUT = ROOT / "analysis" / "l3-reference" / "feiniu-page-selfcheck.json"
-UI_DIR = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui"
+UI_DIR = ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "ui"
 
 TOL_DP = 2.0
 TOL_SP = 0.8

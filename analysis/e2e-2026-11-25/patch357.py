@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """§61.357: bottomBar 不再跟着 IME 推高 -> 键盘弹起时底栏让位隐藏，内容区自己 imePadding。"""
-p = 'app/src/main/kotlin/com/example/cloudmusic/ui/CloudMusicApp.kt'
+p = 'app/src/main/kotlin/com/ccmsc/cloudmusic/ui/CloudMusicApp.kt'
 src = open(p, encoding='utf-8').read()
 lines = src.split('\n')
 

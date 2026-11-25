@@ -27,10 +27,10 @@ NO_SAMPLE = {"m4a", "aac", "opus", "wv", "tak", "dsf", "dff"}
 EXPECTED_COUNTS = {"PASS": 11, "FAIL": 3}
 EXPECTED_FAILS = {("ape", "remote"), ("aiff", "local"), ("aiff", "remote")}
 
-ENGINE_ADAPTER = ROOT / "engine-legacy/src/main/java/com/example/cloudmusic/enginelegacy/EngineAdapter.kt"
-AUDIO_FORMATS = ROOT / "core-model/src/main/kotlin/com/example/cloudmusic/model/AudioFormats.kt"
-SERVICE = ROOT / "app/src/main/kotlin/com/example/cloudmusic/PlaybackService.kt"
-COMPOSITION = ROOT / "core-di/src/main/kotlin/com/example/cloudmusic/di/playback/PlaybackComposition.kt"
+ENGINE_ADAPTER = ROOT / "engine-legacy/src/main/java/com/ccmsc/cloudmusic/enginelegacy/EngineAdapter.kt"
+AUDIO_FORMATS = ROOT / "core-model/src/main/kotlin/com/ccmsc/cloudmusic/model/AudioFormats.kt"
+SERVICE = ROOT / "app/src/main/kotlin/com/ccmsc/cloudmusic/PlaybackService.kt"
+COMPOSITION = ROOT / "core-di/src/main/kotlin/com/ccmsc/cloudmusic/di/playback/PlaybackComposition.kt"
 ENGINE_GRADLE = ROOT / "engine-legacy/build.gradle.kts"
 SETTINGS = ROOT / "settings.gradle.kts"
 MANIFEST = ROOT / "app/src/main/AndroidManifest.xml"
@@ -119,7 +119,7 @@ def main() -> int:
             and "?: source.mimeHint.orEmpty()" not in read(ENGINE_ADAPTER)
             and "fun extOfSource(url: String?, localPath: String?, mimeHint: String?): String"
                 in read(AUDIO_FORMATS)
-            and 'const val EXTRA_SOURCE_URL = "com.example.cloudmusic.extra.SOURCE_URL"'
+            and 'const val EXTRA_SOURCE_URL = "com.ccmsc.cloudmusic.extra.SOURCE_URL"'
                 in read(SERVICE)
             and "fun playUrl(url: String)" in read(COMPOSITION)
             and 'private const val REMOTE_FIXTURE_STORAGE_ID = "debug-remote-fixture"'

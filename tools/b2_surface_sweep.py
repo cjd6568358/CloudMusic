@@ -26,10 +26,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ADB = ROOT / "tools" / "bin" / "adb.exe"
-PKG = "com.example.cloudmusic"
+PKG = "com.ccmsc.cloudmusic"
 OUT_ROOT = ROOT / "analysis"
 
-NAV_BASE = ["am", "start", "-n", "com.example.cloudmusic/.MainActivity",
+NAV_BASE = ["am", "start", "-n", "com.ccmsc.cloudmusic/.MainActivity",
             "--activity-single-top", "--activity-clear-top"]
 
 
@@ -125,9 +125,9 @@ def main() -> int:
     steps = [
         ("01-home", " ".join(NAV_BASE), 8.0),
         ("02-player", " ".join(NAV_BASE +
-            ["-a", "com.example.cloudmusic.action.OPEN_PLAYER"]), 3.0),
+            ["-a", "com.ccmsc.cloudmusic.action.OPEN_PLAYER"]), 3.0),
         ("03-home-again", " ".join(NAV_BASE +
-            ["-a", "com.example.cloudmusic.action.CLOSE_PLAYER"]), 3.0),
+            ["-a", "com.ccmsc.cloudmusic.action.CLOSE_PLAYER"]), 3.0),
     ]
     for name, cmd, wait in steps:
         sh(serial, cmd)

@@ -11,7 +11,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.cloudmusic"
+    namespace = "com.ccmsc.cloudmusic"
 
     // T-A6：Compose 运行时（除播放页外全部页面自研；播放页照搬属 T-L L3，03-10 §2）
     buildFeatures {
@@ -19,7 +19,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.cloudmusic"
+        applicationId = "com.ccmsc.cloudmusic"
     }
 
     // 01 §2：仅 arm64-v8a。使用 addAll 而非 +=，避免 AGP 版本间集合类型差异。
