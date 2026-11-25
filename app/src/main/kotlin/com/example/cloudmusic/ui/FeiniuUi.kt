@@ -385,6 +385,10 @@ fun FnRow(
      */
     dividerAbove: Boolean = false,
     trailing: (@Composable () -> Unit)? = null,
+    /** §61.353（G-10）：字形绘制尺寸，默认保持飞牛实测 17dp；槽位不动，只改墨量。 */
+    iconGlyphDp: Float = 17f,
+    /** §61.353（G-10）：标题字号，默认保持飞牛实测 14sp。 */
+    titleSp: Float = FnBaseline.RowTitleSp,
 ) {
     Column(modifier.fillMaxWidth()) {
         if (dividerAbove) FnDivider()
@@ -407,7 +411,7 @@ fun FnRow(
                 .size(FnBaseline.RowIconDp.dp),
             contentAlignment = Alignment.Center,
         ) {
-            FnLineIcon(icon, FnComp.IconRed, size = 17.dp)
+            FnLineIcon(icon, FnComp.IconRed, size = iconGlyphDp.dp)
         }
         Spacer(
             Modifier.width(
@@ -417,7 +421,7 @@ fun FnRow(
         Text(
             title,
             color = FnComp.TextPrimary,
-            fontSize = FnBaseline.RowTitleSp.sp,
+            fontSize = titleSp.sp,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1f),

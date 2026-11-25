@@ -230,8 +230,8 @@ fun LegacyPlayerPage(
             .statusBarsPadding()
             .navigationBarsPadding()) {
 
-            // ── 顶栏（§61.174，基准 y 51~70）：下箭头（收起）/ 居中「来源 · 模式」/
-            //    右侧换一批（竞品 cast/刷新位；漫游无数据源 → 只读几何） ────────────
+            // ── 顶栏（§61.354 G-11）：下箭头（收起）/ 居中「来源 · 模式」。
+            //    原右侧「换一批」是只读几何（无数据源、点了没反应）——已删。 ──────────
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -258,10 +258,6 @@ fun LegacyPlayerPage(
                     maxLines = 1,
                     modifier = Modifier.weight(1f),
                 )
-                Box(
-                    modifier = Modifier.size(PlayerBaseline.TopBarIconDp.dp),
-                    contentAlignment = Alignment.Center,
-                ) { RefreshGlyph() }
             }
 
             // ── 唱片区（§61.174，基准 y 83~550 = 467dp）：唱片底部对齐，
@@ -405,7 +401,7 @@ fun LegacyPlayerPage(
                 )
             }
 
-            // ── 主控制行（§61.174，基准 744~774）：5 等分 SpaceEvenly ────────────────
+            // ── 主控制行（§61.354 G-11）：3 个真动作等分；模式（只读）与队列（别处有入口）已删 ──
             Spacer(Modifier.height(PlayerBaseline.GapTimeToMainControlDp.dp))
             Row(
                 modifier = Modifier
@@ -415,12 +411,6 @@ fun LegacyPlayerPage(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                // 模式切换生产侧无后端，只读展示（`12 §61.40` 挂账）。
-                LegacyIconButton(
-                    assetPath = LegacyAsset.ModeLoop,
-                    description = "播放模式：${modeLabel(mode)}（只读）",
-                    sizeDp = PlayerBaseline.MainControlSideDp,
-                )
                 LegacyIconButton(
                     assetPath = LegacyAsset.Prev,
                     description = "上一首",
@@ -434,19 +424,15 @@ fun LegacyPlayerPage(
                     sizeDp = PlayerBaseline.MainControlIconDp,
                     onClick = bridge::onNext,
                 )
-                Box(
-                    modifier = Modifier.size(PlayerBaseline.MainControlSideDp.dp),
-                    contentAlignment = Alignment.Center,
-                ) { QueueGlyph() }
             }
 
-            // ── 副控制行（§61.174，基准 820~837）：5 个位置严格对齐，音效为真实素材
-            //    + §61.93 接线；灯泡 / 鲸鱼 / info / more 为闭包外极简几何（挂账） ──────
+            // ── 副控制行（§61.354 G-11）：3 个真动作（音效 / 歌曲信息 / 输出），
+            //    灯泡 / 鲸鱼两个零交互死控件已删；行高 44dp 满足 40dp 触控 ─────────────
             Spacer(Modifier.height(PlayerBaseline.GapMainToSecondaryDp.dp))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(PlayerBaseline.SecondaryControlDp.dp)
+                    .height(PlayerBaseline.SecondaryRowHeightDp.dp)
                     .padding(horizontal = 8.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically,
@@ -455,27 +441,19 @@ fun LegacyPlayerPage(
                     assetPath = LegacyAsset.SoundEffect,
                     // §61.118（T5-1）：分频段 EQ 弹窗（档位循环升级为完整均衡器）。
                     description = "音效 / 均衡器",
-                    sizeDp = PlayerBaseline.SecondaryControlDp,
+                    sizeDp = PlayerBaseline.SecondaryIconDp,
                     onClick = { showEqualizer = true },
                 )
                 Box(
-                    modifier = Modifier.size(PlayerBaseline.SecondaryControlDp.dp),
-                    contentAlignment = Alignment.Center,
-                ) { BulbGlyph() }
-                Box(
-                    modifier = Modifier.size(PlayerBaseline.SecondaryControlDp.dp),
-                    contentAlignment = Alignment.Center,
-                ) { WhaleGlyph() }
-                Box(
                     modifier = Modifier
-                        .size(PlayerBaseline.SecondaryControlDp.dp)
+                        .size(PlayerBaseline.SecondaryIconDp.dp)
                         // §61.218：info 位接真实歌曲信息（此前是只读几何占位）。
                         .clickable { showTrackInfo = true },
                     contentAlignment = Alignment.Center,
                 ) { InfoGlyph() }
                 Box(
                     modifier = Modifier
-                        .size(PlayerBaseline.SecondaryControlDp.dp)
+                        .size(PlayerBaseline.SecondaryIconDp.dp)
                         // §61.192（W2）：「更多」位 = 输出/DLNA 入口（此前极简几何无交互，
                         // 用户「说好的 DLNA 全都没有」——点击打开输出弹窗：本机 / DLNA 投屏）。
                         .clickable { onOpenOutput() },
@@ -833,16 +811,6 @@ private fun PauseBar() {
     )
 }
 
-/** §61.174：队列图标（闭包外）按极简几何自绘三条横线（基准图形态），只读。 */
-@Composable
-private fun QueueGlyph() {
-    Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
-        Box(Modifier.width(16.dp).height(2.dp).clip(RoundedCornerShape(1.dp)).background(Color(LegacyPalette.IconTint)))
-        Box(Modifier.width(12.dp).height(2.dp).clip(RoundedCornerShape(1.dp)).background(Color(LegacyPalette.IconTint)))
-        Box(Modifier.width(16.dp).height(2.dp).clip(RoundedCornerShape(1.dp)).background(Color(LegacyPalette.IconTint)))
-    }
-}
-
 /** §61.196：info 图标（圆环 + 点 + 竖 stem），24dp 线性。 */
 @Composable
 private fun InfoGlyph() {
@@ -869,95 +837,6 @@ private fun MoreGlyph() {
                     .background(Color(LegacyPalette.IconTint)),
             )
         }
-    }
-}
-
-/** §61.174：顶栏「换一批」图标（基准 19.4dp 圆头箭头）；漫游无数据源 → 只读。 */
-@Composable
-private fun RefreshGlyph() {
-    Canvas(modifier = Modifier.size(PlayerBaseline.TopBarIconDp.dp)) {
-        val stroke = 1.6.dp.toPx()
-        val r = size.minDimension * 0.34f
-        val c = Offset(size.width / 2f, size.height / 2f)
-        drawArc(
-            color = Color(LegacyPalette.IconTint),
-            startAngle = -60f,
-            sweepAngle = 280f,
-            useCenter = false,
-            topLeft = Offset(c.x - r, c.y - r),
-            size = Size(r * 2f, r * 2f),
-            style = Stroke(width = stroke, cap = StrokeCap.Round),
-        )
-        // 箭头：弧起点处的小三角（近似基准图「↻」的收口）
-        val tipAngle = Math.toRadians(-60.0)
-        val tip = Offset(
-            c.x + r * Math.cos(tipAngle).toFloat(),
-            c.y + r * Math.sin(tipAngle).toFloat(),
-        )
-        drawLine(
-            color = Color(LegacyPalette.IconTint),
-            start = Offset(tip.x - stroke * 0.9f, tip.y - stroke * 1.6f),
-            end = Offset(tip.x + stroke * 0.9f, tip.y + stroke * 0.4f),
-            strokeWidth = stroke,
-            cap = StrokeCap.Round,
-        )
-        drawLine(
-            color = Color(LegacyPalette.IconTint),
-            start = Offset(tip.x - stroke * 0.9f, tip.y - stroke * 1.6f),
-            end = Offset(tip.x - stroke * 2.6f, tip.y + stroke * 0.2f),
-            strokeWidth = stroke,
-            cap = StrokeCap.Round,
-        )
-    }
-}
-
-/**
- * §61.196（W14）：副控制行四键按基准 `competitor-player-baseline.png` 重绘——
- * 统一 24dp 视框 / 1.6dp 圆头描边 / `IconTint` 色。旧实现 11~18dp 极简几何
- * （圆环+i 文本/小点）与竞品形态差距大（用户「丑得要命」）。
- */
-@Composable
-private fun BulbGlyph() {
-    // 灯泡：玻璃弧（上半圆）+ 收颈两条斜线 + 底座横线
-    Canvas(Modifier.size(24.dp)) {
-        val c = Color(LegacyPalette.IconTint)
-        val s = Stroke(width = 1.6.dp.toPx(), cap = StrokeCap.Round)
-        val cx = size.width / 2f
-        val cy = size.height / 2f - 1.dp.toPx()
-        drawArc(
-            color = c, startAngle = 180f, sweepAngle = 180f, useCenter = false, style = s,
-            topLeft = Offset(cx - 6.dp.toPx(), cy - 6.dp.toPx()),
-            size = androidx.compose.ui.geometry.Size(12.dp.toPx(), 12.dp.toPx()),
-        )
-        drawLine(c, Offset(cx - 6.dp.toPx(), cy), Offset(cx - 3.dp.toPx(), cy + 4.dp.toPx()), strokeWidth = 1.6.dp.toPx(), cap = StrokeCap.Round)
-        drawLine(c, Offset(cx + 6.dp.toPx(), cy), Offset(cx + 3.dp.toPx(), cy + 4.dp.toPx()), strokeWidth = 1.6.dp.toPx(), cap = StrokeCap.Round)
-        drawLine(c, Offset(cx - 3.dp.toPx(), cy + 5.5f.dp.toPx()), Offset(cx + 3.dp.toPx(), cy + 5.5f.dp.toPx()), strokeWidth = 1.6.dp.toPx(), cap = StrokeCap.Round)
-    }
-}
-
-/** §61.196：鲸鱼（弧背 + 尾鳍双叉 + 腹线），24dp 线性。 */
-@Composable
-private fun WhaleGlyph() {
-    Canvas(modifier = Modifier.size(24.dp)) {
-        val c = Color(LegacyPalette.IconTint)
-        val s = Stroke(width = 1.6.dp.toPx(), cap = StrokeCap.Round)
-        val w = size.width
-        val h = size.height
-        // 身体弧（背）
-        drawArc(
-            color = c, startAngle = 200f, sweepAngle = 150f, useCenter = false, style = s,
-            topLeft = Offset(w * 0.08f, h * 0.22f),
-            size = Size(w * 0.82f, h * 0.58f),
-        )
-        // 尾鳍（右上双叉）
-        drawLine(c, Offset(w * 0.88f, h * 0.38f), Offset(w * 0.98f, h * 0.20f), strokeWidth = 1.6.dp.toPx(), cap = StrokeCap.Round)
-        drawLine(c, Offset(w * 0.88f, h * 0.38f), Offset(w * 0.99f, h * 0.50f), strokeWidth = 1.6.dp.toPx(), cap = StrokeCap.Round)
-        // 腹线（前下短弧）
-        drawArc(
-            color = c, startAngle = 30f, sweepAngle = 60f, useCenter = false, style = s,
-            topLeft = Offset(w * 0.12f, h * 0.30f),
-            size = Size(w * 0.62f, h * 0.50f),
-        )
     }
 }
 

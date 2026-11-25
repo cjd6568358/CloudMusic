@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -374,8 +373,9 @@ private fun CloudMusicAppContent(actions: UiActions) = with(actions) {
             Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .statusBarsPadding()
-                // §61.262：竖屏挖孔在状态栏内，普通页只补左右安全区，避免与 statusBarsPadding 叠加顶移。
+                // §61.352（G-5）：Scaffold 的 padding 已含 statusBars（系统窗口内边距），
+                // 原先此处再叠一层 statusBarsPadding 修饰符 = 状态栏高度加两次 ⇒ 顶部多出一整条。
+                // 只保留 displayCutoutPadding（竖屏挖孔只补左右安全区，不补顶部）。
                 .displayCutoutPadding(),
         ) {
             // §61.188：移除自造的「曲库就绪/扫描中」横幅——飞牛基准首页无此物；
@@ -402,7 +402,7 @@ private fun CloudMusicAppContent(actions: UiActions) = with(actions) {
                     onMine = { showMore = false; mineFocusRecent = false; subOrigin = -1; tab = 5 },
                     onSettings = { showMore = false; subOrigin = -1; tab = 6 },
                     onSources = { showMore = false; subOrigin = -1; showSources = true },
-                    onDismiss = { showMore = false },
+                    // §61.353（G-10）：一级 tab 无返回键，onDismiss 入参已删除。
                     entryLabels = FUNCTION_PAGE_LABELS,
                 )
                 tab == 0 -> HomeScreen(

@@ -2492,8 +2492,11 @@ def main() -> int:
             agg = fj["remaining_aggregate"]
             # 12 §61.139：主题批（6501a367）起 res/values/ 是自研主题与字符串，
             # 不是 B 路线的竞品 layout 照搬。守护由「res 目录不存在」收窄为
-            # 「res 下只允许 values/ 资源」——仍禁止照搬播放页 XML，同时保留
+            # 「res 下禁止 layout* 资源」——仍禁止照搬播放页 XML，同时保留
             # :ui-legacy 门禁；48/39/53/81/282/163 证据口径逐项不变。
+            # §61.351（G-1）：用户拍板自绘黑胶唱片图标，允许 drawable/ / mipmap*/
+            # 自绘资源；判据强度不降——真正要防的是「照搬竞品 layout XML」，
+            # 该约束（layout* 禁止 + ui-legacy 禁止 + 证据口径）逐项保留。
             res_dir = ROOT / "app" / "src" / "main" / "res"
             res_files = sorted(
                 f.relative_to(res_dir).as_posix() for f in res_dir.rglob("*")
@@ -2502,7 +2505,6 @@ def main() -> int:
             baseline_untouched = (
                 'include(":ui-legacy")' not in settings_text
                 and not (ROOT / "ui-legacy").exists()
-                and all(f.startswith("values/") for f in res_files)
                 and not any(f.startswith("layout") for f in res_files)
             )
             ok = (
@@ -11000,6 +11002,79 @@ def main() -> int:
         failures.append("§61.350 docs/12 体积治理：%s" % "；".join(_c350))
     else:
         print("[PASS] §61.350 docs/12 体积治理（审计工具在册 / 行数有界 / 报告自洽）")
+
+    # ---- §61.351~§61.354（G-1 / G-5 / G-10 / G-11 用户一手反馈落地）----
+    # §61.351 G-1：黑胶唱片 APP 图标（Manifest 挂载 + 自适应资源 + 强调色）
+    _manifest_351 = (ROOT / "app" / "src" / "main" / "AndroidManifest.xml").read_text(encoding="utf-8")
+    _icxml_351 = (ROOT / "app" / "src" / "main" / "res" / "mipmap-anydpi-v26" / "ic_launcher.xml").read_text(encoding="utf-8")
+    _fg_351 = (ROOT / "app" / "src" / "main" / "res" / "drawable" / "ic_launcher_foreground.xml").read_text(encoding="utf-8")
+    _bg_351 = (ROOT / "app" / "src" / "main" / "res" / "values" / "ic_launcher_background.xml").read_text(encoding="utf-8")
+    _c351 = []
+    if _manifest_351.count('android:icon="@mipmap/ic_launcher"') != 1 or _manifest_351.count('android:roundIcon="@mipmap/ic_launcher"') != 1:
+        _c351.append("Manifest 未挂自适应图标")
+    if "android:drawable=\"@color/ic_launcher_background\"" not in _icxml_351 or "android:drawable=\"@drawable/ic_launcher_foreground\"" not in _icxml_351:
+        _c351.append("自适应图标未接背景/前景")
+    if '<color name="ic_launcher_background">#E54545</color>' not in _bg_351:
+        _c351.append("图标背景非强调色 #E54545")
+    if 'android:fillColor="#121212"' not in _fg_351 or 'android:fillColor="#E54545"' not in _fg_351:
+        _c351.append("唱片前景缺黑胶/红标")
+    if _c351:
+        failures.append("§61.351 G-1 图标：%s" % "；".join(_c351))
+    else:
+        print("[PASS] §61.351 G-1 黑胶唱片图标（Manifest 挂载 / 自适应 / 强调色）")
+
+    # §61.352 G-5：普通页顶部只保留一层 statusBars（Scaffold padding 已含）
+    _cloud_352 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "CloudMusicApp.kt").read_text(encoding="utf-8")
+    _c352 = []
+    if ".statusBarsPadding()" in _cloud_352:
+        _c352.append("普通页又叠 .statusBarsPadding()（Scaffold padding 已含，双份留白）")
+    if ".displayCutoutPadding()" not in _cloud_352:
+        _c352.append("挖孔左右安全区丢失")
+    if _c352:
+        failures.append("§61.352 G-5 顶部留白：%s" % "；".join(_c352))
+    else:
+        print("[PASS] §61.352 G-5 普通页顶部单份状态栏内边距（无双份留白）")
+
+    # §61.353 G-10：更多页一级 tab 无返回键 / 无底部说明 / 入口放大 / FnRow 可覆盖
+    _more_353 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "MoreScreen.kt").read_text(encoding="utf-8")
+    _fnui_353 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "FeiniuUi.kt").read_text(encoding="utf-8")
+    _c353 = []
+    if "onDismiss" in _more_353:
+        _c353.append("MoreScreen 仍有 onDismiss（一级 tab 不应有返回）")
+    if "FnPageHeader(\"更多\")" not in _more_353:
+        _c353.append("页头未去返回键")
+    if "AGPL-3.0" in _more_353 or "统一虚拟曲库" in _more_353:
+        _c353.append("底部说明未删")
+    if _more_353.count("iconGlyphDp = 21f") < 6 or _more_353.count("titleSp = 16f") < 6:
+        _c353.append("六行入口未放大")
+    if "iconGlyphDp: Float = 17f" not in _fnui_353 or "titleSp: Float = FnBaseline.RowTitleSp" not in _fnui_353:
+        _c353.append("FnRow 缺可选覆盖参数（默认值应保飞牛像素）")
+    if _c353:
+        failures.append("§61.353 G-10 更多页：%s" % "；".join(_c353))
+    else:
+        print("[PASS] §61.353 G-10 更多页（无返回键 / 无底部说明 / 六行放大 / 默认值不变）")
+
+    # §61.354 G-11：播放页删死控件与只读入口，触控达标
+    _player_354 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "player" / "LegacyPlayerPage.kt").read_text(encoding="utf-8")
+    _assets_354 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "example" / "cloudmusic" / "ui" / "player" / "LegacyAssets.kt").read_text(encoding="utf-8")
+    _c354 = []
+    for _dead in ("RefreshGlyph", "QueueGlyph", "BulbGlyph", "WhaleGlyph"):
+        if _dead in _player_354:
+            _c354.append("%s 未清退（定义或调用残留）" % _dead)
+    if "SecondaryRowHeightDp = 44f" not in _assets_354 or "SecondaryIconDp = 24f" not in _assets_354:
+        _c354.append("副控制行高/图标未达 44/24dp")
+    if ".height(PlayerBaseline.SecondaryRowHeightDp.dp)" not in _player_354:
+        _c354.append("副控制行未用新行高")
+    for _alive in ("InfoGlyph()", "MoreGlyph()", "LegacyAsset.SoundEffect", "bridge::onPrev", "bridge::onNext", "onPlayPause"):
+        if _alive not in _player_354:
+            _c354.append("真动作 %s 丢失" % _alive)
+    if "PlayerBaseline.SecondaryControlDp" in _player_354:
+        _c354.append("仍有旧 16dp 副控制尺寸引用")
+    if _c354:
+        failures.append("§61.354 G-11 播放页：%s" % "；".join(_c354))
+    else:
+        print("[PASS] §61.354 G-11 播放页（死控件清零 / 44dp 触控 / 真动作在位）")
+
 
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")

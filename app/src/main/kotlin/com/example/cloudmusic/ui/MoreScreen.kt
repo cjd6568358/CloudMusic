@@ -1,20 +1,16 @@
 package com.example.cloudmusic.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 /**
  * 飞牛胶囊导航「更多」页（docs/01 §0；飞牛风格骨架 + 我们的功能，非飞牛账号壳层）。
@@ -35,7 +31,6 @@ fun MoreScreen(
     onMine: () -> Unit,
     onSettings: () -> Unit,
     onSources: () -> Unit,
-    onDismiss: () -> Unit,
     /** 功能页入口标签（由 CloudMusicApp 提供，保持 03-10 §5 页面口径单一来源）。 */
     entryLabels: List<Pair<String, FnIcon>> = listOf(
         "歌单" to FnIcon.Playlist, "搜索" to FnIcon.Search,
@@ -43,38 +38,32 @@ fun MoreScreen(
     ),
 ) {
     Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
-        FnPageHeader("更多", onBack = onDismiss)
+        // §61.353（G-10）：一级 tab 无返回键（§61.280 五层 BackHandler 不拦截一级 tab）。
+        FnPageHeader("更多")
         Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
             Spacer(Modifier.height(FnBaseline.HeaderToCardGapDp.dp))
             FnGroupCard {
                 // 行由 CloudMusicApp 提供的口径标签驱动（守护单一来源），
                 // §61.274 起顺序：歌单(entryLabels[0]) / 搜索[1] / 队列[2] / 设置[3]。
-                FnRow(entryLabels[0].second, entryLabels[0].first, onPlaylists)
+                FnRow(entryLabels[0].second, entryLabels[0].first, onPlaylists, iconGlyphDp = 21f, titleSp = 16f)
                 FnRow(
                     entryLabels[1].second, entryLabels[1].first, onSearch,
-                    dividerAbove = true,
+                    dividerAbove = true, iconGlyphDp = 21f, titleSp = 16f,
                 )
                 FnRow(
                     entryLabels[2].second, entryLabels[2].first, onQueue,
-                    dividerAbove = true,
+                    dividerAbove = true, iconGlyphDp = 21f, titleSp = 16f,
                 )
             }
             Spacer(Modifier.height(FnBaseline.GroupGapDp.dp))
             FnGroupCard {
-                FnRow(FnIcon.Favorite, "我的音乐", onMine)
+                FnRow(FnIcon.Favorite, "我的音乐", onMine, iconGlyphDp = 21f, titleSp = 16f)
                 FnRow(
                     entryLabels[3].second, entryLabels[3].first, onSettings,
-                    dividerAbove = true,
+                    dividerAbove = true, iconGlyphDp = 21f, titleSp = 16f,
                 )
-                FnRow(FnIcon.Sources, "音乐来源", onSources, dividerAbove = true)
+                FnRow(FnIcon.Sources, "音乐来源", onSources, dividerAbove = true, iconGlyphDp = 21f, titleSp = 16f)
             }
-            Text(
-                "CloudMusic · 统一虚拟曲库 · 本地 / WebDAV / STRM 平等对待 · AGPL-3.0",
-                color = FnComp.TextHint,
-                fontSize = 11.sp,
-                modifier = Modifier.padding(horizontal = 22.dp, vertical = 20.dp),
-            )
-            Spacer(Modifier.height(28.dp))
         }
     }
 }

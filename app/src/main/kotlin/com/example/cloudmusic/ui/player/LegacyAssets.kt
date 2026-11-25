@@ -247,6 +247,12 @@ object PlayerBaseline {
     const val SecondaryControlDp = 16f
     /** 副控制行底 → 内容底（导航栏上缘 853.7dp）：836.6 → 853.7 = 17dp。 */
     const val BottomPaddingDp = 17.4f
+
+    // ── §61.354（G-11）：副控制行重设（用户要求删死控件、触控 ≥40dp） ──────────
+    /** 副控制行高：原 16dp（竞品像素基准 SecondaryControlDp）触点远小于 40dp；抬到 44dp。 */
+    const val SecondaryRowHeightDp = 44f
+    /** 副控制行图标视觉尺寸（三个真动作：音效 / 歌曲信息 / 输出）。 */
+    const val SecondaryIconDp = 24f
 }
 
 /** D-146 导出的竞品位图 / 字体在 assets 下的路径（51 文件闭包，均 `replaced=false`）。 */
