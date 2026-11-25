@@ -10314,6 +10314,33 @@ def main() -> int:
     else:
         print("[PASS] §61.369/370 歌单矢量占位 + 0 首文案 + 我的音乐分段空态 + 序号单测")
 
+    # ---- §61.371（2026-11-25 深夜）来源页类型图标 + 首页卡宽 ----
+    # 走查发现：来源页 6 个添加入口清一色「＋」，六行读作同一件事；首页三张卡 160dp 时
+    # 第三张在 411dp 屏上只露 27%（一条暗边），横滚等于藏了两张半。
+    _src371 = (_ui365 / "SourcesScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _c371 = []
+    for _java, _snake in (("Folder", "folder"), ("Cloud", "cloud"), ("Link", "link"),
+                          ("Terminal", "terminal"), ("Lan", "lan")):
+        if not (ROOT / "app" / "src" / "main" / "res" / "drawable"
+                / ("ic_fn_%s.xml" % _snake)).is_file():
+            _c371.append("ic_fn_%s.xml 缺失" % _snake)
+        if ("FnIcon.%s to R.drawable.ic_fn_%s," % (_java, _snake)) not in _fn367:
+            _c371.append("FnIcon.%s 未接矢量资源" % _java)
+    for _icon, _label in (("Folder", "本地目录（SAF）"), ("Image", "从媒体库导入"),
+                          ("Cloud", "添加 WebDAV 源"), ("Link", "添加 STRM 源"),
+                          ("Terminal", "添加 SFTP 源"), ("Lan", "添加 FTP 源")):
+        if ('FnRow(FnIcon.%s, "%s"' % (_icon, _label)) not in _src371:
+            _c371.append("来源行「%s」未用 %s 图标" % (_label, _icon))
+    if 'FnRow(FnIcon.Add, "' in _src371:
+        _c371.append("来源行又用回统一的「＋」（六行会再读作同一件事）")
+    if "size(width = 128.dp, height = 128.dp)" not in _home365:
+        _c371.append("首页卡片尺寸变动（128dp 才能让第三张露 87%）")
+    if _c371:
+        failures.append("§61.371 来源图标与卡宽：%s" % "；".join(_c371))
+    else:
+        print("[PASS] §61.371 来源页六行类型图标 + 首页卡片 128dp")
+
+
 
 
     # ---- §61.326（A-3 搜索热词去重键）----

@@ -105,6 +105,22 @@ enum class FnIcon(val label: String) {
     /** 随机播放：两条交叉箭头（漫游卡的语义是 shuffle，不是投屏）。 */
     Shuffle("随机播放"),
 
+    // ── 来源类型（§61.371：来源页六个添加入口此前清一色「＋」，六行读作同一件事）──
+    /** 本地目录：文件夹。 */
+    Folder("本地目录"),
+
+    /** 云盘 / WebDAV：云。 */
+    Cloud("云盘"),
+
+    /** 挂载链接 / STRM：链条。 */
+    Link("链接"),
+
+    /** 终端 / SFTP：命令行窗口。 */
+    Terminal("终端"),
+
+    /** 局域网 / FTP：网线接头。 */
+    Lan("局域网"),
+
     // ── 设置行 / 行操作 ───────────────────────────────────────────────────
     /** 移动网络播放：上下箭头（数据进出）。 */
     Network("移动网络"),
@@ -190,6 +206,11 @@ private val fnIconDrawable: Map<FnIcon, Int> = mapOf(
     FnIcon.Refresh to R.drawable.ic_fn_refresh,
     FnIcon.Broadcast to R.drawable.ic_fn_broadcast,
     FnIcon.Shuffle to R.drawable.ic_fn_shuffle,
+    FnIcon.Folder to R.drawable.ic_fn_folder,
+    FnIcon.Cloud to R.drawable.ic_fn_cloud,
+    FnIcon.Link to R.drawable.ic_fn_link,
+    FnIcon.Terminal to R.drawable.ic_fn_terminal,
+    FnIcon.Lan to R.drawable.ic_fn_lan,
     FnIcon.Network to R.drawable.ic_fn_network,
     FnIcon.Output to R.drawable.ic_fn_output,
     FnIcon.Trash to R.drawable.ic_fn_trash,
@@ -429,6 +450,12 @@ fun FnLineIcon(
                 dot(12f, 12f, 2.4f)
                 arc(12f, 12f, 6f, -50f, 100f)
                 arc(12f, 12f, 9.5f, -50f, 100f)
+            }
+
+            // §61.371：以下五枚**只走官方矢量**（`ic_fn_folder` 等）。手绘分支仅为 `when`
+            // 穷尽而存在（资源缺失才会走到），形状不必精确——真正的语形由 fill path 保证。
+            FnIcon.Folder, FnIcon.Cloud, FnIcon.Link, FnIcon.Terminal, FnIcon.Lan -> {
+                rect(4f, 6f, 16f, 12f, r = 3f)
             }
 
             // §61.367：**仅兜底**——正常走上面的 `ic_fn_shuffle` 官方矢量（单条 fill path）。

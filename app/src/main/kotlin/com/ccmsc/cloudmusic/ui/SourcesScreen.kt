@@ -130,14 +130,14 @@ internal fun SourcesScreen(
             item { FnSectionTitle("添加音乐来源") }
             item {
                 FnGroupCard {
-                    FnRow(FnIcon.Add, "本地目录（SAF）", onAddSaf, value = "无需读取权限")
-                    FnRow(FnIcon.Add, "从媒体库导入", onAddMediaStore, value = "按动作申请权限", dividerAbove = true)
-                    FnRow(FnIcon.Add, "添加 WebDAV 源", { showWebDav = true }, value = "地址 + 认证", dividerAbove = true)
+                    FnRow(FnIcon.Folder, "本地目录（SAF）", onAddSaf, value = "无需读取权限")
+                    FnRow(FnIcon.Image, "从媒体库导入", onAddMediaStore, value = "按动作申请权限", dividerAbove = true)
+                    FnRow(FnIcon.Cloud, "添加 WebDAV 源", { showWebDav = true }, value = "地址 + 认证", dividerAbove = true)
                     // §61.151：STRM 独立源（复用已添加的来源挂载 .strm 挂载点）。
-                    FnRow(FnIcon.Add, "添加 STRM 源", { showStrm = true }, value = "复用已有来源 + .strm", dividerAbove = true)
+                    FnRow(FnIcon.Link, "添加 STRM 源", { showStrm = true }, value = "复用已有来源 + .strm", dividerAbove = true)
                     // V0.2 §61.216：SFTP 数据源（凭据只在内存 Addition，不写日志）。
-                    FnRow(FnIcon.Add, "添加 SFTP 源", { showSftp = true }, value = "SSH 文件传输", dividerAbove = true)
-                    FnRow(FnIcon.Add, "添加 FTP 源", { showFtp = true }, value = "文件传输协议", dividerAbove = true)
+                    FnRow(FnIcon.Terminal, "添加 SFTP 源", { showSftp = true }, value = "SSH 文件传输", dividerAbove = true)
+                    FnRow(FnIcon.Lan, "添加 FTP 源", { showFtp = true }, value = "文件传输协议", dividerAbove = true)
                 }
             }
             item { FnSectionTitle("维护") }

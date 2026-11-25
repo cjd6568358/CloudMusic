@@ -101,9 +101,9 @@ fun HomeScreen(
                             onPlayTracks(tracks.shuffled(), 0)
                         }
                     }
-                    Spacer(Modifier.width(14.dp))
+                    Spacer(Modifier.width(12.dp))
                     CollectCard(count = favoriteCount, onClick = { onOpenMine(false) })
-                    Spacer(Modifier.width(14.dp))
+                    Spacer(Modifier.width(12.dp))
                     RecentCard(count = recentCount, onClick = { onOpenMine(true) })
                     Spacer(Modifier.width(20.dp))
                 }
@@ -174,8 +174,12 @@ private fun FeatureCard(
 ) {
     Box(
         Modifier
-            .size(width = 160.dp, height = 160.dp)
-            .clip(RoundedCornerShape(16.dp))
+            // §61.371：160 → 128dp。三张 160dp 卡 + 两处 14dp 间距 = 548dp，而屏宽只有
+            // 411dp ⇒ 第三张只露 27%（一条暗边），横滚等于「藏了两张半」。128dp 后
+            // 首屏露出第三张的 87%，一眼能数出三张；卡片形态（圆角/渐变/艺术图/文字层级）
+            // 一律不动，只等比缩尺寸。
+            .size(width = 128.dp, height = 128.dp)
+            .clip(RoundedCornerShape(14.dp))
             .background(background)
             .clickable { onClick() },
     ) {
@@ -186,11 +190,11 @@ private fun FeatureCard(
         Column(
             Modifier
                 .align(Alignment.BottomStart)
-                .padding(16.dp),
+                .padding(14.dp),
         ) {
-            Text(title, color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            Text(title, color = Color.White, fontSize = 17.sp, fontWeight = FontWeight.Bold)
             Text(
-                subtitle, color = Color.White.copy(alpha = 0.8f), fontSize = 11.sp,
+                subtitle, color = Color.White.copy(alpha = 0.8f), fontSize = 10.sp,
                 maxLines = 1, overflow = TextOverflow.Ellipsis,
             )
         }
@@ -213,7 +217,7 @@ private fun RoamCard(count: Int, onClick: () -> Unit) {
             Box(
                 Modifier
                     .align(Alignment.TopEnd)
-                    .size(120.dp, 110.dp),
+                    .size(96.dp, 88.dp),
             ) {
                 // 红橙 blob（两圆叠置的柔和艺术块）+ 压在块上的深色随机播放符号。
                 // §61.368（A 案）：左下小图标删掉后，「随机播放」的语义由这里承担——
@@ -221,8 +225,8 @@ private fun RoamCard(count: Int, onClick: () -> Unit) {
                 Box(
                     Modifier
                         .align(Alignment.TopStart)
-                        .size(96.dp, 92.dp)
-                        .clip(RoundedCornerShape(40.dp))
+                        .size(76.dp, 74.dp)
+                        .clip(RoundedCornerShape(32.dp))
                         .background(
                             Brush.linearGradient(
                                 listOf(Color(0xFFF4522B), Color(0xFFE23E6E)),
@@ -233,21 +237,21 @@ private fun RoamCard(count: Int, onClick: () -> Unit) {
                     FnLineIcon(
                         FnIcon.Shuffle,
                         Color(0xFF3F1109).copy(alpha = 0.82f),
-                        size = 30.dp,
+                        size = 24.dp,
                     )
                 }
                 // 黑胶盘角（右下露边）
                 Box(
                     Modifier
                         .align(Alignment.BottomEnd)
-                        .size(56.dp)
+                        .size(46.dp)
                         .clip(CircleShape)
                         .background(Color(0xFF181818)),
                     contentAlignment = Alignment.Center,
                 ) {
                     Box(
                         Modifier
-                            .size(14.dp)
+                            .size(11.dp)
                             .clip(CircleShape)
                             .background(Color(0xFFE23E3E)),
                     )
