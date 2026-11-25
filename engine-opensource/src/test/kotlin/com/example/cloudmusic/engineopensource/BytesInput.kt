@@ -34,6 +34,12 @@ internal class BytesInput(private val data: ByteArray) : ExtractorInput {
         val n = minOf(length, (data.size - pos).toInt())
         for (i in 0 until n) buffer[offset + i] = data[pos.toInt() + i]
         pos += n
+        // §61.347：read() 直接推进 pos、绕过 peek 队列；读完必须把 peekPos 同步到
+        // 新 pos（peek 为空时），否则随后 skipFully/readFully 从陈旧 peekPos 取字节。
+        // 真机 DefaultExtractorInput 的 read 会消费 peek 缓冲，无此问题——这里只是
+        // 让测试基建与真机游标语义一致（AsfExtractor 的「包头 readFully + 载荷
+        // sampleData(read) + padding skipFully」混用会暴露该缺陷）。
+        if (peek.isEmpty()) peekPos = pos.toInt()
         return n
     }
 

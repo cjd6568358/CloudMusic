@@ -10810,6 +10810,197 @@ def main() -> int:
         print("[PASS] §61.346 G-3 音乐库图标：包围盒 %.1fx%.1f 与 Home 同级、未越 24 视框"
               % (_w346, _h346))
 
+
+    # ---- §61.347（D-1 三容器黄金样本差分：WavPack / AIFF / ASF vs 参考实现）----
+    # 判据不看「测试类存在」，而是：三份黄金表行数达标且元数据自洽、生成器标注了三个
+    # 参考源头、三个测试类真的逐字节比对且开启负载捕获、BytesInput 游标修复在位。
+    _c347 = []
+    _gdir = ROOT / "analysis" / "l3-f3-fixtures" / "golden"
+
+    # 1) 三份黄金表：行数下限 + 关键元数据（容器/来源/布局关系）
+    _gspec = [
+        ("wavpack_f3_wv.frames.tsv", 500, "wv.c", "block_count", 9),
+        ("aiff_f3_aiff.frames.tsv", 100, "aiffdec.c", "data_bytes", 2),
+        ("asf_f3_wma.frames.tsv", 100, "asfdec_f.c", "block_align", 5),
+    ]
+    _gmeta347 = {}
+    for _fn347, _min347, _src347, _key347, _cols347 in _gspec:
+        _p347 = _gdir / _fn347
+        if not _p347.is_file():
+            _c347.append("黄金表缺失：%s" % _fn347)
+            continue
+        _txt347 = _p347.read_text(encoding="utf-8", errors="replace")
+        if _src347 not in _txt347:
+            _c347.append("%s 未标注参考源头 %s" % (_fn347, _src347))
+        _rows347 = [ln.split("\t") for ln in _txt347.splitlines()
+                    if ln.strip() and not ln.startswith("#") and not ln.startswith("pos")]
+        if len(_rows347) < _min347:
+            _c347.append("%s 行数不足（%d < %d）" % (_fn347, len(_rows347), _min347))
+        if any(len(r) != _cols347 for r in _rows347):
+            _c347.append("%s 存在字段数不符的行" % _fn347)
+        for _ln347 in _txt347.splitlines():
+            if _ln347.startswith("# " + _key347 + "="):
+                _gmeta347[_fn347] = _ln347.split("=", 1)[1].strip()
+                break
+        if _fn347 not in _gmeta347:
+            _c347.append("%s 缺元数据 %s" % (_fn347, _key347))
+
+    # 2) ASF 包长关系：max_packet_size == 27 + block_align + padding（§61.107 收口）
+    _asf347 = _gdir / "asf_f3_wma.frames.tsv"
+    if _asf347.is_file():
+        _mt347 = {}
+        for _ln347 in _asf347.read_text(encoding="utf-8").splitlines():
+            if _ln347.startswith("# ") and "=" in _ln347:
+                _k347, _v347 = _ln347[2:].split("=", 1)
+                _mt347[_k347.strip()] = _v347.strip()
+        try:
+            if int(_mt347["max_packet_size"]) != 27 + int(_mt347["block_align"]) + int(_mt347["padding"]):
+                _c347.append("ASF 包长不收口（max != 27 + align + padding）")
+            if int(_mt347["padding"]) != 4:
+                _c347.append("ASF padding 非 4（§61.107 包尾漂移回潮）")
+        except (KeyError, ValueError):
+            _c347.append("ASF 黄金表包布局元数据缺失/非整数")
+
+    # 3) WavPack 块关系：cksize = body_size + 24（wv.c ff_wv_parse_header）
+    _wv347 = _gdir / "wavpack_f3_wv.frames.tsv"
+    if _wv347.is_file():
+        _wr347 = [ln.split("\t") for ln in _wv347.read_text(encoding="utf-8").splitlines()
+                  if ln.strip() and not ln.startswith("#") and not ln.startswith("pos")]
+        if any(len(r) == 9 and int(r[1]) != int(r[8]) + 24 for r in _wr347[:80]):
+            _c347.append("WavPack 块 cksize/body 关系不符 wv.c")
+
+    # 4) 生成器标注三容器参考源（子串跟源）
+    _gen347 = ROOT / "tools" / "gen_golden_frames.py"
+    _gt347 = _gen347.read_text(encoding="utf-8", errors="replace") if _gen347.is_file() else ""
+    for _anchor347, _msg347 in [
+        ("def parse_wavpack(", "生成器缺 parse_wavpack"),
+        ("def parse_aiff(", "生成器缺 parse_aiff"),
+        ("def parse_asf(", "生成器缺 parse_asf"),
+        ("ff_wv_parse_header", "生成器未标注 wv.c 参考"),
+        ("aiff_read_header", "生成器未标注 aiffdec.c 参考"),
+        ("asf_read_file_properties", "生成器未标注 asfdec_f.c 参考"),
+    ]:
+        if _anchor347 not in _gt347:
+            _c347.append(_msg347)
+
+    # 5) 三个测试类逐字节判据 + 负载捕获
+    _tdir347 = (ROOT / "engine-opensource" / "src" / "test" / "kotlin" / "com" / "example" /
+                "cloudmusic" / "engineopensource")
+    _tests347 = {
+        "WavpackGoldenFramesTest.kt": ["contentEquals(", "capturePayloads = true", "assertEquals(g.ckSize"],
+        "AiffGoldenFramesTest.kt": ["contentEquals(", "capturePayloads = true", "sampleRate"],
+        "AsfGoldenFramesTest.kt": ["contentEquals(", "capturePayloads = true", "sendMs * 1000"],
+    }
+    for _tfn347, _anchors347 in _tests347.items():
+        _tp347 = _tdir347 / _tfn347
+        _tt347 = _tp347.read_text(encoding="utf-8", errors="replace") if _tp347.is_file() else ""
+        if not _tt347:
+            _c347.append("缺失 %s" % _tfn347)
+            continue
+        for _a347 in _anchors347:
+            if _a347 not in _tt347:
+                _c347.append("%s 缺锚点 %s" % (_tfn347, _a347))
+
+    # 6) BytesInput 游标修复（§61.347：read 后同步 peekPos = pos）
+    _bi347 = _tdir347 / "BytesInput.kt"
+    _bt347 = _bi347.read_text(encoding="utf-8", errors="replace") if _bi347.is_file() else ""
+    if "peekPos = pos.toInt()" not in _bt347 or "§61.347" not in _bt347:
+        _c347.append("BytesInput 缺 read() 的 peekPos 同步修复（ASF 逐包漂移会回潮）")
+
+    if _c347:
+        failures.append("§61.347 三容器黄金样本差分：%s" % "；".join(_c347))
+    else:
+        print("[PASS] §61.347 三容器黄金样本差分（WavPack 逐块 / AIFF 字节流 / ASF 逐包 + BytesInput 游标）")
+
+
+    # ---- §61.348（D-2 guard 质量基建：假安全可复跑审计）----
+    # 评审 §五-2 指 guard「以字符串存在性为主，防改回去不防本来就错，还会焊死错误结论」。
+    # 本项目的处置不是机械删除判据（会丢防回潮能力、违反「改判据不改强度」），而是提供
+    # 可复跑审计 + 钉住一条硬不变量：不许出现「恒真 count 判据」（阈值 <=1 配 >=/>）。
+    # 判据跟源：直接对 guard 自身源码用同款正则重算，不依赖会过期的 JSON 快照。
+    _c348 = []
+    _audit348 = ROOT / "tools" / "audit_guard_quality.py"
+    _at348 = _audit348.read_text(encoding="utf-8", errors="replace") if _audit348.is_file() else ""
+    if not _at348:
+        _c348.append("guard 质量审计工具缺失（tools/audit_guard_quality.py）")
+    else:
+        for _a348 in ("COUNT_PAT", "EXIST_PAT", "vacuous", "loose_prefix"):
+            if _a348 not in _at348:
+                _c348.append("审计工具缺锚点 %s" % _a348)
+
+    # 硬不变量：重算 guard 自身所有 count 判据，恒真（>=/> 且阈值<=1）必须为 0。
+    import re as _re348
+    _gs348 = (ROOT / "tools" / "check_source_contracts.py").read_text(encoding="utf-8", errors="replace")
+    _pat348 = _re348.compile(r'\.count\(([fb]?["\'])(.*?)\1\)\s*(<=|>=|<|>)\s*(\d+)')
+    _vac348 = []
+    for _m348 in _pat348.finditer(_gs348):
+        _op348, _n348 = _m348.group(3), int(_m348.group(4))
+        if _op348 in (">=", ">") and _n348 <= 1:
+            _ln348 = _gs348.count("\n", 0, _m348.start()) + 1
+            _vac348.append("L%d(%s%s%d)" % (_ln348, _m348.group(2), _op348, _n348))
+    if _vac348:
+        _c348.append("存在恒真 count 判据（阈值<=1 配 >=/>，删一处不 FAIL）：%s" % "、".join(_vac348))
+
+    # 审计报告在册（可复跑产物，非判据唯一来源）
+    _rep348 = ROOT / "analysis" / "guard-quality-audit.json"
+    if not _rep348.is_file():
+        _c348.append("guard 质量审计报告缺失（analysis/guard-quality-audit.json）")
+    else:
+        try:
+            import json as _json348
+            _rd348 = _json348.loads(_rep348.read_text(encoding="utf-8"))
+            if _rd348.get("container") != "guard_quality":
+                _c348.append("审计报告 container 标识不对")
+            if _rd348.get("count_predicates", 0) < 10:
+                _c348.append("审计报告 count 判据数异常偏少（审计未真正跑过？）")
+        except Exception as _e348:
+            _c348.append("审计报告 JSON 解析失败：%s" % _e348)
+    if _c348:
+        failures.append("§61.348 guard 质量基建：%s" % "；".join(_c348))
+    else:
+        print("[PASS] §61.348 guard 质量基建（审计工具在册 / 零恒真 count 判据 / 报告自洽）")
+
+
+    # ---- §61.350（D-3 docs/12 体积治理：不可安全迁出的量化结论）----
+    # 评审 §五-3 建议「过程叙述迁出独立文件」。但 docs/12 是 guard 真相源（92 处判据
+    # 读全文），体积审计（tools/audit_doc12_bulk.py）逐 ## 块算 guard 实词交集：
+    # 199 块全部有交集（25~1276），可安全迁出块 = 0——机械搬迁会破坏证据链。
+    # 本批落地 = 固化审计工具 + 钉住「文档体积有界」（防无限膨胀挤占验证成本）。
+    _c350 = []
+    _bulk350 = ROOT / "tools" / "audit_doc12_bulk.py"
+    _bt350 = _bulk350.read_text(encoding="utf-8", errors="replace") if _bulk350.is_file() else ""
+    if not _bt350:
+        _c350.append("docs/12 体积审计工具缺失（tools/audit_doc12_bulk.py）")
+    else:
+        for _a350 in ("split_blocks", "extract_tokens", "guard_overlap_count", "safe_to_extract"):
+            if _a350 not in _bt350:
+                _c350.append("体积审计工具缺锚点 %s" % _a350)
+    # 硬不变量：docs/12 行数有界（超阈值即膨胀失控，评审 §五-3 关切）
+    _d350 = ROOT / "docs" / "12-编码阶段第一批交付.md"
+    if not _d350.is_file():
+        _c350.append("docs/12 缺失")
+    else:
+        _n350 = sum(1 for _ in _d350.open(encoding="utf-8", errors="replace"))
+        if _n350 > 20_000:
+            _c350.append("docs/12 膨胀到 %d 行（上限 20000，维护成本挤占验证）" % _n350)
+    _rep350 = ROOT / "analysis" / "doc12-bulk-audit.json"
+    if not _rep350.is_file():
+        _c350.append("docs/12 体积审计报告缺失")
+    else:
+        try:
+            import json as _j350
+            _r350 = _j350.loads(_rep350.read_text(encoding="utf-8"))
+            if _r350.get("container") != "doc12_bulk":
+                _c350.append("体积审计报告 container 标识不对")
+            if _r350.get("block_count", 0) < 100:
+                _c350.append("体积审计报告块数异常（审计未真正跑过？）")
+        except Exception as _e350:
+            _c350.append("体积审计报告 JSON 解析失败：%s" % _e350)
+    if _c350:
+        failures.append("§61.350 docs/12 体积治理：%s" % "；".join(_c350))
+    else:
+        print("[PASS] §61.350 docs/12 体积治理（审计工具在册 / 行数有界 / 报告自洽）")
+
     print(f"[INFO] 检查 {len(GRADLE_FILES)} 个构建文件 / {len(CONTRACT_FILES)} 个契约源码与测试 / "
           f"{len(CHECK_SCRIPTS)} 个工具脚本")
     for w in warnings:

@@ -1,0 +1,44 @@
+{
+  "container": "guard_quality",
+  "guard": "tools/check_source_contracts.py",
+  "corpus_files": 749,
+  "count_predicates": 15,
+  "existence_predicates": 306,
+  "vacuous_count_predicates": [],
+  "tight_count_predicates": [
+    {
+      "guard_line": 7945,
+      "anchor": "DiscLabelArt.redLabel(",
+      "op": "<",
+      "threshold": 2,
+      "corpus_occurrences": 2,
+      "files": {
+        "app/src/main/kotlin/com/example/cloudmusic/ui/player/VinylDiscView.kt": 2
+      },
+      "vacuous": false,
+      "tight": true
+    },
+    {
+      "guard_line": 9642,
+      "anchor": "setCacheKeyFactory(CacheKeyFactory { cacheKey })",
+      "op": "<",
+      "threshold": 2,
+      "corpus_occurrences": 2,
+      "files": {
+        "engine-opensource/src/main/kotlin/com/example/cloudmusic/engineopensource/Media3EngineAdapter.kt": 2
+      },
+      "vacuous": false,
+      "tight": true
+    }
+  ],
+  "loose_existence_anchors": [
+    {
+      "anchor": "onPlayTracks = ",
+      "var": "main_kt",
+      "guard_lines": [
+        2012
+      ],
+      "loose_prefix": true
+    }
+  ]
+}
