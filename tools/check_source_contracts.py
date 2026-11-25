@@ -7957,7 +7957,9 @@ def main() -> int:
         _c278.append("播放页仍用竞品红标位图（带 NetEase 版权文字）")
     if _vinyl.count("DiscLabelArt.redLabel(") < 2:
         _c278.append("唱片占位盘未全量改自绘（<2 处调用）")
-    if "drawText" in _label:
+    # §61.372：改为**剥注释后**再查——注释里写「不用 drawText」也会被子串匹配误判；
+    # 真代码出现 drawText 仍 FAIL，强度不变。
+    if "drawText" in _code_only(_label):
         _c278.append("自绘红标不得绘文字（会重新引入版权文案风险）")
     if _c278:
         failures.append("§61.278 V0.4-05 图标表意：%s" % "；".join(_c278))
@@ -10339,6 +10341,24 @@ def main() -> int:
         failures.append("§61.371 来源图标与卡宽：%s" % "；".join(_c371))
     else:
         print("[PASS] §61.371 来源页六行类型图标 + 首页卡片 128dp")
+
+    # ---- §61.372（2026-11-25 深夜）唱片缺封面占位：红盘加八分音符 ----
+    # 用户一手「没有封面时就是一个纯红大圆加一个小黑点，像红碗」——60% 的标签尺寸与竞品
+    # `smallAlbumCover 170dip` 一致（不是尺寸 bug），缺的是「这里本该有封面」的图案。
+    _disc372 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
+                / "ui" / "player" / "DiscLabelArt.kt").read_text(encoding="utf-8", errors="replace")
+    _c372 = []
+    if "val noteR = r *" not in _disc372:
+        _c372.append("红盘缺缺封面占位音符（会退回纯红大圆）")
+    elif not re.search(r"val noteR = r \* 0\.4[0-9]f", _disc372):
+        _c372.append("音符尺寸被缩小（首版 0.30 读作红色小逗号）")
+    if "drawPath(" not in _disc372 or "cubicTo(" not in _disc372:
+        _c372.append("符尾不是 Path 一笔（会退化成几何色块）")
+    if _c372:
+        failures.append("§61.372 唱片缺封面占位：%s" % "；".join(_c372))
+    else:
+        print("[PASS] §61.372 唱片缺封面占位：红盘八分音符（0.44r / Path 符尾）")
+
 
 
 

@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Path
 import android.graphics.RectF
 
 /**
@@ -62,6 +63,46 @@ internal object DiscLabelArt {
         }
         c.drawCircle(r, r, r * 0.78f, groove)
         c.drawCircle(r, r, r * 0.62f, groove)
+
+        // §61.372：缺封面时这里是一整块**纯红大圆 + 一个小黑点**，用户读作「红碗」——
+        // 没有任何图案说明「这里本该有封面」。补一个半透明八分音符（全 Path 绘制；
+        // §61.278 守护禁止在该自绘里出现任何文字绘制）。alpha 72 ≈ 28%，压在红底上是「淡白」，
+        // 够看出是图案，又不至于抢过有封面时的真实封面。
+        // 尺寸按「图形占盘面 ~44%」定：首版 0.30 太小，缩略图里读作一个红色小逗号。
+        // 中心轴孔会从符干中间穿过去——真唱片的中心孔本来就穿在标签图案上，保留这个真实感。
+        val noteR = r * 0.44f
+        val note = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            style = Paint.Style.FILL
+            color = Color.argb(72, 255, 255, 255)
+        }
+        c.save()
+        c.rotate(-16f, r, r)
+        // 符头（实心椭圆，**横放**才是标准音符语形；竖放会读成「水滴」）
+        c.drawOval(
+            RectF(r - noteR * 0.62f, r - noteR * 0.02f, r - noteR * 0.02f, r + noteR * 0.34f),
+            note,
+        )
+        // 符干（右缘竖直）
+        c.drawRoundRect(
+            RectF(r - noteR * 0.16f, r - noteR * 0.86f, r - noteR * 0.04f, r + noteR * 0.20f),
+            noteR * 0.06f, noteR * 0.06f, note,
+        )
+        // 符尾（自杆顶向右下的一笔，粗细按旗面）
+        note.style = Paint.Style.STROKE
+        note.strokeWidth = noteR * 0.15f
+        note.strokeCap = Paint.Cap.ROUND
+        c.drawPath(
+            Path().apply {
+                moveTo(r - noteR * 0.10f, r - noteR * 0.86f)
+                cubicTo(
+                    r + noteR * 0.30f, r - noteR * 0.74f,
+                    r + noteR * 0.36f, r - noteR * 0.34f,
+                    r + noteR * 0.16f, r - noteR * 0.06f,
+                )
+            },
+            note,
+        )
+        c.restore()
 
         // 中心轴孔：深底 + 亮圈（原图轴孔外侧有一道浅色高光）
         fill.color = Color.argb(38, 255, 255, 255)
