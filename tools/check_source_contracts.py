@@ -10384,6 +10384,25 @@ def main() -> int:
     else:
         print("[PASS] §61.373 来源页行内曲目数（remember 聚合）+ 六类图标映射")
 
+    # ---- §61.375（2026-11-26 晚）底部弹层：全展开 + 动作并排 ----
+    # 真机（WebDAV / SFTP）：弹层默认半展开，键盘再占下半屏 ⇒ 多字段表单只剩一条缝，
+    # 第 4 格被切、动作行掉到屏幕外。空库时点开添加源就能复现，长期没人发现。
+    _fei375 = (_ui365 / "FeiniuUi.kt").read_text(encoding="utf-8", errors="replace")
+    _c375 = []
+    if "rememberModalBottomSheetState(" not in _fei375 or "skipPartiallyExpanded = true" not in _fei375:
+        _c375.append("弹层缺 skipPartiallyExpanded（会先半展开，键盘一弹只剩一条缝）")
+    if "actionsRow: Boolean = false" not in _fei375:
+        _c375.append("弹层缺 actionsRow 开关（长表单的两个动作会掉到屏幕外）")
+    if _src373.count("actionsRow = true,") < 4:
+        _c375.append("多字段表单未全部开启动作并排（实际 %d 处）" % _src373.count("actionsRow = true,"))
+    if "换行用" in _src373:
+        _c375.append("私钥 hint 又写回「换行用」加转义符的字面量（用户读不懂且撑爆单行）")
+    if _c375:
+        failures.append("§61.375 弹层高度与动作行：%s" % "；".join(_c375))
+    else:
+        print("[PASS] §61.375 弹层全展开（skipPartiallyExpanded）+ 四表单动作并排")
+
+
 
 
 

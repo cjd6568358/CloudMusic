@@ -848,11 +848,26 @@ fun FnSheetDialog(
      * （WebDAV 4 格 / SFTP 7 格 / FTP 5 格 / 手动投屏 4 格）才显式开启。
      */
     scrollable: Boolean = false,
+    /**
+     * §61.375：动作按钮**并排一行**（默认逐个竖排）。
+     *
+     * 长表单（WebDAV 4 格 / SFTP 7 格 / FTP 5 格）在键盘弹起后可用高度只剩 ~400dp，
+     * 竖排的两个动作会掉到屏幕外（真机实测「返回」被切）。并排省一整行 52dp，
+     * 主操作仍在左侧第一位。
+     */
+    actionsRow: Boolean = false,
     actions: List<Pair<String, () -> Unit>> = emptyList(),
     destructiveIndexOf: Int? = null,
 ) {
+    // §61.375：默认是**半展开**（partially expanded），键盘再占掉下半屏 ⇒ 多字段表单
+    // 只剩一条缝：真机 WebDAV 4 格里第 4 格被切、两个动作按钮完全不可见。
+    // 一次展开到内容高度；内容短的弹层高度仍由内容决定，不会顶成满屏。
+    val sheetState = androidx.compose.material3.rememberModalBottomSheetState(
+        skipPartiallyExpanded = true,
+    )
     androidx.compose.material3.ModalBottomSheet(
         onDismissRequest = onDismiss,
+        sheetState = sheetState,
         containerColor = FnComp.CardBg,
         contentColor = FnComp.TextPrimary,
         shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
@@ -896,24 +911,49 @@ fun FnSheetDialog(
                 )
             }
             content?.invoke()
-            actions.forEachIndexed { index, (label, action) ->
-                Box(
-                    Modifier
-                        .fillMaxWidth()
-                        .heightIn(min = 52.dp)
-                        .clickable(onClick = action),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Text(
-                        label,
-                        color = if (index == destructiveIndexOf) {
-                            FnComp.IconRed
-                        } else {
-                            FnComp.TextPrimary
-                        },
-                        fontSize = 15.sp,
-                        maxLines = 1,
-                    )
+            if (actionsRow && actions.isNotEmpty()) {
+                Row(Modifier.fillMaxWidth()) {
+                    actions.forEachIndexed { index, (label, action) ->
+                        Box(
+                            Modifier
+                                .weight(1f)
+                                .heightIn(min = 52.dp)
+                                .clickable(onClick = action),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Text(
+                                label,
+                                color = if (index == destructiveIndexOf) {
+                                    FnComp.IconRed
+                                } else {
+                                    FnComp.TextPrimary
+                                },
+                                fontSize = 15.sp,
+                                maxLines = 1,
+                            )
+                        }
+                    }
+                }
+            } else {
+                actions.forEachIndexed { index, (label, action) ->
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .heightIn(min = 52.dp)
+                            .clickable(onClick = action),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            label,
+                            color = if (index == destructiveIndexOf) {
+                                FnComp.IconRed
+                            } else {
+                                FnComp.TextPrimary
+                            },
+                            fontSize = 15.sp,
+                            maxLines = 1,
+                        )
+                    }
                 }
             }
             Spacer(Modifier.height(12.dp))

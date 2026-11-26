@@ -458,6 +458,7 @@ private fun CloudMusicAppContent(actions: UiActions) = with(actions) {
                     results = searchResults,
                     // 飞牛热词 = 本地曲库高频艺人 / 专辑（spec §3.3：不造在线热搜）
                     hotWords = remember(trackList) { SearchDiscovery.hotWords(trackList) },
+                    libraryEmpty = trackList.isEmpty(),
                     onPlayTracks = onPlayTracks,
                     nowPlayingId = player.currentTrackId,
                     // §61.187：「取消」= 退出搜索页回进入方（旧实现只清关键字不退出）

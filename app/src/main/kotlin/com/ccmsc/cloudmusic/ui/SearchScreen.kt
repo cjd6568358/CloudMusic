@@ -117,6 +117,13 @@ internal fun SearchScreen(
     nowPlayingId: TrackId? = null,
     /** §61.187：「取消」= 退出搜索页（回进入方）；旧实现只清关键字 ⇒ 无法返回。 */
     onClose: () -> Unit = {},
+    /**
+     * §61.374：曲库为空。
+     *
+     * 空库时输入任何词都只会看到「无匹配结果」——用户读作「我搜错了词」，
+     * 而真实原因是「库里一首都没有」。空态必须说清下一步（去加音乐来源）。
+     */
+    libraryEmpty: Boolean = false,
 ) {
     // §61.325（A-1）：本页**不再**自己吃 ime inset。键盘让位已收口到 Scaffold 的 bottomBar
     // （整条底栏上移，Scaffold 用「底栏实际高度」喂内容 padding）。两处都加会叠出
@@ -154,7 +161,10 @@ internal fun SearchScreen(
         }
         when {
             // 空曲库：不造热词，直接给空态
-            query.isBlank() && hotWords.isEmpty() -> FnEmpty("输入关键字搜索本地曲库", Modifier.weight(1f))
+            query.isBlank() && hotWords.isEmpty() -> FnEmpty(
+                if (libraryEmpty) "曲库还是空的 —— 先去「音乐来源」添加并扫描" else "输入关键字搜索本地曲库",
+                Modifier.weight(1f),
+            )
             // 飞牛热词区接**本地**艺人 / 专辑名，不造在线热搜（spec §3.3 本地化口径）
             query.isBlank() -> Column(Modifier.fillMaxSize()) {
                 FnSectionTitle("搜索发现 · 本地曲库")
@@ -177,7 +187,11 @@ internal fun SearchScreen(
                     }
                 }
             }
-            results.isEmpty() -> FnEmpty("无匹配结果", Modifier.weight(1f))
+            results.isEmpty() -> FnEmpty(
+                // §61.374：空库时说人话——「无匹配结果」会让人以为搜错了词。
+                if (libraryEmpty) "曲库还是空的，搜不到任何内容" else "无匹配结果",
+                Modifier.weight(1f),
+            )
             else -> LazyColumn(Modifier.fillMaxSize()) {
                 itemsIndexed(results, key = { _, t -> t.id.value }) { index, track ->
                     // §61.175：修旧实现的死链——原 `onClick = {}` 点了没反应；

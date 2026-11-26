@@ -291,6 +291,7 @@ internal fun WebDavDialog(
         title = "添加 WebDAV 源",
         // §61.295：4 格 + 动作行，键盘弹出后放不下 → 内容可滚，聚焦格自动滚进视野。
         scrollable = true,
+        actionsRow = true,
         content = {
             Column {
                 // §61.293：首格自动聚焦，回车逐格下移，末格（远程路径）回车收键盘。
@@ -327,6 +328,7 @@ internal fun SftpDialog(
         title = "添加 SFTP 源",
         // §61.295：7 格是本 App 最长的表单，不开滚动时键盘一起就够不到末尾两格。
         scrollable = true,
+        actionsRow = true,
         content = {
             Column {
                 // §61.293：首格自动聚焦，回车逐格下移，末格（私钥口令）回车收键盘。
@@ -337,7 +339,7 @@ internal fun SftpDialog(
                 FnDialogInput(root, { root = it }, hint = "远程根目录（默认 /）", imeAction = ImeAction.Next)
                 // §61.239：Ed25519 边界一手文案（§61.223 判读登记收口）——Android 无
                 // Ed25519 JCE provider，JSch 本地 Auth fail，推荐 RSA/EC 私钥口径。
-                FnDialogInput(privateKey, { privateKey = it }, hint = "PEM 私钥（可与密码二选一，换行用 \\n；推荐 RSA/EC）", password = true, imeAction = ImeAction.Next)
+                FnDialogInput(privateKey, { privateKey = it }, hint = "PEM 私钥（可选；推荐 RSA/EC）", password = true, imeAction = ImeAction.Next)
                 FnDialogInput(passphrase, { passphrase = it }, hint = "私钥口令（可空）", password = true)
                 if (error != null) {
                     Text(
@@ -386,6 +388,7 @@ internal fun FtpDialog(
         title = "添加 FTP 源",
         // §61.295：5 格 + FTPS 开关，同 SFTP 处理。
         scrollable = true,
+        actionsRow = true,
         content = {
             Column {
                 // §61.293：首格自动聚焦，回车逐格下移，末格（远程根目录）回车收键盘。
@@ -442,6 +445,7 @@ internal fun StrmDialog(
         title = "添加 STRM 源",
         // §61.295：委托来源列表随存储数变长，再加 3 行挂载路径编辑框——键盘一弹必然超屏。
         scrollable = true,
+        actionsRow = true,
         content = {
             Column {
                 if (delegates.isEmpty()) {
