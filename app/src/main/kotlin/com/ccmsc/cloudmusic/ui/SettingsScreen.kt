@@ -139,7 +139,6 @@ internal fun SettingsScreen(
     onBack: () -> Unit,
 ) {
     // 操作结果反馈走页底提示位（飞牛行内没有提示位，不硬塞进 50.4dp 行框）。
-    var cacheMsg by remember { mutableStateOf("") }
     var showScanDuration by remember { mutableStateOf(false) }
     var showEq by remember { mutableStateOf(false) }
     var showTheme by remember { mutableStateOf(false) }
@@ -147,6 +146,7 @@ internal fun SettingsScreen(
     var showIgnoreDirs by remember { mutableStateOf(false) }
     // §61.376：一级页 / 二级页切换；二级页时返回键回一级（见下一行 BackHandler）。
     var subPage by remember { mutableStateOf(SettingsSubPage.NONE) }
+    var showMiuiGuide by remember { mutableStateOf(false) }
     BackHandler(enabled = subPage != SettingsSubPage.NONE) { subPage = SettingsSubPage.NONE }
     if (subPage == SettingsSubPage.NONE) {
     Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
@@ -172,14 +172,8 @@ internal fun SettingsScreen(
                 },
         ) {
             Spacer(Modifier.height(FnBaseline.HeaderToCardGapDp.dp))
-            // 卡1：本地曲库统计（替代飞牛 admin 账号卡，spec §2 #2）——不造用户信息
-            FnStatCard(
-                icon = FnIcon.Songs,
-                title = "本地曲库",
-                primary = "$trackCount 首",
-                secondary = "$sourceCount 个数据源",
-            )
-            Spacer(Modifier.height(FnBaseline.StatToNextGroupDp.dp))
+            // §61.377：统计卡并入「音乐库」组首行——真机实测「卡 + 间距」占 140dp，
+            // 正好把「外观与维护」整组顶出屏幕。数字一个没少，只是不再单独吃一张大卡。
 
             // ── §61.376：一级页 4 组 8 行（改前 3 组 14 行）──
             // 常用开关与「打开面板/二级页」留在一级；低频维护动作收进「音效 / 扫描 / 曲库工具」。
@@ -217,28 +211,10 @@ internal fun SettingsScreen(
                         dividerAbove = true,
                         icon = FnIcon.Power,
                         title = "后台播放不中断（MIUI）",
-                        onClick = onOpenAutostartSettings,
-                        value = "去开启自启动",
-                    )
-                }
-            }
-            if (com.ccmsc.cloudmusic.MiuiAutostartGuide
-                .shouldShow(android.os.Build.MANUFACTURER)
-            ) {
-                // §61.275（V0.4-02）：说明块加边界样式——与卡片行区分，长文不再像「行内小字」
-                Box(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = FnBaseline.PagePaddingDp.dp, vertical = 8.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(FnComp.CardBg)
-                        .padding(horizontal = 14.dp, vertical = 12.dp),
-                ) {
-                    Text(
-                        com.ccmsc.cloudmusic.MiuiAutostartGuide.GUIDE_TEXT,
-                        color = FnComp.TextSecondary,
-                        fontSize = 12.sp,
-                        lineHeight = 18.sp,
+                        // §61.377：先开说明面板（含「去开启自启动」动作）——原实现点行直接跳系统设置，
+                        // 但那段 4 行说明常驻在页面上，把「外观与维护」整组挤出了屏幕。
+                        onClick = { showMiuiGuide = true },
+                        value = "需手动开自启动",
                     )
                 }
             }
@@ -247,6 +223,13 @@ internal fun SettingsScreen(
             FnSectionTitle("音乐库")
             FnGroupCard {
                 FnRow(
+                    icon = FnIcon.Songs,
+                    title = "本地曲库",
+                    onClick = onOpenSources,
+                    value = "$trackCount 首 · $sourceCount 个数据源",
+                )
+                FnRow(
+                    dividerAbove = true,
                     icon = FnIcon.Gauge,
                     title = "扫描",
                     onClick = { subPage = SettingsSubPage.SCAN },
@@ -278,30 +261,10 @@ internal fun SettingsScreen(
                 )
                 FnRow(
                     dividerAbove = true,
-                    icon = FnIcon.Trash,
-                    title = "清理播放缓存",
-                    onClick = {
-                        onClearCache()
-                        cacheMsg = if (runtime.proxyRunning) "已执行" else "已执行；播放中会被拒绝"
-                    },
-                    // 动作行：点了立刻执行、不跳页 ⇒ 不画箭头（§61.376 全页统一这条规则）。
-                    value = "释放空间",
-                    showChevron = false,
-                )
-                FnRow(
-                    dividerAbove = true,
                     icon = FnIcon.Duplicate,
                     title = "曲库工具",
                     onClick = { subPage = SettingsSubPage.TOOLS },
                     value = "刮削封面 · 检测重复",
-                )
-            }
-            if (cacheMsg.isNotBlank()) {
-                Text(
-                    cacheMsg,
-                    color = FnComp.SwitchGreen,
-                    fontSize = 11.sp,
-                    modifier = Modifier.padding(horizontal = 22.dp, vertical = 12.dp),
                 )
             }
             // §61.365：28dp 太贴底，滚动到底时最后一项（音量均衡分析）正好压在胶囊
@@ -329,6 +292,7 @@ internal fun SettingsScreen(
                 onBack = { subPage = SettingsSubPage.NONE },
             )
             SettingsSubPage.TOOLS -> SettingsToolsPage(
+                onClearCache = onClearCache,
                 onScrapeCovers = onScrapeCovers,
                 onFindDuplicates = {
                     onFindDuplicates()
@@ -338,6 +302,29 @@ internal fun SettingsScreen(
             )
             SettingsSubPage.NONE -> Unit
         }
+    }
+    if (showMiuiGuide) {
+        // §61.377：MIUI 专属说明——内容给全，但不常驻占屏。
+        FnSheetDialog(
+            onDismiss = { showMiuiGuide = false },
+            title = "后台播放不中断（MIUI）",
+            content = {
+                Text(
+                    com.ccmsc.cloudmusic.MiuiAutostartGuide.GUIDE_TEXT,
+                    color = FnComp.TextSecondary,
+                    fontSize = 12.sp,
+                    lineHeight = 18.sp,
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 4.dp),
+                )
+            },
+            actions = listOf(
+                "去开启自启动" to {
+                    showMiuiGuide = false
+                    onOpenAutostartSettings()
+                },
+                "知道了" to { showMiuiGuide = false },
+            ),
+        )
     }
     if (showTheme) {
         FnSheetDialog(

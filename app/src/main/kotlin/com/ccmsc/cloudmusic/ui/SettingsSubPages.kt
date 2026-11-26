@@ -209,6 +209,7 @@ internal fun SettingsScanPage(
  */
 @Composable
 internal fun SettingsToolsPage(
+    onClearCache: () -> Unit,
     onScrapeCovers: () -> Unit,
     onFindDuplicates: () -> Unit,
     onBack: () -> Unit,
@@ -216,7 +217,20 @@ internal fun SettingsToolsPage(
     var msg by remember { mutableStateOf("") }
     SubPage("曲库工具", onBack) {
         FnGroupCard {
+            // §61.377：从一级页移下来——它和刮削/去重同类（一次性维护动作），
+            // 留在一级只是为了腾出「外观与维护」组的可见高度。
             FnRow(
+                icon = FnIcon.Trash,
+                title = "清理播放缓存",
+                onClick = {
+                    onClearCache()
+                    msg = "已执行（正在播放时会被拒绝）"
+                },
+                value = "释放空间",
+                showChevron = false,
+            )
+            FnRow(
+                dividerAbove = true,
                 icon = FnIcon.Image,
                 title = "刮削缺失封面",
                 onClick = {
@@ -240,7 +254,7 @@ internal fun SettingsToolsPage(
         }
         Spacer(Modifier.height(FnBaseline.GroupGapDp.dp))
         Text(
-            "两个任务都在后台跑，不会改动你的文件；检测结果只作提示。",
+            "三个动作都在后台执行，不会改动你的文件；检测结果只作提示。",
             color = FnComp.TextHint,
             fontSize = 11.sp,
             modifier = Modifier.padding(horizontal = 22.dp),
