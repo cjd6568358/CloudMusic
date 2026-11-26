@@ -968,10 +968,10 @@ def main() -> int:
                 / "cloudmusic" / "ui")
         return ("\n").join(
             (base / f).read_text(encoding="utf-8", errors="replace")
-            for f in ("CloudMusicApp.kt", "SettingsScreen.kt", "SourcesScreen.kt",
-                       "PlaylistsScreen.kt", "PlayerMiniBar.kt", "TrackRowGuarded.kt",
-                       "SearchScreen.kt", "QueueScreen.kt", "MyMusicScreen.kt",
-                       "UiActions.kt")
+            for f in ("CloudMusicApp.kt", "SettingsScreen.kt", "SettingsSubPages.kt",
+                       "SourcesScreen.kt", "PlaylistsScreen.kt", "PlayerMiniBar.kt",
+                       "TrackRowGuarded.kt", "SearchScreen.kt", "QueueScreen.kt",
+                       "MyMusicScreen.kt", "UiActions.kt")
             if (base / f).is_file()
         )
 
@@ -10401,6 +10401,41 @@ def main() -> int:
         failures.append("§61.375 弹层高度与动作行：%s" % "；".join(_c375))
     else:
         print("[PASS] §61.375 弹层全展开（skipPartiallyExpanded）+ 四表单动作并排")
+
+    # ---- §61.376（2026-11-26 晚）设置页两级化 ----
+    # 用户「太多太乱」：改前一级页 3 组 14 行平铺，常用开关与低频维护动作同层，
+    # 且「点了立即执行」的动作和「打开面板」的行长得一样。
+    _sub376_path = _ui365 / "SettingsSubPages.kt"
+    _set376 = (_ui365 / "SettingsScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _c376 = []
+    if not _sub376_path.is_file():
+        _c376.append("缺 SettingsSubPages.kt（二级页未拆出）")
+        _s376 = ""
+    else:
+        _s376 = _sub376_path.read_text(encoding="utf-8", errors="replace")
+        for _fn376 in ("SettingsSoundPage", "SettingsScanPage", "SettingsToolsPage"):
+            # §61.367 教训：函数名不能只用子串（`SettingsToolsPage` 是 `SettingsToolsPageX` 的子串），
+            # 必须钉到「fun 名字 + 左括号」这个真实声明形态。
+            if not re.search(r"fun %s\(" % _fn376, _s376):
+                _c376.append("缺二级页 " + _fn376)
+        if "enum class SettingsSubPage" not in _s376:
+            _c376.append("缺二级页枚举")
+    if "BackHandler(enabled = subPage != SettingsSubPage.NONE)" not in _set376:
+        _c376.append("二级页返回未拦截（按返回会直接退出设置页）")
+    if _set376.count("subPage = SettingsSubPage.") < 3:
+        _c376.append("一级页入口不足三个（%d 处）" % _set376.count("subPage = SettingsSubPage."))
+    for _t376 in ("播放", "音乐库", "外观与维护"):
+        if ('FnSectionTitle("%s")' % _t376) not in _set376:
+            _c376.append("一级页缺分组标题「%s」" % _t376)
+    for _low376 in ("均衡器", "淡入淡出", "刮削缺失封面", "检测重复曲目",
+                    "音量均衡分析", "重新扫描音乐库", "忽略目录", "扫描速度限制"):
+        if ('                    title = "%s",' % _low376) in _set376:
+            _c376.append("低频行「%s」还留在一级页" % _low376)
+    if _c376:
+        failures.append("§61.376 设置页两级化：%s" % "；".join(_c376))
+    else:
+        print("[PASS] §61.376 设置页两级化：3 组标题 / 3 个二级页 / 返回拦截 / 八个低频行已下沉")
+
 
 
 

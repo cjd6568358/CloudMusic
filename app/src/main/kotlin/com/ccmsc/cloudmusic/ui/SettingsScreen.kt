@@ -145,6 +145,10 @@ internal fun SettingsScreen(
     var showTheme by remember { mutableStateOf(false) }
     var showDupReport by remember { mutableStateOf(false) }
     var showIgnoreDirs by remember { mutableStateOf(false) }
+    // §61.376：一级页 / 二级页切换；二级页时返回键回一级（见下一行 BackHandler）。
+    var subPage by remember { mutableStateOf(SettingsSubPage.NONE) }
+    BackHandler(enabled = subPage != SettingsSubPage.NONE) { subPage = SettingsSubPage.NONE }
+    if (subPage == SettingsSubPage.NONE) {
     Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
         // 顶栏：从「更多」进入的**页内二级页**，返回钮语义是「回上一屏」，
         // 与飞牛「回 NAS 主屏」的宿主壳层返回箭头不同（spec §2 #1 / §61.175）。
@@ -176,7 +180,10 @@ internal fun SettingsScreen(
                 secondary = "$sourceCount 个数据源",
             )
             Spacer(Modifier.height(FnBaseline.StatToNextGroupDp.dp))
-            // 卡2 播放（人话标签；§61.188 用户「罗里吧嗦」——砍技术值与内部行话）
+
+            // ── §61.376：一级页 4 组 8 行（改前 3 组 14 行）──
+            // 常用开关与「打开面板/二级页」留在一级；低频维护动作收进「音效 / 扫描 / 曲库工具」。
+            FnSectionTitle("播放")
             FnGroupCard {
                 FnRow(
                     icon = FnIcon.Network,
@@ -195,13 +202,11 @@ internal fun SettingsScreen(
                 )
                 FnRow(
                     dividerAbove = true,
-                    icon = FnIcon.Trash,
-                    title = "清理播放缓存",
-                    onClick = {
-                        onClearCache()
-                        cacheMsg = if (runtime.proxyRunning) "已执行" else "已执行；播放中会被拒绝"
-                    },
-                    value = "释放空间",
+                    icon = FnIcon.Sliders,
+                    title = "音效",
+                    onClick = { subPage = SettingsSubPage.SOUND },
+                    // 摘要要写「点进去能改什么」，不写「已调整」这种没有信息量的状态。
+                    value = "均衡器 · 淡入淡出 · 音量均衡",
                 )
                 // §61.211（G09 拍板 A / 预研报告 §4）：仅 MIUI 系设备显示——
                 // 进程重建受 MIUI 拉活限制，应用侧唯一可行动点 = 引导手动开自启动。
@@ -238,71 +243,29 @@ internal fun SettingsScreen(
                 }
             }
             Spacer(Modifier.height(FnBaseline.GroupGapDp.dp))
-            // 卡3 曲库（飞牛「音乐库管理」映射：spec §2 #7）
+
+            FnSectionTitle("音乐库")
             FnGroupCard {
                 FnRow(
-                    icon = FnIcon.Refresh,
-                    title = "重新扫描音乐库",
-                    onClick = onRescan,
-                    value = "找出新增与恢复的文件",
+                    icon = FnIcon.Gauge,
+                    title = "扫描",
+                    onClick = { subPage = SettingsSubPage.SCAN },
+                    value = "最短 ${scanMinDurationMs / 1000} 秒" +
+                        if (scanIgnoreDirs.isEmpty()) "" else " · 忽略 ${scanIgnoreDirs.size} 项",
                 )
                 FnRow(
                     dividerAbove = true,
                     icon = FnIcon.Sources,
                     title = "音乐来源",
                     onClick = onOpenSources,
-                    value = "添加或移除音乐来源",
-                )
-                FnRow(
-                    dividerAbove = true,
-                    icon = FnIcon.FolderOff,
-                    title = "忽略目录",
-                    onClick = { showIgnoreDirs = true },
-                    value = if (scanIgnoreDirs.isEmpty()) "未设置" else "${scanIgnoreDirs.size} 项",
-                )
-                FnRow(
-                    dividerAbove = true,
-                    icon = FnIcon.Gauge,
-                    title = "扫描速度限制",
-                    onClick = { showScanDuration = true },
-                    value = "每次至少 ${scanMinDurationMs / 1000} 秒",
+                    value = "$sourceCount 个",
                 )
             }
             Spacer(Modifier.height(FnBaseline.GroupGapDp.dp))
-            // 卡4 音质（ReplayGain 人话化）
+
+            FnSectionTitle("外观与维护")
             FnGroupCard {
                 FnRow(
-                    icon = FnIcon.Level,
-                    title = "音量均衡分析",
-                    onClick = {
-                        onAnalyzeReplayGain()
-                        cacheMsg = "已开始分析（每次最多 50 首，播放时音量更均匀）"
-                    },
-                    value = "让每首歌音量接近",
-                )
-                FnRow(
-                    dividerAbove = true,
-                    icon = FnIcon.Image,
-                    title = "刮削缺失封面",
-                    onClick = {
-                        onScrapeCovers()
-                        cacheMsg = "已开始刮削（每次最多 50 首，联网匹配专辑封面）"
-                    },
-                    value = "联网补齐缺失封面",
-                )
-                FnRow(
-                    dividerAbove = true,
-                    icon = FnIcon.Duplicate,
-                    title = "检测重复曲目",
-                    onClick = {
-                        onFindDuplicates()
-                        showDupReport = true
-                        cacheMsg = "已开始检测（按标题/艺人 + 时长 ±1s 分组，仅提示不自动删除）"
-                    },
-                    value = "找出疑似重复的曲目",
-                )
-                FnRow(
-                    dividerAbove = true,
                     icon = FnIcon.Contrast,
                     title = "主题",
                     onClick = { showTheme = true },
@@ -315,19 +278,22 @@ internal fun SettingsScreen(
                 )
                 FnRow(
                     dividerAbove = true,
-                    icon = FnIcon.Wave,
-                    title = "淡入淡出",
-                    onClick = { onFadeEnabledChanged(!fadeEnabled) },
-                    value = if (fadeEnabled) "开（起播渐入 / 分轨渐出）" else "关",
+                    icon = FnIcon.Trash,
+                    title = "清理播放缓存",
+                    onClick = {
+                        onClearCache()
+                        cacheMsg = if (runtime.proxyRunning) "已执行" else "已执行；播放中会被拒绝"
+                    },
+                    // 动作行：点了立刻执行、不跳页 ⇒ 不画箭头（§61.376 全页统一这条规则）。
+                    value = "释放空间",
                     showChevron = false,
-                    trailing = { FnSwitch(checked = fadeEnabled, onChange = onFadeEnabledChanged) },
                 )
                 FnRow(
                     dividerAbove = true,
-                    icon = FnIcon.Sliders,
-                    title = "均衡器",
-                    onClick = { showEq = true },
-                    value = if (eqEnabled) "开 · 档位 " + eqEffectLevel else "关",
+                    icon = FnIcon.Duplicate,
+                    title = "曲库工具",
+                    onClick = { subPage = SettingsSubPage.TOOLS },
+                    value = "刮削封面 · 检测重复",
                 )
             }
             if (cacheMsg.isNotBlank()) {
@@ -341,6 +307,36 @@ internal fun SettingsScreen(
             // §61.365：28dp 太贴底，滚动到底时最后一项（音量均衡分析）正好压在胶囊
             // 圆角上。加到 44dp，留出与分组间距同级的呼吸缝。
             Spacer(Modifier.height(44.dp))
+        }
+    }
+    } else {
+        when (subPage) {
+            SettingsSubPage.SOUND -> SettingsSoundPage(
+                eqEnabled = eqEnabled,
+                eqEffectLevel = eqEffectLevel,
+                fadeEnabled = fadeEnabled,
+                onOpenEq = { showEq = true },
+                onFadeEnabledChanged = onFadeEnabledChanged,
+                onAnalyzeReplayGain = onAnalyzeReplayGain,
+                onBack = { subPage = SettingsSubPage.NONE },
+            )
+            SettingsSubPage.SCAN -> SettingsScanPage(
+                scanMinDurationMs = scanMinDurationMs,
+                scanIgnoreDirs = scanIgnoreDirs,
+                onRescan = onRescan,
+                onOpenMinDuration = { showScanDuration = true },
+                onOpenIgnoreDirs = { showIgnoreDirs = true },
+                onBack = { subPage = SettingsSubPage.NONE },
+            )
+            SettingsSubPage.TOOLS -> SettingsToolsPage(
+                onScrapeCovers = onScrapeCovers,
+                onFindDuplicates = {
+                    onFindDuplicates()
+                    showDupReport = true
+                },
+                onBack = { subPage = SettingsSubPage.NONE },
+            )
+            SettingsSubPage.NONE -> Unit
         }
     }
     if (showTheme) {
