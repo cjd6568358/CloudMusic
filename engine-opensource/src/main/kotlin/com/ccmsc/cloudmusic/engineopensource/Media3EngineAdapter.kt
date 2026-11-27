@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import android.util.Log
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -116,6 +117,16 @@ class Media3EngineAdapter : IMusicEngine {
     private var warmerJob: Future<*>? = null
 
     /**
+     * §61.378（U1-A 让路）：listener 的 STATE_READY 收敛点置位（§61.301 H0-1 同一信号），
+     * prepare 新曲时重置。warmer 在它置位前不预热，避免与首播深层 seek 并发
+     * 争抢限速上游（真机 2026-11-26/27 双手证据，analysis/review-2026-11-26 M2：
+     * 冷缓存首播 292MB FLAC 的 CUE 深轨，warmer 与深层 seek 并行 → 起播 20.4s，
+     * 重者越过 8s 读超时烧成 E_DS_UPSTREAM_MEDIA3_PLAYBACK）。
+     */
+    @Volatile
+    private var warmGateReady = false
+
+    /**
      * §61.87（F3 首轮真机暴露）：ExoPlayer 强制「单线程（application thread）」
      * 访问——构建线程必须带 Looper，且所有后续调用（含 getter）都在同一线程，
      * 否则 `ExoPlayerImpl.verifyApplicationThread` 拒绝执行、命令静默丢弃
@@ -205,6 +216,9 @@ class Media3EngineAdapter : IMusicEngine {
                         "state=READY durationMs=%d".format(
                             if (d == C.TIME_UNSET) -1L else d),
                     )
+                    // §61.378（U1-A）：预热闸门——首播到 READY 才允许 warmer 起跑（同步
+                    // 置位，防止 warmer 轮询窗口错过短暂 READY 后的前景状态）。
+                    warmGateReady = true
                     // §61.301（H0-1）：READY 是 BUFFERING 的唯一收敛点——按真实
                     // 播放意图回正 PLAYING/PAUSED（缓冲结束恢复计时；暂停中缓冲
                     // 完成不伪造播放）。此前 READY 只打日志，BUFFERING 一旦发布
@@ -446,6 +460,9 @@ class Media3EngineAdapter : IMusicEngine {
                 gapless.crossTrackAvailable,
                 gapless.blocker ?: "none",
             ))
+            // §61.378（U1-A）：新曲闸门重置——不能沿用上一曲的 READY（重播同曲不重置
+            // 会导致 warmer 与二次起播叠跑）。
+            warmGateReady = false
             p.prepare()
             activeHandle = handle
             // §61.105：切歌先清上一曲标签（写回 volume=用户音量）。
@@ -470,6 +487,17 @@ class Media3EngineAdapter : IMusicEngine {
                 warmerExecutor.submit {
                     Thread.currentThread().name = "CacheWarmer-$cacheKey"
                     try {
+                        // §61.378（U1-A 让路）：READY 前不预热。500ms 步轮询闸门，上限
+                        // 30s——首播迟迟没 READY（网络差 / 源故障）就不暖，减少并发自扰。
+                        val gateStartMs = SystemClock.elapsedRealtime()
+                        while (!warmGateReady && !Thread.currentThread().isInterrupted) {
+                            if (SystemClock.elapsedRealtime() - gateStartMs > WARMER_GATE_TIMEOUT_MS) break
+                            Thread.sleep(WARMER_GATE_POLL_MS)
+                        }
+                        if (!warmGateReady) {
+                            Log.i(TAG, "cache warmer skipped: gate-timeout $cacheKey")
+                            return@submit
+                        }
                         val warmFactory = CacheDataSource.Factory()
                             .setCache(cache)
                             .setCacheKeyFactory(CacheKeyFactory { cacheKey })
@@ -483,17 +511,22 @@ class Media3EngineAdapter : IMusicEngine {
                             .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
                         val ds = warmFactory.createDataSource()
                         ds.open(DataSpec(Uri.parse(url!!), 0, C.LENGTH_UNSET.toLong()))
-                        // §61.320（真机一手）：缓存上限 256MiB，而这张 APE 音频数据
-                        // 304,212,956B —— 预热**永远无法完成**：写到一半就开始淘汰自己
-                        // 前面写的 span，日志实测同一 key 连续两次 "warmer complete"
-                        // 后仍判不完整，缓存长期贴顶（218MB/256MiB）反复抖动。
-                        // 上游长度拿得到且装不下时直接放弃预热，别拿播放的 I/O 陪跑。
-                        val upstreamLen = ContentMetadata.getContentLength(
-                            cache.getContentMetadata(cacheKey),
+                        // §61.320 防白暖意图保留；§61.378（U1-C）修语义：旧代码
+                        // `upstreamLen > cache.cacheSpace` 的 getCacheSpace() 是**已存储
+                        // 总量**（缓存空时 0B ⇒ 任何小文件都跳过预热；长度未知时同判
+                        // 不了 ⇒ 292MB>cap 硬暖，LRU 边写边淘汰仅余 11MB，2026-11-27
+                        // 真机实证）。改按 [WarmPolicy] 剩余容量（cap − 已存量）判定；
+                        // 长度未知一律不暖（READY 后 lengths 通常已由播放链写入 metadata）。
+                        val decision = WarmPolicy.decide(
+                            upstreamLen = ContentMetadata.getContentLength(
+                                cache.getContentMetadata(cacheKey),
+                            ),
+                            storedBytes = cache.cacheSpace,
+                            capBytes = CACHE_CAP_BYTES,
                         )
-                        if (upstreamLen > 0 && upstreamLen > cache.cacheSpace) {
-                            Log.i(TAG, "cache warmer skipped: %dB > cache space %dB"
-                                .format(upstreamLen, cache.cacheSpace))
+                        if (!decision.warm) {
+                            Log.i(TAG, ("cache warmer skipped: %s len=%dB stored=%dB cap=%dB"
+                                .format(decision.reason, decision.upstreamLen, decision.storedBytes, CACHE_CAP_BYTES)))
                             ds.close()
                             return@submit
                         }
@@ -884,7 +917,7 @@ class Media3EngineAdapter : IMusicEngine {
             dir.mkdirs()
             val cache = SimpleCache(
                 dir,
-                LeastRecentlyUsedCacheEvictor(256L * 1024 * 1024),
+                LeastRecentlyUsedCacheEvictor(CACHE_CAP_BYTES),
                 androidx.media3.database.StandaloneDatabaseProvider(ctx),
             )
             mediaCache = cache
@@ -896,5 +929,12 @@ class Media3EngineAdapter : IMusicEngine {
     companion object {
         /** §61.86：F3 双引擎判据的 B2 侧 logcat tag（tools/l3_f3_matrix_run.py 解析）。 */
         const val TAG = "CM-Media3"
+
+        /** §61.378（U1-C）：缓存容量唯一真相源——evictor 与 warmer 判定共用。 */
+        const val CACHE_CAP_BYTES = 256L * 1024 * 1024
+
+        /** §61.378（U1-A）：预热闸门上限——READY 迟迟不到就放弃预热，不烧带宽。 */
+        const val WARMER_GATE_TIMEOUT_MS = 30_000L
+        const val WARMER_GATE_POLL_MS = 500L
     }
 }

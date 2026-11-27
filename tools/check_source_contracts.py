@@ -969,6 +969,7 @@ def main() -> int:
         return ("\n").join(
             (base / f).read_text(encoding="utf-8", errors="replace")
             for f in ("CloudMusicApp.kt", "SettingsScreen.kt", "SettingsSubPages.kt",
+                       "AppNavigation.kt",
                        "SourcesScreen.kt", "PlaylistsScreen.kt", "PlayerMiniBar.kt",
                        "TrackRowGuarded.kt", "SearchScreen.kt", "QueueScreen.kt",
                        "MyMusicScreen.kt", "UiActions.kt")
@@ -6808,8 +6809,9 @@ def main() -> int:
         _nav_bad.append("底栏 icons 未引用 CapsuleTabs（搜索胶囊可能丢失）")
     if "tab == 3 -> 2" not in _app_src:
         _nav_bad.append("搜索 tab 选中映射缺失")
-    if "if (tab != 3) searchReturnTo = tab" not in _app_src:
-        _nav_bad.append("底栏搜索进入的返回目标记录缺失")
+    if "AppNav.searchFromBottomBar()" not in _app_src:
+        # §61.379：底栏是平级导航 —— 进搜索时清掉返回目标；语义收敛到 AppNav 单源。
+        _nav_bad.append("底栏搜索未走 AppNav.searchFromBottomBar（会重新记录当前 tab 当返回目标）")
     if "capsuleHidden" in _app_src:
         _nav_bad.append("搜索页隐藏底栏口径未移除（capsuleHidden 残留）")
     if _nav_bad:
@@ -8002,14 +8004,25 @@ def main() -> int:
     if "BackHandler(" not in _app_code:
         _c280.append("缺根级 BackHandler（返回键会直接退出 App）")
     else:
-        for _needle in ("showPlayer -> showPlayer = false", "showSources -> showSources = false",
-                        "showMore -> showMore = false", "else -> exitSubPage()"):
-            if _needle not in _app_code:
-                _c280.append("BackHandler 分层缺：%s" % _needle)
+        # §61.379：分层语义搬到 AppNav.back（纯函数）——判据改为钉「AppNav 里的四条分支」
+        # + 「组合根调用它」，强度不降（原来钉的是组合根内的 when 字面）。
+        _nav280 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
+                   / "ui" / "AppNavigation.kt")
+        _nav280_txt = (_nav280.read_text(encoding="utf-8", errors="replace")
+                       if _nav280.is_file() else "")
+        for _needle in ("playerOpen -> Back(playerOpen = false)",
+                        "sourcesOpen -> exitSub(subOrigin, subReturnTab)",
+                        "moreOpen -> Back(moreOpen = false)",
+                        "else -> exitSub(subOrigin, subReturnTab)"):
+            if _needle not in _nav280_txt:
+                _c280.append("AppNav.back 分层缺：%s" % _needle)
+        if "AppNav.back(" not in _app_code:
+            _c280.append("组合根未调用 AppNav.back（返回栈未单源）")
     if "onBack = { showMore = true }" in _app_code:
         _c280.append("次级页返回仍写死回「更多」（未接来源）")
-    if _app_code.count("subOrigin =") < 8:
-        _c280.append("入口来源登记不足（subOrigin < 8 处）")
+    # §61.379：subOrigin 的赋值从「组合根 8 处命令式」收敛到 AppNav 的 Back 构造（语义更少、更准）。
+    if _nav280_txt.count("subOrigin =") < 4 and _app_code.count("subOrigin =") < 4:
+        _c280.append("入口来源登记不足（subOrigin 覆盖点 < 4）")
     # §61.284：从「最近」入口滚到最近段——旧实现量 y 坐标（animateScrollTo(recentY)），
     # 懒列表下量不到**未组合项**的坐标，改为按 item 序号定位（animateScrollToItem）。
     # 判据接受两种实现之一，强度不变：必须有「focusRecent 驱动 + 一次真实滚动定位」。
@@ -10348,16 +10361,16 @@ def main() -> int:
     _disc372 = (ROOT / "app" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
                 / "ui" / "player" / "DiscLabelArt.kt").read_text(encoding="utf-8", errors="replace")
     _c372 = []
-    if "val noteR = r *" not in _disc372:
-        _c372.append("红盘缺缺封面占位音符（会退回纯红大圆）")
-    elif not re.search(r"val noteR = r \* 0\.4[0-9]f", _disc372):
-        _c372.append("音符尺寸被缩小（首版 0.30 读作红色小逗号）")
-    if "drawPath(" not in _disc372 or "cubicTo(" not in _disc372:
-        _c372.append("符尾不是 Path 一笔（会退化成几何色块）")
+    # §61.380（用户一手）：**唱片内部不要任何图案** —— §61.372 的八分音符占位已撤，
+    # 判据反过来钉「不得再画」：红盘只保留压纹与轴孔。
+    if "noteR" in _disc372 or "cubicTo(" in _disc372:
+        _c372.append("红盘又画了图案（用户要求唱片内部保持干净）")
+    if "drawCircle(r, r, r * 0.055f" not in _disc372:
+        _c372.append("中心轴孔缺失（红盘不能只有一块纯色）")
     if _c372:
-        failures.append("§61.372 唱片缺封面占位：%s" % "；".join(_c372))
+        failures.append("§61.380 唱片内部洁净：%s" % "；".join(_c372))
     else:
-        print("[PASS] §61.372 唱片缺封面占位：红盘八分音符（0.44r / Path 符尾）")
+        print("[PASS] §61.380 唱片内部洁净：红盘只留压纹 + 轴孔（无音符/无图案）")
 
     # ---- §61.373（2026-11-26 凌晨）来源页：行内曲目数 + 类型图标 ----
     # 添加完一个源，用户原先没有任何途径知道它扫到几首：「正常」这两个字在空目录 /
@@ -10436,6 +10449,88 @@ def main() -> int:
         failures.append("§61.376 设置页两级化：%s" % "；".join(_c376))
     else:
         print("[PASS] §61.376 设置页两级化：3 组标题 / 3 个二级页 / 返回拦截 / 八个低频行已下沉")
+
+    # ---- §61.379（2026-11-27 晚）返回栈决策表单源 ----
+    # 用户一手「后退乱跳」。真机复现三条（更多→来源掉首页 / 设置→来源→返回死锁 /
+    # 设置页点搜索返回跳回设置），根因是三套状态语义重叠。现在决策全在 AppNav 纯函数里。
+    _nav379 = _ui365 / "AppNavigation.kt"
+    _app379 = (_ui365 / "CloudMusicApp.kt").read_text(encoding="utf-8", errors="replace")
+    _test379 = (ROOT / "app" / "src" / "test" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
+                / "ui" / "AppNavTest.kt")
+    _c379 = []
+    if not _nav379.is_file():
+        _c379.append("缺 AppNavigation.kt（决策表未抽出）")
+        _nav_txt = ""
+    else:
+        _nav_txt = _nav379.read_text(encoding="utf-8", errors="replace")
+        for _fn379 in ("shouldIntercept", "back", "exitSub", "exitSearch",
+                       "fromMore", "openSources"):
+            if not re.search(r"fun %s\(" % _fn379, _nav_txt):
+                _c379.append("AppNav 缺函数 " + _fn379)
+    if "AppNav.back(" not in _app379:
+        _c379.append("组合根未走 AppNav.back（返回决策又写回命令式）")
+    if "tab in 2..6" in _app379:
+        _c379.append("返回拦截又用 tab in 2..6（搜索 tab 会被误拦）")
+    if re.search(r"fun exitSubPage\(\)\s*=\s*applyBack\(AppNav\.exitSub", _app379) is None:
+        _c379.append("exitSubPage 未收敛到 AppNav.exitSub（会重新手写 tab/subOrigin）")
+    if not _test379.is_file():
+        _c379.append("缺 AppNavTest（返回栈不可回归）")
+    elif "settingsSourcesThenBackTwiceDoesNotDeadlock" not in _test379.read_text(
+            encoding="utf-8", errors="replace"):
+        _c379.append("AppNavTest 缺「设置→来源→返回两次不死锁」用例")
+    if _c379:
+        failures.append("§61.379 返回栈：%s" % "；".join(_c379))
+    else:
+        print("[PASS] §61.379 返回栈：AppNav 决策表 + 组合根零命令式 + 死锁用例在册")
+
+    # ---- §61.378（2026-11-27）warmer 让路 + 容量守卫语义修正 ----
+    # 真机一手（analysis/review-2026-11-26 M2/M6）：prepare 期 warmer 立即起跑与首播
+    # 深层 seek 并发争抢限速上游 → 冷缓存首播大 CUE 轨 20.4s 起播（重者 8s 读超时烧成
+    # E_DS_UPSTREAM_MEDIA3_PLAYBACK）；且旧守卫拿 `upstreamLen > cache.cacheSpace`
+    # （getCacheSpace = 已存储总量，空缓存 0B ⇒ 恒 skip）判错对象，长度未知时放行
+    # 292MB>cap 白暖、LRU 边写边淘汰仅余 11MB。
+    _engine378 = (ROOT / "engine-opensource" / "src" / "main" / "kotlin" / "com" / "ccmsc"
+                  / "cloudmusic" / "engineopensource" / "Media3EngineAdapter.kt").read_text(
+                      encoding="utf-8", errors="replace")
+    _warm378_path = ROOT / "engine-opensource" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "engineopensource" / "WarmPolicy.kt"
+    _c378 = []
+    if not _warm378_path.is_file():
+        _c378.append("缺 WarmPolicy.kt（决策未抽纯逻辑，不可 JVM 判定）")
+    else:
+        _warm378 = _warm378_path.read_text(encoding="utf-8", errors="replace")
+        if "fun decide(upstreamLen: Long, storedBytes: Long, capBytes: Long)" not in _warm378:
+            _c378.append("WarmPolicy.decide 三参签名不在位")
+        if "(capBytes - storedBytes).coerceAtLeast(0L)" not in _warm378:
+            # A/B 反证：改回旧形态（拿已存量直接比）此处应 FAIL
+            _c378.append("WarmPolicy 未按剩余容量（cap − 已存量）判定")
+        if '"len-unknown"' not in _warm378:
+            _c378.append("WarPolicy 长度未知未显式跳过（292MB 白暖根因之一）")
+    # §61.379：**剥注释后再查** —— 适配器里有一段注释在解释「旧代码为什么错」，
+    # 原文含该字符串；纯子串会把「说明历史」当成「残留代码」（§61.278 同型误报复发）。
+    # 真代码一旦回退到旧比较，剥注释后仍会命中，强度不降。
+    if "upstreamLen > cache.cacheSpace" in _code_only(_engine378):
+        _c378.append("适配器真代码仍残留旧比较 `upstreamLen > cache.cacheSpace`（对象=已存量，判错）")
+    if "warmGateReady = true" not in _engine378:
+        _c378.append("READY 闸门未接线（listener STATE_READY 不置位 warmer 不会让路）")
+    if "warmGateReady = false" not in _engine378:
+        _c378.append("prepare 未重置闸门（上一曲 READY 会泄漏到新曲）")
+    if "WARMER_GATE_TIMEOUT_MS" not in _engine378:
+        _c378.append("闸门缺超时上限（永不 READY 会永久挂起执行线程占用）")
+    if "LeastRecentlyUsedCacheEvictor(256L * 1024 * 1024)" in _engine378:
+        _c378.append("evictor 容量仍是内联字面量（与 CACHE_CAP_BYTES 唯一真相源分裂）")
+    if "CACHE_CAP_BYTES = 256L * 1024 * 1024" not in _engine378:
+        _c378.append("缺 CACHE_CAP_BYTES 容量唯一真相源")
+    _warm_test378 = ROOT / "engine-opensource" / "src" / "test" / "kotlin" / "com" / "ccmsc" / "cloudmusic" / "engineopensource" / "WarmPolicyTest.kt"
+    if not _warm_test378.is_file():
+        _c378.append("缺 WarmPolicyTest.kt（A/B 用例：冷缓存 3.4MB 必暖 / 292MB 必 skip）")
+    else:
+        _wt378 = _warm_test378.read_text(encoding="utf-8", errors="replace")
+        if "3_453_364L" not in _wt378 or "292_225_852L" not in _wt378:
+            _c378.append("WarmPolicyTest 未锁 A/B 实测样本（3.4MB / 292MB）")
+    if _c378:
+        failures.append("§61.378 warmer 让路与容量守卫：%s" % "；".join(_c378))
+    else:
+        print("[PASS] §61.378 warmer 让路（READY 闸门）+ 容量守卫（剩余容量判定 + 长度未知不暖）")
 
 
 
