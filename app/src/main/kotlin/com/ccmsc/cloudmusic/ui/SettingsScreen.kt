@@ -222,11 +222,13 @@ internal fun SettingsScreen(
 
             FnSectionTitle("音乐库")
             FnGroupCard {
+                // §61.381：「本地曲库」行删除——它和下一行「音乐来源」**跳同一个页面**，
+                // 是纯重复入口；曲目数与源数并进「音乐来源」的 value，信息一个没少。
                 FnRow(
-                    icon = FnIcon.Songs,
-                    title = "本地曲库",
+                    icon = FnIcon.Sources,
+                    title = "音乐来源",
                     onClick = onOpenSources,
-                    value = "$trackCount 首 · $sourceCount 个数据源",
+                    value = "$trackCount 首 · $sourceCount 个来源",
                 )
                 FnRow(
                     dividerAbove = true,
@@ -235,13 +237,6 @@ internal fun SettingsScreen(
                     onClick = { subPage = SettingsSubPage.SCAN },
                     value = "最短 ${scanMinDurationMs / 1000} 秒" +
                         if (scanIgnoreDirs.isEmpty()) "" else " · 忽略 ${scanIgnoreDirs.size} 项",
-                )
-                FnRow(
-                    dividerAbove = true,
-                    icon = FnIcon.Sources,
-                    title = "音乐来源",
-                    onClick = onOpenSources,
-                    value = "$sourceCount 个",
                 )
             }
             Spacer(Modifier.height(FnBaseline.GroupGapDp.dp))

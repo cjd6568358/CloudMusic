@@ -75,16 +75,11 @@ fun HomeScreen(
     LazyColumn(
         Modifier.fillMaxSize().background(FnComp.PageBg),
     ) {
-        // §61.367：卡片区此前**没有任何分组标题**，三张卡直接顶在内容区最上方，
-        // 读作「三块散落的色块」。与下方「最近添加」用同款 18sp Bold 标题，
-        // 形成两级 section 节奏（标题 → 卡片流 → 标题 → 列表）。
-        item {
-            Text(
-                "快捷入口", color = FnComp.TextPrimary,
-                fontSize = 18.sp, fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 20.dp, top = 16.dp, bottom = 2.dp),
-            )
-        }
+        // §61.381（用户一手）：**「快捷入口」标题删掉**。§61.367 加它是为了救「三块散落的
+        // 色块」——但那时的前提是 160dp 卡三张只露两张半；现在卡片 128dp、三张都在屏内、
+        // 右缘还有渐隐提示，卡片流本身已经成"一条"，不再需要功能分类词当拐杖。
+        // 下方「最近添加」保留：它是**内容描述**（有信息量），不是分类词。
+        item { Spacer(Modifier.height(4.dp)) }
 
         // ── 横向大卡片流（§61.261：底栏已有搜索 tab，首页不再重复放搜索钮）──
         item {

@@ -110,8 +110,8 @@ import kotlinx.coroutines.flow.map
  * 一个曲库入口；本表随之由五页收缩为四页（歌单 / 搜索 / 队列 / 设置），功能一个不丢。
  */
 private val FUNCTION_PAGE_LABELS = listOf(
-    "歌单" to FnIcon.Playlist, "搜索" to FnIcon.Search,
-    "队列" to FnIcon.Queue, "设置" to FnIcon.Settings,
+    // §61.381：搜索行删除（与底栏 tab 重复）——四页收缩为三页。
+    "歌单" to FnIcon.Playlist, "队列" to FnIcon.Queue, "设置" to FnIcon.Settings,
 )
 
 @Composable
@@ -408,7 +408,6 @@ private fun CloudMusicAppContent(actions: UiActions) = with(actions) {
                 )
                 showMore -> MoreScreen(
                     onPlaylists = { applyBack(AppNav.fromMore(tab, AppNav.TAB_PLAYLISTS)) },
-                    onSearch = { applyBack(AppNav.searchFromMore(tab)) },
                     onQueue = { applyBack(AppNav.fromMore(tab, AppNav.TAB_QUEUE)) },
                     onMine = {
                         mineFocusRecent = false

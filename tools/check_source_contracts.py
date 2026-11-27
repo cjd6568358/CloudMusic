@@ -1422,9 +1422,11 @@ def main() -> int:
     # 只是曲库入口由本页承载（`FnLibraryScreen(` 断言）。
     # §61.278：功能页入口标签的值从 Unicode 字形改为 FnIcon 枚举（判据随类型改，强度不变：
     # 仍是「四个入口标签 + 三页骨架 + 输出弹窗 + 蓝牙不并列」五项齐全才算 PASS）。
+    # §61.381（用户一手）：搜索已是一级 tab，「更多」里的「搜索」行删除 ⇒ 入口标签四→三。
+    # 页面口径不缩：搜索页仍由 SearchScreen 承载（下方另有断言）。
     ui_needles = (
-        "\"歌单\" to FnIcon.Playlist", "\"搜索\" to FnIcon.Search",
-        "\"队列\" to FnIcon.Queue", "\"设置\" to FnIcon.Settings",
+        "\"歌单\" to FnIcon.Playlist", "\"队列\" to FnIcon.Queue",
+        "\"设置\" to FnIcon.Settings", "SearchScreen(",
         "FnLibraryScreen(", "OutputDialog(", "蓝牙设备请在系统设置里连接",
     )
     missing_ui = [n for n in ui_needles if n not in ui_app]
@@ -10274,8 +10276,13 @@ def main() -> int:
     # 用户一手「每个页面入口都多点点」；走查截图暴露：卡片区无 section 标题、漫游卡图标
     # 借的是 Broadcast（投屏）与「随机播放」语义矛盾、行尾「＋」无任何说明、设置页滚动硬切。
     _c367 = []
-    if '"快捷入口"' not in _home365:
-        _c367.append("首页卡片区缺分组标题")
+    # §61.381（用户一手）：**「快捷入口」标题删除** —— 分类词对用户无信息量，且卡片已 128dp
+    # 三张可见、不再"散落"。判据随之改成「卡片区与下方列表之间有显式分隔」，
+    # 保留 §61.367 的原始意图（不散落），实现允许是标题或间距之一。
+    if '"快捷入口"' in _home365:
+        _c367.append("「快捷入口」分类词回潮（用户要求删除）")
+    if "Spacer(Modifier.height(4.dp))" not in _home365:
+        _c367.append("卡片区顶部无分隔（删标题后需要显式间距垫底）")
     if "FnIcon.Shuffle," not in _home365:
         _c367.append("漫游卡艺术图缺 shuffle 符号（随机播放语义无处承载）")
     if "FnLineIcon(icon, Color.White)" in _home365:
@@ -10371,6 +10378,29 @@ def main() -> int:
         failures.append("§61.380 唱片内部洁净：%s" % "；".join(_c372))
     else:
         print("[PASS] §61.380 唱片内部洁净：红盘只留压纹 + 轴孔（无音符/无图案）")
+
+    # ---- §61.381（2026-11-27 晚）易用性：删三处冗余标题/入口 ----
+    # 用户一手「有些标题是否可以不必设置（快捷入口）…设置页各入口是否重复」。
+    _home381 = (_ui365 / "HomeScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _more381 = (_ui365 / "MoreScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _set381 = (_ui365 / "SettingsScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _c381 = []
+    if '"快捷入口"' in _home381:
+        _c381.append("首页「快捷入口」分类词回潮（对用户无信息量）")
+    if '"搜索" to FnIcon.Search' in _more381:
+        _c381.append("「更多」里「搜索」行回潮（与底栏 tab 重复）")
+    # A/B 教训：只钉标签表挡不住「页面里另画一行」——直接钉行数（歌单/队列/我的音乐/设置/音乐来源 = 5）。
+    if _more381.count("FnRow(") != 5:
+        _c381.append("「更多」行数不是 5（实得 %d，搜索行可能回潮）" % _more381.count("FnRow("))
+    if '                    title = "本地曲库",' in _set381:
+        _c381.append("设置「本地曲库」行回潮（与「音乐来源」跳同一页）")
+    if _set381.count('$trackCount 首 · $sourceCount 个来源') != 1:
+        _c381.append("曲目数/源数未并入「音乐来源」行（信息丢失）")
+    if _c381:
+        failures.append("§61.381 入口去冗余：%s" % "；".join(_c381))
+    else:
+        print("[PASS] §61.381 入口去冗余：首页无分类词 / 更多无搜索行 / 设置无重复行")
+
 
     # ---- §61.373（2026-11-26 凌晨）来源页：行内曲目数 + 类型图标 ----
     # 添加完一个源，用户原先没有任何途径知道它扫到几首：「正常」这两个字在空目录 /
@@ -11570,8 +11600,11 @@ def main() -> int:
         _c353.append("页头未去返回键")
     if "AGPL-3.0" in _more_353 or "统一虚拟曲库" in _more_353:
         _c353.append("底部说明未删")
-    if _more_353.count("iconGlyphDp = 21f") < 6 or _more_353.count("titleSp = 16f") < 6:
-        _c353.append("六行入口未放大")
+    # §61.381：搜索行删除（与底栏 tab 重复）⇒ 六行收缩为五行，字号口径不变。
+    if _more_353.count("iconGlyphDp = 21f") < 5 or _more_353.count("titleSp = 16f") < 5:
+        _c353.append("五行入口未放大")
+    if '"搜索" to FnIcon.Search' in _more_353:
+        _c353.append("「搜索」行回潮（与底栏 tab 重复）")
     if "iconGlyphDp: Float = 17f" not in _fnui_353 or "titleSp: Float = FnBaseline.RowTitleSp" not in _fnui_353:
         _c353.append("FnRow 缺可选覆盖参数（默认值应保飞牛像素）")
     if _c353:

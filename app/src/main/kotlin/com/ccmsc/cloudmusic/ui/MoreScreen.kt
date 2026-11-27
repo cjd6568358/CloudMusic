@@ -26,15 +26,13 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun MoreScreen(
     onPlaylists: () -> Unit,
-    onSearch: () -> Unit,
     onQueue: () -> Unit,
     onMine: () -> Unit,
     onSettings: () -> Unit,
     onSources: () -> Unit,
     /** 功能页入口标签（由 CloudMusicApp 提供，保持 03-10 §5 页面口径单一来源）。 */
     entryLabels: List<Pair<String, FnIcon>> = listOf(
-        "歌单" to FnIcon.Playlist, "搜索" to FnIcon.Search,
-        "队列" to FnIcon.Queue, "设置" to FnIcon.Settings,
+        "歌单" to FnIcon.Playlist, "队列" to FnIcon.Queue, "设置" to FnIcon.Settings,
     ),
 ) {
     Column(Modifier.fillMaxSize().background(FnComp.PageBg)) {
@@ -43,15 +41,13 @@ fun MoreScreen(
         Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
             Spacer(Modifier.height(FnBaseline.HeaderToCardGapDp.dp))
             FnGroupCard {
-                // 行由 CloudMusicApp 提供的口径标签驱动（守护单一来源），
-                // §61.274 起顺序：歌单(entryLabels[0]) / 搜索[1] / 队列[2] / 设置[3]。
+                // 行由 CloudMusicApp 提供的口径标签驱动（守护单一来源）。
+                // §61.381 起顺序：歌单[0] / 队列[1] / 设置[2]（搜索行已删）。
+                // §61.381：**「搜索」行删除**——搜索已是一级 tab（底栏第 3 个），
+                // 「更多」里再放一份是纯重复，还会让人以为两处行为不同。
                 FnRow(entryLabels[0].second, entryLabels[0].first, onPlaylists, iconGlyphDp = 21f, titleSp = 16f)
                 FnRow(
-                    entryLabels[1].second, entryLabels[1].first, onSearch,
-                    dividerAbove = true, iconGlyphDp = 21f, titleSp = 16f,
-                )
-                FnRow(
-                    entryLabels[2].second, entryLabels[2].first, onQueue,
+                    entryLabels[1].second, entryLabels[1].first, onQueue,
                     dividerAbove = true, iconGlyphDp = 21f, titleSp = 16f,
                 )
             }
@@ -59,7 +55,7 @@ fun MoreScreen(
             FnGroupCard {
                 FnRow(FnIcon.Favorite, "我的音乐", onMine, iconGlyphDp = 21f, titleSp = 16f)
                 FnRow(
-                    entryLabels[3].second, entryLabels[3].first, onSettings,
+                    entryLabels[2].second, entryLabels[2].first, onSettings,
                     dividerAbove = true, iconGlyphDp = 21f, titleSp = 16f,
                 )
                 FnRow(FnIcon.Sources, "音乐来源", onSources, dividerAbove = true, iconGlyphDp = 21f, titleSp = 16f)
