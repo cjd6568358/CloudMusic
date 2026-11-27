@@ -10464,6 +10464,30 @@ def main() -> int:
     else:
         print("[PASS] §61.385/386 投屏音量读回（5s 轮询+避让）+ 起播 10s 观察提示")
 
+    # ---- §61.387（2026-11-27 深夜）命名统一 + 重复入口清零 ----
+    # 易用性第二批：同义/近义命名混淆（最近 vs 最近添加、曲库 vs 音乐库）、同一动作多处入口。
+    _home387 = (_ui365 / "HomeScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _pl387 = (_ui365 / "PlaylistsScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _sub387 = (_ui365 / "SettingsSubPages.kt").read_text(encoding="utf-8", errors="replace")
+    _set387 = (_ui365 / "SettingsScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _c387 = []
+    if '        title = "最近",' in _home387:
+        _c387.append("首页卡仍叫「最近」（与列表「最近添加」同前缀、语义不同）")
+    if '"最近添加", color' in _home387:
+        _c387.append("列表仍叫「最近添加」（实为按入库时间）")
+    # 注意：注释里也可能出现「（实时规则）」（解释为什么删）——钉 UI 文案形态，不钉子串。
+    if 'FnSectionTitle("智能歌单 · ${SmartPlaylist.PRESETS.size}（实时规则）")' in _pl387:
+        _c387.append("歌单标题仍有开发者括号")
+    if 'title = "重新扫描音乐库",' in _sub387:
+        _c387.append("扫描页仍有重复的「重新扫描」（来源页已有全量重扫）")
+    if '                    title = "曲库工具",' in _set387:
+        _c387.append("「曲库工具」与分组名「音乐库」同义并存")
+    if _c387:
+        failures.append("§61.387 命名与重复入口：%s" % "；".join(_c387))
+    else:
+        print("[PASS] §61.387 命名统一（最近播放/新入库/维护工具）+ 扫描页去重复重扫")
+
+
 
 
 

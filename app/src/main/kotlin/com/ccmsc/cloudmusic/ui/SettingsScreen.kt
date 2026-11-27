@@ -257,7 +257,8 @@ internal fun SettingsScreen(
                 FnRow(
                     dividerAbove = true,
                     icon = FnIcon.Duplicate,
-                    title = "曲库工具",
+                    // §61.387：「曲库」与分组名「音乐库」是同义词，两个词并存容易读成两件事。
+                    title = "维护工具",
                     onClick = { subPage = SettingsSubPage.TOOLS },
                     value = "刮削封面 · 检测重复",
                 )

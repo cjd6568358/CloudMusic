@@ -157,7 +157,8 @@ internal fun PlaylistsScreen(
         )
         LazyColumn(Modifier.fillMaxSize()) {
             // V0.2 §61.220：智能歌单（实时规则，不落库、曲库变化即时生效）。
-            item { FnSectionTitle("智能歌单 · ${SmartPlaylist.PRESETS.size}（实时规则）") }
+            // §61.387：「（实时规则）」是开发者措辞，用户不需要知道它怎么算的。
+            item { FnSectionTitle("智能歌单 · ${SmartPlaylist.PRESETS.size}") }
             items(SmartPlaylist.PRESETS, key = { it.name }) { rule ->
                 // §61.321：命中集来自上面 remember 住的表，item 重组只做一次查表。
                 val hits = smartHits[rule].orEmpty()

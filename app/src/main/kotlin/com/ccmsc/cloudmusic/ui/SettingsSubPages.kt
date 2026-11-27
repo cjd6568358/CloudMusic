@@ -165,18 +165,9 @@ internal fun SettingsScanPage(
     var msg by remember { mutableStateOf("") }
     SubPage("扫描", onBack) {
         FnGroupCard {
+            // §61.387：**「重新扫描音乐库」已删** —— 来源页「维护 · 全量重扫」是同一动作，
+            // 同一功能在两个二级页各有一个入口，用户不知道该点哪个。重扫归来源页。
             FnRow(
-                icon = FnIcon.Refresh,
-                title = "重新扫描音乐库",
-                onClick = {
-                    onRescan()
-                    msg = "已开始全量重扫（不动配置，只重新索引文件）"
-                },
-                value = "找出新增与恢复的文件",
-                showChevron = false,
-            )
-            FnRow(
-                dividerAbove = true,
                 icon = FnIcon.Gauge,
                 title = "最短时长",
                 onClick = onOpenMinDuration,
@@ -192,7 +183,7 @@ internal fun SettingsScanPage(
         }
         Spacer(Modifier.height(FnBaseline.GroupGapDp.dp))
         Text(
-            "「最短时长」和「忽略目录」在下次扫描生效；「重新扫描」立即开始。",
+            "两项都在下次扫描生效；要立刻重扫全库，去「音乐来源 → 维护 → 全量重扫」。",
             color = FnComp.TextHint,
             fontSize = 11.sp,
             modifier = Modifier.padding(horizontal = 22.dp),
@@ -215,7 +206,7 @@ internal fun SettingsToolsPage(
     onBack: () -> Unit,
 ) {
     var msg by remember { mutableStateOf("") }
-    SubPage("曲库工具", onBack) {
+    SubPage("维护工具", onBack) {
         FnGroupCard {
             // §61.377：从一级页移下来——它和刮削/去重同类（一次性维护动作），
             // 留在一级只是为了腾出「外观与维护」组的可见高度。

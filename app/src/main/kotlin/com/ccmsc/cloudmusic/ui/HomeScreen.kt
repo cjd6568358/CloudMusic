@@ -118,7 +118,8 @@ fun HomeScreen(
         // ── 最近添加（本地曲库；空则插画占位，不造数据） ──
         item {
             Text(
-                "最近添加", color = FnComp.TextPrimary,
+                // §61.387：原「最近添加」与卡片「最近」两个字太像、语义不同（入库 vs 播放）。
+                "新入库", color = FnComp.TextPrimary,
                 fontSize = 18.sp, fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
             )
@@ -278,7 +279,8 @@ private fun CollectCard(count: Int, onClick: () -> Unit) {
 @Composable
 private fun RecentCard(count: Int, onClick: () -> Unit) {
     FeatureCard(
-        title = "最近",
+        // §61.387（易用性）：与「最近添加」（按入库时间）区分——这张是**播放历史**。
+        title = "最近播放",
         subtitle = "$count 首",
         background = androidx.compose.ui.graphics.Brush.verticalGradient(
             listOf(Color(0xFF245B49), Color(0xFF1B4034)),
