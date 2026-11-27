@@ -10401,6 +10401,50 @@ def main() -> int:
     else:
         print("[PASS] §61.381 入口去冗余：首页无分类词 / 更多无搜索行 / 设置无重复行")
 
+    # ---- §61.383（2026-11-27 晚）投屏切歌不同步 + 格式限制提示 ----
+    # 用户一手「mini 播放条和天猫精灵播放的不是一个」：切歌时 re-cast 被 phase 判定漏掉。
+    _dlna383 = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
+                / "di" / "playback" / "DlnaSessionFacade.kt").read_text(
+                    encoding="utf-8", errors="replace")
+    _set383 = (_ui365 / "SettingsScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _c383 = []
+    if "var lastTrackId" in _dlna383:
+        _c383.append("recastLoop 又用「最后看到的曲目」——切歌瞬间 phase≠PLAYING 会永久漏推")
+    if "var lastCastTrackId" not in _dlna383:
+        _c383.append("缺 lastCastTrackId（投过才记）")
+    if "lastCastTrackId = trackId" not in _dlna383:
+        _c383.append("lastCastTrackId 未在 cast 发出后更新")
+    if "切歌重推" not in _dlna383:
+        _c383.append("缺切歌重推日志（真机不可验证）")
+    if "无损格式（APE/FLAC）部分音箱不支持" not in _set383:
+        _c383.append("投屏弹窗缺格式限制提示（APE/FLAC 静默无声）")
+    if _c383:
+        failures.append("§61.383 投屏同步：%s" % "；".join(_c383))
+    else:
+        print("[PASS] §61.383 投屏切歌：lastCastTrackId 语义 + 重推日志 + 格式限制提示")
+
+    # ---- §61.384（2026-11-27 晚）播放进度不刷新（用户「卡死了」）----
+    # `_state.positionMs` 只在 seek/暂停写（写入会全树重组），播放中进度条恒为切歌瞬间值。
+    _pc384 = (ROOT / "feature-player" / "src" / "main" / "kotlin" / "com" / "ccmsc"
+              / "cloudmusic" / "player" / "PlayerController.kt").read_text(
+                  encoding="utf-8", errors="replace")
+    _dlna384 = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
+                / "di" / "playback" / "DlnaSessionFacade.kt").read_text(
+                    encoding="utf-8", errors="replace")
+    _c384 = []
+    if "private val _displayPositionMs" not in _pc384:
+        _c384.append("缺独立进度流（进度条会停在切歌瞬间）")
+    if "_displayPositionMs.value = sessionPosition(pos)" not in _pc384:
+        _c384.append("ticker 未推进度（500ms 循环只喂 MediaSession）")
+    if "controller.displayPositionMs()" not in _dlna384:
+        _c384.append("DLNA 裁决仍读 controller.state（低频，进度不刷新）")
+    if _c384:
+        failures.append("§61.384 播放进度：%s" % "；".join(_c384))
+    else:
+        print("[PASS] §61.384 播放进度：独立 500ms 流 + ticker 推进 + 裁决改高频源")
+
+
+
 
     # ---- §61.373（2026-11-26 凌晨）来源页：行内曲目数 + 类型图标 ----
     # 添加完一个源，用户原先没有任何途径知道它扫到几首：「正常」这两个字在空目录 /

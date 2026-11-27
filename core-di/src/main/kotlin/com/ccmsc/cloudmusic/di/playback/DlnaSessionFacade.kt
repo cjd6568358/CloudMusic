@@ -113,9 +113,11 @@ class DlnaSessionFacade(
      * 本机引擎冻结的进度），否则用引擎实时进度。UI 不再自己判断输出类型。
      */
     fun displayPositionMs(): Flow<Long> = combine(
-        controller.state, positionMs(), output.state(),
-    ) { s, dmr, o ->
-        if (o.activeOutput == ActiveOutput.DLNA && dmr > 0L) dmr else s.positionMs
+        // §61.384：本机侧改用**高频进度流**（500ms）——`controller.state.positionMs` 只在
+        // seek/暂停时写，播放中恒为旧值，UI 进度条看起来卡死。
+        controller.displayPositionMs(), positionMs(), output.state(),
+    ) { local, dmr, o ->
+        if (o.activeOutput == ActiveOutput.DLNA && dmr > 0L) dmr else local
     }
 
     /**
@@ -144,7 +146,17 @@ class DlnaSessionFacade(
      */
     private fun recastLoop() {
         scope.launch {
-            var lastTrackId: String? = null
+            // §61.383（真机 2026-11-27）：变量语义从「最后**看到**的曲目」改为「最后**投过**的曲目」。
+            //
+            // 原实现每轮 collect 都写 `lastTrackId = trackId`，但真正 re-cast 还要等
+            // `phase == PLAYING`。切歌瞬间 phase 是 PREPARING/BUFFERING —— 这一帧 id 已被记住、
+            // cast 却被跳过，之后 phase 变 PLAYING 时 `trackId == lastTrackId` 恒成立，
+            // **这首就永远推不过去**。真机表现：手机播 B、天猫精灵还在放 A（用户一手「mini 播放条
+            // 和天猫精灵播放的不是一个」）。
+            //
+            // 现在只有 **cast 真的发出去**才更新该值：phase 不满足时保持旧值，等下一次 emit 重试；
+            // 失败也不更新，网络抖动后可自然重试同一首。
+            var lastCastTrackId: String? = null
             combine(controller.state, output.state()) { s, o -> s to o }.collect { (s, o) ->
                 // 回落本机：清投屏目标（下次投屏重新选设备）。
                 if (o.activeOutput == ActiveOutput.LOCAL && castingDevice != null) {
@@ -155,16 +167,20 @@ class DlnaSessionFacade(
                 val trackId = s.currentTrackId?.value
                 val device = castingDevice
                 if (o.activeOutput == ActiveOutput.DLNA &&
-                    trackId != null && trackId != lastTrackId &&
+                    trackId != null && trackId != lastCastTrackId &&
                     s.phase == PlayerPhase.PLAYING && device != null
                 ) {
                     val track = runCatching { tracks.get(TrackId(trackId)) }.getOrNull()
                     if (track != null) {
-                        runCatching { castCoordinator.startCast(track, device) }
+                        val ok = runCatching { castCoordinator.startCast(track, device) }
                             .onFailure { Log.w("CM-DLNA", "切歌保持 re-cast 失败: ${it.message}") }
+                            .getOrNull()
+                        if (ok != null) {
+                            lastCastTrackId = trackId
+                            Log.i("CM-DLNA", "切歌重推 → ${device.friendlyName}: ${track.title}")
+                        }
                     }
                 }
-                lastTrackId = trackId
             }
         }
     }

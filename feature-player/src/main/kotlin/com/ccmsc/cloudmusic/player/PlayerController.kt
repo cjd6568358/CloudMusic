@@ -93,6 +93,16 @@ class PlayerController(
     private var cueEndMs = 0L
 
     /**
+     * §61.384（真机 2026-11-27 用户「卡死了」）：**播放页进度源**。
+     *
+     * `_state.positionMs` 只在 seek/暂停/切歌时写（写入会整棵树重组，§119 注释），所以播放中
+     * 进度条恒为切歌那一刻的值 —— 界面看着像卡死，其实音频在走（日志 `writeSessionTransport
+     * pos` 一直在涨）。这里单开一条只给进度条用的高频流：500ms 更新一次，订阅方只有播放页。
+     */
+    private val _displayPositionMs = kotlinx.coroutines.flow.MutableStateFlow(0L)
+    fun displayPositionMs(): kotlinx.coroutines.flow.StateFlow<Long> = _displayPositionMs
+
+    /**
      * §61.230（V0.2 M6）：淡入淡出——起播渐入（全场景）与分轨终点渐出（§61.224 交棒
      * 组合）。音量包络经 [IMusicEngine.setVolume]（0..1 线性曲线，50ms 步进）；
      * 切歌/终点完成后复位 1f。手动切歌不渐出（引擎 ENDED 无提前量信号，竞争协调
@@ -269,6 +279,7 @@ class PlayerController(
             val pos = engine.positionMs(h)
             val dur = syncEngineDuration(h)
             livePositionMs = pos
+            _displayPositionMs.value = sessionPosition(pos)
             _state.update { it.copy(phase = PlayerPhase.PAUSED, positionMs = pos, isBuffering = false) }
             // §61.239：会话快照分轨相对化（口径同 §61.226 UI 三口）。
             media?.setPlaybackState(EngineState.PAUSED, sessionPosition(pos), sessionDuration(dur))
@@ -404,6 +415,8 @@ class PlayerController(
                             }
                             return@launch
                         }
+                        // §61.384：每 500ms 把分轨相对位置推给进度条（独立流，不碰 _state）。
+                        _displayPositionMs.value = sessionPosition(pos)
                         if (tick % 4 == 0 && !_state.value.isBuffering &&
                             runCatching { engine.state().first() }.getOrNull() != EngineState.BUFFERING
                         ) {
@@ -470,6 +483,7 @@ class PlayerController(
             }
             engine.seek(h, clamped)
             livePositionMs = clamped
+            _displayPositionMs.value = sessionPosition(clamped)
             _state.update { it.copy(positionMs = clamped) }
         }   // 陈旧句柄（完成后）静默忽略：无可 seek 的活动流。
     }
