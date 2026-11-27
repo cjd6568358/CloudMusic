@@ -114,8 +114,6 @@ internal fun SourcesScreen(
     onRescan: () -> Unit,
     onRetry: () -> Unit,
     onRefreshStorage: (String) -> Unit,
-    mergeDuplicates: Boolean,
-    onMergeDuplicatesChanged: (Boolean) -> Unit,
     onAddSaf: () -> Unit,
     onAddMediaStore: () -> Unit,
     onAddWebDav: (String, String, String, String) -> Unit,
@@ -153,17 +151,6 @@ internal fun SourcesScreen(
                 FnGroupCard {
                     FnRow(FnIcon.Refresh, "全量重扫", onRescan, value = "找出新增与恢复的文件")
                     FnRow(FnIcon.Refresh, "重试失败项", onRetry, value = "只处理上次失败的", dividerAbove = true)
-                    // §61.208（A4）：同 URL 双源折叠开关（scan.mergeDuplicates 消费方）。
-                    FnRow(
-                        FnIcon.Duplicate, "合并重复项",
-                        { onMergeDuplicatesChanged(!mergeDuplicates) },
-                        value = if (mergeDuplicates) "同 URL 只显示一行" else "关闭",
-                        showChevron = false,
-                        dividerAbove = true,
-                        trailing = {
-                            FnSwitch(checked = mergeDuplicates, onChange = onMergeDuplicatesChanged)
-                        },
-                    )
                 }
             }
             item { FnSectionTitle("已添加 · ${storages.size}") }

@@ -397,7 +397,6 @@ private fun CloudMusicAppContent(actions: UiActions) = with(actions) {
             when {
                 showSources -> SourcesScreen(
                     storageList, trackCountByStorage, onRescanAll, onRetryUnavailable, onRefreshStorage,
-                    mergeDuplicates, onMergeDuplicatesChanged,
                     onAddSaf, onAddMediaStore,
                     onAddWebDav,
                     onAddStrm,
@@ -514,6 +513,9 @@ private fun CloudMusicAppContent(actions: UiActions) = with(actions) {
                     onScanMinDurationChanged,
                     appSettings.scan.ignoreDirs,
                     onScanIgnoreDirsChanged,
+                    // §61.388：合并重复项开关（原在音乐来源页，现归维护工具页）。
+                    mergeDuplicates = mergeDuplicates,
+                    onMergeDuplicatesChanged = onMergeDuplicatesChanged,
                     trackCount = trackList.size,
                     sourceCount = storageList.size,
                     // §61.211（G09 拍板 A）：MIUI 自启动引导。

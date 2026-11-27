@@ -132,6 +132,9 @@ internal fun SettingsScreen(
     onScanMinDurationChanged: (Long) -> Unit,
     scanIgnoreDirs: List<String>,
     onScanIgnoreDirsChanged: (List<String>) -> Unit,
+    /** §61.388：同 URL 双源折叠开关（原在音乐来源页，移到维护工具页）。 */
+    mergeDuplicates: Boolean = false,
+    onMergeDuplicatesChanged: (Boolean) -> Unit = {},
     trackCount: Int,
     sourceCount: Int,
     /** §61.211（G09 拍板 A）：MIUI 自启动引导（仅 MIUI 系设备显示）。 */
@@ -288,6 +291,8 @@ internal fun SettingsScreen(
                 onBack = { subPage = SettingsSubPage.NONE },
             )
             SettingsSubPage.TOOLS -> SettingsToolsPage(
+                mergeDuplicates = mergeDuplicates,
+                onMergeDuplicatesChanged = onMergeDuplicatesChanged,
                 onClearCache = onClearCache,
                 onScrapeCovers = onScrapeCovers,
                 onFindDuplicates = {

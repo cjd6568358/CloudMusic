@@ -200,6 +200,9 @@ internal fun SettingsScanPage(
  */
 @Composable
 internal fun SettingsToolsPage(
+    /** §61.388：同 URL 双源折叠（scan.mergeDuplicates）——与「检测重复曲目」同页，语义相关。 */
+    mergeDuplicates: Boolean,
+    onMergeDuplicatesChanged: (Boolean) -> Unit,
     onClearCache: () -> Unit,
     onScrapeCovers: () -> Unit,
     onFindDuplicates: () -> Unit,
@@ -242,10 +245,23 @@ internal fun SettingsToolsPage(
                 value = "找出疑似重复的曲目",
                 showChevron = false,
             )
+            // §61.388：从「音乐来源」页搬来——它和「检测重复曲目」是同一件事的两半
+            // （一个找、一个折叠显示），分居两页时用户根本想不到它们相关。
+            FnRow(
+                dividerAbove = true,
+                icon = FnIcon.Duplicate,
+                title = "合并重复项",
+                onClick = { onMergeDuplicatesChanged(!mergeDuplicates) },
+                value = if (mergeDuplicates) "同 URL 只显示一行" else "关闭",
+                showChevron = false,
+                trailing = {
+                    FnSwitch(checked = mergeDuplicates, onChange = onMergeDuplicatesChanged)
+                },
+            )
         }
         Spacer(Modifier.height(FnBaseline.GroupGapDp.dp))
         Text(
-            "三个动作都在后台执行，不会改动你的文件；检测结果只作提示。",
+            "上面三个动作都在后台执行、不改动文件；「合并重复项」只影响列表显示。",
             color = FnComp.TextHint,
             fontSize = 11.sp,
             modifier = Modifier.padding(horizontal = 22.dp),

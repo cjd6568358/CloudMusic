@@ -10487,6 +10487,28 @@ def main() -> int:
     else:
         print("[PASS] §61.387 命名统一（最近播放/新入库/维护工具）+ 扫描页去重复重扫")
 
+    # ---- §61.388（2026-11-27 深夜）「合并重复项」与「检测重复曲目」归位同页 ----
+    # 易用性第三批：同一件事的两半（一个找、一个折叠显示）分居「音乐来源」和「维护工具」，
+    # 用户根本想不到它们相关。
+    _src388 = (_ui365 / "SourcesScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _sub388 = (_ui365 / "SettingsSubPages.kt").read_text(encoding="utf-8", errors="replace")
+    _set388 = (_ui365 / "SettingsScreen.kt").read_text(encoding="utf-8", errors="replace")
+    _app388 = (_ui365 / "CloudMusicApp.kt").read_text(encoding="utf-8", errors="replace")
+    _c388 = []
+    if 'title = "合并重复项"' in _src388:
+        _c388.append("来源页仍有「合并重复项」（与检测重复曲目分居两页）")
+    if 'title = "合并重复项"' not in _sub388:
+        _c388.append("维护工具页缺「合并重复项」开关")
+    if "mergeDuplicates = mergeDuplicates," not in _set388:
+        _c388.append("设置页未透传 mergeDuplicates")
+    if "mergeDuplicates = mergeDuplicates," not in _app388:
+        _c388.append("组合根未把开关传给设置页（会退回默认 false）")
+    if _c388:
+        failures.append("§61.388 合并重复项归位：%s" % "；".join(_c388))
+    else:
+        print("[PASS] §61.388 合并重复项与检测重复曲目同页（来源页已移除 + 透传链完整）")
+
+
 
 
 
