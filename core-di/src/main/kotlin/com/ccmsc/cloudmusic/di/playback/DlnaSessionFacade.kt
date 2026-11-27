@@ -66,6 +66,16 @@ class DlnaSessionFacade(
     @Volatile
     private var castingDevice: DmrDevice? = null
 
+    /** §61.385：用户最后一次 SetVolume 时刻（elapsedRealtime），轮询读回据此避让。 */
+    @Volatile
+    private var lastUserVolumeAt = 0L
+
+    /** §61.386：投屏起播观察——设备接受了 URI 但一直不推进时，提示格式可能不支持。 */
+    @Volatile
+    private var castAtMs = 0L
+    @Volatile
+    private var formatWarned = false
+
     /** §61.199：断连判定器（纯 JVM），只被会话循环访问。 */
     private val session = com.ccmsc.cloudmusic.output.dlna.DlnaSessionMonitor()
 
@@ -77,6 +87,9 @@ class DlnaSessionFacade(
 
     /** UI 首次投屏成功时写入目标设备（CloudMusicApp onOutputSelected DLNA 分支）。 */
     fun onDeviceSelected(device: DmrDevice) {
+        // §61.386：新会话重新计时——观察窗口从这次投屏开始。
+        castAtMs = android.os.SystemClock.elapsedRealtime()
+        formatWarned = false
         castingDevice = device
         session.reset()   // 新会话：清上次断连标记与旧进度
         _positionMs.value = 0L
@@ -90,6 +103,8 @@ class DlnaSessionFacade(
 
     /** §61.229：DMR 音量下发（失败只记日志、不伪造生效）。 */
     fun setVolume(volume: Int) = scope.launch {
+        // §61.385：记下用户最后一次主动写音量的时刻——轮询读回要避开这段窗口。
+        lastUserVolumeAt = android.os.SystemClock.elapsedRealtime()
         val device = castingDevice
         if (output.activeOutput == ActiveOutput.DLNA && device != null) {
             val ok = runCatching { castCoordinator.setVolume(device, volume) }.getOrDefault(false)
@@ -201,6 +216,30 @@ class DlnaSessionFacade(
                     val position = runCatching { castCoordinator.positionMs(device) }.getOrNull()
                     // §61.202：读成功即刷新显示进度；失败保留旧值（判定器负责计失败次数）。
                     if (position != null && position >= 0L) _positionMs.value = position
+                    // §61.385（用户一手「音箱音量小了 APP 端没更新」）：GetVolume 读回。
+                    // 原来 refreshVolume() 有实现但**全仓零调用**——在音箱上拧音量永远不回流。
+                    // 与进度共用 5s 轮询；失败静默，不参与断连判定（observe 只看 position）。
+                    runCatching { castCoordinator.getVolume(device) }.getOrNull()?.let { vol ->
+                        val idle = android.os.SystemClock.elapsedRealtime() - lastUserVolumeAt
+                        if (vol in 0..100 && idle > 5_000L && vol != _volume.value) {
+                            _volume.value = vol
+                            Log.i("CM-DLNA", "DMR 音量读回 → $vol")
+                        }
+                    }
+                    // §61.386（用户一手「推送后需要观察播放情况」）：**实际行为判定**——
+                    // 设备接受了 SetAVTransportURI（position 有响应、非 null），但 10 秒内位置不推进，
+                    // 基本就是格式解不了（真机：APE 连拉流都不发起，FLAC 拉 2 秒即 Broken pipe）。
+                    // 只在窗口内提示一次；断连回落仍由 §61.199 的 observe 负责，两者互不干扰。
+                    val sinceCast = android.os.SystemClock.elapsedRealtime() - castAtMs
+                    if (!formatWarned && sinceCast in 10_000L..12_000L &&
+                        position != null && _positionMs.value <= 0L
+                    ) {
+                        formatWarned = true
+                        output.updateRouteHint(
+                            "设备没有开始播放，可能不支持此格式（APE/FLAC）。可换 MP3 版本或用本机播放。",
+                        )
+                        Log.w("CM-DLNA", "投屏 10s 无进度 → 疑似格式不支持")
+                    }
                     val verdict = session.observe(position)
                     if (verdict.shouldFallBack) {
                         runCatching { castCoordinator.stopCast(device) }

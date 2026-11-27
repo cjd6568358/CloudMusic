@@ -10443,6 +10443,28 @@ def main() -> int:
     else:
         print("[PASS] §61.384 播放进度：独立 500ms 流 + ticker 推进 + 裁决改高频源")
 
+    # ---- §61.385/386（2026-11-27 晚）投屏音量回流 + 起播观察 ----
+    # 用户：①「音箱音量小了 APP 端没更新」②「推送后需要观察播放情况，格式问题要提示」。
+    _dlna385 = (ROOT / "core-di" / "src" / "main" / "kotlin" / "com" / "ccmsc" / "cloudmusic"
+                / "di" / "playback" / "DlnaSessionFacade.kt").read_text(
+                    encoding="utf-8", errors="replace")
+    _c385 = []
+    if "lastUserVolumeAt" not in _dlna385:
+        _c385.append("缺用户写入时间戳（读回会与拖动打架）")
+    if "castCoordinator.getVolume(device)" not in _dlna385:
+        _c385.append("sessionLoop 未读回 DMR 音量（refreshVolume 仍是死代码）")
+    if "DMR 音量读回" not in _dlna385:
+        _c385.append("缺音量读回日志（真机不可验证）")
+    if "castAtMs" not in _dlna385 or "formatWarned" not in _dlna385:
+        _c385.append("缺投屏起播观察状态（无法判定格式问题）")
+    if "设备没有开始播放" not in _dlna385:
+        _c385.append("缺格式不支持提示文案")
+    if _c385:
+        failures.append("§61.385/386 投屏音量与观察：%s" % "；".join(_c385))
+    else:
+        print("[PASS] §61.385/386 投屏音量读回（5s 轮询+避让）+ 起播 10s 观察提示")
+
+
 
 
 
