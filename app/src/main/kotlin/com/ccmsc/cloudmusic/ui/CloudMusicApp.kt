@@ -151,6 +151,8 @@ private fun CloudMusicAppContent(actions: UiActions) = with(actions) {
     // §61.280（V0.4-07 ①，03-10 §9 B16）：次级页「从哪进来」——返回键与页头「←」都回**进入方**，
     // 不再写死回「更多」面板。-1 = 更多面板；≥0 = 该 tab 序号。
     var subOrigin by rememberSaveable { mutableIntStateOf(-1) }
+    /** §61.379：进入次级页前的一级 tab——从「更多」进来的次级页退出时回到它（见 [AppNav]）。 */
+    var subReturnTab by rememberSaveable { mutableIntStateOf(0) }
     // §61.280（V0.4-07 ③）：我的音乐入口语义——false = 收藏段（默认），true = 最近播放段。
     var mineFocusRecent by rememberSaveable { mutableStateOf(false) }
     var query by rememberSaveable { mutableStateOf("") }
@@ -281,27 +283,35 @@ private fun CloudMusicAppContent(actions: UiActions) = with(actions) {
     val miniSubtitle = player.currentTrackId?.let { id -> tracksById[id] }
         ?.let { TrackInfo.listSubtitle(it) }
     // §61.280（V0.4-07 ①）：次级页统一出口——有来源就回来源，没有（深链/冷启）才回「更多」。
-    fun exitSubPage() {
-        if (subOrigin >= 0) tab = subOrigin else showMore = true
+    // §61.379：导航决策全部在 [AppNav]（纯函数 + 单测），这里只负责把结果写回 Compose 状态。
+    fun applyBack(b: AppNav.Back) {
+        b.tab?.let { tab = it }
+        b.moreOpen?.let { showMore = it }
+        b.sourcesOpen?.let { showSources = it }
+        b.playerOpen?.let { showPlayer = it }
+        b.query?.let { query = it }
+        b.subOrigin?.let { subOrigin = it }
+        b.subReturnTab?.let { subReturnTab = it }
+        b.searchReturnTo?.let { searchReturnTo = it }
     }
+    fun exitSubPage() = applyBack(AppNav.exitSub(subOrigin, subReturnTab))
 
     // §61.280（V0.4-07 ①，PRD §7.2 返回栈契约 / 03-10 §9 B16）：
     // 逐层退出——播放页覆盖层 → 「更多」面板 → 次级页（回进入方）→ 一级 tab（首页/音乐库）。
     // 一级 tab 上**不拦截**，交给系统退出 App；弹层（ModalBottomSheet）自带返回关闭，无需在此处理。
+    // §61.379：逐层退出（播放页 → 来源页 → 更多面板 → 搜索清词/退出 → 次级页）；
+    // 一级 tab 不拦截，交给系统退 App。完整语义与真机复现的三条乱跳见 [AppNav]。
     BackHandler(
-        enabled = showPlayer || showSources || showMore || tab in 2..6,
+        enabled = AppNav.shouldIntercept(
+            tab, searchReturnTo, query, showPlayer, showSources, showMore,
+        ),
     ) {
-        when {
-            showPlayer -> showPlayer = false
-            showSources -> showSources = false
-            showMore -> showMore = false
-            // 搜索页的「返回」= 清词 + 回进入方（与页内「取消」同一语义，§61.187）。
-            tab == 3 -> {
-                query = ""
-                if (searchReturnTo >= 0) tab = searchReturnTo else showMore = true
-            }
-            else -> exitSubPage()
-        }
+        applyBack(
+            AppNav.back(
+                tab, subOrigin, subReturnTab, searchReturnTo, query,
+                showPlayer, showSources, showMore,
+            ),
+        )
     }
 
     Scaffold(
@@ -356,10 +366,7 @@ private fun CloudMusicAppContent(actions: UiActions) = with(actions) {
                             showMore = false
                             when (i) {
                                 0, 1 -> tab = i
-                                2 -> {
-                                    if (tab != 3) searchReturnTo = tab
-                                    tab = 3
-                                }
+                                2 -> applyBack(AppNav.searchFromBottomBar())
                                 3 -> showMore = true
                             }
                         },
@@ -400,23 +407,25 @@ private fun CloudMusicAppContent(actions: UiActions) = with(actions) {
                     onBack = { showSources = false },
                 )
                 showMore -> MoreScreen(
-                    onPlaylists = { showMore = false; searchReturnTo = -1; subOrigin = -1; tab = 2 },
-                    onSearch = { showMore = false; searchReturnTo = -1; subOrigin = -1; tab = 3 },
-                    onQueue = { showMore = false; subOrigin = -1; tab = 4 },
-                    onMine = { showMore = false; mineFocusRecent = false; subOrigin = -1; tab = 5 },
-                    onSettings = { showMore = false; subOrigin = -1; tab = 6 },
-                    onSources = { showMore = false; subOrigin = -1; showSources = true },
+                    onPlaylists = { applyBack(AppNav.fromMore(tab, AppNav.TAB_PLAYLISTS)) },
+                    onSearch = { applyBack(AppNav.searchFromMore(tab)) },
+                    onQueue = { applyBack(AppNav.fromMore(tab, AppNav.TAB_QUEUE)) },
+                    onMine = {
+                        mineFocusRecent = false
+                        applyBack(AppNav.fromMore(tab, AppNav.TAB_MINE))
+                    },
+                    onSettings = { applyBack(AppNav.fromMore(tab, AppNav.TAB_SETTINGS)) },
+                    onSources = { applyBack(AppNav.openSources(tab, origin = -1)) },
                     // §61.353（G-10）：一级 tab 无返回键，onDismiss 入参已删除。
                     entryLabels = FUNCTION_PAGE_LABELS,
                 )
                 tab == 0 -> HomeScreen(
                     tracks = trackList,
                     onPlayTracks = onPlayTracks,
-                    onOpenSources = { subOrigin = 0; showSources = true },
+                    onOpenSources = { applyBack(AppNav.openSources(tab, origin = AppNav.TAB_HOME)) },
                     onOpenMine = { recent ->
                         mineFocusRecent = recent
-                        subOrigin = 0
-                        tab = 5
+                        applyBack(AppNav.fromMore(tab, AppNav.TAB_MINE).copy(subOrigin = AppNav.TAB_HOME))
                     },
                     favoriteCount = homeFavorites.size,
                     recentCount = homeHistoryCount,
@@ -462,10 +471,7 @@ private fun CloudMusicAppContent(actions: UiActions) = with(actions) {
                     onPlayTracks = onPlayTracks,
                     nowPlayingId = player.currentTrackId,
                     // §61.187：「取消」= 退出搜索页回进入方（旧实现只清关键字不退出）
-                    onClose = {
-                        query = ""
-                        if (searchReturnTo >= 0) tab = searchReturnTo else showMore = true
-                    },
+                    onClose = { applyBack(AppNav.exitSearch(searchReturnTo, subReturnTab)) },
                 )
                 tab == 4 -> QueueScreen(
                     queueList,
@@ -486,7 +492,7 @@ private fun CloudMusicAppContent(actions: UiActions) = with(actions) {
                 )
                 else -> SettingsScreen(
                     runtime, appSettings.network.wifiOnly, onRescanAll,
-                    { subOrigin = 6; showSources = true },
+                    { applyBack(AppNav.openSources(tab, origin = AppNav.TAB_SETTINGS)) },
                     // §61.29 / 03-11 §2：打开输出弹窗时按动作申请蓝牙权限显示设备名；
                     // 弹窗本身不等待授权结果（B01 拒绝不阻断）。
                     { showOutput = true; onOpenOutput() },
